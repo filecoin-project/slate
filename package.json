@@ -1,0 +1,37 @@
+{
+    "name": "fps",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "nodemon .",
+        "build": "next build",
+        "start": "NODE_ENV=production node .",
+        "do-setup-database": "node ./scripts setup-database",
+        "do-seed-database": "node ./scripts seed-database",
+        "do-drop-database": "node ./scripts drop-database"
+    },
+    "dependencies": {
+        "@babel/preset-env": "^7.8.3",
+        "@babel/register": "^7.8.3",
+        "@loadable/component": "^5.12.0",
+        "babel-plugin-emotion": "^9.2.11",
+        "babel-plugin-module-resolver": "^4.0.0",
+        "bcrypt": "^3.0.8",
+        "body-parser": "^1.19.0",
+        "compression": "^1.7.4",
+        "cookie-parser": "^1.4.4",
+        "dotenv": "^8.2.0",
+        "emotion": "^9.2.11",
+        "emotion-server": "^9.2.11",
+        "express": "^4.17.1",
+        "googleapis": "^47.0.0",
+        "isomorphic-fetch": "^2.2.1",
+        "jsonwebtoken": "^8.5.1",
+        "knex": "^0.20.10",
+        "next": "^9.2.2",
+        "pg": "^7.18.0",
+        "react": "^16.12.0",
+        "react-dom": "^16.12.0",
+        "react-emotion": "^9.2.11",
+        "universal-cookie": "^4.0.3"
+    }
+}

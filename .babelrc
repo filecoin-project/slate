@@ -1,0 +1,22 @@
+{
+  "presets": [
+    [
+      "next/babel",
+      {
+        "transform-runtime": {
+          "useESModules": false
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    ["emotion", {
+      "inline": true
+    }],
+    ["module-resolver", {
+      "alias": {
+        "~": "./"
+      }
+    }]
+  ]
+}

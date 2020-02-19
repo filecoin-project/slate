@@ -1,0 +1,12 @@
+.next
+.env
+.DS_STORE
+package-lock.json
+node_modules
+DS_STORE
+
+/**/*/package-lock.json
+/**/*/.DS_STORE
+/**/*/node_modules
+/**/*/.next
+

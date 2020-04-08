@@ -7,12 +7,10 @@
           "useESModules": false
         }
       }
-    ]
+    ],
+    "@emotion/babel-preset-css-prop",
   ],
   "plugins": [
-    ["emotion", {
-      "inline": true
-    }],
     ["module-resolver", {
       "alias": {
         "~": "./"

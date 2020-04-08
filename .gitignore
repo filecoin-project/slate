@@ -1,4 +1,5 @@
 .next
+.data
 .env
 .DS_STORE
 package-lock.json
@@ -9,4 +10,6 @@ DS_STORE
 /**/*/.DS_STORE
 /**/*/node_modules
 /**/*/.next
+/**/*/.data
 
+.data/**/*

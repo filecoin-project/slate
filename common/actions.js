@@ -1,10 +1,6 @@
 import 'isomorphic-fetch';
 
-import Cookies from 'universal-cookie';
-
-import * as Constants from '~/common/constants';
-
-const cookies = new Cookies();
+import * as Strings from '~/common/strings';
 
 const REQUEST_HEADERS = {
   Accept: 'application/json',
@@ -13,40 +9,46 @@ const REQUEST_HEADERS = {
 
 const SERVER_PATH = '';
 
-const getHeaders = () => {
-  const jwt = cookies.get(Constants.session.key);
-
-  if (jwt) {
-    return {
-      ...REQUEST_HEADERS,
-      authorization: `Bearer ${jwt}`,
-    };
+export const createWalletAddress = async (data) => {
+  if (Strings.isEmpty(data.name)) {
+    return null;
   }
 
-  return REQUEST_HEADERS;
-};
-
-export const onLocalSignIn = async (e, props, auth) => {
   const options = {
     method: 'POST',
-    headers: getHeaders(),
+    headers: REQUEST_HEADERS,
     credentials: 'include',
-    body: JSON.stringify({
-      ...auth,
-    }),
+    body: JSON.stringify(data),
   };
 
-  const response = await fetch(`${SERVER_PATH}/api/sign-in`, options);
+  const response = await fetch(`/_/wallet/create`, options);
   const json = await response.json();
 
-  if (json.error) {
-    console.log(json.error);
-    return;
+  return json;
+};
+
+export const sendWalletAddressFilecoin = async (data) => {
+  if (Strings.isEmpty(data.source)) {
+    return null;
   }
 
-  if (json.token) {
-    cookies.set(Constants.session.key, json.token);
+  if (Strings.isEmpty(data.target)) {
+    return null;
   }
 
-  window.location.href = '/sign-in-success';
+  if (!data.amount) {
+    return null;
+  }
+
+  const options = {
+    method: 'POST',
+    headers: REQUEST_HEADERS,
+    credentials: 'include',
+    body: JSON.stringify(data),
+  };
+
+  const response = await fetch(`/_/wallet/send`, options);
+  const json = await response.json();
+
+  return json;
 };

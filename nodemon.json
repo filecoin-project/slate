@@ -2,9 +2,9 @@
   "verbose": true,
   "ignore": ["node_modules", ".next"],
   "watch": [
-    "routes/**/*",
     "common/**/*",
     "components/**/*",
+    "scenes/**/*",
     "pages/**/*",
     "public/**/*",
     "index.js",

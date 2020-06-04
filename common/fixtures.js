@@ -9,10 +9,7 @@ const LOCAL_CONFIG = `
 }
 `;
 
-export const getInitialState = (props) => {
-  const { status, messageList, peersList, addrsList, info } = props;
-  console.log(props);
-
+export const getInitialState = () => {
   return {
     name: 'Andrew Hill',
     photoURL: '/static/avatar-andrew-hill.jpg',

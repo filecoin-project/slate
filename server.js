@@ -24,14 +24,26 @@ let peersList;
 let addrsList;
 let info;
 
+const refresh = async () => {
+  const Health = await pow.health.check();
+  status = Health.status ? Health.status : null;
+  messageList = Health.messageList ? Health.messageList : null;
+
+  const Peers = await pow.net.peers();
+  peersList = Peers.peersList ? Peers.peersList : null;
+};
+
+const refreshWithToken = async () => {
+  const Addresses = await pow.ffs.addrs();
+  addrsList = Addresses.addrsList;
+
+  const NetworkInfo = await pow.ffs.info();
+  info = NetworkInfo.info;
+};
+
 app.prepare().then(async () => {
   try {
-    const Health = await pow.health.check();
-    status = Health.status ? Health.status : null;
-    messageList = Health.messageList ? Health.messageList : null;
-
-    const Peers = await pow.net.peers();
-    peersList = Peers.peersList ? Peers.peersList : null;
+    await refresh();
 
     // NOTE(jim): This is a configuration folder with all of the client tokens.
     !FS.existsSync(`./.data`) && FS.mkdirSync(`./.data`, { recursive: true });
@@ -49,11 +61,7 @@ app.prepare().then(async () => {
 
     pow.setToken(token);
 
-    const Addresses = await pow.ffs.addrs();
-    addrsList = Addresses.addrsList;
-
-    const NetworkInfo = await pow.ffs.info();
-    info = NetworkInfo.info;
+    await refreshWithToken();
   } catch (e) {
     console.log(e);
   }
@@ -77,6 +85,22 @@ app.prepare().then(async () => {
     res.send('ok');
   });
 
+  server.post('/_/viewer', async (req, res) => {
+    await refresh();
+    await refreshWithToken();
+
+    const data = {
+      production: !dev,
+      status,
+      messageList,
+      peersList,
+      addrsList,
+      info,
+    };
+
+    return res.status(200).send({ success: true, data });
+  });
+
   server.post('/_/wallet/create', async (req, res) => {
     let data;
     try {
@@ -96,11 +120,12 @@ app.prepare().then(async () => {
       return res.status(500).send({ error: e.message });
     }
 
-    return res.status(200).send({ success: true, data });
+    return res.status(200).send({ success: true, data: { ...data, ...req.body } });
   });
 
   server.get('/', async (req, res) => {
     return app.render(req, res, '/', {
+      production: !dev,
       status,
       messageList,
       peersList,

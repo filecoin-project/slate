@@ -1,14 +1,14 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
-import * as System from "~/components/system";
+import * as React from 'react';
+import * as Strings from '~/common/strings';
+import * as Constants from '~/common/constants';
+import * as Fixtures from '~/common/fixtures';
+import * as System from '~/components/system';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
-import { LineChart } from "~/vendor/react-chartkick";
-import Section from "~/components/core/Section";
-import ScenePage from "~/components/core/ScenePage";
+import { LineChart } from '~/vendor/react-chartkick';
+import Section from '~/components/core/Section';
+import ScenePage from '~/components/core/ScenePage';
 
 const STYLES_ROW = css`
   padding: 24px;
@@ -24,7 +24,7 @@ const STYLES_LEFT = css`
 `;
 
 const STYLES_RIGHT = css`
-  font-family: "inter-semi-bold";
+  font-family: 'inter-semi-bold';
   font-size: ${Constants.typescale.lvl2};
   color: ${Constants.system.brand};
   min-width: 10%;
@@ -71,7 +71,7 @@ const STYLES_GRAPH_ROW_RIGHT = css`
 const STYLES_OPTION = css`
   color: ${Constants.system.white};
   margin-left: 24px;
-  font-family: "inter-semi-bold";
+  font-family: 'inter-semi-bold';
   font-size: 12px;
   line-height: 0.2px;
   text-transform: uppercase;
@@ -108,12 +108,12 @@ const STYLES_ITEM = css`
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: 'inter-medium';
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: 'inter-semi-bold';
     font-weight: 400;
   }
 `;
@@ -141,44 +141,40 @@ export default class SceneStats extends React.Component {
           title="Wallet"
           buttons={[
             {
-              name: "Reset",
-              type: "ACTION",
-              value: "ACTION_RESET_STATS_WALLET",
+              name: 'Reset',
+              type: 'ACTION',
+              value: 'ACTION_RESET_STATS_WALLET',
             },
             {
-              name: "Export",
-              type: "DOWNLOAD",
-              value: "CSV_STATS_WALLET",
+              name: 'Export',
+              type: 'DOWNLOAD',
+              value: 'CSV_STATS_WALLET',
             },
-          ]}
-        >
+          ]}>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Total FIL Balance</div>
-            <div css={STYLES_RIGHT}>Value (FIL/ATTOLFIL)</div>
+            <div css={STYLES_RIGHT}>Value (FIL/ATTOFIL)</div>
           </div>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Lifetime FIL Balance</div>
-            <div css={STYLES_RIGHT}>Value (FIL/ATTOLFIL)</div>
+            <div css={STYLES_RIGHT}>Value (FIL/ATTOFIL)</div>
           </div>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>FIL spent today</div>
-            <div css={STYLES_RIGHT}>Value (FIL/ATTOLFIL)</div>
+            <div css={STYLES_RIGHT}>Value (FIL/ATTOFIL)</div>
           </div>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Total FIL spent</div>
-            <div css={STYLES_RIGHT}>Value (FIL/ATTOLFIL)</div>
+            <div css={STYLES_RIGHT}>Value (FIL/ATTOFIL)</div>
           </div>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Total FIL received</div>
-            <div css={STYLES_RIGHT}>Value (FIL/ATTOLFIL)</div>
+            <div css={STYLES_RIGHT}>Value (FIL/ATTOFIL)</div>
           </div>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
-              Total wallet addresses{" "}
-              <strong
-                css={STYLES_TEXT_CTA}
-                onClick={() => this.props.onNavigateTo({ id: 2 })}
-              >
+              Total wallet addresses{' '}
+              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 2 })}>
                 (view)
               </strong>
             </div>
@@ -186,11 +182,8 @@ export default class SceneStats extends React.Component {
           </div>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
-              Total payment channels{" "}
-              <strong
-                css={STYLES_TEXT_CTA}
-                onClick={() => this.props.onNavigateTo({ id: 3 })}
-              >
+              Total payment channels{' '}
+              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 3 })}>
                 (view)
               </strong>
             </div>
@@ -198,11 +191,8 @@ export default class SceneStats extends React.Component {
           </div>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
-              Total FIL in payment channels{" "}
-              <strong
-                css={STYLES_TEXT_CTA}
-                onClick={() => this.props.onNavigateTo({ id: 3 })}
-              >
+              Total FIL in payment channels{' '}
+              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 3 })}>
                 (view)
               </strong>
             </div>
@@ -216,17 +206,16 @@ export default class SceneStats extends React.Component {
           title="Node"
           buttons={[
             {
-              name: "Reset",
-              type: "ACTION",
-              value: "ACTION_RESET_STATS_NODE",
+              name: 'Reset',
+              type: 'ACTION',
+              value: 'ACTION_RESET_STATS_NODE',
             },
             {
-              name: "Export",
-              type: "DOWNLOAD",
-              value: "CSV_STATS_NODE",
+              name: 'Export',
+              type: 'DOWNLOAD',
+              value: 'CSV_STATS_NODE',
             },
-          ]}
-        >
+          ]}>
           <div css={STYLES_GRAPH_ROW}>
             <div css={STYLES_GRAPH_ROW_LEFT}>
               <div css={STYLES_GRAPH_OBJECT}>
@@ -239,10 +228,10 @@ export default class SceneStats extends React.Component {
                 </div>
                 <LineChart
                   data={[
-                    ["2017-01-01 00:00:00 UTC", 1],
-                    ["2018-01-01 00:00:00 UTC", 5],
-                    ["2019-01-01 00:00:00 UTC", 25],
-                    ["2020-01-01 00:00:00 UTC", 200],
+                    ['2017-01-01 00:00:00 UTC', 1],
+                    ['2018-01-01 00:00:00 UTC', 5],
+                    ['2019-01-01 00:00:00 UTC', 25],
+                    ['2020-01-01 00:00:00 UTC', 200],
                     [new Date(), 400],
                   ]}
                   library={{
@@ -293,10 +282,10 @@ export default class SceneStats extends React.Component {
                 </div>
                 <LineChart
                   data={[
-                    ["2017-01-01 00:00:00 UTC", 1],
-                    ["2018-01-01 00:00:00 UTC", 2],
-                    ["2019-01-01 00:00:00 UTC", 4],
-                    ["2020-01-01 00:00:00 UTC", 5],
+                    ['2017-01-01 00:00:00 UTC', 1],
+                    ['2018-01-01 00:00:00 UTC', 2],
+                    ['2019-01-01 00:00:00 UTC', 4],
+                    ['2020-01-01 00:00:00 UTC', 5],
                     [new Date(), 4],
                   ]}
                   library={{
@@ -343,11 +332,8 @@ export default class SceneStats extends React.Component {
           </div>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
-              Favorite peers{" "}
-              <strong
-                css={STYLES_TEXT_CTA}
-                onClick={() => this.props.onNavigateTo({ id: 8 })}
-              >
+              Favorite peers{' '}
+              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 8 })}>
                 (view)
               </strong>
             </div>
@@ -365,17 +351,16 @@ export default class SceneStats extends React.Component {
           title="Data"
           buttons={[
             {
-              name: "Reset",
-              type: "ACTION",
-              value: "ACTION_RESET_STATS_DATA",
+              name: 'Reset',
+              type: 'ACTION',
+              value: 'ACTION_RESET_STATS_DATA',
             },
             {
-              name: "Export",
-              type: "DOWNLOAD",
-              value: "CSV_STATS_DATA",
+              name: 'Export',
+              type: 'DOWNLOAD',
+              value: 'CSV_STATS_DATA',
             },
-          ]}
-        >
+          ]}>
           <div css={STYLES_GRAPH_ROW}>
             <div css={STYLES_GRAPH_ROW_LEFT}>
               <div css={STYLES_GRAPH_OBJECT}>
@@ -388,10 +373,10 @@ export default class SceneStats extends React.Component {
                 </div>
                 <LineChart
                   data={[
-                    ["2017-01-01 00:00:00 UTC", 1],
-                    ["2018-01-01 00:00:00 UTC", 5],
-                    ["2019-01-01 00:00:00 UTC", 25],
-                    ["2020-01-01 00:00:00 UTC", 200],
+                    ['2017-01-01 00:00:00 UTC', 1],
+                    ['2018-01-01 00:00:00 UTC', 5],
+                    ['2019-01-01 00:00:00 UTC', 25],
+                    ['2020-01-01 00:00:00 UTC', 200],
                     [new Date(), 400],
                   ]}
                   library={{
@@ -445,10 +430,10 @@ export default class SceneStats extends React.Component {
                 </div>
                 <LineChart
                   data={[
-                    ["2017-01-01 00:00:00 UTC", 1],
-                    ["2018-01-01 00:00:00 UTC", 5],
-                    ["2019-01-01 00:00:00 UTC", 25],
-                    ["2020-01-01 00:00:00 UTC", 200],
+                    ['2017-01-01 00:00:00 UTC', 1],
+                    ['2018-01-01 00:00:00 UTC', 5],
+                    ['2019-01-01 00:00:00 UTC', 25],
+                    ['2020-01-01 00:00:00 UTC', 200],
                     [new Date(), 400],
                   ]}
                   library={{
@@ -516,55 +501,54 @@ export default class SceneStats extends React.Component {
           title="Most commonly retrieved CIDs"
           buttons={[
             {
-              name: "Export",
-              type: "DOWNLOAD",
-              value: "CSV_MOST_COMMON_CIDS",
+              name: 'Export',
+              type: 'DOWNLOAD',
+              value: 'CSV_MOST_COMMON_CIDS',
             },
-          ]}
-        >
+          ]}>
           <System.Table
             data={{
               columns: [
                 {
-                  key: "deal-cid",
-                  name: "Deal CID",
+                  key: 'deal-cid',
+                  name: 'Deal CID',
                   copyable: true,
-                  tooltip: "Deal CID explainer",
-                  width: "100%",
+                  tooltip: 'Deal CID explainer',
+                  width: '100%',
                 },
                 {
-                  key: "data-cid",
-                  name: "Data CID",
+                  key: 'data-cid',
+                  name: 'Data CID',
                   copyable: true,
-                  tooltip: "Data CID explainer",
-                  width: "296px",
+                  tooltip: 'Data CID explainer',
+                  width: '296px',
                 },
-                { key: "miner", name: "Miner", width: "228px" },
+                { key: 'miner', name: 'Miner', width: '228px' },
               ],
               rows: [
                 {
                   id: 1,
-                  "data-cid": "44Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU",
-                  "deal-cid": "55Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU",
-                  miner: "Example Miner A",
+                  'data-cid': '44Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU',
+                  'deal-cid': '55Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU',
+                  miner: 'Example Miner A',
                 },
                 {
                   id: 2,
-                  "data-cid": "14Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU",
-                  "deal-cid": "23Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU",
-                  miner: "Example Miner B",
+                  'data-cid': '14Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU',
+                  'deal-cid': '23Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU',
+                  miner: 'Example Miner B',
                 },
                 {
                   id: 3,
-                  "data-cid": "88Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU",
-                  "deal-cid": "89Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU",
-                  miner: "Example Miner C",
+                  'data-cid': '88Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU',
+                  'deal-cid': '89Y7Yh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU',
+                  miner: 'Example Miner C',
                 },
                 {
                   id: 4,
-                  "data-cid": "AAAAYh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU",
-                  "deal-cid": "BBBBYh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU",
-                  miner: "Example Miner D",
+                  'data-cid': 'AAAAYh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU',
+                  'deal-cid': 'BBBBYh4UquoXHLPFo2XbhXkhBvFoPwmQUSa92pxnxjQuPU',
+                  miner: 'Example Miner D',
                 },
               ],
             }}
@@ -581,24 +565,22 @@ export default class SceneStats extends React.Component {
           title="Top storage deals by GB"
           buttons={[
             {
-              name: "Export",
-              type: "DOWNLOAD",
-              value: "CSV_TOP_STORAGE_DEALS_GB",
+              name: 'Export',
+              type: 'DOWNLOAD',
+              value: 'CSV_TOP_STORAGE_DEALS_GB',
             },
-          ]}
-        >
+          ]}>
           <System.Table
             data={{
               columns: [
-                { key: "file", name: "File", type: "FILE_LINK" },
-                { key: "miner", name: "Miner", width: "228px" },
-                { key: "size", name: "Size" },
+                { key: 'file', name: 'File', type: 'FILE_LINK' },
+                { key: 'miner', name: 'Miner', width: '228px' },
+                { key: 'size', name: 'Size' },
                 {
-                  key: "date",
-                  name: "Date uploaded",
-                  width: "168px",
-                  tooltip:
-                    "This date represents when the file was first uploaded to the network.",
+                  key: 'date',
+                  name: 'Date uploaded',
+                  width: '168px',
+                  tooltip: 'This date represents when the file was first uploaded to the network.',
                 },
               ],
               rows: [],
@@ -616,24 +598,22 @@ export default class SceneStats extends React.Component {
           title="Top storage deals by FIL"
           buttons={[
             {
-              name: "Export",
-              type: "DOWNLOAD",
-              value: "CSV_TOP_STORAGE_DEALS_FIL",
+              name: 'Export',
+              type: 'DOWNLOAD',
+              value: 'CSV_TOP_STORAGE_DEALS_FIL',
             },
-          ]}
-        >
+          ]}>
           <System.Table
             data={{
               columns: [
-                { key: "file", name: "File", type: "FILE_LINK" },
-                { key: "miner", name: "Miner", width: "228px" },
-                { key: "amount", name: "Amount" },
+                { key: 'file', name: 'File', type: 'FILE_LINK' },
+                { key: 'miner', name: 'Miner', width: '228px' },
+                { key: 'amount', name: 'Amount' },
                 {
-                  key: "date",
-                  name: "Date uploaded",
-                  width: "168px",
-                  tooltip:
-                    "This date represents when the file was first uploaded to the network.",
+                  key: 'date',
+                  name: 'Date uploaded',
+                  width: '168px',
+                  tooltip: 'This date represents when the file was first uploaded to the network.',
                 },
               ],
               rows: [],

@@ -1,5 +1,6 @@
 import 'isomorphic-fetch';
 
+import * as State from '~/common/state';
 import * as Strings from '~/common/strings';
 
 const REQUEST_HEADERS = {
@@ -8,6 +9,20 @@ const REQUEST_HEADERS = {
 };
 
 const SERVER_PATH = '';
+
+export const rehydrateViewer = async () => {
+  const options = {
+    method: 'POST',
+    headers: REQUEST_HEADERS,
+    credentials: 'include',
+    body: JSON.stringify({}),
+  };
+
+  const response = await fetch(`/_/viewer`, options);
+  const json = await response.json();
+
+  return State.getInitialState(json.data);
+};
 
 export const createWalletAddress = async (data) => {
   if (Strings.isEmpty(data.name)) {

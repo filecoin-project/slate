@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Fixtures from '~/common/fixtures';
 import * as Actions from '~/common/actions';
+import * as State from '~/common/state';
 
 import SceneDataTransfer from '~/scenes/SceneDataTransfer';
 import SceneDeals from '~/scenes/SceneDeals';
@@ -62,8 +63,6 @@ const getCurrentNavigationStateById = (navigation, targetId) => {
 };
 
 export const getServerSideProps = (context) => {
-  // NOTE(jim)
-  // will be passed to the page component as props
   return {
     props: { ...context.query },
   };
@@ -77,20 +76,38 @@ export default class IndexPage extends React.Component {
     selected: {
       address: '1',
     },
-    viewer: Fixtures.getInitialState(this.props),
+    viewer: this.props.production ? Fixtures.getInitialState() : State.getInitialState(this.props),
     sidebar: null,
   };
 
   async componentDidMount() {
-    let response;
-    response = await Actions.createWalletAddress({ name: 'new wallet' });
-    console.log(response);
-
-    response = await Actions.sendWalletAddressFilecoin({ source: null, target: null, amount: 1000 });
-    console.log(response);
+    // TODO(jim): You don't really need this.
+    console.log(this.props);
   }
 
-  _handleSubmit = (data) => {
+  _handleSubmit = async (data) => {
+    if (this.props.production) {
+      alert('TODO');
+      return this._handleDismissSidebar();
+    }
+
+    if (data.type === 'CREATE_WALLET_ADDRESS') {
+      const response = await Actions.createWalletAddress({ name: data.name });
+      const viewer = await Actions.rehydrateViewer();
+      this.setState({ viewer });
+    }
+
+    if (data.type === 'SEND_WALLET_ADDRESS_FILECOIN') {
+      const response = await Actions.sendWalletAddressFilecoin({
+        source: data.source,
+        target: data.target,
+        amount: data.amount,
+      });
+
+      const viewer = await Actions.rehydrateViewer();
+      this.setState({ viewer });
+    }
+
     this._handleDismissSidebar();
   };
 
@@ -227,8 +244,6 @@ export default class IndexPage extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-
     const next = this.state.history[this.state.currentIndex];
     const current = getCurrentNavigationStateById(Fixtures.NavigationState, next.id);
 

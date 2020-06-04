@@ -1,30 +1,34 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
-import * as System from "~/components/system";
+import * as React from 'react';
+import * as Strings from '~/common/strings';
+import * as Constants from '~/common/constants';
+import * as Fixtures from '~/common/fixtures';
+import * as System from '~/components/system';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
-import Section from "~/components/core/Section";
-import ScenePage from "~/components/core/ScenePage";
+import Section from '~/components/core/Section';
+import ScenePage from '~/components/core/ScenePage';
 
 const SELECT_MENU_OPTIONS = [
-  { value: "1", name: "China" },
-  { value: "2", name: "United States" },
-  { value: "3", name: "Russia" },
+  { value: '1', name: 'China' },
+  { value: '2', name: 'United States' },
+  { value: '3', name: 'Russia' },
 ];
 
 const SELECT_MENU_MAP = {
-  "1": "China",
-  "2": "United States",
-  "3": "Russia",
+  '1': 'China',
+  '2': 'United States',
+  '3': 'Russia',
 };
 
 const STYLES_GROUP = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const STYLES_SUBGROUP = css`
+  padding-left: 24px;
 `;
 
 const STYLES_LEFT = css`
@@ -36,7 +40,7 @@ const STYLES_LEFT = css`
 const STYLES_RIGHT = css`
   min-width: 10%;
   padding-left: 48px;
-  padding-top: 16px;
+  padding-top: 24px;
   width: 100%;
 `;
 
@@ -46,6 +50,14 @@ export default class SceneSettings extends React.Component {
   };
 
   render() {
+    let addresses = {};
+
+    this.props.viewer.addresses.forEach((a) => {
+      addresses[a.address] = a;
+    });
+
+    const currentAddress = addresses[this.props.viewer.settings_cold_default_address];
+
     return (
       <ScenePage>
         <System.H1>Settings</System.H1>
@@ -68,6 +80,138 @@ export default class SceneSettings extends React.Component {
             />
           </div>
         </div>
+
+        <div css={STYLES_GROUP} style={{ marginTop: 32 }}>
+          <div css={STYLES_LEFT}>
+            <System.DescriptionGroup
+              label="Enable cold storage"
+              tooltip="Placeholder"
+              description="By enabling cold storage, every time you make a deal your data will be stored on the Filecoin Network."
+            />
+          </div>
+          <div css={STYLES_RIGHT}>
+            <System.Toggle
+              name="settings_cold_enabled"
+              onChange={this._handleChange}
+              active={this.props.viewer.settings_cold_enabled}
+            />
+          </div>
+        </div>
+
+        {this.props.viewer.settings_cold_enabled ? (
+          <div css={STYLES_SUBGROUP}>
+            <System.SelectMenu
+              containerStyle={{ marginTop: 24 }}
+              label="Default Filecoin address"
+              description="Default Filecoin address settings description."
+              tooltip="Placeholder."
+              name="settings_cold_default_address"
+              value={this.props.viewer.settings_cold_default_address}
+              category="address"
+              onChange={this._handleChange}
+              options={this.props.viewer.addresses}>
+              {currentAddress.name}
+            </System.SelectMenu>
+
+            <System.Input
+              containerStyle={{ marginTop: 24 }}
+              label="Default Filecoin deal duration"
+              description="Default Filecoin deal duration settings description."
+              tooltip="Placeholder."
+              name="settings_cold_default_duration"
+              value={this.props.viewer.settings_cold_default_duration}
+              placeholder="Type in months"
+              onChange={this._handleChange}
+            />
+
+            <System.Input
+              containerStyle={{ marginTop: 24 }}
+              label="Default Filecoin replication factor"
+              description="Default Filecoin replication factor settings description."
+              tooltip="Placeholder."
+              name="settings_cold_default_replication_factor"
+              value={this.props.viewer.settings_cold_default_replication_factor}
+              placeholder="Type in amount of miners"
+              onChange={this._handleChange}
+            />
+
+            <System.Input
+              containerStyle={{ marginTop: 24 }}
+              label="Max Filecoin price."
+              description="Set the maximum Filecoin price you're willing to pay."
+              tooltip="Placeholder."
+              name="settings_cold_default_max_price"
+              value={this.props.viewer.settings_cold_default_max_price}
+              placeholder="Type in amount of Filecoin"
+              onChange={this._handleChange}
+            />
+
+            <System.CheckBox
+              style={{ marginTop: 48 }}
+              name="settings_cold_default_auto_renew"
+              value={this.props.viewer.settings_cold_default_auto_renew}
+              onChange={this._handleChange}>
+              Enable auto renew for Filecoin Network deals.
+            </System.CheckBox>
+
+            <System.Input
+              containerStyle={{ marginTop: 24 }}
+              label="Max Filecoin deal auto renew price."
+              description="Set the maximum Filecoin price you're willing to pay for auto renew."
+              tooltip="Placeholder."
+              name="settings_cold_default_auto_renew_max_price"
+              value={this.props.viewer.settings_cold_default_auto_renew_max_price}
+              placeholder="Type in amount of Filecoin"
+              onChange={this._handleChange}
+            />
+          </div>
+        ) : null}
+
+        <div css={STYLES_GROUP} style={{ marginTop: 32 }}>
+          <div css={STYLES_LEFT}>
+            <System.DescriptionGroup
+              label="Enable hot storage"
+              tooltip="Placeholder"
+              description="By enabling hot storage, every time you make a deal your data will be stored on IPFS."
+            />
+          </div>
+          <div css={STYLES_RIGHT}>
+            <System.Toggle
+              name="settings_hot_enabled"
+              onChange={this._handleChange}
+              active={this.props.viewer.settings_hot_enabled}
+            />
+          </div>
+        </div>
+
+        {this.props.viewer.settings_hot_enabled ? (
+          <div css={STYLES_SUBGROUP}>
+            <System.CheckBox
+              style={{ marginTop: 48 }}
+              name="settings_hot_allow_unfreeze"
+              value={this.props.viewer.settings_hot_allow_unfreeze}
+              onChange={this._handleChange}>
+              IPFS allow unfreeze setting description.
+            </System.CheckBox>
+
+            <System.Input
+              containerStyle={{ marginTop: 24 }}
+              label="Add timeout"
+              description="Add IPFS timeout setting description."
+              tooltip="Placeholder."
+              name="settings_hot_ipfs_add_timeout"
+              value={this.props.viewer.settings_hot_ipfs_add_timeout}
+              placeholder="Type in seconds"
+              onChange={this._handleChange}
+            />
+          </div>
+        ) : null}
+      </ScenePage>
+    );
+  }
+}
+
+/*
 
         <System.Input
           containerStyle={{ marginTop: 24 }}
@@ -123,37 +267,7 @@ export default class SceneSettings extends React.Component {
           name="settings_deal_country"
           value={this.props.viewer.settings_deal_country}
           onChange={this._handleChange}
-          options={SELECT_MENU_OPTIONS}
-        >
+          options={SELECT_MENU_OPTIONS}>
           {SELECT_MENU_MAP[this.props.viewer.settings_deal_country]}
         </System.SelectMenu>
-
-        <System.Input
-          containerStyle={{ marginTop: 32 }}
-          label="Transaction password"
-          description="Add a password before you perform any transaction."
-          type="password"
-          tooltip="We will still ask you for your password even if you skip storage deal confirmation."
-          name="settings_deal_password"
-          value={this.props.viewer.settings_deal_password}
-          placeholder="Type a password"
-          onChange={this._handleChange}
-        />
-
-        <System.H2 style={{ marginTop: 72 }}>Miner</System.H2>
-
-        <System.P style={{ marginTop: 24 }}>
-          No miners have been detected, when you a run miners you can configure
-          their settings here
-        </System.P>
-
-        <System.H2 style={{ marginTop: 72 }}>Extensions</System.H2>
-
-        <System.P style={{ marginTop: 24 }}>
-          When third party services become available, you can enable them here
-          to automatically use them when you make storage or retrieval deals.
-        </System.P>
-      </ScenePage>
-    );
-  }
-}
+        */

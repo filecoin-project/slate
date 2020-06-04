@@ -1,15 +1,15 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
-import * as Fixtures from "~/common/fixtures";
-import * as System from "~/components/system";
-import * as SchemaTable from "~/common/schema-table";
+import * as React from 'react';
+import * as Strings from '~/common/strings';
+import * as Constants from '~/common/constants';
+import * as SVG from '~/components/system/svg';
+import * as Fixtures from '~/common/fixtures';
+import * as System from '~/components/system';
+import * as SchemaTable from '~/common/schema-table';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
-import Section from "~/components/core/Section";
-import ScenePage from "~/components/core/ScenePage";
+import Section from '~/components/core/Section';
+import ScenePage from '~/components/core/ScenePage';
 
 const STYLES_GROUP = css`
   padding: 24px;
@@ -60,12 +60,12 @@ const STYLES_TEXT = css`
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: 'inter-medium';
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: 'inter-semi-bold';
     font-weight: 400;
   }
 `;
@@ -137,6 +137,12 @@ export default class SceneWallet extends React.Component {
 
     const currentAddress = addresses[this.props.selected.address];
 
+    // TODO(jim):
+    // Capture this state.
+    if (!currentAddress) {
+      return null;
+    }
+
     let transactions = [];
     if (currentAddress.transactions) {
       transactions = [...currentAddress.transactions];
@@ -152,17 +158,16 @@ export default class SceneWallet extends React.Component {
           title="Addresses"
           buttons={[
             {
-              name: "Create new",
-              type: "SIDEBAR",
-              value: "SIDEBAR_CREATE_WALLET_ADDRESS",
+              name: 'Create new',
+              type: 'SIDEBAR',
+              value: 'SIDEBAR_CREATE_WALLET_ADDRESS',
             },
             {
-              name: "Delete",
-              type: "SIDEBAR",
-              value: "SIDEBAR_DELETE_WALLET_ADDRESS",
+              name: 'Delete',
+              type: 'SIDEBAR',
+              value: 'SIDEBAR_DELETE_WALLET_ADDRESS',
             },
-          ]}
-        >
+          ]}>
           <div css={STYLES_GROUP}>
             <System.SelectMenu
               label="Select your address"
@@ -170,8 +175,7 @@ export default class SceneWallet extends React.Component {
               value={this.props.selected.address}
               category="address"
               onChange={this._handleWalletChange}
-              options={this.props.viewer.addresses}
-            >
+              options={this.props.viewer.addresses}>
               {currentAddress.name}
             </System.SelectMenu>
           </div>
@@ -180,28 +184,21 @@ export default class SceneWallet extends React.Component {
             <div css={STYLES_TEXT}>
               <div>
                 <div css={STYLES_FOCUS}>
-                  {this.state.visible ? (
-                    currentAddress.address
-                  ) : (
-                    <span css={STYLES_FOCUS_EMPAHSIS}>Hidden</span>
-                  )}
+                  {this.state.visible ? currentAddress.address : <span css={STYLES_FOCUS_EMPAHSIS}>Hidden</span>}
                 </div>
                 <div css={STYLES_SUBTEXT}>Filecoin address</div>
               </div>
 
               <div style={{ marginTop: 24 }}>
                 <div css={STYLES_FOCUS}>
-                  {currentAddress.name}{" "}
-                  <strong css={STYLES_FOCUS_EMPAHSIS}>(Primary)</strong>
+                  {currentAddress.name} <strong css={STYLES_FOCUS_EMPAHSIS}>(Primary)</strong>
                 </div>
                 <div css={STYLES_SUBTEXT}>Filecoin address alias</div>
               </div>
 
               <div css={STYLES_ITEM_GROUP}>
                 <div css={STYLES_ITEM}>
-                  <div css={STYLES_FOCUS}>
-                    {Strings.formatNumber(currentAddress.balance)}
-                  </div>
+                  <div css={STYLES_FOCUS}>{Strings.formatNumber(currentAddress.balance)}</div>
                   <div css={STYLES_SUBTEXT}>Filecoin</div>
                 </div>
 
@@ -210,10 +207,7 @@ export default class SceneWallet extends React.Component {
                   <div css={STYLES_SUBTEXT}>Address type</div>
                 </div>
 
-                <div
-                  css={STYLES_ITEM_CLICKABLE}
-                  onClick={() => this.props.onNavigateTo({ id: 5 })}
-                >
+                <div css={STYLES_ITEM_CLICKABLE} onClick={() => this.props.onNavigateTo({ id: 5 })}>
                   <div css={STYLES_FOCUS}>{currentAddress.deals}</div>
                   <div css={STYLES_SUBTEXT}>Active deals</div>
                 </div>
@@ -223,12 +217,11 @@ export default class SceneWallet extends React.Component {
                 <System.ButtonPrimary
                   onClick={() =>
                     this.props.onAction({
-                      name: "Send Filecoin",
-                      type: "SIDEBAR",
-                      value: "SIDEBAR_WALLET_SEND_FUNDS",
+                      name: 'Send Filecoin',
+                      type: 'SIDEBAR',
+                      value: 'SIDEBAR_WALLET_SEND_FUNDS',
                     })
-                  }
-                >
+                  }>
                   Send Filecoin
                 </System.ButtonPrimary>
               </div>
@@ -239,11 +232,8 @@ export default class SceneWallet extends React.Component {
                 onClick={this._handleMakeAddressVisible}
                 style={{
                   marginRight: 16,
-                  backgroundColor: this.state.visible
-                    ? null
-                    : Constants.system.brand,
-                }}
-              >
+                  backgroundColor: this.state.visible ? null : Constants.system.brand,
+                }}>
                 <SVG.Privacy height="16px" />
               </span>
               <span css={STYLES_CIRCLE_BUTTON}>
@@ -252,10 +242,7 @@ export default class SceneWallet extends React.Component {
             </div>
             <div css={STYLES_ACTIONS}>
               <div css={STYLES_QR_CODE}>
-                <img
-                  src="/static/qr-code-example.jpg"
-                  css={STYLES_QR_CODE_IMAGE}
-                />
+                <img src="/static/qr-code-example.jpg" css={STYLES_QR_CODE_IMAGE} />
               </div>
             </div>
           </div>
@@ -267,12 +254,11 @@ export default class SceneWallet extends React.Component {
           title={`Transactions for ${currentAddress.name}`}
           buttons={[
             {
-              name: "Export",
-              type: "DOWNLOAD",
-              value: "CSV_WALLET_TRANSACTIONS",
+              name: 'Export',
+              type: 'DOWNLOAD',
+              value: 'CSV_WALLET_TRANSACTIONS',
             },
-          ]}
-        >
+          ]}>
           <System.Table
             data={{
               columns: SchemaTable.Wallet,

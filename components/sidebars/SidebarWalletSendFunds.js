@@ -1,19 +1,19 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
-import * as System from "~/components/system";
+import * as React from 'react';
+import * as Strings from '~/common/strings';
+import * as Constants from '~/common/constants';
+import * as SVG from '~/components/system/svg';
+import * as System from '~/components/system';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: 'inter-medium';
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: 'inter-semi-bold';
     font-weight: 400;
   }
 `;
@@ -29,13 +29,30 @@ const STYLES_ITEM = css`
 
 export default class SidebarWalletSendFunds extends React.Component {
   state = {
-    address: "",
-    amount: "",
+    address: '',
+    amount: '',
   };
 
   _handleSubmit = () => {
-    alert("TODO: Send Filecoin");
-    this.props.onSubmit({});
+    let addresses = {};
+
+    this.props.viewer.addresses.forEach((a) => {
+      addresses[a.value] = a;
+    });
+
+    const currentAddress = addresses[this.props.selected.address];
+
+    if (currentAddress.address === this.state.address) {
+      alert('TODO: Proper message for not allowing poeple to send funds to the same address.');
+      return;
+    }
+
+    this.props.onSubmit({
+      type: 'SEND_WALLET_ADDRESS_FILECOIN',
+      source: currentAddress.address,
+      target: this.state.address,
+      amount: this.state.amount,
+    });
   };
 
   _handleCancel = () => {
@@ -57,9 +74,7 @@ export default class SidebarWalletSendFunds extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: "inter-semi-bold" }}>
-          Send Filecoin
-        </System.P>
+        <System.P style={{ fontFamily: 'inter-semi-bold' }}>Send Filecoin</System.P>
 
         <System.SelectMenuFull
           containerStyle={{ marginTop: 24 }}
@@ -68,8 +83,7 @@ export default class SidebarWalletSendFunds extends React.Component {
           value={this.props.selected.address}
           category="address"
           onChange={this.props.onSelectedChange}
-          options={this.props.viewer.addresses}
-        >
+          options={this.props.viewer.addresses}>
           {currentAddress.name}
         </System.SelectMenuFull>
 
@@ -99,10 +113,7 @@ export default class SidebarWalletSendFunds extends React.Component {
           <div css={STYLES_SUBTEXT}>Total Filecoin</div>
         </div>
 
-        <System.ButtonPrimaryFull
-          style={{ marginTop: 48 }}
-          onClick={this._handleSubmit}
-        >
+        <System.ButtonPrimaryFull style={{ marginTop: 48 }} onClick={this._handleSubmit}>
           Send
         </System.ButtonPrimaryFull>
       </React.Fragment>

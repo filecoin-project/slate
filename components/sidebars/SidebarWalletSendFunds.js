@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as Strings from '~/common/strings';
 import * as Constants from '~/common/constants';
-import * as SVG from '~/components/system/svg';
 import * as System from '~/components/system';
 
 import { css } from '@emotion/react';
@@ -104,12 +103,12 @@ export default class SidebarWalletSendFunds extends React.Component {
         />
 
         <div css={STYLES_ITEM}>
-          <div css={STYLES_FOCUS}>2 FIL</div>
+          <div css={STYLES_FOCUS}>0 FIL</div>
           <div css={STYLES_SUBTEXT}>Transaction Fee</div>
         </div>
 
         <div css={STYLES_ITEM}>
-          <div css={STYLES_FOCUS}>2</div>
+          <div css={STYLES_FOCUS}>{Strings.formatNumber(this.state.amount)}</div>
           <div css={STYLES_SUBTEXT}>Total Filecoin</div>
         </div>
 

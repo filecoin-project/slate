@@ -15,6 +15,16 @@ const STYLES_GROUP = css`
   padding: 24px;
 `;
 
+const STYLES_TARGET = css`
+  position: fixed;
+  top: -1;
+  left: -1;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  visibility: hidden;
+`;
+
 const STYLES_QR_CODE = css`
   background: ${Constants.system.white};
   border-radius: 4px;
@@ -88,7 +98,7 @@ const STYLES_ITEM = css`
   margin-top: 24px;
   display: inline-flex;
   flex-direction: column;
-  max-width: 180px;
+  max-width: 220px;
   margin-right: 32px;
 `;
 
@@ -128,14 +138,23 @@ export default class SceneWallet extends React.Component {
     this.setState({ visible: !this.state.visible });
   };
 
+  _handleCopy = (text) => {
+    Strings.copyText(text);
+    alert(`${text} Added to clipboard.`);
+  };
+
   render() {
     let addresses = {};
+    let lastAddress;
 
     this.props.viewer.addresses.forEach((a) => {
-      addresses[a.value] = a;
+      addresses[a.address] = a;
+      lastAddress = a.address;
     });
 
-    const currentAddress = addresses[this.props.selected.address];
+    const currentAddress = this.props.selected.address
+      ? addresses[this.props.selected.address]
+      : addresses[lastAddress];
 
     // TODO(jim):
     // Capture this state.
@@ -150,7 +169,7 @@ export default class SceneWallet extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>Your wallet</System.H1>
+        <System.H1>Wallet</System.H1>
 
         <Section
           onAction={this.props.onAction}
@@ -158,14 +177,9 @@ export default class SceneWallet extends React.Component {
           title="Addresses"
           buttons={[
             {
-              name: 'Create new',
+              name: 'Create a new address',
               type: 'SIDEBAR',
               value: 'SIDEBAR_CREATE_WALLET_ADDRESS',
-            },
-            {
-              name: 'Delete',
-              type: 'SIDEBAR',
-              value: 'SIDEBAR_DELETE_WALLET_ADDRESS',
             },
           ]}>
           <div css={STYLES_GROUP}>
@@ -191,7 +205,10 @@ export default class SceneWallet extends React.Component {
 
               <div style={{ marginTop: 24 }}>
                 <div css={STYLES_FOCUS}>
-                  {currentAddress.name} <strong css={STYLES_FOCUS_EMPAHSIS}>(Primary)</strong>
+                  {currentAddress.name}{' '}
+                  {this.props.viewer.settings_cold_default_address === currentAddress.address ? (
+                    <strong css={STYLES_FOCUS_EMPAHSIS}>(Primary)</strong>
+                  ) : null}
                 </div>
                 <div css={STYLES_SUBTEXT}>Filecoin address alias</div>
               </div>
@@ -205,11 +222,6 @@ export default class SceneWallet extends React.Component {
                 <div css={STYLES_ITEM}>
                   <div css={STYLES_FOCUS}>{currentAddress.type}</div>
                   <div css={STYLES_SUBTEXT}>Address type</div>
-                </div>
-
-                <div css={STYLES_ITEM_CLICKABLE} onClick={() => this.props.onNavigateTo({ id: 5 })}>
-                  <div css={STYLES_FOCUS}>{currentAddress.deals}</div>
-                  <div css={STYLES_SUBTEXT}>Active deals</div>
                 </div>
               </div>
 
@@ -236,40 +248,11 @@ export default class SceneWallet extends React.Component {
                 }}>
                 <SVG.Privacy height="16px" />
               </span>
-              <span css={STYLES_CIRCLE_BUTTON}>
+              <span css={STYLES_CIRCLE_BUTTON} onClick={() => this._handleCopy(currentAddress.address)}>
                 <SVG.CopyAndPaste height="16px" />
               </span>
             </div>
-            <div css={STYLES_ACTIONS}>
-              <div css={STYLES_QR_CODE}>
-                <img src="/static/qr-code-example.jpg" css={STYLES_QR_CODE_IMAGE} />
-              </div>
-            </div>
           </div>
-        </Section>
-
-        <Section
-          onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
-          title={`Transactions for ${currentAddress.name}`}
-          buttons={[
-            {
-              name: 'Export',
-              type: 'DOWNLOAD',
-              value: 'CSV_WALLET_TRANSACTIONS',
-            },
-          ]}>
-          <System.Table
-            data={{
-              columns: SchemaTable.Wallet,
-              rows: transactions,
-            }}
-            selectedRowId={this.state.table_transaction}
-            onChange={this._handleChange}
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
-            name="table_transaction"
-          />
         </Section>
       </ScenePage>
     );

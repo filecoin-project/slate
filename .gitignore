@@ -13,3 +13,4 @@ DS_STORE
 /**/*/.data
 
 .data/**/*
+.library/**/*

@@ -8,7 +8,7 @@ const REQUEST_HEADERS = {
   'Content-Type': 'application/json',
 };
 
-const SERVER_PATH = '';
+const SERVER_PATH = 'http://localhost:1337';
 
 export const rehydrateViewer = async () => {
   const options = {
@@ -18,10 +18,24 @@ export const rehydrateViewer = async () => {
     body: JSON.stringify({}),
   };
 
-  const response = await fetch(`/_/viewer`, options);
+  const response = await fetch(`${SERVER_PATH}/_/viewer`, options);
   const json = await response.json();
 
-  return State.getInitialState(json.data);
+  return json;
+};
+
+export const setDefaultConfig = async (data) => {
+  const options = {
+    method: 'POST',
+    headers: REQUEST_HEADERS,
+    credentials: 'include',
+    body: JSON.stringify(data),
+  };
+
+  const response = await fetch(`${SERVER_PATH}/_/settings`, options);
+  const json = await response.json();
+
+  return json;
 };
 
 export const createWalletAddress = async (data) => {
@@ -36,7 +50,7 @@ export const createWalletAddress = async (data) => {
     body: JSON.stringify(data),
   };
 
-  const response = await fetch(`/_/wallet/create`, options);
+  const response = await fetch(`${SERVER_PATH}/_/wallet/create`, options);
   const json = await response.json();
 
   return json;
@@ -62,7 +76,7 @@ export const sendWalletAddressFilecoin = async (data) => {
     body: JSON.stringify(data),
   };
 
-  const response = await fetch(`/_/wallet/send`, options);
+  const response = await fetch(`${SERVER_PATH}/_/wallet/send`, options);
   const json = await response.json();
 
   return json;

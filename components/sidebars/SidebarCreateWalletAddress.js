@@ -9,23 +9,36 @@ import { css } from '@emotion/react';
 const SELECT_MENU_OPTIONS = [
   { value: '1', name: 'BLS' },
   { value: '2', name: 'SECP256K1' },
-  { value: '3', name: 'MULTISIG' },
+  // { value: '3', name: 'MULTISIG' },
 ];
 
 const SELECT_MENU_MAP = {
   '1': 'BLS',
   '2': 'SECP256K1',
-  '3': 'MULTISIG',
+  // '3': 'MULTISIG',
+};
+
+const SELECT_MENU_SAVE_STRINGS = {
+  '1': 'bls',
+  '2': 'secp256k1',
 };
 
 export default class SidebarCreateWalletAddress extends React.Component {
   state = {
     name: '',
     type: '1',
+    default: false,
   };
 
   _handleSubmit = () => {
-    this.props.onSubmit({ name: this.state.name, type: 'CREATE_WALLET_ADDRESS' });
+    const data = {
+      name: this.state.name,
+      wallet_type: SELECT_MENU_SAVE_STRINGS[this.state.type],
+      makeDefault: this.state.default,
+      type: 'CREATE_WALLET_ADDRESS',
+    };
+
+    this.props.onSubmit(data);
   };
 
   _handleCancel = () => {
@@ -59,6 +72,14 @@ export default class SidebarCreateWalletAddress extends React.Component {
           options={SELECT_MENU_OPTIONS}>
           {SELECT_MENU_MAP[this.state.type]}
         </System.SelectMenuFull>
+
+        <System.CheckBox
+          style={{ marginTop: 24 }}
+          name="default"
+          value={this.state.default}
+          onChange={this._handleChange}>
+          Make this wallet the default
+        </System.CheckBox>
 
         <System.ButtonPrimaryFull style={{ marginTop: 48 }} onClick={this._handleSubmit}>
           Create {this.state.name}

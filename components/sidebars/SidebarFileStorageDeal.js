@@ -1,19 +1,19 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
-import * as System from "~/components/system";
+import * as React from 'react';
+import * as Strings from '~/common/strings';
+import * as Constants from '~/common/constants';
+import * as SVG from '~/components/system/svg';
+import * as System from '~/components/system';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: 'inter-medium';
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: 'inter-semi-bold';
     font-weight: 400;
   }
 `;
@@ -34,30 +34,27 @@ const STYLES_IMAGE_PREVIEW = css`
 `;
 
 const SELECT_MENU_OPTIONS = [
-  { value: "1", name: "Anywhere" },
-  { value: "2", name: "China" },
-  { value: "3", name: "Russia" },
-  { value: "4", name: "USA" },
+  { value: '1', name: 'Anywhere' },
+  { value: '2', name: 'China' },
+  { value: '3', name: 'Russia' },
+  { value: '4', name: 'USA' },
 ];
 
 const SELECT_MENU_MAP = {
-  "1": "Anywhere",
-  "2": "China",
-  "3": "Russia",
-  "4": "USA",
+  '1': 'Anywhere',
+  '2': 'China',
+  '3': 'Russia',
+  '4': 'USA',
 };
 
 export default class SidebarFileStorageDeal extends React.Component {
   state = {
-    settings_deal_duration: 1,
-    settings_replication_factor: 1,
-    settings_country: "1",
-    settings_miners: "t111, t112, t113",
-    settings_confirmation: false,
+    settings_deal_duration: this.props.viewer.settings_cold_default_duration,
+    settings_replication_factor: this.props.viewer.settings_cold_default_replication_factor,
   };
 
   _handleSubmit = () => {
-    alert("TODO: Make a storage deal");
+    alert('TODO: Make a storage deal');
     this.props.onSubmit({});
   };
 
@@ -71,18 +68,20 @@ export default class SidebarFileStorageDeal extends React.Component {
 
   render() {
     let addresses = {};
+    let lastAddress;
 
     this.props.viewer.addresses.forEach((a) => {
-      addresses[a.value] = a;
+      addresses[a.address] = a;
+      lastAddress = a.address;
     });
 
-    const currentAddress = addresses[this.props.selected.address];
+    const currentAddress = this.props.selected.address
+      ? addresses[this.props.selected.address]
+      : addresses[lastAddress];
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: "inter-semi-bold" }}>
-          Upload a file to the network
-        </System.P>
+        <System.P style={{ fontFamily: 'inter-semi-bold' }}>Upload a file to the network</System.P>
 
         <img src="/static/test-image-upload.jpg" css={STYLES_IMAGE_PREVIEW} />
 
@@ -96,9 +95,7 @@ export default class SidebarFileStorageDeal extends React.Component {
           <div css={STYLES_SUBTEXT}>File size</div>
         </div>
 
-        <System.ButtonSecondaryFull style={{ marginTop: 24 }}>
-          Change file
-        </System.ButtonSecondaryFull>
+        <System.ButtonSecondaryFull style={{ marginTop: 24 }}>Change file</System.ButtonSecondaryFull>
 
         <System.Input
           containerStyle={{ marginTop: 48 }}
@@ -123,49 +120,16 @@ export default class SidebarFileStorageDeal extends React.Component {
           value={this.props.selected.address}
           category="address"
           onChange={this.props.onSelectedChange}
-          options={this.props.viewer.addresses}
-        >
+          options={this.props.viewer.addresses}>
           {currentAddress.name}
         </System.SelectMenuFull>
-
-        <System.SelectMenuFull
-          containerStyle={{ marginTop: 24 }}
-          name="settings_country"
-          label="Country"
-          value={this.props.settings_country}
-          category="miner location"
-          onChange={this._handleChange}
-          options={SELECT_MENU_OPTIONS}
-        >
-          {SELECT_MENU_MAP[this.state.settings_country]}
-        </System.SelectMenuFull>
-
-        <System.Input
-          containerStyle={{ marginTop: 24 }}
-          label="Trusted miners"
-          name="settings_miners"
-          value={this.state.settings_miners}
-          onChange={this._handleChange}
-        />
-
-        <System.CheckBox
-          style={{ marginTop: 24 }}
-          name="settings_confirmation"
-          value={this.state.settings_confirmation}
-          onChange={this._handleChange}
-        >
-          Please do not show this confirmation again.
-        </System.CheckBox>
 
         <div css={STYLES_ITEM}>
           <div css={STYLES_FOCUS}>2 FIL</div>
           <div css={STYLES_SUBTEXT}>Last order price</div>
         </div>
 
-        <System.ButtonPrimaryFull
-          style={{ marginTop: 48 }}
-          onClick={this._handleSubmit}
-        >
+        <System.ButtonPrimaryFull style={{ marginTop: 48 }} onClick={this._handleSubmit}>
           Make storage deal
         </System.ButtonPrimaryFull>
       </React.Fragment>

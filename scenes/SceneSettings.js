@@ -1,25 +1,10 @@
 import * as React from 'react';
-import * as Strings from '~/common/strings';
-import * as Constants from '~/common/constants';
-import * as Fixtures from '~/common/fixtures';
+import * as Actions from '~/common/actions';
 import * as System from '~/components/system';
 
 import { css } from '@emotion/react';
 
-import Section from '~/components/core/Section';
 import ScenePage from '~/components/core/ScenePage';
-
-const SELECT_MENU_OPTIONS = [
-  { value: '1', name: 'China' },
-  { value: '2', name: 'United States' },
-  { value: '3', name: 'Russia' },
-];
-
-const SELECT_MENU_MAP = {
-  '1': 'China',
-  '2': 'United States',
-  '3': 'Russia',
-};
 
 const STYLES_GROUP = css`
   display: flex;
@@ -45,8 +30,47 @@ const STYLES_RIGHT = css`
 `;
 
 export default class SceneSettings extends React.Component {
+  _deferredSave = null;
+
+  _handleSave = async () => {
+    const response = await Actions.setDefaultConfig({
+      config: {
+        hot: {
+          enabled: this.props.viewer.settings_cold_enabled,
+          allowUnfreeze: this.props.viewer.settings_hot_allow_unfreeze,
+          ipfs: {
+            addTimeout: this.props.viewer.settings_hot_ipfs_add_timeout,
+          },
+        },
+        cold: {
+          enabled: this.props.viewer.settings_cold_enabled,
+          filecoin: {
+            addr: this.props.viewer.settings_cold_default_address,
+            dealDuration: this.props.viewer.settings_cold_default_duration,
+            repFactor: this.props.viewer.settings_cold_default_replication_factor,
+            excludedMinersList: this.props.viewer.settings_cold_default_excluded_miners,
+            trustedMinersList: this.props.viewer.settings_cold_default_trusted_miners,
+            maxPrice: this.props.viewer.settings_cold_default_max_price,
+            renew: {
+              enabled: this.props.viewer.settings_cold_default_auto_renew,
+              threshold: this.props.viewer.settings_cold_default_auto_renew_max_price,
+            },
+          },
+        },
+      },
+    });
+
+    await this.props.rehydrate();
+  };
+
   _handleChange = (e) => {
+    window.clearTimeout(this._deferredSave);
+    this._deferredSave = null;
     this.props.onViewerChange(e);
+
+    this._deferredSave = window.setTimeout(async () => {
+      await this._handleSave();
+    }, 2000);
   };
 
   render() {
@@ -110,7 +134,7 @@ export default class SceneSettings extends React.Component {
               category="address"
               onChange={this._handleChange}
               options={this.props.viewer.addresses}>
-              {currentAddress.name}
+              {currentAddress ? currentAddress.name : 'None'}
             </System.SelectMenu>
 
             <System.Input

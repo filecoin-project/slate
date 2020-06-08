@@ -488,6 +488,7 @@ export const NavigationState = [
     name: 'Wallet',
     pageTitle: 'your wallet and addresses',
     decorator: 'WALLET',
+    /*
     children: [
       {
         id: 3,
@@ -497,6 +498,7 @@ export const NavigationState = [
         decorator: 'CHANNELS',
       },
     ],
+    */
   },
   constructFilesTreeForNavigation(),
   {
@@ -514,6 +516,7 @@ export const NavigationState = [
       },
     ],
   },
+  /*
   {
     id: 9,
     name: 'Stats',
@@ -557,6 +560,7 @@ export const NavigationState = [
     decorator: 'LOGS',
     children: null,
   },
+  */
   {
     id: 13,
     name: 'Edit account',

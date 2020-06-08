@@ -62,9 +62,15 @@ const getCurrentNavigationStateById = (navigation, targetId) => {
   return { target, activeIds };
 };
 
-export const getServerSideProps = (context) => {
+export const getServerSideProps = async (context) => {
+  if (context.query && context.query.production) {
+    return { production: true };
+  }
+
+  const data = await Actions.rehydrateViewer();
+
   return {
-    props: { ...context.query },
+    props: { ...data.data },
   };
 };
 
@@ -74,7 +80,7 @@ export default class IndexPage extends React.Component {
     currentIndex: 0,
     data: null,
     selected: {
-      address: '1',
+      address: null,
     },
     viewer: this.props.production ? Fixtures.getInitialState() : State.getInitialState(this.props),
     sidebar: null,
@@ -85,6 +91,11 @@ export default class IndexPage extends React.Component {
     console.log(this.props);
   }
 
+  rehydrate = async () => {
+    const viewer = await Actions.rehydrateViewer();
+    this.setState({ viewer: { ...State.getInitialState(viewer.data) } });
+  };
+
   _handleSubmit = async (data) => {
     if (this.props.production) {
       alert('TODO');
@@ -92,9 +103,13 @@ export default class IndexPage extends React.Component {
     }
 
     if (data.type === 'CREATE_WALLET_ADDRESS') {
-      const response = await Actions.createWalletAddress({ name: data.name });
-      const viewer = await Actions.rehydrateViewer();
-      this.setState({ viewer });
+      const address = await Actions.createWalletAddress({
+        name: data.name,
+        type: data.wallet_type,
+        makeDefault: data.makeDefault,
+      });
+
+      await this.rehydrate();
     }
 
     if (data.type === 'SEND_WALLET_ADDRESS_FILECOIN') {
@@ -104,8 +119,7 @@ export default class IndexPage extends React.Component {
         amount: data.amount,
       });
 
-      const viewer = await Actions.rehydrateViewer();
-      this.setState({ viewer });
+      await this.rehydrate();
     }
 
     this._handleDismissSidebar();
@@ -272,6 +286,7 @@ export default class IndexPage extends React.Component {
     );
 
     const scene = React.cloneElement(this.scenes[current.target.decorator], {
+      rehydrate: this.rehydrate,
       viewer: this.state.viewer,
       selected: this.state.selected,
       data: current.target,

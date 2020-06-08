@@ -1,16 +1,50 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
-import * as System from "~/components/system";
+import * as React from 'react';
+import * as System from '~/components/system';
+import * as Actions from '~/common/actions';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
-import Section from "~/components/core/Section";
-import ScenePage from "~/components/core/ScenePage";
-import Avatar from "~/components/core/Avatar";
+import ScenePage from '~/components/core/ScenePage';
+import Avatar from '~/components/core/Avatar';
+
+const STYLES_FILE_HIDDEN = css`
+  height: 1px;
+  width: 1px;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: -1px;
+  left: -1px;
+`;
 
 export default class SceneEditAccount extends React.Component {
+  _handleUpload = async (e) => {
+    e.persist();
+    let file = e.target.files[0];
+
+    if (!file) {
+      alert('Something went wrong');
+    }
+
+    let data = new FormData();
+    data.append('image', file);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: data,
+    };
+
+    const response = await fetch(`/_/upload/avatar`, options);
+    const json = await response.json();
+
+    if (json && json.success) {
+      console.log('reload');
+    }
+  };
+
   _handleChange = (e) => {
     this.props.onViewerChange(e);
   };
@@ -26,17 +60,13 @@ export default class SceneEditAccount extends React.Component {
           description="This image will appear in various lists."
         />
 
-        <Avatar
-          style={{ marginTop: 24 }}
-          size={256}
-          url={this.props.viewer.photoURL}
-        />
+        <Avatar style={{ marginTop: 24 }} size={256} url={this.props.viewer.photoURL} />
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary style={{ margin: "0 16px 16px 0" }}>
+          <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
+          <System.ButtonPrimary style={{ margin: '0 16px 16px 0' }} type="label" for="file">
             Upload
           </System.ButtonPrimary>
-          <System.ButtonSecondary>Delete</System.ButtonSecondary>
         </div>
 
         <System.Input
@@ -48,31 +78,6 @@ export default class SceneEditAccount extends React.Component {
           placeholder="Name"
           onChange={this._handleChange}
         />
-
-        <System.DescriptionGroup
-          style={{ marginTop: 48 }}
-          label="Account secret configuration"
-          description="Manage your JSON config for your peer id, private key, and secret."
-          tooltip="If you make a mistake here, just click reset and you will have a new key."
-        />
-
-        <System.CodeTextarea
-          value={this.props.viewer.config}
-          onChange={this._handleChange}
-          name="config"
-        />
-
-        <div style={{ marginTop: 24 }}>
-          <System.ButtonSecondary style={{ margin: "0 16px 16px 0" }}>
-            Hide
-          </System.ButtonSecondary>
-          <System.ButtonSecondary style={{ margin: "0 16px 16px 0" }}>
-            Reset
-          </System.ButtonSecondary>
-          <System.ButtonSecondary style={{ margin: "0 16px 16px 0" }}>
-            Export
-          </System.ButtonSecondary>
-        </div>
       </ScenePage>
     );
   }

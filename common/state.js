@@ -1,4 +1,4 @@
-const STATIC_ADDRESS_TYPE_MAP = { bls: 'BLS' };
+const STATIC_ADDRESS_TYPE_MAP = { bls: 'BLS', secp256k1: 'SECP256K1', multisig: 'MULTISIG' };
 
 const transformAddresses = (addrsList, info) => {
   const balanceMap = {};
@@ -8,7 +8,8 @@ const transformAddresses = (addrsList, info) => {
 
   return addrsList.map((each, index) => {
     return {
-      value: `${index + 1}`,
+      id: each.addr,
+      value: each.addr,
       balance: balanceMap[each.addr],
       name: each.name,
       address: each.addr,
@@ -26,7 +27,7 @@ const transformPeers = (peersList) => {
       'peer-avatar': null,
       'chain-head': null,
       height: null,
-      location: each.location.country,
+      location: null,
       upload: null,
       download: null,
     };
@@ -35,12 +36,11 @@ const transformPeers = (peersList) => {
 
 export const getInitialState = (props) => {
   const { status, messageList, peersList, addrsList, info } = props;
-  console.log(props);
 
   return {
     id: info.id,
-    name: 'Andrew Hill',
-    photoURL: '/static/avatar-andrew-hill.jpg',
+    name: 'New Node',
+    photoURL: '/static/system/avatar.png',
     config: '',
     upload_bandwidth: 0,
     download_bandwidth: 0,

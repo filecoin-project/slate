@@ -54,132 +54,6 @@ export default class SceneHome extends React.Component {
   render() {
     return (
       <ScenePage>
-        <GLRenderer width={1200} height={480} />
-
-        <div css={STYLES_ROW}>
-          <span css={STYLES_COLUMN}>
-            <System.StatCard
-              data={[
-                ['2017-01-01 00:00:00 UTC', 7],
-                ['2017-05-01 00:00:00 UTC', 14],
-                ['2017-20-01 00:00:00 UTC', 16],
-                ['2017-24-01 00:00:00 UTC', 2],
-                [new Date(), 24],
-              ]}
-              value={1000}
-              denomination="GB">
-              Total data stored
-            </System.StatCard>
-          </span>
-
-          <span css={STYLES_COLUMN}>
-            <System.StatCard
-              data={[
-                ['2017-01-01 00:00:00 UTC', 65],
-                ['2017-05-01 00:00:00 UTC', 12],
-                ['2017-20-01 00:00:00 UTC', 2],
-                ['2017-24-01 00:00:00 UTC', 20],
-                [new Date(), 24],
-              ]}
-              value={1000}
-              denomination="GB">
-              Total data retrieved
-            </System.StatCard>
-          </span>
-
-          <span css={STYLES_COLUMN}>
-            <System.StatCard
-              data={[
-                ['2017-01-01 00:00:00 UTC', 7],
-                ['2017-05-01 00:00:00 UTC', 12],
-                ['2017-20-01 00:00:00 UTC', 16],
-                ['2017-24-01 00:00:00 UTC', 33],
-                [new Date(), 24],
-              ]}
-              value={1000}
-              denomination="Deals">
-              Total deals
-            </System.StatCard>
-          </span>
-
-          <span css={STYLES_COLUMN}>
-            <System.StatCard
-              data={[
-                ['2017-01-01 00:00:00 UTC', 7],
-                ['2017-05-01 00:00:00 UTC', 22],
-                ['2017-20-01 00:00:00 UTC', 44],
-                ['2017-24-01 00:00:00 UTC', 20],
-                [new Date(), 24],
-              ]}
-              value={1000}
-              denomination="FIL">
-              Wallet Balance
-            </System.StatCard>
-          </span>
-        </div>
-
-        <div css={STYLES_ROW}>
-          <span css={STYLES_COLUMN}>
-            <System.StatCard
-              data={[
-                ['2017-01-01 00:00:00 UTC', 7],
-                ['2017-05-01 00:00:00 UTC', 12],
-                ['2017-20-01 00:00:00 UTC', 12],
-                ['2017-24-01 00:00:00 UTC', 20],
-                [new Date(), 24],
-              ]}
-              value={1000}
-              denomination="FIL/GB/Month">
-              Your average storage price
-            </System.StatCard>
-          </span>
-
-          <span css={STYLES_COLUMN}>
-            <System.StatCard
-              data={[
-                ['2017-01-01 00:00:00 UTC', 7],
-                ['2017-05-01 00:00:00 UTC', 23],
-                ['2017-20-01 00:00:00 UTC', 16],
-                ['2017-24-01 00:00:00 UTC', 20],
-                [new Date(), 24],
-              ]}
-              value={1000}
-              denomination="FIL/GB">
-              Your average retrieval price
-            </System.StatCard>
-          </span>
-
-          <span css={STYLES_COLUMN}>
-            <System.StatCard
-              data={[
-                ['2017-01-01 00:00:00 UTC', 7],
-                ['2017-05-01 00:00:00 UTC', 12],
-                ['2017-20-01 00:00:00 UTC', 16],
-                ['2017-24-01 00:00:00 UTC', 23],
-                [new Date(), 24],
-              ]}
-              value={1000}
-              denomination="FIL/GB/Month">
-              Average storage market price
-            </System.StatCard>
-          </span>
-
-          <span css={STYLES_COLUMN}>
-            <System.StatCard
-              data={[
-                ['2017-01-01 00:00:00 UTC', 47],
-                ['2017-05-01 00:00:00 UTC', 42],
-                ['2017-20-01 00:00:00 UTC', 46],
-                ['2017-24-01 00:00:00 UTC', 40],
-                [new Date(), 24],
-              ]}
-              value={1000}
-              denomination="FIL/GB">
-              Average market retrieval price
-            </System.StatCard>
-          </span>
-        </div>
-
         <Section
           onAction={this.props.onAction}
           onNavigateTo={this.props.onNavigateTo}
@@ -189,6 +63,11 @@ export default class SceneHome extends React.Component {
               name: 'View files',
               type: 'NAVIGATE',
               value: 'folder-root',
+            },
+            {
+              name: 'Store file on network',
+              type: 'SIDEBAR',
+              value: 'SIDEBAR_FILE_STORAGE_DEAL',
             },
           ]}>
           <System.Table
@@ -203,7 +82,7 @@ export default class SceneHome extends React.Component {
                 },
                 { key: 'remaining', name: 'Remaining time', width: '180px' },
               ],
-              rows: Data.EXAMPLE_FILES.slice(0, 4),
+              rows: [],
             }}
             selectedRowId={this.state.data}
             onChange={this._handleChange}
@@ -217,18 +96,22 @@ export default class SceneHome extends React.Component {
           <Section
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}
-            title="Recent transactions"
+            title="Wallet addresses"
             buttons={[
               {
-                name: 'View wallet',
+                name: 'View all',
                 type: 'NAVIGATE',
                 value: 2,
               },
             ]}>
             <System.Table
               data={{
-                columns: SchemaTable.Transactions,
-                rows: this.props.viewer.addresses[0].transactions,
+                columns: [
+                  { key: 'address', name: 'Address' },
+                  { key: 'balance', name: 'Filecoin', width: '228px' },
+                  { key: 'type', name: 'Type' },
+                ],
+                rows: this.props.viewer.addresses,
               }}
               selectedRowId={this.state.transaction}
               onChange={this._handleChange}

@@ -37,12 +37,7 @@ export default class SceneEditAccount extends React.Component {
       body: data,
     };
 
-    const response = await fetch(`/_/upload/avatar`, options);
-    const json = await response.json();
-
-    if (json && json.success) {
-      console.log('reload');
-    }
+    await fetch(`/_/upload/avatar`, options);
   };
 
   _handleChange = (e) => {
@@ -64,7 +59,7 @@ export default class SceneEditAccount extends React.Component {
 
         <div style={{ marginTop: 24 }}>
           <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
-          <System.ButtonPrimary style={{ margin: '0 16px 16px 0' }} type="label" for="file">
+          <System.ButtonPrimary style={{ margin: '0 16px 16px 0' }} type="label" htmlFor="file">
             Upload
           </System.ButtonPrimary>
         </div>

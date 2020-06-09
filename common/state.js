@@ -35,13 +35,26 @@ const transformPeers = (peersList) => {
 };
 
 export const getInitialState = (props) => {
-  const { status, messageList, peersList, addrsList, info } = props;
+  const { status, messageList, peersList, addrsList, info, library } = props;
+
+  if (!info || !info.id) {
+    return {
+      id: null,
+      notifications: [],
+      payment_channels_active: [],
+      payment_channels_redeemed: [],
+      data_transfers: [],
+      peers: [],
+      deals: [],
+      addresses: [],
+      library: [],
+    };
+  }
 
   return {
     id: info.id,
     name: 'New Node',
     photoURL: '/static/system/avatar.png',
-    config: '',
     upload_bandwidth: 0,
     download_bandwidth: 0,
 
@@ -53,7 +66,7 @@ export const getInitialState = (props) => {
 
     settings_cold_enabled: info.defaultConfig.cold.enabled,
     settings_cold_default_address: info.defaultConfig.cold.filecoin.addr,
-    settings_cold_default_duration: info.defaultConfig.cold.filecoin.dealDuration,
+    settings_cold_default_duration: info.defaultConfig.cold.filecoin.dealMinDuration,
     settings_cold_default_replication_factor: info.defaultConfig.cold.filecoin.repFactor,
     settings_cold_default_excluded_miners: info.defaultConfig.cold.filecoin.excludedMinersList,
     settings_cold_default_trusted_miners: info.defaultConfig.cold.filecoin.trustedMinersList,
@@ -68,5 +81,6 @@ export const getInitialState = (props) => {
     peers: transformPeers(peersList),
     deals: [],
     addresses: transformAddresses(addrsList, info),
+    library,
   };
 };

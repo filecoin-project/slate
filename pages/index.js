@@ -64,36 +64,46 @@ const getCurrentNavigationStateById = (navigation, targetId) => {
 
 export const getServerSideProps = async (context) => {
   if (context.query && context.query.production) {
-    return { production: true };
+    return { production: true, ...context.query };
   }
 
   const data = await Actions.rehydrateViewer();
 
   return {
-    props: { ...data.data },
+    props: { ...context.query, ...data.data },
   };
 };
 
 export default class IndexPage extends React.Component {
+  _socket = null;
+
   state = {
     history: [{ id: 1, scrollTop: 0 }],
     currentIndex: 0,
     data: null,
     selected: {
-      address: null,
+      address: '',
     },
-    viewer: this.props.production ? Fixtures.getInitialState() : State.getInitialState(this.props),
+    viewer: State.getInitialState(this.props),
     sidebar: null,
   };
 
-  async componentDidMount() {
-    // TODO(jim): You don't really need this.
-    console.log(this.props);
+  componentDidMount() {
+    this._socket = new WebSocket(`ws://localhost:${this.props.wsPort}`);
+    this._socket.onmessage = (m) => {
+      console.log(m);
+      if (m.type === 'message') {
+        const parsed = JSON.parse(m.data);
+
+        if (parsed.action === 'UPDATE_VIEWER') {
+          this.rehydrate({ data: parsed.data });
+        }
+      }
+    };
   }
 
-  rehydrate = async () => {
-    const viewer = await Actions.rehydrateViewer();
-    this.setState({ viewer: { ...State.getInitialState(viewer.data) } });
+  rehydrate = async ({ data }) => {
+    this.setState({ viewer: { ...State.getInitialState(data) } });
   };
 
   _handleSubmit = async (data) => {
@@ -108,8 +118,6 @@ export default class IndexPage extends React.Component {
         type: data.wallet_type,
         makeDefault: data.makeDefault,
       });
-
-      await this.rehydrate();
     }
 
     if (data.type === 'SEND_WALLET_ADDRESS_FILECOIN') {
@@ -118,8 +126,6 @@ export default class IndexPage extends React.Component {
         target: data.target,
         amount: data.amount,
       });
-
-      await this.rehydrate();
     }
 
     this._handleDismissSidebar();
@@ -258,21 +264,26 @@ export default class IndexPage extends React.Component {
   };
 
   render() {
-    const next = this.state.history[this.state.currentIndex];
-    const current = getCurrentNavigationStateById(Fixtures.NavigationState, next.id);
+    if (this.props.production) {
+      return null;
+    }
 
-    const navigation = (
+    const navigation = Fixtures.generateNavigationState(this.state.viewer.library);
+    const next = this.state.history[this.state.currentIndex];
+    const current = getCurrentNavigationStateById(navigation, next.id);
+
+    const navigationElement = (
       <ApplicationNavigation
         viewer={this.state.viewer}
         activeId={current.target.id}
         activeIds={current.activeIds}
-        navigation={Fixtures.NavigationState}
+        navigation={navigation}
         onNavigateTo={this._handleNavigateTo}
         onAction={this._handleAction}
       />
     );
 
-    const header = (
+    const headerElement = (
       <ApplicationHeader
         viewer={this.state.viewer}
         pageTitle={current.target.pageTitle}
@@ -286,7 +297,6 @@ export default class IndexPage extends React.Component {
     );
 
     const scene = React.cloneElement(this.scenes[current.target.decorator], {
-      rehydrate: this.rehydrate,
       viewer: this.state.viewer,
       selected: this.state.selected,
       data: current.target,
@@ -299,9 +309,9 @@ export default class IndexPage extends React.Component {
       onForward: this._handleForward,
     });
 
-    let sidebar;
+    let sidebarElement;
     if (this.state.sidebar) {
-      sidebar = React.cloneElement(this.state.sidebar, {
+      sidebarElement = React.cloneElement(this.state.sidebar, {
         viewer: this.state.viewer,
         selected: this.state.selected,
         onSelectedChange: this._handleSelectedChange,
@@ -318,9 +328,9 @@ export default class IndexPage extends React.Component {
       <React.Fragment>
         <WebsitePrototypeWrapper title={title} description={description} url={url}>
           <ApplicationLayout
-            navigation={navigation}
-            header={header}
-            sidebar={sidebar}
+            navigation={navigationElement}
+            header={headerElement}
+            sidebar={sidebarElement}
             onDismissSidebar={this._handleDismissSidebar}>
             {scene}
           </ApplicationLayout>

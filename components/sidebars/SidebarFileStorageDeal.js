@@ -6,6 +6,16 @@ import * as System from '~/components/system';
 
 import { css } from '@emotion/react';
 
+const STYLES_FILE_HIDDEN = css`
+  height: 1px;
+  width: 1px;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: -1px;
+  left: -1px;
+`;
+
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
   font-family: 'inter-medium';
@@ -49,13 +59,64 @@ const SELECT_MENU_MAP = {
 
 export default class SidebarFileStorageDeal extends React.Component {
   state = {
-    settings_deal_duration: this.props.viewer.settings_cold_default_duration,
-    settings_replication_factor: this.props.viewer.settings_cold_default_replication_factor,
+    file: null,
+    settings_cold_default_duration: this.props.viewer.settings_cold_default_duration,
+    settings_cold_default_replication_factor: this.props.viewer.settings_cold_default_replication_factor,
   };
 
-  _handleSubmit = () => {
-    alert('TODO: Make a storage deal');
-    this.props.onSubmit({});
+  _handleUpload = async (e) => {
+    e.persist();
+    let file = e.target.files[0];
+
+    if (!file) {
+      alert('Something went wrong');
+      return;
+    }
+
+    let data = new FormData();
+    data.append('image', file);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: data,
+    };
+
+    const response = await fetch(`/_/storage/${file.name}`, options);
+    const json = await response.json();
+
+    if (json && json.success) {
+      this.setState({ file });
+    }
+  };
+
+  _handleMakeDeal = async (src) => {
+    console.log(src);
+
+    const options = {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ src }),
+    };
+
+    const response = await fetch('/_/deals/storage', options);
+    const json = await response.json();
+    return json;
+  };
+
+  _handleSubmit = async (e) => {
+    e.persist();
+
+    const path = `/public/static/files/${this.state.file.name}`;
+    await this._handleMakeDeal(path);
+
+    await this.props.onSubmit({});
   };
 
   _handleCancel = () => {
@@ -82,56 +143,68 @@ export default class SidebarFileStorageDeal extends React.Component {
     return (
       <React.Fragment>
         <System.P style={{ fontFamily: 'inter-semi-bold' }}>Upload a file to the network</System.P>
+        <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
 
-        <img src="/static/test-image-upload.jpg" css={STYLES_IMAGE_PREVIEW} />
+        {this.state.file ? (
+          <div>
+            <img src={`/static/files/${this.state.file.name}`} css={STYLES_IMAGE_PREVIEW} />
 
-        <div css={STYLES_ITEM}>
-          <div css={STYLES_FOCUS}>test-image-upload.jpg</div>
-          <div css={STYLES_SUBTEXT}>Name</div>
-        </div>
+            <div css={STYLES_ITEM}>
+              <div css={STYLES_FOCUS}>{this.state.file.name}</div>
+              <div css={STYLES_SUBTEXT}>Name</div>
+            </div>
 
-        <div css={STYLES_ITEM}>
-          <div css={STYLES_FOCUS}>42 MB</div>
-          <div css={STYLES_SUBTEXT}>File size</div>
-        </div>
+            <div css={STYLES_ITEM}>
+              <div css={STYLES_FOCUS}>{this.state.file.size}</div>
+              <div css={STYLES_SUBTEXT}>File size</div>
+            </div>
+          </div>
+        ) : null}
 
-        <System.ButtonSecondaryFull style={{ marginTop: 24 }}>Change file</System.ButtonSecondaryFull>
+        <System.ButtonSecondaryFull type="label" htmlFor="file" style={{ marginTop: 24 }}>
+          Add file
+        </System.ButtonSecondaryFull>
 
-        <System.Input
-          containerStyle={{ marginTop: 48 }}
-          label="Deal duration"
-          name="settings_deal_duration"
-          value={this.state.settings_deal_duration}
-          onChange={this._handleChange}
-        />
+        {this.state.file ? (
+          <System.Input
+            containerStyle={{ marginTop: 48 }}
+            label="Deal duration"
+            name="settings_cold_default_duration"
+            placeholder="Type in months"
+            type="number"
+            value={this.state.settings_cold_default_duration}
+            onChange={this._handleChange}
+          />
+        ) : null}
 
-        <System.Input
-          containerStyle={{ marginTop: 24 }}
-          label="Replication factor"
-          name="settings_replication_factor"
-          value={this.state.settings_replication_factor}
-          onChange={this._handleChange}
-        />
+        {this.state.file ? (
+          <System.Input
+            containerStyle={{ marginTop: 24 }}
+            label="Replication factor"
+            name="settings_cold_default_replication_factor"
+            value={this.state.settings_cold_default_replication_factor}
+            onChange={this._handleChange}
+          />
+        ) : null}
 
-        <System.SelectMenuFull
-          containerStyle={{ marginTop: 24 }}
-          name="address"
-          label="Payment address"
-          value={this.props.selected.address}
-          category="address"
-          onChange={this.props.onSelectedChange}
-          options={this.props.viewer.addresses}>
-          {currentAddress.name}
-        </System.SelectMenuFull>
+        {this.state.file ? (
+          <System.SelectMenuFull
+            containerStyle={{ marginTop: 24 }}
+            name="address"
+            label="Payment address"
+            value={this.props.selected.address}
+            category="address"
+            onChange={this.props.onSelectedChange}
+            options={this.props.viewer.addresses}>
+            {currentAddress.name}
+          </System.SelectMenuFull>
+        ) : null}
 
-        <div css={STYLES_ITEM}>
-          <div css={STYLES_FOCUS}>2 FIL</div>
-          <div css={STYLES_SUBTEXT}>Last order price</div>
-        </div>
-
-        <System.ButtonPrimaryFull style={{ marginTop: 48 }} onClick={this._handleSubmit}>
-          Make storage deal
-        </System.ButtonPrimaryFull>
+        {this.state.file ? (
+          <System.ButtonPrimaryFull style={{ marginTop: 48 }} onClick={this._handleSubmit}>
+            Make storage deal
+          </System.ButtonPrimaryFull>
+        ) : null}
       </React.Fragment>
     );
   }

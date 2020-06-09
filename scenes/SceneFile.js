@@ -1,14 +1,14 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
-import * as System from "~/components/system";
-import * as SVG from "~/components/system/svg";
+import * as React from 'react';
+import * as Strings from '~/common/strings';
+import * as Constants from '~/common/constants';
+import * as Fixtures from '~/common/fixtures';
+import * as System from '~/components/system';
+import * as SVG from '~/components/system/svg';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
-import Section from "~/components/core/Section";
-import ScenePage from "~/components/core/ScenePage";
+import Section from '~/components/core/Section';
+import ScenePage from '~/components/core/ScenePage';
 
 const STYLES_FLEX = css`
   display: flex;
@@ -21,6 +21,7 @@ const STYLES_FLEX = css`
 
 const STYLES_TOP = css`
   background: ${Constants.system.pitchBlack};
+  border-bottom: 1px solid ${Constants.system.black};
   color: ${Constants.system.white};
   width: 100%;
   padding: 12px 16px 12px 48px;
@@ -53,7 +54,9 @@ const STYLES_ASSET = css`
   padding: 0;
   min-height: 10%;
   height: 100%;
-  background-size: cover;
+  background-color: ${Constants.system.pitchBlack};
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: 50% 50%;
 `;
 
@@ -69,7 +72,7 @@ const STYLES_BOTTOM = css`
 `;
 
 const STYLES_PATH = css`
-  font-family: "mono";
+  font-family: 'mono';
   color: ${Constants.system.white};
   font-size: 12px;
   text-transform: uppercase;
@@ -87,7 +90,7 @@ const STYLES_ITEM = css`
   justify-content: center;
   font-size: 12px;
   letter-spacing: 0.2px;
-  font-family: "inter-semi-bold";
+  font-family: 'inter-semi-bold';
   transition: 200ms ease all;
   cursor: pointer;
   background-color: ${Constants.system.brand};
@@ -113,7 +116,7 @@ export default class SceneFile extends React.Component {
   };
 
   render() {
-    const fileURL = `/static/${this.props.file.file}`;
+    const fileURL = `/static/files/${this.props.file.file}`;
 
     return (
       <div css={STYLES_FLEX}>
@@ -125,20 +128,7 @@ export default class SceneFile extends React.Component {
             <SVG.Dismiss height="24px" />
           </div>
         </div>
-        <div
-          css={STYLES_ASSET}
-          style={{ backgroundImage: `url('${fileURL}')` }}
-        />
-        <div css={STYLES_BOTTOM}>
-          <div css={STYLES_LEFT}>
-            <span css={STYLES_PATH}>{this.props.file["cid"]}</span>
-          </div>
-          <div css={STYLES_RIGHT}>
-            <span css={STYLES_ITEM}>Copy CID</span>
-            <span css={STYLES_ITEM}>Copy gateways</span>
-            <span css={STYLES_ITEM}>Copy to downloads</span>
-          </div>
-        </div>
+        <div css={STYLES_ASSET} style={{ backgroundImage: `url('${fileURL}')` }} />
       </div>
     );
   }

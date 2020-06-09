@@ -33,7 +33,7 @@ export default class SceneSettings extends React.Component {
   _deferredSave = null;
 
   _handleSave = async () => {
-    const response = await Actions.setDefaultConfig({
+    await Actions.setDefaultConfig({
       config: {
         hot: {
           enabled: this.props.viewer.settings_cold_enabled,
@@ -46,7 +46,7 @@ export default class SceneSettings extends React.Component {
           enabled: this.props.viewer.settings_cold_enabled,
           filecoin: {
             addr: this.props.viewer.settings_cold_default_address,
-            dealDuration: this.props.viewer.settings_cold_default_duration,
+            dealMinDuration: this.props.viewer.settings_cold_default_duration,
             repFactor: this.props.viewer.settings_cold_default_replication_factor,
             excludedMinersList: this.props.viewer.settings_cold_default_excluded_miners,
             trustedMinersList: this.props.viewer.settings_cold_default_trusted_miners,
@@ -59,8 +59,6 @@ export default class SceneSettings extends React.Component {
         },
       },
     });
-
-    await this.props.rehydrate();
   };
 
   _handleChange = (e) => {
@@ -143,6 +141,7 @@ export default class SceneSettings extends React.Component {
               description="Default Filecoin deal duration settings description."
               tooltip="Placeholder."
               name="settings_cold_default_duration"
+              type="number"
               value={this.props.viewer.settings_cold_default_duration}
               placeholder="Type in months"
               onChange={this._handleChange}

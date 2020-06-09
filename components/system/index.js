@@ -431,11 +431,6 @@ export class Table extends React.Component {
     onAction: () => console.log('No action function set'),
   };
 
-  // NOTE(jim): Local state for local filtering.
-  state = {
-    data: this.props.data,
-  };
-
   _handleChange = (value) => {
     this.props.onChange({
       target: {
@@ -446,7 +441,7 @@ export class Table extends React.Component {
   };
 
   render() {
-    const { data } = this.state;
+    const { data } = this.props;
 
     const ac = {};
 
@@ -642,6 +637,10 @@ const STYLES_BUTTON_PRIMARY_FULL = css`
 `;
 
 export const ButtonPrimaryFull = (props) => {
+  if (props.type === 'label') {
+    return <label css={STYLES_BUTTON_PRIMARY_FULL} {...props} />;
+  }
+
   return <button css={STYLES_BUTTON_PRIMARY_FULL} {...props} />;
 };
 
@@ -665,6 +664,10 @@ const STYLES_BUTTON_SECONDARY = css`
 `;
 
 export const ButtonSecondary = (props) => {
+  if (props.type === 'label') {
+    return <label css={STYLES_BUTTON_SECONDARY} {...props} />;
+  }
+
   return <button css={STYLES_BUTTON_SECONDARY} {...props} />;
 };
 
@@ -688,6 +691,10 @@ const STYLES_BUTTON_SECONDARY_FULL = css`
 `;
 
 export const ButtonSecondaryFull = (props) => {
+  if (props.type === 'label') {
+    return <label css={STYLES_BUTTON_SECONDARY_FULL} {...props} />;
+  }
+
   return <button css={STYLES_BUTTON_SECONDARY_FULL} {...props} />;
 };
 

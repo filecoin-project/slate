@@ -8,7 +8,9 @@ const REQUEST_HEADERS = {
   'Content-Type': 'application/json',
 };
 
-const SERVER_PATH = 'http://localhost:1337';
+const dev = process.env.NODE_ENV !== 'production';
+
+const SERVER_PATH = dev ? 'http://localhost:1337' : 'https://filecoin.onrender.com';
 
 export const rehydrateViewer = async () => {
   const options = {

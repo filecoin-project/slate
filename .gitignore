@@ -1,10 +1,9 @@
 .next
-.data
 .env
 .DS_STORE
+DS_STORE
 package-lock.json
 node_modules
-DS_STORE
 
 /**/*/package-lock.json
 /**/*/.DS_STORE
@@ -12,5 +11,12 @@ DS_STORE
 /**/*/.next
 /**/*/.data
 
-.data/**/*
-.library/**/*
+.data/*
+!.data/.gitkeep
+
+public/static/files/*
+!public/static/files/.gitkeep
+
+public/static/system/*
+!public/static/system/.gitkeep
+!public/static/system/avatar.png

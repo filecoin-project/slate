@@ -54,43 +54,50 @@ export default class SceneHome extends React.Component {
   render() {
     return (
       <ScenePage>
-        <Section
-          onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
-          title="Recent data"
-          buttons={[
-            {
-              name: 'View files',
-              type: 'NAVIGATE',
-              value: 'folder-root',
-            },
-            {
-              name: 'Store file on network',
-              type: 'SIDEBAR',
-              value: 'SIDEBAR_FILE_STORAGE_DEAL',
-            },
-          ]}>
-          <System.Table
-            data={{
-              columns: [
-                { key: 'file', name: 'File', type: 'FILE_LINK' },
-                {
-                  key: 'date',
-                  name: 'Date uploaded',
-                  width: '160px',
-                  tooltip: 'This date represents when the file was first uploaded to the network.',
-                },
-                { key: 'remaining', name: 'Remaining time', width: '180px' },
-              ],
-              rows: [],
-            }}
-            selectedRowId={this.state.data}
-            onChange={this._handleChange}
+        {this.props.viewer.library[0] ? (
+          <Section
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}
-            name="data"
-          />
-        </Section>
+            title="Recent data"
+            buttons={[
+              {
+                name: 'View files',
+                type: 'NAVIGATE',
+                value: this.props.viewer.library[0].folderId,
+              },
+              {
+                name: 'Store file on network',
+                type: 'SIDEBAR',
+                value: 'SIDEBAR_FILE_STORAGE_DEAL',
+              },
+            ]}>
+            <System.Table
+              data={{
+                columns: [
+                  { key: 'file', name: 'File', type: 'FILE_LINK' },
+                  { key: 'size', name: 'Size', width: '140px', type: 'FILE_SIZE' },
+                  {
+                    key: 'date',
+                    name: 'Date uploaded',
+                    width: '160px',
+                    type: 'FILE_DATE',
+                  },
+                  {
+                    key: 'storage_status',
+                    name: 'Status',
+                    type: 'DEAL_STATUS',
+                  },
+                ],
+                rows: this.props.viewer.library[0].children,
+              }}
+              selectedRowId={this.state.data}
+              onChange={this._handleChange}
+              onAction={this.props.onAction}
+              onNavigateTo={this.props.onNavigateTo}
+              name="data"
+            />
+          </Section>
+        ) : null}
 
         {this.props.viewer.addresses[0] ? (
           <Section

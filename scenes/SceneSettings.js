@@ -1,10 +1,10 @@
-import * as React from 'react';
-import * as Actions from '~/common/actions';
-import * as System from '~/components/system';
+import * as React from "react";
+import * as Actions from "~/common/actions";
+import * as System from "~/components/system";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import ScenePage from '~/components/core/ScenePage';
+import ScenePage from "~/components/core/ScenePage";
 
 const STYLES_GROUP = css`
   display: flex;
@@ -47,13 +47,17 @@ export default class SceneSettings extends React.Component {
           filecoin: {
             addr: this.props.viewer.settings_cold_default_address,
             dealMinDuration: this.props.viewer.settings_cold_default_duration,
-            repFactor: this.props.viewer.settings_cold_default_replication_factor,
-            excludedMinersList: this.props.viewer.settings_cold_default_excluded_miners,
-            trustedMinersList: this.props.viewer.settings_cold_default_trusted_miners,
+            repFactor: this.props.viewer
+              .settings_cold_default_replication_factor,
+            excludedMinersList: this.props.viewer
+              .settings_cold_default_excluded_miners,
+            trustedMinersList: this.props.viewer
+              .settings_cold_default_trusted_miners,
             maxPrice: this.props.viewer.settings_cold_default_max_price,
             renew: {
               enabled: this.props.viewer.settings_cold_default_auto_renew,
-              threshold: this.props.viewer.settings_cold_default_auto_renew_max_price,
+              threshold: this.props.viewer
+                .settings_cold_default_auto_renew_max_price,
             },
           },
         },
@@ -78,7 +82,8 @@ export default class SceneSettings extends React.Component {
       addresses[a.address] = a;
     });
 
-    const currentAddress = addresses[this.props.viewer.settings_cold_default_address];
+    const currentAddress =
+      addresses[this.props.viewer.settings_cold_default_address];
 
     return (
       <ScenePage>
@@ -131,19 +136,20 @@ export default class SceneSettings extends React.Component {
               value={this.props.viewer.settings_cold_default_address}
               category="address"
               onChange={this._handleChange}
-              options={this.props.viewer.addresses}>
-              {currentAddress ? currentAddress.name : 'None'}
+              options={this.props.viewer.addresses}
+            >
+              {currentAddress ? currentAddress.name : "None"}
             </System.SelectMenu>
 
             <System.Input
               containerStyle={{ marginTop: 24 }}
               label="Default Filecoin deal duration"
-              description="Default Filecoin deal duration settings description."
+              description="Default Filecoin deal duration settings description. Current deal duration is in epochs but should change to months/weeks/days."
               tooltip="Placeholder."
               name="settings_cold_default_duration"
               type="number"
               value={this.props.viewer.settings_cold_default_duration}
-              placeholder="Type in months"
+              placeholder="Type in epochs (~25 seconds)"
               onChange={this._handleChange}
             />
 
@@ -173,7 +179,8 @@ export default class SceneSettings extends React.Component {
               style={{ marginTop: 48 }}
               name="settings_cold_default_auto_renew"
               value={this.props.viewer.settings_cold_default_auto_renew}
-              onChange={this._handleChange}>
+              onChange={this._handleChange}
+            >
               Enable auto renew for Filecoin Network deals.
             </System.CheckBox>
 
@@ -183,7 +190,9 @@ export default class SceneSettings extends React.Component {
               description="Set the maximum Filecoin price you're willing to pay for auto renew."
               tooltip="Placeholder."
               name="settings_cold_default_auto_renew_max_price"
-              value={this.props.viewer.settings_cold_default_auto_renew_max_price}
+              value={
+                this.props.viewer.settings_cold_default_auto_renew_max_price
+              }
               placeholder="Type in amount of Filecoin"
               onChange={this._handleChange}
             />
@@ -213,7 +222,8 @@ export default class SceneSettings extends React.Component {
               style={{ marginTop: 48 }}
               name="settings_hot_allow_unfreeze"
               value={this.props.viewer.settings_hot_allow_unfreeze}
-              onChange={this._handleChange}>
+              onChange={this._handleChange}
+            >
               IPFS allow unfreeze setting description.
             </System.CheckBox>
 

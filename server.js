@@ -1,20 +1,20 @@
-import { createPow, ffs } from '@textile/powergate-client';
+import { createPow, ffs } from "@textile/powergate-client";
 
-const host = 'http://0.0.0.0:6002';
+const host = "http://0.0.0.0:6002";
 const PowerGate = createPow({ host });
 
-import * as Middleware from '~/common/middleware';
-import * as Strings from '~/common/strings';
+import * as Middleware from "~/common/middleware";
+import * as Strings from "~/common/strings";
 
-import FS from 'fs';
-import express from 'express';
-import formidable from 'formidable';
-import next from 'next';
-import bodyParser from 'body-parser';
-import compression from 'compression';
-import WebSocketServer from 'ws';
+import FS from "fs-extra";
+import express from "express";
+import formidable from "formidable";
+import next from "next";
+import bodyParser from "body-parser";
+import compression from "compression";
+import WebSocketServer from "ws";
 
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 1337;
 const wsPort = 2448;
 const app = next({ dev, quiet: false });
@@ -53,18 +53,18 @@ const refreshWithToken = async () => {
 
 const getFileName = (s) => {
   let target = s;
-  if (target.endsWith('/')) {
+  if (target.endsWith("/")) {
     target = target.substring(0, target.length - 1);
   }
 
-  return target.substr(target.lastIndexOf('/') + 1);
+  return target.substr(target.lastIndexOf("/") + 1);
 };
 
 const createFile = (id, data) => {
   return {
-    decorator: 'FILE',
+    decorator: "FILE",
     id: id,
-    icon: 'PNG',
+    icon: "PNG",
     file: getFileName(id),
     miner: null,
     job_id: null,
@@ -82,10 +82,10 @@ const createFile = (id, data) => {
 
 const createFolder = (id) => {
   return {
-    decorator: 'FOLDER',
+    decorator: "FOLDER",
     id,
     folderId: id,
-    icon: 'FOLDER',
+    icon: "FOLDER",
     file: getFileName(id),
     name: getFileName(id),
     pageTitle: null,
@@ -113,7 +113,7 @@ const emitStateUpdate = async () => {
   await refresh();
   await refreshWithToken();
   const data = await getData();
-  client.send(JSON.stringify({ action: 'UPDATE_VIEWER', data }));
+  client.send(JSON.stringify({ action: "UPDATE_VIEWER", data }));
 };
 
 const checkFileStatus = async () => {
@@ -140,12 +140,12 @@ const checkFileStatus = async () => {
   }
 
   if (write) {
-    FS.writeFileSync('./.data/library.json', JSON.stringify({ library }));
+    FS.writeFileSync("./.data/library.json", JSON.stringify({ library }));
   }
 };
 
 const setIntervalViewerUpdates = async () => {
-  console.log('[ prototype ] checking for library deal updates.');
+  console.log("[ prototype ] checking for library deal updates.");
   if (client) {
     try {
       await emitStateUpdate();
@@ -158,22 +158,28 @@ const setIntervalViewerUpdates = async () => {
 const resetAllLocalData = async () => {
   // NOTE(jim): For testing purposes.
   // We wipe all of the local data each time you run the application.
-  console.log('[ prototype ] deleting old token and library data ');
-  FS.rmdirSync('./.data', { recursive: true });
+  console.log("[ prototype ] deleting old token and library data ");
+  if (FS.existsSync(`./.data`)) {
+    FS.removeSync("./.data", { recursive: true });
+  }
 
-  console.log('[ prototype ] deleting old avatar data ');
-  FS.rmdirSync(AVATAR_STORAGE_URL, { recursive: true });
+  console.log("[ prototype ] deleting old avatar data ");
+  if (FS.existsSync(AVATAR_STORAGE_URL)) {
+    FS.removeSync(AVATAR_STORAGE_URL, { recursive: true });
+  }
 
-  console.log('[ prototype ] deleting old file data ');
-  FS.rmdirSync(FILE_STORAGE_URL, { recursive: true });
+  console.log("[ prototype ] deleting old file data ");
+  if (FS.existsSync(FILE_STORAGE_URL)) {
+    FS.removeSync(FILE_STORAGE_URL, { recursive: true });
+  }
 
-  console.log('[ prototype ] creating new avatar folder ');
+  console.log("[ prototype ] creating new avatar folder ");
   FS.mkdirSync(AVATAR_STORAGE_URL, { recursive: true });
-  FS.writeFileSync(`${AVATAR_STORAGE_URL}.gitkeep`, '');
+  FS.writeFileSync(`${AVATAR_STORAGE_URL}.gitkeep`, "");
 
-  console.log('[ prototype ] creating new local file folder ');
+  console.log("[ prototype ] creating new local file folder ");
   FS.mkdirSync(FILE_STORAGE_URL, { recursive: true });
-  FS.writeFileSync(`${FILE_STORAGE_URL}.gitkeep`, '');
+  FS.writeFileSync(`${FILE_STORAGE_URL}.gitkeep`, "");
 };
 
 app.prepare().then(async () => {
@@ -184,19 +190,21 @@ app.prepare().then(async () => {
       await refresh();
 
       // NOTE(jim): This is a configuration folder with all of the client tokens.
-      !FS.existsSync(`./.data`) && FS.mkdirSync(`./.data`, { recursive: true });
+      if (!FS.existsSync(`./.data`)) {
+        FS.mkdirSync(`./.data`, { recursive: true });
+      }
 
       // NOTE(jim): This will create a token for authentication with powergate.
-      if (!FS.existsSync('./.data/powergate-token')) {
+      if (!FS.existsSync("./.data/powergate-token")) {
         const FFS = await PowerGate.ffs.create();
         token = FFS.token ? FFS.token : null;
 
         // NOTE(jim): Write a new token file.
         if (token) {
-          FS.writeFileSync('./.data/powergate-token', token);
+          FS.writeFileSync("./.data/powergate-token", token);
         }
       } else {
-        token = FS.readFileSync('./.data/powergate-token', 'utf8');
+        token = FS.readFileSync("./.data/powergate-token", "utf8");
       }
 
       if (token) {
@@ -205,12 +213,16 @@ app.prepare().then(async () => {
 
       await refreshWithToken();
 
-      if (!FS.existsSync('./.data/library.json')) {
-        const librarySchema = { library: [{ ...createFolder(FILE_STORAGE_URL), file: 'Files', name: 'Files' }] };
-        FS.writeFileSync('./.data/library.json', JSON.stringify(librarySchema));
+      if (!FS.existsSync("./.data/library.json")) {
+        const librarySchema = {
+          library: [
+            { ...createFolder(FILE_STORAGE_URL), file: "Files", name: "Files" },
+          ],
+        };
+        FS.writeFileSync("./.data/library.json", JSON.stringify(librarySchema));
         library = librarySchema.library;
       } else {
-        const parsedLibrary = FS.readFileSync('./.data/library.json', 'utf8');
+        const parsedLibrary = FS.readFileSync("./.data/library.json", "utf8");
         library = JSON.parse(parsedLibrary).library;
       }
     } catch (e) {
@@ -221,15 +233,15 @@ app.prepare().then(async () => {
   const server = express();
   const WSS = new WebSocketServer.Server({ port: wsPort });
 
-  WSS.on('connection', (s) => {
+  WSS.on("connection", (s) => {
     // TODO(jim): Suppport more than one client.
     client = s;
 
-    s.on('close', function () {
-      s.send(JSON.stringify({ action: null, data: 'closed' }));
+    s.on("close", function() {
+      s.send(JSON.stringify({ action: null, data: "closed" }));
     });
 
-    s.send(JSON.stringify({ action: null, data: 'connected' }));
+    s.send(JSON.stringify({ action: null, data: "connected" }));
   });
 
   if (!dev) {
@@ -237,7 +249,7 @@ app.prepare().then(async () => {
   }
 
   server.use(Middleware.CORS);
-  server.use('/public', express.static('public'));
+  server.use("/public", express.static("public"));
   server.use(bodyParser.json());
   server.use(
     bodyParser.urlencoded({
@@ -245,7 +257,7 @@ app.prepare().then(async () => {
     })
   );
 
-  server.post('/_/viewer', async (req, res) => {
+  server.post("/_/viewer", async (req, res) => {
     if (dev) {
       await refresh();
       await refreshWithToken();
@@ -254,7 +266,7 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, data: await getData() });
   });
 
-  server.post('/_/deals/storage', async (req, res) => {
+  server.post("/_/deals/storage", async (req, res) => {
     if (Strings.isEmpty(req.body.src)) {
       return res.status(500).send({ success: false });
     }
@@ -278,19 +290,19 @@ app.prepare().then(async () => {
     }
 
     if (write) {
-      FS.writeFileSync('./.data/library.json', JSON.stringify({ library }));
+      FS.writeFileSync("./.data/library.json", JSON.stringify({ library }));
     }
 
     await emitStateUpdate();
     return res.status(200).send({ success: true, cid, jobId });
   });
 
-  server.post('/_/storage/:file', async (req, res) => {
+  server.post("/_/storage/:file", async (req, res) => {
     const form = formidable({ multiples: true, uploadDir: FILE_STORAGE_URL });
 
-    form.once('error', console.error);
+    form.once("error", console.error);
 
-    form.on('progress', (bytesReceived, bytesExpected) => {
+    form.on("progress", (bytesReceived, bytesExpected) => {
       console.log(`[ prototype ] ${bytesReceived} / ${bytesExpected}`);
     });
 
@@ -299,12 +311,14 @@ app.prepare().then(async () => {
         return res.status(500).send({ error });
       } else {
         if (!files.image) {
-          console.error('[ prototype ] File type unspported', files);
-          return res.status(500).send({ error: 'File type unsupported', files });
+          console.error("[ prototype ] File type unspported", files);
+          return res
+            .status(500)
+            .send({ error: "File type unsupported", files });
         }
 
         const newPath = form.uploadDir + req.params.file;
-        FS.rename(files.image.path, newPath, function (err) {});
+        FS.rename(files.image.path, newPath, function(err) {});
 
         const localFile = createFile(newPath, files.image);
 
@@ -319,7 +333,7 @@ app.prepare().then(async () => {
         }
 
         if (pushed) {
-          FS.writeFileSync('./.data/library.json', JSON.stringify({ library }));
+          FS.writeFileSync("./.data/library.json", JSON.stringify({ library }));
         }
 
         await emitStateUpdate();
@@ -328,12 +342,12 @@ app.prepare().then(async () => {
     });
   });
 
-  server.post('/_/upload/avatar', async (req, res) => {
+  server.post("/_/upload/avatar", async (req, res) => {
     const form = formidable({ multiples: true, uploadDir: AVATAR_STORAGE_URL });
 
-    form.once('error', console.error);
+    form.once("error", console.error);
 
-    form.on('progress', (bytesReceived, bytesExpected) => {
+    form.on("progress", (bytesReceived, bytesExpected) => {
       console.log(`[ prototype ] ${bytesReceived} / ${bytesExpected}`);
     });
 
@@ -341,8 +355,8 @@ app.prepare().then(async () => {
       if (error) {
         return res.status(500).send({ error });
       } else {
-        const newPath = form.uploadDir + 'avatar.png';
-        FS.rename(files.image.path, newPath, function (err) {});
+        const newPath = form.uploadDir + "avatar.png";
+        FS.rename(files.image.path, newPath, function(err) {});
 
         await emitStateUpdate();
         return res.status(200).send({ success: true });
@@ -350,7 +364,7 @@ app.prepare().then(async () => {
     });
   });
 
-  server.post('/_/settings', async (req, res) => {
+  server.post("/_/settings", async (req, res) => {
     let data;
     try {
       data = await PowerGate.ffs.setDefaultConfig(req.body.config);
@@ -362,10 +376,14 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, data });
   });
 
-  server.post('/_/wallet/create', async (req, res) => {
+  server.post("/_/wallet/create", async (req, res) => {
     let data;
     try {
-      data = await PowerGate.ffs.newAddr(req.body.name, req.body.type, req.body.makeDefault);
+      data = await PowerGate.ffs.newAddr(
+        req.body.name,
+        req.body.type,
+        req.body.makeDefault
+      );
     } catch (e) {
       return res.status(500).send({ error: e.message });
     }
@@ -374,27 +392,35 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, data });
   });
 
-  server.post('/_/wallet/send', async (req, res) => {
+  server.post("/_/wallet/send", async (req, res) => {
     let data;
     try {
-      data = await PowerGate.ffs.sendFil(req.body.source, req.body.target, req.body.amount);
+      data = await PowerGate.ffs.sendFil(
+        req.body.source,
+        req.body.target,
+        req.body.amount
+      );
     } catch (e) {
       return res.status(500).send({ error: e.message });
     }
 
     await emitStateUpdate();
-    return res.status(200).send({ success: true, data: { ...data, ...req.body } });
+    return res
+      .status(200)
+      .send({ success: true, data: { ...data, ...req.body } });
   });
 
-  server.get('/', async (req, res) => {
+  server.get("/", async (req, res) => {
     if (!dev) {
-      return res.redirect('https://github.com/filecoin-project/filecoin-client');
+      return res.redirect(
+        "https://github.com/filecoin-project/filecoin-client"
+      );
     }
 
-    return app.render(req, res, '/', { production: false, wsPort });
+    return app.render(req, res, "/", { production: false, wsPort });
   });
 
-  server.get('*', async (req, res) => {
+  server.get("*", async (req, res) => {
     return nextRequestHandler(req, res, req.url);
   });
 
@@ -403,8 +429,8 @@ app.prepare().then(async () => {
       throw err;
     }
 
-    console.log('[ prototype ] initializing ');
-    console.log('[ prototype ] powergate token:', token);
+    console.log("[ prototype ] initializing ");
+    console.log("[ prototype ] powergate token:", token);
     console.log(`[ prototype ] listening on: http://localhost:${port}`);
     console.log(`[ prototype ] avatar storage: ${AVATAR_STORAGE_URL}`);
 

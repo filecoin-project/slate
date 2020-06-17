@@ -1,27 +1,48 @@
-# What is this?
+# Filecoin Client Project (WIP)
 
-- A [live example](https://filecoin.onrender.com) of how to use the Filecoin Network.
-- An open source desktop client for using [Textile's Powergate](https://github.com/textileio/powergate/).
-- An [open source design system](https://filecoin.onrender.com) for building your own applications that are compatible with [Textile's Powergate](https://github.com/textileio/powergate/).
-- A kitchen sink example repository and multiple files to take example code snippets from for your own projects.
+#### High fidelity concept (May 23rd, 2020)
 
-## Where are we today?
+![original_5ab368196245f0603c2a0c20b63c0339](https://user-images.githubusercontent.com/310223/84869134-8128a780-b032-11ea-9c4f-7b28f0870feb.png)
 
-- Powergate is in the process of getting fully integrated.
-- Electron application in planning!
+#### Current prototype (June 15th, 2020)
 
-# Getting Started
+![screenshot](https://user-images.githubusercontent.com/310223/84873452-1c704b80-b038-11ea-8398-4a73c4d9850e.png)
 
-If you want to help with the development, just follow these steps:
+## Introduction
 
-## Satisfy system requirements
+This is an example of how to use the [Filecoin Network](https://filecoin.io) on a [Lotus DevNet](https://lotu.sh). It uses
+[Textile's Powergate](https://github.com/textileio/powergate/) and [Aaron Sutula](https://github.com/asutula)'s work with the [JavaScript/TypeScript Powergate Client](https://github.com/textileio/js-powergate-client).
+
+Also included:
+
+- DevNet storage deals with miners.
+- Local library management, you can share it with others too.
+- Local powergate authentication token management.
+- Image file preview.
+- Send filecoin between wallet addresses, create new addresses.
+- Update your default settings.
+- The beginning of an [open source design system](https://filecoin.onrender.com/system).
+- A [kitchen sink example](https://github.com/filecoin-project/filecoin-client/blob/master/server.js) for most JavaScript Powergate calls using `async` and `await`. If you need to see all of the possible functions, [look here](https://github.com/textileio/js-powergate-client/blob/master/src/ffs/index.ts).
+- An example of using [Inter](https://rsms.me/inter/).
+
+Coming soon:
+
+- **Many more features**.
+- Electron wrapper and binaries.
+- New brand! Help us decide [here](https://filecoin.onrender.com/logo-name-test). Example logos are from the [Logo Archive](https://logo-archive.org/).
+
+# Run locally (Mac OS)
+
+These steps will guide you through running the client.
+
+## Satisfy dependency requirements
 
 - Make sure you have [homebrew](https://brew.sh/).
 - Make sure you run `xcode-select -p`, if the command does not return a response, run `xcode-select --install`.
 - Make sure you run `brew install node`.
 - Make sure you run `brew install go`.
 
-## Get and Setup Docker
+## Setup Docker
 
 - `brew install docker`.
 - Install [Docker for Desktop](https://www.docker.com/products/docker-desktop) if you are running MacOS.
@@ -31,19 +52,41 @@ If you want to help with the development, just follow these steps:
 - Clone the [Lotus DevNet](https://github.com/textileio/lotus-devnet) repository.
 - Run `docker run --name texdevnet -e TEXLOTUSDEVNESPEED=1500 -p 1234:7777 textile/lotus-devnet`.
 - Clone [Powergate](https://github.com/textileio/powergate/).
-- Follow the instructions and run the commands in the README.md file.
-
-## Run the Filecoin Client
-
-- Clone this repository, run the following commands:
+- Follow the instructions and run the commands in the README.md file:
 
 ```sh
+cd docker
+make devnet
+```
+
+## Install and run
+
+Run these commands to start the client locally.
+
+```sh
+git clone git@github.com:filecoin-project/filecoin-client.git
+cd filecoin-client
 npm install
 npm run dev
 ```
 
-Visit `localhost:1337` in the browser.
+#### Example of what to expect
 
-## Getting Involved and Becoming a Contributor
+![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
 
-TBA
+- Visit `localhost:1337` in the browser.
+- **Note** — If you restart the server, it clears all your local files. You can disable this by modifying the code in `server.js`.
+- **Note** — There will be new commands in the future for different contexts, like `electron`.
+
+# Get involed.
+
+Do you want to...
+
+- Help us build a design system for internal use?
+- Help us build out this example so every partner in the ecosystem can have example code to work with?
+
+Then...
+
+- If you see things you want to work on, [file an issue](https://github.com/filecoin-project/filecoin-client/issues)!
+- If you see something you want to fix, **submit a PR**!
+- I'm always available on Twitter to answer your questions: [@wwwjim](https://www.twitter.com/wwwjim).

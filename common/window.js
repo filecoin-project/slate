@@ -1,14 +1,17 @@
-const getNavigatorAgent = userAgent => {
-  return userAgent ? userAgent : navigator.userAgent || navigator.vendor || window.opera;
+const getNavigatorAgent = (userAgent) => {
+  return userAgent
+    ? userAgent
+    : navigator.userAgent || navigator.vendor || window.opera;
 };
 
-export const delay = async waitMs => {
-  return await new Promise(resolve => setTimeout(resolve, waitMs));
+export const delay = async (waitMs) => {
+  return await new Promise((resolve) => setTimeout(resolve, waitMs));
 };
 
-export const checkIfElementIsVisible = el => {
+export const checkIfElementIsVisible = (el) => {
   const rect = el.getBoundingClientRect();
-  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+  const windowHeight =
+    window.innerHeight || document.documentElement.clientHeight;
   const windowWidth = window.innerWidth || document.documentElement.clientWidth;
 
   const isVisible =
@@ -48,20 +51,24 @@ export const isDescendant = (parent, child) => {
 };
 
 export const getScrollDistance = () => {
-  return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+  return (
+    window.pageYOffset ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop
+  );
 };
 
-export const isAndroid = userAgent => {
+export const isAndroid = (userAgent) => {
   const navigatorAgent = getNavigatorAgent(userAgent);
   return /Android/i.test(navigatorAgent);
 };
 
-export const isIOS = userAgent => {
+export const isIOS = (userAgent) => {
   const navigatorAgent = getNavigatorAgent(userAgent);
   return /iPhone|iPad|iPod/i.test(navigatorAgent);
 };
 
-export const isMobileBrowser = userAgent => {
+export const isMobileBrowser = (userAgent) => {
   const navigatorAgent = getNavigatorAgent(userAgent);
 
   return (

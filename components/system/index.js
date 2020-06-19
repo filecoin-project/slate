@@ -1,11 +1,11 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
-import * as SVG from '~/components/system/svg';
-import * as OldSVG from '~/common/svg';
-import * as Strings from '~/common/strings';
-import * as SubSystem from '~/components/system/sub-system';
+import * as React from "react";
+import * as Constants from "~/common/constants";
+import * as SVG from "~/components/system/svg";
+import * as OldSVG from "~/common/svg";
+import * as Strings from "~/common/strings";
+import * as SubSystem from "~/components/system/sub-system";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 //
 //
@@ -30,7 +30,7 @@ import { css } from '@emotion/react';
 // UTILITY COMPONENTS
 // ----------------------------------------------------------------------------
 
-import TextareaAutoSize from '~/vendor/react-textarea-autosize';
+import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
 //
 //
@@ -55,9 +55,9 @@ import TextareaAutoSize from '~/vendor/react-textarea-autosize';
 // VENDOR
 // ----------------------------------------------------------------------------
 
-import { Tooltip } from 'react-tippy';
-import { LineChart } from '~/vendor/react-chartkick';
-import 'chart.js';
+import { Tooltip } from "react-tippy";
+import { LineChart } from "~/vendor/react-chartkick";
+import "chart.js";
 
 //
 //
@@ -83,7 +83,7 @@ import 'chart.js';
 // ----------------------------------------------------------------------------
 
 const STYLES_CODE_TEXTAREA = css`
-  font-family: 'mono';
+  font-family: "mono";
   display: block;
   max-width: 480px;
   border-radius: 4px;
@@ -160,7 +160,9 @@ export class TooltipAnchor extends React.Component {
           {this.props.children ? (
             this.props.children
           ) : (
-            <SVG.Information height={this.props.height ? this.props.height : '24px'} />
+            <SVG.Information
+              height={this.props.height ? this.props.height : "24px"}
+            />
           )}
         </span>
       </Tooltip>
@@ -196,7 +198,8 @@ const STYLES_POPOVER = css`
   width: 288px;
   border-radius: 4px;
   background-color: ${Constants.system.white};
-  box-shadow: inset 0 0 0 1px ${Constants.system.border}, 0 1px 4px rgba(0, 0, 0, 0.07);
+  box-shadow: inset 0 0 0 1px ${Constants.system.border},
+    0 1px 4px rgba(0, 0, 0, 0.07);
 `;
 
 const STYLES_POPOVER_ITEM = css`
@@ -220,7 +223,7 @@ const STYLES_POPOVER_ITEM = css`
 export class PopoverNavigation extends React.Component {
   static defaultProps = {
     onNavigateTo: () => {
-      console.error('requires onNavigateTo');
+      console.error("requires onNavigateTo");
     },
   };
 
@@ -229,7 +232,11 @@ export class PopoverNavigation extends React.Component {
       <div css={STYLES_POPOVER} style={this.props.style}>
         {this.props.navigation.map((each) => {
           return (
-            <div key={each.value} css={STYLES_POPOVER_ITEM} onClick={() => this.props.onNavigateTo({ id: each.value })}>
+            <div
+              key={each.value}
+              css={STYLES_POPOVER_ITEM}
+              onClick={() => this.props.onNavigateTo({ id: each.value })}
+            >
               {each.text}
             </div>
           );
@@ -291,7 +298,7 @@ const STYLES_STAT_CARD_VALUE_GROUP = css`
 `;
 
 const STYLES_STAT_CARD_VALUE = css`
-  font-family: 'inter-medium';
+  font-family: "inter-medium";
   font-size: ${Constants.typescale.lvl3};
   color: ${Constants.system.brand};
   display: block;
@@ -299,7 +306,7 @@ const STYLES_STAT_CARD_VALUE = css`
 
 const STYLES_STAT_CARD_DENOMINATION = css`
   display: block;
-  font-family: 'inter-semi-bold';
+  font-family: "inter-semi-bold";
   font-size: 10px;
   letter-spacing: 0.1px;
   margin: 4px 0 16px 0;
@@ -312,12 +319,14 @@ export const StatCard = (props) => {
     <div css={STYLES_STAT_CARD}>
       <div css={STYLES_STAT_CARD_TOP}>
         <div css={STYLES_STAT_CARD_VALUE_GROUP}>
-          <span css={STYLES_STAT_CARD_VALUE}>{Strings.formatNumber(props.value)}</span>{' '}
+          <span css={STYLES_STAT_CARD_VALUE}>
+            {Strings.formatNumber(props.value)}
+          </span>{" "}
           <span css={STYLES_STAT_CARD_DENOMINATION}>{props.denomination}</span>
           <LineChart
             data={props.data}
             library={{
-              backgroundColor: 'transparent',
+              backgroundColor: "transparent",
               scales: {
                 yAxes: [
                   {
@@ -363,14 +372,14 @@ export const StatCard = (props) => {
 // ----------------------------------------------------------------------------
 
 const TABLE_COLUMN_WIDTH_DEFAULTS = {
-  1: '100%',
-  2: '50%',
-  3: '33.333%',
-  4: '25%',
-  5: '20%',
-  6: '16.666%',
-  7: '14.28%',
-  8: '12.5%',
+  1: "100%",
+  2: "50%",
+  3: "33.333%",
+  4: "25%",
+  5: "20%",
+  6: "16.666%",
+  7: "14.28%",
+  8: "12.5%",
 };
 
 const STYLES_TABLE_PLACEHOLDER = css`
@@ -417,7 +426,7 @@ const STYLES_TABLE_SELECTED_ROW = css`
 `;
 
 const STYLES_TABLE_TOP_ROW = css`
-  font-family: 'inter-semi-bold';
+  font-family: "inter-semi-bold";
   width: 100%;
   padding: 0 8px 0 8px;
   border-bottom: 1px solid ${Constants.system.gray};
@@ -427,8 +436,8 @@ const STYLES_TABLE_TOP_ROW = css`
 
 export class Table extends React.Component {
   static defaultProps = {
-    onNavigateTo: () => console.log('No navigation function set'),
-    onAction: () => console.log('No action function set'),
+    onNavigateTo: () => console.log("No navigation function set"),
+    onAction: () => console.log("No action function set"),
   };
 
   _handleChange = (value) => {
@@ -453,7 +462,7 @@ export class Table extends React.Component {
       ac[data.columns[x].key] = {
         ...data.columns[x],
         index: x,
-        color: x % 2 !== 0 ? 'rgba(0, 0, 0, 0.01)' : null,
+        color: x % 2 !== 0 ? "rgba(0, 0, 0, 0.01)" : null,
       };
     }
 
@@ -463,11 +472,15 @@ export class Table extends React.Component {
       <React.Fragment>
         <div css={STYLES_TABLE_TOP_ROW}>
           {data.columns.map((c, cIndex) => {
-            const text = c.hideLabel ? '' : Strings.isEmpty(c.name) ? c.key : c.name;
+            const text = c.hideLabel
+              ? ""
+              : Strings.isEmpty(c.name)
+              ? c.key
+              : c.name;
             let localWidth = c.width ? c.width : width;
-            let flexShrink = c.width && c.width !== '100%' ? '0' : null;
+            let flexShrink = c.width && c.width !== "100%" ? "0" : null;
             if (cIndex === 0 && !c.width) {
-              localWidth = '100%';
+              localWidth = "100%";
             }
 
             return (
@@ -479,7 +492,8 @@ export class Table extends React.Component {
                   backgroundColor: ac[c.key].color,
                   flexShrink,
                 }}
-                tooltip={c.tooltip}>
+                tooltip={c.tooltip}
+              >
                 {text}
               </SubSystem.TableColumn>
             );
@@ -497,9 +511,10 @@ export class Table extends React.Component {
                   const text = r[each];
 
                   let localWidth = field.width ? field.width : width;
-                  let flexShrink = field.width && field.width !== '100%' ? '0' : null;
+                  let flexShrink =
+                    field.width && field.width !== "100%" ? "0" : null;
                   if (cIndex === 0 && !field.width) {
-                    localWidth = '100%';
+                    localWidth = "100%";
                   }
 
                   return (
@@ -510,7 +525,8 @@ export class Table extends React.Component {
                         backgroundColor: field.color,
                         flexShrink,
                       }}
-                      copyable={field.copyable}>
+                      copyable={field.copyable}
+                    >
                       <SubSystem.TableContent
                         data={r}
                         text={text}
@@ -610,7 +626,7 @@ const STYLES_BUTTON_PRIMARY = css`
 `;
 
 export const ButtonPrimary = (props) => {
-  if (props.type === 'label') {
+  if (props.type === "label") {
     return <label css={STYLES_BUTTON_PRIMARY} {...props} />;
   }
 
@@ -637,7 +653,7 @@ const STYLES_BUTTON_PRIMARY_FULL = css`
 `;
 
 export const ButtonPrimaryFull = (props) => {
-  if (props.type === 'label') {
+  if (props.type === "label") {
     return <label css={STYLES_BUTTON_PRIMARY_FULL} {...props} />;
   }
 
@@ -664,7 +680,7 @@ const STYLES_BUTTON_SECONDARY = css`
 `;
 
 export const ButtonSecondary = (props) => {
-  if (props.type === 'label') {
+  if (props.type === "label") {
     return <label css={STYLES_BUTTON_SECONDARY} {...props} />;
   }
 
@@ -691,7 +707,7 @@ const STYLES_BUTTON_SECONDARY_FULL = css`
 `;
 
 export const ButtonSecondaryFull = (props) => {
-  if (props.type === 'label') {
+  if (props.type === "label") {
     return <label css={STYLES_BUTTON_SECONDARY_FULL} {...props} />;
   }
 
@@ -790,8 +806,12 @@ export class Toggle extends React.Component {
         onClick={this._handleChange}
         style={{
           backgroundColor: this.props.active ? Constants.system.brand : null,
-        }}>
-        <figure css={STYLES_DIAL} style={{ transform: this.props.active ? `translateX(40px)` : null }} />
+        }}
+      >
+        <figure
+          css={STYLES_DIAL}
+          style={{ transform: this.props.active ? `translateX(40px)` : null }}
+        />
       </div>
     );
   }
@@ -881,7 +901,7 @@ const STYLES_RADIO_LABEL = css`
   overflow-wrap: break-word;
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: "inter-semi-bold";
     font-weight: 400;
   }
 `;
@@ -902,7 +922,10 @@ export class RadioGroup extends React.Component {
           return (
             <label css={STYLES_RADIO} key={`radio-${radio.value}`}>
               <span css={STYLES_RADIO_CUSTOM}>
-                <span css={STYLES_RADIO_CUSTOM_SELECTED} style={{ opacity: checked ? 1 : 0 }} />
+                <span
+                  css={STYLES_RADIO_CUSTOM_SELECTED}
+                  style={{ opacity: checked ? 1 : 0 }}
+                />
               </span>
               <input
                 css={STYLES_RADIO_INPUT}
@@ -910,7 +933,7 @@ export class RadioGroup extends React.Component {
                 value={radio.value}
                 checked={checked}
                 onChange={() => this._handleChange(radio.value)}
-              />{' '}
+              />{" "}
               <span css={STYLES_RADIO_LABEL}>{radio.label}</span>
             </label>
           );
@@ -983,7 +1006,7 @@ const STYLES_CHECKBOX_LABEL = css`
   overflow-wrap: break-word;
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: "inter-semi-bold";
     font-weight: 400;
   }
 `;
@@ -998,7 +1021,9 @@ export class CheckBox extends React.Component {
   render() {
     return (
       <label css={STYLES_CHECKBOX} style={this.props.style}>
-        <figure css={STYLES_CHECKBOX_FIGURE}>{this.props.value ? <SVG.CheckBox height="20px" /> : null}</figure>
+        <figure css={STYLES_CHECKBOX_FIGURE}>
+          {this.props.value ? <SVG.CheckBox height="20px" /> : null}
+        </figure>
         <input
           css={STYLES_CHECKBOX_INPUT}
           name={this.props.name}
@@ -1039,14 +1064,15 @@ const STYLES_CARD_TAB_GROUP = css`
   width: 100%;
   display: flex;
   align-items: flex-start;
-  box-shadow: 0 -1px 0 0 ${Constants.system.border}, 0 1px 0 0 ${Constants.system.border};
+  box-shadow: 0 -1px 0 0 ${Constants.system.border},
+    0 1px 0 0 ${Constants.system.border};
 `;
 
 const STYLES_CARD_TAB_GROUP_TAB = css`
   background: #fdfdfd;
   color: rgba(0, 0, 0, 0.4);
   font-size: 14px;
-  font-family: 'inter-semi-bold';
+  font-family: "inter-semi-bold";
   height: 48px;
   display: inline-flex;
   align-items: center;
@@ -1084,11 +1110,14 @@ export class CardTabGroup extends React.Component {
               style={{
                 color: selected ? Constants.system.brand : null,
                 backgroundColor: selected ? Constants.system.white : null,
-                borderBottom: selected ? `2px solid ${Constants.system.brand}` : null,
+                borderBottom: selected
+                  ? `2px solid ${Constants.system.brand}`
+                  : null,
                 width: TAB_GROUP_SIZE_MAP[this.props.options.length],
-                cursor: !selected ? 'pointer' : null,
+                cursor: !selected ? "pointer" : null,
               }}
-              onClick={() => this._handleChange(tab.value)}>
+              onClick={() => this._handleChange(tab.value)}
+            >
               {tab.label}
             </div>
           );
@@ -1136,7 +1165,7 @@ const STYLES_TAB_GROUP_TAB = css`
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  font-family: 'inter-semi-bold';
+  font-family: "inter-semi-bold";
   transition: 200ms ease all;
   user-select: none;
 
@@ -1146,10 +1175,10 @@ const STYLES_TAB_GROUP_TAB = css`
 `;
 
 const TAB_GROUP_SIZE_MAP = {
-  1: '100%',
-  2: '50%',
-  3: '33.33%',
-  4: '25%',
+  1: "100%",
+  2: "50%",
+  3: "33.33%",
+  4: "25%",
 };
 
 export class TabGroup extends React.Component {
@@ -1172,10 +1201,11 @@ export class TabGroup extends React.Component {
               style={{
                 backgroundColor: selected ? Constants.system.white : null,
                 width: TAB_GROUP_SIZE_MAP[this.props.options.length],
-                cursor: !selected ? 'pointer' : null,
+                cursor: !selected ? "pointer" : null,
                 borderBottom: !selected ? `1px solid #D7D7D7` : null,
               }}
-              onClick={() => this._handleChange(tab.value)}>
+              onClick={() => this._handleChange(tab.value)}
+            >
               {tab.label}
             </div>
           );
@@ -1209,7 +1239,7 @@ export class TabGroup extends React.Component {
 // ----------------------------------------------------------------------------
 
 const STYLES_DESCRIPTION_GROUP_LABEL = css`
-  font-family: 'inter-semi-bold';
+  font-family: "inter-semi-bold";
   font-size: 14px;
   padding: 0 0 0 0;
   margin-bottom: 8px;
@@ -1226,12 +1256,20 @@ export const DescriptionGroup = (props) => {
     <div style={props.style}>
       {!Strings.isEmpty(props.label) ? (
         <div css={STYLES_DESCRIPTION_GROUP_LABEL}>
-          {props.label}{' '}
-          {props.tooltip ? <TooltipAnchor tooltip={props.tooltip} height="14px" style={{ paddingTop: 16 }} /> : null}
+          {props.label}{" "}
+          {props.tooltip ? (
+            <TooltipAnchor
+              tooltip={props.tooltip}
+              height="14px"
+              style={{ paddingTop: 16 }}
+            />
+          ) : null}
         </div>
       ) : null}
       {!Strings.isEmpty(props.description) ? (
-        <div css={STYLES_DESCRIPTION_GROUP_DESCRIPTION}>{props.description}</div>
+        <div css={STYLES_DESCRIPTION_GROUP_DESCRIPTION}>
+          {props.description}
+        </div>
       ) : null}
     </div>
   );
@@ -1286,12 +1324,14 @@ const INPUT_STYLES = css`
 const STYLES_INPUT = css`
   ${INPUT_STYLES}
   padding: 0 24px 0 24px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), inset 0 0 0 1px ${Constants.system.darkGray};
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px ${Constants.system.darkGray};
 
   :focus {
     outline: 0;
     border: 0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${Constants.system.brand};
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07),
+      inset 0 0 0 2px ${Constants.system.brand};
   }
 
   ::placeholder {
@@ -1335,7 +1375,7 @@ export class Input extends React.Component {
 
   _handleCopy = (e) => {
     this._input.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
   };
 
   _handleKeyUp = (e) => {
@@ -1348,7 +1388,10 @@ export class Input extends React.Component {
   };
 
   _handleChange = (e) => {
-    if (!Strings.isEmpty(this.props.pattern) && !Strings.isEmpty(e.target.value)) {
+    if (
+      !Strings.isEmpty(this.props.pattern) &&
+      !Strings.isEmpty(e.target.value)
+    ) {
       const TestRegex = new RegExp(this.props.pattern);
       if (!TestRegex.test(e.target.value)) {
         e.preventDefault();
@@ -1369,7 +1412,11 @@ export class Input extends React.Component {
   render() {
     return (
       <div css={STYLES_INPUT_CONTAINER} style={this.props.containerStyle}>
-        <DescriptionGroup tooltip={this.props.tooltip} label={this.props.label} description={this.props.description} />
+        <DescriptionGroup
+          tooltip={this.props.tooltip}
+          label={this.props.label}
+          description={this.props.description}
+        />
         <input
           ref={(c) => {
             this._input = c;
@@ -1386,12 +1433,18 @@ export class Input extends React.Component {
           style={{
             ...this.props.style,
             boxShadow: this.props.validation
-              ? `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${INPUT_COLOR_MAP[this.props.validation]}`
+              ? `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
+                  INPUT_COLOR_MAP[this.props.validation]
+                }`
               : null,
           }}
         />
         {this.props.copyable ? (
-          <SVG.CopyAndPaste height="16px" css={STYLES_COPY_AND_PASTE} onClick={this._handleCopy} />
+          <SVG.CopyAndPaste
+            height="16px"
+            css={STYLES_COPY_AND_PASTE}
+            onClick={this._handleCopy}
+          />
         ) : null}
       </div>
     );
@@ -1439,7 +1492,8 @@ const STYLES_TEXTAREA = css`
   box-sizing: border-box;
   transition: 200ms ease all;
   padding: 16px 24px 16px 24px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), inset 0 0 0 1px ${Constants.system.darkGray};
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px ${Constants.system.darkGray};
 `;
 
 export class Textarea extends React.Component {
@@ -1535,7 +1589,10 @@ export const SelectMenu = (props) => {
 
       <div css={props.className ? props.className : STYLES_SELECT_MENU}>
         <label css={STYLES_SELECT_MENU_LABEL} htmlFor={`id-${props.name}`}>
-          {props.children} {props.category ? <span css={STYLES_SELECT_MENU_CATEGORY}>{props.category}</span> : null}
+          {props.children}{" "}
+          {props.category ? (
+            <span css={STYLES_SELECT_MENU_CATEGORY}>{props.category}</span>
+          ) : null}
           <SVG.ChevronDown height="16px" css={STYLES_SELECT_MENU_CHEVRON} />
         </label>
         <select
@@ -1543,7 +1600,8 @@ export const SelectMenu = (props) => {
           value={props.value}
           onChange={props.onChange}
           name={props.name}
-          id={`id-${props.name}`}>
+          id={`id-${props.name}`}
+        >
           {props.options.map((each) => {
             return (
               <option value={each.value} key={each.value}>
@@ -1557,7 +1615,9 @@ export const SelectMenu = (props) => {
   );
 };
 
-export const SelectMenuFull = (props) => <SelectMenu {...props} css={STYLES_SELECT_MENU_FULL} />;
+export const SelectMenuFull = (props) => (
+  <SelectMenu {...props} css={STYLES_SELECT_MENU_FULL} />
+);
 
 //
 //
@@ -1585,11 +1645,11 @@ export const SelectMenuFull = (props) => <SelectMenu {...props} css={STYLES_SELE
 const STYLES_H1 = css`
   font-size: ${Constants.typescale.lvl4};
   line-height: 1.1;
-  font-family: 'inter-semi-bold';
+  font-family: "inter-semi-bold";
   font-weight: 400;
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: "inter-semi-bold";
     font-weight: 400;
   }
 `;
@@ -1601,11 +1661,11 @@ export const H1 = (props) => {
 const STYLES_H2 = css`
   font-size: ${Constants.typescale.lvl3};
   line-height: 1.1;
-  font-family: 'inter-medium';
+  font-family: "inter-medium";
   font-weight: 400;
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: "inter-semi-bold";
     font-weight: 400;
   }
 `;
@@ -1619,7 +1679,7 @@ const STYLES_P = css`
   line-height: 1.5;
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: "inter-semi-bold";
     font-weight: 400;
   }
 `;
@@ -1654,7 +1714,7 @@ export const P = (props) => {
 const STYLES_BANDWIDTH = css`
   padding: 8px 8px 8px 8px;
   display: inline-flex;
-  font-family: 'mono';
+  font-family: "mono";
   font-size: 12px;
   letter-spacing: 0.2px;
   align-items: center;
@@ -1664,7 +1724,8 @@ const STYLES_BANDWIDTH = css`
 export const StatUpload = (props) => {
   return (
     <div css={STYLES_BANDWIDTH} style={props.style}>
-      <SVG.BandwidthUp height="16px" style={{ marginRight: 8 }} /> {props.children}
+      <SVG.BandwidthUp height="16px" style={{ marginRight: 8 }} />{" "}
+      {props.children}
     </div>
   );
 };
@@ -1672,7 +1733,8 @@ export const StatUpload = (props) => {
 export const StatDownload = (props) => {
   return (
     <div css={STYLES_BANDWIDTH} style={props.style}>
-      <SVG.BandwidthDown height="16px" style={{ marginRight: 8 }} /> {props.children}
+      <SVG.BandwidthDown height="16px" style={{ marginRight: 8 }} />{" "}
+      {props.children}
     </div>
   );
 };

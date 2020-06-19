@@ -1,13 +1,13 @@
-import * as React from 'react';
-import * as Strings from '~/common/strings';
-import * as Constants from '~/common/constants';
-import * as Fixtures from '~/common/fixtures';
-import * as System from '~/components/system';
+import * as React from "react";
+import * as Strings from "~/common/strings";
+import * as Constants from "~/common/constants";
+import * as Fixtures from "~/common/fixtures";
+import * as System from "~/components/system";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import Section from '~/components/core/Section';
-import ScenePage from '~/components/core/ScenePage';
+import Section from "~/components/core/Section";
+import ScenePage from "~/components/core/ScenePage";
 
 export default class SceneFilesFolder extends React.Component {
   state = {};
@@ -24,20 +24,21 @@ export default class SceneFilesFolder extends React.Component {
 
     const data = {
       columns: [
-        { key: 'icon', hideLabel: true, width: '32px', type: 'ICON' },
-        { key: 'file', name: 'File', width: '100%', type: 'FILE_LINK' },
-        { key: 'size', name: 'Size', width: '140px', type: 'FILE_SIZE' },
+        { key: "icon", hideLabel: true, width: "32px", type: "ICON" },
+        { key: "file", name: "File", width: "100%", type: "FILE_LINK" },
+        { key: "size", name: "Size", width: "140px", type: "FILE_SIZE" },
         {
-          key: 'date',
-          name: 'Date uploaded',
-          width: '160px',
-          tooltip: 'This date represents when the file was first uploaded to the network.',
-          type: 'FILE_DATE',
+          key: "date",
+          name: "Date uploaded",
+          width: "160px",
+          tooltip:
+            "This date represents when the file was first uploaded to the network.",
+          type: "FILE_DATE",
         },
         {
-          key: 'storage_status',
-          name: 'Status',
-          type: 'DEAL_STATUS',
+          key: "storage_status",
+          name: "Status",
+          type: "DEAL_STATUS",
         },
       ],
       rows,
@@ -51,11 +52,12 @@ export default class SceneFilesFolder extends React.Component {
           title={this.props.data.name}
           buttons={[
             {
-              name: 'Store file on network',
-              type: 'SIDEBAR',
-              value: 'SIDEBAR_FILE_STORAGE_DEAL',
+              name: "Store file on network",
+              type: "SIDEBAR",
+              value: "SIDEBAR_FILE_STORAGE_DEAL",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             key={this.props.data.folderId}
             data={data}

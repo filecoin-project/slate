@@ -1,22 +1,24 @@
-import 'isomorphic-fetch';
+import "isomorphic-fetch";
 
-import * as State from '~/common/state';
-import * as Strings from '~/common/strings';
+import * as State from "~/common/state";
+import * as Strings from "~/common/strings";
 
 const REQUEST_HEADERS = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
+  Accept: "application/json",
+  "Content-Type": "application/json",
 };
 
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV !== "production";
 
-const SERVER_PATH = dev ? 'http://localhost:1337' : 'https://filecoin.onrender.com';
+const SERVER_PATH = dev
+  ? "http://localhost:1337"
+  : "https://filecoin.onrender.com";
 
 export const rehydrateViewer = async () => {
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: REQUEST_HEADERS,
-    credentials: 'include',
+    credentials: "include",
     body: JSON.stringify({}),
   };
 
@@ -28,9 +30,9 @@ export const rehydrateViewer = async () => {
 
 export const setDefaultConfig = async (data) => {
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: REQUEST_HEADERS,
-    credentials: 'include',
+    credentials: "include",
     body: JSON.stringify(data),
   };
 
@@ -46,9 +48,9 @@ export const createWalletAddress = async (data) => {
   }
 
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: REQUEST_HEADERS,
-    credentials: 'include',
+    credentials: "include",
     body: JSON.stringify(data),
   };
 
@@ -72,9 +74,9 @@ export const sendWalletAddressFilecoin = async (data) => {
   }
 
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: REQUEST_HEADERS,
-    credentials: 'include',
+    credentials: "include",
     body: JSON.stringify(data),
   };
 

@@ -1,14 +1,14 @@
-import * as React from 'react';
-import * as Strings from '~/common/strings';
-import * as Constants from '~/common/constants';
-import * as Fixtures from '~/common/fixtures';
-import * as System from '~/components/system';
-import * as SchemaTable from '~/common/schema-table';
+import * as React from "react";
+import * as Strings from "~/common/strings";
+import * as Constants from "~/common/constants";
+import * as Fixtures from "~/common/fixtures";
+import * as System from "~/components/system";
+import * as SchemaTable from "~/common/schema-table";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import Section from '~/components/core/Section';
-import ScenePage from '~/components/core/ScenePage';
+import Section from "~/components/core/Section";
+import ScenePage from "~/components/core/ScenePage";
 
 export default class SceneDeals extends React.Component {
   state = {};
@@ -20,7 +20,12 @@ export default class SceneDeals extends React.Component {
   render() {
     return (
       <ScenePage>
-        <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="All deals" buttons={[]}>
+        <Section
+          onAction={this.props.onAction}
+          onNavigateTo={this.props.onNavigateTo}
+          title="All deals"
+          buttons={[]}
+        >
           <System.Table
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}

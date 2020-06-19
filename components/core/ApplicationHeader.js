@@ -1,11 +1,11 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
-import * as System from '~/components/system';
-import * as SVG from '~/common/svg';
+import * as React from "react";
+import * as Constants from "~/common/constants";
+import * as System from "~/components/system";
+import * as SVG from "~/common/svg";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import Avatar from '~/components/core/Avatar';
+import Avatar from "~/components/core/Avatar";
 
 const STYLES_CIRCLE = css`
   height: 32px;
@@ -113,38 +113,57 @@ const STYLES_INPUT = css`
   transition: 200ms ease all;
 
   :focus {
-    box-shadow: 0 1px 4px rgba(0, 71, 255, 0.3), inset 0 0 0 1px ${Constants.system.brand};
+    box-shadow: 0 1px 4px rgba(0, 71, 255, 0.3),
+      inset 0 0 0 1px ${Constants.system.brand};
     outline: 0;
   }
 `;
 
 export default class ApplicationHeader extends React.Component {
   render() {
-    const isBackDisabled = this.props.currentIndex === 0 || this.props.history.length < 2;
+    const isBackDisabled =
+      this.props.currentIndex === 0 || this.props.history.length < 2;
 
     const isForwardDisabled =
-      this.props.currentIndex === this.props.history.length - 1 || this.props.history.length < 2;
+      this.props.currentIndex === this.props.history.length - 1 ||
+      this.props.history.length < 2;
 
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
-          <span css={STYLES_ICON_ELEMENT_CUSTOM} style={{ marginRight: 16, marginLeft: 12 }}>
+          <span
+            css={STYLES_ICON_ELEMENT_CUSTOM}
+            style={{ marginRight: 16, marginLeft: 12 }}
+          >
             <SVG.Logo height="32px" />
           </span>
           <span
             css={STYLES_ICON_ELEMENT}
-            style={isBackDisabled ? { cursor: 'not-allowed', color: Constants.system.border } : null}
-            onClick={isBackDisabled ? () => {} : this.props.onBack}>
-            <SVG.NavigationArrow height="16px" style={{ transform: `rotate(180deg)` }} />
+            style={
+              isBackDisabled
+                ? { cursor: "not-allowed", color: Constants.system.border }
+                : null
+            }
+            onClick={isBackDisabled ? () => {} : this.props.onBack}
+          >
+            <SVG.NavigationArrow
+              height="16px"
+              style={{ transform: `rotate(180deg)` }}
+            />
           </span>
           <span
             css={STYLES_ICON_ELEMENT}
-            style={isForwardDisabled ? { cursor: 'not-allowed', color: Constants.system.border } : null}
-            onClick={isForwardDisabled ? () => {} : this.props.onForward}>
+            style={
+              isForwardDisabled
+                ? { cursor: "not-allowed", color: Constants.system.border }
+                : null
+            }
+            onClick={isForwardDisabled ? () => {} : this.props.onForward}
+          >
             <SVG.NavigationArrow height="16px" />
           </span>
         </div>
-        <div css={STYLES_MIDDLE}></div>
+        <div css={STYLES_MIDDLE} />
         <div css={STYLES_RIGHT}>
           <Avatar
             style={{ marginLeft: 12 }}
@@ -153,12 +172,12 @@ export default class ApplicationHeader extends React.Component {
             url={this.props.viewer.photoURL}
             popover={
               <System.PopoverNavigation
-                style={{ right: 0, top: '48px', cursor: 'pointer' }}
+                style={{ right: 0, top: "48px", cursor: "pointer" }}
                 onNavigateTo={this.props.onNavigateTo}
                 onAction={this.props.onAction}
                 navigation={[
-                  { text: 'Edit account', value: 13 },
-                  { text: 'Settings', value: 14 },
+                  { text: "Edit account", value: 13 },
+                  { text: "Settings", value: 14 },
                 ]}
               />
             }

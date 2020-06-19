@@ -1,16 +1,16 @@
-import * as React from 'react';
-import * as Strings from '~/common/strings';
-import * as Constants from '~/common/constants';
-import * as Fixtures from '~/common/fixtures';
-import * as System from '~/components/system';
-import * as SchemaTable from '~/common/schema-table';
-import * as Data from '~/common/data';
+import * as React from "react";
+import * as Strings from "~/common/strings";
+import * as Constants from "~/common/constants";
+import * as Fixtures from "~/common/fixtures";
+import * as System from "~/components/system";
+import * as SchemaTable from "~/common/schema-table";
+import * as Data from "~/common/data";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import GLRenderer from '~/components/three/GLRenderer';
-import Section from '~/components/core/Section';
-import ScenePage from '~/components/core/ScenePage';
+import GLRenderer from "~/components/three/GLRenderer";
+import Section from "~/components/core/Section";
+import ScenePage from "~/components/core/ScenePage";
 
 const STYLES_ROW = css`
   display: flex;
@@ -61,31 +61,37 @@ export default class SceneHome extends React.Component {
             title="Recent data"
             buttons={[
               {
-                name: 'View files',
-                type: 'NAVIGATE',
+                name: "View files",
+                type: "NAVIGATE",
                 value: this.props.viewer.library[0].folderId,
               },
               {
-                name: 'Store file on network',
-                type: 'SIDEBAR',
-                value: 'SIDEBAR_FILE_STORAGE_DEAL',
+                name: "Store file on network",
+                type: "SIDEBAR",
+                value: "SIDEBAR_FILE_STORAGE_DEAL",
               },
-            ]}>
+            ]}
+          >
             <System.Table
               data={{
                 columns: [
-                  { key: 'file', name: 'File', type: 'FILE_LINK' },
-                  { key: 'size', name: 'Size', width: '140px', type: 'FILE_SIZE' },
+                  { key: "file", name: "File", type: "FILE_LINK" },
                   {
-                    key: 'date',
-                    name: 'Date uploaded',
-                    width: '160px',
-                    type: 'FILE_DATE',
+                    key: "size",
+                    name: "Size",
+                    width: "140px",
+                    type: "FILE_SIZE",
                   },
                   {
-                    key: 'storage_status',
-                    name: 'Status',
-                    type: 'DEAL_STATUS',
+                    key: "date",
+                    name: "Date uploaded",
+                    width: "160px",
+                    type: "FILE_DATE",
+                  },
+                  {
+                    key: "storage_status",
+                    name: "Status",
+                    type: "DEAL_STATUS",
                   },
                 ],
                 rows: this.props.viewer.library[0].children,
@@ -106,17 +112,18 @@ export default class SceneHome extends React.Component {
             title="Wallet addresses"
             buttons={[
               {
-                name: 'View all',
-                type: 'NAVIGATE',
+                name: "View all",
+                type: "NAVIGATE",
                 value: 2,
               },
-            ]}>
+            ]}
+          >
             <System.Table
               data={{
                 columns: [
-                  { key: 'address', name: 'Address' },
-                  { key: 'balance', name: 'Filecoin', width: '228px' },
-                  { key: 'type', name: 'Type' },
+                  { key: "address", name: "Address" },
+                  { key: "balance", name: "Filecoin", width: "228px" },
+                  { key: "type", name: "Type" },
                 ],
                 rows: this.props.viewer.addresses,
               }}

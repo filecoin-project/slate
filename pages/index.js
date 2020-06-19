@@ -1,39 +1,39 @@
-import * as React from 'react';
-import * as Fixtures from '~/common/fixtures';
-import * as Actions from '~/common/actions';
-import * as State from '~/common/state';
+import * as React from "react";
+import * as Fixtures from "~/common/fixtures";
+import * as Actions from "~/common/actions";
+import * as State from "~/common/state";
 
-import SceneDataTransfer from '~/scenes/SceneDataTransfer';
-import SceneDeals from '~/scenes/SceneDeals';
-import SceneEditAccount from '~/scenes/SceneEditAccount';
-import SceneFile from '~/scenes/SceneFile';
-import SceneFilesFolder from '~/scenes/SceneFilesFolder';
-import SceneHome from '~/scenes/SceneHome';
-import SceneLogs from '~/scenes/SceneLogs';
-import SceneMiners from '~/scenes/SceneMiners';
-import ScenePaymentChannels from '~/scenes/ScenePaymentChannels';
-import ScenePeers from '~/scenes/ScenePeers';
-import SceneSettings from '~/scenes/SceneSettings';
-import SceneStats from '~/scenes/SceneStats';
-import SceneStatus from '~/scenes/SceneStatus';
-import SceneStorageMarket from '~/scenes/SceneStorageMarket';
-import SceneWallet from '~/scenes/SceneWallet';
+import SceneDataTransfer from "~/scenes/SceneDataTransfer";
+import SceneDeals from "~/scenes/SceneDeals";
+import SceneEditAccount from "~/scenes/SceneEditAccount";
+import SceneFile from "~/scenes/SceneFile";
+import SceneFilesFolder from "~/scenes/SceneFilesFolder";
+import SceneHome from "~/scenes/SceneHome";
+import SceneLogs from "~/scenes/SceneLogs";
+import SceneMiners from "~/scenes/SceneMiners";
+import ScenePaymentChannels from "~/scenes/ScenePaymentChannels";
+import ScenePeers from "~/scenes/ScenePeers";
+import SceneSettings from "~/scenes/SceneSettings";
+import SceneStats from "~/scenes/SceneStats";
+import SceneStatus from "~/scenes/SceneStatus";
+import SceneStorageMarket from "~/scenes/SceneStorageMarket";
+import SceneWallet from "~/scenes/SceneWallet";
 
-import SidebarCreateWalletAddress from '~/components/sidebars/SidebarCreateWalletAddress';
-import SidebarDeleteWalletAddress from '~/components/sidebars/SidebarDeleteWalletAddress';
-import SidebarWalletSendFunds from '~/components/sidebars/SidebarWalletSendFunds';
-import SidebarFileStorageDeal from '~/components/sidebars/SidebarFileStorageDeal';
-import SidebarFileRetrievalDeal from '~/components/sidebars/SidebarFileRetrievalDeal';
-import SidebarCreatePaymentChannel from '~/components/sidebars/SidebarCreatePaymentChannel';
-import SidebarAddMiner from '~/components/sidebars/SidebarAddMiner';
-import SidebarAddPeer from '~/components/sidebars/SidebarAddPeer';
-import SidebarNotifications from '~/components/sidebars/SidebarNotifications';
-import SidebarRedeemPaymentChannel from '~/components/sidebars/SidebarRedeemPaymentChannel';
+import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalletAddress";
+import SidebarDeleteWalletAddress from "~/components/sidebars/SidebarDeleteWalletAddress";
+import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds";
+import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal";
+import SidebarFileRetrievalDeal from "~/components/sidebars/SidebarFileRetrievalDeal";
+import SidebarCreatePaymentChannel from "~/components/sidebars/SidebarCreatePaymentChannel";
+import SidebarAddMiner from "~/components/sidebars/SidebarAddMiner";
+import SidebarAddPeer from "~/components/sidebars/SidebarAddPeer";
+import SidebarNotifications from "~/components/sidebars/SidebarNotifications";
+import SidebarRedeemPaymentChannel from "~/components/sidebars/SidebarRedeemPaymentChannel";
 
-import ApplicationNavigation from '~/components/core/ApplicationNavigation';
-import ApplicationHeader from '~/components/core/ApplicationHeader';
-import ApplicationLayout from '~/components/core/ApplicationLayout';
-import WebsitePrototypeWrapper from '~/components/core/WebsitePrototypeWrapper';
+import ApplicationNavigation from "~/components/core/ApplicationNavigation";
+import ApplicationHeader from "~/components/core/ApplicationHeader";
+import ApplicationLayout from "~/components/core/ApplicationLayout";
+import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 
 const getCurrentNavigationStateById = (navigation, targetId) => {
   let target = null;
@@ -82,7 +82,7 @@ export default class IndexPage extends React.Component {
     currentIndex: 0,
     data: null,
     selected: {
-      address: '',
+      address: "",
     },
     viewer: State.getInitialState(this.props),
     sidebar: null,
@@ -92,10 +92,10 @@ export default class IndexPage extends React.Component {
     this._socket = new WebSocket(`ws://localhost:${this.props.wsPort}`);
     this._socket.onmessage = (m) => {
       console.log(m);
-      if (m.type === 'message') {
+      if (m.type === "message") {
         const parsed = JSON.parse(m.data);
 
-        if (parsed.action === 'UPDATE_VIEWER') {
+        if (parsed.action === "UPDATE_VIEWER") {
           this.rehydrate({ data: parsed.data });
         }
       }
@@ -108,11 +108,11 @@ export default class IndexPage extends React.Component {
 
   _handleSubmit = async (data) => {
     if (this.props.production) {
-      alert('TODO');
+      alert("TODO");
       return this._handleDismissSidebar();
     }
 
-    if (data.type === 'CREATE_WALLET_ADDRESS') {
+    if (data.type === "CREATE_WALLET_ADDRESS") {
       const address = await Actions.createWalletAddress({
         name: data.name,
         type: data.wallet_type,
@@ -120,7 +120,7 @@ export default class IndexPage extends React.Component {
       });
     }
 
-    if (data.type === 'SEND_WALLET_ADDRESS_FILECOIN') {
+    if (data.type === "SEND_WALLET_ADDRESS_FILECOIN") {
       const response = await Actions.sendWalletAddressFilecoin({
         source: data.source,
         target: data.target,
@@ -152,19 +152,19 @@ export default class IndexPage extends React.Component {
   };
 
   _handleAction = (options) => {
-    if (options.type === 'NAVIGATE') {
+    if (options.type === "NAVIGATE") {
       return this._handleNavigateTo({ id: options.value }, options.data);
     }
 
-    if (options.type === 'ACTION') {
+    if (options.type === "ACTION") {
       return alert(JSON.stringify(options));
     }
 
-    if (options.type === 'DOWNLOAD') {
+    if (options.type === "DOWNLOAD") {
       return alert(JSON.stringify(options));
     }
 
-    if (options.type === 'SIDEBAR') {
+    if (options.type === "SIDEBAR") {
       return this.setState({ sidebar: this.sidebars[options.value] });
     }
 
@@ -268,7 +268,9 @@ export default class IndexPage extends React.Component {
       return null;
     }
 
-    const navigation = Fixtures.generateNavigationState(this.state.viewer.library);
+    const navigation = Fixtures.generateNavigationState(
+      this.state.viewer.library
+    );
     const next = this.state.history[this.state.currentIndex];
     const current = getCurrentNavigationStateById(navigation, next.id);
 
@@ -321,17 +323,22 @@ export default class IndexPage extends React.Component {
     }
 
     const title = `Prototype 0.0.1 : ${current.target.pageTitle}`;
-    const description = 'This is an early preview.';
-    const url = 'https://fps.onrender.com/v1';
+    const description = "This is an early preview.";
+    const url = "https://fps.onrender.com/v1";
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper title={title} description={description} url={url}>
+        <WebsitePrototypeWrapper
+          title={title}
+          description={description}
+          url={url}
+        >
           <ApplicationLayout
             navigation={navigationElement}
             header={headerElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}>
+            onDismissSidebar={this._handleDismissSidebar}
+          >
             {scene}
           </ApplicationLayout>
         </WebsitePrototypeWrapper>

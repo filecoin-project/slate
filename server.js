@@ -1,24 +1,24 @@
-import * as Middleware from "~/common/middleware";
-import * as Strings from "~/common/strings";
-import * as Utilities from "~/node_common/utilities";
-import * as Constants from "~/node_common/constants";
+import * as Middleware from '~/common/middleware';
+import * as Strings from '~/common/strings';
+import * as Utilities from '~/node_common/utilities';
+import * as Constants from '~/node_common/constants';
 
-import { createPow, ffs } from "@textile/powergate-client";
+import { createPow, ffs } from '@textile/powergate-client';
 const PowerGate = createPow({ host: Constants.POWERGATE_HOST });
 
-import FS from "fs-extra";
-import WebSocketServer from "ws";
-import express from "express";
-import formidable from "formidable";
-import next from "next";
-import bodyParser from "body-parser";
-import compression from "compression";
+import FS from 'fs-extra';
+import WebSocketServer from 'ws';
+import express from 'express';
+import formidable from 'formidable';
+import next from 'next';
+import bodyParser from 'body-parser';
+import compression from 'compression';
 
 // TODO(jim): Support multiple desktop applications.
 let client = null;
 let state = null;
 
-const production = process.env.NODE_ENV === "production";
+const production = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 1337;
 const wsPort = process.env.WS_PORT || 2448;
 const app = next({ dev: !production, quiet: false });
@@ -27,14 +27,14 @@ const nextRequestHandler = app.getRequestHandler();
 const setIntervalViewerUpdatesUnsafe = async () => {
   if (client) {
     try {
-      console.log("[ prototype ] polling: new viewer state.");
+      console.log('[ prototype ] polling: new viewer state.');
       state = await Utilities.emitState({
         state,
         client,
         PG: PowerGate,
       });
 
-      console.log("[ prototype ] polling: new library state.");
+      console.log('[ prototype ] polling: new library state.');
       state = await Utilities.refreshLibrary({
         state,
         PG: PowerGate,
@@ -49,7 +49,7 @@ const setIntervalViewerUpdatesUnsafe = async () => {
 };
 
 app.prepare().then(async () => {
-  console.log("[ prototype ] initializing ");
+  console.log('[ prototype ] initializing ');
 
   state = {
     production,
@@ -72,7 +72,7 @@ app.prepare().then(async () => {
 
       const updates = await Utilities.refresh({ PG: PowerGate });
       state = await Utilities.updateStateData(state, updates);
-      console.log("[ prototype ] updated without token");
+      console.log('[ prototype ] updated without token');
 
       // NOTE(jim): This is a configuration folder with all of the client tokens.
       if (!FS.existsSync(`./.data`)) {
@@ -80,20 +80,20 @@ app.prepare().then(async () => {
       }
 
       // NOTE(jim): This will create a token for authentication with powergate.
-      if (!FS.existsSync("./.data/powergate-token")) {
+      if (!FS.existsSync('./.data/powergate-token')) {
         const FFS = await PowerGate.ffs.create();
         state.token = FFS.token ? FFS.token : null;
 
         // NOTE(jim): Write a new token file.
         if (state.token) {
-          FS.writeFileSync("./.data/powergate-token", state.token);
+          FS.writeFileSync('./.data/powergate-token', state.token);
         }
       } else {
-        state.token = FS.readFileSync("./.data/powergate-token", "utf8");
+        state.token = FS.readFileSync('./.data/powergate-token', 'utf8');
       }
 
       if (state.token) {
-        console.log("[ prototype ] powergate token:", state.token);
+        console.log('[ prototype ] powergate token:', state.token);
         PowerGate.setToken(state.token);
       }
 
@@ -101,45 +101,43 @@ app.prepare().then(async () => {
         PG: PowerGate,
       });
       state = await Utilities.updateStateData(state, tokenUpdates);
-      console.log("[ prototype ] updated with token");
+      console.log('[ prototype ] updated with token');
 
       // TODO(jim): Needs to support nested folders in the future.
-      if (!FS.existsSync("./.data/library.json")) {
+      if (!FS.existsSync('./.data/library.json')) {
         const librarySchema = {
           library: [
             {
               ...Utilities.createFolder({ id: Constants.FILE_STORAGE_URL }),
-              file: "Files",
-              name: "Files",
+              file: 'Files',
+              name: 'Files',
             },
           ],
         };
 
-        FS.writeFileSync("./.data/library.json", JSON.stringify(librarySchema));
+        FS.writeFileSync('./.data/library.json', JSON.stringify(librarySchema));
         state.library = librarySchema.library;
       } else {
-        const parsedLibrary = FS.readFileSync("./.data/library.json", "utf8");
+        const parsedLibrary = FS.readFileSync('./.data/library.json', 'utf8');
         state.library = JSON.parse(parsedLibrary).library;
       }
     } catch (e) {
-      console.log(
-        "[ prototype ] you can not run the filecoin client, only web views allowed."
-      );
+      console.log('[ prototype ] you can not run the filecoin client, only web views allowed.');
     }
   }
 
   const server = express();
   const WSS = new WebSocketServer.Server({ port: wsPort });
 
-  WSS.on("connection", (s) => {
+  WSS.on('connection', (s) => {
     // TODO(jim): Suppport more than one client.
     client = s;
 
-    s.on("close", function() {
-      s.send(JSON.stringify({ action: null, data: "closed" }));
+    s.on('close', function () {
+      s.send(JSON.stringify({ action: null, data: 'closed' }));
     });
 
-    s.send(JSON.stringify({ action: null, data: "connected" }));
+    s.send(JSON.stringify({ action: null, data: 'connected' }));
   });
 
   if (production) {
@@ -147,7 +145,7 @@ app.prepare().then(async () => {
   }
 
   server.use(Middleware.CORS);
-  server.use("/public", express.static("public"));
+  server.use('/public', express.static('public'));
   server.use(bodyParser.json());
   server.use(
     bodyParser.urlencoded({
@@ -155,7 +153,7 @@ app.prepare().then(async () => {
     })
   );
 
-  server.post("/_/viewer", async (req, res) => {
+  server.post('/_/viewer', async (req, res) => {
     let data = state;
 
     if (!production) {
@@ -172,7 +170,7 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, data });
   });
 
-  server.post("/_/deals/storage", async (req, res) => {
+  server.post('/_/deals/storage', async (req, res) => {
     if (Strings.isEmpty(req.body.src)) {
       return res.status(500).send({ success: false });
     }
@@ -196,17 +194,14 @@ app.prepare().then(async () => {
     }
 
     if (write) {
-      FS.writeFileSync(
-        "./.data/library.json",
-        JSON.stringify({ library: state.library })
-      );
+      FS.writeFileSync('./.data/library.json', JSON.stringify({ library: state.library }));
     }
 
     state = await Utilities.emitState({ state, client, PG: PowerGate });
     return res.status(200).send({ success: true, cid, jobId });
   });
 
-  server.post("/_/storage/:file", async (req, res) => {
+  server.post('/_/storage/:file', async (req, res) => {
     const form = formidable({
       multiples: true,
       uploadDir: Constants.FILE_STORAGE_URL,
@@ -218,14 +213,12 @@ app.prepare().then(async () => {
       } else {
         // TODO(jim): Need to support other file types.
         if (!files.image) {
-          console.error("[ prototype ] File type unspported", files);
-          return res
-            .status(500)
-            .send({ error: "File type unsupported", files });
+          console.error('[ prototype ] File type unspported', files);
+          return res.status(500).send({ error: 'File type unsupported', files });
         }
 
         const newPath = form.uploadDir + req.params.file;
-        FS.rename(files.image.path, newPath, function(err) {});
+        FS.rename(files.image.path, newPath, function (err) {});
 
         const localFile = Utilities.createFile({
           id: newPath,
@@ -243,10 +236,7 @@ app.prepare().then(async () => {
         }
 
         if (pushed) {
-          FS.writeFileSync(
-            "./.data/library.json",
-            JSON.stringify({ library: state.library })
-          );
+          FS.writeFileSync('./.data/library.json', JSON.stringify({ library: state.library }));
         }
 
         state = await Utilities.emitState({
@@ -260,7 +250,7 @@ app.prepare().then(async () => {
     });
   });
 
-  server.post("/_/upload/avatar", async (req, res) => {
+  server.post('/_/upload/avatar', async (req, res) => {
     const form = formidable({
       multiples: true,
       uploadDir: Constants.AVATAR_STORAGE_URL,
@@ -270,8 +260,8 @@ app.prepare().then(async () => {
       if (error) {
         return res.status(500).send({ error });
       } else {
-        const newPath = form.uploadDir + "avatar.png";
-        FS.rename(files.image.path, newPath, function(err) {});
+        const newPath = form.uploadDir + 'avatar.png';
+        FS.rename(files.image.path, newPath, function (err) {});
 
         state = await Utilities.emitState({
           state,
@@ -283,7 +273,7 @@ app.prepare().then(async () => {
     });
   });
 
-  server.post("/_/settings", async (req, res) => {
+  server.post('/_/settings', async (req, res) => {
     let data;
     try {
       data = await PowerGate.ffs.setDefaultConfig(req.body.config);
@@ -295,14 +285,10 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, data });
   });
 
-  server.post("/_/wallet/create", async (req, res) => {
+  server.post('/_/wallet/create', async (req, res) => {
     let data;
     try {
-      data = await PowerGate.ffs.newAddr(
-        req.body.name,
-        req.body.type,
-        req.body.makeDefault
-      );
+      data = await PowerGate.ffs.newAddr(req.body.name, req.body.type, req.body.makeDefault);
     } catch (e) {
       return res.status(500).send({ error: e.message });
     }
@@ -311,36 +297,30 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, data });
   });
 
-  server.post("/_/wallet/send", async (req, res) => {
+  server.post('/_/wallet/send', async (req, res) => {
     let data;
     try {
-      data = await PowerGate.ffs.sendFil(
-        req.body.source,
-        req.body.target,
-        req.body.amount
-      );
+      data = await PowerGate.ffs.sendFil(req.body.source, req.body.target, req.body.amount);
     } catch (e) {
       return res.status(500).send({ error: e.message });
     }
 
     state = await Utilities.emitState({ state, client, PG: PowerGate });
-    return res
-      .status(200)
-      .send({ success: true, data: { ...data, ...req.body } });
+    return res.status(200).send({ success: true, data: { ...data, ...req.body } });
   });
 
-  server.get("/", async (req, res) => {
+  server.get('/', async (req, res) => {
     if (production || !state.token) {
-      return res.redirect(Constants.GITHUB_URL);
+      return res.redirect('/system');
     }
 
-    return app.render(req, res, "/", {
+    return app.render(req, res, '/', {
       production,
       wsPort,
     });
   });
 
-  server.get("*", async (req, res) => {
+  server.get('*', async (req, res) => {
     return nextRequestHandler(req, res, req.url);
   });
 

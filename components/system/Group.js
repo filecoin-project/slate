@@ -1,7 +1,7 @@
-import * as React from "react";
-import * as Constants from "~/common/constants";
+import * as React from 'react';
+import * as Constants from '~/common/constants';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
 const STYLES_GROUP_CONTAINER = css`
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -13,19 +13,19 @@ const STYLES_TITLE = css`
   font-size: ${Constants.typescale.lvl2};
   width: 100%;
   margin-top: 8px;
-  font-family: "inter-semi-bold";
+  font-family: 'inter-semi-bold';
 `;
 
 const STYLES_HEADER = css`
   background: ${Constants.system.gray};
-  padding: 24px;
+  padding: 24px 20px 24px 20px;
   border-radius: 4px 4px 0 0;
 `;
 
 const STYLES_GROUP = css`
   background: ${Constants.system.white};
   width: 100%;
-  padding: 24px 24px 72px 24px;
+  padding: 0;
   border-radius: 0 0 4px 4px;
 `;
 

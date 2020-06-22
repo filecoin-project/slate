@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as System from '~/components/system';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 export default class SystemPageLineCharts extends React.Component {
   render() {
@@ -10,7 +11,9 @@ export default class SystemPageLineCharts extends React.Component {
         title="FCDS: Line Charts"
         description="Lorem Ipsum."
         url="https://fps.onrender.com/system/line-charts">
-        <System.H1>Line Charts</System.H1>
+        <System.H1>
+          Line Charts <ViewSourceLink file="line-charts.js" />
+        </System.H1>
         <br />
         <br />
 

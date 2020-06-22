@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as System from '~/components/system';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 const SELECT_MENU_OPTIONS = [
   { value: '1', name: 'Capricorn' },
@@ -47,7 +48,9 @@ export default class SystemPageDropdowns extends React.Component {
   render() {
     return (
       <SystemPage title="FCDS: Dropdowns" description="Lorem Ipsum." url="https://fps.onrender.com/system/dropdowns">
-        <System.H1>Dropdowns</System.H1>
+        <System.H1>
+          Dropdowns <ViewSourceLink file="dropdowns.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

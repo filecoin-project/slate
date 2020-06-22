@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as System from '~/components/system';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 export default class SystemPageRoot extends React.Component {
   render() {

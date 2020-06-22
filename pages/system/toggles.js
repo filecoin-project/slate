@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as System from '~/components/system';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 export default class SystemPageToggles extends React.Component {
   state = {
@@ -19,7 +20,9 @@ export default class SystemPageToggles extends React.Component {
         title="FCDS: Toggles"
         description="This is an early preview of the Filecoin Client Design System (FCDS)."
         url="https://fps.onrender.com/toggles">
-        <System.H1>Toggles</System.H1>
+        <System.H1>
+          Toggles <ViewSourceLink file="toggles.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

@@ -6,6 +6,7 @@ import * as Constants from '~/common/constants';
 import { css } from '@emotion/react';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 const STYLES_COLOR_BAR = css`
   width: 100%;
@@ -29,7 +30,9 @@ export default class SystemPageColors extends React.Component {
   render() {
     return (
       <SystemPage title="FCDS: Colors" description="Lorem Ipsum" url="https://fps.onrender.com/system/colors">
-        <System.H1>Colors</System.H1>
+        <System.H1>
+          Colors <ViewSourceLink file="colors.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

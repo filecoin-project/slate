@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as System from '~/components/system';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 const TAB_GROUP_TWO = [
   { value: '1', label: 'Capricorn' },
@@ -35,7 +36,9 @@ export default class SystemPageTabs extends React.Component {
   render() {
     return (
       <SystemPage title="FCDS: Tabs" description="Lorem Ipsum." url="https://fps.onrender.com/system/tabs">
-        <System.H1>Tabs</System.H1>
+        <System.H1>
+          Tabs <ViewSourceLink file="tabs.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

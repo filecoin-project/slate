@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as System from '~/components/system';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 const RADIO_GROUP_OPTIONS = [
   {
@@ -53,7 +54,9 @@ export default class SystemPageRadios extends React.Component {
         title="FCDS: Radios"
         description="This is an early preview of the Filecoin Client Design System (FCDS)."
         url="https://fps.onrender.com/system/radios">
-        <System.H1>Radios</System.H1>
+        <System.H1>
+          Radios <ViewSourceLink file="radios.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

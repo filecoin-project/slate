@@ -3,6 +3,7 @@ import * as System from '~/components/system';
 
 import Group from '~/components/system/Group';
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 export default class SystemPageTables extends React.Component {
   state = {
@@ -12,7 +13,9 @@ export default class SystemPageTables extends React.Component {
   render() {
     return (
       <SystemPage title="FCDS: Tables" description="Lorem Ipsum." url="https://fps.onrender.com/system/tables">
-        <System.H1>Tables</System.H1>
+        <System.H1>
+          Tables <ViewSourceLink file="tables.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

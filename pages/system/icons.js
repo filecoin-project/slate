@@ -7,6 +7,7 @@ import * as Constants from '~/common/constants';
 import { css } from '@emotion/react';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 const DEFAULT_SYSTEM_ICON_SIZE = '88px';
 
@@ -49,7 +50,9 @@ export default class SystemPageIcons extends React.Component {
   render() {
     return (
       <SystemPage title="FCDS: Icons" description="Lorem Ipsum." url="https://fps.onrender.com/system/icons">
-        <System.H1>Icons</System.H1>
+        <System.H1>
+          Icons <ViewSourceLink file="icons.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

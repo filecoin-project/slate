@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as System from '~/components/system';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 const TAB_GROUP_TWO = [
   { value: '1', label: 'Capricorn' },
@@ -31,7 +32,9 @@ export default class SystemPageCardTabs extends React.Component {
         title="FCDS"
         description="This is an early preview of the Filecoin Client Design System (FCDS)."
         url="https://fps.onrender.com/system/card-tabs">
-        <System.H1>Card Tabs</System.H1>
+        <System.H1>
+          Card Tabs <ViewSourceLink file="card-tabs.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

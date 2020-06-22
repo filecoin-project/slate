@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as System from '~/components/system';
 
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 export default class SystemPageInputs extends React.Component {
   state = {
@@ -20,7 +21,9 @@ export default class SystemPageInputs extends React.Component {
   render() {
     return (
       <SystemPage title="FCDS: Inputs" description="Lorem Ipsum." url="https://fps.onrender.com/system/inputs">
-        <System.H1>Inputs</System.H1>
+        <System.H1>
+          Inputs <ViewSourceLink file="inputs.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

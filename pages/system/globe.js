@@ -3,12 +3,15 @@ import * as System from '~/components/system';
 
 import GLRenderer from '~/components/three/GLRenderer';
 import SystemPage from '~/components/system/SystemPage';
+import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 export default class SystemPageGlobe extends React.Component {
   render() {
     return (
       <SystemPage title="FCDS: Globe" description="Lorem Ipsum." url="https://fps.onrender.com/system/globe">
-        <System.H1>Globe</System.H1>
+        <System.H1>
+          Globe <ViewSourceLink file="globe.js" />
+        </System.H1>
         <br />
         <br />
         <System.P>

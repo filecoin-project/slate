@@ -67,58 +67,64 @@ app.prepare().then(async () => {
   if (!production) {
     // TODO(jim): Remove later.
     // We wipe all of the local data each time you run the application.
-    await Utilities.resetFileSystem();
+    try {
+      await Utilities.resetFileSystem();
 
-    const updates = await Utilities.refresh({ PG: PowerGate });
-    state = await Utilities.updateStateData(state, updates);
-    console.log("[ prototype ] updated without token");
+      const updates = await Utilities.refresh({ PG: PowerGate });
+      state = await Utilities.updateStateData(state, updates);
+      console.log("[ prototype ] updated without token");
 
-    // NOTE(jim): This is a configuration folder with all of the client tokens.
-    if (!FS.existsSync(`./.data`)) {
-      FS.mkdirSync(`./.data`, { recursive: true });
-    }
-
-    // NOTE(jim): This will create a token for authentication with powergate.
-    if (!FS.existsSync("./.data/powergate-token")) {
-      const FFS = await PowerGate.ffs.create();
-      state.token = FFS.token ? FFS.token : null;
-
-      // NOTE(jim): Write a new token file.
-      if (state.token) {
-        FS.writeFileSync("./.data/powergate-token", state.token);
+      // NOTE(jim): This is a configuration folder with all of the client tokens.
+      if (!FS.existsSync(`./.data`)) {
+        FS.mkdirSync(`./.data`, { recursive: true });
       }
-    } else {
-      state.token = FS.readFileSync("./.data/powergate-token", "utf8");
-    }
 
-    if (state.token) {
-      console.log("[ prototype ] powergate token:", state.token);
-      PowerGate.setToken(state.token);
-    }
+      // NOTE(jim): This will create a token for authentication with powergate.
+      if (!FS.existsSync("./.data/powergate-token")) {
+        const FFS = await PowerGate.ffs.create();
+        state.token = FFS.token ? FFS.token : null;
 
-    const tokenUpdates = await Utilities.refreshWithToken({
-      PG: PowerGate,
-    });
-    state = await Utilities.updateStateData(state, tokenUpdates);
-    console.log("[ prototype ] updated with token");
+        // NOTE(jim): Write a new token file.
+        if (state.token) {
+          FS.writeFileSync("./.data/powergate-token", state.token);
+        }
+      } else {
+        state.token = FS.readFileSync("./.data/powergate-token", "utf8");
+      }
 
-    // TODO(jim): Needs to support nested folders in the future.
-    if (!FS.existsSync("./.data/library.json")) {
-      const librarySchema = {
-        library: [
-          {
-            ...Utilities.createFolder({ id: Constants.FILE_STORAGE_URL }),
-            file: "Files",
-            name: "Files",
-          },
-        ],
-      };
+      if (state.token) {
+        console.log("[ prototype ] powergate token:", state.token);
+        PowerGate.setToken(state.token);
+      }
 
-      FS.writeFileSync("./.data/library.json", JSON.stringify(librarySchema));
-      state.library = librarySchema.library;
-    } else {
-      const parsedLibrary = FS.readFileSync("./.data/library.json", "utf8");
-      state.library = JSON.parse(parsedLibrary).library;
+      const tokenUpdates = await Utilities.refreshWithToken({
+        PG: PowerGate,
+      });
+      state = await Utilities.updateStateData(state, tokenUpdates);
+      console.log("[ prototype ] updated with token");
+
+      // TODO(jim): Needs to support nested folders in the future.
+      if (!FS.existsSync("./.data/library.json")) {
+        const librarySchema = {
+          library: [
+            {
+              ...Utilities.createFolder({ id: Constants.FILE_STORAGE_URL }),
+              file: "Files",
+              name: "Files",
+            },
+          ],
+        };
+
+        FS.writeFileSync("./.data/library.json", JSON.stringify(librarySchema));
+        state.library = librarySchema.library;
+      } else {
+        const parsedLibrary = FS.readFileSync("./.data/library.json", "utf8");
+        state.library = JSON.parse(parsedLibrary).library;
+      }
+    } catch (e) {
+      console.log(
+        "[ prototype ] you can not run the filecoin client, only web views allowed."
+      );
     }
   }
 
@@ -324,7 +330,7 @@ app.prepare().then(async () => {
   });
 
   server.get("/", async (req, res) => {
-    if (production) {
+    if (production || !state.token) {
       return res.redirect(Constants.GITHUB_URL);
     }
 

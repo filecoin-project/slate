@@ -310,7 +310,7 @@ app.prepare().then(async () => {
   });
 
   server.get('/', async (req, res) => {
-    if (production || !state.token) {
+    if (!state.token) {
       return res.redirect('/system');
     }
 
@@ -332,6 +332,8 @@ app.prepare().then(async () => {
     console.log(`[ prototype ] client: http://localhost:${port}`);
     console.log(`[ prototype ] constants:`, Constants);
 
-    await setIntervalViewerUpdatesUnsafe();
+    if (!production) {
+      await setIntervalViewerUpdatesUnsafe();
+    }
   });
 });

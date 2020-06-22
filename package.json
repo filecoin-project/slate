@@ -1,6 +1,9 @@
 {
   "name": "filecoin-prototype",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=11 <12"
+  },
   "scripts": {
     "dev": "node . --unhandled-rejections=strict",
     "build": "next build",

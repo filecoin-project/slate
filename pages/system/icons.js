@@ -36,8 +36,7 @@ const ICONS = [
 
 const STYLES_ICON = css`
   padding: 24px;
-  background-color: ${Constants.system.pitchBlack};
-  color: ${Constants.system.white};
+  color: ${Constants.system.pitchBlack};
   display: inline-flex;
   transition: 200ms ease color;
 
@@ -55,13 +54,7 @@ export default class SystemPageIcons extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </System.P>
+        <System.P>An example of every icon used in the Filecoin Client.</System.P>
         <br />
         <br />
 

@@ -185,7 +185,7 @@ export default class SystemPage extends React.Component {
               window.open('https://filscan.io/');
             }}
             style={{ marginTop: 48 }}>
-            <SVG.ExpandBox height="12px" style={{ marginRight: 14 }} />
+            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             Block Explorer
           </div>
           <div
@@ -193,23 +193,47 @@ export default class SystemPage extends React.Component {
             onClick={() => {
               window.open('https://github.com/filecoin-project/filecoin-client');
             }}>
-            <SVG.ExpandBox height="12px" style={{ marginRight: 14 }} />
-            GitHub
+            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
+            View source
+          </div>
+          <div
+            css={STYLES_SMALL_LINK}
+            onClick={() => {
+              window.open('https://github.com/textileio/js-powergate-client');
+            }}>
+            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
+            JS Powergate Client
+          </div>
+          <div
+            css={STYLES_SMALL_LINK}
+            onClick={() => {
+              window.open('https://docs.textile.io/');
+            }}>
+            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
+            Textile Documentation
+          </div>
+          <div
+            css={STYLES_SMALL_LINK}
+            onClick={() => {
+              window.open('https://docs.lotu.sh/');
+            }}>
+            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
+            Lotus Documentation
           </div>
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
               window.open('https://docs.filecoin.io/');
             }}>
-            <SVG.ExpandBox height="12px" style={{ marginRight: 14 }} />
-            Documentation
+            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
+            Filecoin Documentation
           </div>
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
               window.open('https://filecoin.io/#community');
             }}>
-            <SVG.ExpandBox height="12px" style={{ marginRight: 14 }} />
+            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             Community
           </div>
         </div>

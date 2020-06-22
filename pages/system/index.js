@@ -14,8 +14,9 @@ export default class SystemPageRoot extends React.Component {
         <System.H1>Welcome</System.H1>
         <br />
         <System.P>
-          This is an early preview of the <strong>Filecoin Client Design System (FCDS) 1.1</strong>. We are developing
-          our philosophy, principles and practices out in the open.
+          This is an early preview of the <strong>Filecoin Client Design System (FCDS 1.1)</strong> and{' '}
+          <strong>Build your own client tutorials</strong>. We are developing our philosophy, principles and practices
+          out in the open.
         </System.P>
         <br /> <br />
         <System.H2>Tutorials</System.H2>

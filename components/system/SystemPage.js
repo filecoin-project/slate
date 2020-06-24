@@ -202,6 +202,14 @@ export default class SystemPage extends React.Component {
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
+              window.open('https://github.com/filecoin-shipyard/js-lotus-client');
+            }}>
+            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
+            JS Lotus Client
+          </div>
+          <div
+            css={STYLES_SMALL_LINK}
+            onClick={() => {
               window.open('https://github.com/textileio/js-powergate-client');
             }}>
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />

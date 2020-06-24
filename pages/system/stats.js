@@ -13,8 +13,23 @@ export default class SystemPageStats extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>An example of network statistic components.</System.P>
+        <System.P>The System Stats component is used to show a system stat with an upload or a download icon.</System.P>
         <br />
+        <br />
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Delcare the StatUpload and/or the StatDownload components.</System.P>
+        <br />
+        <System.CodeBlock>
+{`<System.StatUpload>40 mb</System.StatUpload>
+
+<System.StatDownload>40 mb</System.StatDownload>`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Output</System.H2>
+        <hr />
         <br />
         <System.StatUpload>40 mb</System.StatUpload> <System.StatDownload>40 mb</System.StatDownload>
       </SystemPage>

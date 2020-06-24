@@ -22,21 +22,61 @@ export default class SystemPageCheckboxes extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>An example of checkbox components.</System.P>
+        <System.P>
+          The Checkbox component is used in forms when a users needs to select one or more values from multiple options.
+        </System.P>
         <br />
+        <br />
+        <br />
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Define the boolean Checkbox states and handle the state change the when user checks or unchecks the CheckBox.</System.P>
+        <br />
+        <System.CodeBlock>
+{`state = {
+  six: false,
+  seven: true,
+};
+
+_handleChange = (e) => {
+  this.setState({ [e.target.name]: e.target.value });
+}; `}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.P>Declare the CheckBox component.</System.P>
+        <br />
+
+        <System.CodeBlock>
+{`<System.CheckBox name="six" value={this.state.six} onChange={this._handleChange}>
+  <strong>Unchecked</strong>
+  <br />
+  This CheckBox default is unchecked.
+</System.CheckBox>
+
+<System.CheckBox name="seven" value={this.state.seven} onChange={this._handleChange}>
+  <strong>Checked</strong>
+  <br />
+  This CheckBox default is checked.
+</System.CheckBox>`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Output</System.H2>
+        <hr />
         <br />
         <System.CheckBox name="six" value={this.state.six} onChange={this._handleChange}>
-          <strong>I want to attend IPFS Pinning Summit</strong>
+          <strong>Unchecked</strong>
           <br />
-          The IPFS Pinning Summit is a 2-day virtual conference designed for the infrastructure and service providers of
-          the distributed web.
+          This CheckBox default is unchecked.
         </System.CheckBox>
         <br />
         <br />
-
         <System.CheckBox name="seven" value={this.state.seven} onChange={this._handleChange}>
-          <strong>Return Cake</strong>
-          <br />I want Cake to become a different object.
+          <strong>Checked</strong>
+          <br />
+          This CheckBox default is checked.
         </System.CheckBox>
       </SystemPage>
     );

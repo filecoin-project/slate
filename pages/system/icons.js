@@ -39,6 +39,7 @@ const STYLES_ICON = css`
   color: ${Constants.system.pitchBlack};
   display: inline-flex;
   transition: 200ms ease color;
+  text-align: center;
 
   :hover {
     color: ${Constants.system.brand};
@@ -54,10 +55,49 @@ export default class SystemPageIcons extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>An example of every icon used in the Filecoin Client.</System.P>
+        <System.P>Every icon used in the Filecoin Client.</System.P>
         <br />
         <br />
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Import the SVG components.</System.P>
+        <br />
+        <System.CodeBlock>
+{`import * as SVG from '~/components/system/svg';
 
+import * as OldSVG from '~/common/svg';`}
+        </System.CodeBlock>
+        <br />
+        <System.P>Declare the SVG icons.</System.P>
+        <br />
+        <System.CodeBlock>
+{`<OldSVG.Home height='88px' />
+<OldSVG.Folder height='88px' />
+<OldSVG.Wallet height='88px' />
+<OldSVG.Channels height='88px' />
+<OldSVG.Deals height='88px' />
+<OldSVG.Peers height='88px' />
+<OldSVG.Deals height='88px' />
+<OldSVG.Status height='88px' />
+<OldSVG.Stats height='88px' />
+<OldSVG.DataTransfer height='88px' />
+<OldSVG.Logs height='88px' />
+<OldSVG.Miners height='88px' />
+<OldSVG.StorageMarket height='88px' />
+<SVG.BandwidthUp height='88px' />
+<SVG.BandwidthDown height='88px' />
+<SVG.Information height='88px' />
+<SVG.CopyAndPaste height='88px' />
+<SVG.FileImage height='88px' />
+<SVG.Plus height='88px' />
+<SVG.CheckBox height='88px' />`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Output</System.H2>
+        <hr />
+        <br />
         {ICONS.map((icon, i) => {
           return (
             <div css={STYLES_ICON} key={i}>

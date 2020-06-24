@@ -41,13 +41,56 @@ export default class SystemPageTabs extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>An examle of tab components.</System.P>
+        <System.P>The TabGroup component is used to allow the users to switch between views.</System.P>
         <br />
         <br />
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Define the tab group values and labels.</System.P>
+        <br />
+        <System.CodeBlock>
+{`const TAB_GROUP_TWO = [
+  { value: '1', label: 'Capricorn' },
+  { value: '2', label: 'Aquarius' },
+];
 
+const TAB_GROUP_THREE = [
+  { value: '1', label: 'Capricorn' },
+  { value: '2', label: 'Aquarius' },
+  { value: '3', label: 'Pisces' },
+];`}
+        </System.CodeBlock>
+        <br />
+        <System.P>Define the Tab value states and handle the state when a tab is changed.</System.P>
+        <br />
+        <System.CodeBlock>
+{`state = {
+  eight: '1',
+  nine: '1',
+  ten: '1',
+};
+
+_handleChange = (e) => {
+  this.setState({ [e.target.name]: e.target.value });
+};`}
+        </System.CodeBlock>
+        <br />
+        <System.P>Declare the TabGroup component.</System.P>
+        <br />
+        <System.CodeBlock>
+{`<System.TabGroup name="eight" options={TAB_GROUP_TWO} value={this.state.eight} onChange={this._handleChange} />
+
+<System.TabGroup name="nine" options={TAB_GROUP_THREE} value={this.state.nine} onChange={this._handleChange} />
+`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Output</System.H2>
+        <hr />
+        <br />
         <System.TabGroup name="eight" options={TAB_GROUP_TWO} value={this.state.eight} onChange={this._handleChange} />
         <System.TabGroup name="nine" options={TAB_GROUP_THREE} value={this.state.nine} onChange={this._handleChange} />
-        <System.TabGroup name="ten" options={TAB_GROUP_FOUR} value={this.state.ten} onChange={this._handleChange} />
       </SystemPage>
     );
   }

@@ -25,10 +25,38 @@ export default class SystemPageToggles extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>An example of a toggle component.</System.P>
+        <System.P>The Toggle component is used to switch between two states.</System.P>
         <br />
         <br />
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Define the Toggle boolean state and handle the state change the when a toggle is changed.</System.P>
+        <br />
+        <System.CodeBlock>
+{`state = {
+  three: true,
+  four: false,
+};
 
+_handleChange = (e) => {
+  this.setState({ [e.target.name]: e.target.value });
+};`}
+        </System.CodeBlock>
+        <br />
+        <System.P>Declare the Toggle component.</System.P>
+        <br />
+        <System.CodeBlock>
+{`<System.Toggle active={this.state.three} name="three" onChange={this._handleChange} />
+
+<System.Toggle active={this.state.four} name="four" onChange={this._handleChange} />`}
+        </System.CodeBlock>
+
+        <br />
+        <br />
+        <System.H2>Output</System.H2>
+        <hr />
+        <br />
         <System.Toggle active={this.state.three} name="three" onChange={this._handleChange} />
         <br />
         <br />

@@ -21,53 +21,97 @@ export default class SystemPageTables extends React.Component {
         <System.P>An example of a table component.</System.P>
         <br />
         <br />
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Import Group component.</System.P>
+        <br />
+        <System.CodeBlock>
+        {`import Group from '~/components/system/Group';`}
+        </System.CodeBlock>
+        <br />
+        <System.P>Define the table data states.</System.P>
+        <br />
+        <System.CodeBlock>
+{`state = {
+  table_data: null,
+};`}
+        </System.CodeBlock>
+        <br />
+        <System.P>Declare the Group and Table components.</System.P>
+        <br />
 
+        <System.CodeBlock>
+{`<Group title="Table example">
+  <System.Table
+    data={{
+      columns: [
+        { key: 'a', name: 'Link', type: 'FILE_LINK' },
+        { key: 'b', name: 'Value', width: '88px' },
+        { key: 'c', name: 'Tooltip', tooltip: 'A tooltip.', width: '128px' },
+        { key: 'd', name: 'Copyable', copyable: true, width: '88px' },
+      ],
+      rows: [
+        { id: 1, a: 'col 1 row 1', b: 'col 1 row 2', c: 'col 1 row 3', d: 'col 1 row 4' },
+        { id: 2, a: 'col 2 row 1', b: 'col 2 row 2', c: 'col 2 row 3', d: 'col 2 row 4'},
+        { id: 3, a: 'col 3 row 1', b: 'col 3 row 2', c: 'col 3 row 3', d: 'col 3 row 4' },
+        { id: 3, a: 'col 4 row 1', b: 'col 4 row 2', c: 'col 4 row 3', d: 'col 4 row 4' },
+      ],
+    }}
+    selectedRowId={this.state.table_data}
+    onChange={this._handleChange}
+    name="table_data"
+  />
+</Group>`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Output</System.H2>
+        <hr />
+        <br />
         <Group title="Table example">
           <System.Table
             data={{
               columns: [
-                { key: 'a', name: 'Column A', type: 'FILE_LINK' },
-                { key: 'b', name: 'Column B', width: '88px' },
-                { key: 'c', name: 'Column C', width: '88px' },
-                {
-                  key: 'd',
-                  name: 'Column D',
-                  tooltip: 'A tooltip.',
-                  width: '128px',
-                },
-                {
-                  key: 'e',
-                  name: 'Column E',
-                  copyable: true,
-                  width: '88px',
-                },
-                {
-                  key: 'f',
-                  name: 'Column F',
-                  width: '88px',
-                },
+                { key: 'a', name: 'Link', type: 'FILE_LINK' },
+                { key: 'b', name: 'Value', width: '88px' },
+                { key: 'c', name: 'Tooltip', tooltip: 'A tooltip.', width: '128px' },
+                { key: 'd', name: 'Copyable', copyable: true, width: '88px' },
               ],
               rows: [
-                { id: 1, a: 1, b: 1, c: 1, e: 1, f: 1, d: 1 },
-                { id: 2, a: 111, b: 111, c: 111, e: 111, f: 111, d: 111 },
-                {
-                  id: 3,
-                  a: 111111,
-                  b: 111111,
-                  c: 111111,
-                  e: null,
-                  f: 111111,
-                  d: 1111111,
-                },
-                {
-                  id: 4,
-                  a: 111111111111,
-                  b: 11111111111,
-                  c: 111111111111,
-                  e: 11111111111,
-                  f: 11111111111111,
-                  d: 1111111111111111,
-                },
+                { id: 1, a: 'col 1 row 1', b: 'col 1 row 2', c: 'col 1 row 3', d: 'col 1 row 4' },
+                { id: 2, a: 'col 2 row 1', b: 'col 2 row 2', c: 'col 2 row 3', d: 'col 2 row 4'},
+                { id: 3, a: 'col 3 row 1', b: 'col 3 row 2', c: 'col 3 row 3', d: 'col 3 row 4' },
+                { id: 3, a: 'col 4 row 1', b: 'col 4 row 2', c: 'col 4 row 3', d: 'col 4 row 4' },
+              ],
+            }}
+            selectedRowId={this.state.table_data}
+            onChange={this._handleChange}
+            name="table_data"
+          />
+        </Group>
+        <br />
+        <br />
+        <System.H2>Props</System.H2>
+        <hr />
+        <br />
+        <Group title="Tables">
+          <System.Table
+            data={{
+              columns: [
+                { key: 'a', name: 'Name', width: '128px' },
+                { key: 'b', name: 'Type', width: '88px' },
+                { key: 'c', name: 'Default', width: '88px' },
+                { key: 'd', name: 'Description', width: '100%' },
+
+              ],
+              rows: [
+                { id: 1, a: 'key', b: 'string', c: 'null', d:'Column key value' },
+                { id: 2, a: 'name', b: 'string', c: 'null', d: 'Name of the column' },
+                { id: 2, a: 'tooltip', b: 'string', c: 'null', d: 'If not null a tooltip will be visable' },
+                { id: 2, a: 'copyable', b: 'boolean', c: 'false', d: 'If true, a copyable icon will be visable' },
+                { id: 2, a: 'type', b: 'string', c: 'null', d: 'Use FILE_LINK to add a linkable column' },
+                { id: 2, a: 'width', b: 'number', c: 'null', d: 'Width of the column' },
               ],
             }}
             selectedRowId={this.state.table_data}

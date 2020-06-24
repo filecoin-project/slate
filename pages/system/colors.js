@@ -38,10 +38,48 @@ export default class SystemPageColors extends React.Component {
         <System.P>All of the colors the Filecoin Client uses.</System.P>
         <br />
         <br />
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Import Constants.</System.P>
+        <br />
+        <System.CodeBlock>
+        {`import * as Constants from '~/common/constants';`}
+        </System.CodeBlock>
+        <br />
+        <System.P>Import Constants.</System.P>
+        <br />
+        <System.CodeBlock>
+{`{Constants.system.white};
+
+{Constants.system.foreground};
+
+{Constants.system.gray};
+
+{Constants.system.border};
+
+{Constants.system.darkGray};
+
+{Constants.system.black};
+
+{Constants.system.pitchBlack};
+
+{Constants.system.brand};
+
+{Constants.system.green};
+
+{Constants.system.yellow};
+
+{Constants.system.red};`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Output</System.H2>
+        <hr />
+        <br />
         {Object.keys(Constants.system).map((each) => {
           const hex = Constants.system[each];
           const rgba = Strings.hexToRGBA(hex);
-
           return (
             <div
               key={each}

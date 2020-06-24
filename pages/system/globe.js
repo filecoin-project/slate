@@ -14,10 +14,28 @@ export default class SystemPageGlobe extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>An example of a globe that will be used for showing peers and file transfers.</System.P>
+        <System.P>The Globe component is used to show peers and file transfers on the Filecoin network.</System.P>
         <br />
         <br />
-
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Import GLRenderer.</System.P>
+        <br />
+        <System.CodeBlock>
+        {`import GLRenderer from '~/components/three/GLRenderer';`}
+        </System.CodeBlock>
+        <br />
+        <System.P>Declare the Globe component.</System.P>
+        <br />
+        <System.CodeBlock>
+        {`<GLRenderer width={768} height={480} />`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Output</System.H2>
+        <hr />
+        <br />
         <GLRenderer width={768} height={480} />
       </SystemPage>
     );

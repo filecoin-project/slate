@@ -92,7 +92,7 @@ const STYLES_LABEL = css`
 const SidebarLink = (props) => {
   return (
     <React.Fragment>
-      <a css={STYLES_LINK} href={props.href}>
+      <a css={STYLES_LINK} href={props.href} target={props.target}>
         {props.title}
       </a>
       {props.children ? <div css={STYLES_DESCRIPTION}>{props.children}</div> : null}
@@ -151,10 +151,13 @@ export default class SystemPage extends React.Component {
           <br />
 
           <span css={STYLES_LABEL}>Tutorials</span>
-          <SidebarLink href="/system/tutorials/create-a-web-app" title="Create A Web Client">
-            A guide to creating a web client with the necessary dependencies.
+          <SidebarLink
+            href="https://github.com/filecoin-project/filecoin-client-tutorial"
+            target="_blank"
+            title="Build a Simple Example Quicly">
+            Upload data to IPFS and Filecoin on the Lotus DevNet in under 5 minutes.
           </SidebarLink>
-          <SidebarLink href="/system/tutorials/using-powergate" title="Using Powergate">
+          <SidebarLink href="https://blog.textile.io/integrating-powergate/" target="_blank" title="Using Powergate">
             A guide to integrate Powergate into your web client.
           </SidebarLink>
 

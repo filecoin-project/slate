@@ -61,7 +61,7 @@ make devnet
 
 ## Install and run
 
-Run these commands to start the client locally.
+Run these commands to start the client locally. You may need to wait a small period of time for both of the Docker instances to complete running first.
 
 ```sh
 git clone git@github.com:filecoin-project/filecoin-client.git
@@ -75,6 +75,7 @@ npm run dev
 ![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
 
 - Visit `localhost:1337` in the browser.
+- If you see the design system page instead, that means a token was not properly generated in the `.data` folder. Run `npm run dev` again.
 - **Note** — If you restart the server, it clears all your local files. You can disable this by modifying the code in `server.js`.
 - **Note** — There will be new commands in the future for different contexts, like `electron`.
 

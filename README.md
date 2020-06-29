@@ -22,7 +22,7 @@ Also included:
 - Send filecoin between wallet addresses, create new addresses.
 - Update your default settings.
 - The beginning of an [open source design system](https://filecoin.onrender.com/system).
-- A [kitchen sink example](https://github.com/filecoin-project/filecoin-client/blob/master/server.js) for most JavaScript Powergate calls using `async` and `await`. If you need to see all of the possible functions, [look here](https://github.com/textileio/js-powergate-client/blob/master/src/ffs/index.ts).
+- A [kitchen sink example](https://github.com/filecoin-project/slate/blob/master/server.js) for most JavaScript Powergate calls using `async` and `await`. If you need to see all of the possible functions, [look here](https://github.com/textileio/js-powergate-client/blob/master/src/ffs/index.ts).
 - An example of using [Inter](https://rsms.me/inter/).
 
 Coming soon:
@@ -64,8 +64,8 @@ make devnet
 Run these commands to start the client locally. You may need to wait a small period of time for both of the Docker instances to complete running first.
 
 ```sh
-git clone git@github.com:filecoin-project/filecoin-client.git
-cd filecoin-client
+git clone git@github.com:filecoin-project/slate.git
+cd slate
 npm install
 npm run dev
 ```
@@ -88,6 +88,6 @@ Do you want to...
 
 Then...
 
-- If you see things you want to work on, [file an issue](https://github.com/filecoin-project/filecoin-client/issues)!
+- If you see things you want to work on, [file an issue](https://github.com/filecoin-project/slate/issues)!
 - If you see something you want to fix, **submit a PR**!
 - I'm always available on Twitter to answer your questions: [@wwwjim](https://www.twitter.com/wwwjim).

@@ -79,9 +79,17 @@ _handleChange = (e) => {
         <System.P>Declare the TabGroup component.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.TabGroup name="eight" options={TAB_GROUP_TWO} value={this.state.eight} onChange={this._handleChange} />
+{`<System.TabGroup 
+  name="eight"
+  options={TAB_GROUP_TWO}
+  value={this.state.eight}
+  onChange={this._handleChange} />
 
-<System.TabGroup name="nine" options={TAB_GROUP_THREE} value={this.state.nine} onChange={this._handleChange} />
+<System.TabGroup
+  name="nine"
+  options={TAB_GROUP_THREE}
+  value={this.state.nine}
+  onChange={this._handleChange} />
 `}
         </System.CodeBlock>
         <br />

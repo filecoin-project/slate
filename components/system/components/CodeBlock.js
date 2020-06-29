@@ -1,13 +1,15 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const STYLES_CODE_BLOCK = css`
-  background-color: ${Constants.system.pitchBlack};
+  font-family: "mono";
+  background-color: ${Constants.system.black};
   color: ${Constants.system.white};
   border-radius: 4px;
-  padding: 24px 24px 24px 24px;
+  padding: 24px;
+  font-size: 12px;
   word-wrap: break-word;
   white-space: pre-wrap;
   width: 100%;

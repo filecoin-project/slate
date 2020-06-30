@@ -154,7 +154,7 @@ export default class SystemPage extends React.Component {
           <SidebarLink
             href="https://github.com/filecoin-project/filecoin-client-tutorial"
             target="_blank"
-            title="Build a Simple Example Quicly">
+            title="Build a Simple Example Quickly">
             Upload data to IPFS and Filecoin on the Lotus DevNet in under 5 minutes.
           </SidebarLink>
           <SidebarLink href="https://blog.textile.io/integrating-powergate/" target="_blank" title="Using Powergate">

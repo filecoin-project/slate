@@ -67,10 +67,15 @@ const STYLES_LINK = css`
   :hover {
     color: ${Constants.system.brand};
   }
+`;
 
-  :visited {
-    color: ${Constants.system.black};
-  }
+const STYLES_LINK_ACTIVE = css`
+  font-family: 'inter-semi-bold';
+  color: ${Constants.system.brand};
+  text-decoration: none;
+  font-weight: 400;
+  display: block;
+  margin-top: 8px;
 `;
 
 const STYLES_DESCRIPTION = css`
@@ -90,9 +95,10 @@ const STYLES_LABEL = css`
 `;
 
 const SidebarLink = (props) => {
+  console.log(props.url)
   return (
     <React.Fragment>
-      <a css={STYLES_LINK} href={props.href} target={props.target}>
+      <a css={props.url.includes(props.href) ? STYLES_LINK_ACTIVE : STYLES_LINK} href={props.href} target={props.target}>
         {props.title}
       </a>
       {props.children ? <div css={STYLES_DESCRIPTION}>{props.children}</div> : null}
@@ -152,12 +158,17 @@ export default class SystemPage extends React.Component {
 
           <span css={STYLES_LABEL}>Tutorials</span>
           <SidebarLink
+            url={url}
             href="https://github.com/filecoin-project/filecoin-client-tutorial"
             target="_blank"
-            title="Build a Simple Example Quicly">
+            title="Build a Simple Example Quickly">
             Upload data to IPFS and Filecoin on the Lotus DevNet in under 5 minutes.
           </SidebarLink>
-          <SidebarLink href="https://blog.textile.io/integrating-powergate/" target="_blank" title="Using Powergate">
+          <SidebarLink 
+            url={url}
+            href="https://blog.textile.io/integrating-powergate/" 
+            target="_blank" 
+            title="Using Powergate">
             A guide to integrate Powergate into your web client.
           </SidebarLink>
 
@@ -166,21 +177,21 @@ export default class SystemPage extends React.Component {
             <br />
             Components
           </span>
-          <SidebarLink href="/system/globe" title="Globe"></SidebarLink>
-          <SidebarLink href="/system/icons" title="Icons"></SidebarLink>
-          <SidebarLink href="/system/colors" title="Colors"></SidebarLink>
-          <SidebarLink href="/system/tables" title="Tables"></SidebarLink>
-          <SidebarLink href="/system/tooltips" title="Tooltips"></SidebarLink>
-          <SidebarLink href="/system/line-charts" title="Line Charts"></SidebarLink>
-          <SidebarLink href="/system/stats" title="Stats"></SidebarLink>
-          <SidebarLink href="/system/buttons" title="Buttons"></SidebarLink>
-          <SidebarLink href="/system/checkboxes" title="Checkboxes"></SidebarLink>
-          <SidebarLink href="/system/radios" title="Radios"></SidebarLink>
-          <SidebarLink href="/system/card-tabs" title="Card Tabs"></SidebarLink>
-          <SidebarLink href="/system/tabs" title="Tabs"></SidebarLink>
-          <SidebarLink href="/system/toggles" title="Toggles"></SidebarLink>
-          <SidebarLink href="/system/inputs" title="Inputs"></SidebarLink>
-          <SidebarLink href="/system/dropdowns" title="Dropdowns"></SidebarLink>
+          <SidebarLink url={url} href="/system/globe" title="Globe"></SidebarLink>
+          <SidebarLink url={url} href="/system/icons" title="Icons"></SidebarLink>
+          <SidebarLink url={url} href="/system/colors" title="Colors"></SidebarLink>
+          <SidebarLink url={url} href="/system/tables" title="Tables"></SidebarLink>
+          <SidebarLink url={url} href="/system/tooltips" title="Tooltips"></SidebarLink>
+          <SidebarLink url={url} href="/system/line-charts" title="Line Charts"></SidebarLink>
+          <SidebarLink url={url} href="/system/stats" title="Stats"></SidebarLink>
+          <SidebarLink url={url} href="/system/buttons" title="Buttons"></SidebarLink>
+          <SidebarLink url={url} href="/system/checkboxes" title="Checkboxes"></SidebarLink>
+          <SidebarLink url={url} href="/system/radios" title="Radios"></SidebarLink>
+          <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs"></SidebarLink>
+          <SidebarLink url={url} href="/system/tabs" title="Tabs"></SidebarLink>
+          <SidebarLink url={url} href="/system/toggles" title="Toggles"></SidebarLink>
+          <SidebarLink url={url} href="/system/inputs" title="Inputs"></SidebarLink>
+          <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns"></SidebarLink>
 
           <div
             css={STYLES_SMALL_LINK}

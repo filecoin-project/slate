@@ -91,3 +91,4 @@ Then...
 - If you see things you want to work on, [file an issue](https://github.com/filecoin-project/slate/issues)!
 - If you see something you want to fix, **submit a PR**!
 - I'm always available on Twitter to answer your questions: [@wwwjim](https://www.twitter.com/wwwjim).
+- For any build questions feel free to reach out to Colin: <cs.mccaleb@gmail.com>

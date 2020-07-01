@@ -7,9 +7,9 @@ import ViewSourceLink from '~/components/system/ViewSourceLink';
 export default class SystemPageStats extends React.Component {
   render() {
     return (
-      <SystemPage title="FCDS: Stats" description="Lorem Ipsum." url="https://fps.onrender.com/system/stats">
+      <SystemPage title="SDS: Stats" description="..." url="https://fps.onrender.com/system/stats">
         <System.H1>
-          Stats <ViewSourceLink file="stats.js" />
+          Stats <ViewSourceLink file="system/stats.js" />
         </System.H1>
         <br />
         <br />
@@ -22,7 +22,7 @@ export default class SystemPageStats extends React.Component {
         <System.P>Delcare the StatUpload and/or the StatDownload components.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.StatUpload>40 mb</System.StatUpload>
+          {`<System.StatUpload>40 mb</System.StatUpload>
 
 <System.StatDownload>40 mb</System.StatDownload>`}
         </System.CodeBlock>

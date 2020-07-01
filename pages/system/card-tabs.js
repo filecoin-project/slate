@@ -28,12 +28,9 @@ export default class SystemPageCardTabs extends React.Component {
 
   render() {
     return (
-      <SystemPage
-        title="FCDS"
-        description="This is an early preview of the Filecoin Client Design System (FCDS)."
-        url="https://fps.onrender.com/system/card-tabs">
+      <SystemPage title="SDS: Card Tabs" description="..." url="https://fps.onrender.com/system/card-tabs">
         <System.H1>
-          Card Tabs <ViewSourceLink file="card-tabs.js" />
+          Card Tabs <ViewSourceLink file="system/card-tabs.js" />
         </System.H1>
         <br />
         <br />
@@ -46,7 +43,7 @@ export default class SystemPageCardTabs extends React.Component {
         <System.P>Define the tab group values and labels.</System.P>
         <br />
         <System.CodeBlock>
-{`const TAB_GROUP_TWO = [
+          {`const TAB_GROUP_TWO = [
   { value: '1', label: 'Capricorn' },
   { value: '2', label: 'Aquarius' },
 ];
@@ -62,7 +59,7 @@ const TAB_GROUP_FOUR = [
         <System.P>Define the CardTab value states and handle the state when a tab is changed.</System.P>
         <br />
         <System.CodeBlock>
-{`state = {
+          {`state = {
   eighteen: '2',
   nineteen: null,
 };
@@ -75,7 +72,7 @@ _handleChange = (e) => {
         <System.P>Declare the CardTabGroup component.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.CardTabGroup
+          {`<System.CardTabGroup
   name="eighteen"
   options={TAB_GROUP_TWO}
   value={this.state.eighteen}

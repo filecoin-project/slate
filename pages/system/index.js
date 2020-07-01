@@ -8,20 +8,15 @@ export default class SystemPageRoot extends React.Component {
   render() {
     return (
       <SystemPage
-        title="FCDS 1.1"
-        description="This is an early preview of the Filecoin Client Design System (FCDS)."
+        title="SDS 1.1"
+        description="This is an early preview of the Slate Design System SDS)."
         url="https://fps.onrender.com/system">
         <System.H1>Welcome</System.H1>
         <br />
         <System.P>
-          This is an early preview of the <strong>Filecoin Client Design System (FCDS 1.1)</strong> and{' '}
-          <strong>Build your own client tutorials</strong>. We are developing our philosophy, principles and practices
-          out in the open.
+          This is an early preview of the <strong>Slate Design System (FCDS 1.1)</strong>. We are developing our
+          philosophy, principles and practices out in the open.
         </System.P>
-        <br /> <br />
-        <System.H2>Tutorials</System.H2>
-        <br />
-        <System.P>A walkthrough on how to use the design system and create your own Filecoin Client.</System.P>
         <br /> <br />
         <System.H2>Introduction</System.H2>
         <br />

@@ -16,12 +16,9 @@ export default class SystemPageToggles extends React.Component {
 
   render() {
     return (
-      <SystemPage
-        title="FCDS: Toggles"
-        description="This is an early preview of the Filecoin Client Design System (FCDS)."
-        url="https://fps.onrender.com/toggles">
+      <SystemPage title="SDS: Toggles" description="..." url="https://fps.onrender.com/toggles">
         <System.H1>
-          Toggles <ViewSourceLink file="toggles.js" />
+          Toggles <ViewSourceLink file="system/toggles.js" />
         </System.H1>
         <br />
         <br />
@@ -34,7 +31,7 @@ export default class SystemPageToggles extends React.Component {
         <System.P>Define the Toggle boolean state and handle the state change the when a toggle is changed.</System.P>
         <br />
         <System.CodeBlock>
-{`state = {
+          {`state = {
   three: true,
   four: false,
 };
@@ -47,7 +44,7 @@ _handleChange = (e) => {
         <System.P>Declare the Toggle component.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.Toggle active={this.state.three} name="three" onChange={this._handleChange} />
+          {`<System.Toggle active={this.state.three} name="three" onChange={this._handleChange} />
 
 <System.Toggle active={this.state.four} name="four" onChange={this._handleChange} />`}
         </System.CodeBlock>

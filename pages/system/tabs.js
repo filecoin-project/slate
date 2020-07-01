@@ -35,9 +35,9 @@ export default class SystemPageTabs extends React.Component {
 
   render() {
     return (
-      <SystemPage title="FCDS: Tabs" description="Lorem Ipsum." url="https://fps.onrender.com/system/tabs">
+      <SystemPage title="SDS: Tabs" description="..." url="https://fps.onrender.com/system/tabs">
         <System.H1>
-          Tabs <ViewSourceLink file="tabs.js" />
+          Tabs <ViewSourceLink file="system/tabs.js" />
         </System.H1>
         <br />
         <br />
@@ -50,7 +50,7 @@ export default class SystemPageTabs extends React.Component {
         <System.P>Define the tab group values and labels.</System.P>
         <br />
         <System.CodeBlock>
-{`const TAB_GROUP_TWO = [
+          {`const TAB_GROUP_TWO = [
   { value: '1', label: 'Capricorn' },
   { value: '2', label: 'Aquarius' },
 ];
@@ -65,7 +65,7 @@ const TAB_GROUP_THREE = [
         <System.P>Define the Tab value states and handle the state when a tab is changed.</System.P>
         <br />
         <System.CodeBlock>
-{`state = {
+          {`state = {
   eight: '1',
   nine: '1',
   ten: '1',
@@ -79,7 +79,7 @@ _handleChange = (e) => {
         <System.P>Declare the TabGroup component.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.TabGroup 
+          {`<System.TabGroup 
   name="eight"
   options={TAB_GROUP_TWO}
   value={this.state.eight}

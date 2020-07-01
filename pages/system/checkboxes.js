@@ -16,9 +16,9 @@ export default class SystemPageCheckboxes extends React.Component {
 
   render() {
     return (
-      <SystemPage title="FCDS: Checkboxes" description="Lorem Ipsum" url="https://fps.onrender.com/system/checkboxes">
+      <SystemPage title="SDS: Checkboxes" description="..." url="https://fps.onrender.com/system/checkboxes">
         <System.H1>
-          Checkboxes <ViewSourceLink file="checkboxes.js" />
+          Checkboxes <ViewSourceLink file="system/checkboxes.js" />
         </System.H1>
         <br />
         <br />
@@ -31,10 +31,12 @@ export default class SystemPageCheckboxes extends React.Component {
         <System.H2>Usage</System.H2>
         <hr />
         <br />
-        <System.P>Define the boolean Checkbox states and handle the state change the when user checks or unchecks the CheckBox.</System.P>
+        <System.P>
+          Define the boolean Checkbox states and handle the state change the when user checks or unchecks the CheckBox.
+        </System.P>
         <br />
         <System.CodeBlock>
-{`state = {
+          {`state = {
   six: false,
   seven: true,
 };
@@ -49,7 +51,7 @@ _handleChange = (e) => {
         <br />
 
         <System.CodeBlock>
-{`<System.CheckBox name="six" value={this.state.six} onChange={this._handleChange}>
+          {`<System.CheckBox name="six" value={this.state.six} onChange={this._handleChange}>
   <strong>Unchecked</strong>
   <br />
   This CheckBox default is unchecked.

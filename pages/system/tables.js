@@ -12,9 +12,9 @@ export default class SystemPageTables extends React.Component {
 
   render() {
     return (
-      <SystemPage title="FCDS: Tables" description="Lorem Ipsum." url="https://fps.onrender.com/system/tables">
+      <SystemPage title="SDS: Tables" description="..." url="https://fps.onrender.com/system/tables">
         <System.H1>
-          Tables <ViewSourceLink file="tables.js" />
+          Tables <ViewSourceLink file="system/tables.js" />
         </System.H1>
         <br />
         <br />
@@ -26,14 +26,12 @@ export default class SystemPageTables extends React.Component {
         <br />
         <System.P>Import Group component.</System.P>
         <br />
-        <System.CodeBlock>
-        {`import Group from '~/components/system/Group';`}
-        </System.CodeBlock>
+        <System.CodeBlock>{`import Group from '~/components/system/Group';`}</System.CodeBlock>
         <br />
         <System.P>Define the table data states.</System.P>
         <br />
         <System.CodeBlock>
-{`state = {
+          {`state = {
   table_data: null,
 };`}
         </System.CodeBlock>
@@ -42,7 +40,7 @@ export default class SystemPageTables extends React.Component {
         <br />
 
         <System.CodeBlock>
-{`<Group title="Table example">
+          {`<Group title="Table example">
   <System.Table
     data={{
       columns: [
@@ -80,7 +78,7 @@ export default class SystemPageTables extends React.Component {
               ],
               rows: [
                 { id: 1, a: 'col 1 row 1', b: 'col 1 row 2', c: 'col 1 row 3', d: 'col 1 row 4' },
-                { id: 2, a: 'col 2 row 1', b: 'col 2 row 2', c: 'col 2 row 3', d: 'col 2 row 4'},
+                { id: 2, a: 'col 2 row 1', b: 'col 2 row 2', c: 'col 2 row 3', d: 'col 2 row 4' },
                 { id: 3, a: 'col 3 row 1', b: 'col 3 row 2', c: 'col 3 row 3', d: 'col 3 row 4' },
                 { id: 3, a: 'col 4 row 1', b: 'col 4 row 2', c: 'col 4 row 3', d: 'col 4 row 4' },
               ],
@@ -103,11 +101,10 @@ export default class SystemPageTables extends React.Component {
                 { key: 'b', name: 'Type', width: '88px' },
                 { key: 'c', name: 'Default', width: '88px' },
                 { key: 'd', name: 'Description', width: '100%' },
-
               ],
               rows: [
-                { id: 1, a: 'key', b: 'string', c: 'null', d:'Column key value' },
-                { id: 2, a: 'id', b: 'number', c: 'null', d:'Row ID value' },
+                { id: 1, a: 'key', b: 'string', c: 'null', d: 'Column key value' },
+                { id: 2, a: 'id', b: 'number', c: 'null', d: 'Row ID value' },
                 { id: 3, a: 'name', b: 'string', c: 'null', d: 'Name of the column' },
                 { id: 4, a: 'text', b: 'string', c: 'null', d: 'Table content text' },
                 { id: 5, a: 'data', b: 'string', c: 'null', d: 'Table content data' },

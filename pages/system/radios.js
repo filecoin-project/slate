@@ -32,7 +32,7 @@ const RADIO_GROUP_OPTIONS = [
         <br />I want to have cake and soda for dinner.
       </React.Fragment>
     ),
-  }
+  },
 ];
 
 export default class SystemPageRadios extends React.Component {
@@ -46,16 +46,15 @@ export default class SystemPageRadios extends React.Component {
 
   render() {
     return (
-      <SystemPage
-        title="FCDS: Radios"
-        description="This is an early preview of the Filecoin Client Design System (FCDS)."
-        url="https://fps.onrender.com/system/radios">
+      <SystemPage title="SDS: Radios" description="..." url="https://fps.onrender.com/system/radios">
         <System.H1>
-          Radios <ViewSourceLink file="radios.js" />
+          Radios <ViewSourceLink file="system/radios.js" />
         </System.H1>
         <br />
         <br />
-        <System.P>The Radio component is used when you require a user to select only one value in a series of options.</System.P>
+        <System.P>
+          The Radio component is used when you require a user to select only one value in a series of options.
+        </System.P>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -64,7 +63,7 @@ export default class SystemPageRadios extends React.Component {
         <System.P>Define the radio group values and labels.</System.P>
         <br />
         <System.CodeBlock>
-{`const RADIO_GROUP_OPTIONS = [
+          {`const RADIO_GROUP_OPTIONS = [
   {
     value: '1',
     label: (
@@ -95,10 +94,12 @@ export default class SystemPageRadios extends React.Component {
 ];`}
         </System.CodeBlock>
         <br />
-        <System.P>Define the default selected option and handle the state changes when the users selects a different option.</System.P>
+        <System.P>
+          Define the default selected option and handle the state changes when the users selects a different option.
+        </System.P>
         <br />
         <System.CodeBlock>
-{`state = {
+          {`state = {
   default: '2',
 };
 
@@ -110,7 +111,7 @@ _handleChange = (e) => {
         <System.P>Declare the RadioGroup component.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.RadioGroup
+          {`<System.RadioGroup
   name="five"
   options={RADIO_GROUP_OPTIONS}
   selected={this.state.default}
@@ -133,7 +134,7 @@ _handleChange = (e) => {
         <System.H2>Props</System.H2>
         <hr />
         <br />
-        <Group title='RadioGroup'>
+        <Group title="RadioGroup">
           <System.Table
             data={{
               columns: [
@@ -141,11 +142,16 @@ _handleChange = (e) => {
                 { key: 'b', name: 'Type', width: '88px' },
                 { key: 'c', name: 'Default', width: '88px' },
                 { key: 'd', name: 'Description', width: '100%' },
-
               ],
               rows: [
                 { id: 2, a: 'options', b: 'array', c: 'null', d: 'Array of options' },
-                { id: 3, a: 'selected', b: 'string', c: 'null', d: 'Default selected option based on the options array ID' },
+                {
+                  id: 3,
+                  a: 'selected',
+                  b: 'string',
+                  c: 'null',
+                  d: 'Default selected option based on the options array ID',
+                },
               ],
             }}
           />

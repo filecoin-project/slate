@@ -21,9 +21,9 @@ export default class SystemPageInputs extends React.Component {
 
   render() {
     return (
-      <SystemPage title="FCDS: Inputs" description="Lorem Ipsum." url="https://fps.onrender.com/system/inputs">
+      <SystemPage title="SDS: Inputs" description="..." url="https://fps.onrender.com/system/inputs">
         <System.H1>
-          Inputs <ViewSourceLink file="inputs.js" />
+          Inputs <ViewSourceLink file="system/inputs.js" />
         </System.H1>
         <br />
         <br />
@@ -36,7 +36,7 @@ export default class SystemPageInputs extends React.Component {
         <System.P>Define the Input value states and handle the state change the when a change is made.</System.P>
         <br />
         <System.CodeBlock>
-{`state = {
+          {`state = {
   twelve: 'Replace me friend.',
   thirteen: '',
   fourteen: '',
@@ -60,7 +60,7 @@ _handleChange = (e) => {
         <System.Textarea name="seventeen" value={this.state.seventeen} onChange={this._handleChange} />
         <br />
         <System.CodeBlock>
-        {`<System.Textarea name="seventeen" value={this.state.seventeen} onChange={this._handleChange} />`}
+          {`<System.Textarea name="seventeen" value={this.state.seventeen} onChange={this._handleChange} />`}
         </System.CodeBlock>
         <br />
         <br />
@@ -81,7 +81,7 @@ _handleChange = (e) => {
         />
         <br />
         <System.CodeBlock>
-{`<System.Input
+          {`<System.Input
   label="Location of your pastries"
   description="We need to know the location of your pastries to sell them to other people."
   tooltip="Hey friends."
@@ -108,7 +108,7 @@ _handleChange = (e) => {
         />
         <br />
         <System.CodeBlock>
-{`<System.Input
+          {`<System.Input
   label="Max length is 14"
   max={14}
   name="sixteen"
@@ -134,7 +134,7 @@ _handleChange = (e) => {
         />
         <br />
         <System.CodeBlock>
-{`<System.Input
+          {`<System.Input
   label="Copy and paste (read only)"
   readOnly
   name="fifteen"
@@ -161,7 +161,7 @@ _handleChange = (e) => {
         <System.Input label="Error" placeholder="This is an uncontrolled input for error." validation="ERROR" />
         <br />
         <System.CodeBlock>
-{`<System.Input label="Success" placeholder="This is an uncontrolled input for success." validation="SUCCESS" />
+          {`<System.Input label="Success" placeholder="This is an uncontrolled input for success." validation="SUCCESS" />
 
 <System.Input label="Warning" placeholder="This is an uncontrolled input for warning." validation="WARNING" />
 
@@ -174,7 +174,7 @@ _handleChange = (e) => {
         <System.H2>Props</System.H2>
         <hr />
         <br />
-        <Group title='Inputs'>
+        <Group title="Inputs">
           <System.Table
             data={{
               columns: [
@@ -182,14 +182,19 @@ _handleChange = (e) => {
                 { key: 'b', name: 'Type', width: '88px' },
                 { key: 'c', name: 'Default', width: '88px' },
                 { key: 'd', name: 'Description', width: '100%' },
-
               ],
               rows: [
-                { id: 1, a: 'name', b: 'string', c: 'null', d:'Radio Group name' },
+                { id: 1, a: 'name', b: 'string', c: 'null', d: 'Radio Group name' },
                 { id: 2, a: 'label', b: 'string', c: 'null', d: 'Label text' },
                 { id: 3, a: 'max', b: 'number', c: 'null', d: 'Max number of input characters' },
                 { id: 4, a: 'tooltip', b: 'string', c: 'null', d: 'Tooltip text' },
-                { id: 5, a: 'validation', b: 'string', c: 'null', d: 'Validation style. Use: SUCCESS, WARNING or ERROR' },
+                {
+                  id: 5,
+                  a: 'validation',
+                  b: 'string',
+                  c: 'null',
+                  d: 'Validation style. Use: SUCCESS, WARNING or ERROR',
+                },
               ],
             }}
           />

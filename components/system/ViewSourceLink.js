@@ -26,7 +26,7 @@ export default class ViewSourceLink extends React.Component {
     return (
       <a
         css={STYLES_VIEW_SOURCE_LINK}
-        href={`https://github.com/filecoin-project/filecoin-client/blob/master/pages/system/${this.props.file}`}
+        href={`https://github.com/filecoin-project/slate/blob/main/pages/${this.props.file}`}
         target="_blank">
         <SVG.ExpandBox height="12px" style={{ marginRight: 2 }} /> View Source
       </a>

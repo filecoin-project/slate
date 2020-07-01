@@ -47,13 +47,15 @@ export default class SystemPageDropdowns extends React.Component {
 
   render() {
     return (
-      <SystemPage title="FCDS: Dropdowns" description="Lorem Ipsum." url="https://fps.onrender.com/system/dropdowns">
+      <SystemPage title="SDS: Dropdowns" description="..." url="https://fps.onrender.com/system/dropdowns">
         <System.H1>
-          Dropdowns <ViewSourceLink file="dropdowns.js" />
+          Dropdowns <ViewSourceLink file="system/dropdowns.js" />
         </System.H1>
         <br />
         <br />
-        <System.P>The Dropdown component is used to present the user a list of values where they can select a single option.</System.P>
+        <System.P>
+          The Dropdown component is used to present the user a list of values where they can select a single option.
+        </System.P>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -62,7 +64,7 @@ export default class SystemPageDropdowns extends React.Component {
         <System.P>Define the dropdown menu options.</System.P>
         <br />
         <System.CodeBlock>
-{`const SELECT_MENU_OPTIONS = [
+          {`const SELECT_MENU_OPTIONS = [
   { value: '1', name: 'Capricorn' },
   { value: '2', name: 'Aquarius' },
   { value: '3', name: 'Pisces' },
@@ -93,10 +95,12 @@ const SELECT_MENU_MAP = {
 };`}
         </System.CodeBlock>
         <br />
-        <System.P>Define the Dropdown value states and handle the state change the when a dropdown value is selected.</System.P>
+        <System.P>
+          Define the Dropdown value states and handle the state change the when a dropdown value is selected.
+        </System.P>
         <br />
         <System.CodeBlock>
-{`state = {
+          {`state = {
   one: '1',
   two: '3',
   three: '1',
@@ -110,7 +114,7 @@ _handleChange = (e) => {
         <System.P>Declare the Dropdown component.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.SelectMenu
+          {`<System.SelectMenu
   name="one"
   value={this.state.one}
   category="horoscope"

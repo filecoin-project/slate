@@ -8,9 +8,9 @@ import ViewSourceLink from '~/components/system/ViewSourceLink';
 export default class SystemPageGlobe extends React.Component {
   render() {
     return (
-      <SystemPage title="FCDS: Globe" description="Lorem Ipsum." url="https://fps.onrender.com/system/globe">
+      <SystemPage title="SDS: Globe" description="..." url="https://fps.onrender.com/system/globe">
         <System.H1>
-          Globe <ViewSourceLink file="globe.js" />
+          Globe <ViewSourceLink file="system/globe.js" />
         </System.H1>
         <br />
         <br />
@@ -22,15 +22,11 @@ export default class SystemPageGlobe extends React.Component {
         <br />
         <System.P>Import GLRenderer.</System.P>
         <br />
-        <System.CodeBlock>
-        {`import GLRenderer from '~/components/three/GLRenderer';`}
-        </System.CodeBlock>
+        <System.CodeBlock>{`import GLRenderer from '~/components/three/GLRenderer';`}</System.CodeBlock>
         <br />
         <System.P>Declare the Globe component.</System.P>
         <br />
-        <System.CodeBlock>
-        {`<GLRenderer width={768} height={480} />`}
-        </System.CodeBlock>
+        <System.CodeBlock>{`<GLRenderer width={768} height={480} />`}</System.CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

@@ -29,9 +29,9 @@ const STYLES_COLOR_TEXT = css`
 export default class SystemPageColors extends React.Component {
   render() {
     return (
-      <SystemPage title="FCDS: Colors" description="Lorem Ipsum" url="https://fps.onrender.com/system/colors">
+      <SystemPage title="SDS: Colors" description="..." url="https://fps.onrender.com/system/colors">
         <System.H1>
-          Colors <ViewSourceLink file="colors.js" />
+          Colors <ViewSourceLink file="system/colors.js" />
         </System.H1>
         <br />
         <br />
@@ -43,14 +43,12 @@ export default class SystemPageColors extends React.Component {
         <br />
         <System.P>Import Constants.</System.P>
         <br />
-        <System.CodeBlock>
-        {`import * as Constants from '~/common/constants';`}
-        </System.CodeBlock>
+        <System.CodeBlock>{`import * as Constants from '~/common/constants';`}</System.CodeBlock>
         <br />
         <System.P>Import Constants.</System.P>
         <br />
         <System.CodeBlock>
-{`{Constants.system.white};
+          {`{Constants.system.white};
 
 {Constants.system.foreground};
 

@@ -95,10 +95,13 @@ const STYLES_LABEL = css`
 `;
 
 const SidebarLink = (props) => {
-  console.log(props.url)
+  console.log(props.url);
   return (
     <React.Fragment>
-      <a css={props.url.includes(props.href) ? STYLES_LINK_ACTIVE : STYLES_LINK} href={props.href} target={props.target}>
+      <a
+        css={props.url.includes(props.href) ? STYLES_LINK_ACTIVE : STYLES_LINK}
+        href={props.href}
+        target={props.target}>
         {props.title}
       </a>
       {props.children ? <div css={STYLES_DESCRIPTION}>{props.children}</div> : null}
@@ -156,21 +159,10 @@ export default class SystemPage extends React.Component {
           <br />
           <br />
 
-          <span css={STYLES_LABEL}>Tutorials</span>
-          <SidebarLink
-            url={url}
-            href="https://github.com/filecoin-project/filecoin-client-tutorial"
-            target="_blank"
-            title="Build a Simple Example Quickly">
-            Upload data to IPFS and Filecoin on the Lotus DevNet in under 5 minutes.
-          </SidebarLink>
-          <SidebarLink 
-            url={url}
-            href="https://blog.textile.io/integrating-powergate/" 
-            target="_blank" 
-            title="Using Powergate">
-            A guide to integrate Powergate into your web client.
-          </SidebarLink>
+          <span css={STYLES_LABEL}>Experiences</span>
+          <SidebarLink url={url} href="/experiences/peers-list" title="Peers list"></SidebarLink>
+          <SidebarLink url={url} href="/experiences/create-address" title="Create address"></SidebarLink>
+          <SidebarLink url={url} href="/experiences/make-storage-deal" title="Make storage deal"></SidebarLink>
 
           <span css={STYLES_LABEL}>
             <br />

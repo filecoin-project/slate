@@ -139,11 +139,10 @@ export class Input extends React.Component {
           onChange={this._handleChange}
           autoComplete="off"
           readOnly={this.props.readOnly}
-          type={this.props.type}
           style={{
             ...this.props.style,
             boxShadow: this.props.validation
-              ? `0 1px 4px rgba(0, 0, 0, 0.07), 0 0 4px ${
+              ? `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
                   INPUT_COLOR_MAP[this.props.validation]
                 }`
               : null,

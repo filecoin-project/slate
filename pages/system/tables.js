@@ -108,8 +108,8 @@ export default class SystemPageTables extends React.Component {
               rows: [
                 { id: 1, a: 'key', b: 'string', c: 'null', d:'Column key value' },
                 { id: 2, a: 'name', b: 'string', c: 'null', d: 'Name of the column' },
-                { id: 2, a: 'tooltip', b: 'string', c: 'null', d: 'If not null a tooltip will be visable' },
-                { id: 2, a: 'copyable', b: 'boolean', c: 'false', d: 'If true, a copyable icon will be visable' },
+                { id: 2, a: 'tooltip', b: 'string', c: 'null', d: 'If not null a tooltip will be visible' },
+                { id: 2, a: 'copyable', b: 'boolean', c: 'false', d: 'If true, a copyable icon will be visible' },
                 { id: 2, a: 'type', b: 'string', c: 'null', d: 'Use FILE_LINK to add a linkable column' },
                 { id: 2, a: 'width', b: 'number', c: 'null', d: 'Width of the column' },
               ],

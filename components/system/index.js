@@ -12,6 +12,7 @@ import { CheckBox } from '~/components/system/components/CheckBox';
 import { CodeBlock } from '~/components/system/components/CodeBlock';
 import { CodeTextarea } from '~/components/system/components/CodeTextarea';
 import { Input } from '~/components/system/components/Input';
+import { Notification } from '~/components/system/components/Notification';
 import { PopoverNavigation } from '~/components/system/components/PopoverNavigation';
 import { RadioGroup } from '~/components/system/components/RadioGroup';
 import { SelectMenu, SelectMenuFull } from '~/components/system/components/SelectMenus';
@@ -41,6 +42,7 @@ export {
   CodeBlock,
   CodeTextarea,
   Input,
+  Notification,
   PopoverNavigation,
   RadioGroup,
   SelectMenu,

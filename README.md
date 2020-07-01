@@ -1,4 +1,6 @@
-# Filecoin Client Project (WIP)
+# Slate
+
+Slate is a way to share Filecoin and Files with friends.
 
 #### High fidelity concept (May 23rd, 2020)
 
@@ -8,7 +10,9 @@
 
 ![screenshot](https://user-images.githubusercontent.com/310223/84873452-1c704b80-b038-11ea-8398-4a73c4d9850e.png)
 
-## Introduction
+## Developer Introduction
+
+We are building this product out in the open. As a developer you are welcome to take everything and anything. You are also welcome to contribute however you please.
 
 This is an example of how to use the [Filecoin Network](https://filecoin.io) on a [Lotus DevNet](https://lotu.sh). It uses
 [Textile's Powergate](https://github.com/textileio/powergate/) and [Aaron Sutula](https://github.com/asutula)'s work with the [JavaScript/TypeScript Powergate Client](https://github.com/textileio/js-powergate-client).
@@ -29,9 +33,8 @@ Coming soon:
 
 - **Many more features**.
 - Electron wrapper and binaries.
-- New brand! Help us decide [here](https://filecoin.onrender.com/logo-name-test). Example logos are from the [Logo Archive](https://logo-archive.org/).
 
-# Run locally (Mac OS)
+# Run locally (MacOS)
 
 These steps will guide you through running the client.
 

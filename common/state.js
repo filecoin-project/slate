@@ -55,8 +55,6 @@ export const getInitialState = (props) => {
     };
   }
 
-  console.log(info);
-
   return {
     id: info.id,
     name: local.name,

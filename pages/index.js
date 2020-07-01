@@ -103,7 +103,6 @@ export default class IndexPage extends React.Component {
   }
 
   rehydrate = async ({ data }) => {
-    console.log(data);
     this.setState({ viewer: { ...State.getInitialState(data) } });
   };
 

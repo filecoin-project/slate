@@ -135,7 +135,7 @@ app.prepare().then(async () => {
       // TODO(jim): Move this to postgres later.
       if (!FS.existsSync('./.data/local-settings.json')) {
         const localSettingsSchema = {
-          local: { photo: null, name: `node-${uuid()}` },
+          local: { photo: null, name: `node-${uuid()}`, settings_deals_auto_approve: false },
         };
 
         FS.writeFileSync('./.data/local-settings.json', JSON.stringify(localSettingsSchema));

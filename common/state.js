@@ -55,6 +55,8 @@ export const getInitialState = (props) => {
     };
   }
 
+  console.log(info);
+
   return {
     id: info.id,
     name: local.name,
@@ -62,7 +64,7 @@ export const getInitialState = (props) => {
     upload_bandwidth: 0,
     download_bandwidth: 0,
 
-    settings_deals_auto_approve: true,
+    settings_deals_auto_approve: local.settings_deals_auto_approve,
 
     settings_hot_enabled: info.defaultConfig.hot.enabled,
     settings_hot_allow_unfreeze: info.defaultConfig.hot.allowUnfreeze,

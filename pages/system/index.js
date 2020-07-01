@@ -14,7 +14,7 @@ export default class SystemPageRoot extends React.Component {
         <System.H1>Welcome</System.H1>
         <br />
         <System.P>
-          This is an early preview of the <strong>Slate Design System (FCDS 1.1)</strong>. We are developing our
+          This is an early preview of the <strong>Slate Design System (SDS 1.1)</strong>. We are developing our
           philosophy, principles and practices out in the open.
         </System.P>
         <br /> <br />

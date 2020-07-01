@@ -1,10 +1,10 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
-import * as System from "~/components/system";
+import * as React from 'react';
+import * as Strings from '~/common/strings';
+import * as Constants from '~/common/constants';
+import * as SVG from '~/components/system/svg';
+import * as System from '~/components/system';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
 const STYLES_FILE_HIDDEN = css`
   height: 1px;
@@ -18,12 +18,12 @@ const STYLES_FILE_HIDDEN = css`
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: 'inter-medium';
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: 'inter-semi-bold';
     font-weight: 400;
   }
 `;
@@ -44,26 +44,23 @@ const STYLES_IMAGE_PREVIEW = css`
 `;
 
 const SELECT_MENU_OPTIONS = [
-  { value: "1", name: "Anywhere" },
-  { value: "2", name: "China" },
-  { value: "3", name: "Russia" },
-  { value: "4", name: "USA" },
+  { value: '1', name: 'Anywhere' },
+  { value: '2', name: 'China' },
+  { value: '3', name: 'Russia' },
+  { value: '4', name: 'USA' },
 ];
 
 const SELECT_MENU_MAP = {
-  "1": "Anywhere",
-  "2": "China",
-  "3": "Russia",
-  "4": "USA",
+  '1': 'Anywhere',
+  '2': 'China',
+  '3': 'Russia',
+  '4': 'USA',
 };
 
 export default class SidebarFileStorageDeal extends React.Component {
   state = {
-    file: null,
-    settings_cold_default_duration: this.props.viewer
-      .settings_cold_default_duration,
-    settings_cold_default_replication_factor: this.props.viewer
-      .settings_cold_default_replication_factor,
+    settings_cold_default_duration: this.props.viewer.settings_cold_default_duration,
+    settings_cold_default_replication_factor: this.props.viewer.settings_cold_default_replication_factor,
   };
 
   _handleUpload = async (e) => {
@@ -71,43 +68,25 @@ export default class SidebarFileStorageDeal extends React.Component {
     let file = e.target.files[0];
 
     if (!file) {
-      alert("Something went wrong");
+      alert('Something went wrong');
       return;
     }
 
-    let data = new FormData();
-    data.append("image", file);
-
-    const options = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: data,
-    };
-
-    const response = await fetch(`/_/storage/${file.name}`, options);
-    const json = await response.json();
-
-    if (json && json.success) {
-      this.setState({ file });
-    }
+    await this.props.onSetFile({ file });
   };
 
   _handleMakeDeal = async (src) => {
-    console.log(src);
-
     const options = {
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ src }),
     };
 
-    const response = await fetch("/_/deals/storage", options);
+    const response = await fetch('/_/deals/storage', options);
     const json = await response.json();
     return json;
   };
@@ -115,7 +94,7 @@ export default class SidebarFileStorageDeal extends React.Component {
   _handleSubmit = async (e) => {
     e.persist();
 
-    const path = `/public/static/files/${this.state.file.name}`;
+    const path = `/public/static/files/${this.props.file.name}`;
     await this._handleMakeDeal(path);
 
     await this.props.onSubmit({});
@@ -144,44 +123,30 @@ export default class SidebarFileStorageDeal extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: "inter-semi-bold" }}>
-          Upload a file to the network
-        </System.P>
-        <input
-          css={STYLES_FILE_HIDDEN}
-          type="file"
-          id="file"
-          onChange={this._handleUpload}
-        />
+        <System.P style={{ fontFamily: 'inter-semi-bold' }}>Upload a file to the network</System.P>
+        <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
 
-        {this.state.file ? (
+        {this.props.file ? (
           <div>
-            <img
-              src={`/static/files/${this.state.file.name}`}
-              css={STYLES_IMAGE_PREVIEW}
-            />
+            <img src={`/static/files/${this.props.file.name}`} css={STYLES_IMAGE_PREVIEW} />
 
             <div css={STYLES_ITEM}>
-              <div css={STYLES_FOCUS}>{this.state.file.name}</div>
+              <div css={STYLES_FOCUS}>{this.props.file.name}</div>
               <div css={STYLES_SUBTEXT}>Name</div>
             </div>
 
             <div css={STYLES_ITEM}>
-              <div css={STYLES_FOCUS}>{this.state.file.size}</div>
+              <div css={STYLES_FOCUS}>{this.props.file.size}</div>
               <div css={STYLES_SUBTEXT}>File size</div>
             </div>
           </div>
         ) : null}
 
-        <System.ButtonSecondaryFull
-          type="label"
-          htmlFor="file"
-          style={{ marginTop: 24 }}
-        >
+        <System.ButtonSecondaryFull type="label" htmlFor="file" style={{ marginTop: 24 }}>
           Add file
         </System.ButtonSecondaryFull>
 
-        {this.state.file ? (
+        {this.props.file ? (
           <System.Input
             containerStyle={{ marginTop: 48 }}
             label="Deal duration"
@@ -193,7 +158,7 @@ export default class SidebarFileStorageDeal extends React.Component {
           />
         ) : null}
 
-        {this.state.file ? (
+        {this.props.file ? (
           <System.Input
             containerStyle={{ marginTop: 24 }}
             label="Replication factor"
@@ -203,7 +168,7 @@ export default class SidebarFileStorageDeal extends React.Component {
           />
         ) : null}
 
-        {this.state.file ? (
+        {this.props.file ? (
           <System.SelectMenuFull
             containerStyle={{ marginTop: 24 }}
             name="address"
@@ -211,17 +176,13 @@ export default class SidebarFileStorageDeal extends React.Component {
             value={this.props.selected.address}
             category="address"
             onChange={this.props.onSelectedChange}
-            options={this.props.viewer.addresses}
-          >
+            options={this.props.viewer.addresses}>
             {currentAddress.name}
           </System.SelectMenuFull>
         ) : null}
 
-        {this.state.file ? (
-          <System.ButtonPrimaryFull
-            style={{ marginTop: 48 }}
-            onClick={this._handleSubmit}
-          >
+        {this.props.file ? (
+          <System.ButtonPrimaryFull style={{ marginTop: 48 }} onClick={this._handleSubmit}>
             Make storage deal
           </System.ButtonPrimaryFull>
         ) : null}

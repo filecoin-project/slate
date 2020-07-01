@@ -34,6 +34,10 @@ export const system = {
   green: "#28a745",
   yellow: " #FFC940",
   red: "#ff0000",
+  lightGreen: "#93d3a2",
+  lightYellow: "#ffd76f",
+  lightRed: "#ff8080",
+  lightBlue: "#949aff",
 };
 
 export const theme = {

@@ -119,7 +119,7 @@ _handleChange = (e) => {
         <br />
         <br />
         <br />
-        <System.H2>Input with copy and paste.</System.H2>
+        <System.H2>Input with copy and paste</System.H2>
         <hr />
         <br />
         <System.P>Declare the Input component with copyable.</System.P>

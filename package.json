@@ -1,5 +1,5 @@
 {
-  "name": "filecoin-prototype",
+  "name": "slate",
   "version": "0.0.1",
   "engines": {
     "node": ">=11 <12"

@@ -122,7 +122,10 @@ app.prepare().then(async () => {
         state.library = JSON.parse(parsedLibrary).library;
       }
     } catch (e) {
-      console.log('[ prototype ] you can not run the filecoin client, only web views allowed.');
+      console.log('[ prototype ] "/" - WILL REDIRECT TO /SYSTEM ');
+      console.log('[ prototype ]       SLATE WILL NOT RUN LOCALLY UNTIL YOU HAVE ');
+      console.log('[ prototype ]       PROPERLY CONFIGURED POWERGATE AND ');
+      console.log('[ prototype ]       CONNECTED TO THE FILECOIN NETWORK (DEVNET/TESTNET) ');
     }
   }
 

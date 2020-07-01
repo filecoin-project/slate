@@ -160,9 +160,9 @@ export default class SystemPage extends React.Component {
           <br />
 
           <span css={STYLES_LABEL}>Experiences</span>
-          <SidebarLink url={url} href="/experiences/peers-list" title="Peers list"></SidebarLink>
-          <SidebarLink url={url} href="/experiences/create-address" title="Create address"></SidebarLink>
-          <SidebarLink url={url} href="/experiences/make-storage-deal" title="Make storage deal"></SidebarLink>
+          <SidebarLink url={url} href="/experiences/peers-list" title="Peers List"></SidebarLink>
+          <SidebarLink url={url} href="/experiences/create-address" title="Create Filecoin Address"></SidebarLink>
+          <SidebarLink url={url} href="/experiences/make-storage-deal" title="Make a Storage Deal"></SidebarLink>
 
           <span css={STYLES_LABEL}>
             <br />

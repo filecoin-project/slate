@@ -4,6 +4,7 @@
 DS_STORE
 package-lock.json
 node_modules
+dist 
 
 /**/*/package-lock.json
 /**/*/.DS_STORE

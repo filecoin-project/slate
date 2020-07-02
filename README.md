@@ -37,7 +37,7 @@
 
 ```sh
 cd docker
-make devnet
+make localnet
 ```
 
 ### Install and run

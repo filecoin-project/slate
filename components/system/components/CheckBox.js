@@ -5,6 +5,7 @@ import * as SVG from "~/components/system/svg";
 import { css } from "@emotion/react";
 
 const STYLES_CHECKBOX = css`
+  font-family: ${Constants.font.text};
   display: flex;
   align-items: flex-start;
   justify-content: space-between;

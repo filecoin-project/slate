@@ -4,6 +4,7 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_RADIO = css`
+  font-family: ${Constants.font.text};
   display: flex;
   align-items: flex-start;
   justify-content: space-between;

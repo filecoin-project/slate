@@ -1,12 +1,13 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
-import * as SVG from '~/components/system/svg';
+import * as React from "react";
+import * as Constants from "~/common/constants";
+import * as SVG from "~/components/system/svg";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import { DescriptionGroup } from '~/components/system/components/fragments/DescriptionGroup';
+import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 
 const INPUT_STYLES = `
+  font-family: ${Constants.font.text};
   -webkit-appearance: none;
   width: 100%;
   height: 40px;
@@ -80,7 +81,10 @@ export const SelectMenu = (props) => {
 
       <div css={props.className ? props.className : STYLES_SELECT_MENU}>
         <label css={STYLES_SELECT_MENU_LABEL} htmlFor={`id-${props.name}`}>
-          {props.children} {props.category ? <span css={STYLES_SELECT_MENU_CATEGORY}>{props.category}</span> : null}
+          {props.children}{" "}
+          {props.category ? (
+            <span css={STYLES_SELECT_MENU_CATEGORY}>{props.category}</span>
+          ) : null}
           <SVG.ChevronDown height="16px" css={STYLES_SELECT_MENU_CHEVRON} />
         </label>
         <select
@@ -88,7 +92,8 @@ export const SelectMenu = (props) => {
           value={props.value}
           onChange={props.onChange}
           name={props.name}
-          id={`id-${props.name}`}>
+          id={`id-${props.name}`}
+        >
           {props.options.map((each) => {
             return (
               <option value={each.value} key={each.value}>
@@ -102,4 +107,6 @@ export const SelectMenu = (props) => {
   );
 };
 
-export const SelectMenuFull = (props) => <SelectMenu {...props} css={STYLES_SELECT_MENU_FULL} />;
+export const SelectMenuFull = (props) => (
+  <SelectMenu {...props} css={STYLES_SELECT_MENU_FULL} />
+);

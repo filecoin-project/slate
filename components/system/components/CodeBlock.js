@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_CODE_BLOCK = css`
-  font-family: "mono";
+  font-family: ${Constants.system.mono};
   background-color: ${Constants.system.black};
   color: ${Constants.system.white};
   border-radius: 4px;

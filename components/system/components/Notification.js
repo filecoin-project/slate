@@ -1,13 +1,14 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
-import * as SVG from '~/components/system/svg';
-import * as Strings from '~/common/strings';
+import * as React from "react";
+import * as Constants from "~/common/constants";
+import * as SVG from "~/components/system/svg";
+import * as Strings from "~/common/strings";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import { DescriptionGroup } from '~/components/system/components/fragments/DescriptionGroup';
+import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 
 const STYLES_NOTIFICATION = css`
+  font-family: ${Constants.font.text};
   background-color: ${Constants.system.white};
   border-radius: 5px;
   padding: 15px 15px 3px 15px;
@@ -29,7 +30,7 @@ const STYLES_CLOSE = css`
   top: 8px;
   right: 8px;
   cursor: pointer;
-`
+`;
 
 const NOTIF_COLOR_MAP = {
   SUCCESS: Constants.system.lightGreen,
@@ -39,48 +40,67 @@ const NOTIF_COLOR_MAP = {
 };
 
 const ICON_MAP = {
-  SUCCESS: <SVG.CheckCircle 
-    css={STYLES_ICON} 
-    height="24px" 
-    style={{
-    color: `${Constants.system.green}`
-    }} 
-  />,
-  ERROR: <SVG.XCircle 
-    css={STYLES_ICON} 
-    height="24px" 
-    style={{
-    color: `${Constants.system.red}`
-    }} 
-  />,
-  WARNING: <SVG.AlertCircle 
-    css={STYLES_ICON} 
-    height="24px" 
-    style={{
-      color: `${Constants.system.yellow}`
-    }} 
-  />,
-  INFO: <SVG.InfoCircle 
-    css={STYLES_ICON} 
-    height="24px" 
-    style={{
-      color: `${Constants.system.lightBlue}`
-    }} 
-  />,
-}
+  SUCCESS: (
+    <SVG.CheckCircle
+      css={STYLES_ICON}
+      height="24px"
+      style={{
+        color: `${Constants.system.green}`,
+      }}
+    />
+  ),
+  ERROR: (
+    <SVG.XCircle
+      css={STYLES_ICON}
+      height="24px"
+      style={{
+        color: `${Constants.system.red}`,
+      }}
+    />
+  ),
+  WARNING: (
+    <SVG.AlertCircle
+      css={STYLES_ICON}
+      height="24px"
+      style={{
+        color: `${Constants.system.yellow}`,
+      }}
+    />
+  ),
+  INFO: (
+    <SVG.InfoCircle
+      css={STYLES_ICON}
+      height="24px"
+      style={{
+        color: `${Constants.system.lightBlue}`,
+      }}
+    />
+  ),
+};
 
 export class Notification extends React.Component {
   render() {
     return (
-      <div css={STYLES_NOTIFICATION} style={{
-          boxShadow: `0 1px 4px rgba(0, 0, 0, 0.07), 0 0 4px 1px ${NOTIF_COLOR_MAP[this.props.status || 'INFO']}`
-          }}
+      <div
+        css={STYLES_NOTIFICATION}
+        style={{
+          boxShadow: `0 1px 4px rgba(0, 0, 0, 0.07), 0 0 4px 1px ${
+            NOTIF_COLOR_MAP[this.props.status || "INFO"]
+          }`,
+        }}
       >
-        {ICON_MAP[this.props.status || 'INFO']}
-        <DescriptionGroup tooltip={this.props.tooltip} label={this.props.label} description={this.props.description} 
-          style={{ marginBottom: '0' }}
+        {ICON_MAP[this.props.status || "INFO"]}
+        <DescriptionGroup
+          tooltip={this.props.tooltip}
+          label={this.props.label}
+          description={this.props.description}
+          style={{ marginBottom: "0" }}
         />
-        {this.props.onClose ? <SVG.X css={STYLES_CLOSE} onClick={this.props.onClose}/> : <div></div>}
+        {this.props.onClose ? (
+          <SVG.X css={STYLES_CLOSE} onClick={this.props.onClose} />
+        ) : (
+          <div />
+        )}
       </div>
     );
   }

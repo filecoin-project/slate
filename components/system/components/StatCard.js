@@ -7,6 +7,7 @@ import { LineChart } from "~/vendor/react-chartkick";
 import "chart.js";
 
 const STYLES_STAT_CARD = css`
+  font-family: ${Constants.font.text};
   width: 100%;
   box-shadow: 0 0 0 1px ${Constants.system.gray}, 0 1px 4px rgba(0, 0, 0, 0.04);
   border-radius: 4px;

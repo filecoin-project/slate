@@ -18,6 +18,7 @@ const TABLE_COLUMN_WIDTH_DEFAULTS = {
 };
 
 const STYLES_TABLE_PLACEHOLDER = css`
+  font-family: ${Constants.font.text};
   display: block;
   width: 100%;
   padding: 20px;

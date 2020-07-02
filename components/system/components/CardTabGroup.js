@@ -11,6 +11,7 @@ const TAB_GROUP_SIZE_MAP = {
 };
 
 const STYLES_CARD_TAB_GROUP = css`
+  font-family: ${Constants.font.text};
   width: 100%;
   display: flex;
   align-items: flex-start;

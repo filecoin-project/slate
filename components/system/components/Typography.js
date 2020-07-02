@@ -67,6 +67,7 @@ export const H2 = (props) => {
 };
 
 const STYLES_P = css`
+  font-family: ${Constants.font.text};
   font-size: ${Constants.typescale.lvl1};
   line-height: 1.5;
 

@@ -1,14 +1,16 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const STYLES_POPOVER = css`
+  font-family: ${Constants.font.text};
   position: absolute;
   width: 288px;
   border-radius: 4px;
   background-color: ${Constants.system.white};
-  box-shadow: inset 0 0 0 1px ${Constants.system.border}, 0 1px 4px rgba(0, 0, 0, 0.07);
+  box-shadow: inset 0 0 0 1px ${Constants.system.border},
+    0 1px 4px rgba(0, 0, 0, 0.07);
 `;
 
 const STYLES_POPOVER_ITEM = css`
@@ -32,7 +34,7 @@ const STYLES_POPOVER_ITEM = css`
 export class PopoverNavigation extends React.Component {
   static defaultProps = {
     onNavigateTo: () => {
-      console.error('requires onNavigateTo');
+      console.error("requires onNavigateTo");
     },
   };
 
@@ -41,7 +43,11 @@ export class PopoverNavigation extends React.Component {
       <div css={STYLES_POPOVER} style={this.props.style}>
         {this.props.navigation.map((each) => {
           return (
-            <div key={each.value} css={STYLES_POPOVER_ITEM} onClick={() => this.props.onNavigateTo({ id: each.value })}>
+            <div
+              key={each.value}
+              css={STYLES_POPOVER_ITEM}
+              onClick={() => this.props.onNavigateTo({ id: each.value })}
+            >
               {each.text}
             </div>
           );

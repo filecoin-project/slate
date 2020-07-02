@@ -1,9 +1,10 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const STYLES_TOGGLE = css`
+  font-family: ${Constants.font.text};
   display: inline-flex;
   height: 40px;
   border-radius: 40px;
@@ -40,8 +41,12 @@ export class Toggle extends React.Component {
         onClick={this._handleChange}
         style={{
           backgroundColor: this.props.active ? Constants.system.brand : null,
-        }}>
-        <figure css={STYLES_DIAL} style={{ transform: this.props.active ? `translateX(40px)` : null }} />
+        }}
+      >
+        <figure
+          css={STYLES_DIAL}
+          style={{ transform: this.props.active ? `translateX(40px)` : null }}
+        />
       </div>
     );
   }

@@ -122,7 +122,7 @@ export class Table extends React.Component {
           const selected = r.id === this.props.selectedRowId;
 
           return (
-            <React.Fragment key={r.id}>
+            <React.Fragment key={`${r.id}-${i}`}>
               <div css={STYLES_TABLE_ROW}>
                 {Object.keys(ac).map((each, cIndex) => {
                   const field = ac[each];
@@ -137,7 +137,7 @@ export class Table extends React.Component {
 
                   return (
                     <SubSystem.TableColumn
-                      key={`${each}-${i}`}
+                      key={`${each}-${i}-${cIndex}`}
                       style={{
                         width: localWidth,
                         backgroundColor: field.color,

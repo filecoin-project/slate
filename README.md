@@ -36,7 +36,7 @@ Coming soon:
 
 # Run locally (MacOS)
 
-These steps will guide you through running the client.
+These steps will guide you through running the client. Having a running DevNet and Powergate instance are not required to work on the design system.
 
 ## Satisfy dependency requirements
 

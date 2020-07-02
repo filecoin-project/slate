@@ -1,14 +1,15 @@
 import babel from "rollup-plugin-babel";
 import commonjs from "rollup-plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
 
 const input = "./components/system/index.js";
 
-export default [
-  {
+const generateOutput = (outputPath) => {
+  return {
     input,
     output: {
-      file: "dist/index.js",
+      file: outputPath,
       format: "cjs",
     },
     external: ["@emotion/react", "react", "react-dom"],
@@ -38,6 +39,12 @@ export default [
           "node_modules/react-tippy/dist/react-tippy.js": ["Tooltip"],
         },
       }),
+      terser(),
     ],
-  },
+  };
+};
+
+export default [
+  generateOutput("dist/index.js"),
+  generateOutput("../slate-react-system/src/index.js"),
 ];

@@ -15,6 +15,10 @@ const STYLES_BODY = css`
   width: 100%;
   margin: 0 auto 0 auto;
   padding: 88px 24px 128px 276px;
+
+  @media (max-width: 568px) {
+    padding: 88px 24px 128px 24px;
+  }
 `;
 
 const STYLES_ICON_ELEMENT = css`
@@ -53,6 +57,12 @@ const STYLES_SIDEBAR = css`
 
   ::-webkit-scrollbar-thumb:hover {
     background: ${Constants.system.brand};
+  }
+
+  @media (max-width: 568px) {
+    width: 100%;
+    position: relative;
+    overflow-y: auto;
   }
 `;
 
@@ -169,6 +179,7 @@ export default class SystemPage extends React.Component {
 
           <link rel="shortcut icon" href="/static/favicon.ico" />
         </Head>
+        <div css={STYLES_BODY}>{children}</div>
         <div css={STYLES_SIDEBAR}>
           <a css={STYLES_ICON_ELEMENT} href="/system">
             <SVG.Logo height="32px" />
@@ -291,7 +302,6 @@ export default class SystemPage extends React.Component {
             Community
           </div>
         </div>
-        <div css={STYLES_BODY}>{children}</div>
       </div>
     );
   }

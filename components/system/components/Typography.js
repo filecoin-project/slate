@@ -83,7 +83,7 @@ const STYLES_P = css`
 `;
 
 export const P = (props) => {
-  return <p css={STYLES_P} {...props} />;
+  return <div css={STYLES_P} {...props} />;
 };
 
 const STYLES_UL = css`

@@ -1,30 +1,30 @@
-import * as Constants from '~/node_common/constants';
+import * as Constants from "~/node_common/constants";
 
-import FS from 'fs-extra';
+import FS from "fs-extra";
 
 export const resetFileSystem = async () => {
-  console.log('[ prototype ] deleting old token and library data ');
+  console.log("[ prototype ] deleting old token and library data ");
   if (FS.existsSync(`./.data`)) {
-    FS.removeSync('./.data', { recursive: true });
+    FS.removeSync("./.data", { recursive: true });
   }
 
-  console.log('[ prototype ] deleting old avatar data ');
+  console.log("[ prototype ] deleting old avatar data ");
   if (FS.existsSync(Constants.AVATAR_STORAGE_URL)) {
     FS.removeSync(Constants.AVATAR_STORAGE_URL, { recursive: true });
   }
 
-  console.log('[ prototype ] deleting old file data ');
+  console.log("[ prototype ] deleting old file data ");
   if (FS.existsSync(Constants.FILE_STORAGE_URL)) {
     FS.removeSync(Constants.FILE_STORAGE_URL, { recursive: true });
   }
 
-  console.log('[ prototype ] creating new avatar folder ');
+  console.log("[ prototype ] creating new avatar folder ");
   FS.mkdirSync(Constants.AVATAR_STORAGE_URL, { recursive: true });
-  FS.writeFileSync(`${Constants.AVATAR_STORAGE_URL}.gitkeep`, '');
+  FS.writeFileSync(`${Constants.AVATAR_STORAGE_URL}.gitkeep`, "");
 
-  console.log('[ prototype ] creating new local file folder ');
+  console.log("[ prototype ] creating new local file folder ");
   FS.mkdirSync(Constants.FILE_STORAGE_URL, { recursive: true });
-  FS.writeFileSync(`${Constants.FILE_STORAGE_URL}.gitkeep`, '');
+  FS.writeFileSync(`${Constants.FILE_STORAGE_URL}.gitkeep`, "");
 
   return true;
 };
@@ -66,7 +66,7 @@ export const emitState = async ({ state, client, PG }) => {
   });
 
   if (client) {
-    client.send(JSON.stringify({ action: 'UPDATE_VIEWER', data }));
+    client.send(JSON.stringify({ action: "UPDATE_VIEWER", data }));
   }
 
   return data;
@@ -74,18 +74,18 @@ export const emitState = async ({ state, client, PG }) => {
 
 export const getFileName = (s) => {
   let target = s;
-  if (target.endsWith('/')) {
+  if (target.endsWith("/")) {
     target = target.substring(0, target.length - 1);
   }
 
-  return target.substr(target.lastIndexOf('/') + 1);
+  return target.substr(target.lastIndexOf("/") + 1);
 };
 
 export const createFile = ({ id, data }) => {
   return {
-    decorator: 'FILE',
+    decorator: "FILE",
     id: id,
-    icon: 'PNG',
+    icon: "PNG",
     file: getFileName(id),
     miner: null,
     job_id: null,
@@ -103,10 +103,10 @@ export const createFile = ({ id, data }) => {
 
 export const createFolder = ({ id }) => {
   return {
-    decorator: 'FOLDER',
+    decorator: "FOLDER",
     id,
     folderId: id,
-    icon: 'FOLDER',
+    icon: "FOLDER",
     file: getFileName(id),
     name: getFileName(id),
     pageTitle: null,
@@ -130,16 +130,23 @@ export const refreshLibrary = async ({ state, PG, FFS }) => {
     for (let j = 0; j < state.library[i].children.length; j++) {
       if (state.library[i].children[j].job_id) {
         if (state.library[i].children[j].storage_status === 1) {
-          console.log('[ prototype ] update file', state.library[i].children[j]);
+          console.log(
+            "[ prototype ] update file",
+            state.library[i].children[j]
+          );
           state.library[i].children[j].storage_status = 2;
           write = true;
           continue;
         }
 
         PG.ffs.watchJobs((job) => {
-          console.log('[ prototype ] job status', job.status);
-          if (job.status === FFS.JobStatus.JOB_STATUS_SUCCESS) {
-            console.log('[ prototype ] update file', state.library[i].children[j]);
+          // NOTE(jim): FFS is undefined?
+          console.log("[ prototype ] job status", job.status);
+          if (job.status >= 5) {
+            console.log(
+              "[ prototype ] update file",
+              state.library[i].children[j]
+            );
             state.library[i].children[j].storage_status = 6;
             write = true;
           }
@@ -149,7 +156,10 @@ export const refreshLibrary = async ({ state, PG, FFS }) => {
   }
 
   if (write) {
-    FS.writeFileSync('./.data/library.json', JSON.stringify({ library: state.library }));
+    FS.writeFileSync(
+      "./.data/library.json",
+      JSON.stringify({ library: state.library })
+    );
   }
 
   return { ...state };

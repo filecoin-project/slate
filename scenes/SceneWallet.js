@@ -70,12 +70,12 @@ const STYLES_TEXT = css`
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: ${Constants.font.medium};
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;

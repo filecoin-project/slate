@@ -1,3 +1,5 @@
+import * as Constants from "~/common/constants";
+
 // NOTE(jim): Components
 import {
   ButtonPrimary,
@@ -67,4 +69,5 @@ export {
   DescriptionGroup,
   TableContent,
   TableColumn,
+  Constants,
 };

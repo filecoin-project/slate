@@ -58,7 +58,7 @@ const STYLES_CHILDREN = css`
   height: 100%;
   overflow-wrap: break-word;
   padding: 11px 0px 14px 8px;
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   font-weight: 400;
   font-size: 14px;
   line-height: 1.225;
@@ -140,7 +140,7 @@ const Item = ({
         css={STYLES_CHILDREN}
         onClick={() => onNavigateTo({ id }, data)}
         style={{
-          fontFamily: decorator === "FILE" ? "inter-regular" : null,
+          fontFamily: decorator === "FILE" ? Constants.font.text : null,
           color: activeIds[id] ? Constants.system.brand : null,
         }}
       >
@@ -153,7 +153,7 @@ const Item = ({
 const STYLES_SMALL_LINK = css`
   padding: 0 16px 0 16px;
   font-size: 14px;
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   margin-top: 11px;
   color: #666;
   transition: 200ms ease all;

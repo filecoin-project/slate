@@ -24,7 +24,7 @@ const STYLES_LEFT = css`
 `;
 
 const STYLES_RIGHT = css`
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   font-size: ${Constants.typescale.lvl2};
   color: ${Constants.system.brand};
   min-width: 10%;
@@ -71,7 +71,7 @@ const STYLES_GRAPH_ROW_RIGHT = css`
 const STYLES_OPTION = css`
   color: ${Constants.system.white};
   margin-left: 24px;
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   font-size: 12px;
   line-height: 0.2px;
   text-transform: uppercase;
@@ -108,12 +108,12 @@ const STYLES_ITEM = css`
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: ${Constants.font.medium};
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;

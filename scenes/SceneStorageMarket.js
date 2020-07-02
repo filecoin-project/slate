@@ -30,12 +30,12 @@ const STYLES_RIGHT = css`
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: ${Constants.font.medium};
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;
@@ -51,7 +51,7 @@ const STYLES_ITEM = css`
 
 const STYLES_OPTION = css`
   margin-left: 24px;
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   font-size: 12px;
   line-height: 0.2px;
   text-transform: uppercase;

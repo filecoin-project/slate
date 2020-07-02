@@ -1,27 +1,28 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const TAB_GROUP_SIZE_MAP = {
-  1: '100%',
-  2: '50%',
-  3: '33.33%',
-  4: '25%',
+  1: "100%",
+  2: "50%",
+  3: "33.33%",
+  4: "25%",
 };
 
 const STYLES_CARD_TAB_GROUP = css`
   width: 100%;
   display: flex;
   align-items: flex-start;
-  box-shadow: 0 -1px 0 0 ${Constants.system.border}, 0 1px 0 0 ${Constants.system.border};
+  box-shadow: 0 -1px 0 0 ${Constants.system.border},
+    0 1px 0 0 ${Constants.system.border};
 `;
 
 const STYLES_CARD_TAB_GROUP_TAB = css`
   background: #fdfdfd;
   color: rgba(0, 0, 0, 0.4);
   font-size: 14px;
-  font-family: 'inter-semi-bold';
+  font-family: ${Constants.font.semiBold};
   height: 48px;
   display: inline-flex;
   align-items: center;
@@ -59,11 +60,14 @@ export class CardTabGroup extends React.Component {
               style={{
                 color: selected ? Constants.system.brand : null,
                 backgroundColor: selected ? Constants.system.white : null,
-                borderBottom: selected ? `2px solid ${Constants.system.brand}` : null,
+                borderBottom: selected
+                  ? `2px solid ${Constants.system.brand}`
+                  : null,
                 width: TAB_GROUP_SIZE_MAP[this.props.options.length],
-                cursor: !selected ? 'pointer' : null,
+                cursor: !selected ? "pointer" : null,
               }}
-              onClick={() => this._handleChange(tab.value)}>
+              onClick={() => this._handleChange(tab.value)}
+            >
               {tab.label}
             </div>
           );

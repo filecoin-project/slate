@@ -52,7 +52,7 @@ export default class SidebarCreateWalletAddress extends React.Component {
   render() {
     return (
       <div>
-        <System.P style={{ fontFamily: "inter-semi-bold" }}>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
           Create a new address
         </System.P>
 

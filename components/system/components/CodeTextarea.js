@@ -1,12 +1,12 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import TextareaAutoSize from '~/vendor/react-textarea-autosize';
+import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
 const STYLES_CODE_TEXTAREA = css`
-  font-family: 'mono';
+  font-family: ${Constants.font.mono};
   display: block;
   max-width: 480px;
   border-radius: 4px;

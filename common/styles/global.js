@@ -195,7 +195,7 @@ export const injectGlobalStyles = () => css`
     background: ${Constants.system.foreground};
     color: ${Constants.system.black};
     font-size: 16px;
-    font-family: 'inter-regular', -apple-system, BlinkMacSystemFont, arial, sans-serif;
+    font-family: ${Constants.font.text};
     scrollbar-width: none;
     -ms-overflow-style: -ms-autohiding-scrollbar;
 

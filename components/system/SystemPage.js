@@ -57,7 +57,7 @@ const STYLES_SIDEBAR = css`
 `;
 
 const STYLES_LINK = css`
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   color: ${Constants.system.pitchBlack};
   text-decoration: none;
   font-weight: 400;
@@ -70,7 +70,7 @@ const STYLES_LINK = css`
 `;
 
 const STYLES_LINK_ACTIVE = css`
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   color: ${Constants.system.brand};
   text-decoration: none;
   font-weight: 400;
@@ -86,7 +86,7 @@ const STYLES_DESCRIPTION = css`
 `;
 
 const STYLES_LABEL = css`
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   display: block;
   font-size: 11px;
   text-transform: uppercase;

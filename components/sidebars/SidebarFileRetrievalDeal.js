@@ -24,7 +24,7 @@ export default class SidebarFileRetrievalDeal extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: "inter-semi-bold" }}>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
           Retrieve file
         </System.P>
       </React.Fragment>

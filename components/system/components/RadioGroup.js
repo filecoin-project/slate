@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const STYLES_RADIO = css`
   display: flex;
@@ -64,7 +64,7 @@ const STYLES_RADIO_LABEL = css`
   overflow-wrap: break-word;
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;
@@ -85,7 +85,10 @@ export class RadioGroup extends React.Component {
           return (
             <label css={STYLES_RADIO} key={`radio-${radio.value}`}>
               <span css={STYLES_RADIO_CUSTOM}>
-                <span css={STYLES_RADIO_CUSTOM_SELECTED} style={{ opacity: checked ? 1 : 0 }} />
+                <span
+                  css={STYLES_RADIO_CUSTOM_SELECTED}
+                  style={{ opacity: checked ? 1 : 0 }}
+                />
               </span>
               <input
                 css={STYLES_RADIO_INPUT}
@@ -93,7 +96,7 @@ export class RadioGroup extends React.Component {
                 value={radio.value}
                 checked={checked}
                 onChange={() => this._handleChange(radio.value)}
-              />{' '}
+              />{" "}
               <span css={STYLES_RADIO_LABEL}>{radio.label}</span>
             </label>
           );

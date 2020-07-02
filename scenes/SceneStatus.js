@@ -24,7 +24,7 @@ const STYLES_LEFT = css`
 `;
 
 const STYLES_RIGHT = css`
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   font-size: ${Constants.typescale.lvl2};
   color: ${Constants.system.brand};
   min-width: 10%;
@@ -34,7 +34,7 @@ const STYLES_RIGHT = css`
 `;
 
 const STYLES_TEXT_CTA = css`
-  font-family: "inter-regular";
+  font-family: ${Constants.font.text};
   text-decoration: underline;
   color: ${Constants.system.brand};
   font-weight: 400;

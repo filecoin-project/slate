@@ -90,7 +90,7 @@ const STYLES_ITEM = css`
   justify-content: center;
   font-size: 12px;
   letter-spacing: 0.2px;
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
   cursor: pointer;
   background-color: ${Constants.system.brand};

@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const STYLES_BUTTON = `
   border-radius: 4px;
@@ -14,7 +14,7 @@ const STYLES_BUTTON = `
   justify-content: center;
   font-size: 12px;
   letter-spacing: 0.2px;
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
 `;
 
@@ -30,7 +30,7 @@ const STYLES_BUTTON_FULL = `
   justify-content: center;
   font-size: 12px;
   letter-spacing: 0.2px;
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
 `;
 
@@ -54,7 +54,7 @@ const STYLES_BUTTON_PRIMARY = css`
 `;
 
 export const ButtonPrimary = (props) => {
-  if (props.type === 'label') {
+  if (props.type === "label") {
     return <label css={STYLES_BUTTON_PRIMARY} {...props} />;
   }
 
@@ -81,7 +81,7 @@ const STYLES_BUTTON_PRIMARY_FULL = css`
 `;
 
 export const ButtonPrimaryFull = (props) => {
-  if (props.type === 'label') {
+  if (props.type === "label") {
     return <label css={STYLES_BUTTON_PRIMARY_FULL} {...props} />;
   }
 
@@ -108,7 +108,7 @@ const STYLES_BUTTON_SECONDARY = css`
 `;
 
 export const ButtonSecondary = (props) => {
-  if (props.type === 'label') {
+  if (props.type === "label") {
     return <label css={STYLES_BUTTON_SECONDARY} {...props} />;
   }
 
@@ -135,7 +135,7 @@ const STYLES_BUTTON_SECONDARY_FULL = css`
 `;
 
 export const ButtonSecondaryFull = (props) => {
-  if (props.type === 'label') {
+  if (props.type === "label") {
     return <label css={STYLES_BUTTON_SECONDARY_FULL} {...props} />;
   }
 

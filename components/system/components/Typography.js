@@ -1,12 +1,12 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const STYLES_H1 = css`
   font-size: ${Constants.typescale.lvl4};
   line-height: 1.1;
-  font-family: 'inter-semi-bold';
+  font-family: ${Constants.font.semiBold};
   font-weight: 400;
   color: inherit;
   text-decoration: none;
@@ -21,7 +21,7 @@ const STYLES_H1 = css`
   }
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;
@@ -37,7 +37,7 @@ export const H1 = (props) => {
 const STYLES_H2 = css`
   font-size: ${Constants.typescale.lvl3};
   line-height: 1.1;
-  font-family: 'inter-medium';
+  font-family: ${Constants.font.medium};
   font-weight: 400;
 
   color: inherit;
@@ -53,7 +53,7 @@ const STYLES_H2 = css`
   }
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;
@@ -71,7 +71,7 @@ const STYLES_P = css`
   line-height: 1.5;
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;

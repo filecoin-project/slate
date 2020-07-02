@@ -1,10 +1,10 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
-import * as Strings from '~/common/strings';
+import * as React from "react";
+import * as Constants from "~/common/constants";
+import * as Strings from "~/common/strings";
 
-import { css } from '@emotion/react';
-import { LineChart } from '~/vendor/react-chartkick';
-import 'chart.js';
+import { css } from "@emotion/react";
+import { LineChart } from "~/vendor/react-chartkick";
+import "chart.js";
 
 const STYLES_STAT_CARD = css`
   width: 100%;
@@ -35,7 +35,7 @@ const STYLES_STAT_CARD_VALUE_GROUP = css`
 `;
 
 const STYLES_STAT_CARD_VALUE = css`
-  font-family: 'inter-medium';
+  font-family: ${Constants.font.medium};
   font-size: ${Constants.typescale.lvl3};
   color: ${Constants.system.brand};
   display: block;
@@ -43,7 +43,7 @@ const STYLES_STAT_CARD_VALUE = css`
 
 const STYLES_STAT_CARD_DENOMINATION = css`
   display: block;
-  font-family: 'inter-semi-bold';
+  font-family: ${Constants.font.semiBold};
   font-size: 10px;
   letter-spacing: 0.1px;
   margin: 4px 0 16px 0;
@@ -56,12 +56,14 @@ export const StatCard = (props) => {
     <div css={STYLES_STAT_CARD}>
       <div css={STYLES_STAT_CARD_TOP}>
         <div css={STYLES_STAT_CARD_VALUE_GROUP}>
-          <span css={STYLES_STAT_CARD_VALUE}>{Strings.formatNumber(props.value)}</span>{' '}
+          <span css={STYLES_STAT_CARD_VALUE}>
+            {Strings.formatNumber(props.value)}
+          </span>{" "}
           <span css={STYLES_STAT_CARD_DENOMINATION}>{props.denomination}</span>
           <LineChart
             data={props.data}
             library={{
-              backgroundColor: 'transparent',
+              backgroundColor: "transparent",
               scales: {
                 yAxes: [
                   {

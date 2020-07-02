@@ -23,7 +23,7 @@ export default class SidebarDeleteWalletAddress extends React.Component {
   render() {
     return (
       <div>
-        <System.P style={{ fontFamily: "inter-semi-bold" }}>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
           Are you sure you want to delete the selected wallet?
         </System.P>
 

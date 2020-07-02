@@ -1,5 +1,7 @@
 {
   "name": "slate",
+  "description": "",
+  "author": "slate",
   "version": "0.0.1",
   "engines": {
     "node": ">=11 <12"
@@ -9,7 +11,16 @@
     "dev": "node . --unhandled-rejections=strict",
     "build": "next build",
     "start": "NODE_ENV=production node . --unhandled-rejections=strict",
-    "electron": "electron ."
+    "electron": "electron .",
+    "electronDist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.slate",
+    "productName": "slate",
+    "mac": {
+      "icon": " build/icon.icns",
+      "asar": "false"
+    }
   },
   "dependencies": {
     "@babel/preset-env": "^7.10.4",
@@ -27,7 +38,6 @@
     "chartkick": "^3.2.0",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
-    "electron": "^9.0.5",
     "express": "^4.17.1",
     "formidable": "^1.2.2",
     "fs-extra": "^9.0.1",
@@ -43,11 +53,7 @@
     "ws": "^7.3.0"
   },
   "devDependencies": {
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^8.1.0",
-    "rollup": "^2.18.1",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-terser": "^6.1.0"
+    "electron": "^9.0.5",
+    "electron-builder": "^22.7.0"
   }
 }

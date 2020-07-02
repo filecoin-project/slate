@@ -9,7 +9,7 @@ const STYLES_CODE_BLOCK = css`
   color: ${Constants.system.white};
   border-radius: 4px;
   padding: 24px;
-  font-size: 12px;
+  font-size: 14px;
   word-wrap: break-word;
   white-space: pre-wrap;
   width: 100%;

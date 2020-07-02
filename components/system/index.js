@@ -27,7 +27,7 @@ import { TabGroup } from "~/components/system/components/TabGroup";
 import { Table } from "~/components/system/components/Table";
 import { Textarea } from "~/components/system/components/Textarea";
 import { Toggle } from "~/components/system/components/Toggle";
-import { H1, H2, P } from "~/components/system/components/Typography";
+import { H1, H2, P, UL, LI } from "~/components/system/components/Typography";
 
 // NOTE(jim): Fragments
 import { TooltipAnchor } from "~/components/system/components/fragments/TooltipAnchor";
@@ -65,6 +65,8 @@ export {
   H1,
   H2,
   P,
+  UL,
+  LI,
   TooltipAnchor,
   DescriptionGroup,
   TableContent,

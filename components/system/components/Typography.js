@@ -75,8 +75,39 @@ const STYLES_P = css`
     font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
+
+  a {
+    font-family: ${Constants.font.semiBold};
+    font-weight: 400;
+  }
 `;
 
 export const P = (props) => {
   return <p css={STYLES_P} {...props} />;
+};
+
+const STYLES_UL = css`
+  padding-left: 24px;
+`;
+
+export const UL = (props) => {
+  return <ul css={STYLES_UL} {...props} />;
+};
+
+const STYLES_LI = css`
+  margin-top: 12px;
+
+  strong {
+    font-family: ${Constants.font.semiBold};
+    font-weight: 400;
+  }
+
+  a {
+    font-family: ${Constants.font.semiBold};
+    font-weight: 400;
+  }
+`;
+
+export const LI = (props) => {
+  return <li css={STYLES_LI} {...props} />;
 };

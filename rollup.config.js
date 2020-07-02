@@ -11,7 +11,7 @@ export default [
       file: "dist/index.js",
       format: "cjs",
     },
-    external: ["@emotion/core", "@emotion/react", "react", "react-dom"],
+    external: ["@emotion/react", "react", "react-dom"],
     plugins: [
       babel({
         exclude: "node_modules/**",

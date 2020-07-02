@@ -1,12 +1,16 @@
-import * as React from 'react';
-import * as System from '~/components/system';
+import * as React from "react";
+import * as System from "~/components/system";
 
-import Group from '~/components/system/Group';
-import SystemPage from '~/components/system/SystemPage';
-import ViewSourceLink from '~/components/system/ViewSourceLink';
+import Group from "~/components/system/Group";
+import SystemPage from "~/components/system/SystemPage";
+import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 export default class SystemPageLineCharts extends React.Component {
   render() {
+    return null;
+
+    /*
+
     return (
       <SystemPage title="SDS: Line Charts" description="..." url="https://fps.onrender.com/system/line-charts">
         <System.H1>
@@ -78,5 +82,6 @@ export default class SystemPageLineCharts extends React.Component {
         </Group>
       </SystemPage>
     );
+    */
   }
 }

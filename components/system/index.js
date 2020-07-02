@@ -22,7 +22,6 @@ import {
   SelectMenuFull,
 } from "~/components/system/components/SelectMenus";
 import { StatUpload, StatDownload } from "~/components/system/components/Stat";
-// import { StatCard } from '~/components/system/components/StatCard';
 import { TabGroup } from "~/components/system/components/TabGroup";
 import { Table } from "~/components/system/components/Table";
 import { Textarea } from "~/components/system/components/Textarea";
@@ -57,7 +56,6 @@ export {
   SelectMenuFull,
   StatUpload,
   StatDownload,
-  // StatCard,
   TabGroup,
   Table,
   Textarea,

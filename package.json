@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "node . --unhandled-rejections=strict",
     "build": "next build",
-    "start": "NODE_ENV=production node . --unhandled-rejections=strict"
+    "start": "NODE_ENV=production node . --unhandled-rejections=strict",
+    "build-component-library": "rollup -c"
   },
   "dependencies": {
     "@babel/preset-env": "^7.10.4",
@@ -37,5 +38,11 @@
     "three": "^0.108.0",
     "uuid": "^8.0.0",
     "ws": "^7.3.0"
+  },
+  "devDependencies": {
+    "rollup": "^2.18.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "@rollup/plugin-node-resolve": "^8.1.0"
   }
 }

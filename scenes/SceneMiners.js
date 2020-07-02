@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
@@ -35,8 +34,7 @@ export default class SceneMiners extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_ALL_MINERS",
             },
-          ]}
-        >
+          ]}>
           <System.Table
             data={{
               columns: [

@@ -11,7 +11,7 @@ const constructFilesTreeForNavigation = (library) => {
   return library;
 };
 
-export const generateNavigationState = (library) => [
+export const generate = (library) => [
   {
     id: 1,
     name: "Home",

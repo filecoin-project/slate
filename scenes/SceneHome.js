@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 import * as SchemaTable from "~/common/schema-table";
 import * as Data from "~/common/data";
@@ -70,8 +69,7 @@ export default class SceneHome extends React.Component {
                 type: "SIDEBAR",
                 value: "SIDEBAR_FILE_STORAGE_DEAL",
               },
-            ]}
-          >
+            ]}>
             <System.Table
               data={{
                 columns: [
@@ -116,8 +114,7 @@ export default class SceneHome extends React.Component {
                 type: "NAVIGATE",
                 value: 2,
               },
-            ]}
-          >
+            ]}>
             <System.Table
               data={{
                 columns: [

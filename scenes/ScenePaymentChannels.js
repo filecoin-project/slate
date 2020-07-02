@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 import * as SchemaTable from "~/common/schema-table";
 
@@ -49,8 +48,7 @@ export default class ScenePaymentChannels extends React.Component {
                 type: "DOWNLOAD",
                 value: "CSV_ACTIVE_PAYMENT_CHANNELS",
               },
-            ]}
-          >
+            ]}>
             <System.Table
               onAction={this.props.onAction}
               onNavigateTo={this.props.onNavigateTo}
@@ -76,8 +74,7 @@ export default class ScenePaymentChannels extends React.Component {
                 type: "DOWNLOAD",
                 value: "CSV_REDEEMED_PAYMENT_CHANNELS",
               },
-            ]}
-          >
+            ]}>
             <System.Table
               onAction={this.props.onAction}
               onNavigateTo={this.props.onNavigateTo}

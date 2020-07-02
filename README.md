@@ -2,7 +2,7 @@
 
 - Cross platform OSS.
 - Amazon S3 replacement.
-- Aims to have every feature the Filecoin Network supports.
+- Aims to have every feature the [Filecoin Network](https://filecoin.io) supports.
 - Great for storing images.
 - [Design system](https://slate.host/system)
 

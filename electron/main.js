@@ -15,7 +15,7 @@ function createWindow() {
     },
   });
   // and load the index.html of the app.
-  mainWindow.loadFile("electron/index.html");
+  mainWindow.loadURL("http://localhost:1337");
   console.log("window created");
 
   // Open the DevTools.

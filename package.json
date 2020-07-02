@@ -4,11 +4,12 @@
   "engines": {
     "node": ">=11 <12"
   },
+  "main": "electron/main.js",
   "scripts": {
     "dev": "node . --unhandled-rejections=strict",
     "build": "next build",
     "start": "NODE_ENV=production node . --unhandled-rejections=strict",
-    "build-system": "rollup -c"
+    "electron": "electron ."
   },
   "dependencies": {
     "@babel/preset-env": "^7.10.4",
@@ -26,6 +27,7 @@
     "chartkick": "^3.2.0",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
+    "electron": "^9.0.5",
     "express": "^4.17.1",
     "formidable": "^1.2.2",
     "fs-extra": "^9.0.1",

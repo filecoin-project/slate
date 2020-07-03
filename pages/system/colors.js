@@ -38,14 +38,22 @@ export default class SystemPageColors extends React.Component {
         <System.P>All of the colors the Filecoin Client uses.</System.P>
         <br />
         <br />
-        <System.H2>Usage</System.H2>
+        <br />
+        <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import Constants.</System.P>
+        <System.P>
+          Import Constants.
+        </System.P>
+        <br />
         <br />
         <System.CodeBlock>{`import * as Constants from '~/common/constants';`}</System.CodeBlock>
         <br />
-        <System.P>Import Constants.</System.P>
+        <br />
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Declare Constants.</System.P>
         <br />
         <System.CodeBlock>
           {`{Constants.system.white};

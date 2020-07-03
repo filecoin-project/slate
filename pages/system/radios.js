@@ -57,6 +57,21 @@ export default class SystemPageRadios extends React.Component {
         </System.P>
         <br />
         <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the RadioGroup Component.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { RadioGroup } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
@@ -111,12 +126,18 @@ _handleChange = (e) => {
         <System.P>Declare the RadioGroup component.</System.P>
         <br />
         <System.CodeBlock>
-          {`<System.RadioGroup
-  name="five"
-  options={RADIO_GROUP_OPTIONS}
-  selected={this.state.default}
-  onChange={this._handleChange}
-/>`}
+          {`const Radios = () => {
+   return (
+      <div>
+        <RadioGroup
+          name="five"
+          options={RADIO_GROUP_OPTIONS}
+          selected={this.state.default}
+          onChange={this._handleChange}
+        />
+      </div>
+   );
+}`}
         </System.CodeBlock>
         <br />
         <br />
@@ -131,7 +152,7 @@ _handleChange = (e) => {
         />
         <br />
         <br />
-        <System.H2>Props</System.H2>
+        <System.H2>Accepted React Properties</System.H2>
         <hr />
         <br />
         <Group title="RadioGroup">

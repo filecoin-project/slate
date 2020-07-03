@@ -58,16 +58,23 @@ export default class SystemPageIcons extends React.Component {
         <System.P>Every icon used in the Filecoin Client.</System.P>
         <br />
         <br />
-        <System.H2>Usage</System.H2>
+        <br />
+        <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import the SVG components.</System.P>
+        <System.P>
+          Import the SVG Components.
+        </System.P>
+        <br />
         <br />
         <System.CodeBlock>
-          {`import * as SVG from '~/components/system/svg';
-
+{`import * as SVG from '~/components/system/svg';
 import * as OldSVG from '~/common/svg';`}
         </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Usage</System.H2>
+        <hr />
         <br />
         <System.P>Declare the SVG icons.</System.P>
         <br />

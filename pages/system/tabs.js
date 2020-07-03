@@ -44,6 +44,21 @@ export default class SystemPageTabs extends React.Component {
         <System.P>The TabGroup component is used to allow the users to switch between views.</System.P>
         <br />
         <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the TabGroup Component.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { TabGroup } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
@@ -79,18 +94,31 @@ _handleChange = (e) => {
         <System.P>Declare the TabGroup component.</System.P>
         <br />
         <System.CodeBlock>
-          {`<System.TabGroup 
-  name="eight"
-  options={TAB_GROUP_TWO}
-  value={this.state.eight}
-  onChange={this._handleChange} />
+          {`const TabsTwo = () => {
+  return (
+    <div>
+      <TabGroup
+        name="eight"
+        options={TAB_GROUP_TWO}
+        value={this.state.eight}
+        onChange={this._handleChange}
+      />
+    </div>
+);
+}
 
-<System.TabGroup
-  name="nine"
-  options={TAB_GROUP_THREE}
-  value={this.state.nine}
-  onChange={this._handleChange} />
-`}
+const TabsThree = () => {
+  return (
+    <div>
+      <TabGroup
+        name="nine"
+        options={TAB_GROUP_THREE}
+        value={this.state.nine}
+        onChange={this._handleChange}
+      />
+    </div>
+  );
+}`}
         </System.CodeBlock>
         <br />
         <br />

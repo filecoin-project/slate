@@ -58,6 +58,21 @@ export default class SystemPageDropdowns extends React.Component {
         </System.P>
         <br />
         <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the SelectMenu and/or the SelectMenuFull Components.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { SelectMenu, SelectMenuFull } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
@@ -114,24 +129,36 @@ _handleChange = (e) => {
         <System.P>Declare the Dropdown component.</System.P>
         <br />
         <System.CodeBlock>
-          {`<System.SelectMenu
-  name="one"
-  value={this.state.one}
-  category="horoscope"
-  onChange={this._handleChange}
-  options={SELECT_MENU_OPTIONS}>
-  {SELECT_MENU_MAP[this.state.one]}
-</System.SelectMenu>
+          {`const Select = () => {
+  return (
+    <div>
+      <SelectMenu
+        name="one"
+        value={this.state.one}
+        category="horoscope"
+        onChange={this._handleChange}
+        options={SELECT_MENU_OPTIONS}>
+        {SELECT_MENU_MAP[this.state.one]}
+      </SelectMenu>
+    </div>
+  );
+}
 
-<System.SelectMenuFull
-  label="Pick a horoscope"
-  name="three"
-  value={this.state.three}
-  category="horoscope"
-  onChange={this._handleChange}
-  options={SELECT_MENU_OPTIONS}>
-  {SELECT_MENU_MAP[this.state.three]}
-</System.SelectMenuFull>`}
+const SelectFull = () => {
+  return (
+    <div>
+      <SelectMenuFull
+        label="Pick a horoscope"
+        name="three"
+        value={this.state.three}
+        category="horoscope"
+        onChange={this._handleChange}
+        options={SELECT_MENU_OPTIONS}>
+        {SELECT_MENU_MAP[this.state.three]}
+      </SelectMenuFull>
+    </div>
+  );
+}`}
         </System.CodeBlock>
         <br />
         <br />

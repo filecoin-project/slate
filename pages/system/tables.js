@@ -21,12 +21,23 @@ export default class SystemPageTables extends React.Component {
         <System.P>An example of a table component.</System.P>
         <br />
         <br />
-        <System.H2>Usage</System.H2>
+        <br />
+        <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import Group component.</System.P>
+        <System.P>
+          Import React and the TableContent, TableColumn and Group Components.
+        </System.P>
         <br />
-        <System.CodeBlock>{`import Group from '~/components/system/Group';`}</System.CodeBlock>
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { TableContent, TableColumn, Group } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Usage</System.H2>
+        <hr />
         <br />
         <System.P>Define the table data states.</System.P>
         <br />
@@ -40,27 +51,33 @@ export default class SystemPageTables extends React.Component {
         <br />
 
         <System.CodeBlock>
-          {`<Group title="Table example">
-  <System.Table
-    data={{
-      columns: [
-        { key: 'a', name: 'Link', type: 'FILE_LINK' },
-        { key: 'b', name: 'Value', width: '88px' },
-        { key: 'c', name: 'Tooltip', tooltip: 'A tooltip.', width: '128px' },
-        { key: 'd', name: 'Copyable', copyable: true, width: '88px' },
-      ],
-      rows: [
-        { id: 1, a: 'col 1 row 1', b: 'col 1 row 2', c: 'col 1 row 3', d: 'col 1 row 4' },
-        { id: 2, a: 'col 2 row 1', b: 'col 2 row 2', c: 'col 2 row 3', d: 'col 2 row 4'},
-        { id: 3, a: 'col 3 row 1', b: 'col 3 row 2', c: 'col 3 row 3', d: 'col 3 row 4' },
-        { id: 3, a: 'col 4 row 1', b: 'col 4 row 2', c: 'col 4 row 3', d: 'col 4 row 4' },
-      ],
-    }}
-    selectedRowId={this.state.table_data}
-    onChange={this._handleChange}
-    name="table_data"
-  />
-</Group>`}
+          {`const Table = () => {
+   return (
+      <div>
+        <Group title="Table example">
+          <Table
+            data={{
+              columns: [
+                { key: 'a', name: 'Link', type: 'FILE_LINK' },
+                { key: 'b', name: 'Value', width: '88px' },
+                { key: 'c', name: 'Tooltip', tooltip: 'A tooltip.', width: '128px' },
+                { key: 'd', name: 'Copyable', copyable: true, width: '88px' },
+              ],
+              rows: [
+                { id: 1, a: 'col 1 row 1', b: 'col 1 row 2', c: 'col 1 row 3', d: 'col 1 row 4' },
+                { id: 2, a: 'col 2 row 1', b: 'col 2 row 2', c: 'col 2 row 3', d: 'col 2 row 4'},
+                { id: 3, a: 'col 3 row 1', b: 'col 3 row 2', c: 'col 3 row 3', d: 'col 3 row 4' },
+                { id: 3, a: 'col 4 row 1', b: 'col 4 row 2', c: 'col 4 row 3', d: 'col 4 row 4' },
+              ],
+            }}
+            selectedRowId={this.state.table_data}
+            onChange={this._handleChange}
+            name="table_data"
+          />
+        </Group>
+      </div>
+   );
+}`}
         </System.CodeBlock>
         <br />
         <br />

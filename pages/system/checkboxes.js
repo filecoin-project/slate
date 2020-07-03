@@ -28,6 +28,20 @@ export default class SystemPageCheckboxes extends React.Component {
         <br />
         <br />
         <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the CheckBox Component.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { CheckBox } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
@@ -51,17 +65,39 @@ _handleChange = (e) => {
         <br />
 
         <System.CodeBlock>
-          {`<System.CheckBox name="six" value={this.state.six} onChange={this._handleChange}>
-  <strong>Unchecked</strong>
-  <br />
-  This CheckBox default is unchecked.
-</System.CheckBox>
+{`const CheckboxUnchecked = () => {
+   return (
+      <div>
+        <CheckBox
+          name="six"
+          value={this.state.six}
+          onChange={this._handleChange}>
 
-<System.CheckBox name="seven" value={this.state.seven} onChange={this._handleChange}>
-  <strong>Checked</strong>
-  <br />
-  This CheckBox default is checked.
-</System.CheckBox>`}
+          <strong>Unchecked</strong>
+          <br />
+          This CheckBox default is unchecked.
+
+        </CheckBox>
+      </div>
+   );
+}
+
+const CheckboxChecked = () => {
+   return (
+      <div>
+        <CheckBox
+          name="seven"
+          value={this.state.seven}
+          onChange={this._handleChange}>
+
+          <strong>Unchecked</strong>
+          <br />
+          This CheckBox default is unchecked.
+          
+        </CheckBox>
+      </div>
+   );
+}`}
         </System.CodeBlock>
         <br />
         <br />

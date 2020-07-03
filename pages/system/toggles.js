@@ -25,6 +25,21 @@ export default class SystemPageToggles extends React.Component {
         <System.P>The Toggle component is used to switch between two states.</System.P>
         <br />
         <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the Toggle Component.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { Toggle } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
@@ -44,9 +59,29 @@ _handleChange = (e) => {
         <System.P>Declare the Toggle component.</System.P>
         <br />
         <System.CodeBlock>
-          {`<System.Toggle active={this.state.three} name="three" onChange={this._handleChange} />
+          {`const ToggleOn = () => {
+  return (
+    <div>
+      <Toggle
+        active={this.state.three}
+        name="three"
+        onChange={this._handleChange}
+      />
+    </div>
+  );
+}
 
-<System.Toggle active={this.state.four} name="four" onChange={this._handleChange} />`}
+const ToggleOff = () => {
+  return (
+    <div>
+      <Toggle
+        active={this.state.four}
+        name="four"
+        onChange={this._handleChange}
+      />
+    </div>
+  );
+}`}
         </System.CodeBlock>
 
         <br />

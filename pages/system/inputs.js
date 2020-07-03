@@ -30,6 +30,21 @@ export default class SystemPageInputs extends React.Component {
         <System.P>The Input component is used to get a users input in a text field or a textbox.</System.P>
         <br />
         <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the Input and/or the Textarea Components.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { Input, Textarea } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
@@ -60,7 +75,17 @@ _handleChange = (e) => {
         <System.Textarea name="seventeen" value={this.state.seventeen} onChange={this._handleChange} />
         <br />
         <System.CodeBlock>
-          {`<System.Textarea name="seventeen" value={this.state.seventeen} onChange={this._handleChange} />`}
+          {`const Textarea = () => {
+   return (
+      <div>
+        <Textarea
+          name="seventeen"
+          value={this.state.seventeen}
+          onChange={this._handleChange}
+        />
+      </div>
+   );
+}`}
         </System.CodeBlock>
         <br />
         <br />
@@ -72,7 +97,7 @@ _handleChange = (e) => {
         <br />
         <System.Input
           label="Location of your pastries"
-          description="We need to know the location of your pastries to sell them to other people."
+          description="We need to know the location of your pastries."
           tooltip="Hey friends."
           name="fourteen"
           value={this.state.fourteen}
@@ -81,15 +106,21 @@ _handleChange = (e) => {
         />
         <br />
         <System.CodeBlock>
-          {`<System.Input
-  label="Location of your pastries"
-  description="We need to know the location of your pastries to sell them to other people."
-  tooltip="Hey friends."
-  name="fourteen"
-  value={this.state.fourteen}
-  placeholder="Pastry Location"
-  onChange={this._handleChange}
-/>`}
+          {`const InputLabel = () => {
+   return (
+      <div>
+        <Input
+          label="Location of your pastries"
+          description="We need to know the location of your pastries."
+          tooltip="Hey friends."
+          name="fourteen"
+          value={this.state.fourteen}
+          placeholder="Pastry Location"
+          onChange={this._handleChange}
+        />
+      </div>
+   );
+}`}
         </System.CodeBlock>
         <br />
         <br />
@@ -108,13 +139,19 @@ _handleChange = (e) => {
         />
         <br />
         <System.CodeBlock>
-          {`<System.Input
-  label="Max length is 14"
-  max={14}
-  name="sixteen"
-  value={this.state.sixteen}
-  onChange={this._handleChange}
-/>`}
+          {`const InputMax = () => {
+   return (
+      <div>
+        <Input
+          label="Max length is 14"
+          max={14}
+          name="sixteen"
+          value={this.state.sixteen}
+          onChange={this._handleChange}
+        />
+      </div>
+   );
+}`}
         </System.CodeBlock>
         <br />
         <br />
@@ -134,14 +171,20 @@ _handleChange = (e) => {
         />
         <br />
         <System.CodeBlock>
-          {`<System.Input
-  label="Copy and paste (read only)"
-  readOnly
-  name="fifteen"
-  copyable
-  value={this.state.fifteen}
-  onChange={this._handleChange}
-/>`}
+          {`const InputCopyPaste = () => {
+   return (
+      <div>
+        <Input
+          label="Copy and paste (read only)"
+          readOnly
+          name="fifteen"
+          copyable
+          value={this.state.fifteen}
+          onChange={this._handleChange}
+        />
+      </div>
+   );
+}`}
         </System.CodeBlock>
 
         <br />
@@ -161,12 +204,41 @@ _handleChange = (e) => {
         <System.Input label="Error" placeholder="This is an uncontrolled input for error." validation="ERROR" />
         <br />
         <System.CodeBlock>
-          {`<System.Input label="Success" placeholder="This is an uncontrolled input for success." validation="SUCCESS" />
+          {`const InputSuccess = () => {
+  return (
+    <div>
+      <Input
+        label="Success"
+        placeholder="This is an uncontrolled input for success."
+        validation="SUCCESS"
+      />
+    </div>
+  );
+}
 
-<System.Input label="Warning" placeholder="This is an uncontrolled input for warning." validation="WARNING" />
+const InputWarning = () => {
+  return (
+    <div>
+      <Input
+        label="Success"
+        placeholder="This is an uncontrolled input for warning."
+        validation="WARNING"
+      />
+    </div>
+  );
+}
 
-<System.Input label="Error" placeholder="This is an uncontrolled input for error." validation="ERROR" />
-`}
+const InputError = () => {
+  return (
+    <div>
+      <Input
+        label="Success"
+        placeholder="This is an uncontrolled input for error."
+        validation="ERROR"
+      />
+    </div>
+  );
+}`}
         </System.CodeBlock>
         <br />
         <br />

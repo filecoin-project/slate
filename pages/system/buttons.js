@@ -20,6 +20,27 @@ export default class SystemPageButtons extends React.Component {
         <br />
         <br />
         <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the Button Components.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import {
+  ButtonPrimary,
+  ButtonPrimaryFull,
+  ButtonSecondary,
+  ButtonSecondaryFull,
+  ButtonDisabled,
+  ButtonDisabledFull,
+} from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Regular width</System.H2>
         <hr />
         <br />
@@ -35,13 +56,37 @@ export default class SystemPageButtons extends React.Component {
         <br />
         <br />
         <System.CodeBlock>
-          {`<System.ButtonPrimary>Primary</System.ButtonPrimary>`}
+{`const ButtonPrimary = () => {
+   return (
+      <div>
+          <ButtonPrimary>
+            Primary Button
+          </ButtonPrimary>
+      </div>
+   );
+}`}
           <br />
           <br />
-          {`<System.ButtonSecondary>Secondary</System.ButtonSecondary>`}
+{`const ButtonSecondary = () => {
+   return (
+      <div>
+          <ButtonSecondary>
+            Secondary Button
+          </ButtonSecondary>
+      </div>
+   );
+}`}
           <br />
           <br />
-          {`<System.ButtonDisabled>Disabled</System.ButtonDisabled>`}
+{`const ButtonDisabled = () => {
+   return (
+      <div>
+          <ButtonDisabled>
+            Disabled Button
+          </ButtonDisabled>
+      </div>
+   );
+}`}
         </System.CodeBlock>
         <br />
         <br />
@@ -54,21 +99,45 @@ export default class SystemPageButtons extends React.Component {
           Primary, Secondary and Disabled.
         </System.P>
         <br />
-        <System.ButtonPrimaryFull>Primary</System.ButtonPrimaryFull>
+        <System.ButtonPrimaryFull>Primary Button Full</System.ButtonPrimaryFull>
         <br />
-        <System.ButtonSecondaryFull>Secondary</System.ButtonSecondaryFull>
+        <System.ButtonSecondaryFull>Secondary Button Full</System.ButtonSecondaryFull>
         <br />
-        <System.ButtonDisabledFull>Disabled</System.ButtonDisabledFull>
+        <System.ButtonDisabledFull>Disabled Button Full</System.ButtonDisabledFull>
         <br />
         <br />
         <System.CodeBlock>
-          {`<System.ButtonPrimaryFull>Primary</System.ButtonPrimaryFull>`}
+{`const ButtonPrimaryFull = () => {
+   return (
+      <div>
+          <ButtonPrimaryFull>
+            Primary Button Full
+          </ButtonPrimaryFull>
+      </div>
+   );
+}`}
           <br />
           <br />
-          {`<System.ButtonSecondaryFull>Secondary</System.ButtonSecondaryFull>`}
+{`const ButtonSecondaryFull = () => {
+   return (
+      <div>
+          <ButtonSecondaryFull>
+            Secondary Button Full
+          </ButtonSecondaryFull>
+      </div>
+   );
+}`}
           <br />
           <br />
-          {`<System.ButtonDisabledFull>Disabled</System.ButtonDisabledFull>`}
+{`const ButtonDisabledFull = () => {
+   return (
+      <div>
+          <ButtonDisabledFull>
+            Disabled Button Full
+          </ButtonDisabledFull>
+      </div>
+   );
+}`}
         </System.CodeBlock>
         <br />
         <br />
@@ -77,20 +146,46 @@ export default class SystemPageButtons extends React.Component {
         <hr />
         <br />
         <System.P>
-          You can add the <i>type='label'</i> prop to convert any of the above buttons into a label.
+          You can add the <i>type='label'</i> property to convert any of the above buttons into a label.
         </System.P>
         <br />
-        <System.ButtonPrimary type="label">Label</System.ButtonPrimary> &nbsp;
-        <System.ButtonSecondary type="label">Label</System.ButtonSecondary> &nbsp;
-        <System.ButtonDisabled type="label">Label</System.ButtonDisabled>
+        <System.ButtonPrimary type="label">Primary Label</System.ButtonPrimary> &nbsp;
+        <System.ButtonSecondary type="label">Secondary Label</System.ButtonSecondary> &nbsp;
+        <System.ButtonDisabled type="label">Disabled Label</System.ButtonDisabled>
         <br />
         <br />
         <System.CodeBlock>
-          {`<System.ButtonPrimary type='label'>Label</System.ButtonPrimary>
-
-<System.ButtonSecondary type='label'>Label</System.ButtonSecondary>
-
-<System.ButtonDisabled type='label'>Label</System.ButtonDisabled>`}
+{`const ButtonPrimaryLabel = () => {
+   return (
+      <div>
+          <ButtonPrimary type="label">
+            Primary Button Label
+          </ButtonPrimary>
+      </div>
+   );
+}`}
+          <br />
+          <br />
+{`const ButtonSecondaryLabel = () => {
+   return (
+      <div>
+          <ButtonSecondary type="label">
+            Secondary Button Label
+          </ButtonSecondary>
+      </div>
+   );
+}`}
+          <br />
+          <br />
+{`const ButtonDisabledLabel = () => {
+   return (
+      <div>
+          <ButtonDisabled type="label">
+            Disabled Button Label
+          </ButtonDisabled>
+      </div>
+   );
+}`}
         </System.CodeBlock>
       </SystemPage>
     );

@@ -37,6 +37,21 @@ export default class SystemPageCardTabs extends React.Component {
         <System.P>The CardTabGroup component is used to allow the users to switch between views.</System.P>
         <br />
         <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the ButtonPrimary, ButtonPrimaryFull and/or the ButtonDisabled Components.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { CardTabGroup } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
@@ -72,19 +87,32 @@ _handleChange = (e) => {
         <System.P>Declare the CardTabGroup component.</System.P>
         <br />
         <System.CodeBlock>
-          {`<System.CardTabGroup
-  name="eighteen"
-  options={TAB_GROUP_TWO}
-  value={this.state.eighteen}
-  onChange={this._handleChange}
-/>
+          {`
+const CardTabGroupOne = () => {
+   return (
+      <div>
+        <CardTabGroup
+          name="eighteen"
+          options={TAB_GROUP_TWO}
+          value={this.state.eighteen}
+          onChange={this._handleChange}
+        />
+      </div>
+   );
+}
 
-<System.CardTabGroup
-  name="nineteen"
-  options={TAB_GROUP_FOUR}
-  value={this.state.nineteen}
-  onChange={this._handleChange}
-/>`}
+const CardTabGroupTwo = () => {
+   return (
+      <div>
+        <CardTabGroup
+          name="nineteen"
+          options={TAB_GROUP_FOUR}
+          value={this.state.nineteen}
+          onChange={this._handleChange}
+        />
+      </div>
+   );
+}`}
         </System.CodeBlock>
         <br />
         <br />

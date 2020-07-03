@@ -20,12 +20,33 @@ export default class SystemPageTooltips extends React.Component {
         </System.P>
         <br />
         <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the TooltipAnchor Component.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { TooltipAnchor } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
         <System.P>Declare the Tooltip component.</System.P>
         <br />
-        <System.CodeBlock>{`<System.TooltipAnchor tooltip="Hello friends!!" />`}</System.CodeBlock>
+        <System.CodeBlock>{`const Tooltip = () => {
+   return (
+      <div>
+          <TooltipAnchor tooltip="Hello friends!!" />
+      </div>
+   );
+}`}</System.CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>
@@ -35,7 +56,7 @@ export default class SystemPageTooltips extends React.Component {
         <br />
         <br />
         <br />
-        <System.H2>Props</System.H2>
+        <System.H2>Accepted React Properties</System.H2>
         <hr />
         <br />
         <Group title="Tooltip">

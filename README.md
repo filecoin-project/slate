@@ -4,7 +4,7 @@
 - (WIP) Amazon S3 replacement.
 - (WIP) Aims to have every feature the [Filecoin Network](https://filecoin.io) supports.
 - (WIP) Great for storing images and sharing high resolution photos with friends.
-- [Design system](https://slate.host/system)
+- [Design system](https://slate.host/system) -> [Release repository](https://github.com/filecoin-project/slate-react-system).
 
 #### Current prototype (June 15th, 2020)
 

@@ -2,8 +2,8 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 
-const { fork } = require("child_process");
-const ps = fork(path.join(__dirname, "..", "index.js"));
+// const { fork } = require("child_process");
+// const ps = fork(path.join(__dirname, "..", "index.js"));
 
 function createWindow() {
   // Create the browser window.
@@ -12,14 +12,15 @@ function createWindow() {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: true,
     },
   });
+  // Open the DevTools.
+  mainWindow.webContents.openDevTools();
   // and load the index.html of the app.
   mainWindow.loadURL("http://localhost:1337");
   console.log("window created");
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  require(path.join(__dirname, "../nodedistribution/", "main.js"));
 }
 
 // This method will be called when Electron has finished

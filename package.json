@@ -6,12 +6,14 @@
   "engines": {
     "node": ">=11 <12"
   },
-  "main": "electron/main.js",
+  "main": "./electron/main.js",
   "scripts": {
     "dev": "node . --unhandled-rejections=strict",
+    "dev:node": "NODE_ENV=development webpack --config webpack.node.config.js --mode development",
     "build": "next build",
-    "start": "NODE_ENV=production node . --unhandled-rejections=strict",
-    "electron": "electron .",
+    "start": "electron ./electron/main.js",
+    "electron": "electron ./electron/main.js ",
+    "electronPack": "electron-builder --dir",
     "electronDist": "electron-builder"
   },
   "build": {
@@ -53,7 +55,16 @@
     "ws": "^7.3.0"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "babel-loader": "^8.1.0",
     "electron": "^9.0.5",
-    "electron-builder": "^22.7.0"
+    "electron-builder": "^22.7.0",
+    "rollup": "^2.18.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-terser": "^6.1.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^1.7.2"
   }
 }

@@ -1,9 +1,9 @@
 # Slate (WIP)
 
-- Cross platform OSS.
-- Amazon S3 replacement.
-- Aims to have every feature the [Filecoin Network](https://filecoin.io) supports.
-- Great for storing images.
+- (WIP) Cross platform OSS.
+- (WIP) Amazon S3 replacement.
+- (WIP) Aims to have every feature the [Filecoin Network](https://filecoin.io) supports.
+- (WIP) Great for storing images and sharing high resolution photos with friends.
 - [Design system](https://slate.host/system)
 
 #### Current prototype (June 15th, 2020)

@@ -37,20 +37,20 @@ import { StatUpload, StatDownload } from 'slate-react-system';`}
         <System.P>Delcare the StatUpload and/or the StatDownload components.</System.P>
         <br />
         <System.CodeBlock>
-          {`const Upload = () => {
-  return (
-    <div>
-      <StatUpload>40 mb</StatUpload>
-    </div>
-  );
+          {`class ExampleOne extends React.Component {
+   render() {
+       return(
+          <StatUpload>40 mb</StatUpload>
+       )
+   }
 }
 
-const Download = () => {
-  return (
-    <div>
-      <StatDownload>40 mb</StatDownload>
-    </div>
-  );
+class ExampleTwo extends React.Component {
+   render() {
+       return(
+          <StatDownload>40 mb</StatDownload>
+       )
+   }
 }`}
         </System.CodeBlock>
         <br />

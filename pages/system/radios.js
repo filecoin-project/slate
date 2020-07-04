@@ -37,7 +37,7 @@ const RADIO_GROUP_OPTIONS = [
 
 export default class SystemPageRadios extends React.Component {
   state = {
-    five: '2',
+    exampleOne: '2',
   };
 
   _handleChange = (e) => {
@@ -109,34 +109,26 @@ import { RadioGroup } from 'slate-react-system';`}
 ];`}
         </System.CodeBlock>
         <br />
-        <System.P>
-          Define the default selected option and handle the state changes when the users selects a different option.
-        </System.P>
-        <br />
-        <System.CodeBlock>
-          {`state = {
-  default: '2',
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
-        </System.CodeBlock>
-        <br />
         <System.P>Declare the RadioGroup component.</System.P>
         <br />
         <System.CodeBlock>
-          {`const Radios = () => {
-   return (
-      <div>
-        <RadioGroup
-          name="five"
-          options={RADIO_GROUP_OPTIONS}
-          selected={this.state.default}
-          onChange={this._handleChange}
-        />
-      </div>
-   );
+          {`class ExampleOne extends React.Component {
+   state = { ExampleOne: '2' }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+       return(
+         <RadioGroup
+           name="ExampleOne"
+           options={RADIO_GROUP_OPTIONS}
+           selected={this.state.ExampleOne}
+           onChange={this._handleChange}
+         />
+       )
+   }
 }`}
         </System.CodeBlock>
         <br />
@@ -145,9 +137,9 @@ _handleChange = (e) => {
         <hr />
         <br />
         <System.RadioGroup
-          name="five"
+          name="exampleOne"
           options={RADIO_GROUP_OPTIONS}
-          selected={this.state.five}
+          selected={this.state.exampleOne}
           onChange={this._handleChange}
         />
         <br />

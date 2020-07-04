@@ -56,36 +56,36 @@ import {
         <br />
         <br />
         <System.CodeBlock>
-{`const ButtonPrimary = () => {
-   return (
-      <div>
-          <ButtonPrimary>
-            Primary Button
-          </ButtonPrimary>
-      </div>
-   );
-}`}
-          <br />
-          <br />
-{`const ButtonSecondary = () => {
-   return (
-      <div>
-          <ButtonSecondary>
-            Secondary Button
-          </ButtonSecondary>
-      </div>
-   );
-}`}
-          <br />
-          <br />
-{`const ButtonDisabled = () => {
-   return (
-      <div>
-          <ButtonDisabled>
-            Disabled Button
-          </ButtonDisabled>
-      </div>
-   );
+{`class ExamplePrimary extends React.Component {
+   render() {
+       return(
+         <ButtonPrimary>
+           Primary Button
+         </ButtonPrimary>
+       )
+   }
+}
+
+
+class ExampleSecondary extends React.Component {
+   render() {
+       return(
+         <ButtonSecondary>
+           Secondary Button
+         </ButtonSecondary>
+       )
+   }
+}
+
+
+class ExampleDisabled extends React.Component {
+   render() {
+       return(
+         <ButtonDisabled>
+           Disabled Button
+         </ButtonDisabled>
+       )
+   }
 }`}
         </System.CodeBlock>
         <br />
@@ -107,36 +107,36 @@ import {
         <br />
         <br />
         <System.CodeBlock>
-{`const ButtonPrimaryFull = () => {
-   return (
-      <div>
-          <ButtonPrimaryFull>
-            Primary Button Full
-          </ButtonPrimaryFull>
-      </div>
-   );
-}`}
-          <br />
-          <br />
-{`const ButtonSecondaryFull = () => {
-   return (
-      <div>
-          <ButtonSecondaryFull>
-            Secondary Button Full
-          </ButtonSecondaryFull>
-      </div>
-   );
-}`}
-          <br />
-          <br />
-{`const ButtonDisabledFull = () => {
-   return (
-      <div>
-          <ButtonDisabledFull>
-            Disabled Button Full
-          </ButtonDisabledFull>
-      </div>
-   );
+{`class ExamplePrimaryFull extends React.Component {
+   render() {
+       return(
+         <ButtonPrimaryFull>
+           Primary Button Full
+         </ButtonPrimaryFull>
+       )
+   }
+}
+
+
+class ExampleSecondaryFull extends React.Component {
+   render() {
+       return(
+         <ButtonSecondaryFull>
+           Secondary Button Full
+         </ButtonSecondaryFull>
+       )
+   }
+}
+
+
+class ExampleDisabledFull extends React.Component {
+   render() {
+       return(
+         <ButtonDisabledFull>
+           Disabled Button Full
+         </ButtonDisabledFull>
+       )
+   }
 }`}
         </System.CodeBlock>
         <br />
@@ -155,36 +155,36 @@ import {
         <br />
         <br />
         <System.CodeBlock>
-{`const ButtonPrimaryLabel = () => {
-   return (
-      <div>
-          <ButtonPrimary type="label">
-            Primary Button Label
-          </ButtonPrimary>
-      </div>
-   );
-}`}
-          <br />
-          <br />
-{`const ButtonSecondaryLabel = () => {
-   return (
-      <div>
-          <ButtonSecondary type="label">
-            Secondary Button Label
-          </ButtonSecondary>
-      </div>
-   );
-}`}
-          <br />
-          <br />
-{`const ButtonDisabledLabel = () => {
-   return (
-      <div>
-          <ButtonDisabled type="label">
-            Disabled Button Label
-          </ButtonDisabled>
-      </div>
-   );
+{`class ExamplePrimaryLabel extends React.Component {
+   render() {
+       return(
+         <ButtonPrimary type="label">
+           Primary Button Label
+         </ButtonPrimary>
+       )
+   }
+}
+
+
+class ExampleSecondaryLabel extends React.Component {
+   render() {
+       return(
+         <ButtonSecondary type="label">
+           Secondary Button Label
+         </ButtonSecondary>
+       )
+   }
+}
+
+
+class ExampleDisabledLabel extends React.Component {
+   render() {
+       return(
+         <ButtonDisabled type="label">
+           Disabled Button Label
+         </ButtonDisabled>
+       )
+   }
 }`}
         </System.CodeBlock>
       </SystemPage>

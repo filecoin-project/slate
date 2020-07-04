@@ -7,12 +7,11 @@ import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 export default class SystemPageInputs extends React.Component {
   state = {
-    twelve: 'Replace me friend.',
-    thirteen: '',
-    fourteen: '',
-    fifteen: 'aaaaa-bbbbb-ccccc-ddddd-eeee',
-    sixteen: '',
-    seventeen: `Example text`,
+    exampleOne: 'Example text',
+    exampleTwo: '',
+    exampleThree: '',
+    exampleFour: 'aaaaa-bbbbb-ccccc-ddddd-eeee',
+    exampleFive: '',
   };
 
   _handleChange = (e) => {
@@ -45,46 +44,30 @@ import { Input, Textarea } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />
-        <System.H2>Usage</System.H2>
-        <hr />
-        <br />
-        <System.P>Define the Input value states and handle the state change the when a change is made.</System.P>
-        <br />
-        <System.CodeBlock>
-          {`state = {
-  twelve: 'Replace me friend.',
-  thirteen: '',
-  fourteen: '',
-  fifteen: 'aaaaa-bbbbb-ccccc-ddddd-eeee',
-  sixteen: '',
-  seventeen: 'Example text',
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
-        </System.CodeBlock>
-        <br />
-        <br />
-        <br />
         <System.H2>Textarea</System.H2>
         <hr />
         <br />
         <System.P>Declare the Textarea component.</System.P>
         <br />
-        <System.Textarea name="seventeen" value={this.state.seventeen} onChange={this._handleChange} />
+        <System.Textarea name="exampleOne" value={this.state.exampleOne} onChange={this._handleChange} />
         <br />
         <System.CodeBlock>
-          {`const Textarea = () => {
-   return (
-      <div>
-        <Textarea
-          name="seventeen"
-          value={this.state.seventeen}
-          onChange={this._handleChange}
-        />
-      </div>
-   );
+          {`class ExampleTextarea extends React.Component {
+   state = { exampleOne: 'Example text' }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+       return(
+         <Textarea
+           name="exampleOne"
+           value={this.state.exampleOne}
+           onChange={this._handleChange}
+         />
+       )
+   }
 }`}
         </System.CodeBlock>
         <br />
@@ -99,27 +82,33 @@ _handleChange = (e) => {
           label="Location of your pastries"
           description="We need to know the location of your pastries."
           tooltip="Hey friends."
-          name="fourteen"
-          value={this.state.fourteen}
+          name="exampleTwo"
+          value={this.state.exampleTwo}
           placeholder="Pastry Location"
           onChange={this._handleChange}
         />
         <br />
         <System.CodeBlock>
-          {`const InputLabel = () => {
-   return (
-      <div>
-        <Input
-          label="Location of your pastries"
-          description="We need to know the location of your pastries."
-          tooltip="Hey friends."
-          name="fourteen"
-          value={this.state.fourteen}
-          placeholder="Pastry Location"
-          onChange={this._handleChange}
-        />
-      </div>
-   );
+          {`class ExampleLabel extends React.Component {
+  state = { exampleTwo: null }
+
+  _handleChange = (e) => this._handleChange(
+    { [e.target.name]: e.target.value }
+  )
+
+  render() {
+    return(
+      <Input
+        label="Location of your pastries"
+        description="We need to know the location of your pastries."
+        tooltip="Hey friends."
+        name="exampleTwo"
+        value={this.state.exampleTwo}
+        placeholder="Pastry Location"
+        onChange={this._handleChange}
+      />
+    )
+  }
 }`}
         </System.CodeBlock>
         <br />
@@ -133,24 +122,30 @@ _handleChange = (e) => {
         <System.Input
           label="Max length is 14"
           max={14}
-          name="sixteen"
-          value={this.state.sixteen}
+          name="exampleThree"
+          value={this.state.exampleThree}
           onChange={this._handleChange}
         />
         <br />
         <System.CodeBlock>
-          {`const InputMax = () => {
-   return (
-      <div>
-        <Input
-          label="Max length is 14"
-          max={14}
-          name="sixteen"
-          value={this.state.sixteen}
-          onChange={this._handleChange}
-        />
-      </div>
-   );
+          {`class ExampleMax extends React.Component {
+   state = { exampleThree: null }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+     return(
+       <Input
+         label="Max length is 14"
+         max={14}
+         name="exampleThree"
+         value={this.state.exampleThree}
+         onChange={this._handleChange}
+       />
+     )
+   }
 }`}
         </System.CodeBlock>
         <br />
@@ -164,26 +159,32 @@ _handleChange = (e) => {
         <System.Input
           label="Copy and paste (read only)"
           readOnly
-          name="fifteen"
+          name="exampleFour"
           copyable
-          value={this.state.fifteen}
+          value={this.state.exampleFour}
           onChange={this._handleChange}
         />
         <br />
         <System.CodeBlock>
-          {`const InputCopyPaste = () => {
-   return (
-      <div>
-        <Input
-          label="Copy and paste (read only)"
-          readOnly
-          name="fifteen"
-          copyable
-          value={this.state.fifteen}
-          onChange={this._handleChange}
-        />
-      </div>
-   );
+          {`class ExampleCopyPaste extends React.Component {
+   state = { exampleFour: 'aaaaa-bbbbb-ccccc-ddddd-eeee' }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+     return(
+       <Input
+         label="Copy and paste (read only)"
+         readOnly
+         name="exampleFour"
+         copyable
+         value={this.state.exampleFour}
+         onChange={this._handleChange}
+       />
+     )
+   }
 }`}
         </System.CodeBlock>
 
@@ -204,46 +205,46 @@ _handleChange = (e) => {
         <System.Input label="Error" placeholder="This is an uncontrolled input for error." validation="ERROR" />
         <br />
         <System.CodeBlock>
-          {`const InputSuccess = () => {
-  return (
-    <div>
-      <Input
-        label="Success"
-        placeholder="This is an uncontrolled input for success."
-        validation="SUCCESS"
-      />
-    </div>
-  );
+          {`class ExampleSuccess extends React.Component {
+   render() {
+     return(
+       <Input
+         label="Success"
+         placeholder="This is an uncontrolled input for success."
+         validation="SUCCESS"
+       />
+     )
+   }
 }
 
-const InputWarning = () => {
-  return (
-    <div>
-      <Input
-        label="Success"
-        placeholder="This is an uncontrolled input for warning."
-        validation="WARNING"
-      />
-    </div>
-  );
+class ExampleWarning extends React.Component {
+   render() {
+     return(
+       <Input
+         label="Warning"
+         placeholder="This is an uncontrolled input for warning."
+         validation="WARNING"
+       />
+     )
+   }
 }
 
-const InputError = () => {
-  return (
-    <div>
-      <Input
-        label="Success"
-        placeholder="This is an uncontrolled input for error."
-        validation="ERROR"
-      />
-    </div>
-  );
+class ExampleError extends React.Component {
+   render() {
+     return(
+         <Input
+           label="Error"
+           placeholder="This is an uncontrolled input for error."
+           validation="ERROR"
+         />
+     )
+   }
 }`}
         </System.CodeBlock>
         <br />
         <br />
         <br />
-        <System.H2>Props</System.H2>
+        <System.H2>Accepted React Properties</System.H2>
         <hr />
         <br />
         <Group title="Inputs">

@@ -43,44 +43,44 @@ import { Toggle } from 'slate-react-system';`}
         <System.H2>Usage</System.H2>
         <hr />
         <br />
-        <System.P>Define the Toggle boolean state and handle the state change the when a toggle is changed.</System.P>
-        <br />
-        <System.CodeBlock>
-          {`state = {
-  three: true,
-  four: false,
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
-        </System.CodeBlock>
-        <br />
         <System.P>Declare the Toggle component.</System.P>
         <br />
         <System.CodeBlock>
-          {`const ToggleOn = () => {
-  return (
-    <div>
-      <Toggle
-        active={this.state.three}
-        name="three"
-        onChange={this._handleChange}
-      />
-    </div>
-  );
+{`class ExampleOne extends React.Component {
+   state = { exampleOne: true }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+       return(
+         <Toggle
+           active={this.state.exampleOne}
+           name="exampleOne"
+           onChange={this._handleChange}
+         />
+       )
+   }
 }
 
-const ToggleOff = () => {
-  return (
-    <div>
-      <Toggle
-        active={this.state.four}
-        name="four"
-        onChange={this._handleChange}
-      />
-    </div>
-  );
+
+class ExampleTwo extends React.Component {
+   state = { exampleTwo: false }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+       return(
+         <Toggle
+           active={this.state.exampleTwo}
+           name="exampleTwo"
+           onChange={this._handleChange}
+         />
+       )
+   }
 }`}
         </System.CodeBlock>
 

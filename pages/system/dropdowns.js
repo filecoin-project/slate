@@ -36,9 +36,8 @@ const SELECT_MENU_MAP = {
 
 export default class SystemPageDropdowns extends React.Component {
   state = {
-    one: '1',
-    two: '3',
-    three: '1',
+    exampleOne: '1',
+    exampleTwo: '3',
   };
 
   _handleChange = (e) => {
@@ -110,54 +109,51 @@ const SELECT_MENU_MAP = {
 };`}
         </System.CodeBlock>
         <br />
-        <System.P>
-          Define the Dropdown value states and handle the state change the when a dropdown value is selected.
-        </System.P>
-        <br />
-        <System.CodeBlock>
-          {`state = {
-  one: '1',
-  two: '3',
-  three: '1',
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
-        </System.CodeBlock>
-        <br />
         <System.P>Declare the Dropdown component.</System.P>
         <br />
         <System.CodeBlock>
-          {`const Select = () => {
-  return (
-    <div>
-      <SelectMenu
-        name="one"
-        value={this.state.one}
-        category="horoscope"
-        onChange={this._handleChange}
-        options={SELECT_MENU_OPTIONS}>
-        {SELECT_MENU_MAP[this.state.one]}
-      </SelectMenu>
-    </div>
-  );
+          {`class ExampleOne extends React.Component {
+   state = { exampleOne: '1' }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+     return(
+       <SelectMenu
+         name="exampleOne"
+         value={this.state.exampleOne}
+         category="horoscope"
+         onChange={this._handleChange}
+         options={SELECT_MENU_OPTIONS}>
+         {SELECT_MENU_MAP[this.state.exampleOne]}
+       </SelectMenu>
+     )
+   }
 }
 
-const SelectFull = () => {
-  return (
-    <div>
+
+class ExampleTwo extends React.Component {
+  state = { exampleTwo: '3' }
+
+  _handleChange = (e) => this._handleChange(
+    { [e.target.name]: e.target.value }
+  )
+
+  render() {
+    return(
       <SelectMenuFull
         label="Pick a horoscope"
-        name="three"
-        value={this.state.three}
+        name="exampleTwo"
+        value={this.state.exampleTwo}
         category="horoscope"
         onChange={this._handleChange}
         options={SELECT_MENU_OPTIONS}>
-        {SELECT_MENU_MAP[this.state.three]}
+        {SELECT_MENU_MAP[this.state.exampleTwo]}
       </SelectMenuFull>
-    </div>
-  );
+    )
+  }
 }`}
         </System.CodeBlock>
         <br />
@@ -166,23 +162,23 @@ const SelectFull = () => {
         <hr />
         <br />
         <System.SelectMenu
-          name="one"
-          value={this.state.one}
+          name="exampleOne"
+          value={this.state.exampleOne}
           category="horoscope"
           onChange={this._handleChange}
           options={SELECT_MENU_OPTIONS}>
-          {SELECT_MENU_MAP[this.state.one]}
+          {SELECT_MENU_MAP[this.state.exampleOne]}
         </System.SelectMenu>
         <br />
         <br />
         <System.SelectMenuFull
           label="Pick a horoscope"
-          name="three"
-          value={this.state.three}
+          name="exampleTwo"
+          value={this.state.exampleTwo}
           category="horoscope"
           onChange={this._handleChange}
           options={SELECT_MENU_OPTIONS}>
-          {SELECT_MENU_MAP[this.state.three]}
+          {SELECT_MENU_MAP[this.state.exampleTwo]}
         </System.SelectMenuFull>
       </SystemPage>
     );

@@ -24,8 +24,9 @@ const TAB_GROUP_FOUR = [
 
 export default class SystemPageTabs extends React.Component {
   state = {
+    default: '1',
     eight: '1',
-    nine: '1',
+    nine: '3',
     ten: '1',
   };
 
@@ -77,47 +78,46 @@ const TAB_GROUP_THREE = [
 ];`}
         </System.CodeBlock>
         <br />
-        <System.P>Define the Tab value states and handle the state when a tab is changed.</System.P>
-        <br />
-        <System.CodeBlock>
-          {`state = {
-  eight: '1',
-  nine: '1',
-  ten: '1',
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
-        </System.CodeBlock>
-        <br />
         <System.P>Declare the TabGroup component.</System.P>
         <br />
         <System.CodeBlock>
-          {`const TabsTwo = () => {
-  return (
-    <div>
-      <TabGroup
-        name="eight"
-        options={TAB_GROUP_TWO}
-        value={this.state.eight}
-        onChange={this._handleChange}
-      />
-    </div>
-);
+          {`class ExampleOne extends React.Component {
+   state = { exampleOne: '1' }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+       return(
+          <TabGroup
+            name="exampleOne"
+            value={this.state.exampleOne}
+            option={TAB_GROUP_TWO}
+            onChange={this._handleChange}
+          />
+       )
+   }
 }
 
-const TabsThree = () => {
-  return (
-    <div>
-      <TabGroup
-        name="nine"
-        options={TAB_GROUP_THREE}
-        value={this.state.nine}
-        onChange={this._handleChange}
-      />
-    </div>
-  );
+
+class ExampleTwo extends React.Component {
+   state = { exampleTwo: '3' }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+       return(
+          <TabGroup
+            name="exampleTwo"
+            value={this.state.exampleTwo}
+            option={TAB_GROUP_THREE}
+            onChange={this._handleChange}
+          />
+       )
+   }
 }`}
         </System.CodeBlock>
         <br />

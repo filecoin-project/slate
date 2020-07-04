@@ -18,8 +18,8 @@ const TAB_GROUP_FOUR = [
 
 export default class SystemPageCardTabs extends React.Component {
   state = {
-    eighteen: '2',
-    nineteen: null,
+    exampleOne: '1',
+    exampleTwo: '4',
   };
 
   _handleChange = (e) => {
@@ -42,7 +42,7 @@ export default class SystemPageCardTabs extends React.Component {
         <hr />
         <br />
         <System.P>
-          Import React and the ButtonPrimary, ButtonPrimaryFull and/or the ButtonDisabled Components.
+          Import React and the CardTabGroup Component.
         </System.P>
         <br />
         <br />
@@ -71,48 +71,47 @@ const TAB_GROUP_FOUR = [
 ];`}
         </System.CodeBlock>
         <br />
-        <System.P>Define the CardTab value states and handle the state when a tab is changed.</System.P>
-        <br />
-        <System.CodeBlock>
-          {`state = {
-  eighteen: '2',
-  nineteen: null,
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
-        </System.CodeBlock>
-        <br />
         <System.P>Declare the CardTabGroup component.</System.P>
         <br />
         <System.CodeBlock>
-          {`
-const CardTabGroupOne = () => {
-   return (
-      <div>
-        <CardTabGroup
-          name="eighteen"
-          options={TAB_GROUP_TWO}
-          value={this.state.eighteen}
-          onChange={this._handleChange}
-        />
-      </div>
-   );
+          {`class ExampleOne extends React.Component {
+   state = { exampleOne: '1' }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+       return(
+         <CardTabGroup
+           name="exampleOne"
+           options={TAB_GROUP_TWO}
+           value={this.state.exampleOne}
+           onChange={this._handleChange}
+         />
+       )
+   }
 }
 
-const CardTabGroupTwo = () => {
-   return (
-      <div>
-        <CardTabGroup
-          name="nineteen"
-          options={TAB_GROUP_FOUR}
-          value={this.state.nineteen}
-          onChange={this._handleChange}
-        />
-      </div>
-   );
+class ExampleTwo extends React.Component {
+   state = { exampleTwo: '4' }
+
+   _handleChange = (e) => this._handleChange(
+     { [e.target.name]: e.target.value }
+   )
+
+   render() {
+       return(
+         <CardTabGroup
+           name="exampleTwo"
+           options={TAB_GROUP_FOUR}
+           value={this.state.exampleTwo}
+           onChange={this._handleChange}
+         />
+       )
+   }
 }`}
+
         </System.CodeBlock>
         <br />
         <br />
@@ -120,17 +119,17 @@ const CardTabGroupTwo = () => {
         <hr />
         <br />
         <System.CardTabGroup
-          name="eighteen"
+          name="exampleOne"
           options={TAB_GROUP_TWO}
-          value={this.state.eighteen}
+          value={this.state.exampleOne}
           onChange={this._handleChange}
         />
         <br />
         <br />
         <System.CardTabGroup
-          name="nineteen"
+          name="exampleTwo"
           options={TAB_GROUP_FOUR}
-          value={this.state.nineteen}
+          value={this.state.exampleTwo}
           onChange={this._handleChange}
         />
       </SystemPage>

@@ -40,12 +40,12 @@ import { TooltipAnchor } from 'slate-react-system';`}
         <br />
         <System.P>Declare the Tooltip component.</System.P>
         <br />
-        <System.CodeBlock>{`const Tooltip = () => {
-   return (
-      <div>
-          <TooltipAnchor tooltip="Hello friends!!" />
-      </div>
-   );
+        <System.CodeBlock>{`class ExampleOne extends React.Component {
+   render() {
+       return(
+         <TooltipAnchor tooltip="Hello friends!!" />
+       )
+   }
 }`}</System.CodeBlock>
         <br />
         <br />

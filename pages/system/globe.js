@@ -38,12 +38,12 @@ import { GLRenderer } from 'slate-react-system';`}
         <System.P>Declare the Globe component.</System.P>
         <br />
         <System.CodeBlock>
-{`const Globe = () => {
-   return (
-      <div>
+{`class ExampleOne extends React.Component {
+   render() {
+       return(
           <GLRenderer width={768} height={480} />
-      </div>
-   );
+       )
+   }
 }`}</System.CodeBlock>
         <br />
         <br />

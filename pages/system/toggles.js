@@ -49,9 +49,9 @@ import { Toggle } from 'slate-react-system';`}
 {`class ExampleOne extends React.Component {
    state = { exampleOne: true }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
        return(
@@ -68,9 +68,9 @@ import { Toggle } from 'slate-react-system';`}
 class ExampleTwo extends React.Component {
    state = { exampleTwo: false }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
        return(

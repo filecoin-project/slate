@@ -115,9 +115,9 @@ import { RadioGroup } from 'slate-react-system';`}
           {`class ExampleOne extends React.Component {
    state = { ExampleOne: '2' }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
        return(

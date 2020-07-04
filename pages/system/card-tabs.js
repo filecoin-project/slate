@@ -77,9 +77,9 @@ const TAB_GROUP_FOUR = [
           {`class ExampleOne extends React.Component {
    state = { exampleOne: '1' }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
        return(
@@ -96,9 +96,9 @@ const TAB_GROUP_FOUR = [
 class ExampleTwo extends React.Component {
    state = { exampleTwo: '4' }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
        return(

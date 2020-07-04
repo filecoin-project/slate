@@ -46,9 +46,9 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
           {`class ExampleOne extends React.Component {
    state = { exampleOne: null }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
        return(

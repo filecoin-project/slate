@@ -52,9 +52,9 @@ import { CheckBox } from 'slate-react-system';`}
 {`class ExampleOne extends React.Component {
    state = { exampleOne: false }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
        return(
@@ -75,9 +75,9 @@ import { CheckBox } from 'slate-react-system';`}
 class ExampleTwo extends React.Component {
    state = { ExampleTwo: true }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
        return(

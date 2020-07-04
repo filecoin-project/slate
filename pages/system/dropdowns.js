@@ -115,9 +115,9 @@ const SELECT_MENU_MAP = {
           {`class ExampleOne extends React.Component {
    state = { exampleOne: '1' }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
      return(
@@ -137,9 +137,9 @@ const SELECT_MENU_MAP = {
 class ExampleTwo extends React.Component {
   state = { exampleTwo: '3' }
 
-  _handleChange = (e) => this._handleChange(
+  _handleChange = e => this.setState(
     { [e.target.name]: e.target.value }
-  )
+  );
 
   render() {
     return(

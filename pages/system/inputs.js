@@ -55,9 +55,9 @@ import { Input, Textarea } from 'slate-react-system';`}
           {`class ExampleTextarea extends React.Component {
    state = { exampleOne: 'Example text' }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
        return(
@@ -92,9 +92,9 @@ import { Input, Textarea } from 'slate-react-system';`}
           {`class ExampleLabel extends React.Component {
   state = { exampleTwo: null }
 
-  _handleChange = (e) => this._handleChange(
+  _handleChange = e => this.setState(
     { [e.target.name]: e.target.value }
-  )
+  );
 
   render() {
     return(
@@ -131,9 +131,9 @@ import { Input, Textarea } from 'slate-react-system';`}
           {`class ExampleMax extends React.Component {
    state = { exampleThree: null }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
      return(
@@ -169,9 +169,9 @@ import { Input, Textarea } from 'slate-react-system';`}
           {`class ExampleCopyPaste extends React.Component {
    state = { exampleFour: 'aaaaa-bbbbb-ccccc-ddddd-eeee' }
 
-   _handleChange = (e) => this._handleChange(
+   _handleChange = e => this.setState(
      { [e.target.name]: e.target.value }
-   )
+   );
 
    render() {
      return(

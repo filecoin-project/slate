@@ -34,6 +34,7 @@ const STYLES_INPUT_CONTAINER = css`
 const STYLES_INPUT = css`
   ${INPUT_STYLES}
   padding: 0 24px 0 24px;
+  text-overflow: ellipsis;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
     inset 0 0 0 1px ${Constants.system.darkGray};
 
@@ -89,12 +90,13 @@ export class Input extends React.Component {
   };
 
   _handleKeyUp = (e) => {
-    if (e.which === 13 && this.props.onSubmit) {
+    if ((e.which === 13 || e.keyCode === 13) && this.props.onSubmit) {
       this.props.onSubmit(e);
       return;
     }
-
-    this.props.onKeyUp(e);
+    if (this.props.onKeyUp) {
+      this.props.onKeyUp(e);
+    }
   };
 
   _handleChange = (e) => {
@@ -137,6 +139,7 @@ export class Input extends React.Component {
           type={this.props.type}
           placeholder={this.props.placeholder}
           onChange={this._handleChange}
+          onKeyUp={this._handleKeyUp}
           autoComplete="off"
           readOnly={this.props.readOnly}
           style={{
@@ -146,6 +149,8 @@ export class Input extends React.Component {
                   INPUT_COLOR_MAP[this.props.validation]
                 }`
               : null,
+            paddingRight:
+              this.props.copyable || this.props.search ? "32px" : "24px",
           }}
         />
         {this.props.copyable ? (
@@ -153,6 +158,13 @@ export class Input extends React.Component {
             height="16px"
             css={STYLES_COPY_AND_PASTE}
             onClick={this._handleCopy}
+          />
+        ) : null}
+        {this.props.search ? (
+          <SVG.Search
+            height="16px"
+            css={STYLES_COPY_AND_PASTE}
+            onClick={this.props.onSubmit}
           />
         ) : null}
       </div>

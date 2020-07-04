@@ -36,6 +36,7 @@ export class Textarea extends React.Component {
         onChange={this.props.onChange}
         name={this.props.name}
         value={this.props.value}
+        readOnly={this.props.readOnly}
       />
     );
   }

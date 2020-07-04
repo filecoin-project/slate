@@ -15,9 +15,9 @@ export default class SystemPageInputs extends React.Component {
     exampleFive: '',
 =======
     twelve: "Replace me friend.",
-    thirteen: "",
+    thirteen: ["t0001", "t0002", "t0003", "t0004"],
     fourteen: "",
-    fifteen: "aaaaa-bbbbb-ccccc-ddddd-eeee",
+    fifteen: "aaaaa-bbbbb-ccccc-ddddd",
     sixteen: "",
     seventeen: `Example text`,
 >>>>>>> added country dropdown and refactored dropdown options
@@ -414,7 +414,6 @@ class ExampleError extends React.Component {
             }}
           />
         </Group>
-        <System.DatePicker label="Birthday" />
       </SystemPage>
     );
   }

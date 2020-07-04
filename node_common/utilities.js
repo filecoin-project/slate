@@ -1,4 +1,4 @@
-import * as Constants from '../node_common/constants';
+import * as Constants from 'constants';
 
 import FS from 'fs-extra';
 

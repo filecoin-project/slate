@@ -4,7 +4,6 @@ import * as Utilities from './node_common/utilities';
 import * as Constants from './node_common/constants';
 
 import { createPow, ffs } from '@textile/powergate-client';
-
 // NOTE(jim):
 // https://github.com/textileio/js-powergate-client
 const PowerGate = createPow({ host: Constants.POWERGATE_HOST });
@@ -25,8 +24,16 @@ let state = null;
 const production = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 1337;
 const wsPort = process.env.WS_PORT || 2448;
-const resetData = process.env.npm_config_reset_data;
-const app = next({ dev: !production, quiet: false });
+
+const path = require('path');
+const app = next({
+  dev: false,
+  dir: __dirname,
+  conf: {
+    distDir: path.resolve('./.next'),
+  },
+  quiet: false,
+});
 const nextRequestHandler = app.getRequestHandler();
 
 const setIntervalViewerUpdatesUnsafe = async () => {

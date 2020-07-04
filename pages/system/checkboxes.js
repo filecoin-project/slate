@@ -6,8 +6,8 @@ import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 export default class SystemPageCheckboxes extends React.Component {
   state = {
-    six: false,
-    seven: true,
+    exampleOne: false,
+    exampleTwo: true,
   };
 
   _handleChange = (e) => {
@@ -28,54 +28,85 @@ export default class SystemPageCheckboxes extends React.Component {
         <br />
         <br />
         <br />
-        <System.H2>Usage</System.H2>
+        <System.H2>Imports</System.H2>
         <hr />
         <br />
         <System.P>
-          Define the boolean Checkbox states and handle the state change the when user checks or unchecks the CheckBox.
+          Import React and the CheckBox Component.
         </System.P>
         <br />
+        <br />
         <System.CodeBlock>
-          {`state = {
-  six: false,
-  seven: true,
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-}; `}
+{`import * as React from 'react';
+import { CheckBox } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
+        <br />
+        <System.H2>Usage</System.H2>
+        <hr />
         <br />
         <System.P>Declare the CheckBox component.</System.P>
         <br />
 
         <System.CodeBlock>
-          {`<System.CheckBox name="six" value={this.state.six} onChange={this._handleChange}>
-  <strong>Unchecked</strong>
-  <br />
-  This CheckBox default is unchecked.
-</System.CheckBox>
+{`class ExampleOne extends React.Component {
+   state = { exampleOne: false }
 
-<System.CheckBox name="seven" value={this.state.seven} onChange={this._handleChange}>
-  <strong>Checked</strong>
-  <br />
-  This CheckBox default is checked.
-</System.CheckBox>`}
+   _handleChange = e => this.setState(
+     { [e.target.name]: e.target.value }
+   );
+
+   render() {
+       return(
+           <CheckBox
+             name="exampleOne"
+             value={this.state.exampleOne}
+             onChange={this._handleChange}>
+
+             <strong>Unchecked</strong>
+             <br />
+             This CheckBox default is unchecked.
+           </CheckBox>
+        )
+    }
+}
+
+
+class ExampleTwo extends React.Component {
+   state = { ExampleTwo: true }
+
+   _handleChange = e => this.setState(
+     { [e.target.name]: e.target.value }
+   );
+
+   render() {
+       return(
+         <CheckBox
+           name="ExampleTwo"
+           value={this.state.ExampleTwo}
+           onChange={this._handleChange}>
+
+           <strong>Checked</strong>
+           <br />
+           This CheckBox default is checked.
+         </CheckBox>
+       )
+   }
+}`}
         </System.CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>
         <hr />
         <br />
-        <System.CheckBox name="six" value={this.state.six} onChange={this._handleChange}>
+        <System.CheckBox name="exampleOne" value={this.state.exampleOne} onChange={this._handleChange}>
           <strong>Unchecked</strong>
           <br />
           This CheckBox default is unchecked.
         </System.CheckBox>
         <br />
         <br />
-        <System.CheckBox name="seven" value={this.state.seven} onChange={this._handleChange}>
+        <System.CheckBox name="exampleTwo" value={this.state.exampleTwo} onChange={this._handleChange}>
           <strong>Checked</strong>
           <br />
           This CheckBox default is checked.

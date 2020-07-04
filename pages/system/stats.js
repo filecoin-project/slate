@@ -16,15 +16,42 @@ export default class SystemPageStats extends React.Component {
         <System.P>The System Stats component is used to show a system stat with an upload or a download icon.</System.P>
         <br />
         <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the StatUpload and/or the StatDownload Components.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { StatUpload, StatDownload } from 'slate-react-system';`}
+        </System.CodeBlock>
+        <br />
+        <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
         <System.P>Delcare the StatUpload and/or the StatDownload components.</System.P>
         <br />
         <System.CodeBlock>
-          {`<System.StatUpload>40 mb</System.StatUpload>
+          {`class ExampleOne extends React.Component {
+   render() {
+       return(
+          <StatUpload>40 mb</StatUpload>
+       )
+   }
+}
 
-<System.StatDownload>40 mb</System.StatDownload>`}
+class ExampleTwo extends React.Component {
+   render() {
+       return(
+          <StatDownload>40 mb</StatDownload>
+       )
+   }
+}`}
         </System.CodeBlock>
         <br />
         <br />

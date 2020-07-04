@@ -36,9 +36,8 @@ const SELECT_MENU_MAP = {
 
 export default class SystemPageDropdowns extends React.Component {
   state = {
-    one: '1',
-    two: '3',
-    three: '1',
+    exampleOne: '1',
+    exampleTwo: '3',
   };
 
   _handleChange = (e) => {
@@ -56,6 +55,21 @@ export default class SystemPageDropdowns extends React.Component {
         <System.P>
           The Dropdown component is used to present the user a list of values where they can select a single option.
         </System.P>
+        <br />
+        <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the SelectMenu and/or the SelectMenuFull Components.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { SelectMenu, SelectMenuFull } from 'slate-react-system';`}
+        </System.CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -95,43 +109,52 @@ const SELECT_MENU_MAP = {
 };`}
         </System.CodeBlock>
         <br />
-        <System.P>
-          Define the Dropdown value states and handle the state change the when a dropdown value is selected.
-        </System.P>
-        <br />
-        <System.CodeBlock>
-          {`state = {
-  one: '1',
-  two: '3',
-  three: '1',
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
-        </System.CodeBlock>
-        <br />
         <System.P>Declare the Dropdown component.</System.P>
         <br />
         <System.CodeBlock>
-          {`<System.SelectMenu
-  name="one"
-  value={this.state.one}
-  category="horoscope"
-  onChange={this._handleChange}
-  options={SELECT_MENU_OPTIONS}>
-  {SELECT_MENU_MAP[this.state.one]}
-</System.SelectMenu>
+          {`class ExampleOne extends React.Component {
+   state = { exampleOne: '1' }
 
-<System.SelectMenuFull
-  label="Pick a horoscope"
-  name="three"
-  value={this.state.three}
-  category="horoscope"
-  onChange={this._handleChange}
-  options={SELECT_MENU_OPTIONS}>
-  {SELECT_MENU_MAP[this.state.three]}
-</System.SelectMenuFull>`}
+   _handleChange = e => this.setState(
+     { [e.target.name]: e.target.value }
+   );
+
+   render() {
+     return(
+       <SelectMenu
+         name="exampleOne"
+         value={this.state.exampleOne}
+         category="horoscope"
+         onChange={this._handleChange}
+         options={SELECT_MENU_OPTIONS}>
+         {SELECT_MENU_MAP[this.state.exampleOne]}
+       </SelectMenu>
+     )
+   }
+}
+
+
+class ExampleTwo extends React.Component {
+  state = { exampleTwo: '3' }
+
+  _handleChange = e => this.setState(
+    { [e.target.name]: e.target.value }
+  );
+
+  render() {
+    return(
+      <SelectMenuFull
+        label="Pick a horoscope"
+        name="exampleTwo"
+        value={this.state.exampleTwo}
+        category="horoscope"
+        onChange={this._handleChange}
+        options={SELECT_MENU_OPTIONS}>
+        {SELECT_MENU_MAP[this.state.exampleTwo]}
+      </SelectMenuFull>
+    )
+  }
+}`}
         </System.CodeBlock>
         <br />
         <br />
@@ -139,23 +162,23 @@ _handleChange = (e) => {
         <hr />
         <br />
         <System.SelectMenu
-          name="one"
-          value={this.state.one}
+          name="exampleOne"
+          value={this.state.exampleOne}
           category="horoscope"
           onChange={this._handleChange}
           options={SELECT_MENU_OPTIONS}>
-          {SELECT_MENU_MAP[this.state.one]}
+          {SELECT_MENU_MAP[this.state.exampleOne]}
         </System.SelectMenu>
         <br />
         <br />
         <System.SelectMenuFull
           label="Pick a horoscope"
-          name="three"
-          value={this.state.three}
+          name="exampleTwo"
+          value={this.state.exampleTwo}
           category="horoscope"
           onChange={this._handleChange}
           options={SELECT_MENU_OPTIONS}>
-          {SELECT_MENU_MAP[this.state.three]}
+          {SELECT_MENU_MAP[this.state.exampleTwo]}
         </System.SelectMenuFull>
       </SystemPage>
     );

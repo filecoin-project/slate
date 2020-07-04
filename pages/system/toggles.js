@@ -25,28 +25,63 @@ export default class SystemPageToggles extends React.Component {
         <System.P>The Toggle component is used to switch between two states.</System.P>
         <br />
         <br />
-        <System.H2>Usage</System.H2>
+        <br />
+        <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Define the Toggle boolean state and handle the state change the when a toggle is changed.</System.P>
+        <System.P>
+          Import React and the Toggle Component.
+        </System.P>
+        <br />
         <br />
         <System.CodeBlock>
-          {`state = {
-  three: true,
-  four: false,
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
+{`import * as React from 'react';
+import { Toggle } from 'slate-react-system';`}
         </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Usage</System.H2>
+        <hr />
         <br />
         <System.P>Declare the Toggle component.</System.P>
         <br />
         <System.CodeBlock>
-          {`<System.Toggle active={this.state.three} name="three" onChange={this._handleChange} />
+{`class ExampleOne extends React.Component {
+   state = { exampleOne: true }
 
-<System.Toggle active={this.state.four} name="four" onChange={this._handleChange} />`}
+   _handleChange = e => this.setState(
+     { [e.target.name]: e.target.value }
+   );
+
+   render() {
+       return(
+         <Toggle
+           active={this.state.exampleOne}
+           name="exampleOne"
+           onChange={this._handleChange}
+         />
+       )
+   }
+}
+
+
+class ExampleTwo extends React.Component {
+   state = { exampleTwo: false }
+
+   _handleChange = e => this.setState(
+     { [e.target.name]: e.target.value }
+   );
+
+   render() {
+       return(
+         <Toggle
+           active={this.state.exampleTwo}
+           name="exampleTwo"
+           onChange={this._handleChange}
+         />
+       )
+   }
+}`}
         </System.CodeBlock>
 
         <br />

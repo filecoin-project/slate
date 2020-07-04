@@ -62,7 +62,7 @@ npm run dev
 - **Note** — If you restart the server, it clears all your local files. You can disable this by modifying the code in `server.js`.
 - **Note** — There will be new commands in the future for different contexts, like `electron`.
 
-# Get involed.
+# Get involved.
 
 Do you want to...
 

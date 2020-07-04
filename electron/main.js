@@ -20,6 +20,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
+      experimentalFeatures: true,
     },
   });
   // Open the DevTools.

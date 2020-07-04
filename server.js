@@ -90,22 +90,24 @@ app.prepare().then(async () => {
 
       // NOTE(jim): This is a configuration folder with all of the client tokens.
       // TODO(jim): Unnecessary if we use a local and remote postgres.
-      if (!FS.existsSync(`./.data`)) {
-        FS.mkdirSync(`./.data`, { recursive: true });
+      const dirnameData = path.join(__dirname, '/.data');
+      if (!FS.existsSync(dirnameData)) {
+        FS.mkdirSync(dirnameData, { recursive: true });
       }
 
       // NOTE(jim): This will create a token for authentication with powergate.
       // TODO(jim): Roll this up into Postgres instead.
-      if (!FS.existsSync('./.data/powergate-token')) {
+      const dirnamePowergate = path.join(__dirname, '/.data/powergate-token');
+      if (!FS.existsSync(dirnamePowergate)) {
         const FFS = await PowerGate.ffs.create();
         state.token = FFS.token ? FFS.token : null;
 
         // NOTE(jim): Write a new token file.
         if (state.token) {
-          FS.writeFileSync('./.data/powergate-token', state.token);
+          FS.writeFileSync(dirnamePowergate, state.token);
         }
       } else {
-        state.token = FS.readFileSync('./.data/powergate-token', 'utf8');
+        state.token = FS.readFileSync(dirnamePowergate, 'utf8');
       }
 
       if (state.token) {
@@ -122,7 +124,8 @@ app.prepare().then(async () => {
       // NOTE(jim): Local library retrieval or creation
       // TODO(jim): Needs to support nested folders in the future.
       // TODO(jim): May consider a move to buckets.
-      if (!FS.existsSync('./.data/library.json')) {
+      const dirnameLibrary = path.join(__dirname, '/.data/library.json');
+      if (!FS.existsSync(dirnameLibrary)) {
         const librarySchema = {
           library: [
             {
@@ -133,16 +136,20 @@ app.prepare().then(async () => {
           ],
         };
 
-        FS.writeFileSync('./.data/library.json', JSON.stringify(librarySchema));
+        FS.writeFileSync(dirnameLibrary, JSON.stringify(librarySchema));
         state.library = librarySchema.library;
       } else {
-        const parsedLibrary = FS.readFileSync('./.data/library.json', 'utf8');
+        const parsedLibrary = FS.readFileSync(dirnameLibrary, 'utf8');
         state.library = JSON.parse(parsedLibrary).library;
       }
 
       // NOTE(jim): Local settings retrieval or creation
       // TODO(jim): Move this to postgres later.
-      if (!FS.existsSync('./.data/local-settings.json')) {
+      const dirnameLocalsettings = path.join(
+        __dirname,
+        '/.data/local-settings.json'
+      );
+      if (!FS.existsSync(dirnameLocalsettings)) {
         const localSettingsSchema = {
           local: {
             photo: null,
@@ -152,15 +159,12 @@ app.prepare().then(async () => {
         };
 
         FS.writeFileSync(
-          './.data/local-settings.json',
+          dirnameLocalsettings,
           JSON.stringify(localSettingsSchema)
         );
         state.local = localSettingsSchema.local;
       } else {
-        const parsedLocal = FS.readFileSync(
-          './data/local-settings.json',
-          'utf8'
-        );
+        const parsedLocal = FS.readFileSync(dirnameLocalsettings, 'utf8');
         state.local = JSON.parse(parsedLocal).local;
       }
     } catch (e) {

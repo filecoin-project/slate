@@ -36,6 +36,9 @@ import {
   TableColumn,
 } from "~/components/system/components/fragments/TableComponents";
 
+import * as SVG from "~/components/system/svg";
+import * as OldSVG from "~/common/svg";
+
 // NOTE(jim): Export everything.
 export {
   ButtonPrimary,
@@ -70,4 +73,6 @@ export {
   TableContent,
   TableColumn,
   Constants,
+  SVG,
+  OldSVG,
 };

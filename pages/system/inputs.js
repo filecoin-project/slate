@@ -318,26 +318,6 @@ class ExampleError extends React.Component {
             }}
           />
         </Group>
-        {/* <System.DatePicker label="Birthday" /> */}
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <System.DatePicker max="2020-07-08" />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
       </SystemPage>
     );
   }

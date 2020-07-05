@@ -180,9 +180,9 @@ class ExampleThree extends React.Component {
         <br />
         <System.SelectCountryMenu
           label="Pick your country"
-          name="countryMenu"
+          name="exampleThree"
           full
-          value={this.state.countryMenu}
+          value={this.state.exampleThree}
           category="country"
           onChange={this._handleChange}
         />

@@ -1,43 +1,29 @@
-import * as React from 'react';
-import * as System from '~/components/system';
+import * as React from "react";
+import * as System from "~/components/system";
 
-import SystemPage from '~/components/system/SystemPage';
-import ViewSourceLink from '~/components/system/ViewSourceLink';
+import SystemPage from "~/components/system/SystemPage";
+import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 const SELECT_MENU_OPTIONS = [
-  { value: '1', name: 'Capricorn' },
-  { value: '2', name: 'Aquarius' },
-  { value: '3', name: 'Pisces' },
-  { value: '4', name: 'Aries' },
-  { value: '5', name: 'Taurus' },
-  { value: '6', name: 'Gemini' },
-  { value: '7', name: 'Cancer' },
-  { value: '8', name: 'Leo' },
-  { value: '9', name: 'Virgo' },
-  { value: '10', name: 'Libra' },
-  { value: '11', name: 'Scorpio' },
-  { value: '12', name: 'Sagittarus' },
+  { value: "1", name: "Capricorn" },
+  { value: "2", name: "Aquarius" },
+  { value: "3", name: "Pisces" },
+  { value: "4", name: "Aries" },
+  { value: "5", name: "Taurus" },
+  { value: "6", name: "Gemini" },
+  { value: "7", name: "Cancer" },
+  { value: "8", name: "Leo" },
+  { value: "9", name: "Virgo" },
+  { value: "10", name: "Libra" },
+  { value: "11", name: "Scorpio" },
+  { value: "12", name: "Sagittarus" },
 ];
-
-const SELECT_MENU_MAP = {
-  '1': 'Capricorn',
-  '2': 'Aquarius',
-  '3': 'Pisces',
-  '4': 'Aries',
-  '5': 'Taurus',
-  '6': 'Gemini',
-  '7': 'Cancer',
-  '8': 'Leo',
-  '9': 'Virgo',
-  '10': 'Libra',
-  '11': 'Scorpio',
-  '12': 'Sagittarus',
-};
 
 export default class SystemPageDropdowns extends React.Component {
   state = {
-    exampleOne: '1',
-    exampleTwo: '3',
+    exampleOne: "1",
+    exampleTwo: "3",
+    exampleThree: "United States of America",
   };
 
   _handleChange = (e) => {
@@ -46,14 +32,19 @@ export default class SystemPageDropdowns extends React.Component {
 
   render() {
     return (
-      <SystemPage title="SDS: Dropdowns" description="..." url="https://fps.onrender.com/system/dropdowns">
+      <SystemPage
+        title="SDS: Dropdowns"
+        description="..."
+        url="https://fps.onrender.com/system/dropdowns"
+      >
         <System.H1>
           Dropdowns <ViewSourceLink file="system/dropdowns.js" />
         </System.H1>
         <br />
         <br />
         <System.P>
-          The Dropdown component is used to present the user a list of values where they can select a single option.
+          The Dropdown component is used to present the user a list of values
+          where they can select a single option.
         </System.P>
         <br />
         <br />
@@ -67,8 +58,8 @@ export default class SystemPageDropdowns extends React.Component {
         <br />
         <br />
         <System.CodeBlock>
-{`import * as React from 'react';
-import { SelectMenu, SelectMenuFull } from 'slate-react-system';`}
+          {`import * as React from 'react';
+import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />
@@ -91,22 +82,7 @@ import { SelectMenu, SelectMenuFull } from 'slate-react-system';`}
   { value: '10', name: 'Libra' },
   { value: '11', name: 'Scorpio' },
   { value: '12', name: 'Sagittarus' },
-];
-
-const SELECT_MENU_MAP = {
-  '1': 'Capricorn',
-  '2': 'Aquarius',
-  '3': 'Pisces',
-  '4': 'Aries',
-  '5': 'Taurus',
-  '6': 'Gemini',
-  '7': 'Cancer',
-  '8': 'Leo',
-  '9': 'Virgo',
-  '10': 'Libra',
-  '11': 'Scorpio',
-  '12': 'Sagittarus',
-};`}
+];`}
         </System.CodeBlock>
         <br />
         <System.P>Declare the Dropdown component.</System.P>
@@ -126,9 +102,8 @@ const SELECT_MENU_MAP = {
          value={this.state.exampleOne}
          category="horoscope"
          onChange={this._handleChange}
-         options={SELECT_MENU_OPTIONS}>
-         {SELECT_MENU_MAP[this.state.exampleOne]}
-       </SelectMenu>
+         options={SELECT_MENU_OPTIONS}
+       />
      )
    }
 }
@@ -143,15 +118,37 @@ class ExampleTwo extends React.Component {
 
   render() {
     return(
-      <SelectMenuFull
+      <SelectMenu
         label="Pick a horoscope"
         name="exampleTwo"
+        full
         value={this.state.exampleTwo}
         category="horoscope"
         onChange={this._handleChange}
-        options={SELECT_MENU_OPTIONS}>
-        {SELECT_MENU_MAP[this.state.exampleTwo]}
-      </SelectMenuFull>
+        options={SELECT_MENU_OPTIONS}
+      />
+    )
+  }
+}
+
+
+class ExampleThree extends React.Component {
+  state = { exampleThree: "United States of America" }
+
+  _handleChange = e => this.setState(
+    { [e.target.name]: e.target.value }
+  );
+
+  render() {
+    return(
+      <SelectCountryMenu
+        label="Pick your country"
+        name="countryMenu"
+        full
+        value={this.state.countryMenu}
+        category="country"
+        onChange={this._handleChange}
+      />
     )
   }
 }`}
@@ -166,20 +163,29 @@ class ExampleTwo extends React.Component {
           value={this.state.exampleOne}
           category="horoscope"
           onChange={this._handleChange}
-          options={SELECT_MENU_OPTIONS}>
-          {SELECT_MENU_MAP[this.state.exampleOne]}
-        </System.SelectMenu>
+          options={SELECT_MENU_OPTIONS}
+        />
         <br />
         <br />
-        <System.SelectMenuFull
+        <System.SelectMenu
           label="Pick a horoscope"
           name="exampleTwo"
+          full
           value={this.state.exampleTwo}
           category="horoscope"
           onChange={this._handleChange}
-          options={SELECT_MENU_OPTIONS}>
-          {SELECT_MENU_MAP[this.state.exampleTwo]}
-        </System.SelectMenuFull>
+          options={SELECT_MENU_OPTIONS}
+        />
+        <br />
+        <br />
+        <System.SelectCountryMenu
+          label="Pick your country"
+          name="exampleThree"
+          full
+          value={this.state.exampleThree}
+          category="country"
+          onChange={this._handleChange}
+        />
       </SystemPage>
     );
   }

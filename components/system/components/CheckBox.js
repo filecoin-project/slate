@@ -9,6 +9,7 @@ const STYLES_CHECKBOX = css`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  cursor: pointer;
 `;
 
 const STYLES_CHECKBOX_FIGURE = css`

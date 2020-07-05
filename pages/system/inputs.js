@@ -1,17 +1,17 @@
-import * as React from 'react';
-import * as System from '~/components/system';
+import * as React from "react";
+import * as System from "~/components/system";
 
-import Group from '~/components/system/Group';
-import SystemPage from '~/components/system/SystemPage';
-import ViewSourceLink from '~/components/system/ViewSourceLink';
+import Group from "~/components/system/Group";
+import SystemPage from "~/components/system/SystemPage";
+import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 export default class SystemPageInputs extends React.Component {
   state = {
-    exampleOne: 'Example text',
-    exampleTwo: '',
-    exampleThree: '',
-    exampleFour: 'aaaaa-bbbbb-ccccc-ddddd-eeee',
-    exampleFive: '',
+    exampleOne: "Example text",
+    exampleTwo: "",
+    exampleThree: "",
+    exampleFour: "aaaaa-bbbbb-ccccc-ddddd-eeee",
+    exampleFive: "",
   };
 
   _handleChange = (e) => {
@@ -20,13 +20,20 @@ export default class SystemPageInputs extends React.Component {
 
   render() {
     return (
-      <SystemPage title="SDS: Inputs" description="..." url="https://fps.onrender.com/system/inputs">
+      <SystemPage
+        title="SDS: Inputs"
+        description="..."
+        url="https://fps.onrender.com/system/inputs"
+      >
         <System.H1>
           Inputs <ViewSourceLink file="system/inputs.js" />
         </System.H1>
         <br />
         <br />
-        <System.P>The Input component is used to get a users input in a text field or a textbox.</System.P>
+        <System.P>
+          The Input component is used to get a users input in a text field or a
+          textbox.
+        </System.P>
         <br />
         <br />
         <br />
@@ -39,7 +46,7 @@ export default class SystemPageInputs extends React.Component {
         <br />
         <br />
         <System.CodeBlock>
-{`import * as React from 'react';
+          {`import * as React from 'react';
 import { Input, Textarea } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
@@ -49,7 +56,11 @@ import { Input, Textarea } from 'slate-react-system';`}
         <br />
         <System.P>Declare the Textarea component.</System.P>
         <br />
-        <System.Textarea name="exampleOne" value={this.state.exampleOne} onChange={this._handleChange} />
+        <System.Textarea
+          name="exampleOne"
+          value={this.state.exampleOne}
+          onChange={this._handleChange}
+        />
         <br />
         <System.CodeBlock>
           {`class ExampleTextarea extends React.Component {
@@ -76,7 +87,9 @@ import { Input, Textarea } from 'slate-react-system';`}
         <System.H2>Input with label and description</System.H2>
         <hr />
         <br />
-        <System.P>Declare the Input component with a label and description value.</System.P>
+        <System.P>
+          Declare the Input component with a label and description value.
+        </System.P>
         <br />
         <System.Input
           label="Location of your pastries"
@@ -117,7 +130,10 @@ import { Input, Textarea } from 'slate-react-system';`}
         <System.H2>Input with max length</System.H2>
         <hr />
         <br />
-        <System.P>Declare the Input component with the maximum number of characters allowed.</System.P>
+        <System.P>
+          Declare the Input component with the maximum number of characters
+          allowed.
+        </System.P>
         <br />
         <System.Input
           label="Max length is 14"
@@ -196,13 +212,25 @@ import { Input, Textarea } from 'slate-react-system';`}
         <br />
         <System.P>Declare the Input component with validation.</System.P>
         <br />
-        <System.Input label="Success" placeholder="This is an uncontrolled input for success." validation="SUCCESS" />
+        <System.Input
+          label="Success"
+          placeholder="This is an uncontrolled input for success."
+          validation="SUCCESS"
+        />
         <br />
         <br />
-        <System.Input label="Warning" placeholder="This is an uncontrolled input for warning." validation="WARNING" />
+        <System.Input
+          label="Warning"
+          placeholder="This is an uncontrolled input for warning."
+          validation="WARNING"
+        />
         <br />
         <br />
-        <System.Input label="Error" placeholder="This is an uncontrolled input for error." validation="ERROR" />
+        <System.Input
+          label="Error"
+          placeholder="This is an uncontrolled input for error."
+          validation="ERROR"
+        />
         <br />
         <System.CodeBlock>
           {`class ExampleSuccess extends React.Component {
@@ -251,22 +279,40 @@ class ExampleError extends React.Component {
           <System.Table
             data={{
               columns: [
-                { key: 'a', name: 'Name', width: '128px' },
-                { key: 'b', name: 'Type', width: '88px' },
-                { key: 'c', name: 'Default', width: '88px' },
-                { key: 'd', name: 'Description', width: '100%' },
+                { key: "a", name: "Name", width: "128px" },
+                { key: "b", name: "Type", width: "88px" },
+                { key: "c", name: "Default", width: "88px" },
+                { key: "d", name: "Description", width: "100%" },
               ],
               rows: [
-                { id: 1, a: 'name', b: 'string', c: 'null', d: 'Radio Group name' },
-                { id: 2, a: 'label', b: 'string', c: 'null', d: 'Label text' },
-                { id: 3, a: 'max', b: 'number', c: 'null', d: 'Max number of input characters' },
-                { id: 4, a: 'tooltip', b: 'string', c: 'null', d: 'Tooltip text' },
+                {
+                  id: 1,
+                  a: "name",
+                  b: "string",
+                  c: "null",
+                  d: "Radio Group name",
+                },
+                { id: 2, a: "label", b: "string", c: "null", d: "Label text" },
+                {
+                  id: 3,
+                  a: "max",
+                  b: "number",
+                  c: "null",
+                  d: "Max number of input characters",
+                },
+                {
+                  id: 4,
+                  a: "tooltip",
+                  b: "string",
+                  c: "null",
+                  d: "Tooltip text",
+                },
                 {
                   id: 5,
-                  a: 'validation',
-                  b: 'string',
-                  c: 'null',
-                  d: 'Validation style. Use: SUCCESS, WARNING or ERROR',
+                  a: "validation",
+                  b: "string",
+                  c: "null",
+                  d: "Validation style. Use: SUCCESS, WARNING or ERROR",
                 },
               ],
             }}

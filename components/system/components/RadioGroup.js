@@ -11,6 +11,7 @@ const STYLES_RADIO = css`
   width: 100%;
   position: relative;
   margin-bottom: 16px;
+  cursor: pointer;
 `;
 
 const STYLES_RADIO_INPUT = css`

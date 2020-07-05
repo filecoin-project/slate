@@ -21,14 +21,9 @@ const SELECT_MENU_OPTIONS = [
 
 export default class SystemPageDropdowns extends React.Component {
   state = {
-<<<<<<< HEAD
-    exampleOne: '1',
-    exampleTwo: '3',
-=======
-    menu: "4",
-    fullMenu: "1",
-    countryMenu: "United States of America",
->>>>>>> added country dropdown and refactored dropdown options
+    exampleOne: "1",
+    exampleTwo: "3",
+    exampleThree: "United States of America",
   };
 
   _handleChange = (e) => {
@@ -37,23 +32,19 @@ export default class SystemPageDropdowns extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD
-      <SystemPage title="SDS: Dropdowns" description="..." url="https://fps.onrender.com/system/dropdowns">
-=======
       <SystemPage
-        title="FCDS: Dropdowns"
-        description="Lorem Ipsum."
+        title="SDS: Dropdowns"
+        description="..."
         url="https://fps.onrender.com/system/dropdowns"
       >
->>>>>>> added country dropdown and refactored dropdown options
         <System.H1>
           Dropdowns <ViewSourceLink file="system/dropdowns.js" />
         </System.H1>
         <br />
         <br />
         <System.P>
-<<<<<<< HEAD
-          The Dropdown component is used to present the user a list of values where they can select a single option.
+          The Dropdown component is used to present the user a list of values
+          where they can select a single option.
         </System.P>
         <br />
         <br />
@@ -67,14 +58,9 @@ export default class SystemPageDropdowns extends React.Component {
         <br />
         <br />
         <System.CodeBlock>
-{`import * as React from 'react';
-import { SelectMenu, SelectMenuFull } from 'slate-react-system';`}
+          {`import * as React from 'react';
+import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
         </System.CodeBlock>
-=======
-          The Dropdown component is used to present the user a list of values
-          where they can select a single option.
-        </System.P>
->>>>>>> added country dropdown and refactored dropdown options
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -99,7 +85,6 @@ import { SelectMenu, SelectMenuFull } from 'slate-react-system';`}
 ];`}
         </System.CodeBlock>
         <br />
-<<<<<<< HEAD
         <System.P>Declare the Dropdown component.</System.P>
         <br />
         <System.CodeBlock>
@@ -117,9 +102,8 @@ import { SelectMenu, SelectMenuFull } from 'slate-react-system';`}
          value={this.state.exampleOne}
          category="horoscope"
          onChange={this._handleChange}
-         options={SELECT_MENU_OPTIONS}>
-         {SELECT_MENU_MAP[this.state.exampleOne]}
-       </SelectMenu>
+         options={SELECT_MENU_OPTIONS}
+       />
      )
    }
 }
@@ -134,68 +118,40 @@ class ExampleTwo extends React.Component {
 
   render() {
     return(
-      <SelectMenuFull
+      <SelectMenu
         label="Pick a horoscope"
         name="exampleTwo"
+        full
         value={this.state.exampleTwo}
         category="horoscope"
         onChange={this._handleChange}
-        options={SELECT_MENU_OPTIONS}>
-        {SELECT_MENU_MAP[this.state.exampleTwo]}
-      </SelectMenuFull>
+        options={SELECT_MENU_OPTIONS}
+      />
+    )
+  }
+}
+
+
+class ExampleThree extends React.Component {
+  state = { exampleThree: "United States of America" }
+
+  _handleChange = e => this.setState(
+    { [e.target.name]: e.target.value }
+  );
+
+  render() {
+    return(
+      <SelectCountryMenu
+        label="Pick your country"
+        name="countryMenu"
+        full
+        value={this.state.countryMenu}
+        category="country"
+        onChange={this._handleChange}
+      />
     )
   }
 }`}
-=======
-        <System.P>
-          Define the Dropdown default value states and handle the state change
-          when a dropdown value is selected.
-        </System.P>
-        <br />
-        <System.CodeBlock>
-          {`state = {
-  menu: '4',
-  fullMenu: '1',
-  countryMenu: 'United States of America',
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
-        </System.CodeBlock>
-        <br />
-        <System.P>Declare the Dropdown component.</System.P>
-        <br />
-        <System.CodeBlock>
-          {`<System.SelectMenu
-  name="menu"
-  value={this.state.menu}
-  category="horoscope"
-  onChange={this._handleChange}
-  options={SELECT_MENU_OPTIONS}>
-  {SELECT_MENU_MAP[this.state.one]}
-</System.SelectMenu>
-
-<System.SelectMenu
-  label="Pick a horoscope"
-  name="fullMenu"
-  full
-  value={this.state.fullMenu}
-  category="horoscope"
-  onChange={this._handleChange}
-  options={SELECT_MENU_OPTIONS}>
-  {SELECT_MENU_MAP[this.state.three]}
-</System.SelectMenu>
-
-<System.SelectCountryMenu
-  label="Pick your country"
-  name="countryMenu"
-  full
-  value={this.state.countryMenu}
-  category="country"
-  onChange={this._handleChange}
-/>`}
->>>>>>> added country dropdown and refactored dropdown options
         </System.CodeBlock>
         <br />
         <br />
@@ -203,39 +159,19 @@ _handleChange = (e) => {
         <hr />
         <br />
         <System.SelectMenu
-<<<<<<< HEAD
           name="exampleOne"
           value={this.state.exampleOne}
           category="horoscope"
           onChange={this._handleChange}
-          options={SELECT_MENU_OPTIONS}>
-          {SELECT_MENU_MAP[this.state.exampleOne]}
-        </System.SelectMenu>
-=======
-          label="Pick a horoscope"
-          name="menu"
-          value={this.state.menu}
-          category="horoscope"
-          onChange={this._handleChange}
           options={SELECT_MENU_OPTIONS}
         />
->>>>>>> added country dropdown and refactored dropdown options
         <br />
         <br />
         <System.SelectMenu
           label="Pick a horoscope"
-<<<<<<< HEAD
           name="exampleTwo"
-          value={this.state.exampleTwo}
-          category="horoscope"
-          onChange={this._handleChange}
-          options={SELECT_MENU_OPTIONS}>
-          {SELECT_MENU_MAP[this.state.exampleTwo]}
-        </System.SelectMenuFull>
-=======
-          name="fullMenu"
           full
-          value={this.state.fullMenu}
+          value={this.state.exampleTwo}
           category="horoscope"
           onChange={this._handleChange}
           options={SELECT_MENU_OPTIONS}
@@ -250,7 +186,6 @@ _handleChange = (e) => {
           category="country"
           onChange={this._handleChange}
         />
->>>>>>> added country dropdown and refactored dropdown options
       </SystemPage>
     );
   }

@@ -95,11 +95,7 @@ export const SelectMenu = (props) => {
         }
       >
         <label css={STYLES_SELECT_MENU_LABEL} htmlFor={`id-${props.name}`}>
-<<<<<<< HEAD
-          {props.children}{" "}
-=======
           {map[props.value]}{" "}
->>>>>>> added country dropdown and refactored dropdown options
           {props.category ? (
             <span css={STYLES_SELECT_MENU_CATEGORY}>{props.category}</span>
           ) : null}
@@ -125,11 +121,6 @@ export const SelectMenu = (props) => {
   );
 };
 
-<<<<<<< HEAD
-export const SelectMenuFull = (props) => (
-  <SelectMenu {...props} css={STYLES_SELECT_MENU_FULL} />
-);
-=======
 export const SelectCountryMenu = (props) => {
   return (
     <SelectMenu
@@ -143,4 +134,3 @@ export const SelectCountryMenu = (props) => {
     ></SelectMenu>
   );
 };
->>>>>>> added country dropdown and refactored dropdown options

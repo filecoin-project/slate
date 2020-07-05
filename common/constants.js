@@ -6,9 +6,10 @@ export const sizes = {
 
 export const zindex = {
   navigation: 1,
-  header: 5,
+  sidebar: 2,
+  modal: 3,
   tooltip: 4,
-  sidebar: 3,
+  header: 5,
 };
 
 export const font = {

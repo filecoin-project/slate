@@ -58,7 +58,8 @@ export default class SidebarCreatePaymentChannel extends React.Component {
           Create a payment channel
         </System.P>
 
-        <System.SelectMenuFull
+        <System.SelectMenu
+          full
           containerStyle={{ marginTop: 24 }}
           name="address"
           label="From"
@@ -68,7 +69,7 @@ export default class SidebarCreatePaymentChannel extends React.Component {
           options={this.props.viewer.addresses}
         >
           {currentAddress.name}
-        </System.SelectMenuFull>
+        </System.SelectMenu>
 
         <System.Input
           containerStyle={{ marginTop: 24 }}

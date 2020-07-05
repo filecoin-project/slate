@@ -64,7 +64,8 @@ export default class SidebarCreateWalletAddress extends React.Component {
           onChange={this._handleChange}
         />
 
-        <System.SelectMenuFull
+        <System.SelectMenu
+          full
           containerStyle={{ marginTop: 24 }}
           name="type"
           label="Address type"
@@ -74,7 +75,7 @@ export default class SidebarCreateWalletAddress extends React.Component {
           options={SELECT_MENU_OPTIONS}
         >
           {SELECT_MENU_MAP[this.state.type]}
-        </System.SelectMenuFull>
+        </System.SelectMenu>
 
         <System.CheckBox
           style={{ marginTop: 24 }}

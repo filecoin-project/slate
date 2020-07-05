@@ -185,7 +185,8 @@ export default class SidebarFileStorageDeal extends React.Component {
         ) : null}
 
         {this.props.file ? (
-          <System.SelectMenuFull
+          <System.SelectMenu
+            full
             containerStyle={{ marginTop: 24 }}
             name="address"
             label="Payment address"
@@ -195,7 +196,7 @@ export default class SidebarFileStorageDeal extends React.Component {
             options={this.props.viewer.addresses}
           >
             {currentAddress.name}
-          </System.SelectMenuFull>
+          </System.SelectMenu>
         ) : null}
 
         {this.props.file ? (

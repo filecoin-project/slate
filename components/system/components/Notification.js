@@ -33,10 +33,10 @@ const STYLES_CLOSE = css`
 `;
 
 const NOTIF_COLOR_MAP = {
-  SUCCESS: Constants.system.lightGreen,
-  ERROR: Constants.system.lightRed,
-  WARNING: Constants.system.lightYellow,
-  INFO: Constants.system.lightBlue,
+  SUCCESS: Constants.system.green,
+  ERROR: Constants.system.red,
+  WARNING: Constants.system.yellow,
+  INFO: Constants.system.brand,
 };
 
 const ICON_MAP = {
@@ -45,7 +45,7 @@ const ICON_MAP = {
       css={STYLES_ICON}
       height="24px"
       style={{
-        color: `${Constants.system.green}`,
+        color: `${NOTIF_COLOR_MAP["SUCCESS"]}`,
       }}
     />
   ),
@@ -54,7 +54,7 @@ const ICON_MAP = {
       css={STYLES_ICON}
       height="24px"
       style={{
-        color: `${Constants.system.red}`,
+        color: `${NOTIF_COLOR_MAP["ERROR"]}`,
       }}
     />
   ),
@@ -63,7 +63,7 @@ const ICON_MAP = {
       css={STYLES_ICON}
       height="24px"
       style={{
-        color: `${Constants.system.yellow}`,
+        color: `${NOTIF_COLOR_MAP["WARNING"]}`,
       }}
     />
   ),
@@ -72,7 +72,7 @@ const ICON_MAP = {
       css={STYLES_ICON}
       height="24px"
       style={{
-        color: `${Constants.system.lightBlue}`,
+        color: `${NOTIF_COLOR_MAP["INFO"]}`,
       }}
     />
   ),
@@ -84,7 +84,7 @@ export class Notification extends React.Component {
       <div
         css={STYLES_NOTIFICATION}
         style={{
-          boxShadow: `0 1px 4px rgba(0, 0, 0, 0.07), 0 0 4px 1px ${
+          boxShadow: `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
             NOTIF_COLOR_MAP[this.props.status || "INFO"]
           }`,
         }}
@@ -98,9 +98,7 @@ export class Notification extends React.Component {
         />
         {this.props.onClose ? (
           <SVG.X css={STYLES_CLOSE} onClick={this.props.onClose} />
-        ) : (
-          <div />
-        )}
+        ) : null}
       </div>
     );
   }

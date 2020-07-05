@@ -62,7 +62,7 @@ const STYLES_INPUT = css`
   }
 `;
 
-const STYLES_COPY_AND_PASTE = css`
+const STYLES_ICON = css`
   position: absolute;
   right: 12px;
   margin-top: 1px;
@@ -139,6 +139,8 @@ export class Input extends React.Component {
           type={this.props.type}
           placeholder={this.props.placeholder}
           onChange={this._handleChange}
+          onFocus={this.props.onFocus}
+          onBlur={this.props.onBlur}
           onKeyUp={this._handleKeyUp}
           autoComplete="off"
           readOnly={this.props.readOnly}
@@ -153,18 +155,17 @@ export class Input extends React.Component {
               this.props.copyable || this.props.search ? "32px" : "24px",
           }}
         />
-        {this.props.copyable ? (
+        {this.props.icon ? (
+          <this.props.icon
+            height="16px"
+            css={STYLES_ICON}
+            onClick={this.props.onSubmit}
+          />
+        ) : this.props.copyable ? (
           <SVG.CopyAndPaste
             height="16px"
-            css={STYLES_COPY_AND_PASTE}
+            css={STYLES_ICON}
             onClick={this._handleCopy}
-          />
-        ) : null}
-        {this.props.search ? (
-          <SVG.Search
-            height="16px"
-            css={STYLES_COPY_AND_PASTE}
-            onClick={this.props.onSubmit}
           />
         ) : null}
       </div>

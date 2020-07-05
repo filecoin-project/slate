@@ -203,11 +203,11 @@ export class ListEditor extends React.Component {
         <div css={INPUT}>
           <Input
             value={this.state.search}
-            search
             tooltip={this.props.tooltip}
             label={this.props.label}
             placeholder={this.props.placeholder}
             description={this.props.description}
+            icon={SVG.Search}
             onChange={this._handleChange}
             onSubmit={this._handleAdd}
           />

@@ -29,9 +29,6 @@ const path = require('path');
 const app = next({
   dev: false,
   dir: __dirname,
-  conf: {
-    distDir: path.resolve('./.next'),
-  },
   quiet: false,
 });
 const nextRequestHandler = app.getRequestHandler();
@@ -77,107 +74,104 @@ app.prepare().then(async () => {
     local: null,
   };
 
-  if (!production) {
-    try {
-      // NOTE(daniel): Wipe all of the local data when --reset-data flag is added to npm run dev.
-      if (resetData) {
-        await Utilities.resetFileSystem();
-      }
+  try {
+    // TODO(jim): Remove later.
+    // We wipe all of the local data each time you run the application.
+    await Utilities.resetFileSystem();
 
-      const updates = await Utilities.refresh({ PG: PowerGate });
-      state = await Utilities.updateStateData(state, updates);
-      console.log('[ prototype ] updated without token');
+    const updates = await Utilities.refresh({ PG: PowerGate });
+    state = await Utilities.updateStateData(state, updates);
+    console.log('[ prototype ] updated without token');
 
-      // NOTE(jim): This is a configuration folder with all of the client tokens.
-      // TODO(jim): Unnecessary if we use a local and remote postgres.
-      const dirnameData = path.join(__dirname, '/.data');
-      if (!FS.existsSync(dirnameData)) {
-        FS.mkdirSync(dirnameData, { recursive: true });
-      }
-
-      // NOTE(jim): This will create a token for authentication with powergate.
-      // TODO(jim): Roll this up into Postgres instead.
-      const dirnamePowergate = path.join(__dirname, '/.data/powergate-token');
-      if (!FS.existsSync(dirnamePowergate)) {
-        const FFS = await PowerGate.ffs.create();
-        state.token = FFS.token ? FFS.token : null;
-
-        // NOTE(jim): Write a new token file.
-        if (state.token) {
-          FS.writeFileSync(dirnamePowergate, state.token);
-        }
-      } else {
-        state.token = FS.readFileSync(dirnamePowergate, 'utf8');
-      }
-
-      if (state.token) {
-        console.log('[ prototype ] powergate token:', state.token);
-        PowerGate.setToken(state.token);
-      }
-
-      const tokenUpdates = await Utilities.refreshWithToken({
-        PG: PowerGate,
-      });
-      state = await Utilities.updateStateData(state, tokenUpdates);
-      console.log('[ prototype ] updated with token');
-
-      // NOTE(jim): Local library retrieval or creation
-      // TODO(jim): Needs to support nested folders in the future.
-      // TODO(jim): May consider a move to buckets.
-      const dirnameLibrary = path.join(__dirname, '/.data/library.json');
-      if (!FS.existsSync(dirnameLibrary)) {
-        const librarySchema = {
-          library: [
-            {
-              ...Utilities.createFolder({ id: Constants.FILE_STORAGE_URL }),
-              file: 'Files',
-              name: 'Files',
-            },
-          ],
-        };
-
-        FS.writeFileSync(dirnameLibrary, JSON.stringify(librarySchema));
-        state.library = librarySchema.library;
-      } else {
-        const parsedLibrary = FS.readFileSync(dirnameLibrary, 'utf8');
-        state.library = JSON.parse(parsedLibrary).library;
-      }
-
-      // NOTE(jim): Local settings retrieval or creation
-      // TODO(jim): Move this to postgres later.
-      const dirnameLocalsettings = path.join(
-        __dirname,
-        '/.data/local-settings.json'
-      );
-      if (!FS.existsSync(dirnameLocalsettings)) {
-        const localSettingsSchema = {
-          local: {
-            photo: null,
-            name: `node-${uuid()}`,
-            settings_deals_auto_approve: false,
-          },
-        };
-
-        FS.writeFileSync(
-          dirnameLocalsettings,
-          JSON.stringify(localSettingsSchema)
-        );
-        state.local = localSettingsSchema.local;
-      } else {
-        const parsedLocal = FS.readFileSync(dirnameLocalsettings, 'utf8');
-        state.local = JSON.parse(parsedLocal).local;
-      }
-    } catch (e) {
-      console.log(e);
-      console.log('[ prototype ] "/" -- WILL REDIRECT TO /SYSTEM ');
-      console.log(
-        '[ prototype ]        SLATE WILL NOT RUN LOCALLY UNTIL YOU HAVE '
-      );
-      console.log('[ prototype ]        PROPERLY CONFIGURED POWERGATE AND ');
-      console.log(
-        '[ prototype ]        CONNECTED TO THE FILECOIN NETWORK (DEVNET/TESTNET) '
-      );
+    // NOTE(jim): This is a configuration folder with all of the client tokens.
+    // TODO(jim): Unnecessary if we use a local and remote postgres.
+    const dirnameData = path.join(__dirname, '/.data');
+    if (!FS.existsSync(dirnameData)) {
+      FS.mkdirSync(dirnameData, { recursive: true });
     }
+
+    // NOTE(jim): This will create a token for authentication with powergate.
+    // TODO(jim): Roll this up into Postgres instead.
+    const dirnamePowergate = path.join(__dirname, '/.data/powergate-token');
+    if (!FS.existsSync(dirnamePowergate)) {
+      const FFS = await PowerGate.ffs.create();
+      state.token = FFS.token ? FFS.token : null;
+
+      // NOTE(jim): Write a new token file.
+      if (state.token) {
+        FS.writeFileSync(dirnamePowergate, state.token);
+      }
+    } else {
+      state.token = FS.readFileSync(dirnamePowergate, 'utf8');
+    }
+
+    if (state.token) {
+      console.log('[ prototype ] powergate token:', state.token);
+      PowerGate.setToken(state.token);
+    }
+
+    const tokenUpdates = await Utilities.refreshWithToken({
+      PG: PowerGate,
+    });
+    state = await Utilities.updateStateData(state, tokenUpdates);
+    console.log('[ prototype ] updated with token');
+
+    // NOTE(jim): Local library retrieval or creation
+    // TODO(jim): Needs to support nested folders in the future.
+    // TODO(jim): May consider a move to buckets.
+    const dirnameLibrary = path.join(__dirname, '/.data/library.json');
+    if (!FS.existsSync(dirnameLibrary)) {
+      const librarySchema = {
+        library: [
+          {
+            ...Utilities.createFolder({ id: Constants.FILE_STORAGE_URL }),
+            file: 'Files',
+            name: 'Files',
+          },
+        ],
+      };
+
+      FS.writeFileSync(dirnameLibrary, JSON.stringify(librarySchema));
+      state.library = librarySchema.library;
+    } else {
+      const parsedLibrary = FS.readFileSync(dirnameLibrary, 'utf8');
+      state.library = JSON.parse(parsedLibrary).library;
+    }
+
+    // NOTE(jim): Local settings retrieval or creation
+    // TODO(jim): Move this to postgres later.
+    const dirnameLocalsettings = path.join(
+      __dirname,
+      '/.data/local-settings.json'
+    );
+    if (!FS.existsSync(dirnameLocalsettings)) {
+      const localSettingsSchema = {
+        local: {
+          photo: null,
+          name: `node-${uuid()}`,
+          settings_deals_auto_approve: false,
+        },
+      };
+
+      FS.writeFileSync(
+        dirnameLocalsettings,
+        JSON.stringify(localSettingsSchema)
+      );
+      state.local = localSettingsSchema.local;
+    } else {
+      const parsedLocal = FS.readFileSync(dirnameLocalsettings, 'utf8');
+      state.local = JSON.parse(parsedLocal).local;
+    }
+  } catch (e) {
+    console.log(e);
+    console.log('[ prototype ] "/" -- WILL REDIRECT TO /SYSTEM ');
+    console.log(
+      '[ prototype ]        SLATE WILL NOT RUN LOCALLY UNTIL YOU HAVE '
+    );
+    console.log('[ prototype ]        PROPERLY CONFIGURED POWERGATE AND ');
+    console.log(
+      '[ prototype ]        CONNECTED TO THE FILECOIN NETWORK (DEVNET/TESTNET) '
+    );
   }
 
   const server = express();

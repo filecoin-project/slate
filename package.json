@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "node . --unhandled-rejections=strict",
     "dev:node": "NODE_ENV=development webpack --config webpack.node.config.js --mode development",
+    "prod": "NODE_ENV=production node . --unhandled-rejections=strict",
     "build": "next build",
     "start": "electron .",
     "electron": "electron ./electron/main.js ",

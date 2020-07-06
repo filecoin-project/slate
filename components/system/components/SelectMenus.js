@@ -1,12 +1,14 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
-import * as SVG from '~/components/system/svg';
+import * as React from "react";
+import * as Constants from "~/common/constants";
+import * as SVG from "~/components/system/svg";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import { DescriptionGroup } from '~/components/system/components/fragments/DescriptionGroup';
+import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
+import { SELECT_COUNTRY_OPTIONS } from "~/common/fixtures";
 
 const INPUT_STYLES = `
+  font-family: ${Constants.font.text};
   -webkit-appearance: none;
   width: 100%;
   height: 40px;
@@ -48,6 +50,7 @@ const STYLES_SELECT_MENU_ANCHOR = css`
   opacity: 0;
   width: 100%;
   height: 40px;
+  cursor: pointer;
 `;
 
 const STYLES_SELECT_MENU_LABEL = css`
@@ -69,6 +72,10 @@ const STYLES_SELECT_MENU_CHEVRON = css`
 `;
 
 export const SelectMenu = (props) => {
+  let map = {};
+  for (let option of props.options) {
+    map[option.value] = option.name;
+  }
   return (
     <React.Fragment>
       <DescriptionGroup
@@ -78,9 +85,20 @@ export const SelectMenu = (props) => {
         style={props.containerStyle}
       />
 
-      <div css={props.className ? props.className : STYLES_SELECT_MENU}>
+      <div
+        css={
+          props.className
+            ? props.className
+            : props.full
+            ? STYLES_SELECT_MENU_FULL
+            : STYLES_SELECT_MENU
+        }
+      >
         <label css={STYLES_SELECT_MENU_LABEL} htmlFor={`id-${props.name}`}>
-          {props.children} {props.category ? <span css={STYLES_SELECT_MENU_CATEGORY}>{props.category}</span> : null}
+          {map[props.value]}{" "}
+          {props.category ? (
+            <span css={STYLES_SELECT_MENU_CATEGORY}>{props.category}</span>
+          ) : null}
           <SVG.ChevronDown height="16px" css={STYLES_SELECT_MENU_CHEVRON} />
         </label>
         <select
@@ -88,7 +106,8 @@ export const SelectMenu = (props) => {
           value={props.value}
           onChange={props.onChange}
           name={props.name}
-          id={`id-${props.name}`}>
+          id={`id-${props.name}`}
+        >
           {props.options.map((each) => {
             return (
               <option value={each.value} key={each.value}>
@@ -102,4 +121,16 @@ export const SelectMenu = (props) => {
   );
 };
 
-export const SelectMenuFull = (props) => <SelectMenu {...props} css={STYLES_SELECT_MENU_FULL} />;
+export const SelectCountryMenu = (props) => {
+  return (
+    <SelectMenu
+      css={props.full ? STYLES_SELECT_MENU_FULL : STYLES_SELECT_MENU}
+      label={props.label}
+      name={props.name}
+      value={props.value}
+      category={props.category}
+      onChange={props.onChange}
+      options={SELECT_COUNTRY_OPTIONS}
+    ></SelectMenu>
+  );
+};

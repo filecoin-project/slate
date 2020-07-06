@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 import * as SchemaTable from "~/common/schema-table";
 
@@ -20,12 +19,7 @@ export default class SceneDeals extends React.Component {
   render() {
     return (
       <ScenePage>
-        <Section
-          onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
-          title="All deals"
-          buttons={[]}
-        >
+        <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="All deals" buttons={[]}>
           <System.Table
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}

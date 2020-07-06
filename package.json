@@ -7,11 +7,12 @@
   "scripts": {
     "dev": "node . --unhandled-rejections=strict",
     "build": "next build",
-    "start": "NODE_ENV=production node . --unhandled-rejections=strict"
+    "start": "NODE_ENV=production node . --unhandled-rejections=strict",
+    "build-system": "rollup -c"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.9.0",
-    "@babel/register": "^7.9.0",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/register": "^7.10.4",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/cache": "11.0.0-next.12",
     "@emotion/core": "^10.0.28",
@@ -33,8 +34,17 @@
     "next": "^9.4.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-draggable": "^4.4.3",
     "react-tippy": "^1.3.4",
     "three": "^0.108.0",
+    "uuid": "^8.0.0",
     "ws": "^7.3.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "rollup": "^2.18.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-terser": "^6.1.0"
   }
 }

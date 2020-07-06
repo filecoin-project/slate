@@ -18,12 +18,12 @@ const STYLES_FILE_HIDDEN = css`
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: ${Constants.font.medium};
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;
@@ -59,7 +59,6 @@ const SELECT_MENU_MAP = {
 
 export default class SidebarFileStorageDeal extends React.Component {
   state = {
-    file: null,
     settings_cold_default_duration: this.props.viewer
       .settings_cold_default_duration,
     settings_cold_default_replication_factor: this.props.viewer
@@ -75,28 +74,10 @@ export default class SidebarFileStorageDeal extends React.Component {
       return;
     }
 
-    let data = new FormData();
-    data.append("image", file);
-
-    const options = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: data,
-    };
-
-    const response = await fetch(`/_/storage/${file.name}`, options);
-    const json = await response.json();
-
-    if (json && json.success) {
-      this.setState({ file });
-    }
+    await this.props.onSetFile({ file });
   };
 
   _handleMakeDeal = async (src) => {
-    console.log(src);
-
     const options = {
       method: "POST",
       credentials: "include",
@@ -115,7 +96,7 @@ export default class SidebarFileStorageDeal extends React.Component {
   _handleSubmit = async (e) => {
     e.persist();
 
-    const path = `/public/static/files/${this.state.file.name}`;
+    const path = `/public/static/files/${this.props.file.name}`;
     await this._handleMakeDeal(path);
 
     await this.props.onSubmit({});
@@ -144,7 +125,7 @@ export default class SidebarFileStorageDeal extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: "inter-semi-bold" }}>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
           Upload a file to the network
         </System.P>
         <input
@@ -154,20 +135,20 @@ export default class SidebarFileStorageDeal extends React.Component {
           onChange={this._handleUpload}
         />
 
-        {this.state.file ? (
+        {this.props.file ? (
           <div>
             <img
-              src={`/static/files/${this.state.file.name}`}
+              src={`/static/files/${this.props.file.name}`}
               css={STYLES_IMAGE_PREVIEW}
             />
 
             <div css={STYLES_ITEM}>
-              <div css={STYLES_FOCUS}>{this.state.file.name}</div>
+              <div css={STYLES_FOCUS}>{this.props.file.name}</div>
               <div css={STYLES_SUBTEXT}>Name</div>
             </div>
 
             <div css={STYLES_ITEM}>
-              <div css={STYLES_FOCUS}>{this.state.file.size}</div>
+              <div css={STYLES_FOCUS}>{this.props.file.size}</div>
               <div css={STYLES_SUBTEXT}>File size</div>
             </div>
           </div>
@@ -181,7 +162,7 @@ export default class SidebarFileStorageDeal extends React.Component {
           Add file
         </System.ButtonSecondaryFull>
 
-        {this.state.file ? (
+        {this.props.file ? (
           <System.Input
             containerStyle={{ marginTop: 48 }}
             label="Deal duration"
@@ -193,7 +174,7 @@ export default class SidebarFileStorageDeal extends React.Component {
           />
         ) : null}
 
-        {this.state.file ? (
+        {this.props.file ? (
           <System.Input
             containerStyle={{ marginTop: 24 }}
             label="Replication factor"
@@ -203,8 +184,9 @@ export default class SidebarFileStorageDeal extends React.Component {
           />
         ) : null}
 
-        {this.state.file ? (
-          <System.SelectMenuFull
+        {this.props.file ? (
+          <System.SelectMenu
+            full
             containerStyle={{ marginTop: 24 }}
             name="address"
             label="Payment address"
@@ -214,10 +196,10 @@ export default class SidebarFileStorageDeal extends React.Component {
             options={this.props.viewer.addresses}
           >
             {currentAddress.name}
-          </System.SelectMenuFull>
+          </System.SelectMenu>
         ) : null}
 
-        {this.state.file ? (
+        {this.props.file ? (
           <System.ButtonPrimaryFull
             style={{ marginTop: 48 }}
             onClick={this._handleSubmit}

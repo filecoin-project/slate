@@ -2,7 +2,6 @@ import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
-import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 import * as SchemaTable from "~/common/schema-table";
 
@@ -70,12 +69,12 @@ const STYLES_TEXT = css`
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: ${Constants.font.medium};
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;
@@ -181,8 +180,7 @@ export default class SceneWallet extends React.Component {
               type: "SIDEBAR",
               value: "SIDEBAR_CREATE_WALLET_ADDRESS",
             },
-          ]}
-        >
+          ]}>
           <div css={STYLES_GROUP}>
             <System.SelectMenu
               label="Select your address"
@@ -190,8 +188,7 @@ export default class SceneWallet extends React.Component {
               value={this.props.selected.address}
               category="address"
               onChange={this._handleWalletChange}
-              options={this.props.viewer.addresses}
-            >
+              options={this.props.viewer.addresses}>
               {currentAddress.name}
             </System.SelectMenu>
           </div>
@@ -200,11 +197,7 @@ export default class SceneWallet extends React.Component {
             <div css={STYLES_TEXT}>
               <div>
                 <div css={STYLES_FOCUS}>
-                  {this.state.visible ? (
-                    currentAddress.address
-                  ) : (
-                    <span css={STYLES_FOCUS_EMPAHSIS}>Hidden</span>
-                  )}
+                  {this.state.visible ? currentAddress.address : <span css={STYLES_FOCUS_EMPAHSIS}>Hidden</span>}
                 </div>
                 <div css={STYLES_SUBTEXT}>Filecoin address</div>
               </div>
@@ -212,8 +205,7 @@ export default class SceneWallet extends React.Component {
               <div style={{ marginTop: 24 }}>
                 <div css={STYLES_FOCUS}>
                   {currentAddress.name}{" "}
-                  {this.props.viewer.settings_cold_default_address ===
-                  currentAddress.address ? (
+                  {this.props.viewer.settings_cold_default_address === currentAddress.address ? (
                     <strong css={STYLES_FOCUS_EMPAHSIS}>(Primary)</strong>
                   ) : null}
                 </div>
@@ -222,9 +214,7 @@ export default class SceneWallet extends React.Component {
 
               <div css={STYLES_ITEM_GROUP}>
                 <div css={STYLES_ITEM}>
-                  <div css={STYLES_FOCUS}>
-                    {Strings.formatNumber(currentAddress.balance)}
-                  </div>
+                  <div css={STYLES_FOCUS}>{Strings.formatNumber(currentAddress.balance)}</div>
                   <div css={STYLES_SUBTEXT}>Filecoin</div>
                 </div>
 
@@ -242,8 +232,7 @@ export default class SceneWallet extends React.Component {
                       type: "SIDEBAR",
                       value: "SIDEBAR_WALLET_SEND_FUNDS",
                     })
-                  }
-                >
+                  }>
                   Send Filecoin
                 </System.ButtonPrimary>
               </div>
@@ -254,17 +243,11 @@ export default class SceneWallet extends React.Component {
                 onClick={this._handleMakeAddressVisible}
                 style={{
                   marginRight: 16,
-                  backgroundColor: this.state.visible
-                    ? null
-                    : Constants.system.brand,
-                }}
-              >
+                  backgroundColor: this.state.visible ? null : Constants.system.brand,
+                }}>
                 <SVG.Privacy height="16px" />
               </span>
-              <span
-                css={STYLES_CIRCLE_BUTTON}
-                onClick={() => this._handleCopy(currentAddress.address)}
-              >
+              <span css={STYLES_CIRCLE_BUTTON} onClick={() => this._handleCopy(currentAddress.address)}>
                 <SVG.CopyAndPaste height="16px" />
               </span>
             </div>

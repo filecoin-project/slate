@@ -1,23 +1,24 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
-import * as Strings from '~/common/strings';
-import * as SubSystem from '~/components/system/components/fragments/TableComponents';
+import * as React from "react";
+import * as Constants from "~/common/constants";
+import * as Strings from "~/common/strings";
+import * as SubSystem from "~/components/system/components/fragments/TableComponents";
 
-import { css } from '@emotion/react';
-import { P } from '~/components/system/components/Typography';
+import { css } from "@emotion/react";
+import { P } from "~/components/system/components/Typography";
 
 const TABLE_COLUMN_WIDTH_DEFAULTS = {
-  1: '100%',
-  2: '50%',
-  3: '33.333%',
-  4: '25%',
-  5: '20%',
-  6: '16.666%',
-  7: '14.28%',
-  8: '12.5%',
+  1: "100%",
+  2: "50%",
+  3: "33.333%",
+  4: "25%",
+  5: "20%",
+  6: "16.666%",
+  7: "14.28%",
+  8: "12.5%",
 };
 
 const STYLES_TABLE_PLACEHOLDER = css`
+  font-family: ${Constants.font.text};
   display: block;
   width: 100%;
   padding: 20px;
@@ -43,7 +44,7 @@ const STYLES_TABLE_SELECTED_ROW = css`
 `;
 
 const STYLES_TABLE_TOP_ROW = css`
-  font-family: 'inter-semi-bold';
+  font-family: ${Constants.font.semiBold};
   width: 100%;
   padding: 0 8px 0 8px;
   border-bottom: 1px solid ${Constants.system.gray};
@@ -53,8 +54,8 @@ const STYLES_TABLE_TOP_ROW = css`
 
 export class Table extends React.Component {
   static defaultProps = {
-    onNavigateTo: () => console.log('No navigation function set'),
-    onAction: () => console.log('No action function set'),
+    onNavigateTo: () => console.log("No navigation function set"),
+    onAction: () => console.log("No action function set"),
   };
 
   _handleChange = (value) => {
@@ -79,7 +80,7 @@ export class Table extends React.Component {
       ac[data.columns[x].key] = {
         ...data.columns[x],
         index: x,
-        color: x % 2 !== 0 ? 'rgba(0, 0, 0, 0.01)' : null,
+        color: x % 2 !== 0 ? "rgba(0, 0, 0, 0.01)" : null,
       };
     }
 
@@ -89,11 +90,15 @@ export class Table extends React.Component {
       <React.Fragment>
         <div css={STYLES_TABLE_TOP_ROW}>
           {data.columns.map((c, cIndex) => {
-            const text = c.hideLabel ? '' : Strings.isEmpty(c.name) ? c.key : c.name;
+            const text = c.hideLabel
+              ? ""
+              : Strings.isEmpty(c.name)
+              ? c.key
+              : c.name;
             let localWidth = c.width ? c.width : width;
-            let flexShrink = c.width && c.width !== '100%' ? '0' : null;
+            let flexShrink = c.width && c.width !== "100%" ? "0" : null;
             if (cIndex === 0 && !c.width) {
-              localWidth = '100%';
+              localWidth = "100%";
             }
 
             return (
@@ -105,7 +110,8 @@ export class Table extends React.Component {
                   backgroundColor: ac[c.key].color,
                   flexShrink,
                 }}
-                tooltip={c.tooltip}>
+                tooltip={c.tooltip}
+              >
                 {text}
               </SubSystem.TableColumn>
             );
@@ -116,27 +122,29 @@ export class Table extends React.Component {
           const selected = r.id === this.props.selectedRowId;
 
           return (
-            <React.Fragment key={r.id}>
+            <React.Fragment key={`${r.id}-${i}`}>
               <div css={STYLES_TABLE_ROW}>
                 {Object.keys(ac).map((each, cIndex) => {
                   const field = ac[each];
                   const text = r[each];
 
                   let localWidth = field.width ? field.width : width;
-                  let flexShrink = field.width && field.width !== '100%' ? '0' : null;
+                  let flexShrink =
+                    field.width && field.width !== "100%" ? "0" : null;
                   if (cIndex === 0 && !field.width) {
-                    localWidth = '100%';
+                    localWidth = "100%";
                   }
 
                   return (
                     <SubSystem.TableColumn
-                      key={`${each}-${i}`}
+                      key={`${each}-${i}-${cIndex}`}
                       style={{
                         width: localWidth,
                         backgroundColor: field.color,
                         flexShrink,
                       }}
-                      copyable={field.copyable}>
+                      copyable={field.copyable}
+                    >
                       <SubSystem.TableContent
                         data={r}
                         text={text}

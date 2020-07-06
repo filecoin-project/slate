@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 import * as SVG from "~/components/system/svg";
 
@@ -90,7 +89,7 @@ const STYLES_ITEM = css`
   justify-content: center;
   font-size: 12px;
   letter-spacing: 0.2px;
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
   cursor: pointer;
   background-color: ${Constants.system.brand};
@@ -128,10 +127,7 @@ export default class SceneFile extends React.Component {
             <SVG.Dismiss height="24px" />
           </div>
         </div>
-        <div
-          css={STYLES_ASSET}
-          style={{ backgroundImage: `url('${fileURL}')` }}
-        />
+        <div css={STYLES_ASSET} style={{ backgroundImage: `url('${fileURL}')` }} />
       </div>
     );
   }

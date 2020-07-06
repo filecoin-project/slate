@@ -195,35 +195,12 @@ export const injectGlobalStyles = () => css`
     background: ${Constants.system.foreground};
     color: ${Constants.system.black};
     font-size: 16px;
-    font-family: 'inter-regular', -apple-system, BlinkMacSystemFont, arial, sans-serif;
+    font-family: ${Constants.font.text};
     scrollbar-width: none;
     -ms-overflow-style: -ms-autohiding-scrollbar;
 
     ::-webkit-scrollbar {
       display: none;
-    }
-
-    @media(max-width: 1024px) {
-      #__next {
-        display: none;
-      }
-
-      :after {
-        background: ${Constants.system.pitchBlack};
-        color: ${Constants.system.white};
-        content: "This prototype is for desktop/laptop viewports only.";
-        text-align: center;
-        padding: 24px;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        z-index: 333;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-      }
     }
   }
 `;

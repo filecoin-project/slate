@@ -1,13 +1,14 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
-import * as SVG from '~/components/system/svg';
-import * as Strings from '~/common/strings';
+import * as React from "react";
+import * as Constants from "~/common/constants";
+import * as SVG from "~/components/system/svg";
+import * as Strings from "~/common/strings";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import { DescriptionGroup } from '~/components/system/components/fragments/DescriptionGroup';
+import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 
 const INPUT_STYLES = `
+  font-family: ${Constants.font.text};
   -webkit-appearance: none;
   width: 100%;
   height: 40px;
@@ -33,12 +34,15 @@ const STYLES_INPUT_CONTAINER = css`
 const STYLES_INPUT = css`
   ${INPUT_STYLES}
   padding: 0 24px 0 24px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), inset 0 0 0 1px ${Constants.system.darkGray};
+  text-overflow: ellipsis;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px ${Constants.system.darkGray};
 
   :focus {
     outline: 0;
     border: 0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${Constants.system.brand};
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07),
+      inset 0 0 0 2px ${Constants.system.brand};
   }
 
   ::placeholder {
@@ -58,7 +62,7 @@ const STYLES_INPUT = css`
   }
 `;
 
-const STYLES_COPY_AND_PASTE = css`
+const STYLES_ICON = css`
   position: absolute;
   right: 12px;
   margin-top: 1px;
@@ -82,20 +86,24 @@ export class Input extends React.Component {
 
   _handleCopy = (e) => {
     this._input.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
   };
 
   _handleKeyUp = (e) => {
-    if (e.which === 13 && this.props.onSubmit) {
+    if ((e.which === 13 || e.keyCode === 13) && this.props.onSubmit) {
       this.props.onSubmit(e);
       return;
     }
-
-    this.props.onKeyUp(e);
+    if (this.props.onKeyUp) {
+      this.props.onKeyUp(e);
+    }
   };
 
   _handleChange = (e) => {
-    if (!Strings.isEmpty(this.props.pattern) && !Strings.isEmpty(e.target.value)) {
+    if (
+      !Strings.isEmpty(this.props.pattern) &&
+      !Strings.isEmpty(e.target.value)
+    ) {
       const TestRegex = new RegExp(this.props.pattern);
       if (!TestRegex.test(e.target.value)) {
         e.preventDefault();
@@ -116,7 +124,11 @@ export class Input extends React.Component {
   render() {
     return (
       <div css={STYLES_INPUT_CONTAINER} style={this.props.containerStyle}>
-        <DescriptionGroup tooltip={this.props.tooltip} label={this.props.label} description={this.props.description} />
+        <DescriptionGroup
+          tooltip={this.props.tooltip}
+          label={this.props.label}
+          description={this.props.description}
+        />
         <input
           ref={(c) => {
             this._input = c;
@@ -127,18 +139,34 @@ export class Input extends React.Component {
           type={this.props.type}
           placeholder={this.props.placeholder}
           onChange={this._handleChange}
+          onFocus={this.props.onFocus}
+          onBlur={this.props.onBlur}
+          onKeyUp={this._handleKeyUp}
           autoComplete="off"
           readOnly={this.props.readOnly}
-          type={this.props.type}
           style={{
             ...this.props.style,
             boxShadow: this.props.validation
-              ? `0 1px 4px rgba(0, 0, 0, 0.07), 0 0 4px ${INPUT_COLOR_MAP[this.props.validation]}`
+              ? `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
+                  INPUT_COLOR_MAP[this.props.validation]
+                }`
               : null,
+            paddingRight:
+              this.props.copyable || this.props.search ? "32px" : "24px",
           }}
         />
-        {this.props.copyable ? (
-          <SVG.CopyAndPaste height="16px" css={STYLES_COPY_AND_PASTE} onClick={this._handleCopy} />
+        {this.props.icon ? (
+          <this.props.icon
+            height="16px"
+            css={STYLES_ICON}
+            onClick={this.props.onSubmit}
+          />
+        ) : this.props.copyable ? (
+          <SVG.CopyAndPaste
+            height="16px"
+            css={STYLES_ICON}
+            onClick={this._handleCopy}
+          />
         ) : null}
       </div>
     );

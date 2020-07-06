@@ -1,10 +1,10 @@
-# Slate
+# Slate (WIP)
 
-Slate is a way to share Filecoin and Files with friends.
-
-#### High fidelity concept (May 23rd, 2020)
-
-![original_5ab368196245f0603c2a0c20b63c0339](https://user-images.githubusercontent.com/310223/84869134-8128a780-b032-11ea-9c4f-7b28f0870feb.png)
+- (WIP) Cross platform OSS.
+- (WIP) Amazon S3 replacement.
+- (WIP) Aims to have every feature the [Filecoin Network](https://filecoin.io) supports.
+- (WIP) Great for storing images and sharing high resolution photos with friends.
+- [Design system](https://slate.host/system) -> [Release repository](https://github.com/filecoin-project/slate-react-system).
 
 #### Current prototype (June 15th, 2020)
 
@@ -12,45 +12,23 @@ Slate is a way to share Filecoin and Files with friends.
 
 ## Developer Introduction
 
-We are building this product out in the open. As a developer you are welcome to take everything and anything. You are also welcome to contribute however you please.
+### Run locally (MacOS)
 
-This is an example of how to use the [Filecoin Network](https://filecoin.io) on a [Lotus DevNet](https://lotu.sh). It uses
-[Textile's Powergate](https://github.com/textileio/powergate/) and [Aaron Sutula](https://github.com/asutula)'s work with the [JavaScript/TypeScript Powergate Client](https://github.com/textileio/js-powergate-client).
+- DevNet and Powergate are not required if you just want to work on the [design system](https://slate.host/system).
 
-Also included:
-
-- DevNet storage deals with miners.
-- Local library management, you can share it with others too.
-- Local powergate authentication token management.
-- Image file preview.
-- Send filecoin between wallet addresses, create new addresses.
-- Update your default settings.
-- The beginning of an [open source design system](https://filecoin.onrender.com/system).
-- A [kitchen sink example](https://github.com/filecoin-project/slate/blob/master/server.js) for most JavaScript Powergate calls using `async` and `await`. If you need to see all of the possible functions, [look here](https://github.com/textileio/js-powergate-client/blob/master/src/ffs/index.ts).
-- An example of using [Inter](https://rsms.me/inter/).
-
-Coming soon:
-
-- **Many more features**.
-- Electron wrapper and binaries.
-
-# Run locally (MacOS)
-
-These steps will guide you through running the client.
-
-## Satisfy dependency requirements
+#### Satisfy dependency requirements
 
 - Make sure you have [homebrew](https://brew.sh/).
 - Make sure you run `xcode-select -p`, if the command does not return a response, run `xcode-select --install`.
 - Make sure you run `brew install node`.
 - Make sure you run `brew install go`.
 
-## Setup Docker
+#### Setup Docker
 
 - `brew install docker`.
 - Install [Docker for Desktop](https://www.docker.com/products/docker-desktop) if you are running MacOS.
 
-## Setup Lotus DevNet and Powergate
+#### Setup Lotus DevNet and Powergate
 
 - Clone the [Lotus DevNet](https://github.com/textileio/lotus-devnet) repository.
 - Run `docker run --name texdevnet -e TEXLOTUSDEVNESPEED=1500 -p 1234:7777 textile/lotus-devnet`.
@@ -59,12 +37,14 @@ These steps will guide you through running the client.
 
 ```sh
 cd docker
-make devnet
+make localnet
 ```
 
-## Install and run
+### Install and run
 
-Run these commands to start the client locally. You may need to wait a small period of time for both of the Docker instances to complete running first.
+Run these commands to start the client locally.
+
+- **Note** — There might be a small delay between Powergate and Lotus.
 
 ```sh
 git clone git@github.com:filecoin-project/slate.git
@@ -73,7 +53,7 @@ npm install
 npm run dev
 ```
 
-#### Example of what to expect
+### Example of what to expect
 
 ![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
 
@@ -82,7 +62,7 @@ npm run dev
 - **Note** — If you restart the server, it clears all your local files. You can disable this by modifying the code in `server.js`.
 - **Note** — There will be new commands in the future for different contexts, like `electron`.
 
-# Get involed.
+# Get involved.
 
 Do you want to...
 

@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
@@ -31,8 +30,7 @@ export default class SceneFilesFolder extends React.Component {
           key: "date",
           name: "Date uploaded",
           width: "160px",
-          tooltip:
-            "This date represents when the file was first uploaded to the network.",
+          tooltip: "This date represents when the file was first uploaded to the network.",
           type: "FILE_DATE",
         },
         {
@@ -56,8 +54,7 @@ export default class SceneFilesFolder extends React.Component {
               type: "SIDEBAR",
               value: "SIDEBAR_FILE_STORAGE_DEAL",
             },
-          ]}
-        >
+          ]}>
           <System.Table
             key={this.props.data.folderId}
             data={data}

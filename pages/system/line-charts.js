@@ -1,19 +1,20 @@
-import * as React from 'react';
-import * as System from '~/components/system';
+import * as React from "react";
+import * as System from "~/components/system";
 
-import Group from '~/components/system/Group';
-import SystemPage from '~/components/system/SystemPage';
-import ViewSourceLink from '~/components/system/ViewSourceLink';
+import Group from "~/components/system/Group";
+import SystemPage from "~/components/system/SystemPage";
+import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 export default class SystemPageLineCharts extends React.Component {
   render() {
+    return null;
+
+    /*
+
     return (
-      <SystemPage
-        title="FCDS: Line Charts"
-        description="Lorem Ipsum."
-        url="https://fps.onrender.com/system/line-charts">
+      <SystemPage title="SDS: Line Charts" description="..." url="https://fps.onrender.com/system/line-charts">
         <System.H1>
-          Line Charts <ViewSourceLink file="line-charts.js" />
+          Line Charts <ViewSourceLink file="system/line-charts.js" />
         </System.H1>
         <br />
         <br />
@@ -27,7 +28,7 @@ export default class SystemPageLineCharts extends React.Component {
         <System.P>Declare the StatCard component.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.StatCard
+          {`<System.StatCard
   denomination="Filecoin"
   value={423123121323}
   data={[
@@ -62,7 +63,7 @@ export default class SystemPageLineCharts extends React.Component {
         <System.H2>Props</System.H2>
         <hr />
         <br />
-        <Group title='StatCard'>
+        <Group title="StatCard">
           <System.Table
             data={{
               columns: [
@@ -70,10 +71,9 @@ export default class SystemPageLineCharts extends React.Component {
                 { key: 'b', name: 'Type', width: '88px' },
                 { key: 'c', name: 'Default', width: '88px' },
                 { key: 'd', name: 'Description', width: '100%' },
-
               ],
               rows: [
-                { id: 1, a: 'value', b: 'number', c: 'null', d:'The value listed in the header of the StatCard' },
+                { id: 1, a: 'value', b: 'number', c: 'null', d: 'The value listed in the header of the StatCard' },
                 { id: 2, a: 'denomination', b: 'string', c: 'null', d: 'String name of the value' },
                 { id: 3, a: 'data', b: 'array', c: 'null', d: 'Array of data points' },
               ],
@@ -82,5 +82,6 @@ export default class SystemPageLineCharts extends React.Component {
         </Group>
       </SystemPage>
     );
+    */
   }
 }

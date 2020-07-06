@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Fixtures from "~/common/fixtures";
+import * as NavigationData from "~/common/navigation-data";
 import * as Actions from "~/common/actions";
 import * as State from "~/common/state";
 
@@ -86,6 +86,7 @@ export default class IndexPage extends React.Component {
     },
     viewer: State.getInitialState(this.props),
     sidebar: null,
+    file: null,
   };
 
   componentDidMount() {
@@ -100,7 +101,71 @@ export default class IndexPage extends React.Component {
         }
       }
     };
+
+    window.addEventListener("dragenter", this._handleDragEnter);
+    window.addEventListener("dragleave", this._handleDragLeave);
+    window.addEventListener("dragover", this._handleDragOver);
+    window.addEventListener("drop", this._handleDrop);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener("dragenter", this._handleDragEnter);
+    window.removeEventListener("dragleave", this._handleDragLeave);
+    window.removeEventListener("dragover", this._handleDragOver);
+    window.removeEventListener("drop", this._handleDrop);
+  }
+
+  _handleSetFile = async ({ file }) => {
+    let data = new FormData();
+    data.append("image", file);
+
+    const options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: data,
+    };
+
+    const response = await fetch(`/_/storage/${file.name}`, options);
+    const json = await response.json();
+
+    if (json && json.success) {
+      this.setState({ file });
+    }
+  };
+
+  _handleDragEnter = (e) => {
+    // TODO(jim): Styles.
+    console.log("dragenter", e);
+  };
+
+  _handleDragLeave = (e) => {
+    // TODO(jim): Styles.
+    console.log("dragleave", e);
+  };
+
+  _handleDragOver = (e) => {
+    e.preventDefault();
+    console.log("dragover", e);
+  };
+
+  _handleDrop = async (e) => {
+    e.preventDefault();
+
+    if (e.dataTransfer.items) {
+      for (var i = 0; i < e.dataTransfer.items.length; i++) {
+        if (e.dataTransfer.items[i].kind === "file") {
+          var file = e.dataTransfer.items[i].getAsFile();
+          console.log(file.name);
+          await this._handleSetFile({ file });
+          break;
+        }
+      }
+    }
+
+    this._handleAction({ type: "SIDEBAR", value: "SIDEBAR_FILE_STORAGE_DEAL" });
+  };
 
   rehydrate = async ({ data }) => {
     this.setState({ viewer: { ...State.getInitialState(data) } });
@@ -268,9 +333,7 @@ export default class IndexPage extends React.Component {
       return null;
     }
 
-    const navigation = Fixtures.generateNavigationState(
-      this.state.viewer.library
-    );
+    const navigation = NavigationData.generate(this.state.viewer.library);
     const next = this.state.history[this.state.currentIndex];
     const current = getCurrentNavigationStateById(navigation, next.id);
 
@@ -314,11 +377,13 @@ export default class IndexPage extends React.Component {
     let sidebarElement;
     if (this.state.sidebar) {
       sidebarElement = React.cloneElement(this.state.sidebar, {
+        file: this.state.file,
         viewer: this.state.viewer,
         selected: this.state.selected,
         onSelectedChange: this._handleSelectedChange,
         onSubmit: this._handleSubmit,
         onCancel: this._handleCancel,
+        onSetFile: this._handleSetFile,
       });
     }
 
@@ -328,17 +393,12 @@ export default class IndexPage extends React.Component {
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper
-          title={title}
-          description={description}
-          url={url}
-        >
+        <WebsitePrototypeWrapper title={title} description={description} url={url}>
           <ApplicationLayout
             navigation={navigationElement}
             header={headerElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}
-          >
+            onDismissSidebar={this._handleDismissSidebar}>
             {scene}
           </ApplicationLayout>
         </WebsitePrototypeWrapper>

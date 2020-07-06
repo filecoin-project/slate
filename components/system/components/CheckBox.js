@@ -1,13 +1,15 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
-import * as SVG from '~/components/system/svg';
+import * as React from "react";
+import * as Constants from "~/common/constants";
+import * as SVG from "~/components/system/svg";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const STYLES_CHECKBOX = css`
+  font-family: ${Constants.font.text};
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  cursor: pointer;
 `;
 
 const STYLES_CHECKBOX_FIGURE = css`
@@ -44,7 +46,7 @@ const STYLES_CHECKBOX_LABEL = css`
   overflow-wrap: break-word;
 
   strong {
-    font-family: 'inter-semi-bold';
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;
@@ -59,7 +61,9 @@ export class CheckBox extends React.Component {
   render() {
     return (
       <label css={STYLES_CHECKBOX} style={this.props.style}>
-        <figure css={STYLES_CHECKBOX_FIGURE}>{this.props.value ? <SVG.CheckBox height="20px" /> : null}</figure>
+        <figure css={STYLES_CHECKBOX_FIGURE}>
+          {this.props.value ? <SVG.CheckBox height="20px" /> : null}
+        </figure>
         <input
           css={STYLES_CHECKBOX_INPUT}
           name={this.props.name}

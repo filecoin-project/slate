@@ -198,7 +198,7 @@ export const BandwidthUp = (props) => {
 
 export const CheckCircle = (props) => {
   return (
-    <svg viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g
         fill="none"
         stroke="currentColor"
@@ -206,16 +206,16 @@ export const CheckCircle = (props) => {
         strokeLinejoin="round"
         strokeWidth="1.5"
       >
-        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/>
-        <path d="M16.6666 8.5L10.25 14.9167L7.33331 12"/>
+        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" />
+        <path d="M16.6666 8.5L10.25 14.9167L7.33331 12" />
       </g>
     </svg>
-  )
-}
+  );
+};
 
 export const InfoCircle = (props) => {
   return (
-    <svg viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g
         fill="none"
         stroke="currentColor"
@@ -228,12 +228,12 @@ export const InfoCircle = (props) => {
         <line x1="12" y1="8" x2="12.01" y2="8"></line>
       </g>
     </svg>
-  )
-}
+  );
+};
 
 export const AlertCircle = (props) => {
   return (
-    <svg viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g
         fill="none"
         stroke="currentColor"
@@ -246,12 +246,12 @@ export const AlertCircle = (props) => {
         <line x1="12" y1="16" x2="12.01" y2="16"></line>
       </g>
     </svg>
-  )
-}
+  );
+};
 
 export const XCircle = (props) => {
   return (
-    <svg viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g
         fill="none"
         stroke="currentColor"
@@ -264,12 +264,12 @@ export const XCircle = (props) => {
         <line x1="9" y1="9" x2="15" y2="15"></line>
       </g>
     </svg>
-  )
-}
+  );
+};
 
 export const X = (props) => {
   return (
-    <svg viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g
         fill="none"
         stroke="currentColor"
@@ -281,6 +281,92 @@ export const X = (props) => {
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </g>
     </svg>
-  )
-}
+  );
+};
 
+export const Search = (props) => {
+  return (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </g>
+    </svg>
+  );
+};
+
+export const Reorder = (props) => {
+  return (
+    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <g
+        fill="currentColor"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+      >
+        <path d="M2 10C2.55228 10 3 9.55228 3 9C3 8.44772 2.55228 8 2 8C1.44772 8 1 8.44772 1 9C1 9.55228 1.44772 10 2 10Z" />
+        <path d="M2 3C2.55228 3 3 2.55228 3 2C3 1.44772 2.55228 1 2 1C1.44772 1 1 1.44772 1 2C1 2.55228 1.44772 3 2 3Z" />
+        <path d="M9 10C9.55228 10 10 9.55228 10 9C10 8.44772 9.55228 8 9 8C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10Z" />
+        <path d="M9 3C9.55228 3 10 2.55228 10 2C10 1.44772 9.55228 1 9 1C8.44772 1 8 1.44772 8 2C8 2.55228 8.44772 3 9 3Z" />
+      </g>
+    </svg>
+  );
+};
+
+export const Calendar = (props) => {
+  return (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+      >
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </g>
+    </svg>
+  );
+};
+
+export const ChevronRight = (props) => {
+  return (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+      >
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </g>
+    </svg>
+  );
+};
+
+export const ChevronLeft = (props) => {
+  return (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+      >
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </g>
+    </svg>
+  );
+};

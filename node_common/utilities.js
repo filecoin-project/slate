@@ -140,8 +140,9 @@ export const refreshLibrary = async ({ state, PG, FFS }) => {
         }
 
         PG.ffs.watchJobs((job) => {
+          // NOTE(jim): FFS is undefined?
           console.log("[ prototype ] job status", job.status);
-          if (job.status === FFS.JobStatus.JOB_STATUS_SUCCESS) {
+          if (job.status >= 5) {
             console.log(
               "[ prototype ] update file",
               state.library[i].children[j]

@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
@@ -24,7 +23,7 @@ const STYLES_LEFT = css`
 `;
 
 const STYLES_RIGHT = css`
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   font-size: ${Constants.typescale.lvl2};
   color: ${Constants.system.brand};
   min-width: 10%;
@@ -71,7 +70,7 @@ const STYLES_GRAPH_ROW_RIGHT = css`
 const STYLES_OPTION = css`
   color: ${Constants.system.white};
   margin-left: 24px;
-  font-family: "inter-semi-bold";
+  font-family: ${Constants.font.semiBold};
   font-size: 12px;
   line-height: 0.2px;
   text-transform: uppercase;
@@ -108,12 +107,12 @@ const STYLES_ITEM = css`
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: ${Constants.font.medium};
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;
@@ -150,8 +149,7 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STATS_WALLET",
             },
-          ]}
-        >
+          ]}>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Total FIL Balance</div>
             <div css={STYLES_RIGHT}>Value (FIL/ATTOFIL)</div>
@@ -175,10 +173,7 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Total wallet addresses{" "}
-              <strong
-                css={STYLES_TEXT_CTA}
-                onClick={() => this.props.onNavigateTo({ id: 2 })}
-              >
+              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 2 })}>
                 (view)
               </strong>
             </div>
@@ -187,10 +182,7 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Total payment channels{" "}
-              <strong
-                css={STYLES_TEXT_CTA}
-                onClick={() => this.props.onNavigateTo({ id: 3 })}
-              >
+              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 3 })}>
                 (view)
               </strong>
             </div>
@@ -199,10 +191,7 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Total FIL in payment channels{" "}
-              <strong
-                css={STYLES_TEXT_CTA}
-                onClick={() => this.props.onNavigateTo({ id: 3 })}
-              >
+              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 3 })}>
                 (view)
               </strong>
             </div>
@@ -225,8 +214,7 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STATS_NODE",
             },
-          ]}
-        >
+          ]}>
           <div css={STYLES_GRAPH_ROW}>
             <div css={STYLES_GRAPH_ROW_LEFT}>
               <div css={STYLES_GRAPH_OBJECT}>
@@ -344,10 +332,7 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Favorite peers{" "}
-              <strong
-                css={STYLES_TEXT_CTA}
-                onClick={() => this.props.onNavigateTo({ id: 8 })}
-              >
+              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 8 })}>
                 (view)
               </strong>
             </div>
@@ -374,8 +359,7 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STATS_DATA",
             },
-          ]}
-        >
+          ]}>
           <div css={STYLES_GRAPH_ROW}>
             <div css={STYLES_GRAPH_ROW_LEFT}>
               <div css={STYLES_GRAPH_OBJECT}>
@@ -520,8 +504,7 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_MOST_COMMON_CIDS",
             },
-          ]}
-        >
+          ]}>
           <System.Table
             data={{
               columns: [
@@ -585,8 +568,7 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_TOP_STORAGE_DEALS_GB",
             },
-          ]}
-        >
+          ]}>
           <System.Table
             data={{
               columns: [
@@ -597,8 +579,7 @@ export default class SceneStats extends React.Component {
                   key: "date",
                   name: "Date uploaded",
                   width: "168px",
-                  tooltip:
-                    "This date represents when the file was first uploaded to the network.",
+                  tooltip: "This date represents when the file was first uploaded to the network.",
                 },
               ],
               rows: [],
@@ -620,8 +601,7 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_TOP_STORAGE_DEALS_FIL",
             },
-          ]}
-        >
+          ]}>
           <System.Table
             data={{
               columns: [
@@ -632,8 +612,7 @@ export default class SceneStats extends React.Component {
                   key: "date",
                   name: "Date uploaded",
                   width: "168px",
-                  tooltip:
-                    "This date represents when the file was first uploaded to the network.",
+                  tooltip: "This date represents when the file was first uploaded to the network.",
                 },
               ],
               rows: [],

@@ -1,12 +1,12 @@
-import * as React from 'react';
-import * as Strings from '~/common/strings';
-import * as System from '~/components/system';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Strings from "~/common/strings";
+import * as System from "~/components/system";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import SystemPage from '~/components/system/SystemPage';
-import ViewSourceLink from '~/components/system/ViewSourceLink';
+import SystemPage from "~/components/system/SystemPage";
+import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 const STYLES_COLOR_BAR = css`
   width: 100%;
@@ -29,28 +29,36 @@ const STYLES_COLOR_TEXT = css`
 export default class SystemPageColors extends React.Component {
   render() {
     return (
-      <SystemPage title="FCDS: Colors" description="Lorem Ipsum" url="https://fps.onrender.com/system/colors">
+      <SystemPage
+        title="SDS: Colors"
+        description="..."
+        url="https://fps.onrender.com/system/colors"
+      >
         <System.H1>
-          Colors <ViewSourceLink file="colors.js" />
+          Colors <ViewSourceLink file="system/colors.js" />
         </System.H1>
         <br />
         <br />
         <System.P>All of the colors the Filecoin Client uses.</System.P>
         <br />
         <br />
-        <System.H2>Usage</System.H2>
+        <br />
+        <System.H2>Imports</System.H2>
         <hr />
         <br />
         <System.P>Import Constants.</System.P>
         <br />
-        <System.CodeBlock>
-        {`import * as Constants from '~/common/constants';`}
-        </System.CodeBlock>
         <br />
-        <System.P>Import Constants.</System.P>
+        <System.CodeBlock>{`import { Constants } from 'slate-react-system';`}</System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Usage</System.H2>
+        <hr />
+        <br />
+        <System.P>Declare Constants.</System.P>
         <br />
         <System.CodeBlock>
-{`{Constants.system.white};
+          {`{Constants.system.white};
 
 {Constants.system.foreground};
 
@@ -87,7 +95,8 @@ export default class SystemPageColors extends React.Component {
               style={{
                 backgroundColor: hex,
                 color: Constants.system.black,
-              }}>
+              }}
+            >
               <span css={STYLES_COLOR_TEXT}>{each.toUpperCase()}</span>
               <br />
               <span css={STYLES_COLOR_TEXT}>{hex}</span>

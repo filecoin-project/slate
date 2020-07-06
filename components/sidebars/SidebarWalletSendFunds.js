@@ -7,12 +7,12 @@ import { css } from "@emotion/react";
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
-  font-family: "inter-medium";
+  font-family: ${Constants.font.medium};
   overflow-wrap: break-word;
   width: 100%;
 
   strong {
-    font-family: "inter-semi-bold";
+    font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
 `;
@@ -81,11 +81,12 @@ export default class SidebarWalletSendFunds extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: "inter-semi-bold" }}>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
           Send Filecoin
         </System.P>
 
-        <System.SelectMenuFull
+        <System.SelectMenu
+          full
           containerStyle={{ marginTop: 24 }}
           name="address"
           label="From"
@@ -95,7 +96,7 @@ export default class SidebarWalletSendFunds extends React.Component {
           options={this.props.viewer.addresses}
         >
           {currentAddress.name}
-        </System.SelectMenuFull>
+        </System.SelectMenu>
 
         <System.Input
           containerStyle={{ marginTop: 24 }}

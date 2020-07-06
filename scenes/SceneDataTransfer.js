@@ -1,11 +1,6 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 import * as SchemaTable from "~/common/schema-table";
-
-import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
 import Section from "~/components/core/Section";
@@ -34,11 +29,7 @@ export default class SceneDataTransfer extends React.Component {
         />
 
         {this.state.sub_navigation === "2" ? (
-          <Section
-            title="Past transfers"
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
-          >
+          <Section title="Past transfers" onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo}>
             <System.Table
               data={{
                 columns: SchemaTable.DataTransfer,
@@ -54,11 +45,7 @@ export default class SceneDataTransfer extends React.Component {
         ) : null}
 
         {this.state.sub_navigation === "1" ? (
-          <Section
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
-            title="Current transfers"
-          >
+          <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="Current transfers">
             <System.P style={{ padding: 24 }}>There are no transfers</System.P>
           </Section>
         ) : null}

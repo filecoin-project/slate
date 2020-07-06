@@ -24,8 +24,9 @@ const TAB_GROUP_FOUR = [
 
 export default class SystemPageTabs extends React.Component {
   state = {
+    default: '1',
     eight: '1',
-    nine: '1',
+    nine: '3',
     ten: '1',
   };
 
@@ -35,13 +36,28 @@ export default class SystemPageTabs extends React.Component {
 
   render() {
     return (
-      <SystemPage title="FCDS: Tabs" description="Lorem Ipsum." url="https://fps.onrender.com/system/tabs">
+      <SystemPage title="SDS: Tabs" description="..." url="https://fps.onrender.com/system/tabs">
         <System.H1>
-          Tabs <ViewSourceLink file="tabs.js" />
+          Tabs <ViewSourceLink file="system/tabs.js" />
         </System.H1>
         <br />
         <br />
         <System.P>The TabGroup component is used to allow the users to switch between views.</System.P>
+        <br />
+        <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the TabGroup Component.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { TabGroup } from 'slate-react-system';`}
+        </System.CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -50,7 +66,7 @@ export default class SystemPageTabs extends React.Component {
         <System.P>Define the tab group values and labels.</System.P>
         <br />
         <System.CodeBlock>
-{`const TAB_GROUP_TWO = [
+          {`const TAB_GROUP_TWO = [
   { value: '1', label: 'Capricorn' },
   { value: '2', label: 'Aquarius' },
 ];
@@ -62,35 +78,47 @@ const TAB_GROUP_THREE = [
 ];`}
         </System.CodeBlock>
         <br />
-        <System.P>Define the Tab value states and handle the state when a tab is changed.</System.P>
-        <br />
-        <System.CodeBlock>
-{`state = {
-  eight: '1',
-  nine: '1',
-  ten: '1',
-};
-
-_handleChange = (e) => {
-  this.setState({ [e.target.name]: e.target.value });
-};`}
-        </System.CodeBlock>
-        <br />
         <System.P>Declare the TabGroup component.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.TabGroup 
-  name="eight"
-  options={TAB_GROUP_TWO}
-  value={this.state.eight}
-  onChange={this._handleChange} />
+          {`class ExampleOne extends React.Component {
+   state = { exampleOne: '1' }
 
-<System.TabGroup
-  name="nine"
-  options={TAB_GROUP_THREE}
-  value={this.state.nine}
-  onChange={this._handleChange} />
-`}
+   _handleChange = e => this.setState(
+     { [e.target.name]: e.target.value }
+   );
+
+   render() {
+       return(
+          <TabGroup
+            name="exampleOne"
+            value={this.state.exampleOne}
+            option={TAB_GROUP_TWO}
+            onChange={this._handleChange}
+          />
+       )
+   }
+}
+
+
+class ExampleTwo extends React.Component {
+   state = { exampleTwo: '3' }
+
+   _handleChange = e => this.setState(
+     { [e.target.name]: e.target.value }
+   );
+
+   render() {
+       return(
+          <TabGroup
+            name="exampleTwo"
+            value={this.state.exampleTwo}
+            option={TAB_GROUP_THREE}
+            onChange={this._handleChange}
+          />
+       )
+   }
+}`}
         </System.CodeBlock>
         <br />
         <br />

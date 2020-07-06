@@ -6,13 +6,18 @@ export const sizes = {
 
 export const zindex = {
   navigation: 1,
-  header: 5,
+  sidebar: 2,
+  modal: 3,
   tooltip: 4,
-  sidebar: 3,
+  header: 5,
 };
 
 export const font = {
-  text: "inter-regular",
+  text: `'inter-regular', -apple-system, BlinkMacSystemFont, arial, sans-serif`,
+  semiBold: `'inter-semi-bold', -apple-system, BlinkMacSystemFont, arial, sans-serif`,
+  medium: `'inter-medium', -apple-system, BlinkMacSystemFont, arial, sans-serif`,
+  mono: `'mono', monaco, monospace`,
+  monoBold: `'mono-bold', monaco, monospace`,
 };
 
 export const typescale = {
@@ -34,10 +39,6 @@ export const system = {
   green: "#28a745",
   yellow: " #FFC940",
   red: "#ff0000",
-  lightGreen: "#93d3a2",
-  lightYellow: "#ffd76f",
-  lightRed: "#ff8080",
-  lightBlue: "#949aff",
 };
 
 export const theme = {

@@ -7,13 +7,28 @@ import ViewSourceLink from '~/components/system/ViewSourceLink';
 export default class SystemPageStats extends React.Component {
   render() {
     return (
-      <SystemPage title="FCDS: Stats" description="Lorem Ipsum." url="https://fps.onrender.com/system/stats">
+      <SystemPage title="SDS: Stats" description="..." url="https://fps.onrender.com/system/stats">
         <System.H1>
-          Stats <ViewSourceLink file="stats.js" />
+          Stats <ViewSourceLink file="system/stats.js" />
         </System.H1>
         <br />
         <br />
         <System.P>The System Stats component is used to show a system stat with an upload or a download icon.</System.P>
+        <br />
+        <br />
+        <br />
+        <System.H2>Imports</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Import React and the StatUpload and/or the StatDownload Components.
+        </System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+{`import * as React from 'react';
+import { StatUpload, StatDownload } from 'slate-react-system';`}
+        </System.CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -22,9 +37,21 @@ export default class SystemPageStats extends React.Component {
         <System.P>Delcare the StatUpload and/or the StatDownload components.</System.P>
         <br />
         <System.CodeBlock>
-{`<System.StatUpload>40 mb</System.StatUpload>
+          {`class ExampleOne extends React.Component {
+   render() {
+       return(
+          <StatUpload>40 mb</StatUpload>
+       )
+   }
+}
 
-<System.StatDownload>40 mb</System.StatDownload>`}
+class ExampleTwo extends React.Component {
+   render() {
+       return(
+          <StatDownload>40 mb</StatDownload>
+       )
+   }
+}`}
         </System.CodeBlock>
         <br />
         <br />

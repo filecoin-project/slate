@@ -1,15 +1,15 @@
-import * as React from 'react';
-import * as System from '~/components/system';
-import * as SVG from '~/components/system/svg';
-import * as OldSVG from '~/common/svg';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as System from "~/components/system";
+import * as SVG from "~/components/system/svg";
+import * as OldSVG from "~/common/svg";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import SystemPage from '~/components/system/SystemPage';
-import ViewSourceLink from '~/components/system/ViewSourceLink';
+import SystemPage from "~/components/system/SystemPage";
+import ViewSourceLink from "~/components/system/ViewSourceLink";
 
-const DEFAULT_SYSTEM_ICON_SIZE = '88px';
+const DEFAULT_SYSTEM_ICON_SIZE = "88px";
 
 const ICONS = [
   <OldSVG.Home height={DEFAULT_SYSTEM_ICON_SIZE} />,
@@ -49,30 +49,39 @@ const STYLES_ICON = css`
 export default class SystemPageIcons extends React.Component {
   render() {
     return (
-      <SystemPage title="FCDS: Icons" description="Lorem Ipsum." url="https://fps.onrender.com/system/icons">
+      <SystemPage
+        title="SDS: Icons"
+        description="..."
+        url="https://fps.onrender.com/system/icons"
+      >
         <System.H1>
-          Icons <ViewSourceLink file="icons.js" />
+          Icons <ViewSourceLink file="system/icons.js" />
         </System.H1>
         <br />
         <br />
         <System.P>Every icon used in the Filecoin Client.</System.P>
         <br />
         <br />
-        <System.H2>Usage</System.H2>
+        <br />
+        <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import the SVG components.</System.P>
+        <System.P>Import the SVG Components.</System.P>
+        <br />
         <br />
         <System.CodeBlock>
-{`import * as SVG from '~/components/system/svg';
-
-import * as OldSVG from '~/common/svg';`}
+          {`import { SVG } from 'slate-react-system';
+import { OldSVG } from 'slate-react-system';`}
         </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Usage</System.H2>
+        <hr />
         <br />
         <System.P>Declare the SVG icons.</System.P>
         <br />
         <System.CodeBlock>
-{`<OldSVG.Home height='88px' />
+          {`<OldSVG.Home height='88px' />
 <OldSVG.Folder height='88px' />
 <OldSVG.Wallet height='88px' />
 <OldSVG.Channels height='88px' />

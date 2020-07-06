@@ -1,10 +1,10 @@
-import Head from 'next/head';
+import Head from "next/head";
 
-import * as React from 'react';
-import * as SVG from '~/common/svg';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as SVG from "~/common/svg";
+import * as Constants from "~/common/constants";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 const STYLES_PAGE = css`
   background-color: ${Constants.system.foreground};
@@ -15,6 +15,10 @@ const STYLES_BODY = css`
   width: 100%;
   margin: 0 auto 0 auto;
   padding: 88px 24px 128px 276px;
+
+  @media (max-width: 568px) {
+    padding: 88px 24px 128px 24px;
+  }
 `;
 
 const STYLES_ICON_ELEMENT = css`
@@ -54,10 +58,16 @@ const STYLES_SIDEBAR = css`
   ::-webkit-scrollbar-thumb:hover {
     background: ${Constants.system.brand};
   }
+
+  @media (max-width: 568px) {
+    width: 100%;
+    position: relative;
+    overflow-y: auto;
+  }
 `;
 
 const STYLES_LINK = css`
-  font-family: 'inter-semi-bold';
+  font-family: ${Constants.font.semiBold};
   color: ${Constants.system.pitchBlack};
   text-decoration: none;
   font-weight: 400;
@@ -70,7 +80,7 @@ const STYLES_LINK = css`
 `;
 
 const STYLES_LINK_ACTIVE = css`
-  font-family: 'inter-semi-bold';
+  font-family: ${Constants.font.semiBold};
   color: ${Constants.system.brand};
   text-decoration: none;
   font-weight: 400;
@@ -86,7 +96,7 @@ const STYLES_DESCRIPTION = css`
 `;
 
 const STYLES_LABEL = css`
-  font-family: 'inter-semi-bold';
+  font-family: ${Constants.font.semiBold};
   display: block;
   font-size: 11px;
   text-transform: uppercase;
@@ -95,13 +105,18 @@ const STYLES_LABEL = css`
 `;
 
 const SidebarLink = (props) => {
-  console.log(props.url)
   return (
     <React.Fragment>
-      <a css={props.url.includes(props.href) ? STYLES_LINK_ACTIVE : STYLES_LINK} href={props.href} target={props.target}>
+      <a
+        css={props.url.includes(props.href) ? STYLES_LINK_ACTIVE : STYLES_LINK}
+        href={props.href}
+        target={props.target}
+      >
         {props.title}
       </a>
-      {props.children ? <div css={STYLES_DESCRIPTION}>{props.children}</div> : null}
+      {props.children ? (
+        <div css={STYLES_DESCRIPTION}>{props.children}</div>
+      ) : null}
     </React.Fragment>
   );
 };
@@ -109,7 +124,7 @@ const SidebarLink = (props) => {
 const STYLES_SMALL_LINK = css`
   padding: 0 16px 0 0px;
   font-size: 14px;
-  font-family: 'inter-semi-bold';
+  font-family: "inter-semi-bold";
   margin-top: 11px;
   color: #666;
   transition: 200ms ease all;
@@ -143,12 +158,28 @@ export default class SystemPage extends React.Component {
           <meta property="twitter:description" content={description} />
           <meta property="twitter:image" content="/static/social.png" />
 
-          <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png" />
-          <link rel="icon" type="image/png" sizes="96x96" href="/static/favicon-96x96.png" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png" />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/static/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="/static/favicon-96x96.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/static/favicon-16x16.png"
+          />
 
           <link rel="shortcut icon" href="/static/favicon.ico" />
         </Head>
+        <div css={STYLES_BODY}>{children}</div>
         <div css={STYLES_SIDEBAR}>
           <a css={STYLES_ICON_ELEMENT} href="/system">
             <SVG.Logo height="32px" />
@@ -156,110 +187,121 @@ export default class SystemPage extends React.Component {
           <br />
           <br />
 
-          <span css={STYLES_LABEL}>Tutorials</span>
+          <span css={STYLES_LABEL}>Experiences</span>
           <SidebarLink
             url={url}
-            href="https://github.com/filecoin-project/filecoin-client-tutorial"
-            target="_blank"
-            title="Build a Simple Example Quickly">
-            Upload data to IPFS and Filecoin on the Lotus DevNet in under 5 minutes.
-          </SidebarLink>
-          <SidebarLink 
+            href="/experiences/peers-list"
+            title="Peers List"
+          />
+          <SidebarLink
             url={url}
-            href="https://blog.textile.io/integrating-powergate/" 
-            target="_blank" 
-            title="Using Powergate">
-            A guide to integrate Powergate into your web client.
-          </SidebarLink>
+            href="/experiences/create-address"
+            title="Create Filecoin Address"
+          />
+          <SidebarLink
+            url={url}
+            href="/experiences/make-storage-deal"
+            title="Make a Storage Deal"
+          />
 
           <span css={STYLES_LABEL}>
             <br />
             <br />
             Components
           </span>
-          <SidebarLink url={url} href="/system/globe" title="Globe"></SidebarLink>
-          <SidebarLink url={url} href="/system/icons" title="Icons"></SidebarLink>
-          <SidebarLink url={url} href="/system/colors" title="Colors"></SidebarLink>
-          <SidebarLink url={url} href="/system/tables" title="Tables"></SidebarLink>
-          <SidebarLink url={url} href="/system/tooltips" title="Tooltips"></SidebarLink>
-          <SidebarLink url={url} href="/system/line-charts" title="Line Charts"></SidebarLink>
-          <SidebarLink url={url} href="/system/stats" title="Stats"></SidebarLink>
-          <SidebarLink url={url} href="/system/buttons" title="Buttons"></SidebarLink>
-          <SidebarLink url={url} href="/system/checkboxes" title="Checkboxes"></SidebarLink>
-          <SidebarLink url={url} href="/system/radios" title="Radios"></SidebarLink>
-          <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs"></SidebarLink>
-          <SidebarLink url={url} href="/system/tabs" title="Tabs"></SidebarLink>
-          <SidebarLink url={url} href="/system/toggles" title="Toggles"></SidebarLink>
-          <SidebarLink url={url} href="/system/inputs" title="Inputs"></SidebarLink>
-          <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns"></SidebarLink>
+          <SidebarLink url={url} href="/system/globe" title="Globe" />
+          <SidebarLink url={url} href="/system/icons" title="Icons" />
+          <SidebarLink url={url} href="/system/colors" title="Colors" />
+          <SidebarLink url={url} href="/system/tables" title="Tables" />
+          <SidebarLink url={url} href="/system/tooltips" title="Tooltips" />
+          <SidebarLink url={url} href="/system/stats" title="Stats" />
+          <SidebarLink url={url} href="/system/buttons" title="Buttons" />
+          <SidebarLink url={url} href="/system/checkboxes" title="Checkboxes" />
+          <SidebarLink url={url} href="/system/radios" title="Radios" />
+          <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs" />
+          <SidebarLink url={url} href="/system/tabs" title="Tabs" />
+          <SidebarLink url={url} href="/system/toggles" title="Toggles" />
+          <SidebarLink url={url} href="/system/inputs" title="Inputs" />
+          <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns" />
 
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
-              window.open('https://filscan.io/');
+              window.open("https://filscan.io/");
             }}
-            style={{ marginTop: 48 }}>
+            style={{ marginTop: 48 }}
+          >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             Block Explorer
           </div>
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
-              window.open('https://github.com/filecoin-project/filecoin-client');
-            }}>
+              window.open(
+                "https://github.com/filecoin-project/filecoin-client"
+              );
+            }}
+          >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             View source
           </div>
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
-              window.open('https://github.com/filecoin-shipyard/js-lotus-client');
-            }}>
+              window.open(
+                "https://github.com/filecoin-shipyard/js-lotus-client"
+              );
+            }}
+          >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             JS Lotus Client
           </div>
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
-              window.open('https://github.com/textileio/js-powergate-client');
-            }}>
+              window.open("https://github.com/textileio/js-powergate-client");
+            }}
+          >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             JS Powergate Client
           </div>
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
-              window.open('https://docs.textile.io/');
-            }}>
+              window.open("https://docs.textile.io/");
+            }}
+          >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             Textile Documentation
           </div>
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
-              window.open('https://docs.lotu.sh/');
-            }}>
+              window.open("https://docs.lotu.sh/");
+            }}
+          >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             Lotus Documentation
           </div>
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
-              window.open('https://docs.filecoin.io/');
-            }}>
+              window.open("https://docs.filecoin.io/");
+            }}
+          >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             Filecoin Documentation
           </div>
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
-              window.open('https://filecoin.io/#community');
-            }}>
+              window.open("https://filecoin.io/#community");
+            }}
+          >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             Community
           </div>
         </div>
-        <div css={STYLES_BODY}>{children}</div>
       </div>
     );
   }

@@ -203,6 +203,11 @@ export default class SystemPage extends React.Component {
             href="/experiences/make-storage-deal"
             title="Make a Storage Deal"
           />
+          <SidebarLink
+            url={url}
+            href="/experiences/generate-powergate-token"
+            title="Generate Powergate token"
+          />
 
           <span css={STYLES_LABEL}>
             <br />

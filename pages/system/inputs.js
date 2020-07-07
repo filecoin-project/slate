@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as System from "~/components/system";
+import * as Constants from "~/common/constants";
 
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
@@ -287,30 +288,66 @@ class ExampleError extends React.Component {
               rows: [
                 {
                   id: 1,
-                  a: "name",
-                  b: "string",
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      onChange
+                    </span>
+                  ),
+                  b: <System.CodeText nowrap>function</System.CodeText>,
                   c: "null",
-                  d: "Radio Group name",
+                  d: "Function called upon an onChange event",
                 },
-                { id: 2, a: "label", b: "string", c: "null", d: "Label text" },
+                {
+                  id: 2,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      value
+                    </span>
+                  ),
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d:
+                    "The value that the dropdown takes. Can be used to assign default values as well.",
+                },
                 {
                   id: 3,
-                  a: "max",
-                  b: "number",
+                  a: "name",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
                   c: "null",
-                  d: "Max number of input characters",
+                  d: "Input name",
                 },
                 {
                   id: 4,
+                  a: "label",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Label text",
+                },
+                {
+                  id: 5,
+                  a: "description",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Description text",
+                },
+                {
+                  id: 6,
                   a: "tooltip",
-                  b: "string",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
                   c: "null",
                   d: "Tooltip text",
                 },
                 {
-                  id: 5,
+                  id: 7,
+                  a: "max",
+                  b: <System.CodeText nowrap>int</System.CodeText>,
+                  c: "null",
+                  d: "Max number of input characters",
+                },
+                {
+                  id: 8,
                   a: "validation",
-                  b: "string",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
                   c: "null",
                   d: "Validation style. Use: SUCCESS, WARNING or ERROR",
                 },

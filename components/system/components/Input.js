@@ -90,12 +90,13 @@ export class Input extends React.Component {
   };
 
   _handleKeyUp = (e) => {
+    if (this.props.onKeyUp) {
+      this.props.onKeyUp(e);
+    }
+
     if ((e.which === 13 || e.keyCode === 13) && this.props.onSubmit) {
       this.props.onSubmit(e);
       return;
-    }
-    if (this.props.onKeyUp) {
-      this.props.onKeyUp(e);
     }
   };
 
@@ -143,6 +144,7 @@ export class Input extends React.Component {
           onBlur={this.props.onBlur}
           onKeyUp={this._handleKeyUp}
           autoComplete="off"
+          disabled={this.props.disabled}
           readOnly={this.props.readOnly}
           style={{
             ...this.props.style,
@@ -152,7 +154,7 @@ export class Input extends React.Component {
                 }`
               : null,
             paddingRight:
-              this.props.copyable || this.props.search ? "32px" : "24px",
+              this.props.copyable || this.props.icon ? "32px" : "24px",
           }}
         />
         {this.props.icon ? (

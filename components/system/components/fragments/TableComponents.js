@@ -82,12 +82,7 @@ const STYLES_TOP_COLUMN = css`
   justify-content: space-between;
   align-self: stretch;
   min-width: 10%;
-  cursor: pointer;
   transition: 200ms ease all;
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
 `;
 
 const STYLES_CONTENT = css`

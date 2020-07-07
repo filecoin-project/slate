@@ -1,13 +1,14 @@
-import * as React from 'react';
-import * as System from '~/components/system';
-import Group from '~/components/system/Group';
+import * as React from "react";
+import * as System from "~/components/system";
+import Group from "~/components/system/Group";
+import * as Constants from "~/common/constants";
 
-import SystemPage from '~/components/system/SystemPage';
-import ViewSourceLink from '~/components/system/ViewSourceLink';
+import SystemPage from "~/components/system/SystemPage";
+import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 const RADIO_GROUP_OPTIONS = [
   {
-    value: '1',
+    value: "1",
     label: (
       <React.Fragment>
         <strong>Option one</strong>
@@ -16,7 +17,7 @@ const RADIO_GROUP_OPTIONS = [
     ),
   },
   {
-    value: '2',
+    value: "2",
     label: (
       <React.Fragment>
         <strong>Option two</strong>
@@ -25,7 +26,7 @@ const RADIO_GROUP_OPTIONS = [
     ),
   },
   {
-    value: '3',
+    value: "3",
     label: (
       <React.Fragment>
         <strong>Option three</strong>
@@ -37,7 +38,7 @@ const RADIO_GROUP_OPTIONS = [
 
 export default class SystemPageRadios extends React.Component {
   state = {
-    exampleOne: '2',
+    exampleOne: "2",
   };
 
   _handleChange = (e) => {
@@ -46,14 +47,19 @@ export default class SystemPageRadios extends React.Component {
 
   render() {
     return (
-      <SystemPage title="SDS: Radios" description="..." url="https://fps.onrender.com/system/radios">
+      <SystemPage
+        title="SDS: Radios"
+        description="..."
+        url="https://fps.onrender.com/system/radios"
+      >
         <System.H1>
           Radios <ViewSourceLink file="system/radios.js" />
         </System.H1>
         <br />
         <br />
         <System.P>
-          The Radio component is used when you require a user to select only one value in a series of options.
+          The Radio component is used when you require a user to select only one
+          value in a series of options.
         </System.P>
         <br />
         <br />
@@ -61,13 +67,11 @@ export default class SystemPageRadios extends React.Component {
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>
-          Import React and the RadioGroup Component.
-        </System.P>
+        <System.P>Import React and the RadioGroup Component.</System.P>
         <br />
         <br />
         <System.CodeBlock>
-{`import * as React from 'react';
+          {`import * as React from 'react';
 import { RadioGroup } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
@@ -144,6 +148,7 @@ import { RadioGroup } from 'slate-react-system';`}
         />
         <br />
         <br />
+        <br />
         <System.H2>Accepted React Properties</System.H2>
         <hr />
         <br />
@@ -151,19 +156,74 @@ import { RadioGroup } from 'slate-react-system';`}
           <System.Table
             data={{
               columns: [
-                { key: 'a', name: 'Name', width: '128px' },
-                { key: 'b', name: 'Type', width: '88px' },
-                { key: 'c', name: 'Default', width: '88px' },
-                { key: 'd', name: 'Description', width: '100%' },
+                { key: "a", name: "Name", width: "128px" },
+                { key: "b", name: "Type", width: "88px" },
+                { key: "c", name: "Default", width: "88px" },
+                { key: "d", name: "Description", width: "100%" },
               ],
               rows: [
-                { id: 2, a: 'options', b: 'array', c: 'null', d: 'Array of options' },
+                {
+                  id: 1,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      onChange
+                    </span>
+                  ),
+                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  c: "null",
+                  d: "Function called upon an onChange event",
+                },
+                {
+                  id: 2,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      selected
+                    </span>
+                  ),
+                  b: <System.CodeText nowrap>boolean</System.CodeText>,
+                  c: "false",
+                  d:
+                    "The value that is currently selected. Can be used to assign default values as well",
+                },
                 {
                   id: 3,
-                  a: 'selected',
-                  b: 'string',
-                  c: 'null',
-                  d: 'Default selected option based on the options array ID',
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      options
+                    </span>
+                  ),
+                  b: <System.CodeText nowrap>Array</System.CodeText>,
+                  c: "[]",
+                  d:
+                    "An array of options, each of which has a value and a label",
+                },
+                {
+                  id: 4,
+                  a: "name",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Input name",
+                },
+                {
+                  id: 5,
+                  a: "label",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Label text",
+                },
+                {
+                  id: 6,
+                  a: "description",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Description text",
+                },
+                {
+                  id: 7,
+                  a: "tooltip",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Tooltip text",
                 },
               ],
             }}

@@ -209,20 +209,21 @@ export default class SystemPage extends React.Component {
             <br />
             Components
           </span>
-          <SidebarLink url={url} href="/system/globe" title="Globe" />
           <SidebarLink url={url} href="/system/icons" title="Icons" />
           <SidebarLink url={url} href="/system/colors" title="Colors" />
+          <SidebarLink url={url} href="/system/globe" title="Globe" />
           <SidebarLink url={url} href="/system/tables" title="Tables" />
-          <SidebarLink url={url} href="/system/tooltips" title="Tooltips" />
           <SidebarLink url={url} href="/system/stats" title="Stats" />
+          <SidebarLink url={url} href="/system/tooltips" title="Tooltips" />
           <SidebarLink url={url} href="/system/buttons" title="Buttons" />
           <SidebarLink url={url} href="/system/checkboxes" title="Checkboxes" />
           <SidebarLink url={url} href="/system/radios" title="Radios" />
-          <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs" />
-          <SidebarLink url={url} href="/system/tabs" title="Tabs" />
           <SidebarLink url={url} href="/system/toggles" title="Toggles" />
           <SidebarLink url={url} href="/system/inputs" title="Inputs" />
           <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns" />
+          <SidebarLink url={url} href="/system/datepicker" title="Datepicker" />
+          <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs" />
+          <SidebarLink url={url} href="/system/tabs" title="Tabs" />
 
           <div
             css={STYLES_SMALL_LINK}

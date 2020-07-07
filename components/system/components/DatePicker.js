@@ -7,6 +7,16 @@ import moment from "moment";
 
 import { Input } from "~/components/system/components/Input";
 
+const weekdays = [
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+].map((day, i) => <div key={i}>{day}</div>);
+
 const expand = keyframes`
   0% {
     max-height: 0px;
@@ -40,6 +50,7 @@ const STYLES_CALENDAR = css`
   border-radius: 4px;
   padding: 5px;
   animation: ${expand} 200ms ease-out 1;
+  z-index: ${Constants.zindex.modal};
 `;
 
 const STYLES_MONTH_CONTAINER = css`
@@ -123,55 +134,80 @@ const STYLES_ICON = css`
 `;
 
 export class DatePicker extends React.Component {
-  state = {
-    value: this.props.defaultValue
-      ? this.props.defaultValue.substring(5, 7) +
-        "/" +
-        this.props.defaultValue.substring(8, 10) +
-        "/" +
-        this.props.defaultValue.substring(0, 4)
-      : "",
-    validation: null,
-    date: this.props.defaultValue || null,
-    cal: null,
-  };
+  constructor(props) {
+    super(props);
+    this.myInput = React.createRef();
+    this.state = {
+      value: "",
+      validation: null,
+      date: "",
+      cal: null,
+    };
+  }
 
-  _handleKeyUp = (e) => {
-    if ((e.which === 13 || e.keyCode === 13) && this.props.onSubmit) {
-      this.props.onSubmit(e);
-      return;
-    }
-    if (this.props.onKeyUp) {
-      this.props.onKeyUp(e);
+  componentDidMount = () => {
+    if (this.props.defaultValue) {
+      this.processChange(moment(this.props.defaultValue).format("MM/DD/YYYY"));
     }
   };
 
   _handleChange = (e) => {
+    this.processChange(e.target.value);
+  };
+
+  processChange = (value) => {
     let validation = null;
     let date = "";
     let cal = this.state.cal;
-    if (e.target.value.length === 10) {
-      let result = this.checkInput(e);
+    if (value.length === 10) {
+      let result = this.checkInput(value);
       if (moment.isMoment(result)) {
         validation = "SUCCESS";
         date =
-          e.target.value.substring(6, 10) +
+          value.substring(6, 10) +
           "-" +
-          e.target.value.substring(0, 2) +
+          value.substring(0, 2) +
           "-" +
-          e.target.value.substring(3, 5);
+          value.substring(3, 5);
         if (cal) {
           cal = moment(date).date(1);
         }
       } else {
-        validation = "ERROR";
+        validation = result;
       }
     }
-    this.setState({ value: e.target.value, validation, date, cal }, () => {
+    this.setState({ value, validation, date, cal }, () => {
       if (cal) {
         this.setCalendar();
       }
     });
+    var myInput = this.myInput.current;
+    var nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      "value"
+    ).set;
+    nativeInputValueSetter.call(myInput, date);
+    var inputEvent = new Event("input", { bubbles: true });
+    myInput.dispatchEvent(inputEvent);
+  };
+
+  checkInput = (value) => {
+    if (value.length !== 10 || !/\d{2}\/\d{2}\/\d{4}/.test(value)) return;
+    let date = moment(
+      value.substring(6, 10) +
+        "-" +
+        value.substring(0, 2) +
+        "-" +
+        value.substring(3, 5)
+    );
+    if (
+      !moment.isMoment(date) ||
+      !date.isValid() ||
+      date.date() !== Number(value.substring(3, 5))
+    )
+      return "ERROR";
+    if (this.isDisabled(date)) return "WARNING";
+    return date;
   };
 
   _handleBlur = (e) => {
@@ -179,29 +215,6 @@ export class DatePicker extends React.Component {
       let validation = this.checkInput(e);
       this.setState({ validation });
     }
-  };
-
-  checkInput = (e) => {
-    if (
-      e.target.value.length !== 10 ||
-      !/\d{2}\/\d{2}\/\d{4}/.test(e.target.value)
-    )
-      return;
-    let date = moment(
-      e.target.value.substring(6, 10) +
-        "-" +
-        e.target.value.substring(0, 2) +
-        "-" +
-        e.target.value.substring(3, 5)
-    );
-    if (
-      !moment.isMoment(date) ||
-      !date.isValid() ||
-      date.date() !== Number(e.target.value.substring(3, 5))
-    )
-      return;
-    if (this.isDisabled(date)) return;
-    return date;
   };
 
   _handleCalendar = () => {
@@ -230,12 +243,12 @@ export class DatePicker extends React.Component {
 
   isDisabled = (day) => {
     if (
-      (this.props.min && day.isBefore(this.props.min)) ||
-      (this.props.max && day.isAfter(this.props.max))
+      (this.props.min && day.isBefore(moment(this.props.min))) ||
+      (this.props.max && day.isAfter(moment(this.props.max)))
     )
       return true;
     if (this.props.isDisabled) {
-      return this.props.isDisabled(day);
+      return this.props.isDisabled(day.toDate());
     }
     return false;
   };
@@ -264,19 +277,11 @@ export class DatePicker extends React.Component {
   };
 
   render() {
-    let weekdays = [
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat",
-    ].map((day) => <div>{day}</div>);
     let month;
     if (this.state.month) {
       month = this.state.month.map((day) => (
         <div
+          key={day.toString()}
           style={{
             color: day.isSame(this.state.cal, "month")
               ? Constants.system.black
@@ -298,11 +303,13 @@ export class DatePicker extends React.Component {
     return (
       <div css={STYLES_DATE_INPUT}>
         <input
+          ref={this.myInput}
           disabled
           css={STYLES_HIDDEN_INPUT}
           type="date"
           name={this.props.name}
           value={this.state.date}
+          onChange={this.props.onChange}
         />
         <div>
           <Input

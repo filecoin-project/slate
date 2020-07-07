@@ -73,7 +73,7 @@ const STYLES_SELECT_MENU_CHEVRON = css`
 
 export const SelectMenu = (props) => {
   let map = {};
-  for (let option of props.options) {
+  for (let option of props.options || []) {
     map[option.value] = option.name;
   }
   return (
@@ -108,7 +108,7 @@ export const SelectMenu = (props) => {
           name={props.name}
           id={`id-${props.name}`}
         >
-          {props.options.map((each) => {
+          {(props.options || []).map((each) => {
             return (
               <option value={each.value} key={each.value}>
                 {each.name}

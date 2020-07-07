@@ -31,6 +31,7 @@ import { Toggle } from "~/components/system/components/Toggle";
 import { H1, H2, P, UL, LI } from "~/components/system/components/Typography";
 
 // NOTE(jim): Fragments
+import { CodeText } from "~/components/system/components/fragments/CodeText";
 import { TooltipAnchor } from "~/components/system/components/fragments/TooltipAnchor";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import {
@@ -52,6 +53,7 @@ export {
   CardTabGroup,
   CheckBox,
   CodeBlock,
+  CodeText,
   CodeTextarea,
   DatePicker,
   Input,

@@ -27,7 +27,7 @@ const wsPort = process.env.WS_PORT || 2448;
 
 const path = require('path');
 const app = next({
-  dev: true,
+  dev: false,
   dir: __dirname,
   quiet: false,
 });

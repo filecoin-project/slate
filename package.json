@@ -26,8 +26,9 @@
     }
   },
   "dependencies": {
-    "@babel/register": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
+    "@babel/register": "^7.10.4",
+    "@babel/runtime": "^7.10.4",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/cache": "11.0.0-next.12",
     "@emotion/core": "^10.0.28",
@@ -61,6 +62,7 @@
     "ws": "^7.3.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "electron": "^9.0.5",

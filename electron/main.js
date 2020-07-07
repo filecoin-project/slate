@@ -2,8 +2,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs-extra');
-// (colin) this may not be needed
-const prepareRenderer = require('electron-next');
 
 function bootServer() {
   const { fork } = require('child_process');

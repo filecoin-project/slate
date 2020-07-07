@@ -1,32 +1,39 @@
-import * as React from 'react';
-import * as Actions from '~/common/actions';
-import * as System from '~/components/system';
+import * as React from "react";
+import * as Actions from "~/common/actions";
+import * as System from "~/components/system";
 
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import ScenePage from '~/components/core/ScenePage';
+import ScenePage from "~/components/core/ScenePage";
 
 const STYLES_GROUP = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 768px;
 `;
 
 const STYLES_SUBGROUP = css`
   padding-left: 24px;
+  width: 100%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `;
 
 const STYLES_LEFT = css`
-  flex-shrink: 0;
   padding: 12px 0 0 0;
-  min-width: 480px;
+  min-width: 10%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `;
 
 const STYLES_RIGHT = css`
-  min-width: 10%;
   padding-left: 48px;
   padding-top: 24px;
-  width: 100%;
+  flex-shrink: 0;
 `;
 
 export default class SceneSettings extends React.Component {
@@ -50,7 +57,8 @@ export default class SceneSettings extends React.Component {
             addr: this.state.settings_cold_default_address,
             dealMinDuration: this.state.settings_cold_default_duration,
             repFactor: this.state.settings_cold_default_replication_factor,
-            excludedMinersList: this.state.settings_cold_default_excluded_miners,
+            excludedMinersList: this.state
+              .settings_cold_default_excluded_miners,
             trustedMinersList: this.state.settings_cold_default_trusted_miners,
             maxPrice: this.state.settings_cold_default_max_price,
             renew: {
@@ -127,8 +135,9 @@ export default class SceneSettings extends React.Component {
               value={this.state.settings_cold_default_address}
               category="address"
               onChange={this._handleChange}
-              options={this.state.addresses}>
-              {currentAddress ? currentAddress.name : 'None'}
+              options={this.state.addresses}
+            >
+              {currentAddress ? currentAddress.name : "None"}
             </System.SelectMenu>
 
             <System.Input
@@ -169,7 +178,8 @@ export default class SceneSettings extends React.Component {
               style={{ marginTop: 48 }}
               name="settings_cold_default_auto_renew"
               value={this.state.settings_cold_default_auto_renew}
-              onChange={this._handleChange}>
+              onChange={this._handleChange}
+            >
               Enable auto renew for Filecoin Network deals.
             </System.CheckBox>
 
@@ -184,7 +194,9 @@ export default class SceneSettings extends React.Component {
               onChange={this._handleChange}
             />
             <div style={{ marginTop: 32 }}>
-              <System.ButtonPrimary onClick={this._handleSave}>Save</System.ButtonPrimary>
+              <System.ButtonPrimary onClick={this._handleSave}>
+                Save
+              </System.ButtonPrimary>
             </div>
           </div>
         ) : null}
@@ -212,7 +224,8 @@ export default class SceneSettings extends React.Component {
               style={{ marginTop: 48 }}
               name="settings_hot_allow_unfreeze"
               value={this.state.settings_hot_allow_unfreeze}
-              onChange={this._handleChange}>
+              onChange={this._handleChange}
+            >
               IPFS allow unfreeze setting description.
             </System.CheckBox>
 
@@ -228,7 +241,9 @@ export default class SceneSettings extends React.Component {
             />
 
             <div style={{ marginTop: 32 }}>
-              <System.ButtonPrimary onClick={this._handleSave}>Save</System.ButtonPrimary>
+              <System.ButtonPrimary onClick={this._handleSave}>
+                Save
+              </System.ButtonPrimary>
             </div>
           </div>
         ) : null}

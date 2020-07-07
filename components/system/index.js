@@ -6,6 +6,9 @@ import { PeersList } from "~/components/system/modules/PeersList";
 import { CreateFilecoinAddress } from "~/components/system/modules/CreateFilecoinAddress";
 import { CreateFilecoinStorageDeal } from "~/components/system/modules/CreateFilecoinStorageDeal";
 
+// NOTE(jim): Experimental
+import GLRenderer from "~/components/three/GLRenderer";
+
 // NOTE(jim): Components
 import {
   ButtonPrimary,
@@ -49,6 +52,8 @@ import * as OldSVG from "~/common/svg";
 
 // NOTE(jim): Export everything.
 export {
+  // NOTE(jim): Experimental
+  GLRenderer,
   // NOTE(jim): Modules
   CreateToken,
   PeersList,

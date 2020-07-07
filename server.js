@@ -25,6 +25,7 @@ let state = null;
 const production = process.env.NODE_ENV === "production";
 const port = process.env.PORT || 1337;
 const wsPort = process.env.WS_PORT || 2448;
+const resetData = process.env.npm_config_reset_data;
 const app = next({ dev: !production, quiet: false });
 const nextRequestHandler = app.getRequestHandler();
 
@@ -71,9 +72,10 @@ app.prepare().then(async () => {
 
   if (!production) {
     try {
-      // TODO(jim): Remove later.
-      // We wipe all of the local data each time you run the application.
-      await Utilities.resetFileSystem();
+      // NOTE(daniel): Wipe all of the local data when --reset-data flag is added to npm run dev.
+      if (resetData) {
+        await Utilities.resetFileSystem();
+      }
 
       const updates = await Utilities.refresh({ PG: PowerGate });
       state = await Utilities.updateStateData(state, updates);
@@ -135,21 +137,35 @@ app.prepare().then(async () => {
       // TODO(jim): Move this to postgres later.
       if (!FS.existsSync("./.data/local-settings.json")) {
         const localSettingsSchema = {
-          local: { photo: null, name: `node-${uuid()}`, settings_deals_auto_approve: false },
+          local: {
+            photo: null,
+            name: `node-${uuid()}`,
+            settings_deals_auto_approve: false,
+          },
         };
 
-        FS.writeFileSync("./.data/local-settings.json", JSON.stringify(localSettingsSchema));
+        FS.writeFileSync(
+          "./.data/local-settings.json",
+          JSON.stringify(localSettingsSchema)
+        );
         state.local = localSettingsSchema.local;
       } else {
-        const parsedLocal = FS.readFileSync("./data/local-settings.json", "utf8");
+        const parsedLocal = FS.readFileSync(
+          "./.data/local-settings.json",
+          "utf8"
+        );
         state.local = JSON.parse(parsedLocal).local;
       }
     } catch (e) {
       console.log(e);
       console.log('[ prototype ] "/" -- WILL REDIRECT TO /SYSTEM ');
-      console.log("[ prototype ]        SLATE WILL NOT RUN LOCALLY UNTIL YOU HAVE ");
+      console.log(
+        "[ prototype ]        SLATE WILL NOT RUN LOCALLY UNTIL YOU HAVE "
+      );
       console.log("[ prototype ]        PROPERLY CONFIGURED POWERGATE AND ");
-      console.log("[ prototype ]        CONNECTED TO THE FILECOIN NETWORK (DEVNET/TESTNET) ");
+      console.log(
+        "[ prototype ]        CONNECTED TO THE FILECOIN NETWORK (DEVNET/TESTNET) "
+      );
     }
   }
 
@@ -222,7 +238,10 @@ app.prepare().then(async () => {
 
     // NOTE(jim): Writes the updated deal state.
     if (write) {
-      FS.writeFileSync("./.data/library.json", JSON.stringify({ library: state.library }));
+      FS.writeFileSync(
+        "./.data/library.json",
+        JSON.stringify({ library: state.library })
+      );
     }
 
     state = await Utilities.emitState({ state, client, PG: PowerGate });
@@ -242,7 +261,9 @@ app.prepare().then(async () => {
         // TODO(jim): Need to support other file types.
         if (!files.image) {
           console.error("[ prototype ] File type unspported", files);
-          return res.status(500).send({ error: "File type unsupported", files });
+          return res
+            .status(500)
+            .send({ error: "File type unsupported", files });
         }
 
         const newPath = form.uploadDir + req.params.file;
@@ -265,7 +286,10 @@ app.prepare().then(async () => {
 
         // NOTE(jim): Writes the added file.
         if (pushed) {
-          FS.writeFileSync("./.data/library.json", JSON.stringify({ library: state.library }));
+          FS.writeFileSync(
+            "./.data/library.json",
+            JSON.stringify({ library: state.library })
+          );
         }
 
         state = await Utilities.emitState({
@@ -295,7 +319,10 @@ app.prepare().then(async () => {
 
         // NOTE(jim): updates avatar photo.
         state.local.photo = `/static/system/${newName}`;
-        FS.writeFileSync("./.data/local-settings.json", JSON.stringify({ local: { ...state.local } }));
+        FS.writeFileSync(
+          "./.data/local-settings.json",
+          JSON.stringify({ local: { ...state.local } })
+        );
 
         state = await Utilities.emitState({
           state,
@@ -323,7 +350,10 @@ app.prepare().then(async () => {
   server.post("/_/local-settings", async (req, res) => {
     state.local = { ...state.local, ...req.body.local };
 
-    FS.writeFileSync("./.data/local-settings.json", JSON.stringify({ local: { ...state.local } }));
+    FS.writeFileSync(
+      "./.data/local-settings.json",
+      JSON.stringify({ local: { ...state.local } })
+    );
     state = await Utilities.emitState({ state, client, PG: PowerGate });
     return res.status(200).send({ success: true });
   });
@@ -331,7 +361,11 @@ app.prepare().then(async () => {
   server.post("/_/wallet/create", async (req, res) => {
     let data;
     try {
-      data = await PowerGate.ffs.newAddr(req.body.name, req.body.type, req.body.makeDefault);
+      data = await PowerGate.ffs.newAddr(
+        req.body.name,
+        req.body.type,
+        req.body.makeDefault
+      );
     } catch (e) {
       return res.status(500).send({ error: e.message });
     }
@@ -343,13 +377,19 @@ app.prepare().then(async () => {
   server.post("/_/wallet/send", async (req, res) => {
     let data;
     try {
-      data = await PowerGate.ffs.sendFil(req.body.source, req.body.target, req.body.amount);
+      data = await PowerGate.ffs.sendFil(
+        req.body.source,
+        req.body.target,
+        req.body.amount
+      );
     } catch (e) {
       return res.status(500).send({ error: e.message });
     }
 
     state = await Utilities.emitState({ state, client, PG: PowerGate });
-    return res.status(200).send({ success: true, data: { ...data, ...req.body } });
+    return res
+      .status(200)
+      .send({ success: true, data: { ...data, ...req.body } });
   });
 
   server.get("/", async (req, res) => {

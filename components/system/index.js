@@ -1,5 +1,8 @@
 import * as Constants from "~/common/constants";
 
+// NOTE(jim): Modules
+import { CreateToken } from "~/components/system/modules/CreateToken";
+
 // NOTE(jim): Components
 import {
   ButtonPrimary,
@@ -43,6 +46,9 @@ import * as OldSVG from "~/common/svg";
 
 // NOTE(jim): Export everything.
 export {
+  // NOTE(jim): Modules
+  CreateToken,
+  // NOTE(jim): Components
   ButtonPrimary,
   ButtonPrimaryFull,
   ButtonSecondary,
@@ -76,6 +82,7 @@ export {
   DescriptionGroup,
   TableContent,
   TableColumn,
+  // NOTE(jim): Other stuff
   Constants,
   SVG,
   OldSVG,

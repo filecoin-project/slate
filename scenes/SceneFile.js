@@ -1,13 +1,14 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as System from "~/components/system";
-import * as SVG from "~/components/system/svg";
+import * as React from 'react';
+import * as Strings from '~/common/strings';
+import * as Constants from '~/common/constants';
+import * as Fixtures from '~/common/fixtures';
+import * as System from '~/components/system';
+import * as SVG from '~/components/system/svg';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
-import Section from "~/components/core/Section";
-import ScenePage from "~/components/core/ScenePage";
+import Section from '~/components/core/Section';
+import ScenePage from '~/components/core/ScenePage';
 
 const STYLES_FLEX = css`
   display: flex;
@@ -71,7 +72,7 @@ const STYLES_BOTTOM = css`
 `;
 
 const STYLES_PATH = css`
-  font-family: "mono";
+  font-family: 'mono';
   color: ${Constants.system.white};
   font-size: 12px;
   text-transform: uppercase;
@@ -89,7 +90,7 @@ const STYLES_ITEM = css`
   justify-content: center;
   font-size: 12px;
   letter-spacing: 0.2px;
-  font-family: ${Constants.font.semiBold};
+  font-family: 'inter-semi-bold';
   transition: 200ms ease all;
   cursor: pointer;
   background-color: ${Constants.system.brand};
@@ -115,7 +116,7 @@ export default class SceneFile extends React.Component {
   };
 
   render() {
-    const fileURL = `/static/files/${this.props.file.file}`;
+    const fileURL = `public/static/files/${this.props.file.file}`;
 
     return (
       <div css={STYLES_FLEX}>
@@ -127,7 +128,10 @@ export default class SceneFile extends React.Component {
             <SVG.Dismiss height="24px" />
           </div>
         </div>
-        <div css={STYLES_ASSET} style={{ backgroundImage: `url('${fileURL}')` }} />
+        <div
+          css={STYLES_ASSET}
+          style={{ backgroundImage: `url('${fileURL}')` }}
+        />
       </div>
     );
   }

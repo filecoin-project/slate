@@ -27,7 +27,7 @@ const wsPort = process.env.WS_PORT || 2448;
 
 const path = require('path');
 const app = next({
-  dev: false,
+  dev: true,
   dir: __dirname,
   quiet: false,
 });
@@ -140,11 +140,11 @@ app.prepare().then(async () => {
 
     // NOTE(jim): Local settings retrieval or creation
     // TODO(jim): Move this to postgres later.
-    const dirnameLocalsettings = path.join(
+    const dirnameLocalSettings = path.join(
       __dirname,
       '/.data/local-settings.json'
     );
-    if (!FS.existsSync(dirnameLocalsettings)) {
+    if (!FS.existsSync(dirnameLocalSettings)) {
       const localSettingsSchema = {
         local: {
           photo: null,
@@ -154,12 +154,12 @@ app.prepare().then(async () => {
       };
 
       FS.writeFileSync(
-        dirnameLocalsettings,
+        dirnameLocalSettings,
         JSON.stringify(localSettingsSchema)
       );
       state.local = localSettingsSchema.local;
     } else {
-      const parsedLocal = FS.readFileSync(dirnameLocalsettings, 'utf8');
+      const parsedLocal = FS.readFileSync(dirnameLocalSettings, 'utf8');
       state.local = JSON.parse(parsedLocal).local;
     }
   } catch (e) {
@@ -243,8 +243,9 @@ app.prepare().then(async () => {
 
     // NOTE(jim): Writes the updated deal state.
     if (write) {
+      const dirnameLibrary = path.join(__dirname, '/.data/library.json');
       FS.writeFileSync(
-        './.data/library.json',
+        dirnameLibrary,
         JSON.stringify({ library: state.library })
       );
     }
@@ -291,8 +292,9 @@ app.prepare().then(async () => {
 
         // NOTE(jim): Writes the added file.
         if (pushed) {
+          const dirnameLibrary = path.join(__dirname, '/.data/library.json');
           FS.writeFileSync(
-            './.data/library.json',
+            dirnameLibrary,
             JSON.stringify({ library: state.library })
           );
         }
@@ -323,9 +325,13 @@ app.prepare().then(async () => {
         FS.rename(files.image.path, newPath, function (err) {});
 
         // NOTE(jim): updates avatar photo.
-        state.local.photo = `/static/system/${newName}`;
+        state.local.photo = __dirname + `public/static/system/${newName}`;
+        const dirnameLocalSettings = path.join(
+          __dirname,
+          '/.data/local-settings.json'
+        );
         FS.writeFileSync(
-          './.data/local-settings.json',
+          dirnameLocalSettings,
           JSON.stringify({ local: { ...state.local } })
         );
 
@@ -354,9 +360,12 @@ app.prepare().then(async () => {
 
   server.post('/_/local-settings', async (req, res) => {
     state.local = { ...state.local, ...req.body.local };
-
+    const dirnameLocalSettings = path.join(
+      __dirname,
+      '/.data/local-settings.json'
+    );
     FS.writeFileSync(
-      './.data/local-settings.json',
+      dirnameLocalSettings,
       JSON.stringify({ local: { ...state.local } })
     );
     state = await Utilities.emitState({ state, client, PG: PowerGate });

@@ -1,10 +1,10 @@
-import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
-import * as System from "~/components/system";
+import * as React from 'react';
+import * as Strings from '~/common/strings';
+import * as Constants from '~/common/constants';
+import * as SVG from '~/components/system/svg';
+import * as System from '~/components/system';
 
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
 const STYLES_FILE_HIDDEN = css`
   height: 1px;
@@ -44,17 +44,17 @@ const STYLES_IMAGE_PREVIEW = css`
 `;
 
 const SELECT_MENU_OPTIONS = [
-  { value: "1", name: "Anywhere" },
-  { value: "2", name: "China" },
-  { value: "3", name: "Russia" },
-  { value: "4", name: "USA" },
+  { value: '1', name: 'Anywhere' },
+  { value: '2', name: 'China' },
+  { value: '3', name: 'Russia' },
+  { value: '4', name: 'USA' },
 ];
 
 const SELECT_MENU_MAP = {
-  "1": "Anywhere",
-  "2": "China",
-  "3": "Russia",
-  "4": "USA",
+  '1': 'Anywhere',
+  '2': 'China',
+  '3': 'Russia',
+  '4': 'USA',
 };
 
 export default class SidebarFileStorageDeal extends React.Component {
@@ -70,7 +70,7 @@ export default class SidebarFileStorageDeal extends React.Component {
     let file = e.target.files[0];
 
     if (!file) {
-      alert("Something went wrong");
+      alert('Something went wrong');
       return;
     }
 
@@ -79,16 +79,16 @@ export default class SidebarFileStorageDeal extends React.Component {
 
   _handleMakeDeal = async (src) => {
     const options = {
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ src }),
     };
 
-    const response = await fetch("/_/deals/storage", options);
+    const response = await fetch('/_/deals/storage', options);
     const json = await response.json();
     return json;
   };
@@ -125,7 +125,7 @@ export default class SidebarFileStorageDeal extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+        <System.P style={{ fontFamily: 'inter-semi-bold' }}>
           Upload a file to the network
         </System.P>
         <input
@@ -138,7 +138,7 @@ export default class SidebarFileStorageDeal extends React.Component {
         {this.props.file ? (
           <div>
             <img
-              src={`/static/files/${this.props.file.name}`}
+              src={`public/static/files/${this.props.file.name}`}
               css={STYLES_IMAGE_PREVIEW}
             />
 

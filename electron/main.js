@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const fs = require('fs-extra');
 // (colin) this may not be needed
 const prepareRenderer = require('electron-next');
 
@@ -10,6 +11,16 @@ function bootServer() {
   console.log('server running');
 }
 
+function fileOverrides() {
+  fs.copy(
+    path.join(__dirname, './google-protobuf.js'),
+    path.join(__dirname, '../node_modules/google-protbuf/google-protobuf.js'),
+    (err) => {
+      if (err) throw err;
+      console.log('google-protobuf.js was copied to node_modules folder');
+    }
+  );
+}
 // require(path.join(__dirname, "../nodedistribution/", "main.js"));
 
 function createWindow() {
@@ -34,6 +45,7 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  fileOverrides();
   bootServer();
   createWindow();
 

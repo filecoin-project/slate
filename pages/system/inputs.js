@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
+import * as SVG from "~/components/system/svg";
 
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
@@ -12,7 +13,7 @@ export default class SystemPageInputs extends React.Component {
     exampleTwo: "",
     exampleThree: "",
     exampleFour: "aaaaa-bbbbb-ccccc-ddddd-eeee",
-    exampleFive: "",
+    exampleFive: "Click the 'x'",
   };
 
   _handleChange = (e) => {
@@ -204,7 +205,53 @@ import { Input, Textarea } from 'slate-react-system';`}
    }
 }`}
         </System.CodeBlock>
+        <br />
+        <br />
+        <br />
+        <System.H2>Input with icon and onSubmit</System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Declare the Input component with an icon and an onSubmit function.
+          onSubmit will be triggered upon click of the icon and upon key down of
+          the enter key.
+        </System.P>
+        <br />
+        <System.Input
+          label="Icon and submit function"
+          name="exampleFive"
+          icon={SVG.X}
+          onSubmit={() => {
+            this.setState({ exampleFive: "" });
+          }}
+          value={this.state.exampleFive}
+          onChange={this._handleChange}
+        />
+        <br />
+        <System.CodeBlock>
+          {`class ExampleCopyPaste extends React.Component {
+   state = { exampleFive: "Click the 'x'" }
 
+   _handleChange = e => this.setState(
+     { [e.target.name]: e.target.value }
+   );
+
+   render() {
+     return(
+        <Input
+          label="Icon with submit function"
+          name="exampleFive"
+          icon={SVG.X}
+          onSubmit={() => {
+            this.setState({ exampleFive: "" });
+          }}
+          value={this.state.exampleFive}
+          onChange={this._handleChange}
+        />
+     )
+   }
+}`}
+        </System.CodeBlock>
         <br />
         <br />
         <br />
@@ -350,6 +397,22 @@ class ExampleError extends React.Component {
                   b: <System.CodeText nowrap>string</System.CodeText>,
                   c: "null",
                   d: "Validation style. Use: SUCCESS, WARNING or ERROR",
+                },
+                {
+                  id: 9,
+                  a: "icon",
+                  b: <System.CodeText nowrap>SVG</System.CodeText>,
+                  c: "null",
+                  d:
+                    "Icon on the right side of the input box. If an onSubmit is specified, it will trigger on click. Specifying an icon overrides copyable",
+                },
+                {
+                  id: 10,
+                  a: "onSubmit",
+                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  c: "null",
+                  d:
+                    "Function called when the enter key is pressed and when the icon (if present) is clicked",
                 },
               ],
             }}

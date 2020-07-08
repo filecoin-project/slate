@@ -222,8 +222,10 @@ export default class SystemPage extends React.Component {
           <SidebarLink url={url} href="/system/inputs" title="Inputs" />
           <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns" />
           <SidebarLink url={url} href="/system/datepicker" title="Datepicker" />
+          <SidebarLink url={url} href="/system/list-editor" title="List Editor" />
           <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs" />
           <SidebarLink url={url} href="/system/tabs" title="Tabs" />
+          <SidebarLink url={url} href="/system/notifications" title="Notifications" />
 
           <div
             css={STYLES_SMALL_LINK}

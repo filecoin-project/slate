@@ -35,6 +35,7 @@ const STYLES_INPUT = css`
   ${INPUT_STYLES}
   padding: 0 24px 0 24px;
   text-overflow: ellipsis;
+  white-space: nowrap;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
     inset 0 0 0 1px ${Constants.system.darkGray};
 

@@ -79,6 +79,24 @@ const ICON_MAP = {
 };
 
 export class Notification extends React.Component {
+  componentDidMount = () => {
+    this.startInterval();
+  };
+
+  componentWillUnmount = () => {
+    this.stopInterval();
+  };
+
+  stopInterval = () => {
+    clearInterval(this.interval);
+  };
+
+  startInterval = () => {
+    if (this.props.interval) {
+      this.interval = setInterval(this.props.onClose, this.props.interval);
+    }
+  };
+
   render() {
     return (
       <div
@@ -88,6 +106,8 @@ export class Notification extends React.Component {
             NOTIF_COLOR_MAP[this.props.status || "INFO"]
           }`,
         }}
+        onMouseEnter={this.stopInterval}
+        onMouseLeave={this.startInterval}
       >
         {ICON_MAP[this.props.status || "INFO"]}
         <DescriptionGroup

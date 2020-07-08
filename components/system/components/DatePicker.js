@@ -140,19 +140,28 @@ export class DatePicker extends React.Component {
     this.state = {
       value: "",
       validation: null,
-      date: "",
       cal: null,
     };
   }
 
   componentDidMount = () => {
-    if (this.props.defaultValue) {
-      this.processChange(moment(this.props.defaultValue).format("MM/DD/YYYY"));
+    if (moment(this.props.value).isValid()) {
+      this.processChange(moment(this.props.value).format("MM/DD/YYYY"));
     }
   };
 
   _handleChange = (e) => {
     this.processChange(e.target.value);
+  };
+
+  selectDay = (day) => {
+    if (!this.isDisabled(day)) {
+      this.setState({
+        value: day.format("MM/DD/YYYY"),
+        cal: null,
+      });
+      this.registerChange(day.format("YYYY-MM-DD"));
+    }
   };
 
   processChange = (value) => {
@@ -176,19 +185,10 @@ export class DatePicker extends React.Component {
         validation = result;
       }
     }
-    this.setState({ value, validation, date, cal }, () => {
-      if (cal) {
-        this.setCalendar();
-      }
+    this.setState({ value, validation, cal }, () => {
+      if (cal) this.setCalendar();
     });
-    var myInput = this.myInput.current;
-    var nativeInputValueSetter = Object.getOwnPropertyDescriptor(
-      window.HTMLInputElement.prototype,
-      "value"
-    ).set;
-    nativeInputValueSetter.call(myInput, date);
-    var inputEvent = new Event("input", { bubbles: true });
-    myInput.dispatchEvent(inputEvent);
+    this.registerChange(date);
   };
 
   checkInput = (value) => {
@@ -206,7 +206,9 @@ export class DatePicker extends React.Component {
       date.date() !== Number(value.substring(3, 5))
     )
       return "ERROR";
-    if (this.isDisabled(date)) return "WARNING";
+    if (this.isDisabled(date)) {
+      return "WARNING";
+    }
     return date;
   };
 
@@ -223,8 +225,8 @@ export class DatePicker extends React.Component {
     } else {
       this.setState(
         {
-          cal: this.state.date
-            ? moment(this.state.date).date(1)
+          cal: this.props.value
+            ? moment(this.props.value).date(1)
             : moment().date(1),
         },
         this.setCalendar
@@ -253,19 +255,21 @@ export class DatePicker extends React.Component {
     return false;
   };
 
-  selectDay = (day) => {
-    if (!this.isDisabled(day)) {
-      this.setState({
-        value: day.format("MM/DD/YYYY"),
-        date: day.format("YYYY-MM-DD"),
-        cal: null,
-      });
-    }
+  registerChange = (date) => {
+    var myInput = this.myInput.current;
+    var nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      "value"
+    ).set;
+    nativeInputValueSetter.call(myInput, date);
+    var inputEvent = new Event("input", { bubbles: true });
+    myInput.dispatchEvent(inputEvent);
+    this.props.onChange(inputEvent);
   };
 
   getStyle = (day) => {
     if (this.isDisabled(day)) return STYLES_DISABLED_DAY;
-    if (this.state.date && day.isSame(this.state.date, "day"))
+    if (this.props.value && day.isSame(moment(this.props.value), "day"))
       return STYLES_CHOSEN_DAY;
     return STYLES_DAY;
   };
@@ -290,7 +294,7 @@ export class DatePicker extends React.Component {
           css={
             this.isDisabled(day)
               ? STYLES_DISABLED_DAY
-              : this.state.date && day.isSame(this.state.date, "day")
+              : this.props.value && day.isSame(moment(this.props.value), "day")
               ? STYLES_CHOSEN_DAY
               : STYLES_DAY
           }
@@ -308,7 +312,7 @@ export class DatePicker extends React.Component {
           css={STYLES_HIDDEN_INPUT}
           type="date"
           name={this.props.name}
-          value={this.state.date}
+          value={this.props.value}
           onChange={this.props.onChange}
         />
         <div>

@@ -17,7 +17,7 @@ export default class SystemPageDatepicker extends React.Component {
   state = {
     exampleOne: "",
     exampleTwo: "",
-    exampleThree: "",
+    exampleThree: "2020-07-13",
   };
 
   _handleChange = (e) => {
@@ -38,6 +38,7 @@ export default class SystemPageDatepicker extends React.Component {
         <br />
         <System.P>
           The DatePicker component is used to allow the user to select a date.
+          It returns a string in the yyyy-mm-dd form.
         </System.P>
         <br />
         <br />
@@ -60,6 +61,7 @@ export default class SystemPageDatepicker extends React.Component {
         <System.DatePicker
           label="Pick a date with weekends disabled"
           name="exampleOne"
+          value={this.state.exampleOne}
           isDisabled={weekdaysOnly}
           onChange={this._handleChange}
         />
@@ -97,6 +99,7 @@ const weekdaysOnly = (date) => {
          <DatePicker
           label="Pick a date with weekends disabled"
           name="exampleOne"
+          value={this.state.exampleOne}
           isDisabled={weekdaysOnly}
           onChange={this._handleChange}
         />
@@ -114,6 +117,7 @@ const weekdaysOnly = (date) => {
           label="Pick a date with a minimum value"
           tooltip="Date must be today or after"
           name="exampleTwo"
+          value={this.state.exampleTwo}
           min={new Date()}
           onChange={this._handleChange}
         />
@@ -138,6 +142,7 @@ const weekdaysOnly = (date) => {
           label="Pick a date with a minimum value"
           tooltip="Date must be today or after"
           name="exampleTwo"
+          value={this.state.exampleTwo}
           min={new Date()}
           onChange={this._handleChange}
         />
@@ -154,7 +159,7 @@ const weekdaysOnly = (date) => {
         <System.DatePicker
           label="Pick a date with a default value"
           name="exampleThree"
-          defaultValue="2020-07-13"
+          value={this.state.exampleThree}
           onChange={this._handleChange}
         />
         <br />
@@ -166,7 +171,7 @@ const weekdaysOnly = (date) => {
         <br />
         <System.CodeBlock>
           {`class ExampleThree extends React.Component {
-    state = { exampleThree: '' }
+    state = { exampleThree: "2020-07-13" }
   
     _handleChange = e => this.setState(
       { [e.target.name]: e.target.value }
@@ -177,7 +182,7 @@ const weekdaysOnly = (date) => {
         <DatePicker
           label="Pick a date with a default value"
           name="exampleThree"
-          defaultValue="2020-07-13"
+          value={this.state.exampleThree}
           onChange={this._handleChange}
         />
       )
@@ -213,35 +218,11 @@ const weekdaysOnly = (date) => {
                 },
                 {
                   id: 2,
-                  a: "name",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
-                  c: "null",
-                  d: "Input name",
-                },
-                {
-                  id: 3,
-                  a: "label",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
-                  c: "null",
-                  d: "Label text",
-                },
-                {
-                  id: 4,
-                  a: "description",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
-                  c: "null",
-                  d: "Description text",
-                },
-                {
-                  id: 5,
-                  a: "tooltip",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
-                  c: "null",
-                  d: "Tooltip text",
-                },
-                {
-                  id: 6,
-                  a: "defaultValue",
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      value
+                    </span>
+                  ),
                   b: (
                     <div>
                       <System.CodeText nowrap>string</System.CodeText>
@@ -249,7 +230,36 @@ const weekdaysOnly = (date) => {
                     </div>
                   ),
                   c: "null",
-                  d: "Default date. String must be in yyyy-mm-dd form",
+                  d:
+                    "The value of the datepicker. Can be used to assign default values as well",
+                },
+                {
+                  id: 3,
+                  a: "name",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Input name",
+                },
+                {
+                  id: 4,
+                  a: "label",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Label text",
+                },
+                {
+                  id: 5,
+                  a: "description",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Description text",
+                },
+                {
+                  id: 6,
+                  a: "tooltip",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Tooltip text",
                 },
                 {
                   id: 7,

@@ -7,8 +7,15 @@ import ViewSourceLink from '~/components/system/ViewSourceLink';
 
 export default class SystemPageTables extends React.Component {
   state = {
-    table_data: null,
+    exampleOneOutput: null,
+    exampleOneProps: null,
+    exampleTwoOutput: null,
+    exampleTwoProps: null
   };
+
+  _handleChange = e => this.setState(
+    { [e.target.name]: e.target.value }
+  );
 
   render() {
     return (
@@ -102,9 +109,9 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
               { id: 3, a: 'col 4 row 1', b: 'col 4 row 2', c: 'col 4 row 3', d: 'col 4 row 4' },
             ],
           }}
-          selectedRowId={this.state.table_data}
+          selectedRowId={this.state.exampleOneOutput}
           onChange={this._handleChange}
-          name="table_data"
+          name="exampleOneOutput"
         />
         <br />
         <br />
@@ -139,9 +146,9 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
                 { id: 16, a: 'selectedRowId', b: 'number', c: 'null', d: 'ID value of the selected row' },
               ],
             }}
-            selectedRowId={this.state.table_data}
+            selectedRowId={this.state.exampleOneProps}
             onChange={this._handleChange}
-            name="table_data"
+            name="exampleOneProps"
           />
         </Group>
         <br />
@@ -213,9 +220,9 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
               { id: 3, a: '4', b: '135', c: '1', d: '4', e: 'FOLDER' },
             ],
           }}
-          selectedRowId={this.state.exampleOne}
+          selectedRowId={this.state.exampleTwoOutput}
           onChange={this._handleChange}
-          name="exampleOne"
+          name="exampleTwoOutput"
         />
         <br />
         <br />
@@ -250,9 +257,9 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
                 { id: 17, a: 'FILE_LINK', b: 'string', c: 'String of file link' }
               ],
             }}
-            selectedRowId={this.state.table_data}
+            selectedRowId={this.state.exampleTwoProps}
             onChange={this._handleChange}
-            name="table_data"
+            name="exampleTwoProps"
           />
         </Group>
 

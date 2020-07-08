@@ -38,7 +38,7 @@ export const DescriptionGroup = (props) => {
             <TooltipAnchor
               tooltip={props.tooltip}
               height="14px"
-              style={{ paddingTop: 16 }}
+              style={{ paddingTop: 0 }}
             />
           ) : null}
         </div>

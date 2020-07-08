@@ -3,6 +3,8 @@ import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 
+import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
+
 const STYLES_TOGGLE = css`
   font-family: ${Constants.font.text};
   display: inline-flex;
@@ -36,17 +38,24 @@ export class Toggle extends React.Component {
 
   render() {
     return (
-      <div
-        css={STYLES_TOGGLE}
-        onClick={this._handleChange}
-        style={{
-          backgroundColor: this.props.active ? Constants.system.brand : null,
-        }}
-      >
-        <figure
-          css={STYLES_DIAL}
-          style={{ transform: this.props.active ? `translateX(40px)` : null }}
+      <div>
+        <DescriptionGroup
+          tooltip={this.props.tooltip}
+          label={this.props.label}
+          description={this.props.description}
         />
+        <div
+          css={STYLES_TOGGLE}
+          onClick={this._handleChange}
+          style={{
+            backgroundColor: this.props.active ? Constants.system.brand : null,
+          }}
+        >
+          <figure
+            css={STYLES_DIAL}
+            style={{ transform: this.props.active ? `translateX(40px)` : null }}
+          />
+        </div>
       </div>
     );
   }

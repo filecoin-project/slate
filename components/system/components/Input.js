@@ -35,6 +35,7 @@ const STYLES_INPUT = css`
   ${INPUT_STYLES}
   padding: 0 24px 0 24px;
   text-overflow: ellipsis;
+  white-space: nowrap;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
     inset 0 0 0 1px ${Constants.system.darkGray};
 
@@ -90,12 +91,13 @@ export class Input extends React.Component {
   };
 
   _handleKeyUp = (e) => {
+    if (this.props.onKeyUp) {
+      this.props.onKeyUp(e);
+    }
+
     if ((e.which === 13 || e.keyCode === 13) && this.props.onSubmit) {
       this.props.onSubmit(e);
       return;
-    }
-    if (this.props.onKeyUp) {
-      this.props.onKeyUp(e);
     }
   };
 
@@ -143,6 +145,7 @@ export class Input extends React.Component {
           onBlur={this.props.onBlur}
           onKeyUp={this._handleKeyUp}
           autoComplete="off"
+          disabled={this.props.disabled}
           readOnly={this.props.readOnly}
           style={{
             ...this.props.style,
@@ -152,7 +155,7 @@ export class Input extends React.Component {
                 }`
               : null,
             paddingRight:
-              this.props.copyable || this.props.search ? "32px" : "24px",
+              this.props.copyable || this.props.icon ? "32px" : "24px",
           }}
         />
         {this.props.icon ? (

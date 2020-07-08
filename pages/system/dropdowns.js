@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as System from "~/components/system";
+import * as Constants from "~/common/constants";
 
+import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 
@@ -53,7 +55,9 @@ export default class SystemPageDropdowns extends React.Component {
         <hr />
         <br />
         <System.P>
-          Import React and the SelectMenu and/or the SelectMenuFull Components.
+          Import React and the <System.CodeText>SelectMenu</System.CodeText>{" "}
+          and/or the <System.CodeText>SelectCountryMenu</System.CodeText>{" "}
+          Components.
         </System.P>
         <br />
         <br />
@@ -63,10 +67,35 @@ import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />
-        <System.H2>Usage</System.H2>
+        <System.H2>Dropdown</System.H2>
         <hr />
         <br />
-        <System.P>Define the dropdown menu options.</System.P>
+        <System.SelectMenu
+          label="Pick a horoscope"
+          name="exampleOne"
+          value={this.state.exampleOne}
+          category="horoscope"
+          onChange={this._handleChange}
+          options={SELECT_MENU_OPTIONS}
+        />
+        <br />
+        <br />
+        <System.SelectMenu
+          label="Pick a horoscope (full length)"
+          name="exampleTwo"
+          full
+          value={this.state.exampleTwo}
+          category="horoscope"
+          onChange={this._handleChange}
+          options={SELECT_MENU_OPTIONS}
+        />
+        <br />
+        <br />
+        <br />
+        <System.P>
+          Define the dropdown menu options. Each entry must have a name and a
+          value.
+        </System.P>
         <br />
         <System.CodeBlock>
           {`const SELECT_MENU_OPTIONS = [
@@ -85,7 +114,11 @@ import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
 ];`}
         </System.CodeBlock>
         <br />
-        <System.P>Declare the Dropdown component.</System.P>
+        <br />
+        <System.P>
+          Declare the Dropdown component. Default values can be assigned using{" "}
+          <System.CodeText>value</System.CodeText>.
+        </System.P>
         <br />
         <System.CodeBlock>
           {`class ExampleOne extends React.Component {
@@ -98,6 +131,7 @@ import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
    render() {
      return(
        <SelectMenu
+         label="Pick a horoscope"
          name="exampleOne"
          value={this.state.exampleOne}
          category="horoscope"
@@ -119,7 +153,7 @@ class ExampleTwo extends React.Component {
   render() {
     return(
       <SelectMenu
-        label="Pick a horoscope"
+        label="Pick a horoscope (full length)"
         name="exampleTwo"
         full
         value={this.state.exampleTwo}
@@ -129,10 +163,31 @@ class ExampleTwo extends React.Component {
       />
     )
   }
-}
-
-
-class ExampleThree extends React.Component {
+}`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <br />
+        <System.H2>Country Picker Dropdown</System.H2>
+        <hr />
+        <br />
+        <System.SelectCountryMenu
+          label="Pick your country"
+          name="exampleThree"
+          full
+          value={this.state.exampleThree}
+          category="country"
+          onChange={this._handleChange}
+        />
+        <br />
+        <br />
+        <br />
+        <System.P>
+          Declare a dropdown to select from a list of countries.
+        </System.P>
+        <br />
+        <System.CodeBlock>
+          {`class ExampleThree extends React.Component {
   state = { exampleThree: "United States of America" }
 
   _handleChange = e => this.setState(
@@ -155,37 +210,101 @@ class ExampleThree extends React.Component {
         </System.CodeBlock>
         <br />
         <br />
-        <System.H2>Output</System.H2>
+        <br />
+        <System.H2>Accepted React Properties</System.H2>
         <hr />
         <br />
-        <System.SelectMenu
-          name="exampleOne"
-          value={this.state.exampleOne}
-          category="horoscope"
-          onChange={this._handleChange}
-          options={SELECT_MENU_OPTIONS}
-        />
-        <br />
-        <br />
-        <System.SelectMenu
-          label="Pick a horoscope"
-          name="exampleTwo"
-          full
-          value={this.state.exampleTwo}
-          category="horoscope"
-          onChange={this._handleChange}
-          options={SELECT_MENU_OPTIONS}
-        />
-        <br />
-        <br />
-        <System.SelectCountryMenu
-          label="Pick your country"
-          name="exampleThree"
-          full
-          value={this.state.exampleThree}
-          category="country"
-          onChange={this._handleChange}
-        />
+        <Group title="Dropdowns">
+          <System.Table
+            data={{
+              columns: [
+                { key: "a", name: "Name", width: "128px" },
+                { key: "b", name: "Type", width: "88px" },
+                { key: "c", name: "Default", width: "88px" },
+                { key: "d", name: "Description", width: "100%" },
+              ],
+              rows: [
+                {
+                  id: 1,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      options
+                    </span>
+                  ),
+                  b: <System.CodeText nowrap>Array</System.CodeText>,
+                  c: "[]",
+                  d:
+                    "Array of options to select from. Each object in the array should have a name and value",
+                },
+                {
+                  id: 2,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      onChange
+                    </span>
+                  ),
+                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  c: "null",
+                  d: "Function called upon an onChange event",
+                },
+                {
+                  id: 3,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      value
+                    </span>
+                  ),
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d:
+                    "The value that the dropdown takes. Can be used to assign default values as well.",
+                },
+                {
+                  id: 4,
+                  a: "name",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Input name",
+                },
+                {
+                  id: 5,
+                  a: "label",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Label text",
+                },
+                {
+                  id: 6,
+                  a: "description",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Description text",
+                },
+                {
+                  id: 7,
+                  a: "tooltip",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Tooltip text",
+                },
+                {
+                  id: 8,
+                  a: "full",
+                  b: <System.CodeText nowrap>boolean</System.CodeText>,
+                  c: "false",
+                  d: "Sets width to 100% if true",
+                },
+                {
+                  id: 9,
+                  a: "category",
+                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  c: "null",
+                  d: "Category text",
+                },
+              ],
+            }}
+          />
+        </Group>
       </SystemPage>
     );
   }

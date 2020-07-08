@@ -26,6 +26,21 @@ const INPUT = css`
   width: calc(100% - 80px);
 `;
 
+const INPUT_HIDDEN = css`
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  height: 0;
+`;
+
+const MODAL_BACKGROUND = css`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+`;
+
 const BUTTON = css`
   display: inline-block;
   text-align: right;
@@ -79,29 +94,35 @@ const STYLES_LIST_ITEM = css`
   padding: 0 5px;
   background-color: ${Constants.system.white};
   border: 1px solid ${Constants.system.gray};
-  transition: 200ms ease all;
 `;
 
 export class ListEditor extends React.Component {
   state = {
     expand: false,
-    selected: this.props.selected,
+    options: this.props.options,
     reordering: null,
     deltaY: 0,
     search: "",
   };
 
+  _handleToggle = () => {
+    if (this.state.expand) {
+      this.props.onChange({ name: this.props.name, value: this.state.options });
+    }
+    this.setState({ expand: !this.state.expand });
+  };
+
   _handleDelete = (i) => {
-    let selected = this.state.selected;
-    selected.splice(i, 1);
-    this.setState({ selected });
+    let options = this.state.options;
+    options.splice(i, 1);
+    this.setState({ options });
   };
 
   _handleAdd = () => {
     if (this.state.search.length) {
-      let selected = this.state.selected;
-      selected.splice(0, 0, this.state.search);
-      this.setState({ selected, search: "" });
+      let options = this.state.options;
+      options.splice(0, 0, this.state.search);
+      this.setState({ options, search: "" });
     }
   };
 
@@ -112,12 +133,12 @@ export class ListEditor extends React.Component {
   };
 
   _handleStop = () => {
-    let selected = this.state.selected;
+    let options = this.state.options;
     let index = this.state.reordering;
     let newIndex = index + this.state.deltaY / ITEM_HEIGHT;
-    let item = selected.splice(index, 1)[0];
-    selected.splice(newIndex, 0, item);
-    this.setState({ reordering: null, selected, deltaY: 0 });
+    let item = options.splice(index, 1)[0];
+    options.splice(newIndex, 0, item);
+    this.setState({ reordering: null, options, deltaY: 0 });
   };
 
   _handleChange = (e) => {
@@ -125,36 +146,7 @@ export class ListEditor extends React.Component {
   };
 
   render() {
-    if (!this.state.expand) {
-      return (
-        <div>
-          <div
-            css={INPUT}
-            onFocus={() => {
-              this.setState({ expand: true });
-            }}
-          >
-            <Input
-              name={this.props.name}
-              value={this.state.selected}
-              readOnly
-              tooltip={this.props.tooltip}
-              label={this.props.label}
-              description={this.props.description}
-            />
-          </div>
-          <ButtonPrimary
-            css={BUTTON}
-            onClick={() => {
-              this.setState({ expand: true });
-            }}
-          >
-            Edit
-          </ButtonPrimary>
-        </div>
-      );
-    }
-    let selected = this.state.selected.map((item, i) => (
+    let options = this.state.options.map((item, i) => (
       <Draggable
         axis="y"
         grid={[ITEM_HEIGHT, ITEM_HEIGHT]}
@@ -175,7 +167,7 @@ export class ListEditor extends React.Component {
           top: -i * ITEM_HEIGHT,
           left: 0,
           right: 0,
-          bottom: (this.state.selected.length - i - 1) * ITEM_HEIGHT,
+          bottom: (this.state.options.length - i - 1) * ITEM_HEIGHT,
         }}
         onStart={() => this.setState({ reordering: i })}
         onDrag={this._handleDrag}
@@ -200,7 +192,24 @@ export class ListEditor extends React.Component {
     ));
     return (
       <div>
-        <div css={INPUT}>
+        <div
+          css={this.state.expand ? INPUT_HIDDEN : INPUT}
+          onFocus={this._handleToggle}
+        >
+          <Input
+            name={this.props.name}
+            style={{ cursor: "pointer" }}
+            value={this.state.options}
+            readOnly
+            tooltip={this.props.tooltip}
+            label={this.props.label}
+            description={this.props.description}
+          />
+        </div>
+        {this.state.expand ? (
+          <div css={MODAL_BACKGROUND} onClick={this._handleToggle} />
+        ) : null}
+        <div css={this.state.expand ? INPUT : INPUT_HIDDEN}>
           <Input
             value={this.state.search}
             tooltip={this.props.tooltip}
@@ -212,15 +221,10 @@ export class ListEditor extends React.Component {
             onSubmit={this._handleAdd}
           />
         </div>
-        <ButtonPrimary
-          css={BUTTON}
-          onClick={() => {
-            this.setState({ expand: false });
-          }}
-        >
-          Save
+        <ButtonPrimary css={BUTTON} onClick={this._handleToggle}>
+          {this.state.expand ? "Save" : "Edit"}
         </ButtonPrimary>
-        <div css={STYLES_LIST}>{selected}</div>
+        {this.state.expand ? <div css={STYLES_LIST}>{options}</div> : null}
       </div>
     );
   }

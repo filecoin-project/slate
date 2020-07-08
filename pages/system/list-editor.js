@@ -2,34 +2,44 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 
+import moment from "moment";
+
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 
-export default class SystemPageToggles extends React.Component {
+export default class SystemPageListEditor extends React.Component {
   state = {
-    three: true,
-    four: false,
+    flavors: [
+      "Chocolate",
+      "Vanilla",
+      "Mint Chip",
+      "Pistachio",
+      "Neapolitan",
+      "Toffee",
+      "Rocky Road",
+    ],
   };
 
-  _handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  _handleListChange = ({ name, value }) => {
+    this.setState({ [name]: value });
   };
 
   render() {
     return (
       <SystemPage
-        title="SDS: Toggles"
+        title="SDS: List Editor"
         description="..."
-        url="https://fps.onrender.com/system/toggles"
+        url="https://fps.onrender.com/system/list-editor"
       >
         <System.H1>
-          Toggles <ViewSourceLink file="system/toggles.js" />
+          List Editor <ViewSourceLink file="system/listeditor.js" />
         </System.H1>
         <br />
         <br />
         <System.P>
-          The Toggle component is used to switch between two states.
+          The List Editor component allows the user to add to, delete from, and
+          reorder a list of strings.
         </System.P>
         <br />
         <br />
@@ -37,83 +47,56 @@ export default class SystemPageToggles extends React.Component {
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import React and the Toggle Component.</System.P>
+        <System.P>Import React and the ListEditor Component.</System.P>
         <br />
         <br />
         <System.CodeBlock>
           {`import * as React from 'react';
-import { Toggle } from 'slate-react-system';`}
+  import { ListEditor } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />
-        <System.H2>Usage</System.H2>
+        <System.H2>List Editor</System.H2>
         <hr />
         <br />
-        <System.P>Declare the Toggle component.</System.P>
+        <System.ListEditor
+          name="flavors"
+          options={this.state.flavors}
+          onChange={this._handleListChange}
+        />
+        <br />
+        <System.P>
+          Define the List Editor component. Note that the _handleListChange
+          takes a different shape than the other onChange functions in this
+          design system.
+        </System.P>
         <br />
         <System.CodeBlock>
           {`class ExampleOne extends React.Component {
-   state = { exampleOne: true }
-
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
-
-   render() {
+     state = { flavors: ["Chocolate", "Vanilla", "Mint Chip", "Pistachio", "Neapolitan", "Toffee", "Rocky Road"] }
+  
+     _handleListChange = ({ name, value }) => {
+       this.setState({ [name]: value });
+     };
+  
+     render() {
        return(
-         <Toggle
-           active={this.state.exampleOne}
-           name="exampleOne"
-           onChange={this._handleChange}
+         <ListEditor
+           name="flavors"
+           options={this.state.flavors}
+           onChange={this._handleListChange}
          />
        )
-   }
-}
-
-
-class ExampleTwo extends React.Component {
-   state = { exampleTwo: false }
-
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
-
-   render() {
-       return(
-         <Toggle
-           active={this.state.exampleTwo}
-           name="exampleTwo"
-           onChange={this._handleChange}
-         />
-       )
-   }
-}`}
+     }
+  }`}
         </System.CodeBlock>
-
-        <br />
-        <br />
-        <System.H2>Output</System.H2>
-        <hr />
-        <br />
-        <System.Toggle
-          active={this.state.three}
-          name="three"
-          onChange={this._handleChange}
-        />
-        <br />
-        <br />
-        <System.Toggle
-          active={this.state.four}
-          name="four"
-          onChange={this._handleChange}
-        />
         <br />
         <br />
         <br />
         <System.H2>Accepted React Properties</System.H2>
         <hr />
         <br />
-        <Group title="Toggles">
+        <Group title="List Editor">
           <System.Table
             data={{
               columns: [
@@ -135,40 +118,40 @@ class ExampleTwo extends React.Component {
                   d: "Function called upon an onChange event",
                 },
                 {
-                  id: 2,
+                  id: 6,
                   a: (
                     <span style={{ fontFamily: Constants.font.semiBold }}>
-                      active
+                      options
                     </span>
                   ),
-                  b: <System.CodeText nowrap>boolean</System.CodeText>,
-                  c: "false",
+                  b: <System.CodeText nowrap>Array</System.CodeText>,
+                  c: "null",
                   d:
-                    "The value that the dropdown takes. Can be used to assign default values as well.",
+                    "Values to choose from and reorder. Can be used to specify the default value. An array of strings.",
                 },
                 {
-                  id: 3,
+                  id: 2,
                   a: "name",
                   b: <System.CodeText nowrap>string</System.CodeText>,
                   c: "null",
                   d: "Input name",
                 },
                 {
-                  id: 4,
+                  id: 3,
                   a: "label",
                   b: <System.CodeText nowrap>string</System.CodeText>,
                   c: "null",
                   d: "Label text",
                 },
                 {
-                  id: 5,
+                  id: 4,
                   a: "description",
                   b: <System.CodeText nowrap>string</System.CodeText>,
                   c: "null",
                   d: "Description text",
                 },
                 {
-                  id: 6,
+                  id: 5,
                   a: "tooltip",
                   b: <System.CodeText nowrap>string</System.CodeText>,
                   c: "null",

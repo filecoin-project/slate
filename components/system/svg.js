@@ -269,7 +269,7 @@ export const XCircle = (props) => {
 
 export const X = (props) => {
   return (
-    <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <g
         fill="none"
         stroke="currentColor"

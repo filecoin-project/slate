@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 
 import { css, keyframes } from "@emotion/react";
-// import Draggable from "react-draggable";
+import Draggable from "react-draggable";
 
 import { Input } from "~/components/system/components/Input";
 import { ButtonPrimary } from "~/components/system/components/Buttons";

@@ -19,6 +19,7 @@ const STYLE_PADDING = css`
   align-items: flex-start;
   justify-content: space-between;
 `;
+
 const STYLE_PRE = css`
   color: ${Constants.system.darkGray};
   font-family: ${Constants.font.monoCode};
@@ -37,11 +38,9 @@ const STYLE_CODE = css`
   flex: 10 ;
 `;
 
-
 export class CodeBlock extends React.Component {
 
   render() {
-    console.log(this.props.children);
     const codeBlockContent = this.props.children + ''; 
     var  codeBlockToken = codeBlockContent.split("\n"); 
     const textMap = codeBlockToken;

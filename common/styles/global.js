@@ -167,12 +167,12 @@ export const injectGlobalStyles = () => css`
   }
 
   @font-face {
-    font-family: 'firaCode-regular';
+    font-family: 'fira-code-regular;
     src: url('/static/FiraCode-Regular.woff');
   }
 
   @font-face {
-    font-family: 'firaCode-bold';
+    font-family: 'fira-code-Bold';
     src: url('/static/FiraCode-Bold.woff');
   }
 

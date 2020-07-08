@@ -59,7 +59,7 @@ npm run dev
 
 - Visit `localhost:1337` in the browser.
 - If you see the design system page instead, that means a token was not properly generated in the `.data` folder. Run `npm run dev` again.
-- **Note** — If you restart the server, it clears all your local files. You can disable this by modifying the code in `server.js`.
+- **Note** — If you want to clear all your local files, run `npm run dev --reset-data`.
 - **Note** — There will be new commands in the future for different contexts, like `electron`.
 
 # Get involved.

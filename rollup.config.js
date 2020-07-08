@@ -2,6 +2,7 @@ import babel from "rollup-plugin-babel";
 import commonjs from "rollup-plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
+import json from "@rollup/plugin-json";
 
 const input = "./components/system/index.js";
 
@@ -14,8 +15,9 @@ const generateOutput = (outputPath) => {
     },
     external: ["@emotion/react", "react", "react-dom"],
     plugins: [
+      json({ exclude: ["node_modules/**"], compact: true }),
       babel({
-        exclude: "node_modules/**",
+        exclude: ["node_modules/**", "**/*.json"],
         runtimeHelpers: true,
       }),
       resolve(),

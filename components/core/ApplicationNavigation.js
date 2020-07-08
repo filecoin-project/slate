@@ -150,20 +150,6 @@ const Item = ({
   );
 };
 
-const STYLES_SMALL_LINK = css`
-  padding: 0 16px 0 16px;
-  font-size: 14px;
-  font-family: ${Constants.font.semiBold};
-  margin-top: 11px;
-  color: #666;
-  transition: 200ms ease all;
-  cursor: pointer;
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-`;
-
 class NodeReference extends React.Component {
   state = {
     showTreeChildren: false,
@@ -271,44 +257,6 @@ export default class ApplicationNavigation extends React.Component {
             </NodeReference>
           );
         })}
-
-        <div
-          css={STYLES_SMALL_LINK}
-          onClick={() => {
-            window.open("https://filscan.io/");
-          }}
-          style={{ marginTop: 48 }}
-        >
-          <SVG.ExpandBox height="12px" style={{ marginRight: 14 }} />
-          Block Explorer
-        </div>
-        <div
-          css={STYLES_SMALL_LINK}
-          onClick={() => {
-            window.open("/system");
-          }}
-        >
-          <SVG.ExpandBox height="12px" style={{ marginRight: 14 }} />
-          Design System
-        </div>
-        <div
-          css={STYLES_SMALL_LINK}
-          onClick={() => {
-            window.open("https://docs.filecoin.io/");
-          }}
-        >
-          <SVG.ExpandBox height="12px" style={{ marginRight: 14 }} />
-          Documentation
-        </div>
-        <div
-          css={STYLES_SMALL_LINK}
-          onClick={() => {
-            window.open("https://filecoin.io/#community");
-          }}
-        >
-          <SVG.ExpandBox height="12px" style={{ marginRight: 14 }} />
-          Community
-        </div>
       </nav>
     );
   }

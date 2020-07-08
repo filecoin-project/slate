@@ -203,6 +203,11 @@ export default class SystemPage extends React.Component {
             href="/experiences/make-storage-deal"
             title="Make a Storage Deal"
           />
+          <SidebarLink
+            url={url}
+            href="/experiences/generate-powergate-token"
+            title="Generate Powergate token"
+          />
 
           <span css={STYLES_LABEL}>
             <br />
@@ -240,9 +245,7 @@ export default class SystemPage extends React.Component {
           <div
             css={STYLES_SMALL_LINK}
             onClick={() => {
-              window.open(
-                "https://github.com/filecoin-project/filecoin-client"
-              );
+              window.open("https://github.com/filecoin-project/slate");
             }}
           >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />

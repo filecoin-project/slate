@@ -9,14 +9,23 @@ import { TooltipAnchor } from "~/components/system/components/fragments/TooltipA
 const STYLES_DESCRIPTION_GROUP_LABEL = css`
   font-family: ${Constants.font.semiBold};
   font-size: 14px;
-  padding: 0 0 0 0;
+  padding: 0;
   margin-bottom: 8px;
+  display: block;
+  width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 `;
 
 const STYLES_DESCRIPTION_GROUP_DESCRIPTION = css`
+  font-family: ${Constants.font.text};
   font-size: 14px;
   margin-bottom: 12px;
   line-height: 1.3;
+  display: block;
+  width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 `;
 
 export const DescriptionGroup = (props) => {

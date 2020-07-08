@@ -1,5 +1,11 @@
 import * as Constants from "~/common/constants";
 
+// NOTE(jim): Modules
+import { CreateToken } from "~/components/system/modules/CreateToken";
+import { PeersList } from "~/components/system/modules/PeersList";
+import { CreateFilecoinAddress } from "~/components/system/modules/CreateFilecoinAddress";
+import { CreateFilecoinStorageDeal } from "~/components/system/modules/CreateFilecoinStorageDeal";
+
 // NOTE(jim): Components
 import {
   ButtonPrimary,
@@ -44,6 +50,12 @@ import * as OldSVG from "~/common/svg";
 
 // NOTE(jim): Export everything.
 export {
+  // NOTE(jim): Modules
+  CreateToken,
+  PeersList,
+  CreateFilecoinAddress,
+  CreateFilecoinStorageDeal,
+  // NOTE(jim): Components
   ButtonPrimary,
   ButtonPrimaryFull,
   ButtonSecondary,
@@ -74,10 +86,12 @@ export {
   P,
   UL,
   LI,
+  // NOTE(jim): Fragments, not meant to be used.
   TooltipAnchor,
   DescriptionGroup,
   TableContent,
   TableColumn,
+  // NOTE(jim): System values
   Constants,
   SVG,
   OldSVG,

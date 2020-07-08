@@ -1,20 +1,27 @@
-import * as React from 'react';
-import * as System from '~/components/system';
+import * as React from "react";
+import * as System from "~/components/system";
 
-import GLRenderer from '~/components/three/GLRenderer';
-import SystemPage from '~/components/system/SystemPage';
-import ViewSourceLink from '~/components/system/ViewSourceLink';
+import GLRenderer from "~/components/three/GLRenderer";
+import SystemPage from "~/components/system/SystemPage";
+import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 export default class SystemPageGlobe extends React.Component {
   render() {
     return (
-      <SystemPage title="SDS: Globe" description="..." url="https://fps.onrender.com/system/globe">
+      <SystemPage
+        title="SDS: Globe"
+        description="..."
+        url="https://fps.onrender.com/system/globe"
+      >
         <System.H1>
           Globe <ViewSourceLink file="system/globe.js" />
         </System.H1>
         <br />
         <br />
-        <System.P>The Globe component is used to show peers and file transfers on the Filecoin network.</System.P>
+        <System.P>
+          The Globe component is used to show peers and file transfers on the
+          Filecoin network.
+        </System.P>
         <br />
         <br />
         <br />
@@ -22,13 +29,14 @@ export default class SystemPageGlobe extends React.Component {
         <hr />
         <br />
         <System.P>
-          Import React and the GLRenderer Components.
+          Import React and the GLRenderer Components. Unfortunately the
+          GLRenderer is not usable outside of this application.
         </System.P>
         <br />
         <br />
         <System.CodeBlock>
-{`import * as React from 'react';
-import { GLRenderer } from 'slate-react-system';`}
+          {`import * as React from 'react';
+import GLRenderer from '~/components/three/GLRenderer';`}
         </System.CodeBlock>
         <br />
         <br />
@@ -38,13 +46,14 @@ import { GLRenderer } from 'slate-react-system';`}
         <System.P>Declare the Globe component.</System.P>
         <br />
         <System.CodeBlock>
-{`class ExampleOne extends React.Component {
+          {`class ExampleOne extends React.Component {
    render() {
        return(
           <GLRenderer width={768} height={480} />
        )
    }
-}`}</System.CodeBlock>
+}`}
+        </System.CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

@@ -18,6 +18,8 @@ export const font = {
   medium: `'inter-medium', -apple-system, BlinkMacSystemFont, arial, sans-serif`,
   mono: `'mono', monaco, monospace`,
   monoBold: `'mono-bold', monaco, monospace`,
+  monoCode: `'firaCode-regular', mono, monospace`,
+  monoCodeBold: `'firaCode-bold', mono-bold, monospace`,
 };
 
 export const typescale = {

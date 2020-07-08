@@ -32,7 +32,7 @@
 
 - Clone the [Lotus DevNet](https://github.com/textileio/lotus-devnet) repository.
 - Run `docker run --name texdevnet -e TEXLOTUSDEVNESPEED=1500 -p 1234:7777 textile/lotus-devnet`.
-- Clone [Powergate](https://github.com/textileio/powergate/).
+- Clone [Powergate](localnet).
 - Follow the instructions and run the commands in the README.md file:
 
 ```sh

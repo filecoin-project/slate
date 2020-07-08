@@ -166,6 +166,16 @@ export const injectGlobalStyles = () => css`
     src: url('/static/Inter-Medium.woff');
   }
 
+  @font-face {
+    font-family: 'firaCode-regular';
+    src: url('/static/FiraCode-Regular.woff');
+  }
+
+  @font-face {
+    font-family: 'firaCode-bold';
+    src: url('/static/FiraCode-Bold.woff');
+  }
+
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,

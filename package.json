@@ -6,13 +6,11 @@
   "engines": {
     "node": ">=11 <12"
   },
-  "main": "./electron/main.js",
   "scripts": {
     "dev": "node . --unhandled-rejections=strict",
     "dev:node": "NODE_ENV=development webpack --config webpack.node.config.js --mode development",
-    "prod": "NODE_ENV=production node . --unhandled-rejections=strict",
     "build": "next build",
-    "start": "electron .",
+    "start": "NODE_ENV=production node . --unhandled-rejections=strict",
     "electron": "electron ./electron/main.js ",
     "electronPack": "electron-builder --dir",
     "electronDist": "electron-builder"
@@ -23,12 +21,16 @@
     "mac": {
       "icon": " build/icon.icns",
       "asar": "false"
+    },
+    "extraMetadata": {
+      "main": "./electron/main.js"
     }
   },
   "dependencies": {
     "@babel/preset-env": "^7.10.4",
     "@babel/register": "^7.10.4",
     "@babel/runtime": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.10.4",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/cache": "11.0.0-next.12",
     "@emotion/core": "^10.0.28",

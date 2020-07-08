@@ -42,8 +42,8 @@ export class CodeBlock extends React.Component {
 
   render() {
     console.log(this.props.children);
-    const codeBlockContent = this.props.children; 
-    var  codeBlockToken = codeBlockContent.split("\n", 3); 
+    const codeBlockContent = this.props.children + ''; 
+    var  codeBlockToken = codeBlockContent.split("\n"); 
     const textMap = codeBlockToken;
 
     return (

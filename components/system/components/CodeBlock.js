@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 
-const STYLE_CODE_BLOCK = css`
+const STYLES_CODE_BLOCK = css`
   background-color: ${Constants.system.pitchBlack};
   color: ${Constants.system.white}:
   font-size: 16px;
@@ -13,14 +13,15 @@ const STYLE_CODE_BLOCK = css`
   padding: 10px 10px;
 `;
 
-const STYLE_PADDING = css`
+const STYLES_PADDING = css`
   display:flex;
   border-radius: 7px;
   align-items: flex-start;
   justify-content: space-between;
+  white-space: pre-wrap;
 `;
 
-const STYLE_PRE = css`
+const STYLES_PRE = css`
   color: ${Constants.system.darkGray};
   font-family: ${Constants.font.monoCode};
   min-width:25px;
@@ -28,7 +29,7 @@ const STYLE_PRE = css`
   flex: 0 ;
 `;
 
-const STYLE_CODE = css`
+const STYLES_CODE = css`
   background-color: ${Constants.system.pitchBlack};
   font-family: ${Constants.font.monoCode};
 
@@ -47,12 +48,12 @@ export class CodeBlock extends React.Component {
 
     return (
       <>
-      <div css={STYLE_CODE_BLOCK}>
+      <div css={STYLES_CODE_BLOCK}>
         {textMap.map((element, index) => {
           return (
-            <div css={STYLE_PADDING}>
-              <div css={STYLE_PRE}>{index}.</div>
-              <div css={STYLE_CODE}>{element}</div>
+            <div css={STYLES_PADDING}>
+              <div css={STYLES_PRE}>{index}.</div>
+              <div css={STYLES_CODE}>{element}</div>
           </div>
           );
         })}

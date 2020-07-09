@@ -14,7 +14,7 @@ const STYLES_CODE_BLOCK = css`
 `;
 
 const STYLES_PADDING = css`
-  display:flex;
+  display: flex;
   border-radius: 7px;
   align-items: flex-start;
   justify-content: space-between;
@@ -25,7 +25,7 @@ const STYLES_PRE = css`
   color: ${Constants.system.darkGray};
   font-family: ${Constants.font.monoCode};
   flex-shrink: 0;
-  min-width :24px;
+  min-width: 24px;
 `;
 
 const STYLES_CODE = css`
@@ -39,7 +39,7 @@ export class CodeBlock extends React.Component {
 
   render() {
     const codeBlockContent = this.props.children + ''; 
-    const  codeBlockToken = codeBlockContent.split("\n"); 
+    const codeBlockToken = codeBlockContent.split("\n"); 
     const textMap = codeBlockToken;
 
     return (

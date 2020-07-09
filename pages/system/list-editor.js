@@ -52,7 +52,7 @@ export default class SystemPageListEditor extends React.Component {
         <br />
         <System.CodeBlock>
           {`import * as React from 'react';
-  import { ListEditor } from 'slate-react-system';`}
+import { ListEditor } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />
@@ -73,22 +73,32 @@ export default class SystemPageListEditor extends React.Component {
         <br />
         <System.CodeBlock>
           {`class ExampleOne extends React.Component {
-     state = { flavors: ["Chocolate", "Vanilla", "Mint Chip", "Pistachio", "Neapolitan", "Toffee", "Rocky Road"] }
-  
-     _handleListChange = ({ name, value }) => {
-       this.setState({ [name]: value });
-     };
-  
-     render() {
-       return(
-         <ListEditor
-           name="flavors"
-           options={this.state.flavors}
-           onChange={this._handleListChange}
-         />
-       )
-     }
-  }`}
+  state = { 
+    flavors: [
+      "Chocolate", 
+      "Vanilla", 
+      "Mint Chip", 
+      "Pistachio", 
+      "Neapolitan", 
+      "Toffee", 
+      "Rocky Road"
+    ] 
+  }
+
+  _handleListChange = ({ name, value }) => {
+    this.setState({ [name]: value });
+  };
+
+  render() {
+    return(
+      <ListEditor
+        name="flavors"
+        options={this.state.flavors}
+        onChange={this._handleListChange}
+      />
+    )
+  }
+}`}
         </System.CodeBlock>
         <br />
         <br />

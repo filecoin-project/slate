@@ -21,19 +21,20 @@ const expand = keyframes`
   }
 `;
 
-const INPUT = css`
+const STYLES_INPUT = css`
   display: inline-block;
   width: calc(100% - 80px);
 `;
 
-const INPUT_HIDDEN = css`
+const STYLES_INPUT_HIDDEN = css`
+  visibility: hidden;
   opacity: 0;
   pointer-events: none;
   position: absolute;
   height: 0;
 `;
 
-const MODAL_BACKGROUND = css`
+const STYLES_MODAL_BACKGROUND = css`
   position: fixed;
   top: 0;
   left: 0;
@@ -41,7 +42,7 @@ const MODAL_BACKGROUND = css`
   height: 100vh;
 `;
 
-const BUTTON = css`
+const STYLES_BUTTON = css`
   display: inline-block;
   text-align: right;
 `;
@@ -193,7 +194,7 @@ export class ListEditor extends React.Component {
     return (
       <div>
         <div
-          css={this.state.expand ? INPUT_HIDDEN : INPUT}
+          css={this.state.expand ? STYLES_INPUT_HIDDEN : STYLES_INPUT}
           onFocus={this._handleToggle}
         >
           <Input
@@ -207,9 +208,9 @@ export class ListEditor extends React.Component {
           />
         </div>
         {this.state.expand ? (
-          <div css={MODAL_BACKGROUND} onClick={this._handleToggle} />
+          <div css={STYLES_MODAL_BACKGROUND} onClick={this._handleToggle} />
         ) : null}
-        <div css={this.state.expand ? INPUT : INPUT_HIDDEN}>
+        <div css={this.state.expand ? STYLES_INPUT : STYLES_INPUT_HIDDEN}>
           <Input
             value={this.state.search}
             tooltip={this.props.tooltip}
@@ -221,7 +222,7 @@ export class ListEditor extends React.Component {
             onSubmit={this._handleAdd}
           />
         </div>
-        <ButtonPrimary css={BUTTON} onClick={this._handleToggle}>
+        <ButtonPrimary css={STYLES_BUTTON} onClick={this._handleToggle}>
           {this.state.expand ? "Save" : "Edit"}
         </ButtonPrimary>
         {this.state.expand ? <div css={STYLES_LIST}>{options}</div> : null}

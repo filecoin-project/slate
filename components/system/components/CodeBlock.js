@@ -24,30 +24,25 @@ const STYLES_PADDING = css`
 const STYLES_PRE = css`
   color: ${Constants.system.darkGray};
   font-family: ${Constants.font.monoCode};
-  min-width: 30px;
-  padding: 3px ;
-  flex: 0 ;
+  flex-shrink: 0;
+  min-width :24px;
 `;
 
 const STYLES_CODE = css`
   background-color: ${Constants.system.pitchBlack};
   font-family: ${Constants.font.monoCode};
-
   color: ${Constants.system.gray};
-  text-align: left;
-  padding: 3px;
-  flex: 10 ;
+  width: 100%;
 `;
 
 export class CodeBlock extends React.Component {
 
   render() {
     const codeBlockContent = this.props.children + ''; 
-    var  codeBlockToken = codeBlockContent.split("\n"); 
+    const  codeBlockToken = codeBlockContent.split("\n"); 
     const textMap = codeBlockToken;
 
     return (
-      <>
       <div css={STYLES_CODE_BLOCK}>
         {textMap.map((element, index) => {
           return (
@@ -58,7 +53,6 @@ export class CodeBlock extends React.Component {
           );
         })}
       </div>
-      </>
     );
   }
 }

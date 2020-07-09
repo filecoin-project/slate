@@ -19,7 +19,7 @@ export const font = {
   mono: `'mono', monaco, monospace`,
   monoBold: `'mono-bold', monaco, monospace`,
   monoCode: `'fira-code-regular', mono, monospace`,
-  monoCodeBold: `fira-code-bold, mono-bold, monospace`,
+  monoCodeBold: `fira-code-bold', mono-bold, monospace`,
 };
 
 export const typescale = {

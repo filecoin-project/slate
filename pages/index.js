@@ -63,9 +63,9 @@ const getCurrentNavigationStateById = (navigation, targetId) => {
 };
 
 export const getServerSideProps = async (context) => {
-  if (context.query && context.query.production) {
-    return { production: true, ...context.query };
-  }
+  // if (context.query && context.query.production) {
+  //   return { production: true, ...context.query };
+  // }
 
   const data = await Actions.rehydrateViewer();
 
@@ -329,14 +329,12 @@ export default class IndexPage extends React.Component {
   };
 
   render() {
-    // Note(colin): Removed so build will work in electron
+    // NOTE(colin): Removed to support electron.
     // if (this.props.production) {
     //   return null;
     // }
 
-    const navigation = Fixtures.generateNavigationState(
-      this.state.viewer.library
-    );
+    const navigation = NavigationData.generate(this.state.viewer.library);
     const next = this.state.history[this.state.currentIndex];
     const current = getCurrentNavigationStateById(navigation, next.id);
 

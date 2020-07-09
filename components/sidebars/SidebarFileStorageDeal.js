@@ -138,7 +138,7 @@ export default class SidebarFileStorageDeal extends React.Component {
         {this.props.file ? (
           <div>
             <img
-              src={`public/static/files/${this.props.file.name}`}
+              src={`/public/static/files/${this.props.file.name}`}
               css={STYLES_IMAGE_PREVIEW}
             />
 

@@ -4,8 +4,10 @@ const path = require('path');
 const fs = require('fs-extra');
 
 function bootServer() {
-  const { fork } = require('child_process');
-  const ps = fork(path.join(__dirname, '../', 'index.js'));
+  // TODO(colin): Spin up server on a child process
+  // const { fork } = require('child_process');
+  // const ps = fork(path.join(__dirname, '../', 'index.js'));
+  require(path.join(__dirname, '../', 'index.js'));
   console.log('server running');
 }
 

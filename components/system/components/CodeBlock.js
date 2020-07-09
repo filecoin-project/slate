@@ -5,12 +5,12 @@ import { css } from "@emotion/react";
 
 const STYLES_CODE_BLOCK = css`
   background-color: ${Constants.system.pitchBlack};
-  color: ${Constants.system.white}:
+  color: ${Constants.system.white};
   font-size: 16px;
   border-color: ${Constants.system.yellow};
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
   border-radius: 7px;
-  padding: 10px 10px;
+  padding: 10px;
 `;
 
 const STYLES_PADDING = css`
@@ -24,8 +24,8 @@ const STYLES_PADDING = css`
 const STYLES_PRE = css`
   color: ${Constants.system.darkGray};
   font-family: ${Constants.font.monoCode};
-  min-width:25px;
-  padding: 3px 3px ;
+  min-width: 30px;
+  padding: 3px ;
   flex: 0 ;
 `;
 
@@ -35,7 +35,7 @@ const STYLES_CODE = css`
 
   color: ${Constants.system.gray};
   text-align: left;
-  padding: 3px 3px;
+  padding: 3px;
   flex: 10 ;
 `;
 

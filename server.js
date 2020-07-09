@@ -24,7 +24,7 @@ let state = null;
 const production = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 1337;
 const wsPort = process.env.WS_PORT || 2448;
-const app = next({ dev: production, dir: __dirname, quiet: false });
+const app = next({ dev: !production, dir: __dirname, quiet: false });
 const nextRequestHandler = app.getRequestHandler();
 
 const path = require('path');
@@ -321,7 +321,7 @@ app.prepare().then(async () => {
         FS.rename(files.image.path, newPath, function (err) {});
 
         // NOTE(jim): updates avatar photo.
-        state.local.photo = __dirname + `public/static/system/${newName}`;
+        state.local.photo = __dirname + `/static/system/${newName}`;
         const dirnameLocalSettings = path.join(
           __dirname,
           '/.data/local-settings.json'

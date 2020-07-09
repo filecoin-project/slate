@@ -1,45 +1,45 @@
-import * as Middleware from './common/middleware';
-import * as Strings from './common/strings';
-import * as Utilities from './node_common/utilities';
-import * as Constants from './node_common/constants';
+import * as Middleware from "./common/middleware";
+import * as Strings from "./common/strings";
+import * as Utilities from "./node_common/utilities";
+import * as Constants from "./node_common/constants";
 
-import { createPow, ffs } from '@textile/powergate-client';
+import { createPow, ffs } from "@textile/powergate-client";
 // NOTE(jim):
 // https://github.com/textileio/js-powergate-client
 const PowerGate = createPow({ host: Constants.POWERGATE_HOST });
 
-import FS from 'fs-extra';
-import WebSocketServer from 'ws';
-import express from 'express';
-import formidable from 'formidable';
-import next from 'next';
-import bodyParser from 'body-parser';
-import compression from 'compression';
-import { v4 as uuid } from 'uuid';
+import FS from "fs-extra";
+import WebSocketServer from "ws";
+import express from "express";
+import formidable from "formidable";
+import next from "next";
+import bodyParser from "body-parser";
+import compression from "compression";
+import { v4 as uuid } from "uuid";
 
 // TODO(jim): Support multiple desktop applications.
 let client = null;
 let state = null;
 
-const production = process.env.NODE_ENV === 'production';
+const production = process.env.NODE_ENV === "production";
 const port = process.env.PORT || 1337;
 const wsPort = process.env.WS_PORT || 2448;
 const app = next({ dev: !production, dir: __dirname, quiet: false });
 const nextRequestHandler = app.getRequestHandler();
 
-const path = require('path');
+const path = require("path");
 
 const setIntervalViewerUpdatesUnsafe = async () => {
   if (client) {
     try {
-      console.log('[ prototype ] polling: new viewer state.');
+      console.log("[ prototype ] polling: new viewer state.");
       state = await Utilities.emitState({
         state,
         client,
         PG: PowerGate,
       });
 
-      console.log('[ prototype ] polling: new library state.');
+      console.log("[ prototype ] polling: new library state.");
       state = await Utilities.refreshLibrary({
         state,
         PG: PowerGate,
@@ -54,7 +54,7 @@ const setIntervalViewerUpdatesUnsafe = async () => {
 };
 
 app.prepare().then(async () => {
-  console.log('[ prototype ] initializing ');
+  console.log("[ prototype ] initializing ");
 
   state = {
     production,
@@ -77,18 +77,18 @@ app.prepare().then(async () => {
 
     const updates = await Utilities.refresh({ PG: PowerGate });
     state = await Utilities.updateStateData(state, updates);
-    console.log('[ prototype ] updated without token');
+    console.log("[ prototype ] updated without token");
 
     // NOTE(jim): This is a configuration folder with all of the client tokens.
     // TODO(jim): Unnecessary if we use a local and remote postgres.
-    const dirnameData = path.join(__dirname, '/.data');
+    const dirnameData = path.join(__dirname, "/.data");
     if (!FS.existsSync(dirnameData)) {
       FS.mkdirSync(dirnameData, { recursive: true });
     }
 
     // NOTE(jim): This will create a token for authentication with powergate.
     // TODO(jim): Roll this up into Postgres instead.
-    const dirnamePowergate = path.join(__dirname, '/.data/powergate-token');
+    const dirnamePowergate = path.join(__dirname, "/.data/powergate-token");
     if (!FS.existsSync(dirnamePowergate)) {
       const FFS = await PowerGate.ffs.create();
       state.token = FFS.token ? FFS.token : null;
@@ -98,11 +98,11 @@ app.prepare().then(async () => {
         FS.writeFileSync(dirnamePowergate, state.token);
       }
     } else {
-      state.token = FS.readFileSync(dirnamePowergate, 'utf8');
+      state.token = FS.readFileSync(dirnamePowergate, "utf8");
     }
 
     if (state.token) {
-      console.log('[ prototype ] powergate token:', state.token);
+      console.log("[ prototype ] powergate token:", state.token);
       PowerGate.setToken(state.token);
     }
 
@@ -110,19 +110,19 @@ app.prepare().then(async () => {
       PG: PowerGate,
     });
     state = await Utilities.updateStateData(state, tokenUpdates);
-    console.log('[ prototype ] updated with token');
+    console.log("[ prototype ] updated with token");
 
     // NOTE(jim): Local library retrieval or creation
     // TODO(jim): Needs to support nested folders in the future.
     // TODO(jim): May consider a move to buckets.
-    const dirnameLibrary = path.join(__dirname, '/.data/library.json');
+    const dirnameLibrary = path.join(__dirname, "/.data/library.json");
     if (!FS.existsSync(dirnameLibrary)) {
       const librarySchema = {
         library: [
           {
             ...Utilities.createFolder({ id: Constants.FILE_STORAGE_URL }),
-            file: 'Files',
-            name: 'Files',
+            file: "Files",
+            name: "Files",
           },
         ],
       };
@@ -130,7 +130,7 @@ app.prepare().then(async () => {
       FS.writeFileSync(dirnameLibrary, JSON.stringify(librarySchema));
       state.library = librarySchema.library;
     } else {
-      const parsedLibrary = FS.readFileSync(dirnameLibrary, 'utf8');
+      const parsedLibrary = FS.readFileSync(dirnameLibrary, "utf8");
       state.library = JSON.parse(parsedLibrary).library;
     }
 
@@ -138,7 +138,7 @@ app.prepare().then(async () => {
     // TODO(jim): Move this to postgres later.
     const dirnameLocalSettings = path.join(
       __dirname,
-      '/.data/local-settings.json'
+      "/.data/local-settings.json"
     );
     if (!FS.existsSync(dirnameLocalSettings)) {
       const localSettingsSchema = {
@@ -155,33 +155,33 @@ app.prepare().then(async () => {
       );
       state.local = localSettingsSchema.local;
     } else {
-      const parsedLocal = FS.readFileSync(dirnameLocalSettings, 'utf8');
+      const parsedLocal = FS.readFileSync(dirnameLocalSettings, "utf8");
       state.local = JSON.parse(parsedLocal).local;
     }
   } catch (e) {
     console.log(e);
     console.log('[ prototype ] "/" -- WILL REDIRECT TO /SYSTEM ');
     console.log(
-      '[ prototype ]        SLATE WILL NOT RUN LOCALLY UNTIL YOU HAVE '
+      "[ prototype ]        SLATE WILL NOT RUN LOCALLY UNTIL YOU HAVE "
     );
-    console.log('[ prototype ]        PROPERLY CONFIGURED POWERGATE AND ');
+    console.log("[ prototype ]        PROPERLY CONFIGURED POWERGATE AND ");
     console.log(
-      '[ prototype ]        CONNECTED TO THE FILECOIN NETWORK (DEVNET/TESTNET) '
+      "[ prototype ]        CONNECTED TO THE FILECOIN NETWORK (DEVNET/TESTNET) "
     );
   }
 
   const server = express();
   const WSS = new WebSocketServer.Server({ port: wsPort });
 
-  WSS.on('connection', (s) => {
+  WSS.on("connection", (s) => {
     // TODO(jim): Suppport more than one client.
     client = s;
 
-    s.on('close', function () {
-      s.send(JSON.stringify({ action: null, data: 'closed' }));
+    s.on("close", function () {
+      s.send(JSON.stringify({ action: null, data: "closed" }));
     });
 
-    s.send(JSON.stringify({ action: null, data: 'connected' }));
+    s.send(JSON.stringify({ action: null, data: "connected" }));
   });
 
   if (production) {
@@ -189,7 +189,7 @@ app.prepare().then(async () => {
   }
 
   server.use(Middleware.CORS);
-  server.use('/public', express.static('public'));
+  server.use("/public", express.static("public"));
   server.use(bodyParser.json());
   server.use(
     bodyParser.urlencoded({
@@ -197,7 +197,7 @@ app.prepare().then(async () => {
     })
   );
 
-  server.post('/_/viewer', async (req, res) => {
+  server.post("/_/viewer", async (req, res) => {
     let data = state;
 
     if (!production) {
@@ -214,7 +214,7 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, data });
   });
 
-  server.post('/_/deals/storage', async (req, res) => {
+  server.post("/_/deals/storage", async (req, res) => {
     if (Strings.isEmpty(req.body.src)) {
       return res.status(500).send({ success: false });
     }
@@ -239,7 +239,7 @@ app.prepare().then(async () => {
 
     // NOTE(jim): Writes the updated deal state.
     if (write) {
-      const dirnameLibrary = path.join(__dirname, '/.data/library.json');
+      const dirnameLibrary = path.join(__dirname, "/.data/library.json");
       FS.writeFileSync(
         dirnameLibrary,
         JSON.stringify({ library: state.library })
@@ -250,7 +250,7 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, cid, jobId });
   });
 
-  server.post('/_/storage/:file', async (req, res) => {
+  server.post("/_/storage/:file", async (req, res) => {
     const form = formidable({
       multiples: true,
       uploadDir: Constants.FILE_STORAGE_URL,
@@ -262,10 +262,10 @@ app.prepare().then(async () => {
       } else {
         // TODO(jim): Need to support other file types.
         if (!files.image) {
-          console.error('[ prototype ] File type unspported', files);
+          console.error("[ prototype ] File type unspported", files);
           return res
             .status(500)
-            .send({ error: 'File type unsupported', files });
+            .send({ error: "File type unsupported", files });
         }
 
         const newPath = form.uploadDir + req.params.file;
@@ -288,7 +288,7 @@ app.prepare().then(async () => {
 
         // NOTE(jim): Writes the added file.
         if (pushed) {
-          const dirnameLibrary = path.join(__dirname, '/.data/library.json');
+          const dirnameLibrary = path.join(__dirname, "/.data/library.json");
           FS.writeFileSync(
             dirnameLibrary,
             JSON.stringify({ library: state.library })
@@ -306,7 +306,7 @@ app.prepare().then(async () => {
     });
   });
 
-  server.post('/_/upload/avatar', async (req, res) => {
+  server.post("/_/upload/avatar", async (req, res) => {
     const form = formidable({
       multiples: true,
       uploadDir: Constants.AVATAR_STORAGE_URL,
@@ -324,7 +324,7 @@ app.prepare().then(async () => {
         state.local.photo = __dirname + `/static/system/${newName}`;
         const dirnameLocalSettings = path.join(
           __dirname,
-          '/.data/local-settings.json'
+          "/.data/local-settings.json"
         );
         FS.writeFileSync(
           dirnameLocalSettings,
@@ -342,7 +342,7 @@ app.prepare().then(async () => {
     });
   });
 
-  server.post('/_/settings', async (req, res) => {
+  server.post("/_/settings", async (req, res) => {
     let data;
     try {
       data = await PowerGate.ffs.setDefaultConfig(req.body.config);
@@ -354,11 +354,11 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, data });
   });
 
-  server.post('/_/local-settings', async (req, res) => {
+  server.post("/_/local-settings", async (req, res) => {
     state.local = { ...state.local, ...req.body.local };
     const dirnameLocalSettings = path.join(
       __dirname,
-      '/.data/local-settings.json'
+      "/.data/local-settings.json"
     );
     FS.writeFileSync(
       dirnameLocalSettings,
@@ -368,7 +368,7 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true });
   });
 
-  server.post('/_/wallet/create', async (req, res) => {
+  server.post("/_/wallet/create", async (req, res) => {
     let data;
     try {
       data = await PowerGate.ffs.newAddr(
@@ -384,7 +384,7 @@ app.prepare().then(async () => {
     return res.status(200).send({ success: true, data });
   });
 
-  server.post('/_/wallet/send', async (req, res) => {
+  server.post("/_/wallet/send", async (req, res) => {
     let data;
     try {
       data = await PowerGate.ffs.sendFil(
@@ -402,18 +402,18 @@ app.prepare().then(async () => {
       .send({ success: true, data: { ...data, ...req.body } });
   });
 
-  server.get('/', async (req, res) => {
+  server.get("/", async (req, res) => {
     if (!state.token) {
-      return res.redirect('/system');
+      return res.redirect("/system");
     }
 
-    return app.render(req, res, '/', {
+    return app.render(req, res, "/", {
       production,
       wsPort,
     });
   });
 
-  server.get('*', async (req, res) => {
+  server.get("*", async (req, res) => {
     return nextRequestHandler(req, res, req.url);
   });
 

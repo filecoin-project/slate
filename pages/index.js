@@ -1,39 +1,39 @@
-import * as React from 'react';
-import * as NavigationData from '~/common/navigation-data';
-import * as Actions from '~/common/actions';
-import * as State from '~/common/state';
+import * as React from "react";
+import * as NavigationData from "~/common/navigation-data";
+import * as Actions from "~/common/actions";
+import * as State from "~/common/state";
 
-import SceneDataTransfer from '~/scenes/SceneDataTransfer';
-import SceneDeals from '~/scenes/SceneDeals';
-import SceneEditAccount from '~/scenes/SceneEditAccount';
-import SceneFile from '~/scenes/SceneFile';
-import SceneFilesFolder from '~/scenes/SceneFilesFolder';
-import SceneHome from '~/scenes/SceneHome';
-import SceneLogs from '~/scenes/SceneLogs';
-import SceneMiners from '~/scenes/SceneMiners';
-import ScenePaymentChannels from '~/scenes/ScenePaymentChannels';
-import ScenePeers from '~/scenes/ScenePeers';
-import SceneSettings from '~/scenes/SceneSettings';
-import SceneStats from '~/scenes/SceneStats';
-import SceneStatus from '~/scenes/SceneStatus';
-import SceneStorageMarket from '~/scenes/SceneStorageMarket';
-import SceneWallet from '~/scenes/SceneWallet';
+import SceneDataTransfer from "~/scenes/SceneDataTransfer";
+import SceneDeals from "~/scenes/SceneDeals";
+import SceneEditAccount from "~/scenes/SceneEditAccount";
+import SceneFile from "~/scenes/SceneFile";
+import SceneFilesFolder from "~/scenes/SceneFilesFolder";
+import SceneHome from "~/scenes/SceneHome";
+import SceneLogs from "~/scenes/SceneLogs";
+import SceneMiners from "~/scenes/SceneMiners";
+import ScenePaymentChannels from "~/scenes/ScenePaymentChannels";
+import ScenePeers from "~/scenes/ScenePeers";
+import SceneSettings from "~/scenes/SceneSettings";
+import SceneStats from "~/scenes/SceneStats";
+import SceneStatus from "~/scenes/SceneStatus";
+import SceneStorageMarket from "~/scenes/SceneStorageMarket";
+import SceneWallet from "~/scenes/SceneWallet";
 
-import SidebarCreateWalletAddress from '~/components/sidebars/SidebarCreateWalletAddress';
-import SidebarDeleteWalletAddress from '~/components/sidebars/SidebarDeleteWalletAddress';
-import SidebarWalletSendFunds from '~/components/sidebars/SidebarWalletSendFunds';
-import SidebarFileStorageDeal from '~/components/sidebars/SidebarFileStorageDeal';
-import SidebarFileRetrievalDeal from '~/components/sidebars/SidebarFileRetrievalDeal';
-import SidebarCreatePaymentChannel from '~/components/sidebars/SidebarCreatePaymentChannel';
-import SidebarAddMiner from '~/components/sidebars/SidebarAddMiner';
-import SidebarAddPeer from '~/components/sidebars/SidebarAddPeer';
-import SidebarNotifications from '~/components/sidebars/SidebarNotifications';
-import SidebarRedeemPaymentChannel from '~/components/sidebars/SidebarRedeemPaymentChannel';
+import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalletAddress";
+import SidebarDeleteWalletAddress from "~/components/sidebars/SidebarDeleteWalletAddress";
+import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds";
+import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal";
+import SidebarFileRetrievalDeal from "~/components/sidebars/SidebarFileRetrievalDeal";
+import SidebarCreatePaymentChannel from "~/components/sidebars/SidebarCreatePaymentChannel";
+import SidebarAddMiner from "~/components/sidebars/SidebarAddMiner";
+import SidebarAddPeer from "~/components/sidebars/SidebarAddPeer";
+import SidebarNotifications from "~/components/sidebars/SidebarNotifications";
+import SidebarRedeemPaymentChannel from "~/components/sidebars/SidebarRedeemPaymentChannel";
 
-import ApplicationNavigation from '~/components/core/ApplicationNavigation';
-import ApplicationHeader from '~/components/core/ApplicationHeader';
-import ApplicationLayout from '~/components/core/ApplicationLayout';
-import WebsitePrototypeWrapper from '~/components/core/WebsitePrototypeWrapper';
+import ApplicationNavigation from "~/components/core/ApplicationNavigation";
+import ApplicationHeader from "~/components/core/ApplicationHeader";
+import ApplicationLayout from "~/components/core/ApplicationLayout";
+import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 
 const getCurrentNavigationStateById = (navigation, targetId) => {
   let target = null;
@@ -82,7 +82,7 @@ export default class IndexPage extends React.Component {
     currentIndex: 0,
     data: null,
     selected: {
-      address: '',
+      address: "",
     },
     viewer: State.getInitialState(this.props),
     sidebar: null,
@@ -93,36 +93,36 @@ export default class IndexPage extends React.Component {
     this._socket = new WebSocket(`ws://localhost:${this.props.wsPort}`);
     this._socket.onmessage = (m) => {
       console.log(m);
-      if (m.type === 'message') {
+      if (m.type === "message") {
         const parsed = JSON.parse(m.data);
 
-        if (parsed.action === 'UPDATE_VIEWER') {
+        if (parsed.action === "UPDATE_VIEWER") {
           this.rehydrate({ data: parsed.data });
         }
       }
     };
 
-    window.addEventListener('dragenter', this._handleDragEnter);
-    window.addEventListener('dragleave', this._handleDragLeave);
-    window.addEventListener('dragover', this._handleDragOver);
-    window.addEventListener('drop', this._handleDrop);
+    window.addEventListener("dragenter", this._handleDragEnter);
+    window.addEventListener("dragleave", this._handleDragLeave);
+    window.addEventListener("dragover", this._handleDragOver);
+    window.addEventListener("drop", this._handleDrop);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('dragenter', this._handleDragEnter);
-    window.removeEventListener('dragleave', this._handleDragLeave);
-    window.removeEventListener('dragover', this._handleDragOver);
-    window.removeEventListener('drop', this._handleDrop);
+    window.removeEventListener("dragenter", this._handleDragEnter);
+    window.removeEventListener("dragleave", this._handleDragLeave);
+    window.removeEventListener("dragover", this._handleDragOver);
+    window.removeEventListener("drop", this._handleDrop);
   }
 
   _handleSetFile = async ({ file }) => {
     let data = new FormData();
-    data.append('image', file);
+    data.append("image", file);
 
     const options = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json',
+        Accept: "application/json",
       },
       body: data,
     };
@@ -137,17 +137,17 @@ export default class IndexPage extends React.Component {
 
   _handleDragEnter = (e) => {
     // TODO(jim): Styles.
-    console.log('dragenter', e);
+    console.log("dragenter", e);
   };
 
   _handleDragLeave = (e) => {
     // TODO(jim): Styles.
-    console.log('dragleave', e);
+    console.log("dragleave", e);
   };
 
   _handleDragOver = (e) => {
     e.preventDefault();
-    console.log('dragover', e);
+    console.log("dragover", e);
   };
 
   _handleDrop = async (e) => {
@@ -155,7 +155,7 @@ export default class IndexPage extends React.Component {
 
     if (e.dataTransfer.items) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
-        if (e.dataTransfer.items[i].kind === 'file') {
+        if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
           console.log(file.name);
           await this._handleSetFile({ file });
@@ -164,7 +164,7 @@ export default class IndexPage extends React.Component {
       }
     }
 
-    this._handleAction({ type: 'SIDEBAR', value: 'SIDEBAR_FILE_STORAGE_DEAL' });
+    this._handleAction({ type: "SIDEBAR", value: "SIDEBAR_FILE_STORAGE_DEAL" });
   };
 
   rehydrate = async ({ data }) => {
@@ -173,11 +173,11 @@ export default class IndexPage extends React.Component {
 
   _handleSubmit = async (data) => {
     if (this.props.production) {
-      alert('TODO');
+      alert("TODO");
       return this._handleDismissSidebar();
     }
 
-    if (data.type === 'CREATE_WALLET_ADDRESS') {
+    if (data.type === "CREATE_WALLET_ADDRESS") {
       const address = await Actions.createWalletAddress({
         name: data.name,
         type: data.wallet_type,
@@ -185,7 +185,7 @@ export default class IndexPage extends React.Component {
       });
     }
 
-    if (data.type === 'SEND_WALLET_ADDRESS_FILECOIN') {
+    if (data.type === "SEND_WALLET_ADDRESS_FILECOIN") {
       const response = await Actions.sendWalletAddressFilecoin({
         source: data.source,
         target: data.target,
@@ -217,19 +217,19 @@ export default class IndexPage extends React.Component {
   };
 
   _handleAction = (options) => {
-    if (options.type === 'NAVIGATE') {
+    if (options.type === "NAVIGATE") {
       return this._handleNavigateTo({ id: options.value }, options.data);
     }
 
-    if (options.type === 'ACTION') {
+    if (options.type === "ACTION") {
       return alert(JSON.stringify(options));
     }
 
-    if (options.type === 'DOWNLOAD') {
+    if (options.type === "DOWNLOAD") {
       return alert(JSON.stringify(options));
     }
 
-    if (options.type === 'SIDEBAR') {
+    if (options.type === "SIDEBAR") {
       return this.setState({ sidebar: this.sidebars[options.value] });
     }
 
@@ -389,8 +389,8 @@ export default class IndexPage extends React.Component {
     }
 
     const title = `Prototype 0.0.1 : ${current.target.pageTitle}`;
-    const description = 'This is an early preview.';
-    const url = 'https://fps.onrender.com/v1';
+    const description = "This is an early preview.";
+    const url = "https://fps.onrender.com/v1";
 
     return (
       <React.Fragment>

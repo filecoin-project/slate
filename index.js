@@ -15,6 +15,4 @@ require('@babel/register')({
   ignore: ['node_modules', '.next'],
 });
 
-console.log('index.js ran');
 module.exports = require('./server.js');
-console.log('server.js ran');

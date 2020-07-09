@@ -125,7 +125,7 @@ export default class SidebarFileStorageDeal extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: 'inter-semi-bold' }}>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
           Upload a file to the network
         </System.P>
         <input

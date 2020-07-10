@@ -31,7 +31,7 @@
 #### Setup Lotus DevNet and Powergate
 
 - Clone the [Lotus DevNet](https://github.com/textileio/lotus-devnet) repository.
-- Run `docker run --name texdevnet -e TEXLOTUSDEVNESPEED=1500 -p 1234:7777 textile/lotus-devnet`.
+- Run `docker run -e TEXLOTUSDEVNET_SPEED=1500 textile/lotus-devnet`.
 - Clone [Powergate](https://github.com/textileio/powergate/).
 - Follow the instructions and run the commands in the README.md file:
 
@@ -58,8 +58,9 @@ npm run dev
 While you have `npm run dev` running, in another terminal screen run:
 
 ```sh
+rm -rf .next
 npm run build-electron
-npm run electronPack
+npm run electron-pack
 ```
 
 And then open **Slate.app** in `dist/mac/slate.app`.

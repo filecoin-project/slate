@@ -49,10 +49,12 @@ const STYLES_ICON_ELEMENT = css`
 `;
 
 const STYLES_ICON_ELEMENT_CUSTOM = css`
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
-  background: ${Constants.system.brand};
+  height: 48px;
+  width: 48px;
+  border-radius: 48px;
+  background-image: url("/public/static/cube_f7f7f7.jpg");
+  background-size: cover;
+  background-position: 50% 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -134,9 +136,7 @@ export default class ApplicationHeader extends React.Component {
           <span
             css={STYLES_ICON_ELEMENT_CUSTOM}
             style={{ marginRight: 16, marginLeft: 12 }}
-          >
-            <SVG.Logo height="32px" />
-          </span>
+          />
           <span
             css={STYLES_ICON_ELEMENT}
             style={

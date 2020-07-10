@@ -15,7 +15,7 @@ export default class WebsitePrototypeWrapper extends React.Component {
           <meta property="og:url" content={this.props.url} />
           <meta property="og:title" content={this.props.title} />
           <meta property="og:description" content={this.props.description} />
-          <meta property="og:image" content="/static/social.png" />
+          <meta property="og:image" content="/static/social.jpg" />
 
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content={this.props.url} />
@@ -24,7 +24,7 @@ export default class WebsitePrototypeWrapper extends React.Component {
             property="twitter:description"
             content={this.props.description}
           />
-          <meta property="twitter:image" content="/static/social.png" />
+          <meta property="twitter:image" content="/static/social.jpg" />
 
           <link
             rel="icon"

@@ -8,20 +8,36 @@ const EXAMPLE_CODE = `import * as React from 'react';
 import { CreateFilecoinStorageDeal } from 'slate-react-system';
 
 class Example extends React.Component {
-  _handleSubmit = async ({ file }) => {
-    let data = new FormData();
-    data.append("image", file);
+  _handleSubmit = async (data) => {
+    const file = data.file.files[0];
 
-    const options = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: data,
-    };
+    var buffer = [];
 
-    const response = await fetch('/your-storage-end-point', options);
-    const json = await response.json();
+    // NOTE(jim): A little hacky...
+    const getByteArray = async () =>
+      new Promise((resolve) => {
+        const reader = new FileReader();
+
+        reader.onloadend = function(e) {
+          if (e.target.readyState == FileReader.DONE) {
+            buffer = new Uint8Array(e.target.result);
+          }
+
+          resolve();
+        };
+
+        reader.readAsArrayBuffer(file);
+      });
+
+    await getByteArray();
+
+    // NOTE(jim):
+    // For this example, my PG instance happens to be this.PG
+    const { cid } = await this.PG.ffs.addToHot(buffer);
+    const { jobId } = await this.PG.ffs.pushConfig(cid);
+    const cancel = this.PG.ffs.watchJobs((job) => {
+      console.log(job);
+    }, jobId);
   }
 
   render() {

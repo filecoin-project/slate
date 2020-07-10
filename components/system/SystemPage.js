@@ -22,15 +22,18 @@ const STYLES_BODY = css`
 `;
 
 const STYLES_ICON_ELEMENT = css`
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
+  height: 88px;
+  width: 88px;
+  border-radius: 88px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: ${Constants.system.brand};
   color: ${Constants.system.white};
   user-select: none;
+  background-image: url("/public/static/cube_f7f7f7.jpg");
+  background-size: cover;
+  background-position: 50% 50%;
 `;
 
 const STYLES_SIDEBAR = css`
@@ -150,13 +153,13 @@ export default class SystemPage extends React.Component {
           <meta property="og:url" content={url} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-          <meta property="og:image" content="/static/social.png" />
+          <meta property="og:image" content="/static/social.jpg" />
 
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content={url} />
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
-          <meta property="twitter:image" content="/static/social.png" />
+          <meta property="twitter:image" content="/static/social.jpg" />
 
           <link
             rel="icon"
@@ -181,9 +184,7 @@ export default class SystemPage extends React.Component {
         </Head>
         <div css={STYLES_BODY}>{children}</div>
         <div css={STYLES_SIDEBAR}>
-          <a css={STYLES_ICON_ELEMENT} href="/system">
-            <SVG.Logo height="32px" />
-          </a>
+          <a css={STYLES_ICON_ELEMENT} href="/system" />
           <br />
           <br />
 

@@ -11,6 +11,16 @@ export default class SystemPageRoot extends React.Component {
         description="This is an early preview of the Slate Design System SDS)."
         url="https://fps.onrender.com/system"
       >
+        <img
+          src="/public/static/social.jpg"
+          style={{
+            display: "inline-flex",
+            width: "312px",
+            height: "312px",
+            borderRadius: "312px",
+            marginBottom: 48,
+          }}
+        />
         <System.H1>SDS 1.2</System.H1>
         <br />
         <System.P>

@@ -53,6 +53,17 @@ npm install
 npm run dev
 ```
 
+### Run electron (MacOS)
+
+While you have `npm run dev` running, in another terminal screen run:
+
+```sh
+npm run build
+npm run electronPack
+```
+
+And then open **Slate.app** in `dist/mac/slate.app`.
+
 ### Example of what to expect
 
 ![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)

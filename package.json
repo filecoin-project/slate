@@ -1,5 +1,7 @@
 {
   "name": "slate",
+  "description": "",
+  "author": "slate",
   "version": "0.0.1",
   "engines": {
     "node": ">=11 <12"
@@ -8,11 +10,27 @@
     "dev": "node . --unhandled-rejections=strict",
     "build": "next build",
     "start": "NODE_ENV=production node . --unhandled-rejections=strict",
-    "build-system": "rollup -c"
+    "build-system": "rollup -c",
+    "electron": "electron ./electron/main.js ",
+    "electronPack": "electron-builder --dir",
+    "electronDist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.slate",
+    "productName": "slate",
+    "mac": {
+      "icon": " build/icon.icns",
+      "asar": "false"
+    },
+    "extraMetadata": {
+      "main": "./electron/main.js"
+    }
   },
   "dependencies": {
     "@babel/preset-env": "^7.10.4",
     "@babel/register": "^7.10.4",
+    "@babel/runtime": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.10.4",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/cache": "11.0.0-next.12",
     "@emotion/core": "^10.0.28",
@@ -36,13 +54,18 @@
     "react-dom": "^16.12.0",
     "react-draggable": "^4.4.3",
     "react-tippy": "^1.3.4",
+    "regenerator-runtime": "^0.13.5",
     "three": "^0.108.0",
     "uuid": "^8.0.0",
     "ws": "^7.3.0"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^4.1.0",
+    "@babel/plugin-transform-runtime": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
     "@rollup/plugin-node-resolve": "^8.1.0",
+    "electron": "^9.0.5",
+    "electron-builder": "^22.7.0",
     "rollup": "^2.18.1",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",

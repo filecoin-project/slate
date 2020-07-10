@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
+import * as Fixtures from "~/common/fixtures";
 import * as System from "~/components/system";
 import * as SVG from "~/components/system/svg";
 
@@ -115,7 +116,7 @@ export default class SceneFile extends React.Component {
   };
 
   render() {
-    const fileURL = `/static/files/${this.props.file.file}`;
+    const fileURL = `public/static/files/${this.props.file.file}`;
 
     return (
       <div css={STYLES_FLEX}>
@@ -127,7 +128,10 @@ export default class SceneFile extends React.Component {
             <SVG.Dismiss height="24px" />
           </div>
         </div>
-        <div css={STYLES_ASSET} style={{ backgroundImage: `url('${fileURL}')` }} />
+        <div
+          css={STYLES_ASSET}
+          style={{ backgroundImage: `url('${fileURL}')` }}
+        />
       </div>
     );
   }

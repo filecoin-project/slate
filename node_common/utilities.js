@@ -1,4 +1,4 @@
-import * as Constants from "~/node_common/constants";
+import * as Constants from "./constants";
 
 import FS from "fs-extra";
 
@@ -140,8 +140,8 @@ export const refreshLibrary = async ({ state, PG, FFS }) => {
         }
 
         PG.ffs.watchJobs((job) => {
-          // NOTE(jim): FFS is undefined?
           console.log("[ prototype ] job status", job.status);
+          // NOTE(jim): FFS is undefined?
           if (job.status >= 5) {
             console.log(
               "[ prototype ] update file",

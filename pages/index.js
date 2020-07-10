@@ -63,9 +63,9 @@ const getCurrentNavigationStateById = (navigation, targetId) => {
 };
 
 export const getServerSideProps = async (context) => {
-  if (context.query && context.query.production) {
-    return { production: true, ...context.query };
-  }
+  // if (context.query && context.query.production) {
+  //   return { production: true, ...context.query };
+  // }
 
   const data = await Actions.rehydrateViewer();
 
@@ -329,9 +329,10 @@ export default class IndexPage extends React.Component {
   };
 
   render() {
-    if (this.props.production) {
-      return null;
-    }
+    // NOTE(colin): Removed to support electron.
+    // if (this.props.production) {
+    //   return null;
+    // }
 
     const navigation = NavigationData.generate(this.state.viewer.library);
     const next = this.state.history[this.state.currentIndex];
@@ -393,12 +394,17 @@ export default class IndexPage extends React.Component {
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper title={title} description={description} url={url}>
+        <WebsitePrototypeWrapper
+          title={title}
+          description={description}
+          url={url}
+        >
           <ApplicationLayout
             navigation={navigationElement}
             header={headerElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}>
+            onDismissSidebar={this._handleDismissSidebar}
+          >
             {scene}
           </ApplicationLayout>
         </WebsitePrototypeWrapper>

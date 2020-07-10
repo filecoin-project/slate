@@ -20,7 +20,8 @@ class Example extends React.Component {
     // Requires PowerGate to be running locally.
     const PowerGate = createPow({ host: 'http://0.0.0.0:6002' });
     const FFS = await PowerGate.ffs.create();
-    return FFS.token ? FFS.token : null;
+    const token = FFS.token ? FFS.token : null;
+    PowerGate.setToken(token);
   }
 
   render() {

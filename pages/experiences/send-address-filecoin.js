@@ -11,6 +11,7 @@ import { createPow } from "@textile/powergate-client";
 const PowerGate = createPow({ host: 'http://0.0.0.0:6002' });
 const FFS = await PowerGate.ffs.create();
 const token = FFS.token ? FFS.token : null;
+PowerGate.setToken(token)
 
 class Example extends React.Component {
   _handleSend = async ({ source, target, amount }) => {

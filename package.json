@@ -10,6 +10,7 @@
     "dev": "node . --unhandled-rejections=strict",
     "build": "next build",
     "start": "NODE_ENV=production node . --unhandled-rejections=strict",
+    "build-system": "rollup -c",
     "electron": "electron ./electron/main.js ",
     "electronPack": "electron-builder --dir",
     "electronDist": "electron-builder"
@@ -59,6 +60,7 @@
     "ws": "^7.3.0"
   },
   "devDependencies": {
+    "@rollup/plugin-json": "^4.1.0",
     "@babel/plugin-transform-runtime": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "@rollup/plugin-node-resolve": "^8.1.0",

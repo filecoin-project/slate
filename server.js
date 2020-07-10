@@ -16,6 +16,7 @@ import next from "next";
 import bodyParser from "body-parser";
 import compression from "compression";
 import { v4 as uuid } from "uuid";
+import path from "path";
 
 // TODO(jim): Support multiple desktop applications.
 let client = null;
@@ -24,10 +25,9 @@ let state = null;
 const production = process.env.NODE_ENV === "production";
 const port = process.env.PORT || 1337;
 const wsPort = process.env.WS_PORT || 2448;
+const resetData = process.env.npm_config_reset_data;
 const app = next({ dev: !production, dir: __dirname, quiet: false });
 const nextRequestHandler = app.getRequestHandler();
-
-const path = require("path");
 
 const setIntervalViewerUpdatesUnsafe = async () => {
   if (client) {
@@ -71,10 +71,10 @@ app.prepare().then(async () => {
   };
 
   try {
-    // TODO(jim): Remove later.
-    // We wipe all of the local data each time you run the application.
-    await Utilities.resetFileSystem();
-
+    // NOTE(daniel): Wipe all of the local data when --reset-data flag is added to npm run dev.
+    if (resetData) {
+      await Utilities.resetFileSystem();
+    }
     const updates = await Utilities.refresh({ PG: PowerGate });
     state = await Utilities.updateStateData(state, updates);
     console.log("[ prototype ] updated without token");

@@ -294,3 +294,36 @@ export const SELECT_COUNTRY_OPTIONS = [
   { value: "Zimbabwe", name: "Zimbabwe" },
   { value: "Åland Islands", name: "Åland Islands" },
 ];
+
+
+//POWERGATE FIXTURES
+
+// const FFS = await PowerGate.ffs.create();
+// output:
+//     "id":"d094238b-97ac-436b-9060-986dae80d295", 
+//     "token":"fd9159b0-1ec7-46f1-8999-c9208a7e9cd7"
+
+// const { cid } = await PowerGate.ffs.addToHot(buffer);
+// output:
+//     "id":
+//     "token":
+
+// const { jobId } = await PowerGate.ffs.pushConfig(cid);
+// output:
+//     "id":
+//     "token":
+
+// const data = await PowerGate.ffs.setDefaultConfig(req.body.config); 
+// output:
+//     "id":
+//     "token":
+
+// const data = await PowerGate.ffs.newAddr();
+// output:
+//     "id":
+//     "token":
+
+// const data = await PowerGate.ffs.sendFil();
+// output:
+//     "id":
+//     "token":

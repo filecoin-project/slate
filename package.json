@@ -8,14 +8,14 @@
   },
   "scripts": {
     "dev": "node . --unhandled-rejections=strict",
-    "start-electron": "NODE_ENV=production node . --unhandled-rejections=strict",
     "start": "NODE_ENV=www node . --unhandled-rejections=strict",
     "build-delete": "rm -rf .next && rm -rf dist/mac",
-    "build": "NODE_ENV=production next build",
+    "build": "NODE_ENV=www next build",
+    "build-electron": "NODE_ENV=production next build",
     "build-system": "rollup -c",
     "electron": "electron ./electron/main.js ",
-    "electronPack": "electron-builder --dir",
-    "electronDist": "electron-builder"
+    "electron-pack": "electron-builder --dir",
+    "electron-dist": "electron-builder"
   },
   "build": {
     "appId": "com.slate",

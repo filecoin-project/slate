@@ -58,7 +58,7 @@ npm run dev
 While you have `npm run dev` running, in another terminal screen run:
 
 ```sh
-npm run build
+npm run build-electron
 npm run electronPack
 ```
 

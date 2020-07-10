@@ -410,7 +410,7 @@ app.prepare().then(async () => {
   });
 
   server.get("/", async (req, res) => {
-    if (productionWeb || !state.token) {
+    if (productionWeb) {
       return res.redirect("/system");
     }
 

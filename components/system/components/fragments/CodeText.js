@@ -17,6 +17,7 @@ const STYLES_WRAP = {
 };
 
 const STYLES_CODE = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.mono};
   font-size: 0.95em;
   background-color: ${Constants.system.white};
@@ -41,6 +42,7 @@ const STYLES_CODE_COPYABLE = css`
 `;
 
 const STYLES_HIDDEN = css`
+  box-sizing: border-box;
   opacity: 0;
   position: absolute;
 `;

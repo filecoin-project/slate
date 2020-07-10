@@ -22,6 +22,8 @@ const SELECT_MENU_SAVE_STRINGS = {
 };
 
 const STYLES_CONTAINER = css`
+  font-family: ${Constants.font.text};
+  box-sizing: border-box;
   padding: 24px;
   border-radius: 4px;
   background-color: ${Constants.system.white};

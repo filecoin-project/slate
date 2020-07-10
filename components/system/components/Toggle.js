@@ -7,6 +7,7 @@ import { DescriptionGroup } from "~/components/system/components/fragments/Descr
 
 const STYLES_TOGGLE = css`
   font-family: ${Constants.font.text};
+  box-sizing: border-box;
   display: inline-flex;
   height: 40px;
   border-radius: 40px;
@@ -19,6 +20,7 @@ const STYLES_TOGGLE = css`
 `;
 
 const STYLES_DIAL = css`
+  box-sizing: border-box;
   height: 32px;
   width: 32px;
   border-radius: 32px;

@@ -6,6 +6,7 @@ import { css } from "@emotion/react";
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
 const STYLES_TEXTAREA = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   -webkit-appearance: none;
   width: 100%;

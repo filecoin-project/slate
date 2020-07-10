@@ -5,6 +5,7 @@ import * as SVG from "~/components/system/svg";
 import { css } from "@emotion/react";
 
 const STYLES_CHECKBOX = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   display: flex;
   align-items: flex-start;
@@ -13,6 +14,7 @@ const STYLES_CHECKBOX = css`
 `;
 
 const STYLES_CHECKBOX_FIGURE = css`
+  box-sizing: border-box;
   box-shadow: 0 0 0 1px ${Constants.system.darkGray};
   background-color: ${Constants.system.white};
   height: 32px;
@@ -27,6 +29,7 @@ const STYLES_CHECKBOX_FIGURE = css`
 `;
 
 const STYLES_CHECKBOX_INPUT = css`
+  box-sizing: border-box;
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
@@ -38,6 +41,7 @@ const STYLES_CHECKBOX_INPUT = css`
 `;
 
 const STYLES_CHECKBOX_LABEL = css`
+  box-sizing: border-box;
   font-size: 14px;
   min-width: 10%;
   width: 100%;

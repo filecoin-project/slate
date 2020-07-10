@@ -8,6 +8,7 @@ import { DescriptionGroup } from "~/components/system/components/fragments/Descr
 import { SELECT_COUNTRY_OPTIONS } from "~/common/fixtures";
 
 const INPUT_STYLES = `
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   -webkit-appearance: none;
   width: 100%;
@@ -26,6 +27,7 @@ const INPUT_STYLES = `
 `;
 
 const STYLES_SELECT_MENU = css`
+  box-sizing: border-box;
   display: inline-flex;
   position: relative;
   height: 40px;
@@ -34,6 +36,7 @@ const STYLES_SELECT_MENU = css`
 `;
 
 const STYLES_SELECT_MENU_FULL = css`
+  box-sizing: border-box;
   display: inline-flex;
   position: relative;
   height: 40px;
@@ -41,6 +44,7 @@ const STYLES_SELECT_MENU_FULL = css`
 `;
 
 const STYLES_SELECT_MENU_ANCHOR = css`
+  box-sizing: border-box;
   display: block;
   position: absolute;
   top: 0;
@@ -61,11 +65,13 @@ const STYLES_SELECT_MENU_LABEL = css`
 `;
 
 const STYLES_SELECT_MENU_CATEGORY = css`
+  box-sizing: border-box;
   color: ${Constants.system.darkGray};
   margin-left: 4px;
 `;
 
 const STYLES_SELECT_MENU_CHEVRON = css`
+  box-sizing: border-box;
   position: absolute;
   right: 12px;
   margin-top: 1px;
@@ -131,6 +137,6 @@ export const SelectCountryMenu = (props) => {
       category={props.category}
       onChange={props.onChange}
       options={SELECT_COUNTRY_OPTIONS}
-    ></SelectMenu>
+    />
   );
 };

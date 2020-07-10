@@ -7,6 +7,7 @@ import { css } from "@emotion/react";
 import { TooltipAnchor } from "~/components/system/components/fragments/TooltipAnchor";
 
 const STYLES_DESCRIPTION_GROUP_LABEL = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.semiBold};
   font-size: 14px;
   padding: 0;
@@ -18,6 +19,7 @@ const STYLES_DESCRIPTION_GROUP_LABEL = css`
 `;
 
 const STYLES_DESCRIPTION_GROUP_DESCRIPTION = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   font-size: 14px;
   margin-bottom: 12px;

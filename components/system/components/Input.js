@@ -8,6 +8,7 @@ import { css } from "@emotion/react";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 
 const INPUT_STYLES = `
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   -webkit-appearance: none;
   width: 100%;
@@ -26,6 +27,7 @@ const INPUT_STYLES = `
 `;
 
 const STYLES_INPUT_CONTAINER = css`
+  box-sizing: border-box;
   position: relative;
   max-width: 480px;
   min-width: 188px;
@@ -64,6 +66,7 @@ const STYLES_INPUT = css`
 `;
 
 const STYLES_ICON = css`
+  box-sizing: border-box;
   position: absolute;
   right: 12px;
   margin-top: 1px;

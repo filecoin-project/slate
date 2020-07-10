@@ -22,11 +22,13 @@ const expand = keyframes`
 `;
 
 const STYLES_INPUT = css`
+  box-sizing: border-box;
   display: inline-block;
   width: calc(100% - 80px);
 `;
 
 const STYLES_INPUT_HIDDEN = css`
+  box-sizing: border-box;
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
@@ -35,6 +37,7 @@ const STYLES_INPUT_HIDDEN = css`
 `;
 
 const STYLES_MODAL_BACKGROUND = css`
+  box-sizing: border-box;
   position: fixed;
   top: 0;
   left: 0;
@@ -43,11 +46,13 @@ const STYLES_MODAL_BACKGROUND = css`
 `;
 
 const STYLES_BUTTON = css`
+  box-sizing: border-box;
   display: inline-block;
   text-align: right;
 `;
 
 const STYLES_DELETE = css`
+  box-sizing: border-box;
   height: 18px;
   margin-top: 1px;
   cursor: pointer;
@@ -60,6 +65,7 @@ const STYLES_DELETE = css`
 `;
 
 const STYLES_REORDER = css`
+  box-sizing: border-box;
   height: 14px;
   margin-top: 1px;
   cursor: grab;
@@ -72,6 +78,7 @@ const STYLES_REORDER = css`
 `;
 
 const STYLES_LIST = css`
+  box-sizing: border-box;
   max-width: 480px;
   min-width: 188px;
   width: 100%;
@@ -86,6 +93,7 @@ const STYLES_LIST = css`
 `;
 
 const STYLES_LIST_ITEM = css`
+  box-sizing: border-box;
   font-size: 14px;
   height: 30px;
   display: grid;

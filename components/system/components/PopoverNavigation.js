@@ -4,6 +4,7 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_POPOVER = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   position: absolute;
   width: 288px;
@@ -14,6 +15,7 @@ const STYLES_POPOVER = css`
 `;
 
 const STYLES_POPOVER_ITEM = css`
+  box-sizing: border-box;
   top: 0;
   left: 0;
   padding: 8px 24px 8px 24px;

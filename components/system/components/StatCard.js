@@ -7,6 +7,7 @@ import { LineChart } from "~/vendor/react-chartkick";
 import "chart.js";
 
 const STYLES_STAT_CARD = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   width: 100%;
   box-shadow: 0 0 0 1px ${Constants.system.gray}, 0 1px 4px rgba(0, 0, 0, 0.04);
@@ -15,6 +16,7 @@ const STYLES_STAT_CARD = css`
 `;
 
 const STYLES_STAT_CARD_TOP = css`
+  box-sizing: border-box;
   background-color: ${Constants.system.foreground};
   color: ${Constants.system.black};
   padding: 16px 16px 16px 16px;
@@ -22,20 +24,25 @@ const STYLES_STAT_CARD_TOP = css`
 `;
 
 const STYLES_STAT_CARD_BOTTOM = css`
+  box-sizing: border-box;
   border-top: 1px solid ${Constants.system.gray};
   padding: 12px 16px 12px 16px;
   border-radius: 0 0 4px 4px;
   font-size: 14px;
 `;
 
-const STYLES_STAT_CARD_NAME = css``;
+const STYLES_STAT_CARD_NAME = css`
+  box-sizing: border-box;
+`;
 
 const STYLES_STAT_CARD_VALUE_GROUP = css`
+  box-sizing: border-box;
   color: ${Constants.system.black};
   border-radius: 4px 4px 0 0;
 `;
 
 const STYLES_STAT_CARD_VALUE = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.medium};
   font-size: ${Constants.typescale.lvl3};
   color: ${Constants.system.brand};
@@ -43,6 +50,7 @@ const STYLES_STAT_CARD_VALUE = css`
 `;
 
 const STYLES_STAT_CARD_DENOMINATION = css`
+  box-sizing: border-box;
   display: block;
   font-family: ${Constants.font.semiBold};
   font-size: 10px;

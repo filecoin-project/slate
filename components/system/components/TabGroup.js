@@ -4,6 +4,7 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_TAB_GROUP = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   width: 100%;
   display: flex;
@@ -11,6 +12,7 @@ const STYLES_TAB_GROUP = css`
 `;
 
 const STYLES_TAB_GROUP_TAB = css`
+  box-sizing: border-box;
   background: ${Constants.system.gray};
   color: ${Constants.system.black};
   border-bottom: 1px solid ${Constants.system.white};

@@ -5,6 +5,8 @@ import * as System from "~/components/system";
 import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`
+  font-family: ${Constants.font.text};
+  box-sizing: border-box;
   border-radius: 4px;
   background-color: ${Constants.system.white};
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);

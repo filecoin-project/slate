@@ -4,6 +4,7 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_CODE_BLOCK = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.monoCode};
   background-color: ${Constants.system.pitchBlack};
   color: ${Constants.system.white};
@@ -15,6 +16,7 @@ const STYLES_CODE_BLOCK = css`
 `;
 
 const STYLES_PADDING = css`
+  box-sizing: border-box;
   display: flex;
   border-radius: 7px;
   align-items: flex-start;
@@ -23,6 +25,7 @@ const STYLES_PADDING = css`
 `;
 
 const STYLES_PRE = css`
+  box-sizing: border-box;
   color: #666;
   font-family: ${Constants.font.monoCode};
   flex-shrink: 0;
@@ -31,6 +34,7 @@ const STYLES_PRE = css`
 `;
 
 const STYLES_CODE = css`
+  box-sizing: border-box;
   background-color: ${Constants.system.pitchBlack};
   font-family: ${Constants.font.monoCode};
   color: ${Constants.system.gray};

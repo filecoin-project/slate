@@ -18,6 +18,7 @@ const TABLE_COLUMN_WIDTH_DEFAULTS = {
 };
 
 const STYLES_TABLE_PLACEHOLDER = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   display: block;
   width: 100%;
@@ -27,6 +28,7 @@ const STYLES_TABLE_PLACEHOLDER = css`
 `;
 
 const STYLES_TABLE_ROW = css`
+  box-sizing: border-box;
   padding: 0 8px 0 8px;
   border-bottom: 1px solid ${Constants.system.gray};
   display: flex;
@@ -39,11 +41,13 @@ const STYLES_TABLE_ROW = css`
 `;
 
 const STYLES_TABLE_SELECTED_ROW = css`
+  box-sizing: border-box;
   display: block;
   border-bottom: 1px solid ${Constants.system.gray};
 `;
 
 const STYLES_TABLE_TOP_ROW = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.semiBold};
   width: 100%;
   padding: 0 8px 0 8px;

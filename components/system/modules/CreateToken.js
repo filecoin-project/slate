@@ -5,6 +5,8 @@ import { css } from "@emotion/react";
 import { ButtonPrimaryFull } from "~/components/system/components/Buttons";
 
 const STYLES_CREATE_TOKEN = css`
+  font-family: ${Constants.font.text};
+  box-sizing: border-box;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
   display: block;
   max-width: 480px;
@@ -12,6 +14,7 @@ const STYLES_CREATE_TOKEN = css`
 `;
 
 const STYLES_CREATE_TOKEN_TOP = css`
+  box-sizing: border-box;
   background: ${Constants.system.black};
   color: ${Constants.system.white};
   font-family: "mono";
@@ -24,6 +27,7 @@ const STYLES_CREATE_TOKEN_TOP = css`
 `;
 
 const STYLES_CREATE_TOKEN_BOTTOM = css`
+  box-sizing: border-box;
   background: ${Constants.system.white};
   border-radius: 0 0 4px 4px;
   padding: 16px;

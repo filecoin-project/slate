@@ -5,6 +5,7 @@ import * as SVG from "~/components/system/svg";
 import { css } from "@emotion/react";
 
 const STYLES_BANDWIDTH = css`
+  box-sizing: border-box;
   padding: 8px 8px 8px 8px;
   display: inline-flex;
   font-family: ${Constants.font.mono};

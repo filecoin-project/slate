@@ -5,6 +5,8 @@ import * as System from "~/components/system";
 import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`
+  font-family: ${Constants.font.text};
+  box-sizing: border-box;
   padding: 24px;
   border-radius: 4px;
   background-color: ${Constants.system.white};
@@ -25,6 +27,7 @@ const STYLES_FILE_HIDDEN = css`
 `;
 
 const STYLES_FOCUS = css`
+  box-sizing: border-box;
   font-size: ${Constants.typescale.lvl1};
   font-family: ${Constants.font.medium};
   overflow-wrap: break-word;

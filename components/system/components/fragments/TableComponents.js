@@ -35,6 +35,7 @@ const COMPONENTS_ICON = {
 };
 
 const STYLES_TABLE_TAG = css`
+  box-sizing: border-box;
   font-weight: 400;
   font-family: ${Constants.font.semiBold};
   letter-spacing: 0.2px;

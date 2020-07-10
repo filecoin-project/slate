@@ -8,6 +8,7 @@ import { css } from "@emotion/react";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 
 const STYLES_NOTIFICATION = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.text};
   background-color: ${Constants.system.white};
   border-radius: 5px;
@@ -19,12 +20,14 @@ const STYLES_NOTIFICATION = css`
 `;
 
 const STYLES_ICON = css`
+  box-sizing: border-box;
   position: relative;
   bottom: 2px;
   margin-bottom: 8px;
 `;
 
 const STYLES_CLOSE = css`
+  box-sizing: border-box;
   height: 18px;
   position: absolute;
   top: 8px;

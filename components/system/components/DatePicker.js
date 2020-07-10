@@ -7,15 +7,9 @@ import moment from "moment";
 
 import { Input } from "~/components/system/components/Input";
 
-const weekdays = [
-  "Sun",
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat",
-].map((day, i) => <div key={i}>{day}</div>);
+const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+  (day, i) => <div key={i}>{day}</div>
+);
 
 const expand = keyframes`
   0% {
@@ -29,10 +23,12 @@ const expand = keyframes`
 `;
 
 const STYLES_DATE_INPUT = css`
+  box-sizing: border-box;
   position: relative;
 `;
 
 const STYLES_HIDDEN_INPUT = css`
+  box-sizing: border-box;
   opacity: 0;
   position: absolute;
   top: 2px;
@@ -40,6 +36,7 @@ const STYLES_HIDDEN_INPUT = css`
 `;
 
 const STYLES_CALENDAR = css`
+  box-sizing: border-box;
   position: absolute;
   font-family: ${Constants.font.text};
   max-width: 480px;
@@ -54,18 +51,21 @@ const STYLES_CALENDAR = css`
 `;
 
 const STYLES_MONTH_CONTAINER = css`
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: 30px 1fr 30px;
   align-items: center;
 `;
 
 const STYLES_MONTH = css`
+  box-sizing: border-box;
   text-align: center;
   font-size: ${Constants.typescale.lvl1};
   margin: 10px 0;
 `;
 
 const STYLES_WEEKDAYS = css`
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
@@ -78,6 +78,7 @@ const STYLES_WEEKDAYS = css`
 `;
 
 const STYLES_DAY = css`
+  box-sizing: border-box;
   font-size: 0.9em;
   cursor: pointer;
 
@@ -87,6 +88,7 @@ const STYLES_DAY = css`
 `;
 
 const STYLES_CHOSEN_DAY = css`
+  box-sizing: border-box;
   font-size: 0.9em;
   position: relative;
   cursor: pointer;
@@ -108,12 +110,14 @@ const STYLES_CHOSEN_DAY = css`
 `;
 
 const STYLES_DISABLED_DAY = css`
+  box-sizing: border-box;
   font-size: 0.9em;
   cursor: not-allowed;
   color: ${Constants.system.gray} !important;
 `;
 
 const STYLES_DATES = css`
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(6, 40px);
@@ -125,6 +129,7 @@ const STYLES_DATES = css`
 `;
 
 const STYLES_ICON = css`
+  box-sizing: border-box;
   cursor: pointer;
   margin: 0 10px;
 

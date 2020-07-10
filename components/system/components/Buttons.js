@@ -4,6 +4,7 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_BUTTON = `
+  box-sizing: border-box;
   border-radius: 4px;
   outline: 0;
   border: 0;
@@ -19,6 +20,7 @@ const STYLES_BUTTON = `
 `;
 
 const STYLES_BUTTON_FULL = `
+  box-sizing: border-box;
   border-radius: 4px;
   outline: 0;
   border: 0;

@@ -14,7 +14,7 @@ const { info } = await PowerGate.ffs.info();
 class Example extends React.Component {
   render() {
     return (
-      <PeersList data={info.balanceList} />
+      <FilecoinBalancesList data={info.balancesList} />
     );
   }
 }
@@ -22,7 +22,7 @@ class Example extends React.Component {
 
 export default class SystemPageFilecoinWalletBalances extends React.Component {
   render() {
-    const balanceList = [
+    const balancesList = [
       {
         addr: {
           addr:
@@ -64,7 +64,7 @@ export default class SystemPageFilecoinWalletBalances extends React.Component {
         </System.P>
         <br />
         <br />
-        <System.FilecoinBalancesList data={balanceList} />
+        <System.FilecoinBalancesList data={balancesList} />
         <br />
         <br />
         <System.H2>Code</System.H2>

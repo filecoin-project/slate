@@ -51,7 +51,7 @@ export default class SystemPageDatepicker extends React.Component {
         <br />
         <System.CodeBlock>
           {`import * as React from 'react';
-  import { DatePicker } from 'slate-react-system';`}
+import { DatePicker } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />

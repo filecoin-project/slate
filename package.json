@@ -11,7 +11,7 @@
     "start": "NODE_ENV=www node . --unhandled-rejections=strict",
     "build-delete": "rm -rf .next && rm -rf dist/mac",
     "build": "NODE_ENV=www next build",
-    "build-electron": "NODE_ENV=production next build",
+    "build-electron": "NODE_ENV=development next build",
     "build-system": "rollup -c",
     "electron": "electron ./electron/main.js ",
     "electron-pack": "electron-builder --dir",

@@ -42,7 +42,7 @@ export default class SystemPageSendAddressFilecoin extends React.Component {
         url="https://fps.onrender.com/experiences/send-address-filecoin"
       >
         <System.H1>
-          Create a Filecoin Address{" "}
+          Send an Address Filecoin{" "}
           <ViewSourceLink file="experiences/send-address-filecoin.js" />
         </System.H1>
         <br />

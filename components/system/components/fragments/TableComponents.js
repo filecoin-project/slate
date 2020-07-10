@@ -70,6 +70,7 @@ const COMPONENTS_TRANSACTION_STATUS = {
 };
 
 const STYLES_COLUMN = css`
+  box-sizing: border-box;
   display: inline-flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -78,6 +79,7 @@ const STYLES_COLUMN = css`
 `;
 
 const STYLES_TOP_COLUMN = css`
+  box-sizing: border-box;
   display: inline-flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -87,6 +89,7 @@ const STYLES_TOP_COLUMN = css`
 `;
 
 const STYLES_CONTENT = css`
+  box-sizing: border-box;
   padding: 12px 12px 16px 12px;
   min-width: 10%;
   width: 100%;
@@ -98,6 +101,7 @@ const STYLES_CONTENT = css`
 `;
 
 const STYLES_CONTENT_BUTTON = css`
+  box-sizing: border-box;
   flex-shrink: 0;
   height: 40px;
   width: 30px;
@@ -113,6 +117,7 @@ const STYLES_CONTENT_BUTTON = css`
 `;
 
 const STYLES_TABLE_CONTENT_LINK = css`
+  box-sizing: border-box;
   font-family: ${Constants.font.medium};
   text-decoration: underline;
   cursor: pointer;

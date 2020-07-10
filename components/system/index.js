@@ -6,6 +6,7 @@ import { PeersList } from "~/components/system/modules/PeersList";
 import { CreateFilecoinAddress } from "~/components/system/modules/CreateFilecoinAddress";
 import { CreateFilecoinStorageDeal } from "~/components/system/modules/CreateFilecoinStorageDeal";
 import { SendAddressFilecoin } from "~/components/system/modules/SendAddressFilecoin";
+import { FilecoinBalancesList } from "~/components/system/modules/FilecoinBalancesList";
 
 // NOTE(jim): Components
 import {
@@ -57,6 +58,7 @@ export {
   CreateFilecoinAddress,
   CreateFilecoinStorageDeal,
   SendAddressFilecoin,
+  FilecoinBalancesList,
   // NOTE(jim): Components
   ButtonPrimary,
   ButtonPrimaryFull,

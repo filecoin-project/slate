@@ -4,7 +4,7 @@ import * as System from "~/components/system";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 
-import { createPow } from "@textile/powergate-client";
+// import { createPow } from "@textile/powergate-client";
 
 const EXAMPLE_CODE = `import * as React from 'react';
 import { CreateToken } from 'slate-react-system';

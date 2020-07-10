@@ -5,7 +5,7 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 const EXAMPLE_CODE = `import * as React from 'react';
-import { CreateFilecoinAddress } from 'slate-react-system';
+import { SendAddressFilecoin } from 'slate-react-system';
 import { createPow } from "@textile/powergate-client";
 
 const PowerGate = createPow({ host: 'http://0.0.0.0:6002' });
@@ -13,51 +13,50 @@ const FFS = await PowerGate.ffs.create();
 const token = FFS.token ? FFS.token : null;
 
 class Example extends React.Component {
-  _handleCreateAddress = async ({ name, type, makeDefault }) => {
-    const response = await PowerGate.ffs.newAddr(
-      name, 
-      type, 
-      makeDefault
+  _handleSend = async ({ source, target, amount }) => {
+    const response = await PowerGate.ffs.sendFil(
+      source, 
+      target, 
+      amount
     );
-    console.log(response);
   }
 
   render() {
     return (
-      <CreateFilecoinAddress onSubmit={this._handleCreateAddress} />
+      <SendAddressFilecoin onSubmit={this._handleSend} />
     );
   }
 }
 `;
 
-export default class SystemPageCreateAddress extends React.Component {
-  _handleSubmit = ({ name, type, makeDefault }) => {
-    alert(JSON.stringify({ name, type, makeDefault }));
+export default class SystemPageSendAddressFilecoin extends React.Component {
+  _handleSubmit = ({ source, target, amount }) => {
+    alert(JSON.stringify({ source, target, amount }));
   };
 
   render() {
     return (
       <SystemPage
-        title="SDS: Create Address"
+        title="SDS: Send Address Filecoin"
         description="..."
-        url="https://fps.onrender.com/experiences/create-address"
+        url="https://fps.onrender.com/experiences/send-address-filecoin"
       >
         <System.H1>
           Create a Filecoin Address{" "}
-          <ViewSourceLink file="experiences/create-address.js" />
+          <ViewSourceLink file="experiences/send-address-filecoin.js" />
         </System.H1>
         <br />
         <br />
         <System.P>
-          Here is an example of an experience for generating a filecoin address
-          using{" "}
+          Here is an example of an experience for sending a filecoin address
+          filecoin using{" "}
           <a target="_blank" href="https://github.com/textileio/powergate/">
             Textile's Powergate
           </a>
         </System.P>
         <br />
         <br />
-        <System.CreateFilecoinAddress onSubmit={this._handleSubmit} />
+        <System.SendAddressFilecoin onSubmit={this._handleSubmit} />
         <br />
         <br />
         <System.H2>Code</System.H2>

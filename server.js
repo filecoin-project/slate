@@ -22,7 +22,9 @@ import path from "path";
 let client = null;
 let state = null;
 
-const production = process.env.NODE_ENV === "production";
+const production =
+  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "www";
+const productionWeb = process.env.NODE_ENV === "www";
 const port = process.env.PORT || 1337;
 const wsPort = process.env.WS_PORT || 2448;
 const resetData = process.env.npm_config_reset_data;
@@ -75,6 +77,7 @@ app.prepare().then(async () => {
     if (resetData) {
       await Utilities.resetFileSystem();
     }
+
     const updates = await Utilities.refresh({ PG: PowerGate });
     state = await Utilities.updateStateData(state, updates);
     console.log("[ prototype ] updated without token");
@@ -171,20 +174,24 @@ app.prepare().then(async () => {
   }
 
   const server = express();
-  const WSS = new WebSocketServer.Server({ port: wsPort });
+  // TODO(jim): Temporarily disable web sockets for web production
+  // since we have no web version of Slate yet.
+  if (!productionWeb) {
+    const WSS = new WebSocketServer.Server({ port: wsPort });
 
-  WSS.on("connection", (s) => {
-    // TODO(jim): Suppport more than one client.
-    client = s;
+    WSS.on("connection", (s) => {
+      // TODO(jim): Suppport more than one client.
+      client = s;
 
-    s.on("close", function () {
-      s.send(JSON.stringify({ action: null, data: "closed" }));
+      s.on("close", function() {
+        s.send(JSON.stringify({ action: null, data: "closed" }));
+      });
+
+      s.send(JSON.stringify({ action: null, data: "connected" }));
     });
+  }
 
-    s.send(JSON.stringify({ action: null, data: "connected" }));
-  });
-
-  if (production) {
+  if (productionWeb) {
     server.use(compression());
   }
 
@@ -200,7 +207,7 @@ app.prepare().then(async () => {
   server.post("/_/viewer", async (req, res) => {
     let data = state;
 
-    if (!production) {
+    if (!productionWeb) {
       const updates = await Utilities.refresh({ PG: PowerGate });
       const updatesWithToken = await Utilities.refreshWithToken({
         PG: PowerGate,
@@ -269,7 +276,7 @@ app.prepare().then(async () => {
         }
 
         const newPath = form.uploadDir + req.params.file;
-        FS.rename(files.image.path, newPath, function (err) {});
+        FS.rename(files.image.path, newPath, function(err) {});
 
         const localFile = Utilities.createFile({
           id: newPath,
@@ -318,7 +325,7 @@ app.prepare().then(async () => {
       } else {
         const newName = `avatar-${uuid()}.png`;
         const newPath = form.uploadDir + newName;
-        FS.rename(files.image.path, newPath, function (err) {});
+        FS.rename(files.image.path, newPath, function(err) {});
 
         // NOTE(jim): updates avatar photo.
         state.local.photo = __dirname + `/static/system/${newName}`;
@@ -403,12 +410,11 @@ app.prepare().then(async () => {
   });
 
   server.get("/", async (req, res) => {
-    if (!state.token) {
+    if (productionWeb || !state.token) {
       return res.redirect("/system");
     }
 
     return app.render(req, res, "/", {
-      production,
       wsPort,
     });
   });
@@ -425,7 +431,7 @@ app.prepare().then(async () => {
     console.log(`[ prototype ] client: http://localhost:${port}`);
     console.log(`[ prototype ] constants:`, Constants);
 
-    if (!production) {
+    if (!productionWeb) {
       await setIntervalViewerUpdatesUnsafe();
     }
   });

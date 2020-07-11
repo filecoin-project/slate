@@ -7,6 +7,8 @@ import ViewSourceLink from "~/components/system/ViewSourceLink";
 const EXAMPLE_CODE = `import * as React from 'react';
 import { CreateFilecoinStorageDeal } from 'slate-react-system';
 
+// NOTE(jim)
+// Requires token and authentication
 class Example extends React.Component {
   _handleSubmit = async (data) => {
     const file = data.file.files[0];

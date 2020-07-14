@@ -4,13 +4,12 @@ import * as SVG from "~/components/system/svg";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
-
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 
 const STYLES_NOTIFICATION_LIST = css`
   position: fixed;
-  display: flex;
-  flex-direction: column;
+  bottom: 0;
+  right: 0;
 `;
 
 const STYLES_NOTIFICATION = css`
@@ -52,7 +51,7 @@ export class GlobalNotification extends React.Component {
     let notifs = this.state.notifs;
     notifs[e.detail.id] = e.detail;
     if (e.detail.timeout) {
-      setTimeout(() => this._dispatchDelete(e.detail.id), e.detail.timeout);
+      setTimeout(() => this._handleDismiss(e.detail.id), e.detail.timeout);
     }
     this.setState({
       order: [...this.state.order, e.detail.id],
@@ -61,16 +60,15 @@ export class GlobalNotification extends React.Component {
   };
 
   _handleDelete = (e) => {
-    let notifs = this.state.notifs;
-    let order = this.state.order;
-    delete notifs[e.detail.id];
-    order.splice(order.indexOf(e.detail.id), 1);
-    this.setState({ order, notifs });
+    this.setState({ order: [], notifs: {} });
   };
 
-  _dispatchDelete = (id) => {
-    let event = new CustomEvent("delete-notification", { detail: { id: id } });
-    window.dispatchEvent(event);
+  _handleDismiss = (id) => {
+    let notifs = this.state.notifs;
+    let order = this.state.order;
+    delete notifs[id];
+    order.splice(order.indexOf(id), 1);
+    this.setState({ order, notifs });
   };
 
   render() {

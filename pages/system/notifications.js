@@ -17,8 +17,8 @@ export default class SystemPageNotifications extends React.Component {
     this.setState({ count: this.state.count + 1 });
   };
 
-  _deleteNotif = (detail) => {
-    let event = new CustomEvent("delete-notification", { detail });
+  _deleteNotif = () => {
+    let event = new CustomEvent("delete-notification", {});
     window.dispatchEvent(event);
   };
 
@@ -67,13 +67,15 @@ import { Notification } from 'slate-react-system';`}
         </System.P>
         <br />
         <System.CodeBlock>
-          {`function App() {
-  return (
-    <React.Fragment>
-       <GlobalNotification style={{ bottom: 0, right: 0 }} />
-       {this.props.children}     
-    </React.Fragment>
-  )
+          {`class App extends React.Component {
+  render() {
+    return(
+      <React.Fragment>
+        <GlobalNotification style={{ bottom: 0, right: 0 }} />
+        {this.props.children}     
+      </React.Fragment>
+    )
+  }
 }`}
         </System.CodeBlock>
         <System.GlobalNotification style={{ bottom: 0, right: 0 }} />
@@ -106,13 +108,7 @@ import { Notification } from 'slate-react-system';`}
           Click for dark style notification
         </System.ButtonSecondaryFull>
         <br />
-        <System.ButtonPrimaryFull
-          onClick={() => {
-            for (let i = 0; i <= this.state.count; i++) {
-              this._deleteNotif({ i });
-            }
-          }}
-        >
+        <System.ButtonPrimaryFull onClick={this._deleteNotif}>
           Click to clear notifications
         </System.ButtonPrimaryFull>
         <br />
@@ -172,13 +168,7 @@ import { Notification } from 'slate-react-system';`}
         Click for dark style notification
       </ButtonSecondaryFull>
 
-      <ButtonPrimaryFull
-        onClick={() => {
-          for (let i = 0; i <= this.state.count; i++) {
-            this._deleteNotif({ i });
-          }
-        }}
-      >
+      <ButtonPrimaryFull onClick={this._deleteNotif}>
         Click to clear notifications
       </ButtonPrimaryFull>
     )
@@ -203,13 +193,7 @@ import { Notification } from 'slate-react-system';`}
           Click for disappearing notification
         </System.ButtonSecondaryFull>
         <br />
-        <System.ButtonPrimaryFull
-          onClick={() => {
-            for (let i = 0; i <= this.state.count; i++) {
-              this._deleteNotif({ i });
-            }
-          }}
-        >
+        <System.ButtonPrimaryFull onClick={this._deleteNotif}>
           Click to clear notifications
         </System.ButtonPrimaryFull>
         <br />
@@ -245,13 +229,7 @@ import { Notification } from 'slate-react-system';`}
         Click for disappearing notification
       </System.ButtonSecondaryFull>
 
-      <ButtonPrimaryFull
-        onClick={() => {
-          for (let i = 0; i <= this.state.count; i++) {
-            this._deleteNotif({ i });
-          }
-        }}
-      >
+      <ButtonPrimaryFull onClick={this._deleteNotif}>
         Click to clear notifications
       </ButtonPrimaryFull>
     )
@@ -312,13 +290,7 @@ import { Notification } from 'slate-react-system';`}
           Click for error style notification
         </System.ButtonSecondaryFull>
         <br />
-        <System.ButtonPrimaryFull
-          onClick={() => {
-            for (let i = 0; i <= this.state.count; i++) {
-              this._deleteNotif({ i });
-            }
-          }}
-        >
+        <System.ButtonPrimaryFull onClick={this._deleteNotif}>
           Click to clear notifications
         </System.ButtonPrimaryFull>
         <br />
@@ -397,13 +369,7 @@ import { Notification } from 'slate-react-system';`}
         Click for error style notification
       </ButtonSecondaryFull>
 
-      <ButtonPrimaryFull
-        onClick={() => {
-          for (let i = 0; i <= this.state.count; i++) {
-            this._deleteNotif({ i });
-          }
-        }}
-      >
+      <ButtonPrimaryFull onClick={this._deleteNotif}>
         Click to clear notifications
       </ButtonPrimaryFull>
     )

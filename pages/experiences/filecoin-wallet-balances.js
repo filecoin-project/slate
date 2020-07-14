@@ -38,7 +38,7 @@ export default class SystemPageFilecoinWalletBalances extends React.Component {
           name: "Wallet B",
           type: "secp256k1",
         },
-        balance: 500,
+        balance: 5000,
       },
     ];
 

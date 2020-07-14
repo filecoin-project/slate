@@ -22,7 +22,7 @@ const STYLES_CODE = css`
   font-size: 0.95em;
   background-color: ${Constants.system.white};
   border-radius: 4px;
-  padding: 0.2em;
+  padding: 0.1em 0.2em;
   border: 1px solid ${Constants.system.border};
 `;
 

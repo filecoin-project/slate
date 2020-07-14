@@ -138,7 +138,7 @@ class ExampleTwo extends React.Component {
             data={{
               columns: [
                 { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
                 { key: "c", name: "Default", width: "88px" },
                 { key: "d", name: "Description", width: "100%" },
               ],
@@ -150,7 +150,7 @@ class ExampleTwo extends React.Component {
                       onChange
                     </span>
                   ),
-                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  b: "function",
                   c: "null",
                   d: "Function called upon an onChange event",
                 },
@@ -161,7 +161,7 @@ class ExampleTwo extends React.Component {
                       value
                     </span>
                   ),
-                  b: <System.CodeText nowrap>boolean</System.CodeText>,
+                  b: "boolean",
                   c: "false",
                   d:
                     "The value of the checkbox. Can be used to assign default values as well",
@@ -169,7 +169,7 @@ class ExampleTwo extends React.Component {
                 {
                   id: 3,
                   a: "name",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Input name",
                 },

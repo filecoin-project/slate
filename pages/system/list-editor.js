@@ -123,7 +123,7 @@ import { ListEditor } from 'slate-react-system';`}
                       onChange
                     </span>
                   ),
-                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  b: "function",
                   c: "null",
                   d: "Function called upon an onChange event",
                 },
@@ -134,7 +134,7 @@ import { ListEditor } from 'slate-react-system';`}
                       options
                     </span>
                   ),
-                  b: <System.CodeText nowrap>Array</System.CodeText>,
+                  b: "Array",
                   c: "null",
                   d:
                     "Values to choose from and reorder. Can be used to specify the default value. An array of strings.",
@@ -142,28 +142,28 @@ import { ListEditor } from 'slate-react-system';`}
                 {
                   id: 2,
                   a: "name",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Input name",
                 },
                 {
                   id: 3,
                   a: "label",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Label text",
                 },
                 {
                   id: 4,
                   a: "description",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Description text",
                 },
                 {
                   id: 5,
                   a: "tooltip",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Tooltip text",
                 },

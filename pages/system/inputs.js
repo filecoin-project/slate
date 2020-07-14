@@ -328,7 +328,7 @@ class ExampleError extends React.Component {
             data={{
               columns: [
                 { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
                 { key: "c", name: "Default", width: "88px" },
                 { key: "d", name: "Description", width: "100%" },
               ],
@@ -340,7 +340,7 @@ class ExampleError extends React.Component {
                       onChange
                     </span>
                   ),
-                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  b: "function",
                   c: "null",
                   d: "Function called upon an onChange event",
                 },
@@ -351,7 +351,7 @@ class ExampleError extends React.Component {
                       value
                     </span>
                   ),
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d:
                     "The value that the dropdown takes. Can be used to assign default values as well.",
@@ -359,49 +359,49 @@ class ExampleError extends React.Component {
                 {
                   id: 3,
                   a: "name",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Input name",
                 },
                 {
                   id: 4,
                   a: "label",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Label text",
                 },
                 {
                   id: 5,
                   a: "description",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Description text",
                 },
                 {
                   id: 6,
                   a: "tooltip",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Tooltip text",
                 },
                 {
                   id: 7,
                   a: "max",
-                  b: <System.CodeText nowrap>int</System.CodeText>,
+                  b: "int",
                   c: "null",
                   d: "Max number of input characters",
                 },
                 {
                   id: 8,
                   a: "validation",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Validation style. Use: SUCCESS, WARNING or ERROR",
                 },
                 {
                   id: 9,
                   a: "icon",
-                  b: <System.CodeText nowrap>SVG</System.CodeText>,
+                  b: "SVG",
                   c: "null",
                   d:
                     "Icon on the right side of the input box. If an onSubmit is specified, it will trigger on click. Specifying an icon overrides copyable",
@@ -409,7 +409,7 @@ class ExampleError extends React.Component {
                 {
                   id: 10,
                   a: "onSubmit",
-                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  b: "function",
                   c: "null",
                   d:
                     "Function called when the enter key is pressed and when the icon (if present) is clicked",

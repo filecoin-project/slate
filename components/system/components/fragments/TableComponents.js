@@ -4,6 +4,7 @@ import * as SVG from "~/components/system/svg";
 import * as OldSVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 
+import { CodeText } from "~/components/system/components/fragments/CodeText";
 import { css } from "@emotion/react";
 import { Tooltip } from "react-tippy";
 
@@ -67,6 +68,14 @@ const COMPONENTS_TRANSACTION_STATUS = {
       pending
     </span>
   ),
+};
+
+const COMPONENTS_OBJECT_TYPE = (text) => {
+  if (Array.isArray(text)) {
+    text = text.map((item) => <CodeText nowrap>{item}</CodeText>);
+    return text;
+  }
+  return <CodeText nowrap>{text}</CodeText>;
 };
 
 const STYLES_COLUMN = css`
@@ -188,6 +197,8 @@ export const TableContent = ({
       return COMPONENTS_TRANSACTION_DIRECTION[text];
     case "TRANSACTION_STATUS":
       return COMPONENTS_TRANSACTION_STATUS[text];
+    case "OBJECT_TYPE":
+      return COMPONENTS_OBJECT_TYPE(text);
     case "ICON":
       return COMPONENTS_ICON[text];
     case "AVATAR":

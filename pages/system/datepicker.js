@@ -200,7 +200,7 @@ const weekdaysOnly = (date) => {
             data={{
               columns: [
                 { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
                 { key: "c", name: "Default", width: "88px" },
                 { key: "d", name: "Description", width: "100%" },
               ],
@@ -212,7 +212,7 @@ const weekdaysOnly = (date) => {
                       onChange
                     </span>
                   ),
-                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  b: "function",
                   c: "null",
                   d: "Function called upon an onChange event",
                 },
@@ -223,12 +223,7 @@ const weekdaysOnly = (date) => {
                       value
                     </span>
                   ),
-                  b: (
-                    <div>
-                      <System.CodeText nowrap>string</System.CodeText>
-                      <System.CodeText nowrap>Date</System.CodeText>
-                    </div>
-                  ),
+                  b: ["string", "Date"],
                   c: "null",
                   d:
                     "The value of the datepicker. Can be used to assign default values as well",
@@ -236,59 +231,49 @@ const weekdaysOnly = (date) => {
                 {
                   id: 3,
                   a: "name",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Input name",
                 },
                 {
                   id: 4,
                   a: "label",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Label text",
                 },
                 {
                   id: 5,
                   a: "description",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Description text",
                 },
                 {
                   id: 6,
                   a: "tooltip",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Tooltip text",
                 },
                 {
                   id: 7,
                   a: "min",
-                  b: (
-                    <div>
-                      <System.CodeText nowrap>string</System.CodeText>
-                      <System.CodeText nowrap>Date</System.CodeText>
-                    </div>
-                  ),
+                  b: ["string", "Date"],
                   c: "null",
                   d: "Earliest date allowed. String must be in yyyy-mm-dd form",
                 },
                 {
                   id: 8,
                   a: "max",
-                  b: (
-                    <div>
-                      <System.CodeText nowrap>string</System.CodeText>
-                      <System.CodeText nowrap>Date</System.CodeText>
-                    </div>
-                  ),
+                  b: ["string", "Date"],
                   c: "null",
                   d: "Latest date allowed. String must be in yyyy-mm-dd form",
                 },
                 {
                   id: 9,
                   a: "isDisabled",
-                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  b: "function",
                   c: "null",
                   d:
                     "Function that accepts a Date object and returns true if the date should be disabled (cannot be selected), false otherwise",

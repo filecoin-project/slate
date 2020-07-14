@@ -8,13 +8,11 @@ import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 export default class SystemPageNotifications extends React.Component {
   _handleCreate = (detail) => {
-    let event = new CustomEvent("create-modal", { detail });
-    window.dispatchEvent(event);
+    System.dispatchCustomEvent({ name: "create-modal", detail: detail });
   };
 
   _handleDelete = () => {
-    let event = new CustomEvent("delete-modal", {});
-    window.dispatchEvent(event);
+    System.dispatchCustomEvent({ name: "delete-modal", detail: {} });
   };
 
   render() {
@@ -43,7 +41,7 @@ export default class SystemPageNotifications extends React.Component {
         <br />
         <System.CodeBlock>
           {`import * as React from 'react';
-import { GlobalModal } from 'slate-react-system';`}
+import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />
@@ -119,13 +117,11 @@ import { GlobalModal } from 'slate-react-system';`}
         <System.CodeBlock>
           {`class ExampleOne extends React.Component {
   _handleCreate = (detail) => {
-    let event = new CustomEvent("create-modal", { detail });
-    window.dispatchEvent(event);
+    dispatchCustomEvent({ name: "create-modal", detail: detail })
   };
 
   _handleDelete = () => {
-    let event = new CustomEvent("delete-modal", {});
-    window.dispatchEvent(event);
+    dispatchCustomEvent({ name: "delete-modal", detail: {} });
   };
 
   render() {

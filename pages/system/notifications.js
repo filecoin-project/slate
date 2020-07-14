@@ -12,14 +12,12 @@ export default class SystemPageNotifications extends React.Component {
   };
 
   _handleCreate = (detail) => {
-    let event = new CustomEvent("create-notification", { detail });
-    window.dispatchEvent(event);
+    System.dispatchCustomEvent({ name: "create-notification", detail: detail });
     this.setState({ count: this.state.count + 1 });
   };
 
   _handleDelete = () => {
-    let event = new CustomEvent("delete-notification", {});
-    window.dispatchEvent(event);
+    System.dispatchCustomEvent({ name: "delete-notification", detail: {} });
   };
 
   render() {
@@ -47,7 +45,7 @@ export default class SystemPageNotifications extends React.Component {
         <br />
         <System.CodeBlock>
           {`import * as React from 'react';
-import { GlobalNotification } from 'slate-react-system';`}
+import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />
@@ -133,14 +131,12 @@ import { GlobalNotification } from 'slate-react-system';`}
   };
 
   _handleCreate = (detail) => {
-    let event = new CustomEvent("create-notification", { detail });
-    window.dispatchEvent(event);
+    dispatchCustomEvent({ name: "create-notification", detail: detail });
     this.setState({ count: this.state.count + 1 });
   };
 
-  _handleDelete = (detail) => {
-    let event = new CustomEvent("delete-notification", { detail });
-    window.dispatchEvent(event);
+  _handleDelete = () => {
+    dispatchCustomEvent({ name: "delete-notification", detail: {} });
   };
 
   render() {
@@ -210,8 +206,7 @@ import { GlobalNotification } from 'slate-react-system';`}
   };
 
   _handleCreate = (detail) => {
-    let event = new CustomEvent("create-notification", { detail });
-    window.dispatchEvent(event);
+    dispatchCustomEvent({ name: "create-notification", detail: detail });
     this.setState({ count: this.state.count + 1 });
   };
 
@@ -309,14 +304,12 @@ import { GlobalNotification } from 'slate-react-system';`}
   };
 
   _handleCreate = (detail) => {
-    let event = new CustomEvent("create-notification", { detail });
-    window.dispatchEvent(event);
+    dispatchCustomEvent({ name: "create-notification", detail: detail });
     this.setState({ count: this.state.count + 1 });
   };
 
-  _handleDelete = (detail) => {
-    let event = new CustomEvent("delete-notification", { detail });
-    window.dispatchEvent(event);
+  _handleDelete = () => {
+    dispatchCustomEvent({ name: "delete-notification", detail: {} });
   };
 
   render() {

@@ -1,5 +1,8 @@
 import * as Constants from "~/common/constants";
 
+// NOTE(martina): Actions
+import { dispatchCustomEvent } from "~/common/custom-events";
+
 // NOTE(jim): Modules
 import { CreateToken } from "~/components/system/modules/CreateToken";
 import { PeersList } from "~/components/system/modules/PeersList";
@@ -53,6 +56,8 @@ import * as OldSVG from "~/common/svg";
 
 // NOTE(jim): Export everything.
 export {
+  // NOTE(martina): Actions
+  dispatchCustomEvent,
   // NOTE(jim): Modules
   CreateToken,
   PeersList,

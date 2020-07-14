@@ -195,7 +195,10 @@ export class ListEditor extends React.Component {
         >
           <SVG.Reorder className="cursor" css={STYLES_REORDER} />
           <div>{item}</div>
-          <SVG.X css={STYLES_DELETE} onClick={() => this._handleDelete(i)} />
+          <SVG.Close
+            css={STYLES_DELETE}
+            onClick={() => this._handleDelete(i)}
+          />
         </div>
       </Draggable>
     ));

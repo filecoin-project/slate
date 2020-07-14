@@ -66,14 +66,27 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
   render() {
     return(
       <React.Fragment>
-        <GlobalModal style={{ padding: "10px" }}/>
+        <GlobalModal style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        />
         {this.props.children}     
       </React.Fragment>
     )
   }
 }`}
         </System.CodeBlock>
-        <System.GlobalModal style={{ padding: "10px" }} />
+        <System.GlobalModal
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        />
         <br />
         <br />
         <br />
@@ -84,15 +97,7 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
           onClick={() =>
             this._handleCreate({
               modal: (
-                <div
-                  style={{
-                    textAlign: "center",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
+                <div>
                   <System.H2>Render whatever component you like here</System.H2>
                   <br />
                   <System.ButtonSecondary onClick={this._handleDelete}>

@@ -8,13 +8,18 @@ import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 export default class SystemPageNotifications extends React.Component {
   state = {
-    exampleOne: true,
-    exampleTwo: true,
-    exampleThree: true,
+    count: 0,
   };
 
-  _handleChange = (name) => {
-    this.setState({ [name]: false });
+  _createNotif = (detail) => {
+    let event = new CustomEvent("create-notification", { detail });
+    window.dispatchEvent(event);
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  _deleteNotif = (detail) => {
+    let event = new CustomEvent("delete-notification", { detail });
+    window.dispatchEvent(event);
   };
 
   render() {
@@ -40,180 +45,371 @@ export default class SystemPageNotifications extends React.Component {
         <br />
         <System.P>Import React and the Notification Component.</System.P>
         <br />
-        <br />
         <System.CodeBlock>
           {`import * as React from 'react';
 import { Notification } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />
-        <System.H2>Notification with status</System.H2>
+        <br />
+        <System.H2>Usage</System.H2>
         <hr />
         <br />
-        <System.Notification
-          label="Info Notification"
-          description="Here is the description"
-          status="INFO"
-        />
+        <System.P>
+          Declare the component at the root level of your document (e.g. in
+          index.js or App.js) so it is accessible throughout and will not get
+          buried in the DOM tree.
+        </System.P>
         <br />
-        <System.Notification
-          label="Success Notification"
-          description="Here is the description"
-          status="SUCCESS"
-        />
+        <System.P>
+          Use <System.CodeText>style</System.CodeText> to specify placement of
+          the fixed positioning notification list
+        </System.P>
         <br />
-        <System.Notification
-          label="Warning Notification"
-          description="Here is the description"
-          status="WARNING"
-        />
+        <System.CodeBlock>
+          {`function App() {
+  return (
+    <React.Fragment>
+       <GlobalNotification style={{ bottom: 0, right: 0 }} />
+       {this.props.children}     
+    </React.Fragment>
+  )
+}`}
+        </System.CodeBlock>
+        <System.GlobalNotification style={{ bottom: 0, right: 0 }} />
         <br />
-        <System.Notification
-          label="Error Notification"
-          description="Whoops that doesn't look good"
-          status="ERROR"
-        />
         <br />
         <br />
-        <System.P>Declare the Notification component with a status.</System.P>
+        <System.H2>Notification</System.H2>
+        <hr />
+        <br />
+        <System.ButtonSecondaryFull
+          onClick={() =>
+            this._createNotif({
+              id: this.state.count,
+              description: "This is a regular notification",
+            })
+          }
+        >
+          Click for notification
+        </System.ButtonSecondaryFull>
+        <br />
+        <System.ButtonSecondaryFull
+          onClick={() =>
+            this._createNotif({
+              id: this.state.count,
+              description: "This is a dark notification",
+              dark: true,
+            })
+          }
+        >
+          Click for dark style notification
+        </System.ButtonSecondaryFull>
+        <br />
+        <System.ButtonPrimaryFull
+          onClick={() => {
+            for (let i = 0; i <= this.state.count; i++) {
+              this._deleteNotif({ i });
+            }
+          }}
+        >
+          Click to clear notifications
+        </System.ButtonPrimaryFull>
+        <br />
+        <System.P>
+          A notification will only appear once you trigger it by creating a
+          custom event with the title{" "}
+          <System.CodeText>"create-notification"</System.CodeText>. It can be
+          removed with a custom event entitled{" "}
+          <System.CodeText>"delete-notification"</System.CodeText>.
+        </System.P>
+        <br />
+        <System.P>
+          Multiple stacked notifications can be created using a single
+          Notification component.{" "}
+          <strong>Each co-existing notification must have a unique id.</strong>
+        </System.P>
         <br />
         <System.CodeBlock>
           {`class ExampleOne extends React.Component {
-   render() {
-       return(
-          <Notification
-            label="Info Notification"
-            description="Here is the description"
-            status="INFO"
-          />
-          <br />
-          <Notification
-            label="Success Notification"
-            description="Here is the description"
-            status="SUCCESS"
-          />
-          <br />
-          <Notification
-            label="Warning Notification"
-            description="Here is the description"
-            status="WARNING"
-          />
-          <br />
-          <Notification
-            label="Error Notification"
-            description="Whoops that doesn't look good"
-            status="ERROR"
-          />
-       )
-   }
-}`}
-        </System.CodeBlock>
-        <br />
-        <br />
-        <br />
-        <System.H2>Notification with content</System.H2>
-        <hr />
-        <br />
-        <System.Notification
-          label="Doge demands your attention"
-          description={
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 5fr" }}>
-              <img
-                src="https://upload.wikimedia.org/wikipedia/en/5/5f/Original_Doge_meme.jpg"
-                alt="doge"
-                style={{ height: "50px", display: "inline-block" }}
-              />
-              You can style the description how you like and even add photos or
-              other components.
-            </div>
-          }
-        />
-        <br />
-        <br />
-        <System.P>
-          Declare the Notification component with components in the description
-        </System.P>
-        <br />
-        <System.CodeBlock>
-          {`let imgLink= "https://upload.wikimedia.org/wikipedia/en/5/5f/Original_Doge_meme.jpg"
-          
-class ExampleTwo extends React.Component {
-   render() {
-       return(
-          <Notification
-            label="Doge demands your attention"
-            description={
-              <div style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 5fr" 
-                }}
-              >
-                <img src={imgLink}
-                  alt="doge"
-                  style={{ height: "50px", display: "inline-block" }}
-                />
-                You can style the description how you like and 
-                even add photos or other components.
-              </div>
-            }
-        />
-       )
-   }
-}`}
-        </System.CodeBlock>
-        <br />
-        <br />
-        <br />
-        <System.H2>Notification with onClose function and timer</System.H2>
-        <hr />
-        <br />
-        {this.state.exampleOne ? (
-          <System.Notification
-            label="Notification with a timer and a close function"
-            description="This notification disappears after 1 minute"
-            interval={60000}
-            onClose={() => this._handleChange("exampleOne")}
-          />
-        ) : (
-          <System.P>
-            This notification disappeared after 1 minute. Refresh the page to
-            see it.
-          </System.P>
-        )}
-        <br />
-        <br />
-        <System.P>
-          Declare the Notification component with an onClose function which is
-          triggered when the x is clicked.
-        </System.P>
-        <br />
-        <System.P>
-          You can include an interval in milliseconds, after which onClose is
-          automatically called. If the user mouses over the notification, the
-          timer restarts.
-        </System.P>
-        <br />
-        <System.CodeBlock>
-          {`class exampleOne extends React.Component {
-   state = { exampleOne: true }
+  state = {
+    count: 0,
+  };
 
-   render() {
-     return(
-        {this.state.exampleOne ? (
-          <Notification
-            label="Notification with a timer and a close function"
-            description="This notification disappears after 5 minutes"
-            interval={180000}
-            onClose={() => this._handleChange("exampleOne")}
-          />
-        ) : (
-            <div>This notification disappeared after 5 minutes</div>
-        )}
-     )
-   }
+  _createNotif = (detail) => {
+    let event = new CustomEvent("create-notification", { detail });
+    window.dispatchEvent(event);
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  _deleteNotif = (detail) => {
+    let event = new CustomEvent("delete-notification", { detail });
+    window.dispatchEvent(event);
+  };
+
+  render() {
+    return(
+      <ButtonSecondaryFull
+        onClick={() =>
+          this._createNotif({
+            id: this.state.count,
+            description: "This is notification number " + this.state.count,
+          })
+        }
+       >
+         Click for notification
+       </ButtonSecondaryFull>
+       <br />
+       <ButtonSecondaryFull
+        onClick={() =>
+          this._createNotif({
+            id: this.state.count,
+            description: "This is a dark notification",
+            dark: true,
+          })
+        }
+      >
+        Click for dark style notification
+      </ButtonSecondaryFull>
+
+      <ButtonPrimaryFull
+        onClick={() => {
+          for (let i = 0; i <= this.state.count; i++) {
+            this._deleteNotif({ i });
+          }
+        }}
+      >
+        Click to clear notifications
+      </ButtonPrimaryFull>
+    )
+  }
 }`}
         </System.CodeBlock>
         <br />
+        <br />
+        <br />
+        <System.H2>Notification with timeout</System.H2>
+        <hr />
+        <br />
+        <System.ButtonSecondaryFull
+          onClick={() =>
+            this._createNotif({
+              id: this.state.count,
+              description: "This disappears after 5 seconds",
+              timeout: 5000,
+            })
+          }
+        >
+          Click for disappearing notification
+        </System.ButtonSecondaryFull>
+        <br />
+        <System.ButtonPrimaryFull
+          onClick={() => {
+            for (let i = 0; i <= this.state.count; i++) {
+              this._deleteNotif({ i });
+            }
+          }}
+        >
+          Click to clear notifications
+        </System.ButtonPrimaryFull>
+        <br />
+        <System.P>
+          You can declare the Notification component with a{" "}
+          <System.CodeText>timeout</System.CodeText> (in milliseconds) after
+          which it will automatically disappear.
+        </System.P>
+        <br />
+        <System.CodeBlock>
+          {`class ExampleTwo extends React.Component {
+  state = {
+    count: 0,
+  };
+
+  _createNotif = (detail) => {
+    let event = new CustomEvent("create-notification", { detail });
+    window.dispatchEvent(event);
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    return(
+      <ButtonSecondaryFull
+        onClick={() =>
+          this._createNotif({
+            id: this.state.count,
+            description: "This disappears after 5 seconds",
+            timeout: 5000,
+          })
+        }
+      >
+        Click for disappearing notification
+      </System.ButtonSecondaryFull>
+
+      <ButtonPrimaryFull
+        onClick={() => {
+          for (let i = 0; i <= this.state.count; i++) {
+            this._deleteNotif({ i });
+          }
+        }}
+      >
+        Click to clear notifications
+      </ButtonPrimaryFull>
+    )
+  }
+}`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <br />
+        <System.H2>Notification with status</System.H2>
+        <hr />
+        <br />
+        <System.ButtonSecondaryFull
+          onClick={() =>
+            this._createNotif({
+              id: this.state.count,
+              description: "This is an info notification",
+              status: "INFO",
+            })
+          }
+        >
+          Click for info style notification
+        </System.ButtonSecondaryFull>
+        <br />
+        <System.ButtonSecondaryFull
+          onClick={() =>
+            this._createNotif({
+              id: this.state.count,
+              description: "This is a success notification",
+              status: "SUCCESS",
+            })
+          }
+        >
+          Click for success style notification
+        </System.ButtonSecondaryFull>
+        <br />
+        <System.ButtonSecondaryFull
+          onClick={() =>
+            this._createNotif({
+              id: this.state.count,
+              description: "This is a warning notification",
+              status: "WARNING",
+            })
+          }
+        >
+          Click for warning style notification
+        </System.ButtonSecondaryFull>
+        <br />
+        <System.ButtonSecondaryFull
+          onClick={() =>
+            this._createNotif({
+              id: this.state.count,
+              description: "This is an error notification",
+              status: "ERROR",
+            })
+          }
+        >
+          Click for error style notification
+        </System.ButtonSecondaryFull>
+        <br />
+        <System.ButtonPrimaryFull
+          onClick={() => {
+            for (let i = 0; i <= this.state.count; i++) {
+              this._deleteNotif({ i });
+            }
+          }}
+        >
+          Click to clear notifications
+        </System.ButtonPrimaryFull>
+        <br />
+        <br />
+        <System.P>
+          Declare the Notification component with a{" "}
+          <System.CodeText>status</System.CodeText> to style it accordingly.
+          This is overridden if <System.CodeText>dark</System.CodeText> is set
+          to true.
+        </System.P>
+        <br />
+        <System.CodeBlock>
+          {`class ExampleThree extends React.Component {
+  state = {
+    count: 0,
+  };
+
+  _createNotif = (detail) => {
+    let event = new CustomEvent("create-notification", { detail });
+    window.dispatchEvent(event);
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  _deleteNotif = (detail) => {
+    let event = new CustomEvent("delete-notification", { detail });
+    window.dispatchEvent(event);
+  };
+
+  render() {
+    return(
+      <ButtonSecondaryFull
+        onClick={() =>
+          this._createNotif({
+            id: this.state.count,
+            description: "This is an info notification",
+            status: "INFO",
+          })
+        }
+      >
+        Click for info style notification
+      </ButtonSecondaryFull>
+
+      <ButtonSecondaryFull
+        onClick={() =>
+          this._createNotif({
+            id: this.state.count,
+            description: "This is a success notification",
+            status: "SUCCESS",
+          })
+        }
+      >
+        Click for success style notification
+      </ButtonSecondaryFull>
+
+      <ButtonSecondaryFull
+        onClick={() =>
+          this._createNotif({
+            id: this.state.count,
+            description: "This is a warning notification",
+            status: "WARNING",
+          })
+        }
+      >
+        Click for warning style notification
+      </ButtonSecondaryFull>
+
+      <ButtonSecondaryFull
+        onClick={() =>
+          this._createNotif({
+            id: this.state.count,
+            description: "This is an error notification",
+            status: "ERROR",
+          })
+        }
+      >
+        Click for error style notification
+      </ButtonSecondaryFull>
+
+      <ButtonPrimaryFull
+        onClick={() => {
+          for (let i = 0; i <= this.state.count; i++) {
+            this._deleteNotif({ i });
+          }
+        }}
+      >
+        Click to clear notifications
+      </ButtonPrimaryFull>
+    )
+  }
+}`}
+        </System.CodeBlock>
         <br />
         <br />
         <System.H2>Accepted React Properties</System.H2>
@@ -224,60 +420,126 @@ class ExampleTwo extends React.Component {
             data={{
               columns: [
                 { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
                 { key: "c", name: "Default", width: "88px" },
                 { key: "d", name: "Description", width: "100%" },
               ],
               rows: [
                 {
                   id: 1,
-                  a: "onClose",
-                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  a: "style",
+                  b: "Object",
+                  c: "{}",
+                  d:
+                    "Style object used to style the notification list positioning on the page",
+                },
+              ],
+            }}
+          />
+        </Group>
+        <br />
+        <br />
+        <br />
+        <System.H2>
+          Accepted <i>Create</i> Notification Properties
+        </System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Note that these properties are passed through a custom event rather
+          than as react properties.
+        </System.P>
+        <br />
+        <Group title="Notifications">
+          <System.Table
+            data={{
+              columns: [
+                { key: "a", name: "Name", width: "128px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
+                { key: "c", name: "Default", width: "88px" },
+                { key: "d", name: "Description", width: "100%" },
+              ],
+              rows: [
+                {
+                  id: 1,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      id
+                    </span>
+                  ),
+                  b: ["string", "number"],
                   c: "null",
                   d:
-                    "Function called when the 'x' is clicked or the interval (if specified) runs out",
+                    "Notification id, must be unique for simultaneously existing notifications or the latter will overwrite the former",
                 },
                 {
                   id: 2,
                   a: "status",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
-                  c: "INFO",
+                  b: "string",
+                  c: "null",
                   d:
                     "Status which determines the styling and color of the notification. Use INFO, SUCCESS, WARNING, or ERROR",
                 },
                 {
                   id: 3,
-                  a: "interval",
-                  b: <System.CodeText nowrap>int</System.CodeText>,
+                  a: "timeout",
+                  b: "int",
                   c: "null",
                   d:
-                    "Number of milliseconds before onClose is automatically called. Interval resets if user mouses over the notification",
+                    "Number of milliseconds before the notification automatically disappears",
                 },
                 {
                   id: 4,
                   a: "label",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Label text",
                 },
                 {
                   id: 5,
                   a: "description",
-                  b: (
-                    <div>
-                      <System.CodeText nowrap>string</System.CodeText>
-                      <System.CodeText nowrap>Component</System.CodeText>
-                    </div>
-                  ),
+                  b: "string",
                   c: "null",
                   d: "Description text",
                 },
+              ],
+            }}
+          />
+        </Group>
+        <br />
+        <br />
+        <br />
+        <System.H2>
+          Accepted <i>Delete</i> Notification Properties
+        </System.H2>
+        <hr />
+        <br />
+        <System.P>
+          Note that these properties are passed through a custom event rather
+          than as react properties.
+        </System.P>
+        <br />
+        <Group title="Notifications">
+          <System.Table
+            data={{
+              columns: [
+                { key: "a", name: "Name", width: "128px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
+                { key: "c", name: "Default", width: "88px" },
+                { key: "d", name: "Description", width: "100%" },
+              ],
+              rows: [
                 {
-                  id: 6,
-                  a: "tooltip",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  id: 1,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      id
+                    </span>
+                  ),
+                  b: ["string", "number"],
                   c: "null",
-                  d: "Tooltip text",
+                  d:
+                    "Notification id of the notification that is to be deleted",
                 },
               ],
             }}

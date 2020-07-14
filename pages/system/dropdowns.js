@@ -219,7 +219,7 @@ class ExampleTwo extends React.Component {
             data={{
               columns: [
                 { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
                 { key: "c", name: "Default", width: "88px" },
                 { key: "d", name: "Description", width: "100%" },
               ],
@@ -231,7 +231,7 @@ class ExampleTwo extends React.Component {
                       options
                     </span>
                   ),
-                  b: <System.CodeText nowrap>Array</System.CodeText>,
+                  b: "Array",
                   c: "[]",
                   d:
                     "Array of options to select from. Each object in the array should have a name and value",
@@ -243,7 +243,7 @@ class ExampleTwo extends React.Component {
                       onChange
                     </span>
                   ),
-                  b: <System.CodeText nowrap>function</System.CodeText>,
+                  b: "function",
                   c: "null",
                   d: "Function called upon an onChange event",
                 },
@@ -254,7 +254,7 @@ class ExampleTwo extends React.Component {
                       value
                     </span>
                   ),
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d:
                     "The value that the dropdown takes. Can be used to assign default values as well.",
@@ -262,42 +262,42 @@ class ExampleTwo extends React.Component {
                 {
                   id: 4,
                   a: "name",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Input name",
                 },
                 {
                   id: 5,
                   a: "label",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Label text",
                 },
                 {
                   id: 6,
                   a: "description",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Description text",
                 },
                 {
                   id: 7,
                   a: "tooltip",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Tooltip text",
                 },
                 {
                   id: 8,
                   a: "full",
-                  b: <System.CodeText nowrap>boolean</System.CodeText>,
+                  b: "boolean",
                   c: "false",
                   d: "Sets width to 100% if true",
                 },
                 {
                   id: 9,
                   a: "category",
-                  b: <System.CodeText nowrap>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Category text",
                 },

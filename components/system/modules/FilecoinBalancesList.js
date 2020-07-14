@@ -23,21 +23,27 @@ export const FilecoinBalancesList = (props) => {
           columns: [
             {
               key: "address",
+              name: "Address",
             },
             {
               key: "name",
+              name: "Name",
             },
             {
               key: "type",
+              name: "Type",
             },
             {
               key: "balance",
+              name: "Address",
             },
           ],
           rows: props.data.map((each) => {
             return {
               id: each.addr.addr,
-              balance: Strings.formatAsFilecoin(each.balance),
+              balance: Strings.formatAsFilecoin(
+                Strings.formatNumber(each.balance)
+              ),
               address: each.addr.addr,
               name: each.addr.name,
               type: each.addr.type,

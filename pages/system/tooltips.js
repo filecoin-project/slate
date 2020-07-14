@@ -67,7 +67,7 @@ import { TooltipAnchor } from 'slate-react-system';`}
             data={{
               columns: [
                 { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
                 { key: "c", name: "Default", width: "88px" },
                 { key: "d", name: "Description", width: "100%" },
               ],
@@ -75,14 +75,14 @@ import { TooltipAnchor } from 'slate-react-system';`}
                 {
                   id: 1,
                   a: "tooltip",
-                  b: <System.CodeText>string</System.CodeText>,
+                  b: "string",
                   c: "null",
                   d: "Output text on the tooltip",
                 },
                 {
                   id: 2,
                   a: "height",
-                  b: <System.CodeText>number</System.CodeText>,
+                  b: "number",
                   c: "24px",
                   d: "Height of the tooltip",
                 },

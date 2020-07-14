@@ -22,9 +22,10 @@ import { CheckBox } from "~/components/system/components/CheckBox";
 import { CodeBlock } from "~/components/system/components/CodeBlock";
 import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 import { DatePicker } from "~/components/system/components/DatePicker";
+import { GlobalModal } from "~/components/system/components/GlobalModal";
+import { GlobalNotification } from "~/components/system/components/GlobalNotification";
 import { Input } from "~/components/system/components/Input";
 import { ListEditor } from "~/components/system/components/ListEditor";
-import { Notification } from "~/components/system/components/Notification";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { RadioGroup } from "~/components/system/components/RadioGroup";
 import {
@@ -72,9 +73,10 @@ export {
   CodeText,
   CodeTextarea,
   DatePicker,
+  GlobalModal,
+  GlobalNotification,
   Input,
   ListEditor,
-  Notification,
   PopoverNavigation,
   RadioGroup,
   SelectCountryMenu,

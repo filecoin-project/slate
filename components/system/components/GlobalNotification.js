@@ -51,7 +51,10 @@ export class GlobalNotification extends React.Component {
     let notifs = this.state.notifs;
     notifs[e.detail.id] = e.detail;
     if (e.detail.timeout) {
-      setTimeout(() => this._handleDismiss(e.detail.id), e.detail.timeout);
+      notifs[e.detail.id].timeout = setTimeout(
+        () => this._handleDismiss(e.detail.id),
+        e.detail.timeout
+      );
     }
     this.setState({
       order: [...this.state.order, e.detail.id],
@@ -65,10 +68,12 @@ export class GlobalNotification extends React.Component {
 
   _handleDismiss = (id) => {
     let notifs = this.state.notifs;
-    let order = this.state.order;
-    delete notifs[id];
-    order.splice(order.indexOf(id), 1);
-    this.setState({ order, notifs });
+    if (notifs[id]) {
+      let order = this.state.order;
+      delete notifs[id];
+      order.splice(order.indexOf(id), 1);
+      this.setState({ order, notifs });
+    }
   };
 
   render() {

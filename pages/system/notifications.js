@@ -11,15 +11,13 @@ export default class SystemPageNotifications extends React.Component {
     count: 0,
   };
 
-  _createNotif = (detail) => {
-    let event = new CustomEvent("create-notification", { detail });
-    window.dispatchEvent(event);
+  _handleCreate = (detail) => {
+    System.dispatchCustomEvent({ name: "create-notification", detail: detail });
     this.setState({ count: this.state.count + 1 });
   };
 
-  _deleteNotif = () => {
-    let event = new CustomEvent("delete-notification", {});
-    window.dispatchEvent(event);
+  _handleDelete = () => {
+    System.dispatchCustomEvent({ name: "delete-notification", detail: {} });
   };
 
   render() {
@@ -43,11 +41,14 @@ export default class SystemPageNotifications extends React.Component {
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import React and the Notification Component.</System.P>
+        <System.P>
+          Import React and the Notification Component, as well as the
+          dispatchCustomEvent function.
+        </System.P>
         <br />
         <System.CodeBlock>
           {`import * as React from 'react';
-import { Notification } from 'slate-react-system';`}
+import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
         </System.CodeBlock>
         <br />
         <br />
@@ -63,7 +64,7 @@ import { Notification } from 'slate-react-system';`}
         <br />
         <System.P>
           Use <System.CodeText>style</System.CodeText> to specify placement of
-          the fixed positioning notification list
+          the fixed positioning notification list. Default is bottom right.
         </System.P>
         <br />
         <System.CodeBlock>
@@ -87,7 +88,7 @@ import { Notification } from 'slate-react-system';`}
         <br />
         <System.ButtonSecondaryFull
           onClick={() =>
-            this._createNotif({
+            this._handleCreate({
               id: this.state.count,
               description: "This is a regular notification",
             })
@@ -98,7 +99,7 @@ import { Notification } from 'slate-react-system';`}
         <br />
         <System.ButtonSecondaryFull
           onClick={() =>
-            this._createNotif({
+            this._handleCreate({
               id: this.state.count,
               description: "This is a dark notification",
               dark: true,
@@ -108,7 +109,7 @@ import { Notification } from 'slate-react-system';`}
           Click for dark style notification
         </System.ButtonSecondaryFull>
         <br />
-        <System.ButtonPrimaryFull onClick={this._deleteNotif}>
+        <System.ButtonPrimaryFull onClick={this._handleDelete}>
           Click to clear notifications
         </System.ButtonPrimaryFull>
         <br />
@@ -132,22 +133,20 @@ import { Notification } from 'slate-react-system';`}
     count: 0,
   };
 
-  _createNotif = (detail) => {
-    let event = new CustomEvent("create-notification", { detail });
-    window.dispatchEvent(event);
+  _handleCreate = (detail) => {
+    dispatchCustomEvent({ name: "create-notification", detail: detail });
     this.setState({ count: this.state.count + 1 });
   };
 
-  _deleteNotif = (detail) => {
-    let event = new CustomEvent("delete-notification", { detail });
-    window.dispatchEvent(event);
+  _handleDelete = () => {
+    dispatchCustomEvent({ name: "delete-notification", detail: {} });
   };
 
   render() {
     return(
       <ButtonSecondaryFull
         onClick={() =>
-          this._createNotif({
+          this._handleCreate({
             id: this.state.count,
             description: "This is notification number " + this.state.count,
           })
@@ -158,7 +157,7 @@ import { Notification } from 'slate-react-system';`}
        <br />
        <ButtonSecondaryFull
         onClick={() =>
-          this._createNotif({
+          this._handleCreate({
             id: this.state.count,
             description: "This is a dark notification",
             dark: true,
@@ -168,7 +167,7 @@ import { Notification } from 'slate-react-system';`}
         Click for dark style notification
       </ButtonSecondaryFull>
 
-      <ButtonPrimaryFull onClick={this._deleteNotif}>
+      <ButtonPrimaryFull onClick={this._handleDelete}>
         Click to clear notifications
       </ButtonPrimaryFull>
     )
@@ -183,7 +182,7 @@ import { Notification } from 'slate-react-system';`}
         <br />
         <System.ButtonSecondaryFull
           onClick={() =>
-            this._createNotif({
+            this._handleCreate({
               id: this.state.count,
               description: "This disappears after 5 seconds",
               timeout: 5000,
@@ -193,7 +192,7 @@ import { Notification } from 'slate-react-system';`}
           Click for disappearing notification
         </System.ButtonSecondaryFull>
         <br />
-        <System.ButtonPrimaryFull onClick={this._deleteNotif}>
+        <System.ButtonPrimaryFull onClick={this._handleDelete}>
           Click to clear notifications
         </System.ButtonPrimaryFull>
         <br />
@@ -209,9 +208,8 @@ import { Notification } from 'slate-react-system';`}
     count: 0,
   };
 
-  _createNotif = (detail) => {
-    let event = new CustomEvent("create-notification", { detail });
-    window.dispatchEvent(event);
+  _handleCreate = (detail) => {
+    dispatchCustomEvent({ name: "create-notification", detail: detail });
     this.setState({ count: this.state.count + 1 });
   };
 
@@ -219,7 +217,7 @@ import { Notification } from 'slate-react-system';`}
     return(
       <ButtonSecondaryFull
         onClick={() =>
-          this._createNotif({
+          this._handleCreate({
             id: this.state.count,
             description: "This disappears after 5 seconds",
             timeout: 5000,
@@ -229,7 +227,7 @@ import { Notification } from 'slate-react-system';`}
         Click for disappearing notification
       </System.ButtonSecondaryFull>
 
-      <ButtonPrimaryFull onClick={this._deleteNotif}>
+      <ButtonPrimaryFull onClick={this._handleDelete}>
         Click to clear notifications
       </ButtonPrimaryFull>
     )
@@ -244,7 +242,7 @@ import { Notification } from 'slate-react-system';`}
         <br />
         <System.ButtonSecondaryFull
           onClick={() =>
-            this._createNotif({
+            this._handleCreate({
               id: this.state.count,
               description: "This is an info notification",
               status: "INFO",
@@ -256,7 +254,7 @@ import { Notification } from 'slate-react-system';`}
         <br />
         <System.ButtonSecondaryFull
           onClick={() =>
-            this._createNotif({
+            this._handleCreate({
               id: this.state.count,
               description: "This is a success notification",
               status: "SUCCESS",
@@ -268,7 +266,7 @@ import { Notification } from 'slate-react-system';`}
         <br />
         <System.ButtonSecondaryFull
           onClick={() =>
-            this._createNotif({
+            this._handleCreate({
               id: this.state.count,
               description: "This is a warning notification",
               status: "WARNING",
@@ -280,7 +278,7 @@ import { Notification } from 'slate-react-system';`}
         <br />
         <System.ButtonSecondaryFull
           onClick={() =>
-            this._createNotif({
+            this._handleCreate({
               id: this.state.count,
               description: "This is an error notification",
               status: "ERROR",
@@ -290,7 +288,7 @@ import { Notification } from 'slate-react-system';`}
           Click for error style notification
         </System.ButtonSecondaryFull>
         <br />
-        <System.ButtonPrimaryFull onClick={this._deleteNotif}>
+        <System.ButtonPrimaryFull onClick={this._handleDelete}>
           Click to clear notifications
         </System.ButtonPrimaryFull>
         <br />
@@ -308,22 +306,20 @@ import { Notification } from 'slate-react-system';`}
     count: 0,
   };
 
-  _createNotif = (detail) => {
-    let event = new CustomEvent("create-notification", { detail });
-    window.dispatchEvent(event);
+  _handleCreate = (detail) => {
+    dispatchCustomEvent({ name: "create-notification", detail: detail });
     this.setState({ count: this.state.count + 1 });
   };
 
-  _deleteNotif = (detail) => {
-    let event = new CustomEvent("delete-notification", { detail });
-    window.dispatchEvent(event);
+  _handleDelete = () => {
+    dispatchCustomEvent({ name: "delete-notification", detail: {} });
   };
 
   render() {
     return(
       <ButtonSecondaryFull
         onClick={() =>
-          this._createNotif({
+          this._handleCreate({
             id: this.state.count,
             description: "This is an info notification",
             status: "INFO",
@@ -335,7 +331,7 @@ import { Notification } from 'slate-react-system';`}
 
       <ButtonSecondaryFull
         onClick={() =>
-          this._createNotif({
+          this._handleCreate({
             id: this.state.count,
             description: "This is a success notification",
             status: "SUCCESS",
@@ -347,7 +343,7 @@ import { Notification } from 'slate-react-system';`}
 
       <ButtonSecondaryFull
         onClick={() =>
-          this._createNotif({
+          this._handleCreate({
             id: this.state.count,
             description: "This is a warning notification",
             status: "WARNING",
@@ -359,7 +355,7 @@ import { Notification } from 'slate-react-system';`}
 
       <ButtonSecondaryFull
         onClick={() =>
-          this._createNotif({
+          this._handleCreate({
             id: this.state.count,
             description: "This is an error notification",
             status: "ERROR",
@@ -369,7 +365,7 @@ import { Notification } from 'slate-react-system';`}
         Click for error style notification
       </ButtonSecondaryFull>
 
-      <ButtonPrimaryFull onClick={this._deleteNotif}>
+      <ButtonPrimaryFull onClick={this._handleDelete}>
         Click to clear notifications
       </ButtonPrimaryFull>
     )
@@ -395,7 +391,7 @@ import { Notification } from 'slate-react-system';`}
                   id: 1,
                   a: "style",
                   b: "Object",
-                  c: "{}",
+                  c: "{ bottom: 0, right: 0 }",
                   d:
                     "Style object used to style the notification list positioning on the page",
                 },
@@ -436,7 +432,7 @@ import { Notification } from 'slate-react-system';`}
                   b: ["string", "number"],
                   c: "null",
                   d:
-                    "Notification id, must be unique for simultaneously existing notifications or the latter will overwrite the former",
+                    "Notification id, must be unique for simultaneously existing notifications",
                 },
                 {
                   id: 2,
@@ -467,45 +463,6 @@ import { Notification } from 'slate-react-system';`}
                   b: "string",
                   c: "null",
                   d: "Description text",
-                },
-              ],
-            }}
-          />
-        </Group>
-        <br />
-        <br />
-        <br />
-        <System.H2>
-          Accepted <i>Delete</i> Notification Properties
-        </System.H2>
-        <hr />
-        <br />
-        <System.P>
-          Note that these properties are passed through a custom event rather
-          than as react properties.
-        </System.P>
-        <br />
-        <Group title="Notifications">
-          <System.Table
-            data={{
-              columns: [
-                { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
-                { key: "c", name: "Default", width: "88px" },
-                { key: "d", name: "Description", width: "100%" },
-              ],
-              rows: [
-                {
-                  id: 1,
-                  a: (
-                    <span style={{ fontFamily: Constants.font.semiBold }}>
-                      id
-                    </span>
-                  ),
-                  b: ["string", "number"],
-                  c: "null",
-                  d:
-                    "Notification id of the notification that is to be deleted",
                 },
               ],
             }}

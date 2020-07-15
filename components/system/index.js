@@ -1,5 +1,8 @@
 import * as Constants from "~/common/constants";
 
+// NOTE(martina): Actions
+import { dispatchCustomEvent } from "~/common/custom-events";
+
 // NOTE(jim): Modules
 import { CreateToken } from "~/components/system/modules/CreateToken";
 import { PeersList } from "~/components/system/modules/PeersList";
@@ -22,6 +25,7 @@ import { CheckBox } from "~/components/system/components/CheckBox";
 import { CodeBlock } from "~/components/system/components/CodeBlock";
 import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 import { DatePicker } from "~/components/system/components/DatePicker";
+import { GlobalModal } from "~/components/system/components/GlobalModal";
 import { GlobalNotification } from "~/components/system/components/GlobalNotification";
 import { Input } from "~/components/system/components/Input";
 import { ListEditor } from "~/components/system/components/ListEditor";
@@ -52,6 +56,8 @@ import * as OldSVG from "~/common/svg";
 
 // NOTE(jim): Export everything.
 export {
+  // NOTE(martina): Actions
+  dispatchCustomEvent,
   // NOTE(jim): Modules
   CreateToken,
   PeersList,
@@ -72,6 +78,7 @@ export {
   CodeText,
   CodeTextarea,
   DatePicker,
+  GlobalModal,
   GlobalNotification,
   Input,
   ListEditor,

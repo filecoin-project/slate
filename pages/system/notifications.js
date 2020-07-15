@@ -41,7 +41,10 @@ export default class SystemPageNotifications extends React.Component {
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import React and the Notification Component.</System.P>
+        <System.P>
+          Import React and the Notification Component, as well as the
+          dispatchCustomEvent function.
+        </System.P>
         <br />
         <System.CodeBlock>
           {`import * as React from 'react';

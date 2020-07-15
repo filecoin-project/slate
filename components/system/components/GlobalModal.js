@@ -7,8 +7,10 @@ import { css } from "@emotion/react";
 
 const STYLES_BACKGROUND = css`
   position: fixed;
+  left: 0;
   right: 0;
   bottom: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -23,8 +25,6 @@ const STYLES_MODAL = css`
   padding: 8px;
   max-width: 568px;
   width: 100%;
-  max-height: 568px;
-  height: 100%;
   border-radius: 4px;
   background-color: ${Constants.system.white};
 `;

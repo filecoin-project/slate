@@ -37,7 +37,10 @@ export default class SystemPageNotifications extends React.Component {
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import React and the Modal Component.</System.P>
+        <System.P>
+          Import React and the Modal Component, as well as the
+          dispatchCustomEvent function.
+        </System.P>
         <br />
         <System.CodeBlock>
           {`import * as React from 'react';
@@ -66,27 +69,14 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
   render() {
     return(
       <React.Fragment>
-        <GlobalModal style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
-        />
+        <GlobalModal style={{ padding: "40px 16px" }} />
         {this.props.children}     
       </React.Fragment>
     )
   }
 }`}
         </System.CodeBlock>
-        <System.GlobalModal
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
-        />
+        <System.GlobalModal style={{ padding: "40px 16px" }} />
         <br />
         <br />
         <br />
@@ -97,7 +87,15 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
           onClick={() =>
             this._handleCreate({
               modal: (
-                <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "center",
+                  }}
+                >
                   <System.H2>Render whatever component you like here</System.H2>
                   <br />
                   <System.ButtonSecondary onClick={this._handleDelete}>
@@ -133,11 +131,11 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
     let modalContent = (
       <div
         style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
           textAlign: "center",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
         }}
       >
         <H2>Render whatever component you like here</H2>

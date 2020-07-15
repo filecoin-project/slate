@@ -8,6 +8,9 @@ import { createPow, ffs } from "@textile/powergate-client";
 // https://github.com/textileio/js-powergate-client
 const PowerGate = createPow({ host: Constants.POWERGATE_HOST });
 
+import { v4 as uuid } from "uuid";
+// TODO(jim):
+// CUT THIS DURING THE POSTGRES MOVE.
 import FS from "fs-extra";
 import WebSocketServer from "ws";
 import express from "express";
@@ -15,10 +18,10 @@ import formidable from "formidable";
 import next from "next";
 import bodyParser from "body-parser";
 import compression from "compression";
-import { v4 as uuid } from "uuid";
 import path from "path";
 
-// TODO(jim): Support multiple desktop applications.
+// TODO(jim):
+// CUT THIS DURING THE POSTGRES MOVE.
 let client = null;
 let state = null;
 
@@ -58,6 +61,8 @@ const setIntervalViewerUpdatesUnsafe = async () => {
 app.prepare().then(async () => {
   console.log("[ prototype ] initializing ");
 
+  // TODO(jim):
+  // CUT THIS DURING THE POSTGRES MOVE.
   state = {
     production,
     port,
@@ -73,6 +78,8 @@ app.prepare().then(async () => {
   };
 
   try {
+    // TODO(jim):
+    // CUT THIS DURING THE POSTGRES MOVE.
     // NOTE(daniel): Wipe all of the local data when --reset-data flag is added to npm run dev.
     if (resetData) {
       await Utilities.resetFileSystem();

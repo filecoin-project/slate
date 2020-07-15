@@ -9,6 +9,8 @@ import {
   injectTooltipStyles,
 } from "~/common/styles/global";
 
+import "./css/prism.css";
+
 // NOTE(wwwjim):
 // https://nextjs.org/docs/advanced-features/custom-app
 function MyApp({ Component, pageProps }) {

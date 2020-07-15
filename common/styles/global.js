@@ -176,6 +176,16 @@ export const injectGlobalStyles = () => css`
     src: url('/static/FiraCode-Bold.woff');
   }
 
+  @font-face {
+    font-family: 'jet-brains-regular';
+    src: url('/static/JetBrainsMono-Regular.woff');
+  }
+
+  @font-face {
+    font-family: 'jet-brains-bold';
+    src: url('/static/JetBrainsMono-Bold.woff');
+  }
+
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,

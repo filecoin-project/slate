@@ -1,7 +1,7 @@
 # Slate (WIP)
 
-- (WIP) Cross platform OSS.
-- (WIP) Amazon S3 replacement.
+- (WIP) A wonderful experience for creating mood boards, hosting assets, and making connections between topics you are researching
+- (WIP) With a Developer API and API Keys, a replacement for Amazon S3.
 - (WIP) Aims to have every feature the [Filecoin Network](https://filecoin.io) supports.
 - (WIP) Great for storing images and sharing high resolution photos with friends.
 - [Design system](https://slate.host/system) -> [Release repository](https://github.com/filecoin-project/slate-react-system).
@@ -12,46 +12,29 @@
 
 ## Developer Introduction
 
-### Run locally (MacOS)
-
-- DevNet and Powergate are not required if you just want to work on the [design system](https://slate.host/system).
-
-#### Satisfy dependency requirements
-
-- Make sure you have [homebrew](https://brew.sh/).
-- Make sure you run `xcode-select -p`, if the command does not return a response, run `xcode-select --install`.
-- Make sure you run `brew install node`.
-- Make sure you run `brew install go`.
-
-#### Setup Docker
-
-- `brew install docker`.
-- Install [Docker for Desktop](https://www.docker.com/products/docker-desktop) if you are running MacOS.
-
-#### Setup Lotus DevNet and Powergate
-
-- Clone the [Lotus DevNet](https://github.com/textileio/lotus-devnet) repository.
-- Run `docker run -e TEXLOTUSDEVNET_SPEED=1500 textile/lotus-devnet`.
-- Clone [Powergate](https://github.com/textileio/powergate/).
-- Follow the instructions and run the commands in the README.md file:
-
-```sh
-cd docker
-make localnet
-```
+Working on Slate requires an internet connection because we are using a hosted Powergate. That means there is no offline mode in the short term.
 
 ### Install and run
 
 Run these commands to start the client locally.
 
-- **Note** — There might be a small delay between Powergate and Lotus.
-
 ```sh
 git clone git@github.com:filecoin-project/slate.git
 cd slate
 npm install
+
+# Run using existing .data folder
 npm run dev
+
+# Run a clean instance of Slate
+npm run dev --reset-data
 ```
+
+![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
+
+- Visit `localhost:1337` in your browser.
+- When you run `npm run dev` for the first time. You will create a folder called `.data`. This is a temporary solution before we have user accounts to keep track of your library, settings, and Powergate token.
+- If you run `npm run dev --reset-data` this will reset your `.data` folder. This is useful if you encounter any bugs or if we switch networks.
 
 ### Run electron (MacOS)
 
@@ -64,15 +47,6 @@ npm run electron-pack
 ```
 
 And then open **Slate.app** in `dist/mac/slate.app`.
-
-### Example of what to expect
-
-![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
-
-- Visit `localhost:1337` in the browser.
-- If you see the design system page instead, that means a token was not properly generated in the `.data` folder. Run `npm run dev` again.
-- **Note** — If you want to clear all your local files, run `npm run dev --reset-data`.
-- **Note** — There will be new commands in the future for different contexts, like `electron`.
 
 # Get involved.
 

@@ -49,12 +49,12 @@ const STYLES_ICON_ELEMENT = css`
 `;
 
 const STYLES_ICON_ELEMENT_CUSTOM = css`
+  background-color: ${Constants.system.brand};
   height: 48px;
   width: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: ${Constants.system.black};
   user-select: none;
   cursor: pointer;
 `;

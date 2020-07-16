@@ -24,16 +24,12 @@ const STYLES_BODY = css`
 const STYLES_ICON_ELEMENT = css`
   height: 88px;
   width: 88px;
-  border-radius: 88px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: ${Constants.system.brand};
   color: ${Constants.system.white};
   user-select: none;
-  background-image: url("/public/static/cube_f7f7f7.jpg");
-  background-size: cover;
-  background-position: 50% 50%;
 `;
 
 const STYLES_SIDEBAR = css`
@@ -191,33 +187,33 @@ export default class SystemPage extends React.Component {
           <span css={STYLES_LABEL}>Experiences</span>
           <SidebarLink
             url={url}
-            href="/experiences/peers-list"
-            title="Peers List"
-          />
-          <SidebarLink
-            url={url}
             href="/experiences/create-address"
-            title="Create Filecoin Address"
+            title="CreateFilecoinAddress"
           />
           <SidebarLink
             url={url}
             href="/experiences/make-storage-deal"
-            title="Make a Storage Deal"
+            title="CreateFilecoinStorageDeal"
           />
           <SidebarLink
             url={url}
             href="/experiences/generate-powergate-token"
-            title="Generate Powergate token"
-          />
-          <SidebarLink
-            url={url}
-            href="/experiences/send-address-filecoin"
-            title="Send an Address Filecoin"
+            title="CreateToken"
           />
           <SidebarLink
             url={url}
             href="/experiences/filecoin-wallet-balances"
-            title="Filecoin Wallet Balances"
+            title="FilecoinBalancesList"
+          />
+          <SidebarLink
+            url={url}
+            href="/experiences/peers-list"
+            title="PeersList"
+          />
+          <SidebarLink
+            url={url}
+            href="/experiences/send-address-filecoin"
+            title="SendAddressFilecoin"
           />
 
           <span css={STYLES_LABEL}>
@@ -254,16 +250,7 @@ export default class SystemPage extends React.Component {
 
           <div
             css={STYLES_SMALL_LINK}
-            onClick={() => {
-              window.open("https://filscan.io/");
-            }}
             style={{ marginTop: 48 }}
-          >
-            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
-            Block Explorer
-          </div>
-          <div
-            css={STYLES_SMALL_LINK}
             onClick={() => {
               window.open("https://github.com/filecoin-project/slate");
             }}

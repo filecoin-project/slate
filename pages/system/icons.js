@@ -32,6 +32,7 @@ const ICONS = [
   <SVG.FileImage height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <SVG.Plus height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <SVG.CheckBox height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <OldSVG.Slates height={DEFAULT_SYSTEM_ICON_SIZE} />,
 ];
 
 const STYLES_ICON = css`
@@ -94,6 +95,7 @@ import { OldSVG } from 'slate-react-system';`}
 <OldSVG.Logs height='88px' />
 <OldSVG.Miners height='88px' />
 <OldSVG.StorageMarket height='88px' />
+<OldSVG.Slates height='88px' />
 <SVG.BandwidthUp height='88px' />
 <SVG.BandwidthDown height='88px' />
 <SVG.Information height='88px' />

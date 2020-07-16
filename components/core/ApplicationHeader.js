@@ -51,21 +51,12 @@ const STYLES_ICON_ELEMENT = css`
 const STYLES_ICON_ELEMENT_CUSTOM = css`
   height: 48px;
   width: 48px;
-  border-radius: 48px;
-  background-image: url("/public/static/cube_f7f7f7.jpg");
-  background-size: cover;
-  background-position: 50% 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: ${Constants.system.white};
+  background-color: ${Constants.system.black};
   user-select: none;
   cursor: pointer;
-
-  svg {
-    transform: rotate(0deg);
-    transition: 200ms ease transform;
-  }
 `;
 
 const STYLES_APPLICATION_HEADER = css`
@@ -177,7 +168,8 @@ export default class ApplicationHeader extends React.Component {
                 onAction={this.props.onAction}
                 navigation={[
                   { text: "Edit account", value: 13 },
-                  { text: "Settings", value: 14 },
+                  { text: "Filecoin settings", value: 14 },
+                  { text: "API Key & Tokens", value: 16 },
                 ]}
               />
             }

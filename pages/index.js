@@ -18,6 +18,8 @@ import SceneStats from "~/scenes/SceneStats";
 import SceneStatus from "~/scenes/SceneStatus";
 import SceneStorageMarket from "~/scenes/SceneStorageMarket";
 import SceneWallet from "~/scenes/SceneWallet";
+import SceneSlates from "~/scenes/SceneSlates";
+import SceneSettingsDeveloper from "~/scenes/SceneSettingsDeveloper";
 
 import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalletAddress";
 import SidebarDeleteWalletAddress from "~/components/sidebars/SidebarDeleteWalletAddress";
@@ -321,7 +323,9 @@ export default class IndexPage extends React.Component {
     PEERS: <ScenePeers />,
     LOGS: <SceneLogs />,
     SETTINGS: <SceneSettings />,
+    SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
     EDIT_ACCOUNT: <SceneEditAccount />,
+    SLATES: <SceneSlates />,
   };
 
   render() {

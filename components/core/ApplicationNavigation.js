@@ -22,6 +22,7 @@ const IconMap = {
   LOGS: <SVG.Logs height="20px" />,
   MINERS: <SVG.Miners height="20px" />,
   STORAGE_MARKET: <SVG.StorageMarket height="20px" />,
+  SLATES: <SVG.Slates height="20px" />,
 };
 
 const STYLES_NAVIGATION = css`

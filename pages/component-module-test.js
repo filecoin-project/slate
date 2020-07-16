@@ -4,6 +4,7 @@ import * as System from "../dist";
 export default class TestPage extends React.Component {
   render() {
     console.log(System.Constants);
+
     return (
       <div>
         <System.H1>Component Library Test</System.H1>

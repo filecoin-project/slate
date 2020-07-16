@@ -7,6 +7,7 @@ import App from "next/app";
 import {
   injectGlobalStyles,
   injectTooltipStyles,
+  injectCodeBlockStyles,
 } from "~/common/styles/global";
 
 // NOTE(wwwjim):
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }) {
     <CacheProvider value={cache}>
       <Global styles={injectGlobalStyles()} />
       <Global styles={injectTooltipStyles()} />
+      <Global styles={injectCodeBlockStyles()} />
       <Component {...pageProps} />
     </CacheProvider>
   );

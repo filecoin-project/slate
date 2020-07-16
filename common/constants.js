@@ -20,6 +20,8 @@ export const font = {
   monoBold: `'mono-bold', monaco, monospace`,
   monoCode: `'fira-code-regular', mono, monospace`,
   monoCodeBold: `'fira-code-bold', mono-bold, monospace`,
+  code: `'jet-brains-regular', mono, monospace`,
+  codeBold: `'jet-brains-bold', mono, monospace`,
 };
 
 export const typescale = {

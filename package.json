@@ -53,6 +53,7 @@
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.27.0",
     "next": "^9.4.4",
+    "prismjs": "^1.20.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-draggable": "^4.4.3",
@@ -63,9 +64,9 @@
     "ws": "^7.3.0"
   },
   "devDependencies": {
-    "@rollup/plugin-json": "^4.1.0",
     "@babel/plugin-transform-runtime": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "electron": "^9.0.5",
     "electron-builder": "^22.7.0",

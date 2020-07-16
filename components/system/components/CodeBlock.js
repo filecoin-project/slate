@@ -2,10 +2,11 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
+import Prism from "prismjs";
 
 const STYLES_CODE_BLOCK = css`
   box-sizing: border-box;
-  font-family: ${Constants.font.monoCode};
+  font-family: ${Constants.font.code};
   background-color: ${Constants.system.pitchBlack};
   color: ${Constants.system.white};
   border-color: ${Constants.system.yellow};
@@ -27,7 +28,7 @@ const STYLES_PADDING = css`
 const STYLES_PRE = css`
   box-sizing: border-box;
   color: #666;
-  font-family: ${Constants.font.monoCode};
+  font-family: ${Constants.font.code};
   flex-shrink: 0;
   min-width: 32px;
   user-select: none;
@@ -36,13 +37,18 @@ const STYLES_PRE = css`
 const STYLES_CODE = css`
   box-sizing: border-box;
   background-color: ${Constants.system.pitchBlack};
-  font-family: ${Constants.font.monoCode};
+  font-family: ${Constants.font.code};
   color: ${Constants.system.gray};
   width: 100%;
   padding-left: 16px;
 `;
 
 export class CodeBlock extends React.Component {
+
+  componentDidMount() {
+    Prism.highlightAll();
+  }
+  
   render() {
     const codeBlockContent = this.props.children + "";
     const codeBlockToken = codeBlockContent.split("\n");
@@ -54,7 +60,9 @@ export class CodeBlock extends React.Component {
           return (
             <div css={STYLES_PADDING}>
               <div css={STYLES_PRE}>{index}</div>
-              <div css={STYLES_CODE}>{element}</div>
+              <pre css={STYLES_CODE} className="language-javascript">
+                <code>{element}</code>
+              </pre>
             </div>
           );
         })}

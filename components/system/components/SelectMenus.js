@@ -82,6 +82,9 @@ export const SelectMenu = (props) => {
   for (let option of props.options || []) {
     map[option.value] = option.name;
   }
+
+  let presentationValue = map[props.value] ? map[props.value] : "Unselected";
+
   return (
     <React.Fragment>
       <DescriptionGroup

@@ -44,14 +44,6 @@ export default class SidebarCreatePaymentChannel extends React.Component {
   };
 
   render() {
-    let addresses = {};
-
-    this.props.viewer.addresses.forEach((a) => {
-      addresses[a.value] = a;
-    });
-
-    const currentAddress = addresses[this.props.selected.address];
-
     return (
       <React.Fragment>
         <System.P style={{ fontFamily: Constants.font.semiBold }}>
@@ -67,9 +59,7 @@ export default class SidebarCreatePaymentChannel extends React.Component {
           category="address"
           onChange={this.props.onSelectedChange}
           options={this.props.viewer.addresses}
-        >
-          {currentAddress.name}
-        </System.SelectMenu>
+        />
 
         <System.Input
           containerStyle={{ marginTop: 24 }}

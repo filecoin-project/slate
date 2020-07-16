@@ -111,18 +111,6 @@ export default class SidebarFileStorageDeal extends React.Component {
   };
 
   render() {
-    let addresses = {};
-    let lastAddress;
-
-    this.props.viewer.addresses.forEach((a) => {
-      addresses[a.address] = a;
-      lastAddress = a.address;
-    });
-
-    const currentAddress = this.props.selected.address
-      ? addresses[this.props.selected.address]
-      : addresses[lastAddress];
-
     return (
       <React.Fragment>
         <System.P style={{ fontFamily: Constants.font.semiBold }}>
@@ -194,9 +182,7 @@ export default class SidebarFileStorageDeal extends React.Component {
             category="address"
             onChange={this.props.onSelectedChange}
             options={this.props.viewer.addresses}
-          >
-            {currentAddress.name}
-          </System.SelectMenu>
+          />
         ) : null}
 
         {this.props.file ? (

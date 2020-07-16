@@ -79,9 +79,7 @@ export default class IndexPage extends React.Component {
     history: [{ id: 1, scrollTop: 0 }],
     currentIndex: 0,
     data: null,
-    selected: {
-      address: "",
-    },
+    selected: State.getSelectedState(this.props),
     viewer: State.getInitialState(this.props),
     sidebar: null,
     file: null,

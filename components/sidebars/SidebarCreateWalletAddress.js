@@ -73,9 +73,7 @@ export default class SidebarCreateWalletAddress extends React.Component {
           category="type"
           onChange={this._handleChange}
           options={SELECT_MENU_OPTIONS}
-        >
-          {SELECT_MENU_MAP[this.state.type]}
-        </System.SelectMenu>
+        />
 
         <System.CheckBox
           style={{ marginTop: 24 }}

@@ -76,14 +76,6 @@ export default class SceneSettings extends React.Component {
   };
 
   render() {
-    let addresses = {};
-
-    this.state.addresses.forEach((a) => {
-      addresses[a.address] = a;
-    });
-
-    const currentAddress = addresses[this.state.settings_cold_default_address];
-
     return (
       <ScenePage>
         <System.H1>Filecoin Settings</System.H1>
@@ -136,9 +128,7 @@ export default class SceneSettings extends React.Component {
               category="address"
               onChange={this._handleChange}
               options={this.state.addresses}
-            >
-              {currentAddress ? currentAddress.name : "None"}
-            </System.SelectMenu>
+            />
 
             <System.Input
               containerStyle={{ marginTop: 24 }}

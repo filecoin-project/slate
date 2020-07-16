@@ -1,7 +1,7 @@
 const STATIC_ADDRESS_TYPE_MAP = {
-  bls: 'BLS',
-  secp256k1: 'SECP256K1',
-  multisig: 'MULTISIG',
+  bls: "BLS",
+  secp256k1: "SECP256K1",
+  multisig: "MULTISIG",
 };
 
 const transformAddresses = (addrsList, info) => {
@@ -28,8 +28,8 @@ const transformPeers = (peersList) => {
   return peersList.map((each) => {
     return {
       id: each.addrInfo.id,
-      'peer-avatar': null,
-      'chain-head': null,
+      "peer-avatar": null,
+      "chain-head": null,
       height: null,
       location: null,
       upload: null,
@@ -38,8 +38,38 @@ const transformPeers = (peersList) => {
   });
 };
 
+export const getSelectedState = (props) => {
+  const {
+    status,
+    messageList,
+    peersList,
+    addrsList,
+    info,
+    library,
+    local,
+  } = props;
+
+  if (!info || !info.id) {
+    return {
+      address: "",
+    };
+  }
+
+  return {
+    address: info.defaultConfig.cold.filecoin.addr,
+  };
+};
+
 export const getInitialState = (props) => {
-  const { status, messageList, peersList, addrsList, info, library, local } = props;
+  const {
+    status,
+    messageList,
+    peersList,
+    addrsList,
+    info,
+    library,
+    local,
+  } = props;
 
   if (!info || !info.id) {
     return {
@@ -70,13 +100,19 @@ export const getInitialState = (props) => {
 
     settings_cold_enabled: info.defaultConfig.cold.enabled,
     settings_cold_default_address: info.defaultConfig.cold.filecoin.addr,
-    settings_cold_default_duration: info.defaultConfig.cold.filecoin.dealMinDuration,
-    settings_cold_default_replication_factor: info.defaultConfig.cold.filecoin.repFactor,
-    settings_cold_default_excluded_miners: info.defaultConfig.cold.filecoin.excludedMinersList,
-    settings_cold_default_trusted_miners: info.defaultConfig.cold.filecoin.trustedMinersList,
+    settings_cold_default_duration:
+      info.defaultConfig.cold.filecoin.dealMinDuration,
+    settings_cold_default_replication_factor:
+      info.defaultConfig.cold.filecoin.repFactor,
+    settings_cold_default_excluded_miners:
+      info.defaultConfig.cold.filecoin.excludedMinersList,
+    settings_cold_default_trusted_miners:
+      info.defaultConfig.cold.filecoin.trustedMinersList,
     settings_cold_default_max_price: info.defaultConfig.cold.filecoin.maxPrice,
-    settings_cold_default_auto_renew: info.defaultConfig.cold.filecoin.renew.enabled,
-    settings_cold_default_auto_renew_max_price: info.defaultConfig.cold.filecoin.renew.threshold,
+    settings_cold_default_auto_renew:
+      info.defaultConfig.cold.filecoin.renew.enabled,
+    settings_cold_default_auto_renew_max_price:
+      info.defaultConfig.cold.filecoin.renew.threshold,
 
     notifications: [],
     payment_channels_active: [],

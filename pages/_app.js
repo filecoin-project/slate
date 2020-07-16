@@ -7,9 +7,8 @@ import App from "next/app";
 import {
   injectGlobalStyles,
   injectTooltipStyles,
+  injectCodeBlockStyles,
 } from "~/common/styles/global";
-
-import "./css/prism.css";
 
 // NOTE(wwwjim):
 // https://nextjs.org/docs/advanced-features/custom-app
@@ -18,6 +17,7 @@ function MyApp({ Component, pageProps }) {
     <CacheProvider value={cache}>
       <Global styles={injectGlobalStyles()} />
       <Global styles={injectTooltipStyles()} />
+      <Global styles={injectCodeBlockStyles()} />
       <Component {...pageProps} />
     </CacheProvider>
   );

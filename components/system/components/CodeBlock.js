@@ -44,9 +44,11 @@ const STYLES_CODE = css`
 `;
 
 export class CodeBlock extends React.Component {
+
   componentDidMount() {
     Prism.highlightAll();
   }
+  
   render() {
     const codeBlockContent = this.props.children + "";
     const codeBlockToken = codeBlockContent.split("\n");
@@ -58,7 +60,9 @@ export class CodeBlock extends React.Component {
           return (
             <div css={STYLES_PADDING}>
               <div css={STYLES_PRE}>{index}</div>
-              <div css={STYLES_CODE}><pre><code className="language-javascript">{element}</code></pre></div>
+              <pre css={STYLES_CODE} className="language-javascript">
+                <code>{element}</code>
+              </pre>
             </div>
           );
         })}

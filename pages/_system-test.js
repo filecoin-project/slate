@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as System from "../dist";
 
-export default class TestPage extends React.Component {
+export default class SlateReactSystemPage extends React.Component {
   render() {
     console.log(System.Constants);
 

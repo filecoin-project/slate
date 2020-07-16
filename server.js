@@ -416,14 +416,14 @@ app.prepare().then(async () => {
       .send({ success: true, data: { ...data, ...req.body } });
   });
 
-  server.get("/", async (req, res) => {
-    if (productionWeb) {
-      return res.redirect("/system");
-    }
-
-    return app.render(req, res, "/", {
+  server.get("/application", async (req, res) => {
+    return app.render(req, res, "/application", {
       wsPort,
     });
+  });
+
+  server.get("/", async (req, res) => {
+    return app.render(req, res, "/", { hide: productionWeb });
   });
 
   server.get("*", async (req, res) => {

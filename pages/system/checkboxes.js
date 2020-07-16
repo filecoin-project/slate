@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as System from "~/components/system";
-import Group from "~/components/system/Group";
 import * as Constants from "~/common/constants";
 
+import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 

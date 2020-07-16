@@ -19,7 +19,6 @@ const STYLES_CODE_BLOCK = css`
 const STYLES_PADDING = css`
   box-sizing: border-box;
   display: flex;
-  border-radius: 7px;
   align-items: flex-start;
   justify-content: space-between;
   white-space: pre-wrap;
@@ -43,24 +42,25 @@ const STYLES_CODE = css`
   padding-left: 16px;
 `;
 
+// TODO:
+// Refactor to https://github.com/FormidableLabs/prism-react-renderer
 export class CodeBlock extends React.Component {
-
   componentDidMount() {
     Prism.highlightAll();
   }
-  
+
   render() {
     const codeBlockContent = this.props.children + "";
     const codeBlockToken = codeBlockContent.split("\n");
     const textMap = codeBlockToken;
 
     return (
-      <div css={STYLES_CODE_BLOCK}>
+      <div css={STYLES_CODE_BLOCK} className="language-javascript">
         {textMap.map((element, index) => {
           return (
-            <div css={STYLES_PADDING}>
+            <div css={STYLES_PADDING} key={`${element}-${index}`}>
               <div css={STYLES_PRE}>{index}</div>
-              <pre css={STYLES_CODE} className="language-javascript">
+              <pre css={STYLES_CODE}>
                 <code>{element}</code>
               </pre>
             </div>

@@ -227,124 +227,122 @@ export const injectGlobalStyles = () => css`
 
 /* prettier-ignore */
 export const injectCodeBlockStyles = () => css`
-  @font-face {
-    font-family: 'jet-brains-regular';
-    src: url('/static/JetBrainsMono-Regular.woff');
-  }
+  .language-javascript {
+    code,
+    pre {
+      color:"#e5e5e5";
+      font-family: 'jet-brains-regular', Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+      font-size: 12px;
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      word-break: normal;
+      word-wrap: normal;
+      
 
-  code[class*="language-javascript"],
-  pre[class*="language-javascript"] {
-    color:"#e5e5e5";
-    font-family: 'jet-brains-regular', Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    font-size: 12px;
-    text-align: left;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    
+      -moz-tab-size: 4;
+      -o-tab-size: 4;
+      tab-size: 4;
 
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
+      -webkit-hyphens: none;
+      -moz-hyphens: none;
+      -ms-hyphens: none;
+      hyphens: none;
 
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
+    }
 
-  }
+    /* Code blocks */
+    pre {
+      padding: none;
+      margin: none;
+      overflow: auto;
+    }
 
-  /* Code blocks */
-  pre[class*="language-javascript"] {
-    padding: none;
-    margin: none;
-    overflow: auto;
-  }
+    :not(pre) > code,
+    pre {
+      background:none;
+    }
 
-  :not(pre) > code[class*="language-javascript"],
-  pre[class*="language-javascript"] {
-    background:none;
-  }
+    /* Inline code */
+    :not(pre) > code {
+      padding: .1em;
+      border-radius: .3em;
+      white-space: normal;
+    }
 
-  /* Inline code */
-  :not(pre) > code[class*="language-javascript"] {
-    padding: .1em;
-    border-radius: .3em;
-    white-space: normal;
-  }
+    .token.comment,
+    .token.block-comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+      color: #999;
+    }
 
-  .token.comment,
-  .token.block-comment,
-  .token.prolog,
-  .token.doctype,
-  .token.cdata {
-    color: #999;
-  }
+    .token.punctuation {
+      color: #ccc;
+    }
 
-  .token.punctuation {
-    color: #ccc;
-  }
+    .token.tag,
+    .token.attr-name,
+    .token.namespace,
+    .token.deleted {
+      color: #e2777a;
+    }
 
-  .token.tag,
-  .token.attr-name,
-  .token.namespace,
-  .token.deleted {
-    color: #e2777a;
-  }
+    .token.function-name {
+      color: #6196cc;
+    }
 
-  .token.function-name {
-    color: #6196cc;
-  }
+    .token.boolean,
+    .token.number,
+    .token.function {
+      color: #f08d49;
+    }
 
-  .token.boolean,
-  .token.number,
-  .token.function {
-    color: #f08d49;
-  }
+    .token.property,
+    .token.class-name,
+    .token.constant,
+    .token.symbol {
+      color: #f8c555;
+    }
 
-  .token.property,
-  .token.class-name,
-  .token.constant,
-  .token.symbol {
-    color: #f8c555;
-  }
+    .token.selector,
+    .token.important,
+    .token.atrule,
+    .token.keyword,
+    .token.builtin {
+      color: #cc99cd;
+    }
 
-  .token.selector,
-  .token.important,
-  .token.atrule,
-  .token.keyword,
-  .token.builtin {
-    color: #cc99cd;
-  }
+    .token.string,
+    .token.char,
+    .token.attr-value,
+    .token.regex,
+    .token.variable {
+      color: #7ec699;
+    }
 
-  .token.string,
-  .token.char,
-  .token.attr-value,
-  .token.regex,
-  .token.variable {
-    color: #7ec699;
-  }
+    .token.operator,
+    .token.entity,
+    .token.url {
+      color: #67cdcc;
+    }
 
-  .token.operator,
-  .token.entity,
-  .token.url {
-    color: #67cdcc;
-  }
+    .token.important,
+    .token.bold {
+      font-weight: bold;
+    }
 
-  .token.important,
-  .token.bold {
-    font-weight: bold;
-  }
-  .token.italic {
-    font-style: italic;
-  }
+    .token.italic {
+      font-style: italic;
+    }
 
-  .token.entity {
-    cursor: help;
-  }
+    .token.entity {
+      cursor: help;
+    }
 
-  .token.inserted {
-    color: green;
+    .token.inserted {
+      color: green;
+    }
   }
 `;

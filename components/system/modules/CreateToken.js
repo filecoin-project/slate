@@ -14,10 +14,10 @@ const STYLES_CREATE_TOKEN = css`
 `;
 
 const STYLES_CREATE_TOKEN_TOP = css`
-  box-sizing: border-box;
+  font-family: ${Constants.font.medium};
   background: ${Constants.system.black};
   color: ${Constants.system.white};
-  font-family: "mono";
+  box-sizing: border-box;
   font-size: 12px;
   border-radius: 4px 4px 0 0;
   min-height: 88px;
@@ -38,19 +38,9 @@ export const CreateToken = (props) => {
   return (
     <div css={STYLES_CREATE_TOKEN}>
       <div css={STYLES_CREATE_TOKEN_TOP}>
-        {props.token ? (
-          props.token
-        ) : (
-          <marquee
-            style={{
-              color: Constants.system.pitchBlack,
-              width: "100%",
-              display: "block",
-            }}
-          >
-            XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX{" "}
-          </marquee>
-        )}
+        {props.token
+          ? props.token
+          : `XXXXXXXX - XXXX - XXXX - XXXX - XXXXXXXXXXXX`}
       </div>
       <div css={STYLES_CREATE_TOKEN_BOTTOM}>
         <ButtonPrimaryFull onClick={props.onClick}>

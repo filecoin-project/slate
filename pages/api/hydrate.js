@@ -28,8 +28,10 @@ export default async (req, res) => {
   const identity = await Libp2pCryptoIdentity.fromString(user.data.tokens.api);
 
   const b = Buckets.withUserAuth(identity);
-  // TODO(jim): Bug on the server:
-  // const buckets = await b.list();
+
+  // TODO(jim): API key not found or is invalid.
+  const buckets = await b.list();
+  // console.log(buckets);
 
   let data = {
     peersList: null,

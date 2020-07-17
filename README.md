@@ -26,8 +26,8 @@ POSTGRES_ADMIN_PASSWORD=XXX
 POSTGRES_ADMIN_USERNAME=XXX
 POSTGRES_HOSTNAME=XXX
 POSTGRES_DATABASE=XXX
-LOCAL_AUTHENTICATION_JWT_SECRET=XXX
-LOCAL_AUTHENTICATION_PASSWORD_SECRET=XXX
+JWT_SECRET=XXX
+LOCAL_PASSWORD_SECRET=XXX
 ```
 
 ### Install and run
@@ -41,18 +41,15 @@ npm install
 
 # Run using existing .data folder
 npm run dev
-
-# Run a clean instance of Slate
-npm run dev --reset-data
 ```
 
 ![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
 
 - Visit `localhost:1337` in your browser.
-- When you run `npm run dev` for the first time. You will create a folder called `.data`. This is a temporary solution before we have user accounts to keep track of your library, settings, and Powergate token.
-- If you run `npm run dev --reset-data` this will reset your `.data` folder. This is useful if you encounter any bugs or if we switch networks.
 
-### Run electron (MacOS)
+### BROKEN: Run electron (MacOS)
+
+@jimmylee recently broke the current version of the client.
 
 While you have `npm run dev` running, in another terminal screen run:
 

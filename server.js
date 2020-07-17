@@ -33,10 +33,6 @@ app.prepare().then(async () => {
     });
   });
 
-  server.get("/", async (req, res) => {
-    return app.render(req, res, "/");
-  });
-
   server.all("*", async (req, res) => {
     return handler(req, res, req.url);
   });

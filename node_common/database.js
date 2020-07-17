@@ -6,6 +6,6 @@ import configs from "~/knexfile";
 import knex from "knex";
 
 const envConfig = configs["development"];
-const db = knex(envConfig);
+const Database = knex(envConfig);
 
-module.exports = db;
+export default Database;

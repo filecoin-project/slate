@@ -1,8 +1,3 @@
-if (process.env.NODE_ENV !== "www") {
-  console.log("[ prototype ] loading dotenv");
-  require("dotenv").config();
-}
-
 module.exports = {
   development: {
     client: "pg",

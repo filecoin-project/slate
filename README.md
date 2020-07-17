@@ -16,7 +16,10 @@ Working on Slate requires an internet connection because we are using a hosted P
 
 ### .env
 
-You will need to create a file called `.env`. Never commit your credentials to the repository. **You don't need this file if you only work on the design system.**
+- We use a `dotenv` file to manage sensitive values and secrets.
+- You must create this file to work on the application.
+- You don't need to create a `.env` file if you're only working on the design system.
+- There will be no local data in the short term.
 
 ```
 POSTGRES_ADMIN_PASSWORD=XXX

@@ -1,9 +1,23 @@
+export const init = (middleware) => {
+  return (req, res) =>
+    new Promise((resolve, reject) => {
+      middleware(req, res, (result) => {
+        if (result instanceof Error) {
+          return reject(result);
+        }
+        return resolve(result);
+      });
+    });
+};
+
 export const CORS = async (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
+
   res.header(
     "Access-Control-Allow-Methods",
     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
   );
+
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, Accept, Content-Type, Authorization"

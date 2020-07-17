@@ -15,7 +15,10 @@
     "build-system": "rollup -c",
     "electron": "electron ./electron/main.js ",
     "electron-pack": "electron-builder --dir",
-    "electron-dist": "electron-builder"
+    "electron-dist": "electron-builder",
+    "www-setup-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts setup-database",
+    "www-seed-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts seed-database",
+    "www-drop-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts drop-database"
   },
   "build": {
     "appId": "com.slate",
@@ -51,8 +54,10 @@
     "formidable": "^1.2.2",
     "fs-extra": "^9.0.1",
     "isomorphic-fetch": "^2.2.1",
+    "knex": "^0.20.10",
     "moment": "^2.27.0",
     "next": "^9.4.4",
+    "pg": "^8.3.0",
     "prismjs": "^1.20.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

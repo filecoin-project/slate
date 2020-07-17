@@ -1,9 +1,16 @@
+if (process.env.NODE_ENV !== "www") {
+  console.log("[ prototype ] loading dotenv");
+  require("dotenv").config();
+}
+
 import * as Middleware from "./common/middleware";
 import * as Strings from "./common/strings";
 import * as Utilities from "./node_common/utilities";
 import * as Constants from "./node_common/constants";
+import * as Database from "./node_common/database";
 
 import { createPow, ffs } from "@textile/powergate-client";
+
 // NOTE(jim):
 // https://github.com/textileio/js-powergate-client
 const PowerGate = createPow({ host: Constants.POWERGATE_HOST });
@@ -437,6 +444,9 @@ app.prepare().then(async () => {
 
     console.log(`[ prototype ] client: http://localhost:${port}`);
     console.log(`[ prototype ] constants:`, Constants);
+    console.log(
+      `[ prototype ] .env postgres hostname: ${process.env.POSTGRES_HOSTNAME}`
+    );
 
     if (!productionWeb) {
       await setIntervalViewerUpdatesUnsafe();

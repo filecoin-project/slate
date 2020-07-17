@@ -68,6 +68,70 @@ export const H2 = (props) => {
   return <h2 css={STYLES_H2} {...props} />;
 };
 
+const STYLES_H3 = css`
+  box-sizing: border-box;
+  font-size: ${Constants.typescale.lvl4};
+  line-height: 1.1;
+  font-family: ${Constants.font.semiBold};
+  font-weight: 400;
+  color: inherit;
+  text-decoration: none;
+  display: block;
+
+  :hover {
+    color: inherit;
+  }
+
+  :visited {
+    color: inherit;
+  }
+
+  strong {
+    font-family: ${Constants.font.semiBold};
+    font-weight: 400;
+  }
+`;
+
+export const H3 = (props) => {
+  if (props.href) {
+    return <a css={STYLES_H3} {...props} />;
+  }
+
+  return <h3 css={STYLES_H3} {...props} />;
+};
+
+const STYLES_H4= css`
+  box-sizing: border-box;
+  font-size: ${Constants.typescale.lvl4};
+  line-height: 1.1;
+  font-family: ${Constants.font.semiBold};
+  font-weight: 400;
+  color: inherit;
+  text-decoration: none;
+  display: block;
+
+  :hover {
+    color: inherit;
+  }
+
+  :visited {
+    color: inherit;
+  }
+
+  strong {
+    font-family: ${Constants.font.semiBold};
+    font-weight: 400;
+  }
+`;
+
+export const H4 = (props) => {
+  if (props.href) {
+    return <a css={STYLES_H4} {...props} />;
+  }
+
+  return <h4 css={STYLES_H4} {...props} />;
+};
+
 const STYLES_P = css`
   box-sizing: border-box;
   font-family: ${Constants.font.text};

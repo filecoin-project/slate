@@ -18,7 +18,7 @@ const STYLES_TYPE_JETBRAINS = css`
   font-family: ${Constants.font.code};
 `;
 const STYLES_BOLD = css`
-  font-family: ${Constants.font.text};  
+  font-family: ${Constants.font.text};
   font-weight: bold;
 `;
 const STYLES_ITALIC = css`
@@ -171,11 +171,11 @@ This is heading level 4
         <br />
         <System.P>Internal References <a href="https://slate.host" target="_blank">Link to a page</a></System.P>
         <System.P>External References <ViewSourceLink file="system/typography.js" /></System.P>
-        <br />    
+        <br />
         <br />
         <System.CodeBlock>
           {`<System.P>
-  <a href="https://slate.host" 
+  <a href="https://slate.host"
   target="_blank">
     Link to a page
   </a>

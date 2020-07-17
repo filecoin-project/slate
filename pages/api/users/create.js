@@ -24,19 +24,12 @@ export default async (req, res) => {
     return res.status(500).send({ error: "A password was not provided." });
   }
 
+  // TODO(jim): Do not expose how many times you are salting
+  // in OSS, add a random value as an environment variable.
   const salt = await BCrypt.genSalt(13);
-  console.log({ salt });
   const hash = await BCrypt.hash(req.body.data.password, salt);
-  console.log({ hash });
   const double = await BCrypt.hash(hash, salt);
-  console.log({
-    double,
-  });
-
-  console.log(SECRET);
-
   const triple = await BCrypt.hash(double, SECRET);
-  console.log({ triple });
 
   const FFS = await PG.ffs.create();
   const pg = FFS.token ? FFS.token : null;

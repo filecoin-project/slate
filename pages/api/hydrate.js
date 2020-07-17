@@ -3,12 +3,17 @@ import * as Utilities from "~/node_common/utilities";
 import * as Constants from "~/node_common/constants";
 import * as Data from "~/node_common/data";
 
-import { Buckets, UserAuth } from "@textile/hub";
+import { Buckets } from "@textile/hub";
 import { Libp2pCryptoIdentity } from "@textile/threads-core";
 
 import PG from "~/node_common/powergate";
 
 const initCORS = MW.init(MW.CORS);
+
+const TEXTILE_KEY_INFO = {
+  key: process.env.TEXTILE_HUB_KEY,
+  secret: process.env.TEXTILE_HUB_SECRET,
+};
 
 export default async (req, res) => {
   initCORS(req, res);
@@ -25,13 +30,14 @@ export default async (req, res) => {
     return res.status(200).json({ decorator: "SERVER_HYDRATE", error: true });
   }
 
-  const identity = await Libp2pCryptoIdentity.fromString(user.data.tokens.api);
+  const i = await Libp2pCryptoIdentity.fromString(user.data.tokens.api);
+  const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
+  await b.getToken(i);
+  const root = await b.open("data");
 
-  const b = Buckets.withUserAuth(identity);
-
-  // TODO(jim): API key not found or is invalid.
-  const buckets = await b.list();
-  // console.log(buckets);
+  // NOTE(jim): Should render a list of buckets.
+  const roots = await b.list();
+  console.log({ roots });
 
   let data = {
     peersList: null,

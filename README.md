@@ -12,7 +12,20 @@
 
 ## Developer Introduction
 
-Working on Slate requires an internet connection because we are using a hosted Powergate. That means there is no offline mode in the short term.
+Working on Slate requires an internet connection because we are using a hosted Powergate and a hosted Postgres. That means there is no offline mode in the short term.
+
+### .env
+
+You will need to create a file called `.env`. Never commit your credentials to the repository. **You don't need this file if you only work on the design system.**
+
+```
+POSTGRES_ADMIN_PASSWORD=XXX
+POSTGRES_ADMIN_USERNAME=XXX
+POSTGRES_HOSTNAME=XXX
+POSTGRES_DATABASE=XXX
+LOCAL_AUTHENTICATION_JWT_SECRET=XXX
+LOCAL_AUTHENTICATION_PASSWORD_SECRET=XXX
+```
 
 ### Install and run
 

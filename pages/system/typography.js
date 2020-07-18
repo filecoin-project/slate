@@ -1,20 +1,22 @@
 import * as React from "react";
+import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 
-import Group from "~/components/system/Group";
+import { css } from "@emotion/react";
+
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 
-export default class SystemPageNotifications extends React.Component {
-  _handleCreate = (detail) => {
-    System.dispatchCustomEvent({ name: "create-modal", detail: detail });
-  };
+const STYLES_CSS_LABEL = css`
+  display: block;
+  letter-spacing: 0.2px;
+  font-size: 12px;
+  color: ${Constants.system.darkGray};
+  margin-bottom: 8px;
+`;
 
-  _handleDelete = () => {
-    System.dispatchCustomEvent({ name: "delete-modal", detail: {} });
-  };
-
+export default class SystemPageTypography extends React.Component {
   render() {
     return (
       <SystemPage
@@ -28,8 +30,7 @@ export default class SystemPageNotifications extends React.Component {
         <br />
         <br />
         <System.P>
-          [NEED NEW COPY] The Modal component is used to get a user's focus and require an
-          action.
+          The Filecoin Client uses the <a href="https://rsms.me/inter/" target="_blank">Inter typeface family</a>.
         </System.P>
         <br />
         <br />
@@ -38,84 +39,92 @@ export default class SystemPageNotifications extends React.Component {
         <hr />
         <br />
         <System.P>
-          Import React and the Modal Component, as well as the
-          dispatchCustomEvent function.
+          Import React and the Typography Component.
         </System.P>
         <br />
         <System.CodeBlock>
-          {`import { Constants } from 'slate-react-system'; `}
+          {`import { Typography } from 'slate-react-system'; `}
         </System.CodeBlock>
         <br />
         <br />
-        <br />
-        <System.H2>Usage</System.H2>
+        <System.H2>Typescale</System.H2>
         <hr />
         <br />
-        <System.P>
-          Declare the component at the root level of your document (e.g. in
-          index.js or App.js) so it is accessible throughout and will not get
-          buried in the DOM tree.
-        </System.P>
+        <span css={STYLES_CSS_LABEL}>1.953rem &nbsp; Semi Bold</span>
+        <System.H1>
+          This is heading level 1
+        </System.H1>
+        <br />
+        <span css={STYLES_CSS_LABEL}>1.563rem &nbsp; Medium</span>
+        <System.H2>
+          This is heading level 2
+        </System.H2>
+        <br />
+        <span css={STYLES_CSS_LABEL}>1.25rem &nbsp; Medium</span>
+        <System.H3>
+          This is heading level 3
+        </System.H3>
+        <br />
+        <span css={STYLES_CSS_LABEL}>1rem &nbsp; Medium</span>
+        <System.H4>
+          This is heading level 4
+        </System.H4>
+        <br />
         <br />
         <System.CodeBlock>
           {`
 <System.H1>
-  Typography 
+This is heading level 1
 </System.H1>
 
 <System.H2>
-  Typography 
+This is heading level 2
 </System.H2>
 
 <System.H3>
-  Typography 
+This is heading level 3
 </System.H3>
 
 <System.H4>
-  Typography 
+This is heading level 4
 </System.H4>
-
+          `}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Ordered and Unordered Lists</System.H2>
+        <hr />
+        <br />
+        <System.OL>
+          <System.LI>Rainbow</System.LI>
+          <System.LI>Cloud</System.LI>
+          <System.LI>Cake</System.LI>
+        </System.OL>
+        <br />
+        <System.UL>
+          <System.LI>Cloud</System.LI>
+          <System.LI>Cake</System.LI>
+          <System.LI>Rainbow</System.LI>
+        </System.UL>
+        <br />
+        <br />
+        <System.CodeBlock>
+          {`
 <System.OL>
-  <System.LI>Typography </System.LI>
-  <System.LI>Typography </System.LI>
-  <System.LI>Typography </System.LI>
+  <System.LI>Rainbow</System.LI>
+  <System.LI>Cloud</System.LI>
+  <System.LI>Cake</System.LI>
 </System.OL>
 
 <System.UL>
-  <System.LI>Typography </System.LI>
-  <System.LI>Typography </System.LI>
-  <System.LI>Typography </System.LI>
+  <System.LI>Cloud</System.LI>
+  <System.LI>Cake</System.LI>
+  <System.LI>Rainbow</System.LI>
 </System.UL>
-        `}
+          `}
         </System.CodeBlock>
-   
-
-      <br />
-      <br />
-      <br />
-      <System.H2>Output</System.H2>
-      <hr />
-      <br />
-      <System.P>
-        Declare the component at the root level of your document (e.g. in
-        index.js or App.js) so it is accessible throughout and will not get
-        buried in the DOM tree.
-      </System.P>
-      <System.H1>
-          Typography 
-        </System.H1>
         <br />
-        <System.H2>
-          Typography 
-        </System.H2>
         <br />
-        <System.H3>
-          Typography 
-        </System.H3>
-        <br />
-        <System.H4>
-          Typography 
-        </System.H4>
         <br />
       </SystemPage>
     );

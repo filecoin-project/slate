@@ -28,7 +28,7 @@ export const typescale = {
   lvl1: `1rem`,
   lvl2: `1.25rem`,
   lvl3: `1.563rem`,
-  lvl4: `1.953em`,
+  lvl4: `1.953rem`,
 };
 
 export const system = {

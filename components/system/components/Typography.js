@@ -70,9 +70,9 @@ export const H2 = (props) => {
 
 const STYLES_H3 = css`
   box-sizing: border-box;
-  font-size: ${Constants.typescale.lvl4};
+  font-size: ${Constants.typescale.lvl2};
   line-height: 1.1;
-  font-family: ${Constants.font.semiBold};
+  font-family: ${Constants.font.medium};
   font-weight: 400;
   color: inherit;
   text-decoration: none;
@@ -102,9 +102,9 @@ export const H3 = (props) => {
 
 const STYLES_H4= css`
   box-sizing: border-box;
-  font-size: ${Constants.typescale.lvl4};
+  font-size: ${Constants.typescale.lvl1};
   line-height: 1.1;
-  font-family: ${Constants.font.semiBold};
+  font-family: ${Constants.font.medium};
   font-weight: 400;
   color: inherit;
   text-decoration: none;

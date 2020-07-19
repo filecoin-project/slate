@@ -7,10 +7,11 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 import { createPow, ffsOptions } from "@textile/powergate-client";
+
 const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
 
 const EXAMPLE_CODE = `import * as React from 'react';
-import { FilecoinDealsList } from 'slate-react-system';
+import { FilecoinStorageDealsList, FilecoinRetrievalDealsList } from 'slate-react-system';
 import { createPow, ffsOptions } from "@textile/powergate-client";
 
 const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
@@ -20,69 +21,120 @@ class Example extends React.Component {
     const FFS = await PowerGate.ffs.create();
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
-    this.recordsList = await PowerGate.ffs.listStorageDealRecords(
+    this.storageList = await PowerGate.ffs.listStorageDealRecords(
       ffsOptions.withIncludeFinal(true),
-      ffsOptions.withIncludePending(true)
+      ffsOptions.withIncludePending(true),
+      ffsOptions.withFromAddresses(
+        "t3ual5q5qo5wolfxsui4ciujfucqwf6gqso4lettcjwl2tyismgol7c4tngvoono5rmytuqotye7oosfjv6g7a",
+        "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q"
+      )
     );
+    this.retrievalList = await PowerGate.ffs.listRetrievalDealRecords();
   }
 
   render() {
     return (
-      <FilecoinDealsList data={this.recordsList} />
+      <FilecoinStorageDealsList data={this.storageList} />
+      <FilecoinRetrievalDealsList data={this.retrievalList} />
     );
   }
 }
 `;
 
+const storageList = [
+  {
+    addr:
+      "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q",
+    dealInfo: {
+      activationEpoch: 0,
+      dealId: 0,
+      duration: 1000,
+      miner: "t0101180",
+      msg: "",
+      pieceCid: "b",
+      pricePerEpoch: 1220,
+      proposalCid:
+        "bafyreifvjnupitsw3zwykymlnuruqqpyxhmpm5xo6cf72e7hdxscqistea",
+      size: 0,
+      startEpoch: 0,
+      stateId: 0,
+      stateName: "",
+    },
+    pending: true,
+    rootCid: "QmctRftYBfbWAtfz9svcprTnmah4eFJXdAUuBhAA6Z6c84",
+    time: 1594960648,
+  },
+  {
+    addr:
+      "t3ual5q5qo5wolfxsui4ciujfucqwf6gqso4lettcjwl2tyismgol7c4tngvoono5rmytuqotye7oosfjv6g7a",
+    dealInfo: {
+      activationEpoch: 0,
+      dealId: 0,
+      duration: 1000,
+      miner: "t0101180",
+      msg: "",
+      pieceCid: "b",
+      pricePerEpoch: 4882,
+      proposalCid:
+        "bafyreihej2ejt32ackx5h6n5vfgdjulya6lqtvhim22scnxbnw2kf3f6bm",
+      size: 0,
+      startEpoch: 0,
+      stateId: 0,
+      stateName: "",
+    },
+    pending: false,
+    rootCid: "QmUXsfqC1bHbZyD7T341rBXQCfDxA8UaiAmziHcwRRZHsQ",
+    time: 1594960738,
+  },
+];
+
+const retrievalList = [
+  {
+    addr:
+      "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q",
+    dealInfo: {
+      activationEpoch: 0,
+      dealId: 0,
+      duration: 1000,
+      miner: "t0101180",
+      msg: "",
+      pieceCid: "b",
+      pricePerEpoch: 1220,
+      proposalCid:
+        "bafyreifvjnupitsw3zwykymlnuruqqpyxhmpm5xo6cf72e7hdxscqistea",
+      rootCid: "QmctRftYBfbWAtfz9svcprTnmah4eFJXdAUuBhAA6Z6c84",
+      size: 0,
+      startEpoch: 0,
+      stateId: 0,
+      stateName: "",
+    },
+    time: 1594960648,
+  },
+  {
+    addr:
+      "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q",
+    dealInfo: {
+      activationEpoch: 0,
+      dealId: 0,
+      duration: 1000,
+      miner: "t0101180",
+      msg: "",
+      pieceCid: "b",
+      pricePerEpoch: 4882,
+      proposalCid:
+        "bafyreihej2ejt32ackx5h6n5vfgdjulya6lqtvhim22scnxbnw2kf3f6bm",
+      rootCid: "QmUXsfqC1bHbZyD7T341rBXQCfDxA8UaiAmziHcwRRZHsQ",
+      size: 0,
+      startEpoch: 0,
+      stateId: 0,
+      stateName: "",
+    },
+    time: 1594960738,
+  },
+];
+
 export default class SystemPageStorageDeals extends React.Component {
   render() {
-    const recordsList = [
-      {
-        addr:
-          "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q",
-        dealInfo: {
-          activationEpoch: 0,
-          dealId: 0,
-          duration: 1000,
-          miner: "t0101180",
-          msg: "",
-          pieceCid: "b",
-          pricePerEpoch: 1220,
-          proposalCid:
-            "bafyreifvjnupitsw3zwykymlnuruqqpyxhmpm5xo6cf72e7hdxscqistea",
-          size: 0,
-          startEpoch: 0,
-          stateId: 0,
-          stateName: "",
-        },
-        pending: true,
-        rootCid: "QmctRftYBfbWAtfz9svcprTnmah4eFJXdAUuBhAA6Z6c84",
-        time: 1594960648,
-      },
-      {
-        addr:
-          "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q",
-        dealInfo: {
-          activationEpoch: 0,
-          dealId: 0,
-          duration: 1000,
-          miner: "t0101180",
-          msg: "",
-          pieceCid: "b",
-          pricePerEpoch: 4882,
-          proposalCid:
-            "bafyreihej2ejt32ackx5h6n5vfgdjulya6lqtvhim22scnxbnw2kf3f6bm",
-          size: 0,
-          startEpoch: 0,
-          stateId: 0,
-          stateName: "",
-        },
-        pending: true,
-        rootCid: "QmUXsfqC1bHbZyD7T341rBXQCfDxA8UaiAmziHcwRRZHsQ",
-        time: 1594960738,
-      },
-    ];
-
     return (
       <SystemPage
         title="SDS: Storage Deals"
@@ -96,8 +148,8 @@ export default class SystemPageStorageDeals extends React.Component {
         <br />
         <br />
         <System.P>
-          Here is an example of an experience for getting Filecoin Storage deals
-          from{" "}
+          Here is an example of an experience for getting Filecoin Storage and
+          Retrieval deals from{" "}
           <a target="_blank" href="https://github.com/textileio/powergate/">
             Textile's Powergate
           </a>
@@ -105,45 +157,46 @@ export default class SystemPageStorageDeals extends React.Component {
         </System.P>
         <br />
         <br />
-        <System.FilecoinDealsList
-          data={recordsList}
-          style={{ width: "110%" }}
-        />
+        <System.FilecoinStorageDealsList data={storageList} />
+        <br />
+        <br />
+        <System.FilecoinRetrievalDealsList data={retrievalList} />
+        <br />
         <br />
         <br />
         <System.H2>Code</System.H2>
         <hr />
         <br />
         <System.P>
-          You must specify at least one of{" "}
-          <System.CodeText>withIncludeFinal(true)</System.CodeText> and{" "}
+          You must include at least one of{" "}
+          <System.CodeText>withIncludeFinal(true)</System.CodeText> or{" "}
           <System.CodeText>withIncludePending(true)</System.CodeText>
-          to ensure you get a response. Other optional{" "}
-          <System.CodeText>ffsOptions</System.CodeText> that can be used to
-          specify what data you get back are noted in the table below.
-        </System.P>
-        <br />
-        <System.P>
-          To use the component for retrieval deals, simply pass in the data from{" "}
-          <System.CodeText>listRetrievalDealRecords</System.CodeText> instead of{" "}
-          <System.CodeText>listStorageDealRecords</System.CodeText>.
+          to ensure you get a response for{" "}
+          <System.CodeText>listStorageDealRecords</System.CodeText>. Other
+          optional <System.CodeText>ffsOptions</System.CodeText> that can be
+          used to specify what data you get back are noted in the table below.
         </System.P>
         <br />
         <br />
         <System.CodeBlock>{EXAMPLE_CODE}</System.CodeBlock>
         <br />
         <br />
+        <br />
         <System.H2>Accepted Options Properties</System.H2>
         <hr />
         <br />
         <System.P>
-          To specify what type of data you get back from{" "}
+          To define what type of data you get back from{" "}
           <System.CodeText>listStorageDealRecords</System.CodeText> and{" "}
-          <System.CodeText>listRetrievalDealRecords</System.CodeText>, you must
-          pass in a destructured list of the below{" "}
-          <System.CodeText>ffsOption</System.CodeText> functions. Each of the{" "}
-          <System.CodeText>ffsOption</System.CodeText> functions take a
-          parameter of their own, whose type is specified in the table below.
+          <System.CodeText>listRetrievalDealRecords</System.CodeText>, pass in a
+          destructured list of the below{" "}
+          <System.CodeText>ffsOption</System.CodeText> functions.
+        </System.P>
+        <br />
+        <System.P>
+          Each of the <System.CodeText>ffsOption</System.CodeText> functions
+          take a parameter of their own, whose type is detailed in the table
+          below.
         </System.P>
         <br />
         <br />

@@ -6,10 +6,17 @@ import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 const EXAMPLE_CODE = `import * as React from 'react';
 import { CreateFilecoinStorageDeal } from 'slate-react-system';
+import { createPow } from "@textile/powergate-client";
 
-// NOTE(jim)
-// Requires token and authentication
+const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
+
 class Example extends React.Component {
+  componentDidMount = async () => {
+    const FFS = await PowerGate.ffs.create();
+    const token = FFS.token ? FFS.token : null;
+    PowerGate.setToken(token);
+  }
+
   _handleSubmit = async (data) => {
     const file = data.file.files[0];
 
@@ -33,11 +40,9 @@ class Example extends React.Component {
 
     await getByteArray();
 
-    // NOTE(jim):
-    // For this example, my PG instance happens to be this.PG
-    const { cid } = await this.PG.ffs.addToHot(buffer);
-    const { jobId } = await this.PG.ffs.pushConfig(cid);
-    const cancel = this.PG.ffs.watchJobs((job) => {
+    const { cid } = await Powergate.ffs.addToHot(buffer);
+    const { jobId } = await Powergate.ffs.pushConfig(cid);
+    const cancel = Powergate.ffs.watchJobs((job) => {
       console.log(job);
     }, jobId);
   }
@@ -84,8 +89,10 @@ export default class SystemPageMakeStorageDeal extends React.Component {
         <System.CreateFilecoinStorageDeal onSubmit={this._handleSubmit} />
         <br />
         <br />
+        <br />
         <System.H2>Code</System.H2>
-        <br /> <br />
+        <hr />
+        <br />
         <System.CodeBlock>{EXAMPLE_CODE}</System.CodeBlock>
       </SystemPage>
     );

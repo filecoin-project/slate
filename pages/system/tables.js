@@ -10,12 +10,10 @@ export default class SystemPageTables extends React.Component {
     exampleOneOutput: null,
     exampleOneProps: null,
     exampleTwoOutput: null,
-    exampleTwoProps: null
+    exampleTwoProps: null,
   };
 
-  _handleChange = e => this.setState(
-    { [e.target.name]: e.target.value }
-  );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
     return (
@@ -101,16 +99,45 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
         <System.Table
           data={{
             columns: [
-              { key: 'a', name: 'Link', type: 'FILE_LINK' },
-              { key: 'b', name: 'Value', width: '88px' },
-              { key: 'c', name: 'Tooltip', tooltip: 'A tooltip.', width: '128px' },
-              { key: 'd', name: 'Copyable', copyable: true, width: '88px' },
+              { key: "a", name: "Link", type: "FILE_LINK" },
+              { key: "b", name: "Value", width: "88px" },
+              {
+                key: "c",
+                name: "Tooltip",
+                tooltip: "A tooltip.",
+                width: "128px",
+              },
+              { key: "d", name: "Copyable", copyable: true, width: "88px" },
             ],
             rows: [
-              { id: 1, a: 'col 1 row 1', b: 'col 1 row 2', c: 'col 1 row 3', d: 'col 1 row 4' },
-              { id: 2, a: 'col 2 row 1', b: 'col 2 row 2', c: 'col 2 row 3', d: 'col 2 row 4' },
-              { id: 3, a: 'col 3 row 1', b: 'col 3 row 2', c: 'col 3 row 3', d: 'col 3 row 4' },
-              { id: 3, a: 'col 4 row 1', b: 'col 4 row 2', c: 'col 4 row 3', d: 'col 4 row 4' },
+              {
+                id: 1,
+                a: "col 1 row 1",
+                b: "col 1 row 2",
+                c: "col 1 row 3",
+                d: "col 1 row 4",
+              },
+              {
+                id: 2,
+                a: "col 2 row 1",
+                b: "col 2 row 2",
+                c: "col 2 row 3",
+                d: "col 2 row 4",
+              },
+              {
+                id: 3,
+                a: "col 3 row 1",
+                b: "col 3 row 2",
+                c: "col 3 row 3",
+                d: "col 3 row 4",
+              },
+              {
+                id: 3,
+                a: "col 4 row 1",
+                b: "col 4 row 2",
+                c: "col 4 row 3",
+                d: "col 4 row 4",
+              },
             ],
           }}
           selectedRowId={this.state.exampleOneOutput}
@@ -257,7 +284,10 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
         <System.H2>TableContents</System.H2>
         <hr />
         <br />
-        <System.P>The Table Component has many TableContent properties that can be added to alter the column using the <i>type</i> props.</System.P>
+        <System.P>
+          The Table Component has many TableContent properties that can be added
+          to alter the column using the <i>type</i> props.
+        </System.P>
         <br />
         <System.CodeBlock>
           {`class ExampleTwo extends React.Component {
@@ -306,18 +336,37 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
         <System.Table
           data={{
             columns: [
-              { key: 'a', name: 'Upload', width: '112px', type: 'BANDWIDTH_UPLOAD' },
-              { key: 'b', name: 'Download', width: '112px', type: 'BANDWIDTH_DOWNLOAD' },
-              { key: 'c', name: 'Tranaction Status', width: '128px', type: "TRANSACTION_STATUS" },
-              { key: 'd', name: 'Deal Status', width:'168px', type: "DEAL_STATUS" },
-              { key: 'e', name: 'Icon', width: '88px', type: "ICON" },
-
+              {
+                key: "a",
+                name: "Upload",
+                width: "112px",
+                type: "BANDWIDTH_UPLOAD",
+              },
+              {
+                key: "b",
+                name: "Download",
+                width: "112px",
+                type: "BANDWIDTH_DOWNLOAD",
+              },
+              {
+                key: "c",
+                name: "Tranaction Status",
+                width: "128px",
+                type: "TRANSACTION_STATUS",
+              },
+              {
+                key: "d",
+                name: "Deal Status",
+                width: "168px",
+                type: "DEAL_STATUS",
+              },
+              { key: "e", name: "Icon", width: "88px", type: "ICON" },
             ],
             rows: [
-              { id: 1, a: '500', b: '200', c: '2', d: '1', e: 'PNG' },
-              { id: 2, a: '20', b: '10', c: '1', d: '2', e: 'FOLDER' },
-              { id: 3, a: '100', b: '250', c: '2', d: '3', e: 'PNG'  },
-              { id: 3, a: '4', b: '135', c: '1', d: '4', e: 'FOLDER' },
+              { id: 1, a: "500", b: "200", c: "2", d: "1", e: "PNG" },
+              { id: 2, a: "20", b: "10", c: "1", d: "2", e: "FOLDER" },
+              { id: 3, a: "100", b: "250", c: "2", d: "3", e: "PNG" },
+              { id: 3, a: "4", b: "135", c: "1", d: "4", e: "FOLDER" },
             ],
           }}
           selectedRowId={this.state.exampleTwoOutput}
@@ -326,35 +375,114 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
         />
         <br />
         <br />
-        <System.H2>Accepted <i>Type</i> Properties</System.H2>
+        <System.H2>
+          Accepted <i>Type</i> Properties
+        </System.H2>
         <hr />
         <br />
         <Group title="TableContent">
           <System.Table
             data={{
               columns: [
-                { key: 'a', name: 'Name', width: '184px' },
-                { key: 'b', name: 'Type', width: '88px', type: "OBJECT_TYPE" },
-                { key: 'c', name: 'Description', width: '100%' },
+                { key: "a", name: "Name", width: "184px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
+                { key: "c", name: "Description", width: "100%" },
               ],
               rows: [
-                { id: 1, a: 'DEAL_CATEGORY', b: 'number', c: '"1": "Storage", else: "Retrieval"' },
-                { id: 2, a: 'LOCATION', b: 'string', c: 'String for location' },
-                { id: 3, a: 'BUTTON', b: 'string', c: 'String for button text' },
-                { id: 4, a: 'TRANSACTION_DIRECTION', b: 'number', c: '"1": incoming badge, "2": outgoing badge' },
-                { id: 5, a: 'TRANSACTION_STATUS', b: 'number', c: '"1": complete badge, "2": pending badge' },
-                { id: 6, a: 'ICON', b: 'string', c: '"PNG": image icon, "FOLDER": folder icon' },
-                { id: 7, a: 'AVATAR', b: 'null', c: 'Adds the users avatar and online status' },
-                { id: 8, a: 'DEAL_STATUS_RETRIEVAL', b: 'number', c: '"0": "Local file", "1": "Available on network", "2": "Retrieval deal proposed.", "3": "Retrieval deal accepted.", "4": "Data transfer in progress.", "5": "Data transfer completed.", "6": "Retrieved from network.",' },
-                { id: 9, a: 'DEAL_STATUS', b: 'number', c: '"0": "Local file", "1": "Available on network", "2": "Retrieval deal proposed.", "3": "Retrieval deal accepted.", "4": "Data transfer in progress.", "5": "Data transfer completed.", "6": "Retrieved from network.",' },
-                { id: 10, a: 'BANDWIDTH_UPLOAD', b: 'number', c: 'Outputs an upload icon with the {number} of bytes' },
-                { id: 11, a: 'BANDWIDTH_DOWNLOAD', b: 'number', c: 'Outputs a download icon with the {number} of bytes' },
-                { id: 12, a: 'MINER_AVAILABILITY', b: 'number', c: '"1": "true", "2": null' },
-                { id: 13, a: 'DEAL_AUTO_RENEW', b: 'number', c: '"1": "true", else: "false"' },
-                { id: 14, a: 'NOTIFICATION_ERROR', b: 'string', c: 'String with error notification badge' },
-                { id: 15, a: 'FILE_DATE', b: 'string', c: 'String to date' },
-                { id: 16, a: 'FILE_SIZE', b: 'number', c: 'Outputs "{number} Bytes"' },
-                { id: 17, a: 'FILE_LINK', b: 'string', c: 'String of file link' }
+                {
+                  id: 1,
+                  a: "DEAL_CATEGORY",
+                  b: "number",
+                  c: '"1": "Storage", else: "Retrieval"',
+                },
+                { id: 2, a: "LOCATION", b: "string", c: "String for location" },
+                {
+                  id: 3,
+                  a: "BUTTON",
+                  b: "string",
+                  c: "String for button text",
+                },
+                {
+                  id: 4,
+                  a: "TRANSACTION_DIRECTION",
+                  b: "number",
+                  c: '"1": incoming badge, "2": outgoing badge',
+                },
+                {
+                  id: 5,
+                  a: "TRANSACTION_STATUS",
+                  b: "number",
+                  c: '"1": complete badge, "2": pending badge',
+                },
+                {
+                  id: 6,
+                  a: "ICON",
+                  b: "string",
+                  c: '"PNG": image icon, "FOLDER": folder icon',
+                },
+                {
+                  id: 7,
+                  a: "AVATAR",
+                  b: "null",
+                  c: "Adds the users avatar and online status",
+                },
+                {
+                  id: 8,
+                  a: "DEAL_STATUS_RETRIEVAL",
+                  b: "number",
+                  c:
+                    '"0": "Local file", "1": "Available on network", "2": "Retrieval deal proposed.", "3": "Retrieval deal accepted.", "4": "Data transfer in progress.", "5": "Data transfer completed.", "6": "Retrieved from network.",',
+                },
+                {
+                  id: 9,
+                  a: "DEAL_STATUS",
+                  b: "number",
+                  c:
+                    '"0": "Local file", "1": "Available on network", "2": "Retrieval deal proposed.", "3": "Retrieval deal accepted.", "4": "Data transfer in progress.", "5": "Data transfer completed.", "6": "Retrieved from network.",',
+                },
+                {
+                  id: 10,
+                  a: "BANDWIDTH_UPLOAD",
+                  b: "number",
+                  c: "Outputs an upload icon with the {number} of bytes",
+                },
+                {
+                  id: 11,
+                  a: "BANDWIDTH_DOWNLOAD",
+                  b: "number",
+                  c: "Outputs a download icon with the {number} of bytes",
+                },
+                {
+                  id: 12,
+                  a: "MINER_AVAILABILITY",
+                  b: "number",
+                  c: '"1": "true", "2": null',
+                },
+                {
+                  id: 13,
+                  a: "DEAL_AUTO_RENEW",
+                  b: "number",
+                  c: '"1": "true", else: "false"',
+                },
+                {
+                  id: 14,
+                  a: "NOTIFICATION_ERROR",
+                  b: "string",
+                  c: "String with error notification badge",
+                },
+                { id: 15, a: "FILE_DATE", b: "string", c: "String to date" },
+                {
+                  id: 16,
+                  a: "FILE_SIZE",
+                  b: "number",
+                  c: 'Outputs "{number} Bytes"',
+                },
+                {
+                  id: 17,
+                  a: "FILE_LINK",
+                  b: "string",
+                  c: "String of file link",
+                },
               ],
             }}
             selectedRowId={this.state.exampleTwoProps}
@@ -362,7 +490,6 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
             name="exampleTwoProps"
           />
         </Group>
-
       </SystemPage>
     );
   }

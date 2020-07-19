@@ -220,6 +220,8 @@ export const TableContent = ({
       return data["deal_category"] === 1
         ? STORAGE_DEAL_STATES[`${text}`]
         : RETRIEVAL_DEAL_STATES[`${text}`];
+    case "STORAGE_DEAL_STATUS":
+      return COMPONENTS_TRANSACTION_STATUS[text];
     case "BANDWIDTH_UPLOAD":
       return (
         <React.Fragment>

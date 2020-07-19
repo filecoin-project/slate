@@ -16,12 +16,11 @@ class Example extends React.Component {
   }
 
   _handleCreateToken = () => {
-    // NOTE
-    // Requires PowerGate to be running locally.
-    const PowerGate = createPow({ host: 'http://0.0.0.0:6002' });
+    const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
     const FFS = await PowerGate.ffs.create();
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
+    this.setState({ token });
   }
 
   render() {
@@ -81,8 +80,10 @@ export default class GeneratePowergateToken extends React.Component {
         />
         <br />
         <br />
+        <br />
         <System.H2>Code</System.H2>
-        <br /> <br />
+        <hr />
+        <br />
         <System.CodeBlock>{EXAMPLE_CODE}</System.CodeBlock>
       </SystemPage>
     );

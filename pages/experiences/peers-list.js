@@ -8,13 +8,20 @@ const EXAMPLE_CODE = `import * as React from 'react';
 import { PeersList } from 'slate-react-system';
 import { createPow } from "@textile/powergate-client";
 
-const PowerGate = createPow({ host: 'http://0.0.0.0:6002' });
-const { peersList } = await PowerGate.net.peers();
+const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
 
 class Example extends React.Component {
+  componentDidMount = async () => {
+    const FFS = await PowerGate.ffs.create();
+    const token = FFS.token ? FFS.token : null;
+    PowerGate.setToken(token);
+    const { peersList } = await PowerGate.net.peers();
+    this.peersList = peersList;
+  }
+
   render() {
     return (
-      <PeersList data={peersList} />
+      <PeersList data={this.peersList} />
     );
   }
 }
@@ -53,8 +60,10 @@ export default class SystemPagePeersList extends React.Component {
         <System.PeersList data={peersList} />
         <br />
         <br />
+        <br />
         <System.H2>Code</System.H2>
-        <br /> <br />
+        <hr />
+        <br />
         <System.CodeBlock>{EXAMPLE_CODE}</System.CodeBlock>
       </SystemPage>
     );

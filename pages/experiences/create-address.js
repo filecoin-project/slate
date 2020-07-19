@@ -64,8 +64,10 @@ export default class SystemPageCreateAddress extends React.Component {
         <System.CreateFilecoinAddress onSubmit={this._handleSubmit} />
         <br />
         <br />
+        <br />
         <System.H2>Code</System.H2>
-        <br /> <br />
+        <hr />
+        <br />
         <System.CodeBlock>{EXAMPLE_CODE}</System.CodeBlock>
       </SystemPage>
     );

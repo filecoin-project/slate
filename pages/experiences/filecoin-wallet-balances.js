@@ -12,16 +12,16 @@ const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
 
 class Example extends React.Component {
   componentDidMount = async () => {
-    
     const FFS = await PowerGate.ffs.create();
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
     const { info } = await PowerGate.ffs.info();
+    this.info = info;
   }
 
   render() {
     return (
-      <FilecoinBalancesList data={info.balancesList} />
+      <FilecoinBalancesList data={this.info.balancesList} />
     );
   }
 }
@@ -74,8 +74,10 @@ export default class SystemPageFilecoinWalletBalances extends React.Component {
         <System.FilecoinBalancesList data={balancesList} />
         <br />
         <br />
+        <br />
         <System.H2>Code</System.H2>
-        <br /> <br />
+        <hr />
+        <br />
         <System.CodeBlock>{EXAMPLE_CODE}</System.CodeBlock>
       </SystemPage>
     );

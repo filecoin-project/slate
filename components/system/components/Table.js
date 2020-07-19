@@ -64,6 +64,17 @@ export class Table extends React.Component {
     onAction: () => console.log("No action function set"),
   };
 
+  _handleClick = (value) => {
+    if (this.props.onClick) {
+      this.props.onClick({
+        target: {
+          name: this.props.name,
+          value: value !== this.props.selectedRowId ? value : null,
+        },
+      });
+    }
+  };
+
   _handleChange = (value) => {
     this.props.onChange({
       target: {
@@ -131,13 +142,13 @@ export class Table extends React.Component {
             <React.Fragment key={`${r.id}-${i}`}>
               <div
                 css={STYLES_TABLE_ROW}
-                onClick={() => this._handleChange(r.id)}
+                onClick={() => this._handleClick(r.id)}
                 style={{
                   cursor:
-                    this.props.onChange && r.children ? "pointer" : "default",
+                    this.props.onClick && r.children ? "pointer" : "default",
                 }}
               >
-                {this.props.onChange && r.children && (
+                {this.props.onClick && r.children ? (
                   <SVG.ChevronDown
                     style={{
                       position: "absolute",
@@ -146,7 +157,7 @@ export class Table extends React.Component {
                       right: "4px",
                     }}
                   />
-                )}
+                ) : null}
                 {Object.keys(ac).map((each, cIndex) => {
                   const field = ac[each];
                   const text = r[each];

@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 
@@ -56,7 +55,7 @@ export default class SystemPageTypography extends React.Component {
         </System.P>
         <br />
         <System.CodeBlock>
-          {`import { Typography } from 'slate-react-system'; `}
+          {`import { H1, H2, H3, H4, P, UL, OL, LI } from 'slate-react-system'; `}
         </System.CodeBlock>
         <br />
         <br />

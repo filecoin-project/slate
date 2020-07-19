@@ -28,8 +28,6 @@ const STYLES_UNDERLINE = css`
   text-decoration: underline;
 `;
 
-
-
 export default class SystemPageTypography extends React.Component {
   render() {
     return (
@@ -169,7 +167,6 @@ This is heading level 4
         <System.P>External References <ViewSourceLink file="system/typography.js" /></System.P>
         <br />    
       </SystemPage>
-      
     );
   }
 }

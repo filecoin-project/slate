@@ -185,7 +185,6 @@ This is heading level 4
         <System.P>External References <ViewSourceLink file="system/typography.js" /></System.P>
         <br />
       </SystemPage>
-
     );
   }
 }

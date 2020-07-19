@@ -49,6 +49,15 @@ const STYLES_TABLE_TAG = css`
   white-space: nowrap;
 `;
 
+const COMPONENTS_DEAL_DIRECTION = {
+  "1": (
+    <span css={STYLES_TABLE_TAG} style={{ background: Constants.system.green }}>
+      storage
+    </span>
+  ),
+  "2": <span css={STYLES_TABLE_TAG}>retrieval</span>,
+};
+
 const COMPONENTS_TRANSACTION_DIRECTION = {
   "1": (
     <span css={STYLES_TABLE_TAG} style={{ background: Constants.system.green }}>
@@ -203,6 +212,8 @@ export const TableContent = ({
       return COMPONENTS_ICON[text];
     case "AVATAR":
       return <Avatar url={text} size={40} online={online} />;
+    case "DEAL_DIRECTION":
+      return COMPONENTS_DEAL_DIRECTION[text];
     case "DEAL_STATUS_RETRIEVAL":
       return RETRIEVAL_DEAL_STATES[`${text}`];
     case "DEAL_STATUS":

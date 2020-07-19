@@ -5,6 +5,7 @@ import * as SubSystem from "~/components/system/components/fragments/TableCompon
 
 import { css } from "@emotion/react";
 import { P } from "~/components/system/components/Typography";
+import * as SVG from "~/components/system/svg";
 
 const TABLE_COLUMN_WIDTH_DEFAULTS = {
   1: "100%",
@@ -28,6 +29,7 @@ const STYLES_TABLE_PLACEHOLDER = css`
 `;
 
 const STYLES_TABLE_ROW = css`
+  position: relative;
   box-sizing: border-box;
   padding: 0 8px 0 8px;
   border-bottom: 1px solid ${Constants.system.gray};
@@ -127,7 +129,24 @@ export class Table extends React.Component {
 
           return (
             <React.Fragment key={`${r.id}-${i}`}>
-              <div css={STYLES_TABLE_ROW}>
+              <div
+                css={STYLES_TABLE_ROW}
+                onClick={() => this._handleChange(r.id)}
+                style={{
+                  cursor:
+                    this.props.onChange && r.children ? "pointer" : "default",
+                }}
+              >
+                {this.props.onChange && r.children && (
+                  <SVG.ChevronDown
+                    style={{
+                      position: "absolute",
+                      height: "16px",
+                      bottom: "4px",
+                      right: "4px",
+                    }}
+                  />
+                )}
                 {Object.keys(ac).map((each, cIndex) => {
                   const field = ac[each];
                   const text = r[each];
@@ -161,7 +180,7 @@ export class Table extends React.Component {
                   );
                 })}
               </div>
-              {selected ? (
+              {selected && r.children ? (
                 <div css={STYLES_TABLE_SELECTED_ROW}>
                   <span css={STYLES_TABLE_PLACEHOLDER}>{r.children}</span>
                 </div>

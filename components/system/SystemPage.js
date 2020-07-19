@@ -215,6 +215,11 @@ export default class SystemPage extends React.Component {
             href="/experiences/send-address-filecoin"
             title="SendAddressFilecoin"
           />
+          <SidebarLink
+            url={url}
+            href="/experiences/list-storage-deals"
+            title="FilecoinDealsList"
+          />
 
           <span css={STYLES_LABEL}>
             <br />

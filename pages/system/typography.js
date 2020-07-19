@@ -51,11 +51,12 @@ export default class SystemPageTypography extends React.Component {
         <hr />
         <br />
         <System.P>
-          Import React and the Typography Component.
+          Import React and the typography components. If needed, import the ViewSourceLink component.
         </System.P>
         <br />
         <System.CodeBlock>
-          {`import { H1, H2, H3, H4, P, UL, OL, LI } from 'slate-react-system'; `}
+          {`import { H1, H2, H3, H4, P, UL, OL, LI } from 'slate-react-system';
+import ViewSourceLink from "~/components/system/ViewSourceLink";`}
         </System.CodeBlock>
         <br />
         <br />
@@ -98,8 +99,50 @@ This is heading level 3
 
 <System.H4>
 This is heading level 4
-</System.H4>
-          `}
+</System.H4>`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Type Styles</System.H2>
+        <hr />
+        <br />
+        <System.P css={STYLES_BOLD}>This text is bold</System.P>
+        <System.P css={STYLES_ITALIC}>This text is italic</System.P>
+        <System.P css={STYLES_UNDERLINE}>This text is underlined</System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+          {`<System.P css={STYLES_BOLD}>This text is bold</System.P>
+
+<System.P css={STYLES_ITALIC}>This text is italic</System.P>
+
+<System.P css={STYLES_UNDERLINE}>This text is underlined</System.P>`}
+        </System.CodeBlock>
+        <br />
+        <br />
+        <System.H2>Typefaces</System.H2>
+        <hr />
+        <br />
+        <System.H3>Inter</System.H3>
+        <System.P>a b c d e f g h i j k l m n o p q r s t u v w x y z</System.P>
+        <System.P>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
+        <System.P>0 1 2 3 4 5 6 7 8 9</System.P>
+        <br />
+        <br/>
+        <System.H3>Jet Brains</System.H3>
+        <System.P css={STYLES_TYPE_JETBRAINS}>a b c d e f g h i j k l m n o p q r s t u v w x y z</System.P>
+        <System.P css={STYLES_TYPE_JETBRAINS}>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
+        <System.P css={STYLES_TYPE_JETBRAINS}>0 1 2 3 4 5 6 7 8 9</System.P>
+        <br />
+        <br />
+        <System.CodeBlock>
+          {`<System.P>a b c d e f g h i j k l m n o p q r s t u v w x y z</System.P>
+<System.P>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
+<System.P>0 1 2 3 4 5 6 7 8 9</System.P>
+
+<System.P css={STYLES_TYPE_JETBRAINS}>a b c d e f g h i j k l m n o p q r s t u v w x y z</System.P>
+<System.P css={STYLES_TYPE_JETBRAINS}>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
+<System.P css={STYLES_TYPE_JETBRAINS}>0 1 2 3 4 5 6 7 8 9</System.P>`}
         </System.CodeBlock>
         <br />
         <br />
@@ -154,35 +197,6 @@ This is heading level 4
 </System.P>`}
         </System.CodeBlock>
         <br />
-        <br />
-        <System.H2>Typefaces</System.H2>
-        <hr />
-        <br />
-        <System.H3>Inter</System.H3>
-        <System.P>a b c d e f g h i j k l m n o p q r s t u v w x y z</System.P>
-        <System.P>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
-        <System.P>0 1 2 3 4 5 6 7 8 9</System.P>
-        <br />
-        <br/>
-        <System.H3>Jet Brains</System.H3>
-        <System.P css={STYLES_TYPE_JETBRAINS}>a b c d e f g h i j k l m n o p q r s t u v w x y z</System.P>
-        <System.P css={STYLES_TYPE_JETBRAINS}>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
-        <System.P css={STYLES_TYPE_JETBRAINS}>0 1 2 3 4 5 6 7 8 9</System.P>
-        <br />
-        <br />
-        <System.H2>Type Styles</System.H2>
-        <hr />
-        <br />
-        <System.P css={STYLES_BOLD}>This text is bold</System.P>
-        <System.P css={STYLES_ITALIC}>This text is italic</System.P>
-        <System.P css={STYLES_UNDERLINE}>This text is underlined</System.P>
-        <br />
-        <br />
-        <System.H2>Hyperlinks</System.H2>
-        <hr />
-        <br />
-        <System.P>Internal References <a href="https://slate.host" target="_blank">Link to a page</a></System.P>
-        <System.P>External References <ViewSourceLink file="system/typography.js" /></System.P>
         <br />
       </SystemPage>
     );

@@ -6,10 +6,6 @@ import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 
-import { createPow, ffsOptions } from "@textile/powergate-client";
-
-const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
-
 const EXAMPLE_CODE = `import * as React from 'react';
 import { FilecoinStorageDealsList, FilecoinRetrievalDealsList } from 'slate-react-system';
 import { createPow, ffsOptions } from "@textile/powergate-client";

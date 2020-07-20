@@ -9,11 +9,6 @@ import path from "path";
 
 const initCORS = MW.init(MW.CORS);
 
-const TEXTILE_KEY_INFO = {
-  key: process.env.TEXTILE_HUB_KEY,
-  secret: process.env.TEXTILE_HUB_SECRET,
-};
-
 export default async (req, res) => {
   initCORS(req, res);
 

@@ -7,7 +7,7 @@ export default class SystemPageRoot extends React.Component {
   render() {
     return (
       <SystemPage
-        title="SDS 1.2"
+        title="SDS 0.0.5"
         description="This is an early preview of the Slate Design System SDS)."
         url="https://fps.onrender.com/system"
       >
@@ -21,7 +21,7 @@ export default class SystemPageRoot extends React.Component {
             marginBottom: 48,
           }}
         />
-        <System.H1>SDS 1.2</System.H1>
+        <System.H1>SDS 0.0.5</System.H1>
         <br />
         <System.P>
           The <strong>Slate Design System</strong> is an open source resource

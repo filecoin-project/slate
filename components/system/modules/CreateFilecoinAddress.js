@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as System from "~/components/system";
 
+import { Input, SelectMenu, CheckBox, ButtonPrimaryFull } from "~/components/system";
 import { css } from "@emotion/react";
 
 const SELECT_MENU_OPTIONS = [
@@ -51,14 +51,14 @@ export class CreateFilecoinAddress extends React.Component {
   render() {
     return (
       <div css={STYLES_CONTAINER}>
-        <System.Input
+        <Input
           label="Address name"
           name="name"
           value={this.state.name}
           onChange={this._handleChange}
         />
 
-        <System.SelectMenu
+        <SelectMenu
           full
           containerStyle={{ marginTop: 24 }}
           name="type"
@@ -67,25 +67,23 @@ export class CreateFilecoinAddress extends React.Component {
           category="type adresss"
           onChange={this._handleChange}
           options={SELECT_MENU_OPTIONS}
-        >
-          {SELECT_MENU_MAP[this.state.type]}
-        </System.SelectMenu>
+        />
 
-        <System.CheckBox
+        <CheckBox
           style={{ marginTop: 24 }}
           name="default"
           value={this.state.default}
           onChange={this._handleChange}
         >
           Make this wallet the default
-        </System.CheckBox>
+        </CheckBox>
 
-        <System.ButtonPrimaryFull
+        <ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
         >
           Create address
-        </System.ButtonPrimaryFull>
+        </ButtonPrimaryFull>
       </div>
     );
   }

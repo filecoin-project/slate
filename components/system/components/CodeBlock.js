@@ -2,6 +2,9 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
+
+// TODO:
+// Refactor to https://github.com/FormidableLabs/prism-react-renderer
 import Prism from "prismjs";
 
 const STYLES_CODE_BLOCK = css`

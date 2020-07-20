@@ -12,12 +12,15 @@ const STYLES_NESTED_TABLE = css`
   grid-template-columns: 160px 1fr;
 `;
 
+let iterator = 0;
+
 const NestedTable = (data) => {
   let values = [];
   for (let entries of Object.entries(data)) {
     if (entries[0] !== "rootCid") {
-      values.push(<div>{entries[0]}</div>);
-      values.push(<div>{entries[1]}</div>);
+      iterator += 1;
+      values.push(<div key={iterator}>{entries[0]}</div>);
+      values.push(<div key={iterator}>{entries[1]}</div>);
     }
   }
   return <div css={STYLES_NESTED_TABLE}>{values}</div>;

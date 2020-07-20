@@ -67,7 +67,7 @@ export default class SystemPageMakeStorageDeal extends React.Component {
       <SystemPage
         title="SDS: Make a Storage Deal"
         description="..."
-        url="https://fps.onrender.com/experiences/make-storage-deal"
+        url="https://slate.host/experiences/make-storage-deal"
       >
         <System.H1>
           Make a Storage Deal{" "}

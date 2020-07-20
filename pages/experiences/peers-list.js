@@ -40,7 +40,7 @@ export default class SystemPagePeersList extends React.Component {
       <SystemPage
         title="SDS: Peers List"
         description="..."
-        url="https://fps.onrender.com/experiences/peers-list"
+        url="https://slate.host/experiences/peers-list"
       >
         <System.H1>
           Peers List <ViewSourceLink file="experiences/peers-list.js" />

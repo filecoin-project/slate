@@ -45,7 +45,7 @@ export default class SystemPageCreateAddress extends React.Component {
       <SystemPage
         title="SDS: Create Address"
         description="..."
-        url="https://fps.onrender.com/experiences/create-address"
+        url="https://slate.host/experiences/create-address"
       >
         <System.H1>
           Create a Filecoin Address{" "}

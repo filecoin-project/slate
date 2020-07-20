@@ -21,7 +21,7 @@ export default class SystemPageCheckboxes extends React.Component {
       <SystemPage
         title="SDS: Checkboxes"
         description="..."
-        url="https://fps.onrender.com/system/checkboxes"
+        url="https://slate.host/system/checkboxes"
       >
         <System.H1>
           Checkboxes <ViewSourceLink file="system/checkboxes.js" />

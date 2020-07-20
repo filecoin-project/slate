@@ -41,7 +41,7 @@ export default class SystemPageTabs extends React.Component {
       <SystemPage
         title="SDS: Tabs"
         description="..."
-        url="https://fps.onrender.com/system/tabs"
+        url="https://slate.host/system/tabs"
       >
         <System.H1>
           Tabs <ViewSourceLink file="system/tabs.js" />

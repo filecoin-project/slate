@@ -10,7 +10,7 @@ export default class SystemPageStats extends React.Component {
       <SystemPage
         title="SDS: Stats"
         description="..."
-        url="https://fps.onrender.com/system/stats"
+        url="https://slate.host/system/stats"
       >
         <System.H1>
           Stats <ViewSourceLink file="system/stats.js" />

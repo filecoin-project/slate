@@ -37,7 +37,7 @@ export default class SystemPageDropdowns extends React.Component {
       <SystemPage
         title="SDS: Dropdowns"
         description="..."
-        url="https://fps.onrender.com/system/dropdowns"
+        url="https://slate.host/system/dropdowns"
       >
         <System.H1>
           Dropdowns <ViewSourceLink file="system/dropdowns.js" />

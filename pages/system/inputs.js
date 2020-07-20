@@ -25,7 +25,7 @@ export default class SystemPageInputs extends React.Component {
       <SystemPage
         title="SDS: Inputs"
         description="..."
-        url="https://fps.onrender.com/system/inputs"
+        url="https://slate.host/system/inputs"
       >
         <System.H1>
           Inputs <ViewSourceLink file="system/inputs.js" />

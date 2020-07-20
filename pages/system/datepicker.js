@@ -28,7 +28,7 @@ export default class SystemPageDatepicker extends React.Component {
       <SystemPage
         title="SDS: Datepicker"
         description="..."
-        url="https://fps.onrender.com/system/datepicker"
+        url="https://slate.host/system/datepicker"
       >
         <System.H1>
           Datepicker <ViewSourceLink file="system/datepicker.js" />

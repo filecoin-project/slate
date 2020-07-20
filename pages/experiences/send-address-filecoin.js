@@ -44,7 +44,7 @@ export default class SystemPageSendAddressFilecoin extends React.Component {
       <SystemPage
         title="SDS: Send Address Filecoin"
         description="..."
-        url="https://fps.onrender.com/experiences/send-address-filecoin"
+        url="https://slate.host/experiences/send-address-filecoin"
       >
         <System.H1>
           Send an Address Filecoin{" "}

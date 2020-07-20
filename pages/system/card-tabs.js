@@ -33,7 +33,7 @@ export default class SystemPageCardTabs extends React.Component {
       <SystemPage
         title="SDS: Card Tabs"
         description="..."
-        url="https://fps.onrender.com/system/card-tabs"
+        url="https://slate.host/system/card-tabs"
       >
         <System.H1>
           Card Tabs <ViewSourceLink file="system/card-tabs.js" />

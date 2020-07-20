@@ -20,7 +20,7 @@ export default class SystemPageNotifications extends React.Component {
       <SystemPage
         title="SDS: Modals"
         description="..."
-        url="https://fps.onrender.com/system/modals"
+        url="https://slate.host/system/modals"
       >
         <System.H1>
           Modals <ViewSourceLink file="system/modals.js" />

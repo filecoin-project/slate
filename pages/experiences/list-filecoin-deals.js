@@ -139,7 +139,7 @@ export default class SystemPageDeals extends React.Component {
       <SystemPage
         title="SDS: Filecoin Deals"
         description="..."
-        url="https://fps.onrender.com/experiences/list-filecoin-deals"
+        url="https://slate.host/experiences/list-filecoin-deals"
       >
         <System.H1>
           View Storage and Retrieval Deals{" "}

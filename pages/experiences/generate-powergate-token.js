@@ -57,7 +57,7 @@ export default class GeneratePowergateToken extends React.Component {
       <SystemPage
         title="SDS: Generate Powergate Token"
         description="..."
-        url="https://fps.onrender.com/experiences/generate-powergate-token"
+        url="https://slate.host/experiences/generate-powergate-token"
       >
         <System.H1>
           Generate Powergate token{" "}

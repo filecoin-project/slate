@@ -7,7 +7,7 @@ import ViewSourceLink from '~/components/system/ViewSourceLink';
 export default class SystemPageButtons extends React.Component {
   render() {
     return (
-      <SystemPage title="SDS: Buttons" description="..." url="https://fps.onrender.com/system/buttons">
+      <SystemPage title="SDS: Buttons" description="..." url="https://slate.host/system/buttons">
         <System.H1>
           Buttons <ViewSourceLink file="system/buttons.js" />
         </System.H1>

@@ -21,7 +21,7 @@ export default class SystemPageToggles extends React.Component {
       <SystemPage
         title="SDS: Toggles"
         description="..."
-        url="https://fps.onrender.com/system/toggles"
+        url="https://slate.host/system/toggles"
       >
         <System.H1>
           Toggles <ViewSourceLink file="system/toggles.js" />

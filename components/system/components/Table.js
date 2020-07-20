@@ -79,16 +79,17 @@ export class Table extends React.Component {
     onNavigateTo: () => console.log("No navigation function set"),
     onAction: () => console.log("No action function set"),
     onChange: () => {},
-    onClick: () => {},
   };
 
   _handleClick = (value) => {
-    this.props.onClick({
-      target: {
-        name: this.props.name,
-        value: value !== this.props.selectedRowId ? value : null,
-      },
-    });
+    if (this.props.onClick) {
+      this.props.onClick({
+        target: {
+          name: this.props.name,
+          value: value !== this.props.selectedRowId ? value : null,
+        },
+      });
+    }
   };
 
   _handleChange = (value) => {
@@ -118,7 +119,6 @@ export class Table extends React.Component {
     }
 
     const width = TABLE_COLUMN_WIDTH_DEFAULTS[data.columns.length];
-
     return (
       <React.Fragment>
         <div css={STYLES_TABLE_TOP_ROW}>
@@ -149,7 +149,9 @@ export class Table extends React.Component {
               </SubSystem.TableColumn>
             );
           })}
-          <div css={STYLES_TABLE_EXPAND_SECTION} />
+          {this.props.onClick ? (
+            <div css={STYLES_TABLE_EXPAND_SECTION} />
+          ) : null}
         </div>
 
         {data.rows.map((r, i) => {
@@ -190,18 +192,20 @@ export class Table extends React.Component {
                     </SubSystem.TableColumn>
                   );
                 })}
-                {this.props.onClick && r.children ? (
+                {this.props.onClick ? (
                   <div
                     css={STYLES_TABLE_EXPAND_SECTION}
                     onClick={() => this._handleClick(r.id)}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: r.children ? "pointer" : "default" }}
                   >
-                    <SVG.Plus
-                      height="16px"
-                      style={{
-                        transform: selected ? `rotate(45deg)` : null,
-                      }}
-                    />
+                    {r.children ? (
+                      <SVG.Plus
+                        height="16px"
+                        style={{
+                          transform: selected ? `rotate(45deg)` : null,
+                        }}
+                      />
+                    ) : null}
                   </div>
                 ) : null}
               </div>

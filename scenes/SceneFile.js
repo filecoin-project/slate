@@ -116,13 +116,14 @@ export default class SceneFile extends React.Component {
   };
 
   render() {
-    const fileURL = `public/static/files/${this.props.file.file}`;
+    const fileName = this.props.file.file;
+    const fileURL = `data:image/png;base64,${this.props.file.file_data}`;
 
     return (
       <div css={STYLES_FLEX}>
         <div css={STYLES_TOP}>
           <div css={STYLES_LEFT}>
-            <span css={STYLES_PATH}>{fileURL}</span>
+            <span css={STYLES_PATH}>{fileName}</span>
           </div>
           <div css={STYLES_RIGHT} onClick={() => this.props.onBack()}>
             <SVG.Dismiss height="24px" />

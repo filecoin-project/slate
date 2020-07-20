@@ -3,10 +3,9 @@ import * as Utilities from "~/node_common/utilities";
 import * as Constants from "~/node_common/constants";
 import * as Data from "~/node_common/data";
 
-import { Buckets } from "@textile/hub";
-import { Libp2pCryptoIdentity } from "@textile/threads-core";
-
 import PG from "~/node_common/powergate";
+import FS from "fs-extra";
+import path from "path";
 
 const initCORS = MW.init(MW.CORS);
 
@@ -30,15 +29,15 @@ export default async (req, res) => {
     return res.status(200).json({ decorator: "SERVER_HYDRATE", error: true });
   }
 
-  const i = await Libp2pCryptoIdentity.fromString(user.data.tokens.api);
-  const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
-  await b.getToken(i);
-  const root = await b.open("data");
+  const {
+    buckets,
+    bucketKey,
+    bucketName,
+  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
-  // NOTE(jim): Should render a list of buckets.
-  const roots = await b.list();
-  console.log({ roots });
-
+  // TODO(jim): This is obviously a test!
+  // Slates will hold an index
+  // Library will hold an index
   let data = {
     peersList: null,
     messageList: null,
@@ -53,13 +52,33 @@ export default async (req, res) => {
     },
     library: [
       {
-        ...Utilities.createFolder({ id: Constants.FILE_STORAGE_URL }),
-        file: "Files",
-        name: "Files",
+        ...Utilities.createFolder({ id: bucketName }),
+        file: bucketName,
+        name: bucketName,
+        children: [
+          await Utilities.addFileFromFilePath({
+            buckets,
+            bucketKey,
+            filePath: "./public/static/social.jpg",
+          }),
+          await Utilities.addFileFromFilePath({
+            buckets,
+            bucketKey,
+            filePath: "./public/static/cube_000.jpg",
+          }),
+          await Utilities.addFileFromFilePath({
+            buckets,
+            bucketKey,
+            filePath: "./public/static/cube_f7f7f7.jpg",
+          }),
+        ],
       },
     ],
-    buckets: [],
   };
+
+  // NOTE(jim): Should render a list of buckets.
+  const roots = await buckets.list();
+  console.log({ roots });
 
   PG.setToken(user.data.tokens.pg);
 

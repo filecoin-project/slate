@@ -34,6 +34,7 @@ export default async (req, res) => {
   const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await b.getToken(i);
   await b.open("data");
+
   try {
     const response = await b.remove("data");
     console.log({ response });

@@ -1,6 +1,44 @@
 import * as Constants from "./constants";
+import * as Converter from "~/vendor/bytes-base64-converter.js";
 
-// NOTE(jim): Data that does not require a Powergate token.
+import FS from "fs-extra";
+
+import { Buckets } from "@textile/hub";
+import { Libp2pCryptoIdentity } from "@textile/threads-core";
+
+const BUCKET_NAME = "data";
+
+const TEXTILE_KEY_INFO = {
+  key: process.env.TEXTILE_HUB_KEY,
+  secret: process.env.TEXTILE_HUB_SECRET,
+};
+
+// NOTE(jim): Requires @textile/hub
+export const getBucketAPIFromUserToken = async (token) => {
+  const identity = await Libp2pCryptoIdentity.fromString(token);
+  const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
+  await buckets.getToken(identity);
+  const root = await buckets.open(BUCKET_NAME);
+
+  return { buckets, bucketKey: root.key, bucketName: BUCKET_NAME };
+};
+
+// NOTE(jim): Requires @textile/hub
+export const addFileFromFilePath = async ({ buckets, bucketKey, filePath }) => {
+  const file = await FS.readFileSync(filePath).buffer;
+  const fileName = getFileName(filePath);
+  const push = await buckets.pushPath(bucketKey, fileName, file);
+  const metadata = await buckets.pullPath(bucketKey, fileName);
+  const { value } = await metadata.next();
+
+  return createFile({
+    id: fileName,
+    file: Converter.bytesToBase64(value),
+    data: { size: 0 },
+  });
+};
+
+// NOTE(jim): Requires Powergate, does not require token.
 export const refresh = async ({ PG }) => {
   const Health = await PG.health.check();
   const status = Health.status ? Health.status : null;
@@ -12,7 +50,7 @@ export const refresh = async ({ PG }) => {
   return { peersList, messageList, status };
 };
 
-// NOTE(jim): Data that does require a powergate token.
+// NOTE(jim): Requires Powergate & authentication
 export const refreshWithToken = async ({ PG }) => {
   const Addresses = await PG.ffs.addrs();
   const addrsList = Addresses.addrsList ? Addresses.addrsList : null;
@@ -52,7 +90,7 @@ export const getFileName = (s) => {
   return target.substr(target.lastIndexOf("/") + 1);
 };
 
-export const createFile = ({ id, data }) => {
+export const createFile = ({ id, data, file }) => {
   return {
     decorator: "FILE",
     id: id,
@@ -65,9 +103,11 @@ export const createFile = ({ id, data }) => {
     size: data.size,
     amount: 0,
     remaining: null,
+    data: data,
     deal_category: 1,
     retrieval_status: 0,
     storage_status: 0,
+    file_data: file,
     errors: [],
   };
 };

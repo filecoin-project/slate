@@ -14,7 +14,7 @@ const STYLES_BODY = css`
   max-width: 960px;
   width: 100%;
   margin: 0 auto 0 auto;
-  padding: 88px 24px 128px 276px;
+  padding: 88px 24px 128px 336px;
 
   @media (max-width: 568px) {
     padding: 88px 24px 128px 24px;
@@ -38,7 +38,7 @@ const STYLES_SIDEBAR = css`
   top: 0;
   left: 0;
   bottom: 0;
-  width: 252px;
+  width: 312px;
   background-color: ${Constants.system.foreground};
   overflow-y: scroll;
 

@@ -14,14 +14,18 @@ const STYLES_CODE_BLOCK = css`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   padding: 24px;
+
+  * {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
 `;
 
-const STYLES_PADDING = css`
+const STYLES_LINE = css`
   box-sizing: border-box;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  white-space: pre-wrap;
 `;
 
 const STYLES_PRE = css`
@@ -58,7 +62,7 @@ export class CodeBlock extends React.Component {
       <div css={STYLES_CODE_BLOCK} className="language-javascript">
         {textMap.map((element, index) => {
           return (
-            <div css={STYLES_PADDING} key={`${element}-${index}`}>
+            <div css={STYLES_LINE} key={`${element}-${index}`}>
               <div css={STYLES_PRE}>{index}</div>
               <pre css={STYLES_CODE}>
                 <code>{element}</code>

@@ -2,7 +2,6 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 
-import moment from "moment";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
@@ -110,7 +109,7 @@ import { ListEditor } from 'slate-react-system';`}
             data={{
               columns: [
                 { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
                 { key: "c", name: "Default", width: "88px" },
                 { key: "d", name: "Description", width: "100%" },
               ],
@@ -127,7 +126,7 @@ import { ListEditor } from 'slate-react-system';`}
                   d: "Function called upon an onChange event",
                 },
                 {
-                  id: 6,
+                  id: 2,
                   a: (
                     <span style={{ fontFamily: Constants.font.semiBold }}>
                       options
@@ -139,28 +138,28 @@ import { ListEditor } from 'slate-react-system';`}
                     "Values to choose from and reorder. Can be used to specify the default value. An array of strings.",
                 },
                 {
-                  id: 2,
+                  id: 3,
                   a: "name",
                   b: "string",
                   c: "null",
                   d: "Input name",
                 },
                 {
-                  id: 3,
+                  id: 4,
                   a: "label",
                   b: "string",
                   c: "null",
                   d: "Label text",
                 },
                 {
-                  id: 4,
+                  id: 5,
                   a: "description",
                   b: "string",
                   c: "null",
                   d: "Description text",
                 },
                 {
-                  id: 5,
+                  id: 6,
                   a: "tooltip",
                   b: "string",
                   c: "null",

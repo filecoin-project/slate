@@ -19,7 +19,7 @@ const STYLES_WRAP = {
 const STYLES_CODE = css`
   box-sizing: border-box;
   font-family: ${Constants.font.mono};
-  font-size: 0.95em;
+  font-size: 0.9em;
   background-color: ${Constants.system.white};
   border-radius: 4px;
   padding: 0.1em 0.2em;

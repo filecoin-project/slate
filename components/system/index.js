@@ -10,6 +10,11 @@ import { CreateFilecoinAddress } from "~/components/system/modules/CreateFilecoi
 import { CreateFilecoinStorageDeal } from "~/components/system/modules/CreateFilecoinStorageDeal";
 import { SendAddressFilecoin } from "~/components/system/modules/SendAddressFilecoin";
 import { FilecoinBalancesList } from "~/components/system/modules/FilecoinBalancesList";
+import { FilecoinTransactionsList } from "~/components/system/modules/FilecoinTransactionsList";
+import {
+  FilecoinStorageDealsList,
+  FilecoinRetrievalDealsList,
+} from "~/components/system/modules/FilecoinDealsList";
 
 // NOTE(jim): Components
 import {
@@ -65,6 +70,9 @@ export {
   CreateFilecoinStorageDeal,
   SendAddressFilecoin,
   FilecoinBalancesList,
+  FilecoinTransactionsList,
+  FilecoinRetrievalDealsList,
+  FilecoinStorageDealsList,
   // NOTE(jim): Components
   ButtonPrimary,
   ButtonPrimaryFull,

@@ -8,12 +8,16 @@ const EXAMPLE_CODE = `import * as React from 'react';
 import { SendAddressFilecoin } from 'slate-react-system';
 import { createPow } from "@textile/powergate-client";
 
-const PowerGate = createPow({ host: 'http://0.0.0.0:6002' });
-const FFS = await PowerGate.ffs.create();
-const token = FFS.token ? FFS.token : null;
-PowerGate.setToken(token)
+const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
 
 class Example extends React.Component {
+  componentDidMount = async () => {
+    const FFS = await PowerGate.ffs.create();
+    const token = FFS.token ? FFS.token : null;
+    PowerGate.setToken(token);
+    this.setState({ token });
+  }
+
   _handleSend = async ({ source, target, amount }) => {
     const response = await PowerGate.ffs.sendFil(
       source, 
@@ -60,8 +64,10 @@ export default class SystemPageSendAddressFilecoin extends React.Component {
         <System.SendAddressFilecoin onSubmit={this._handleSubmit} />
         <br />
         <br />
+        <br />
         <System.H2>Code</System.H2>
-        <br /> <br />
+        <hr />
+        <br />
         <System.CodeBlock>{EXAMPLE_CODE}</System.CodeBlock>
       </SystemPage>
     );

@@ -5,6 +5,7 @@ import * as SubSystem from "~/components/system/components/fragments/TableCompon
 
 import { css } from "@emotion/react";
 import { P } from "~/components/system/components/Typography";
+import * as SVG from "~/components/system/svg";
 
 const TABLE_COLUMN_WIDTH_DEFAULTS = {
   1: "100%",
@@ -17,6 +18,22 @@ const TABLE_COLUMN_WIDTH_DEFAULTS = {
   8: "12.5%",
 };
 
+const STYLES_TABLE_EXPAND_SECTION = css`
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 200ms ease all;
+  svg {
+    transition: 200ms ease all;
+  }
+  :hover {
+    color: ${Constants.system.brand};
+  }
+`;
+
 const STYLES_TABLE_PLACEHOLDER = css`
   box-sizing: border-box;
   font-family: ${Constants.font.text};
@@ -28,6 +45,7 @@ const STYLES_TABLE_PLACEHOLDER = css`
 `;
 
 const STYLES_TABLE_ROW = css`
+  position: relative;
   box-sizing: border-box;
   padding: 0 8px 0 8px;
   border-bottom: 1px solid ${Constants.system.gray};
@@ -60,6 +78,17 @@ export class Table extends React.Component {
   static defaultProps = {
     onNavigateTo: () => console.log("No navigation function set"),
     onAction: () => console.log("No action function set"),
+    onChange: () => {},
+    onClick: () => {},
+  };
+
+  _handleClick = (value) => {
+    this.props.onClick({
+      target: {
+        name: this.props.name,
+        value: value !== this.props.selectedRowId ? value : null,
+      },
+    });
   };
 
   _handleChange = (value) => {
@@ -120,6 +149,7 @@ export class Table extends React.Component {
               </SubSystem.TableColumn>
             );
           })}
+          <div css={STYLES_TABLE_EXPAND_SECTION} />
         </div>
 
         {data.rows.map((r, i) => {
@@ -160,8 +190,22 @@ export class Table extends React.Component {
                     </SubSystem.TableColumn>
                   );
                 })}
+                {this.props.onClick && r.children ? (
+                  <div
+                    css={STYLES_TABLE_EXPAND_SECTION}
+                    onClick={() => this._handleClick(r.id)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <SVG.Plus
+                      height="16px"
+                      style={{
+                        transform: selected ? `rotate(45deg)` : null,
+                      }}
+                    />
+                  </div>
+                ) : null}
               </div>
-              {selected ? (
+              {selected && r.children ? (
                 <div css={STYLES_TABLE_SELECTED_ROW}>
                   <span css={STYLES_TABLE_PLACEHOLDER}>{r.children}</span>
                 </div>

@@ -15,27 +15,31 @@ import { FilecoinStorageDealsList, FilecoinRetrievalDealsList } from 'slate-reac
 import { createPow, ffsOptions } from "@textile/powergate-client";
 
 const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
+const includeFinal = ffsOptions.withIncludeFinal(true);
+const includePending = ffsOptions.withIncludePending(true);
+const fromAddresses = ffsOptions.withFromAddresses(
+  "t3ual5q5qo5wolfxsui4ciujfucqwf6gqso4lettcjwl2tyismgol7c4tngvoono5rmytuqotye7oosfjv6g7a",
+  "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q"
+);
 
 class Example extends React.Component {
   componentDidMount = async () => {
     const FFS = await PowerGate.ffs.create();
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
-    this.storageList = await PowerGate.ffs.listStorageDealRecords(
-      ffsOptions.withIncludeFinal(true),
-      ffsOptions.withIncludePending(true),
-      ffsOptions.withFromAddresses(
-        "t3ual5q5qo5wolfxsui4ciujfucqwf6gqso4lettcjwl2tyismgol7c4tngvoono5rmytuqotye7oosfjv6g7a",
-        "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q"
-      )
+    const storageList = await PowerGate.ffs.listStorageDealRecords(
+      includeFinal,
+      includePending,
+      fromAddresses
     );
-    this.retrievalList = await PowerGate.ffs.listRetrievalDealRecords();
+    const retrievalList = await PowerGate.ffs.listRetrievalDealRecords();
+    this.setState({ storageList, retrievalList, token });
   }
 
   render() {
     return (
-      <FilecoinStorageDealsList data={this.storageList} />
-      <FilecoinRetrievalDealsList data={this.retrievalList} />
+      <FilecoinStorageDealsList data={this.state.storageList} />
+      <FilecoinRetrievalDealsList data={this.state.retrievalList} />
     );
   }
 }
@@ -133,17 +137,17 @@ const retrievalList = [
   },
 ];
 
-export default class SystemPageStorageDeals extends React.Component {
+export default class SystemPageDeals extends React.Component {
   render() {
     return (
       <SystemPage
-        title="SDS: Storage Deals"
+        title="SDS: Filecoin Deals"
         description="..."
-        url="https://fps.onrender.com/experiences/list-storage-deals"
+        url="https://fps.onrender.com/experiences/list-filecoin-deals"
       >
         <System.H1>
           View Storage and Retrieval Deals{" "}
-          <ViewSourceLink file="experiences/list-storage-deals.js" />
+          <ViewSourceLink file="experiences/list-filecoin-deals.js" />
         </System.H1>
         <br />
         <br />

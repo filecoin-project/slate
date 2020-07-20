@@ -41,18 +41,18 @@ export class FilecoinStorageDealsList extends React.Component {
               {
                 key: "address",
                 name: "Address",
-                width: "212px",
+                width: "196px",
               },
               {
                 key: "rootCid",
-                name: "Root cid",
-                width: "212px",
+                name: "Root CID",
+                width: "196px",
               },
               {
                 key: "status",
                 name: "Status",
                 type: "STORAGE_DEAL_STATUS",
-                width: "112px",
+                width: "104px",
               },
               {
                 key: "time",
@@ -102,7 +102,7 @@ export class FilecoinRetrievalDealsList extends React.Component {
               },
               {
                 key: "rootCid",
-                name: "Root cid",
+                name: "Root CID",
                 width: "248px",
               },
               {

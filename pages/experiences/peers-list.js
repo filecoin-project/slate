@@ -16,12 +16,12 @@ class Example extends React.Component {
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
     const { peersList } = await PowerGate.net.peers();
-    this.peersList = peersList;
+    this.setState({ peersList, token });
   }
 
   render() {
     return (
-      <PeersList data={this.peersList} />
+      <PeersList data={this.state.peersList} />
     );
   }
 }

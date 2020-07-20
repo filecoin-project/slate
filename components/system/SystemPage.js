@@ -217,7 +217,7 @@ export default class SystemPage extends React.Component {
           />
           <SidebarLink
             url={url}
-            href="/experiences/list-storage-deals"
+            href="/experiences/list-filecoin-deals"
             title="FilecoinDealsList"
           />
 

@@ -15,6 +15,7 @@ class Example extends React.Component {
     const FFS = await PowerGate.ffs.create();
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
+    this.setState({ token });
   }
 
   _handleSubmit = async (data) => {

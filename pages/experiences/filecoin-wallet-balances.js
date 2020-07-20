@@ -16,12 +16,12 @@ class Example extends React.Component {
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
     const { info } = await PowerGate.ffs.info();
-    this.info = info;
+    this.setState({ token, balancesList: info.balancesList });
   }
 
   render() {
     return (
-      <FilecoinBalancesList data={this.info.balancesList} />
+      <FilecoinBalancesList data={this.state.balancesList} />
     );
   }
 }

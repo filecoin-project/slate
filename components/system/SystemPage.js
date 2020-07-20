@@ -247,6 +247,7 @@ export default class SystemPage extends React.Component {
             title="Notifications"
           />
           <SidebarLink url={url} href="/system/modals" title="Modals" />
+          <SidebarLink url={url} href="/system/loaders" title="Loaders" />
 
           <div
             css={STYLES_SMALL_LINK}

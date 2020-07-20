@@ -65,10 +65,8 @@ const getCurrentNavigationStateById = (navigation, targetId) => {
 };
 
 export const getServerSideProps = async (context) => {
-  const data = await Actions.rehydrateViewer();
-
   return {
-    props: { ...context.query, ...data.data },
+    props: { ...context.query },
   };
 };
 
@@ -79,24 +77,47 @@ export default class ApplicationPage extends React.Component {
     history: [{ id: 1, scrollTop: 0 }],
     currentIndex: 0,
     data: null,
-    selected: State.getSelectedState(this.props),
-    viewer: State.getInitialState(this.props),
+    selected: null,
+    viewer: null,
     sidebar: null,
     file: null,
   };
 
-  componentDidMount() {
-    this._socket = new WebSocket(`ws://localhost:${this.props.wsPort}`);
-    this._socket.onmessage = (m) => {
-      console.log(m);
-      if (m.type === "message") {
-        const parsed = JSON.parse(m.data);
+  async componentDidMount() {
+    if (this.props.production) {
+      console.log("Disabled application in production setting for now.");
+      return null;
+    }
 
-        if (parsed.action === "UPDATE_VIEWER") {
-          this.rehydrate({ data: parsed.data });
-        }
-      }
-    };
+    let response = await Actions.deleteUser({
+      username: "test",
+    });
+
+    console.log(response);
+
+    response = await Actions.createUser({
+      email: "test@test.com",
+      password: "test",
+      username: "test",
+    });
+
+    if (response.error) {
+      console.log("Could not create a new user");
+      return null;
+    }
+
+    console.log(response);
+
+    response = await Actions.hydrateAuthenticatedUser({
+      username: "test",
+    });
+
+    console.log(response);
+
+    this.setState({
+      viewer: State.getInitialState(response.data),
+      selected: State.getSelectedState(response.data),
+    });
 
     window.addEventListener("dragenter", this._handleDragEnter);
     window.addEventListener("dragleave", this._handleDragLeave);
@@ -327,6 +348,11 @@ export default class ApplicationPage extends React.Component {
   };
 
   render() {
+    // TODO(jim): Render Sign In Screen.
+    if (!this.state.viewer) {
+      return null;
+    }
+
     const navigation = NavigationData.generate(this.state.viewer.library);
     const next = this.state.history[this.state.currentIndex];
     const current = getCurrentNavigationStateById(navigation, next.id);

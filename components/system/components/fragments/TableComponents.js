@@ -108,7 +108,7 @@ const STYLES_TOP_COLUMN = css`
 
 const STYLES_CONTENT = css`
   box-sizing: border-box;
-  padding: 12px 12px 16px 12px;
+  padding: 12px 12px 12px 12px;
   min-width: 10%;
   width: 100%;
   align-self: stretch;

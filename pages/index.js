@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/react";
 
@@ -18,6 +19,10 @@ const STYLES_HEADING = css`
   font-size: 2.88rem;
   line-height: 1.5;
   color: ${Constants.system.black};
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const STYLES_PARAGRAPH = css`
@@ -25,6 +30,10 @@ const STYLES_PARAGRAPH = css`
   font-size: 2.88rem;
   line-height: 1.5;
   color: ${Constants.system.pitchBlack};
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 export const getServerSideProps = async (context) => {
@@ -34,6 +43,11 @@ export const getServerSideProps = async (context) => {
 };
 
 export default class IndexPage extends React.Component {
+  async componentDidMount() {
+    const response = await Actions.health();
+    console.log(response);
+  }
+
   render() {
     const title = `Slate`;
     const description =
@@ -54,9 +68,7 @@ export default class IndexPage extends React.Component {
             <a href="https://filecoin.io/">Filecoin</a>.
             <br />
             <br />
-            {!this.props.hide ? (
-              <a href="/application">Test Application</a>
-            ) : null}
+            <a href="/application">Test Application (Local Only)</a>
             <br />
             <a href="/system">View Design System</a>
           </p>

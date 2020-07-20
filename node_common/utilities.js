@@ -1,34 +1,5 @@
 import * as Constants from "./constants";
 
-import FS from "fs-extra";
-
-export const resetFileSystem = async () => {
-  console.log("[ prototype ] deleting old token and library data ");
-  if (FS.existsSync(`./.data`)) {
-    FS.removeSync("./.data", { recursive: true });
-  }
-
-  console.log("[ prototype ] deleting old avatar data ");
-  if (FS.existsSync(Constants.AVATAR_STORAGE_URL)) {
-    FS.removeSync(Constants.AVATAR_STORAGE_URL, { recursive: true });
-  }
-
-  console.log("[ prototype ] deleting old file data ");
-  if (FS.existsSync(Constants.FILE_STORAGE_URL)) {
-    FS.removeSync(Constants.FILE_STORAGE_URL, { recursive: true });
-  }
-
-  console.log("[ prototype ] creating new avatar folder ");
-  FS.mkdirSync(Constants.AVATAR_STORAGE_URL, { recursive: true });
-  FS.writeFileSync(`${Constants.AVATAR_STORAGE_URL}.gitkeep`, "");
-
-  console.log("[ prototype ] creating new local file folder ");
-  FS.mkdirSync(Constants.FILE_STORAGE_URL, { recursive: true });
-  FS.writeFileSync(`${Constants.FILE_STORAGE_URL}.gitkeep`, "");
-
-  return true;
-};
-
 // NOTE(jim): Data that does not require a Powergate token.
 export const refresh = async ({ PG }) => {
   const Health = await PG.health.check();

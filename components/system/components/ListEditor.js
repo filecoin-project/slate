@@ -54,7 +54,6 @@ const STYLES_BUTTON = css`
 const STYLES_DELETE = css`
   box-sizing: border-box;
   height: 18px;
-  margin-top: 1px;
   cursor: pointer;
   color: ${Constants.system.darkGray};
   justify-self: end;
@@ -67,7 +66,7 @@ const STYLES_DELETE = css`
 const STYLES_REORDER = css`
   box-sizing: border-box;
   height: 14px;
-  margin-top: 1px;
+  margin-top: 4px;
   cursor: grab;
   color: ${Constants.system.darkGray};
   justify-self: start;

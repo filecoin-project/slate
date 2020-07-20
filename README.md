@@ -12,7 +12,25 @@
 
 ## Developer Introduction
 
-Working on Slate requires an internet connection because we are using a hosted Powergate. That means there is no offline mode in the short term.
+Working on Slate requires an internet connection because we are using a hosted Powergate and a hosted Postgres. That means there is no offline mode in the short term.
+
+### .env
+
+- We use a `dotenv` file to manage sensitive values and secrets.
+- You must create this file to work on the application.
+- You don't need to create a `.env` file if you're only working on the design system.
+- There will be no local data in the short term.
+
+```
+POSTGRES_ADMIN_PASSWORD=XXX
+POSTGRES_ADMIN_USERNAME=XXX
+POSTGRES_HOSTNAME=XXX
+POSTGRES_DATABASE=XXX
+JWT_SECRET=XXX
+LOCAL_PASSWORD_SECRET=XXX
+TEXTILE_HUB_KEY=XXX
+TEXTILE_HUB_SECRET=XXX
+```
 
 ### Install and run
 
@@ -25,18 +43,15 @@ npm install
 
 # Run using existing .data folder
 npm run dev
-
-# Run a clean instance of Slate
-npm run dev --reset-data
 ```
 
 ![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
 
 - Visit `localhost:1337` in your browser.
-- When you run `npm run dev` for the first time. You will create a folder called `.data`. This is a temporary solution before we have user accounts to keep track of your library, settings, and Powergate token.
-- If you run `npm run dev --reset-data` this will reset your `.data` folder. This is useful if you encounter any bugs or if we switch networks.
 
-### Run electron (MacOS)
+### BROKEN: Run electron (MacOS)
+
+@jimmylee recently broke the current version of the client.
 
 While you have `npm run dev` running, in another terminal screen run:
 

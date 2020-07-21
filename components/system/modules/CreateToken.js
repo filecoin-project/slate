@@ -26,6 +26,11 @@ const STYLES_CREATE_TOKEN_TOP = css`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+
+  .odometer:hover + span {
+    opacity: 1;
+  }
 `;
 
 const STYLES_CREATE_TOKEN_BOTTOM = css`
@@ -35,9 +40,26 @@ const STYLES_CREATE_TOKEN_BOTTOM = css`
   padding: 16px;
 `;
 
+const STYLES_CREATE_TOKEN_COPY_INFO = css`
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+`;
+
 export const CreateToken = (props) => {
-  const [odometer, setOdometer] = React.useState(null);
   const odometerNode = React.useRef(null);
+  const [odometer, setOdometer] = React.useState(null);
+  const [isCopied, setCopyStatus] = React.useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(props.token);
+    setCopyStatus(true);
+  };
+
+  // (NOTE: daniel) Reset copy status
+  setInterval(() => setCopyStatus(false), 50000);
 
   if (props.token) {
     let hash = props.token.replace(/-/g, "");
@@ -53,7 +75,10 @@ export const CreateToken = (props) => {
   return (
     <div css={STYLES_CREATE_TOKEN}>
       <div css={STYLES_CREATE_TOKEN_TOP}>
-        <div ref={odometerNode} />
+        <div ref={odometerNode} onClick={handleCopy} />
+        <span css={STYLES_CREATE_TOKEN_COPY_INFO}>
+          {isCopied ? "Copied" : "Copy"}
+        </span>
       </div>
       <div css={STYLES_CREATE_TOKEN_BOTTOM}>
         <ButtonPrimaryFull onClick={props.onClick}>

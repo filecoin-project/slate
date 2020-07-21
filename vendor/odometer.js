@@ -94,8 +94,11 @@ export default class Odometer {
   }
 
   init(digits) {
+    this.node.classList.add("odometer");
     this.node.style.position = "relative";
     this.node.style.overflow = "hidden";
+    this.node.style.userSelect = "none";
+    this.node.style.cursor = "pointer";
 
     for (let i = 0; i < digits; i++) {
       const ctnr = g(`digits`)(

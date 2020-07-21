@@ -4,6 +4,8 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 import { ButtonPrimaryFull } from "~/components/system/components/Buttons";
 
+import Odometer from "~/vendor/odometer";
+
 const STYLES_CREATE_TOKEN = css`
   font-family: ${Constants.font.text};
   box-sizing: border-box;
@@ -33,14 +35,25 @@ const STYLES_CREATE_TOKEN_BOTTOM = css`
   padding: 16px;
 `;
 
-// TODO(jim): Lets do a cool odometer effect instead.
 export const CreateToken = (props) => {
+  const [odometer, setOdometer] = React.useState(null);
+  const odometerNode = React.useRef(null);
+
+  if (props.token) {
+    let hash = props.token.replace(/-/g, "");
+    odometer.start({ to: hash });
+  }
+
+  React.useEffect(() => {
+    const newOdometer = new Odometer({ node: odometerNode.current });
+
+    setOdometer(newOdometer);
+  }, []);
+
   return (
     <div css={STYLES_CREATE_TOKEN}>
       <div css={STYLES_CREATE_TOKEN_TOP}>
-        {props.token
-          ? props.token
-          : `XXXXXXXX - XXXX - XXXX - XXXX - XXXXXXXXXXXX`}
+        <div ref={odometerNode} />
       </div>
       <div css={STYLES_CREATE_TOKEN_BOTTOM}>
         <ButtonPrimaryFull onClick={props.onClick}>

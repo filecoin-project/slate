@@ -49,7 +49,10 @@ const STYLES_ICON_ELEMENT = css`
 `;
 
 const STYLES_ICON_ELEMENT_CUSTOM = css`
-  background-color: ${Constants.system.brand};
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  background-image: url('/static/social.png');
+  background-size: cover;
   height: 48px;
   width: 48px;
   display: inline-flex;

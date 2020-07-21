@@ -28,6 +28,9 @@ const STYLES_ICON_ELEMENT = css`
   align-items: center;
   justify-content: center;
   background-color: ${Constants.system.brand};
+  background-image: url('/static/social.png');
+  border-radius: 88px;
+  background-size: cover;
   color: ${Constants.system.white};
   user-select: none;
 `;
@@ -149,13 +152,13 @@ export default class SystemPage extends React.Component {
           <meta property="og:url" content={url} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-          <meta property="og:image" content="/static/social.jpg" />
+          <meta property="og:image" content="/static/social.png" />
 
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content={url} />
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
-          <meta property="twitter:image" content="/static/social.jpg" />
+          <meta property="twitter:image" content="/static/social.png" />
 
           <link
             rel="icon"

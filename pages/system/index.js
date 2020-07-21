@@ -18,8 +18,9 @@ export default class SystemPageRoot extends React.Component {
             display: "inline-flex",
             width: "312px",
             height: "312px",
-            borderRadius: "312px",
+            borderRadius: "4px",
             marginBottom: 48,
+            boxShadow: '0 1px 4px rgba(0, 0, 0, 0.09)'
           }}
         />
         <System.H1>SDS 0.0.5</System.H1>

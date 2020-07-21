@@ -6,6 +6,7 @@ import { css } from "@emotion/react";
 
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const STYLES_CSS_LABEL = css`
   display: block;
@@ -14,16 +15,20 @@ const STYLES_CSS_LABEL = css`
   color: ${Constants.system.darkGray};
   margin-bottom: 8px;
 `;
+
 const STYLES_TYPE_JETBRAINS = css`
   font-family: ${Constants.font.code};
 `;
+
 const STYLES_BOLD = css`
   font-family: ${Constants.font.text};
   font-weight: bold;
 `;
+
 const STYLES_ITALIC = css`
   font-style: italic;
 `;
+
 const STYLES_UNDERLINE = css`
   text-decoration: underline;
 `;
@@ -54,10 +59,10 @@ export default class SystemPageTypography extends React.Component {
           Import React and the typography components. If needed, import the ViewSourceLink component.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import { H1, H2, H3, H4, P, UL, OL, LI } from 'slate-react-system';
 import ViewSourceLink from "~/components/system/ViewSourceLink";`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Typescale</System.H2>
@@ -84,7 +89,7 @@ import ViewSourceLink from "~/components/system/ViewSourceLink";`}
         </System.H4>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`<System.H1>
 This is heading level 1
 </System.H1>
@@ -100,7 +105,7 @@ This is heading level 3
 <System.H4>
 This is heading level 4
 </System.H4>`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Type Styles</System.H2>
@@ -111,13 +116,13 @@ This is heading level 4
         <System.P css={STYLES_UNDERLINE}>This text is underlined</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`<System.P css={STYLES_BOLD}>This text is bold</System.P>
 
 <System.P css={STYLES_ITALIC}>This text is italic</System.P>
 
 <System.P css={STYLES_UNDERLINE}>This text is underlined</System.P>`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Typefaces</System.H2>
@@ -151,7 +156,7 @@ This is heading level 4
         </System.UL>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`<System.OL>
   <System.LI>Rainbow</System.LI>
   <System.LI>Cloud</System.LI>
@@ -163,7 +168,7 @@ This is heading level 4
   <System.LI>Cake</System.LI>
   <System.LI>Rainbow</System.LI>
 </System.UL>`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Hyperlinks</System.H2>
@@ -173,7 +178,7 @@ This is heading level 4
         <System.P>External References <ViewSourceLink file="system/typography.js" /></System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`<System.P>
   <a href="https://slate.host"
   target="_blank">
@@ -184,7 +189,7 @@ This is heading level 4
 <System.P>
   <ViewSourceLink file="system/typography.js" />
 </System.P>`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
       </SystemPage>

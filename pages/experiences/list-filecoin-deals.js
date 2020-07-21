@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const EXAMPLE_CODE = `import * as React from 'react';
 import { FilecoinStorageDealsList, FilecoinRetrievalDealsList } from 'slate-react-system';
@@ -178,7 +179,7 @@ export default class SystemPageDeals extends React.Component {
         </System.P>
         <br />
         <br />
-        <System.CodeBlock>{EXAMPLE_CODE}</System.CodeBlock>
+        <CodeBlock>{EXAMPLE_CODE}</CodeBlock>
         <br />
         <br />
         <br />

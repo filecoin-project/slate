@@ -3,6 +3,7 @@ import * as System from "~/components/system";
 
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 // import { createPow } from "@textile/powergate-client";
 
@@ -84,7 +85,7 @@ export default class GeneratePowergateToken extends React.Component {
         <System.H2>Code</System.H2>
         <hr />
         <br />
-        <System.CodeBlock>{EXAMPLE_CODE}</System.CodeBlock>
+        <CodeBlock>{EXAMPLE_CODE}</CodeBlock>
       </SystemPage>
     );
   }

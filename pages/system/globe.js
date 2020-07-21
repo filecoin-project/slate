@@ -12,7 +12,7 @@ export default class SystemPageGlobe extends React.Component {
       <SystemPage
         title="SDS: Globe"
         description="..."
-        url="https://fps.onrender.com/system/globe"
+        url="https://slate.host/system/globe"
       >
         <System.H1>
           Globe <ViewSourceLink file="system/globe.js" />

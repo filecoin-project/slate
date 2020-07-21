@@ -12,7 +12,7 @@ export default class SystemPageTooltips extends React.Component {
       <SystemPage
         title="SDS: Tooltips"
         description="..."
-        url="https://fps.onrender.com/system/tooltips"
+        url="https://slate.host/system/tooltips"
       >
         <System.H1>
           Tooltips <ViewSourceLink file="system/tooltips.js" />

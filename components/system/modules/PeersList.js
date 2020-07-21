@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import { Table } from "~/components/system";
 
+import { Table } from "~/components/system/components/Table";
 import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`

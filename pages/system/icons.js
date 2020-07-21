@@ -54,7 +54,7 @@ export default class SystemPageIcons extends React.Component {
       <SystemPage
         title="SDS: Icons"
         description="..."
-        url="https://fps.onrender.com/system/icons"
+        url="https://slate.host/system/icons"
       >
         <System.H1>
           Icons <ViewSourceLink file="system/icons.js" />

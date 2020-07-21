@@ -53,7 +53,7 @@ export default class SystemPageFilecoinWalletBalances extends React.Component {
       <SystemPage
         title="SDS: Filecoin Wallet Balances"
         description="..."
-        url="https://fps.onrender.com/experiences/filecoin-wallet-balances"
+        url="https://slate.host/experiences/filecoin-wallet-balances"
       >
         <System.H1>
           Filecoin Wallet Balances{" "}

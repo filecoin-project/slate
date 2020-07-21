@@ -29,7 +29,7 @@ export default class SystemPageListEditor extends React.Component {
       <SystemPage
         title="SDS: List Editor"
         description="..."
-        url="https://fps.onrender.com/system/list-editor"
+        url="https://slate.host/system/list-editor"
       >
         <System.H1>
           List Editor <ViewSourceLink file="system/listeditor.js" />

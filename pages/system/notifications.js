@@ -26,7 +26,7 @@ export default class SystemPageNotifications extends React.Component {
       <SystemPage
         title="SDS: Notifications"
         description="..."
-        url="https://fps.onrender.com/system/notifications"
+        url="https://slate.host/system/notifications"
       >
         <System.H1>
           Notifications <ViewSourceLink file="system/notification.js" />

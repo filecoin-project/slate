@@ -33,7 +33,7 @@ export default class SystemPageColors extends React.Component {
       <SystemPage
         title="SDS: Colors"
         description="..."
-        url="https://fps.onrender.com/system/colors"
+        url="https://slate.host/system/colors"
       >
         <System.H1>
           Colors <ViewSourceLink file="system/colors.js" />

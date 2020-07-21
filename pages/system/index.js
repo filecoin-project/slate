@@ -10,7 +10,7 @@ export default class SystemPageRoot extends React.Component {
       <SystemPage
         title="SDS 0.0.5"
         description="This is an early preview of the Slate Design System SDS)."
-        url="https://fps.onrender.com/system"
+        url="https://slate.host/system"
       >
         <img
           src="/public/static/social.jpg"

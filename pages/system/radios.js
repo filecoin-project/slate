@@ -51,7 +51,7 @@ export default class SystemPageRadios extends React.Component {
       <SystemPage
         title="SDS: Radios"
         description="..."
-        url="https://fps.onrender.com/system/radios"
+        url="https://slate.host/system/radios"
       >
         <System.H1>
           Radios <ViewSourceLink file="system/radios.js" />

@@ -21,7 +21,7 @@ export default class SystemPageTables extends React.Component {
       <SystemPage
         title="SDS: Tables"
         description="..."
-        url="https://fps.onrender.com/system/tables"
+        url="https://slate.host/system/tables"
       >
         <System.H1>
           Tables <ViewSourceLink file="system/tables.js" />

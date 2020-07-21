@@ -1,5 +1,4 @@
 if (process.env.NODE_ENV !== "www") {
-  console.log("[ slate ] loading dotenv");
   require("dotenv").config();
 }
 

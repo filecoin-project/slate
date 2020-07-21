@@ -8,16 +8,17 @@ import next from "next";
 import compression from "compression";
 import JWT from "jsonwebtoken";
 
-const production =
-  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "www";
-const productionWeb = process.env.NODE_ENV === "www";
 const port = process.env.PORT || 1337;
-const app = next({ dev: !production, dir: __dirname, quiet: false });
+const app = next({
+  dev: !Environment.IS_PRODUCTION,
+  dir: __dirname,
+  quiet: false,
+});
 const handler = app.getRequestHandler();
 
 app.prepare().then(async () => {
   const server = express();
-  if (productionWeb) {
+  if (Environment.IS_PRODUCTION_WEB) {
     server.use(compression());
   }
 
@@ -45,7 +46,7 @@ app.prepare().then(async () => {
 
     return app.render(req, res, "/application", {
       wsPort: null,
-      production: productionWeb,
+      production: Environment.IS_PRODUCTION_WEB,
       viewer,
     });
   });

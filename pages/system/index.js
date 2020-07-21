@@ -8,8 +8,8 @@ export default class SystemPageRoot extends React.Component {
   render() {
     return (
       <SystemPage
-        title="SDS 0.0.5"
-        description="This is an early preview of the Slate Design System SDS)."
+        title="Slate Design System 0.0.6"
+        description="We built a design system you can use while we built Slate."
         url="https://slate.host/system"
       >
         <img
@@ -23,7 +23,7 @@ export default class SystemPageRoot extends React.Component {
             boxShadow: '0 1px 4px rgba(0, 0, 0, 0.09)'
           }}
         />
-        <System.H1>SDS 0.0.5</System.H1>
+        <System.H1>SDS 0.0.6</System.H1>
         <br />
         <System.P>
           The <strong>Slate Design System</strong> is an open source resource

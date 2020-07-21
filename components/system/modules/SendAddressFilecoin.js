@@ -1,7 +1,10 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as System from "~/components/system";
 
+import { Input } from "~/components/system/components/Input";
+import {
+  ButtonPrimaryFull,
+} from "~/components/system/components/Buttons";
 import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`
@@ -40,14 +43,14 @@ export class SendAddressFilecoin extends React.Component {
   render() {
     return (
       <div css={STYLES_CONTAINER}>
-        <System.Input
+        <Input
           label="From"
           name="source"
           value={this.state.source}
           onChange={this._handleChange}
         />
 
-        <System.Input
+        <Input
           containerStyle={{ marginTop: 24 }}
           label="To"
           name="target"
@@ -55,7 +58,7 @@ export class SendAddressFilecoin extends React.Component {
           onChange={this._handleChange}
         />
 
-        <System.Input
+        <Input
           containerStyle={{ marginTop: 24 }}
           label="Amount (Filecoin)"
           name="amount"
@@ -64,12 +67,12 @@ export class SendAddressFilecoin extends React.Component {
           onChange={this._handleChange}
         />
 
-        <System.ButtonPrimaryFull
+        <ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
         >
           Send {this.state.amount} FIL
-        </System.ButtonPrimaryFull>
+        </ButtonPrimaryFull>
       </div>
     );
   }

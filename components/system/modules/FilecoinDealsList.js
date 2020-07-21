@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
-import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
+import { Table } from "~/components/system/components/Table";
 
 import Group from "~/components/system/Group";
 
@@ -38,7 +38,7 @@ export class FilecoinStorageDealsList extends React.Component {
   render() {
     return (
       <Group title="Storage Deals">
-        <System.Table
+        <Table
           data={{
             columns: [
               {
@@ -95,7 +95,7 @@ export class FilecoinRetrievalDealsList extends React.Component {
   render() {
     return (
       <Group title="Retrieval Deals">
-        <System.Table
+        <Table
           data={{
             columns: [
               {

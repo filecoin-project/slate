@@ -1,7 +1,14 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { Input, SelectMenu, CheckBox, ButtonPrimaryFull } from "~/components/system";
+import { Input } from "~/components/system/components/Input";
+import {
+  SelectMenu,
+} from "~/components/system/components/SelectMenus";
+import { CheckBox } from "~/components/system/components/CheckBox";
+import {
+  ButtonPrimaryFull,
+} from "~/components/system/components/Buttons";
 import { css } from "@emotion/react";
 
 const SELECT_MENU_OPTIONS = [

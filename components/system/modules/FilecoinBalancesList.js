@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
-import * as System from "~/components/system";
 
+import { Table } from "~/components/system/components/Table";
 import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`
@@ -18,7 +18,7 @@ const STYLES_CONTAINER = css`
 export const FilecoinBalancesList = (props) => {
   return (
     <div css={STYLES_CONTAINER}>
-      <System.Table
+      <Table
         data={{
           columns: [
             {

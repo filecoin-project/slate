@@ -4,6 +4,7 @@ import * as Constants from "~/common/constants";
 
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemLoaders extends React.Component {
   render() {
@@ -30,7 +31,7 @@ export default class SystemLoaders extends React.Component {
         <System.P>Import the Loader Components.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`
 import {
   LoaderCircles,
@@ -41,7 +42,7 @@ import {
   LoaderSpinner,
 } from "~/components/system/components/Loaders";
             `}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -51,7 +52,7 @@ import {
         <br />
         <System.LoaderCircles />
         <br />
-        <System.CodeBlock>{`<LoaderCircles />`}</System.CodeBlock>
+        <CodeBlock>{`<LoaderCircles />`}</CodeBlock>
         <br />
         <br />
         <br />
@@ -59,7 +60,7 @@ import {
         <br />
         <System.LoaderProgress />
         <br />
-        <System.CodeBlock>{`<LoaderProgress />`}</System.CodeBlock>
+        <CodeBlock>{`<LoaderProgress />`}</CodeBlock>
         <br />
         <br />
         <br />
@@ -68,7 +69,7 @@ import {
         <System.LoaderSpinner />
         <br />
         <br />
-        <System.CodeBlock>{`<LoaderSpinner />`}</System.CodeBlock>
+        <CodeBlock>{`<LoaderSpinner />`}</CodeBlock>
         <br />
         <br />
         <br />
@@ -76,7 +77,7 @@ import {
         <br />
         <System.LoaderDiamonds />
         <br />
-        <System.CodeBlock>{`<LoaderDiamonds />`}</System.CodeBlock>
+        <CodeBlock>{`<LoaderDiamonds />`}</CodeBlock>
         <br />
         <br />
         <br />
@@ -84,7 +85,7 @@ import {
         <br />
         <System.LoaderRotate />
         <br />
-        <System.CodeBlock>{`<LoaderRotate />`}</System.CodeBlock>
+        <CodeBlock>{`<LoaderRotate />`}</CodeBlock>
         <br />
         <br />
         <br />
@@ -92,7 +93,7 @@ import {
         <br />
         <System.LoaderMoon />
         <br />
-        <System.CodeBlock>{`<LoaderMoon />`}</System.CodeBlock>
+        <CodeBlock>{`<LoaderMoon />`}</CodeBlock>
       </SystemPage>
     );
   }

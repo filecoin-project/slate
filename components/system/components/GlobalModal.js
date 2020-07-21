@@ -4,6 +4,7 @@ import * as SVG from "~/components/system/svg";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
 
 const STYLES_BACKGROUND = css`
   position: fixed;
@@ -63,15 +64,17 @@ export class GlobalModal extends React.Component {
   render() {
     if (!this.state.modal) return null;
     return (
-      <div
-        css={STYLES_BACKGROUND}
-        style={this.props.backgroundStyle}
-        onClick={this._handleDelete}
-      >
-        <div css={STYLES_MODAL} style={this.props.style}>
-          {this.state.modal}
-          <SVG.Close css={STYLES_CLOSE_ICON} onClick={this._handleDelete} />
-        </div>
+      <div css={STYLES_BACKGROUND} style={this.props.backgroundStyle}>
+        <Boundary
+          enabled
+          onOutsideRectEvent={this._handleDelete}
+          isDataMenuCaptured={true}
+        >
+          <div css={STYLES_MODAL} style={this.props.style}>
+            {this.state.modal}
+            <SVG.Dismiss css={STYLES_CLOSE_ICON} onClick={this._handleDelete} />
+          </div>
+        </Boundary>
       </div>
     );
   }

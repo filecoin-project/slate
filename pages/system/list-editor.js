@@ -58,16 +58,13 @@ import { ListEditor } from 'slate-react-system';`}
         <hr />
         <br />
         <System.ListEditor
+          placeholder="Add a flavor"
           name="flavors"
           options={this.state.flavors}
           onChange={this._handleListChange}
         />
         <br />
-        <System.P>
-          Define the List Editor component. Note that the _handleListChange
-          takes a different shape than the other onChange functions in this
-          design system.
-        </System.P>
+        <System.P>Define the List Editor component.</System.P>
         <br />
         <System.CodeBlock>
           {`class ExampleOne extends React.Component {
@@ -83,16 +80,17 @@ import { ListEditor } from 'slate-react-system';`}
     ] 
   }
 
-  _handleListChange = ({ name, value }) => {
-    this.setState({ [name]: value });
+  _handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
     return(
       <ListEditor
+        placeholder="Add a flavor"
         name="flavors"
         options={this.state.flavors}
-        onChange={this._handleListChange}
+        onChange={this._handleChange}
       />
     )
   }

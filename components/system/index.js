@@ -48,6 +48,7 @@ import { Toggle } from "~/components/system/components/Toggle";
 import { H1, H2, P, UL, LI } from "~/components/system/components/Typography";
 
 // NOTE(jim): Fragments
+import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { CodeText } from "~/components/system/components/fragments/CodeText";
 import { TooltipAnchor } from "~/components/system/components/fragments/TooltipAnchor";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
@@ -106,6 +107,7 @@ export {
   UL,
   LI,
   // NOTE(jim): Fragments, not meant to be used.
+  Boundary,
   TooltipAnchor,
   DescriptionGroup,
   TableContent,

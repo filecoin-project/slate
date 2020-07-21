@@ -6,10 +6,18 @@ import { css, keyframes } from "@emotion/react";
 import moment from "moment";
 
 import { Input } from "~/components/system/components/Input";
+import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
 
-const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-  (day, i) => <div key={i}>{day}</div>
-);
+const weekdays = [
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+].map((day, i) => <div key={i}>{day}</div>);
 
 const expand = keyframes`
   0% {
@@ -310,56 +318,66 @@ export class DatePicker extends React.Component {
       ));
     }
     return (
-      <div css={STYLES_DATE_INPUT}>
-        <input
-          ref={this.myInput}
-          disabled
-          css={STYLES_HIDDEN_INPUT}
-          type="date"
-          name={this.props.name}
-          value={this.props.value}
-          onChange={this.props.onChange}
+      <div>
+        <DescriptionGroup
+          tooltip={this.props.tooltip}
+          label={this.props.label}
+          description={this.props.description}
         />
-        <div>
-          <Input
-            label={this.props.label}
-            description={this.props.description}
-            tooltip={this.props.tooltip}
-            icon={SVG.Calendar}
-            max={10}
-            value={this.state.value}
-            placeholder="MM/DD/YYYY"
-            pattern="^[0-9\/]*$"
-            validation={this.state.validation}
-            onChange={this._handleChange}
-            onBlur={this._handleBlur}
-            onSubmit={this._handleCalendar}
-          />
-          {this.state.cal ? (
-            <div css={STYLES_CALENDAR}>
-              <div css={STYLES_MONTH_CONTAINER}>
-                <SVG.ChevronLeft
-                  height="20px"
-                  css={STYLES_ICON}
-                  onClick={() => this._incrementCal(-1)}
-                />
-                <div css={STYLES_MONTH}>
-                  {this.state.cal.isSame(moment(), "year")
-                    ? this.state.cal.format("MMMM")
-                    : this.state.cal.format("MMMM YYYY")}
+        <Boundary
+          enabled={this.state.cal}
+          onOutsideRectEvent={this._handleCalendar}
+          style={{ maxWidth: "480px" }}
+        >
+          <div css={STYLES_DATE_INPUT}>
+            <input
+              ref={this.myInput}
+              disabled
+              css={STYLES_HIDDEN_INPUT}
+              type="date"
+              name={this.props.name}
+              value={this.props.value}
+              onChange={this.props.onChange}
+            />
+            <div>
+              <Input
+                icon={SVG.Calendar}
+                max={10}
+                value={this.state.value}
+                placeholder="MM/DD/YYYY"
+                pattern="^[0-9\/]*$"
+                validation={this.state.validation}
+                onChange={this._handleChange}
+                onBlur={this._handleBlur}
+                onSubmit={this._handleCalendar}
+              />
+              {this.state.cal ? (
+                <div css={STYLES_CALENDAR}>
+                  <div css={STYLES_MONTH_CONTAINER}>
+                    <SVG.ChevronLeft
+                      height="20px"
+                      css={STYLES_ICON}
+                      onClick={() => this._incrementCal(-1)}
+                    />
+                    <div css={STYLES_MONTH}>
+                      {this.state.cal.isSame(moment(), "year")
+                        ? this.state.cal.format("MMMM")
+                        : this.state.cal.format("MMMM YYYY")}
+                    </div>
+                    <SVG.ChevronRight
+                      height="20px"
+                      css={STYLES_ICON}
+                      onClick={() => this._incrementCal(1)}
+                      style={{ justifySelf: "end" }}
+                    />
+                  </div>
+                  <div css={STYLES_WEEKDAYS}>{weekdays}</div>
+                  <div css={STYLES_DATES}>{month}</div>
                 </div>
-                <SVG.ChevronRight
-                  height="20px"
-                  css={STYLES_ICON}
-                  onClick={() => this._incrementCal(1)}
-                  style={{ justifySelf: "end" }}
-                />
-              </div>
-              <div css={STYLES_WEEKDAYS}>{weekdays}</div>
-              <div css={STYLES_DATES}>{month}</div>
+              ) : null}
             </div>
-          ) : null}
-        </div>
+          </div>
+        </Boundary>
       </div>
     );
   }

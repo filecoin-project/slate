@@ -51,7 +51,7 @@ const STYLES_CODE = css`
 
 // TODO:
 // Refactor to https://github.com/FormidableLabs/prism-react-renderer
-export class CodeBlock extends React.Component {
+class CodeBlock extends React.Component {
   componentDidMount() {
     Prism.highlightAll();
   }
@@ -77,3 +77,5 @@ export class CodeBlock extends React.Component {
     );
   }
 }
+
+export default CodeBlock;

@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageLineCharts extends React.Component {
   render() {
@@ -27,7 +28,7 @@ export default class SystemPageLineCharts extends React.Component {
         <br />
         <System.P>Declare the StatCard component.</System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`<System.StatCard
   denomination="Filecoin"
   value={423123121323}
@@ -40,7 +41,7 @@ export default class SystemPageLineCharts extends React.Component {
   ]}>
   Amount of Filecoin
 </System.StatCard>`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

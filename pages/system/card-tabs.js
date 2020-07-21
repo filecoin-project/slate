@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const TAB_GROUP_TWO = [
   { value: "1", label: "Capricorn" },
@@ -53,10 +54,10 @@ export default class SystemPageCardTabs extends React.Component {
         <System.P>Import React and the CardTabGroup Component.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { CardTabGroup } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -64,7 +65,7 @@ import { CardTabGroup } from 'slate-react-system';`}
         <br />
         <System.P>Define the tab group values and labels.</System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`const TAB_GROUP_TWO = [
   { value: '1', label: 'Capricorn' },
   { value: '2', label: 'Aquarius' },
@@ -76,11 +77,11 @@ const TAB_GROUP_FOUR = [
   { value: '3', label: 'Pisces' },
   { value: '4', label: 'Aries' },
 ];`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <System.P>Declare the CardTabGroup component.</System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
    state = { exampleOne: '1' }
 
@@ -118,7 +119,7 @@ class ExampleTwo extends React.Component {
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

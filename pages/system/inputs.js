@@ -6,6 +6,7 @@ import * as SVG from "~/components/system/svg";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageInputs extends React.Component {
   state = {
@@ -47,10 +48,10 @@ export default class SystemPageInputs extends React.Component {
         </System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { Input, Textarea } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Textarea</System.H2>
@@ -64,7 +65,7 @@ import { Input, Textarea } from 'slate-react-system';`}
           onChange={this._handleChange}
         />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleTextarea extends React.Component {
    state = { exampleOne: 'Example text' }
 
@@ -82,7 +83,7 @@ import { Input, Textarea } from 'slate-react-system';`}
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -103,7 +104,7 @@ import { Input, Textarea } from 'slate-react-system';`}
           onChange={this._handleChange}
         />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleLabel extends React.Component {
   state = { exampleTwo: null }
 
@@ -125,7 +126,7 @@ import { Input, Textarea } from 'slate-react-system';`}
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -145,7 +146,7 @@ import { Input, Textarea } from 'slate-react-system';`}
           onChange={this._handleChange}
         />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleMax extends React.Component {
    state = { exampleThree: null }
 
@@ -165,7 +166,7 @@ import { Input, Textarea } from 'slate-react-system';`}
      )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -183,7 +184,7 @@ import { Input, Textarea } from 'slate-react-system';`}
           onChange={this._handleChange}
         />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleCopyPaste extends React.Component {
    state = { exampleFour: 'aaaaa-bbbbb-ccccc-ddddd-eeee' }
 
@@ -204,7 +205,7 @@ import { Input, Textarea } from 'slate-react-system';`}
      )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -228,7 +229,7 @@ import { Input, Textarea } from 'slate-react-system';`}
           onChange={this._handleChange}
         />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleCopyPaste extends React.Component {
    state = { exampleFive: "Click the 'x'" }
 
@@ -251,7 +252,7 @@ import { Input, Textarea } from 'slate-react-system';`}
      )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -280,7 +281,7 @@ import { Input, Textarea } from 'slate-react-system';`}
           validation="ERROR"
         />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleSuccess extends React.Component {
    render() {
      return(
@@ -316,7 +317,7 @@ class ExampleError extends React.Component {
      )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />

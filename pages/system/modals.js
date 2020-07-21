@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageNotifications extends React.Component {
   _handleCreate = (detail) => {
@@ -42,10 +43,10 @@ export default class SystemPageNotifications extends React.Component {
           dispatchCustomEvent function.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -64,18 +65,18 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
           style the modal itself.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class App extends React.Component {
   render() {
     return(
       <React.Fragment>
         <GlobalModal style={{ padding: "40px 16px" }} />
-        {this.props.children}     
+        {this.props.children}
       </React.Fragment>
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <System.GlobalModal style={{ padding: "40px 16px" }} />
         <br />
         <br />
@@ -117,7 +118,7 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
           <System.CodeText>"delete-modal"</System.CodeText>.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
   _handleCreate = (detail) => {
     dispatchCustomEvent({ name: "create-modal", detail: detail })
@@ -156,7 +157,7 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />

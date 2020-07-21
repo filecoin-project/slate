@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageListEditor extends React.Component {
   state = {
@@ -48,10 +49,10 @@ export default class SystemPageListEditor extends React.Component {
         <System.P>Import React and the ListEditor Component.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { ListEditor } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>List Editor</System.H2>
@@ -69,18 +70,18 @@ import { ListEditor } from 'slate-react-system';`}
           design system.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
-  state = { 
+  state = {
     flavors: [
-      "Chocolate", 
-      "Vanilla", 
-      "Mint Chip", 
-      "Pistachio", 
-      "Neapolitan", 
-      "Toffee", 
+      "Chocolate",
+      "Vanilla",
+      "Mint Chip",
+      "Pistachio",
+      "Neapolitan",
+      "Toffee",
       "Rocky Road"
-    ] 
+    ]
   }
 
   _handleListChange = ({ name, value }) => {
@@ -97,7 +98,7 @@ import { ListEditor } from 'slate-react-system';`}
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />

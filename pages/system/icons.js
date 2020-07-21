@@ -8,6 +8,7 @@ import { css } from "@emotion/react";
 
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const DEFAULT_SYSTEM_ICON_SIZE = "88px";
 
@@ -70,10 +71,10 @@ export default class SystemPageIcons extends React.Component {
         <System.P>Import the SVG Components.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import { SVG } from 'slate-react-system';
 import { OldSVG } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -81,7 +82,7 @@ import { OldSVG } from 'slate-react-system';`}
         <br />
         <System.P>Declare the SVG icons.</System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`<OldSVG.Home height='88px' />
 <OldSVG.Folder height='88px' />
 <OldSVG.Wallet height='88px' />
@@ -103,7 +104,7 @@ import { OldSVG } from 'slate-react-system';`}
 <SVG.FileImage height='88px' />
 <SVG.Plus height='88px' />
 <SVG.CheckBox height='88px' />`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

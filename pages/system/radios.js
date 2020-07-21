@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const RADIO_GROUP_OPTIONS = [
   {
@@ -70,10 +71,10 @@ export default class SystemPageRadios extends React.Component {
         <System.P>Import React and the RadioGroup Component.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { RadioGroup } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -81,7 +82,7 @@ import { RadioGroup } from 'slate-react-system';`}
         <br />
         <System.P>Define the radio group values and labels.</System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`const RADIO_GROUP_OPTIONS = [
   {
     value: '1',
@@ -111,11 +112,11 @@ import { RadioGroup } from 'slate-react-system';`}
     ),
   }
 ];`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <System.P>Declare the RadioGroup component.</System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
    state = { ExampleOne: '2' }
 
@@ -134,7 +135,7 @@ import { RadioGroup } from 'slate-react-system';`}
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

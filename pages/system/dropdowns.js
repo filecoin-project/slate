@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const SELECT_MENU_OPTIONS = [
   { value: "1", name: "Capricorn" },
@@ -61,10 +62,10 @@ export default class SystemPageDropdowns extends React.Component {
         </System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Dropdown</System.H2>
@@ -97,7 +98,7 @@ import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
           value.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`const SELECT_MENU_OPTIONS = [
   { value: '1', name: 'Capricorn' },
   { value: '2', name: 'Aquarius' },
@@ -112,7 +113,7 @@ import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
   { value: '11', name: 'Scorpio' },
   { value: '12', name: 'Sagittarus' },
 ];`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.P>
@@ -120,7 +121,7 @@ import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
           <System.CodeText>value</System.CodeText>.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
    state = { exampleOne: '1' }
 
@@ -164,7 +165,7 @@ class ExampleTwo extends React.Component {
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -186,7 +187,7 @@ class ExampleTwo extends React.Component {
           Declare a dropdown to select from a list of countries.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleThree extends React.Component {
   state = { exampleThree: "United States of America" }
 
@@ -207,7 +208,7 @@ class ExampleTwo extends React.Component {
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />

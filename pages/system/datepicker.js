@@ -6,6 +6,7 @@ import moment from "moment";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const weekdaysOnly = (date) => {
   if (moment(date).day() === 0 || moment(date).day() === 6) return true;
@@ -48,10 +49,10 @@ export default class SystemPageDatepicker extends React.Component {
         <System.P>Import React and the DatePicker Component.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { DatePicker } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Datepicker with disabled dates</System.H2>
@@ -72,27 +73,27 @@ import { DatePicker } from 'slate-react-system';`}
           selected), false otherwise.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import moment from 'moment';
 
 const weekdaysOnly = (date) => {
   if (moment(date).day() === 0 || moment(date).day() === 6) return true;
   return false;
 };`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <System.P>
           Define the DatePicker component with the isDisabled function.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
      state = { exampleOne: '' }
-  
+
      _handleChange = e => this.setState(
        { [e.target.name]: e.target.value }
      );
-  
+
      render() {
        return(
          <DatePicker
@@ -105,7 +106,7 @@ const weekdaysOnly = (date) => {
        )
      }
   }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -127,14 +128,14 @@ const weekdaysOnly = (date) => {
           Date or an ISO 8601 String.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleTwo extends React.Component {
     state = { exampleTwo: '' }
-  
+
     _handleChange = e => this.setState(
       { [e.target.name]: e.target.value }
     );
-  
+
     render() {
       return(
         <DatePicker
@@ -148,7 +149,7 @@ const weekdaysOnly = (date) => {
       )
     }
   }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -168,14 +169,14 @@ const weekdaysOnly = (date) => {
           Date or an ISO 8601 String.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleThree extends React.Component {
     state = { exampleThree: "2020-07-13" }
-  
+
     _handleChange = e => this.setState(
       { [e.target.name]: e.target.value }
     );
-  
+
     render() {
       return(
         <DatePicker
@@ -187,7 +188,7 @@ const weekdaysOnly = (date) => {
       )
     }
   }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />

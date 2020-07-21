@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 import GLRenderer from "~/components/three/GLRenderer";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageGlobe extends React.Component {
   render() {
@@ -34,10 +35,10 @@ export default class SystemPageGlobe extends React.Component {
         </System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import GLRenderer from '~/components/three/GLRenderer';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -45,7 +46,7 @@ import GLRenderer from '~/components/three/GLRenderer';`}
         <br />
         <System.P>Declare the Globe component.</System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
    render() {
        return(
@@ -53,7 +54,7 @@ import GLRenderer from '~/components/three/GLRenderer';`}
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

@@ -135,17 +135,6 @@ This is heading level 4
         <System.P css={STYLES_TYPE_JETBRAINS}>0 1 2 3 4 5 6 7 8 9</System.P>
         <br />
         <br />
-        <System.CodeBlock>
-          {`<System.P>a b c d e f g h i j k l m n o p q r s t u v w x y z</System.P>
-<System.P>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
-<System.P>0 1 2 3 4 5 6 7 8 9</System.P>
-
-<System.P css={STYLES_TYPE_JETBRAINS}>a b c d e f g h i j k l m n o p q r s t u v w x y z</System.P>
-<System.P css={STYLES_TYPE_JETBRAINS}>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
-<System.P css={STYLES_TYPE_JETBRAINS}>0 1 2 3 4 5 6 7 8 9</System.P>`}
-        </System.CodeBlock>
-        <br />
-        <br />
         <System.H2>Ordered and Unordered Lists</System.H2>
         <hr />
         <br />

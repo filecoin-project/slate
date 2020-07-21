@@ -1,3 +1,4 @@
+import * as Environment from "~/node_common/environment";
 import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 
@@ -7,8 +8,8 @@ import { Libp2pCryptoIdentity } from "@textile/threads-core";
 const initCORS = MW.init(MW.CORS);
 
 const TEXTILE_KEY_INFO = {
-  key: process.env.TEXTILE_HUB_KEY,
-  secret: process.env.TEXTILE_HUB_SECRET,
+  key: Environment.TEXTILE_HUB_KEY,
+  secret: Environment.TEXTILE_HUB_SECRET,
 };
 
 export default async (req, res) => {

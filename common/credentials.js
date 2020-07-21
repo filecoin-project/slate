@@ -1,3 +1,3 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+export const session = {
+  key: "WEB_SERVICE_SESSION_KEY",
+};

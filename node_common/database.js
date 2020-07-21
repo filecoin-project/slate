@@ -1,7 +1,3 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
-
 import configs from "~/knexfile";
 import knex from "knex";
 

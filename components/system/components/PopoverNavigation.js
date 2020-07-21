@@ -44,6 +44,18 @@ export class PopoverNavigation extends React.Component {
     return (
       <div css={STYLES_POPOVER} style={this.props.style}>
         {this.props.navigation.map((each) => {
+          if (each.action === "SIGN_OUT") {
+            return (
+              <div
+                key={each.value}
+                css={STYLES_POPOVER_ITEM}
+                onClick={this.props.onSignOut}
+              >
+                {each.text}
+              </div>
+            );
+          }
+
           return (
             <div
               key={each.value}

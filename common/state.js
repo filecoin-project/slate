@@ -39,6 +39,10 @@ const transformPeers = (peersList) => {
 };
 
 export const getSelectedState = (props) => {
+  if (!props) {
+    return null;
+  }
+
   const {
     status,
     messageList,
@@ -61,6 +65,10 @@ export const getSelectedState = (props) => {
 };
 
 export const getInitialState = (props) => {
+  if (!props) {
+    return null;
+  }
+
   const {
     status,
     messageList,

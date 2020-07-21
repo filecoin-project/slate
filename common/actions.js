@@ -68,6 +68,21 @@ export const sendWalletAddressFilecoin = async (data) => {
 
 // NOTE(jim):
 // New WWW Requests.
+
+export const signIn = async (data) => {
+  const options = {
+    method: "POST",
+    headers: REQUEST_HEADERS,
+    credentials: "include",
+    body: JSON.stringify({ data }),
+  };
+
+  const response = await fetch(`/api/sign-in`, options);
+  const json = await response.json();
+
+  return json;
+};
+
 export const hydrateAuthenticatedUser = async (data) => {
   const options = {
     method: "POST",

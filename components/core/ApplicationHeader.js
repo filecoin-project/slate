@@ -51,7 +51,7 @@ const STYLES_ICON_ELEMENT = css`
 const STYLES_ICON_ELEMENT_CUSTOM = css`
   border-radius: 3px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
-  background-image: url('/static/social.png');
+  background-image: url("/static/social.png");
   background-size: cover;
   height: 48px;
   width: 48px;
@@ -169,10 +169,12 @@ export default class ApplicationHeader extends React.Component {
                 style={{ right: 0, top: "48px", cursor: "pointer" }}
                 onNavigateTo={this.props.onNavigateTo}
                 onAction={this.props.onAction}
+                onSignOut={this.props.onSignOut}
                 navigation={[
                   { text: "Edit account", value: 13 },
                   { text: "Filecoin settings", value: 14 },
                   { text: "API Key & Tokens", value: 16 },
+                  { text: "Sign out", value: 0, action: "SIGN_OUT" },
                 ]}
               />
             }

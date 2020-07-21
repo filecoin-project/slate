@@ -1,6 +1,8 @@
 import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
+import * as Environment from "~/node_common/environment";
+import * as Utilities from "~/node_common/utilities";
 
 import PG from "~/node_common/powergate";
 import JWT from "jsonwebtoken";
@@ -9,7 +11,6 @@ import BCrypt from "bcrypt";
 import { Libp2pCryptoIdentity } from "@textile/threads-core";
 
 const initCORS = MW.init(MW.CORS);
-const SECRET = `$2b$13$${process.env.LOCAL_PASSWORD_SECRET}`;
 
 export default async (req, res) => {
   initCORS(req, res);
@@ -29,7 +30,7 @@ export default async (req, res) => {
   const salt = await BCrypt.genSalt(13);
   const hash = await BCrypt.hash(req.body.data.password, salt);
   const double = await BCrypt.hash(hash, salt);
-  const triple = await BCrypt.hash(double, SECRET);
+  const triple = await BCrypt.hash(double, Environment.LOCAL_PASSWORD_SECRET);
 
   const FFS = await PG.ffs.create();
   const pg = FFS.token ? FFS.token : null;
@@ -38,12 +39,46 @@ export default async (req, res) => {
   const identity = await Libp2pCryptoIdentity.fromRandom();
   const api = identity.toString();
 
+  // TODO(jim):
+  // Don't do this once you refactor.
+  const {
+    buckets,
+    bucketKey,
+    bucketName,
+  } = await Utilities.getBucketAPIFromUserToken(api);
+
   const user = await Data.createUser({
     email: req.body.data.email,
     password: triple,
     salt,
     username: req.body.data.username,
-    data: { tokens: { pg, api } },
+    data: {
+      tokens: { pg, api },
+      // TODO(jim):
+      // Get rid of this after the refactor.
+      library: [
+        {
+          ...Utilities.createFolder({ id: bucketName, name: "Data" }),
+          children: [
+            await Utilities.addFileFromFilePath({
+              buckets,
+              bucketKey,
+              filePath: "./public/static/social.jpg",
+            }),
+            await Utilities.addFileFromFilePath({
+              buckets,
+              bucketKey,
+              filePath: "./public/static/cube_000.jpg",
+            }),
+            await Utilities.addFileFromFilePath({
+              buckets,
+              bucketKey,
+              filePath: "./public/static/cube_f7f7f7.jpg",
+            }),
+          ],
+        },
+      ],
+    },
   });
 
   if (!user) {

@@ -1,3 +1,4 @@
+import * as Environment from "~/node_common/environment";
 import * as Constants from "./constants";
 import * as Converter from "~/vendor/bytes-base64-converter.js";
 
@@ -9,8 +10,17 @@ import { Libp2pCryptoIdentity } from "@textile/threads-core";
 const BUCKET_NAME = "data";
 
 const TEXTILE_KEY_INFO = {
-  key: process.env.TEXTILE_HUB_KEY,
-  secret: process.env.TEXTILE_HUB_SECRET,
+  key: Environment.TEXTILE_HUB_KEY,
+  secret: Environment.TEXTILE_HUB_SECRET,
+};
+
+export const parseAuthHeader = (value) => {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  var matches = value.match(/(\S+)\s+(\S+)/);
+  return matches && { scheme: matches[1], value: matches[2] };
 };
 
 // NOTE(jim): Requires @textile/hub

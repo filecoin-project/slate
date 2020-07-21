@@ -1,13 +1,15 @@
+import * as Environment from "~/node_common/environment";
+
 module.exports = {
   development: {
     client: "pg",
     connection: {
       ssl: true,
       port: 5432,
-      host: process.env.POSTGRES_HOSTNAME,
-      database: process.env.POSTGRES_DATABASE,
-      user: process.env.POSTGRES_ADMIN_USERNAME,
-      password: process.env.POSTGRES_ADMIN_PASSWORD,
+      host: Environment.POSTGRES_HOSTNAME,
+      database: Environment.POSTGRES_DATABASE,
+      user: Environment.POSTGRES_ADMIN_USERNAME,
+      password: Environment.POSTGRES_ADMIN_PASSWORD,
     },
   },
 };

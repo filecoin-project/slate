@@ -2,6 +2,7 @@ import * as React from "react";
 import * as NavigationData from "~/common/navigation-data";
 import * as Actions from "~/common/actions";
 import * as State from "~/common/state";
+import * as Credentials from "~/common/credentials";
 
 import SceneDataTransfer from "~/scenes/SceneDataTransfer";
 import SceneDeals from "~/scenes/SceneDeals";
@@ -38,6 +39,9 @@ import ApplicationNavigation from "~/components/core/ApplicationNavigation";
 import ApplicationHeader from "~/components/core/ApplicationHeader";
 import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const getCurrentNavigationStateById = (navigation, targetId) => {
   let target = null;
@@ -79,8 +83,8 @@ export default class ApplicationPage extends React.Component {
     history: [{ id: 1, scrollTop: 0 }],
     currentIndex: 0,
     data: null,
-    selected: null,
-    viewer: null,
+    selected: State.getSelectedState(this.props.viewer),
+    viewer: State.getInitialState(this.props.viewer),
     sidebar: null,
     file: null,
   };
@@ -204,16 +208,46 @@ export default class ApplicationPage extends React.Component {
 
     console.log(response);
 
+    response = await Actions.signIn({
+      username: "test",
+      password: "test",
+    });
+
+    console.log(response);
+
+    if (response.error) {
+      console.log("authentication error");
+      return null;
+    }
+
+    if (response.token) {
+      cookies.set(Credentials.session.key, response.token);
+    }
+
     response = await Actions.hydrateAuthenticatedUser({
       username: "test",
     });
 
     console.log(response);
 
+    if (!response || response.error) {
+      console.log("You probably needed to be authenticated.");
+      return null;
+    }
+
     this.setState({
       viewer: State.getInitialState(response.data),
       selected: State.getSelectedState(response.data),
     });
+  };
+
+  _handleSignOut = () => {
+    const jwt = cookies.get(Credentials.session.key);
+
+    if (jwt) {
+      cookies.remove(Credentials.session.key);
+      window.location.reload();
+    }
   };
 
   _handleViewerChange = (e) => {
@@ -348,7 +382,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   render() {
-    // TODO(jim): Render Sign In Screen.
     if (!this.state.viewer) {
       return (
         <WebsitePrototypeWrapper
@@ -390,6 +423,7 @@ export default class ApplicationPage extends React.Component {
         history={this.state.history}
         onNavigateTo={this._handleNavigateTo}
         onAction={this._handleAction}
+        onSignOut={this._handleSignOut}
       />
     );
 

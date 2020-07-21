@@ -243,7 +243,6 @@ export const injectCodeBlockStyles = () => css`
       word-break: normal;
       word-wrap: normal;
       
-
       -moz-tab-size: 4;
       -o-tab-size: 4;
       tab-size: 4;

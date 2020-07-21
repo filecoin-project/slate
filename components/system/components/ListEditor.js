@@ -7,6 +7,8 @@ import Draggable from "react-draggable";
 
 import { Input } from "~/components/system/components/Input";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
+import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
 
 const ITEM_HEIGHT = 30;
 
@@ -24,7 +26,7 @@ const expand = keyframes`
 const STYLES_INPUT = css`
   box-sizing: border-box;
   display: inline-block;
-  width: calc(100% - 80px);
+  width: 100%;
 `;
 
 const STYLES_INPUT_HIDDEN = css`
@@ -33,7 +35,6 @@ const STYLES_INPUT_HIDDEN = css`
   opacity: 0;
   pointer-events: none;
   position: absolute;
-  height: 0;
 `;
 
 const STYLES_MODAL_BACKGROUND = css`
@@ -66,8 +67,7 @@ const STYLES_DELETE = css`
 const STYLES_REORDER = css`
   box-sizing: border-box;
   height: 14px;
-  margin-top: 4px;
-  cursor: grab;
+  margin-top: 1px;
   color: ${Constants.system.darkGray};
   justify-self: start;
 
@@ -77,6 +77,7 @@ const STYLES_REORDER = css`
 `;
 
 const STYLES_LIST = css`
+  cursor: grab;
   box-sizing: border-box;
   max-width: 480px;
   min-width: 188px;
@@ -89,6 +90,9 @@ const STYLES_LIST = css`
   border-radius: 4px;
   animation: ${expand} 500ms ease-out 1;
   position: absolute;
+  :active {
+    cursor: grabbing;
+  }
 `;
 
 const STYLES_LIST_ITEM = css`
@@ -97,7 +101,7 @@ const STYLES_LIST_ITEM = css`
   height: 30px;
   display: grid;
   align-items: center;
-  grid-template-columns: 2fr 30fr 1fr;
+  grid-template-columns: 24px 1fr 24px;
   border-radius: 4px;
   padding: 0 5px;
   background-color: ${Constants.system.white};
@@ -115,9 +119,14 @@ export class ListEditor extends React.Component {
 
   _handleToggle = () => {
     if (this.state.expand) {
-      this.props.onChange({ name: this.props.name, value: this.state.options });
+      this.props.onChange({
+        target: { name: this.props.name, value: this.state.options },
+      });
     }
-    this.setState({ expand: !this.state.expand });
+    this.setState({ expand: !this.state.expand }),
+      () => {
+        console.log(this.state.expand);
+      };
   };
 
   _handleDelete = (i) => {
@@ -194,48 +203,50 @@ export class ListEditor extends React.Component {
         >
           <SVG.Reorder className="cursor" css={STYLES_REORDER} />
           <div>{item}</div>
-          <SVG.Close
+          <SVG.Dismiss
             css={STYLES_DELETE}
             onClick={() => this._handleDelete(i)}
           />
         </div>
       </Draggable>
     ));
+
     return (
       <div>
-        <div
-          css={this.state.expand ? STYLES_INPUT_HIDDEN : STYLES_INPUT}
-          onFocus={this._handleToggle}
+        <DescriptionGroup
+          tooltip={this.props.tooltip}
+          label={this.props.label}
+          description={this.props.description}
+        />
+        <Boundary
+          enabled={this.state.expand}
+          onOutsideRectEvent={this._handleToggle}
+          style={{
+            maxWidth: "480px",
+          }}
         >
-          <Input
-            name={this.props.name}
-            style={{ cursor: "pointer" }}
-            value={this.state.options}
-            readOnly
-            tooltip={this.props.tooltip}
-            label={this.props.label}
-            description={this.props.description}
-          />
-        </div>
-        {this.state.expand ? (
-          <div css={STYLES_MODAL_BACKGROUND} onClick={this._handleToggle} />
-        ) : null}
-        <div css={this.state.expand ? STYLES_INPUT : STYLES_INPUT_HIDDEN}>
-          <Input
-            value={this.state.search}
-            tooltip={this.props.tooltip}
-            label={this.props.label}
-            placeholder={this.props.placeholder}
-            description={this.props.description}
-            icon={SVG.Search}
-            onChange={this._handleChange}
-            onSubmit={this._handleAdd}
-          />
-        </div>
-        <ButtonPrimary css={STYLES_BUTTON} onClick={this._handleToggle}>
-          {this.state.expand ? "Save" : "Edit"}
-        </ButtonPrimary>
-        {this.state.expand ? <div css={STYLES_LIST}>{options}</div> : null}
+          <div
+            css={this.state.expand ? STYLES_INPUT_HIDDEN : STYLES_INPUT}
+            onFocus={this._handleToggle}
+          >
+            <Input
+              name={this.props.name}
+              style={{ cursor: "pointer" }}
+              value={this.state.options}
+              readOnly
+            />
+          </div>
+          <div css={this.state.expand ? STYLES_INPUT : STYLES_INPUT_HIDDEN}>
+            <Input
+              value={this.state.search}
+              placeholder={this.props.placeholder}
+              icon={this.state.search ? SVG.Plus : null}
+              onChange={this._handleChange}
+              onSubmit={this._handleAdd}
+            />
+            <div css={STYLES_LIST}>{options}</div>
+          </div>
+        </Boundary>
       </div>
     );
   }

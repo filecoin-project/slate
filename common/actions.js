@@ -8,9 +8,6 @@ const REQUEST_HEADERS = {
   "Content-Type": "application/json",
 };
 
-const dev = process.env.NODE_ENV !== "www";
-const SERVER_PATH = dev ? "http://localhost:1337" : "https://slate.host";
-
 export const setDefaultConfig = async (data) => {
   const options = {
     method: "POST",
@@ -19,7 +16,7 @@ export const setDefaultConfig = async (data) => {
     body: JSON.stringify(data),
   };
 
-  const response = await fetch(`${SERVER_PATH}/_/settings`, options);
+  const response = await fetch(`/_/settings`, options);
   const json = await response.json();
 
   return json;
@@ -37,7 +34,7 @@ export const createWalletAddress = async (data) => {
     body: JSON.stringify(data),
   };
 
-  const response = await fetch(`${SERVER_PATH}/_/wallet/create`, options);
+  const response = await fetch(`/_/wallet/create`, options);
   const json = await response.json();
 
   return json;
@@ -63,7 +60,7 @@ export const sendWalletAddressFilecoin = async (data) => {
     body: JSON.stringify(data),
   };
 
-  const response = await fetch(`${SERVER_PATH}/_/wallet/send`, options);
+  const response = await fetch(`/_/wallet/send`, options);
   const json = await response.json();
 
   return json;
@@ -79,7 +76,7 @@ export const hydrateAuthenticatedUser = async (data) => {
     body: JSON.stringify({ data }),
   };
 
-  const response = await fetch(`${SERVER_PATH}/api/hydrate`, options);
+  const response = await fetch(`/api/hydrate`, options);
   const json = await response.json();
 
   return json;
@@ -93,7 +90,7 @@ export const deleteUser = async (data) => {
     body: JSON.stringify({ data }),
   };
 
-  const response = await fetch(`${SERVER_PATH}/api/users/delete`, options);
+  const response = await fetch(`/api/users/delete`, options);
   const json = await response.json();
   return json;
 };
@@ -106,7 +103,7 @@ export const createUser = async (data) => {
     body: JSON.stringify({ data }),
   };
 
-  const response = await fetch(`${SERVER_PATH}/api/users/create`, options);
+  const response = await fetch(`/api/users/create`, options);
   const json = await response.json();
   return json;
 };
@@ -119,7 +116,7 @@ export const health = async (data) => {
     body: JSON.stringify({ data: { success: true } }),
   };
 
-  const response = await fetch(`${SERVER_PATH}/api/_`, options);
+  const response = await fetch(`/api/_`, options);
   const json = await response.json();
   return json;
 };

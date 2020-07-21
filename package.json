@@ -3,9 +3,6 @@
   "description": "",
   "author": "slate",
   "version": "0.0.1",
-  "engines": {
-    "node": ">=11 <12"
-  },
   "scripts": {
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 node . --unhandled-rejections=strict",
     "start": "NODE_ENV=www node . --unhandled-rejections=strict",

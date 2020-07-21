@@ -1,3 +1,5 @@
+![Slate](https://user-images.githubusercontent.com/310223/88096926-48f21880-cb4c-11ea-803f-1984f4515651.png)
+
 # Slate (WIP)
 
 - (WIP) A wonderful experience for creating mood boards, hosting assets, and making connections between topics you are researching

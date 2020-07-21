@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageNotifications extends React.Component {
   state = {
@@ -46,10 +47,10 @@ export default class SystemPageNotifications extends React.Component {
           dispatchCustomEvent function.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -67,18 +68,18 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
           the fixed positioning notification list. Default is bottom right.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class App extends React.Component {
   render() {
     return(
       <React.Fragment>
         <GlobalNotification style={{ bottom: 0, right: 0 }} />
-        {this.props.children}     
+        {this.props.children}
       </React.Fragment>
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <System.GlobalNotification style={{ bottom: 0, right: 0 }} />
         <br />
         <br />
@@ -127,7 +128,7 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
           <strong>Each co-existing notification must have a unique id.</strong>
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
   state = {
     count: 0,
@@ -173,7 +174,7 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -202,7 +203,7 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
           which it will automatically disappear.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleTwo extends React.Component {
   state = {
     count: 0,
@@ -233,7 +234,7 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -300,7 +301,7 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
           to true.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleThree extends React.Component {
   state = {
     count: 0,
@@ -371,7 +372,7 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
     )
   }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Accepted React Properties</System.H2>

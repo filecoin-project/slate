@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageToggles extends React.Component {
   state = {
@@ -40,10 +41,10 @@ export default class SystemPageToggles extends React.Component {
         <System.P>Import React and the Toggle Component.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { Toggle } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -51,7 +52,7 @@ import { Toggle } from 'slate-react-system';`}
         <br />
         <System.P>Declare the Toggle component.</System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
    state = { exampleOne: true }
 
@@ -88,7 +89,7 @@ class ExampleTwo extends React.Component {
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
 
         <br />
         <br />

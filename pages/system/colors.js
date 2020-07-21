@@ -7,6 +7,7 @@ import { css } from "@emotion/react";
 
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const STYLES_COLOR_BAR = css`
   width: 100%;
@@ -49,7 +50,7 @@ export default class SystemPageColors extends React.Component {
         <System.P>Import Constants.</System.P>
         <br />
         <br />
-        <System.CodeBlock>{`import { Constants } from 'slate-react-system';`}</System.CodeBlock>
+        <CodeBlock>{`import { Constants } from 'slate-react-system';`}</CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -57,7 +58,7 @@ export default class SystemPageColors extends React.Component {
         <br />
         <System.P>Declare Constants.</System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`{Constants.system.white};
 
 {Constants.system.foreground};
@@ -79,7 +80,7 @@ export default class SystemPageColors extends React.Component {
 {Constants.system.yellow};
 
 {Constants.system.red};`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

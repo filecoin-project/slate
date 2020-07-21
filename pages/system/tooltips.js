@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageTooltips extends React.Component {
   render() {
@@ -32,10 +33,10 @@ export default class SystemPageTooltips extends React.Component {
         <System.P>Import React and the TooltipAnchor Component.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { TooltipAnchor } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -43,13 +44,13 @@ import { TooltipAnchor } from 'slate-react-system';`}
         <br />
         <System.P>Declare the Tooltip component.</System.P>
         <br />
-        <System.CodeBlock>{`class ExampleOne extends React.Component {
+        <CodeBlock>{`class ExampleOne extends React.Component {
    render() {
        return(
          <TooltipAnchor tooltip="Hello friends!!" />
        )
    }
-}`}</System.CodeBlock>
+}`}</CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

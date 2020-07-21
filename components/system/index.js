@@ -26,7 +26,6 @@ import {
 } from "~/components/system/components/Buttons";
 import { CardTabGroup } from "~/components/system/components/CardTabGroup";
 import { CheckBox } from "~/components/system/components/CheckBox";
-import { CodeBlock } from "~/components/system/components/CodeBlock";
 import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 import { DatePicker } from "~/components/system/components/DatePicker";
 import { GlobalModal } from "~/components/system/components/GlobalModal";
@@ -89,7 +88,6 @@ export {
   ButtonDisabledFull,
   CardTabGroup,
   CheckBox,
-  CodeBlock,
   CodeText,
   CodeTextarea,
   DatePicker,

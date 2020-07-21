@@ -3,6 +3,7 @@ import * as System from "~/components/system";
 
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageStats extends React.Component {
   render() {
@@ -32,10 +33,10 @@ export default class SystemPageStats extends React.Component {
         </System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { StatUpload, StatDownload } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -46,7 +47,7 @@ import { StatUpload, StatDownload } from 'slate-react-system';`}
           prop is optional as it defaults to 2
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
    render() {
        return(
@@ -62,7 +63,7 @@ class ExampleTwo extends React.Component {
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

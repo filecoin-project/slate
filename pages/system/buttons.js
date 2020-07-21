@@ -1,12 +1,18 @@
-import * as React from 'react';
-import * as System from '~/components/system';
+import * as React from "react";
+import * as System from "~/components/system";
 
-import SystemPage from '~/components/system/SystemPage';
-import ViewSourceLink from '~/components/system/ViewSourceLink';
+import SystemPage from "~/components/system/SystemPage";
+import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageButtons extends React.Component {
   render() {
     return (
+      <SystemPage
+        title="SDS: Buttons"
+        description="..."
+        url="https://fps.onrender.com/system/buttons"
+      >
       <SystemPage title="SDS: Buttons" description="..." url="https://slate.host/system/buttons">
         <System.H1>
           Buttons <ViewSourceLink file="system/buttons.js" />
@@ -14,8 +20,8 @@ export default class SystemPageButtons extends React.Component {
         <br />
         <br />
         <System.P>
-          The Button component is used to trigger an action or event, such as submitting a form or saving users
-          information.
+          The Button component is used to trigger an action or event, such as
+          submitting a form or saving users information.
         </System.P>
         <br />
         <br />
@@ -23,13 +29,11 @@ export default class SystemPageButtons extends React.Component {
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>
-          Import React and the Button Components.
-        </System.P>
+        <System.P>Import React and the Button Components.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
-{`import * as React from 'react';
+        <CodeBlock>
+          {`import * as React from 'react';
 import {
   ButtonPrimary,
   ButtonPrimaryFull,
@@ -38,14 +42,14 @@ import {
   ButtonDisabled,
   ButtonDisabledFull,
 } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Regular width</System.H2>
         <hr />
         <br />
         <System.P>
-          There are three variations of the regular width button compontent.
+          There are three variations of the regular width button component.
           <br />
           Primary, Secondary and Disabled.
         </System.P>
@@ -55,8 +59,8 @@ import {
         <System.ButtonDisabled>Disabled</System.ButtonDisabled>
         <br />
         <br />
-        <System.CodeBlock>
-{`class ExamplePrimary extends React.Component {
+        <CodeBlock>
+          {`class ExamplePrimary extends React.Component {
    render() {
        return(
          <ButtonPrimary>
@@ -87,7 +91,7 @@ class ExampleDisabled extends React.Component {
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -95,19 +99,23 @@ class ExampleDisabled extends React.Component {
         <hr />
         <br />
         <System.P>
-          There are three variations of the full width button compontent. <br />
+          There are three variations of the full width button component. <br />
           Primary, Secondary and Disabled.
         </System.P>
         <br />
         <System.ButtonPrimaryFull>Primary Button Full</System.ButtonPrimaryFull>
         <br />
-        <System.ButtonSecondaryFull>Secondary Button Full</System.ButtonSecondaryFull>
+        <System.ButtonSecondaryFull>
+          Secondary Button Full
+        </System.ButtonSecondaryFull>
         <br />
-        <System.ButtonDisabledFull>Disabled Button Full</System.ButtonDisabledFull>
+        <System.ButtonDisabledFull>
+          Disabled Button Full
+        </System.ButtonDisabledFull>
         <br />
         <br />
-        <System.CodeBlock>
-{`class ExamplePrimaryFull extends React.Component {
+        <CodeBlock>
+          {`class ExamplePrimaryFull extends React.Component {
    render() {
        return(
          <ButtonPrimaryFull>
@@ -138,7 +146,7 @@ class ExampleDisabledFull extends React.Component {
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <br />
@@ -146,16 +154,25 @@ class ExampleDisabledFull extends React.Component {
         <hr />
         <br />
         <System.P>
-          You can add the <i>type='label'</i> property to convert any of the above buttons into a label.
+          You can add the <i>type='label'</i> property to convert any of the
+          above buttons into a label.
         </System.P>
         <br />
-        <System.ButtonPrimary type="label">Primary Label</System.ButtonPrimary> &nbsp;
-        <System.ButtonSecondary type="label">Secondary Label</System.ButtonSecondary> &nbsp;
-        <System.ButtonDisabled type="label">Disabled Label</System.ButtonDisabled>
+        <System.ButtonPrimary type="label">
+          Primary Label
+        </System.ButtonPrimary>{" "}
+        &nbsp;
+        <System.ButtonSecondary type="label">
+          Secondary Label
+        </System.ButtonSecondary>{" "}
+        &nbsp;
+        <System.ButtonDisabled type="label">
+          Disabled Label
+        </System.ButtonDisabled>
         <br />
         <br />
-        <System.CodeBlock>
-{`class ExamplePrimaryLabel extends React.Component {
+        <CodeBlock>
+          {`class ExamplePrimaryLabel extends React.Component {
    render() {
        return(
          <ButtonPrimary type="label">
@@ -186,7 +203,7 @@ class ExampleDisabledLabel extends React.Component {
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
       </SystemPage>
     );
   }

@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageTables extends React.Component {
   state = {
@@ -39,10 +40,10 @@ export default class SystemPageTables extends React.Component {
         </System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { TableContent, TableColumn } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -51,7 +52,7 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
         <System.P>Declare the Group and Table components.</System.P>
         <br />
 
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
    state = { exampleOne: null }
 
@@ -90,7 +91,7 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>
@@ -289,7 +290,7 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
           to alter the column using the <i>type</i> props.
         </System.P>
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleTwo extends React.Component {
    state = { exampleTwo: null }
 
@@ -327,7 +328,7 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

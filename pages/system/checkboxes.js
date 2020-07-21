@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageCheckboxes extends React.Component {
   state = {
@@ -41,10 +42,10 @@ export default class SystemPageCheckboxes extends React.Component {
         <System.P>Import React and the CheckBox Component.</System.P>
         <br />
         <br />
-        <System.CodeBlock>
+        <CodeBlock>
           {`import * as React from 'react';
 import { CheckBox } from 'slate-react-system';`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -56,7 +57,7 @@ import { CheckBox } from 'slate-react-system';`}
         </System.P>
         <br />
 
-        <System.CodeBlock>
+        <CodeBlock>
           {`class ExampleOne extends React.Component {
    state = { exampleOne: false }
 
@@ -101,7 +102,7 @@ class ExampleTwo extends React.Component {
        )
    }
 }`}
-        </System.CodeBlock>
+        </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>

@@ -2,6 +2,7 @@ import * as React from "react";
 import * as System from "~/components/system";
 
 import SystemPage from "~/components/system/SystemPage";
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemPageRoot extends React.Component {
   render() {
@@ -65,23 +66,21 @@ export default class SystemPageRoot extends React.Component {
           :
           <br />
           <br />
-          <System.CodeBlock>
-            {`npm install --save slate-react-system`}
-          </System.CodeBlock>
+          <CodeBlock>{`npm install --save slate-react-system`}</CodeBlock>
           <br />
           <br />
           Now you can import React components: <br />
           <br />
-          <System.CodeBlock>
+          <CodeBlock>
             {`import { ButtonPrimary } from 'slate-react-system'
 
 const Component = () => <ButtonPrimary>Hello World</ButtonPrimary>`}
-          </System.CodeBlock>
+          </CodeBlock>
           <br />
           <br />
           And easily integrate Powergate <br />
           <br />
-          <System.CodeBlock>
+          <CodeBlock>
             {`import * as React from 'react';
 import * as System from 'slate-react-system';
 import { createPow } from "@textile/powergate-client";
@@ -103,14 +102,14 @@ class Example extends React.Component {
 
   render() {
     return (
-      <System.CreateToken 
-        token={this.state.token} 
+      <System.CreateToken
+        token={this.state.token}
         onClick={this._handleCreateToken} />
     );
   }
 }
 `}
-          </System.CodeBlock>
+          </CodeBlock>
           <br />
           <br />
           Whats next?

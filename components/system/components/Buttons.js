@@ -102,6 +102,7 @@ export const ButtonPrimaryFull = (props) => {
       css={STYLES_BUTTON_PRIMARY_FULL}
       style={props.style}
       onClick={props.onClick}
+      children={props.children}
     />
   );
 };

@@ -97,7 +97,13 @@ export const ButtonPrimaryFull = (props) => {
     );
   }
 
-  return <button css={STYLES_BUTTON_PRIMARY_FULL} {...props} />;
+  return (
+    <button
+      css={STYLES_BUTTON_PRIMARY_FULL}
+      style={props.style}
+      onClick={props.onClick}
+    />
+  );
 };
 
 const STYLES_BUTTON_SECONDARY = css`

@@ -222,6 +222,10 @@ export const injectGlobalStyles = () => css`
     ::-webkit-scrollbar {
       display: none;
     }
+    -webkit-font-feature-settings: "liga"1, "ss01"1, "zero"1, "cv11"1, 'frac'1, 'calt'1, 'tnum'1;
+    -moz-font-feature-settings: "liga"1, "ss01"1, "zero"1, "cv11"1, 'frac'1, 'calt'1, 'tnum'1;
+    -ms-font-feature-settings: "liga"1, "ss01"1, "zero"1, "cv11"1, 'frac'1, 'calt'1, 'tnum'1;
+    font-feature-settings: "liga"1, "ss01"1, "zero"1, "cv11"1, 'frac'1, 'calt'1, 'tnum'1;
   }
 `;
 
@@ -239,7 +243,6 @@ export const injectCodeBlockStyles = () => css`
       word-break: normal;
       word-wrap: normal;
       
-
       -moz-tab-size: 4;
       -o-tab-size: 4;
       tab-size: 4;

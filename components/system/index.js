@@ -52,7 +52,7 @@ import { TabGroup } from "~/components/system/components/TabGroup";
 import { Table } from "~/components/system/components/Table";
 import { Textarea } from "~/components/system/components/Textarea";
 import { Toggle } from "~/components/system/components/Toggle";
-import { H1, H2, P, UL, LI } from "~/components/system/components/Typography";
+import { H1, H2, H3, H4, P, UL, OL, LI } from "~/components/system/components/Typography";
 
 // NOTE(jim): Fragments
 import { CodeText } from "~/components/system/components/fragments/CodeText";
@@ -107,8 +107,11 @@ export {
   Toggle,
   H1,
   H2,
+  H3,
+  H4,
   P,
   UL,
+  OL,
   LI,
   // NOTE(jim): Fragments, not meant to be used.
   TooltipAnchor,

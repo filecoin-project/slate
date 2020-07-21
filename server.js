@@ -8,7 +8,6 @@ import next from "next";
 import compression from "compression";
 import JWT from "jsonwebtoken";
 
-const port = process.env.PORT || 1337;
 const app = next({
   dev: !Environment.IS_PRODUCTION,
   dir: __dirname,
@@ -55,9 +54,9 @@ app.prepare().then(async () => {
     return handler(req, res, req.url);
   });
 
-  server.listen(port, async (e) => {
+  server.listen(Environment.PORT, async (e) => {
     if (e) throw e;
 
-    console.log(`[ slate ] client: http://localhost:${port}`);
+    console.log(`[ slate ] client: http://localhost:${Environment.PORT}`);
   });
 });

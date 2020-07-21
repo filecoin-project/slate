@@ -1,6 +1,7 @@
 export const NODE = process.env.NODE_ENV;
-export const IS_PRODUCTION = NODE === "production" || NODE === "WWW";
-export const IS_PRODUCTION_WEB = NODE === "WWW";
+export const IS_PRODUCTION = NODE === "production" || NODE === "www";
+export const IS_PRODUCTION_WEB = NODE === "www";
+export const PORT = process.env.PORT || 1337;
 
 if (!IS_PRODUCTION_WEB) {
   require("dotenv").config();

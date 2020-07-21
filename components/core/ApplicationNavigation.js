@@ -23,6 +23,7 @@ const IconMap = {
   MINERS: <SVG.Miners height="20px" />,
   STORAGE_MARKET: <SVG.StorageMarket height="20px" />,
   SLATES: <SVG.Slates height="20px" />,
+  LOCAL_DATA: <SVG.HardDrive height="20px" />,
 };
 
 const STYLES_NAVIGATION = css`

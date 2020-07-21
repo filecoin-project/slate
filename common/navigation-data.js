@@ -35,6 +35,13 @@ export const generate = (library) => [
     children: [],
   },
   {
+    id: 4,
+    name: "Local",
+    pageTitle: "Your local data",
+    decorator: "LOCAL_DATA",
+    children: [],
+  },
+  {
     id: 13,
     name: "Edit account",
     pageTitle: "your account",

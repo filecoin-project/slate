@@ -51,7 +51,7 @@ export default class IndexPage extends React.Component {
   render() {
     const title = `Slate`;
     const description =
-      "Tne place for all of your assets, slates. Powered by Textile and Filecoin.";
+      "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host";
 
     return (
@@ -63,7 +63,7 @@ export default class IndexPage extends React.Component {
         <div css={STYLES_ROOT}>
           <h1 css={STYLES_HEADING}>Slate</h1>
           <p css={STYLES_PARAGRAPH}>
-            One place for all of your assets, slates. Powered by{" "}
+            One place for all of your assets. Powered by{" "}
             <a href="https://docs.textile.io/">Textile</a> and{" "}
             <a href="https://filecoin.io/">Filecoin</a>.
             <br />

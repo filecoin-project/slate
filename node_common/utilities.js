@@ -112,15 +112,14 @@ export const createFile = ({ id, data, file }) => {
   };
 };
 
-export const createFolder = ({ id }) => {
+export const createFolder = ({ id, name }) => {
   return {
     decorator: "FOLDER",
     id,
     folderId: id,
     icon: "FOLDER",
-    file: getFileName(id),
-    name: getFileName(id),
-    pageTitle: null,
+    name: name ? name : getFileName(id),
+    pageTitle: `Exploring ${getFileName(id)}`,
     date: null,
     size: null,
     children: [],

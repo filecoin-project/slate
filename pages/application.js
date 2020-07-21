@@ -19,7 +19,9 @@ import SceneStatus from "~/scenes/SceneStatus";
 import SceneStorageMarket from "~/scenes/SceneStorageMarket";
 import SceneWallet from "~/scenes/SceneWallet";
 import SceneSlates from "~/scenes/SceneSlates";
+import SceneLocalData from "~/scenes/SceneLocalData";
 import SceneSettingsDeveloper from "~/scenes/SceneSettingsDeveloper";
+import SceneSignIn from "~/scenes/SceneSignIn";
 
 import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalletAddress";
 import SidebarDeleteWalletAddress from "~/components/sidebars/SidebarDeleteWalletAddress";
@@ -84,41 +86,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   async componentDidMount() {
-    if (this.props.production) {
-      console.log("Disabled application in production setting for now.");
-      return null;
-    }
-
-    let response = await Actions.deleteUser({
-      username: "test",
-    });
-
-    console.log(response);
-
-    response = await Actions.createUser({
-      email: "test@test.com",
-      password: "test",
-      username: "test",
-    });
-
-    if (response.error) {
-      console.log("Could not create a new user");
-      return null;
-    }
-
-    console.log(response);
-
-    response = await Actions.hydrateAuthenticatedUser({
-      username: "test",
-    });
-
-    console.log(response);
-
-    this.setState({
-      viewer: State.getInitialState(response.data),
-      selected: State.getSelectedState(response.data),
-    });
-
     window.addEventListener("dragenter", this._handleDragEnter);
     window.addEventListener("dragleave", this._handleDragLeave);
     window.addEventListener("dragover", this._handleDragOver);
@@ -215,6 +182,38 @@ export default class ApplicationPage extends React.Component {
 
   _handleCancel = () => {
     this._handleDismissSidebar();
+  };
+
+  _handleAuthenticate = async (state) => {
+    let response = await Actions.deleteUser({
+      username: "test",
+    });
+
+    console.log(response);
+
+    response = await Actions.createUser({
+      email: "test@test.com",
+      password: "test",
+      username: "test",
+    });
+
+    if (response.error) {
+      console.log("Could not create a new user");
+      return null;
+    }
+
+    console.log(response);
+
+    response = await Actions.hydrateAuthenticatedUser({
+      username: "test",
+    });
+
+    console.log(response);
+
+    this.setState({
+      viewer: State.getInitialState(response.data),
+      selected: State.getSelectedState(response.data),
+    });
   };
 
   _handleViewerChange = (e) => {
@@ -345,12 +344,25 @@ export default class ApplicationPage extends React.Component {
     SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
     EDIT_ACCOUNT: <SceneEditAccount />,
     SLATES: <SceneSlates />,
+    LOCAL_DATA: <SceneLocalData />,
   };
 
   render() {
     // TODO(jim): Render Sign In Screen.
     if (!this.state.viewer) {
-      return null;
+      return (
+        <WebsitePrototypeWrapper
+          title="Slate: sign in"
+          description="Sign in to your Slate account to manage your assets."
+          url="https://slate.host/application"
+        >
+          <SceneSignIn
+            onAuthenticate={this._handleAuthenticate}
+            onNavigateTo={this._handleNavigateTo}
+            production={this.props.production}
+          />
+        </WebsitePrototypeWrapper>
+      );
     }
 
     const navigation = NavigationData.generate(this.state.viewer.library);

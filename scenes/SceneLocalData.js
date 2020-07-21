@@ -5,9 +5,9 @@ import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
 
-// TODO(jim): Slates
-export default class SceneSlates extends React.Component {
+// TODO(jim): Figure out the local data story.
+export default class SceneLocalData extends React.Component {
   render() {
-    return <ScenePage>Slates Prototype</ScenePage>;
+    return <ScenePage>Local Data Prototype</ScenePage>;
   }
 }

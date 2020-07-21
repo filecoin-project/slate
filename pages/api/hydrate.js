@@ -47,9 +47,7 @@ export default async (req, res) => {
     },
     library: [
       {
-        ...Utilities.createFolder({ id: bucketName }),
-        file: bucketName,
-        name: bucketName,
+        ...Utilities.createFolder({ id: bucketName, name: "Data" }),
         children: [
           await Utilities.addFileFromFilePath({
             buckets,

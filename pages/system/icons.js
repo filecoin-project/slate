@@ -26,6 +26,7 @@ const ICONS = [
   <OldSVG.Logs height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.Miners height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.StorageMarket height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <OldSVG.HardDrive height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <SVG.BandwidthUp height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <SVG.BandwidthDown height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <SVG.Information height={DEFAULT_SYSTEM_ICON_SIZE} />,

@@ -19,6 +19,27 @@ export const Slates = (props) => (
   </svg>
 );
 
+export const HardDrive = (props) => (
+  <svg
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    height={props.height}
+    style={props.style}
+  >
+    <g
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m2.5 21c-1.10456 0-2-.89544-2-2v-4c0-1.10456.89544-2 2-2h19c1.10456 0 2 .89544 2 2v4c0 1.10456-.89544 2-2 2z" />
+      <path d="m3.5 18h17" />
+      <path d="m20.25 15.5h-.00000001c-.138071.00000001-.25.111929-.25.25.00000001.138071.111929.25.25.25.138071-.00000001.25-.111929.25-.25 0-.138071-.111929-.25-.25-.25" />
+      <path d="m23.438 14.505-2.459-9.624.00000002.00000009c-.28282-1.10668-1.27976-1.88093-2.422-1.881h-13.114-.00000012c-1.14224.00007126-2.13918.774322-2.422 1.881l-2.459 9.624" />
+    </g>
+  </svg>
+);
+
 export const ExpandBox = (props) => (
   <svg
     viewBox="0 0 24 24"

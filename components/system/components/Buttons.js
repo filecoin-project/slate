@@ -3,6 +3,8 @@ import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 
+import { LoaderSpinner } from "~/components/system/components/Loaders";
+
 const STYLES_BUTTON = `
   box-sizing: border-box;
   border-radius: 4px;
@@ -85,6 +87,14 @@ const STYLES_BUTTON_PRIMARY_FULL = css`
 export const ButtonPrimaryFull = (props) => {
   if (props.type === "label") {
     return <label css={STYLES_BUTTON_PRIMARY_FULL} {...props} />;
+  }
+
+  if (props.loading) {
+    return (
+      <button css={STYLES_BUTTON_PRIMARY_FULL} style={props.style}>
+        <LoaderSpinner style={{ height: 16, width: 16 }} />
+      </button>
+    );
   }
 
   return <button css={STYLES_BUTTON_PRIMARY_FULL} {...props} />;

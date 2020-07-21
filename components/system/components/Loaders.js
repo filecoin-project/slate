@@ -220,7 +220,7 @@ const STYLES_LOADER_SPINNER = css`
   display: inline-block;
   width: 48px;
   height: 48px;
-  border: 3px solid ${Constants.system.brand};
+  border: 2px solid ${Constants.system.brand};
   border-radius: 50%;
   border-top-color: ${Constants.system.foreground};
   animation: animation-spin 1s ease-in-out infinite;
@@ -238,33 +238,37 @@ const STYLES_LOADER_SPINNER = css`
 //
 //LOADER EXPORTS
 
-export const LoaderProgress = () => <div css={STYLES_LOADER_PROGRESS}></div>;
+export const LoaderProgress = (props) => (
+  <div css={STYLES_LOADER_PROGRESS} {...props} />
+);
 
-export const LoaderSpinner = () => <div css={STYLES_LOADER_SPINNER}></div>;
+export const LoaderSpinner = (props) => (
+  <div css={STYLES_LOADER_SPINNER} {...props} />
+);
 
 export const LoaderCircles = () => (
   <div>
-    <div css={STYLES_LOADER_CIRCLE_TWO}></div>
-    <div css={STYLES_LOADER_CIRCLE_ONE}></div>
-    <div css={STYLES_LOADER_CIRCLE_THREE}></div>
+    <div css={STYLES_LOADER_CIRCLE_TWO} />
+    <div css={STYLES_LOADER_CIRCLE_ONE} />
+    <div css={STYLES_LOADER_CIRCLE_THREE} />
   </div>
 );
 
 export const LoaderDiamonds = () => (
   <div css={STYLES_LOADER_DIAMONDS}>
-    <div css={STYLES_LOADER_DIAMOND_ONE}></div>
-    <div css={STYLES_LOADER_DIAMOND_TWO}></div>
+    <div css={STYLES_LOADER_DIAMOND_ONE} />
+    <div css={STYLES_LOADER_DIAMOND_TWO} />
   </div>
 );
 
 export const LoaderMoon = () => (
   <div css={STYLES_LOADER_MOON}>
-    <div css={STYLES_LOADER_MOON_CIRCLE}></div>
+    <div css={STYLES_LOADER_MOON_CIRCLE} />
   </div>
 );
 
 export const LoaderRotate = () => (
   <div css={STYLES_LOADER_ROTATE}>
-    <div css={STYLES_LOADER_ROTATE_SQUARES}></div>
+    <div css={STYLES_LOADER_ROTATE_SQUARES} />
   </div>
 );

@@ -18,7 +18,11 @@ const STYLES_TYPE_JETBRAINS = css`
   font-family: ${Constants.font.code};
 `;
 const STYLES_BOLD = css`
+<<<<<<< HEAD
   font-family: ${Constants.font.text};
+=======
+  font-family: ${Constants.font.text};  
+>>>>>>> 71bf9aad93489179b79fa4d0980b63267c59e5bc
   font-weight: bold;
 `;
 const STYLES_ITALIC = css`

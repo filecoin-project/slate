@@ -15,10 +15,18 @@ const initCORS = MW.init(MW.CORS);
 export default async (req, res) => {
   initCORS(req, res);
 
-  if (Strings.isEmpty(req.body.data.email)) {
+  const existing = await Data.getUserByUsername({
+    username: req.body.data.username,
+  });
+
+  if (existing) {
     return res
-      .status(500)
-      .send({ error: "An e-mail address was not provided." });
+      .status(403)
+      .json({ decorator: "SERVER_EXISTING_USER_ALREADY", error: true });
+  }
+
+  if (Strings.isEmpty(req.body.data.username)) {
+    return res.status(500).send({ error: "A username was not provided." });
   }
 
   if (Strings.isEmpty(req.body.data.password)) {
@@ -48,34 +56,17 @@ export default async (req, res) => {
   } = await Utilities.getBucketAPIFromUserToken(api);
 
   const user = await Data.createUser({
-    email: req.body.data.email,
     password: triple,
     salt,
     username: req.body.data.username,
     data: {
+      photo: "https://slate.host/static/a1.jpg",
+      settings_deals_auto_approve: false,
       tokens: { pg, api },
-      // TODO(jim):
-      // Get rid of this after the refactor.
       library: [
         {
           ...Utilities.createFolder({ id: bucketName, name: "Data" }),
-          children: [
-            await Utilities.addFileFromFilePath({
-              buckets,
-              bucketKey,
-              filePath: "./public/static/social.jpg",
-            }),
-            await Utilities.addFileFromFilePath({
-              buckets,
-              bucketKey,
-              filePath: "./public/static/cube_000.jpg",
-            }),
-            await Utilities.addFileFromFilePath({
-              buckets,
-              bucketKey,
-              filePath: "./public/static/cube_f7f7f7.jpg",
-            }),
-          ],
+          children: [],
         },
       ],
     },
@@ -83,18 +74,18 @@ export default async (req, res) => {
 
   if (!user) {
     return res
-      .status(200)
+      .status(500)
       .json({ decorator: "SERVER_USER_CREATE", error: true });
   }
 
   if (user.error) {
     return res
-      .status(200)
+      .status(500)
       .json({ decorator: "SERVER_USER_CREATE", error: true });
   }
 
   return res.status(200).json({
     decorator: "SERVER_USER_CREATE",
-    user: { username: user.username },
+    user: { username: user.username, id: user.id },
   });
 };

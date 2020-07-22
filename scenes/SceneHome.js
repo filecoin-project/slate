@@ -65,11 +65,12 @@ export default class SceneHome extends React.Component {
                 value: this.props.viewer.library[0].folderId,
               },
               {
-                name: "Store file on network",
+                name: "Upload to IPFS",
                 type: "SIDEBAR",
                 value: "SIDEBAR_FILE_STORAGE_DEAL",
               },
-            ]}>
+            ]}
+          >
             <System.Table
               data={{
                 columns: [
@@ -85,11 +86,13 @@ export default class SceneHome extends React.Component {
                     name: "Date uploaded",
                     width: "160px",
                     type: "FILE_DATE",
+                    tooltip:
+                      "This date represents when the file was first uploaded to IPFS.",
                   },
                   {
-                    key: "storage_status",
-                    name: "Status",
-                    type: "DEAL_STATUS",
+                    key: "network",
+                    name: "Network",
+                    type: "NETWORK_TYPE",
                   },
                 ],
                 rows: this.props.viewer.library[0].children,
@@ -114,7 +117,8 @@ export default class SceneHome extends React.Component {
                 type: "NAVIGATE",
                 value: 2,
               },
-            ]}>
+            ]}
+          >
             <System.Table
               data={{
                 columns: [

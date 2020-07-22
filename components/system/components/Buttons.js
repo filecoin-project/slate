@@ -62,7 +62,22 @@ export const ButtonPrimary = (props) => {
     return <label css={STYLES_BUTTON_PRIMARY} {...props} />;
   }
 
-  return <button css={STYLES_BUTTON_PRIMARY} {...props} />;
+  if (props.loading) {
+    return (
+      <button css={STYLES_BUTTON_PRIMARY} style={props.style}>
+        <LoaderSpinner style={{ height: 16, width: 16 }} />
+      </button>
+    );
+  }
+
+  return (
+    <button
+      css={STYLES_BUTTON_PRIMARY}
+      style={props.style}
+      onClick={props.onClick}
+      children={props.children}
+    />
+  );
 };
 
 const STYLES_BUTTON_PRIMARY_FULL = css`

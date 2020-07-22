@@ -163,7 +163,7 @@ export default class ApplicationHeader extends React.Component {
             style={{ marginLeft: 12 }}
             onClick={() => {}}
             size={32}
-            url={this.props.viewer.photoURL}
+            url={this.props.viewer.data.photo}
             popover={
               <System.PopoverNavigation
                 style={{ right: 0, top: "48px", cursor: "pointer" }}

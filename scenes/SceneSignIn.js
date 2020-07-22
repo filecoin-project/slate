@@ -2,8 +2,16 @@ import * as React from "react";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
+
+const delay = (time) =>
+  new Promise((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, time)
+  );
 
 const STYLES_PAGE = css`
   display: flex;
@@ -62,12 +70,31 @@ export default class SceneSignIn extends React.Component {
   _handleSubmit = async () => {
     this.setState({ loading: true });
 
+    await delay(100);
+
     // TODO(jim):
-    // Error handling
-    // Proper integration
-    // Actually create an account...
-    const response = await this.props.onAuthenticate();
+    // Lets add some proper error messages here.
+    if (Strings.isEmpty(this.state.username)) {
+      alert("TODO: No username");
+      return;
+    }
+
+    if (Strings.isEmpty(this.state.password)) {
+      alert("TODO: No password");
+      return;
+    }
+
+    const response = await this.props.onAuthenticate({
+      username: this.state.username,
+      password: this.state.password,
+    });
+
     console.log(response);
+
+    if (!response || response.error) {
+      alert("TODO: Failed to authenticate message.");
+      return;
+    }
 
     return this.props.onNavigateTo({ id: 1 });
   };

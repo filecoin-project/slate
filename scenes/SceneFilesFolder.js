@@ -16,6 +16,7 @@ export default class SceneFilesFolder extends React.Component {
   };
 
   render() {
+    console.log(this.props.data.children);
     let rows = [];
     if (this.props.data.children) {
       rows = [...this.props.data.children];
@@ -30,13 +31,14 @@ export default class SceneFilesFolder extends React.Component {
           key: "date",
           name: "Date uploaded",
           width: "160px",
-          tooltip: "This date represents when the file was first uploaded to the network.",
+          tooltip:
+            "This date represents when the file was first uploaded to IPFS.",
           type: "FILE_DATE",
         },
         {
-          key: "storage_status",
-          name: "Status",
-          type: "DEAL_STATUS",
+          key: "network",
+          name: "Network",
+          type: "NETWORK_TYPE",
         },
       ],
       rows,
@@ -50,11 +52,12 @@ export default class SceneFilesFolder extends React.Component {
           title={this.props.data.name}
           buttons={[
             {
-              name: "Store file on network",
+              name: "Upload to IPFS",
               type: "SIDEBAR",
               value: "SIDEBAR_FILE_STORAGE_DEAL",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             key={this.props.data.folderId}
             data={data}

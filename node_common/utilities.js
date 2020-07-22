@@ -1,8 +1,10 @@
 import * as Environment from "~/node_common/environment";
 import * as Constants from "./constants";
 import * as Converter from "~/vendor/bytes-base64-converter.js";
+import * as Strings from "~/common/strings";
 
 import FS from "fs-extra";
+import JWT from "jsonwebtoken";
 
 import { Buckets } from "@textile/hub";
 import { Libp2pCryptoIdentity } from "@textile/threads-core";
@@ -14,6 +16,27 @@ const TEXTILE_KEY_INFO = {
   secret: Environment.TEXTILE_HUB_SECRET,
 };
 
+export const getIdFromCookie = (req) => {
+  let id;
+  if (!Strings.isEmpty(req.headers.cookie)) {
+    const token = req.headers.cookie.replace(
+      /(?:(?:^|.*;\s*)WEB_SERVICE_SESSION_KEY\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+
+    if (!Strings.isEmpty(token)) {
+      try {
+        const decoded = JWT.verify(token, Environment.JWT_SECRET);
+        id = decoded.id;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
+
+  return id;
+};
+
 export const parseAuthHeader = (value) => {
   if (typeof value !== "string") {
     return null;
@@ -21,6 +44,11 @@ export const parseAuthHeader = (value) => {
 
   var matches = value.match(/(\S+)\s+(\S+)/);
   return matches && { scheme: matches[1], value: matches[2] };
+};
+
+export const getBucketsAPI = async () => {
+  const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
+  return { buckets };
 };
 
 // NOTE(jim): Requires @textile/hub

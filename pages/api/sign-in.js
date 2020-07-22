@@ -1,14 +1,9 @@
 import * as Environment from "~/node_common/environment";
 import * as MW from "~/node_common/middleware";
 import * as Utilities from "~/node_common/utilities";
-import * as Constants from "~/node_common/constants";
-import * as Credentials from "~/common/credentials";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 
-import PG from "~/node_common/powergate";
-import FS from "fs-extra";
-import path from "path";
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
@@ -70,7 +65,7 @@ export default async (req, res) => {
   }
 
   const token = JWT.sign(
-    { user: user.id, username: user.username },
+    { id: user.id, username: user.username },
     Environment.JWT_SECRET
   );
 

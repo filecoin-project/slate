@@ -8,39 +8,7 @@ const REQUEST_HEADERS = {
   "Content-Type": "application/json",
 };
 
-export const setDefaultConfig = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
-    body: JSON.stringify(data),
-  };
-
-  const response = await fetch(`/_/settings`, options);
-  const json = await response.json();
-
-  return json;
-};
-
-export const createWalletAddress = async (data) => {
-  if (Strings.isEmpty(data.name)) {
-    return null;
-  }
-
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
-    body: JSON.stringify(data),
-  };
-
-  const response = await fetch(`/_/wallet/create`, options);
-  const json = await response.json();
-
-  return json;
-};
-
-export const sendWalletAddressFilecoin = async (data) => {
+export const sendFilecoin = async (data) => {
   if (Strings.isEmpty(data.source)) {
     return null;
   }
@@ -57,17 +25,28 @@ export const sendWalletAddressFilecoin = async (data) => {
     method: "POST",
     headers: REQUEST_HEADERS,
     credentials: "include",
-    body: JSON.stringify(data),
+    body: JSON.stringify({ data }),
   };
 
-  const response = await fetch(`/_/wallet/send`, options);
+  const response = await fetch(`/api/addresses/send`, options);
   const json = await response.json();
 
   return json;
 };
 
-// NOTE(jim):
-// New WWW Requests.
+export const updateViewer = async (data) => {
+  const options = {
+    method: "POST",
+    headers: REQUEST_HEADERS,
+    credentials: "include",
+    body: JSON.stringify(data),
+  };
+
+  const response = await fetch(`/api/users/update`, options);
+  const json = await response.json();
+
+  return json;
+};
 
 export const signIn = async (data) => {
   const options = {
@@ -83,12 +62,11 @@ export const signIn = async (data) => {
   return json;
 };
 
-export const hydrateAuthenticatedUser = async (data) => {
+export const hydrateAuthenticatedUser = async () => {
   const options = {
     method: "POST",
     headers: REQUEST_HEADERS,
     credentials: "include",
-    body: JSON.stringify({ data }),
   };
 
   const response = await fetch(`/api/hydrate`, options);
@@ -97,12 +75,11 @@ export const hydrateAuthenticatedUser = async (data) => {
   return json;
 };
 
-export const deleteUser = async (data) => {
+export const deleteViewer = async () => {
   const options = {
     method: "DELETE",
     headers: REQUEST_HEADERS,
     credentials: "include",
-    body: JSON.stringify({ data }),
   };
 
   const response = await fetch(`/api/users/delete`, options);

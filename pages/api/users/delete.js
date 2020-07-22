@@ -1,11 +1,16 @@
 import * as Environment from "~/node_common/environment";
 import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
+import * as Utilities from "~/node_common/utilities";
+import * as Strings from "~/common/strings";
 
 import { Buckets } from "@textile/hub";
 import { Libp2pCryptoIdentity } from "@textile/threads-core";
 
+import JWT from "jsonwebtoken";
+
 const initCORS = MW.init(MW.CORS);
+const initAuth = MW.init(MW.RequireCookieAuthentication);
 
 const TEXTILE_KEY_INFO = {
   key: Environment.TEXTILE_HUB_KEY,
@@ -14,9 +19,17 @@ const TEXTILE_KEY_INFO = {
 
 export default async (req, res) => {
   initCORS(req, res);
+  initAuth(req, res);
 
-  const user = await Data.getUserByUsername({
-    username: req.body.data.username,
+  const id = Utilities.getIdFromCookie(req);
+  if (!id) {
+    return res
+      .status(500)
+      .json({ decorator: "SERVER_USER_DELETE", error: true });
+  }
+
+  const user = await Data.getUserById({
+    id,
   });
 
   if (!user) {
@@ -44,7 +57,7 @@ export default async (req, res) => {
   }
 
   const deleted = await Data.deleteUserByUsername({
-    username: req.body.data.username,
+    username: user.username,
   });
 
   if (!deleted) {

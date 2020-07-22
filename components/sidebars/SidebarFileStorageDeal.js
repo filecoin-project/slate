@@ -43,20 +43,6 @@ const STYLES_IMAGE_PREVIEW = css`
   margin-top: 48px;
 `;
 
-const SELECT_MENU_OPTIONS = [
-  { value: "1", name: "Anywhere" },
-  { value: "2", name: "China" },
-  { value: "3", name: "Russia" },
-  { value: "4", name: "USA" },
-];
-
-const SELECT_MENU_MAP = {
-  "1": "Anywhere",
-  "2": "China",
-  "3": "Russia",
-  "4": "USA",
-};
-
 export default class SidebarFileStorageDeal extends React.Component {
   state = {
     settings_cold_default_duration: this.props.viewer
@@ -78,6 +64,8 @@ export default class SidebarFileStorageDeal extends React.Component {
   };
 
   _handleMakeDeal = async (src) => {
+    // TODO(jim): Make powergate deal with IPFS CID.
+    /*
     const options = {
       method: "POST",
       credentials: "include",
@@ -91,6 +79,8 @@ export default class SidebarFileStorageDeal extends React.Component {
     const response = await fetch("/_/deals/storage", options);
     const json = await response.json();
     return json;
+    */
+    alert("TODO: Add back storage deals");
   };
 
   _handleSubmit = async (e) => {
@@ -126,7 +116,7 @@ export default class SidebarFileStorageDeal extends React.Component {
         {this.props.file ? (
           <div>
             <img
-              src={`/public/static/files/${this.props.file.name}`}
+              src={`https://hub.textile.io${this.props.file.ipfs}`}
               css={STYLES_IMAGE_PREVIEW}
             />
 

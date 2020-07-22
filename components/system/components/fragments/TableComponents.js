@@ -32,6 +32,8 @@ const RETRIEVAL_DEAL_STATES = {
 
 const COMPONENTS_ICON = {
   PNG: <SVG.FileImage height="24px" />,
+  ["image/png"]: <SVG.FileImage height="24px" />,
+  ["image/jpeg"]: <SVG.FileImage height="24px" />,
   FOLDER: <OldSVG.Folder height="24px" />,
 };
 
@@ -191,8 +193,6 @@ export const TableContent = ({
       return (
         <React.Fragment>{text == 1 ? "Storage" : "Retrieval"}</React.Fragment>
       );
-    case "LOCATION":
-      return "United States";
     case "BUTTON":
       return (
         <span
@@ -209,7 +209,8 @@ export const TableContent = ({
     case "OBJECT_TYPE":
       return COMPONENTS_OBJECT_TYPE(text);
     case "ICON":
-      return COMPONENTS_ICON[text];
+      const icon = COMPONENTS_ICON[text.toLowerCase()];
+      return icon ? icon : COMPONENTS_ICON["PNG"];
     case "AVATAR":
       return <Avatar url={text} size={40} online={online} />;
     case "DEAL_DIRECTION":
@@ -263,6 +264,15 @@ export const TableContent = ({
           style={{ background: Constants.system.red }}
         >
           {text} {Strings.pluralize("error", text)}
+        </span>
+      );
+    case "NETWORK_TYPE":
+      return (
+        <span
+          css={STYLES_TABLE_TAG}
+          style={{ background: Constants.system.brand }}
+        >
+          IPFS
         </span>
       );
     case "FILE_DATE":

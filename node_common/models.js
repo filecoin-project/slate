@@ -3,9 +3,9 @@ import * as Data from "~/node_common/data";
 
 import PG from "~/node_common/powergate";
 
-export const getViewer = async ({ username }) => {
-  const user = await Data.getUserByUsername({
-    username,
+export const getViewer = async ({ id }) => {
+  const user = await Data.getUserById({
+    id,
   });
 
   if (!user) {
@@ -16,40 +16,46 @@ export const getViewer = async ({ username }) => {
     return null;
   }
 
-  const {
-    buckets,
-    bucketKey,
-    bucketName,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+  let data = null;
 
-  let data = {
-    id: user.id,
-    data: user.data,
-    peersList: null,
-    messageList: null,
-    status: null,
-    addrsList: null,
-    info: null,
-    state: null,
-    local: {
-      photo: null,
-      name: `node`,
-      settings_deals_auto_approve: false,
-    },
-    library: user.data.library,
-  };
+  // NOTE(jim): Essential for getting the right Powergate data for a user.
+  try {
+    PG.setToken(user.data.tokens.pg);
 
-  PG.setToken(user.data.tokens.pg);
+    const {
+      buckets,
+      bucketKey,
+      bucketName,
+    } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
-  const updates = await Utilities.refresh({ PG });
-  const updatesWithToken = await Utilities.refreshWithToken({
-    PG,
-  });
+    data = {
+      id: user.id,
+      data: { photo: user.data.photo },
+      settings: {
+        deals_auto_approve: user.data.settings_deals_auto_approve,
+      },
+      username: user.username,
+      library: user.data.library,
+      peersList: null,
+      messageList: null,
+      status: null,
+      addrsList: null,
+      info: null,
+    };
 
-  data = await Utilities.updateStateData(data, {
-    ...updates,
-    ...updatesWithToken,
-  });
+    const updates = await Utilities.refresh({ PG });
+    const updatesWithToken = await Utilities.refreshWithToken({
+      PG,
+    });
+
+    data = await Utilities.updateStateData(data, {
+      ...updates,
+      ...updatesWithToken,
+    });
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 
   return data;
 };

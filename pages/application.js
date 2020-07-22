@@ -80,11 +80,11 @@ export default class ApplicationPage extends React.Component {
   _socket = null;
 
   state = {
+    selected: State.getSelectedState(this.props.viewer),
+    viewer: State.getInitialState(this.props.viewer),
     history: [{ id: 1, scrollTop: 0 }],
     currentIndex: 0,
     data: null,
-    selected: State.getSelectedState(this.props.viewer),
-    viewer: State.getInitialState(this.props.viewer),
     sidebar: null,
     file: null,
   };
@@ -115,12 +115,14 @@ export default class ApplicationPage extends React.Component {
       body: data,
     };
 
-    const response = await fetch(`/_/storage/${file.name}`, options);
+    const response = await fetch(`/api/data/${file.name}`, options);
     const json = await response.json();
 
-    if (json && json.success) {
-      this.setState({ file });
+    if (json && json.data) {
+      this.setState({ file: json.data });
     }
+
+    await this.rehydrate();
   };
 
   _handleDragEnter = (e) => {
@@ -155,8 +157,18 @@ export default class ApplicationPage extends React.Component {
     this._handleAction({ type: "SIDEBAR", value: "SIDEBAR_FILE_STORAGE_DEAL" });
   };
 
-  rehydrate = async ({ data }) => {
-    this.setState({ viewer: { ...State.getInitialState(data) } });
+  rehydrate = async () => {
+    const response = await Actions.hydrateAuthenticatedUser();
+    console.log(response);
+
+    if (!response || response.error) {
+      return null;
+    }
+
+    this.setState({
+      viewer: State.getInitialState(response.data),
+      selected: State.getSelectedState(response.data),
+    });
   };
 
   _handleSubmit = async (data) => {
@@ -166,20 +178,25 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (data.type === "CREATE_WALLET_ADDRESS") {
-      const address = await Actions.createWalletAddress({
-        name: data.name,
-        type: data.wallet_type,
-        makeDefault: data.makeDefault,
+      const address = await Actions.updateViewer({
+        type: "CREATE_FILECOIN_ADDRESS",
+        address: {
+          name: data.name,
+          type: data.wallet_type,
+          makeDefault: data.makeDefault,
+        },
       });
     }
 
     if (data.type === "SEND_WALLET_ADDRESS_FILECOIN") {
-      const response = await Actions.sendWalletAddressFilecoin({
+      const response = await Actions.sendFilecoin({
         source: data.source,
         target: data.target,
         amount: data.amount,
       });
     }
+
+    await this.rehydrate();
 
     this._handleDismissSidebar();
   };
@@ -188,35 +205,38 @@ export default class ApplicationPage extends React.Component {
     this._handleDismissSidebar();
   };
 
-  _handleAuthenticate = async (state) => {
-    let response = await Actions.deleteUser({
-      username: "test",
-    });
-
-    console.log(response);
-
-    response = await Actions.createUser({
-      email: "test@test.com",
-      password: "test",
-      username: "test",
-    });
-
-    if (response.error) {
-      console.log("Could not create a new user");
-      return null;
+  _handleDeleteYourself = async () => {
+    // TODO(jim):
+    // Put this somewhere better for messages.
+    const message =
+      "Do you really want to delete your account? It will be permanently removed";
+    if (!window.confirm(message)) {
+      return false;
     }
 
+    let response = await Actions.deleteViewer();
     console.log(response);
 
-    response = await Actions.signIn({
-      username: "test",
-      password: "test",
-    });
+    await this._handleSignOut();
+  };
 
+  _handleAuthenticate = async (state) => {
+    // NOTE(jim): Kills existing session cookie if there is one.
+    const jwt = cookies.get(Credentials.session.key);
+
+    if (jwt) {
+      cookies.remove(Credentials.session.key);
+    }
+
+    // NOTE(jim): Acts as our existing username exists check.
+    // If the user exists, move on the sign in anyways.
+    let response = await Actions.createUser(state);
+    console.log(response);
+
+    response = await Actions.signIn(state);
     console.log(response);
 
     if (response.error) {
-      console.log("authentication error");
       return null;
     }
 
@@ -224,21 +244,9 @@ export default class ApplicationPage extends React.Component {
       cookies.set(Credentials.session.key, response.token);
     }
 
-    response = await Actions.hydrateAuthenticatedUser({
-      username: "test",
-    });
+    await this.rehydrate();
 
-    console.log(response);
-
-    if (!response || response.error) {
-      console.log("You probably needed to be authenticated.");
-      return null;
-    }
-
-    this.setState({
-      viewer: State.getInitialState(response.data),
-      selected: State.getSelectedState(response.data),
-    });
+    return true;
   };
 
   _handleSignOut = () => {
@@ -287,6 +295,12 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleNavigateTo = (next, data = {}) => {
+    // TODO(jim): Refactor this hack for profile pages.
+    if (next.id === 5) {
+      window.open(`/@${this.state.viewer.username}`);
+      return;
+    }
+
     this.state.history[this.state.currentIndex].scrollTop = window.scrollY;
 
     if (this.state.currentIndex !== this.state.history.length - 1) {
@@ -435,9 +449,11 @@ export default class ApplicationPage extends React.Component {
       onNavigateTo: this._handleNavigateTo,
       onSelectedChange: this._handleSelectedChange,
       onViewerChange: this._handleViewerChange,
+      onDeleteYourself: this._handleDeleteYourself,
       onAction: this._handleAction,
       onBack: this._handleBack,
       onForward: this._handleForward,
+      onRehydrate: this.rehydrate,
     });
 
     let sidebarElement;
@@ -450,10 +466,11 @@ export default class ApplicationPage extends React.Component {
         onSubmit: this._handleSubmit,
         onCancel: this._handleCancel,
         onSetFile: this._handleSetFile,
+        onRehydrate: this.rehydrate,
       });
     }
 
-    const title = `Prototype 0.0.1 : ${current.target.pageTitle}`;
+    const title = `Slate : ${current.target.pageTitle}`;
     const description = "This is an early preview.";
     const url = "https://fps.onrender.com/v1";
 

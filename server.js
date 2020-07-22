@@ -1,7 +1,9 @@
 import * as Environment from "~/node_common/environment";
 import * as Strings from "./common/strings";
 import * as Constants from "./node_common/constants";
-import * as Models from "./node_common/models";
+import * as Data from "~/node_common/data";
+import * as Models from "~/node_common/models";
+import * as Utilities from "~/node_common/utilities";
 
 import express from "express";
 import next from "next";
@@ -24,29 +26,42 @@ app.prepare().then(async () => {
   server.use("/public", express.static("public"));
 
   server.get("/application", async (req, res) => {
+    const username = Utilities.getUserFromCookie(req);
+
     let viewer = null;
-
-    if (!Strings.isEmpty(req.headers.cookie)) {
-      const token = req.headers.cookie.replace(
-        /(?:(?:^|.*;\s*)WEB_SERVICE_SESSION_KEY\s*\=\s*([^;]*).*$)|^.*$/,
-        "$1"
-      );
-
-      if (!Strings.isEmpty(token)) {
-        try {
-          const decoded = JWT.verify(token, Environment.JWT_SECRET);
-
-          if (decoded.username) {
-            viewer = await Models.getViewer({ username: decoded.username });
-          }
-        } catch (e) {}
-      }
+    if (username) {
+      viewer = await Models.getViewer({
+        username,
+      });
     }
 
     return app.render(req, res, "/application", {
       wsPort: null,
       production: Environment.IS_PRODUCTION_WEB,
       viewer,
+    });
+  });
+
+  server.get("/@:username", async (req, res) => {
+    const username = Utilities.getUserFromCookie(req);
+
+    let viewer = null;
+    if (username) {
+      viewer = await Models.getViewer({
+        username,
+      });
+    }
+
+    const creator = await Data.getUserByUsername({
+      username: req.params.username,
+    });
+
+    return app.render(req, res, "/profile", {
+      viewer,
+      creator: {
+        username: creator.username,
+        data: { photo: creator.data.photo },
+      },
     });
   });
 

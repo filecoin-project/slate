@@ -16,41 +16,46 @@ export const getViewer = async ({ username }) => {
     return null;
   }
 
+  let data = null;
+
   // NOTE(jim): Essential for getting the right Powergate data for a user.
-  PG.setToken(user.data.tokens.pg);
+  try {
+    PG.setToken(user.data.tokens.pg);
 
-  const {
-    buckets,
-    bucketKey,
-    bucketName,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+    const {
+      buckets,
+      bucketKey,
+      bucketName,
+    } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
-  let data = {
-    id: user.id,
-    data: user.data,
-    peersList: null,
-    messageList: null,
-    status: null,
-    addrsList: null,
-    info: null,
-    state: null,
-    local: {
-      photo: null,
-      name: `node`,
-      settings_deals_auto_approve: false,
-    },
-    library: user.data.library,
-  };
+    data = {
+      id: user.id,
+      data: { photo: user.data.photo },
+      settings: {
+        deals_auto_approve: user.data.settings_deals_auto_approve,
+      },
+      username: user.username,
+      library: user.data.library,
+      peersList: null,
+      messageList: null,
+      status: null,
+      addrsList: null,
+      info: null,
+    };
 
-  const updates = await Utilities.refresh({ PG });
-  const updatesWithToken = await Utilities.refreshWithToken({
-    PG,
-  });
+    const updates = await Utilities.refresh({ PG });
+    const updatesWithToken = await Utilities.refreshWithToken({
+      PG,
+    });
 
-  data = await Utilities.updateStateData(data, {
-    ...updates,
-    ...updatesWithToken,
-  });
+    data = await Utilities.updateStateData(data, {
+      ...updates,
+      ...updatesWithToken,
+    });
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 
   return data;
 };

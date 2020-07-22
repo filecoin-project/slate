@@ -25,9 +25,12 @@ const delay = (time) =>
   );
 
 export default class SceneEditAccount extends React.Component {
-  state = { name: this.props.viewer.name, deleting: false };
+  state = { username: this.props.viewer.username, deleting: false };
 
   _handleUpload = async (e) => {
+    // TODO(jim):
+    // Rewrite
+    /*
     e.persist();
     let file = e.target.files[0];
 
@@ -47,9 +50,13 @@ export default class SceneEditAccount extends React.Component {
     };
 
     await fetch(`/_/upload/avatar`, options);
+    */
   };
 
   _handleSave = async (e) => {
+    // TODO(jim):
+    // Rewrite
+    /*
     const options = {
       method: "POST",
       headers: {
@@ -61,6 +68,7 @@ export default class SceneEditAccount extends React.Component {
     };
 
     await fetch(`/_/local-settings`, options);
+    */
   };
 
   _handleDelete = async (e) => {
@@ -80,8 +88,6 @@ export default class SceneEditAccount extends React.Component {
   };
 
   render() {
-    console.log(this.state.deleting);
-
     return (
       <ScenePage>
         <System.H1>Account</System.H1>
@@ -95,7 +101,7 @@ export default class SceneEditAccount extends React.Component {
         <Avatar
           style={{ marginTop: 24 }}
           size={256}
-          url={this.props.viewer.photoURL}
+          url={this.props.viewer.photo}
         />
 
         <div style={{ marginTop: 24 }}>
@@ -116,10 +122,12 @@ export default class SceneEditAccount extends React.Component {
 
         <System.Input
           containerStyle={{ marginTop: 48 }}
-          label="Name"
-          description="The name of your Filecoin Client can be seen by your peers."
-          name="name"
-          value={this.state.name}
+          label="Username"
+          description={`This is your username on Slate. Your username is used for your profile URL https://slate.host/@${
+            this.state.username
+          }`}
+          name="username"
+          value={this.state.username}
           placeholder="Name"
           onChange={this._handleChange}
         />

@@ -23,11 +23,12 @@ const STYLES_DESCRIPTION_GROUP_DESCRIPTION = css`
   font-family: ${Constants.font.text};
   font-size: 14px;
   margin-bottom: 12px;
-  line-height: 1.3;
+  line-height: 1.5;
   display: block;
   width: 100%;
   white-space: pre-wrap;
   overflow-wrap: break-word;
+  max-width: 480px;
 `;
 
 export const DescriptionGroup = (props) => {

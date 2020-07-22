@@ -80,11 +80,11 @@ export default class ApplicationPage extends React.Component {
   _socket = null;
 
   state = {
+    selected: State.getSelectedState(this.props.viewer),
+    viewer: State.getInitialState(this.props.viewer),
     history: [{ id: 1, scrollTop: 0 }],
     currentIndex: 0,
     data: null,
-    selected: State.getSelectedState(this.props.viewer),
-    viewer: State.getInitialState(this.props.viewer),
     sidebar: null,
     file: null,
   };
@@ -291,6 +291,12 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleNavigateTo = (next, data = {}) => {
+    // TODO(jim): Refactor this hack for profile pages.
+    if (next.id === 5) {
+      window.open(`/@${this.state.viewer.username}`);
+      return;
+    }
+
     this.state.history[this.state.currentIndex].scrollTop = window.scrollY;
 
     if (this.state.currentIndex !== this.state.history.length - 1) {
@@ -458,7 +464,7 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
-    const title = `Prototype 0.0.1 : ${current.target.pageTitle}`;
+    const title = `Slate : ${current.target.pageTitle}`;
     const description = "This is an early preview.";
     const url = "https://fps.onrender.com/v1";
 

@@ -35,6 +35,7 @@ const ICONS = [
   <SVG.Plus height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <SVG.CheckBox height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.Slates height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <OldSVG.ProfileUser height={DEFAULT_SYSTEM_ICON_SIZE} />,
 ];
 
 const STYLES_ICON = css`

@@ -34,9 +34,6 @@ export const sendFilecoin = async (data) => {
   return json;
 };
 
-// NOTE(jim):
-// New WWW Requests.
-// Powergate 0.2.0
 export const updateViewer = async (data) => {
   const options = {
     method: "POST",

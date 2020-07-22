@@ -4,8 +4,8 @@ export default async ({ id, data }) => {
   return await runQuery({
     label: "UPDATE_USER_BY_ID",
     queryFn: async (DB) => {
-      const data = await DB.from("users")
-        .where("id", o.id)
+      const response = await DB.from("users")
+        .where("id", id)
         .update({
           data: {
             ...data,
@@ -13,7 +13,7 @@ export default async ({ id, data }) => {
         })
         .returning("*");
 
-      const index = data ? data.pop() : null;
+      const index = response ? response.pop() : null;
       return index;
     },
     errorFn: async (e) => {

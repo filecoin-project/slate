@@ -43,15 +43,7 @@ export const getSelectedState = (props) => {
     return null;
   }
 
-  const {
-    status,
-    messageList,
-    peersList,
-    addrsList,
-    info,
-    library,
-    local,
-  } = props;
+  const { info } = props;
 
   if (!info || !info.id) {
     return {
@@ -76,31 +68,23 @@ export const getInitialState = (props) => {
     addrsList,
     info,
     library,
-    local,
+    data,
+    settings,
+    username,
   } = props;
 
-  if (!info || !info.id) {
-    return {
-      id: null,
-      notifications: [],
-      payment_channels_active: [],
-      payment_channels_redeemed: [],
-      data_transfers: [],
-      peers: [],
-      deals: [],
-      addresses: [],
-      library: [],
-    };
-  }
+  console.log({ getInitialState: props });
 
   return {
     id: info.id,
-    name: local.name,
-    photoURL: local.photo,
+    username,
+    data: {
+      photo: data.photo,
+    },
     upload_bandwidth: 0,
     download_bandwidth: 0,
 
-    settings_deals_auto_approve: local.settings_deals_auto_approve,
+    settings_deals_auto_approve: settings.deals_auto_approve,
 
     settings_hot_enabled: info.defaultStorageConfig.hot.enabled,
     settings_hot_allow_unfreeze: info.defaultStorageConfig.hot.allowUnfreeze,

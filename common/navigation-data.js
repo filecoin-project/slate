@@ -42,6 +42,13 @@ export const generate = (library) => [
     children: [],
   },
   {
+    id: 5,
+    name: "Profile",
+    pageTitle: "Your local data",
+    decorator: "PROFILE_PAGE",
+    children: [],
+  },
+  {
     id: 13,
     name: "Edit account",
     pageTitle: "your account",

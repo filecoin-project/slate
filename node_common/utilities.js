@@ -24,11 +24,15 @@ export const getUserFromCookie = (req) => {
       "$1"
     );
 
+    console.log({ token });
+
     if (!Strings.isEmpty(token)) {
       try {
         const decoded = JWT.verify(token, Environment.JWT_SECRET);
         username = decoded.username;
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 

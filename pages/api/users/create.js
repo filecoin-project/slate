@@ -60,6 +60,8 @@ export default async (req, res) => {
     salt,
     username: req.body.data.username,
     data: {
+      photo: null,
+      settings_deals_auto_approve: false,
       tokens: { pg, api },
       // TODO(jim):
       // Get rid of this after the refactor.

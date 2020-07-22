@@ -36,6 +36,13 @@ export default async (req, res) => {
       .json({ decorator: "SERVER_USER_UPDATE", error: true });
   }
 
+  if (req.body.data) {
+    const response = await Data.updateUserById({
+      id: user.id,
+      data: { ...user.data, ...req.body.data },
+    });
+  }
+
   // TODO(jim): POWERGATE_ISSUE 0.2.0
   // Should work when our hosted Powergate works.
   if (req.body.type === "SET_DEFAULT_STORAGE_CONFIG") {

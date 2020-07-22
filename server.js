@@ -58,10 +58,12 @@ app.prepare().then(async () => {
 
     return app.render(req, res, "/profile", {
       viewer,
-      creator: {
-        username: creator.username,
-        data: { photo: creator.data.photo },
-      },
+      creator: creator
+        ? {
+            username: creator.username,
+            data: { photo: creator.data.photo },
+          }
+        : null,
     });
   });
 

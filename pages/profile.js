@@ -54,6 +54,10 @@ export default class ProfilePage extends React.Component {
   render() {
     console.log(this.props);
 
+    if (!this.props.creator) {
+      return null;
+    }
+
     const title = `@${this.props.creator.username}`;
     const description = "A user on Slate.";
     const url = `https://slate.host/${title}`;

@@ -19,6 +19,7 @@ const handler = app.getRequestHandler();
 
 app.prepare().then(async () => {
   const server = express();
+
   if (Environment.IS_PRODUCTION_WEB) {
     server.use(compression());
   }

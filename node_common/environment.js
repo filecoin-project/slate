@@ -1,9 +1,11 @@
-require("dotenv").config();
-
-export const NODE = process.env.NODE_ENV;
+export const NODE = process.env.NODE_ENV || "development";
 export const IS_PRODUCTION = NODE === "production" || NODE === "www";
 export const IS_PRODUCTION_WEB = NODE === "www";
 export const PORT = process.env.PORT || 1337;
+
+if (!IS_PRODUCTION_WEB) {
+  require("dotenv").config();
+}
 
 export const IS_LOCAL_WEB = !IS_PRODUCTION;
 export const POSTGRES_ADMIN_PASSWORD = process.env.POSTGRES_ADMIN_PASSWORD;

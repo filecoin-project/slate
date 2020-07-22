@@ -34,11 +34,6 @@ const createUsersTable = db.schema.createTable("users", function(table) {
   table
     .string("username")
     .unique()
-    .nullable();
-
-  table
-    .string("email")
-    .unique()
     .notNullable();
 
   table.string("password").nullable();

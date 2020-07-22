@@ -188,35 +188,38 @@ export default class ApplicationPage extends React.Component {
     this._handleDismissSidebar();
   };
 
-  _handleAuthenticate = async (state) => {
-    let response = await Actions.deleteUser({
-      username: "test",
-    });
-
-    console.log(response);
-
-    response = await Actions.createUser({
-      email: "test@test.com",
-      password: "test",
-      username: "test",
-    });
-
-    if (response.error) {
-      console.log("Could not create a new user");
-      return null;
+  _handleDeleteYourself = async () => {
+    // TODO(jim):
+    // Put this somewhere better for messages.
+    const message =
+      "Do you really want to delete your account? It will be permanently removed";
+    if (!window.confirm(message)) {
+      return false;
     }
 
+    let response = await Actions.deleteViewer();
     console.log(response);
 
-    response = await Actions.signIn({
-      username: "test",
-      password: "test",
-    });
+    await this._handleSignOut();
+  };
 
+  _handleAuthenticate = async (state) => {
+    // NOTE(jim): Kills existing session cookie if there is one.
+    const jwt = cookies.get(Credentials.session.key);
+
+    if (jwt) {
+      cookies.remove(Credentials.session.key);
+    }
+
+    // NOTE(jim): Acts as our existing username exists check.
+    // If the user exists, move on the sign in anyways.
+    let response = await Actions.createUser(state);
+    console.log(response);
+
+    response = await Actions.signIn(state);
     console.log(response);
 
     if (response.error) {
-      console.log("authentication error");
       return null;
     }
 
@@ -224,14 +227,10 @@ export default class ApplicationPage extends React.Component {
       cookies.set(Credentials.session.key, response.token);
     }
 
-    response = await Actions.hydrateAuthenticatedUser({
-      username: "test",
-    });
-
+    response = await Actions.hydrateAuthenticatedUser();
     console.log(response);
 
     if (!response || response.error) {
-      console.log("You probably needed to be authenticated.");
       return null;
     }
 
@@ -239,6 +238,8 @@ export default class ApplicationPage extends React.Component {
       viewer: State.getInitialState(response.data),
       selected: State.getSelectedState(response.data),
     });
+
+    return true;
   };
 
   _handleSignOut = () => {
@@ -435,6 +436,7 @@ export default class ApplicationPage extends React.Component {
       onNavigateTo: this._handleNavigateTo,
       onSelectedChange: this._handleSelectedChange,
       onViewerChange: this._handleViewerChange,
+      onDeleteYourself: this._handleDeleteYourself,
       onAction: this._handleAction,
       onBack: this._handleBack,
       onForward: this._handleForward,

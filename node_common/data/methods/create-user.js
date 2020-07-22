@@ -1,11 +1,10 @@
 import { runQuery } from "~/node_common/data/utilities";
 
-export default async ({ email, password, username, salt, data = {} }) => {
+export default async ({ password, username, salt, data = {} }) => {
   return await runQuery({
     label: "CREATE_USER",
     queryFn: async (DB) => {
       const query = await DB.insert({
-        email,
         password,
         salt,
         data,

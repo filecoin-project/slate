@@ -16,6 +16,9 @@ export const getViewer = async ({ username }) => {
     return null;
   }
 
+  // NOTE(jim): Essential for getting the right Powergate data for a user.
+  PG.setToken(user.data.tokens.pg);
+
   const {
     buckets,
     bucketKey,
@@ -38,8 +41,6 @@ export const getViewer = async ({ username }) => {
     },
     library: user.data.library,
   };
-
-  PG.setToken(user.data.tokens.pg);
 
   const updates = await Utilities.refresh({ PG });
   const updatesWithToken = await Utilities.refreshWithToken({

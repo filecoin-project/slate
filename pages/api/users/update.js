@@ -1,4 +1,7 @@
 import * as MW from "~/node_common/middleware";
+import * as Data from "~/node_common/data";
+import * as Utilities from "~/node_common/utilities";
+import * as Strings from "~/common/strings";
 
 import DB from "~/node_common/database";
 import PG from "~/node_common/powergate";
@@ -10,9 +13,33 @@ export default async (req, res) => {
   initCORS(req, res);
   initAuth(req, res);
 
+  const username = Utilities.getUserFromCookie(req);
+  if (!username) {
+    return res
+      .status(500)
+      .json({ decorator: "SERVER_USER_UPDATE", error: true });
+  }
+
+  const user = await Data.getUserByUsername({
+    username,
+  });
+
+  if (!user) {
+    return res
+      .status(200)
+      .json({ decorator: "SERVER_USER_UPDATE", error: true });
+  }
+
+  if (user.error) {
+    return res
+      .status(200)
+      .json({ decorator: "SERVER_USER_UPDATE", error: true });
+  }
+
   // TODO(jim): POWERGATE_ISSUE
   // Should work when our hosted Powergate works.
   if (req.body.type === "SET_DEFAULT_STORAGE_CONFIG") {
+    PG.setToken(user.data.tokens.pg);
     let data;
     try {
       data = await PG.ffs.setDefaultStorageConfig(req.body.config);

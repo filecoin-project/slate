@@ -1,8 +1,10 @@
 import * as Environment from "~/node_common/environment";
 import * as Constants from "./constants";
 import * as Converter from "~/vendor/bytes-base64-converter.js";
+import * as Strings from "~/common/strings";
 
 import FS from "fs-extra";
+import JWT from "jsonwebtoken";
 
 import { Buckets } from "@textile/hub";
 import { Libp2pCryptoIdentity } from "@textile/threads-core";
@@ -12,6 +14,25 @@ const BUCKET_NAME = "data";
 const TEXTILE_KEY_INFO = {
   key: Environment.TEXTILE_HUB_KEY,
   secret: Environment.TEXTILE_HUB_SECRET,
+};
+
+export const getUserFromCookie = (req) => {
+  let username;
+  if (!Strings.isEmpty(req.headers.cookie)) {
+    const token = req.headers.cookie.replace(
+      /(?:(?:^|.*;\s*)WEB_SERVICE_SESSION_KEY\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+
+    if (!Strings.isEmpty(token)) {
+      try {
+        const decoded = JWT.verify(token, Environment.JWT_SECRET);
+        username = decoded.username;
+      } catch (e) {}
+    }
+  }
+
+  return username;
 };
 
 export const parseAuthHeader = (value) => {

@@ -54,6 +54,7 @@ export const sendWalletAddressFilecoin = async (data) => {
 
 // NOTE(jim):
 // New WWW Requests.
+// Powergate 0.2.0
 export const updateViewer = async (data) => {
   const options = {
     method: "POST",
@@ -82,12 +83,11 @@ export const signIn = async (data) => {
   return json;
 };
 
-export const hydrateAuthenticatedUser = async (data) => {
+export const hydrateAuthenticatedUser = async () => {
   const options = {
     method: "POST",
     headers: REQUEST_HEADERS,
     credentials: "include",
-    body: JSON.stringify({ data }),
   };
 
   const response = await fetch(`/api/hydrate`, options);
@@ -96,12 +96,11 @@ export const hydrateAuthenticatedUser = async (data) => {
   return json;
 };
 
-export const deleteUser = async (data) => {
+export const deleteViewer = async () => {
   const options = {
     method: "DELETE",
     headers: REQUEST_HEADERS,
     credentials: "include",
-    body: JSON.stringify({ data }),
   };
 
   const response = await fetch(`/api/users/delete`, options);

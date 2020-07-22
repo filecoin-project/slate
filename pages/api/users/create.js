@@ -15,10 +15,18 @@ const initCORS = MW.init(MW.CORS);
 export default async (req, res) => {
   initCORS(req, res);
 
-  if (Strings.isEmpty(req.body.data.email)) {
+  const existing = await Data.getUserByUsername({
+    username: req.body.data.username,
+  });
+
+  if (existing) {
     return res
-      .status(500)
-      .send({ error: "An e-mail address was not provided." });
+      .status(403)
+      .json({ decorator: "SERVER_EXISTING_USER_ALREADY", error: true });
+  }
+
+  if (Strings.isEmpty(req.body.data.username)) {
+    return res.status(500).send({ error: "A username was not provided." });
   }
 
   if (Strings.isEmpty(req.body.data.password)) {
@@ -48,7 +56,6 @@ export default async (req, res) => {
   } = await Utilities.getBucketAPIFromUserToken(api);
 
   const user = await Data.createUser({
-    email: req.body.data.email,
     password: triple,
     salt,
     username: req.body.data.username,
@@ -83,13 +90,13 @@ export default async (req, res) => {
 
   if (!user) {
     return res
-      .status(200)
+      .status(500)
       .json({ decorator: "SERVER_USER_CREATE", error: true });
   }
 
   if (user.error) {
     return res
-      .status(200)
+      .status(500)
       .json({ decorator: "SERVER_USER_CREATE", error: true });
   }
 

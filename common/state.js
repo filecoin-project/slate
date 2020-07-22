@@ -73,8 +73,6 @@ export const getInitialState = (props) => {
     username,
   } = props;
 
-  console.log({ getInitialState: props });
-
   return {
     id: info.id,
     username,

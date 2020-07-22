@@ -24,8 +24,6 @@ export const getUserFromCookie = (req) => {
       "$1"
     );
 
-    console.log({ token });
-
     if (!Strings.isEmpty(token)) {
       try {
         const decoded = JWT.verify(token, Environment.JWT_SECRET);
@@ -82,10 +80,6 @@ export const refresh = async ({ PG }) => {
   const Peers = await PG.net.peers();
   const peersList = Peers.peersList ? Peers.peersList : null;
 
-  console.log({ status });
-  console.log({ messageList });
-  console.log({ peersList });
-
   return { peersList, messageList, status };
 };
 
@@ -96,9 +90,6 @@ export const refreshWithToken = async ({ PG }) => {
 
   const NetworkInfo = await PG.ffs.info();
   const info = NetworkInfo.info ? NetworkInfo.info : null;
-
-  console.log({ addrsList });
-  console.log({ info });
 
   return { addrsList, info };
 };

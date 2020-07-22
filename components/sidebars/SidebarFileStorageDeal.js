@@ -43,20 +43,6 @@ const STYLES_IMAGE_PREVIEW = css`
   margin-top: 48px;
 `;
 
-const SELECT_MENU_OPTIONS = [
-  { value: "1", name: "Anywhere" },
-  { value: "2", name: "China" },
-  { value: "3", name: "Russia" },
-  { value: "4", name: "USA" },
-];
-
-const SELECT_MENU_MAP = {
-  "1": "Anywhere",
-  "2": "China",
-  "3": "Russia",
-  "4": "USA",
-};
-
 export default class SidebarFileStorageDeal extends React.Component {
   state = {
     settings_cold_default_duration: this.props.viewer

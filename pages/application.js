@@ -115,7 +115,7 @@ export default class ApplicationPage extends React.Component {
       body: data,
     };
 
-    const response = await fetch(`/_/storage/${file.name}`, options);
+    const response = await fetch(`/api/data/${file.name}`, options);
     const json = await response.json();
 
     if (json && json.success) {

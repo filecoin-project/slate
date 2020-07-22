@@ -116,8 +116,11 @@ export default class SceneFile extends React.Component {
   };
 
   render() {
-    const fileName = this.props.file.file;
-    const fileURL = `data:image/png;base64,${this.props.file.file_data}`;
+    console.log(this.props.file);
+    const { file } = this.props;
+
+    const fileName = `${file.name}`;
+    const fileURL = ``;
 
     return (
       <div css={STYLES_FLEX}>

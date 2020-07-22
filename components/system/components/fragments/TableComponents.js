@@ -32,6 +32,7 @@ const RETRIEVAL_DEAL_STATES = {
 
 const COMPONENTS_ICON = {
   PNG: <SVG.FileImage height="24px" />,
+  ["image/png"]: <SVG.FileImage height="24px" />,
   FOLDER: <OldSVG.Folder height="24px" />,
 };
 

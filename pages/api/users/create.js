@@ -63,28 +63,10 @@ export default async (req, res) => {
       photo: null,
       settings_deals_auto_approve: false,
       tokens: { pg, api },
-      // TODO(jim):
-      // Get rid of this after the refactor.
       library: [
         {
           ...Utilities.createFolder({ id: bucketName, name: "Data" }),
-          children: [
-            await Utilities.addFileFromFilePath({
-              buckets,
-              bucketKey,
-              filePath: "./public/static/social.jpg",
-            }),
-            await Utilities.addFileFromFilePath({
-              buckets,
-              bucketKey,
-              filePath: "./public/static/cube_000.jpg",
-            }),
-            await Utilities.addFileFromFilePath({
-              buckets,
-              bucketKey,
-              filePath: "./public/static/cube_f7f7f7.jpg",
-            }),
-          ],
+          children: [],
         },
       ],
     },

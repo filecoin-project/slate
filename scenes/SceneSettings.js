@@ -42,7 +42,8 @@ export default class SceneSettings extends React.Component {
   _deferredSave = null;
 
   _handleSave = async () => {
-    await Actions.setDefaultConfig({
+    await Actions.updateViewer({
+      type: "SET_DEFAULT_STORAGE_CONFIG",
       config: {
         hot: {
           enabled: this.state.settings_cold_enabled,

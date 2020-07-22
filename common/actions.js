@@ -8,20 +8,6 @@ const REQUEST_HEADERS = {
   "Content-Type": "application/json",
 };
 
-export const setDefaultConfig = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
-    body: JSON.stringify(data),
-  };
-
-  const response = await fetch(`/_/settings`, options);
-  const json = await response.json();
-
-  return json;
-};
-
 export const createWalletAddress = async (data) => {
   if (Strings.isEmpty(data.name)) {
     return null;
@@ -68,6 +54,19 @@ export const sendWalletAddressFilecoin = async (data) => {
 
 // NOTE(jim):
 // New WWW Requests.
+export const updateViewer = async (data) => {
+  const options = {
+    method: "POST",
+    headers: REQUEST_HEADERS,
+    credentials: "include",
+    body: JSON.stringify(data),
+  };
+
+  const response = await fetch(`/api/users/update`, options);
+  const json = await response.json();
+
+  return json;
+};
 
 export const signIn = async (data) => {
   const options = {

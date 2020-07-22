@@ -6,6 +6,7 @@ import { Buckets } from "@textile/hub";
 import { Libp2pCryptoIdentity } from "@textile/threads-core";
 
 const initCORS = MW.init(MW.CORS);
+const initAuth = MW.init(MW.RequireCookieAuthentication);
 
 const TEXTILE_KEY_INFO = {
   key: Environment.TEXTILE_HUB_KEY,
@@ -14,6 +15,7 @@ const TEXTILE_KEY_INFO = {
 
 export default async (req, res) => {
   initCORS(req, res);
+  initAuth(req, res);
 
   const user = await Data.getUserByUsername({
     username: req.body.data.username,

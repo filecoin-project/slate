@@ -60,7 +60,7 @@ export const getSelectedState = (props) => {
   }
 
   return {
-    address: info.defaultConfig.cold.filecoin.addr,
+    address: info.defaultStorageConfig.cold.filecoin.addr,
   };
 };
 
@@ -102,25 +102,27 @@ export const getInitialState = (props) => {
 
     settings_deals_auto_approve: local.settings_deals_auto_approve,
 
-    settings_hot_enabled: info.defaultConfig.hot.enabled,
-    settings_hot_allow_unfreeze: info.defaultConfig.hot.allowUnfreeze,
-    settings_hot_ipfs_add_timeout: info.defaultConfig.hot.ipfs.addTimeout,
+    settings_hot_enabled: info.defaultStorageConfig.hot.enabled,
+    settings_hot_allow_unfreeze: info.defaultStorageConfig.hot.allowUnfreeze,
+    settings_hot_ipfs_add_timeout:
+      info.defaultStorageConfig.hot.ipfs.addTimeout,
 
-    settings_cold_enabled: info.defaultConfig.cold.enabled,
-    settings_cold_default_address: info.defaultConfig.cold.filecoin.addr,
+    settings_cold_enabled: info.defaultStorageConfig.cold.enabled,
+    settings_cold_default_address: info.defaultStorageConfig.cold.filecoin.addr,
     settings_cold_default_duration:
-      info.defaultConfig.cold.filecoin.dealMinDuration,
+      info.defaultStorageConfig.cold.filecoin.dealMinDuration,
     settings_cold_default_replication_factor:
-      info.defaultConfig.cold.filecoin.repFactor,
+      info.defaultStorageConfig.cold.filecoin.repFactor,
     settings_cold_default_excluded_miners:
-      info.defaultConfig.cold.filecoin.excludedMinersList,
+      info.defaultStorageConfig.cold.filecoin.excludedMinersList,
     settings_cold_default_trusted_miners:
-      info.defaultConfig.cold.filecoin.trustedMinersList,
-    settings_cold_default_max_price: info.defaultConfig.cold.filecoin.maxPrice,
+      info.defaultStorageConfig.cold.filecoin.trustedMinersList,
+    settings_cold_default_max_price:
+      info.defaultStorageConfig.cold.filecoin.maxPrice,
     settings_cold_default_auto_renew:
-      info.defaultConfig.cold.filecoin.renew.enabled,
+      info.defaultStorageConfig.cold.filecoin.renew.enabled,
     settings_cold_default_auto_renew_max_price:
-      info.defaultConfig.cold.filecoin.renew.threshold,
+      info.defaultStorageConfig.cold.filecoin.renew.threshold,
 
     notifications: [],
     payment_channels_active: [],

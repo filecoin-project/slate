@@ -453,6 +453,7 @@ export default class ApplicationPage extends React.Component {
       onAction: this._handleAction,
       onBack: this._handleBack,
       onForward: this._handleForward,
+      onRehydrate: this.rehydrate,
     });
 
     let sidebarElement;
@@ -465,6 +466,7 @@ export default class ApplicationPage extends React.Component {
         onSubmit: this._handleSubmit,
         onCancel: this._handleCancel,
         onSetFile: this._handleSetFile,
+        onRehydrate: this.rehydrate,
       });
     }
 

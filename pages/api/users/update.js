@@ -13,15 +13,15 @@ export default async (req, res) => {
   initCORS(req, res);
   initAuth(req, res);
 
-  const username = Utilities.getUserFromCookie(req);
-  if (!username) {
+  const id = Utilities.getIdFromCookie(req);
+  if (!id) {
     return res
       .status(500)
       .json({ decorator: "SERVER_USER_UPDATE", error: true });
   }
 
-  const user = await Data.getUserByUsername({
-    username,
+  const user = await Data.getUserById({
+    id,
   });
 
   if (!user) {
@@ -41,6 +41,19 @@ export default async (req, res) => {
       id: user.id,
       data: { ...user.data, ...req.body.data },
     });
+  }
+
+  if (req.body.username) {
+    const existing = await Data.getUserByUsername({
+      username: req.body.username,
+    });
+
+    if (!existing) {
+      await Data.updateUserById({
+        id: user.id,
+        username: req.body.username,
+      });
+    }
   }
 
   // TODO(jim): POWERGATE_ISSUE 0.2.0

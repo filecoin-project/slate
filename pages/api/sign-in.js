@@ -65,7 +65,7 @@ export default async (req, res) => {
   }
 
   const token = JWT.sign(
-    { user: user.id, username: user.username },
+    { id: user.id, username: user.username },
     Environment.JWT_SECRET
   );
 

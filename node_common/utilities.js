@@ -16,8 +16,8 @@ const TEXTILE_KEY_INFO = {
   secret: Environment.TEXTILE_HUB_SECRET,
 };
 
-export const getUserFromCookie = (req) => {
-  let username;
+export const getIdFromCookie = (req) => {
+  let id;
   if (!Strings.isEmpty(req.headers.cookie)) {
     const token = req.headers.cookie.replace(
       /(?:(?:^|.*;\s*)WEB_SERVICE_SESSION_KEY\s*\=\s*([^;]*).*$)|^.*$/,
@@ -27,14 +27,14 @@ export const getUserFromCookie = (req) => {
     if (!Strings.isEmpty(token)) {
       try {
         const decoded = JWT.verify(token, Environment.JWT_SECRET);
-        username = decoded.username;
+        id = decoded.id;
       } catch (e) {
         console.log(e);
       }
     }
   }
 
-  return username;
+  return id;
 };
 
 export const parseAuthHeader = (value) => {

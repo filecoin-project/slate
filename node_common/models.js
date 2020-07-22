@@ -3,9 +3,9 @@ import * as Data from "~/node_common/data";
 
 import PG from "~/node_common/powergate";
 
-export const getViewer = async ({ username }) => {
-  const user = await Data.getUserByUsername({
-    username,
+export const getViewer = async ({ id }) => {
+  const user = await Data.getUserById({
+    id,
   });
 
   if (!user) {

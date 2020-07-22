@@ -51,8 +51,8 @@ export const RequireCookieAuthentication = async (req, res, next) => {
 
   try {
     const decoded = JWT.verify(token, Environment.JWT_SECRET);
-    const user = await Data.getUserByUsername({
-      username: decoded.username,
+    const user = await Data.getUserById({
+      id: decoded.id,
     });
 
     if (!user || user.error) {

@@ -26,12 +26,12 @@ app.prepare().then(async () => {
   server.use("/public", express.static("public"));
 
   server.get("/application", async (req, res) => {
-    const username = Utilities.getUserFromCookie(req);
+    const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;
-    if (username) {
+    if (id) {
       viewer = await Models.getViewer({
-        username,
+        id,
       });
     }
 
@@ -43,12 +43,12 @@ app.prepare().then(async () => {
   });
 
   server.get("/@:username", async (req, res) => {
-    const username = Utilities.getUserFromCookie(req);
+    const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;
-    if (username) {
+    if (id) {
       viewer = await Models.getViewer({
-        username,
+        id,
       });
     }
 

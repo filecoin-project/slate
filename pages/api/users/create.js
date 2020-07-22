@@ -86,6 +86,6 @@ export default async (req, res) => {
 
   return res.status(200).json({
     decorator: "SERVER_USER_CREATE",
-    user: { username: user.username },
+    user: { username: user.username, id: user.id },
   });
 };

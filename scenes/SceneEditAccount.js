@@ -28,9 +28,6 @@ export default class SceneEditAccount extends React.Component {
   state = { username: this.props.viewer.username, deleting: false };
 
   _handleUpload = async (e) => {
-    // TODO(jim):
-    // Rewrite
-    /*
     e.persist();
     let file = e.target.files[0];
 
@@ -49,26 +46,22 @@ export default class SceneEditAccount extends React.Component {
       body: data,
     };
 
-    await fetch(`/_/upload/avatar`, options);
-    */
+    const response = await fetch(`/api/data/${file.name}`, options);
+    const json = await response.json();
+
+    await Actions.updateViewer({
+      data: { photo: `https://hub.textile.io${json.data.ipfs}` },
+    });
+
+    this.props.onRehydrate();
   };
 
   _handleSave = async (e) => {
-    // TODO(jim):
-    // Rewrite
-    /*
-    const options = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ local: { name: this.state.name } }),
-    };
+    await Actions.updateViewer({
+      username: this.state.username,
+    });
 
-    await fetch(`/_/local-settings`, options);
-    */
+    this.props.onRehydrate();
   };
 
   _handleDelete = async (e) => {
@@ -101,7 +94,7 @@ export default class SceneEditAccount extends React.Component {
         <Avatar
           style={{ marginTop: 24 }}
           size={256}
-          url={this.props.viewer.photo}
+          url={this.props.viewer.data.photo}
         />
 
         <div style={{ marginTop: 24 }}>

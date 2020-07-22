@@ -80,6 +80,7 @@ export default class SidebarFileStorageDeal extends React.Component {
     const json = await response.json();
     return json;
     */
+    alert("TODO: Add back storage deals");
   };
 
   _handleSubmit = async (e) => {

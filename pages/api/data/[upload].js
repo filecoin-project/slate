@@ -45,9 +45,9 @@ export default async (req, res) => {
     };
 
     // TODO(jim): Send this file to buckets.
-    const username = Utilities.getUserFromCookie(req);
-    const user = await Data.getUserByUsername({
-      username,
+    const id = Utilities.getIdFromCookie(req);
+    const user = await Data.getUserById({
+      id,
     });
 
     const {

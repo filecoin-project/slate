@@ -9,14 +9,14 @@ export default async (req, res) => {
   initCORS(req, res);
   initAuth(req, res);
 
-  const username = Utilities.getUserFromCookie(req);
-  if (!username) {
+  const id = Utilities.getIdFromCookie(req);
+  if (!id) {
     return res
       .status(500)
       .json({ decorator: "SERVER_USER_DELETE", error: true });
   }
 
-  const data = await Models.getViewer({ username });
+  const data = await Models.getViewer({ id });
 
   return res
     .status(200)

@@ -11,15 +11,15 @@ export default async (req, res) => {
   initCORS(req, res);
   initAuth(req, res);
 
-  const username = Utilities.getUserFromCookie(req);
-  if (!username) {
+  const id = Utilities.getIdFromCookie(req);
+  if (!id) {
     return res
       .status(500)
       .json({ decorator: "SERVER_SEND_FILECOIN", error: true });
   }
 
-  const user = await Data.getUserByUsername({
-    username,
+  const user = await Data.getUserById({
+    id,
   });
 
   if (!user) {

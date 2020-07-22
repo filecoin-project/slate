@@ -60,7 +60,7 @@ export default async (req, res) => {
     salt,
     username: req.body.data.username,
     data: {
-      photo: null,
+      photo: "https://slate.host/static/a1.jpg",
       settings_deals_auto_approve: false,
       tokens: { pg, api },
       library: [

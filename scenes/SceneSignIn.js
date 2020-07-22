@@ -89,7 +89,7 @@ export default class SceneSignIn extends React.Component {
       password: this.state.password,
     });
 
-    console.log(response);
+    console.log("AUTH_RESPONSE", response);
 
     if (!response || response.error) {
       alert("TODO: Failed to authenticate message.");

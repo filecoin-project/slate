@@ -45,7 +45,7 @@ export const getServerSideProps = async (context) => {
 export default class IndexPage extends React.Component {
   async componentDidMount() {
     const response = await Actions.health();
-    console.log(response);
+    console.log("HEALTH_CHECK", response);
   }
 
   render() {

@@ -36,7 +36,6 @@ export default async (req, res) => {
 
   let data;
   try {
-    PG.setToken(user.data.tokens.pg);
     data = await PG.ffs.sendFil(
       req.body.data.source,
       req.body.data.target,

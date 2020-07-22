@@ -159,7 +159,7 @@ export default class ApplicationPage extends React.Component {
 
   rehydrate = async () => {
     const response = await Actions.hydrateAuthenticatedUser();
-    console.log(response);
+    console.log("REHYDRATION CALL", response);
 
     if (!response || response.error) {
       return null;
@@ -215,7 +215,7 @@ export default class ApplicationPage extends React.Component {
     }
 
     let response = await Actions.deleteViewer();
-    console.log(response);
+    console.log("DELETE_VIEWER", response);
 
     await this._handleSignOut();
   };
@@ -231,10 +231,10 @@ export default class ApplicationPage extends React.Component {
     // NOTE(jim): Acts as our existing username exists check.
     // If the user exists, move on the sign in anyways.
     let response = await Actions.createUser(state);
-    console.log(response);
+    console.log("CREATE_USER", response);
 
     response = await Actions.signIn(state);
-    console.log(response);
+    console.log("SIGN IN", response);
 
     if (response.error) {
       return null;

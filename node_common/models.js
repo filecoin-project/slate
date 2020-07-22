@@ -22,12 +22,6 @@ export const getViewer = async ({ id }) => {
   try {
     PG.setToken(user.data.tokens.pg);
 
-    const {
-      buckets,
-      bucketKey,
-      bucketName,
-    } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
-
     data = {
       id: user.id,
       data: { photo: user.data.photo },

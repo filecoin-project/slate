@@ -48,18 +48,16 @@ const STYLES_ICON_ELEMENT = css`
   }
 `;
 
-const STYLES_ICON_ELEMENT_CUSTOM = css`
-  border-radius: 3px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
-  background-image: url("/static/social.png");
-  background-size: cover;
-  height: 48px;
-  width: 48px;
+const STYLES_HOME = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  cursor: pointer;
+  margin-right: 24px;
+  margin-left: 24px;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-family: ${Constants.font.codeBold};
 `;
 
 const STYLES_APPLICATION_HEADER = css`
@@ -74,7 +72,7 @@ const STYLES_APPLICATION_HEADER = css`
 
 const STYLES_LEFT = css`
   flex-shrink: 0;
-  width: 288px;
+  width: 352px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -127,10 +125,9 @@ export default class ApplicationHeader extends React.Component {
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
-          <span
-            css={STYLES_ICON_ELEMENT_CUSTOM}
-            style={{ marginRight: 16, marginLeft: 12 }}
-          />
+          <a css={STYLES_HOME} href={`/@${this.props.viewer.username}`}>
+            Slate 0.0.1 - @{this.props.viewer.username}
+          </a>
           <span
             css={STYLES_ICON_ELEMENT}
             style={

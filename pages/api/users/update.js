@@ -59,7 +59,6 @@ export default async (req, res) => {
   // TODO(jim): POWERGATE_ISSUE 0.2.0
   // Should work when our hosted Powergate works.
   if (req.body.type === "SET_DEFAULT_STORAGE_CONFIG") {
-    PG.setToken(user.data.tokens.pg);
     let data;
     try {
       data = await PG.ffs.setDefaultStorageConfig(req.body.config);
@@ -74,7 +73,6 @@ export default async (req, res) => {
   // TODO(jim): POWERGATE_ISSUE 0.2.0
   // Should work when our hosted Powergate works.
   if (req.body.type === "CREATE_FILECOIN_ADDRESS") {
-    PG.setToken(user.data.tokens.pg);
     let data;
     try {
       data = await PG.ffs.newAddr(

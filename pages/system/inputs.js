@@ -221,7 +221,7 @@ import { Input, Textarea } from 'slate-react-system';`}
         <System.Input
           label="Icon and submit function"
           name="exampleFive"
-          icon={SVG.Close}
+          icon={SVG.Dismiss}
           onSubmit={() => {
             this.setState({ exampleFive: "" });
           }}
@@ -242,7 +242,7 @@ import { Input, Textarea } from 'slate-react-system';`}
         <Input
           label="Icon with submit function"
           name="exampleFive"
-          icon={SVG.Close}
+          icon={SVG.Dismiss}
           onSubmit={() => {
             this.setState({ exampleFive: "" });
           }}

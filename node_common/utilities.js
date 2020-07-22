@@ -46,7 +46,7 @@ export const parseAuthHeader = (value) => {
   return matches && { scheme: matches[1], value: matches[2] };
 };
 
-export const getBucketsAPI = async () => {
+export const getBucketAPI = async () => {
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   return { buckets };
 };

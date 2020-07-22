@@ -16,6 +16,7 @@ export default class SceneFilesFolder extends React.Component {
   };
 
   render() {
+    console.log(this.props.data.children);
     let rows = [];
     if (this.props.data.children) {
       rows = [...this.props.data.children];

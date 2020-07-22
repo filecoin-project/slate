@@ -64,6 +64,8 @@ export default class SidebarFileStorageDeal extends React.Component {
   };
 
   _handleMakeDeal = async (src) => {
+    // TODO(jim): Make powergate deal with IPFS CID.
+    /*
     const options = {
       method: "POST",
       credentials: "include",
@@ -77,6 +79,7 @@ export default class SidebarFileStorageDeal extends React.Component {
     const response = await fetch("/_/deals/storage", options);
     const json = await response.json();
     return json;
+    */
   };
 
   _handleSubmit = async (e) => {
@@ -112,7 +115,7 @@ export default class SidebarFileStorageDeal extends React.Component {
         {this.props.file ? (
           <div>
             <img
-              src={`/public/static/files/${this.props.file.name}`}
+              src={`https://hub.textile.io${this.props.file.ipfs}`}
               css={STYLES_IMAGE_PREVIEW}
             />
 

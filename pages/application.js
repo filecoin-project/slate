@@ -118,9 +118,11 @@ export default class ApplicationPage extends React.Component {
     const response = await fetch(`/api/data/${file.name}`, options);
     const json = await response.json();
 
-    if (json && json.success) {
-      this.setState({ file });
+    if (json && json.data) {
+      this.setState({ file: json.data });
     }
+
+    await this.rehydrate();
   };
 
   _handleDragEnter = (e) => {
@@ -156,7 +158,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   rehydrate = async () => {
-    response = await Actions.hydrateAuthenticatedUser();
+    const response = await Actions.hydrateAuthenticatedUser();
     console.log(response);
 
     if (!response || response.error) {
@@ -193,6 +195,8 @@ export default class ApplicationPage extends React.Component {
         amount: data.amount,
       });
     }
+
+    await this.rehydrate();
 
     this._handleDismissSidebar();
   };

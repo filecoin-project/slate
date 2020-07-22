@@ -52,15 +52,36 @@ const STYLES_USER = css`
 
 export default class ProfilePage extends React.Component {
   render() {
-    console.log(this.props);
+    console.log({ profilePageProps: this.props });
+
+    const title = this.props.creator
+      ? `@${this.props.creator.username}`
+      : "404";
+    const url = `https://slate.host/${title}`;
 
     if (!this.props.creator) {
-      return null;
+      return (
+        <WebsitePrototypeWrapper
+          title={title}
+          description="This Slate user can not be found."
+          url={url}
+        >
+          <div css={STYLES_ROOT}>
+            <h1 css={STYLES_HEADING}>404</h1>
+            <p css={STYLES_PARAGRAPH}>
+              This user is not found.
+              <br />
+              <br />
+              <a href="/application">Run Slate</a>
+              <br />
+              <a href="/system">Use Slate's Design System</a>
+            </p>
+          </div>
+        </WebsitePrototypeWrapper>
+      );
     }
 
-    const title = `@${this.props.creator.username}`;
     const description = "A user on Slate.";
-    const url = `https://slate.host/${title}`;
 
     return (
       <WebsitePrototypeWrapper

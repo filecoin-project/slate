@@ -15,6 +15,7 @@ const app = next({
   dir: __dirname,
   quiet: false,
 });
+
 const handler = app.getRequestHandler();
 
 app.prepare().then(async () => {
@@ -52,6 +53,8 @@ app.prepare().then(async () => {
         id,
       });
     }
+
+    console.log(req.params);
 
     const creator = await Data.getUserByUsername({
       username: req.params.username,

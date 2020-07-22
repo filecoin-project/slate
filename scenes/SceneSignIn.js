@@ -76,11 +76,13 @@ export default class SceneSignIn extends React.Component {
     // Lets add some proper error messages here.
     if (Strings.isEmpty(this.state.username)) {
       alert("TODO: No username");
+      this.setState({ loading: false });
       return;
     }
 
     if (Strings.isEmpty(this.state.password)) {
       alert("TODO: No password");
+      this.setState({ loading: false });
       return;
     }
 
@@ -93,6 +95,7 @@ export default class SceneSignIn extends React.Component {
 
     if (!response || response.error) {
       alert("TODO: Failed to authenticate message.");
+      this.setState({ loading: false });
       return;
     }
 

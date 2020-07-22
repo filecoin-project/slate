@@ -155,8 +155,18 @@ export default class ApplicationPage extends React.Component {
     this._handleAction({ type: "SIDEBAR", value: "SIDEBAR_FILE_STORAGE_DEAL" });
   };
 
-  rehydrate = async ({ data }) => {
-    this.setState({ viewer: { ...State.getInitialState(data) } });
+  rehydrate = async () => {
+    response = await Actions.hydrateAuthenticatedUser();
+    console.log(response);
+
+    if (!response || response.error) {
+      return null;
+    }
+
+    this.setState({
+      viewer: State.getInitialState(response.data),
+      selected: State.getSelectedState(response.data),
+    });
   };
 
   _handleSubmit = async (data) => {
@@ -230,17 +240,7 @@ export default class ApplicationPage extends React.Component {
       cookies.set(Credentials.session.key, response.token);
     }
 
-    response = await Actions.hydrateAuthenticatedUser();
-    console.log(response);
-
-    if (!response || response.error) {
-      return null;
-    }
-
-    this.setState({
-      viewer: State.getInitialState(response.data),
-      selected: State.getSelectedState(response.data),
-    });
+    await this.rehydrate();
 
     return true;
   };

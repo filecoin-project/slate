@@ -41,7 +41,7 @@ export default async (req, res) => {
       type: file.type,
       path: file._writeStream.path,
       date: new Date(),
-      storage_status: 0,
+      network: "IPFS",
     };
 
     // TODO(jim): Send this file to buckets.

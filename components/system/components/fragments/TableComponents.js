@@ -266,6 +266,15 @@ export const TableContent = ({
           {text} {Strings.pluralize("error", text)}
         </span>
       );
+    case "NETWORK_TYPE":
+      return (
+        <span
+          css={STYLES_TABLE_TAG}
+          style={{ background: Constants.system.brand }}
+        >
+          IPFS
+        </span>
+      );
     case "FILE_DATE":
       return Strings.toDate(text);
     case "FILE_SIZE":

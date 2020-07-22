@@ -46,6 +46,11 @@ export const parseAuthHeader = (value) => {
   return matches && { scheme: matches[1], value: matches[2] };
 };
 
+export const getBucketsAPI = async () => {
+  const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
+  return { buckets };
+};
+
 // NOTE(jim): Requires @textile/hub
 export const getBucketAPIFromUserToken = async (token) => {
   const identity = await Libp2pCryptoIdentity.fromString(token);

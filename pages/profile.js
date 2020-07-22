@@ -41,6 +41,15 @@ const STYLES_PARAGRAPH = css`
   }
 `;
 
+const STYLES_USER = css`
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 88px;
+  width: 88px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+`;
+
 export default class ProfilePage extends React.Component {
   render() {
     console.log(this.props);
@@ -56,6 +65,10 @@ export default class ProfilePage extends React.Component {
         url={url}
       >
         <div css={STYLES_ROOT}>
+          <div
+            css={STYLES_USER}
+            style={{ backgroundImage: `url(${this.props.creator.data.photo})` }}
+          />
           <h1 css={STYLES_HEADING}>{title}</h1>
           <p css={STYLES_PARAGRAPH}>
             This is an example of a profile page on Slate.

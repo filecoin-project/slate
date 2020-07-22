@@ -57,7 +57,7 @@ export default async (req, res) => {
   }
 
   const deleted = await Data.deleteUserByUsername({
-    username,
+    username: user.username,
   });
 
   if (!deleted) {

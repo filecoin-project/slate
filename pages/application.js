@@ -166,15 +166,18 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (data.type === "CREATE_WALLET_ADDRESS") {
-      const address = await Actions.createWalletAddress({
-        name: data.name,
-        type: data.wallet_type,
-        makeDefault: data.makeDefault,
+      const address = await Actions.updateViewer({
+        type: "CREATE_FILECOIN_ADDRESS",
+        address: {
+          name: data.name,
+          type: data.wallet_type,
+          makeDefault: data.makeDefault,
+        },
       });
     }
 
     if (data.type === "SEND_WALLET_ADDRESS_FILECOIN") {
-      const response = await Actions.sendWalletAddressFilecoin({
+      const response = await Actions.sendFilecoin({
         source: data.source,
         target: data.target,
         amount: data.amount,

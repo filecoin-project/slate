@@ -8,25 +8,7 @@ const REQUEST_HEADERS = {
   "Content-Type": "application/json",
 };
 
-export const createWalletAddress = async (data) => {
-  if (Strings.isEmpty(data.name)) {
-    return null;
-  }
-
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
-    body: JSON.stringify(data),
-  };
-
-  const response = await fetch(`/_/wallet/create`, options);
-  const json = await response.json();
-
-  return json;
-};
-
-export const sendWalletAddressFilecoin = async (data) => {
+export const sendFilecoin = async (data) => {
   if (Strings.isEmpty(data.source)) {
     return null;
   }
@@ -43,10 +25,10 @@ export const sendWalletAddressFilecoin = async (data) => {
     method: "POST",
     headers: REQUEST_HEADERS,
     credentials: "include",
-    body: JSON.stringify(data),
+    body: JSON.stringify({ data }),
   };
 
-  const response = await fetch(`/_/wallet/send`, options);
+  const response = await fetch(`/api/addresses/send`, options);
   const json = await response.json();
 
   return json;

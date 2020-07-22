@@ -36,7 +36,7 @@ export default async (req, res) => {
       .json({ decorator: "SERVER_USER_UPDATE", error: true });
   }
 
-  // TODO(jim): POWERGATE_ISSUE
+  // TODO(jim): POWERGATE_ISSUE 0.2.0
   // Should work when our hosted Powergate works.
   if (req.body.type === "SET_DEFAULT_STORAGE_CONFIG") {
     PG.setToken(user.data.tokens.pg);
@@ -48,6 +48,24 @@ export default async (req, res) => {
       return res
         .status(500)
         .send({ decorator: "SERVER_USER_UPDATE_SETTINGS_CONFIG", error: true });
+    }
+  }
+
+  // TODO(jim): POWERGATE_ISSUE 0.2.0
+  // Should work when our hosted Powergate works.
+  if (req.body.type === "CREATE_FILECOIN_ADDRESS") {
+    PG.setToken(user.data.tokens.pg);
+    let data;
+    try {
+      data = await PG.ffs.newAddr(
+        req.body.address.name,
+        req.body.address.type,
+        req.body.address.makeDefault
+      );
+    } catch (e) {
+      return res
+        .status(500)
+        .send({ decorator: "SERVER_CREATE_FILECOIN_ADDRESS", error: true });
     }
   }
 

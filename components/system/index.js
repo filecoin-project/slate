@@ -14,6 +14,7 @@ import {
   FilecoinStorageDealsList,
   FilecoinRetrievalDealsList,
 } from "~/components/system/modules/FilecoinDealsList";
+import { FilecoinSettings } from "~/components/system/modules/FilecoinSettings";
 
 // NOTE(jim): Global components
 import { GlobalModal } from "~/components/system/components/GlobalModal";
@@ -92,6 +93,7 @@ export {
   FilecoinBalancesList,
   FilecoinRetrievalDealsList,
   FilecoinStorageDealsList,
+  FilecoinSettings,
   // NOTE(jim): Components
   ButtonPrimary,
   ButtonPrimaryFull,

@@ -21,7 +21,7 @@ const handler = app.getRequestHandler();
 app.prepare().then(async () => {
   const server = express();
 
-  if (Environment.IS_PRODUCTION_WEB) {
+  if (Environment.IS_PRODUCTION) {
     server.use(compression());
   }
 
@@ -39,7 +39,7 @@ app.prepare().then(async () => {
 
     return app.render(req, res, "/application", {
       wsPort: null,
-      production: Environment.IS_PRODUCTION_WEB,
+      production: Environment.IS_PRODUCTION,
       viewer,
     });
   });
@@ -54,11 +54,14 @@ app.prepare().then(async () => {
       });
     }
 
-    console.log(req.params);
-
     const creator = await Data.getUserByUsername({
       username: req.params.username,
     });
+
+    if (creator && creator.error) {
+      console.log(req.params);
+      console.log(creator);
+    }
 
     return app.render(req, res, "/profile", {
       viewer,

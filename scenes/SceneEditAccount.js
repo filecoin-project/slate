@@ -81,6 +81,8 @@ export default class SceneEditAccount extends React.Component {
   };
 
   render() {
+    const profileURL = `https://slate.host/@${this.state.username}`;
+
     return (
       <ScenePage>
         <System.H1>Account</System.H1>
@@ -116,9 +118,15 @@ export default class SceneEditAccount extends React.Component {
         <System.Input
           containerStyle={{ marginTop: 48 }}
           label="Username"
-          description={`This is your username on Slate. Your username is used for your profile URL https://slate.host/@${
-            this.state.username
-          }`}
+          description={
+            <React.Fragment>
+              This is your username on Slate. Your username is used for your
+              profile URL{" "}
+              <a href={profileURL} target="_blank">
+                {profileURL}
+              </a>
+            </React.Fragment>
+          }
           name="username"
           value={this.state.username}
           placeholder="Name"

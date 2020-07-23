@@ -17,8 +17,8 @@ const STYLES_PAGE = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #2d3436;
-  background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
+  flex-direction: column;
+  background-color: #f7f7f7;
   height: 100vh;
   padding: 24px;
 `;
@@ -29,13 +29,15 @@ const STYLES_POPOVER = css`
   max-width: 336px;
   width: 100%;
   background: ${Constants.system.white};
+  color: ${Constants.system.black};
 `;
 
 const STYLES_POPOVER_CARD = css`
-  max-width: 280px;
+  max-width: 124px;
   width: 100%;
   background: ${Constants.system.pitchBlack};
   border-radius: 24px;
+  margin-bottom: 24px;
 `;
 
 const STYLES_POPOVER_CARD_IMAGE = css`
@@ -45,15 +47,15 @@ const STYLES_POPOVER_CARD_IMAGE = css`
   background-image: url("/static/social.png");
   border-radius: 24px;
   width: 100%;
-  height: 280px;
+  height: 124px;
 `;
 
 const STYLES_CODE_PREVIEW = css`
-  color: ${Constants.system.white};
+  color: ${Constants.system.black};
   font-family: ${Constants.font.code};
   font-size: 12px;
   text-transform: uppercase;
-  padding: 24px;
+  margin-bottom: 24px;
 `;
 
 export default class SceneSignIn extends React.Component {
@@ -106,42 +108,47 @@ export default class SceneSignIn extends React.Component {
     let element = (
       <div css={STYLES_POPOVER_CARD}>
         <div css={STYLES_POPOVER_CARD_IMAGE} />
-        <div css={STYLES_CODE_PREVIEW}>
-          Version 0.0.1
-          <br />
-          Public Sign In Disabled
-        </div>
       </div>
     );
 
-    if (!this.props.production) {
-      element = (
-        <div css={STYLES_POPOVER}>
-          <System.Input
-            label="Username"
-            name="username"
-            value={this.state.username}
-            onChange={this._handleChange}
-          />
-          <System.Input
-            containerStyle={{ marginTop: 24 }}
-            label="Password"
-            name="password"
-            type="password"
-            value={this.state.password}
-            onChange={this._handleChange}
-          />
-          <System.ButtonPrimaryFull
-            style={{ marginTop: 48 }}
-            onClick={!this.state.loading ? this._handleSubmit : () => {}}
-            loading={this.state.loading}
-          >
-            Sign in
-          </System.ButtonPrimaryFull>
+    let popover = (
+      <div css={STYLES_POPOVER}>
+        <div css={STYLES_CODE_PREVIEW}>
+          Version {Constants.values.version}
+          <br />
+          Public Test Preview <br />
+          Warning: Entire Network/Database Will Be Wiped
         </div>
-      );
-    }
 
-    return <div css={STYLES_PAGE}>{element}</div>;
+        <System.Input
+          label="Username"
+          name="username"
+          value={this.state.username}
+          onChange={this._handleChange}
+        />
+        <System.Input
+          containerStyle={{ marginTop: 24 }}
+          label="Password"
+          name="password"
+          type="password"
+          value={this.state.password}
+          onChange={this._handleChange}
+        />
+        <System.ButtonPrimaryFull
+          style={{ marginTop: 48 }}
+          onClick={!this.state.loading ? this._handleSubmit : () => {}}
+          loading={this.state.loading}
+        >
+          Sign in
+        </System.ButtonPrimaryFull>
+      </div>
+    );
+
+    return (
+      <div css={STYLES_PAGE}>
+        {element}
+        {popover}
+      </div>
+    );
   }
 }

@@ -53,6 +53,7 @@ export default class SceneHome extends React.Component {
   render() {
     return (
       <ScenePage>
+        <GLRenderer width={1200} height={480} />
         {this.props.viewer.library[0] ? (
           <Section
             onAction={this.props.onAction}

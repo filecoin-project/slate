@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as System from "~/components/system";
+import * as Constants from "~/common/constants";
 
 import SystemPage from "~/components/system/SystemPage";
 import CodeBlock from "~/components/system/CodeBlock";
@@ -13,24 +14,23 @@ export default class SystemPageRoot extends React.Component {
         url="https://slate.host/system"
       >
         <img
-          src="/public/static/social.jpg"
+          src="/public/static/social-github-dark.jpg"
           style={{
             display: "inline-flex",
-            width: "312px",
-            height: "312px",
+            width: "100%",
             borderRadius: "4px",
             marginBottom: 48,
-            boxShadow: '0 1px 4px rgba(0, 0, 0, 0.09)'
+            boxShadow: "0 1px 4px rgba(0, 0, 0, 0.09)",
           }}
         />
-        <System.H1>SDS 0.0.6</System.H1>
+        <System.H1>SDS {Constants.values.sds}</System.H1>
         <br />
         <System.P>
           The <strong>Slate Design System</strong> is an open source resource
           with examples of components, constants, and experiences. Any code
           changes made to the components in the Design System will change the
-          appearance and function of the{" "}
-          <a href="https://github.com/filecoin-project/slate" target="_blank">
+          appearance and function of{" "}
+          <a href="https://slate.host" target="_blank">
             Slate
           </a>{" "}
           in production. <br />

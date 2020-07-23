@@ -172,11 +172,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleSubmit = async (data) => {
-    if (this.props.production) {
-      alert("TODO");
-      return this._handleDismissSidebar();
-    }
-
     if (data.type === "CREATE_WALLET_ADDRESS") {
       const address = await Actions.updateViewer({
         type: "CREATE_FILECOIN_ADDRESS",
@@ -406,7 +401,6 @@ export default class ApplicationPage extends React.Component {
           <SceneSignIn
             onAuthenticate={this._handleAuthenticate}
             onNavigateTo={this._handleNavigateTo}
-            production={this.props.production}
           />
         </WebsitePrototypeWrapper>
       );

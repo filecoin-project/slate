@@ -3,6 +3,10 @@ import Head from "next/head";
 import * as React from "react";
 
 export default class WebsitePrototypeWrapper extends React.Component {
+  static defaultProps = {
+    image: "/static/social.png",
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -15,7 +19,7 @@ export default class WebsitePrototypeWrapper extends React.Component {
           <meta property="og:url" content={this.props.url} />
           <meta property="og:title" content={this.props.title} />
           <meta property="og:description" content={this.props.description} />
-          <meta property="og:image" content="/static/social.png" />
+          <meta property="og:image" content={this.props.image} />
 
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content={this.props.url} />
@@ -24,7 +28,7 @@ export default class WebsitePrototypeWrapper extends React.Component {
             property="twitter:description"
             content={this.props.description}
           />
-          <meta property="twitter:image" content="/static/social.png" />
+          <meta property="twitter:image" content={this.props.image} />
 
           <link
             rel="icon"

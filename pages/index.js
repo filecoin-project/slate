@@ -68,9 +68,13 @@ export default class IndexPage extends React.Component {
             <a href="https://filecoin.io/">Filecoin</a>.
             <br />
             <br />
-            <a href="/application">Run Slate</a>
+            <a href="/application">Run Slate {Constants.values.version}</a>
             <br />
             <a href="/system">Use Slate's Design System</a>
+            <br />
+            <a href="https://github.com/filecoin-project/slate">
+              View Source ☺
+            </a>
           </p>
         </div>
       </WebsitePrototypeWrapper>

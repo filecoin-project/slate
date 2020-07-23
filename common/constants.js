@@ -1,3 +1,8 @@
+export const values = {
+  version: "0.0.6",
+  sds: "0.0.6",
+};
+
 export const sizes = {
   navigation: 288,
   sidebar: 416,

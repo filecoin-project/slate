@@ -125,9 +125,7 @@ export default class ApplicationHeader extends React.Component {
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
-          <a css={STYLES_HOME} href={`/@${this.props.viewer.username}`}>
-            Slate 0.0.1 - @{this.props.viewer.username}
-          </a>
+          <span css={STYLES_HOME}>Slate {Constants.values.version}</span>
           <span
             css={STYLES_ICON_ELEMENT}
             style={

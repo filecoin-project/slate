@@ -88,6 +88,7 @@ export default class ProfilePage extends React.Component {
         title={title}
         description={description}
         url={url}
+        image={this.props.creator.data.photo}
       >
         <div css={STYLES_ROOT}>
           <div
@@ -96,12 +97,17 @@ export default class ProfilePage extends React.Component {
           />
           <h1 css={STYLES_HEADING}>{title}</h1>
           <p css={STYLES_PARAGRAPH}>
-            This is an example of a profile page on Slate.
+            This is an example of a profile page on Slate. Slate is going to be
+            really cool soon!
             <br />
             <br />
-            <a href="/application">Run Slate</a>
+            <a href="/application">Run Slate {Constants.values.version}</a>
             <br />
             <a href="/system">Use Slate's Design System</a>
+            <br />
+            <a href="https://github.com/filecoin-project/slate">
+              View Source ☺
+            </a>
           </p>
         </div>
       </WebsitePrototypeWrapper>

@@ -258,6 +258,7 @@ export default class SystemPage extends React.Component {
             title="Notifications"
           />
           <SidebarLink url={url} href="/system/modals" title="Modals" />
+          <SidebarLink url={url} href="/system/carousel" title="Carousel" />
           <SidebarLink url={url} href="/system/loaders" title="Loaders" />
           <SidebarLink url={url} href="/system/typography" title="Typography" />
 

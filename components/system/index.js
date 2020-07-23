@@ -29,6 +29,7 @@ import { CheckBox } from "~/components/system/components/CheckBox";
 import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 import { DatePicker } from "~/components/system/components/DatePicker";
 import { GlobalModal } from "~/components/system/components/GlobalModal";
+import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { GlobalNotification } from "~/components/system/components/GlobalNotification";
 import { Input } from "~/components/system/components/Input";
 import { ListEditor } from "~/components/system/components/ListEditor";
@@ -93,6 +94,7 @@ export {
   CodeTextarea,
   DatePicker,
   GlobalModal,
+  GlobalCarousel,
   GlobalNotification,
   Input,
   ListEditor,

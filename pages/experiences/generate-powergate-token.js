@@ -16,7 +16,7 @@ class Example extends React.Component {
     token: null
   }
 
-  _handleCreateToken = () => {
+  _handleCreateToken = async () => {
     const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
     const FFS = await PowerGate.ffs.create();
     const token = FFS.token ? FFS.token : null;

@@ -49,7 +49,7 @@ export default class SceneSettings extends React.Component {
       },
       config: {
         hot: {
-          enabled: this.state.settings_cold_enabled,
+          enabled: this.state.settings_hot_enabled,
           allowUnfreeze: this.state.settings_hot_allow_unfreeze,
           ipfs: {
             addTimeout: this.state.settings_hot_ipfs_add_timeout,

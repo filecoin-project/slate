@@ -28,7 +28,7 @@ const STYLES_ICON_ELEMENT = css`
   align-items: center;
   justify-content: center;
   background-color: ${Constants.system.brand};
-  background-image: url('/static/social.png');
+  background-image: url("/static/social.png");
   border-radius: 88px;
   background-size: cover;
   color: ${Constants.system.white};
@@ -223,6 +223,11 @@ export default class SystemPage extends React.Component {
             href="/experiences/list-filecoin-deals"
             title="FilecoinDealsList"
           />
+          <SidebarLink
+            url={url}
+            href="/experiences/filecoin-settings"
+            title="FilecoinSettings"
+          />
 
           <span css={STYLES_LABEL}>
             <br />
@@ -242,10 +247,18 @@ export default class SystemPage extends React.Component {
           <SidebarLink url={url} href="/system/inputs" title="Inputs" />
           <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns" />
           <SidebarLink url={url} href="/system/datepicker" title="Datepicker" />
-          <SidebarLink url={url} href="/system/list-editor" title="List Editor" />
+          <SidebarLink
+            url={url}
+            href="/system/list-editor"
+            title="List Editor"
+          />
           <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs" />
           <SidebarLink url={url} href="/system/tabs" title="Tabs" />
-          <SidebarLink url={url} href="/system/notifications" title="Notifications"/>
+          <SidebarLink
+            url={url}
+            href="/system/notifications"
+            title="Notifications"
+          />
           <SidebarLink url={url} href="/system/modals" title="Modals" />
           <SidebarLink url={url} href="/system/loaders" title="Loaders" />
           <SidebarLink url={url} href="/system/typography" title="Typography" />

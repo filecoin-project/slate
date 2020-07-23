@@ -87,6 +87,7 @@ export default class ApplicationPage extends React.Component {
     currentIndex: 0,
     data: null,
     sidebar: null,
+    sidebarLoading: false,
   };
 
   async componentDidMount() {
@@ -130,7 +131,7 @@ export default class ApplicationPage extends React.Component {
 
     await this.rehydrate();
 
-    this.setState({ sidebar: null, fileLoading: false });
+    this.setState({ sidebar: null, data: null, fileLoading: false });
   };
 
   _handleDragEnter = (e) => {
@@ -147,6 +148,8 @@ export default class ApplicationPage extends React.Component {
     e.preventDefault();
     console.log("dragover", e);
   };
+
+  _handleSidebarLoading = (sidebarLoading) => this.setState({ sidebarLoading });
 
   _handleDrop = async (e) => {
     e.preventDefault();
@@ -281,7 +284,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDismissSidebar = () => {
-    this.setState({ sidebar: null });
+    this.setState({ sidebar: null, sidebarLoading: false, data: null });
   };
 
   _handleAction = (options) => {
@@ -298,7 +301,10 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (options.type === "SIDEBAR") {
-      return this.setState({ sidebar: this.sidebars[options.value] });
+      return this.setState({
+        sidebar: this.sidebars[options.value],
+        data: options.data,
+      });
     }
 
     return alert(JSON.stringify(options));
@@ -470,12 +476,15 @@ export default class ApplicationPage extends React.Component {
     if (this.state.sidebar) {
       sidebarElement = React.cloneElement(this.state.sidebar, {
         viewer: this.state.viewer,
+        data: this.state.data,
         fileLoading: this.state.fileLoading,
+        sidebarLoading: this.state.sidebarLoading,
         selected: this.state.selected,
         onSelectedChange: this._handleSelectedChange,
         onSubmit: this._handleSubmit,
         onCancel: this._handleCancel,
         onSetFile: this._handleSetFile,
+        onSidebarLoading: this._handleSidebarLoading,
         onRehydrate: this.rehydrate,
       });
     }

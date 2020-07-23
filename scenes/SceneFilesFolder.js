@@ -24,24 +24,40 @@ export default class SceneFilesFolder extends React.Component {
 
     const data = {
       columns: [
-        { key: "icon", hideLabel: true, width: "32px", type: "ICON" },
-        { key: "file", name: "File", width: "100%", type: "FILE_LINK" },
-        { key: "size", name: "Size", width: "140px", type: "FILE_SIZE" },
+        { key: "file", name: "File", type: "FILE_LINK" },
+        {
+          key: "size",
+          name: "Size",
+          width: "140px",
+          type: "FILE_SIZE",
+        },
         {
           key: "date",
           name: "Date uploaded",
           width: "160px",
+          type: "FILE_DATE",
           tooltip:
             "This date represents when the file was first uploaded to IPFS.",
-          type: "FILE_DATE",
         },
         {
           key: "network",
           name: "Network",
           type: "NETWORK_TYPE",
         },
+        {
+          key: "button",
+          hideLabel: true,
+          type: "BUTTON",
+          action: "SIDEBAR_FILE_STORAGE_DEAL",
+          width: "148px",
+        },
       ],
-      rows,
+      rows: this.props.viewer.library[0].children.map((each) => {
+        return {
+          ...each,
+          button: "Store on Filecoin",
+        };
+      }),
     };
 
     return (

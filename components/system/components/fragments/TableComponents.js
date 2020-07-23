@@ -197,7 +197,7 @@ export const TableContent = ({
       return (
         <span
           css={STYLES_TABLE_CONTENT_LINK}
-          onClick={() => onAction({ type: "SIDEBAR", value: action })}
+          onClick={() => onAction({ type: "SIDEBAR", value: action, data })}
         >
           {text}
         </span>

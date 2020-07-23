@@ -51,21 +51,7 @@ export default class SidebarFileStorageDeal extends React.Component {
       .settings_cold_default_replication_factor,
   };
 
-  _handleUpload = async (e) => {
-    e.persist();
-    let file = e.target.files[0];
-
-    if (!file) {
-      alert("Something went wrong");
-      return;
-    }
-
-    await this.props.onSetFile({ file });
-  };
-
-  _handleMakeDeal = async (src) => {
-    // TODO(jim): Make powergate deal with IPFS CID.
-    /*
+  _handleMakeDeal = async ({ ipfs }) => {
     const options = {
       method: "POST",
       credentials: "include",
@@ -73,21 +59,21 @@ export default class SidebarFileStorageDeal extends React.Component {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ src }),
+      body: JSON.stringify({ ipfs }),
     };
 
-    const response = await fetch("/_/deals/storage", options);
+    const response = await fetch("/api/data/make-storage-deal", options);
     const json = await response.json();
     return json;
-    */
-    alert("TODO: Add back storage deals");
   };
 
   _handleSubmit = async (e) => {
     e.persist();
+    this.props.onSidebarLoading(true);
 
-    const path = `/public/static/files/${this.props.file.name}`;
-    await this._handleMakeDeal(path);
+    await this._handleMakeDeal({ ipfs: this.props.data.ipfs });
+
+    alert("TODO: Finish 0.2.0 Powergate Update");
 
     await this.props.onSubmit({});
   };
@@ -101,87 +87,75 @@ export default class SidebarFileStorageDeal extends React.Component {
   };
 
   render() {
+    const file = this.props.data;
+
     return (
       <React.Fragment>
         <System.P style={{ fontFamily: Constants.font.semiBold }}>
           Upload a file to the network
         </System.P>
-        <input
-          css={STYLES_FILE_HIDDEN}
-          type="file"
-          id="file"
-          onChange={this._handleUpload}
+
+        <div>
+          <img
+            src={`https://hub.textile.io${file.ipfs}`}
+            css={STYLES_IMAGE_PREVIEW}
+          />
+
+          <div css={STYLES_ITEM}>
+            <div css={STYLES_FOCUS}>{file.name}</div>
+            <div css={STYLES_SUBTEXT}>Name</div>
+          </div>
+
+          <div css={STYLES_ITEM}>
+            <div css={STYLES_FOCUS}>{Strings.bytesToSize(file.size)}</div>
+            <div css={STYLES_SUBTEXT}>File size</div>
+          </div>
+        </div>
+
+        <System.Input
+          containerStyle={{ marginTop: 48 }}
+          label="Deal duration"
+          name="settings_cold_default_duration"
+          placeholder="Type in epochs (~25 seconds)"
+          type="number"
+          value={this.state.settings_cold_default_duration}
+          onChange={this._handleChange}
         />
 
-        {this.props.file ? (
-          <div>
-            <img
-              src={`https://hub.textile.io${this.props.file.ipfs}`}
-              css={STYLES_IMAGE_PREVIEW}
-            />
+        <System.Input
+          containerStyle={{ marginTop: 24 }}
+          label="Replication factor"
+          name="settings_cold_default_replication_factor"
+          value={this.state.settings_cold_default_replication_factor}
+          onChange={this._handleChange}
+        />
 
-            <div css={STYLES_ITEM}>
-              <div css={STYLES_FOCUS}>{this.props.file.name}</div>
-              <div css={STYLES_SUBTEXT}>Name</div>
-            </div>
+        <System.SelectMenu
+          full
+          containerStyle={{ marginTop: 24 }}
+          name="address"
+          label="Payment address"
+          value={this.props.selected.address}
+          category="address"
+          onChange={this.props.onSelectedChange}
+          options={this.props.viewer.addresses}
+        />
 
-            <div css={STYLES_ITEM}>
-              <div css={STYLES_FOCUS}>{this.props.file.size}</div>
-              <div css={STYLES_SUBTEXT}>File size</div>
-            </div>
-          </div>
-        ) : null}
-
-        <System.ButtonSecondaryFull
-          type="label"
-          htmlFor="file"
-          style={{ marginTop: 24 }}
+        <System.ButtonPrimaryFull
+          style={{ marginTop: 48 }}
+          onClick={this._handleSubmit}
+          loading={this.props.sidebarLoading}
         >
-          Add file
-        </System.ButtonSecondaryFull>
+          Make storage deal
+        </System.ButtonPrimaryFull>
 
-        {this.props.file ? (
-          <System.Input
-            containerStyle={{ marginTop: 48 }}
-            label="Deal duration"
-            name="settings_cold_default_duration"
-            placeholder="Type in epochs (~25 seconds)"
-            type="number"
-            value={this.state.settings_cold_default_duration}
-            onChange={this._handleChange}
-          />
-        ) : null}
-
-        {this.props.file ? (
-          <System.Input
-            containerStyle={{ marginTop: 24 }}
-            label="Replication factor"
-            name="settings_cold_default_replication_factor"
-            value={this.state.settings_cold_default_replication_factor}
-            onChange={this._handleChange}
-          />
-        ) : null}
-
-        {this.props.file ? (
-          <System.SelectMenu
-            full
-            containerStyle={{ marginTop: 24 }}
-            name="address"
-            label="Payment address"
-            value={this.props.selected.address}
-            category="address"
-            onChange={this.props.onSelectedChange}
-            options={this.props.viewer.addresses}
-          />
-        ) : null}
-
-        {this.props.file ? (
-          <System.ButtonPrimaryFull
-            style={{ marginTop: 48 }}
-            onClick={this._handleSubmit}
+        {!this.props.sidebarLoading ? (
+          <System.ButtonSecondaryFull
+            style={{ marginTop: 16 }}
+            onClick={this._handleCancel}
           >
-            Make storage deal
-          </System.ButtonPrimaryFull>
+            Cancel deal
+          </System.ButtonSecondaryFull>
         ) : null}
       </React.Fragment>
     );

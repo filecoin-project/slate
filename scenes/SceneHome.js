@@ -95,8 +95,20 @@ export default class SceneHome extends React.Component {
                     name: "Network",
                     type: "NETWORK_TYPE",
                   },
+                  {
+                    key: "button",
+                    hideLabel: true,
+                    type: "BUTTON",
+                    action: "SIDEBAR_FILE_STORAGE_DEAL",
+                    width: "148px",
+                  },
                 ],
-                rows: this.props.viewer.library[0].children,
+                rows: this.props.viewer.library[0].children.map((each) => {
+                  return {
+                    ...each,
+                    button: "Store on Filecoin",
+                  };
+                }),
               }}
               selectedRowId={this.state.data}
               onChange={this._handleChange}

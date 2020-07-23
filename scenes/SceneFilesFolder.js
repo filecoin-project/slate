@@ -54,7 +54,7 @@ export default class SceneFilesFolder extends React.Component {
             {
               name: "Upload to IPFS",
               type: "SIDEBAR",
-              value: "SIDEBAR_FILE_STORAGE_DEAL",
+              value: "SIDEBAR_ADD_FILE_TO_BUCKET",
             },
           ]}
         >

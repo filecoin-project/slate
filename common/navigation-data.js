@@ -25,6 +25,14 @@ export const generate = (library) => [
     name: "Wallet",
     pageTitle: "Your wallet and addresses",
     decorator: "WALLET",
+    children: [
+      {
+        id: 6,
+        name: "Deal history",
+        pageTitle: "Your deal history",
+        decorator: "DEALS",
+      },
+    ],
   },
   ...constructFilesTreeForNavigation(library),
   {

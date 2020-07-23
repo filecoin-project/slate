@@ -71,6 +71,8 @@ export const getInitialState = (props) => {
     data,
     settings,
     username,
+    storageList,
+    retrievalList,
   } = props;
 
   return {
@@ -110,8 +112,9 @@ export const getInitialState = (props) => {
     payment_channels_active: [],
     payment_channels_redeemed: [],
     data_transfers: [],
+    storageList,
+    retrievalList,
     peers: transformPeers(peersList),
-    deals: [],
     addresses: transformAddresses(addrsList, info),
     library,
   };

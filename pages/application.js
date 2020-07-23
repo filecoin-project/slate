@@ -34,6 +34,7 @@ import SidebarAddMiner from "~/components/sidebars/SidebarAddMiner";
 import SidebarAddPeer from "~/components/sidebars/SidebarAddPeer";
 import SidebarNotifications from "~/components/sidebars/SidebarNotifications";
 import SidebarRedeemPaymentChannel from "~/components/sidebars/SidebarRedeemPaymentChannel";
+import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket";
 
 import ApplicationNavigation from "~/components/core/ApplicationNavigation";
 import ApplicationHeader from "~/components/core/ApplicationHeader";
@@ -86,7 +87,6 @@ export default class ApplicationPage extends React.Component {
     currentIndex: 0,
     data: null,
     sidebar: null,
-    file: null,
   };
 
   async componentDidMount() {
@@ -104,6 +104,8 @@ export default class ApplicationPage extends React.Component {
   }
 
   _handleSetFile = async ({ file }) => {
+    this.setState({ fileLoading: true });
+
     let data = new FormData();
     data.append("image", file);
 
@@ -118,11 +120,17 @@ export default class ApplicationPage extends React.Component {
     const response = await fetch(`/api/data/${file.name}`, options);
     const json = await response.json();
 
-    if (json && json.data) {
-      this.setState({ file: json.data });
+    if (!json && json.data) {
+      this.setState({ fileLoading: false });
+    }
+
+    if (!json.data) {
+      this.setState({ fileLoading: false });
     }
 
     await this.rehydrate();
+
+    this.setState({ sidebar: null, fileLoading: false });
   };
 
   _handleDragEnter = (e) => {
@@ -143,6 +151,13 @@ export default class ApplicationPage extends React.Component {
   _handleDrop = async (e) => {
     e.preventDefault();
 
+    this.setState({ fileLoading: true });
+
+    this._handleAction({
+      type: "SIDEBAR",
+      value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+    });
+
     if (e.dataTransfer.items) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
@@ -154,7 +169,7 @@ export default class ApplicationPage extends React.Component {
       }
     }
 
-    this._handleAction({ type: "SIDEBAR", value: "SIDEBAR_FILE_STORAGE_DEAL" });
+    this.setState({ fileLoading: false });
   };
 
   rehydrate = async () => {
@@ -367,6 +382,7 @@ export default class ApplicationPage extends React.Component {
     SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,
     SIDEBAR_DELETE_WALLET_ADDRESS: <SidebarDeleteWalletAddress />,
     SIDEBAR_REDEEM_PAYMENT_CHANNEL: <SidebarRedeemPaymentChannel />,
+    SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
   };
 
   scenes = {
@@ -453,8 +469,8 @@ export default class ApplicationPage extends React.Component {
     let sidebarElement;
     if (this.state.sidebar) {
       sidebarElement = React.cloneElement(this.state.sidebar, {
-        file: this.state.file,
         viewer: this.state.viewer,
+        fileLoading: this.state.fileLoading,
         selected: this.state.selected,
         onSelectedChange: this._handleSelectedChange,
         onSubmit: this._handleSubmit,

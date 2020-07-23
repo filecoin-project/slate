@@ -83,12 +83,18 @@ export default class SceneStorageMarket extends React.Component {
         <System.H1>2,534 FIL</System.H1>
         <System.P>
           Last Storage Order / GB / Month{" "}
-          <strong style={{ color: Constants.system.green, fontWeight: 400 }}>+143.24 (6.08)%</strong>
+          <strong style={{ color: Constants.system.green, fontWeight: 400 }}>
+            +143.24 (6.08)%
+          </strong>
         </System.P>
 
         <div css={STYLES_CHART_SECTION}>
           <div css={STYLES_LEFT}>
-            <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="Storage market">
+            <Section
+              onAction={this.props.onAction}
+              onNavigateTo={this.props.onNavigateTo}
+              title="Storage market"
+            >
               <div css={STYLES_OPTIONS}>
                 <span css={STYLES_OPTION}>1 Day</span>
                 <span css={STYLES_OPTION}>1 Week</span>
@@ -122,7 +128,11 @@ export default class SceneStorageMarket extends React.Component {
             </Section>
           </div>
           <div css={STYLES_RIGHT}>
-            <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="Statistics">
+            <Section
+              onAction={this.props.onAction}
+              onNavigateTo={this.props.onNavigateTo}
+              title="Statistics"
+            >
               <div css={STYLES_ITEM}>
                 <div css={STYLES_FOCUS}>8,422 FIL/GB/Month</div>
                 <div css={STYLES_SUBTEXT}>Market Storage Price</div>
@@ -169,14 +179,15 @@ export default class SceneStorageMarket extends React.Component {
             {
               name: "Make storage deal",
               type: "SIDEBAR",
-              value: "SIDEBAR_FILE_STORAGE_DEAL",
+              value: "SIDEBAR_ADD_FILE_TO_BUCKET",
             },
             {
               name: "Export",
               type: "DOWNLOAD",
               value: "CSV_STORAGE_DEALS",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             data={{
               columns: [

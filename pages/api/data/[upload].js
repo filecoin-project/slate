@@ -28,7 +28,9 @@ export default async (req, res) => {
     }
 
     if (!files.image) {
-      return res.status(500).send({ decorator: "SERVER_UPLOAD", error: true });
+      return res
+        .status(500)
+        .send({ decorator: "SERVER_UPLOAD_NOT_IMAGE", error: true });
     }
 
     const file = files.image;

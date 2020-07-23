@@ -1,13 +1,12 @@
 import * as Environment from "~/node_common/environment";
-import * as Constants from "./constants";
-import * as Converter from "~/vendor/bytes-base64-converter.js";
 import * as Strings from "~/common/strings";
 
-import FS from "fs-extra";
 import JWT from "jsonwebtoken";
+import PG from "~/node_common/powergate";
 
 import { Buckets } from "@textile/hub";
 import { Libp2pCryptoIdentity } from "@textile/threads-core";
+import { ffsOptions } from "@textile/powergate-client";
 
 const BUCKET_NAME = "data";
 
@@ -61,23 +60,8 @@ export const getBucketAPIFromUserToken = async (token) => {
   return { buckets, bucketKey: root.key, bucketName: BUCKET_NAME };
 };
 
-// NOTE(jim): Requires @textile/hub
-export const addFileFromFilePath = async ({ buckets, bucketKey, filePath }) => {
-  const file = await FS.readFileSync(filePath).buffer;
-  const fileName = getFileName(filePath);
-  const push = await buckets.pushPath(bucketKey, fileName, file);
-  const metadata = await buckets.pullPath(bucketKey, fileName);
-  const { value } = await metadata.next();
-
-  return createFile({
-    id: fileName,
-    file: Converter.bytesToBase64(value),
-    data: { size: 0 },
-  });
-};
-
 // NOTE(jim): Requires Powergate, does not require token.
-export const refresh = async ({ PG }) => {
+export const refresh = async () => {
   const Health = await PG.health.check();
   const status = Health.status ? Health.status : null;
   const messageList = Health.messageList ? Health.messageList : null;
@@ -89,34 +73,33 @@ export const refresh = async ({ PG }) => {
 };
 
 // NOTE(jim): Requires Powergate & authentication
-export const refreshWithToken = async ({ PG }) => {
+export const refreshWithToken = async () => {
   const Addresses = await PG.ffs.addrs();
   const addrsList = Addresses.addrsList ? Addresses.addrsList : null;
 
   const NetworkInfo = await PG.ffs.info();
   const info = NetworkInfo.info ? NetworkInfo.info : null;
 
-  return { addrsList, info };
-};
+  const includeFinal = ffsOptions.withIncludeFinal(true);
+  const includePending = ffsOptions.withIncludePending(true);
+  const fromAddresses = ffsOptions.withFromAddresses(
+    info.defaultStorageConfig.cold.filecoin.addr
+  );
 
-export const emitState = async ({ state, client, PG }) => {
-  const { peersList, messageList, status } = await refresh({ PG });
-  const { addrsList, info } = await refreshWithToken({ PG });
+  const s = await PG.ffs.listStorageDealRecords(
+    includeFinal,
+    includePending,
+    fromAddresses
+  );
 
-  const data = await updateStateData(state, {
-    peersList,
-    messageList,
-    status,
+  const r = await PG.ffs.listRetrievalDealRecords();
+
+  return {
     addrsList,
     info,
-    state,
-  });
-
-  if (client) {
-    client.send(JSON.stringify({ action: "UPDATE_VIEWER", data }));
-  }
-
-  return data;
+    storageList: s.recordsList,
+    retrievalList: r.recordsList,
+  };
 };
 
 export const getFileName = (s) => {
@@ -126,28 +109,6 @@ export const getFileName = (s) => {
   }
 
   return target.substr(target.lastIndexOf("/") + 1);
-};
-
-export const createFile = ({ id, data, file }) => {
-  return {
-    decorator: "FILE",
-    id: id,
-    icon: "PNG",
-    file: getFileName(id),
-    miner: null,
-    job_id: null,
-    cid: null,
-    date: new Date(),
-    size: data.size,
-    amount: 0,
-    remaining: null,
-    data: data,
-    deal_category: 1,
-    retrieval_status: 0,
-    storage_status: 0,
-    file_data: file,
-    errors: [],
-  };
 };
 
 export const createFolder = ({ id, name }) => {
@@ -169,46 +130,4 @@ export const updateStateData = async (state, newState) => {
     ...state,
     ...newState,
   };
-};
-
-// TODO(jim): Refactor this so we repeat this less often.
-export const refreshLibrary = async ({ state, PG, FFS }) => {
-  let write = false;
-  for (let i = 0; i < state.library.length; i++) {
-    for (let j = 0; j < state.library[i].children.length; j++) {
-      if (state.library[i].children[j].job_id) {
-        if (state.library[i].children[j].storage_status === 1) {
-          console.log(
-            "[ prototype ] update file",
-            state.library[i].children[j]
-          );
-          state.library[i].children[j].storage_status = 2;
-          write = true;
-          continue;
-        }
-
-        PG.ffs.watchJobs((job) => {
-          console.log("[ prototype ] job status", job.status);
-          // NOTE(jim): FFS is undefined?
-          if (job.status >= 5) {
-            console.log(
-              "[ prototype ] update file",
-              state.library[i].children[j]
-            );
-            state.library[i].children[j].storage_status = 6;
-            write = true;
-          }
-        }, state.library[i].children[j].job_id);
-      }
-    }
-  }
-
-  if (write) {
-    FS.writeFileSync(
-      "./.data/library.json",
-      JSON.stringify({ library: state.library })
-    );
-  }
-
-  return { ...state };
 };

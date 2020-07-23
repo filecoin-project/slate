@@ -20,8 +20,6 @@ export const getViewer = async ({ id }) => {
 
   // NOTE(jim): Essential for getting the right Powergate data for a user.
   try {
-    PG.setToken(user.data.tokens.pg);
-
     data = {
       id: user.id,
       data: { photo: user.data.photo },
@@ -30,6 +28,8 @@ export const getViewer = async ({ id }) => {
       },
       username: user.username,
       library: user.data.library,
+      storageList: [],
+      retrievalList: [],
       peersList: null,
       messageList: null,
       status: null,
@@ -37,10 +37,10 @@ export const getViewer = async ({ id }) => {
       info: null,
     };
 
-    const updates = await Utilities.refresh({ PG });
-    const updatesWithToken = await Utilities.refreshWithToken({
-      PG,
-    });
+    PG.setToken(user.data.tokens.pg);
+
+    const updates = await Utilities.refresh();
+    const updatesWithToken = await Utilities.refreshWithToken();
 
     data = await Utilities.updateStateData(data, {
       ...updates,

@@ -187,8 +187,25 @@ const STYLES_BUTTON_SECONDARY_FULL = css`
 `;
 
 export const ButtonSecondaryFull = (props) => {
+  if (props.loading) {
+    return (
+      <button css={STYLES_BUTTON_SECONDARY_FULL} style={props.style}>
+        <LoaderSpinner style={{ height: 16, width: 16 }} />
+      </button>
+    );
+  }
+
   if (props.type === "label") {
-    return <label css={STYLES_BUTTON_SECONDARY_FULL} {...props} />;
+    return (
+      <label
+        css={STYLES_BUTTON_SECONDARY_FULL}
+        style={props.style}
+        onClick={props.onClick}
+        children={props.children}
+        type={props.label}
+        htmlFor={props.htmlFor}
+      />
+    );
   }
 
   return <button css={STYLES_BUTTON_SECONDARY_FULL} {...props} />;

@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+
 import CodeBlock from "~/components/system/CodeBlock";
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
@@ -121,27 +122,23 @@ import { GlobalCarousel, dispatchCustomEvent } from 'slate-react-system';`}
   _handleDelete = () => {
     dispatchCustomEvent({ name: "delete-carousel", detail: {} });
   };
+
   render() {
     let carouselContent = [
-                {
-                  src:
-                    "https://images.unsplash.com/photo-1428765048792-aa4bdde46fea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
-                  alt: "photo of grey and black ferris wheel during daytime",
-                },
-                {
-                  src:
-                    "https://images.unsplash.com/photo-1503914068268-5413b35b45ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-                  alt: "pink road bike",
-                },
-              ].map((props) => (
-                <img {...props} style={{ maxHeight: "80vh" }} />
-              )),
-    return(
-      <ButtonSecondaryFull
-        onClick={() =>
-          this._handleCreate({ slides: carouselContent })
-        }
-      >
+      {
+        src: "https://images.unsplash.com/photo-1428765048792-aa4bdde46fea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
+        alt: "photo of grey and black ferris wheel during daytime",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1503914068268-5413b35b45ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+        alt: "pink road bike",
+      },
+    ].map((props) => (
+      <img {...props} style={{ maxHeight: "80vh" }} />
+    ));
+
+    return (
+      <ButtonSecondaryFull onClick={() => this._handleCreate({ slides: carouselContent })}>
         Open Carousel
       </ButtonSecondaryFull>
     )
@@ -171,7 +168,7 @@ import { GlobalCarousel, dispatchCustomEvent } from 'slate-react-system';`}
                   c: "{}",
                   d:
                     "Style object used to style the carousel background (color, etc.)",
-                }
+                },
               ],
             }}
           />
@@ -206,7 +203,7 @@ import { GlobalCarousel, dispatchCustomEvent } from 'slate-react-system';`}
                       slides
                     </span>
                   ),
-                  b: ["Component[]","Component"],
+                  b: ["Component[]", "Component"],
                   c: "null",
                   d: "Components to be rendered inside the carousel",
                 },
@@ -218,9 +215,9 @@ import { GlobalCarousel, dispatchCustomEvent } from 'slate-react-system';`}
                     </span>
                   ),
                   b: ["number"],
-                  c:0,
+                  c: 0,
                   d: "Index of the initial slide",
-                }
+                },
               ],
             }}
           />

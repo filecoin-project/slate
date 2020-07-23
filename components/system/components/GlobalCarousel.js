@@ -1,7 +1,8 @@
-import { css } from "@emotion/react";
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
+
+import { css } from "@emotion/react";
 
 const STYLES_BACKGROUND = css`
   position: fixed;
@@ -54,15 +55,12 @@ export class GlobalCarousel extends React.Component {
   componentDidMount = () => {
     window.addEventListener("create-carousel", this._handleCreate);
     window.addEventListener("delete-carousel", this._handleDelete);
-
-    // Handle Key downs
     window.addEventListener("keydown", this._handleKeyDown);
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("create-carousel", this._handleCreate);
     window.removeEventListener("delete-carousel", this._handleDelete);
-
     window.removeEventListener("keydown", this._handleKeyDown);
   };
 

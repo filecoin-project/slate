@@ -15,6 +15,11 @@ import {
   FilecoinRetrievalDealsList,
 } from "~/components/system/modules/FilecoinDealsList";
 
+// NOTE(jim): Global components
+import { GlobalModal } from "~/components/system/components/GlobalModal";
+import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
+import { GlobalNotification } from "~/components/system/components/GlobalNotification";
+
 // NOTE(jim): Components
 import {
   ButtonPrimary,
@@ -28,9 +33,6 @@ import { CardTabGroup } from "~/components/system/components/CardTabGroup";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 import { DatePicker } from "~/components/system/components/DatePicker";
-import { GlobalModal } from "~/components/system/components/GlobalModal";
-import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
-import { GlobalNotification } from "~/components/system/components/GlobalNotification";
 import { Input } from "~/components/system/components/Input";
 import { ListEditor } from "~/components/system/components/ListEditor";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
@@ -53,7 +55,16 @@ import { TabGroup } from "~/components/system/components/TabGroup";
 import { Table } from "~/components/system/components/Table";
 import { Textarea } from "~/components/system/components/Textarea";
 import { Toggle } from "~/components/system/components/Toggle";
-import { H1, H2, H3, H4, P, UL, OL, LI } from "~/components/system/components/Typography";
+import {
+  H1,
+  H2,
+  H3,
+  H4,
+  P,
+  UL,
+  OL,
+  LI,
+} from "~/components/system/components/Typography";
 
 // NOTE(jim): Fragments
 import { Boundary } from "~/components/system/components/fragments/Boundary";

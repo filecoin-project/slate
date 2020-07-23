@@ -1,7 +1,6 @@
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
-
-import PG from "~/node_common/powergate";
+import * as Powergate from "~/node_common/powergate";
 
 export const getViewer = async ({ id }) => {
   const user = await Data.getUserById({
@@ -37,10 +36,8 @@ export const getViewer = async ({ id }) => {
       info: null,
     };
 
-    PG.setToken(user.data.tokens.pg);
-
-    const updates = await Utilities.refresh();
-    const updatesWithToken = await Utilities.refreshWithToken();
+    const updates = await Utilities.refresh(user);
+    const updatesWithToken = await Utilities.refreshWithToken(user);
 
     data = await Utilities.updateStateData(data, {
       ...updates,

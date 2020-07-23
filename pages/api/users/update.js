@@ -3,6 +3,7 @@ import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Validations from "~/common/validations";
+import * as Powergate from "~/node_common/powergate";
 
 import DB from "~/node_common/database";
 import PG from "~/node_common/powergate";
@@ -37,6 +38,8 @@ export default async (req, res) => {
       .status(500)
       .json({ decorator: "SERVER_USER_UPDATE", error: true });
   }
+
+  const PG = Powergate.get(user);
 
   if (req.body.data) {
     const response = await Data.updateUserById({

@@ -1,8 +1,8 @@
 import * as Environment from "~/node_common/environment";
 import * as Strings from "~/common/strings";
+import * as Powergate from "~/node_common/powergate";
 
 import JWT from "jsonwebtoken";
-import PG from "~/node_common/powergate";
 
 import { Buckets } from "@textile/hub";
 import { Libp2pCryptoIdentity } from "@textile/threads-core";
@@ -61,7 +61,8 @@ export const getBucketAPIFromUserToken = async (token) => {
 };
 
 // NOTE(jim): Requires Powergate, does not require token.
-export const refresh = async () => {
+export const refresh = async (user) => {
+  const PG = Powergate.get(user);
   const Health = await PG.health.check();
   const status = Health.status ? Health.status : null;
   const messageList = Health.messageList ? Health.messageList : null;
@@ -73,7 +74,8 @@ export const refresh = async () => {
 };
 
 // NOTE(jim): Requires Powergate & authentication
-export const refreshWithToken = async () => {
+export const refreshWithToken = async (user) => {
+  const PG = Powergate.get(user);
   const Addresses = await PG.ffs.addrs();
   const addrsList = Addresses.addrsList ? Addresses.addrsList : null;
 

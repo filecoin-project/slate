@@ -3,8 +3,8 @@ import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Validations from "~/common/validations";
+import * as Powergate from "~/node_common/powergate";
 
-import PG from "~/node_common/powergate";
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
@@ -44,8 +44,7 @@ export default async (req, res) => {
   const double = await BCrypt.hash(hash, salt);
   const triple = await BCrypt.hash(double, Environment.LOCAL_PASSWORD_SECRET);
 
-  const FFS = await PG.ffs.create();
-  const pg = FFS.token ? FFS.token : null;
+  const pg = await Powergate.createNewToken();
 
   // API
   const identity = await Libp2pCryptoIdentity.fromRandom();

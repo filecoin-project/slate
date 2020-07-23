@@ -13,6 +13,7 @@ const STYLES_NESTED_TABLE = css`
   grid-template-columns: 160px 1fr;
 `;
 
+let iterator = 0;
 const NestedTable = (data) => {
   let values = [];
   for (let entries of Object.entries(data)) {
@@ -27,6 +28,10 @@ const NestedTable = (data) => {
 
 export default class SceneDeals extends React.Component {
   state = {};
+
+  async componentDidMount() {
+    await this.props.onRehydrate();
+  }
 
   _handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });

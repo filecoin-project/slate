@@ -62,19 +62,16 @@ export default class SidebarFileStorageDeal extends React.Component {
       body: JSON.stringify({ ipfs }),
     };
 
-    const response = await fetch("/api/data/make-storage-deal", options);
+    const response = await fetch("/api/data/storage-deal", options);
     const json = await response.json();
+    console.log(json);
     return json;
   };
 
   _handleSubmit = async (e) => {
     e.persist();
     this.props.onSidebarLoading(true);
-
     await this._handleMakeDeal({ ipfs: this.props.data.ipfs });
-
-    alert("TODO: Finish 0.2.0 Powergate Update");
-
     await this.props.onSubmit({});
   };
 

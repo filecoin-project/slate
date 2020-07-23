@@ -1,8 +1,7 @@
 import * as MW from "~/node_common/middleware";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
-
-import PG from "~/node_common/powergate";
+import * as Powergate from "~/node_common/powergate";
 
 const initCORS = MW.init(MW.CORS);
 const initAuth = MW.init(MW.RequireCookieAuthentication);
@@ -33,6 +32,8 @@ export default async (req, res) => {
       .status(200)
       .json({ decorator: "SERVER_SEND_FILECOIN", error: true });
   }
+
+  const PG = Powergate.get(user);
 
   let data;
   try {

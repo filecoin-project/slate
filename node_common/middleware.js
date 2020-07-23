@@ -2,9 +2,9 @@ import * as Environment from "~/node_common/environment";
 import * as Credentials from "~/common/credentials";
 import * as Strings from "~/common/strings";
 import * as Data from "~/node_common/data";
+import * as Powergate from "~/node_common/powergate";
 
 import JWT from "jsonwebtoken";
-import PG from "~/node_common/powergate";
 
 export const init = (middleware) => {
   return (req, res) =>
@@ -50,9 +50,10 @@ export const RequireCookieAuthentication = async (req, res, next) => {
     "$1"
   );
 
+  let user;
   try {
     const decoded = JWT.verify(token, Environment.JWT_SECRET);
-    const user = await Data.getUserById({
+    user = await Data.getUserById({
       id: decoded.id,
     });
 
@@ -61,10 +62,6 @@ export const RequireCookieAuthentication = async (req, res, next) => {
         .status(403)
         .json({ decorator: "SERVER_AUTH_USER_NOT_FOUND", error: true });
     }
-
-    // NOTE(jim): Make sure we Powergate authenticate again here.
-    // This is user dependent.
-    PG.setToken(user.data.tokens.pg);
   } catch (err) {
     console.log(err);
     return res

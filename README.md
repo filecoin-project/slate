@@ -8,20 +8,23 @@
 - (WIP) Great for storing images and sharing high resolution photos with friends.
 - [Design system](https://slate.host/system) -> [Release repository](https://github.com/filecoin-project/slate-react-system).
 
+#### Current prototype (July 22nd, 2020)
+
+![screenshot](https://user-images.githubusercontent.com/310223/88253285-3a981f80-cc66-11ea-884b-e3b055f6bf46.png)
+
 #### Current prototype (June 15th, 2020)
 
 ![screenshot](https://user-images.githubusercontent.com/310223/84873452-1c704b80-b038-11ea-8398-4a73c4d9850e.png)
 
 ## Developer Introduction
 
-Working on Slate requires an internet connection because we are using a hosted Powergate and a hosted Postgres. That means there is no offline mode in the short term.
+* To work on Slate you must have an internet connection.
+* We don't have windows support at the moment.
 
 ### .env
 
-- We use a `dotenv` file to manage sensitive values and secrets.
-- You must create this file to work on the application.
-- You don't need to create a `.env` file if you're only working on the design system.
-- There will be no local data in the short term.
+- You must create a `.env` file if you want to work on the service.
+- You don't need one if you work on the system.
 
 ```
 POSTGRES_ADMIN_PASSWORD=XXX
@@ -36,8 +39,6 @@ TEXTILE_HUB_SECRET=XXX
 
 ### Install and run
 
-Run these commands to start the client locally.
-
 ```sh
 git clone git@github.com:filecoin-project/slate.git
 cd slate
@@ -49,13 +50,11 @@ npm run dev
 
 ![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
 
-- Visit `localhost:1337` in your browser.
+- Visit `localhost:1337` in a browser.
 
 ### BROKEN: Run electron (MacOS)
 
-@jimmylee recently broke the current version of the client.
-
-While you have `npm run dev` running, in another terminal screen run:
+@jimmylee broke the current version of the client.
 
 ```sh
 rm -rf .next
@@ -63,14 +62,15 @@ npm run build-electron
 npm run electron-pack
 ```
 
-And then open **Slate.app** in `dist/mac/slate.app`.
+Open **Slate.app** in `dist/mac/slate.app`.
 
 # Get involved.
 
 Do you want to...
 
-- Help us build a design system for internal use?
-- Help us build out this example so every partner in the ecosystem can have example code to work with?
+- Help us build a design system for everyone to use?
+- Help us build examples?
+- Get mentorship and help with learning how to do front-end code?
 
 Then...
 

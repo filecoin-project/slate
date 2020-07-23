@@ -5,6 +5,7 @@ import * as SVG from "~/common/svg";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
+import { GoogleScript } from "~/common/analytics";
 
 const STYLES_PAGE = css`
   background-color: ${Constants.system.foreground};
@@ -28,7 +29,7 @@ const STYLES_ICON_ELEMENT = css`
   align-items: center;
   justify-content: center;
   background-color: ${Constants.system.brand};
-  background-image: url('/static/social.png');
+  background-image: url("/static/social.png");
   border-radius: 88px;
   background-size: cover;
   color: ${Constants.system.white};
@@ -180,6 +181,8 @@ export default class SystemPage extends React.Component {
           />
 
           <link rel="shortcut icon" href="/static/favicon.ico" />
+
+          <GoogleScript id="UA-52930282-7" />
         </Head>
         <div css={STYLES_BODY}>{children}</div>
         <div css={STYLES_SIDEBAR}>
@@ -242,10 +245,18 @@ export default class SystemPage extends React.Component {
           <SidebarLink url={url} href="/system/inputs" title="Inputs" />
           <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns" />
           <SidebarLink url={url} href="/system/datepicker" title="Datepicker" />
-          <SidebarLink url={url} href="/system/list-editor" title="List Editor" />
+          <SidebarLink
+            url={url}
+            href="/system/list-editor"
+            title="List Editor"
+          />
           <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs" />
           <SidebarLink url={url} href="/system/tabs" title="Tabs" />
-          <SidebarLink url={url} href="/system/notifications" title="Notifications"/>
+          <SidebarLink
+            url={url}
+            href="/system/notifications"
+            title="Notifications"
+          />
           <SidebarLink url={url} href="/system/modals" title="Modals" />
           <SidebarLink url={url} href="/system/loaders" title="Loaders" />
           <SidebarLink url={url} href="/system/typography" title="Typography" />

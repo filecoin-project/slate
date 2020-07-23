@@ -2,6 +2,8 @@ import Head from "next/head";
 
 import * as React from "react";
 
+import { GoogleScript } from "~/common/analytics";
+
 export default class WebsitePrototypeWrapper extends React.Component {
   static defaultProps = {
     image: "/static/social.png",
@@ -50,6 +52,7 @@ export default class WebsitePrototypeWrapper extends React.Component {
           />
 
           <link rel="shortcut icon" href="/static/favicon.ico" />
+          <GoogleScript id="UA-52930282-7" />
         </Head>
         {this.props.children}
       </React.Fragment>

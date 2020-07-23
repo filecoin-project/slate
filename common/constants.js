@@ -45,6 +45,7 @@ export const system = {
   black: "#2D2926",
   pitchBlack: "#0c0c0c",
   brand: "#2935ff",
+  link: "#0074D9",
   green: "#28a745",
   yellow: " #FFC940",
   red: "#ff0000",

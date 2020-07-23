@@ -3,6 +3,21 @@ import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 
+const ANCHOR = `
+  a {
+    font-family: ${Constants.font.text};
+    font-weight: 400;
+    text-decoration: none;
+    color: ${Constants.system.link};
+  }
+
+  a:hover {
+    text-decoration: underline;
+    color: ${Constants.system.link};
+
+  }
+`;
+
 const STYLES_H1 = css`
   box-sizing: border-box;
   font-size: ${Constants.typescale.lvl4};
@@ -25,13 +40,11 @@ const STYLES_H1 = css`
     font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
+
+  ${ANCHOR}
 `;
 
 export const H1 = (props) => {
-  if (props.href) {
-    return <a css={STYLES_H1} {...props} />;
-  }
-
   return <h1 css={STYLES_H1} {...props} />;
 };
 
@@ -58,13 +71,11 @@ const STYLES_H2 = css`
     font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
+
+  ${ANCHOR}
 `;
 
 export const H2 = (props) => {
-  if (props.href) {
-    return <a css={STYLES_H2} {...props} />;
-  }
-
   return <h2 css={STYLES_H2} {...props} />;
 };
 
@@ -90,17 +101,15 @@ const STYLES_H3 = css`
     font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
+
+  ${ANCHOR}
 `;
 
 export const H3 = (props) => {
-  if (props.href) {
-    return <a css={STYLES_H3} {...props} />;
-  }
-
   return <h3 css={STYLES_H3} {...props} />;
 };
 
-const STYLES_H4= css`
+const STYLES_H4 = css`
   box-sizing: border-box;
   font-size: ${Constants.typescale.lvl1};
   line-height: 1.1;
@@ -122,17 +131,16 @@ const STYLES_H4= css`
     font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
+
+  ${ANCHOR}
 `;
 
 export const H4 = (props) => {
-  if (props.href) {
-    return <a css={STYLES_H4} {...props} />;
-  }
-
   return <h4 css={STYLES_H4} {...props} />;
 };
 
 const STYLES_P = css`
+
   box-sizing: border-box;
   font-family: ${Constants.font.text};
   font-size: ${Constants.typescale.lvl1};
@@ -143,14 +151,11 @@ const STYLES_P = css`
     font-weight: 400;
   }
 
-  a {
-    font-family: ${Constants.font.semiBold};
-    font-weight: 400;
-  }
-`;
+  ${ANCHOR}
+` ;
 
 export const P = (props) => {
-  return <div css={STYLES_P} {...props} />;
+  return <div css={STYLES_P} {...props}/>;
 };
 
 const STYLES_UL = css`
@@ -180,12 +185,10 @@ const STYLES_LI = css`
     font-weight: 400;
   }
 
-  a {
-    font-family: ${Constants.font.semiBold};
-    font-weight: 400;
-  }
+  ${ANCHOR}
 `;
 
 export const LI = (props) => {
   return <li css={STYLES_LI} {...props} />;
 };
+

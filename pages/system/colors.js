@@ -75,6 +75,8 @@ export default class SystemPageColors extends React.Component {
 
 {Constants.system.brand};
 
+{Constants.system.link};
+
 {Constants.system.green};
 
 {Constants.system.yellow};

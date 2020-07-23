@@ -33,6 +33,12 @@ const STYLES_INPUT_CONTAINER = css`
   min-width: 188px;
 `;
 
+const STYLES_INPUT_CONTAINER_FULL = css`
+  box-sizing: border-box;
+  position: relative;
+  min-width: 188px;
+`;
+
 const STYLES_INPUT = css`
   ${INPUT_STYLES}
   padding: 0 24px 0 24px;
@@ -128,7 +134,12 @@ export class Input extends React.Component {
 
   render() {
     return (
-      <div css={STYLES_INPUT_CONTAINER} style={this.props.containerStyle}>
+      <div
+        css={
+          this.props.full ? STYLES_INPUT_CONTAINER_FULL : STYLES_INPUT_CONTAINER
+        }
+        style={this.props.containerStyle}
+      >
         <DescriptionGroup
           tooltip={this.props.tooltip}
           label={this.props.label}

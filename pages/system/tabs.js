@@ -139,6 +139,7 @@ class ExampleTwo extends React.Component {
           value={this.state.eight}
           onChange={this._handleChange}
         />
+        <br />
         <System.TabGroup
           name="nine"
           options={TAB_GROUP_THREE}

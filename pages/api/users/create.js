@@ -1,8 +1,8 @@
+import * as Environment from "~/node_common/environment";
 import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
-import * as Strings from "~/common/strings";
-import * as Environment from "~/node_common/environment";
 import * as Utilities from "~/node_common/utilities";
+import * as Validations from "~/common/validations";
 
 import PG from "~/node_common/powergate";
 import JWT from "jsonwebtoken";
@@ -25,12 +25,16 @@ export default async (req, res) => {
       .json({ decorator: "SERVER_EXISTING_USER_ALREADY", error: true });
   }
 
-  if (Strings.isEmpty(req.body.data.username)) {
-    return res.status(500).send({ error: "A username was not provided." });
+  if (!Validations.username(req.body.data.username)) {
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_INVALID_USERNAME", error: true });
   }
 
-  if (Strings.isEmpty(req.body.data.password)) {
-    return res.status(500).send({ error: "A password was not provided." });
+  if (!Validations.password(req.body.data.password)) {
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_INVALID_PASSWORD", error: true });
   }
 
   // TODO(jim): Do not expose how many times you are salting

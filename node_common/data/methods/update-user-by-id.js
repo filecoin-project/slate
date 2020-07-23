@@ -1,6 +1,6 @@
 import { runQuery } from "~/node_common/data/utilities";
 
-export default async ({ id, data, username }) => {
+export default async ({ id, data, username, salt, password }) => {
   const updateObject = {};
 
   if (data) {
@@ -9,6 +9,14 @@ export default async ({ id, data, username }) => {
 
   if (username) {
     updateObject.username = username;
+  }
+
+  if (salt) {
+    updateObject.salt = salt;
+  }
+
+  if (password) {
+    updateObject.password = password;
   }
 
   return await runQuery({

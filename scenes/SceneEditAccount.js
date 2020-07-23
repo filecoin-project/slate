@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
+import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/react";
 
@@ -25,9 +26,18 @@ const delay = (time) =>
   );
 
 export default class SceneEditAccount extends React.Component {
-  state = { username: this.props.viewer.username, deleting: false };
+  state = {
+    username: this.props.viewer.username,
+    password: "",
+    confirm: "",
+    deleting: false,
+    changingPassword: false,
+    changingUsername: false,
+    changingAvatar: false,
+  };
 
   _handleUpload = async (e) => {
+    this.setState({ changingAvatar: true });
     e.persist();
     let file = e.target.files[0];
 
@@ -53,15 +63,48 @@ export default class SceneEditAccount extends React.Component {
       data: { photo: `https://hub.textile.io${json.data.ipfs}` },
     });
 
-    this.props.onRehydrate();
+    await this.props.onRehydrate();
+
+    this.setState({ changingAvatar: false });
   };
 
   _handleSave = async (e) => {
+    this.setState({ changingUsername: true });
+
+    if (!Validations.username(this.state.username)) {
+      alert("TODO: Not a valid username");
+      this.setState({ changingUsername: false });
+      return;
+    }
+
     await Actions.updateViewer({
       username: this.state.username,
     });
 
-    this.props.onRehydrate();
+    await this.props.onRehydrate();
+    this.setState({ changingUsername: false });
+  };
+
+  _handleChangePassword = async (e) => {
+    this.setState({ changingPassword: true });
+    if (this.state.password !== this.state.confirm) {
+      alert("TODO: Error message for non-matching passwords");
+      this.setState({ changingPassword: false });
+      return;
+    }
+
+    if (!Validations.password(this.state.password)) {
+      alert("TODO: Not a valid password");
+      this.setState({ changingPassword: false });
+      return;
+    }
+
+    await Actions.updateViewer({
+      type: "CHANGE_PASSWORD",
+      password: this.state.password,
+    });
+
+    this.setState({ changingPassword: false, password: "", confirm: "" });
   };
 
   _handleDelete = async (e) => {
@@ -110,8 +153,9 @@ export default class SceneEditAccount extends React.Component {
             style={{ margin: "0 16px 16px 0" }}
             type="label"
             htmlFor="file"
+            loading={this.state.changingAvatar}
           >
-            Upload
+            Pick avatar
           </System.ButtonPrimary>
         </div>
 
@@ -134,8 +178,46 @@ export default class SceneEditAccount extends React.Component {
         />
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary onClick={this._handleSave}>
-            Save
+          <System.ButtonPrimary
+            onClick={this._handleSave}
+            loading={this.state.changingUsername}
+          >
+            Change username
+          </System.ButtonPrimary>
+        </div>
+
+        <System.DescriptionGroup
+          style={{ marginTop: 48 }}
+          label="Reset password"
+          description="Your new password must be a minimum of four characters."
+        />
+
+        <System.Input
+          containerStyle={{ marginTop: 24 }}
+          label="New password"
+          name="password"
+          type="password"
+          value={this.state.password}
+          placeholder="Your new password"
+          onChange={this._handleChange}
+        />
+
+        <System.Input
+          containerStyle={{ marginTop: 24 }}
+          label="Confirm password"
+          name="confirm"
+          type="password"
+          value={this.state.confirm}
+          placeholder="Confirm it!"
+          onChange={this._handleChange}
+        />
+
+        <div style={{ marginTop: 24 }}>
+          <System.ButtonPrimary
+            onClick={this._handleChangePassword}
+            loading={this.state.changingPassword}
+          >
+            Change password
           </System.ButtonPrimary>
         </div>
 

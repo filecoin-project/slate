@@ -1,10 +1,12 @@
+import * as Environment from "~/node_common/environment";
 import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
-import * as Strings from "~/common/strings";
+import * as Validations from "~/common/validations";
 
 import DB from "~/node_common/database";
 import PG from "~/node_common/powergate";
+import BCrypt from "bcrypt";
 
 const initCORS = MW.init(MW.CORS);
 const initAuth = MW.init(MW.RequireCookieAuthentication);
@@ -26,13 +28,13 @@ export default async (req, res) => {
 
   if (!user) {
     return res
-      .status(200)
+      .status(500)
       .json({ decorator: "SERVER_USER_UPDATE", error: true });
   }
 
   if (user.error) {
     return res
-      .status(200)
+      .status(500)
       .json({ decorator: "SERVER_USER_UPDATE", error: true });
   }
 
@@ -54,6 +56,27 @@ export default async (req, res) => {
         username: req.body.username,
       });
     }
+  }
+
+  // TODO(jim): Do not expose how many times you are salting
+  // in OSS, add a random value as an environment variable.
+  if (req.body.type == "CHANGE_PASSWORD") {
+    if (!Validations.password(req.body.password)) {
+      return res
+        .status(500)
+        .json({ decorator: "SERVER_INVALID_PASSWORD", error: true });
+    }
+
+    const salt = await BCrypt.genSalt(13);
+    const hash = await BCrypt.hash(req.body.password, salt);
+    const double = await BCrypt.hash(hash, salt);
+    const triple = await BCrypt.hash(double, Environment.LOCAL_PASSWORD_SECRET);
+
+    await Data.updateUserById({
+      id: user.id,
+      salt,
+      password: triple,
+    });
   }
 
   // TODO(jim): POWERGATE_ISSUE 0.2.0

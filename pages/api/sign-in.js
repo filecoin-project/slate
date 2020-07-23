@@ -12,6 +12,7 @@ const initCORS = MW.init(MW.CORS);
 export default async (req, res) => {
   initCORS(req, res);
 
+  // NOTE(jim): We don't need to validate here.
   if (Strings.isEmpty(req.body.data.username)) {
     return res.status(500).send({ decorator: "SERVER_SIGN_IN", error: true });
   }
@@ -45,6 +46,9 @@ export default async (req, res) => {
     phaseTwo,
     Environment.LOCAL_PASSWORD_SECRET
   );
+
+  console.log(phaseThree);
+  console.log(user.password);
 
   if (phaseThree !== user.password) {
     return res

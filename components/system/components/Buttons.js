@@ -58,15 +58,24 @@ const STYLES_BUTTON_PRIMARY = css`
 `;
 
 export const ButtonPrimary = (props) => {
-  if (props.type === "label") {
-    return <label css={STYLES_BUTTON_PRIMARY} {...props} />;
-  }
-
   if (props.loading) {
     return (
       <button css={STYLES_BUTTON_PRIMARY} style={props.style}>
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
+    );
+  }
+
+  if (props.type === "label") {
+    return (
+      <label
+        css={STYLES_BUTTON_PRIMARY}
+        style={props.style}
+        onClick={props.onClick}
+        children={props.children}
+        type={props.label}
+        htmlFor={props.htmlFor}
+      />
     );
   }
 
@@ -100,15 +109,24 @@ const STYLES_BUTTON_PRIMARY_FULL = css`
 `;
 
 export const ButtonPrimaryFull = (props) => {
-  if (props.type === "label") {
-    return <label css={STYLES_BUTTON_PRIMARY_FULL} {...props} />;
-  }
-
   if (props.loading) {
     return (
       <button css={STYLES_BUTTON_PRIMARY_FULL} style={props.style}>
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
+    );
+  }
+
+  if (props.type === "label") {
+    return (
+      <label
+        css={STYLES_BUTTON_PRIMARY_FULL}
+        style={props.style}
+        onClick={props.onClick}
+        children={props.children}
+        type={props.label}
+        htmlFor={props.htmlFor}
+      />
     );
   }
 

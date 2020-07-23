@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
-import * as Strings from "~/common/strings";
+import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/react";
 
@@ -76,16 +76,21 @@ export default class SceneSignIn extends React.Component {
 
     // TODO(jim):
     // Lets add some proper error messages here.
-    if (Strings.isEmpty(this.state.username)) {
-      alert("TODO: No username");
+    if (!Validations.username(this.state.username)) {
+      alert(
+        "TODO: Your username was invalid, only characters and numbers allowed."
+      );
       this.setState({ loading: false });
       return;
     }
 
-    if (Strings.isEmpty(this.state.password)) {
-      alert("TODO: No password");
-      this.setState({ loading: false });
-      return;
+    if (!Validations.password(this.state.password)) {
+      alert("TODO: Your password must be at least 8 characters.");
+
+      // TODO(jim):
+      // Let it slide because this rule is new.
+      // this.setState({ loading: false });
+      // return;
     }
 
     const response = await this.props.onAuthenticate({
@@ -117,7 +122,8 @@ export default class SceneSignIn extends React.Component {
           Version {Constants.values.version}
           <br />
           Public Test Preview <br />
-          Warning: Entire Network/Database Will Be Wiped
+          Warning: THE Entire Network & Database Will Be Wiped
+          <br />
         </div>
 
         <System.Input
@@ -126,6 +132,10 @@ export default class SceneSignIn extends React.Component {
           value={this.state.username}
           onChange={this._handleChange}
         />
+        <div css={STYLES_CODE_PREVIEW} style={{ marginTop: 8 }}>
+          Usernames should only have characters or numbers.
+        </div>
+
         <System.Input
           containerStyle={{ marginTop: 24 }}
           label="Password"
@@ -134,6 +144,10 @@ export default class SceneSignIn extends React.Component {
           value={this.state.password}
           onChange={this._handleChange}
         />
+        <div css={STYLES_CODE_PREVIEW} style={{ marginTop: 8 }}>
+          Password should be at least 8 characters
+        </div>
+
         <System.ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={!this.state.loading ? this._handleSubmit : () => {}}

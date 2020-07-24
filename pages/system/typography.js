@@ -47,7 +47,15 @@ export default class SystemPageTypography extends React.Component {
         <br />
         <br />
         <System.P>
-          The Filecoin Client uses the <a href="https://rsms.me/inter/" target="_blank">Inter</a> and <a href="https://www.jetbrains.com/lp/mono/" target="_blank">Jet Brains</a> as the primiariy fonts.
+          The Filecoin Client uses
+          <a href="https://rsms.me/inter/" target="_blank">
+            Inter
+          </a>{" "}
+          and{" "}
+          <a href="https://www.jetbrains.com/lp/mono/" target="_blank">
+            Jet Brains
+          </a>
+          .
         </System.P>
         <br />
         <br />
@@ -56,7 +64,8 @@ export default class SystemPageTypography extends React.Component {
         <hr />
         <br />
         <System.P>
-          Import React and the typography components. If needed, import the ViewSourceLink component.
+          Import React and the typography components. If needed, import the
+          ViewSourceLink component.
         </System.P>
         <br />
         <CodeBlock>
@@ -69,24 +78,16 @@ import ViewSourceLink from "~/components/system/ViewSourceLink";`}
         <hr />
         <br />
         <span css={STYLES_CSS_LABEL}>1.953rem &nbsp; Semi Bold</span>
-        <System.H1>
-          This is heading level 1
-        </System.H1>
+        <System.H1>This is heading level 1</System.H1>
         <br />
         <span css={STYLES_CSS_LABEL}>1.563rem &nbsp; Medium</span>
-        <System.H2>
-          This is heading level 2
-        </System.H2>
+        <System.H2>This is heading level 2</System.H2>
         <br />
         <span css={STYLES_CSS_LABEL}>1.25rem &nbsp; Medium</span>
-        <System.H3>
-          This is heading level 3
-        </System.H3>
+        <System.H3>This is heading level 3</System.H3>
         <br />
         <span css={STYLES_CSS_LABEL}>1rem &nbsp; Medium</span>
-        <System.H4>
-          This is heading level 4
-        </System.H4>
+        <System.H4>This is heading level 4</System.H4>
         <br />
         <br />
         <CodeBlock>
@@ -133,10 +134,14 @@ This is heading level 4
         <System.P>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
         <System.P>0 1 2 3 4 5 6 7 8 9</System.P>
         <br />
-        <br/>
+        <br />
         <System.H3>Jet Brains</System.H3>
-        <System.P css={STYLES_TYPE_JETBRAINS}>a b c d e f g h i j k l m n o p q r s t u v w x y z</System.P>
-        <System.P css={STYLES_TYPE_JETBRAINS}>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</System.P>
+        <System.P css={STYLES_TYPE_JETBRAINS}>
+          a b c d e f g h i j k l m n o p q r s t u v w x y z
+        </System.P>
+        <System.P css={STYLES_TYPE_JETBRAINS}>
+          A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+        </System.P>
         <System.P css={STYLES_TYPE_JETBRAINS}>0 1 2 3 4 5 6 7 8 9</System.P>
         <br />
         <br />
@@ -174,8 +179,15 @@ This is heading level 4
         <System.H2>Hyperlinks</System.H2>
         <hr />
         <br />
-        <System.P>Internal References <a href="https://slate.host" target="_blank">Link to a page</a></System.P>
-        <System.P>External References <ViewSourceLink file="system/typography.js" /></System.P>
+        <System.P>
+          Internal References{" "}
+          <a href="https://slate.host" target="_blank">
+            Link to a page
+          </a>
+        </System.P>
+        <System.P>
+          External References <ViewSourceLink file="system/typography.js" />
+        </System.P>
         <br />
         <br />
         <CodeBlock>

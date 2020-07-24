@@ -2,7 +2,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Powergate from "~/node_common/powergate";
 
-export const getViewer = async ({ id }) => {
+export const getById = async ({ id }) => {
   const user = await Data.getUserById({
     id,
   });

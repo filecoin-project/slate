@@ -1,9 +1,9 @@
 import * as Environment from "~/node_common/environment";
-import * as Strings from "./common/strings";
 import * as Constants from "./node_common/constants";
 import * as Data from "~/node_common/data";
-import * as Models from "~/node_common/models";
+import * as ViewerManager from "~/node_common/managers/viewer";
 import * as Utilities from "~/node_common/utilities";
+import * as Strings from "./common/strings";
 
 import express from "express";
 import next from "next";
@@ -32,7 +32,7 @@ app.prepare().then(async () => {
 
     let viewer = null;
     if (id) {
-      viewer = await Models.getViewer({
+      viewer = await ViewerManager.getById({
         id,
       });
     }
@@ -48,7 +48,7 @@ app.prepare().then(async () => {
 
     let viewer = null;
     if (id) {
-      viewer = await Models.getViewer({
+      viewer = await ViewerManager.getById({
         id,
       });
     }

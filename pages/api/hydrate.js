@@ -1,5 +1,5 @@
 import * as MW from "~/node_common/middleware";
-import * as Models from "~/node_common/models";
+import * as ViewerManager from "~/node_common/managers/viewer";
 import * as Utilities from "~/node_common/utilities";
 
 const initCORS = MW.init(MW.CORS);
@@ -16,7 +16,7 @@ export default async (req, res) => {
       .json({ decorator: "SERVER_USER_DELETE", error: true });
   }
 
-  const data = await Models.getViewer({ id });
+  const data = await ViewerManager.getById({ id });
 
   return res
     .status(200)

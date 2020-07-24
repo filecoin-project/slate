@@ -71,17 +71,16 @@ export const add = (user, data) => {
   return { ...user.data, library };
 };
 
+// NOTE(jim): Not sure if we're going to use this?
 export const removeById = (user, dataId) => {
   const { library } = user.data;
 
-  // TODO(jim): Since we don't support bucket organization... yet.
-  // Add just pushes to the first set. But we can change this easily later.
+  // TODO(jim): Totally purges the ID.
   for (let i = 0; i < library.length; i++) {
     for (let j = 0; j < library[i].children.length; j++) {
       library[i].children[j] = library[i].children[j].filter(
         (e) => e.id !== dataId
       );
-      break;
     }
   }
 

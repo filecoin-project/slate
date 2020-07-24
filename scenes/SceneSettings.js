@@ -42,6 +42,8 @@ export default class SceneSettings extends React.Component {
   _deferredSave = null;
 
   _handleSave = async () => {
+    this.setState({ loading: true });
+
     await Actions.updateViewer({
       type: "SET_DEFAULT_STORAGE_CONFIG",
       data: {
@@ -73,6 +75,10 @@ export default class SceneSettings extends React.Component {
         },
       },
     });
+
+    await this.props.onRehydrate();
+
+    this.setState({ loading: false });
   };
 
   _handleChange = (e) => {
@@ -103,7 +109,16 @@ export default class SceneSettings extends React.Component {
           </div>
         </div>
 
-        <div css={STYLES_GROUP} style={{ marginTop: 32 }}>
+        <div style={{ marginTop: 24 }}>
+          <System.ButtonPrimary
+            loading={this.state.loading}
+            onClick={this._handleSave}
+          >
+            Save
+          </System.ButtonPrimary>
+        </div>
+
+        <div css={STYLES_GROUP} style={{ marginTop: 48 }}>
           <div css={STYLES_LEFT}>
             <System.DescriptionGroup
               label="Enable cold storage"
@@ -187,8 +202,11 @@ export default class SceneSettings extends React.Component {
               placeholder="Type in amount of Filecoin"
               onChange={this._handleChange}
             />
-            <div style={{ marginTop: 32 }}>
-              <System.ButtonPrimary onClick={this._handleSave}>
+            <div style={{ marginTop: 24 }}>
+              <System.ButtonPrimary
+                loading={this.state.loading}
+                onClick={this._handleSave}
+              >
                 Save
               </System.ButtonPrimary>
             </div>
@@ -234,8 +252,11 @@ export default class SceneSettings extends React.Component {
               onChange={this._handleChange}
             />
 
-            <div style={{ marginTop: 32 }}>
-              <System.ButtonPrimary onClick={this._handleSave}>
+            <div style={{ marginTop: 24 }}>
+              <System.ButtonPrimary
+                loading={this.state.loading}
+                onClick={this._handleSave}
+              >
                 Save
               </System.ButtonPrimary>
             </div>

@@ -2,8 +2,9 @@ import * as Environment from "~/node_common/environment";
 import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
-import * as Validations from "~/common/validations";
 import * as Powergate from "~/node_common/powergate";
+import * as LibraryManager from "~/node_common/managers/library";
+import * as Validations from "~/common/validations";
 
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
@@ -66,12 +67,7 @@ export default async (req, res) => {
       photo: "https://slate.host/static/a1.jpg",
       settings_deals_auto_approve: false,
       tokens: { pg, api },
-      library: [
-        {
-          ...Utilities.createFolder({ id: bucketName, name: "Data" }),
-          children: [],
-        },
-      ],
+      library: LibraryManager.init({ bucketName, readableName: "data" }),
     },
   });
 

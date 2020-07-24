@@ -189,7 +189,7 @@ export default class SceneEditAccount extends React.Component {
         <System.DescriptionGroup
           style={{ marginTop: 48 }}
           label="Reset password"
-          description="Your new password must be a minimum of four characters."
+          description="Your new password must be a minimum of eight characters."
         />
 
         <System.Input

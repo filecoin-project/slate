@@ -22,7 +22,6 @@ export default async (req, res) => {
   const user = await Data.getUserById({
     id,
   });
-
   const PG = Powergate.get(user);
 
   let jobId;
@@ -31,9 +30,10 @@ export default async (req, res) => {
     jobId = Deal && Deal.jobId ? Deal.jobId : null;
   } catch (e) {
     console.log(e);
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_CONFIRM_STORAGE_DEAL", error: true });
+    return res.status(500).send({
+      decorator: "SERVER_FILECOIN_STORAGE_DEAL_CID_ERROR",
+      error: true,
+    });
   }
 
   return res.status(200).send({

@@ -9,12 +9,12 @@ import { css } from "@emotion/react";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 
+const POLLING_INTERVAL = 10000;
+
 export default class SceneFilesFolder extends React.Component {
   _interval;
 
   loop = async () => {
-    console.log("checking");
-
     let jobs = [];
 
     this.props.viewer.library[0].children.forEach((d) => {
@@ -27,7 +27,7 @@ export default class SceneFilesFolder extends React.Component {
       }
     });
 
-    console.log(jobs);
+    console.log({ jobs });
 
     const response = await Actions.checkCIDStatus(jobs);
 
@@ -35,11 +35,11 @@ export default class SceneFilesFolder extends React.Component {
       await this.props.onRehydrate();
     }
 
-    this._interval = window.setTimeout(this.loop, 5000);
+    this._interval = window.setTimeout(this.loop, POLLING_INTERVAL);
   };
 
   componentDidMount() {
-    this._interval = window.setTimeout(this.loop, 5000);
+    this.loop();
   }
 
   componentWillUnmount() {

@@ -38,6 +38,7 @@ export default class SceneDeals extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <ScenePage>
         <System.H1>Deals</System.H1>
@@ -49,23 +50,16 @@ export default class SceneDeals extends React.Component {
                 {
                   key: "address",
                   name: "Address",
-                  width: "196px",
+                  width: "248px",
                 },
                 {
                   key: "rootCid",
                   name: "Root CID",
-                  width: "196px",
-                },
-                {
-                  key: "status",
-                  name: "Status",
-                  type: "STORAGE_DEAL_STATUS",
-                  width: "104px",
+                  width: "100%",
                 },
                 {
                   key: "time",
                   name: "Time",
-                  width: "100%",
                 },
               ],
               rows: this.props.viewer.storageList.map((each) => {
@@ -96,12 +90,11 @@ export default class SceneDeals extends React.Component {
                 {
                   key: "rootCid",
                   name: "Root CID",
-                  width: "248px",
+                  width: "100%",
                 },
                 {
                   key: "time",
                   name: "Time",
-                  width: "100%",
                 },
               ],
               rows: this.props.viewer.retrievalList.map((each) => {

@@ -6,6 +6,8 @@ import * as Strings from "~/node_common/utilities";
 import * as Powergate from "~/node_common/powergate";
 import * as LibraryManager from "~/node_common/managers/library";
 
+import { ffsOptions } from "@textile/powergate-client";
+
 const initCORS = MW.init(MW.CORS);
 const initAuth = MW.init(MW.RequireCookieAuthentication);
 
@@ -31,7 +33,10 @@ export default async (req, res) => {
   const PG = Powergate.get(user);
   let jobId;
   try {
-    const Deal = await PG.ffs.pushStorageConfig(cid);
+    const Deal = await PG.ffs.pushStorageConfig(
+      cid,
+      ffsOptions.withOverride(true)
+    );
     jobId = Deal && Deal.jobId ? Deal.jobId : null;
   } catch (e) {
     console.log(e);

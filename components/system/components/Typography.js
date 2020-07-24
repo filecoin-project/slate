@@ -8,14 +8,18 @@ const ANCHOR = `
     font-family: ${Constants.font.text};
     font-weight: 400;
     text-decoration: none;
-    color: ${Constants.system.link};
+    color: #6a737d;
+    transition: 200ms ease color;
+
+    :visited {
+      color: #959da5;
+    }
+
+    :hover {
+      color: #959da5;
+    }
   }
 
-  a:hover {
-    text-decoration: underline;
-    color: ${Constants.system.link};
-
-  }
 `;
 
 const STYLES_H1 = css`
@@ -140,7 +144,6 @@ export const H4 = (props) => {
 };
 
 const STYLES_P = css`
-
   box-sizing: border-box;
   font-family: ${Constants.font.text};
   font-size: ${Constants.typescale.lvl1};
@@ -152,10 +155,10 @@ const STYLES_P = css`
   }
 
   ${ANCHOR}
-` ;
+`;
 
 export const P = (props) => {
-  return <div css={STYLES_P} {...props}/>;
+  return <div css={STYLES_P} {...props} />;
 };
 
 const STYLES_UL = css`
@@ -191,4 +194,3 @@ const STYLES_LI = css`
 export const LI = (props) => {
   return <li css={STYLES_LI} {...props} />;
 };
-

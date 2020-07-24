@@ -42,14 +42,16 @@ export const system = {
   gray: "#e5e5e5",
   border: "#d8d8d8",
   darkGray: "#b2b2b2",
-  black: "#2D2926",
+  black: "#1b1f23",
   pitchBlack: "#0c0c0c",
-  brand: "#2935ff",
-  link: "#0074D9",
+  brand: "#0047FF",
+  link: "#2935ff",
   green: "#28a745",
   yellow: " #FFC940",
   red: "#ff0000",
 };
+
+export const code = {};
 
 export const theme = {
   foreground: system.white,

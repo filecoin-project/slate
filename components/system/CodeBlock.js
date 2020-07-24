@@ -21,6 +21,11 @@ const STYLES_CODE_BLOCK = css`
   * {
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    ::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 0;
+      height: 0;
+    }
   }
 `;
 

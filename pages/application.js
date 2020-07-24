@@ -310,7 +310,7 @@ export default class ApplicationPage extends React.Component {
     return alert(JSON.stringify(options));
   };
 
-  _handleNavigateTo = (next, data = {}) => {
+  _handleNavigateTo = (next, data = null) => {
     // TODO(jim): Refactor this hack for profile pages.
     if (next.id === 5) {
       window.open(`/@${this.state.viewer.username}`);
@@ -328,10 +328,9 @@ export default class ApplicationPage extends React.Component {
           history: [...adjustedArray, next],
           currentIndex: this.state.currentIndex + 1,
           data,
+          sidebar: null,
         },
-        () => {
-          window.scrollTo(0, 0);
-        }
+        () => window.scrollTo(0, 0)
       );
     }
 
@@ -340,10 +339,9 @@ export default class ApplicationPage extends React.Component {
         history: [...this.state.history, next],
         currentIndex: this.state.currentIndex + 1,
         data,
+        sidebar: null,
       },
-      () => {
-        window.scrollTo(0, 0);
-      }
+      () => window.scrollTo(0, 0)
     );
   };
 
@@ -353,6 +351,8 @@ export default class ApplicationPage extends React.Component {
     this.setState(
       {
         currentIndex: this.state.currentIndex - 1,
+        sidebar: null,
+        data: null,
       },
       () => {
         const next = this.state.history[this.state.currentIndex];
@@ -368,6 +368,8 @@ export default class ApplicationPage extends React.Component {
     this.setState(
       {
         currentIndex: this.state.currentIndex + 1,
+        sidebar: null,
+        data: null,
       },
       () => {
         const next = this.state.history[this.state.currentIndex];

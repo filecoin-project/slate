@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
+import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
@@ -9,22 +10,59 @@ import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 
 export default class SceneFilesFolder extends React.Component {
-  state = {};
+  _interval;
 
-  _handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  loop = async () => {
+    console.log("checking");
+
+    let jobs = [];
+
+    this.props.viewer.library[0].children.forEach((d) => {
+      if (d.networks && d.networks.includes("FILECOIN")) {
+        jobs.push({
+          ipfs: d.ipfs,
+          cid: d.ipfs.replace("/ipfs/", ""),
+          job: d.job,
+        });
+      }
+    });
+
+    console.log(jobs);
+
+    const response = await Actions.checkCIDStatus(jobs);
+
+    if (response && response.update) {
+      await this.props.onRehydrate();
+    }
+
+    this._interval = window.setTimeout(this.loop, 5000);
   };
 
+  componentDidMount() {
+    this._interval = window.setTimeout(this.loop, 5000);
+  }
+
+  componentWillUnmount() {
+    window.clearTimeout(this._interval);
+    this._interval = null;
+  }
+
   render() {
-    console.log(this.props.data.children);
-    let rows = [];
-    if (this.props.data.children) {
-      rows = [...this.props.data.children];
-    }
+    console.log(this.props.viewer.library[0].children);
+
+    let rows = this.props.viewer.library[0].children.map((each) => {
+      return {
+        ...each,
+        button:
+          each.networks && each.networks.includes("FILECOIN")
+            ? null
+            : "Store on Filecoin",
+      };
+    });
 
     const data = {
       columns: [
-        { key: "file", name: "File", type: "FILE_LINK" },
+        { key: "name", name: "File", type: "FILE_LINK" },
         {
           key: "size",
           name: "Size",
@@ -40,9 +78,15 @@ export default class SceneFilesFolder extends React.Component {
             "This date represents when the file was first uploaded to IPFS.",
         },
         {
-          key: "network",
-          name: "Network",
+          key: "networks",
+          name: "Networks",
           type: "NETWORK_TYPE",
+        },
+        {
+          key: "storage",
+          name: "Storage Deal Status",
+          width: "148px",
+          type: "STORAGE_DEAL_STATUS",
         },
         {
           key: "button",
@@ -52,12 +96,7 @@ export default class SceneFilesFolder extends React.Component {
           width: "148px",
         },
       ],
-      rows: this.props.viewer.library[0].children.map((each) => {
-        return {
-          ...each,
-          button: "Store on Filecoin",
-        };
-      }),
+      rows,
     };
 
     return (
@@ -79,9 +118,7 @@ export default class SceneFilesFolder extends React.Component {
             data={data}
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}
-            selectedRowId={this.state.table_local_file}
             onChange={this._handleChange}
-            name="table_local_file"
           />
         </Section>
       </ScenePage>

@@ -59,6 +59,14 @@ export default class SceneEditAccount extends React.Component {
     const response = await fetch(`/api/data/${file.name}`, options);
     const json = await response.json();
 
+    if (json.error) {
+      alert("TODO: Image already exists in bucket error message");
+      this.setState({ changingAvatar: false });
+      return;
+    }
+
+    console.log(json);
+
     await Actions.updateViewer({
       data: { photo: `https://hub.textile.io${json.data.ipfs}` },
     });

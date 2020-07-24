@@ -4,9 +4,8 @@ import { v4 as uuid } from "uuid";
 // There is some Navigation specific data here for folders.
 export const createBucket = ({ id, name }) => {
   return {
-    decorator: "FOLDER",
     id,
-    folderId: id,
+    decorator: "FOLDER",
     icon: "FOLDER",
     name: name,
     pageTitle: `Exploring ${name}`,
@@ -18,7 +17,7 @@ export const createBucket = ({ id, name }) => {
 
 // NOTE(jim):
 // Every root level user gets a bucket.
-const init = ({ bucketName, readableName }) => [
+export const init = ({ bucketName, readableName }) => [
   createBucket({ id: bucketName, name: readableName }),
 ];
 
@@ -28,7 +27,7 @@ export const createLocalDataIncomplete = ({ type, size, name }) => {
     decorator: "FILE",
     icon: type,
     size: size,
-    name,
+    name: `data-${uuid()}`,
     file: name,
     type: type,
     date: new Date(),
@@ -41,6 +40,12 @@ export const createLocalDataIncomplete = ({ type, size, name }) => {
 };
 
 export const updateDataIPFS = (d, { ipfs }) => {
+  // TODO(jim): DELETE_THIS_GUARD_CODE
+  if (!d.networks) {
+    d.networks = [];
+    delete d.network;
+  }
+
   if (!d.networks.includes("IPFS")) {
     d.networks.push("IPFS");
   }
@@ -49,39 +54,58 @@ export const updateDataIPFS = (d, { ipfs }) => {
 };
 
 export const updateDataFilecoin = (d, { job, storage, retrieval }) => {
-  if (!d.networks.includes("FILECOIN-PENDING")) {
-    d.networks.push("FILECOIN-PENDING");
+  // TODO(jim): DELETE_THIS_GUARD_CODE
+  if (!d.networks) {
+    d.networks = ["IPFS"];
+    delete d.network;
+  }
+
+  // TODO(jim): FILECOIN
+  if (!d.networks.includes("FILECOIN")) {
+    d.networks.push("FILECOIN");
   }
 
   return { ...d, job, storage, retrieval };
 };
 
-export const add = (user, data) => {
+export const updateDataById = ({ user, id, data }) => {
   const { library } = user.data;
 
-  // TODO(jim): Since we don't support bucket organization... yet.
-  // Add just pushes to the first set. But we can change this easily later.
   for (let i = 0; i < library.length; i++) {
-    for (let j = 0; j < library[i].length; j++) {
-      library[i].children[j].push(data);
-      break;
+    for (let j = 0; j < library[i].children.length; j++) {
+      if (library[i].children[j].id === id) {
+        library[i].children[j] = data;
+        break;
+      }
     }
   }
 
   return { ...user.data, library };
 };
 
-// NOTE(jim): Not sure if we're going to use this?
-export const removeById = (user, dataId) => {
+export const getDataByIPFS = (user, ipfs) => {
   const { library } = user.data;
 
   // TODO(jim): Totally purges the ID.
   for (let i = 0; i < library.length; i++) {
     for (let j = 0; j < library[i].children.length; j++) {
-      library[i].children[j] = library[i].children[j].filter(
-        (e) => e.id !== dataId
-      );
+      if (library[i].children[j].ipfs === ipfs) {
+        return library[i].children[j];
+      }
     }
+  }
+
+  return null;
+};
+
+export const addData = ({ user, data }) => {
+  const { library } = user.data;
+
+  // TODO(jim): Since we don't support bucket organization... yet.
+  // Add just pushes to the first set. But we can change this easily later.
+  for (let i = 0; i < library.length; i++) {
+    library[i].children = [data, ...library[i].children];
+    break;
   }
 
   return { ...user.data, library };

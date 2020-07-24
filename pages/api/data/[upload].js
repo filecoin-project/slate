@@ -49,14 +49,28 @@ export default async (req, res) => {
       bucketName,
     } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
-    // NOTE(jim): Push pathPath to your bucket.
-    const readFile = await FS.readFileSync(path).buffer;
-    const push = await buckets.pushPath(bucketKey, data.name, readFile);
-    const updatedData = LibraryManager.updateDataIPFS(data, {
+    let readFile;
+    let push;
+    try {
+      // NOTE(jim): Push pathPath to your bucket.
+      readFile = await FS.readFileSync(path).buffer;
+      push = await buckets.pushPath(bucketKey, data.name, readFile);
+    } catch (e) {
+      console.log(e);
+      return res
+        .status(500)
+        .send({ decorator: "SERVER_BUCKETS_PUSH_ISSUE", error: true });
+    }
+
+    // NOTE(jim): Update your user flag.
+    const updated = LibraryManager.updateDataIPFS(data, {
       ipfs: push.path.path,
     });
-    const updatedUserData = LibraryManager.add(user, updatedData);
 
+    // NOTE(jim): Update your library
+    const updatedUserData = LibraryManager.addData({ user, data: updated });
+
+    // NOTE(jim): Update your user
     const response = await Data.updateUserById({
       id: user.id,
       data: updatedUserData,
@@ -67,7 +81,7 @@ export default async (req, res) => {
 
     return res.status(200).send({
       decorator: "SERVER_UPLOAD",
-      data,
+      data: updated,
     });
   });
 };

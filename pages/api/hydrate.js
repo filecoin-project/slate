@@ -13,7 +13,7 @@ export default async (req, res) => {
   if (!id) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_USER_DELETE", error: true });
+      .json({ decorator: "SERVER_HYDRATE_FAILURE", error: true });
   }
 
   const data = await ViewerManager.getById({ id });

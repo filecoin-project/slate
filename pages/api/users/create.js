@@ -67,7 +67,7 @@ export default async (req, res) => {
       photo: "https://slate.host/static/a1.jpg",
       settings_deals_auto_approve: false,
       tokens: { pg, api },
-      library: LibraryManager.init({ bucketName, readableName: "data" }),
+      library: LibraryManager.init({ bucketName, readableName: "Data" }),
     },
   });
 

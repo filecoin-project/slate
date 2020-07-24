@@ -4,6 +4,7 @@ import * as SVG from "~/components/system/svg";
 import * as OldSVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 
+import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { CodeText } from "~/components/system/components/fragments/CodeText";
 import { css } from "@emotion/react";
 import { Tooltip } from "react-tippy";
@@ -39,6 +40,7 @@ const COMPONENTS_ICON = {
 
 const STYLES_TABLE_TAG = css`
   box-sizing: border-box;
+  display: inline-block;
   font-weight: 400;
   font-family: ${Constants.font.semiBold};
   letter-spacing: 0.2px;
@@ -48,6 +50,7 @@ const STYLES_TABLE_TAG = css`
   background: ${Constants.system.black};
   color: ${Constants.system.white};
   border-radius: 4px;
+  margin: 0 4px 4px 0;
   white-space: nowrap;
 `;
 
@@ -70,23 +73,25 @@ const COMPONENTS_TRANSACTION_DIRECTION = {
 };
 
 const COMPONENTS_TRANSACTION_STATUS = {
-  "1": <span css={STYLES_TABLE_TAG}>complete</span>,
-  "2": (
-    <span
-      css={STYLES_TABLE_TAG}
-      style={{ background: Constants.system.yellow }}
-    >
-      pending
-    </span>
-  ),
+  "0": <span css={STYLES_TABLE_TAG}>Qualified</span>,
+  "1": <span css={STYLES_TABLE_TAG}>Sealed On Filecoin</span>,
+  "2": <LoaderSpinner style={{ width: 20, height: 20 }} />,
 };
 
 const COMPONENTS_OBJECT_TYPE = (text) => {
   if (Array.isArray(text)) {
-    text = text.map((item) => <CodeText nowrap>{item}</CodeText>);
+    text = text.map((item) => (
+      <CodeText nowrap style={{ margin: "0 4px 4px 0" }}>
+        {item}
+      </CodeText>
+    ));
     return text;
   }
-  return <CodeText nowrap>{text}</CodeText>;
+  return (
+    <CodeText nowrap style={{ margin: "0 4px 4px 0" }}>
+      {text}
+    </CodeText>
+  );
 };
 
 const STYLES_COLUMN = css`
@@ -222,7 +227,7 @@ export const TableContent = ({
         ? STORAGE_DEAL_STATES[`${text}`]
         : RETRIEVAL_DEAL_STATES[`${text}`];
     case "STORAGE_DEAL_STATUS":
-      return COMPONENTS_TRANSACTION_STATUS[text];
+      return COMPONENTS_TRANSACTION_STATUS[`${text}`];
     case "BANDWIDTH_UPLOAD":
       return (
         <React.Fragment>
@@ -267,14 +272,30 @@ export const TableContent = ({
         </span>
       );
     case "NETWORK_TYPE":
-      return (
-        <span
-          css={STYLES_TABLE_TAG}
-          style={{ background: Constants.system.brand }}
-        >
-          IPFS
-        </span>
-      );
+      // TODO(jim): DELETE_THIS_GUARD_CODE
+      if (!text || !text.length || typeof text === "string") {
+        return (
+          <span
+            css={STYLES_TABLE_TAG}
+            style={{ background: Constants.system.brand }}
+          >
+            IPFS
+          </span>
+        );
+      }
+
+      return text.map((each) => {
+        return (
+          <span
+            css={STYLES_TABLE_TAG}
+            key={each}
+            style={{ background: Constants.system.brand }}
+          >
+            {each}
+          </span>
+        );
+      });
+
     case "FILE_DATE":
       return Strings.toDate(text);
     case "FILE_SIZE":
@@ -283,60 +304,6 @@ export const TableContent = ({
       // NOTE(jim): Special case to prevent navigation.
       if (!data) {
         return text;
-      }
-
-      // NOTE(jim): Navigate to folers.
-      if (data && data.folderId) {
-        return (
-          <span
-            css={STYLES_TABLE_CONTENT_LINK}
-            onClick={() =>
-              onAction({ type: "NAVIGATE", value: data.folderId, data })
-            }
-          >
-            {text}
-          </span>
-        );
-      }
-
-      // NOTE(jim): Special case for navigating to a sidebar.
-      if (data && data["retrieval_status"] === 1) {
-        return (
-          <span
-            css={STYLES_TABLE_CONTENT_LINK}
-            onClick={() =>
-              onAction({
-                type: "SIDEBAR",
-                value: "SIDEBAR_FILE_STORAGE_DEAL",
-              })
-            }
-          >
-            {text}
-          </span>
-        );
-      }
-
-      // NOTE(jim): Special case to prevent navigation.
-      if (
-        data &&
-        (data["retrieval_status"] === 5 ||
-          data["retrieval_status"] === 4 ||
-          data["retrieval_status"] === 3 ||
-          data["retrieval_status"] === 2)
-      ) {
-        return (
-          <span
-            onClick={() =>
-              onAction({
-                name: "File does not exist",
-                type: "ACTION",
-                value: "ACTION_FILE_MISSING",
-              })
-            }
-          >
-            {text}
-          </span>
-        );
       }
 
       // NOTE(jim): Navigates to file.

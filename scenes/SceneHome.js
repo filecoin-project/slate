@@ -75,7 +75,7 @@ export default class SceneHome extends React.Component {
             <System.Table
               data={{
                 columns: [
-                  { key: "file", name: "File", type: "FILE_LINK" },
+                  { key: "name", name: "Data", type: "FILE_LINK" },
                   {
                     key: "size",
                     name: "Size",
@@ -91,16 +91,9 @@ export default class SceneHome extends React.Component {
                       "This date represents when the file was first uploaded to IPFS.",
                   },
                   {
-                    key: "network",
+                    key: "networks",
                     name: "Network",
                     type: "NETWORK_TYPE",
-                  },
-                  {
-                    key: "button",
-                    hideLabel: true,
-                    type: "BUTTON",
-                    action: "SIDEBAR_FILE_STORAGE_DEAL",
-                    width: "148px",
                   },
                 ],
                 rows: this.props.viewer.library[0].children.map((each) => {

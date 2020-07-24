@@ -47,9 +47,6 @@ export default async (req, res) => {
     Environment.LOCAL_PASSWORD_SECRET
   );
 
-  console.log(phaseThree);
-  console.log(user.password);
-
   if (phaseThree !== user.password) {
     return res
       .status(403)

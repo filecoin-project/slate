@@ -65,7 +65,11 @@ export class CodeText extends React.Component {
     return (
       <span
         css={this.props.copyable ? STYLES_CODE_COPYABLE : STYLES_CODE}
-        style={this.props.nowrap ? STYLES_NOWRAP : STYLES_WRAP}
+        style={
+          this.props.nowrap
+            ? { ...STYLES_NOWRAP, ...this.props.style }
+            : { ...STYLES_WRAP, ...this.props.style }
+        }
         onClick={this._handleCopy}
       >
         {this.state.copy ? (

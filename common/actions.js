@@ -100,6 +100,19 @@ export const createUser = async (data) => {
   return json;
 };
 
+export const checkCIDStatus = async (data) => {
+  const options = {
+    method: "POST",
+    headers: REQUEST_HEADERS,
+    credentials: "include",
+    body: JSON.stringify({ data }),
+  };
+
+  const response = await fetch(`/api/data/cid-status`, options);
+  const json = await response.json();
+  return json;
+};
+
 export const health = async (data) => {
   const options = {
     method: "POST",

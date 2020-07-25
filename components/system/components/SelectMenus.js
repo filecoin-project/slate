@@ -127,14 +127,19 @@ export const SelectMenu = (props) => {
 
 export const SelectCountryMenu = (props) => {
   return (
-    <SelectMenu
-      css={props.full ? STYLES_SELECT_MENU_FULL : STYLES_SELECT_MENU}
-      label={props.label}
-      name={props.name}
-      value={props.value}
-      category={props.category}
-      onChange={props.onChange}
-      options={SELECT_COUNTRY_OPTIONS}
-    />
+    <div
+      css={props.full ? STYLES_CONTAINER_FULL : STYLES_CONTAINER}
+      style={props.containerStyle}
+    >
+      <SelectMenu
+        css={STYLES_SELECT_MENU}
+        label={props.label}
+        name={props.name}
+        value={props.value}
+        category={props.category}
+        onChange={props.onChange}
+        options={SELECT_COUNTRY_OPTIONS}
+      />
+    </div>
   );
 };

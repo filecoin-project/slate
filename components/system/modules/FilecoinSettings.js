@@ -56,51 +56,74 @@ export class FilecoinSettings extends React.Component {
     fetchedConfig: false,
   };
 
+  componentDidMount = () => {
+    let newState = null;
+    if (this.props.defaultStorageConfig) {
+      newState = this.unbundleConfig();
+    }
+    if (this.props.addrsList) {
+      if (newState) {
+        newState.addrsList = this.props.addrsList;
+        newState.fetchedAddrs = true;
+      } else {
+        newState = { addrsList: this.props.addrsList, fetchedAddrs: true };
+      }
+    }
+    if (newState) {
+      this.setState(newState);
+    }
+  };
+
   componentDidUpdate = (prevProps) => {
-    if (!this.state.fetchedAddrs && !this.state.fetchedConfig) {
+    if (!this.state.fetchedAddrs || !this.state.fetchedConfig) {
       let newState = null;
       if (this.props.defaultStorageConfig != prevProps.defaultStorageConfig) {
-        newState = {
-          settings_hot_enabled: this.props.defaultStorageConfig.hot.enabled,
-          settings_hot_allow_unfreeze: this.props.defaultStorageConfig.hot
-            .allowUnfreeze,
-          settings_hot_ipfs_add_timeout: this.props.defaultStorageConfig.hot
-            .ipfs.addTimeout,
-          settings_cold_enabled: this.props.defaultStorageConfig.cold.enabled,
-          settings_cold_default_address: this.props.defaultStorageConfig.cold
-            .filecoin.addr,
-          settings_cold_default_duration: this.props.defaultStorageConfig.cold
-            .filecoin.dealMinDuration,
-          settings_cold_default_replication_factor: this.props
-            .defaultStorageConfig.cold.filecoin.repFactor,
-          settings_cold_default_excluded_miners: this.props.defaultStorageConfig
-            .cold.filecoin.excludedMinersList,
-          settings_cold_default_trusted_miners: this.props.defaultStorageConfig
-            .cold.filecoin.trustedMinersList,
-          settings_cold_country_codes_list: this.props.defaultStorageConfig.cold
-            .filecoin.countryCodesList,
-          settings_cold_default_max_price: this.props.defaultStorageConfig.cold
-            .filecoin.maxPrice,
-          settings_cold_default_auto_renew: this.props.defaultStorageConfig.cold
-            .filecoin.renew.enabled,
-          settings_cold_default_auto_renew_threshold: this.props
-            .defaultStorageConfig.cold.filecoin.renew.threshold,
-          settings_repairable: this.props.defaultStorageConfig.repairable,
-          fetchedConfig: true,
-        };
-        if (this.props.addrsList != prevProps.addrsList) {
-          if (newState) {
-            newState.addrsList = this.props.addrsList;
-            newState.fetchedAddrs = true;
-          } else {
-            newState = { addrsList: this.props.addrsList, fetchedAddrs: true };
-          }
+        newState = this.unbundleConfig();
+      }
+      if (this.props.addrsList != prevProps.addrsList) {
+        if (newState) {
+          newState.addrsList = this.props.addrsList;
+          newState.fetchedAddrs = true;
+        } else {
+          newState = { addrsList: this.props.addrsList, fetchedAddrs: true };
         }
       }
       if (newState) {
         this.setState(newState);
       }
     }
+  };
+
+  unbundleConfig = () => {
+    let config = {
+      settings_hot_enabled: this.props.defaultStorageConfig.hot.enabled,
+      settings_hot_allow_unfreeze: this.props.defaultStorageConfig.hot
+        .allowUnfreeze,
+      settings_hot_ipfs_add_timeout: this.props.defaultStorageConfig.hot.ipfs
+        .addTimeout,
+      settings_cold_enabled: this.props.defaultStorageConfig.cold.enabled,
+      settings_cold_default_address: this.props.defaultStorageConfig.cold
+        .filecoin.addr,
+      settings_cold_default_duration: this.props.defaultStorageConfig.cold
+        .filecoin.dealMinDuration,
+      settings_cold_default_replication_factor: this.props.defaultStorageConfig
+        .cold.filecoin.repFactor,
+      settings_cold_default_excluded_miners: this.props.defaultStorageConfig
+        .cold.filecoin.excludedMinersList,
+      settings_cold_default_trusted_miners: this.props.defaultStorageConfig.cold
+        .filecoin.trustedMinersList,
+      settings_cold_country_codes_list: this.props.defaultStorageConfig.cold
+        .filecoin.countryCodesList,
+      settings_cold_default_max_price: this.props.defaultStorageConfig.cold
+        .filecoin.maxPrice,
+      settings_cold_default_auto_renew: this.props.defaultStorageConfig.cold
+        .filecoin.renew.enabled,
+      settings_cold_default_auto_renew_threshold: this.props
+        .defaultStorageConfig.cold.filecoin.renew.threshold,
+      settings_repairable: this.props.defaultStorageConfig.repairable,
+      fetchedConfig: true,
+    };
+    return config;
   };
 
   _handleSave = async () => {
@@ -251,9 +274,9 @@ export class FilecoinSettings extends React.Component {
                     tooltip="Duration in epochs (~25 seconds)."
                     name="settings_cold_default_duration"
                     type="number"
+                    unit="epochs"
                     pattern="[0-9]"
                     value={this.state.settings_cold_default_duration}
-                    placeholder="Duration in epochs (~25 seconds)"
                     onChange={this._handleChange}
                   />
 
@@ -265,8 +288,8 @@ export class FilecoinSettings extends React.Component {
                     tooltip="A higher replication factor means your files are more secure against loss, but also costs more."
                     name="settings_cold_default_replication_factor"
                     value={this.state.settings_cold_default_replication_factor}
-                    placeholder="Number of miners"
                     type="number"
+                    unit="miners"
                     pattern="[0-9]"
                     onChange={this._handleChange}
                   />
@@ -281,7 +304,7 @@ export class FilecoinSettings extends React.Component {
                     type="number"
                     pattern="[0-9]"
                     value={this.state.settings_cold_default_max_price}
-                    placeholder="Price in Filecoin/GB/Epoch"
+                    unit="FIL/GB/epoch"
                     onChange={this._handleChange}
                   />
 
@@ -317,7 +340,7 @@ export class FilecoinSettings extends React.Component {
                         value={
                           this.state.settings_cold_default_auto_renew_threshold
                         }
-                        placeholder="Time in ..."
+                        unit="[unit]"
                         onChange={this._handleChange}
                       />
                     </div>
@@ -382,7 +405,7 @@ export class FilecoinSettings extends React.Component {
                         tooltip="Placeholder."
                         name="settings_hot_ipfs_add_timeout"
                         value={this.state.settings_hot_ipfs_add_timeout}
-                        placeholder="Timeout in seconds"
+                        unit="seconds"
                         onChange={this._handleChange}
                       />
                     </div>

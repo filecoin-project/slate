@@ -125,3 +125,29 @@ export const health = async (data) => {
   const json = await response.json();
   return json;
 };
+
+export const createSlate = async (data) => {
+  const options = {
+    method: "POST",
+    headers: REQUEST_HEADERS,
+    credentials: "include",
+    body: JSON.stringify({ data }),
+  };
+
+  const response = await fetch(`/api/slates/create`, options);
+  const json = await response.json();
+  return json;
+};
+
+export const updateSlate = async (data) => {
+  const options = {
+    method: "POST",
+    headers: REQUEST_HEADERS,
+    credentials: "include",
+    body: JSON.stringify({ data }),
+  };
+
+  const response = await fetch(`/api/slates/update`, options);
+  const json = await response.json();
+  return json;
+};

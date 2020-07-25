@@ -42,8 +42,8 @@ class Example extends React.Component {
 
     await getByteArray();
 
-    const { cid } = await PowerGate.ffs.addToHot(buffer);
-    const { jobId } = await PowerGate.ffs.pushConfig(cid);
+    const { cid } = await PowerGate.ffs.stage(buffer);
+    const { jobId } = await PowerGate.ffs.pushStorageConfig(cid);
     const cancel = PowerGate.ffs.watchJobs((job) => {
       console.log(job);
     }, jobId);

@@ -86,12 +86,15 @@ export const SelectMenu = (props) => {
   let presentationValue = map[props.value] ? map[props.value] : "Unselected";
 
   return (
-    <div css={props.full ? STYLES_CONTAINER_FULL : STYLES_CONTAINER}>
+    <div
+      css={props.full ? STYLES_CONTAINER_FULL : STYLES_CONTAINER}
+      style={props.containerStyle}
+    >
       <DescriptionGroup
+        full={props.full}
         label={props.label}
         description={props.description}
         tooltip={props.tooltip}
-        style={props.containerStyle}
       />
 
       <div css={props.className ? props.className : STYLES_SELECT_MENU}>

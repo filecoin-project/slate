@@ -141,6 +141,7 @@ export class Input extends React.Component {
         style={this.props.containerStyle}
       >
         <DescriptionGroup
+          full={this.props.full}
           tooltip={this.props.tooltip}
           label={this.props.label}
           description={this.props.description}

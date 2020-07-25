@@ -43,51 +43,64 @@ const STYLES_RIGHT = css`
 
 const TAB_GROUP = [
   { value: "general", label: "General" },
-  { value: "cold", label: "Cold Storage" },
   { value: "hot", label: "Hot Storage" },
+  { value: "cold", label: "Cold Storage" },
 ];
 
 export class FilecoinSettings extends React.Component {
-  static defaultProps = {
-    addrs: [],
-    settings_deals_auto_approve: false,
-    settings_hot_enabled: true,
-    //settings_hot_allow_unfreeze: this.props.allowUnfreeze,
-    settings_hot_ipfs_add_timeout: 60,
-    settings_cold_enabled: true,
-    //settings_cold_default_address: this.props.defaultAddr,
-    settings_cold_default_duration: 1000,
-    settings_cold_default_replication_factor: 1,
-    settings_cold_default_excluded_miners: [],
-    settings_cold_default_trusted_miners: [],
-    //settings_cold_default_max_price: this.props.maxPrice,
-    settings_cold_default_auto_renew: true,
-    //settings_cold_default_auto_renew_max_price: this.props.autoRenewMaxPrice,
-    //settings_repairable:
-  };
-
   state = {
     tabGroup: "general",
-    addrsList: this.props.addrsList.map((each) => {
-      return {
-        value: each.addr,
-        name: each.name,
-      };
-    }),
-    settings_deals_auto_approve: this.props.autoApprove, //left off changing these to match teh shape of this.props.defaultStorageConfig
-    settings_hot_enabled: this.props.hotEnabled, //and incorporate info from aaron
-    settings_hot_allow_unfreeze: this.props.allowUnfreeze, //we can use miner api for the list editor component (and incorp reputation)
-    settings_hot_ipfs_add_timeout: this.props.addTimeout,
-    settings_cold_enabled: this.props.coldEnabled,
-    settings_cold_default_address: this.props.defaultAddr,
-    settings_cold_default_duration: this.props.dealMinDuration,
-    settings_cold_default_replication_factor: this.props.repFactor,
-    settings_cold_default_excluded_miners: this.props.excludedMinersList,
-    settings_cold_default_trusted_miners: this.props.trustedMinersList,
-    settings_cold_default_max_price: this.props.maxPrice,
-    settings_cold_default_auto_renew: this.props.autoRenew,
-    settings_cold_default_auto_renew_max_price: this.props.autoRenewMaxPrice,
-    settings_repairable: this.props.repairable,
+    settings_deals_auto_approve: this.props.autoApprove,
+    addrsList: [],
+    fetchedAddrs: false,
+    fetchedConfig: false,
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (!this.state.fetchedAddrs && !this.state.fetchedConfig) {
+      let newState = null;
+      if (this.props.defaultStorageConfig != prevProps.defaultStorageConfig) {
+        newState = {
+          settings_hot_enabled: this.props.defaultStorageConfig.hot.enabled,
+          settings_hot_allow_unfreeze: this.props.defaultStorageConfig.hot
+            .allowUnfreeze,
+          settings_hot_ipfs_add_timeout: this.props.defaultStorageConfig.hot
+            .ipfs.addTimeout,
+          settings_cold_enabled: this.props.defaultStorageConfig.cold.enabled,
+          settings_cold_default_address: this.props.defaultStorageConfig.cold
+            .filecoin.addr,
+          settings_cold_default_duration: this.props.defaultStorageConfig.cold
+            .filecoin.dealMinDuration,
+          settings_cold_default_replication_factor: this.props
+            .defaultStorageConfig.cold.filecoin.repFactor,
+          settings_cold_default_excluded_miners: this.props.defaultStorageConfig
+            .cold.filecoin.excludedMinersList,
+          settings_cold_default_trusted_miners: this.props.defaultStorageConfig
+            .cold.filecoin.trustedMinersList,
+          settings_cold_country_codes_list: this.props.defaultStorageConfig.cold
+            .filecoin.countryCodesList,
+          settings_cold_default_max_price: this.props.defaultStorageConfig.cold
+            .filecoin.maxPrice,
+          settings_cold_default_auto_renew: this.props.defaultStorageConfig.cold
+            .filecoin.renew.enabled,
+          settings_cold_default_auto_renew_threshold: this.props
+            .defaultStorageConfig.cold.filecoin.renew.threshold,
+          settings_repairable: this.props.defaultStorageConfig.repairable,
+          fetchedConfig: true,
+        };
+        if (this.props.addrsList != prevProps.addrsList) {
+          if (newState) {
+            newState.addrsList = this.props.addrsList;
+            newState.fetchedAddrs = true;
+          } else {
+            newState = { addrsList: this.props.addrsList, fetchedAddrs: true };
+          }
+        }
+      }
+      if (newState) {
+        this.setState(newState);
+      }
+    }
   };
 
   _handleSave = async () => {
@@ -95,28 +108,29 @@ export class FilecoinSettings extends React.Component {
       data: {
         settings_deals_auto_approve: this.state.settings_deals_auto_approve,
       },
-      config: {
+      storageConfig: {
+        cold: {
+          enabled: this.state.settings_cold_enabled,
+          filecoin: {
+            addr: this.state.settings_cold_default_address,
+            countryCodesList: this.state.settings_cold_country_codes_list,
+            dealMinDuration: this.state.settings_cold_default_duration,
+            excludedMinersList: this.state
+              .settings_cold_default_excluded_miners,
+            maxPrice: this.state.settings_cold_default_max_price,
+            renew: {
+              enabled: this.state.settings_cold_default_auto_renew,
+              threshold: this.state.settings_cold_default_auto_renew_threshold,
+            },
+            repFactor: this.state.settings_cold_default_replication_factor,
+            trustedMinersList: this.state.settings_cold_default_trusted_miners,
+          },
+        },
         hot: {
           enabled: this.state.settings_hot_enabled,
           allowUnfreeze: this.state.settings_hot_allow_unfreeze,
           ipfs: {
             addTimeout: this.state.settings_hot_ipfs_add_timeout,
-          },
-        },
-        cold: {
-          enabled: this.state.settings_cold_enabled,
-          filecoin: {
-            addr: this.state.settings_cold_default_address,
-            dealMinDuration: this.state.settings_cold_default_duration,
-            repFactor: this.state.settings_cold_default_replication_factor,
-            excludedMinersList: this.state
-              .settings_cold_default_excluded_miners,
-            trustedMinersList: this.state.settings_cold_default_trusted_miners,
-            maxPrice: this.state.settings_cold_default_max_price,
-            renew: {
-              enabled: this.state.settings_cold_default_auto_renew,
-              threshold: this.state.settings_cold_default_auto_renew_max_price,
-            },
           },
         },
         repairable: this.state.settings_repairable,
@@ -129,6 +143,12 @@ export class FilecoinSettings extends React.Component {
   };
 
   render() {
+    let addrsList = this.state.addrsList.map((each) => {
+      return {
+        value: each.addr,
+        name: each.name,
+      };
+    });
     return (
       <div>
         <CardTabGroup
@@ -156,25 +176,43 @@ export class FilecoinSettings extends React.Component {
                   />
                 </div>
               </div>
-              <div>
-                <DescriptionGroup
-                  style={{ marginTop: 24 }}
-                  label="Repairable"
-                  description="Placeholder."
-                  tooltip="Placeholder."
-                />
-                <CheckBox
-                  name="settings_repairable"
-                  value={this.state.settings_repairable}
-                  onChange={this._handleChange}
-                >
-                  Repairable
-                </CheckBox>
+              <div css={STYLES_GROUP}>
+                <div css={STYLES_LEFT}>
+                  <DescriptionGroup
+                    style={{ marginTop: 24 }}
+                    label="Repairable"
+                    description="If this is enabled and the network detects that a miner is no longer storing your file, it will automatically make a storage deal with a new miner to store the file."
+                    tooltip="Placeholder."
+                  />
+                </div>
+                <div css={STYLES_RIGHT}>
+                  <Toggle
+                    name="settings_repairable"
+                    onChange={this._handleChange}
+                    active={this.state.settings_repairable}
+                  />
+                </div>
               </div>
             </div>
           ) : this.state.tabGroup === "cold" ? (
             <div>
-              <div css={STYLES_GROUP}>
+              <DescriptionGroup
+                full
+                style={{ marginTop: 24 }}
+                label="What is cold storage?"
+                description="Cold storage is storage on the Filecoin network. Think of it as
+                storing your files in a long term safety deposit vault, where
+                you have proof that they are being stored and can know they are
+                secure. However, cold storage is slower to retrieve from and costs
+                money."
+              />
+              <DescriptionGroup
+                full
+                description="Even if both cold and hot storage are enabled, Slate will try
+                and save you money by retrieving from hot storage when it can."
+              />
+
+              <div css={STYLES_GROUP} style={{ marginTop: 24 }}>
                 <div css={STYLES_LEFT}>
                   <DescriptionGroup
                     label="Enable cold storage"
@@ -202,17 +240,18 @@ export class FilecoinSettings extends React.Component {
                     value={this.state.settings_cold_default_address}
                     category="address"
                     onChange={this._handleChange}
-                    options={this.state.addrsList}
+                    options={addrsList}
                   />
 
                   <Input
                     full
                     containerStyle={{ marginTop: 24 }}
                     label="Default deal duration"
-                    description="How long your files will be stored for."
-                    tooltip="Placeholder."
+                    description="How long you would like your files stored for, before the deal must be renewed or the file will be removed from the Filecoin network."
+                    tooltip="Duration in epochs (~25 seconds)."
                     name="settings_cold_default_duration"
                     type="number"
+                    pattern="[0-9]"
                     value={this.state.settings_cold_default_duration}
                     placeholder="Duration in epochs (~25 seconds)"
                     onChange={this._handleChange}
@@ -228,6 +267,7 @@ export class FilecoinSettings extends React.Component {
                     value={this.state.settings_cold_default_replication_factor}
                     placeholder="Number of miners"
                     type="number"
+                    pattern="[0-9]"
                     onChange={this._handleChange}
                   />
 
@@ -235,49 +275,65 @@ export class FilecoinSettings extends React.Component {
                     full
                     containerStyle={{ marginTop: 24 }}
                     label="Max Filecoin price"
-                    description="The maximum price you're willing to pay to store your file for the length of one deal duration (as specified above)."
+                    description="The maximum price in Filecoin you're willing to pay to store 1 GB for 1 Epoch (~25 seconds)."
                     tooltip="Slate will always try to find you the best price, regardless of how high you set this."
                     name="settings_cold_default_max_price"
                     type="number"
+                    pattern="[0-9]"
                     value={this.state.settings_cold_default_max_price}
-                    placeholder="Price in Filecoin"
+                    placeholder="Price in Filecoin/GB/Epoch"
                     onChange={this._handleChange}
                   />
 
-                  <DescriptionGroup
-                    style={{ marginTop: 24 }}
-                    label="Auto renew deals"
-                    description="If auto renew is enabled, your wallet will automatically be charged once the deal duration is up. This guarantees your files will remain stored even if you do not manually renew."
-                    tooltip="This does not protect your files in the event that your wallet lacks sufficient funds or if there are no miners willing to store it for less than your max auto renew price."
-                  />
-                  <CheckBox
-                    name="settings_cold_default_auto_renew"
-                    value={this.state.settings_cold_default_auto_renew}
-                    onChange={this._handleChange}
-                  >
-                    Enable auto renew
-                  </CheckBox>
+                  <div css={STYLES_GROUP}>
+                    <div css={STYLES_LEFT}>
+                      <DescriptionGroup
+                        style={{ marginTop: 24 }}
+                        label="Auto renew deals"
+                        description="If enabled, your storage deal will be automatically renewed (and your wallet charged) once the deal duration is up. This ensures your files will remain stored even if you do not manually renew."
+                        tooltip="This does not protect your files in the event that your wallet lacks sufficient funds or if there are no miners willing to store it for less than your max auto renew price."
+                      />
+                    </div>
+                    <div css={STYLES_RIGHT}>
+                      <Toggle
+                        name="settings_cold_default_auto_renew"
+                        onChange={this._handleChange}
+                        active={this.state.settings_cold_default_auto_renew}
+                      />
+                    </div>
+                  </div>
 
-                  <Input
-                    full
-                    containerStyle={{ marginTop: 24 }}
-                    label="Max auto renew price."
-                    description="Set the maximum Filecoin price you're willing to pay to auto renew a storage deal."
-                    tooltip="Placeholder."
-                    name="settings_cold_default_auto_renew_max_price"
-                    type="number"
-                    value={
-                      this.state.settings_cold_default_auto_renew_max_price
-                    }
-                    placeholder="Price in Filecoin"
-                    onChange={this._handleChange}
-                  />
+                  {this.state.settings_cold_default_auto_renew ? (
+                    <div css={STYLES_SUBGROUP}>
+                      <Input
+                        full
+                        containerStyle={{ marginTop: 24 }}
+                        label="Auto renew threshold"
+                        description="How long before a deal expires should it auto renew."
+                        tooltip="Placeholder."
+                        name="settings_cold_default_auto_renew_threshold"
+                        type="number"
+                        pattern="[0-9]"
+                        value={
+                          this.state.settings_cold_default_auto_renew_threshold
+                        }
+                        placeholder="Time in ..."
+                        onChange={this._handleChange}
+                      />
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>
           ) : (
             <div>
-              <div css={STYLES_GROUP}>
+              <DescriptionGroup
+                full
+                style={{ marginTop: 24 }}
+                label="What is hot storage?"
+                description="Hot storage is storage on IPFS. Retrieval from IPFS is faster and is free for Slate users. It's a good everyday solution, but for more secure storage, cold storage can be a better option."
+              />
+              <div css={STYLES_GROUP} style={{ marginTop: 24 }}>
                 <div css={STYLES_LEFT}>
                   <DescriptionGroup
                     label="Enable hot storage"
@@ -296,31 +352,41 @@ export class FilecoinSettings extends React.Component {
 
               {this.state.settings_hot_enabled ? (
                 <div>
-                  <DescriptionGroup
-                    style={{ marginTop: 24 }}
-                    label="Allow Unfreeze"
-                    description="Placeholder."
-                    tooltip="Placeholder."
-                  />
-                  <CheckBox
-                    name="settings_hot_allow_unfreeze"
-                    value={this.state.settings_hot_allow_unfreeze}
-                    onChange={this._handleChange}
-                  >
-                    IPFS allow unfreeze setting description.
-                  </CheckBox>
+                  <div css={STYLES_GROUP}>
+                    <div css={STYLES_LEFT}>
+                      <DescriptionGroup
+                        style={{ marginTop: 24 }}
+                        label="Allow Unfreeze"
+                        description="If a file is in cold storage on the Filcoin network but not in hot storage on IPFS, a retrieval deal must be made in order to move it to hot storage. In order to allow this, allow unfreeze must be enabled."
+                        tooltip="This is applicable mainly in cases where hot storage was previously disabled then later enabled."
+                      />
+                    </div>
+                    <div css={STYLES_RIGHT}>
+                      <Toggle
+                        name="settings_hot_allow_unfreeze"
+                        onChange={this._handleChange}
+                        active={this.state.settings_hot_allow_unfreeze}
+                      />
+                    </div>
+                  </div>
 
-                  <Input
-                    full
-                    containerStyle={{ marginTop: 24 }}
-                    label="Add timeout"
-                    description="Add IPFS timeout setting description."
-                    tooltip="Placeholder."
-                    name="settings_hot_ipfs_add_timeout"
-                    value={this.state.settings_hot_ipfs_add_timeout}
-                    placeholder="Type in seconds"
-                    onChange={this._handleChange}
-                  />
+                  {this.state.settings_hot_allow_unfreeze ? (
+                    <div css={STYLES_SUBGROUP}>
+                      <Input
+                        full
+                        containerStyle={{ marginTop: 24 }}
+                        label="Add timeout"
+                        type="number"
+                        pattern="\d"
+                        description="How many seconds Slate will search for a file in hot storage before executing an unfreeze retrieval deal to get it from cold storage."
+                        tooltip="Placeholder."
+                        name="settings_hot_ipfs_add_timeout"
+                        value={this.state.settings_hot_ipfs_add_timeout}
+                        placeholder="Timeout in seconds"
+                        onChange={this._handleChange}
+                      />
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>

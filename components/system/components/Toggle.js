@@ -42,6 +42,7 @@ export class Toggle extends React.Component {
     return (
       <div>
         <DescriptionGroup
+          full={this.props.full}
           tooltip={this.props.tooltip}
           label={this.props.label}
           description={this.props.description}

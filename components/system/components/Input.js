@@ -26,6 +26,15 @@ const INPUT_STYLES = `
   transition: 200ms ease all;
 `;
 
+const STYLES_UNIT = css`
+  font-family: ${Constants.font.text};
+  font-size: 14px;
+  color: #b2b2b2;
+  position: absolute;
+  top: 12px;
+  right: 24px;
+`;
+
 const STYLES_INPUT_CONTAINER = css`
   box-sizing: border-box;
   position: relative;
@@ -92,7 +101,14 @@ const INPUT_COLOR_MAP = {
 };
 
 export class Input extends React.Component {
+  _unit;
   _input;
+
+  componentDidMount = () => {
+    if (this.props.unit) {
+      this._input.style.paddingRight = `${this._unit.offsetWidth + 48}px`;
+    }
+  };
 
   _handleCopy = (e) => {
     this._input.select();
@@ -133,6 +149,7 @@ export class Input extends React.Component {
   };
 
   render() {
+    console.log(this._unit);
     return (
       <div
         css={
@@ -146,34 +163,44 @@ export class Input extends React.Component {
           label={this.props.label}
           description={this.props.description}
         />
-        <input
-          ref={(c) => {
-            this._input = c;
-          }}
-          css={STYLES_INPUT}
-          value={this.props.value}
-          name={this.props.name}
-          type={this.props.type}
-          placeholder={this.props.placeholder}
-          onChange={this._handleChange}
-          onFocus={this.props.onFocus}
-          onBlur={this.props.onBlur}
-          onKeyUp={this._handleKeyUp}
-          autoComplete="off"
-          disabled={this.props.disabled}
-          readOnly={this.props.readOnly}
-          style={{
-            ...this.props.style,
-            boxShadow: this.props.validation
-              ? `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
-                  INPUT_COLOR_MAP[this.props.validation]
-                }`
-              : null,
-            paddingRight:
-              this.props.copyable || this.props.icon ? "32px" : "24px",
-          }}
-        />
-        {this.props.icon ? (
+        <div style={{ position: "relative" }}>
+          <input
+            ref={(c) => {
+              this._input = c;
+            }}
+            css={STYLES_INPUT}
+            value={this.props.value}
+            name={this.props.name}
+            type={this.props.type}
+            placeholder={this.props.placeholder}
+            onChange={this._handleChange}
+            onFocus={this.props.onFocus}
+            onBlur={this.props.onBlur}
+            onKeyUp={this._handleKeyUp}
+            autoComplete="off"
+            disabled={this.props.disabled}
+            readOnly={this.props.readOnly}
+            style={{
+              ...this.props.style,
+              boxShadow: this.props.validation
+                ? `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
+                    INPUT_COLOR_MAP[this.props.validation]
+                  }`
+                : null,
+              paddingRight:
+                this.props.copyable || this.props.icon ? "32px" : "24px",
+            }}
+          />
+          <div
+            css={STYLES_UNIT}
+            ref={(c) => {
+              this._unit = c;
+            }}
+          >
+            {this.props.unit}
+          </div>
+        </div>
+        {this.props.unit ? null : this.props.icon ? (
           <this.props.icon
             height="16px"
             css={STYLES_ICON}

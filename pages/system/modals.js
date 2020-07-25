@@ -190,6 +190,14 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
                   d:
                     "Style object used to style the modal background (color, etc.)",
                 },
+                {
+                  id: 3,
+                  a: "label",
+                  b: "String",
+                  c: "modal",
+                  d:
+                    "A label for the modal provide context for users with assistive technology such as screen readers.",
+                },
               ],
             }}
           />

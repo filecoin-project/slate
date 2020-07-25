@@ -1,4 +1,5 @@
 import * as React from "react";
+import FocusLock from "react-focus-lock";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 import * as Strings from "~/common/strings";
@@ -46,11 +47,13 @@ export class GlobalModal extends React.Component {
   componentDidMount = () => {
     window.addEventListener("create-modal", this._handleCreate);
     window.addEventListener("delete-modal", this._handleDelete);
+    window.addEventListener("keydown", this._handleDocumentKeydown);
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("create-modal", this._handleCreate);
     window.removeEventListener("delete-modal", this._handleDelete);
+    window.removeEventListener("keydown", this._handleDocumentKeydown);
   };
 
   _handleCreate = (e) => {
@@ -61,21 +64,47 @@ export class GlobalModal extends React.Component {
     this.setState({ modal: null });
   };
 
+  _handleDocumentKeydown = (e) => {
+    if (this.state.modal && e.keyCode === 27) {
+      this.setState({ modal: null });
+    }
+
+    e.stopPropagation();
+  };
+
+  _handleEnterPress = (e) => {
+    if (e.key === "Enter") {
+      this.setState({ modal: null });
+    }
+  };
+
   render() {
     if (!this.state.modal) return null;
     return (
-      <div css={STYLES_BACKGROUND} style={this.props.backgroundStyle}>
-        <Boundary
-          enabled
-          onOutsideRectEvent={this._handleDelete}
-          isDataMenuCaptured={true}
+      <FocusLock>
+        <div
+          css={STYLES_BACKGROUND}
+          style={this.props.backgroundStyle}
+          role="dialog"
+          aria-modal="true"
+          aria-label={this.props.label ? this.props.label : "modal"}
         >
-          <div css={STYLES_MODAL} style={this.props.style}>
-            {this.state.modal}
-            <SVG.Dismiss css={STYLES_CLOSE_ICON} onClick={this._handleDelete} />
-          </div>
-        </Boundary>
-      </div>
+          <Boundary
+            enabled
+            onOutsideRectEvent={this._handleDelete}
+            isDataMenuCaptured={true}
+          >
+            <div css={STYLES_MODAL} style={this.props.style}>
+              <SVG.Dismiss
+                css={STYLES_CLOSE_ICON}
+                onClick={this._handleDelete}
+                onKeyPress={this._handleEnterPress}
+              />
+              {this.state.modal}
+            </div>
+          </Boundary>
+        </div>
+      </FocusLock>
     );
   }
 }

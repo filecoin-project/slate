@@ -61,6 +61,11 @@ const createSlatesTable = db.schema.createTable("slates", function(table) {
 
   table.timestamp("published_at").nullable();
 
+  table
+    .string("slatename")
+    .unique()
+    .nullable();
+
   table.jsonb("data").nullable();
 });
 

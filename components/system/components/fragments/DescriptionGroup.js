@@ -28,12 +28,11 @@ const STYLES_DESCRIPTION_GROUP_DESCRIPTION = css`
   width: 100%;
   white-space: pre-wrap;
   overflow-wrap: break-word;
-  max-width: 480px;
 `;
 
 export const DescriptionGroup = (props) => {
   return (
-    <div style={props.style}>
+    <div style={{ maxWidth: props.full ? "auto" : "480px", ...props.style }}>
       {!Strings.isEmpty(props.label) ? (
         <div css={STYLES_DESCRIPTION_GROUP_LABEL}>
           {props.label}{" "}

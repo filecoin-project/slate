@@ -320,6 +320,7 @@ export class DatePicker extends React.Component {
     return (
       <div>
         <DescriptionGroup
+          full={this.props.full}
           tooltip={this.props.tooltip}
           label={this.props.label}
           description={this.props.description}
@@ -327,7 +328,7 @@ export class DatePicker extends React.Component {
         <Boundary
           enabled={this.state.cal}
           onOutsideRectEvent={this._handleCalendar}
-          style={{ maxWidth: "480px" }}
+          style={{ maxWidth: this.props.full ? "auto" : "480px" }}
         >
           <div css={STYLES_DATE_INPUT}>
             <input
@@ -341,6 +342,7 @@ export class DatePicker extends React.Component {
             />
             <div>
               <Input
+                full={this.props.full}
                 icon={SVG.Calendar}
                 max={10}
                 value={this.state.value}

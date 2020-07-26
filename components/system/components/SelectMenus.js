@@ -31,15 +31,15 @@ const STYLES_SELECT_MENU = css`
   display: inline-flex;
   position: relative;
   height: 40px;
-  max-width: 320px;
   width: 100%;
 `;
 
-const STYLES_SELECT_MENU_FULL = css`
-  box-sizing: border-box;
-  display: inline-flex;
-  position: relative;
-  height: 40px;
+const STYLES_CONTAINER = css`
+  width: 100%;
+  max-width: 480px;
+`;
+
+const STYLES_CONTAINER_FULL = css`
   width: 100%;
 `;
 
@@ -86,23 +86,18 @@ export const SelectMenu = (props) => {
   let presentationValue = map[props.value] ? map[props.value] : "Unselected";
 
   return (
-    <React.Fragment>
+    <div
+      css={props.full ? STYLES_CONTAINER_FULL : STYLES_CONTAINER}
+      style={props.containerStyle}
+    >
       <DescriptionGroup
+        full={props.full}
         label={props.label}
         description={props.description}
         tooltip={props.tooltip}
-        style={props.containerStyle}
       />
 
-      <div
-        css={
-          props.className
-            ? props.className
-            : props.full
-            ? STYLES_SELECT_MENU_FULL
-            : STYLES_SELECT_MENU
-        }
-      >
+      <div css={props.className ? props.className : STYLES_SELECT_MENU}>
         <label css={STYLES_SELECT_MENU_LABEL} htmlFor={`id-${props.name}`}>
           {map[props.value]}{" "}
           {props.category ? (
@@ -126,20 +121,25 @@ export const SelectMenu = (props) => {
           })}
         </select>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
 export const SelectCountryMenu = (props) => {
   return (
-    <SelectMenu
-      css={props.full ? STYLES_SELECT_MENU_FULL : STYLES_SELECT_MENU}
-      label={props.label}
-      name={props.name}
-      value={props.value}
-      category={props.category}
-      onChange={props.onChange}
-      options={SELECT_COUNTRY_OPTIONS}
-    />
+    <div
+      css={props.full ? STYLES_CONTAINER_FULL : STYLES_CONTAINER}
+      style={props.containerStyle}
+    >
+      <SelectMenu
+        css={STYLES_SELECT_MENU}
+        label={props.label}
+        name={props.name}
+        value={props.value}
+        category={props.category}
+        onChange={props.onChange}
+        options={SELECT_COUNTRY_OPTIONS}
+      />
+    </div>
   );
 };

@@ -143,6 +143,7 @@ export default class SceneSignIn extends React.Component {
           type="password"
           value={this.state.password}
           onChange={this._handleChange}
+          onSubmit={this._handleSubmit}
         />
         <div css={STYLES_CODE_PREVIEW} style={{ marginTop: 8 }}>
           Password should be at least 8 characters

@@ -149,7 +149,6 @@ export class Input extends React.Component {
   };
 
   render() {
-    console.log(this._unit);
     return (
       <div
         css={

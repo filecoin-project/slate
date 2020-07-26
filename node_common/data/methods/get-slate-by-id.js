@@ -1,4 +1,5 @@
 import { runQuery } from "~/node_common/data/utilities";
+
 export default async ({ id }) => {
   return await runQuery({
     label: "GET_SLATE_BY_ID",

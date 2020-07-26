@@ -177,6 +177,7 @@ export default class ApplicationPage extends React.Component {
 
   rehydrate = async () => {
     const response = await Actions.hydrateAuthenticatedUser();
+
     console.log("REHYDRATION CALL", response);
 
     if (!response || response.error) {
@@ -187,6 +188,8 @@ export default class ApplicationPage extends React.Component {
       viewer: State.getInitialState(response.data),
       selected: State.getSelectedState(response.data),
     });
+
+    return { rehydrated: true };
   };
 
   _handleSubmit = async (data) => {
@@ -247,9 +250,8 @@ export default class ApplicationPage extends React.Component {
     console.log("CREATE_USER", response);
 
     response = await Actions.signIn(state);
-    console.log("SIGN IN", response);
-
     if (response.error) {
+      console.log("SIGN IN ERROR", response);
       return null;
     }
 
@@ -265,9 +267,7 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
-    await this.rehydrate();
-
-    return true;
+    return await this.rehydrate();
   };
 
   _handleSignOut = () => {

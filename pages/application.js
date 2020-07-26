@@ -254,7 +254,15 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (response.token) {
-      cookies.set(Credentials.session.key, response.token);
+      // NOTE(jim):
+      // + One week.
+      // + Only requests to the same site.
+      // + Not using sessionStorage so the cookie doesn't leave when the browser dies.
+      cookies.set(Credentials.session.key, response.token, true, {
+        path: "/",
+        maxAge: 3600 * 24 * 7,
+        sameSite: "strict",
+      });
     }
 
     await this.rehydrate();

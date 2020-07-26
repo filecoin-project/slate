@@ -13,6 +13,7 @@
     "electron": "electron ./electron/main.js ",
     "electron-pack": "electron-builder --dir",
     "electron-dist": "electron-builder",
+    "scripts": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts",
     "www-setup-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts setup-database",
     "www-seed-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts seed-database",
     "www-drop-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts drop-database"

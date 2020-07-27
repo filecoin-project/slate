@@ -18,7 +18,7 @@ const STYLES_TITLE = css`
 
 const STYLES_HEADER = css`
   background: ${Constants.system.gray};
-  padding: 24px 20px 24px 20px;
+  padding: 24px 20px 24px 18px;
   border-radius: 4px 4px 0 0;
 `;
 

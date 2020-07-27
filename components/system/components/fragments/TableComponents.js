@@ -299,6 +299,7 @@ export const TableContent = ({
         );
       });
     case "SLATE_PUBLIC_TEXT_TAG":
+      console.log(text);
       return !text ? (
         <span css={STYLES_TABLE_TAG}>Private</span>
       ) : (
@@ -306,7 +307,7 @@ export const TableContent = ({
           css={STYLES_TABLE_TAG}
           style={{ background: Constants.system.green }}
         >
-          {text}
+          Public
         </span>
       );
     case "TEXT_TAG":

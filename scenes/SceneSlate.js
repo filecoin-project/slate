@@ -39,7 +39,7 @@ export default class SceneSlate extends React.Component {
       <ScenePage>
         <System.H1>{this.props.data.slatename}</System.H1>
         <Section
-          title="Slates"
+          title="Images"
           buttons={slateButtons}
           onAction={this.props.onAction}
         >

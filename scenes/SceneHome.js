@@ -72,12 +72,10 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: each.data.public
-            ? `https://slate.host/@${this.props.viewer.username}/${
-                each.slatename
-              }`
-            : null,
-          public: false,
+          url: `https://slate.host/@${this.props.viewer.username}/${
+            each.slatename
+          }`,
+          public: each.data.public,
         };
       }),
     };

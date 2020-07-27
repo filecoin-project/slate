@@ -90,14 +90,16 @@ export default class ApplicationPage extends React.Component {
     const json = await response.json();
 
     if (!json && json.data) {
-      this.setState({ fileLoading: false });
+      this.setState({ sidebar: null, fileLoading: false });
+      return;
     }
 
     if (!json.data) {
-      this.setState({ fileLoading: false });
+      this.setState({ sidebar: null, fileLoading: false });
+      return;
     }
 
-    if (slate) {
+    if (json && slate) {
       const addResponse = await fetch(`/api/slates/add-url`, {
         method: "POST",
         headers: {

@@ -23,27 +23,22 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res
-      .status(404)
-      .json({
-        decorator: "SERVER_FIND_USER_CREATE_SLATE_USER_NOT_FOUND",
-        error: true,
-      });
+    return res.status(404).json({
+      decorator: "SERVER_FIND_USER_CREATE_SLATE_USER_NOT_FOUND",
+      error: true,
+    });
   }
 
   if (user.error) {
-    return res
-      .status(500)
-      .json({
-        decorator: "SERVER_FIND_USER_CREATE_SLATE_USER_NOT_FOUND",
-        error: true,
-      });
+    return res.status(500).json({
+      decorator: "SERVER_FIND_USER_CREATE_SLATE_USER_NOT_FOUND",
+      error: true,
+    });
   }
 
   const slatename = Strings.createSlug(req.body.data.name);
 
   const found = await Data.getSlateByName({ slatename });
-  console.log(found);
 
   if (found) {
     return res
@@ -54,6 +49,7 @@ export default async (req, res) => {
   const slate = await Data.createSlate({
     slatename,
     data: {
+      public: true,
       ownerId: id,
       name: req.body.data.name,
       objects: [],

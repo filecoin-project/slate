@@ -62,7 +62,7 @@ export default async (req, res) => {
           id: req.body.data.id,
           ownerId: user.id,
           name: req.body.data.name,
-          url: req.body.data.ipfs,
+          url: `https://hub.textile.io${req.body.data.ipfs}`,
         },
         ...slate.data.objects,
       ],

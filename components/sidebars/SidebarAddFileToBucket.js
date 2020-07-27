@@ -60,8 +60,6 @@ export default class SidebarAddFileToBucket extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-
     return (
       <React.Fragment>
         <System.P style={{ fontFamily: Constants.font.semiBold }}>

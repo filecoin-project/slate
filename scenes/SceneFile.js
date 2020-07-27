@@ -16,7 +16,7 @@ const STYLES_FLEX = css`
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  height: calc(100vh - ${Constants.sizes.header}px);
+  height: calc(100vh - ${Constants.sizes.header}px - 48px);
 `;
 
 const STYLES_TOP = css`
@@ -119,7 +119,7 @@ export default class SceneFile extends React.Component {
     const file = this.props.data;
 
     const fileName = `${file.name}`;
-    const fileURL = `https://hub.textile.io${file.ipfs ? file.ipfs : file.url}`;
+    const fileURL = file.url ? file.url : `https://hub.textile.io${file.ipfs}`;
 
     return (
       <div css={STYLES_FLEX}>

@@ -35,7 +35,9 @@ export default class SceneFilesFolder extends React.Component {
       await this.props.onRehydrate();
     }
 
-    this._interval = window.setTimeout(this.loop, POLLING_INTERVAL);
+    if (this._interval) {
+      this._interval = window.setTimeout(this.loop, POLLING_INTERVAL);
+    }
   };
 
   componentDidMount() {

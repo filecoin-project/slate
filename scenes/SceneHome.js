@@ -61,7 +61,7 @@ export default class SceneHome extends React.Component {
           width: "228px",
           type: "SLATE_LINK",
         },
-        { key: "url", name: "URL", width: "268px" },
+        { key: "url", name: "URL", width: "268px", type: "NEW_WINDOW" },
         {
           key: "public",
           name: "Public",
@@ -72,9 +72,7 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `https://slate.host/@${this.props.viewer.username}/${
-            each.slatename
-          }`,
+          url: `/@${this.props.viewer.username}/${each.slatename}`,
           public: each.data.public,
         };
       }),

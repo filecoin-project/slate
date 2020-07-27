@@ -298,6 +298,10 @@ export default class ApplicationPage extends React.Component {
       return this._handleNavigateTo({ id: options.value }, options.data);
     }
 
+    if (options.type === "NEW_WINDOW") {
+      return window.open(options.value);
+    }
+
     if (options.type === "ACTION") {
       return alert(JSON.stringify(options));
     }

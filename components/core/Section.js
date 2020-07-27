@@ -22,7 +22,7 @@ const STYLES_HEADER = css`
   font-family: ${Constants.font.medium};
   font-size: ${Constants.typescale.lvl1};
   border-radius: 4px 4px 0 0;
-  padding: 24px;
+  padding: 24px 24px 24px 20px;
   overflow: hidden;
   display: flex;
   align-items: center;

@@ -10,8 +10,8 @@ export default class SceneSlate extends React.Component {
   static defaultProps = { data: { data: { objects: [] } } };
 
   render() {
-    console.log(this.props);
     const images = this.props.current.data.objects;
+    const url = `/@${this.props.viewer.username}/${this.props.data.slatename}`;
 
     const slates = {
       columns: [
@@ -27,6 +27,11 @@ export default class SceneSlate extends React.Component {
       { name: "Make public", type: "SIDEBAR", value: "" },
       { name: "Make private", type: "SIDEBAR", value: "" },
       */
+      {
+        name: "View slate",
+        type: "NEW_WINDOW",
+        value: url,
+      },
       {
         name: "Add image",
         type: "SIDEBAR",
@@ -45,7 +50,9 @@ export default class SceneSlate extends React.Component {
         >
           <System.Table
             data={slates}
-            name="slate"
+            name={`/@${this.props.viewer.username}/${
+              this.props.data.slatename
+            }`}
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}
           />

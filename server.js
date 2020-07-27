@@ -57,6 +57,8 @@ app.prepare().then(async () => {
       username: req.params.username,
     });
 
+    const slates = await Data.getSlatesByUserId({ userId: creator.id });
+
     return app.render(req, res, "/profile", {
       viewer,
       creator:
@@ -64,8 +66,23 @@ app.prepare().then(async () => {
           ? {
               username: creator.username,
               data: { photo: creator.data.photo },
+              slates: JSON.parse(JSON.stringify(slates)),
             }
           : null,
+    });
+  });
+
+  server.get("/@:username/:slatename", async (req, res) => {
+    const slate = await Data.getSlateByName({
+      slatename: req.params.slatename,
+    });
+
+    if (slate) {
+      slate.ownername = req.params.username;
+    }
+
+    return app.render(req, res, "/slate", {
+      slate: JSON.parse(JSON.stringify(slate)),
     });
   });
 

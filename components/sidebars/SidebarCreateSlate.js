@@ -17,8 +17,9 @@ export default class SidebarCreateSlate extends React.Component {
   _handleSubmit = async () => {
     this.setState({ loading: true });
 
-    if (!Strings.isEmpty) {
+    if (Strings.isEmpty(this.state.name)) {
       alert("TODO: Provide a name");
+      this.setState({ loading: false });
       return;
     }
 

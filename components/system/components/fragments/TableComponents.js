@@ -317,6 +317,18 @@ export const TableContent = ({
       return Strings.toDate(text);
     case "FILE_SIZE":
       return Strings.bytesToSize(text, 2);
+    case "NEW_WINDOW":
+      // NOTE(jim): Special case to prevent navigation.
+      if (!data) {
+        return text;
+      }
+
+      // NOTE(jim): Navigates to file.
+      return (
+        <span css={STYLES_TABLE_CONTENT_LINK} onClick={() => window.open(text)}>
+          {text}
+        </span>
+      );
     case "SLATE_LINK":
       // NOTE(jim): Special case to prevent navigation.
       if (!data) {

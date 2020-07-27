@@ -41,35 +41,37 @@ const STYLES_PARAGRAPH = css`
   }
 `;
 
-const STYLES_USER = css`
-  background-position: 50% 50%;
-  background-size: cover;
-  height: 88px;
-  width: 88px;
+const STYLES_IMAGE = css`
+  display: inline-flex;
   border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  background-size: cover;
+  background-position: 50% 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.09);
+  height: 288px;
+  width: 288px;
+  margin: 0 24px 24px 0;
 `;
 
-export default class ProfilePage extends React.Component {
+export default class SlatePage extends React.Component {
   render() {
-    console.log({ profilePageProps: this.props });
+    console.log(this.props);
 
-    const title = this.props.creator
-      ? `@${this.props.creator.username}`
+    const title = this.props.slate
+      ? `@${this.props.slate.ownername}/${this.props.slate.slatename}`
       : "404";
     const url = `https://slate.host/${title}`;
 
-    if (!this.props.creator) {
+    if (!this.props.slate) {
       return (
         <WebsitePrototypeWrapper
           title={title}
-          description="This Slate user can not be found."
+          description="This Slate can not be found."
           url={url}
         >
           <div css={STYLES_ROOT}>
             <h1 css={STYLES_HEADING}>404</h1>
             <p css={STYLES_PARAGRAPH}>
-              This user is not found.
+              This slate is not found.
               <br />
               <br />
               <a href="/application">Run Slate {Constants.values.version}</a>
@@ -81,40 +83,30 @@ export default class ProfilePage extends React.Component {
       );
     }
 
-    const description = "A user on Slate.";
+    const description = "A slate.";
 
     return (
       <WebsitePrototypeWrapper
         title={title}
         description={description}
         url={url}
-        image={this.props.creator.data.photo}
       >
         <div css={STYLES_ROOT}>
-          <div
-            css={STYLES_USER}
-            style={{ backgroundImage: `url(${this.props.creator.data.photo})` }}
-          />
-          <h1 css={STYLES_HEADING}>{title}</h1>
+          {this.props.slate.data.objects.map((each) => {
+            console.log(each);
+            return (
+              <div
+                css={STYLES_IMAGE}
+                key={each.url}
+                style={{ backgroundImage: `url("${each.url}")` }}
+              />
+            );
+          })}
+          <h1 css={STYLES_HEADING} style={{ marginTop: 64 }}>
+            {title}
+          </h1>
           <p css={STYLES_PARAGRAPH}>
-            This is an example of a profile page on Slate. Slate is going to be
-            really cool soon!
-            <br />
-            <br />
-            {this.props.creator.slates.map((row) => {
-              const url = `https://slate.host/@${this.props.creator.username}/${
-                row.slatename
-              }`;
-              return (
-                <React.Fragment key={url}>
-                  <a href={`/@${this.props.creator.username}/${row.slatename}`}>
-                    {url}
-                  </a>
-                  <br />
-                </React.Fragment>
-              );
-            })}
-            <br />
+            This is a Slate page on Slate. It will be cool some day.
             <br />
             <a href="/application">Run Slate {Constants.values.version}</a>
             <br />

@@ -273,9 +273,8 @@ export class FilecoinSettings extends React.Component {
                     description="How long you would like your files stored for, before the deal must be renewed or the file will be removed from the Filecoin network."
                     tooltip="Duration in epochs (~25 seconds)."
                     name="settings_cold_default_duration"
-                    type="number"
                     unit="epochs"
-                    pattern="[0-9]"
+                    pattern="^\d*$"
                     value={this.state.settings_cold_default_duration}
                     onChange={this._handleChange}
                   />
@@ -288,9 +287,8 @@ export class FilecoinSettings extends React.Component {
                     tooltip="A higher replication factor means your files are more secure against loss, but also costs more."
                     name="settings_cold_default_replication_factor"
                     value={this.state.settings_cold_default_replication_factor}
-                    type="number"
                     unit="miners"
-                    pattern="[0-9]"
+                    pattern="^\d*$"
                     onChange={this._handleChange}
                   />
 
@@ -301,8 +299,7 @@ export class FilecoinSettings extends React.Component {
                     description="The maximum price in Filecoin you're willing to pay to store 1 GB for 1 Epoch (~25 seconds)."
                     tooltip="Slate will always try to find you the best price, regardless of how high you set this."
                     name="settings_cold_default_max_price"
-                    type="number"
-                    pattern="[0-9]"
+                    pattern="^\d*$"
                     value={this.state.settings_cold_default_max_price}
                     unit="FIL/GB/epoch"
                     onChange={this._handleChange}
@@ -335,8 +332,7 @@ export class FilecoinSettings extends React.Component {
                         description="How long before a deal expires should it auto renew."
                         tooltip="Placeholder."
                         name="settings_cold_default_auto_renew_threshold"
-                        type="number"
-                        pattern="[0-9]"
+                        pattern="^\d*$"
                         value={
                           this.state.settings_cold_default_auto_renew_threshold
                         }
@@ -399,8 +395,7 @@ export class FilecoinSettings extends React.Component {
                         full
                         containerStyle={{ marginTop: 24 }}
                         label="Add timeout"
-                        type="number"
-                        pattern="\d"
+                        pattern="^\d*$"
                         description="How many seconds Slate will search for a file in hot storage before executing an unfreeze retrieval deal to get it from cold storage."
                         tooltip="Placeholder."
                         name="settings_hot_ipfs_add_timeout"

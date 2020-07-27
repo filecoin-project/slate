@@ -98,7 +98,6 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (slate) {
-      console.log({ slate, data: { ...json.data } });
       const addResponse = await fetch(`/api/slates/add-url`, {
         method: "POST",
         headers: {
@@ -323,6 +322,7 @@ export default class ApplicationPage extends React.Component {
     }
 
     this.state.history[this.state.currentIndex].scrollTop = window.scrollY;
+    this.state.history[this.state.currentIndex].data = data;
 
     if (this.state.currentIndex !== this.state.history.length - 1) {
       const adjustedArray = [...this.state.history];
@@ -353,13 +353,15 @@ export default class ApplicationPage extends React.Component {
   _handleBack = () => {
     this.state.history[this.state.currentIndex].scrollTop = window.scrollY;
 
+    const next = this.state.history[this.state.currentIndex - 1];
+
     this.setState(
       {
         currentIndex: this.state.currentIndex - 1,
         sidebar: null,
+        data: { ...next.data },
       },
       () => {
-        const next = this.state.history[this.state.currentIndex];
         console.log({ next });
         window.scrollTo(0, next.scrollTop);
       }
@@ -369,13 +371,15 @@ export default class ApplicationPage extends React.Component {
   _handleForward = () => {
     this.state.history[this.state.currentIndex].scrollTop = window.scrollY;
 
+    const next = this.state.history[this.state.currentIndex + 1];
+
     this.setState(
       {
         currentIndex: this.state.currentIndex + 1,
         sidebar: null,
+        data: { ...next.data },
       },
       () => {
-        const next = this.state.history[this.state.currentIndex];
         console.log({ next });
         window.scrollTo(0, next.scrollTop);
       }

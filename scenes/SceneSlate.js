@@ -7,8 +7,11 @@ import ScenePage from "~/components/core/ScenePage";
 import Section from "~/components/core/Section";
 
 export default class SceneSlate extends React.Component {
+  static defaultProps = { data: { data: { objects: [] } } };
+
   render() {
-    const images = this.props.data.data.objects;
+    console.log(this.props);
+    const images = this.props.current.data.objects;
 
     const slates = {
       columns: [
@@ -28,7 +31,7 @@ export default class SceneSlate extends React.Component {
         name: "Add image",
         type: "SIDEBAR",
         value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-        data: this.props.data,
+        data: this.props.current,
       },
     ];
 

@@ -179,6 +179,9 @@ export const TableColumn = (props) => {
   );
 };
 
+// TODO(jim): We probably won't use this Table component for long.
+// Once we have components for all the necessary flows. We will probably
+// make bespoke components for each experience.
 export const TableContent = ({
   type,
   text,
@@ -313,6 +316,21 @@ export const TableContent = ({
       return Strings.toDate(text);
     case "FILE_SIZE":
       return Strings.bytesToSize(text, 2);
+    case "SLATE_LINK":
+      // NOTE(jim): Special case to prevent navigation.
+      if (!data) {
+        return text;
+      }
+
+      // NOTE(jim): Navigates to file.
+      return (
+        <span
+          css={STYLES_TABLE_CONTENT_LINK}
+          onClick={() => onNavigateTo({ id: 17 }, data)}
+        >
+          {text}
+        </span>
+      );
     case "FILE_LINK":
       // NOTE(jim): Special case to prevent navigation.
       if (!data) {

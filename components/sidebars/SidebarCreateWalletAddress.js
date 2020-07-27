@@ -28,9 +28,12 @@ export default class SidebarCreateWalletAddress extends React.Component {
     name: "",
     type: "1",
     default: false,
+    loading: false,
   };
 
-  _handleSubmit = () => {
+  _handleSubmit = async () => {
+    this.setState({ loading: true });
+
     const data = {
       name: this.state.name,
       wallet_type: SELECT_MENU_SAVE_STRINGS[this.state.type],
@@ -38,7 +41,9 @@ export default class SidebarCreateWalletAddress extends React.Component {
       type: "CREATE_WALLET_ADDRESS",
     };
 
-    this.props.onSubmit(data);
+    await this.props.onSubmit(data);
+
+    this.setState({ loading: false });
   };
 
   _handleCancel = () => {
@@ -87,9 +92,17 @@ export default class SidebarCreateWalletAddress extends React.Component {
         <System.ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
+          loading={this.state.loading}
         >
           Create {this.state.name}
         </System.ButtonPrimaryFull>
+
+        <System.ButtonSecondaryFull
+          style={{ marginTop: 16 }}
+          onClick={this._handleCancel}
+        >
+          Cancel
+        </System.ButtonSecondaryFull>
       </div>
     );
   }

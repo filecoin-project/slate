@@ -48,8 +48,6 @@ export default class SceneFilesFolder extends React.Component {
   }
 
   render() {
-    console.log(this.props.viewer.library[0].children);
-
     let rows = this.props.viewer.library[0].children.map((each) => {
       return {
         ...each,
@@ -103,8 +101,7 @@ export default class SceneFilesFolder extends React.Component {
       <ScenePage>
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
-          title={this.props.data.name}
+          title={this.props.current.name}
           buttons={[
             {
               name: "Upload to IPFS",
@@ -114,7 +111,7 @@ export default class SceneFilesFolder extends React.Component {
           ]}
         >
           <System.Table
-            key={this.props.data.folderId}
+            key={this.props.current.folderId}
             data={data}
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}

@@ -4,37 +4,38 @@ import * as Actions from "~/common/actions";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
 
-import SceneDataTransfer from "~/scenes/SceneDataTransfer";
+// import SceneDataTransfer from "~/scenes/SceneDataTransfer";
+// import SceneLogs from "~/scenes/SceneLogs";
+// import ScenePaymentChannels from "~/scenes/ScenePaymentChannels";
+// import ScenePeers from "~/scenes/ScenePeers";
+// import SceneStats from "~/scenes/SceneStats";
+// import SceneStatus from "~/scenes/SceneStatus";
+// import SceneStorageMarket from "~/scenes/SceneStorageMarket";
 import SceneDeals from "~/scenes/SceneDeals";
 import SceneEditAccount from "~/scenes/SceneEditAccount";
 import SceneFile from "~/scenes/SceneFile";
 import SceneFilesFolder from "~/scenes/SceneFilesFolder";
 import SceneHome from "~/scenes/SceneHome";
-import SceneLogs from "~/scenes/SceneLogs";
 import SceneMiners from "~/scenes/SceneMiners";
-import ScenePaymentChannels from "~/scenes/ScenePaymentChannels";
-import ScenePeers from "~/scenes/ScenePeers";
 import SceneSettings from "~/scenes/SceneSettings";
-import SceneStats from "~/scenes/SceneStats";
-import SceneStatus from "~/scenes/SceneStatus";
-import SceneStorageMarket from "~/scenes/SceneStorageMarket";
 import SceneWallet from "~/scenes/SceneWallet";
 import SceneSlates from "~/scenes/SceneSlates";
 import SceneLocalData from "~/scenes/SceneLocalData";
 import SceneSettingsDeveloper from "~/scenes/SceneSettingsDeveloper";
 import SceneSignIn from "~/scenes/SceneSignIn";
+import SceneSlate from "~/scenes/SceneSlate";
 
+// import SidebarAddMiner from "~/components/sidebars/SidebarAddMiner";
+// import SidebarAddPeer from "~/components/sidebars/SidebarAddPeer";
+// import SidebarNotifications from "~/components/sidebars/SidebarNotifications";
+// import SidebarRedeemPaymentChannel from "~/components/sidebars/SidebarRedeemPaymentChannel";
+// import SidebarDeleteWalletAddress from "~/components/sidebars/SidebarDeleteWalletAddress";
+// import SidebarFileRetrievalDeal from "~/components/sidebars/SidebarFileRetrievalDeal";
 import SidebarCreateSlate from "~/components/sidebars/SidebarCreateSlate";
 import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalletAddress";
-import SidebarDeleteWalletAddress from "~/components/sidebars/SidebarDeleteWalletAddress";
 import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds";
 import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal";
-import SidebarFileRetrievalDeal from "~/components/sidebars/SidebarFileRetrievalDeal";
 import SidebarCreatePaymentChannel from "~/components/sidebars/SidebarCreatePaymentChannel";
-import SidebarAddMiner from "~/components/sidebars/SidebarAddMiner";
-import SidebarAddPeer from "~/components/sidebars/SidebarAddPeer";
-import SidebarNotifications from "~/components/sidebars/SidebarNotifications";
-import SidebarRedeemPaymentChannel from "~/components/sidebars/SidebarRedeemPaymentChannel";
 import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket";
 
 import ApplicationNavigation from "~/components/core/ApplicationNavigation";
@@ -308,6 +309,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleAction = (options) => {
+    console.log(options);
     if (options.type === "NAVIGATE") {
       return this._handleNavigateTo({ id: options.value }, options.data);
     }
@@ -400,16 +402,9 @@ export default class ApplicationPage extends React.Component {
   };
 
   sidebars = {
-    SIDEBAR_NOTIFICATIONS: <SidebarNotifications />,
-    SIDEBAR_ADD_PEER: <SidebarAddPeer />,
-    SIDEBAR_ADD_MINER: <SidebarAddMiner />,
-    SIDEBAR_CREATE_PAYMENT_CHANNEL: <SidebarCreatePaymentChannel />,
     SIDEBAR_FILE_STORAGE_DEAL: <SidebarFileStorageDeal />,
-    SIDEBAR_FILE_RETRIEVAL_DEAL: <SidebarFileRetrievalDeal />,
     SIDEBAR_WALLET_SEND_FUNDS: <SidebarWalletSendFunds />,
     SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,
-    SIDEBAR_DELETE_WALLET_ADDRESS: <SidebarDeleteWalletAddress />,
-    SIDEBAR_REDEEM_PAYMENT_CHANNEL: <SidebarRedeemPaymentChannel />,
     SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
     SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
   };
@@ -417,17 +412,10 @@ export default class ApplicationPage extends React.Component {
   scenes = {
     HOME: <SceneHome />,
     WALLET: <SceneWallet />,
-    CHANNELS: <ScenePaymentChannels />,
     FOLDER: <SceneFilesFolder />,
     FILE: <SceneFile />,
+    SLATE: <SceneSlate />,
     DEALS: <SceneDeals />,
-    DATA_TRANSFER: <SceneDataTransfer />,
-    STATS: <SceneStats />,
-    STORAGE_MARKET: <SceneStorageMarket />,
-    MINERS: <SceneMiners />,
-    STATUS: <SceneStatus />,
-    PEERS: <ScenePeers />,
-    LOGS: <SceneLogs />,
     SETTINGS: <SceneSettings />,
     SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
     EDIT_ACCOUNT: <SceneEditAccount />,
@@ -481,10 +469,10 @@ export default class ApplicationPage extends React.Component {
     );
 
     const scene = React.cloneElement(this.scenes[current.target.decorator], {
+      current: current.target,
+      data: this.state.data,
       viewer: this.state.viewer,
       selected: this.state.selected,
-      data: current.target,
-      file: this.state.data,
       onNavigateTo: this._handleNavigateTo,
       onSelectedChange: this._handleSelectedChange,
       onViewerChange: this._handleViewerChange,
@@ -498,11 +486,11 @@ export default class ApplicationPage extends React.Component {
     let sidebarElement;
     if (this.state.sidebar) {
       sidebarElement = React.cloneElement(this.state.sidebar, {
+        selected: this.state.selected,
         viewer: this.state.viewer,
         data: this.state.data,
         fileLoading: this.state.fileLoading,
         sidebarLoading: this.state.sidebarLoading,
-        selected: this.state.selected,
         onSelectedChange: this._handleSelectedChange,
         onSubmit: this._handleSubmit,
         onCancel: this._handleCancel,

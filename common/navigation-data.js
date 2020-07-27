@@ -42,12 +42,15 @@ export const generate = (library) => [
     decorator: "SLATES",
     children: [],
   },
+  // TODO(colin):
+  // re-enable this when we do local offline.
   {
     id: 4,
     name: "Local",
     pageTitle: "Your local data",
     decorator: "LOCAL_DATA",
     children: [],
+    ignore: true,
   },
   {
     id: 5,
@@ -85,6 +88,14 @@ export const generate = (library) => [
     name: "API Key & Tokens",
     pageTitle: "you",
     decorator: "SETTINGS_DEVELOPER",
+    children: null,
+    ignore: true,
+  },
+  {
+    id: 17,
+    name: null,
+    pageTitle: "slate",
+    decorator: "SLATE",
     children: null,
     ignore: true,
   },

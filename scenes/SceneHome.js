@@ -51,11 +51,10 @@ export default class SceneHome extends React.Component {
   };
 
   render() {
-    console.log(this.props.viewer.slates);
     // TODO(jim): Refactor later.
     const slates = {
       columns: [
-        { key: "id", id: "id", name: "ID" },
+        { key: "id", id: "id", name: "ID", type: "SLATE_LINK" },
         { key: "slatename", name: "Slate Name", width: "228px" },
         { key: "url", name: "URL", width: "268px" },
         {
@@ -68,9 +67,11 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `https://slate.host/@${this.props.viewer.username}/${
-            each.slatename
-          }`,
+          url: each.data.public
+            ? `https://slate.host/@${this.props.viewer.username}/${
+                each.slatename
+              }`
+            : null,
           public: false,
         };
       }),
@@ -119,7 +120,7 @@ export default class SceneHome extends React.Component {
       {
         name: "View files",
         type: "NAVIGATE",
-        value: this.props.viewer.library[0].folderId,
+        value: this.props.viewer.library[0].id,
       },
       {
         name: "Upload to IPFS",
@@ -155,37 +156,40 @@ export default class SceneHome extends React.Component {
           buttons={slateButtons}
           onAction={this.props.onAction}
         >
-          <System.Table data={slates} name="slate" />
+          <System.Table
+            data={slates}
+            name="slate"
+            onAction={this.props.onAction}
+            onNavigateTo={this.props.onNavigateTo}
+          />
         </Section>
 
         {this.props.viewer.library[0] ? (
           <Section
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             title="Recent data"
             buttons={dataButtons}
+            onAction={this.props.onAction}
           >
             <System.Table
               data={data}
+              name="data"
               onAction={this.props.onAction}
               onNavigateTo={this.props.onNavigateTo}
-              name="data"
             />
           </Section>
         ) : null}
 
         {this.props.viewer.addresses[0] ? (
           <Section
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             title="Wallet addresses"
             buttons={walletButtons}
+            onAction={this.props.onAction}
           >
             <System.Table
               data={wallet}
+              name="transaction"
               onAction={this.props.onAction}
               onNavigateTo={this.props.onNavigateTo}
-              name="transaction"
             />
           </Section>
         ) : null}

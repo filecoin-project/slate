@@ -32,7 +32,8 @@ export default class SidebarWalletSendFunds extends React.Component {
     amount: "",
   };
 
-  _handleSubmit = () => {
+  _handleSubmit = async () => {
+    this.setState({ loading: true });
     let addresses = {};
 
     this.props.viewer.addresses.forEach((a) => {
@@ -45,15 +46,19 @@ export default class SidebarWalletSendFunds extends React.Component {
       alert(
         "TODO: Proper message for not allowing poeple to send funds to the same address."
       );
+
+      this.setState({ loading: false });
       return;
     }
 
-    this.props.onSubmit({
+    await this.props.onSubmit({
       type: "SEND_WALLET_ADDRESS_FILECOIN",
       source: currentAddress.address,
       target: this.state.address,
       amount: this.state.amount,
     });
+
+    this.setState({ loading: false });
   };
 
   _handleCancel = () => {
@@ -114,9 +119,17 @@ export default class SidebarWalletSendFunds extends React.Component {
         <System.ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
+          loading={this.state.loading}
         >
           Send
         </System.ButtonPrimaryFull>
+
+        <System.ButtonSecondaryFull
+          style={{ marginTop: 16 }}
+          onClick={this._handleCancel}
+        >
+          Cancel
+        </System.ButtonSecondaryFull>
       </React.Fragment>
     );
   }

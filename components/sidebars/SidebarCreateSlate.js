@@ -27,7 +27,7 @@ export default class SidebarCreateSlate extends React.Component {
       name: this.state.name,
     });
 
-    if (response) {
+    if (response && response.error) {
       // TODO(jim): Error task.
       alert(response.decorator);
     }
@@ -73,7 +73,7 @@ export default class SidebarCreateSlate extends React.Component {
 
         <System.ButtonSecondaryFull
           style={{ marginTop: 16 }}
-          onClick={this._handleSubmit}
+          onClick={this._handleCancel}
         >
           Cancel
         </System.ButtonSecondaryFull>

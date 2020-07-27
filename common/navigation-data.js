@@ -38,7 +38,18 @@ const constructFilesTreeForNavigation = (library) => {
   return library;
 };
 
-export const generate = (library) => [
+const constructSlatesTreeForNavigation = (slates) => {
+  return slates.map((s) => {
+    return {
+      ...s,
+      name: s.slatename,
+      pageTitle: `Viewing ${s.slatename}`,
+      decorator: "SLATE",
+    };
+  });
+};
+
+export const generate = ({ library = [], slates = [] }) => [
   {
     id: 1,
     name: "Home",
@@ -66,7 +77,7 @@ export const generate = (library) => [
     name: "Slates",
     pageTitle: "Your slates",
     decorator: "SLATES",
-    children: [],
+    children: constructSlatesTreeForNavigation(slates),
   },
   // TODO(colin):
   // re-enable this when we do local offline.

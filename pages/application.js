@@ -390,6 +390,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   render() {
+    // NOTE(jim): Not authenticated.
     if (!this.state.viewer) {
       return (
         <WebsitePrototypeWrapper
@@ -405,7 +406,8 @@ export default class ApplicationPage extends React.Component {
       );
     }
 
-    const navigation = NavigationData.generate(this.state.viewer.library);
+    // NOTE(jim): Authenticated.
+    const navigation = NavigationData.generate(this.state.viewer);
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
 

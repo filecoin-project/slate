@@ -54,8 +54,13 @@ export default class SceneHome extends React.Component {
     // TODO(jim): Refactor later.
     const slates = {
       columns: [
-        { key: "id", id: "id", name: "ID", type: "SLATE_LINK" },
-        { key: "slatename", name: "Slate Name", width: "228px" },
+        { key: "id", id: "id", name: "ID" },
+        {
+          key: "slatename",
+          name: "Slate Name",
+          width: "228px",
+          type: "SLATE_LINK",
+        },
         { key: "url", name: "URL", width: "268px" },
         {
           key: "public",

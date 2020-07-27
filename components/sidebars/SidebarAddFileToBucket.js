@@ -53,10 +53,15 @@ export default class SidebarAddFileToBucket extends React.Component {
       return;
     }
 
-    await this.props.onSetFile({ file });
+    await this.props.onSetFile({
+      file,
+      slate: { id: this.props.data.slateId },
+    });
   };
 
   render() {
+    console.log(this.props);
+
     return (
       <React.Fragment>
         <System.P style={{ fontFamily: Constants.font.semiBold }}>
@@ -68,6 +73,13 @@ export default class SidebarAddFileToBucket extends React.Component {
           id="file"
           onChange={this._handleUpload}
         />
+
+        {this.props.data && this.props.data.decorator === "SLATE" ? (
+          <System.P style={{ marginTop: 24 }}>
+            This will add an image to your Slate named{" "}
+            <strong>{this.props.data.slatename}</strong>.
+          </System.P>
+        ) : null}
 
         <System.ButtonPrimaryFull
           type="label"

@@ -326,7 +326,7 @@ export const TableContent = ({
       return (
         <span
           css={STYLES_TABLE_CONTENT_LINK}
-          onClick={() => onNavigateTo({ id: 17 }, data)}
+          onClick={() => onNavigateTo({ id: `slate-${data.slatename}` }, data)}
         >
           {text}
         </span>

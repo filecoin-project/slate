@@ -51,7 +51,7 @@ export default class ApplicationPage extends React.Component {
   state = {
     selected: State.getSelectedState(this.props.viewer),
     viewer: State.getInitialState(this.props.viewer),
-    history: [{ id: 1, scrollTop: 0 }],
+    history: [{ id: 1, scrollTop: 0, data: null }],
     currentIndex: 0,
     data: null,
     sidebar: null,
@@ -72,7 +72,7 @@ export default class ApplicationPage extends React.Component {
     window.removeEventListener("drop", this._handleDrop);
   }
 
-  _handleSetFile = async ({ file }) => {
+  _handleSetFile = async ({ file, slate }) => {
     this.setState({ fileLoading: true });
 
     let data = new FormData();
@@ -97,9 +97,26 @@ export default class ApplicationPage extends React.Component {
       this.setState({ fileLoading: false });
     }
 
+    if (slate) {
+      console.log({ slate, data: { ...json.data } });
+      const addResponse = await fetch(`/api/slates/add-url`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ slate, data: { ...json.data } }),
+      });
+
+      if (!addResponse || addResponse.error) {
+        console.log(addResponse.error);
+        alert("TODO: Adding an image to Slate went wrong.");
+      }
+    }
+
     await this.rehydrate();
 
-    this.setState({ sidebar: null, data: null, fileLoading: false });
+    this.setState({ sidebar: null, fileLoading: false });
   };
 
   _handleDragEnter = (e) => {
@@ -340,7 +357,6 @@ export default class ApplicationPage extends React.Component {
       {
         currentIndex: this.state.currentIndex - 1,
         sidebar: null,
-        data: null,
       },
       () => {
         const next = this.state.history[this.state.currentIndex];
@@ -357,7 +373,6 @@ export default class ApplicationPage extends React.Component {
       {
         currentIndex: this.state.currentIndex + 1,
         sidebar: null,
-        data: null,
       },
       () => {
         const next = this.state.history[this.state.currentIndex];

@@ -1,7 +1,7 @@
 import { runQuery } from "~/node_common/data/utilities";
 
-export default async ({ id, slatename, data }) => {
-  const updateObject = { data };
+export default async ({ id, slatename, updated_at, data }) => {
+  const updateObject = { data, updated_at };
 
   if (slatename) {
     updateObject.slatename = slatename;

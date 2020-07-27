@@ -31,17 +31,15 @@ export const getCurrentById = (navigation, targetId) => {
 // TODO(jim): We don't really need this.
 // Remove it at some point.
 const constructFilesTreeForNavigation = (library) => {
-  for (let i = 0; i < library.length; i++) {
-    library[i].children = [];
-  }
-
-  return library;
+  return { ...library[0], children: [] };
 };
 
 const constructSlatesTreeForNavigation = (slates) => {
   return slates.map((s) => {
     return {
       ...s,
+      id: `slate-${s.slatename}`,
+      slateId: s.id,
       name: s.slatename,
       pageTitle: `Viewing ${s.slatename}`,
       decorator: "SLATE",
@@ -71,7 +69,7 @@ export const generate = ({ library = [], slates = [] }) => [
       },
     ],
   },
-  ...constructFilesTreeForNavigation(library),
+  constructFilesTreeForNavigation(library),
   {
     id: 3,
     name: "Slates",

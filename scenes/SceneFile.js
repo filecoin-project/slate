@@ -119,7 +119,7 @@ export default class SceneFile extends React.Component {
     const file = this.props.data;
 
     const fileName = `${file.name}`;
-    const fileURL = `https://hub.textile.io${file.ipfs}`;
+    const fileURL = `https://hub.textile.io${file.ipfs ? file.ipfs : file.url}`;
 
     return (
       <div css={STYLES_FLEX}>

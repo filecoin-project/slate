@@ -52,8 +52,6 @@ const STYLES_USER = css`
 
 export default class ProfilePage extends React.Component {
   render() {
-    console.log({ profilePageProps: this.props });
-
     const title = this.props.creator
       ? `@${this.props.creator.username}`
       : "404";

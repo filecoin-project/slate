@@ -54,8 +54,6 @@ const STYLES_IMAGE = css`
 
 export default class SlatePage extends React.Component {
   render() {
-    console.log(this.props);
-
     const title = this.props.slate
       ? `@${this.props.slate.ownername}/${this.props.slate.slatename}`
       : "404";

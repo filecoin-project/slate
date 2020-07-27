@@ -7,6 +7,7 @@ import getUserById from "~/node_common/data/methods/get-user-by-id";
 import createSlate from "~/node_common/data/methods/create-slate";
 import getSlateByName from "~/node_common/data/methods/get-slate-by-name";
 import getSlateById from "~/node_common/data/methods/get-slate-by-id";
+import getSlatesByUserId from "~/node_common/data/methods/get-slates-by-user-id";
 import updateSlateById from "~/node_common/data/methods/update-slate-by-id";
 
 export {
@@ -20,5 +21,6 @@ export {
   createSlate,
   getSlateByName,
   getSlateById,
+  getSlatesByUserId,
   updateSlateById,
 };

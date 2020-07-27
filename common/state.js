@@ -24,7 +24,7 @@ const transformAddresses = (addrsList, info) => {
   });
 };
 
-const transformPeers = (peersList) => {
+const transformPeers = (peersList = []) => {
   return peersList.map((each) => {
     return {
       id: each.addrInfo.id,
@@ -73,6 +73,7 @@ export const getInitialState = (props) => {
     username,
     storageList,
     retrievalList,
+    slates,
   } = props;
 
   return {
@@ -114,6 +115,7 @@ export const getInitialState = (props) => {
     data_transfers: [],
     storageList,
     retrievalList,
+    slates,
     peers: transformPeers(peersList),
     addresses: transformAddresses(addrsList, info),
     library,

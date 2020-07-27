@@ -24,6 +24,7 @@ import SceneLocalData from "~/scenes/SceneLocalData";
 import SceneSettingsDeveloper from "~/scenes/SceneSettingsDeveloper";
 import SceneSignIn from "~/scenes/SceneSignIn";
 
+import SidebarCreateSlate from "~/components/sidebars/SidebarCreateSlate";
 import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalletAddress";
 import SidebarDeleteWalletAddress from "~/components/sidebars/SidebarDeleteWalletAddress";
 import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds";
@@ -193,8 +194,15 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleSubmit = async (data) => {
+    let response;
+    if (data.type === "CREATE_SLATE") {
+      response = await Actions.createSlate({
+        name: data.name,
+      });
+    }
+
     if (data.type === "CREATE_WALLET_ADDRESS") {
-      const address = await Actions.updateViewer({
+      response = await Actions.updateViewer({
         type: "CREATE_FILECOIN_ADDRESS",
         address: {
           name: data.name,
@@ -205,16 +213,20 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (data.type === "SEND_WALLET_ADDRESS_FILECOIN") {
-      const response = await Actions.sendFilecoin({
+      response = await Actions.sendFilecoin({
         source: data.source,
         target: data.target,
         amount: data.amount,
       });
     }
 
+    console.log({ response });
+
     await this.rehydrate();
 
     this._handleDismissSidebar();
+
+    return response;
   };
 
   _handleCancel = () => {
@@ -399,6 +411,7 @@ export default class ApplicationPage extends React.Component {
     SIDEBAR_DELETE_WALLET_ADDRESS: <SidebarDeleteWalletAddress />,
     SIDEBAR_REDEEM_PAYMENT_CHANNEL: <SidebarRedeemPaymentChannel />,
     SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
+    SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
   };
 
   scenes = {

@@ -67,10 +67,7 @@ export const refresh = async (user) => {
   const status = Health.status ? Health.status : null;
   const messageList = Health.messageList ? Health.messageList : null;
 
-  const Peers = await PG.net.peers();
-  const peersList = Peers.peersList ? Peers.peersList : null;
-
-  return { peersList, messageList, status };
+  return { messageList, status };
 };
 
 // NOTE(jim): Requires Powergate & authentication

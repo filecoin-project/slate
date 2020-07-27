@@ -51,60 +51,122 @@ export default class SceneHome extends React.Component {
   };
 
   render() {
+    console.log(this.props.viewer.slates);
+    // TODO(jim): Refactor later.
+    const slates = {
+      columns: [
+        { key: "id", id: "id", name: "ID" },
+        { key: "slatename", name: "Slate Name", width: "228px" },
+        { key: "url", name: "URL", width: "268px" },
+        {
+          key: "public",
+          name: "Public",
+          type: "SLATE_PUBLIC_TEXT_TAG",
+          width: "188px",
+        },
+      ],
+      rows: this.props.viewer.slates.map((each) => {
+        return {
+          ...each,
+          url: `https://slate.host/@${this.props.viewer.username}/${
+            each.slatename
+          }`,
+          public: false,
+        };
+      }),
+    };
+
+    // TODO(jim): Refactor later.
+    const slateButtons = [
+      { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
+    ];
+
+    // TODO(jim): Refactor later.
+    const data = {
+      columns: [
+        { key: "name", name: "Data", type: "FILE_LINK" },
+        {
+          key: "size",
+          name: "Size",
+          width: "140px",
+          type: "FILE_SIZE",
+        },
+        {
+          key: "date",
+          name: "Date uploaded",
+          width: "160px",
+          type: "FILE_DATE",
+          tooltip:
+            "This date represents when the file was first uploaded to IPFS.",
+        },
+        {
+          key: "networks",
+          name: "Network",
+          type: "NETWORK_TYPE",
+          width: "188px",
+        },
+      ],
+      rows: this.props.viewer.library[0].children.map((each) => {
+        return {
+          ...each,
+          button: "Store on Filecoin",
+        };
+      }),
+    };
+
+    // TODO(jim): Refactor later.
+    const dataButtons = [
+      {
+        name: "View files",
+        type: "NAVIGATE",
+        value: this.props.viewer.library[0].folderId,
+      },
+      {
+        name: "Upload to IPFS",
+        type: "SIDEBAR",
+        value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+      },
+    ];
+
+    // TODO(jim): Refactor later.
+    const wallet = {
+      columns: [
+        { key: "address", name: "Address" },
+        { key: "balance", name: "Filecoin", width: "228px" },
+        { key: "type", name: "Type", width: "188px", type: "TEXT_TAG" },
+      ],
+      rows: this.props.viewer.addresses,
+    };
+
+    // TODO(jim): Refactor later.
+    const walletButtons = [
+      {
+        name: "View all",
+        type: "NAVIGATE",
+        value: 2,
+      },
+    ];
+
     return (
       <ScenePage>
         <GLRenderer width={1200} height={480} />
+        <Section
+          title="Slates"
+          buttons={slateButtons}
+          onAction={this.props.onAction}
+        >
+          <System.Table data={slates} name="slate" />
+        </Section>
+
         {this.props.viewer.library[0] ? (
           <Section
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}
             title="Recent data"
-            buttons={[
-              {
-                name: "View files",
-                type: "NAVIGATE",
-                value: this.props.viewer.library[0].folderId,
-              },
-              {
-                name: "Upload to IPFS",
-                type: "SIDEBAR",
-                value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-              },
-            ]}
+            buttons={dataButtons}
           >
             <System.Table
-              data={{
-                columns: [
-                  { key: "name", name: "Data", type: "FILE_LINK" },
-                  {
-                    key: "size",
-                    name: "Size",
-                    width: "140px",
-                    type: "FILE_SIZE",
-                  },
-                  {
-                    key: "date",
-                    name: "Date uploaded",
-                    width: "160px",
-                    type: "FILE_DATE",
-                    tooltip:
-                      "This date represents when the file was first uploaded to IPFS.",
-                  },
-                  {
-                    key: "networks",
-                    name: "Network",
-                    type: "NETWORK_TYPE",
-                  },
-                ],
-                rows: this.props.viewer.library[0].children.map((each) => {
-                  return {
-                    ...each,
-                    button: "Store on Filecoin",
-                  };
-                }),
-              }}
-              selectedRowId={this.state.data}
-              onChange={this._handleChange}
+              data={data}
               onAction={this.props.onAction}
               onNavigateTo={this.props.onNavigateTo}
               name="data"
@@ -117,25 +179,10 @@ export default class SceneHome extends React.Component {
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}
             title="Wallet addresses"
-            buttons={[
-              {
-                name: "View all",
-                type: "NAVIGATE",
-                value: 2,
-              },
-            ]}
+            buttons={walletButtons}
           >
             <System.Table
-              data={{
-                columns: [
-                  { key: "address", name: "Address" },
-                  { key: "balance", name: "Filecoin", width: "228px" },
-                  { key: "type", name: "Type" },
-                ],
-                rows: this.props.viewer.addresses,
-              }}
-              selectedRowId={this.state.transaction}
-              onChange={this._handleChange}
+              data={wallet}
               onAction={this.props.onAction}
               onNavigateTo={this.props.onNavigateTo}
               name="transaction"

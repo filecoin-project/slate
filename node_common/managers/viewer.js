@@ -16,8 +16,9 @@ export const getById = async ({ id }) => {
   }
 
   let data = null;
+  const response = await Data.getSlatesByUserId({ userId: id });
+  const slates = JSON.parse(JSON.stringify(response));
 
-  // NOTE(jim): Essential for getting the right Powergate data for a user.
   try {
     data = {
       id: user.id,
@@ -29,7 +30,7 @@ export const getById = async ({ id }) => {
       library: user.data.library,
       storageList: [],
       retrievalList: [],
-      peersList: null,
+      slates,
       messageList: null,
       status: null,
       addrsList: null,

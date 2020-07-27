@@ -9,16 +9,14 @@ const db = knex(envConfig);
 
 console.log(`RUNNING: seed-database.js`);
 
-/*
 const u = db.schema.table("slates", function(table) {
   table
-    .integer("slatename")
+    .string("slatename")
     .unique()
     .nullable();
 });
-*/
 
-Promise.all([]);
+Promise.all([u]);
 
 console.log(`FINISHED: seed-database.js`);
 console.log(`          CTRL +C to return to terminal.`);

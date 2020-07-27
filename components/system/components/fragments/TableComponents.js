@@ -295,6 +295,19 @@ export const TableContent = ({
           </span>
         );
       });
+    case "SLATE_PUBLIC_TEXT_TAG":
+      return !text ? (
+        <span css={STYLES_TABLE_TAG}>Private</span>
+      ) : (
+        <span
+          css={STYLES_TABLE_TAG}
+          style={{ background: Constants.system.green }}
+        >
+          {text}
+        </span>
+      );
+    case "TEXT_TAG":
+      return <span css={STYLES_TABLE_TAG}>{text}</span>;
 
     case "FILE_DATE":
       return Strings.toDate(text);

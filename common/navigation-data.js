@@ -1,12 +1,38 @@
-const constructFilesTreeForNavigation = (library) => {
-  for (let i = 0; i < library.length; i++) {
-    for (let j = 0; j < library[i].children.length; j++) {
-      let e = library[i].children[j];
-      if (e.decorator === "FILE") {
-        library[i].children[j].pageTitle = "Viewing file";
-        library[i].children[j].ignore = true;
+// NOTE(jim)
+// Return the desired navigation entity based on the constructed navigation
+// and targetId
+export const getCurrentById = (navigation, targetId) => {
+  let target = null;
+  let activeIds = {};
+
+  const findById = (state, id) => {
+    for (let i = 0; i < state.length; i++) {
+      if (state[i].id === id) {
+        target = state[i];
+        activeIds[state[i].id] = true;
+      }
+
+      if (!target && state[i].children) {
+        activeIds[state[i].id] = true;
+        findById(state[i].children, id);
+
+        if (!target) {
+          activeIds[state[i].id] = false;
+        }
       }
     }
+  };
+
+  findById(navigation, targetId);
+
+  return { target, activeIds };
+};
+
+// TODO(jim): We don't really need this.
+// Remove it at some point.
+const constructFilesTreeForNavigation = (library) => {
+  for (let i = 0; i < library.length; i++) {
+    library[i].children = [];
   }
 
   return library;

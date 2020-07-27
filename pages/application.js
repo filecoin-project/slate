@@ -4,13 +4,8 @@ import * as Actions from "~/common/actions";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
 
-// import SceneDataTransfer from "~/scenes/SceneDataTransfer";
-// import SceneLogs from "~/scenes/SceneLogs";
-// import ScenePaymentChannels from "~/scenes/ScenePaymentChannels";
-// import ScenePeers from "~/scenes/ScenePeers";
-// import SceneStats from "~/scenes/SceneStats";
-// import SceneStatus from "~/scenes/SceneStatus";
-// import SceneStorageMarket from "~/scenes/SceneStorageMarket";
+// NOTE(jim):
+// Scenes each have an ID and can be navigated to with _handleAction
 import SceneDeals from "~/scenes/SceneDeals";
 import SceneEditAccount from "~/scenes/SceneEditAccount";
 import SceneFile from "~/scenes/SceneFile";
@@ -25,12 +20,8 @@ import SceneSettingsDeveloper from "~/scenes/SceneSettingsDeveloper";
 import SceneSignIn from "~/scenes/SceneSignIn";
 import SceneSlate from "~/scenes/SceneSlate";
 
-// import SidebarAddMiner from "~/components/sidebars/SidebarAddMiner";
-// import SidebarAddPeer from "~/components/sidebars/SidebarAddPeer";
-// import SidebarNotifications from "~/components/sidebars/SidebarNotifications";
-// import SidebarRedeemPaymentChannel from "~/components/sidebars/SidebarRedeemPaymentChannel";
-// import SidebarDeleteWalletAddress from "~/components/sidebars/SidebarDeleteWalletAddress";
-// import SidebarFileRetrievalDeal from "~/components/sidebars/SidebarFileRetrievalDeal";
+// NOTE(jim):
+// Sidebars each have a decorator and can be shown to with _handleAction
 import SidebarCreateSlate from "~/components/sidebars/SidebarCreateSlate";
 import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalletAddress";
 import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds";
@@ -38,6 +29,8 @@ import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal
 import SidebarCreatePaymentChannel from "~/components/sidebars/SidebarCreatePaymentChannel";
 import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket";
 
+// NOTE(jim):
+// Core components to the application structure.
 import ApplicationNavigation from "~/components/core/ApplicationNavigation";
 import ApplicationHeader from "~/components/core/ApplicationHeader";
 import ApplicationLayout from "~/components/core/ApplicationLayout";
@@ -45,33 +38,6 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
-
-const getCurrentNavigationStateById = (navigation, targetId) => {
-  let target = null;
-  let activeIds = {};
-
-  const findById = (state, id) => {
-    for (let i = 0; i < state.length; i++) {
-      if (state[i].id === id) {
-        target = state[i];
-        activeIds[state[i].id] = true;
-      }
-
-      if (!target && state[i].children) {
-        activeIds[state[i].id] = true;
-        findById(state[i].children, id);
-
-        if (!target) {
-          activeIds[state[i].id] = false;
-        }
-      }
-    }
-  };
-
-  findById(navigation, targetId);
-
-  return { target, activeIds };
-};
 
 export const getServerSideProps = async (context) => {
   return {
@@ -441,7 +407,7 @@ export default class ApplicationPage extends React.Component {
 
     const navigation = NavigationData.generate(this.state.viewer.library);
     const next = this.state.history[this.state.currentIndex];
-    const current = getCurrentNavigationStateById(navigation, next.id);
+    const current = NavigationData.getCurrentById(navigation, next.id);
 
     const navigationElement = (
       <ApplicationNavigation

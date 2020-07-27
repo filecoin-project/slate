@@ -23,14 +23,14 @@ export default async (req, res) => {
 
   if (!user) {
     return res
-      .status(200)
-      .json({ decorator: "SERVER_SEND_FILECOIN", error: true });
+      .status(404)
+      .json({ decorator: "SERVER_SEND_FILECOIN_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
     return res
-      .status(200)
-      .json({ decorator: "SERVER_SEND_FILECOIN", error: true });
+      .status(500)
+      .json({ decorator: "SERVER_SEND_FILECOIN_USER_NOT_FOUND", error: true });
   }
 
   const PG = Powergate.get(user);
@@ -46,7 +46,7 @@ export default async (req, res) => {
     console.log(e);
     return res
       .status(500)
-      .send({ decorator: "SERVER_SEND_FILECOIN", error: true });
+      .send({ decorator: "SERVER_SEND_FILECOIN_ACTION_FAILURE", error: true });
   }
 
   return res.status(200).json({ decorator: "SERVER_SEND_FILECOIN" });

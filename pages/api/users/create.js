@@ -73,14 +73,14 @@ export default async (req, res) => {
 
   if (!user) {
     return res
-      .status(500)
-      .json({ decorator: "SERVER_USER_CREATE", error: true });
+      .status(404)
+      .json({ decorator: "SERVER_USER_CREATE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_USER_CREATE", error: true });
+      .json({ decorator: "SERVER_USER_CREATE_USER_NOT_FOUND", error: true });
   }
 
   return res.status(200).json({

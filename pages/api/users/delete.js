@@ -33,14 +33,14 @@ export default async (req, res) => {
 
   if (!user) {
     return res
-      .status(200)
-      .json({ decorator: "SERVER_USER_DELETE", error: true });
+      .status(404)
+      .json({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
     return res
-      .status(200)
-      .json({ decorator: "SERVER_USER_DELETE", error: true });
+      .status(500)
+      .json({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
   }
 
   const i = await Libp2pCryptoIdentity.fromString(user.data.tokens.api);

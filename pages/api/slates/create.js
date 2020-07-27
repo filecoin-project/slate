@@ -24,14 +24,20 @@ export default async (req, res) => {
 
   if (!user) {
     return res
-      .status(500)
-      .json({ decorator: "SERVER_FIND_USER_CREATE_SLATE", error: true });
+      .status(404)
+      .json({
+        decorator: "SERVER_FIND_USER_CREATE_SLATE_USER_NOT_FOUND",
+        error: true,
+      });
   }
 
   if (user.error) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_FIND_USER_CREATE_SLATE", error: true });
+      .json({
+        decorator: "SERVER_FIND_USER_CREATE_SLATE_USER_NOT_FOUND",
+        error: true,
+      });
   }
 
   const slatename = Strings.createSlug(req.body.data.name);

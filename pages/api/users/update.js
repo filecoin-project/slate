@@ -29,14 +29,14 @@ export default async (req, res) => {
 
   if (!user) {
     return res
-      .status(500)
-      .json({ decorator: "SERVER_USER_UPDATE", error: true });
+      .status(404)
+      .json({ decorator: "SERVER_USER_UPDATE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_USER_UPDATE", error: true });
+      .json({ decorator: "SERVER_USER_UPDATE_USER_NOT_FOUND", error: true });
   }
 
   const PG = Powergate.get(user);

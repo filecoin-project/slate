@@ -25,6 +25,18 @@ export default async (req, res) => {
     id,
   });
 
+  if (!user) {
+    return res
+      .status(404)
+      .json({ decorator: "SERVER_STORAGE_DEAL_USER_NOT_FOUND", error: true });
+  }
+
+  if (user.error) {
+    return res
+      .status(500)
+      .json({ decorator: "SERVER_STORAGE_DEAL_USER_NOT_FOUND", error: true });
+  }
+
   const data = LibraryManager.getDataByIPFS(user, req.body.ipfs);
   if (!data) {
     return res.status(500).send({ decorator: "SERVER_NO_IPFS", error: true });

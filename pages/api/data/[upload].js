@@ -25,13 +25,15 @@ export default async (req, res) => {
   f.keepExtensions = true;
   f.parse(req, async (e, fields, files) => {
     if (e) {
-      return res.status(500).send({ decorator: "SERVER_UPLOAD", error: true });
+      return res
+        .status(500)
+        .send({ decorator: "SERVER_UPLOAD_PARSE_FAILURE", error: true });
     }
 
     if (!files.image) {
       return res
         .status(500)
-        .send({ decorator: "SERVER_UPLOAD_NOT_IMAGE", error: true });
+        .send({ decorator: "SERVER_UPLOAD_NOT_IMAGE_TYPE", error: true });
     }
 
     const path = files.image._writeStream.path;

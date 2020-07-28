@@ -176,6 +176,7 @@ export default async (req, res) => {
       decorator: "V1_UPLOAD_DATA_TO_SLATE",
       data: updated,
       slate: update,
+      url: `https://hub.textile.io${updated.ipfs}`,
     });
   });
 };

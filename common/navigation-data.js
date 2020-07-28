@@ -73,7 +73,7 @@ export const generate = ({ library = [], slates = [] }) => [
   {
     id: 3,
     name: "Slates",
-    pageTitle: "Your slates",
+    pageTitle: "Slates",
     decorator: "SLATES",
     children: constructSlatesTreeForNavigation(slates),
   },
@@ -82,22 +82,15 @@ export const generate = ({ library = [], slates = [] }) => [
   {
     id: 4,
     name: "Local",
-    pageTitle: "Your local data",
+    pageTitle: "Local data",
     decorator: "LOCAL_DATA",
     children: [],
-    ignore: true,
-  },
-  {
-    id: 5,
-    name: "Profile",
-    pageTitle: "Your local data",
-    decorator: "PROFILE_PAGE",
-    children: [],
+    ignore: true, //re-enable here.
   },
   {
     id: 13,
-    name: "Edit account",
-    pageTitle: "your account",
+    name: "Profile & Account Settings",
+    pageTitle: "Your Profile & Account Settings",
     decorator: "EDIT_ACCOUNT",
     children: null,
     ignore: true,
@@ -105,7 +98,7 @@ export const generate = ({ library = [], slates = [] }) => [
   {
     id: 14,
     name: "Filecoin Settings",
-    pageTitle: "Your hot and cold deal settings.",
+    pageTitle: "Filecoin Settings.",
     decorator: "SETTINGS",
     children: null,
     ignore: true,
@@ -120,11 +113,10 @@ export const generate = ({ library = [], slates = [] }) => [
   },
   {
     id: 16,
-    name: "API Key & Tokens",
-    pageTitle: "you",
+    name: "Developer API",
+    pageTitle: "Developer API",
     decorator: "SETTINGS_DEVELOPER",
     children: null,
-    ignore: true,
   },
   {
     id: 17,
@@ -133,5 +125,12 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SLATE",
     children: null,
     ignore: true,
+  },
+  {
+    id: 5,
+    name: "Profile",
+    pageTitle: "Profile Page",
+    decorator: "PROFILE_PAGE",
+    children: [],
   },
 ];

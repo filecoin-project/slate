@@ -26,6 +26,7 @@ const IconMap = {
   SLATE: <SVG.Slates height="20px" />,
   LOCAL_DATA: <SVG.HardDrive height="20px" />,
   PROFILE_PAGE: <SVG.ProfileUser height="20px" />,
+  SETTINGS_DEVELOPER: <SVG.SettingsDeveloper height="20px" />,
 };
 
 const STYLES_NAVIGATION = css`

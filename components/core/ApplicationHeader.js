@@ -166,9 +166,8 @@ export default class ApplicationHeader extends React.Component {
                 onAction={this.props.onAction}
                 onSignOut={this.props.onSignOut}
                 navigation={[
-                  { text: "Edit account", value: 13 },
+                  { text: "Profile & account settings", value: 13 },
                   { text: "Filecoin settings", value: 14 },
-                  { text: "API Key & Tokens", value: 16 },
                   { text: "Sign out", value: 0, action: "SIGN_OUT" },
                 ]}
               />

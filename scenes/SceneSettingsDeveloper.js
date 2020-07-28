@@ -152,6 +152,8 @@ const response = await fetch(url, {
 });
 
 const json = await response.json();
+
+// NOTE: you will receive a url you can use right away.
 console.log(json);`;
 
 export default class SceneSettingsDeveloper extends React.Component {

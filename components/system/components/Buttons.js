@@ -19,6 +19,7 @@ const STYLES_BUTTON = `
   letter-spacing: 0.2px;
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
+  user-select: none;
 `;
 
 const STYLES_BUTTON_FULL = `
@@ -36,6 +37,7 @@ const STYLES_BUTTON_FULL = `
   letter-spacing: 0.2px;
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
+  user-select: none;
 `;
 
 const STYLES_BUTTON_PRIMARY = css`

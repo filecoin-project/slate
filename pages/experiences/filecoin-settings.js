@@ -86,7 +86,11 @@ class Example extends React.Component {
 }
 `;
 
+<<<<<<< HEAD
 export default class SystemPageFilecoinSettings extends React.Component {
+=======
+export default class SystemPageFilecoinWalletBalances extends React.Component {
+>>>>>>> 905b19ee3d84d36e5ab94d0c77874a7b7bcf16c5
   state = {
     autoApprove: true,
   };

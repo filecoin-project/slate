@@ -29,7 +29,7 @@ const INPUT_STYLES = `
 const STYLES_UNIT = css`
   font-family: ${Constants.font.text};
   font-size: 14px;
-  color: #b2b2b2;
+  color: ${Constants.system.darkGray};
   position: absolute;
   top: 12px;
   right: 24px;

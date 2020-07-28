@@ -46,7 +46,7 @@ import {
   LoaderProgress,
   LoaderSpinner,
 } from "~/components/system/components/Loaders";
-
+import { Slider } from "~/components/system/components/Slider";
 import {
   SelectCountryMenu,
   SelectMenu,
@@ -115,6 +115,7 @@ export {
   RadioGroup,
   SelectCountryMenu,
   SelectMenu,
+  Slider,
   StatUpload,
   StatDownload,
   TabGroup,

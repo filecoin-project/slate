@@ -49,8 +49,8 @@ export default class SystemPageInputs extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { Input, Textarea } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { Input, Textarea } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -67,21 +67,19 @@ import { Input, Textarea } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleTextarea extends React.Component {
-   state = { exampleOne: 'Example text' }
+  state = { exampleOne: "Example text" };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-         <Textarea
-           name="exampleOne"
-           value={this.state.exampleOne}
-           onChange={this._handleChange}
-         />
-       )
-   }
+  render() {
+    return (
+      <Textarea
+        name="exampleOne"
+        value={this.state.exampleOne}
+        onChange={this._handleChange}
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />
@@ -106,14 +104,12 @@ import { Input, Textarea } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleLabel extends React.Component {
-  state = { exampleTwo: null }
+  state = { exampleTwo: null };
 
-  _handleChange = e => this.setState(
-    { [e.target.name]: e.target.value }
-  );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    return(
+    return (
       <Input
         label="Location of your pastries"
         description="We need to know the location of your pastries."
@@ -123,7 +119,7 @@ import { Input, Textarea } from 'slate-react-system';`}
         placeholder="Pastry Location"
         onChange={this._handleChange}
       />
-    )
+    );
   }
 }`}
         </CodeBlock>
@@ -148,23 +144,21 @@ import { Input, Textarea } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleMax extends React.Component {
-   state = { exampleThree: null }
+  state = { exampleThree: null };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-     return(
-       <Input
-         label="Max length is 14"
-         max={14}
-         name="exampleThree"
-         value={this.state.exampleThree}
-         onChange={this._handleChange}
-       />
-     )
-   }
+  render() {
+    return (
+      <Input
+        label="Max length is 14"
+        max={14}
+        name="exampleThree"
+        value={this.state.exampleThree}
+        onChange={this._handleChange}
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />
@@ -186,24 +180,22 @@ import { Input, Textarea } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleCopyPaste extends React.Component {
-   state = { exampleFour: 'aaaaa-bbbbb-ccccc-ddddd-eeee' }
+  state = { exampleFour: "aaaaa-bbbbb-ccccc-ddddd-eeee" };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-     return(
-       <Input
-         label="Copy and paste (read only)"
-         readOnly
-         name="exampleFour"
-         copyable
-         value={this.state.exampleFour}
-         onChange={this._handleChange}
-       />
-     )
-   }
+  render() {
+    return (
+      <Input
+        label="Copy and paste (read only)"
+        readOnly
+        name="exampleFour"
+        copyable
+        value={this.state.exampleFour}
+        onChange={this._handleChange}
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />
@@ -231,26 +223,24 @@ import { Input, Textarea } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleCopyPaste extends React.Component {
-   state = { exampleFive: "Click the 'x'" }
+  state = { exampleFive: "Click the 'x'" };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-     return(
-        <Input
-          label="Icon with submit function"
-          name="exampleFive"
-          icon={SVG.Dismiss}
-          onSubmit={() => {
-            this.setState({ exampleFive: "" });
-          }}
-          value={this.state.exampleFive}
-          onChange={this._handleChange}
-        />
-     )
-   }
+  render() {
+    return (
+      <Input
+        label="Icon with submit function"
+        name="exampleFive"
+        icon={SVG.Dismiss}
+        onSubmit={() => {
+          this.setState({ exampleFive: "" });
+        }}
+        value={this.state.exampleFive}
+        onChange={this._handleChange}
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />
@@ -283,39 +273,39 @@ import { Input, Textarea } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleSuccess extends React.Component {
-   render() {
-     return(
-       <Input
-         label="Success"
-         placeholder="This is an uncontrolled input for success."
-         validation="SUCCESS"
-       />
-     )
-   }
+  render() {
+    return (
+      <Input
+        label="Success"
+        placeholder="This is an uncontrolled input for success."
+        validation="SUCCESS"
+      />
+    );
+  }
 }
 
 class ExampleWarning extends React.Component {
-   render() {
-     return(
-       <Input
-         label="Warning"
-         placeholder="This is an uncontrolled input for warning."
-         validation="WARNING"
-       />
-     )
-   }
+  render() {
+    return (
+      <Input
+        label="Warning"
+        placeholder="This is an uncontrolled input for warning."
+        validation="WARNING"
+      />
+    );
+  }
 }
 
 class ExampleError extends React.Component {
-   render() {
-     return(
-         <Input
-           label="Error"
-           placeholder="This is an uncontrolled input for error."
-           validation="ERROR"
-         />
-     )
-   }
+  render() {
+    return (
+      <Input
+        label="Error"
+        placeholder="This is an uncontrolled input for error."
+        validation="ERROR"
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />

@@ -34,8 +34,8 @@ export default class SystemPageTooltips extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { TooltipAnchor } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { TooltipAnchor } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -45,11 +45,9 @@ import { TooltipAnchor } from 'slate-react-system';`}
         <System.P>Declare the Tooltip component.</System.P>
         <br />
         <CodeBlock>{`class ExampleOne extends React.Component {
-   render() {
-       return(
-         <TooltipAnchor tooltip="Hello friends!!" />
-       )
-   }
+  render() {
+    return <TooltipAnchor tooltip="Hello friends!!" />;
+  }
 }`}</CodeBlock>
         <br />
         <br />

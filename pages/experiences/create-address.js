@@ -5,11 +5,11 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
-const EXAMPLE_CODE = `import * as React from 'react';
-import { CreateFilecoinAddress } from 'slate-react-system';
+const EXAMPLE_CODE = `import * as React from "react";
+import { CreateFilecoinAddress } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
 
-const PowerGate = createPow({ host: 'http://pow.slate.textile.io:6002' });
+const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
 
 class Example extends React.Component {
   componentDidMount = async () => {
@@ -17,21 +17,15 @@ class Example extends React.Component {
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
     this.setState({ token });
-  }
+  };
 
   _handleCreateAddress = async ({ name, type, makeDefault }) => {
-    const response = await PowerGate.ffs.newAddr(
-      name, 
-      type, 
-      makeDefault
-    );
+    const response = await PowerGate.ffs.newAddr(name, type, makeDefault);
     console.log(response);
-  }
+  };
 
   render() {
-    return (
-      <CreateFilecoinAddress onSubmit={this._handleCreateAddress} />
-    );
+    return <CreateFilecoinAddress onSubmit={this._handleCreateAddress} />;
   }
 }
 `;

@@ -44,8 +44,8 @@ export default class SystemPageNotifications extends React.Component {
         </System.P>
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { GlobalModal, dispatchCustomEvent } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -68,12 +68,12 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
         <CodeBlock>
           {`class App extends React.Component {
   render() {
-    return(
+    return (
       <React.Fragment>
         <GlobalModal style={{ padding: "40px 16px" }} />
         {this.props.children}
       </React.Fragment>
-    )
+    );
   }
 }`}
         </CodeBlock>
@@ -121,7 +121,7 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
         <CodeBlock>
           {`class ExampleOne extends React.Component {
   _handleCreate = (detail) => {
-    dispatchCustomEvent({ name: "create-modal", detail: detail })
+    dispatchCustomEvent({ name: "create-modal", detail: detail });
   };
 
   _handleDelete = () => {
@@ -141,20 +141,16 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
       >
         <H2>Render whatever component you like here</H2>
         <br />
-        <ButtonSecondary onClick={this._handleDelete}>
-          Cancel
-        </ButtonSecondary>
+        <ButtonSecondary onClick={this._handleDelete}>Cancel</ButtonSecondary>
       </div>
-    )
-    return(
+    );
+    return (
       <ButtonSecondaryFull
-        onClick={() =>
-          this._handleCreate({ modal: modalContent })
-        }
+        onClick={() => this._handleCreate({ modal: modalContent })}
       >
         Click for modal popup
       </ButtonSecondaryFull>
-    )
+    );
   }
 }`}
         </CodeBlock>
@@ -189,14 +185,6 @@ import { GlobalModal, dispatchCustomEvent } from 'slate-react-system';`}
                   c: "{}",
                   d:
                     "Style object used to style the modal background (color, etc.)",
-                },
-                {
-                  id: 3,
-                  a: "label",
-                  b: "String",
-                  c: "modal",
-                  d:
-                    "A label for the modal provide context for users with assistive technology such as screen readers.",
                 },
               ],
             }}

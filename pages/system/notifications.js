@@ -48,8 +48,8 @@ export default class SystemPageNotifications extends React.Component {
         </System.P>
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -71,12 +71,12 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
         <CodeBlock>
           {`class App extends React.Component {
   render() {
-    return(
+    return (
       <React.Fragment>
         <GlobalNotification style={{ bottom: 0, right: 0 }} />
         {this.props.children}
       </React.Fragment>
-    )
+    );
   }
 }`}
         </CodeBlock>
@@ -144,34 +144,36 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
   };
 
   render() {
-    return(
-      <ButtonSecondaryFull
-        onClick={() =>
-          this._handleCreate({
-            id: this.state.count,
-            description: "This is notification number " + this.state.count,
-          })
-        }
-       >
-         Click for notification
-       </ButtonSecondaryFull>
-       <br />
-       <ButtonSecondaryFull
-        onClick={() =>
-          this._handleCreate({
-            id: this.state.count,
-            description: "This is a dark notification",
-            dark: true,
-          })
-        }
-      >
-        Click for dark style notification
-      </ButtonSecondaryFull>
+    return (
+      <React.Fragment>
+        <ButtonSecondaryFull
+          onClick={() =>
+            this._handleCreate({
+              id: this.state.count,
+              description: "This is notification number " + this.state.count,
+            })
+          }
+        >
+          Click for notification
+        </ButtonSecondaryFull>
+        <br />
+        <ButtonSecondaryFull
+          onClick={() =>
+            this._handleCreate({
+              id: this.state.count,
+              description: "This is a dark notification",
+              dark: true,
+            })
+          }
+        >
+          Click for dark style notification
+        </ButtonSecondaryFull>
 
-      <ButtonPrimaryFull onClick={this._handleDelete}>
-        Click to clear notifications
-      </ButtonPrimaryFull>
-    )
+        <ButtonPrimaryFull onClick={this._handleDelete}>
+          Click to clear notifications
+        </ButtonPrimaryFull>
+      </React.Fragment>
+    );
   }
 }`}
         </CodeBlock>
@@ -215,23 +217,25 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
   };
 
   render() {
-    return(
-      <ButtonSecondaryFull
-        onClick={() =>
-          this._handleCreate({
-            id: this.state.count,
-            description: "This disappears after 5 seconds",
-            timeout: 5000,
-          })
-        }
-      >
-        Click for disappearing notification
-      </System.ButtonSecondaryFull>
+    return (
+      <React.Fragment>
+        <ButtonSecondaryFull
+          onClick={() =>
+            this._handleCreate({
+              id: this.state.count,
+              description: "This disappears after 5 seconds",
+              timeout: 5000,
+            })
+          }
+        >
+          Click for disappearing notification
+        </ButtonSecondaryFull>
 
-      <ButtonPrimaryFull onClick={this._handleDelete}>
-        Click to clear notifications
-      </ButtonPrimaryFull>
-    )
+        <ButtonPrimaryFull onClick={this._handleDelete}>
+          Click to clear notifications
+        </ButtonPrimaryFull>
+      </React.Fragment>
+    );
   }
 }`}
         </CodeBlock>
@@ -317,59 +321,61 @@ import { GlobalNotification, dispatchCustomEvent } from 'slate-react-system';`}
   };
 
   render() {
-    return(
-      <ButtonSecondaryFull
-        onClick={() =>
-          this._handleCreate({
-            id: this.state.count,
-            description: "This is an info notification",
-            status: "INFO",
-          })
-        }
-      >
-        Click for info style notification
-      </ButtonSecondaryFull>
+    return (
+      <React.Fragment>
+        <ButtonSecondaryFull
+          onClick={() =>
+            this._handleCreate({
+              id: this.state.count,
+              description: "This is an info notification",
+              status: "INFO",
+            })
+          }
+        >
+          Click for info style notification
+        </ButtonSecondaryFull>
 
-      <ButtonSecondaryFull
-        onClick={() =>
-          this._handleCreate({
-            id: this.state.count,
-            description: "This is a success notification",
-            status: "SUCCESS",
-          })
-        }
-      >
-        Click for success style notification
-      </ButtonSecondaryFull>
+        <ButtonSecondaryFull
+          onClick={() =>
+            this._handleCreate({
+              id: this.state.count,
+              description: "This is a success notification",
+              status: "SUCCESS",
+            })
+          }
+        >
+          Click for success style notification
+        </ButtonSecondaryFull>
 
-      <ButtonSecondaryFull
-        onClick={() =>
-          this._handleCreate({
-            id: this.state.count,
-            description: "This is a warning notification",
-            status: "WARNING",
-          })
-        }
-      >
-        Click for warning style notification
-      </ButtonSecondaryFull>
+        <ButtonSecondaryFull
+          onClick={() =>
+            this._handleCreate({
+              id: this.state.count,
+              description: "This is a warning notification",
+              status: "WARNING",
+            })
+          }
+        >
+          Click for warning style notification
+        </ButtonSecondaryFull>
 
-      <ButtonSecondaryFull
-        onClick={() =>
-          this._handleCreate({
-            id: this.state.count,
-            description: "This is an error notification",
-            status: "ERROR",
-          })
-        }
-      >
-        Click for error style notification
-      </ButtonSecondaryFull>
+        <ButtonSecondaryFull
+          onClick={() =>
+            this._handleCreate({
+              id: this.state.count,
+              description: "This is an error notification",
+              status: "ERROR",
+            })
+          }
+        >
+          Click for error style notification
+        </ButtonSecondaryFull>
 
-      <ButtonPrimaryFull onClick={this._handleDelete}>
-        Click to clear notifications
-      </ButtonPrimaryFull>
-    )
+        <ButtonPrimaryFull onClick={this._handleDelete}>
+          Click to clear notifications
+        </ButtonPrimaryFull>
+      </React.Fragment>
+    );
   }
 }`}
         </CodeBlock>

@@ -48,16 +48,16 @@ const defaultStorageConfig = {
   repairable: false,
 };
 
-const EXAMPLE_CODE = `import * as React from 'react';
-import { FilecoinSettings } from 'slate-react-system';
+const EXAMPLE_CODE = `import * as React from "react";
+import { FilecoinSettings } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
 
 const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
 
 class Example extends React.Component {
   state = {
-    autoApprove: false
-  }
+    autoApprove: false,
+  };
 
   componentDidMount = async () => {
     const FFS = await PowerGate.ffs.create();
@@ -66,20 +66,20 @@ class Example extends React.Component {
     const { addrsList } = await PowerGate.ffs.addrs();
     const { defaultStorageConfig } = await PowerGate.ffs.defaultStorageConfig();
     this.setState({ token, defaultStorageConfig, addrsList });
-  }
+  };
 
   _handleSave = async ({ data, storageConfig }) => {
     const response = await PowerGate.ffs.setDefaultStorageConfig(storageConfig);
     this.setState({ data });
-  }
+  };
 
   render() {
     return (
-      <FilecoinSettings 
+      <FilecoinSettings
         autoApprove={this.state.autoApprove}
-        defaultStorageConfig={this.state.defaultStorageConfig} 
-        addrsList={this.state.addrsList} 
-        onSave={this._handleSave} 
+        defaultStorageConfig={this.state.defaultStorageConfig}
+        addrsList={this.state.addrsList}
+        onSave={this._handleSave}
       />
     );
   }

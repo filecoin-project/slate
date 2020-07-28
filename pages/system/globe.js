@@ -36,8 +36,8 @@ export default class SystemPageGlobe extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import GLRenderer from '~/components/three/GLRenderer';`}
+          {`import * as React from "react";
+import GLRenderer from "~/components/three/GLRenderer";`}
         </CodeBlock>
         <br />
         <br />
@@ -48,11 +48,9 @@ import GLRenderer from '~/components/three/GLRenderer';`}
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-   render() {
-       return(
-          <GLRenderer width={768} height={480} />
-       )
-   }
+  render() {
+    return <GLRenderer width={768} height={480} />;
+  }
 }`}
         </CodeBlock>
         <br />

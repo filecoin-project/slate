@@ -63,8 +63,8 @@ export default class SystemPageDropdowns extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { SelectMenu, SelectCountryMenu } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -100,18 +100,18 @@ import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`const SELECT_MENU_OPTIONS = [
-  { value: '1', name: 'Capricorn' },
-  { value: '2', name: 'Aquarius' },
-  { value: '3', name: 'Pisces' },
-  { value: '4', name: 'Aries' },
-  { value: '5', name: 'Taurus' },
-  { value: '6', name: 'Gemini' },
-  { value: '7', name: 'Cancer' },
-  { value: '8', name: 'Leo' },
-  { value: '9', name: 'Virgo' },
-  { value: '10', name: 'Libra' },
-  { value: '11', name: 'Scorpio' },
-  { value: '12', name: 'Sagittarus' },
+  { value: "1", name: "Capricorn" },
+  { value: "2", name: "Aquarius" },
+  { value: "3", name: "Pisces" },
+  { value: "4", name: "Aries" },
+  { value: "5", name: "Taurus" },
+  { value: "6", name: "Gemini" },
+  { value: "7", name: "Cancer" },
+  { value: "8", name: "Leo" },
+  { value: "9", name: "Virgo" },
+  { value: "10", name: "Libra" },
+  { value: "11", name: "Scorpio" },
+  { value: "12", name: "Sagittarus" },
 ];`}
         </CodeBlock>
         <br />
@@ -123,36 +123,31 @@ import { SelectMenu, SelectCountryMenu } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-   state = { exampleOne: '1' }
+  state = { exampleOne: "1" };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
-
-   render() {
-     return(
-       <SelectMenu
-         label="Pick a horoscope"
-         name="exampleOne"
-         value={this.state.exampleOne}
-         category="horoscope"
-         onChange={this._handleChange}
-         options={SELECT_MENU_OPTIONS}
-       />
-     )
-   }
-}
-
-
-class ExampleTwo extends React.Component {
-  state = { exampleTwo: '3' }
-
-  _handleChange = e => this.setState(
-    { [e.target.name]: e.target.value }
-  );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    return(
+    return (
+      <SelectMenu
+        label="Pick a horoscope"
+        name="exampleOne"
+        value={this.state.exampleOne}
+        category="horoscope"
+        onChange={this._handleChange}
+        options={SELECT_MENU_OPTIONS}
+      />
+    );
+  }
+}
+
+class ExampleTwo extends React.Component {
+  state = { exampleTwo: "3" };
+
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
+  render() {
+    return (
       <SelectMenu
         label="Pick a horoscope (full length)"
         name="exampleTwo"
@@ -162,7 +157,7 @@ class ExampleTwo extends React.Component {
         onChange={this._handleChange}
         options={SELECT_MENU_OPTIONS}
       />
-    )
+    );
   }
 }`}
         </CodeBlock>
@@ -189,14 +184,12 @@ class ExampleTwo extends React.Component {
         <br />
         <CodeBlock>
           {`class ExampleThree extends React.Component {
-  state = { exampleThree: "United States of America" }
+  state = { exampleThree: "United States of America" };
 
-  _handleChange = e => this.setState(
-    { [e.target.name]: e.target.value }
-  );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    return(
+    return (
       <SelectCountryMenu
         label="Pick your country"
         name="countryMenu"
@@ -205,7 +198,7 @@ class ExampleTwo extends React.Component {
         category="country"
         onChange={this._handleChange}
       />
-    )
+    );
   }
 }`}
         </CodeBlock>

@@ -7,7 +7,6 @@ import { DescriptionGroup } from "~/components/system/components/fragments/Descr
 import { SelectMenu } from "~/components/system/components/SelectMenus";
 import { Toggle } from "~/components/system/components/Toggle";
 import { Input } from "~/components/system/components/Input";
-import { CheckBox } from "~/components/system/components/CheckBox";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { CardTabGroup } from "~/components/system/components/CardTabGroup";
 
@@ -193,6 +192,7 @@ export class FilecoinSettings extends React.Component {
                 </div>
                 <div css={STYLES_RIGHT}>
                   <Toggle
+                    key="settings_deals_auto_approve"
                     name="settings_deals_auto_approve"
                     onChange={this._handleChange}
                     active={this.state.settings_deals_auto_approve}
@@ -205,11 +205,11 @@ export class FilecoinSettings extends React.Component {
                     style={{ marginTop: 24 }}
                     label="Repairable"
                     description="If this is enabled and the network detects that a miner is no longer storing your file, it will automatically make a storage deal with a new miner to store the file."
-                    tooltip="Placeholder."
                   />
                 </div>
                 <div css={STYLES_RIGHT}>
                   <Toggle
+                    key="settings_repairable"
                     name="settings_repairable"
                     onChange={this._handleChange}
                     active={this.state.settings_repairable}
@@ -239,12 +239,12 @@ export class FilecoinSettings extends React.Component {
                 <div css={STYLES_LEFT}>
                   <DescriptionGroup
                     label="Enable cold storage"
-                    tooltip="Placeholder"
                     description="By enabling cold storage, every time you make a deal your data will be stored on the Filecoin Network."
                   />
                 </div>
                 <div css={STYLES_RIGHT}>
                   <Toggle
+                    key="settings_cold_enabled"
                     name="settings_cold_enabled"
                     onChange={this._handleChange}
                     active={this.state.settings_cold_enabled}
@@ -316,6 +316,7 @@ export class FilecoinSettings extends React.Component {
                     </div>
                     <div css={STYLES_RIGHT}>
                       <Toggle
+                        key="settings_cold_default_auto_renew"
                         name="settings_cold_default_auto_renew"
                         onChange={this._handleChange}
                         active={this.state.settings_cold_default_auto_renew}
@@ -330,7 +331,6 @@ export class FilecoinSettings extends React.Component {
                         containerStyle={{ marginTop: 24 }}
                         label="Auto renew threshold"
                         description="How long before a deal expires should it auto renew."
-                        tooltip="Placeholder."
                         name="settings_cold_default_auto_renew_threshold"
                         pattern="^\d*$"
                         value={
@@ -356,12 +356,12 @@ export class FilecoinSettings extends React.Component {
                 <div css={STYLES_LEFT}>
                   <DescriptionGroup
                     label="Enable hot storage"
-                    tooltip="Placeholder"
                     description="By enabling hot storage, every time you make a deal your data will be stored on IPFS."
                   />
                 </div>
                 <div css={STYLES_RIGHT}>
                   <Toggle
+                    key="settings_hot_enabled"
                     name="settings_hot_enabled"
                     onChange={this._handleChange}
                     active={this.state.settings_hot_enabled}
@@ -382,6 +382,7 @@ export class FilecoinSettings extends React.Component {
                     </div>
                     <div css={STYLES_RIGHT}>
                       <Toggle
+                        key="settings_hot_allow_unfreeze"
                         name="settings_hot_allow_unfreeze"
                         onChange={this._handleChange}
                         active={this.state.settings_hot_allow_unfreeze}
@@ -397,7 +398,6 @@ export class FilecoinSettings extends React.Component {
                         label="Add timeout"
                         pattern="^\d*$"
                         description="How many seconds Slate will search for a file in hot storage before executing an unfreeze retrieval deal to get it from cold storage."
-                        tooltip="Placeholder."
                         name="settings_hot_ipfs_add_timeout"
                         value={this.state.settings_hot_ipfs_add_timeout}
                         unit="seconds"

@@ -44,8 +44,8 @@ export default class SystemPageSliders extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { Slider } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { Slider } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -85,40 +85,38 @@ import { Slider } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-    state = { 
-        one: 0, 
-        two: 0 
-    }
- 
-    _handleChange = e => this.setState(
-      { [e.target.name]: e.target.value }
+  state = {
+    one: 0,
+    two: 0,
+  };
+
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
+  render() {
+    return (
+      <div>
+        <System.Slider
+          discrete
+          label="Discrete Slider"
+          value={this.state.one}
+          name="one"
+          min={0}
+          max={100}
+          step={20}
+          onChange={this._handleChange}
+        />
+        <System.Slider
+          label="Continuous Slider"
+          value={this.state.two}
+          name="two"
+          min={0}
+          max={100}
+          step={20}
+          onChange={this._handleChange}
+        />
+      </div>
     );
- 
-    render() {
-        return(
-          <div>
-            <System.Slider
-              discrete
-              label="Discrete Slider"
-              value={this.state.one}
-              name="one"
-              min={0}
-              max={100}
-              step={20}
-              onChange={this._handleChange}
-            />
-            <System.Slider
-              label="Continuous Slider"
-              value={this.state.two}
-              name="two"
-              min={0}
-              max={100}
-              step={20}
-              onChange={this._handleChange}
-            />
-          </div>
-        )
-    }
+  }
 }`}
         </CodeBlock>
         <br />
@@ -136,7 +134,7 @@ import { Slider } from 'slate-react-system';`}
           value={this.state.three}
           name="three"
           onChange={this._handleChange}
-          inputStyle={{ width: "60px" }}
+          inputStyle={{ width: "80px" }}
         />
         <br />
         <System.Slider
@@ -161,42 +159,40 @@ import { Slider } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleTwo extends React.Component {
-    state = { 
-        three: 9500, 
-        four: 0 
-    }
- 
-    _handleChange = e => this.setState(
-      { [e.target.name]: e.target.value }
+  state = {
+    three: 9500,
+    four: 0,
+  };
+
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
+  render() {
+    return (
+      <div>
+        <System.Slider
+          inputBox
+          label="Slider with Input Box"
+          min={9000}
+          max={10000}
+          step={100}
+          value={this.state.one}
+          name="three"
+          onChange={this._handleChange}
+          inputStyle={{ width: "60px" }}
+        />
+        <System.Slider
+          bubble
+          label="Slider with Display Bubble"
+          min={-10}
+          max={10}
+          step={0.5}
+          value={this.state.four}
+          name="four"
+          onChange={this._handleChange}
+        />
+      </div>
     );
- 
-    render() {
-        return(
-          <div>
-            <System.Slider
-              inputBox
-              label="Slider with Input Box"
-              min={9000}
-              max={10000}
-              step={100}
-              value={this.state.one}
-              name="three"
-              onChange={this._handleChange}
-              inputStyle={{ width: "60px" }}
-            />
-            <System.Slider
-              bubble
-              label="Slider with Display Bubble"
-              min={-10}
-              max={10}
-              step={0.5}
-              value={this.state.four}
-              name="four"
-              onChange={this._handleChange}
-            />
-          </div>
-        )
-    }
+  }
 }`}
         </CodeBlock>
         <br />

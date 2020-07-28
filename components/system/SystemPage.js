@@ -213,16 +213,6 @@ export default class SystemPage extends React.Component {
           />
           <SidebarLink
             url={url}
-            href="/experiences/peers-list"
-            title="PeersList"
-          />
-          <SidebarLink
-            url={url}
-            href="/experiences/send-address-filecoin"
-            title="SendAddressFilecoin"
-          />
-          <SidebarLink
-            url={url}
             href="/experiences/list-filecoin-deals"
             title="FilecoinDealsList"
           />
@@ -231,41 +221,51 @@ export default class SystemPage extends React.Component {
             href="/experiences/filecoin-settings"
             title="FilecoinSettings"
           />
+          <SidebarLink
+            url={url}
+            href="/experiences/peers-list"
+            title="PeersList"
+          />
+          <SidebarLink
+            url={url}
+            href="/experiences/send-address-filecoin"
+            title="SendAddressFilecoin"
+          />
 
           <span css={STYLES_LABEL}>
             <br />
             <br />
             Components
           </span>
-          <SidebarLink url={url} href="/system/icons" title="Icons" />
-          <SidebarLink url={url} href="/system/colors" title="Colors" />
-          <SidebarLink url={url} href="/system/globe" title="Globe" />
-          <SidebarLink url={url} href="/system/tables" title="Tables" />
-          <SidebarLink url={url} href="/system/stats" title="Stats" />
-          <SidebarLink url={url} href="/system/tooltips" title="Tooltips" />
           <SidebarLink url={url} href="/system/buttons" title="Buttons" />
+          <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs" />
+          <SidebarLink url={url} href="/system/carousel" title="Carousel" />
           <SidebarLink url={url} href="/system/checkboxes" title="Checkboxes" />
-          <SidebarLink url={url} href="/system/radios" title="Radios" />
-          <SidebarLink url={url} href="/system/toggles" title="Toggles" />
-          <SidebarLink url={url} href="/system/sliders" title="Sliders" />
-          <SidebarLink url={url} href="/system/inputs" title="Inputs" />
-          <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns" />
+          <SidebarLink url={url} href="/system/colors" title="Colors" />
           <SidebarLink url={url} href="/system/datepicker" title="Datepicker" />
+          <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns" />
+          <SidebarLink url={url} href="/system/globe" title="Globe" />
+          <SidebarLink url={url} href="/system/icons" title="Icons" />
+          <SidebarLink url={url} href="/system/inputs" title="Inputs" />
           <SidebarLink
             url={url}
             href="/system/list-editor"
             title="List Editor"
           />
-          <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs" />
-          <SidebarLink url={url} href="/system/tabs" title="Tabs" />
+          <SidebarLink url={url} href="/system/loaders" title="Loaders" />
+          <SidebarLink url={url} href="/system/modals" title="Modals" />
           <SidebarLink
             url={url}
             href="/system/notifications"
             title="Notifications"
           />
-          <SidebarLink url={url} href="/system/modals" title="Modals" />
-          <SidebarLink url={url} href="/system/carousel" title="Carousel" />
-          <SidebarLink url={url} href="/system/loaders" title="Loaders" />
+          <SidebarLink url={url} href="/system/radios" title="Radios" />
+          <SidebarLink url={url} href="/system/sliders" title="Sliders" />
+          <SidebarLink url={url} href="/system/stats" title="Stats" />
+          <SidebarLink url={url} href="/system/tables" title="Tables" />
+          <SidebarLink url={url} href="/system/tabs" title="Tabs" />
+          <SidebarLink url={url} href="/system/toggles" title="Toggles" />
+          <SidebarLink url={url} href="/system/tooltips" title="Tooltips" />
           <SidebarLink url={url} href="/system/typography" title="Typography" />
 
           <div

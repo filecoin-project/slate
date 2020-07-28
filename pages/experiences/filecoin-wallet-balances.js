@@ -5,8 +5,8 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
-const EXAMPLE_CODE = `import * as React from 'react';
-import { FilecoinBalancesList } from 'slate-react-system';
+const EXAMPLE_CODE = `import * as React from "react";
+import { FilecoinBalancesList } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
 
 const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
@@ -18,12 +18,10 @@ class Example extends React.Component {
     PowerGate.setToken(token);
     const { info } = await PowerGate.ffs.info();
     this.setState({ token, balancesList: info.balancesList });
-  }
+  };
 
   render() {
-    return (
-      <FilecoinBalancesList data={this.state.balancesList} />
-    );
+    return <FilecoinBalancesList data={this.state.balancesList} />;
   }
 }
 `;

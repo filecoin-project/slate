@@ -32,8 +32,7 @@ export default class SystemLoaders extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`
-import {
+          {`import {
   LoaderCircles,
   LoaderDiamonds,
   LoaderMoon,

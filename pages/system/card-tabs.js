@@ -55,8 +55,8 @@ export default class SystemPageCardTabs extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { CardTabGroup } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { CardTabGroup } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -67,15 +67,15 @@ import { CardTabGroup } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`const TAB_GROUP_TWO = [
-  { value: '1', label: 'Capricorn' },
-  { value: '2', label: 'Aquarius' },
+  { value: "1", label: "Capricorn" },
+  { value: "2", label: "Aquarius" },
 ];
 
 const TAB_GROUP_FOUR = [
-  { value: '1', label: 'Capricorn' },
-  { value: '2', label: 'Aquarius' },
-  { value: '3', label: 'Pisces' },
-  { value: '4', label: 'Aries' },
+  { value: "1", label: "Capricorn" },
+  { value: "2", label: "Aquarius" },
+  { value: "3", label: "Pisces" },
+  { value: "4", label: "Aries" },
 ];`}
         </CodeBlock>
         <br />
@@ -83,41 +83,37 @@ const TAB_GROUP_FOUR = [
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-   state = { exampleOne: '1' }
+  state = { exampleOne: "1" };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-         <CardTabGroup
-           name="exampleOne"
-           options={TAB_GROUP_TWO}
-           value={this.state.exampleOne}
-           onChange={this._handleChange}
-         />
-       )
-   }
+  render() {
+    return (
+      <CardTabGroup
+        name="exampleOne"
+        options={TAB_GROUP_TWO}
+        value={this.state.exampleOne}
+        onChange={this._handleChange}
+      />
+    );
+  }
 }
 
 class ExampleTwo extends React.Component {
-   state = { exampleTwo: '4' }
+  state = { exampleTwo: "4" };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-         <CardTabGroup
-           name="exampleTwo"
-           options={TAB_GROUP_FOUR}
-           value={this.state.exampleTwo}
-           onChange={this._handleChange}
-         />
-       )
-   }
+  render() {
+    return (
+      <CardTabGroup
+        name="exampleTwo"
+        options={TAB_GROUP_FOUR}
+        value={this.state.exampleTwo}
+        onChange={this._handleChange}
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />

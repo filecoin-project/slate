@@ -34,8 +34,8 @@ export default class SystemPageStats extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { StatUpload, StatDownload } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { StatUpload, StatDownload } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -49,19 +49,15 @@ import { StatUpload, StatDownload } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-   render() {
-       return(
-          <StatUpload size="40000000" decimal="5" />
-       )
-   }
+  render() {
+    return <StatUpload size="40000000" decimal="5" />;
+  }
 }
 
 class ExampleTwo extends React.Component {
-   render() {
-       return(
-          <StatDownload size="40000000" />
-       )
-   }
+  render() {
+    return <StatDownload size="40000000" />;
+  }
 }`}
         </CodeBlock>
         <br />

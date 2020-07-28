@@ -271,7 +271,7 @@ export const injectCodeBlockStyles = () => css`
     .token.prolog,
     .token.doctype,
     .token.cdata {
-      color: #444;
+      color: #FF00FF;
     }
 
     .token.punctuation {

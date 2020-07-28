@@ -20,7 +20,7 @@ export default async ({ id, slatename, updated_at, data }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "UPDATE_SLATE",
+        error: "UPDATE_SLATE_BY_ID",
         source: e,
       };
     },

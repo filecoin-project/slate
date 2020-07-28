@@ -7,6 +7,7 @@ import * as SVG from "~/components/system/svg";
 import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const STYLES_KEY = css`
   display: flex;
@@ -82,6 +83,77 @@ class Key extends React.Component {
   }
 }
 
+const EXAMPLE_GET_SLATE = (
+  key,
+  slateId
+) => `// NOTE: set a slate by ID in an async/await function
+
+const response = await fetch('https://slate.host/api/v1/get-slate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    // NOTE: your API key
+    Authorization: 'Basic ${key}',
+  },
+  body: JSON.stringify({ data: {
+    // NOTE: your slate id
+    id: ${slateId}
+  }})
+});
+
+const json = await response.json();
+console.log(json);`;
+
+const EXAMPLE_GET_SLATE_RESPONSE = (
+  key
+) => `// NOTE: get a slate by ID JSON response
+
+{
+  data: {
+    id: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    updated_at: '2020-07-27T09:04:53.007Z',
+    created_at: '2020-07-27T09:04:53.007Z',
+    published_at: '2020-07-27T09:04:53.007Z',
+    slatename: 'slatename',
+    data: {
+      name: "slatename",
+      public: true,
+      objects: [
+        {
+          id: "data-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          name: "data-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          ownerId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          url: "https://slate.host/static/social.png"
+        }
+      ],
+      ownerId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    }
+  }
+}`;
+
+const EXAMPLE_UPLOAD_TO_SLATE = (key, slateId) => `// NOTE
+// Upload data to a Slate by id in an async/await function. 
+// Uses event data from a type="file" input.
+
+// NOTE: your slate id
+const url = 'https://slate.host/api/v1/upload-data/${slateId}';
+
+let file = e.target.files[0];
+let data = new FormData();
+data.append("image", file);
+
+const response = await fetch(url, {
+  method: 'POST',
+  headers: {
+    // NOTE: your API key
+    Authorization: 'Basic ${key}',
+  },
+  body: data
+});
+
+const json = await response.json();
+console.log(json);`;
+
 export default class SceneSettingsDeveloper extends React.Component {
   state = {
     loading: false,
@@ -126,7 +198,41 @@ export default class SceneSettingsDeveloper extends React.Component {
     this.setState({ loading: false });
   };
 
+  async componentDidMount() {
+    if (!this.props.viewer.keys) {
+      return;
+    }
+
+    if (!this.props.viewer.keys.length) {
+      return;
+    }
+
+    const response = await fetch("/api/v1/get-slate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${this.props.viewer.keys[0].key}`,
+      },
+    });
+    const json = await response.json();
+    console.log(json);
+  }
+
   render() {
+    let key;
+    if (this.props.viewer.keys) {
+      if (this.props.viewer.keys.length) {
+        key = this.props.viewer.keys[0].key;
+      }
+    }
+
+    let slateId = "your-slate-uuid-v4-value";
+    if (this.props.viewer.slates) {
+      if (this.props.viewer.slates.length) {
+        slateId = this.props.viewer.slates[0].id;
+      }
+    }
+
     return (
       <ScenePage>
         <System.H1>API Key</System.H1>
@@ -148,6 +254,36 @@ export default class SceneSettingsDeveloper extends React.Component {
             Generate
           </System.ButtonPrimary>
         </div>
+
+        {key ? (
+          <React.Fragment>
+            <System.H2 style={{ marginTop: 64 }}>Usage (JavaScript)</System.H2>
+            <System.DescriptionGroup
+              style={{ marginTop: 48 }}
+              label="Get slate by ID"
+              description="If you have the ID of your slate you can make a request for it. If you don't provide an ID you will get back the most recent slate you have made."
+            />
+            <CodeBlock
+              children={EXAMPLE_GET_SLATE(key, slateId)}
+              style={{ maxWidth: "768px" }}
+            />
+            <br />
+            <br />
+            <CodeBlock
+              children={EXAMPLE_GET_SLATE_RESPONSE(key)}
+              style={{ maxWidth: "768px" }}
+            />
+            <System.DescriptionGroup
+              style={{ marginTop: 48 }}
+              label="Upload data to slate by ID"
+              description="You can use an HTML input field to get a file from the JavaScript event and upload that file to a slate of your choice. You must have the correct slate ID for this to work."
+            />
+            <CodeBlock
+              children={EXAMPLE_UPLOAD_TO_SLATE(key, slateId)}
+              style={{ maxWidth: "768px" }}
+            />
+          </React.Fragment>
+        ) : null}
       </ScenePage>
     );
   }

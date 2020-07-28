@@ -14,6 +14,7 @@ import createAPIKeyForUserId from "~/node_common/data/methods/create-api-key-for
 import deleteAPIKeyById from "~/node_common/data/methods/delete-api-key-by-id";
 import deleteAPIKeysForUserId from "~/node_common/data/methods/delete-api-keys-for-user-id";
 import getAPIKey from "~/node_common/data/methods/get-api-key";
+import getAPIKeyByKey from "~/node_common/data/methods/get-api-key-by-key";
 import getAPIKeysByUserId from "~/node_common/data/methods/get-api-keys-by-user-id";
 
 export {
@@ -34,5 +35,6 @@ export {
   deleteAPIKeyById,
   deleteAPIKeysForUserId,
   getAPIKey,
+  getAPIKeyByKey,
   getAPIKeysByUserId,
 };

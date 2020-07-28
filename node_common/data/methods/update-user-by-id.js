@@ -32,7 +32,7 @@ export default async ({ id, data, username, salt, password }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "UPDATE_USER",
+        error: "UPDATE_USER_BY_ID",
         source: e,
       };
     },

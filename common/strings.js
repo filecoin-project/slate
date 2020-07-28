@@ -21,6 +21,14 @@ export const copyText = (str) => {
   return true;
 };
 
+export const getKey = (text) => {
+  if (isEmpty(text)) {
+    return null;
+  }
+
+  return text.replace("Basic ", "");
+};
+
 export const createSlug = (text) => {
   if (isEmpty(text)) {
     return "untitled";

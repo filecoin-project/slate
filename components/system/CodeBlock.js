@@ -67,7 +67,11 @@ class CodeBlock extends React.Component {
     const textMap = codeBlockToken;
 
     return (
-      <div css={STYLES_CODE_BLOCK} className="language-javascript">
+      <div
+        css={STYLES_CODE_BLOCK}
+        className="language-javascript"
+        style={this.props.style}
+      >
         {textMap.map((element, index) => {
           return (
             <div css={STYLES_LINE} key={`${element}-${index}`}>

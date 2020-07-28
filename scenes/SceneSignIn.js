@@ -48,6 +48,7 @@ const STYLES_POPOVER_CARD_IMAGE = css`
   border-radius: 24px;
   width: 100%;
   height: 124px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
 `;
 
 const STYLES_CODE_PREVIEW = css`

@@ -23,21 +23,22 @@ const STYLES_BODY = css`
 `;
 
 const STYLES_ICON_ELEMENT = css`
-  height: 88px;
-  width: 88px;
+  height: 48px;
+  width: 48px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: ${Constants.system.brand};
   background-image: url("/static/social.png");
-  border-radius: 88px;
   background-size: cover;
   color: ${Constants.system.white};
   user-select: none;
 `;
 
 const STYLES_SIDEBAR = css`
-  padding: 80px 24px 128px 24px;
+  padding: 88px 24px 128px 24px;
   position: fixed;
   top: 0;
   left: 0;

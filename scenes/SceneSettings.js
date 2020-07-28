@@ -202,16 +202,16 @@ export default class SceneSettings extends React.Component {
               placeholder="Type in amount of Filecoin"
               onChange={this._handleChange}
             />
-            <div style={{ marginTop: 24 }}>
-              <System.ButtonPrimary
-                loading={this.state.loading}
-                onClick={this._handleSave}
-              >
-                Save
-              </System.ButtonPrimary>
-            </div>
           </div>
         ) : null}
+        <div style={{ marginTop: 32 }}>
+          <System.ButtonPrimary
+            loading={this.state.loading}
+            onClick={this._handleSave}
+          >
+            Save
+          </System.ButtonPrimary>
+        </div>
 
         <div css={STYLES_GROUP} style={{ marginTop: 32 }}>
           <div css={STYLES_LEFT}>
@@ -251,17 +251,16 @@ export default class SceneSettings extends React.Component {
               placeholder="Type in seconds"
               onChange={this._handleChange}
             />
-
-            <div style={{ marginTop: 24 }}>
-              <System.ButtonPrimary
-                loading={this.state.loading}
-                onClick={this._handleSave}
-              >
-                Save
-              </System.ButtonPrimary>
-            </div>
           </div>
         ) : null}
+        <div style={{ marginTop: 32 }}>
+          <System.ButtonPrimary
+            loading={this.state.loading}
+            onClick={this._handleSave}
+          >
+            Save
+          </System.ButtonPrimary>
+        </div>
       </ScenePage>
     );
   }

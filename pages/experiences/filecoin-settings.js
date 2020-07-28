@@ -86,7 +86,7 @@ class Example extends React.Component {
 }
 `;
 
-export default class SystemPageFilecoinWalletBalances extends React.Component {
+export default class SystemPageFilecoinSettings extends React.Component {
   state = {
     autoApprove: true,
   };

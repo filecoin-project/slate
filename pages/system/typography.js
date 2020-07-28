@@ -47,7 +47,7 @@ export default class SystemPageTypography extends React.Component {
         <br />
         <br />
         <System.P>
-          The Filecoin Client uses
+          The Filecoin Client uses{" "}
           <a href="https://rsms.me/inter/" target="_blank">
             Inter
           </a>{" "}
@@ -69,7 +69,7 @@ export default class SystemPageTypography extends React.Component {
         </System.P>
         <br />
         <CodeBlock>
-          {`import { H1, H2, H3, H4, P, UL, OL, LI } from 'slate-react-system';
+          {`import { H1, H2, H3, H4, P, UL, OL, LI } from "slate-react-system";
 import ViewSourceLink from "~/components/system/ViewSourceLink";`}
         </CodeBlock>
         <br />
@@ -91,21 +91,13 @@ import ViewSourceLink from "~/components/system/ViewSourceLink";`}
         <br />
         <br />
         <CodeBlock>
-          {`<System.H1>
-This is heading level 1
-</System.H1>
+          {`<H1>This is heading level 1</H1>
 
-<System.H2>
-This is heading level 2
-</System.H2>
+<H2>This is heading level 2</H2>
 
-<System.H3>
-This is heading level 3
-</System.H3>
+<H3>This is heading level 3</H3>
 
-<System.H4>
-This is heading level 4
-</System.H4>`}
+<H4>This is heading level 4</H4>`}
         </CodeBlock>
         <br />
         <br />
@@ -118,11 +110,11 @@ This is heading level 4
         <br />
         <br />
         <CodeBlock>
-          {`<System.P css={STYLES_BOLD}>This text is bold</System.P>
+          {`<P css={STYLES_BOLD}>This text is bold</P>
 
-<System.P css={STYLES_ITALIC}>This text is italic</System.P>
+<P css={STYLES_ITALIC}>This text is italic</P>
 
-<System.P css={STYLES_UNDERLINE}>This text is underlined</System.P>`}
+<P css={STYLES_UNDERLINE}>This text is underlined</P>`}
         </CodeBlock>
         <br />
         <br />
@@ -162,17 +154,17 @@ This is heading level 4
         <br />
         <br />
         <CodeBlock>
-          {`<System.OL>
-  <System.LI>Rainbow</System.LI>
-  <System.LI>Cloud</System.LI>
-  <System.LI>Cake</System.LI>
-</System.OL>
+          {`<OL>
+  <LI>Rainbow</LI>
+  <LI>Cloud</LI>
+  <LI>Cake</LI>
+</OL>
 
-<System.UL>
-  <System.LI>Cloud</System.LI>
-  <System.LI>Cake</System.LI>
-  <System.LI>Rainbow</System.LI>
-</System.UL>`}
+<UL>
+  <LI>Cloud</LI>
+  <LI>Cake</LI>
+  <LI>Rainbow</LI>
+</UL>`}
         </CodeBlock>
         <br />
         <br />
@@ -191,16 +183,16 @@ This is heading level 4
         <br />
         <br />
         <CodeBlock>
-          {`<System.P>
+          {`<P>
   <a href="https://slate.host"
   target="_blank">
     Link to a page
   </a>
-</System.P>
+</P>
 
-<System.P>
+<P>
   <ViewSourceLink file="system/typography.js" />
-</System.P>`}
+</P>`}
         </CodeBlock>
         <br />
         <br />

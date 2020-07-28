@@ -42,8 +42,8 @@ export default class SystemPageToggles extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { Toggle } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { Toggle } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -54,41 +54,37 @@ import { Toggle } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-   state = { exampleOne: true }
+  state = { exampleOne: true };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-         <Toggle
-           active={this.state.exampleOne}
-           name="exampleOne"
-           onChange={this._handleChange}
-         />
-       )
-   }
+  render() {
+    return (
+      <Toggle
+        active={this.state.exampleOne}
+        name="exampleOne"
+        onChange={this._handleChange}
+      />
+    );
+  }
 }
 
-
 class ExampleTwo extends React.Component {
-   state = { exampleTwo: false }
+  state = { exampleTwo: false };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-         <Toggle
-           active={this.state.exampleTwo}
-           name="exampleTwo"
-           onChange={this._handleChange}
-         />
-       )
-   }
-}`}
+  render() {
+    return (
+      <Toggle
+        active={this.state.exampleTwo}
+        name="exampleTwo"
+        onChange={this._handleChange}
+      />
+    );
+  }
+}
+`}
         </CodeBlock>
 
         <br />

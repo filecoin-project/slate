@@ -8,7 +8,11 @@ import CodeBlock from "~/components/system/CodeBlock";
 export default class SystemPageButtons extends React.Component {
   render() {
     return (
-      <SystemPage title="SDS: Buttons" description="..." url="https://slate.host/system/buttons">
+      <SystemPage
+        title="SDS: Buttons"
+        description="..."
+        url="https://slate.host/system/buttons"
+      >
         <System.H1>
           Buttons <ViewSourceLink file="system/buttons.js" />
         </System.H1>
@@ -28,7 +32,7 @@ export default class SystemPageButtons extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
+          {`import * as React from "react";
 import {
   ButtonPrimary,
   ButtonPrimaryFull,
@@ -36,7 +40,7 @@ import {
   ButtonSecondaryFull,
   ButtonDisabled,
   ButtonDisabledFull,
-} from 'slate-react-system';`}
+} from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -56,35 +60,21 @@ import {
         <br />
         <CodeBlock>
           {`class ExamplePrimary extends React.Component {
-   render() {
-       return(
-         <ButtonPrimary>
-           Primary Button
-         </ButtonPrimary>
-       )
-   }
+  render() {
+    return <ButtonPrimary>Primary Button</ButtonPrimary>;
+  }
 }
-
 
 class ExampleSecondary extends React.Component {
-   render() {
-       return(
-         <ButtonSecondary>
-           Secondary Button
-         </ButtonSecondary>
-       )
-   }
+  render() {
+    return <ButtonSecondary>Secondary Button</ButtonSecondary>;
+  }
 }
 
-
 class ExampleDisabled extends React.Component {
-   render() {
-       return(
-         <ButtonDisabled>
-           Disabled Button
-         </ButtonDisabled>
-       )
-   }
+  render() {
+    return <ButtonDisabled>Disabled Button</ButtonDisabled>;
+  }
 }`}
         </CodeBlock>
         <br />
@@ -111,35 +101,21 @@ class ExampleDisabled extends React.Component {
         <br />
         <CodeBlock>
           {`class ExamplePrimaryFull extends React.Component {
-   render() {
-       return(
-         <ButtonPrimaryFull>
-           Primary Button Full
-         </ButtonPrimaryFull>
-       )
-   }
+  render() {
+    return <ButtonPrimaryFull>Primary Button Full</ButtonPrimaryFull>;
+  }
 }
-
 
 class ExampleSecondaryFull extends React.Component {
-   render() {
-       return(
-         <ButtonSecondaryFull>
-           Secondary Button Full
-         </ButtonSecondaryFull>
-       )
-   }
+  render() {
+    return <ButtonSecondaryFull>Secondary Button Full</ButtonSecondaryFull>;
+  }
 }
 
-
 class ExampleDisabledFull extends React.Component {
-   render() {
-       return(
-         <ButtonDisabledFull>
-           Disabled Button Full
-         </ButtonDisabledFull>
-       )
-   }
+  render() {
+    return <ButtonDisabledFull>Disabled Button Full</ButtonDisabledFull>;
+  }
 }`}
         </CodeBlock>
         <br />
@@ -168,35 +144,23 @@ class ExampleDisabledFull extends React.Component {
         <br />
         <CodeBlock>
           {`class ExamplePrimaryLabel extends React.Component {
-   render() {
-       return(
-         <ButtonPrimary type="label">
-           Primary Button Label
-         </ButtonPrimary>
-       )
-   }
+  render() {
+    return <ButtonPrimary type="label">Primary Button Label</ButtonPrimary>;
+  }
 }
-
 
 class ExampleSecondaryLabel extends React.Component {
-   render() {
-       return(
-         <ButtonSecondary type="label">
-           Secondary Button Label
-         </ButtonSecondary>
-       )
-   }
+  render() {
+    return (
+      <ButtonSecondary type="label">Secondary Button Label</ButtonSecondary>
+    );
+  }
 }
 
-
 class ExampleDisabledLabel extends React.Component {
-   render() {
-       return(
-         <ButtonDisabled type="label">
-           Disabled Button Label
-         </ButtonDisabled>
-       )
-   }
+  render() {
+    return <ButtonDisabled type="label">Disabled Button Label</ButtonDisabled>;
+  }
 }`}
         </CodeBlock>
       </SystemPage>

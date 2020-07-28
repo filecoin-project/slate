@@ -50,8 +50,8 @@ export default class SystemPageListEditor extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { ListEditor } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { ListEditor } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -77,23 +77,23 @@ import { ListEditor } from 'slate-react-system';`}
       "Pistachio",
       "Neapolitan",
       "Toffee",
-      "Rocky Road"
-    ]
-  }
+      "Rocky Road",
+    ],
+  };
 
   _handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
-    return(
+    return (
       <ListEditor
         placeholder="Add a flavor"
         name="flavors"
         options={this.state.flavors}
         onChange={this._handleChange}
       />
-    )
+    );
   }
 }`}
         </CodeBlock>

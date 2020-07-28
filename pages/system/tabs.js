@@ -63,8 +63,8 @@ export default class SystemPageTabs extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { TabGroup } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { TabGroup } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -75,14 +75,14 @@ import { TabGroup } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`const TAB_GROUP_TWO = [
-  { value: '1', label: 'Capricorn' },
-  { value: '2', label: 'Aquarius' },
+  { value: "1", label: "Capricorn" },
+  { value: "2", label: "Aquarius" },
 ];
 
 const TAB_GROUP_THREE = [
-  { value: '1', label: 'Capricorn' },
-  { value: '2', label: 'Aquarius' },
-  { value: '3', label: 'Pisces' },
+  { value: "1", label: "Capricorn" },
+  { value: "2", label: "Aquarius" },
+  { value: "3", label: "Pisces" },
 ];`}
         </CodeBlock>
         <br />
@@ -90,42 +90,37 @@ const TAB_GROUP_THREE = [
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-   state = { exampleOne: '1' }
+  state = { exampleOne: "1" };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-          <TabGroup
-            name="exampleOne"
-            value={this.state.exampleOne}
-            option={TAB_GROUP_TWO}
-            onChange={this._handleChange}
-          />
-       )
-   }
+  render() {
+    return (
+      <TabGroup
+        name="exampleOne"
+        value={this.state.exampleOne}
+        option={TAB_GROUP_TWO}
+        onChange={this._handleChange}
+      />
+    );
+  }
 }
 
-
 class ExampleTwo extends React.Component {
-   state = { exampleTwo: '3' }
+  state = { exampleTwo: "3" };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-          <TabGroup
-            name="exampleTwo"
-            value={this.state.exampleTwo}
-            option={TAB_GROUP_THREE}
-            onChange={this._handleChange}
-          />
-       )
-   }
+  render() {
+    return (
+      <TabGroup
+        name="exampleTwo"
+        value={this.state.exampleTwo}
+        option={TAB_GROUP_THREE}
+        onChange={this._handleChange}
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />

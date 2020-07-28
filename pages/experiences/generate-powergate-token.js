@@ -7,14 +7,14 @@ import CodeBlock from "~/components/system/CodeBlock";
 
 // import { createPow } from "@textile/powergate-client";
 
-const EXAMPLE_CODE = `import * as React from 'react';
-import { CreateToken } from 'slate-react-system';
+const EXAMPLE_CODE = `import * as React from "react";
+import { CreateToken } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
 
 class Example extends React.Component {
   state = {
-    token: null
-  }
+    token: null,
+  };
 
   _handleCreateToken = async () => {
     const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
@@ -22,13 +22,11 @@ class Example extends React.Component {
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
     this.setState({ token });
-  }
+  };
 
   render() {
     return (
-      <CreateToken 
-        token={this.state.token} 
-        onClick={this._handleCreateToken} />
+      <CreateToken token={this.state.token} onClick={this._handleCreateToken} />
     );
   }
 }

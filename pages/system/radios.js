@@ -72,8 +72,8 @@ export default class SystemPageRadios extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { RadioGroup } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { RadioGroup } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -85,7 +85,7 @@ import { RadioGroup } from 'slate-react-system';`}
         <CodeBlock>
           {`const RADIO_GROUP_OPTIONS = [
   {
-    value: '1',
+    value: "1",
     label: (
       <React.Fragment>
         <strong>Option one</strong>
@@ -94,7 +94,7 @@ import { RadioGroup } from 'slate-react-system';`}
     ),
   },
   {
-    value: '2',
+    value: "2",
     label: (
       <React.Fragment>
         <strong>Option two</strong>
@@ -103,14 +103,14 @@ import { RadioGroup } from 'slate-react-system';`}
     ),
   },
   {
-    value: '3',
+    value: "3",
     label: (
       <React.Fragment>
         <strong>Option three</strong>
         <br />I want to have cake and soda for dinner.
       </React.Fragment>
     ),
-  }
+  },
 ];`}
         </CodeBlock>
         <br />
@@ -118,22 +118,20 @@ import { RadioGroup } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-   state = { ExampleOne: '2' }
+  state = { ExampleOne: "2" };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-         <RadioGroup
-           name="ExampleOne"
-           options={RADIO_GROUP_OPTIONS}
-           selected={this.state.ExampleOne}
-           onChange={this._handleChange}
-         />
-       )
-   }
+  render() {
+    return (
+      <RadioGroup
+        name="ExampleOne"
+        options={RADIO_GROUP_OPTIONS}
+        selected={this.state.ExampleOne}
+        onChange={this._handleChange}
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />

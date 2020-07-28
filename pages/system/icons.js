@@ -74,8 +74,8 @@ export default class SystemPageIcons extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import { SVG } from 'slate-react-system';
-import { OldSVG } from 'slate-react-system';`}
+          {`import { SVG } from "slate-react-system";
+import { OldSVG } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />

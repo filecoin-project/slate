@@ -5,8 +5,8 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
-const EXAMPLE_CODE = `import * as React from 'react';
-import { CreateFilecoinStorageDeal } from 'slate-react-system';
+const EXAMPLE_CODE = `import * as React from "react";
+import { CreateFilecoinStorageDeal } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
 
 const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
@@ -17,7 +17,7 @@ class Example extends React.Component {
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
     this.setState({ token });
-  }
+  };
 
   _handleSubmit = async (data) => {
     const file = data.file.files[0];
@@ -29,7 +29,7 @@ class Example extends React.Component {
       new Promise((resolve) => {
         const reader = new FileReader();
 
-        reader.onloadend = function(e) {
+        reader.onloadend = function (e) {
           if (e.target.readyState == FileReader.DONE) {
             buffer = new Uint8Array(e.target.result);
           }
@@ -47,12 +47,10 @@ class Example extends React.Component {
     const cancel = PowerGate.ffs.watchJobs((job) => {
       console.log(job);
     }, jobId);
-  }
+  };
 
   render() {
-    return (
-      <CreateFilecoinStorageDeal onSubmit={this._handleSubmit} />
-    );
+    return <CreateFilecoinStorageDeal onSubmit={this._handleSubmit} />;
   }
 }
 `;

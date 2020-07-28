@@ -29,8 +29,7 @@ export default class SystemPageCarousel extends React.Component {
         <br />
         <br />
         <System.P>
-          The carousel component is used to get a user's focus and require an
-          action.
+          The carousel component is used to display multiple images.
         </System.P>
         <br />
         <br />
@@ -44,8 +43,8 @@ export default class SystemPageCarousel extends React.Component {
         </System.P>
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { GlobalCarousel, dispatchCustomEvent } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { GlobalCarousel, dispatchCustomEvent } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -67,12 +66,12 @@ import { GlobalCarousel, dispatchCustomEvent } from 'slate-react-system';`}
         <CodeBlock>
           {`class App extends React.Component {
   render() {
-    return(
+    return (
       <React.Fragment>
         <GlobalCarousel />
         {this.props.children}
       </React.Fragment>
-    )
+    );
   }
 }`}
         </CodeBlock>
@@ -117,7 +116,7 @@ import { GlobalCarousel, dispatchCustomEvent } from 'slate-react-system';`}
         <CodeBlock>
           {`class ExampleOne extends React.Component {
   _handleCreate = (detail) => {
-    dispatchCustomEvent({ name: "create-carousel", detail: detail })
+    dispatchCustomEvent({ name: "create-carousel", detail: detail });
   };
   _handleDelete = () => {
     dispatchCustomEvent({ name: "delete-carousel", detail: {} });
@@ -126,22 +125,24 @@ import { GlobalCarousel, dispatchCustomEvent } from 'slate-react-system';`}
   render() {
     let carouselContent = [
       {
-        src: "https://images.unsplash.com/photo-1428765048792-aa4bdde46fea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
+        src:
+          "https://images.unsplash.com/photo-1428765048792-aa4bdde46fea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
         alt: "photo of grey and black ferris wheel during daytime",
       },
       {
-        src: "https://images.unsplash.com/photo-1503914068268-5413b35b45ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+        src:
+          "https://images.unsplash.com/photo-1503914068268-5413b35b45ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
         alt: "pink road bike",
       },
-    ].map((props) => (
-      <img {...props} style={{ maxHeight: "80vh" }} />
-    ));
+    ].map((props) => <img {...props} style={{ maxHeight: "80vh" }} />);
 
     return (
-      <ButtonSecondaryFull onClick={() => this._handleCreate({ slides: carouselContent })}>
+      <ButtonSecondaryFull
+        onClick={() => this._handleCreate({ slides: carouselContent })}
+      >
         Open Carousel
       </ButtonSecondaryFull>
-    )
+    );
   }
 }`}
         </CodeBlock>

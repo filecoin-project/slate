@@ -41,8 +41,8 @@ export default class SystemPageTables extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { TableContent, TableColumn } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { TableContent, TableColumn } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -54,42 +54,62 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
 
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-   state = { exampleOne: null }
+  state = { exampleOne: null };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-         <Table
-           data={{
-             columns: [
-               { key: 'a', name: 'Link', type: 'FILE_LINK' },
-               { key: 'b', name: 'Value', width: '88px' },
-               { key: 'c', name: 'Tooltip', tooltip: 'A tooltip.',
-                 width: '128px' },
-               { key: 'd', name: 'Copyable', copyable: true, width:
-                 '88px' },
-             ],
-             rows: [
-               { id: 1, a: 'col 1 row 1', b: 'col 1 row 2', c: 'col
-                 1 row 3', d: 'col 1 row 4' },
-               { id: 2, a: 'col 2 row 1', b: 'col 2 row 2', c: 'col
-                 2 row 3', d: 'col 2 row 4'},
-               { id: 3, a: 'col 3 row 1', b: 'col 3 row 2', c: 'col
-                 3 row 3', d: 'col 3 row 4' },
-               { id: 3, a: 'col 4 row 1', b: 'col 4 row 2', c: 'col
-                 4 row 3', d: 'col 4 row 4' },
-             ],
-           }}
-
-           selectedRowId={this.state.exampleOne}
-           onChange={this._handleChange}
-           name="exampleOne"
-         />
-       )
-   }
+  render() {
+    return (
+      <Table
+        data={{
+          columns: [
+            { key: "a", name: "Link", type: "FILE_LINK" },
+            { key: "b", name: "Value", width: "88px" },
+            {
+              key: "c",
+              name: "Tooltip",
+              tooltip: "A tooltip.",
+              width: "128px",
+            },
+            { key: "d", name: "Copyable", copyable: true, width: "88px" },
+          ],
+          rows: [
+            {
+              id: 1,
+              a: "col 1 row 1",
+              b: "col 1 row 2",
+              c: "col 1 row 3",
+              d: "col 1 row 4",
+            },
+            {
+              id: 2,
+              a: "col 2 row 1",
+              b: "col 2 row 2",
+              c: "col 2 row 3",
+              d: "col 2 row 4",
+            },
+            {
+              id: 3,
+              a: "col 3 row 1",
+              b: "col 3 row 2",
+              c: "col 3 row 3",
+              d: "col 3 row 4",
+            },
+            {
+              id: 3,
+              a: "col 4 row 1",
+              b: "col 4 row 2",
+              c: "col 4 row 3",
+              d: "col 4 row 4",
+            },
+          ],
+        }}
+        selectedRowId={this.state.exampleOne}
+        onChange={this._handleChange}
+        name="exampleOne"
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />
@@ -292,41 +312,54 @@ import { TableContent, TableColumn } from 'slate-react-system';`}
         <br />
         <CodeBlock>
           {`class ExampleTwo extends React.Component {
-   state = { exampleTwo: null }
+  state = { exampleTwo: null };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-         <Table
-           data={{
-             columns: [
-               { key: 'a', name: 'Upload', width: '112px',
-                 type: 'BANDWIDTH_UPLOAD' },
-               { key: 'b', name: 'Download', width: '112px',
-                 type: 'BANDWIDTH_DOWNLOAD' },
-               { key: 'c', name: 'Tranaction Status', width: '128px',
-                 type: "TRANSACTION_STATUS" },
-               { key: 'd', name: 'Deal Status', width:'184px',
-                 type: "DEAL_STATUS" },
-               { key: 'e', name: 'Icon', width: '88px', type: "ICON" },
-
-             ],
-             rows: [
-               { id: 1, a: '500', b: '200', c: '2', d: '1', e: 'PNG' },
-               { id: 2, a: '20', b: '10', c: '1', d: '2', e: 'FOLDER' },
-               { id: 3, a: '100', b: '250', c: '2', d: '3', e: 'PNG'  },
-               { id: 3, a: '4', b: '135', c: '1', d: '4', e: 'FOLDER' },
-             ],
-           }}
-           selectedRowId={this.state.exampleTwo}
-           onChange={this._handleChange}
-           name="exampleTwo"
-         />
-       )
-   }
+  render() {
+    return (
+      <Table
+        data={{
+          columns: [
+            {
+              key: "a",
+              name: "Upload",
+              width: "112px",
+              type: "BANDWIDTH_UPLOAD",
+            },
+            {
+              key: "b",
+              name: "Download",
+              width: "112px",
+              type: "BANDWIDTH_DOWNLOAD",
+            },
+            {
+              key: "c",
+              name: "Tranaction Status",
+              width: "128px",
+              type: "TRANSACTION_STATUS",
+            },
+            {
+              key: "d",
+              name: "Deal Status",
+              width: "184px",
+              type: "DEAL_STATUS",
+            },
+            { key: "e", name: "Icon", width: "88px", type: "ICON" },
+          ],
+          rows: [
+            { id: 1, a: "500", b: "200", c: "2", d: "1", e: "PNG" },
+            { id: 2, a: "20", b: "10", c: "1", d: "2", e: "FOLDER" },
+            { id: 3, a: "100", b: "250", c: "2", d: "3", e: "PNG" },
+            { id: 3, a: "4", b: "135", c: "1", d: "4", e: "FOLDER" },
+          ],
+        }}
+        selectedRowId={this.state.exampleTwo}
+        onChange={this._handleChange}
+        name="exampleTwo"
+      />
+    );
+  }
 }`}
         </CodeBlock>
         <br />

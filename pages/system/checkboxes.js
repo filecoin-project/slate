@@ -43,8 +43,8 @@ export default class SystemPageCheckboxes extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { CheckBox } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { CheckBox } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -59,48 +59,43 @@ import { CheckBox } from 'slate-react-system';`}
 
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-   state = { exampleOne: false }
+  state = { exampleOne: false };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-           <CheckBox
-             name="exampleOne"
-             value={this.state.exampleOne}
-             onChange={this._handleChange}>
-
-             <strong>Unchecked</strong>
-             <br />
-             This CheckBox default is unchecked.
-           </CheckBox>
-        )
-    }
+  render() {
+    return (
+      <CheckBox
+        name="exampleOne"
+        value={this.state.exampleOne}
+        onChange={this._handleChange}
+      >
+        <strong>Unchecked</strong>
+        <br />
+        This CheckBox default is unchecked.
+      </CheckBox>
+    );
+  }
 }
 
-
 class ExampleTwo extends React.Component {
-   state = { ExampleTwo: true }
+  state = { ExampleTwo: true };
 
-   _handleChange = e => this.setState(
-     { [e.target.name]: e.target.value }
-   );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-   render() {
-       return(
-         <CheckBox
-           name="ExampleTwo"
-           value={this.state.ExampleTwo}
-           onChange={this._handleChange}>
-
-           <strong>Checked</strong>
-           <br />
-           This CheckBox default is checked.
-         </CheckBox>
-       )
-   }
+  render() {
+    return (
+      <CheckBox
+        name="ExampleTwo"
+        value={this.state.ExampleTwo}
+        onChange={this._handleChange}
+      >
+        <strong>Checked</strong>
+        <br />
+        This CheckBox default is checked.
+      </CheckBox>
+    );
+  }
 }`}
         </CodeBlock>
         <br />

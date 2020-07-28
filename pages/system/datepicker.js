@@ -50,8 +50,8 @@ export default class SystemPageDatepicker extends React.Component {
         <br />
         <br />
         <CodeBlock>
-          {`import * as React from 'react';
-import { DatePicker } from 'slate-react-system';`}
+          {`import * as React from "react";
+import { DatePicker } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -74,7 +74,7 @@ import { DatePicker } from 'slate-react-system';`}
         </System.P>
         <br />
         <CodeBlock>
-          {`import moment from 'moment';
+          {`import moment from "moment";
 
 const weekdaysOnly = (date) => {
   if (moment(date).day() === 0 || moment(date).day() === 6) return true;
@@ -88,24 +88,22 @@ const weekdaysOnly = (date) => {
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-     state = { exampleOne: '' }
+  state = { exampleOne: "" };
 
-     _handleChange = e => this.setState(
-       { [e.target.name]: e.target.value }
-     );
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-     render() {
-       return(
-         <DatePicker
-          label="Pick a date with weekends disabled"
-          name="exampleOne"
-          value={this.state.exampleOne}
-          isDisabled={weekdaysOnly}
-          onChange={this._handleChange}
-        />
-       )
-     }
-  }`}
+  render() {
+    return (
+      <DatePicker
+        label="Pick a date with weekends disabled"
+        name="exampleOne"
+        value={this.state.exampleOne}
+        isDisabled={weekdaysOnly}
+        onChange={this._handleChange}
+      />
+    );
+  }
+}`}
         </CodeBlock>
         <br />
         <br />
@@ -130,25 +128,23 @@ const weekdaysOnly = (date) => {
         <br />
         <CodeBlock>
           {`class ExampleTwo extends React.Component {
-    state = { exampleTwo: '' }
+  state = { exampleTwo: "" };
 
-    _handleChange = e => this.setState(
-      { [e.target.name]: e.target.value }
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
+  render() {
+    return (
+      <DatePicker
+        label="Pick a date with a minimum value"
+        tooltip="Date must be today or after"
+        name="exampleTwo"
+        value={this.state.exampleTwo}
+        min={new Date()}
+        onChange={this._handleChange}
+      />
     );
-
-    render() {
-      return(
-        <DatePicker
-          label="Pick a date with a minimum value"
-          tooltip="Date must be today or after"
-          name="exampleTwo"
-          value={this.state.exampleTwo}
-          min={new Date()}
-          onChange={this._handleChange}
-        />
-      )
-    }
-  }`}
+  }
+}`}
         </CodeBlock>
         <br />
         <br />
@@ -171,23 +167,21 @@ const weekdaysOnly = (date) => {
         <br />
         <CodeBlock>
           {`class ExampleThree extends React.Component {
-    state = { exampleThree: "2020-07-13" }
+  state = { exampleThree: "2020-07-13" };
 
-    _handleChange = e => this.setState(
-      { [e.target.name]: e.target.value }
+  _handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
+  render() {
+    return (
+      <DatePicker
+        label="Pick a date with a default value"
+        name="exampleThree"
+        value={this.state.exampleThree}
+        onChange={this._handleChange}
+      />
     );
-
-    render() {
-      return(
-        <DatePicker
-          label="Pick a date with a default value"
-          name="exampleThree"
-          value={this.state.exampleThree}
-          onChange={this._handleChange}
-        />
-      )
-    }
-  }`}
+  }
+}`}
         </CodeBlock>
         <br />
         <br />

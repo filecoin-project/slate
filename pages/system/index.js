@@ -73,9 +73,9 @@ export default class SystemPageRoot extends React.Component {
           Now you can import React components: <br />
           <br />
           <CodeBlock>
-            {`import { ButtonPrimary } from 'slate-react-system'
+            {`import { ButtonPrimary } from "slate-react-system";
 
-const Component = () => <ButtonPrimary>Hello World</ButtonPrimary>`}
+const Component = () => <ButtonPrimary>Hello World</ButtonPrimary>;`}
           </CodeBlock>
           <br />
           <br />

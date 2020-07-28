@@ -7,8 +7,11 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
-const EXAMPLE_CODE = `import * as React from 'react';
-import { FilecoinStorageDealsList, FilecoinRetrievalDealsList } from 'slate-react-system';
+const EXAMPLE_CODE = `import * as React from "react";
+import {
+  FilecoinStorageDealsList,
+  FilecoinRetrievalDealsList,
+} from "slate-react-system";
 import { createPow, ffsOptions } from "@textile/powergate-client";
 
 const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
@@ -31,12 +34,14 @@ class Example extends React.Component {
     );
     const retrievalList = await PowerGate.ffs.listRetrievalDealRecords();
     this.setState({ storageList, retrievalList, token });
-  }
+  };
 
   render() {
     return (
-      <FilecoinStorageDealsList data={this.state.storageList} />
-      <FilecoinRetrievalDealsList data={this.state.retrievalList} />
+      <React.Fragment>
+        <FilecoinStorageDealsList data={this.state.storageList} />
+        <FilecoinRetrievalDealsList data={this.state.retrievalList} />
+      </React.Fragment>
     );
   }
 }

@@ -74,6 +74,7 @@ export const getInitialState = (props) => {
     storageList,
     retrievalList,
     slates,
+    keys,
   } = props;
 
   return {
@@ -116,6 +117,7 @@ export const getInitialState = (props) => {
     storageList,
     retrievalList,
     slates,
+    keys,
     peers: transformPeers(peersList),
     addresses: transformAddresses(addrsList, info),
     library,

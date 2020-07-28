@@ -7,9 +7,13 @@ console.log(`SETUP: database`, envConfig);
 
 const db = knex(envConfig);
 
-console.log(`RUNNING: drop-database.js`);
+console.log(`RUNNING:  drop-database.js`);
 
-Promise.all([db.schema.dropTable("users"), db.schema.dropTable("slates")]);
+Promise.all([
+  db.schema.dropTable("users"),
+  db.schema.dropTable("slates"),
+  db.schema.dropTable("keys"),
+]);
 
 console.log(`FINISHED: drop-database.js`);
 console.log(`          CTRL +C to return to terminal.`);

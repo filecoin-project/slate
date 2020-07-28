@@ -151,3 +151,28 @@ export const updateSlate = async (data) => {
   const json = await response.json();
   return json;
 };
+
+export const generateAPIKey = async () => {
+  const options = {
+    method: "POST",
+    headers: REQUEST_HEADERS,
+    credentials: "include",
+  };
+
+  const response = await fetch(`/api/keys/generate`, options);
+  const json = await response.json();
+  return json;
+};
+
+export const deleteAPIKey = async (data) => {
+  const options = {
+    method: "POST",
+    headers: REQUEST_HEADERS,
+    credentials: "include",
+    body: JSON.stringify({ data }),
+  };
+
+  const response = await fetch(`/api/keys/delete`, options);
+  const json = await response.json();
+  return json;
+};

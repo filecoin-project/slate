@@ -19,6 +19,9 @@ export const getById = async ({ id }) => {
   const response = await Data.getSlatesByUserId({ userId: id });
   const slates = JSON.parse(JSON.stringify(response));
 
+  const keysRaw = await Data.getAPIKeysByUserId({ userId: id });
+  const keys = JSON.parse(JSON.stringify(keysRaw));
+
   try {
     data = {
       id: user.id,
@@ -31,6 +34,7 @@ export const getById = async ({ id }) => {
       storageList: [],
       retrievalList: [],
       slates,
+      keys,
       messageList: null,
       status: null,
       addrsList: null,

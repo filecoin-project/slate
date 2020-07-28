@@ -7,7 +7,7 @@ console.log(`SETUP: database`, envConfig);
 
 const db = knex(envConfig);
 
-console.log(`RUNNING: setup-database.js`);
+console.log(`RUNNING:  setup-database.js`);
 
 Promise.all([db.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')]);
 

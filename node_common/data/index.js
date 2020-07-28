@@ -10,6 +10,12 @@ import getSlateById from "~/node_common/data/methods/get-slate-by-id";
 import getSlatesByUserId from "~/node_common/data/methods/get-slates-by-user-id";
 import updateSlateById from "~/node_common/data/methods/update-slate-by-id";
 
+import createAPIKeyForUserId from "~/node_common/data/methods/create-api-key-for-user-id";
+import deleteAPIKeyById from "~/node_common/data/methods/delete-api-key-by-id";
+import deleteAPIKeysForUserId from "~/node_common/data/methods/delete-api-keys-for-user-id";
+import getAPIKey from "~/node_common/data/methods/get-api-key";
+import getAPIKeysByUserId from "~/node_common/data/methods/get-api-keys-by-user-id";
+
 export {
   // NOTE(jim): User operations.
   createUser,
@@ -23,4 +29,10 @@ export {
   getSlateById,
   getSlatesByUserId,
   updateSlateById,
+  // NOTE(jim): API key operations,
+  createAPIKeyForUserId,
+  deleteAPIKeyById,
+  deleteAPIKeysForUserId,
+  getAPIKey,
+  getAPIKeysByUserId,
 };

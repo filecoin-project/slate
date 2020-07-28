@@ -7,16 +7,9 @@ console.log(`SETUP: database`, envConfig);
 
 const db = knex(envConfig);
 
-console.log(`RUNNING: seed-database.js`);
+console.log(`RUNNING:  adjust.js`);
 
-const u = db.schema.table("slates", function(table) {
-  table
-    .string("slatename")
-    .unique()
-    .nullable();
-});
-
-Promise.all([u]);
+Promise.all([]);
 
 console.log(`FINISHED: seed-database.js`);
 console.log(`          CTRL +C to return to terminal.`);

@@ -43,6 +43,8 @@ export default async (req, res) => {
       .json({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
   }
 
+  await Data.deleteAPIKeysForUserId({ userId: user.id });
+
   const i = await Libp2pCryptoIdentity.fromString(user.data.tokens.api);
   const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await b.getToken(i);

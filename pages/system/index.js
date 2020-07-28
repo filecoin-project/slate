@@ -9,7 +9,7 @@ export default class SystemPageRoot extends React.Component {
   render() {
     return (
       <SystemPage
-        title="Slate Design System 0.0.6"
+        title={`Slate Design System ${Constants.values.sds}`}
         description="We built a design system you can use while we are building Slate, a Filecoin client."
         url="https://slate.host/system"
       >

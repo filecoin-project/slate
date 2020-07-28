@@ -3,7 +3,8 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 import * as Strings from "~/common/strings";
 
-import FocusLock from "react-focus-lock";
+// TODO(jim): Doesn't work with rollup.
+// import FocusLock from "react-focus-lock";
 
 import { css } from "@emotion/react";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
@@ -81,30 +82,28 @@ export class GlobalModal extends React.Component {
   render() {
     if (!this.state.modal) return null;
     return (
-      <FocusLock>
-        <div
-          css={STYLES_BACKGROUND}
-          style={this.props.backgroundStyle}
-          role="dialog"
-          aria-modal="true"
-          aria-label={this.props.label ? this.props.label : "modal"}
+      <div
+        css={STYLES_BACKGROUND}
+        style={this.props.backgroundStyle}
+        role="dialog"
+        aria-modal="true"
+        aria-label={this.props.label ? this.props.label : "modal"}
+      >
+        <Boundary
+          enabled
+          onOutsideRectEvent={this._handleDelete}
+          isDataMenuCaptured={true}
         >
-          <Boundary
-            enabled
-            onOutsideRectEvent={this._handleDelete}
-            isDataMenuCaptured={true}
-          >
-            <div css={STYLES_MODAL} style={this.props.style}>
-              <SVG.Dismiss
-                css={STYLES_CLOSE_ICON}
-                onClick={this._handleDelete}
-                onKeyPress={this._handleEnterPress}
-              />
-              {this.state.modal}
-            </div>
-          </Boundary>
-        </div>
-      </FocusLock>
+          <div css={STYLES_MODAL} style={this.props.style}>
+            <SVG.Dismiss
+              css={STYLES_CLOSE_ICON}
+              onClick={this._handleDelete}
+              onKeyPress={this._handleEnterPress}
+            />
+            {this.state.modal}
+          </div>
+        </Boundary>
+      </div>
     );
   }
 }

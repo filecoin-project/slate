@@ -80,7 +80,7 @@ class Example extends React.Component {
         defaultStorageConfig={this.state.defaultStorageConfig} 
         addrsList={this.state.addrsList} 
         onSave={this._handleSave} 
-        />
+      />
     );
   }
 }

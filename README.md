@@ -5,7 +5,7 @@
 ### An open source storage system for your files and data that makes it easy to collect, organize, and share them anywhere on the web.  
 
 - [Design System](https://slate.host/system)
-- [Release Rpository](https://github.com/filecoin-project/slate-react-system)
+- [Release Repository](https://github.com/filecoin-project/slate-react-system)
 - [Live Application Prototype](https://slate.host/application)
 
 ![screenshot](https://user-images.githubusercontent.com/310223/88253285-3a981f80-cc66-11ea-884b-e3b055f6bf46.png)

@@ -105,12 +105,13 @@ const json = await response.json();
 console.log(json);`;
 
 const EXAMPLE_GET_SLATE_RESPONSE = (
-  key
+  key,
+  slateId
 ) => `// NOTE: get a slate by ID JSON response
 
 {
   data: {
-    id: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    id: '${slateId}',
     updated_at: '2020-07-27T09:04:53.007Z',
     created_at: '2020-07-27T09:04:53.007Z',
     published_at: '2020-07-27T09:04:53.007Z',

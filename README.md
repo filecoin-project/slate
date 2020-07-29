@@ -1,8 +1,8 @@
-![Slate](https://user-images.githubusercontent.com/310223/88096926-48f21880-cb4c-11ea-803f-1984f4515651.png )
+![Slate](https://user-images.githubusercontent.com/310223/88096926-48f21880-cb4c-11ea-803f-1984f4515651.png)
 
 # Slate
 
-### An open source storage system for your files and data that makes it easy to collect, organize, and share them anywhere on the web.  
+### An open source storage system for your files and data that makes it easy to collect, organize, and share them anywhere on the web.
 
 - [Design System](https://slate.host/system)
 - [Release Repository](https://github.com/filecoin-project/slate-react-system)
@@ -16,12 +16,13 @@ Our goal is to create a new kind of storage solution that encourages collaborati
 
 - Creating mood boards, hosting data, and making connections between topics you are researching
 - Replacing S3 with a Developer API and API keys
-- Every feature supported by Filecoin](https://filecoin.io)
+- Every feature supported by [Filecoin](https://filecoin.io)
 - Storing images and sharing them with friends :)
 
-Slate is a client for [Filecoin](https://filecoin.io)n, Powered by [Textile's](https://textile.io) Powergate and Buckets.
+Slate is a client for [Filecoin](https://filecoin.io), Powered by [Textile's](https://textile.io) Powergate and Buckets.
 
 # Get involved.
+
 Slate is built by a growing community of collaborators and contributors. If you’re interested in…
 
 - Creating an open source design system
@@ -32,13 +33,12 @@ We’d love for you to join us! Getting involved is simple:
 
 - Find something cool you to work on and [file an issue](https://github.com/filecoin-project/slate/issues)
 - If you see something you want to fix or change, **submit a PR**
-- Reach out to us any time. We're always available on Twitter to answer your questions: [@_slate](https://www.twitter.com/_slate)
-
+- Reach out to us any time. We're always available on Twitter to answer your questions: [@\_slate](https://www.twitter.com/_slate)
 
 ## Developer Introduction
 
-* To work on Slate you must have an internet connection.
-* We don't have windows support at the moment.
+- To work on Slate you must have an internet connection.
+- We don't have windows support at the moment.
 
 ### .env
 

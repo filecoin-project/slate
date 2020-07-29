@@ -40,8 +40,6 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 export default class ApplicationPage extends React.Component {
-  _socket = null;
-
   state = {
     selected: State.getSelectedState(this.props.viewer),
     viewer: State.getInitialState(this.props.viewer),

@@ -38,7 +38,6 @@ app.prepare().then(async () => {
     }
 
     return app.render(req, res, "/application", {
-      wsPort: null,
       viewer,
     });
   });

@@ -13,6 +13,7 @@ export default class GLRenderer extends React.Component {
       width: this.props.width,
       height: this.props.height,
       container: this.refs.canvas,
+      countries: this.props.countries,
     });
 
     this._AnimationLoop = new AnimationLoop();

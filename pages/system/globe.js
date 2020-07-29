@@ -44,12 +44,21 @@ import GLRenderer from "~/components/three/GLRenderer";`}
         <System.H2>Usage</System.H2>
         <hr />
         <br />
-        <System.P>Declare the Globe component.</System.P>
+        <System.P>
+          Declare the Globe component. Specify{" "}
+          <System.CodeText>countries</System.CodeText> to be true to include
+          markers for each country.
+        </System.P>
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
   render() {
-    return <GLRenderer width={768} height={480} />;
+    return (
+      <React.Fragment>
+        <GLRenderer width={768} height={480} />
+        <GLRenderer countries width={768} height={480} />
+      </React.Fragment>
+    );
   }
 }`}
         </CodeBlock>
@@ -59,6 +68,7 @@ import GLRenderer from "~/components/three/GLRenderer";`}
         <hr />
         <br />
         <GLRenderer width={768} height={480} />
+        <GLRenderer countries width={768} height={480} />
       </SystemPage>
     );
   }

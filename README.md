@@ -1,20 +1,39 @@
-![Slate](https://user-images.githubusercontent.com/310223/88096926-48f21880-cb4c-11ea-803f-1984f4515651.png)
+![Slate](https://user-images.githubusercontent.com/310223/88096926-48f21880-cb4c-11ea-803f-1984f4515651.png )
 
-# Slate (WIP)
+# Slate
 
-- (WIP) A wonderful experience for creating mood boards, hosting assets, and making connections between topics you are researching
-- (WIP) With a Developer API and API Keys, a replacement for Amazon S3.
-- (WIP) Aims to have every feature the [Filecoin Network](https://filecoin.io) supports.
-- (WIP) Great for storing images and sharing high resolution photos with friends.
-- [Design system](https://slate.host/system) -> [Release repository](https://github.com/filecoin-project/slate-react-system).
+### An open source storage system for your files and data that makes it easy to collect, organize, and share them anywhere on the web.  
 
-#### Current prototype (July 22nd, 2020)
+- [Design System](https://slate.host/system)
+- [Release Rpository](https://github.com/filecoin-project/slate-react-system)
+- [Live Application Prototype](https://slate.host/application)
 
 ![screenshot](https://user-images.githubusercontent.com/310223/88253285-3a981f80-cc66-11ea-884b-e3b055f6bf46.png)
 
-#### Current prototype (June 15th, 2020)
+#### Current prototype (July 22nd, 2020)
 
-![screenshot](https://user-images.githubusercontent.com/310223/84873452-1c704b80-b038-11ea-8398-4a73c4d9850e.png)
+Our goal is to create a new kind of storage solution that encourages collaboration and research, while also building it on a completely transparent and open source foundation. Over time, we hope to grow Slate into an elegant experience for:
+
+- Creating mood boards, hosting data, and making connections between topics you are researching
+- Replacing S3 with a Developer API and API keys
+- Every feature supported by Filecoin](https://filecoin.io)
+- Storing images and sharing them with friends :)
+
+Slate is a client for [Filecoin](https://filecoin.io)n, Powered by [Textile's](https://textile.io) Powergate and Buckets.
+
+# Get involved.
+Slate is built by a growing community of collaborators and contributors. If you’re interested in…
+
+- Creating an open source design system
+- Building a dynamic component library for open source projects
+- Learning how to write front-end code
+
+We’d love for you to join us! Getting involved is simple:
+
+- Find something cool you to work on and [file an issue](https://github.com/filecoin-project/slate/issues)
+- If you see something you want to fix or change, **submit a PR**
+- Reach out to us any time. We're always available on Twitter to answer your questions: [@_slate](https://www.twitter.com/_slate)
+
 
 ## Developer Introduction
 
@@ -63,18 +82,3 @@ npm run electron-pack
 ```
 
 Open **Slate.app** in `dist/mac/slate.app`.
-
-# Get involved.
-
-Do you want to...
-
-- Help us build a design system for everyone to use?
-- Help us build examples?
-- Get mentorship and help with learning how to do front-end code?
-
-Then...
-
-- If you see things you want to work on, [file an issue](https://github.com/filecoin-project/slate/issues)!
-- If you see something you want to fix, **submit a PR**!
-- I'm always available on Twitter to answer your questions: [@wwwjim](https://www.twitter.com/wwwjim).
-- For any build questions feel free to reach out to Colin: <cs.mccaleb@gmail.com>

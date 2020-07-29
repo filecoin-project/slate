@@ -19,7 +19,6 @@ const ICONS = [
   <OldSVG.Channels height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.Deals height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.Peers height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.Deals height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.Status height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.Stats height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.DataTransfer height={DEFAULT_SYSTEM_ICON_SIZE} />,
@@ -36,6 +35,7 @@ const ICONS = [
   <SVG.CheckBox height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.Slates height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <OldSVG.ProfileUser height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <OldSVG.SettingsDeveloper height={DEFAULT_SYSTEM_ICON_SIZE} />,
 ];
 
 const STYLES_ICON = css`

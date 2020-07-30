@@ -32,7 +32,8 @@ export default class ScenePeers extends React.Component {
               type: "SIDEBAR",
               value: "SIDEBAR_ADD_PEER",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}

@@ -27,28 +27,22 @@ const STYLES_ROOT = css`
 
 export default class SlatePage extends React.Component {
   render() {
-    const title = this.props.slate
-      ? `@${this.props.slate.ownername}/${this.props.slate.slatename}`
-      : "404";
+    const title = this.props.slate ? `@${this.props.slate.ownername}/${this.props.slate.slatename}` : "404";
     const url = `https://slate.host/${title}`;
 
     if (!this.props.slate) {
       return (
-        <WebsitePrototypeWrapper
-          title={title}
-          description="This Slate can not be found."
-          url={url}
-        >
+        <WebsitePrototypeWrapper title={title} description="This Slate can not be found." url={url}>
           <div css={STYLES_ROOT}>
-            <h1 css={STYLES_HEADING}>404</h1>
-            <p css={STYLES_PARAGRAPH}>
+            <System.H1>404</System.H1>
+            <System.P>
               This slate is not found.
               <br />
               <br />
               <a href="/application">Run Slate {Constants.values.version}</a>
               <br />
               <a href="/system">Use Slate's Design System</a>
-            </p>
+            </System.P>
           </div>
         </WebsitePrototypeWrapper>
       );
@@ -62,12 +56,7 @@ export default class SlatePage extends React.Component {
     }
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-        image={image}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <div css={STYLES_ROOT}>
           <Slate items={this.props.slate.data.objects} />
         </div>

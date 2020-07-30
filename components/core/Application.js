@@ -134,17 +134,29 @@ export default class ApplicationPage extends React.Component {
 
     this.setState({ fileLoading: true });
 
+    // TODO(jim):
+    // Refactor later
+    const navigation = NavigationData.generate(this.state.viewer);
+    const next = this.state.history[this.state.currentIndex];
+    const current = NavigationData.getCurrentById(navigation, next.id);
+
+    let slate;
+    if (current.target && current.target.slatename) {
+      slate = { ...current.target, id: current.target.slateId };
+    }
+
     this._handleAction({
       type: "SIDEBAR",
       value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+      data: slate,
     });
 
     if (e.dataTransfer.items) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
-          console.log(file.name);
-          await this._handleSetFile({ file });
+
+          await this._handleSetFile({ file, slate });
           break;
         }
       }
@@ -213,8 +225,7 @@ export default class ApplicationPage extends React.Component {
   _handleDeleteYourself = async () => {
     // TODO(jim):
     // Put this somewhere better for messages.
-    const message =
-      "Do you really want to delete your account? It will be permanently removed";
+    const message = "Do you really want to delete your account? It will be permanently removed";
     if (!window.confirm(message)) {
       return false;
     }
@@ -413,12 +424,8 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           title="Slate: sign in"
           description="Sign in to your Slate account to manage your assets."
-          url="https://slate.host/application"
-        >
-          <SceneSignIn
-            onAuthenticate={this._handleAuthenticate}
-            onNavigateTo={this._handleNavigateTo}
-          />
+          url="https://slate.host/application">
+          <SceneSignIn onAuthenticate={this._handleAuthenticate} onNavigateTo={this._handleNavigateTo} />
         </WebsitePrototypeWrapper>
       );
     }
@@ -491,17 +498,12 @@ export default class ApplicationPage extends React.Component {
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper
-          title={title}
-          description={description}
-          url={url}
-        >
+        <WebsitePrototypeWrapper title={title} description={description} url={url}>
           <ApplicationLayout
             navigation={navigationElement}
             header={headerElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}
-          >
+            onDismissSidebar={this._handleDismissSidebar}>
             {scene}
           </ApplicationLayout>
         </WebsitePrototypeWrapper>

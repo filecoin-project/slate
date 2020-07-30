@@ -7,11 +7,10 @@ import ScenePage from "~/components/core/ScenePage";
 import Section from "~/components/core/Section";
 
 export default class SceneSlate extends React.Component {
-  static defaultProps = { data: { data: { objects: [] } } };
-
   render() {
-    const images = this.props.current.data.objects;
-    const url = `/@${this.props.viewer.username}/${this.props.data.slatename}`;
+    const { data, slatename } = this.props.current;
+    const images = data.objects;
+    const url = `/@${this.props.viewer.username}/${slatename}`;
 
     const slates = {
       columns: [
@@ -22,6 +21,7 @@ export default class SceneSlate extends React.Component {
     };
 
     // TODO(jim): Refactor later.
+    // Actually just delete later, we're doing something else.
     const slateButtons = [
       /*
       { name: "Make public", type: "SIDEBAR", value: "" },
@@ -42,17 +42,11 @@ export default class SceneSlate extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>{this.props.data.slatename}</System.H1>
-        <Section
-          title="Images"
-          buttons={slateButtons}
-          onAction={this.props.onAction}
-        >
+        <System.H1>{slatename}</System.H1>
+        <Section title="Images" buttons={slateButtons} onAction={this.props.onAction}>
           <System.Table
             data={slates}
-            name={`/@${this.props.viewer.username}/${
-              this.props.data.slatename
-            }`}
+            name={`/@${this.props.viewer.username}/${slatename}`}
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}
           />

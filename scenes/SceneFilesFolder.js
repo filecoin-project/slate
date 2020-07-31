@@ -101,6 +101,7 @@ export default class SceneFilesFolder extends React.Component {
 
     return (
       <ScenePage>
+        <System.H1>{this.props.current.name}</System.H1>
         <Section
           onAction={this.props.onAction}
           title={this.props.current.name}

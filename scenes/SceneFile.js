@@ -16,7 +16,7 @@ const STYLES_FLEX = css`
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  height: calc(100vh - ${Constants.sizes.header}px - 48px);
+  height: calc(100vh - ${Constants.sizes.header}px);
 `;
 
 const STYLES_TOP = css`

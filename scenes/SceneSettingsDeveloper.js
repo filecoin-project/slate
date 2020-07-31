@@ -238,7 +238,7 @@ export default class SceneSettingsDeveloper extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>API Key</System.H1>
+        <System.H1>Developer API</System.H1>
         <System.DescriptionGroup
           style={{ marginTop: 48, marginBottom: 48 }}
           label="Generate an API key"

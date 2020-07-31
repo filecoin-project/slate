@@ -88,7 +88,7 @@ export default class SceneSettings extends React.Component {
   render() {
     return (
       <ScenePage>
-        <System.H1>Filecoin Settings</System.H1>
+        <System.H1>Filecoin settings</System.H1>
 
         <System.H2 style={{ marginTop: 48 }}>Storage defaults</System.H2>
 

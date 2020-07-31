@@ -42,7 +42,9 @@ export default class SceneSlate extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>{slatename}</System.H1>
+        <System.H1>
+          https://slate.host/@{this.props.viewer.username}/{slatename}
+        </System.H1>
         <Section
           title="Images"
           buttons={slateButtons}

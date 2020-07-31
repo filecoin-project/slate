@@ -150,6 +150,7 @@ export default class SceneHome extends React.Component {
 
     return (
       <ScenePage>
+        <System.H1>Home</System.H1>
         <Section
           title="Slates"
           buttons={slateButtons}

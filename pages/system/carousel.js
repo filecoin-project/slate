@@ -8,12 +8,32 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 
 export default class SystemPageCarousel extends React.Component {
-  _handleCreate = (detail) => {
-    System.dispatchCustomEvent({ name: "create-carousel", detail: detail });
+  componentDidMount() {
+    const style = { maxHeight: "80%", maxWidth: "80%", display: "block" };
+
+    System.dispatchCustomEvent({
+      name: "slate-global-create-carousel",
+      detail: {
+        slides: [
+          <img key="image-1" src="/static/cube_000.jpg" style={style} />,
+          <img key="image-2" src="/static/cube_f7f7f7.jpg" style={style} />,
+        ],
+      },
+    });
+  }
+
+  _handleOpen = (detail) => {
+    System.dispatchCustomEvent({
+      name: "slate-global-open-carousel",
+      detail: detail,
+    });
   };
 
-  _handleDelete = () => {
-    System.dispatchCustomEvent({ name: "delete-carousel", detail: {} });
+  _handleClose = () => {
+    System.dispatchCustomEvent({
+      name: "slate-global-close-carousel",
+      detail: {},
+    });
   };
 
   render() {
@@ -44,7 +64,10 @@ export default class SystemPageCarousel extends React.Component {
         <br />
         <CodeBlock>
           {`import * as React from "react";
-import { GlobalCarousel, dispatchCustomEvent } from "slate-react-system";`}
+import { 
+  GlobalCarousel, 
+  dispatchCustomEvent 
+} from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -82,66 +105,49 @@ import { GlobalCarousel, dispatchCustomEvent } from "slate-react-system";`}
         <System.H2>Carousel</System.H2>
         <hr />
         <br />
-        <System.ButtonSecondaryFull
-          onClick={() =>
-            this._handleCreate({
-              slides: [
-                {
-                  src:
-                    "https://images.unsplash.com/photo-1428765048792-aa4bdde46fea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
-                  alt: "photo of grey and black ferris wheel during daytime",
-                },
-                {
-                  src:
-                    "https://images.unsplash.com/photo-1503914068268-5413b35b45ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-                  alt: "pink road bike",
-                },
-              ].map((props) => (
-                <img {...props} style={{ maxHeight: "80vh" }} />
-              )),
-            })
-          }
-        >
+        <System.ButtonSecondaryFull onClick={this._handleOpen}>
           Open carousel
         </System.ButtonSecondaryFull>
         <br />
-        <System.P>
-          While the Carousel component is always present, a carousel will only
-          appear once you trigger it by creating a custom event with the title{" "}
-          <System.CodeText>"create-carousel"</System.CodeText>. It can be
-          removed with a custom event entitled{" "}
-          <System.CodeText>"delete-carousel"</System.CodeText>.
-        </System.P>
-        <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
-  _handleCreate = (detail) => {
-    dispatchCustomEvent({ name: "create-carousel", detail: detail });
+  componentDidMount() {
+    // NOTE(jim):
+    // The global carousel component takes an array of JSX elements
+    // You can style them however you like.
+    const style = { 
+      maxHeight: "80%", 
+      maxWidth: "80%", 
+      display: "block" 
+    };
+
+    const slides = [
+      <img key="i-1" src="/static/social.png" style={style} />,
+      <img key="i-2" src="/static/social.jpg" style={style} />
+    ];
+
+    System.dispatchCustomEvent({
+      name: "slate-global-create-carousel",
+      detail: { slides },
+    });
+  }
+
+  _handleOpen = () => {
+    dispatchCustomEvent({ 
+      name: "slate-global-open-carousel"
+      detail: { index: 0 } 
+    });
   };
-  _handleDelete = () => {
-    dispatchCustomEvent({ name: "delete-carousel", detail: {} });
+
+  _handleClose = () => {
+    dispatchCustomEvent({ name: "slate-global-close-carousel" });
   };
 
   render() {
-    let carouselContent = [
-      {
-        src:
-          "https://images.unsplash.com/photo-1428765048792-aa4bdde46fea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80",
-        alt: "photo of grey and black ferris wheel during daytime",
-      },
-      {
-        src:
-          "https://images.unsplash.com/photo-1503914068268-5413b35b45ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-        alt: "pink road bike",
-      },
-    ].map((props) => <img {...props} style={{ maxHeight: "80vh" }} />);
-
     return (
-      <ButtonSecondaryFull
-        onClick={() => this._handleCreate({ slides: carouselContent })}
-      >
+      <System.ButtonSecondaryFull onClick={this._handleOpen}>
         Open Carousel
-      </ButtonSecondaryFull>
+      </System.ButtonSecondaryFull>
     );
   }
 }`}
@@ -157,7 +163,7 @@ import { GlobalCarousel, dispatchCustomEvent } from "slate-react-system";`}
             data={{
               columns: [
                 { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
+                { key: "b", name: "Type", width: "104px", type: "OBJECT_TYPE" },
                 { key: "c", name: "Default", width: "88px" },
                 { key: "d", name: "Description", width: "100%" },
               ],
@@ -192,7 +198,7 @@ import { GlobalCarousel, dispatchCustomEvent } from "slate-react-system";`}
             data={{
               columns: [
                 { key: "a", name: "Name", width: "128px" },
-                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
+                { key: "b", name: "Type", width: "104px", type: "OBJECT_TYPE" },
                 { key: "c", name: "Default", width: "88px" },
                 { key: "d", name: "Description", width: "100%" },
               ],
@@ -212,7 +218,7 @@ import { GlobalCarousel, dispatchCustomEvent } from "slate-react-system";`}
                   id: 2,
                   a: (
                     <span style={{ fontFamily: Constants.font.semiBold }}>
-                      currentSlide
+                      index
                     </span>
                   ),
                   b: ["number"],

@@ -95,7 +95,8 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  _handleOpen = (e) => this.setState({ visible: true, index: e.detail.index });
+  _handleOpen = (e) =>
+    this.setState({ visible: true, index: e.detail.index || 0 });
 
   _handleClose = () => this.setState({ visible: false, index: 0 });
 

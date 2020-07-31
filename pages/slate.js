@@ -27,6 +27,10 @@ export const getServerSideProps = async (context) => {
 
 export default class SlatePage extends React.Component {
   componentDidMount() {
+    if (!this.props.slate) {
+      return null;
+    }
+
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: {
@@ -64,6 +68,7 @@ export default class SlatePage extends React.Component {
         >
           <div css={STYLES_ROOT}>
             <System.H1>404</System.H1>
+            <br />
             <System.P>
               This slate is not found.
               <br />

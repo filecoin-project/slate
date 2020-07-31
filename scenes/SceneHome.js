@@ -7,7 +7,6 @@ import * as Data from "~/common/data";
 
 import { css } from "@emotion/react";
 
-import GLRenderer from "~/components/three/GLRenderer";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 
@@ -151,7 +150,6 @@ export default class SceneHome extends React.Component {
 
     return (
       <ScenePage>
-        <GLRenderer width={1200} height={480} />
         <Section
           title="Slates"
           buttons={slateButtons}

@@ -40,8 +40,8 @@ const STYLES_NAVLINKS = css`
   `;
 
 const STYLES_GLITCH = css`
-  :hover::before,
-  :hover::after {
+  ::before,
+  ::after {
     right: 0;
     margin: auto;
     content: "404";
@@ -55,12 +55,12 @@ const STYLES_GLITCH = css`
     background-color: #f7f7f7;
     color: #000;
   }
-  :hover::before {
+  ::before {
     left: 8px;
     text-shadow: 2px 0 #00ffea;
     animation: glitch 3s infinite linear;
   }
-  :hover::after {
+  ::after {
     left: 8px;
     text-shadow: -2px 0 #fe3a7f;
     animation: glitch 2s infinite linear;

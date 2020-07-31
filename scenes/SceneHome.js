@@ -151,6 +151,21 @@ export default class SceneHome extends React.Component {
     return (
       <ScenePage>
         <System.H1>Home</System.H1>
+        {this.props.viewer.addresses[0] ? (
+          <Section
+            title="Wallet addresses"
+            buttons={walletButtons}
+            onAction={this.props.onAction}
+          >
+            <System.Table
+              data={wallet}
+              name="transaction"
+              onAction={this.props.onAction}
+              onNavigateTo={this.props.onNavigateTo}
+            />
+          </Section>
+        ) : null}
+
         <Section
           title="Slates"
           buttons={slateButtons}
@@ -173,21 +188,6 @@ export default class SceneHome extends React.Component {
             <System.Table
               data={data}
               name="data"
-              onAction={this.props.onAction}
-              onNavigateTo={this.props.onNavigateTo}
-            />
-          </Section>
-        ) : null}
-
-        {this.props.viewer.addresses[0] ? (
-          <Section
-            title="Wallet addresses"
-            buttons={walletButtons}
-            onAction={this.props.onAction}
-          >
-            <System.Table
-              data={wallet}
-              name="transaction"
               onAction={this.props.onAction}
               onNavigateTo={this.props.onNavigateTo}
             />

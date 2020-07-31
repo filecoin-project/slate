@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
 
@@ -28,21 +29,13 @@ const STYLES_IMAGE = css`
 `;
 
 class Item extends React.Component {
-  state = {
-    expanded: false,
-  };
-
-  _handleExpand = () => {
-    this.setState({ expanded: !this.state.expanded });
-  };
-
   render() {
     return (
       <span css={STYLES_ITEM}>
         <img
           css={STYLES_IMAGE}
           src={this.props.url}
-          onClick={this._handleExpand}
+          onClick={this.props.onClick}
         />
       </span>
     );
@@ -53,8 +46,14 @@ export default class Slate extends React.Component {
   render() {
     return (
       <div css={STYLES_SLATE}>
-        {this.props.items.map((each) => {
-          return <Item key={each.id} url={each.url} />;
+        {this.props.items.map((each, index) => {
+          return (
+            <Item
+              key={each.id}
+              onClick={() => this.props.onSelect(index)}
+              url={each.url}
+            />
+          );
         })}
       </div>
     );

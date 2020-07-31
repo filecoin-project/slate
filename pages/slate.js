@@ -7,12 +7,6 @@ import { css } from "@emotion/react";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Slate from "~/components/core/Slate";
 
-export const getServerSideProps = async (context) => {
-  return {
-    props: { ...context.query },
-  };
-};
-
 const STYLES_ROOT = css`
   padding: 128px 88px 256px 88px;
   max-width: 1328px;
@@ -25,14 +19,49 @@ const STYLES_ROOT = css`
   }
 `;
 
+export const getServerSideProps = async (context) => {
+  return {
+    props: { ...context.query },
+  };
+};
+
 export default class SlatePage extends React.Component {
+  componentDidMount() {
+    System.dispatchCustomEvent({
+      name: "slate-global-create-carousel",
+      detail: {
+        slides: this.props.slate.data.objects.map((each) => {
+          return (
+            <img
+              key={each.id}
+              src={each.url}
+              style={{ maxHeight: "80%", maxWidth: "80%", display: "block" }}
+            />
+          );
+        }),
+      },
+    });
+  }
+
+  _handleSelect = (index) =>
+    System.dispatchCustomEvent({
+      name: "slate-global-open-carousel",
+      detail: { index },
+    });
+
   render() {
-    const title = this.props.slate ? `@${this.props.slate.ownername}/${this.props.slate.slatename}` : "404";
+    const title = this.props.slate
+      ? `@${this.props.slate.ownername}/${this.props.slate.slatename}`
+      : "404";
     const url = `https://slate.host/${title}`;
 
     if (!this.props.slate) {
       return (
-        <WebsitePrototypeWrapper title={title} description="This Slate can not be found." url={url}>
+        <WebsitePrototypeWrapper
+          title={title}
+          description="This Slate can not be found."
+          url={url}
+        >
           <div css={STYLES_ROOT}>
             <System.H1>404</System.H1>
             <System.P>
@@ -56,10 +85,19 @@ export default class SlatePage extends React.Component {
     }
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+        image={image}
+      >
         <div css={STYLES_ROOT}>
-          <Slate items={this.props.slate.data.objects} />
+          <Slate
+            items={this.props.slate.data.objects}
+            onSelect={this._handleSelect}
+          />
         </div>
+        <System.GlobalCarousel />
       </WebsitePrototypeWrapper>
     );
   }

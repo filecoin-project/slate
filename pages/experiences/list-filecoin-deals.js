@@ -7,6 +7,8 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
+import { POWERGATE_HOST } from "~/node_common/constants";
+
 const EXAMPLE_CODE = `import * as React from "react";
 import {
   FilecoinStorageDealsList,
@@ -14,26 +16,33 @@ import {
 } from "slate-react-system";
 import { createPow, ffsOptions } from "@textile/powergate-client";
 
-const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
+const PowerGate = createPow({ host: "${POWERGATE_HOST}" });
+
 const includeFinal = ffsOptions.withIncludeFinal(true);
+
 const includePending = ffsOptions.withIncludePending(true);
-const fromAddresses = ffsOptions.withFromAddresses(
-  "t3ual5q5qo5wolfxsui4ciujfucqwf6gqso4lettcjwl2tyismgol7c4tngvoono5rmytuqotye7oosfjv6g7a",
-  "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q"
-);
+
+const { addrsList } = await PowerGate.ffs.addrs();
+let addresses = addrsList.map((each) => each.addr);
+const fromAddresses = ffsOptions.withFromAddresses(...addresses);
 
 class Example extends React.Component {
+  state = {
+    storageList: [],
+    retrievalList: [],
+  }
+
   componentDidMount = async () => {
     const FFS = await PowerGate.ffs.create();
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);
-    const storageList = await PowerGate.ffs.listStorageDealRecords(
+    const storageDeals = await PowerGate.ffs.listStorageDealRecords(
       includeFinal,
       includePending,
       fromAddresses
     );
-    const retrievalList = await PowerGate.ffs.listRetrievalDealRecords();
-    this.setState({ storageList, retrievalList, token });
+    const retrievalDeals = await PowerGate.ffs.listRetrievalDealRecords();
+    this.setState({ storageList: storageDeals.recordsList, retrievalList: retrievalDeals.recordsList, token });
   };
 
   render() {

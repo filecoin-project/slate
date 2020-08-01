@@ -5,11 +5,14 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
+import { POWERGATE_HOST } from "~/node_common/constants";
 // import { createPow } from "@textile/powergate-client";
 
 const EXAMPLE_CODE = `import * as React from "react";
 import { CreateToken } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
+
+const PowerGate = createPow({ host: "${POWERGATE_HOST}" });
 
 class Example extends React.Component {
   state = {
@@ -17,7 +20,6 @@ class Example extends React.Component {
   };
 
   _handleCreateToken = async () => {
-    const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
     const FFS = await PowerGate.ffs.create();
     const token = FFS.token ? FFS.token : null;
     PowerGate.setToken(token);

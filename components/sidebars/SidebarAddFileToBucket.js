@@ -55,7 +55,10 @@ export default class SidebarAddFileToBucket extends React.Component {
 
     await this.props.onSetFile({
       file,
-      slate: { id: this.props.data.slateId },
+      slate:
+        this.props.data && this.props.data.slateId
+          ? { id: this.props.data.slateId }
+          : null,
     });
   };
 

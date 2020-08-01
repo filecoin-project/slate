@@ -1,15 +1,13 @@
 import * as MW from "~/node_common/middleware";
-import * as Constants from "~/node_common/constants";
-import * as Data from "~/node_common/data";
+import * as Upload from "~/node_common/upload";
 import * as Utilities from "~/node_common/utilities";
+import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
-
-import FORM from "formidable";
-import FS from "fs-extra";
 
 const initCORS = MW.init(MW.CORS);
 const initAuth = MW.init(MW.RequireCookieAuthentication);
 
+// NOTE(jim): To support multipart request.
 export const config = {
   api: {
     bodyParser: false,
@@ -20,70 +18,47 @@ export default async (req, res) => {
   initCORS(req, res);
   initAuth(req, res);
 
-  const f = new FORM.IncomingForm();
-  f.uploadDir = Constants.FILE_STORAGE_URL;
-  f.keepExtensions = true;
-  f.parse(req, async (e, fields, files) => {
-    if (e) {
-      return res
-        .status(500)
-        .send({ decorator: "SERVER_UPLOAD_PARSE_FAILURE", error: true });
-    }
+  const id = Utilities.getIdFromCookie(req);
+  const user = await Data.getUserById({
+    id,
+  });
 
-    if (!files.image) {
-      return res
-        .status(500)
-        .send({ decorator: "SERVER_UPLOAD_NOT_IMAGE_TYPE", error: true });
-    }
+  const response = await Upload.formMultipart(req, res, {
+    user,
+  });
 
-    const path = files.image._writeStream.path;
-    const data = LibraryManager.createLocalDataIncomplete(files.image);
+  if (!response) {
+    return res
+      .status(404)
+      .send({ decorator: "SERVER_UPLOAD_ERROR", error: true });
+  }
 
-    // TODO(jim): Send this file to buckets.
-    const id = Utilities.getIdFromCookie(req);
-    const user = await Data.getUserById({
-      id,
-    });
+  if (response.error) {
+    // NOTE(jim): To debug potential textile issues with matching CIDs.
+    console.log({ message: response.message });
+    return res
+      .status(500)
+      .send({ decorator: response.decorator, error: response.error });
+  }
 
-    const {
-      buckets,
-      bucketKey,
-      bucketName,
-    } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+  const { data, ipfs } = response;
 
-    let readFile;
-    let push;
-    try {
-      // NOTE(jim): Push pathPath to your bucket.
-      readFile = await FS.readFileSync(path).buffer;
-      push = await buckets.pushPath(bucketKey, data.name, readFile);
-    } catch (e) {
-      console.log(e);
-      return res
-        .status(500)
-        .send({ decorator: "SERVER_BUCKETS_PUSH_ISSUE", error: true });
-    }
+  const finalData = LibraryManager.updateDataIPFS(data, {
+    ipfs,
+  });
 
-    // NOTE(jim): Update your user flag.
-    const updated = LibraryManager.updateDataIPFS(data, {
-      ipfs: push.path.path,
-    });
+  const updatedUserDataFields = LibraryManager.addData({
+    user,
+    data: finalData,
+  });
 
-    // NOTE(jim): Update your library
-    const updatedUserData = LibraryManager.addData({ user, data: updated });
+  await Data.updateUserById({
+    id: user.id,
+    data: updatedUserDataFields,
+  });
 
-    // NOTE(jim): Update your user
-    const response = await Data.updateUserById({
-      id: user.id,
-      data: updatedUserData,
-    });
-
-    // NOTE(jim): Remove the file when you're done with it.
-    await FS.unlinkSync(`./${path}`);
-
-    return res.status(200).send({
-      decorator: "SERVER_UPLOAD",
-      data: updated,
-    });
+  return res.status(200).send({
+    decorator: "SERVER_UPLOAD",
+    data: finalData,
   });
 };

@@ -6,10 +6,11 @@ import { css } from "@emotion/react";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 
 const STYLES_ROOT = css`
-  padding: 0px 88px ;
+  padding: 0px 88px;
+
   @media (max-width: 768px) {
-    padding: 0px 24px ;
-}
+    padding: 0px 24px;
+  }
 `;
 
 const STYLES_404 = css`
@@ -31,11 +32,12 @@ const STYLES_NAV = css`
 
 const STYLES_NAVLINKS = css`
   display: flex;
+
   a{
     margin-left: 20px;
     text-decoration none;
   }
-  `;
+`;
 
 const STYLES_GLITCH = css`
   font-size: 120px;
@@ -149,11 +151,7 @@ export default class NotFoundPage extends React.Component {
     const url = "https://slate.host/404";
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
           <div css={STYLES_NAV}>
             <a href="/">Slate {Constants.values.version}</a>
@@ -166,13 +164,15 @@ export default class NotFoundPage extends React.Component {
             <h1 css={STYLES_GLITCH}>404</h1>
             <h2>Page not found</h2>
           </div>
-          <div css={STYLES_FOOTER} >
-          <p>Powered by <a href="https://textile.io">Textile</a> and <a href="https://filecoin.io">Filecoin</a></p>
-          <div css={STYLES_FOOTERLINKS} >
-                <a href="https://filecoin.io/slack">Slack</a>
-                <a href="https://github.com/filecoin-project/slate/issues">Contact</a>
+          <div css={STYLES_FOOTER}>
+            <p>
+              Powered by <a href="https://textile.io">Textile</a> and <a href="https://filecoin.io">Filecoin</a>
+            </p>
+            <div css={STYLES_FOOTERLINKS}>
+              <a href="https://filecoin.io/slack">Slack</a>
+              <a href="https://github.com/filecoin-project/slate/issues">Contact</a>
+            </div>
           </div>
-      </div>
         </div>
       </WebsitePrototypeWrapper>
     );

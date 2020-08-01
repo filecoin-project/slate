@@ -6,62 +6,42 @@ import { css } from "@emotion/react";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 
 const STYLES_ROOT = css`
-  padding: 0px 88px;
-
-  @media (max-width: 768px) {
-    padding: 0px 24px;
-  }
-`;
-
-const STYLES_404 = css`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  min-height: 60vh;
-`;
-
-const STYLES_NAV = css`
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: 88px 0px;
-  font-family: ${Constants.font.text};
+  height: 100vh;
+  text-align: center;
 `;
-
-const STYLES_NAVLINKS = css`
-  display: flex;
-
-  a{
-    margin-left: 20px;
-    text-decoration none;
-  }
-`;
-
+// TODO(jim): Brand system colors.
 const STYLES_GLITCH = css`
   font-size: 120px;
+  position: relative;
+
   ::before,
   ::after {
-    right: 0;
-    margin: auto;
     content: "404";
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
     position: absolute;
-    overflow: hidden;
     background-color: #f7f7f7;
     color: #000;
   }
+
   ::before {
-    left: 8px;
     text-shadow: 2px 0 #00ffea;
-    animation: glitch 3s infinite linear;
+    animation: slate-animation-glitch 3s infinite linear;
   }
+
   ::after {
-    left: 8px;
     text-shadow: -2px 0 #fe3a7f;
-    animation: glitch 2s infinite linear;
+    animation: slate-animation-glitch 2s infinite linear;
   }
-  @keyframes glitch {
+
+  @keyframes slate-animation-glitch {
     0% {
       clip: rect(64px, 9999px, 66px, 0);
     }
@@ -128,20 +108,58 @@ const STYLES_GLITCH = css`
   }
 `;
 
-const STYLES_FOOTER = css`
+const STYLES_TOP = css`
+  height: 88px;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin: 88px 0px;
-  font-family: ${Constants.font.text};
+  justify-content: center;
+  padding: 16px 24px 16px 24px;
 `;
 
-const STYLES_FOOTERLINKS = css`
+const STYLES_BOTTOM = css`
+  height: 88px;
+  width: 100%;
   display: flex;
-  a {
-    margin-left: 20px;
-    text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 24px 24px 24px;
+`;
+
+const STYLES_MIDDLE = css`
+  position: relative;
+  min-height: 10%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+`;
+
+const STYLES_LINK = css`
+  font-family: ${Constants.font.semiBold};
+  text-decoration: none;
+  transition: 200ms ease color;
+
+  :visited {
+    color: ${Constants.system.black};
   }
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
+`;
+
+const STYLES_LEFT = css`
+  flex-shrink: 0;
+`;
+
+const STYLES_RIGHT = css`
+  min-width: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export default class NotFoundPage extends React.Component {
@@ -153,24 +171,45 @@ export default class NotFoundPage extends React.Component {
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
-          <div css={STYLES_NAV}>
-            <a href="/">Slate {Constants.values.version}</a>
-            <div css={STYLES_NAVLINKS}>
-              <a href="/system">Design System</a>
-              <a href="https://github.com/filecoin-project/slate">View Source</a>
+          <div css={STYLES_TOP}>
+            <div css={STYLES_LEFT}>
+              <a css={STYLES_LINK} href="/" style={{ marginRight: 16 }}>
+                Slate {Constants.values.version}
+              </a>
+              <a css={STYLES_LINK} href="/system">
+                Design System
+              </a>
+            </div>
+            <div css={STYLES_RIGHT}>
+              <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate">
+                View Source
+              </a>
             </div>
           </div>
-          <div css={STYLES_404}>
+
+          <div css={STYLES_MIDDLE}>
             <h1 css={STYLES_GLITCH}>404</h1>
-            <h2>Page not found</h2>
+            <h2>The page you are looking for does not exist.</h2>
           </div>
-          <div css={STYLES_FOOTER}>
-            <p>
-              Powered by <a href="https://textile.io">Textile</a> and <a href="https://filecoin.io">Filecoin</a>
+
+          <div css={STYLES_BOTTOM}>
+            <p css={STYLES_LEFT}>
+              Powered by{" "}
+              <a css={STYLES_LINK} href="https://textile.io">
+                Textile
+              </a>{" "}
+              and{" "}
+              <a css={STYLES_LINK} href="https://filecoin.io">
+                Filecoin
+              </a>
             </p>
-            <div css={STYLES_FOOTERLINKS}>
-              <a href="https://filecoin.io/slack">Slack</a>
-              <a href="https://github.com/filecoin-project/slate/issues">Contact</a>
+            <div css={STYLES_RIGHT}>
+              <a css={STYLES_LINK} href="https://filecoin.io/slack" style={{ marginRight: 16 }}>
+                Slack
+              </a>
+              <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
+                Work on Slate!
+              </a>
             </div>
           </div>
         </div>

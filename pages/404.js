@@ -19,9 +19,6 @@ const STYLES_404 = css`
   align-items: center;
   text-align: center;
   min-height: 60vh;
-  h1 {
-    font-size: 120px;
-  }
 `;
 
 const STYLES_NAV = css`
@@ -41,6 +38,7 @@ const STYLES_NAVLINKS = css`
   `;
 
 const STYLES_GLITCH = css`
+  font-size: 120px;
   ::before,
   ::after {
     right: 0;

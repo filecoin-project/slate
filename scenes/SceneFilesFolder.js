@@ -19,6 +19,7 @@ export default class SceneFilesFolder extends React.Component {
 
     this.props.viewer.library[0].children.forEach((d) => {
       if (d.networks && d.networks.includes("FILECOIN")) {
+        console.log(d);
         jobs.push({
           ipfs: d.ipfs,
           cid: d.ipfs.replace("/ipfs/", ""),
@@ -31,6 +32,8 @@ export default class SceneFilesFolder extends React.Component {
 
     const response = await Actions.checkCIDStatus(jobs);
 
+    console.log(response);
+
     if (response && response.update) {
       await this.props.onRehydrate();
     }
@@ -41,7 +44,7 @@ export default class SceneFilesFolder extends React.Component {
   };
 
   componentDidMount() {
-    this.loop();
+    this._interval = this.loop();
   }
 
   componentWillUnmount() {

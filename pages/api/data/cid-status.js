@@ -32,72 +32,101 @@ export default async (req, res) => {
   });
   const PG = Powergate.get(user);
 
-  const changed = [];
+  const success = [];
   const failed = [];
-  // TODO(jim): clean this up.
   try {
     for (let i = 0; i < req.body.data.length; i++) {
       const x = req.body.data[i];
 
       if (!x.job) {
+        console.log("-- NO JOB (3)");
         failed.push(x);
         continue;
       }
 
+      if (!x.ipfs) {
+        console.log("-- NO IPFS (3)");
+        failed.push(x);
+      }
+
       // TODO(jim): A hack, I just want the first job object from a stream.
       const job = await check(PG, x.job);
+      console.log({ job });
 
       // TODO(jim): This isn't correct.
       // There is a bug where everything is going to hot storage.
       // Which is fine... But its not real Filecoin storage then.
-      if (job.status > 1) {
-        console.log("CID SUCCESS (3): ", job.cid);
-        changed.push(x);
+      if (job.status === 3) {
+        console.log("CID ERROR (3): ", job.cid);
+        x.error = job.errCause;
+        failed.push(x);
         continue;
       }
 
-      // NOTE(jim): Still waiting for things to happen.
-      if (job.status === 1) {
-        console.log("CID WAITING (1): ", job.cid);
+      if (job.status === 5) {
+        console.log("CID SUCCESS (5): ", job.cid);
+        success.push(x);
         continue;
       }
+
+      console.log("CID: ", job.cid);
     }
   } catch (e) {
     console.log(e);
   }
 
-  // NOTE(jim): For failed uploads. Bail!
+  let userDataFields = { ...user.data };
   if (failed.length) {
     for (let i = 0; i < failed.length; i++) {
-      let data = LibraryManager.getDataByIPFS(user, failed[i].ipfs);
+      let data = LibraryManager.getDataByIPFS(
+        { ...user, data: userDataFields },
+        failed[i].ipfs
+      );
+
       data.networks = data.networks.filter((each) => each !== "FILECOIN");
       data.job = null;
       data.storage = 0;
-      user.data = LibraryManager.updateDataById({ user, id: data.id, data });
+      data.error = failed[i].error;
+
+      userDataFields = LibraryManager.updateDataById({
+        user: { ...user, data: userDataFields },
+        id: data.id,
+        data,
+      });
     }
   }
 
-  // NOTE(jim): Otherwise say its on the network...
-  if (changed.length) {
-    for (let i = 0; i < changed.length; i++) {
-      let data = LibraryManager.getDataByIPFS(user, changed[i].ipfs);
+  if (success.length) {
+    for (let i = 0; i < success.length; i++) {
+      let data = LibraryManager.getDataByIPFS(
+        { ...user, data: userDataFields },
+        success[i].ipfs
+      );
+
       data.storage = 1;
-      user.data = LibraryManager.updateDataById({ user, id: data.id, data });
+      data.error = null;
+
+      userDataFields = LibraryManager.updateDataById({
+        user: { ...user, data: userDataFields },
+        id: data.id,
+        data,
+      });
     }
   }
 
-  // NOTE(jim):
-  // In any of our status checks, if the user needs to be updated.
-  // Update the user.
-  if (changed.length || failed.length) {
-    const response = await Data.updateUserById({
+  let response;
+  if (success.length || failed.length) {
+    console.log("update");
+    response = await Data.updateUserById({
       id: user.id,
-      data: user.data,
+      data: userDataFields,
     });
+    console.log(response);
   }
 
   return res.status(200).send({
     decorator: "SERVER_CID_CHECK",
-    update: changed.length || failed.length,
+    update: success.length || failed.length,
+    updateResponse: response,
   });
 };

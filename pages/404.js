@@ -12,7 +12,13 @@ const STYLES_ROOT = css`
   justify-content: space-between;
   height: 100vh;
   text-align: center;
+  font-size: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.78rem;
+  }
 `;
+
 // TODO(jim): Brand system colors.
 const STYLES_GLITCH = css`
   font-size: 120px;
@@ -209,7 +215,7 @@ export default class NotFoundPage extends React.Component {
                 Slack
               </a>
               <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
-                Work on Slate!
+                Contribute
               </a>
             </div>
           </div>

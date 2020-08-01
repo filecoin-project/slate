@@ -100,7 +100,6 @@ const STYLES_COLUMN = css`
   align-items: flex-start;
   justify-content: space-between;
   align-self: stretch;
-  min-width: 10%;
 `;
 
 const STYLES_TOP_COLUMN = css`
@@ -109,14 +108,12 @@ const STYLES_TOP_COLUMN = css`
   align-items: flex-start;
   justify-content: space-between;
   align-self: stretch;
-  min-width: 10%;
   transition: 200ms ease all;
 `;
 
 const STYLES_CONTENT = css`
   box-sizing: border-box;
   padding: 12px 12px 12px 12px;
-  min-width: 10%;
   width: 100%;
   align-self: stretch;
   flex-direction: column;
@@ -172,7 +169,9 @@ export const TableColumn = (props) => {
       css={props.top ? STYLES_TOP_COLUMN : STYLES_COLUMN}
       style={props.style}
     >
-      <span css={STYLES_CONTENT}>{props.children}</span>
+      <span css={STYLES_CONTENT} style={props.contentStyle}>
+        {props.children}
+      </span>
       {tooltipElement}
       {copyableElement}
     </span>

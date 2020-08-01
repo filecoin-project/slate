@@ -87,7 +87,8 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
         <System.H2>Notification</System.H2>
         <hr />
         <br />
-        <System.ButtonSecondaryFull
+        <System.ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -96,9 +97,10 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for notification
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
-        <System.ButtonSecondaryFull
+        <System.ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -108,11 +110,11 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for dark style notification
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
-        <System.ButtonPrimaryFull onClick={this._handleDelete}>
+        <System.ButtonPrimary full onClick={this._handleDelete}>
           Click to clear notifications
-        </System.ButtonPrimaryFull>
+        </System.ButtonPrimary>
         <br />
         <System.P>
           A notification will only appear once you trigger it by creating a
@@ -146,7 +148,8 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
   render() {
     return (
       <React.Fragment>
-        <ButtonSecondaryFull
+        <ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -155,9 +158,10 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for notification
-        </ButtonSecondaryFull>
+        </ButtonSecondary>
         <br />
-        <ButtonSecondaryFull
+        <ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -167,11 +171,11 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for dark style notification
-        </ButtonSecondaryFull>
+        </ButtonSecondary>
 
-        <ButtonPrimaryFull onClick={this._handleDelete}>
+        <ButtonPrimary full onClick={this._handleDelete}>
           Click to clear notifications
-        </ButtonPrimaryFull>
+        </ButtonPrimary>
       </React.Fragment>
     );
   }
@@ -183,7 +187,8 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
         <System.H2>Notification with timeout</System.H2>
         <hr />
         <br />
-        <System.ButtonSecondaryFull
+        <System.ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -193,11 +198,11 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for disappearing notification
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
-        <System.ButtonPrimaryFull onClick={this._handleDelete}>
+        <System.ButtonPrimary full onClick={this._handleDelete}>
           Click to clear notifications
-        </System.ButtonPrimaryFull>
+        </System.ButtonPrimary>
         <br />
         <System.P>
           You can declare the Notification component with a{" "}
@@ -219,7 +224,8 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
   render() {
     return (
       <React.Fragment>
-        <ButtonSecondaryFull
+        <ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -229,11 +235,11 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for disappearing notification
-        </ButtonSecondaryFull>
+        </ButtonSecondary>
 
-        <ButtonPrimaryFull onClick={this._handleDelete}>
+        <ButtonPrimary full onClick={this._handleDelete}>
           Click to clear notifications
-        </ButtonPrimaryFull>
+        </ButtonPrimary>
       </React.Fragment>
     );
   }
@@ -245,7 +251,8 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
         <System.H2>Notification with status</System.H2>
         <hr />
         <br />
-        <System.ButtonSecondaryFull
+        <System.ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -255,9 +262,10 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for info style notification
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
-        <System.ButtonSecondaryFull
+        <System.ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -267,9 +275,10 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for success style notification
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
-        <System.ButtonSecondaryFull
+        <System.ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -279,9 +288,10 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for warning style notification
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
-        <System.ButtonSecondaryFull
+        <System.ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -291,11 +301,11 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for error style notification
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
-        <System.ButtonPrimaryFull onClick={this._handleDelete}>
+        <System.ButtonPrimary full onClick={this._handleDelete}>
           Click to clear notifications
-        </System.ButtonPrimaryFull>
+        </System.ButtonPrimary>
         <br />
         <br />
         <System.P>
@@ -323,7 +333,8 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
   render() {
     return (
       <React.Fragment>
-        <ButtonSecondaryFull
+        <ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -333,9 +344,10 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for info style notification
-        </ButtonSecondaryFull>
+        </ButtonSecondary>
 
-        <ButtonSecondaryFull
+        <ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -345,9 +357,10 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for success style notification
-        </ButtonSecondaryFull>
+        </ButtonSecondary>
 
-        <ButtonSecondaryFull
+        <ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -357,9 +370,10 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for warning style notification
-        </ButtonSecondaryFull>
+        </ButtonSecondary>
 
-        <ButtonSecondaryFull
+        <ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               id: this.state.count,
@@ -369,11 +383,11 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for error style notification
-        </ButtonSecondaryFull>
+        </ButtonSecondary>
 
-        <ButtonPrimaryFull onClick={this._handleDelete}>
+        <ButtonPrimary full onClick={this._handleDelete}>
           Click to clear notifications
-        </ButtonPrimaryFull>
+        </ButtonPrimary>
       </React.Fragment>
     );
   }

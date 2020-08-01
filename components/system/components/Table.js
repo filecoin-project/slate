@@ -121,38 +121,40 @@ export class Table extends React.Component {
     const width = TABLE_COLUMN_WIDTH_DEFAULTS[data.columns.length];
     return (
       <React.Fragment>
-        <div css={STYLES_TABLE_TOP_ROW}>
-          {data.columns.map((c, cIndex) => {
-            const text = c.hideLabel
-              ? ""
-              : Strings.isEmpty(c.name)
-              ? c.key
-              : c.name;
-            let localWidth = c.width ? c.width : width;
-            let flexShrink = c.width && c.width !== "100%" ? "0" : null;
-            if (cIndex === 0 && !c.width) {
-              localWidth = "100%";
-            }
+        {this.props.noLabel ? null : (
+          <div css={STYLES_TABLE_TOP_ROW}>
+            {data.columns.map((c, cIndex) => {
+              const text = c.hideLabel
+                ? ""
+                : Strings.isEmpty(c.name)
+                ? c.key
+                : c.name;
+              let localWidth = c.width ? c.width : width;
+              let flexShrink = c.width && c.width !== "100%" ? "0" : null;
+              if (cIndex === 0 && !c.width) {
+                localWidth = "100%";
+              }
 
-            return (
-              <SubSystem.TableColumn
-                top
-                key={`table-top-${c.key}-${cIndex}`}
-                style={{
-                  width: localWidth,
-                  backgroundColor: ac[c.key].color,
-                  flexShrink,
-                }}
-                tooltip={c.tooltip}
-              >
-                {text}
-              </SubSystem.TableColumn>
-            );
-          })}
-          {this.props.onClick ? (
-            <div css={STYLES_TABLE_EXPAND_SECTION} />
-          ) : null}
-        </div>
+              return (
+                <SubSystem.TableColumn
+                  top
+                  key={`table-top-${c.key}-${cIndex}`}
+                  style={{
+                    width: localWidth,
+                    backgroundColor: ac[c.key].color,
+                    flexShrink,
+                  }}
+                  tooltip={c.tooltip}
+                >
+                  {text}
+                </SubSystem.TableColumn>
+              );
+            })}
+            {this.props.onClick ? (
+              <div css={STYLES_TABLE_EXPAND_SECTION} />
+            ) : null}
+          </div>
+        )}
 
         {data.rows.map((r, i) => {
           const selected = r.id === this.props.selectedRowId;
@@ -176,36 +178,54 @@ export class Table extends React.Component {
                       key={`${each}-${i}-${cIndex}`}
                       style={{
                         width: localWidth,
-                        backgroundColor: field.color,
+                        backgroundColor: this.props.noColor
+                          ? null
+                          : field.color,
                         flexShrink,
                       }}
+                      contentStyle={field.contentStyle}
                       copyable={field.copyable}
                     >
-                      <SubSystem.TableContent
-                        data={r}
-                        text={text}
-                        type={field.type}
-                        action={field.action}
-                        onNavigateTo={this.props.onNavigateTo}
-                        onAction={this.props.onAction}
-                      />
+                      <div style={field.style}>
+                        <SubSystem.TableContent
+                          data={r}
+                          text={text}
+                          type={field.type}
+                          action={field.action}
+                          onNavigateTo={this.props.onNavigateTo}
+                          onAction={this.props.onAction}
+                        />
+                      </div>
                     </SubSystem.TableColumn>
                   );
                 })}
                 {this.props.onClick ? (
                   <div
-                    css={STYLES_TABLE_EXPAND_SECTION}
-                    onClick={() => this._handleClick(r.id)}
-                    style={{ cursor: r.children ? "pointer" : "default" }}
+                    style={{
+                      width: "40px",
+                      display: "flex",
+                      alignItems: "center",
+                      alignSelf: "center",
+                      justifyContent: "flex-start",
+                    }}
                   >
-                    {r.children ? (
-                      <SVG.Plus
-                        height="16px"
-                        style={{
-                          transform: selected ? `rotate(45deg)` : null,
-                        }}
-                      />
-                    ) : null}
+                    <div
+                      css={STYLES_TABLE_EXPAND_SECTION}
+                      onClick={() => this._handleClick(r.id)}
+                      style={{
+                        cursor: r.children ? "pointer" : "default",
+                        display: "inline-flex",
+                      }}
+                    >
+                      {r.children ? (
+                        <SVG.Plus
+                          height="16px"
+                          style={{
+                            transform: selected ? `rotate(45deg)` : null,
+                          }}
+                        />
+                      ) : null}
+                    </div>
                   </div>
                 ) : null}
               </div>

@@ -82,7 +82,8 @@ import { GlobalCarousel, dispatchCustomEvent } from "slate-react-system";`}
         <System.H2>Carousel</System.H2>
         <hr />
         <br />
-        <System.ButtonSecondaryFull
+        <System.ButtonSecondary
+          full
           onClick={() =>
             this._handleCreate({
               slides: [
@@ -103,7 +104,7 @@ import { GlobalCarousel, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Open carousel
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
         <System.P>
           While the Carousel component is always present, a carousel will only
@@ -137,11 +138,12 @@ import { GlobalCarousel, dispatchCustomEvent } from "slate-react-system";`}
     ].map((props) => <img {...props} style={{ maxHeight: "80vh" }} />);
 
     return (
-      <ButtonSecondaryFull
+      <ButtonSecondary
+        full
         onClick={() => this._handleCreate({ slides: carouselContent })}
       >
         Open Carousel
-      </ButtonSecondaryFull>
+      </ButtonSecondary>
     );
   }
 }`}

@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
-import { ButtonPrimaryFull } from "~/components/system/components/Buttons";
+import { ButtonPrimary } from "~/components/system/components/Buttons";
 
 import Odometer from "~/vendor/odometer";
 
@@ -81,9 +81,9 @@ export const CreateToken = (props) => {
         </span>
       </div>
       <div css={STYLES_CREATE_TOKEN_BOTTOM}>
-        <ButtonPrimaryFull onClick={props.onClick}>
+        <ButtonPrimary full onClick={props.onClick}>
           Generate new Powergate token
-        </ButtonPrimaryFull>
+        </ButtonPrimary>
       </div>
     </div>
   );

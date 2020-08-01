@@ -139,6 +139,7 @@ const STYLES_MIDDLE = css`
 
 const STYLES_LINK = css`
   font-family: ${Constants.font.semiBold};
+  color: ${Constants.system.pitchBlack};
   text-decoration: none;
   transition: 200ms ease color;
 

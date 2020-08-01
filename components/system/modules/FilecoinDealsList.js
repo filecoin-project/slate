@@ -76,7 +76,7 @@ export class FilecoinStorageDealsList extends React.Component {
           }}
           selectedRowId={this.state.selectedRowId}
           onClick={this._handleClick}
-          name={"hello"}
+          name={this.props.name}
         />
       </Group>
     );

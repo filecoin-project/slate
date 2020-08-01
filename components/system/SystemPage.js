@@ -224,6 +224,11 @@ export default class SystemPage extends React.Component {
           />
           <SidebarLink
             url={url}
+            href="/experiences/friends-list"
+            title="FriendsList"
+          />
+          <SidebarLink
+            url={url}
             href="/experiences/peers-list"
             title="PeersList"
           />

@@ -105,9 +105,9 @@ import {
         <System.H2>Carousel</System.H2>
         <hr />
         <br />
-        <System.ButtonSecondaryFull onClick={this._handleOpen}>
+        <System.ButtonSecondary full onClick={this._handleOpen}>
           Open carousel
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
@@ -120,34 +120,29 @@ import {
       maxWidth: "80%", 
       display: "block" 
     };
-
     const slides = [
       <img key="i-1" src="/static/social.png" style={style} />,
       <img key="i-2" src="/static/social.jpg" style={style} />
     ];
-
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: { slides },
     });
   }
-
   _handleOpen = () => {
     dispatchCustomEvent({ 
       name: "slate-global-open-carousel"
       detail: { index: 0 } 
     });
   };
-
   _handleClose = () => {
     dispatchCustomEvent({ name: "slate-global-close-carousel" });
   };
-
   render() {
     return (
-      <System.ButtonSecondaryFull onClick={this._handleOpen}>
+      <System.ButtonSecondary full onClick={this._handleOpen}>
         Open Carousel
-      </System.ButtonSecondaryFull>
+      </System.ButtonSecondary>
     );
   }
 }`}

@@ -45,11 +45,6 @@ const STYLES_GLITCH = css`
     margin: auto;
     content: "404";
     position: absolute;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-height: 80vh;
-    min-width: 50vh;
     overflow: hidden;
     background-color: #f7f7f7;
     color: #000;

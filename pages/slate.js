@@ -55,9 +55,11 @@ export default class SlatePage extends React.Component {
     const description = "A slate.";
 
     let image;
-    if (this.props.slate.data.objects.length) {
-      image = this.props.slate.data.objects[0].url;
-    }
+    this.props.slate.data.objects.forEach((o) => {
+      if (o.type && o.type.startsWith("image/")) {
+        image = o.url;
+      }
+    });
 
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>

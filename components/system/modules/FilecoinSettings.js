@@ -49,7 +49,6 @@ const TAB_GROUP = [
 export class FilecoinSettings extends React.Component {
   state = {
     tabGroup: "general",
-    settings_deals_auto_approve: this.props.autoApprove,
     addrsList: [],
     fetchedAddrs: false,
     fetchedConfig: false,
@@ -127,36 +126,30 @@ export class FilecoinSettings extends React.Component {
 
   _handleSave = async () => {
     this.props.onSave({
-      data: {
-        settings_deals_auto_approve: this.state.settings_deals_auto_approve,
-      },
-      storageConfig: {
-        cold: {
-          enabled: this.state.settings_cold_enabled,
-          filecoin: {
-            addr: this.state.settings_cold_default_address,
-            countryCodesList: this.state.settings_cold_country_codes_list,
-            dealMinDuration: this.state.settings_cold_default_duration,
-            excludedMinersList: this.state
-              .settings_cold_default_excluded_miners,
-            maxPrice: this.state.settings_cold_default_max_price,
-            renew: {
-              enabled: this.state.settings_cold_default_auto_renew,
-              threshold: this.state.settings_cold_default_auto_renew_threshold,
-            },
-            repFactor: this.state.settings_cold_default_replication_factor,
-            trustedMinersList: this.state.settings_cold_default_trusted_miners,
+      cold: {
+        enabled: this.state.settings_cold_enabled,
+        filecoin: {
+          addr: this.state.settings_cold_default_address,
+          countryCodesList: this.state.settings_cold_country_codes_list,
+          dealMinDuration: this.state.settings_cold_default_duration,
+          excludedMinersList: this.state.settings_cold_default_excluded_miners,
+          maxPrice: this.state.settings_cold_default_max_price,
+          renew: {
+            enabled: this.state.settings_cold_default_auto_renew,
+            threshold: this.state.settings_cold_default_auto_renew_threshold,
           },
+          repFactor: this.state.settings_cold_default_replication_factor,
+          trustedMinersList: this.state.settings_cold_default_trusted_miners,
         },
-        hot: {
-          enabled: this.state.settings_hot_enabled,
-          allowUnfreeze: this.state.settings_hot_allow_unfreeze,
-          ipfs: {
-            addTimeout: this.state.settings_hot_ipfs_add_timeout,
-          },
-        },
-        repairable: this.state.settings_repairable,
       },
+      hot: {
+        enabled: this.state.settings_hot_enabled,
+        allowUnfreeze: this.state.settings_hot_allow_unfreeze,
+        ipfs: {
+          addTimeout: this.state.settings_hot_ipfs_add_timeout,
+        },
+      },
+      repairable: this.state.settings_repairable,
     });
   };
 
@@ -182,23 +175,6 @@ export class FilecoinSettings extends React.Component {
         <div style={{ padding: "16px" }}>
           {this.state.tabGroup === "general" ? (
             <div>
-              <div css={STYLES_GROUP}>
-                <div css={STYLES_LEFT}>
-                  <DescriptionGroup
-                    label="Automatically approve deals"
-                    tooltip="If you do not have enough Filecoin you will receive a warning, regardless of whether this is enabled."
-                    description="When enabled, every storage deal will be automatically approved without asking for confirmation."
-                  />
-                </div>
-                <div css={STYLES_RIGHT}>
-                  <Toggle
-                    key="settings_deals_auto_approve"
-                    name="settings_deals_auto_approve"
-                    onChange={this._handleChange}
-                    active={this.state.settings_deals_auto_approve}
-                  />
-                </div>
-              </div>
               <div css={STYLES_GROUP}>
                 <div css={STYLES_LEFT}>
                   <DescriptionGroup

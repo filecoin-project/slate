@@ -52,13 +52,9 @@ const EXAMPLE_CODE = `import * as React from "react";
 import { FilecoinSettings } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
 
-const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
+const PowerGate = createPow({ host: "https://grpcweb.slate.textile.io" });
 
 class Example extends React.Component {
-  state = {
-    autoApprove: false,
-  };
-
   componentDidMount = async () => {
     const FFS = await PowerGate.ffs.create();
     const token = FFS.token ? FFS.token : null;
@@ -68,15 +64,13 @@ class Example extends React.Component {
     this.setState({ token, defaultStorageConfig, addrsList });
   };
 
-  _handleSave = async ({ data, storageConfig }) => {
+  _handleSave = async (storageConfig) => {
     const response = await PowerGate.ffs.setDefaultStorageConfig(storageConfig);
-    this.setState({ data });
   };
 
   render() {
     return (
       <FilecoinSettings
-        autoApprove={this.state.autoApprove}
         defaultStorageConfig={this.state.defaultStorageConfig}
         addrsList={this.state.addrsList}
         onSave={this._handleSave}
@@ -87,10 +81,6 @@ class Example extends React.Component {
 `;
 
 export default class SystemPageFilecoinSettings extends React.Component {
-  state = {
-    autoApprove: true,
-  };
-
   render() {
     return (
       <SystemPage
@@ -115,7 +105,6 @@ export default class SystemPageFilecoinSettings extends React.Component {
         <br />
         <br />
         <System.FilecoinSettings
-          autoApprove={this.state.autoApprove}
           addrsList={addrsList}
           defaultStorageConfig={defaultStorageConfig}
           onSave={this._handleSave}

@@ -12,17 +12,16 @@ const STYLES_NESTED_TABLE = css`
   grid-template-columns: 160px 1fr;
 `;
 
-let iterator = 0;
-
 const NestedTable = (data) => {
   let values = [];
+  console.log(Object.entries(data));
   for (let entries of Object.entries(data)) {
     if (entries[0] !== "rootCid") {
-      iterator += 1;
-      values.push(<div key={iterator}>{entries[0]}</div>);
-      values.push(<div key={iterator}>{entries[1]}</div>);
+      values.push(<div key={entries[0]}>{entries[0]}</div>);
+      values.push(<div key={`${entries[0]}value`}>{entries[1]}</div>);
     }
   }
+  console.log(values);
   return <div css={STYLES_NESTED_TABLE}>{values}</div>;
 };
 
@@ -76,7 +75,7 @@ export class FilecoinStorageDealsList extends React.Component {
           }}
           selectedRowId={this.state.selectedRowId}
           onClick={this._handleClick}
-          name={"hello"}
+          name={this.props.name}
         />
       </Group>
     );

@@ -6,6 +6,7 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 // NOTE(jim): Modules
 import { CreateToken } from "~/components/system/modules/CreateToken";
 import { PeersList } from "~/components/system/modules/PeersList";
+import { FriendsList } from "~/components/system/modules/FriendsList";
 import { CreateFilecoinAddress } from "~/components/system/modules/CreateFilecoinAddress";
 import { CreateFilecoinStorageDeal } from "~/components/system/modules/CreateFilecoinStorageDeal";
 import { SendAddressFilecoin } from "~/components/system/modules/SendAddressFilecoin";
@@ -94,6 +95,7 @@ export {
   FilecoinRetrievalDealsList,
   FilecoinStorageDealsList,
   FilecoinSettings,
+  FriendsList,
   // NOTE(jim): Components
   ButtonPrimary,
   ButtonPrimaryFull,

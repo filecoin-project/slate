@@ -59,38 +59,6 @@ const STYLES_BUTTON_PRIMARY = css`
   }
 `;
 
-export const ButtonPrimary = (props) => {
-  if (props.loading) {
-    return (
-      <button css={STYLES_BUTTON_PRIMARY} style={props.style}>
-        <LoaderSpinner style={{ height: 16, width: 16 }} />
-      </button>
-    );
-  }
-
-  if (props.type === "label") {
-    return (
-      <label
-        css={STYLES_BUTTON_PRIMARY}
-        style={props.style}
-        onClick={props.onClick}
-        children={props.children}
-        type={props.label}
-        htmlFor={props.htmlFor}
-      />
-    );
-  }
-
-  return (
-    <button
-      css={STYLES_BUTTON_PRIMARY}
-      style={props.style}
-      onClick={props.onClick}
-      children={props.children}
-    />
-  );
-};
-
 const STYLES_BUTTON_PRIMARY_FULL = css`
   ${STYLES_BUTTON_FULL}
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -110,10 +78,13 @@ const STYLES_BUTTON_PRIMARY_FULL = css`
   }
 `;
 
-export const ButtonPrimaryFull = (props) => {
+export const ButtonPrimary = (props) => {
   if (props.loading) {
     return (
-      <button css={STYLES_BUTTON_PRIMARY_FULL} style={props.style}>
+      <button
+        css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
+        style={props.style}
+      >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
     );
@@ -122,7 +93,7 @@ export const ButtonPrimaryFull = (props) => {
   if (props.type === "label") {
     return (
       <label
-        css={STYLES_BUTTON_PRIMARY_FULL}
+        css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
         style={props.style}
         onClick={props.onClick}
         children={props.children}
@@ -134,12 +105,16 @@ export const ButtonPrimaryFull = (props) => {
 
   return (
     <button
-      css={STYLES_BUTTON_PRIMARY_FULL}
+      css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
       style={props.style}
       onClick={props.onClick}
       children={props.children}
     />
   );
+};
+
+export const ButtonPrimaryFull = (props) => {
+  return <ButtonPrimary full {...props} />;
 };
 
 const STYLES_BUTTON_SECONDARY = css`
@@ -161,14 +136,6 @@ const STYLES_BUTTON_SECONDARY = css`
   }
 `;
 
-export const ButtonSecondary = (props) => {
-  if (props.type === "label") {
-    return <label css={STYLES_BUTTON_SECONDARY} {...props} />;
-  }
-
-  return <button css={STYLES_BUTTON_SECONDARY} {...props} />;
-};
-
 const STYLES_BUTTON_SECONDARY_FULL = css`
   ${STYLES_BUTTON_FULL}
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -188,10 +155,15 @@ const STYLES_BUTTON_SECONDARY_FULL = css`
   }
 `;
 
-export const ButtonSecondaryFull = (props) => {
+export const ButtonSecondary = (props) => {
   if (props.loading) {
     return (
-      <button css={STYLES_BUTTON_SECONDARY_FULL} style={props.style}>
+      <button
+        css={
+          props.full ? STYLES_BUTTON_SECONDARY_FULL : STYLES_BUTTON_SECONDARY
+        }
+        style={props.style}
+      >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
     );
@@ -200,7 +172,9 @@ export const ButtonSecondaryFull = (props) => {
   if (props.type === "label") {
     return (
       <label
-        css={STYLES_BUTTON_SECONDARY_FULL}
+        css={
+          props.full ? STYLES_BUTTON_SECONDARY_FULL : STYLES_BUTTON_SECONDARY
+        }
         style={props.style}
         onClick={props.onClick}
         children={props.children}
@@ -210,7 +184,16 @@ export const ButtonSecondaryFull = (props) => {
     );
   }
 
-  return <button css={STYLES_BUTTON_SECONDARY_FULL} {...props} />;
+  return (
+    <button
+      css={props.full ? STYLES_BUTTON_SECONDARY_FULL : STYLES_BUTTON_SECONDARY}
+      {...props}
+    />
+  );
+};
+
+export const ButtonSecondaryFull = (props) => {
+  return <ButtonSecondary full {...props} />;
 };
 
 const STYLES_BUTTON_DISABLED = css`
@@ -225,10 +208,6 @@ const STYLES_BUTTON_DISABLED = css`
   }
 `;
 
-export const ButtonDisabled = (props) => {
-  return <button css={STYLES_BUTTON_DISABLED} {...props} />;
-};
-
 const STYLES_BUTTON_DISABLED_FULL = css`
   ${STYLES_BUTTON_FULL}
   cursor: not-allowed;
@@ -241,6 +220,15 @@ const STYLES_BUTTON_DISABLED_FULL = css`
   }
 `;
 
+export const ButtonDisabled = (props) => {
+  return (
+    <button
+      css={props.full ? STYLES_BUTTON_DISABLED_FULL : STYLES_BUTTON_DISABLED}
+      {...props}
+    />
+  );
+};
+
 export const ButtonDisabledFull = (props) => {
-  return <button css={STYLES_BUTTON_DISABLED_FULL} {...props} />;
+  return <ButtonDisabled full {...props} />;
 };

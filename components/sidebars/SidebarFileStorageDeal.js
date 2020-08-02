@@ -150,17 +150,22 @@ export default class SidebarFileStorageDeal extends React.Component {
           />
         ) : null}
 
-        <System.ButtonPrimaryFull
+        <System.ButtonPrimary
+          full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
           loading={this.props.sidebarLoading}>
           Make storage deal
-        </System.ButtonPrimaryFull>
+        </System.ButtonPrimary>
 
         {!this.props.sidebarLoading ? (
-          <System.ButtonSecondaryFull style={{ marginTop: 16 }} onClick={this._handleCancel}>
+          <System.ButtonSecondary
+            full
+            style={{ marginTop: 16 }}
+            onClick={this._handleCancel}
+          >
             Cancel deal
-          </System.ButtonSecondaryFull>
+          </System.ButtonSecondary>
         ) : null}
       </React.Fragment>
     );

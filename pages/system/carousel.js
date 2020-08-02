@@ -105,9 +105,9 @@ import {
         <System.H2>Carousel</System.H2>
         <hr />
         <br />
-        <System.ButtonSecondaryFull onClick={this._handleOpen}>
+        <System.ButtonSecondary full onClick={this._handleOpen}>
           Open carousel
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
@@ -140,9 +140,9 @@ import {
   };
   render() {
     return (
-      <System.ButtonSecondaryFull onClick={this._handleOpen}>
+      <System.ButtonSecondary full onClick={this._handleOpen}>
         Open Carousel
-      </System.ButtonSecondaryFull>
+      </System.ButtonSecondary>
     );
   }
 }`}

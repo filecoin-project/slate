@@ -35,11 +35,8 @@ export default class SystemPageButtons extends React.Component {
           {`import * as React from "react";
 import {
   ButtonPrimary,
-  ButtonPrimaryFull,
   ButtonSecondary,
-  ButtonSecondaryFull,
   ButtonDisabled,
-  ButtonDisabledFull,
 } from "slate-react-system";`}
         </CodeBlock>
         <br />
@@ -48,7 +45,7 @@ import {
         <hr />
         <br />
         <System.P>
-          There are three variations of the regular width button component.
+          There are three variations of the button component.
           <br />
           Primary, Secondary and Disabled.
         </System.P>
@@ -83,38 +80,33 @@ class ExampleDisabled extends React.Component {
         <System.H2>Full width</System.H2>
         <hr />
         <br />
-        <System.P>
-          There are three variations of the full width button component. <br />
-          Primary, Secondary and Disabled.
-        </System.P>
+        <System.P>Each of the button styles has a full width option.</System.P>
         <br />
-        <System.ButtonPrimaryFull>Primary Button Full</System.ButtonPrimaryFull>
+        <System.ButtonPrimary full>Primary Button Full</System.ButtonPrimary>
         <br />
-        <System.ButtonSecondaryFull>
+        <System.ButtonSecondary full>
           Secondary Button Full
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
         <br />
-        <System.ButtonDisabledFull>
-          Disabled Button Full
-        </System.ButtonDisabledFull>
+        <System.ButtonDisabled full>Disabled Button Full</System.ButtonDisabled>
         <br />
         <br />
         <CodeBlock>
           {`class ExamplePrimaryFull extends React.Component {
   render() {
-    return <ButtonPrimaryFull>Primary Button Full</ButtonPrimaryFull>;
+    return <ButtonPrimary full>Primary Button Full</ButtonPrimary>;
   }
 }
 
 class ExampleSecondaryFull extends React.Component {
   render() {
-    return <ButtonSecondaryFull>Secondary Button Full</ButtonSecondaryFull>;
+    return <ButtonSecondary full>Secondary Button Full</ButtonSecondary>;
   }
 }
 
 class ExampleDisabledFull extends React.Component {
   render() {
-    return <ButtonDisabledFull>Disabled Button Full</ButtonDisabledFull>;
+    return <ButtonDisabled full>Disabled Button Full</ButtonDisabled>;
   }
 }`}
         </CodeBlock>

@@ -37,19 +37,19 @@ export default async (req, res) => {
 
   const success = [];
   const failed = [];
+  const reset = [];
 
   for (let i = 0; i < req.body.data.length; i++) {
     const x = req.body.data[i];
 
     if (!x.job) {
-      console.log("-- NO JOB (3)");
       failed.push(x);
       continue;
     }
 
     if (!x.ipfs) {
-      console.log("-- NO IPFS (3)");
       failed.push(x);
+      continue;
     }
 
     let job;
@@ -68,8 +68,14 @@ export default async (req, res) => {
 
     if (job.status === 5) {
       console.log({ message: "SUCCESS", job });
+      x.error = null;
       success.push(x);
       continue;
+    }
+
+    if (x.error) {
+      x.error = null;
+      reset.push(x);
     }
 
     console.log({ message: "NOOP", job });
@@ -115,8 +121,25 @@ export default async (req, res) => {
     }
   }
 
+  if (reset.length) {
+    for (let i = 0; i < reset.length; i++) {
+      let data = LibraryManager.getDataByIPFS(targetUser, reset[i].ipfs);
+      if (!data) {
+        continue;
+      }
+
+      data.error = null;
+
+      targetUser.data = LibraryManager.updateDataById({
+        user: targetUser,
+        id: data.id,
+        data,
+      });
+    }
+  }
+
   let response;
-  if (success.length || failed.length) {
+  if (success.length || failed.length || reset.length) {
     response = await Data.updateUserById({
       id: targetUser.id,
       data: targetUser.data,
@@ -125,7 +148,7 @@ export default async (req, res) => {
 
   return res.status(200).send({
     decorator: "SERVER_CID_CHECK",
-    update: success.length || failed.length,
+    update: success.length || failed.length || reset.length,
     updateResponse: response,
   });
 };

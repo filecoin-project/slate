@@ -24,6 +24,7 @@ export default class SceneFilesFolder extends React.Component {
           ipfs: d.ipfs,
           cid: d.ipfs.replace("/ipfs/", ""),
           job: d.job,
+          error: d.error,
         });
       }
     });
@@ -56,10 +57,7 @@ export default class SceneFilesFolder extends React.Component {
     let rows = this.props.viewer.library[0].children.map((each) => {
       return {
         ...each,
-        button:
-          each.networks && each.networks.includes("FILECOIN")
-            ? null
-            : "Store on Filecoin",
+        button: each.networks && each.networks.includes("FILECOIN") ? null : "Store on Filecoin",
       };
     });
 
@@ -69,16 +67,8 @@ export default class SceneFilesFolder extends React.Component {
         {
           key: "size",
           name: "Size",
-          width: "140px",
+          width: "116px",
           type: "FILE_SIZE",
-        },
-        {
-          key: "date",
-          name: "Date uploaded",
-          width: "160px",
-          type: "FILE_DATE",
-          tooltip:
-            "This date represents when the file was first uploaded to IPFS.",
         },
         {
           key: "networks",
@@ -96,7 +86,12 @@ export default class SceneFilesFolder extends React.Component {
           hideLabel: true,
           type: "BUTTON",
           action: "SIDEBAR_FILE_STORAGE_DEAL",
-          width: "148px",
+          width: "132px",
+        },
+        {
+          key: "error",
+          hideLabel: true,
+          width: "188px",
         },
       ],
       rows,
@@ -114,8 +109,7 @@ export default class SceneFilesFolder extends React.Component {
               type: "SIDEBAR",
               value: "SIDEBAR_ADD_FILE_TO_BUCKET",
             },
-          ]}
-        >
+          ]}>
           <System.Table
             key={this.props.current.folderId}
             data={data}

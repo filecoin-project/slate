@@ -36,5 +36,9 @@ export const isFileTypeAllowed = (type = "") => {
     return true;
   }
 
+  if (type.startsWith("video/")) {
+    return true;
+  }
+
   return false;
 };

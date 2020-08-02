@@ -52,6 +52,8 @@ export default class SidebarAddFileToBucket extends React.Component {
       return;
     }
 
+    console.log(file);
+
     const isAllowed = Validations.isFileTypeAllowed(file.type);
     if (!isAllowed) {
       alert("TODO: File type is not allowed, yet.");

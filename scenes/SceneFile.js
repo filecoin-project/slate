@@ -13,6 +13,7 @@ const STYLES_FLEX = css`
   justify-content: space-between;
   flex-direction: column;
   height: calc(100vh - ${Constants.sizes.header}px);
+  background-color: ${Constants.system.pitchBlack};
 `;
 
 const STYLES_TOP = css`
@@ -20,7 +21,7 @@ const STYLES_TOP = css`
   border-bottom: 1px solid ${Constants.system.black};
   color: ${Constants.system.white};
   width: 100%;
-  padding: 12px 16px 12px 48px;
+  padding: 12px 16px 12px 16px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -30,13 +31,16 @@ const STYLES_TOP = css`
 const STYLES_LEFT = css`
   min-width: 10%;
   width: 100%;
+  padding-right: 16px;
 `;
 
 const STYLES_RIGHT = css`
   flex-shrink: 0;
   cursor: pointer;
   height: 100%;
+  padding-top: 4px;
   transition: 200ms ease color;
+  user-select: none;
 
   :hover {
     color: ${Constants.system.brand};
@@ -60,6 +64,7 @@ const STYLES_PATH = css`
   font-size: 12px;
   text-transform: uppercase;
   overflow-wrap: break-word;
+  user-select: none;
 `;
 
 export default class SceneFile extends React.Component {
@@ -70,7 +75,9 @@ export default class SceneFile extends React.Component {
       <div css={STYLES_FLEX}>
         <div css={STYLES_TOP}>
           <div css={STYLES_LEFT}>
-            <span css={STYLES_PATH}>{fileURL}</span>
+            <a css={STYLES_PATH} href={fileURL} target="_blank">
+              {fileURL}
+            </a>
           </div>
           <div css={STYLES_RIGHT} onClick={() => this.props.onBack()}>
             <SVG.Dismiss height="24px" />

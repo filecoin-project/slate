@@ -80,7 +80,12 @@ export default class ApplicationPage extends React.Component {
     const response = await fetch(`/api/data/${file.name}`, options);
     const json = await response.json();
 
-    if (!json && json.data) {
+    if (!json) {
+      this.setState({ sidebar: null, fileLoading: false });
+      return;
+    }
+
+    if (json.error) {
       this.setState({ sidebar: null, fileLoading: false });
       return;
     }
@@ -144,20 +149,23 @@ export default class ApplicationPage extends React.Component {
       slate = { ...current.target, id: current.target.slateId };
     }
 
-    this._handleAction({
-      type: "SIDEBAR",
-      value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-      data: slate,
-    });
-
     if (e.dataTransfer.items) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
 
+          console.log(file);
+
           if (Validations.isFileTypeAllowed(file.type)) {
+            this._handleAction({
+              type: "SIDEBAR",
+              value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+              data: slate,
+            });
+
             await this._handleSetFile({ file, slate });
           }
+
           break;
         }
       }

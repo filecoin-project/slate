@@ -42,6 +42,16 @@ const STYLES_PDF = css`
 
 class Item extends React.Component {
   render() {
+    if (this.props.type && this.props.type.startsWith("video/")) {
+      return (
+        <span css={STYLES_ITEM}>
+          <div css={STYLES_PDF} onClick={this.props.onClick}>
+            Video
+          </div>
+        </span>
+      );
+    }
+
     if (this.props.type && this.props.type.startsWith("application/pdf")) {
       return (
         <span css={STYLES_ITEM}>

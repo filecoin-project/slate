@@ -22,6 +22,7 @@ const STYLES_BACKGROUND = css`
 `;
 
 const STYLES_BOX = css`
+  user-select: none;
   height: 32px;
   width: 32px;
   border-radius: 32px;

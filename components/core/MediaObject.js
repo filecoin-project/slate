@@ -24,10 +24,11 @@ const STYLES_OBJECT = css`
   width: 100%;
   min-height: 10%;
   height: 100%;
+  user-select: none;
 `;
 
 const STYLES_ASSET = css`
-  background-color: ${Constants.system.pitchBlack};
+  user-select: none;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -40,6 +41,7 @@ const STYLES_ASSET = css`
 `;
 
 const STYLES_IMAGE = css`
+  user-select: none;
   display: block;
   max-width: 100%;
   max-height: 100%;
@@ -53,6 +55,14 @@ export default class MediaObject extends React.Component {
 
     if (type.startsWith("application/pdf")) {
       return <object css={STYLES_OBJECT} data={url} type={type} />;
+    }
+
+    if (type.startsWith("video/")) {
+      return (
+        <video autoPlay controls name="media" css={STYLES_OBJECT}>
+          <source src={url} type={type} />
+        </video>
+      );
     }
 
     if (type.startsWith("image/") || this.props.useImageFallback) {

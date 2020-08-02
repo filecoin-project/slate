@@ -4,9 +4,10 @@ const path = require("path");
 const fs = require("fs-extra");
 
 // NOTE(colin): use NEXTJS Production build
-process.env.NODE_ENV = "production";
+if (process.env.NODE_ENV == undefined) process.env.NODE_ENV = "production";
 // NOTE(colin): allow API connection
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+if (process.env.NODE_TLS_REJECT_UNAUTHORIZED == undefined)
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 function bootServer() {
   // TODO(colin): Spin up server on a child process

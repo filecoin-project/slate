@@ -48,6 +48,7 @@ export default class ApplicationPage extends React.Component {
     data: null,
     sidebar: null,
     sidebarLoading: false,
+    online: null,
   };
 
   async componentDidMount() {
@@ -55,6 +56,9 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("dragleave", this._handleDragLeave);
     window.addEventListener("dragover", this._handleDragOver);
     window.addEventListener("drop", this._handleDrop);
+
+    window.addEventListener("online", this._handleOnlineStatus);
+    window.addEventListener("offline", this._handleOnlineStatus);
   }
 
   componentWillUnmount() {
@@ -64,11 +68,19 @@ export default class ApplicationPage extends React.Component {
     window.removeEventListener("drop", this._handleDrop);
   }
 
+  _handleOnlineStatus = async () => {
+    window.alert(navigator.onLine ? "online" : "offline");
+    this.setState({ online: navigator.onLine });
+  };
+
   _handleSetFile = async ({ file, slate }) => {
+    //
+    console.log(file);
     this.setState({ fileLoading: true });
 
     let data = new FormData();
-    data.append("data", file);
+    data.append("image", file);
+    console.log(data);
 
     const options = {
       method: "POST",
@@ -241,7 +253,8 @@ export default class ApplicationPage extends React.Component {
   _handleDeleteYourself = async () => {
     // TODO(jim):
     // Put this somewhere better for messages.
-    const message = "Do you really want to delete your account? It will be permanently removed";
+    const message =
+      "Do you really want to delete your account? It will be permanently removed";
     if (!window.confirm(message)) {
       return false;
     }
@@ -441,8 +454,12 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           title="Slate: sign in"
           description="Sign in to your Slate account to manage your assets."
-          url="https://slate.host/application">
-          <SceneSignIn onAuthenticate={this._handleAuthenticate} onNavigateTo={this._handleNavigateTo} />
+          url="https://slate.host/application"
+        >
+          <SceneSignIn
+            onAuthenticate={this._handleAuthenticate}
+            onNavigateTo={this._handleNavigateTo}
+          />
         </WebsitePrototypeWrapper>
       );
     }
@@ -515,12 +532,17 @@ export default class ApplicationPage extends React.Component {
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper title={title} description={description} url={url}>
+        <WebsitePrototypeWrapper
+          title={title}
+          description={description}
+          url={url}
+        >
           <ApplicationLayout
             navigation={navigationElement}
             header={headerElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}>
+            onDismissSidebar={this._handleDismissSidebar}
+          >
             {scene}
           </ApplicationLayout>
         </WebsitePrototypeWrapper>

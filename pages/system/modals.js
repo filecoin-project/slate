@@ -84,8 +84,7 @@ import { GlobalModal, dispatchCustomEvent } from "slate-react-system";`}
         <System.H2>Modal</System.H2>
         <hr />
         <br />
-        <System.ButtonSecondary
-          full
+        <System.ButtonSecondaryFull
           onClick={() =>
             this._handleCreate({
               modal: (
@@ -109,7 +108,7 @@ import { GlobalModal, dispatchCustomEvent } from "slate-react-system";`}
           }
         >
           Click for modal popup
-        </System.ButtonSecondary>
+        </System.ButtonSecondaryFull>
         <br />
         <System.P>
           While the Modal component is always present, a modal will only appear
@@ -146,12 +145,11 @@ import { GlobalModal, dispatchCustomEvent } from "slate-react-system";`}
       </div>
     );
     return (
-      <ButtonSecondary
-        full
+      <ButtonSecondaryFull
         onClick={() => this._handleCreate({ modal: modalContent })}
       >
         Click for modal popup
-      </ButtonSecondary>
+      </ButtonSecondaryFull>
     );
   }
 }`}

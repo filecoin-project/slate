@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import {
-  ButtonPrimary,
-  ButtonSecondary,
+  ButtonPrimaryFull,
+  ButtonSecondaryFull,
 } from "~/components/system/components/Buttons";
 
 import { css } from "@emotion/react";
@@ -96,17 +96,16 @@ export class CreateFilecoinStorageDeal extends React.Component {
             </div>
           </div>
         ) : null}
-        <ButtonSecondary full type="label" htmlFor="file">
+        <ButtonSecondaryFull type="label" htmlFor="file">
           Add file
-        </ButtonSecondary>
+        </ButtonSecondaryFull>
         {this.state.file ? (
-          <ButtonPrimary
-            full
+          <ButtonPrimaryFull
             style={{ marginTop: 24 }}
             onClick={this._handleSubmit}
           >
             Make storage deal
-          </ButtonPrimary>
+          </ButtonPrimaryFull>
         ) : null}
       </div>
     );

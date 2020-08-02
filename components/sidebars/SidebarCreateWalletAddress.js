@@ -89,22 +89,20 @@ export default class SidebarCreateWalletAddress extends React.Component {
           Make this wallet the default
         </System.CheckBox>
 
-        <System.ButtonPrimary
-          full
+        <System.ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
           loading={this.state.loading}
         >
           Create {this.state.name}
-        </System.ButtonPrimary>
+        </System.ButtonPrimaryFull>
 
-        <System.ButtonSecondary
-          full
+        <System.ButtonSecondaryFull
           style={{ marginTop: 16 }}
           onClick={this._handleCancel}
         >
           Cancel
-        </System.ButtonSecondary>
+        </System.ButtonSecondaryFull>
       </div>
     );
   }

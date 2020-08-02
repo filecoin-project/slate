@@ -82,24 +82,22 @@ export default class SidebarAddFileToBucket extends React.Component {
           </System.P>
         ) : null}
 
-        <System.ButtonPrimary
-          full
+        <System.ButtonPrimaryFull
           type="label"
           htmlFor="file"
           style={{ marginTop: 24 }}
           loading={this.props.fileLoading}
         >
           Add file
-        </System.ButtonPrimary>
+        </System.ButtonPrimaryFull>
 
         {!this.props.fileLoading ? (
-          <System.ButtonSecondary
-            full
+          <System.ButtonSecondaryFull
             style={{ marginTop: 16 }}
             onClick={this.props.onCancel}
           >
             Cancel
-          </System.ButtonSecondary>
+          </System.ButtonSecondaryFull>
         ) : null}
       </React.Fragment>
     );

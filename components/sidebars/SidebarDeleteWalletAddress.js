@@ -27,21 +27,19 @@ export default class SidebarDeleteWalletAddress extends React.Component {
           Are you sure you want to delete the selected wallet?
         </System.P>
 
-        <System.ButtonPrimary
-          full
+        <System.ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
         >
           Delete
-        </System.ButtonPrimary>
+        </System.ButtonPrimaryFull>
 
-        <System.ButtonSecondary
-          full
+        <System.ButtonSecondaryFull
           style={{ marginTop: 16 }}
           onClick={this._handleCancel}
         >
           Cancel
-        </System.ButtonSecondary>
+        </System.ButtonSecondaryFull>
       </div>
     );
   }

@@ -59,58 +59,7 @@ const STYLES_BUTTON_PRIMARY = css`
   }
 `;
 
-const STYLES_BUTTON_PRIMARY_FULL = css`
-  ${STYLES_BUTTON_FULL}
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  background-color: ${Constants.system.brand};
-  color: ${Constants.system.white};
-
-  :hover {
-    background-color: #003fe3;
-  }
-
-  :focus {
-    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: ${Constants.system.brand};
-    outline: 0;
-    border: 0;
-  }
-`;
-
 export const ButtonPrimary = (props) => {
-  if (props.full) {
-    if (props.loading) {
-      return (
-        <button css={STYLES_BUTTON_PRIMARY_FULL} style={props.style}>
-          <LoaderSpinner style={{ height: 16, width: 16 }} />
-        </button>
-      );
-    }
-
-    if (props.type === "label") {
-      return (
-        <label
-          css={STYLES_BUTTON_PRIMARY_FULL}
-          style={props.style}
-          onClick={props.onClick}
-          children={props.children}
-          type={props.label}
-          htmlFor={props.htmlFor}
-        />
-      );
-    }
-
-    return (
-      <button
-        css={STYLES_BUTTON_PRIMARY_FULL}
-        style={props.style}
-        onClick={props.onClick}
-        children={props.children}
-      />
-    );
-  }
-
   if (props.loading) {
     return (
       <button css={STYLES_BUTTON_PRIMARY} style={props.style}>
@@ -141,6 +90,25 @@ export const ButtonPrimary = (props) => {
     />
   );
 };
+
+const STYLES_BUTTON_PRIMARY_FULL = css`
+  ${STYLES_BUTTON_FULL}
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  background-color: ${Constants.system.brand};
+  color: ${Constants.system.white};
+
+  :hover {
+    background-color: #003fe3;
+  }
+
+  :focus {
+    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
+    background-color: ${Constants.system.brand};
+    outline: 0;
+    border: 0;
+  }
+`;
 
 export const ButtonPrimaryFull = (props) => {
   if (props.loading) {
@@ -193,6 +161,14 @@ const STYLES_BUTTON_SECONDARY = css`
   }
 `;
 
+export const ButtonSecondary = (props) => {
+  if (props.type === "label") {
+    return <label css={STYLES_BUTTON_SECONDARY} {...props} />;
+  }
+
+  return <button css={STYLES_BUTTON_SECONDARY} {...props} />;
+};
+
 const STYLES_BUTTON_SECONDARY_FULL = css`
   ${STYLES_BUTTON_FULL}
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -211,39 +187,6 @@ const STYLES_BUTTON_SECONDARY_FULL = css`
     border: 0;
   }
 `;
-
-export const ButtonSecondary = (props) => {
-  if (props.full) {
-    if (props.loading) {
-      return (
-        <button css={STYLES_BUTTON_SECONDARY_FULL} style={props.style}>
-          <LoaderSpinner style={{ height: 16, width: 16 }} />
-        </button>
-      );
-    }
-
-    if (props.type === "label") {
-      return (
-        <label
-          css={STYLES_BUTTON_SECONDARY_FULL}
-          style={props.style}
-          onClick={props.onClick}
-          children={props.children}
-          type={props.label}
-          htmlFor={props.htmlFor}
-        />
-      );
-    }
-
-    return <button css={STYLES_BUTTON_SECONDARY_FULL} {...props} />;
-  }
-
-  if (props.type === "label") {
-    return <label css={STYLES_BUTTON_SECONDARY} {...props} />;
-  }
-
-  return <button css={STYLES_BUTTON_SECONDARY} {...props} />;
-};
 
 export const ButtonSecondaryFull = (props) => {
   if (props.loading) {
@@ -282,6 +225,10 @@ const STYLES_BUTTON_DISABLED = css`
   }
 `;
 
+export const ButtonDisabled = (props) => {
+  return <button css={STYLES_BUTTON_DISABLED} {...props} />;
+};
+
 const STYLES_BUTTON_DISABLED_FULL = css`
   ${STYLES_BUTTON_FULL}
   cursor: not-allowed;
@@ -293,15 +240,6 @@ const STYLES_BUTTON_DISABLED_FULL = css`
     border: 0;
   }
 `;
-
-export const ButtonDisabled = (props) => {
-  return (
-    <button
-      css={props.full ? STYLES_BUTTON_DISABLED_FULL : STYLES_BUTTON_DISABLED}
-      {...props}
-    />
-  );
-};
 
 export const ButtonDisabledFull = (props) => {
   return <button css={STYLES_BUTTON_DISABLED_FULL} {...props} />;

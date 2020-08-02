@@ -2,9 +2,13 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { Input } from "~/components/system/components/Input";
-import { SelectMenu } from "~/components/system/components/SelectMenus";
+import {
+  SelectMenu,
+} from "~/components/system/components/SelectMenus";
 import { CheckBox } from "~/components/system/components/CheckBox";
-import { ButtonPrimary } from "~/components/system/components/Buttons";
+import {
+  ButtonPrimaryFull,
+} from "~/components/system/components/Buttons";
 import { css } from "@emotion/react";
 
 const SELECT_MENU_OPTIONS = [
@@ -81,13 +85,12 @@ export class CreateFilecoinAddress extends React.Component {
           Make this wallet the default
         </CheckBox>
 
-        <ButtonPrimary
-          full
+        <ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
         >
           Create address
-        </ButtonPrimary>
+        </ButtonPrimaryFull>
       </div>
     );
   }

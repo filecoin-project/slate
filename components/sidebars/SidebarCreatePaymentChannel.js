@@ -87,13 +87,12 @@ export default class SidebarCreatePaymentChannel extends React.Component {
           <div css={STYLES_SUBTEXT}>Total Filecoin</div>
         </div>
 
-        <System.ButtonPrimary
-          full
+        <System.ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
         >
           Send
-        </System.ButtonPrimary>
+        </System.ButtonPrimaryFull>
       </React.Fragment>
     );
   }

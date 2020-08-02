@@ -64,22 +64,20 @@ export default class SidebarCreateSlate extends React.Component {
           {this.props.viewer.username}/{Strings.createSlug(this.state.name)}
         </System.P>
 
-        <System.ButtonPrimary
-          full
+        <System.ButtonPrimaryFull
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
           loading={this.state.loading}
         >
           Create {this.state.name}
-        </System.ButtonPrimary>
+        </System.ButtonPrimaryFull>
 
-        <System.ButtonSecondary
-          full
+        <System.ButtonSecondaryFull
           style={{ marginTop: 16 }}
           onClick={this._handleCancel}
         >
           Cancel
-        </System.ButtonSecondary>
+        </System.ButtonSecondaryFull>
       </div>
     );
   }

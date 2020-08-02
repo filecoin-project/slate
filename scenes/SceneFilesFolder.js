@@ -62,14 +62,14 @@ export default class SceneFilesFolder extends React.Component {
 
     const data = {
       columns: [
-        { key: "name", name: "File", type: "FILE_LINK", width: "100%" },
-        { key: "type", name: "Type" },
+        { key: "name", name: "File", type: "FILE_LINK", width: "328px" },
         {
           key: "size",
           name: "Size",
           width: "116px",
           type: "FILE_SIZE",
         },
+        { key: "type", name: "Type", type: "TEXT_TAG", width: "136px" },
         {
           key: "networks",
           name: "Networks",

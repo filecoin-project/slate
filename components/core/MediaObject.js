@@ -49,21 +49,20 @@ export default class MediaObject extends React.Component {
   render() {
     const name = `${this.props.data.name}`;
     const url = this.props.data.url ? this.props.data.url : `https://hub.textile.io${this.props.data.ipfs}`;
+    const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
 
-    let mediaElement = <div css={STYLES_FAILURE}>No Preview</div>;
-
-    if (this.props.data.type.startsWith("application/pdf")) {
-      mediaElement = <object css={STYLES_OBJECT} data={url} type={this.props.data.type} />;
+    if (type.startsWith("application/pdf")) {
+      return <object css={STYLES_OBJECT} data={url} type={type} />;
     }
 
-    if (this.props.data.type.startsWith("image/")) {
-      mediaElement = (
+    if (type.startsWith("image/") || this.props.useImageFallback) {
+      return (
         <div css={STYLES_ASSET}>
           <img css={STYLES_IMAGE} src={url} />
         </div>
       );
     }
 
-    return mediaElement;
+    return <div css={STYLES_FAILURE}>No Preview</div>;
   }
 }

@@ -14,9 +14,9 @@ export default class SceneSlate extends React.Component {
 
     const slates = {
       columns: [
-        { key: "name", name: "Data", type: "FILE_LINK", width: "288px" },
-        { key: "type", name: "Data type" },
-        { key: "url", name: "Asset URL", width: "100%" },
+        { key: "name", name: "Data", type: "FILE_LINK", width: "328px" },
+        { key: "url", name: "Data URL", width: "100%" },
+        { key: "type", name: "Data type", type: "TEXT_TAG", width: "136px" },
       ],
       rows: images,
     };
@@ -34,7 +34,7 @@ export default class SceneSlate extends React.Component {
         value: url,
       },
       {
-        name: "Add image",
+        name: "Upload data",
         type: "SIDEBAR",
         value: "SIDEBAR_ADD_FILE_TO_BUCKET",
         data: this.props.current,
@@ -43,10 +43,14 @@ export default class SceneSlate extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>
+        <System.DescriptionGroup
+          label="Will the Slate page look like this in the final product?"
+          description="No! Consider this page just a functionality test. Slates will be collaborative mood boards and will have a much more intuitive experience than this."
+        />
+        <System.H1 style={{ marginTop: 48 }}>
           https://slate.host/@{this.props.viewer.username}/{slatename}
         </System.H1>
-        <Section title="Images" buttons={slateButtons} onAction={this.props.onAction}>
+        <Section title="Slate elements" buttons={slateButtons} onAction={this.props.onAction}>
           <System.Table
             data={slates}
             name={`/@${this.props.viewer.username}/${slatename}`}

@@ -37,18 +37,16 @@ export default class SceneSlates extends React.Component {
     };
 
     // TODO(jim): Refactor later.
-    const slateButtons = [
-      { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
-    ];
+    const slateButtons = [{ name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" }];
 
     return (
       <ScenePage>
-        <System.H1>Slates</System.H1>
-        <Section
-          title="Slates"
-          buttons={slateButtons}
-          onAction={this.props.onAction}
-        >
+        <System.DescriptionGroup
+          label="Will the Slates page look like this in the final product?"
+          description="No! Consider this page just a functionality test. Slates will be collaborative mood boards and will have a much more intuitive experience than this."
+        />
+        <System.H1 style={{ marginTop: 48 }}>Slates</System.H1>
+        <Section title="Slates" buttons={slateButtons} onAction={this.props.onAction}>
           <System.Table
             data={slates}
             name="slate"

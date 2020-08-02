@@ -83,14 +83,14 @@ export default class SceneHome extends React.Component {
     // TODO(jim): Refactor later.
     const data = {
       columns: [
-        { key: "name", name: "Data", type: "FILE_LINK", width: "100%" },
-        { key: "type", name: "Type" },
+        { key: "name", name: "Data", type: "FILE_LINK", width: "328px" },
         {
           key: "size",
           name: "Size",
           width: "140px",
           type: "FILE_SIZE",
         },
+        { key: "type", name: "Type", type: "TEXT_TAG", width: "136px" },
         {
           key: "date",
           name: "Date uploaded",
@@ -101,7 +101,7 @@ export default class SceneHome extends React.Component {
           key: "networks",
           name: "Network",
           type: "NETWORK_TYPE",
-          width: "188px",
+          width: "100%",
           tooltip: "This data is publicly available to share on the internet!",
         },
       ],
@@ -148,7 +148,11 @@ export default class SceneHome extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>Home</System.H1>
+        <System.DescriptionGroup
+          label="Will the Home page look like this in the final product?"
+          description="No! Consider this page just a functionality test. Home will have Filecoin network analytics and updates from the people you engage with."
+        />
+        <System.H1 style={{ marginTop: 48 }}>Home</System.H1>
         {this.props.viewer.addresses[0] ? (
           <Section title="Wallet addresses" buttons={walletButtons} onAction={this.props.onAction}>
             <System.Table

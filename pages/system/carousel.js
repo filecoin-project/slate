@@ -120,29 +120,24 @@ import {
       maxWidth: "80%", 
       display: "block" 
     };
-
     const slides = [
       <img key="i-1" src="/static/social.png" style={style} />,
       <img key="i-2" src="/static/social.jpg" style={style} />
     ];
-
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: { slides },
     });
   }
-
   _handleOpen = () => {
     dispatchCustomEvent({ 
       name: "slate-global-open-carousel"
       detail: { index: 0 } 
     });
   };
-
   _handleClose = () => {
     dispatchCustomEvent({ name: "slate-global-close-carousel" });
   };
-
   render() {
     return (
       <System.ButtonSecondaryFull onClick={this._handleOpen}>

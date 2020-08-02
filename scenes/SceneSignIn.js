@@ -150,13 +150,14 @@ export default class SceneSignIn extends React.Component {
           Password should be at least 8 characters
         </div>
 
-        <System.ButtonPrimaryFull
+        <System.ButtonPrimary
+          full
           style={{ marginTop: 48 }}
           onClick={!this.state.loading ? this._handleSubmit : () => {}}
           loading={this.state.loading}
         >
           Sign in
-        </System.ButtonPrimaryFull>
+        </System.ButtonPrimary>
       </div>
     );
 

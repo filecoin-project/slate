@@ -2,9 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { Input } from "~/components/system/components/Input";
-import {
-  ButtonPrimaryFull,
-} from "~/components/system/components/Buttons";
+import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`
@@ -67,12 +65,13 @@ export class SendAddressFilecoin extends React.Component {
           onChange={this._handleChange}
         />
 
-        <ButtonPrimaryFull
+        <ButtonPrimary
+          full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
         >
           Send {this.state.amount} FIL
-        </ButtonPrimaryFull>
+        </ButtonPrimary>
       </div>
     );
   }

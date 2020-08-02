@@ -116,20 +116,22 @@ export default class SidebarWalletSendFunds extends React.Component {
           <div css={STYLES_SUBTEXT}>Total Filecoin</div>
         </div>
 
-        <System.ButtonPrimaryFull
+        <System.ButtonPrimary
+          full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
           loading={this.state.loading}
         >
           Send
-        </System.ButtonPrimaryFull>
+        </System.ButtonPrimary>
 
-        <System.ButtonSecondaryFull
+        <System.ButtonSecondary
+          full
           style={{ marginTop: 16 }}
           onClick={this._handleCancel}
         >
           Cancel
-        </System.ButtonSecondaryFull>
+        </System.ButtonSecondary>
       </React.Fragment>
     );
   }

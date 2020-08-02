@@ -22,9 +22,7 @@ export default async (req, res) => {
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(500)
-      .json({ decorator: "SERVER_USER_DELETE", error: true });
+    return res.status(500).json({ decorator: "SERVER_USER_DELETE", error: true });
   }
 
   const user = await Data.getUserById({
@@ -32,26 +30,23 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res
-      .status(404)
-      .json({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
+    return res.status(404).json({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
-    return res
-      .status(500)
-      .json({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
+    return res.status(500).json({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
   }
 
   await Data.deleteAPIKeysForUserId({ userId: user.id });
+  await Data.deleteSlatesForUserId({ userId: user.id });
 
   const i = await Libp2pCryptoIdentity.fromString(user.data.tokens.api);
   const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
-  await b.getToken(i);
-  await b.open("data");
+  const tokenResponse = await b.getToken(i);
+  const openResponse = await b.open("data");
 
   try {
-    const response = await b.remove("data");
+    const response = await b.remove(openResponse.key);
     console.log({ response });
   } catch (e) {
     console.log(e);
@@ -62,9 +57,7 @@ export default async (req, res) => {
   });
 
   if (!deleted) {
-    return res
-      .status(200)
-      .json({ decorator: "SERVER_USER_DELETE", error: true });
+    return res.status(200).json({ decorator: "SERVER_USER_DELETE", error: true });
   }
 
   return res.status(200).json({ decorator: "SERVER_USER_DELETE", deleted });

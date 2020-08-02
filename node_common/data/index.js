@@ -9,6 +9,7 @@ import getSlateByName from "~/node_common/data/methods/get-slate-by-name";
 import getSlateById from "~/node_common/data/methods/get-slate-by-id";
 import getSlatesByUserId from "~/node_common/data/methods/get-slates-by-user-id";
 import updateSlateById from "~/node_common/data/methods/update-slate-by-id";
+import deleteSlatesForUserId from "~/node_common/data/methods/delete-slates-for-user-id";
 
 import createAPIKeyForUserId from "~/node_common/data/methods/create-api-key-for-user-id";
 import deleteAPIKeyById from "~/node_common/data/methods/delete-api-key-by-id";
@@ -30,6 +31,7 @@ export {
   getSlateById,
   getSlatesByUserId,
   updateSlateById,
+  deleteSlatesForUserId,
   // NOTE(jim): API key operations,
   createAPIKeyForUserId,
   deleteAPIKeyById,

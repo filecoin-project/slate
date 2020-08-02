@@ -64,7 +64,7 @@ app.prepare().then(async () => {
       return res.redirect("/404");
     }
 
-    const slates = await Data.getSlatesByUserId({ userId: creator.id });
+    const slates = await Data.getSlatesByUserId({ userId: creator.id, publicOnly: true });
 
     return app.render(req, res, "/profile", {
       viewer,
@@ -83,6 +83,11 @@ app.prepare().then(async () => {
 
     if (!slate) {
       return res.redirect("/404");
+    }
+
+    if (!slate.data.public) {
+      // TODO(jim): Access denied page.
+      return res.redirect("/403");
     }
 
     return app.render(req, res, "/slate", {

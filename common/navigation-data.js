@@ -43,7 +43,6 @@ const constructSlatesTreeForNavigation = (slates) => {
   return slates.map((s) => {
     return {
       ...s,
-      id: `slate-${s.slatename}`,
       slateId: s.id,
       name: s.slatename,
       pageTitle: `Viewing ${s.slatename}`,

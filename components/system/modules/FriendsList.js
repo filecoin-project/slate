@@ -26,7 +26,7 @@ const STYLES_BUTTON = `
 `;
 
 const STYLES_HEADER = css`
-  font-size: ${Constnats.typescale.lvl2};
+  font-size: ${Constants.typescale.lvl2};
   margin-bottom: 8px;
 `;
 

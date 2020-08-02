@@ -17,9 +17,7 @@ export const createBucket = ({ id, name }) => {
 
 // NOTE(jim):
 // Every root level user gets a bucket.
-export const init = ({ bucketName, readableName }) => [
-  createBucket({ id: bucketName, name: readableName }),
-];
+export const init = ({ bucketName, readableName }) => [createBucket({ id: bucketName, name: readableName })];
 
 export const createLocalDataIncomplete = ({ type, size, name }) => {
   return {
@@ -75,7 +73,7 @@ export const updateDataById = ({ user, id, data }) => {
     for (let j = 0; j < library[i].children.length; j++) {
       if (library[i].children[j].id === id) {
         library[i].children[j] = data;
-        break;
+        return { ...user.data, library };
       }
     }
   }

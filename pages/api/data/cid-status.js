@@ -21,83 +21,134 @@ export default async (req, res) => {
   initAuth(req, res);
 
   if (!req.body.data) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
+    return res.status(500).send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
+  }
+
+  if (!req.body.data.length) {
+    return res.status(500).send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
   }
 
   const id = Utilities.getIdFromCookie(req);
   const user = await Data.getUserById({
     id,
   });
+
   const PG = Powergate.get(user);
 
-  const changed = [];
+  const success = [];
   const failed = [];
-  // TODO(jim): clean this up.
-  try {
-    for (let i = 0; i < req.body.data.length; i++) {
-      const x = req.body.data[i];
+  const reset = [];
 
-      if (!x.job) {
-        failed.push(x);
-        continue;
-      }
+  for (let i = 0; i < req.body.data.length; i++) {
+    const x = req.body.data[i];
 
-      // TODO(jim): A hack, I just want the first job object from a stream.
-      const job = await check(PG, x.job);
-
-      // TODO(jim): This isn't correct.
-      // There is a bug where everything is going to hot storage.
-      // Which is fine... But its not real Filecoin storage then.
-      if (job.status > 1) {
-        console.log("CID SUCCESS (3): ", job.cid);
-        changed.push(x);
-        continue;
-      }
-
-      // NOTE(jim): Still waiting for things to happen.
-      if (job.status === 1) {
-        console.log("CID WAITING (1): ", job.cid);
-        continue;
-      }
+    if (!x.job) {
+      failed.push(x);
+      continue;
     }
-  } catch (e) {
-    console.log(e);
+
+    if (!x.ipfs) {
+      failed.push(x);
+      continue;
+    }
+
+    let job;
+    try {
+      job = await check(PG, x.job);
+    } catch (e) {
+      console.log(e);
+    }
+
+    if (job.status === 3) {
+      console.log({ message: "ERROR", job });
+      x.error = job.errCause;
+      failed.push(x);
+      continue;
+    }
+
+    if (job.status === 5) {
+      console.log({ message: "SUCCESS", job });
+      x.error = null;
+      success.push(x);
+      continue;
+    }
+
+    if (x.error) {
+      x.error = null;
+      reset.push(x);
+    }
+
+    console.log({ message: "NOOP", job });
   }
 
-  // NOTE(jim): For failed uploads. Bail!
+  let targetUser = { ...user };
+
   if (failed.length) {
     for (let i = 0; i < failed.length; i++) {
-      let data = LibraryManager.getDataByIPFS(user, failed[i].ipfs);
+      let data = LibraryManager.getDataByIPFS(targetUser, failed[i].ipfs);
+      if (!data) {
+        continue;
+      }
+
       data.networks = data.networks.filter((each) => each !== "FILECOIN");
       data.job = null;
       data.storage = 0;
-      user.data = LibraryManager.updateDataById({ user, id: data.id, data });
+      data.error = failed[i].error;
+
+      targetUser.data = LibraryManager.updateDataById({
+        user: targetUser,
+        id: data.id,
+        data,
+      });
     }
   }
 
-  // NOTE(jim): Otherwise say its on the network...
-  if (changed.length) {
-    for (let i = 0; i < changed.length; i++) {
-      let data = LibraryManager.getDataByIPFS(user, changed[i].ipfs);
+  if (success.length) {
+    for (let i = 0; i < success.length; i++) {
+      let data = LibraryManager.getDataByIPFS(targetUser, success[i].ipfs);
+      if (!data) {
+        continue;
+      }
+
       data.storage = 1;
-      user.data = LibraryManager.updateDataById({ user, id: data.id, data });
+      data.error = null;
+
+      targetUser.data = LibraryManager.updateDataById({
+        user: targetUser,
+        id: data.id,
+        data,
+      });
     }
   }
 
-  // NOTE(jim):
-  // In any of our status checks, if the user needs to be updated.
-  // Update the user.
-  if (changed.length || failed.length) {
-    const response = await Data.updateUserById({
-      id: user.id,
-      data: user.data,
+  if (reset.length) {
+    for (let i = 0; i < reset.length; i++) {
+      let data = LibraryManager.getDataByIPFS(targetUser, reset[i].ipfs);
+      if (!data) {
+        continue;
+      }
+
+      data.error = null;
+
+      targetUser.data = LibraryManager.updateDataById({
+        user: targetUser,
+        id: data.id,
+        data,
+      });
+    }
+  }
+
+  let response;
+  if (success.length || failed.length || reset.length) {
+    response = await Data.updateUserById({
+      id: targetUser.id,
+      data: targetUser.data,
     });
   }
 
   return res.status(200).send({
     decorator: "SERVER_CID_CHECK",
-    update: changed.length || failed.length,
+    update: success.length || failed.length || reset.length,
+    updateResponse: response,
   });
 };

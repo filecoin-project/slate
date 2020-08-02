@@ -3,6 +3,7 @@ import * as NavigationData from "~/common/navigation-data";
 import * as Actions from "~/common/actions";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
+import * as Validations from "~/common/validations";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -11,7 +12,6 @@ import SceneEditAccount from "~/scenes/SceneEditAccount";
 import SceneFile from "~/scenes/SceneFile";
 import SceneFilesFolder from "~/scenes/SceneFilesFolder";
 import SceneHome from "~/scenes/SceneHome";
-import SceneMiners from "~/scenes/SceneMiners";
 import SceneSettings from "~/scenes/SceneSettings";
 import SceneWallet from "~/scenes/SceneWallet";
 import SceneSlates from "~/scenes/SceneSlates";
@@ -26,7 +26,6 @@ import SidebarCreateSlate from "~/components/sidebars/SidebarCreateSlate";
 import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalletAddress";
 import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds";
 import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal";
-import SidebarCreatePaymentChannel from "~/components/sidebars/SidebarCreatePaymentChannel";
 import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket";
 
 // NOTE(jim):
@@ -68,7 +67,7 @@ export default class ApplicationPage extends React.Component {
     this.setState({ fileLoading: true });
 
     let data = new FormData();
-    data.append("image", file);
+    data.append("data", file);
 
     const options = {
       method: "POST",
@@ -156,7 +155,9 @@ export default class ApplicationPage extends React.Component {
         if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
 
-          await this._handleSetFile({ file, slate });
+          if (Validations.isFileTypeAllowed(file.type)) {
+            await this._handleSetFile({ file, slate });
+          }
           break;
         }
       }

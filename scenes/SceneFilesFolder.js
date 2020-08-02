@@ -1,6 +1,4 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
-import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 
@@ -30,13 +28,14 @@ export default class SceneFilesFolder extends React.Component {
     });
 
     console.log({ jobs });
+    if (jobs.length) {
+      const response = await Actions.checkCIDStatus(jobs);
 
-    const response = await Actions.checkCIDStatus(jobs);
+      console.log(response);
 
-    console.log(response);
-
-    if (response && response.update) {
-      await this.props.onRehydrate();
+      if (response && response.update) {
+        await this.props.onRehydrate();
+      }
     }
 
     if (this._interval) {
@@ -63,7 +62,8 @@ export default class SceneFilesFolder extends React.Component {
 
     const data = {
       columns: [
-        { key: "name", name: "File", type: "FILE_LINK" },
+        { key: "name", name: "File", type: "FILE_LINK", width: "100%" },
+        { key: "type", name: "Type" },
         {
           key: "size",
           name: "Size",
@@ -105,7 +105,7 @@ export default class SceneFilesFolder extends React.Component {
           title={this.props.current.name}
           buttons={[
             {
-              name: "Upload to IPFS",
+              name: "Upload data",
               type: "SIDEBAR",
               value: "SIDEBAR_ADD_FILE_TO_BUCKET",
             },

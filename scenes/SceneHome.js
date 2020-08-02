@@ -78,14 +78,13 @@ export default class SceneHome extends React.Component {
     };
 
     // TODO(jim): Refactor later.
-    const slateButtons = [
-      { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
-    ];
+    const slateButtons = [{ name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" }];
 
     // TODO(jim): Refactor later.
     const data = {
       columns: [
-        { key: "name", name: "Data", type: "FILE_LINK" },
+        { key: "name", name: "Data", type: "FILE_LINK", width: "100%" },
+        { key: "type", name: "Type" },
         {
           key: "size",
           name: "Size",
@@ -97,14 +96,13 @@ export default class SceneHome extends React.Component {
           name: "Date uploaded",
           width: "160px",
           type: "FILE_DATE",
-          tooltip:
-            "This date represents when the file was first uploaded to IPFS.",
         },
         {
           key: "networks",
           name: "Network",
           type: "NETWORK_TYPE",
           width: "188px",
+          tooltip: "This data is publicly available to share on the internet!",
         },
       ],
       rows: this.props.viewer.library[0].children.map((each) => {
@@ -123,7 +121,7 @@ export default class SceneHome extends React.Component {
         value: this.props.viewer.library[0].id,
       },
       {
-        name: "Upload to IPFS",
+        name: "Upload data",
         type: "SIDEBAR",
         value: "SIDEBAR_ADD_FILE_TO_BUCKET",
       },
@@ -152,11 +150,7 @@ export default class SceneHome extends React.Component {
       <ScenePage>
         <System.H1>Home</System.H1>
         {this.props.viewer.addresses[0] ? (
-          <Section
-            title="Wallet addresses"
-            buttons={walletButtons}
-            onAction={this.props.onAction}
-          >
+          <Section title="Wallet addresses" buttons={walletButtons} onAction={this.props.onAction}>
             <System.Table
               data={wallet}
               name="transaction"
@@ -166,11 +160,7 @@ export default class SceneHome extends React.Component {
           </Section>
         ) : null}
 
-        <Section
-          title="Slates"
-          buttons={slateButtons}
-          onAction={this.props.onAction}
-        >
+        <Section title="Slates" buttons={slateButtons} onAction={this.props.onAction}>
           <System.Table
             data={slates}
             name="slate"
@@ -180,11 +170,7 @@ export default class SceneHome extends React.Component {
         </Section>
 
         {this.props.viewer.library[0] ? (
-          <Section
-            title="Recent data"
-            buttons={dataButtons}
-            onAction={this.props.onAction}
-          >
+          <Section title="Recent data" buttons={dataButtons} onAction={this.props.onAction}>
             <System.Table
               data={data}
               name="data"

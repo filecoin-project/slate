@@ -15,6 +15,7 @@ export default class SceneSlate extends React.Component {
     const slates = {
       columns: [
         { key: "name", name: "Data", type: "FILE_LINK", width: "288px" },
+        { key: "type", name: "Data type" },
         { key: "url", name: "Asset URL", width: "100%" },
       ],
       rows: images,
@@ -45,11 +46,7 @@ export default class SceneSlate extends React.Component {
         <System.H1>
           https://slate.host/@{this.props.viewer.username}/{slatename}
         </System.H1>
-        <Section
-          title="Images"
-          buttons={slateButtons}
-          onAction={this.props.onAction}
-        >
+        <Section title="Images" buttons={slateButtons} onAction={this.props.onAction}>
           <System.Table
             data={slates}
             name={`/@${this.props.viewer.username}/${slatename}`}

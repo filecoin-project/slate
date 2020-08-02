@@ -5,8 +5,6 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
-import { POWERGATE_HOST } from "~/node_common/constants";
-
 const addrsList = [
   {
     addr:
@@ -54,7 +52,7 @@ const EXAMPLE_CODE = `import * as React from "react";
 import { FilecoinSettings } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
 
-const PowerGate = createPow({ host: "${POWERGATE_HOST}" });
+const PowerGate = createPow({ host: "https://grpcweb.slate.textile.io" });
 
 class Example extends React.Component {
   componentDidMount = async () => {
@@ -73,7 +71,6 @@ class Example extends React.Component {
   render() {
     return (
       <FilecoinSettings
-        autoApprove={this.state.autoApprove}
         defaultStorageConfig={this.state.defaultStorageConfig}
         addrsList={this.state.addrsList}
         onSave={this._handleSave}
@@ -84,10 +81,6 @@ class Example extends React.Component {
 `;
 
 export default class SystemPageFilecoinSettings extends React.Component {
-  state = {
-    autoApprove: true,
-  };
-
   render() {
     return (
       <SystemPage
@@ -112,7 +105,6 @@ export default class SystemPageFilecoinSettings extends React.Component {
         <br />
         <br />
         <System.FilecoinSettings
-          autoApprove={this.state.autoApprove}
           addrsList={addrsList}
           defaultStorageConfig={defaultStorageConfig}
           onSave={this._handleSave}

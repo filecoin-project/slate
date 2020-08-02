@@ -35,17 +35,58 @@ const STYLES_REJECT_BUTTON = css`
   color: ${Constants.system.black};
 `;
 
-const centerLeftStyle = {
+const STYLES_CENTER_LEFT = {
   display: "flex",
   height: "100%",
   alignItems: "center",
 };
 
-const centerRightStyle = {
+const STYLES_CENTER_RIGHT = {
   display: "flex",
   height: "100%",
   alignItems: "center",
   justifyContent: "flex-end",
+};
+
+const ExpandSection = ({ friend }) => {
+  return (
+    <div>
+      <div
+        style={{
+          display: "grid",
+          alignItems: "center",
+          gridTemplateColumns: "1fr 1fr",
+        }}
+      >
+        {friend.location ? (
+          <div>
+            <SVG.LocationPin
+              height="20px"
+              style={{
+                position: "relative",
+                top: "5px",
+                marginRight: "8px",
+              }}
+            />
+            {friend.location}
+          </div>
+        ) : null}
+        <div style={{ justifySelf: "end" }}>
+          <br />
+          <StatUpload size={friend.upload} style={{ marginRight: "16px" }} />
+          <StatDownload size={friend.download} />
+        </div>
+      </div>
+      <br />
+      <div>
+        <strong>Height</strong>: {friend.height}
+      </div>
+      <br />
+      <div style={{ wordBreak: "break-word" }}>
+        <strong>Chain Head</strong>: {friend.chainHead}
+      </div>
+    </div>
+  );
 };
 
 export class FriendsList extends React.Component {
@@ -60,11 +101,7 @@ export class FriendsList extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div
-          style={{ fontSize: Constants.typescale.lvl2, marginBottom: "8px" }}
-        >
-          Requests
-        </div>
+        <div css={STYLES_HEADER}>Requests</div>
         <Table
           noColor
           noLabel
@@ -73,23 +110,23 @@ export class FriendsList extends React.Component {
               {
                 key: "image",
                 width: "64px",
-                style: centerLeftStyle,
+                style: STYLES_CENTER_LEFT,
               },
               {
                 key: "user",
                 width: "100%",
-                style: centerLeftStyle,
+                style: STYLES_CENTER_LEFT,
               },
               {
                 key: "accept",
                 width: "92px",
-                style: centerRightStyle,
+                style: STYLES_CENTER_RIGHT,
                 contentStyle: { padding: "0px" },
               },
               {
                 key: "reject",
                 width: "92px",
-                style: centerRightStyle,
+                style: STYLES_CENTER_RIGHT,
                 contentStyle: { padding: "0px" },
               },
             ],
@@ -98,7 +135,7 @@ export class FriendsList extends React.Component {
                 id: each.user,
                 user: (
                   <a
-                    href={"/" + each.user}
+                    href={`/${each.user}`}
                     target="_blank"
                     style={{
                       color: Constants.system.black,
@@ -140,11 +177,7 @@ export class FriendsList extends React.Component {
         />
         <br />
         <br />
-        <div
-          style={{ fontSize: Constants.typescale.lvl2, marginBottom: "8px" }}
-        >
-          Peers
-        </div>
+        <div css={STYLES_HEADER}>Peers</div>
         <Table
           noColor
           noLabel
@@ -155,12 +188,12 @@ export class FriendsList extends React.Component {
               {
                 key: "image",
                 width: "64px",
-                style: centerLeftStyle,
+                style: STYLES_CENTER_LEFT,
               },
               {
                 key: "user",
                 width: "100%",
-                style: centerLeftStyle,
+                style: STYLES_CENTER_LEFT,
               },
             ],
             rows: this.props.data.friends.map((each) => {
@@ -194,47 +227,7 @@ export class FriendsList extends React.Component {
                     />
                   </div>
                 ),
-                children: (
-                  <div>
-                    <div
-                      style={{
-                        display: "grid",
-                        alignItems: "center",
-                        gridTemplateColumns: "1fr 1fr",
-                      }}
-                    >
-                      {each.info.location ? (
-                        <div>
-                          <SVG.LocationPin
-                            height="20px"
-                            style={{
-                              position: "relative",
-                              top: "5px",
-                              marginRight: "8px",
-                            }}
-                          />
-                          {each.info.location}
-                        </div>
-                      ) : null}
-                      <div style={{ justifySelf: "end" }}>
-                        <br />
-                        <StatUpload
-                          size={each.info.upload}
-                          style={{ marginRight: "16px" }}
-                        />
-                        <StatDownload size={each.info.download} />
-                      </div>
-                    </div>
-                    <br />
-                    <div>
-                      <strong>Height</strong>: {each.info.height}
-                    </div>
-                    <br />
-                    <div style={{ wordBreak: "break-word" }}>
-                      <strong>Chain Head</strong>: {each.info.chainHead}
-                    </div>
-                  </div>
-                ),
+                children: <ExpandSection friend={each.info} />,
               };
             }),
           }}

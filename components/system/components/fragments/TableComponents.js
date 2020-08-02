@@ -100,6 +100,7 @@ const STYLES_COLUMN = css`
   align-items: flex-start;
   justify-content: space-between;
   align-self: stretch;
+  min-width: 10%;
 `;
 
 const STYLES_TOP_COLUMN = css`
@@ -109,6 +110,7 @@ const STYLES_TOP_COLUMN = css`
   justify-content: space-between;
   align-self: stretch;
   transition: 200ms ease all;
+  min-width: 10%;
 `;
 
 const STYLES_CONTENT = css`
@@ -120,6 +122,7 @@ const STYLES_CONTENT = css`
   word-break: break-word;
   overflow-wrap: anywhere;
   font-size: 12px;
+  min-width: 10%;
 `;
 
 const STYLES_CONTENT_BUTTON = css`

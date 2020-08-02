@@ -5,13 +5,11 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
-import { POWERGATE_HOST } from "~/node_common/constants";
-
 const EXAMPLE_CODE = `import * as React from "react";
 import { PeersList } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
 
-const PowerGate = createPow({ host: "${POWERGATE_HOST}" });
+const PowerGate = createPow({ host: "https://grpcweb.slate.textile.io" });
 
 class Example extends React.Component {
   componentDidMount = async () => {

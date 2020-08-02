@@ -1,8 +1,7 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
 import * as System from "~/components/system";
+import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/react";
 
@@ -49,36 +48,33 @@ export default class SidebarAddFileToBucket extends React.Component {
     let file = e.target.files[0];
 
     if (!file) {
-      alert("Something went wrong");
+      alert("TODO: Something went wrong");
+      return;
+    }
+
+    console.log(file);
+
+    const isAllowed = Validations.isFileTypeAllowed(file.type);
+    if (!isAllowed) {
+      alert("TODO: File type is not allowed, yet.");
       return;
     }
 
     await this.props.onSetFile({
       file,
-      slate:
-        this.props.data && this.props.data.slateId
-          ? { id: this.props.data.slateId }
-          : null,
+      slate: this.props.data && this.props.data.slateId ? { id: this.props.data.slateId } : null,
     });
   };
 
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
-          Upload a file to Slate
-        </System.P>
-        <input
-          css={STYLES_FILE_HIDDEN}
-          type="file"
-          id="file"
-          onChange={this._handleUpload}
-        />
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload data</System.P>
+        <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
 
         {this.props.data && this.props.data.decorator === "SLATE" ? (
           <System.P style={{ marginTop: 24 }}>
-            This will add an image to your Slate named{" "}
-            <strong>{this.props.data.slatename}</strong>.
+            This will add data to your Slate named <strong>{this.props.data.slatename}</strong>.
           </System.P>
         ) : null}
 
@@ -86,16 +82,12 @@ export default class SidebarAddFileToBucket extends React.Component {
           type="label"
           htmlFor="file"
           style={{ marginTop: 24 }}
-          loading={this.props.fileLoading}
-        >
-          Add file
+          loading={this.props.fileLoading}>
+          Add data
         </System.ButtonPrimaryFull>
 
         {!this.props.fileLoading ? (
-          <System.ButtonSecondaryFull
-            style={{ marginTop: 16 }}
-            onClick={this.props.onCancel}
-          >
+          <System.ButtonSecondaryFull style={{ marginTop: 16 }} onClick={this.props.onCancel}>
             Cancel
           </System.ButtonSecondaryFull>
         ) : null}

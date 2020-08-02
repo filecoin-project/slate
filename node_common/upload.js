@@ -19,32 +19,30 @@ export const formMultipart = (req, res, { user }) =>
         });
       }
 
-      if (!files.image) {
+      console.log(files);
+
+      if (!files.data) {
         return reject({
-          decorator: "SERVER_UPLOAD_NOT_IMAGE_TYPE",
+          decorator: "SERVER_UPLOAD_ERROR",
           error: true,
           message: files,
         });
       }
 
-      const path = files.image._writeStream.path;
+      const path = files.data._writeStream.path;
       const localPath = `./${path}`;
-      const data = LibraryManager.createLocalDataIncomplete(files.image);
+      const data = LibraryManager.createLocalDataIncomplete(files.data);
 
-      const {
-        buckets,
-        bucketKey,
-        bucketName,
-      } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+      const { buckets, bucketKey, bucketName } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
       let readFile;
       let push;
-      // TODO(jim): Send this file to buckets.
       try {
-        // NOTE(jim): Push pathPath to your bucket.
         readFile = await FS.readFileSync(path).buffer;
         push = await buckets.pushPath(bucketKey, data.name, readFile);
       } catch (e) {
+        await FS.unlinkSync(localPath);
+
         return reject({
           decorator: "SERVER_BUCKETS_PUSH_ISSUE",
           error: true,

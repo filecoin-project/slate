@@ -1,14 +1,10 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as Fixtures from "~/common/fixtures";
-import * as System from "~/components/system";
 import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
 
-import Section from "~/components/core/Section";
-import ScenePage from "~/components/core/ScenePage";
+import MediaObject from "~/components/core/MediaObject";
 
 const STYLES_FLEX = css`
   display: flex;
@@ -17,6 +13,7 @@ const STYLES_FLEX = css`
   justify-content: space-between;
   flex-direction: column;
   height: calc(100vh - ${Constants.sizes.header}px);
+  background-color: ${Constants.system.pitchBlack};
 `;
 
 const STYLES_TOP = css`
@@ -24,7 +21,7 @@ const STYLES_TOP = css`
   border-bottom: 1px solid ${Constants.system.black};
   color: ${Constants.system.white};
   width: 100%;
-  padding: 12px 16px 12px 48px;
+  padding: 12px 16px 12px 16px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -34,30 +31,20 @@ const STYLES_TOP = css`
 const STYLES_LEFT = css`
   min-width: 10%;
   width: 100%;
+  padding-right: 16px;
 `;
 
 const STYLES_RIGHT = css`
   flex-shrink: 0;
   cursor: pointer;
   height: 100%;
+  padding-top: 4px;
   transition: 200ms ease color;
+  user-select: none;
 
   :hover {
     color: ${Constants.system.brand};
   }
-`;
-
-const STYLES_ASSET = css`
-  display: block;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  min-height: 10%;
-  height: 100%;
-  background-color: ${Constants.system.pitchBlack};
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
 `;
 
 const STYLES_BOTTOM = css`
@@ -77,64 +64,26 @@ const STYLES_PATH = css`
   font-size: 12px;
   text-transform: uppercase;
   overflow-wrap: break-word;
-`;
-
-const STYLES_ITEM = css`
-  border-radius: 4px;
-  outline: 0;
-  border: 0;
-  min-height: 32px;
-  padding: 6px 16px 6px 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  letter-spacing: 0.2px;
-  font-family: ${Constants.font.semiBold};
-  transition: 200ms ease all;
-  cursor: pointer;
-  background-color: ${Constants.system.brand};
-  color: ${Constants.system.white};
-  margin-left: 16px;
-
-  :hover {
-    background-color: ${Constants.system.green};
-  }
-
-  :focus {
-    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    outline: 0;
-    border: 0;
-  }
+  user-select: none;
 `;
 
 export default class SceneFile extends React.Component {
-  state = {};
-
-  _handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
   render() {
-    const file = this.props.data;
-
-    const fileName = `${file.name}`;
-    const fileURL = file.url ? file.url : `https://hub.textile.io${file.ipfs}`;
+    const fileURL = this.props.data.url ? this.props.data.url : `https://hub.textile.io${this.props.data.ipfs}`;
 
     return (
       <div css={STYLES_FLEX}>
         <div css={STYLES_TOP}>
           <div css={STYLES_LEFT}>
-            <span css={STYLES_PATH}>{fileName}</span>
+            <a css={STYLES_PATH} href={fileURL} target="_blank">
+              {fileURL}
+            </a>
           </div>
           <div css={STYLES_RIGHT} onClick={() => this.props.onBack()}>
             <SVG.Dismiss height="24px" />
           </div>
         </div>
-        <div
-          css={STYLES_ASSET}
-          style={{ backgroundImage: `url('${fileURL}')` }}
-        />
+        <MediaObject data={this.props.data} />
       </div>
     );
   }

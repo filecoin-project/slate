@@ -45,11 +45,19 @@ const STYLES_IMAGE_PREVIEW = css`
 
 export default class SidebarFileStorageDeal extends React.Component {
   state = {
-    settings_cold_default_duration: this.props.viewer
-      .settings_cold_default_duration,
-    settings_cold_default_replication_factor: this.props.viewer
-      .settings_cold_default_replication_factor,
+    settings_cold_default_duration: this.props.viewer.settings_cold_default_duration,
+    settings_cold_default_replication_factor: this.props.viewer.settings_cold_default_replication_factor,
   };
+
+  async componentDidMount() {
+    if (!this.props.viewer.settings_deals_auto_approve) {
+      return null;
+    }
+
+    console.log("SETTINGS: AUTO DEAL");
+
+    await this._handleSubmit();
+  }
 
   _handleMakeDeal = async ({ ipfs }) => {
     const options = {
@@ -69,7 +77,10 @@ export default class SidebarFileStorageDeal extends React.Component {
   };
 
   _handleSubmit = async (e) => {
-    e.persist();
+    if (e) {
+      e.persist();
+    }
+
     this.props.onSidebarLoading(true);
     await this._handleMakeDeal({ ipfs: this.props.data.ipfs });
     await this.props.onSubmit({});
@@ -88,15 +99,10 @@ export default class SidebarFileStorageDeal extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
-          Upload a file to the network
-        </System.P>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload a file to the network</System.P>
 
         <div>
-          <img
-            src={`https://hub.textile.io${file.ipfs}`}
-            css={STYLES_IMAGE_PREVIEW}
-          />
+          <img src={`https://hub.textile.io${file.ipfs}`} css={STYLES_IMAGE_PREVIEW} />
 
           <div css={STYLES_ITEM}>
             <div css={STYLES_FOCUS}>{file.name}</div>
@@ -109,41 +115,46 @@ export default class SidebarFileStorageDeal extends React.Component {
           </div>
         </div>
 
-        <System.Input
-          containerStyle={{ marginTop: 48 }}
-          label="Deal duration"
-          name="settings_cold_default_duration"
-          placeholder="Type in epochs (~25 seconds)"
-          type="number"
-          value={this.state.settings_cold_default_duration}
-          onChange={this._handleChange}
-        />
+        {!this.props.sidebarLoading ? (
+          <System.Input
+            containerStyle={{ marginTop: 48 }}
+            label="Deal duration"
+            name="settings_cold_default_duration"
+            placeholder="Type in epochs (~25 seconds)"
+            type="number"
+            value={this.state.settings_cold_default_duration}
+            onChange={this._handleChange}
+          />
+        ) : null}
 
-        <System.Input
-          containerStyle={{ marginTop: 24 }}
-          label="Replication factor"
-          name="settings_cold_default_replication_factor"
-          value={this.state.settings_cold_default_replication_factor}
-          onChange={this._handleChange}
-        />
+        {!this.props.sidebarLoading ? (
+          <System.Input
+            containerStyle={{ marginTop: 24 }}
+            label="Replication factor"
+            name="settings_cold_default_replication_factor"
+            value={this.state.settings_cold_default_replication_factor}
+            onChange={this._handleChange}
+          />
+        ) : null}
 
-        <System.SelectMenu
-          full
-          containerStyle={{ marginTop: 24 }}
-          name="address"
-          label="Payment address"
-          value={this.props.selected.address}
-          category="address"
-          onChange={this.props.onSelectedChange}
-          options={this.props.viewer.addresses}
-        />
+        {!this.props.sidebarLoading ? (
+          <System.SelectMenu
+            full
+            containerStyle={{ marginTop: 24 }}
+            name="address"
+            label="Payment address"
+            value={this.props.selected.address}
+            category="address"
+            onChange={this.props.onSelectedChange}
+            options={this.props.viewer.addresses}
+          />
+        ) : null}
 
         <System.ButtonPrimary
           full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
-          loading={this.props.sidebarLoading}
-        >
+          loading={this.props.sidebarLoading}>
           Make storage deal
         </System.ButtonPrimary>
 

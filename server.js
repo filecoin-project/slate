@@ -56,18 +56,23 @@ app.prepare().then(async () => {
       username: req.params.username,
     });
 
+    if (!creator) {
+      return res.redirect("/404");
+    }
+
+    if (creator.error) {
+      return res.redirect("/404");
+    }
+
     const slates = await Data.getSlatesByUserId({ userId: creator.id });
 
     return app.render(req, res, "/profile", {
       viewer,
-      creator:
-        creator && !creator.error
-          ? {
-              username: creator.username,
-              data: { photo: creator.data.photo },
-              slates: JSON.parse(JSON.stringify(slates)),
-            }
-          : null,
+      creator: {
+        username: creator.username,
+        data: { photo: creator.data.photo },
+        slates: JSON.parse(JSON.stringify(slates)),
+      },
     });
   });
 
@@ -76,12 +81,12 @@ app.prepare().then(async () => {
       slatename: req.params.slatename,
     });
 
-    if (slate) {
-      slate.ownername = req.params.username;
+    if (!slate) {
+      return res.redirect("/404");
     }
 
     return app.render(req, res, "/slate", {
-      slate: JSON.parse(JSON.stringify(slate)),
+      slate: JSON.parse(JSON.stringify({ ...slate, ownername: req.params.username })),
     });
   });
 

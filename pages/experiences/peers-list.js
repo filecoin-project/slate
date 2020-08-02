@@ -9,7 +9,7 @@ const EXAMPLE_CODE = `import * as React from "react";
 import { PeersList } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
 
-const PowerGate = createPow({ host: "http://pow.slate.textile.io:6002" });
+const PowerGate = createPow({ host: "https://grpcweb.slate.textile.io" });
 
 class Example extends React.Component {
   componentDidMount = async () => {

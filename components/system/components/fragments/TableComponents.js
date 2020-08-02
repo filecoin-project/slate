@@ -54,27 +54,23 @@ const STYLES_TABLE_TAG = css`
   white-space: nowrap;
 `;
 
+const Tag = (props) => {
+  return <span css={STYLES_TABLE_TAG} {...props} />;
+};
+
 const COMPONENTS_DEAL_DIRECTION = {
-  "1": (
-    <span css={STYLES_TABLE_TAG} style={{ background: Constants.system.green }}>
-      storage
-    </span>
-  ),
-  "2": <span css={STYLES_TABLE_TAG}>retrieval</span>,
+  "1": <Tag style={{ background: Constants.system.green }}>storage</Tag>,
+  "2": <Tag>retrieval</Tag>,
 };
 
 const COMPONENTS_TRANSACTION_DIRECTION = {
-  "1": (
-    <span css={STYLES_TABLE_TAG} style={{ background: Constants.system.green }}>
-      + incoming
-    </span>
-  ),
-  "2": <span css={STYLES_TABLE_TAG}>- outgoing</span>,
+  "1": <Tag style={{ background: Constants.system.green }}>+ incoming</Tag>,
+  "2": <Tag>- outgoing</Tag>,
 };
 
 const COMPONENTS_TRANSACTION_STATUS = {
-  "0": <span css={STYLES_TABLE_TAG}>Qualified</span>,
-  "1": <span css={STYLES_TABLE_TAG}>Sealed On Filecoin</span>,
+  "0": <Tag>Qualified</Tag>,
+  "1": <Tag style={{ background: Constants.system.green }}>Sealed On Filecoin</Tag>,
   "2": <LoaderSpinner style={{ width: 20, height: 20 }} />,
 };
 
@@ -109,20 +105,20 @@ const STYLES_TOP_COLUMN = css`
   align-items: flex-start;
   justify-content: space-between;
   align-self: stretch;
-  min-width: 10%;
   transition: 200ms ease all;
+  min-width: 10%;
 `;
 
 const STYLES_CONTENT = css`
   box-sizing: border-box;
   padding: 12px 12px 12px 12px;
-  min-width: 10%;
   width: 100%;
   align-self: stretch;
   flex-direction: column;
   word-break: break-word;
   overflow-wrap: anywhere;
   font-size: 12px;
+  min-width: 10%;
 `;
 
 const STYLES_CONTENT_BUTTON = css`
@@ -152,6 +148,10 @@ const STYLES_TABLE_CONTENT_LINK = css`
   }
 `;
 
+const Link = (props) => {
+  return <span css={STYLES_TABLE_CONTENT_LINK} {...props} />;
+};
+
 export const TableColumn = (props) => {
   const tooltipElement = props.tooltip ? (
     <Tooltip animation="fade" animateFill={false} title={props.tooltip}>
@@ -172,7 +172,9 @@ export const TableColumn = (props) => {
       css={props.top ? STYLES_TOP_COLUMN : STYLES_COLUMN}
       style={props.style}
     >
-      <span css={STYLES_CONTENT}>{props.children}</span>
+      <span css={STYLES_CONTENT} style={props.contentStyle}>
+        {props.children}
+      </span>
       {tooltipElement}
       {copyableElement}
     </span>
@@ -182,14 +184,7 @@ export const TableColumn = (props) => {
 // TODO(jim): We probably won't use this Table component for long.
 // Once we have components for all the necessary flows. We will probably
 // make bespoke components for each experience.
-export const TableContent = ({
-  type,
-  text,
-  action,
-  data = {},
-  onNavigateTo,
-  onAction,
-}) => {
+export const TableContent = ({ type, text, action, data = {}, onNavigateTo, onAction }) => {
   const { status, online } = data;
 
   if (text === null || text === undefined) {
@@ -198,22 +193,13 @@ export const TableContent = ({
 
   switch (type) {
     case "DEAL_CATEGORY":
-      return (
-        <React.Fragment>{text == 1 ? "Storage" : "Retrieval"}</React.Fragment>
-      );
+      return <React.Fragment>{text == 1 ? "Storage" : "Retrieval"}</React.Fragment>;
     case "BUTTON":
-      return (
-        <span
-          css={STYLES_TABLE_CONTENT_LINK}
-          onClick={() => onAction({ type: "SIDEBAR", value: action, data })}
-        >
-          {text}
-        </span>
-      );
+      return <Link onClick={() => onAction({ type: "SIDEBAR", value: action, data })}>{text}</Link>;
     case "TRANSACTION_DIRECTION":
       return COMPONENTS_TRANSACTION_DIRECTION[text];
     case "TRANSACTION_STATUS":
-      return COMPONENTS_TRANSACTION_STATUS[text];
+      return <React.Fragment>{COMPONENTS_TRANSACTION_STATUS[text]} </React.Fragment>;
     case "OBJECT_TYPE":
       return COMPONENTS_OBJECT_TYPE(text);
     case "ICON":
@@ -226,11 +212,14 @@ export const TableContent = ({
     case "DEAL_STATUS_RETRIEVAL":
       return RETRIEVAL_DEAL_STATES[`${text}`];
     case "DEAL_STATUS":
-      return data["deal_category"] === 1
-        ? STORAGE_DEAL_STATES[`${text}`]
-        : RETRIEVAL_DEAL_STATES[`${text}`];
+      return data["deal_category"] === 1 ? STORAGE_DEAL_STATES[`${text}`] : RETRIEVAL_DEAL_STATES[`${text}`];
     case "STORAGE_DEAL_STATUS":
-      return COMPONENTS_TRANSACTION_STATUS[`${text}`];
+      return (
+        <React.Fragment>
+          {COMPONENTS_TRANSACTION_STATUS[`${text}`]}
+          {data.error ? <Tag style={{ background: Constants.system.red }}>Failed Deal</Tag> : null}
+        </React.Fragment>
+      );
     case "BANDWIDTH_UPLOAD":
       return (
         <React.Fragment>
@@ -246,118 +235,49 @@ export const TableContent = ({
         </React.Fragment>
       );
     case "MINER_AVAILABILITY":
-      return text == 1 ? (
-        <span
-          css={STYLES_TABLE_TAG}
-          style={{ background: Constants.system.green }}
-        >
-          Online
-        </span>
-      ) : null;
+      return text == 1 ? <Tag style={{ background: Constants.system.green }}>Online</Tag> : null;
     case "DEAL_AUTO_RENEW":
-      return text == 1 ? (
-        <span
-          css={STYLES_TABLE_TAG}
-          style={{ background: Constants.system.brand }}
-        >
-          true
-        </span>
-      ) : (
-        <span css={STYLES_TABLE_TAG}>false</span>
-      );
+      return text == 1 ? <Tag style={{ background: Constants.system.brand }}>True</Tag> : <Tag>False</Tag>;
     case "NOTIFICATION_ERROR":
       return (
-        <span
-          css={STYLES_TABLE_TAG}
-          style={{ background: Constants.system.red }}
-        >
+        <Tag style={{ background: Constants.system.red }}>
           {text} {Strings.pluralize("error", text)}
-        </span>
+        </Tag>
       );
     case "NETWORK_TYPE":
-      // TODO(jim): DELETE_THIS_GUARD_CODE
-      if (!text || !text.length || typeof text === "string") {
-        return (
-          <span
-            css={STYLES_TABLE_TAG}
-            style={{ background: Constants.system.brand }}
-          >
-            IPFS
-          </span>
-        );
-      }
-
       return text.map((each) => {
         return (
-          <span
-            css={STYLES_TABLE_TAG}
-            key={each}
-            style={{ background: Constants.system.brand }}
-          >
+          <Tag key={each} style={{ background: Constants.system.brand }}>
             {each}
-          </span>
+          </Tag>
         );
       });
     case "SLATE_PUBLIC_TEXT_TAG":
-      return !text ? (
-        <span css={STYLES_TABLE_TAG}>Private</span>
-      ) : (
-        <span
-          css={STYLES_TABLE_TAG}
-          style={{ background: Constants.system.green }}
-        >
-          Public
-        </span>
-      );
+      return !text ? <Tag>Private</Tag> : <Tag style={{ background: Constants.system.green }}>Public</Tag>;
     case "TEXT_TAG":
-      return <span css={STYLES_TABLE_TAG}>{text}</span>;
-
+      return <Tag>{text}</Tag>;
     case "FILE_DATE":
       return Strings.toDate(text);
     case "FILE_SIZE":
       return Strings.bytesToSize(text, 2);
     case "NEW_WINDOW":
-      // NOTE(jim): Special case to prevent navigation.
       if (!data) {
         return text;
       }
 
-      // NOTE(jim): Navigates to file.
-      return (
-        <span css={STYLES_TABLE_CONTENT_LINK} onClick={() => window.open(text)}>
-          {text}
-        </span>
-      );
+      return <Link onClick={() => window.open(text)}>{text}</Link>;
     case "SLATE_LINK":
-      // NOTE(jim): Special case to prevent navigation.
       if (!data) {
         return text;
       }
 
-      // NOTE(jim): Navigates to file.
-      return (
-        <span
-          css={STYLES_TABLE_CONTENT_LINK}
-          onClick={() => onNavigateTo({ id: `slate-${data.slatename}` }, data)}
-        >
-          {text}
-        </span>
-      );
+      return <Link onClick={() => onNavigateTo({ id: `slate-${data.slatename}` }, data)}>{text}</Link>;
     case "FILE_LINK":
-      // NOTE(jim): Special case to prevent navigation.
       if (!data) {
         return text;
       }
 
-      // NOTE(jim): Navigates to file.
-      return (
-        <span
-          css={STYLES_TABLE_CONTENT_LINK}
-          onClick={() => onNavigateTo({ id: 15 }, data)}
-        >
-          {text}
-        </span>
-      );
+      return <Link onClick={() => onNavigateTo({ id: 15 }, data)}>{text}</Link>;
     default:
       return text;
   }

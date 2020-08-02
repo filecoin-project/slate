@@ -1,8 +1,6 @@
 import * as MW from "~/node_common/middleware";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
-import * as Strings from "~/common/strings";
-import * as Powergate from "~/node_common/powergate";
 
 const initCORS = MW.init(MW.CORS);
 const initAuth = MW.init(MW.RequireCookieAuthentication);
@@ -13,9 +11,7 @@ export default async (req, res) => {
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(403)
-      .json({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
+    return res.status(403).json({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
   }
 
   const user = await Data.getUserById({
@@ -62,6 +58,7 @@ export default async (req, res) => {
           id: req.body.data.id,
           ownerId: user.id,
           name: req.body.data.name,
+          type: req.body.data.type,
           url: `https://hub.textile.io${req.body.data.ipfs}`,
         },
         ...slate.data.objects,
@@ -83,7 +80,5 @@ export default async (req, res) => {
     });
   }
 
-  return res
-    .status(200)
-    .json({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
+  return res.status(200).json({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
 };

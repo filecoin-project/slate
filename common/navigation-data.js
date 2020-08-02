@@ -60,20 +60,6 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "HOME",
     children: null,
   },
-  {
-    id: 2,
-    name: "Wallet",
-    pageTitle: "Your wallet and addresses",
-    decorator: "WALLET",
-    children: [
-      {
-        id: 6,
-        name: "Deal history",
-        pageTitle: "Your deal history",
-        decorator: "DEALS",
-      },
-    ],
-  },
   constructFilesTreeForNavigation(library),
   {
     id: 3,
@@ -133,9 +119,23 @@ export const generate = ({ library = [], slates = [] }) => [
   },
   {
     id: 5,
-    name: "Profile",
+    name: "Public profile",
     pageTitle: "Profile Page",
     decorator: "PROFILE_PAGE",
     children: [],
+  },
+  {
+    id: 2,
+    name: "Filecoin Wallet",
+    pageTitle: "Your wallet and addresses",
+    decorator: "WALLET",
+    children: [
+      {
+        id: 6,
+        name: "Deal history",
+        pageTitle: "Your deal history",
+        decorator: "DEALS",
+      },
+    ],
   },
 ];

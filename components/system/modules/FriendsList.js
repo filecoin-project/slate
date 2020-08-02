@@ -25,6 +25,11 @@ const STYLES_BUTTON = `
   }
 `;
 
+const STYLES_HEADER = css`
+  font-size: ${Constnats.typescale.lvl2};
+  margin-bottom: 8px;
+`;
+
 const STYLES_ACCEPT_BUTTON = css`
   ${STYLES_BUTTON}
   color: ${Constants.system.brand};

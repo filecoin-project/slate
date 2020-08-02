@@ -27,6 +27,7 @@ import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalle
 import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds";
 import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal";
 import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket";
+import SidebarDragDropNotice from "~/components/sidebars/SidebarDragDropNotice";
 
 // NOTE(jim):
 // Core components to the application structure.
@@ -117,18 +118,24 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDragEnter = (e) => {
-    // TODO(jim): Styles.
-    console.log("dragenter", e);
+    if (this.state.sidebar) {
+      return;
+    }
+
+    e.preventDefault();
+
+    this._handleAction({
+      type: "SIDEBAR",
+      value: "SIDEBAR_DRAG_DROP_NOTICE",
+    });
   };
 
   _handleDragLeave = (e) => {
-    // TODO(jim): Styles.
-    console.log("dragleave", e);
+    e.preventDefault();
   };
 
   _handleDragOver = (e) => {
     e.preventDefault();
-    console.log("dragover", e);
   };
 
   _handleSidebarLoading = (sidebarLoading) => this.setState({ sidebarLoading });
@@ -410,6 +417,7 @@ export default class ApplicationPage extends React.Component {
     SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,
     SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
     SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
+    SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
   };
 
   scenes = {

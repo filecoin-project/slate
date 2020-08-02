@@ -78,33 +78,31 @@ export default class SceneHome extends React.Component {
     };
 
     // TODO(jim): Refactor later.
-    const slateButtons = [
-      { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
-    ];
+    const slateButtons = [{ name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" }];
 
     // TODO(jim): Refactor later.
     const data = {
       columns: [
-        { key: "name", name: "Data", type: "FILE_LINK" },
+        { key: "name", name: "Data", type: "FILE_LINK", width: "328px" },
         {
           key: "size",
           name: "Size",
           width: "140px",
           type: "FILE_SIZE",
         },
+        { key: "type", name: "Type", type: "TEXT_TAG", width: "136px" },
         {
           key: "date",
           name: "Date uploaded",
           width: "160px",
           type: "FILE_DATE",
-          tooltip:
-            "This date represents when the file was first uploaded to IPFS.",
         },
         {
           key: "networks",
           name: "Network",
           type: "NETWORK_TYPE",
-          width: "188px",
+          width: "100%",
+          tooltip: "This data is publicly available to share on the internet!",
         },
       ],
       rows: this.props.viewer.library[0].children.map((each) => {
@@ -123,7 +121,7 @@ export default class SceneHome extends React.Component {
         value: this.props.viewer.library[0].id,
       },
       {
-        name: "Upload to IPFS",
+        name: "Upload data",
         type: "SIDEBAR",
         value: "SIDEBAR_ADD_FILE_TO_BUCKET",
       },
@@ -150,13 +148,13 @@ export default class SceneHome extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>Home</System.H1>
+        <System.DescriptionGroup
+          label="Will the Home page look like this in the final product?"
+          description="No! Consider this page just a functionality test. Home will have Filecoin network analytics and updates from the people you engage with."
+        />
+        <System.H1 style={{ marginTop: 48 }}>Home</System.H1>
         {this.props.viewer.addresses[0] ? (
-          <Section
-            title="Wallet addresses"
-            buttons={walletButtons}
-            onAction={this.props.onAction}
-          >
+          <Section title="Wallet addresses" buttons={walletButtons} onAction={this.props.onAction}>
             <System.Table
               data={wallet}
               name="transaction"
@@ -166,11 +164,7 @@ export default class SceneHome extends React.Component {
           </Section>
         ) : null}
 
-        <Section
-          title="Slates"
-          buttons={slateButtons}
-          onAction={this.props.onAction}
-        >
+        <Section title="Slates" buttons={slateButtons} onAction={this.props.onAction}>
           <System.Table
             data={slates}
             name="slate"
@@ -180,11 +174,7 @@ export default class SceneHome extends React.Component {
         </Section>
 
         {this.props.viewer.library[0] ? (
-          <Section
-            title="Recent data"
-            buttons={dataButtons}
-            onAction={this.props.onAction}
-          >
+          <Section title="Recent data" buttons={dataButtons} onAction={this.props.onAction}>
             <System.Table
               data={data}
               name="data"

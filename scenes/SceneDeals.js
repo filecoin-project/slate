@@ -43,7 +43,7 @@ export default class SceneDeals extends React.Component {
       <ScenePage>
         <System.H1>Deals</System.H1>
 
-        <Section title="Storage Deals">
+        <Section title="Filecoin storage deal history">
           <System.Table
             data={{
               columns: [
@@ -60,6 +60,10 @@ export default class SceneDeals extends React.Component {
                 {
                   key: "time",
                   name: "Time",
+                },
+                {
+                  key: "status",
+                  name: "Status",
                 },
               ],
               rows: this.props.viewer.storageList.map((each) => {
@@ -78,7 +82,7 @@ export default class SceneDeals extends React.Component {
           />
         </Section>
 
-        <Section title="Retrieval Deals">
+        <Section title="Filecoin retrieval deal history">
           <System.Table
             data={{
               columns: [

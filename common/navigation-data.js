@@ -1,3 +1,5 @@
+import * as Strings from "~/common/strings";
+
 // NOTE(jim)
 // Return the desired navigation entity based on the constructed navigation
 // and targetId
@@ -28,10 +30,13 @@ export const getCurrentById = (navigation, targetId) => {
   return { target, activeIds };
 };
 
-// TODO(jim): We don't really need this.
-// Remove it at some point.
 const constructFilesTreeForNavigation = (library) => {
-  return { ...library[0], children: [] };
+  let bytes = 0;
+  library[0].children.forEach((o) => {
+    bytes = o.size + bytes;
+  });
+
+  return { ...library[0], name: `Data (${Strings.bytesToSize(bytes)})`, children: [] };
 };
 
 const constructSlatesTreeForNavigation = (slates) => {

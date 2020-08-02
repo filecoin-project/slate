@@ -42,27 +42,16 @@ export default class SlateReactSystemPage extends React.Component {
         <System.H1>Component Library Test</System.H1>
         <br />
         <br />
-        <System.P>
-          If this works. That means the component library bundle is working
-          correctly.
-          <br />
-          <br />
-          <div style={{ marginTop: 24 }}>
-            <input
-              css={STYLES_FILE_HIDDEN}
-              type="file"
-              id="file"
-              onChange={this._handleUpload}
-            />
-            <System.ButtonPrimary
-              style={{ margin: "0 16px 16px 0" }}
-              type="label"
-              htmlFor="file"
-            >
-              Pick avatar
-            </System.ButtonPrimary>
-          </div>
-        </System.P>
+        <System.P>If this works. That means the component library bundle is working correctly.</System.P>
+        <br />
+        <br />
+        <div style={{ marginTop: 24 }}>
+          <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
+          <System.ButtonPrimary style={{ margin: "0 16px 16px 0" }} type="label" htmlFor="file">
+            Upload File To Network With API
+          </System.ButtonPrimary>
+          <System.TooltipAnchor tooltip="Hello friends!!" />
+        </div>
       </div>
     );
   }

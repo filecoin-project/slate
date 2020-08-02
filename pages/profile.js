@@ -52,62 +52,24 @@ const STYLES_USER = css`
 
 export default class ProfilePage extends React.Component {
   render() {
-    const title = this.props.creator
-      ? `@${this.props.creator.username}`
-      : "404";
+    const title = this.props.creator ? `@${this.props.creator.username}` : "404";
     const url = `https://slate.host/${title}`;
-
-    if (!this.props.creator) {
-      return (
-        <WebsitePrototypeWrapper
-          title={title}
-          description="This Slate user can not be found."
-          url={url}
-        >
-          <div css={STYLES_ROOT}>
-            <h1 css={STYLES_HEADING}>404</h1>
-            <p css={STYLES_PARAGRAPH}>
-              This user is not found.
-              <br />
-              <br />
-              <a href="/application">Run Slate {Constants.values.version}</a>
-              <br />
-              <a href="/system">Use Slate's Design System</a>
-            </p>
-          </div>
-        </WebsitePrototypeWrapper>
-      );
-    }
-
     const description = "A user on Slate.";
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-        image={this.props.creator.data.photo}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url} image={this.props.creator.data.photo}>
         <div css={STYLES_ROOT}>
-          <div
-            css={STYLES_USER}
-            style={{ backgroundImage: `url(${this.props.creator.data.photo})` }}
-          />
+          <div css={STYLES_USER} style={{ backgroundImage: `url(${this.props.creator.data.photo})` }} />
           <h1 css={STYLES_HEADING}>{title}</h1>
           <p css={STYLES_PARAGRAPH}>
-            This is an example of a profile page on Slate. Slate is going to be
-            really cool soon!
+            This is an example of a profile page on Slate. Slate is going to be really cool soon!
             <br />
             <br />
             {this.props.creator.slates.map((row) => {
-              const url = `https://slate.host/@${this.props.creator.username}/${
-                row.slatename
-              }`;
+              const url = `https://slate.host/@${this.props.creator.username}/${row.slatename}`;
               return (
                 <React.Fragment key={url}>
-                  <a href={`/@${this.props.creator.username}/${row.slatename}`}>
-                    {url}
-                  </a>
+                  <a href={`/@${this.props.creator.username}/${row.slatename}`}>{url}</a>
                   <br />
                 </React.Fragment>
               );
@@ -118,9 +80,7 @@ export default class ProfilePage extends React.Component {
             <br />
             <a href="/system">Use Slate's Design System</a>
             <br />
-            <a href="https://github.com/filecoin-project/slate">
-              View Source ☺
-            </a>
+            <a href="https://github.com/filecoin-project/slate">View Source ☺</a>
           </p>
         </div>
       </WebsitePrototypeWrapper>

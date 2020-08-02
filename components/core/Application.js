@@ -3,6 +3,7 @@ import * as NavigationData from "~/common/navigation-data";
 import * as Actions from "~/common/actions";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
+import * as Validations from "~/common/validations";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -11,7 +12,6 @@ import SceneEditAccount from "~/scenes/SceneEditAccount";
 import SceneFile from "~/scenes/SceneFile";
 import SceneFilesFolder from "~/scenes/SceneFilesFolder";
 import SceneHome from "~/scenes/SceneHome";
-import SceneMiners from "~/scenes/SceneMiners";
 import SceneSettings from "~/scenes/SceneSettings";
 import SceneWallet from "~/scenes/SceneWallet";
 import SceneSlates from "~/scenes/SceneSlates";
@@ -26,8 +26,8 @@ import SidebarCreateSlate from "~/components/sidebars/SidebarCreateSlate";
 import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalletAddress";
 import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds";
 import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal";
-import SidebarCreatePaymentChannel from "~/components/sidebars/SidebarCreatePaymentChannel";
 import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket";
+import SidebarDragDropNotice from "~/components/sidebars/SidebarDragDropNotice";
 
 // NOTE(jim):
 // Core components to the application structure.
@@ -68,7 +68,7 @@ export default class ApplicationPage extends React.Component {
     this.setState({ fileLoading: true });
 
     let data = new FormData();
-    data.append("image", file);
+    data.append("data", file);
 
     const options = {
       method: "POST",
@@ -81,7 +81,12 @@ export default class ApplicationPage extends React.Component {
     const response = await fetch(`/api/data/${file.name}`, options);
     const json = await response.json();
 
-    if (!json && json.data) {
+    if (!json) {
+      this.setState({ sidebar: null, fileLoading: false });
+      return;
+    }
+
+    if (json.error) {
       this.setState({ sidebar: null, fileLoading: false });
       return;
     }
@@ -113,18 +118,24 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDragEnter = (e) => {
-    // TODO(jim): Styles.
-    console.log("dragenter", e);
+    if (this.state.sidebar) {
+      return;
+    }
+
+    e.preventDefault();
+
+    this._handleAction({
+      type: "SIDEBAR",
+      value: "SIDEBAR_DRAG_DROP_NOTICE",
+    });
   };
 
   _handleDragLeave = (e) => {
-    // TODO(jim): Styles.
-    console.log("dragleave", e);
+    e.preventDefault();
   };
 
   _handleDragOver = (e) => {
     e.preventDefault();
-    console.log("dragover", e);
   };
 
   _handleSidebarLoading = (sidebarLoading) => this.setState({ sidebarLoading });
@@ -145,18 +156,23 @@ export default class ApplicationPage extends React.Component {
       slate = { ...current.target, id: current.target.slateId };
     }
 
-    this._handleAction({
-      type: "SIDEBAR",
-      value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-      data: slate,
-    });
-
     if (e.dataTransfer.items) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
 
-          await this._handleSetFile({ file, slate });
+          console.log(file);
+
+          if (Validations.isFileTypeAllowed(file.type)) {
+            this._handleAction({
+              type: "SIDEBAR",
+              value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+              data: slate,
+            });
+
+            await this._handleSetFile({ file, slate });
+          }
+
           break;
         }
       }
@@ -401,6 +417,7 @@ export default class ApplicationPage extends React.Component {
     SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,
     SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
     SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
+    SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
   };
 
   scenes = {

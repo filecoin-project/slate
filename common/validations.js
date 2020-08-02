@@ -26,3 +26,19 @@ export const password = (text) => {
 
   return true;
 };
+
+export const isFileTypeAllowed = (type = "") => {
+  if (type.startsWith("application/pdf")) {
+    return true;
+  }
+
+  if (type.startsWith("image/")) {
+    return true;
+  }
+
+  if (type.startsWith("video/")) {
+    return true;
+  }
+
+  return false;
+};

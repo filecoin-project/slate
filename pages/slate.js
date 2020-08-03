@@ -5,19 +5,32 @@ import * as System from "~/components/system";
 import { css } from "@emotion/react";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
+import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
+import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
 import Slate from "~/components/core/Slate";
-
 import MediaObject from "~/components/core/MediaObject";
 
 const STYLES_ROOT = css`
-  padding: 128px 88px 256px 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  text-align: center;
+  font-size: 1rem;
+`;
+
+const STYLES_SLATE = css`
+  padding: 0 88px 0 88px;
   max-width: 1328px;
   display: block;
   width: 100%;
   margin: 0 auto 0 auto;
+  min-height: 10%;
+  height: 100%;
 
   @media (max-width: 768px) {
-    padding: 128px 24px 128px 24px;
+    padding: 0 24px 0 24px;
   }
 `;
 
@@ -50,7 +63,9 @@ export default class SlatePage extends React.Component {
     });
 
   render() {
-    const title = this.props.slate ? `@${this.props.slate.ownername}/${this.props.slate.slatename}` : "404";
+    const title = this.props.slate
+      ? `@${this.props.slate.ownername}/${this.props.slate.slatename}`
+      : "404";
     const url = `https://slate.host/${title}`;
     const description = "A slate.";
 
@@ -62,9 +77,23 @@ export default class SlatePage extends React.Component {
     });
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+        image={image}
+      >
         <div css={STYLES_ROOT}>
-          <Slate items={this.props.slate.data.objects} onSelect={this._handleSelect} />
+          <WebsitePrototypeHeaderGeneric>
+            {this.props.slate.ownername}
+          </WebsitePrototypeHeaderGeneric>
+          <div css={STYLES_SLATE}>
+            <Slate
+              items={this.props.slate.data.objects}
+              onSelect={this._handleSelect}
+            />
+          </div>
+          <WebsitePrototypeFooter />
         </div>
         <System.GlobalCarousel />
       </WebsitePrototypeWrapper>

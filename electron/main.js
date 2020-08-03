@@ -14,7 +14,7 @@ function bootServer() {
   // const { fork } = require('child_process');
   // const ps = fork(path.join(__dirname, '../', 'index.js'));
   require(path.join(__dirname, "../", "index.js"));
-  console.log("server running");
+  // console.log("server running");
 }
 
 function fileOverrides() {
@@ -45,7 +45,7 @@ function createWindow() {
   // and load the index.html of the app.
   // TODO(jim):
   // We shouldn't hardcode this port.
-  mainWindow.loadURL("http://localhost:1337");
+  mainWindow.loadURL("http://localhost:1337/application");
   console.log("window created");
 }
 

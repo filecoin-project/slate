@@ -6,6 +6,7 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/react";
 
 import Pill from "~/components/core/Pill";
+import DataMeter from "~/components/core/DataMeter";
 
 const IconMap = {
   HOME: <SVG.Home height="20px" />,
@@ -235,6 +236,13 @@ class NodeReference extends React.Component {
 
 export default class ApplicationNavigation extends React.Component {
   render() {
+    // TODO(jim):
+    // Calculate this idea elsewhere if you keep it.
+    let bytes = 0;
+    this.props.viewer.library[0].children.forEach((each) => {
+      bytes = each.size + bytes;
+    });
+
     return (
       <nav css={STYLES_NAVIGATION}>
         {this.props.navigation.map((each) => {
@@ -262,6 +270,8 @@ export default class ApplicationNavigation extends React.Component {
             </NodeReference>
           );
         })}
+        <br />
+        <DataMeter currentBytes={bytes} />
       </nav>
     );
   }

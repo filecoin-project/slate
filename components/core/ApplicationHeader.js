@@ -2,10 +2,12 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
+import * as OldSVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
+import { Tooltip } from "react-tippy";
 
-import Avatar from "~/components/core/Avatar";
+import ApplicationControlMenu from "~/components/core/ApplicationControlMenu";
 
 const STYLES_CIRCLE = css`
   height: 32px;
@@ -55,7 +57,7 @@ const STYLES_HOME = css`
   user-select: none;
   margin-right: 24px;
   margin-left: 24px;
-  font-size: 11px;
+  font-size: 14px;
   text-transform: uppercase;
   font-family: ${Constants.font.codeBold};
 `;
@@ -92,25 +94,35 @@ const STYLES_RIGHT = css`
   padding-right: 16px;
 `;
 
-const STYLES_INPUT = css`
-  width: 100%;
-  max-width: 1024px;
-  font-size: 16px;
-  height: 40px;
-  padding: 0 16px 0 16px;
-  background-color: ${Constants.system.white};
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1px #e0e0e0, 0 1px 4px rgba(0, 0, 0, 0.04);
-  border: 0;
-  outline: 0;
-  box-sizing: border-box;
+const STYLES_PROFILE = css`
+  font-family: ${Constants.font.semiBold};
+  background-color: ${Constants.system.pitchBlack};
+  color: ${Constants.system.white};
+  font-size: 12px;
+  line-height: 12px;
+  text-decoration: none;
+  height: 36px;
+  padding-right: 24px;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   transition: 200ms ease all;
 
-  :focus {
-    box-shadow: 0 1px 4px rgba(0, 71, 255, 0.3),
-      inset 0 0 0 1px ${Constants.system.brand};
-    outline: 0;
+  :hover {
+    background-color: ${Constants.system.brand};
   }
+`;
+
+const STYLES_IMAGE = css`
+  background-size: cover;
+  background-position: 50% 50%;
+  flex-shrink: 0;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  margin-right: 16px;
+  margin-left: 2px;
 `;
 
 export default class ApplicationHeader extends React.Component {
@@ -125,7 +137,7 @@ export default class ApplicationHeader extends React.Component {
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
-          <span css={STYLES_HOME}>Slate {Constants.values.version}</span>
+          <span css={STYLES_HOME}>Slate</span>
           <span
             css={STYLES_ICON_ELEMENT}
             style={
@@ -154,25 +166,47 @@ export default class ApplicationHeader extends React.Component {
         </div>
         <div css={STYLES_MIDDLE} />
         <div css={STYLES_RIGHT}>
-          <Avatar
-            style={{ marginLeft: 12 }}
-            onClick={() => {}}
-            size={32}
-            url={this.props.viewer.data.photo}
-            popover={
-              <System.PopoverNavigation
-                style={{ right: 0, top: "48px", cursor: "pointer" }}
-                onNavigateTo={this.props.onNavigateTo}
-                onAction={this.props.onAction}
-                onSignOut={this.props.onSignOut}
-                navigation={[
-                  { text: "Profile & account settings", value: 13 },
-                  { text: "Filecoin settings", value: 14 },
-                  { text: "Sign out", value: 0, action: "SIGN_OUT" },
-                ]}
+          <Tooltip
+            animation="fade"
+            animateFill={false}
+            title="View your profile"
+          >
+            <a
+              css={STYLES_PROFILE}
+              href={`/@${this.props.viewer.username}`}
+              target="_blank"
+            >
+              <span
+                css={STYLES_IMAGE}
+                style={{
+                  backgroundImage: `url('${this.props.viewer.data.photo}')`,
+                }}
               />
-            }
-          />
+              {this.props.viewer.username}
+            </a>
+          </Tooltip>
+
+          <Tooltip animation="fade" animateFill={false} title="Settings Menu">
+            <ApplicationControlMenu
+              style={{ marginLeft: 12 }}
+              onClick={() => {}}
+              size={36}
+              icon={<OldSVG.ChevronDown height="20px" />}
+              popover={
+                <System.PopoverNavigation
+                  style={{ right: 0, top: "48px", cursor: "pointer" }}
+                  onNavigateTo={this.props.onNavigateTo}
+                  onAction={this.props.onAction}
+                  onSignOut={this.props.onSignOut}
+                  navigation={[
+                    { text: "Profile & account settings", value: 13 },
+                    { text: "Filecoin settings", value: 14 },
+                    { text: "Sign out", value: 0, action: "SIGN_OUT" },
+                  ]}
+                />
+              }
+            />
+          </Tooltip>
         </div>
       </header>
     );

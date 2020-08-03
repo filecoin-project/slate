@@ -9,7 +9,9 @@ const STYLES_POPOVER = css`
   position: absolute;
   width: 288px;
   border-radius: 4px;
+  user-select: none;
   background-color: ${Constants.system.white};
+  color: ${Constants.system.pitchBlack};
   box-shadow: inset 0 0 0 1px ${Constants.system.border},
     0 1px 4px rgba(0, 0, 0, 0.07);
 `;

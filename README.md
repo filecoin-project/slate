@@ -71,14 +71,8 @@ npm run dev
 
 - Visit `localhost:1337` in a browser.
 
-### BROKEN: Run electron (MacOS)
-
-@jimmylee broke the current version of the client.
+### Run electron (MacOS)
 
 ```sh
-rm -rf .next
-npm run build-electron
-npm run electron-pack
+npm run electron-dev
 ```
-
-Open **Slate.app** in `dist/mac/slate.app`.

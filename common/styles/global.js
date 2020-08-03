@@ -100,12 +100,13 @@ export const injectTooltipStyles = () =>
     }
 
     .tippy-tooltip {
-      font-family: ${Constants.font.text};
+      font-family: ${Constants.font.code};
       color: ${Constants.system.white};
       background-color: ${Constants.system.pitchBlack};
       position: relative;
       border-radius: 4px;
-      font-size: 1rem;
+      font-size: 11px;
+      text-transform: uppercase;
       padding: 12px;
       text-align: center;
       will-change: transform;

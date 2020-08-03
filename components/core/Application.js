@@ -350,12 +350,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleNavigateTo = (next, data = null) => {
-    // TODO(jim): Refactor this hack for profile pages.
-    if (next.id === 5) {
-      window.open(`/@${this.state.viewer.username}`);
-      return;
-    }
-
     this.state.history[this.state.currentIndex].scrollTop = window.scrollY;
     this.state.history[this.state.currentIndex].data = data;
 

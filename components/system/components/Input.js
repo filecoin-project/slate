@@ -160,6 +160,7 @@ export class Input extends React.Component {
           full={this.props.full}
           tooltip={this.props.tooltip}
           label={this.props.label}
+          style={this.props.descriptionStyle}
           description={this.props.description}
         />
         <div style={{ position: "relative" }}>

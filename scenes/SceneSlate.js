@@ -108,7 +108,9 @@ export default class SceneSlate extends React.Component {
       },
     ];
 
-    const slateURL = `https://slate.host/@${this.props.viewer.username}/${slatename}`;
+    const slateURL = `https://slate.host/@${
+      this.props.viewer.username
+    }/${slatename}`;
 
     return (
       <ScenePage>
@@ -116,10 +118,12 @@ export default class SceneSlate extends React.Component {
           label="Will the Slate page look like this in the final product?"
           description="No! Consider this page just a functionality test. Slates will be collaborative mood boards and will have a much more intuitive experience than this."
         />
-        <System.H1 style={{ marginTop: 48 }}>
-          https://slate.host/@{this.props.viewer.username}/{slatename}
-        </System.H1>
-        <Section title="Slate elements" buttons={slateButtons} onAction={this.props.onAction}>
+        <System.H1 style={{ marginTop: 48 }}>{slatename}</System.H1>
+        <Section
+          title="Slate elements"
+          buttons={slateButtons}
+          onAction={this.props.onAction}
+        >
           <System.Table
             data={slates}
             name={slateURL}
@@ -130,10 +134,12 @@ export default class SceneSlate extends React.Component {
 
         <System.Input
           containerStyle={{ marginTop: 48 }}
+          style={{ marginTop: 24 }}
           label="Slatename"
           description={
             <React.Fragment>
-              Changing the slatename will change your public slate URL. Your slate URL is:{" "}
+              Changing the slatename will change your public slate URL. Your
+              slate URL is:{" "}
               <a href={slateURL} target="_blank">
                 {slateURL}
               </a>
@@ -154,12 +160,19 @@ export default class SceneSlate extends React.Component {
             />
           </div>
           <div css={STYLES_RIGHT}>
-            <System.Toggle name="public" onChange={this._handleChange} active={this.state.public} />
+            <System.Toggle
+              name="public"
+              onChange={this._handleChange}
+              active={this.state.public}
+            />
           </div>
         </div>
 
         <div style={{ marginTop: 32 }}>
-          <System.ButtonPrimary onClick={this._handleSave} loading={this.state.loading}>
+          <System.ButtonPrimary
+            onClick={this._handleSave}
+            loading={this.state.loading}
+          >
             Save changes
           </System.ButtonPrimary>
         </div>

@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 
@@ -53,10 +54,15 @@ export default class SceneFilesFolder extends React.Component {
   }
 
   render() {
+    let bytes = 0;
     let rows = this.props.viewer.library[0].children.map((each) => {
+      bytes = each.size + bytes;
       return {
         ...each,
-        button: each.networks && each.networks.includes("FILECOIN") ? null : "Store on Filecoin",
+        button:
+          each.networks && each.networks.includes("FILECOIN")
+            ? null
+            : "Store on Filecoin",
       };
     });
 
@@ -102,14 +108,15 @@ export default class SceneFilesFolder extends React.Component {
         <System.H1>{this.props.current.name}</System.H1>
         <Section
           onAction={this.props.onAction}
-          title="All data"
+          title={`${Strings.bytesToSize(bytes)} uploaded`}
           buttons={[
             {
               name: "Upload data",
               type: "SIDEBAR",
               value: "SIDEBAR_ADD_FILE_TO_BUCKET",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             key={this.props.current.folderId}
             data={data}

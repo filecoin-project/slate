@@ -31,12 +31,11 @@ export const getCurrentById = (navigation, targetId) => {
 };
 
 const constructFilesTreeForNavigation = (library) => {
-  let bytes = 0;
-  library[0].children.forEach((o) => {
-    bytes = o.size + bytes;
-  });
-
-  return { ...library[0], name: `Data (${Strings.bytesToSize(bytes)})`, children: [] };
+  return {
+    ...library[0],
+    name: `Data`,
+    children: [],
+  };
 };
 
 const constructSlatesTreeForNavigation = (slates) => {
@@ -103,7 +102,7 @@ export const generate = ({ library = [], slates = [] }) => [
   },
   {
     id: 16,
-    name: "Developer API",
+    name: "API",
     pageTitle: "Developer API",
     decorator: "SETTINGS_DEVELOPER",
     children: null,
@@ -117,15 +116,8 @@ export const generate = ({ library = [], slates = [] }) => [
     ignore: true,
   },
   {
-    id: 5,
-    name: "Public profile",
-    pageTitle: "Profile Page",
-    decorator: "PROFILE_PAGE",
-    children: [],
-  },
-  {
     id: 2,
-    name: "Filecoin Wallet",
+    name: "Wallet",
     pageTitle: "Your wallet and addresses",
     decorator: "WALLET",
     children: [

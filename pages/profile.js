@@ -4,6 +4,8 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
+import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
+import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
 
 export const getServerSideProps = async (context) => {
   return {
@@ -12,76 +14,99 @@ export const getServerSideProps = async (context) => {
 };
 
 const STYLES_ROOT = css`
-  padding: 128px 88px 256px 88px;
-
-  @media (max-width: 768px) {
-    padding: 128px 24px 128px 24px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  text-align: center;
+  font-size: 1rem;
 `;
 
-const STYLES_HEADING = css`
-  font-weight: 400;
-  font-size: 2.88rem;
-  line-height: 1.5;
-  color: ${Constants.system.black};
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
+const STYLES_MIDDLE = css`
+  position: relative;
+  min-height: 10%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
 `;
 
-const STYLES_PARAGRAPH = css`
-  font-weight: 400;
-  font-size: 2.88rem;
-  line-height: 1.5;
-  color: ${Constants.system.pitchBlack};
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
+const STYLES_CARD = css`
+  margin: 0 auto 0 auto;
+  max-width: 360px;
+  width: 100%;
+  background: ${Constants.system.pitchBlack};
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 `;
 
-const STYLES_USER = css`
-  background-position: 50% 50%;
-  background-size: cover;
-  height: 88px;
-  width: 88px;
-  border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+const STYLES_CARD_IMAGE = css`
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+`;
+
+const STYLES_CARD_PARAGRAPH = css`
+  font-family: ${Constants.font.code};
+  padding: 24px;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: left;
+  color: ${Constants.system.white};
+`;
+
+const STYLES_LINK = css`
+  color: ${Constants.system.white};
+  text-decoration: none;
+  transition: 200ms ease color;
+  display: block;
+  margin-top: 4px;
+
+  :visited {
+    color: ${Constants.system.white};
+  }
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
 `;
 
 export default class ProfilePage extends React.Component {
   render() {
-    const title = this.props.creator ? `@${this.props.creator.username}` : "404";
+    const title = this.props.creator
+      ? `@${this.props.creator.username}`
+      : "404";
     const url = `https://slate.host/${title}`;
     const description = "A user on Slate.";
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url} image={this.props.creator.data.photo}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+        image={this.props.creator.data.photo}
+      >
         <div css={STYLES_ROOT}>
-          <div css={STYLES_USER} style={{ backgroundImage: `url(${this.props.creator.data.photo})` }} />
-          <h1 css={STYLES_HEADING}>{title}</h1>
-          <p css={STYLES_PARAGRAPH}>
-            This is an example of a profile page on Slate. Slate is going to be really cool soon!
-            <br />
-            <br />
-            {this.props.creator.slates.map((row) => {
-              const url = `https://slate.host/@${this.props.creator.username}/${row.slatename}`;
-              return (
-                <React.Fragment key={url}>
-                  <a href={`/@${this.props.creator.username}/${row.slatename}`}>{url}</a>
-                  <br />
-                </React.Fragment>
-              );
-            })}
-            <br />
-            <br />
-            <a href="/application">Run Slate {Constants.values.version}</a>
-            <br />
-            <a href="/system">Use Slate's Design System</a>
-            <br />
-            <a href="https://github.com/filecoin-project/slate">View Source ☺</a>
-          </p>
+          <WebsitePrototypeHeader />
+
+          <div css={STYLES_CARD}>
+            <img css={STYLES_CARD_IMAGE} src={this.props.creator.data.photo} />
+            <p css={STYLES_CARD_PARAGRAPH}>
+              {this.props.creator.slates.map((row) => {
+                const url = `/@${this.props.creator.username}/${row.slatename}`;
+
+                return (
+                  <a key={url} css={STYLES_LINK} href={url}>
+                    {url}
+                  </a>
+                );
+              })}
+            </p>
+          </div>
+
+          <WebsitePrototypeFooter />
         </div>
       </WebsitePrototypeWrapper>
     );

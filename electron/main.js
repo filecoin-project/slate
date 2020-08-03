@@ -3,12 +3,18 @@ const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const fs = require("fs-extra");
 
+// NOTE(colin): use NEXTJS Production build
+if (process.env.NODE_ENV == undefined) process.env.NODE_ENV = "production";
+// NOTE(colin): allow API connection
+if (process.env.NODE_TLS_REJECT_UNAUTHORIZED == undefined)
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
 function bootServer() {
   // TODO(colin): Spin up server on a child process
   // const { fork } = require('child_process');
   // const ps = fork(path.join(__dirname, '../', 'index.js'));
   require(path.join(__dirname, "../", "index.js"));
-  console.log("server running");
+  // console.log("server running");
 }
 
 function fileOverrides() {
@@ -39,7 +45,7 @@ function createWindow() {
   // and load the index.html of the app.
   // TODO(jim):
   // We shouldn't hardcode this port.
-  mainWindow.loadURL("http://localhost:1337");
+  mainWindow.loadURL("http://localhost:1337/application");
   console.log("window created");
 }
 
@@ -51,7 +57,7 @@ app.whenReady().then(() => {
   bootServer();
   createWindow();
 
-  app.on("activate", function() {
+  app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -61,7 +67,7 @@ app.whenReady().then(() => {
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on("window-all-closed", function() {
+app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 

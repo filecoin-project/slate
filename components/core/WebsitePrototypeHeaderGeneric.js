@@ -56,7 +56,7 @@ export default (props) => {
         <a
           css={STYLES_LINK}
           href={`/@${props.children}`}
-          style={{ marginRight: 24, fontFamily: Constants.font.codeBold }}
+          style={{ fontFamily: Constants.font.codeBold }}
         >
           {props.children}
         </a>

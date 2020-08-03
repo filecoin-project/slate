@@ -52,7 +52,7 @@ export default class SceneEditAccount extends React.Component {
     }
 
     let data = new FormData();
-    data.append("image", file);
+    data.append("data", file);
 
     const options = {
       method: "POST",
@@ -70,8 +70,6 @@ export default class SceneEditAccount extends React.Component {
       this.setState({ changingAvatar: false });
       return;
     }
-
-    console.log(json);
 
     await Actions.updateViewer({
       data: { photo: `https://hub.textile.io${json.data.ipfs}` },

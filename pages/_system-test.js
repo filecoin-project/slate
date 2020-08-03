@@ -21,7 +21,7 @@ export default class SlateReactSystemPage extends React.Component {
     let file = e.target.files[0];
     let data = new FormData();
 
-    data.append("image", file);
+    data.append("data", file);
     const response = await fetch(url, {
       method: "POST",
       headers: {

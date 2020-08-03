@@ -78,7 +78,6 @@ export default class ApplicationPage extends React.Component {
 
     let data = new FormData();
     data.append("data", file);
-    console.log(data);
 
     const options = {
       method: "POST",

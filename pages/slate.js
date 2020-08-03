@@ -63,9 +63,7 @@ export default class SlatePage extends React.Component {
     });
 
   render() {
-    const title = this.props.slate
-      ? `@${this.props.slate.ownername}/${this.props.slate.slatename}`
-      : "404";
+    const title = this.props.slate ? `@${this.props.slate.ownername}/${this.props.slate.slatename}` : "404";
     const url = `https://slate.host/${title}`;
     const description = "A slate.";
 
@@ -77,23 +75,13 @@ export default class SlatePage extends React.Component {
     });
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-        image={image}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric>
-            {this.props.slate.ownername}
-          </WebsitePrototypeHeaderGeneric>
+          <WebsitePrototypeHeaderGeneric>{this.props.slate.ownername}</WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
-            <Slate
-              items={this.props.slate.data.objects}
-              onSelect={this._handleSelect}
-            />
+            <Slate items={this.props.slate.data.objects} onSelect={this._handleSelect} />
           </div>
-          <WebsitePrototypeFooter />
+          <WebsitePrototypeFooter style={{ marginTop: 88 }} />
         </div>
         <System.GlobalCarousel />
       </WebsitePrototypeWrapper>

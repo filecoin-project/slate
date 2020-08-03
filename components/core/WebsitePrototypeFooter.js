@@ -51,7 +51,7 @@ const STYLES_RIGHT = css`
 
 export default (props) => {
   return (
-    <div css={STYLES_CONTAINER}>
+    <div css={STYLES_CONTAINER} style={props.style}>
       <p css={STYLES_LEFT}>
         Powered by{" "}
         <a css={STYLES_LINK} href="https://textile.io">
@@ -63,24 +63,13 @@ export default (props) => {
         </a>
       </p>
       <div css={STYLES_RIGHT}>
-        <a
-          css={STYLES_LINK}
-          href="https://twitter.com/_slate"
-          style={{ marginRight: 24 }}
-        >
+        <a css={STYLES_LINK} href="https://twitter.com/_slate" style={{ marginRight: 24 }}>
           Twitter
         </a>
-        <a
-          css={STYLES_LINK}
-          href="https://filecoin.io/slack"
-          style={{ marginRight: 24 }}
-        >
+        <a css={STYLES_LINK} href="https://filecoin.io/slack" style={{ marginRight: 24 }}>
           Slack
         </a>
-        <a
-          css={STYLES_LINK}
-          href="https://github.com/filecoin-project/slate/issues"
-        >
+        <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
           Contribute
         </a>
       </div>

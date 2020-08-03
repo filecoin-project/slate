@@ -74,12 +74,10 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleSetFile = async ({ file, slate }) => {
-    //
-    console.log(file);
     this.setState({ fileLoading: true });
 
     let data = new FormData();
-    data.append("image", file);
+    data.append("data", file);
     console.log(data);
 
     const options = {

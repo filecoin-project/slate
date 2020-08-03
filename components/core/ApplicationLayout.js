@@ -8,12 +8,34 @@ import { css } from "@emotion/react";
 const NAVIGATION_WIDTH = 288;
 const HEADER_HEIGHT = 72;
 
+// TODO(jim):
+// When you're building Slate 1.0.0 you can take out this mobile restriction.
 const STYLES_BODY = css`
   padding: ${HEADER_HEIGHT}px 0 0 ${Constants.sizes.navigation}px;
   width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+
+  @media (max-width: 880px) {
+    :after {
+      content: "We're sorry! This application is only supported on desktop or desktop web.";
+      z-index: 999999;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px;
+      color: ${Constants.system.white};
+      background-color: ${Constants.system.pitchBlack};
+    }
+  }
 `;
 
 const STYLES_HEADER = css`

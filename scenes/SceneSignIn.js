@@ -6,6 +6,9 @@ import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/react";
 
+import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
+import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
+
 const delay = (time) =>
   new Promise((resolve) =>
     setTimeout(() => {
@@ -13,13 +16,45 @@ const delay = (time) =>
     }, time)
   );
 
-const STYLES_PAGE = css`
+const STYLES_ROOT = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  text-align: center;
+  font-size: 1rem;
+
+  @media (max-width: 880px) {
+    :after {
+      content: "We're sorry! This application is only supported on desktop or desktop web.";
+      z-index: 999999;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px;
+      color: ${Constants.system.white};
+      background-color: ${Constants.system.pitchBlack};
+    }
+  }
+`;
+
+const STYLES_MIDDLE = css`
+  position: relative;
+  min-height: 10%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #f7f7f7;
-  height: 100vh;
+  text-align: left;
   padding: 24px;
 `;
 
@@ -30,25 +65,6 @@ const STYLES_POPOVER = css`
   width: 100%;
   background: ${Constants.system.white};
   color: ${Constants.system.black};
-`;
-
-const STYLES_POPOVER_CARD = css`
-  max-width: 124px;
-  width: 100%;
-  background: ${Constants.system.pitchBlack};
-  border-radius: 24px;
-  margin-bottom: 24px;
-`;
-
-const STYLES_POPOVER_CARD_IMAGE = css`
-  display: block;
-  background-position: 50% 50%;
-  background-size: cover;
-  background-image: url("/static/social.png");
-  border-radius: 24px;
-  width: 100%;
-  height: 124px;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
 `;
 
 const STYLES_CODE_PREVIEW = css`
@@ -75,8 +91,6 @@ export default class SceneSignIn extends React.Component {
 
     await delay(100);
 
-    // TODO(jim):
-    // Lets add some proper error messages here.
     if (!Validations.username(this.state.username)) {
       alert(
         "TODO: Your username was invalid, only characters and numbers allowed."
@@ -87,11 +101,7 @@ export default class SceneSignIn extends React.Component {
 
     if (!Validations.password(this.state.password)) {
       alert("TODO: Your password must be at least 8 characters.");
-
-      // TODO(jim):
-      // Let it slide because this rule is new.
-      // this.setState({ loading: false });
-      // return;
+      return;
     }
 
     const response = await this.props.onAuthenticate({
@@ -111,21 +121,12 @@ export default class SceneSignIn extends React.Component {
   };
 
   render() {
-    let element = (
-      <div css={STYLES_POPOVER_CARD}>
-        <div css={STYLES_POPOVER_CARD_IMAGE} />
-      </div>
-    );
-
     let popover = (
       <div css={STYLES_POPOVER}>
-        <div css={STYLES_CODE_PREVIEW}>
-          Version {Constants.values.version}
-          <br />
-          Public Test Preview <br />
-          Warning: THE Entire Network & Database Will Be Wiped
-          <br />
-        </div>
+        <System.H3>Welcome</System.H3>
+        <System.P style={{ marginTop: 8, marginBottom: 32 }}>
+          Sign in to manage your data, slates, and profile.
+        </System.P>
 
         <System.Input
           label="Username"
@@ -134,7 +135,7 @@ export default class SceneSignIn extends React.Component {
           onChange={this._handleChange}
         />
         <div css={STYLES_CODE_PREVIEW} style={{ marginTop: 8 }}>
-          Usernames should only have characters or numbers.
+          Characters + numbers only
         </div>
 
         <System.Input
@@ -147,7 +148,7 @@ export default class SceneSignIn extends React.Component {
           onSubmit={this._handleSubmit}
         />
         <div css={STYLES_CODE_PREVIEW} style={{ marginTop: 8 }}>
-          Password should be at least 8 characters
+          At least 8 characters
         </div>
 
         <System.ButtonPrimary
@@ -162,9 +163,10 @@ export default class SceneSignIn extends React.Component {
     );
 
     return (
-      <div css={STYLES_PAGE}>
-        {element}
-        {popover}
+      <div css={STYLES_ROOT}>
+        <WebsitePrototypeHeader />
+        <div css={STYLES_MIDDLE}>{popover}</div>
+        <WebsitePrototypeFooter />
       </div>
     );
   }

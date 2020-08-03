@@ -4,6 +4,8 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
+import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
+import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
 
 const STYLES_ROOT = css`
   display: flex;
@@ -13,10 +15,6 @@ const STYLES_ROOT = css`
   height: 100vh;
   text-align: center;
   font-size: 1rem;
-
-  @media (max-width: 768px) {
-    font-size: 0.78rem;
-  }
 `;
 
 // TODO(jim): Brand system colors.
@@ -114,24 +112,6 @@ const STYLES_GLITCH = css`
   }
 `;
 
-const STYLES_TOP = css`
-  height: 88px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 24px 16px 24px;
-`;
-
-const STYLES_BOTTOM = css`
-  height: 88px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 24px 24px 24px;
-`;
-
 const STYLES_MIDDLE = css`
   position: relative;
   min-height: 10%;
@@ -143,82 +123,27 @@ const STYLES_MIDDLE = css`
   padding: 24px;
 `;
 
-const STYLES_LINK = css`
-  font-family: ${Constants.font.semiBold};
-  color: ${Constants.system.pitchBlack};
-  text-decoration: none;
-  transition: 200ms ease color;
-
-  :visited {
-    color: ${Constants.system.black};
-  }
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-`;
-
-const STYLES_LEFT = css`
-  flex-shrink: 0;
-`;
-
-const STYLES_RIGHT = css`
-  min-width: 10%;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-`;
-
 export default class NotFoundPage extends React.Component {
   render() {
     const title = `404`;
-    const description = "Oops something broke";
+    const description = "This page no longer exists.";
     const url = "https://slate.host/404";
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+      >
         <div css={STYLES_ROOT}>
-          <div css={STYLES_TOP}>
-            <div css={STYLES_LEFT}>
-              <a css={STYLES_LINK} href="/" style={{ marginRight: 16 }}>
-                Slate {Constants.values.version}
-              </a>
-              <a css={STYLES_LINK} href="/system">
-                Design System
-              </a>
-            </div>
-            <div css={STYLES_RIGHT}>
-              <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate">
-                View Source
-              </a>
-            </div>
-          </div>
+          <WebsitePrototypeHeader />
 
           <div css={STYLES_MIDDLE}>
             <h1 css={STYLES_GLITCH}>404</h1>
             <h2>The page you are looking for does not exist.</h2>
           </div>
 
-          <div css={STYLES_BOTTOM}>
-            <p css={STYLES_LEFT}>
-              Powered by{" "}
-              <a css={STYLES_LINK} href="https://textile.io">
-                Textile
-              </a>{" "}
-              and{" "}
-              <a css={STYLES_LINK} href="https://filecoin.io">
-                Filecoin
-              </a>
-            </p>
-            <div css={STYLES_RIGHT}>
-              <a css={STYLES_LINK} href="https://filecoin.io/slack" style={{ marginRight: 16 }}>
-                Slack
-              </a>
-              <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
-                Contribute
-              </a>
-            </div>
-          </div>
+          <WebsitePrototypeFooter />
         </div>
       </WebsitePrototypeWrapper>
     );

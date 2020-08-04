@@ -186,27 +186,22 @@ export default class ApplicationHeader extends React.Component {
             </a>
           </Tooltip>
 
-          <Tooltip animation="fade" animateFill={false} title="Settings Menu">
-            <ApplicationControlMenu
-              style={{ marginLeft: 12 }}
-              onClick={() => {}}
-              size={36}
-              icon={<OldSVG.ChevronDown height="20px" />}
-              popover={
-                <System.PopoverNavigation
-                  style={{ right: 0, top: "48px", cursor: "pointer" }}
-                  onNavigateTo={this.props.onNavigateTo}
-                  onAction={this.props.onAction}
-                  onSignOut={this.props.onSignOut}
-                  navigation={[
-                    { text: "Profile & account settings", value: 13 },
-                    { text: "Filecoin settings", value: 14 },
-                    { text: "Sign out", value: 0, action: "SIGN_OUT" },
-                  ]}
-                />
-              }
-            />
-          </Tooltip>
+          <ApplicationControlMenu
+            style={{ marginLeft: 12 }}
+            popover={
+              <System.PopoverNavigation
+                style={{ right: 0, top: "48px", cursor: "pointer" }}
+                onNavigateTo={this.props.onNavigateTo}
+                onAction={this.props.onAction}
+                onSignOut={this.props.onSignOut}
+                navigation={[
+                  { text: "Profile & account settings", value: 13 },
+                  { text: "Filecoin settings", value: 14 },
+                  { text: "Sign out", value: 0, action: "SIGN_OUT" },
+                ]}
+              />
+            }
+          />
         </div>
       </header>
     );

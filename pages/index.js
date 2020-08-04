@@ -143,7 +143,7 @@ export default class IndexPage extends React.Component {
                   href="https://github.com/filecoin-project/slate"
                   target="_blank"
                 >
-                  Slate
+                  Filecoin & Slate
                 </a>
                 .
               </p>

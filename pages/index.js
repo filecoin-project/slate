@@ -149,7 +149,8 @@ export default class IndexPage extends React.Component {
               </p>
               <div css={STYLES_CARD_ACTIONS}>
                 <div css={STYLES_CARD_ACTIONS_LEFT}>
-                  Try the Alpha {Constants.values.version} release
+                  Try out our alpha testing application v
+                  {Constants.values.version} for Filecoin
                 </div>
                 <div css={STYLES_CARD_ACTIONS_RIGHT}>
                   <System.ButtonPrimary

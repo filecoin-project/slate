@@ -58,10 +58,19 @@ export class GlobalCarousel extends React.Component {
 
   componentWillUnmount = () => {
     window.removeEventListener("keydown", this._handleKeyDown);
-    window.removeEventListener("slate-global-create-carousel", this._handleCreate);
-    window.removeEventListener("slate-global-delete-carousel", this._handleDelete);
+    window.removeEventListener(
+      "slate-global-create-carousel",
+      this._handleCreate
+    );
+    window.removeEventListener(
+      "slate-global-delete-carousel",
+      this._handleDelete
+    );
     window.removeEventListener("slate-global-open-carousel", this._handleOpen);
-    window.removeEventListener("slate-global-close-carousel", this._handleClose);
+    window.removeEventListener(
+      "slate-global-close-carousel",
+      this._handleClose
+    );
   };
 
   _handleKeyDown = (e) => {
@@ -80,7 +89,8 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  _handleOpen = (e) => this.setState({ visible: true, index: e.detail.index || 0 });
+  _handleOpen = (e) =>
+    this.setState({ visible: true, index: e.detail.index || 0 });
 
   _handleClose = () => this.setState({ visible: false, index: 0 });
 
@@ -100,7 +110,9 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handlePrevious = () => {
-    const index = (this.state.index + this.state.slides.length - 1) % this.state.slides.length;
+    const index =
+      (this.state.index + this.state.slides.length - 1) %
+      this.state.slides.length;
     this.setState({ index });
   };
 
@@ -112,15 +124,27 @@ export class GlobalCarousel extends React.Component {
 
     return (
       <div css={STYLES_BACKGROUND} style={this.props.style}>
-        <span css={STYLES_BOX} onClick={this._handleClose} style={{ top: 8, right: 16 }}>
+        <span
+          css={STYLES_BOX}
+          onClick={this._handleClose}
+          style={{ top: 8, right: 16 }}
+        >
           <SVG.Dismiss height="20px" />
         </span>
 
-        <span css={STYLES_BOX} onClick={this._handlePrevious} style={{ top: 0, left: 16, bottom: 0 }}>
+        <span
+          css={STYLES_BOX}
+          onClick={this._handlePrevious}
+          style={{ top: 0, left: 16, bottom: 0 }}
+        >
           <SVG.ChevronLeft height="20px" />
         </span>
 
-        <span css={STYLES_BOX} onClick={this._handleNext} style={{ top: 0, right: 16, bottom: 0 }}>
+        <span
+          css={STYLES_BOX}
+          onClick={this._handleNext}
+          style={{ top: 0, right: 16, bottom: 0 }}
+        >
           <SVG.ChevronRight height="20px" />
         </span>
 

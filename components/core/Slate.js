@@ -52,6 +52,16 @@ class Item extends React.Component {
       );
     }
 
+    if (this.props.type && this.props.type.startsWith("audio/")) {
+      return (
+        <span css={STYLES_ITEM}>
+          <div css={STYLES_PDF} onClick={this.props.onClick}>
+            Audio
+          </div>
+        </span>
+      );
+    }
+
     if (this.props.type && this.props.type.startsWith("application/pdf")) {
       return (
         <span css={STYLES_ITEM}>
@@ -64,7 +74,11 @@ class Item extends React.Component {
 
     return (
       <span css={STYLES_ITEM}>
-        <img css={STYLES_IMAGE} src={this.props.url} onClick={this.props.onClick} />
+        <img
+          css={STYLES_IMAGE}
+          src={this.props.url}
+          onClick={this.props.onClick}
+        />
       </span>
     );
   }
@@ -75,7 +89,14 @@ export default class Slate extends React.Component {
     return (
       <div css={STYLES_SLATE}>
         {this.props.items.map((each, index) => {
-          return <Item key={each.id} type={each.type} onClick={() => this.props.onSelect(index)} url={each.url} />;
+          return (
+            <Item
+              key={each.id}
+              type={each.type}
+              onClick={() => this.props.onSelect(index)}
+              url={each.url}
+            />
+          );
         })}
       </div>
     );

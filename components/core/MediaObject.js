@@ -50,7 +50,9 @@ const STYLES_IMAGE = css`
 export default class MediaObject extends React.Component {
   render() {
     const name = `${this.props.data.name}`;
-    const url = this.props.data.url ? this.props.data.url : `https://hub.textile.io${this.props.data.ipfs}`;
+    const url = this.props.data.url
+      ? this.props.data.url
+      : `https://hub.textile.io${this.props.data.ipfs}`;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
 
     if (type.startsWith("application/pdf")) {
@@ -62,6 +64,16 @@ export default class MediaObject extends React.Component {
         <video autoPlay controls name="media" css={STYLES_OBJECT}>
           <source src={url} type={type} />
         </video>
+      );
+    }
+
+    if (type.startsWith("audio/")) {
+      return (
+        <div css={STYLES_ASSET}>
+          <audio autoPlay controls name="media">
+            <source src={url} type={type} />
+          </audio>
+        </div>
       );
     }
 

@@ -32,6 +32,10 @@ export const isFileTypeAllowed = (type = "") => {
     return true;
   }
 
+  if (type.startsWith("audio/")) {
+    return true;
+  }
+
   if (type.startsWith("image/")) {
     return true;
   }

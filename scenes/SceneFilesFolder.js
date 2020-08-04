@@ -105,7 +105,14 @@ export default class SceneFilesFolder extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>{this.props.current.name}</System.H1>
+        <System.DescriptionGroup
+          label="Are Filecoin deals working?"
+          description="At the moment there are some bugs with deals on our Devnet but our team is working through them."
+        />
+
+        <System.H1 style={{ marginTop: 48 }}>
+          {this.props.current.name}
+        </System.H1>
         <Section
           onAction={this.props.onAction}
           title={`${Strings.bytesToSize(bytes)} uploaded`}

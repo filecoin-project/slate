@@ -5,6 +5,7 @@ import * as Utilities from "~/node_common/utilities";
 import FS from "fs-extra";
 import FORM from "formidable";
 
+// TODO(jim): Ideally we never keep the file locally.
 export const formMultipart = (req, res, { user }) =>
   new Promise((resolve, reject) => {
     const f = new FORM.IncomingForm();
@@ -19,11 +20,9 @@ export const formMultipart = (req, res, { user }) =>
         });
       }
 
-      console.log(files);
-
       if (!files.data) {
         return reject({
-          decorator: "SERVER_UPLOAD_ERROR",
+          decorator: "SERVER_UPLOAD_ERROR_CHECK_FORM_TYPE",
           error: true,
           message: files,
         });
@@ -33,12 +32,19 @@ export const formMultipart = (req, res, { user }) =>
       const localPath = `./${path}`;
       const data = LibraryManager.createLocalDataIncomplete(files.data);
 
-      const { buckets, bucketKey, bucketName } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+      const {
+        buckets,
+        bucketKey,
+        bucketName,
+      } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
       let readFile;
       let push;
       try {
-        readFile = await FS.readFileSync(path).buffer;
+        readFile = FS.createReadStream(path, {
+          highWaterMark: 1024 * 1024 * 3,
+        });
+
         push = await buckets.pushPath(bucketKey, data.name, readFile);
       } catch (e) {
         await FS.unlinkSync(localPath);
@@ -49,7 +55,6 @@ export const formMultipart = (req, res, { user }) =>
           message: e,
         });
       }
-
       // NOTE(jim): Remove the file when you're done with it.
       await FS.unlinkSync(localPath);
 

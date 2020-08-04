@@ -45,8 +45,10 @@ const STYLES_IMAGE_PREVIEW = css`
 
 export default class SidebarFileStorageDeal extends React.Component {
   state = {
-    settings_cold_default_duration: this.props.viewer.settings_cold_default_duration,
-    settings_cold_default_replication_factor: this.props.viewer.settings_cold_default_replication_factor,
+    settings_cold_default_duration: this.props.viewer
+      .settings_cold_default_duration,
+    settings_cold_default_replication_factor: this.props.viewer
+      .settings_cold_default_replication_factor,
   };
 
   async componentDidMount() {
@@ -99,11 +101,11 @@ export default class SidebarFileStorageDeal extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload a file to the network</System.P>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+          Make Filecoin storage deal
+        </System.P>
 
         <div>
-          <img src={`https://hub.textile.io${file.ipfs}`} css={STYLES_IMAGE_PREVIEW} />
-
           <div css={STYLES_ITEM}>
             <div css={STYLES_FOCUS}>{file.name}</div>
             <div css={STYLES_SUBTEXT}>Name</div>
@@ -154,7 +156,8 @@ export default class SidebarFileStorageDeal extends React.Component {
           full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
-          loading={this.props.sidebarLoading}>
+          loading={this.props.sidebarLoading}
+        >
           Make storage deal
         </System.ButtonPrimary>
 

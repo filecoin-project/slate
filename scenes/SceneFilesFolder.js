@@ -53,10 +53,15 @@ export default class SceneFilesFolder extends React.Component {
     this._interval = null;
   }
 
+  componentDidUpdate(prevProps) {
+    if (!this._interval) {
+      console.log("Starting loop again");
+      this._interval = this.loop();
+    }
+  }
+
   render() {
-    let bytes = 0;
     let rows = this.props.viewer.library[0].children.map((each) => {
-      bytes = each.size + bytes;
       return {
         ...each,
         button:
@@ -115,7 +120,9 @@ export default class SceneFilesFolder extends React.Component {
         </System.H1>
         <Section
           onAction={this.props.onAction}
-          title={`${Strings.bytesToSize(bytes)} uploaded`}
+          title={`${Strings.bytesToSize(
+            this.props.viewer.stats.bytes
+          )} uploaded`}
           buttons={[
             {
               name: "Upload data",

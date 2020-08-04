@@ -66,16 +66,6 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SLATES",
     children: constructSlatesTreeForNavigation(slates),
   },
-  // TODO(colin):
-  // re-enable this when we do local offline.
-  {
-    id: 4,
-    name: "Local",
-    pageTitle: "Local data",
-    decorator: "LOCAL_DATA",
-    children: [],
-    ignore: true, //re-enable here.
-  },
   {
     id: 13,
     name: "Profile & Account Settings",
@@ -128,5 +118,13 @@ export const generate = ({ library = [], slates = [] }) => [
         decorator: "DEALS",
       },
     ],
+  },
+  {
+    id: 4,
+    name: "Local",
+    pageTitle: "Local data",
+    decorator: "LOCAL_DATA",
+    children: [],
+    ignore: false,
   },
 ];

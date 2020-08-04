@@ -8,6 +8,13 @@ import ScenePage from "~/components/core/ScenePage";
 // TODO(jim): Figure out the local data story.
 export default class SceneLocalData extends React.Component {
   render() {
-    return <ScenePage>Local Data Prototype</ScenePage>;
+    return (
+      <ScenePage>
+        <System.DescriptionGroup
+          label="Coming soon"
+          description="An offline client for Slate with local file storage."
+        />
+      </ScenePage>
+    );
   }
 }

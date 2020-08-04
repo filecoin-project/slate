@@ -40,12 +40,16 @@ const STYLES_CARD = css`
   width: 100%;
   background: ${Constants.system.pitchBlack};
   border-radius: 8px;
+  padding: 0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 `;
 
 const STYLES_CARD_IMAGE = css`
+  display: block;
   width: 100%;
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px 8px 8px 8px;
+  margin: 0;
+  padding: 0;
 `;
 
 const STYLES_CARD_PARAGRAPH = css`
@@ -93,17 +97,21 @@ export default class ProfilePage extends React.Component {
 
           <div css={STYLES_CARD}>
             <img css={STYLES_CARD_IMAGE} src={this.props.creator.data.photo} />
-            <p css={STYLES_CARD_PARAGRAPH}>
-              {this.props.creator.slates.map((row) => {
-                const url = `/@${this.props.creator.username}/${row.slatename}`;
+            {this.props.creator.slates && this.props.creator.slates.length ? (
+              <p css={STYLES_CARD_PARAGRAPH}>
+                {this.props.creator.slates.map((row) => {
+                  const url = `/@${this.props.creator.username}/${
+                    row.slatename
+                  }`;
 
-                return (
-                  <a key={url} css={STYLES_LINK} href={url}>
-                    {url}
-                  </a>
-                );
-              })}
-            </p>
+                  return (
+                    <a key={url} css={STYLES_LINK} href={url}>
+                      {url}
+                    </a>
+                  );
+                })}
+              </p>
+            ) : null}
           </div>
 
           <WebsitePrototypeFooter />

@@ -89,28 +89,31 @@ const STYLES_HREF = css`
 `;
 
 export default (props) => {
-  const percentage = props.currentBytes / MAX_IN_BYTES;
-  console.log(percentage * 100);
+  const percentage = props.stats.bytes / props.stats.maximumBytes;
 
   return (
     <div css={STYLES_GUTTER}>
       <div css={STYLES_CONTAINER}>
         <System.P style={{ fontSize: 12 }}>
           <strong css={STYLES_TITLE}>Usage</strong>
-          Slate users get 10GB of IPFS storage for free.{" "}
+          Slate users get 1GB of IPFS storage from Textile for free{" "}
           <strong
             css={STYLES_HREF}
             onClick={() => alert("TODO: SUBSCRIPTION OPTIONS")}
           >
             (upgrade)
           </strong>
+          . In the future you can extend this with your own plugins using our
+          SDK.
           <br />
           <br />
         </System.P>
 
         <div css={STYLES_STATS_ROW}>
-          <div css={STYLES_LEFT}>{Strings.bytesToSize(props.currentBytes)}</div>
-          <div css={STYLES_RIGHT}>{Strings.bytesToSize(MAX_IN_BYTES)}</div>
+          <div css={STYLES_LEFT}>{Strings.bytesToSize(props.stats.bytes)}</div>
+          <div css={STYLES_RIGHT}>
+            {Strings.bytesToSize(props.stats.maximumBytes)}
+          </div>
         </div>
 
         <div css={STYLES_ROW}>

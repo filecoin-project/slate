@@ -1,6 +1,7 @@
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Powergate from "~/node_common/powergate";
+import * as Constants from "~/node_common/constants";
 
 export const getById = async ({ id }) => {
   const user = await Data.getUserById({
@@ -22,12 +23,21 @@ export const getById = async ({ id }) => {
   const keysRaw = await Data.getAPIKeysByUserId({ userId: id });
   const keys = JSON.parse(JSON.stringify(keysRaw));
 
+  let bytes = 0;
+  user.data.library[0].children.forEach((each) => {
+    bytes = each.size + bytes;
+  });
+
   try {
     data = {
       id: user.id,
       data: { photo: user.data.photo },
       settings: {
         deals_auto_approve: user.data.settings_deals_auto_approve,
+      },
+      stats: {
+        bytes,
+        maximumBytes: Constants.TEXTILE_ACCOUNT_BYTE_LIMIT,
       },
       username: user.username,
       library: user.data.library,

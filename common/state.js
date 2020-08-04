@@ -63,6 +63,7 @@ export const getInitialState = (props) => {
 
   const {
     status,
+    stats,
     messageList,
     peersList,
     addrsList,
@@ -83,16 +84,17 @@ export const getInitialState = (props) => {
     data: {
       photo: data.photo,
     },
-    upload_bandwidth: 0,
-    download_bandwidth: 0,
 
+    // NOTE(jim): Local settings
     settings_deals_auto_approve: settings.deals_auto_approve,
 
+    // NOTE(jim): Powergate Hot Settings
     settings_hot_enabled: info.defaultStorageConfig.hot.enabled,
     settings_hot_allow_unfreeze: info.defaultStorageConfig.hot.allowUnfreeze,
     settings_hot_ipfs_add_timeout:
       info.defaultStorageConfig.hot.ipfs.addTimeout,
 
+    // NOTE(jim): Powergate Cold Settings
     settings_cold_enabled: info.defaultStorageConfig.cold.enabled,
     settings_cold_default_address: info.defaultStorageConfig.cold.filecoin.addr,
     settings_cold_default_duration:
@@ -110,16 +112,13 @@ export const getInitialState = (props) => {
     settings_cold_default_auto_renew_max_price:
       info.defaultStorageConfig.cold.filecoin.renew.threshold,
 
-    notifications: [],
-    payment_channels_active: [],
-    payment_channels_redeemed: [],
-    data_transfers: [],
     storageList,
     retrievalList,
     slates,
     keys,
+    stats,
+    library,
     peers: transformPeers(peersList),
     addresses: transformAddresses(addrsList, info),
-    library,
   };
 };

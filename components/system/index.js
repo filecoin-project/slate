@@ -78,6 +78,8 @@ import {
   TableColumn,
 } from "~/components/system/components/fragments/TableComponents";
 
+import { AvatarGroup } from "~/components/system/components/AvatarGroup";
+
 import * as SVG from "~/components/system/svg";
 import * as OldSVG from "~/common/svg";
 
@@ -148,4 +150,5 @@ export {
   LoaderRotate,
   LoaderProgress,
   LoaderSpinner,
+  AvatarGroup,
 };

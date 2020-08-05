@@ -273,6 +273,11 @@ export default class SystemPage extends React.Component {
           <SidebarLink url={url} href="/system/toggles" title="Toggles" />
           <SidebarLink url={url} href="/system/tooltips" title="Tooltips" />
           <SidebarLink url={url} href="/system/typography" title="Typography" />
+          <SidebarLink
+            url={url}
+            href="/system/avatar-group"
+            title="Avatar Group"
+          />
 
           <div
             css={STYLES_SMALL_LINK}

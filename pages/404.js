@@ -37,15 +37,15 @@ const STYLES_GLITCH = css`
 
   ::before {
     text-shadow: 2px 0 #00ffea;
-    animation: slate-animation-glitch 3s infinite linear;
+    animation: slate-client-animation-glitch 3s infinite linear;
   }
 
   ::after {
     text-shadow: -2px 0 #fe3a7f;
-    animation: slate-animation-glitch 2s infinite linear;
+    animation: slate-client-animation-glitch 2s infinite linear;
   }
 
-  @keyframes slate-animation-glitch {
+  @keyframes slate-client-animation-glitch {
     0% {
       clip: rect(64px, 9999px, 66px, 0);
     }

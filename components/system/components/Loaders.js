@@ -16,9 +16,9 @@ const STYLES_LOADER_CIRCLE = `
   background-color: ${Constants.system.brand};
   border-radius: 100%;
   display: inline-block;
-  animation: circle-bouncedelay 1.6s infinite ease-in-out both;
+  animation: slate-client-circle-bouncedelay 1.6s infinite ease-in-out both;
 
-  @keyframes circle-bouncedelay {
+  @keyframes slate-client-circle-bouncedelay {
     0%,
     80%,
     100% {
@@ -63,10 +63,10 @@ const STYLES_LOADER_DIAMOND = `
   width: 24px;
   height: 24px;
   z-index: 1;
-  animation: animate-diamond 0.92s cubic-bezier(0.445, 0.05, 0.55, 0.95)
+  animation: slate-client-animate-diamond 0.92s cubic-bezier(0.445, 0.05, 0.55, 0.95)
     infinite alternate;
 
-  @keyframes animate-diamond {
+  @keyframes slate-client-animate-diamond {
     0% {
       transform: translate3d(-10px, -10px, 0);
     }
@@ -114,9 +114,9 @@ const STYLES_LOADER_MOON_CIRCLE = css`
   box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.25);
   border-bottom: 10px solid ${Constants.system.brand};
   border-radius: 50%;
-  animation: animation-spin 1.15s ease infinite;
+  animation: slate-client-animation-spin 1.15s ease infinite;
 
-  @keyframes animation-spin {
+  @keyframes slate-client-animation-spin {
     from {
       transform: rotate(0deg);
     }
@@ -150,17 +150,17 @@ const STYLES_LOADER_ROTATE_SQUARES = css`
     height: 24px;
   }
   :after {
-    animation: animation-spinner-1 2.88s linear infinite;
+    animation: slate-client-animation-spinner-1 2.88s linear infinite;
   }
   :before {
     width: 40px;
     height: 40px;
     margin-left: -8px;
     margin-top: -8px;
-    animation: animation-spinner-2 2.88s linear infinite;
+    animation: slate-client-animation-spinner-2 2.88s linear infinite;
   }
 
-  @keyframes animation-spinner-1 {
+  @keyframes slate-client-animation-spinner-1 {
     from {
       transform: rotate(0deg);
     }
@@ -169,7 +169,7 @@ const STYLES_LOADER_ROTATE_SQUARES = css`
     }
   }
 
-  @keyframes animation-spinner-2 {
+  @keyframes slate-client-animation-spinner-2 {
     from {
       transform: rotate(0deg);
     }
@@ -197,10 +197,10 @@ const STYLES_LOADER_PROGRESS = css`
     #1d1927
   );
   border-radius: 4px;
-  animation: progressbar 5s infinite;
+  animation: slate-client-progressbar 5s infinite;
   transition: width 0.8s ease;
 
-  @keyframes progressbar {
+  @keyframes slate-client-progressbar {
     from {
       width: 0;
     }
@@ -223,9 +223,9 @@ const STYLES_LOADER_SPINNER = css`
   border: 2px solid ${Constants.system.brand};
   border-radius: 50%;
   border-top-color: ${Constants.system.foreground};
-  animation: animation-spin 1s ease-in-out infinite;
+  animation: slate-client-animation-spin 1s ease-in-out infinite;
 
-  @keyframes animation-spin {
+  @keyframes slate-client-animation-spin {
     to {
       -webkit-transform: rotate(360deg);
     }

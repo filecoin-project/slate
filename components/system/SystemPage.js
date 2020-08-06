@@ -187,54 +187,54 @@ export default class SystemPage extends React.Component {
         </Head>
         <div css={STYLES_BODY}>{children}</div>
         <div css={STYLES_SIDEBAR}>
-          <a css={STYLES_ICON_ELEMENT} href="/system" />
+          <a css={STYLES_ICON_ELEMENT} href="/_/system" />
           <br />
           <br />
 
           <span css={STYLES_LABEL}>Experiences</span>
           <SidebarLink
             url={url}
-            href="/experiences/create-address"
+            href="/_/experiences/create-address"
             title="CreateFilecoinAddress"
           />
           <SidebarLink
             url={url}
-            href="/experiences/make-storage-deal"
+            href="/_/experiences/make-storage-deal"
             title="CreateFilecoinStorageDeal"
           />
           <SidebarLink
             url={url}
-            href="/experiences/generate-powergate-token"
+            href="/_/experiences/generate-powergate-token"
             title="CreateToken"
           />
           <SidebarLink
             url={url}
-            href="/experiences/filecoin-wallet-balances"
+            href="/_/experiences/filecoin-wallet-balances"
             title="FilecoinBalancesList"
           />
           <SidebarLink
             url={url}
-            href="/experiences/list-filecoin-deals"
+            href="/_/experiences/list-filecoin-deals"
             title="FilecoinDealsList"
           />
           <SidebarLink
             url={url}
-            href="/experiences/filecoin-settings"
+            href="/_/experiences/filecoin-settings"
             title="FilecoinSettings"
           />
           <SidebarLink
             url={url}
-            href="/experiences/friends-list"
+            href="/_/experiences/friends-list"
             title="FriendsList"
           />
           <SidebarLink
             url={url}
-            href="/experiences/peers-list"
+            href="/_/experiences/peers-list"
             title="PeersList"
           />
           <SidebarLink
             url={url}
-            href="/experiences/send-address-filecoin"
+            href="/_/experiences/send-address-filecoin"
             title="SendAddressFilecoin"
           />
 
@@ -243,39 +243,51 @@ export default class SystemPage extends React.Component {
             <br />
             Components
           </span>
-          <SidebarLink url={url} href="/system/buttons" title="Buttons" />
-          <SidebarLink url={url} href="/system/card-tabs" title="Card Tabs" />
-          <SidebarLink url={url} href="/system/carousel" title="Carousel" />
-          <SidebarLink url={url} href="/system/checkboxes" title="Checkboxes" />
-          <SidebarLink url={url} href="/system/colors" title="Colors" />
-          <SidebarLink url={url} href="/system/datepicker" title="Datepicker" />
-          <SidebarLink url={url} href="/system/dropdowns" title="Dropdowns" />
-          <SidebarLink url={url} href="/system/globe" title="Globe" />
-          <SidebarLink url={url} href="/system/icons" title="Icons" />
-          <SidebarLink url={url} href="/system/inputs" title="Inputs" />
+          <SidebarLink url={url} href="/_/system/buttons" title="Buttons" />
+          <SidebarLink url={url} href="/_/system/card-tabs" title="Card Tabs" />
+          <SidebarLink url={url} href="/_/system/carousel" title="Carousel" />
           <SidebarLink
             url={url}
-            href="/system/list-editor"
+            href="/_/system/checkboxes"
+            title="Checkboxes"
+          />
+          <SidebarLink url={url} href="/_/system/colors" title="Colors" />
+          <SidebarLink
+            url={url}
+            href="/_/system/datepicker"
+            title="Datepicker"
+          />
+          <SidebarLink url={url} href="/_/system/dropdowns" title="Dropdowns" />
+          <SidebarLink url={url} href="/_/system/globe" title="Globe" />
+          <SidebarLink url={url} href="/_/system/icons" title="Icons" />
+          <SidebarLink url={url} href="/_/system/inputs" title="Inputs" />
+          <SidebarLink
+            url={url}
+            href="/_/system/list-editor"
             title="List Editor"
           />
-          <SidebarLink url={url} href="/system/loaders" title="Loaders" />
-          <SidebarLink url={url} href="/system/modals" title="Modals" />
+          <SidebarLink url={url} href="/_/system/loaders" title="Loaders" />
+          <SidebarLink url={url} href="/_/system/modals" title="Modals" />
           <SidebarLink
             url={url}
-            href="/system/notifications"
+            href="/_/system/notifications"
             title="Notifications"
           />
-          <SidebarLink url={url} href="/system/radios" title="Radios" />
-          <SidebarLink url={url} href="/system/sliders" title="Sliders" />
-          <SidebarLink url={url} href="/system/stats" title="Stats" />
-          <SidebarLink url={url} href="/system/tables" title="Tables" />
-          <SidebarLink url={url} href="/system/tabs" title="Tabs" />
-          <SidebarLink url={url} href="/system/toggles" title="Toggles" />
-          <SidebarLink url={url} href="/system/tooltips" title="Tooltips" />
-          <SidebarLink url={url} href="/system/typography" title="Typography" />
+          <SidebarLink url={url} href="/_/system/radios" title="Radios" />
+          <SidebarLink url={url} href="/_/system/sliders" title="Sliders" />
+          <SidebarLink url={url} href="/_/system/stats" title="Stats" />
+          <SidebarLink url={url} href="/_/system/tables" title="Tables" />
+          <SidebarLink url={url} href="/_/system/tabs" title="Tabs" />
+          <SidebarLink url={url} href="/_/system/toggles" title="Toggles" />
+          <SidebarLink url={url} href="/_/system/tooltips" title="Tooltips" />
           <SidebarLink
             url={url}
-            href="/system/avatar-group"
+            href="/_/system/typography"
+            title="Typography"
+          />
+          <SidebarLink
+            url={url}
+            href="/_/system/avatar-group"
             title="Avatar Group"
           />
 

@@ -153,9 +153,7 @@ export default class IndexPage extends React.Component {
                   {Constants.values.version} for Filecoin
                 </div>
                 <div css={STYLES_CARD_ACTIONS_RIGHT}>
-                  <System.ButtonPrimary
-                    onClick={() => window.open("/application")}
-                  >
+                  <System.ButtonPrimary onClick={() => window.open("/_")}>
                     Use Slate
                   </System.ButtonPrimary>
                 </div>

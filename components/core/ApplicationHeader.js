@@ -173,7 +173,7 @@ export default class ApplicationHeader extends React.Component {
           >
             <a
               css={STYLES_PROFILE}
-              href={`/@${this.props.viewer.username}`}
+              href={`/${this.props.viewer.username}`}
               target="_blank"
             >
               <span

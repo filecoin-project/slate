@@ -1,5 +1,6 @@
 import * as Environment from "~/node_common/environment";
 import * as Constants from "./node_common/constants";
+import * as Validations from "~/common/validations";
 import * as Data from "~/node_common/data";
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as Utilities from "~/node_common/utilities";
@@ -27,7 +28,7 @@ app.prepare().then(async () => {
 
   server.use("/public", express.static("public"));
 
-  server.get("/application", async (req, res) => {
+  server.get("/_", async (req, res) => {
     const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;
@@ -37,12 +38,17 @@ app.prepare().then(async () => {
       });
     }
 
-    return app.render(req, res, "/application", {
+    return app.render(req, res, "/_", {
       viewer,
     });
   });
 
-  server.get("/@:username", async (req, res) => {
+  server.get("/:username", async (req, res) => {
+    // TODO(jim): Temporary workaround
+    if (!Validations.userRoute(req.params.username)) {
+      return handler(req, res, req.url);
+    }
+
     const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;
@@ -69,7 +75,7 @@ app.prepare().then(async () => {
       publicOnly: true,
     });
 
-    return app.render(req, res, "/profile", {
+    return app.render(req, res, "/_/profile", {
       viewer,
       creator: {
         username: creator.username,
@@ -79,7 +85,12 @@ app.prepare().then(async () => {
     });
   });
 
-  server.get("/@:username/:slatename", async (req, res) => {
+  server.get("/:username/:slatename", async (req, res) => {
+    // TODO(jim): Temporary workaround
+    if (!Validations.userRoute(req.params.username)) {
+      return handler(req, res, req.url);
+    }
+
     const slate = await Data.getSlateByName({
       slatename: req.params.slatename,
     });
@@ -106,7 +117,7 @@ app.prepare().then(async () => {
       return res.redirect("/403");
     }
 
-    return app.render(req, res, "/slate", {
+    return app.render(req, res, "/_/slate", {
       slate: JSON.parse(
         JSON.stringify({ ...slate, ownername: req.params.username })
       ),

@@ -53,10 +53,14 @@ export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
-        <a css={STYLES_LINK} href="/" style={{ marginRight: 24, fontFamily: Constants.font.codeBold }}>
+        <a
+          css={STYLES_LINK}
+          href="/"
+          style={{ marginRight: 24, fontFamily: Constants.font.codeBold }}
+        >
           Slate {Constants.values.version}
         </a>
-        <a css={STYLES_LINK} href="/system">
+        <a css={STYLES_LINK} href="/_/system">
           Design System
         </a>
       </div>

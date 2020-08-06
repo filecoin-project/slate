@@ -60,7 +60,7 @@ export default class SidebarCreateSlate extends React.Component {
         />
 
         <System.P style={{ marginTop: 24 }}>
-          This will create a new slate address at https://slate.host/@
+          This will create a new slate address at https://slate.host/
           {this.props.viewer.username}/{Strings.createSlug(this.state.name)}
         </System.P>
 

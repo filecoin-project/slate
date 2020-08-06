@@ -445,7 +445,7 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           title="Slate: sign in"
           description="Sign in to your Slate account to manage your assets."
-          url="https://slate.host/application"
+          url="https://slate.host/_"
         >
           <SceneSignIn
             onAuthenticate={this._handleAuthenticate}
@@ -519,7 +519,7 @@ export default class ApplicationPage extends React.Component {
 
     const title = `Slate : ${current.target.pageTitle}`;
     const description = "This is an early preview.";
-    const url = "https://fps.onrender.com/v1";
+    const url = "https://slate.host/_";
 
     return (
       <React.Fragment>

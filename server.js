@@ -64,7 +64,10 @@ app.prepare().then(async () => {
       return res.redirect("/404");
     }
 
-    const slates = await Data.getSlatesByUserId({ userId: creator.id, publicOnly: true });
+    const slates = await Data.getSlatesByUserId({
+      userId: creator.id,
+      publicOnly: true,
+    });
 
     return app.render(req, res, "/profile", {
       viewer,
@@ -86,12 +89,27 @@ app.prepare().then(async () => {
     }
 
     if (!slate.data.public) {
-      // TODO(jim): Access denied page.
+      return res.redirect("/403");
+    }
+
+    const creator = await Data.getUserById({ id: slate.data.ownerId });
+
+    if (!creator) {
+      return res.redirect("/404");
+    }
+
+    if (creator.error) {
+      return res.redirect("/404");
+    }
+
+    if (req.params.username !== creator.username) {
       return res.redirect("/403");
     }
 
     return app.render(req, res, "/slate", {
-      slate: JSON.parse(JSON.stringify({ ...slate, ownername: req.params.username })),
+      slate: JSON.parse(
+        JSON.stringify({ ...slate, ownername: req.params.username })
+      ),
     });
   });
 

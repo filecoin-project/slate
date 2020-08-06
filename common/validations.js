@@ -2,6 +2,27 @@ import * as Strings from "~/common/strings";
 
 const USERNAME_REGEX = new RegExp("^[a-zA-Z0-9_]{0,}[a-zA-Z]+[0-9]*$");
 const MIN_PASSWORD_LENGTH = 8;
+const REJECT_LIST = [
+  "_",
+  "root",
+  "www",
+  "website",
+  "index",
+  "api",
+  "public",
+  "static",
+  "admin",
+  "administrator",
+  "webmaster",
+  "403",
+  "404",
+  "500",
+  "login",
+  "sign-in",
+  "signin",
+  "log-in",
+  "logout",
+];
 
 export const username = (text) => {
   if (Strings.isEmpty(text)) {
@@ -9,6 +30,10 @@ export const username = (text) => {
   }
 
   if (!USERNAME_REGEX.test(text)) {
+    return false;
+  }
+
+  if (REJECT_LIST.includes(text)) {
     return false;
   }
 

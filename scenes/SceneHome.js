@@ -71,14 +71,16 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `/@${this.props.viewer.username}/${each.slatename}`,
+          url: `/${this.props.viewer.username}/${each.slatename}`,
           public: each.data.public,
         };
       }),
     };
 
     // TODO(jim): Refactor later.
-    const slateButtons = [{ name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" }];
+    const slateButtons = [
+      { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
+    ];
 
     // TODO(jim): Refactor later.
     const data = {
@@ -154,7 +156,11 @@ export default class SceneHome extends React.Component {
         />
         <System.H1 style={{ marginTop: 48 }}>Home</System.H1>
         {this.props.viewer.addresses[0] ? (
-          <Section title="Wallet addresses" buttons={walletButtons} onAction={this.props.onAction}>
+          <Section
+            title="Wallet addresses"
+            buttons={walletButtons}
+            onAction={this.props.onAction}
+          >
             <System.Table
               data={wallet}
               name="transaction"
@@ -164,7 +170,11 @@ export default class SceneHome extends React.Component {
           </Section>
         ) : null}
 
-        <Section title="Slates" buttons={slateButtons} onAction={this.props.onAction}>
+        <Section
+          title="Slates"
+          buttons={slateButtons}
+          onAction={this.props.onAction}
+        >
           <System.Table
             data={slates}
             name="slate"
@@ -174,7 +184,11 @@ export default class SceneHome extends React.Component {
         </Section>
 
         {this.props.viewer.library[0] ? (
-          <Section title="Recent data" buttons={dataButtons} onAction={this.props.onAction}>
+          <Section
+            title="Recent data"
+            buttons={dataButtons}
+            onAction={this.props.onAction}
+          >
             <System.Table
               data={data}
               name="data"

@@ -53,7 +53,11 @@ export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
-        <a css={STYLES_LINK} href={`/@${props.children}`} style={{ fontFamily: Constants.font.codeBold }}>
+        <a
+          css={STYLES_LINK}
+          href={`/${props.children}`}
+          style={{ fontFamily: Constants.font.codeBold }}
+        >
           {props.children}
         </a>
       </div>

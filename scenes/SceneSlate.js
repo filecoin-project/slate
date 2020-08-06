@@ -83,7 +83,7 @@ export default class SceneSlate extends React.Component {
   render() {
     const { data } = this.props.current;
     const { slatename } = this.state;
-    const url = `/@${this.props.viewer.username}/${slatename}`;
+    const url = `/${this.props.viewer.username}/${slatename}`;
 
     const slates = {
       columns: [

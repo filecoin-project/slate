@@ -54,7 +54,9 @@ class Key extends React.Component {
         {this.state.visible ? (
           <div css={STYLES_KEY_LEFT}>{this.props.data.key}</div>
         ) : (
-          <div css={STYLES_KEY_LEFT}>XXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXX</div>
+          <div css={STYLES_KEY_LEFT}>
+            XXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXX
+          </div>
         )}
         <div css={STYLES_KEY_RIGHT}>
           <span
@@ -62,11 +64,17 @@ class Key extends React.Component {
             onClick={this._handleToggleVisible}
             style={{
               marginRight: 16,
-              backgroundColor: this.state.visible ? null : Constants.system.brand,
-            }}>
+              backgroundColor: this.state.visible
+                ? null
+                : Constants.system.brand,
+            }}
+          >
             <SVG.Privacy height="16px" />
           </span>
-          <span css={STYLES_CIRCLE_BUTTON} onClick={() => this.props.onDelete(this.props.data.id)}>
+          <span
+            css={STYLES_CIRCLE_BUTTON}
+            onClick={() => this.props.onDelete(this.props.data.id)}
+          >
             <SVG.Dismiss height="16px" />
           </span>
         </div>
@@ -75,7 +83,10 @@ class Key extends React.Component {
   }
 }
 
-const EXAMPLE_GET_SLATE = (key, slateId) => `// NOTE: set a slate by ID in an async/await function
+const EXAMPLE_GET_SLATE = (
+  key,
+  slateId
+) => `// NOTE: set a slate by ID in an async/await function
 
 const response = await fetch('https://slate.host/api/v1/get-slate', {
   method: 'POST',
@@ -85,7 +96,7 @@ const response = await fetch('https://slate.host/api/v1/get-slate', {
     Authorization: 'Basic ${key}',
   },
   body: JSON.stringify({ data: {
-    // NOTE: your slate id
+    // NOTE: your slate ID
     id: ${slateId}
   }})
 });
@@ -93,7 +104,30 @@ const response = await fetch('https://slate.host/api/v1/get-slate', {
 const json = await response.json();
 console.log(json);`;
 
-const EXAMPLE_GET_SLATE_RESPONSE = (key, slateId) => `// NOTE: get a slate by ID JSON response
+const EXAMPLE_GET = (
+  key
+) => `// NOTE: set a slate by ID in an async/await function
+
+const response = await fetch('https://slate.host/api/v1/get', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    // NOTE: your API key
+    Authorization: 'Basic ${key}',
+  },
+  body: JSON.stringify({ data: {
+    // NOTE: optional, if you want your private slates too.
+    private: false
+  }})
+});
+
+const json = await response.json();
+console.log(json);`;
+
+const EXAMPLE_GET_SLATE_RESPONSE = (
+  key,
+  slateId
+) => `// NOTE: get a slate by ID JSON response
 
 {
   data: {
@@ -119,10 +153,10 @@ const EXAMPLE_GET_SLATE_RESPONSE = (key, slateId) => `// NOTE: get a slate by ID
 }`;
 
 const EXAMPLE_UPLOAD_TO_SLATE = (key, slateId) => `// NOTE
-// Upload data to a Slate by id in an async/await function. 
+// Upload data to a Slate by ID in an async/await function. 
 // Uses event data from a type="file" input.
 
-// NOTE: your slate id
+// NOTE: your slate ID
 const url = 'https://slate.host/api/v1/upload-data/${slateId}';
 
 let file = e.target.files[0];
@@ -140,7 +174,7 @@ const response = await fetch(url, {
 
 const json = await response.json();
 
-// NOTE: you will receive a url you can use right away.
+// NOTE: you will receive a URL you can use right away.
 console.log(json);`;
 
 export default class SceneSettingsDeveloper extends React.Component {
@@ -166,7 +200,11 @@ export default class SceneSettingsDeveloper extends React.Component {
   _handleDelete = async (id) => {
     this.setState({ loading: true });
 
-    if (!window.confirm("Are you sure you want to delete this key? This action is irreversible")) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this key? This action is irreversible"
+      )
+    ) {
       this.setState({ loading: false });
       return;
     }
@@ -224,7 +262,7 @@ export default class SceneSettingsDeveloper extends React.Component {
         <System.DescriptionGroup
           style={{ marginTop: 48, marginBottom: 48 }}
           label="Generate an API key"
-          description="You can use your API key to get and create slates, and add images to slates. You can have a total of 10 keys at any given time."
+          description="You can use your API key to get slates and add images to slates. You can have a total of 10 keys at any given time."
         />
 
         {this.props.viewer.keys.map((k) => {
@@ -232,7 +270,10 @@ export default class SceneSettingsDeveloper extends React.Component {
         })}
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary onClick={this._handleSave} loading={this.state.loading}>
+          <System.ButtonPrimary
+            onClick={this._handleSave}
+            loading={this.state.loading}
+          >
             Generate
           </System.ButtonPrimary>
         </div>
@@ -242,19 +283,39 @@ export default class SceneSettingsDeveloper extends React.Component {
             <System.H2 style={{ marginTop: 64 }}>Usage (JavaScript)</System.H2>
             <System.DescriptionGroup
               style={{ marginTop: 48 }}
-              label="Get slate by ID"
-              description="If you have the ID of your slate you can make a request for it. If you don't provide an ID you will get back the most recent slate you have made."
+              label="Get all slates"
+              description="This API request will return all of your public slates."
             />
-            <CodeBlock children={EXAMPLE_GET_SLATE(key, slateId)} style={{ maxWidth: "768px" }} />
+            <CodeBlock
+              children={EXAMPLE_GET(key)}
+              style={{ maxWidth: "768px" }}
+            />
             <br />
             <br />
-            <CodeBlock children={EXAMPLE_GET_SLATE_RESPONSE(key)} style={{ maxWidth: "768px" }} />
+            <System.DescriptionGroup
+              style={{ marginTop: 48 }}
+              label="Get slate by ID"
+              description="This API request will return a specific slate. If you don't provide an ID argument the response will contain the most recently modified slate."
+            />
+            <CodeBlock
+              children={EXAMPLE_GET_SLATE(key, slateId)}
+              style={{ maxWidth: "768px" }}
+            />
+            <br />
+            <br />
+            <CodeBlock
+              children={EXAMPLE_GET_SLATE_RESPONSE(key)}
+              style={{ maxWidth: "768px" }}
+            />
             <System.DescriptionGroup
               style={{ marginTop: 48 }}
               label="Upload data to slate by ID"
-              description="You can use an HTML input field to get a file from the JavaScript event and upload that file to a slate of your choice. You must have the correct slate ID for this to work."
+              description="This API request will add a JavaScript file object to your slate."
             />
-            <CodeBlock children={EXAMPLE_UPLOAD_TO_SLATE(key, slateId)} style={{ maxWidth: "768px" }} />
+            <CodeBlock
+              children={EXAMPLE_UPLOAD_TO_SLATE(key, slateId)}
+              style={{ maxWidth: "768px" }}
+            />
           </React.Fragment>
         ) : null}
       </ScenePage>

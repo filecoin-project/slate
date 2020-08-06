@@ -2,7 +2,10 @@ import * as Strings from "~/common/strings";
 
 const USERNAME_REGEX = new RegExp("^[a-zA-Z0-9_]{0,}[a-zA-Z]+[0-9]*$");
 const MIN_PASSWORD_LENGTH = 8;
-const REJECT_LIST = [
+
+export const REJECT_LIST = [
+  "..",
+  "webpack",
   "_",
   "root",
   "www",
@@ -18,9 +21,12 @@ const REJECT_LIST = [
   "404",
   "500",
   "login",
+  "authenticate",
   "sign-in",
+  "sign_in",
   "signin",
   "log-in",
+  "log_in",
   "logout",
 ];
 

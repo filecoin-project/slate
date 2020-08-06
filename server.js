@@ -1,5 +1,6 @@
 import * as Environment from "~/node_common/environment";
 import * as Constants from "./node_common/constants";
+import * as Validations from "~/common/validations";
 import * as Data from "~/node_common/data";
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as Utilities from "~/node_common/utilities";
@@ -26,6 +27,7 @@ app.prepare().then(async () => {
   }
 
   server.use("/public", express.static("public"));
+  server.use("/static", express.static("public/static"));
 
   server.get("/_", async (req, res) => {
     const id = Utilities.getIdFromCookie(req);
@@ -43,6 +45,11 @@ app.prepare().then(async () => {
   });
 
   server.get("/:username", async (req, res) => {
+    // TODO(jim): Temporary workaround
+    if (Validations.REJECT_LIST.includes(req.params.username)) {
+      return handler(req, res, req.url);
+    }
+
     const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;
@@ -80,6 +87,11 @@ app.prepare().then(async () => {
   });
 
   server.get("/:username/:slatename", async (req, res) => {
+    // TODO(jim): Temporary workaround
+    if (Validations.REJECT_LIST.includes(req.params.username)) {
+      return handler(req, res, req.url);
+    }
+
     const slate = await Data.getSlateByName({
       slatename: req.params.slatename,
     });

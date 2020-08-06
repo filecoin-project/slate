@@ -1,7 +1,5 @@
 import * as MW from "~/node_common/middleware";
 
-import DB from "~/node_common/database";
-
 const initCORS = MW.init(MW.CORS);
 
 export default (req, res) => {

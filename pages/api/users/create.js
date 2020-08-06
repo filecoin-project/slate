@@ -62,7 +62,7 @@ export default async (req, res) => {
   const user = await Data.createUser({
     password: triple,
     salt,
-    username: req.body.data.username,
+    username: req.body.data.username.toLowerCase(),
     data: {
       photo: "https://slate.host/static/a1.jpg",
       settings_deals_auto_approve: false,

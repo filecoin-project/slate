@@ -105,7 +105,7 @@ export default class SceneSignIn extends React.Component {
     }
 
     const response = await this.props.onAuthenticate({
-      username: this.state.username,
+      username: this.state.username.toLowerCase(),
       password: this.state.password,
     });
 

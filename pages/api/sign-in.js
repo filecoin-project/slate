@@ -23,7 +23,9 @@ export default async (req, res) => {
 
   let user;
   try {
-    user = await Data.getUserByUsername({ username: req.body.data.username });
+    user = await Data.getUserByUsername({
+      username: req.body.data.username.toLowerCase(),
+    });
   } catch (e) {
     console.log(e);
   }

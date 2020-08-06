@@ -108,7 +108,7 @@ export default class SceneSlate extends React.Component {
       },
     ];
 
-    const slateURL = `https://slate.host/@${
+    const slateURL = `https://slate.host/${
       this.props.viewer.username
     }/${slatename}`;
 

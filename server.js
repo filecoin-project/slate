@@ -27,7 +27,6 @@ app.prepare().then(async () => {
   }
 
   server.use("/public", express.static("public"));
-  server.use("/static", express.static("public/static"));
 
   server.get("/_", async (req, res) => {
     const id = Utilities.getIdFromCookie(req);
@@ -46,7 +45,7 @@ app.prepare().then(async () => {
 
   server.get("/:username", async (req, res) => {
     // TODO(jim): Temporary workaround
-    if (Validations.REJECT_LIST.includes(req.params.username)) {
+    if (!Validations.userRoute(req.params.username)) {
       return handler(req, res, req.url);
     }
 
@@ -88,7 +87,7 @@ app.prepare().then(async () => {
 
   server.get("/:username/:slatename", async (req, res) => {
     // TODO(jim): Temporary workaround
-    if (Validations.REJECT_LIST.includes(req.params.username)) {
+    if (!Validations.userRoute(req.params.username)) {
       return handler(req, res, req.url);
     }
 

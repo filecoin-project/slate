@@ -3,10 +3,13 @@ import * as Strings from "~/common/strings";
 const USERNAME_REGEX = new RegExp("^[a-zA-Z0-9_]{0,}[a-zA-Z]+[0-9]*$");
 const MIN_PASSWORD_LENGTH = 8;
 
-export const REJECT_LIST = [
+// TODO(jim): Regex should cover some of this.
+const REJECT_LIST = [
   "..",
-  "webpack",
   "_",
+  "_next",
+  "next",
+  "webpack",
   "root",
   "www",
   "website",
@@ -30,16 +33,24 @@ export const REJECT_LIST = [
   "logout",
 ];
 
-export const username = (text) => {
-  if (Strings.isEmpty(text)) {
-    return false;
-  }
-
+export const userRoute = (text) => {
   if (!USERNAME_REGEX.test(text)) {
     return false;
   }
 
   if (REJECT_LIST.includes(text)) {
+    return false;
+  }
+
+  return true;
+};
+
+export const username = (text) => {
+  if (Strings.isEmpty(text)) {
+    return false;
+  }
+
+  if (!userRoute(text)) {
     return false;
   }
 

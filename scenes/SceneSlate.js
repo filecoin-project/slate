@@ -34,6 +34,7 @@ export default class SceneSlate extends React.Component {
   state = {
     slatename: this.props.current.slatename,
     public: this.props.current.data.public,
+    objects: this.props.current.data.objects,
     loading: false,
   };
 
@@ -42,6 +43,7 @@ export default class SceneSlate extends React.Component {
       this.setState({
         slatename: this.props.current.slatename,
         public: this.props.current.data.public,
+        objects: this.props.current.data.objects,
         loading: false,
       });
     }
@@ -54,6 +56,7 @@ export default class SceneSlate extends React.Component {
       id: this.props.current.slateId,
       slatename: this.state.slatename,
       data: {
+        objects: this.state.objects,
         public: this.state.public,
       },
     });
@@ -97,7 +100,7 @@ export default class SceneSlate extends React.Component {
       return this.setState({ loading: false });
     }
 
-    await this.props.onAction({ type: "NAVIGATE", value: 3, data: {} });
+    await this.props.onAction({ type: "NAVIGATE", value: 3 });
     return await this.props.onRehydrate();
   };
 
@@ -111,7 +114,7 @@ export default class SceneSlate extends React.Component {
 
   render() {
     const { data } = this.props.current;
-    const { slatename } = this.state;
+    const { slatename, objects } = this.state;
     const url = `/${this.props.viewer.username}/${slatename}`;
 
     const slates = {
@@ -120,7 +123,7 @@ export default class SceneSlate extends React.Component {
         { key: "url", name: "Data URL", width: "100%" },
         { key: "type", name: "Data type", type: "TEXT_TAG", width: "136px" },
       ],
-      rows: data.objects,
+      rows: objects,
     };
 
     const slateButtons = [

@@ -72,6 +72,35 @@ export default class SceneSlate extends React.Component {
     this.setState({ loading: false });
   };
 
+  _handleDelete = async (e) => {
+    this.setState({ loading: true });
+
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this Slate? This action is irreversible."
+      )
+    ) {
+      return this.setState({ loading: false });
+    }
+
+    const response = await Actions.deleteSlate({
+      id: this.props.current.slateId,
+    });
+
+    if (!response) {
+      alert("TODO: Server Error");
+      return this.setState({ loading: false });
+    }
+
+    if (response.error) {
+      alert(`TODO: ${response.decorator}`);
+      return this.setState({ loading: false });
+    }
+
+    await this.props.onAction({ type: "NAVIGATE", value: 3, data: {} });
+    return await this.props.onRehydrate();
+  };
+
   _handleChange = (e) => {
     if (e && e.persist) {
       e.persist();
@@ -175,6 +204,21 @@ export default class SceneSlate extends React.Component {
           >
             Save changes
           </System.ButtonPrimary>
+        </div>
+
+        <System.DescriptionGroup
+          style={{ marginTop: 48 }}
+          label="Delete this slate"
+          description="This action is irreversible."
+        />
+
+        <div style={{ marginTop: 32 }}>
+          <System.ButtonSecondary
+            onClick={this._handleDelete}
+            loading={this.state.loading}
+          >
+            Delete {this.state.slatename}
+          </System.ButtonSecondary>
         </div>
       </ScenePage>
     );

@@ -8,6 +8,19 @@ const REQUEST_HEADERS = {
   "Content-Type": "application/json",
 };
 
+const DEFAULT_OPTIONS = {
+  method: "POST",
+  headers: REQUEST_HEADERS,
+  credentials: "include",
+};
+
+const returnJSON = async (route, options) => {
+  const response = await fetch(route, options);
+  const json = await response.json();
+
+  return json;
+};
+
 export const sendFilecoin = async (data) => {
   if (Strings.isEmpty(data.source)) {
     return null;
@@ -21,158 +34,96 @@ export const sendFilecoin = async (data) => {
     return null;
   }
 
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
+  return await returnJSON(`/api/addresses/send`, {
+    ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
-  };
-
-  const response = await fetch(`/api/addresses/send`, options);
-  const json = await response.json();
-
-  return json;
+  });
 };
 
 export const updateViewer = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
+  return await returnJSON(`/api/users/update`, {
+    ...DEFAULT_OPTIONS,
     body: JSON.stringify(data),
-  };
-
-  const response = await fetch(`/api/users/update`, options);
-  const json = await response.json();
-
-  return json;
+  });
 };
 
 export const signIn = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
+  return await returnJSON(`/api/sign-in`, {
+    ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
-  };
-
-  const response = await fetch(`/api/sign-in`, options);
-  const json = await response.json();
-
-  return json;
+  });
 };
 
 export const hydrateAuthenticatedUser = async () => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
-  };
-
-  const response = await fetch(`/api/hydrate`, options);
-  const json = await response.json();
-
-  return json;
+  return await returnJSON(`/api/hydrate`, {
+    ...DEFAULT_OPTIONS,
+  });
 };
 
 export const deleteViewer = async () => {
-  const options = {
-    method: "DELETE",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
-  };
-
-  const response = await fetch(`/api/users/delete`, options);
-  const json = await response.json();
-  return json;
+  return await returnJSON(`/api/users/delete`, {
+    ...DEFAULT_OPTIONS,
+  });
 };
 
 export const createUser = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
+  return await returnJSON(`/api/users/create`, {
+    ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
-  };
-
-  const response = await fetch(`/api/users/create`, options);
-  const json = await response.json();
-  return json;
+  });
 };
 
 export const checkCIDStatus = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
+  return await returnJSON(`/api/data/cid-status`, {
+    ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
-  };
-
-  const response = await fetch(`/api/data/cid-status`, options);
-  const json = await response.json();
-  return json;
+  });
 };
 
 export const health = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
+  return await returnJSON(`/api/_`, {
+    ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data: { success: true } }),
-  };
-
-  const response = await fetch(`/api/_`, options);
-  const json = await response.json();
-  return json;
+  });
 };
 
 export const createSlate = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
+  return await returnJSON(`/api/slates/create`, {
+    ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
-  };
-
-  const response = await fetch(`/api/slates/create`, options);
-  const json = await response.json();
-  return json;
+  });
 };
 
 export const updateSlate = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
+  return await returnJSON(`/api/slates/update`, {
+    ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
-  };
+  });
+};
 
-  const response = await fetch(`/api/slates/update`, options);
-  const json = await response.json();
-  return json;
+export const deleteSlate = async (data) => {
+  return await returnJSON(`/api/slates/delete`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
+export const deleteSlateItem = async (data) => {
+  return await returnJSON(`/api/slates/remove-item`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
 };
 
 export const generateAPIKey = async () => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
-  };
-
-  const response = await fetch(`/api/keys/generate`, options);
-  const json = await response.json();
-  return json;
+  return await returnJSON(`/api/keys/generate`, {
+    ...DEFAULT_OPTIONS,
+  });
 };
 
 export const deleteAPIKey = async (data) => {
-  const options = {
-    method: "POST",
-    headers: REQUEST_HEADERS,
-    credentials: "include",
+  return await returnJSON(`/api/keys/delete`, {
+    ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
-  };
-
-  const response = await fetch(`/api/keys/delete`, options);
-  const json = await response.json();
-  return json;
+  });
 };

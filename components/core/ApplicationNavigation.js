@@ -104,7 +104,7 @@ const Item = ({
   return (
     <span
       css={STYLES_NAVIGATION_ITEM}
-      style={{ padding: `0 0 0 ${level * 16}px` }}
+      style={{ padding: `0 24px 0 ${level * 16}px` }}
     >
       <span css={STYLES_EXPANDER} onClick={onToggleShow ? onToggleShow : null}>
         <span

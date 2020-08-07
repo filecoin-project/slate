@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
+import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 
@@ -30,6 +31,16 @@ const STYLES_RIGHT = css`
   flex-shrink: 0;
 `;
 
+const STYLES_LINK = css`
+  color: ${Constants.system.black};
+  font-family: ${Constants.font.semiBold};
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
+`;
+
 export default class SceneSlate extends React.Component {
   state = {
     slatename: this.props.current.slatename,
@@ -48,6 +59,19 @@ export default class SceneSlate extends React.Component {
       });
     }
   }
+
+  _handleRemoveItem = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this item?")) {
+      return null;
+    }
+
+    this.setState(
+      { objects: this.state.objects.filter((o) => o.id !== id) },
+      async () => {
+        await this._handleSave();
+      }
+    );
+  };
 
   _handleSave = async (e) => {
     this.setState({ loading: true });
@@ -122,8 +146,26 @@ export default class SceneSlate extends React.Component {
         { key: "name", name: "Data", type: "FILE_LINK", width: "328px" },
         { key: "url", name: "Data URL", width: "100%" },
         { key: "type", name: "Data type", type: "TEXT_TAG", width: "136px" },
+        {
+          key: "button",
+          name: "Remove",
+          width: "136px",
+          hideLabel: true,
+        },
       ],
-      rows: objects,
+      rows: objects.map((o) => {
+        return {
+          ...o,
+          button: (
+            <span
+              css={STYLES_LINK}
+              onClick={() => this._handleRemoveItem(o.id)}
+            >
+              Delete
+            </span>
+          ),
+        };
+      }),
     };
 
     const slateButtons = [

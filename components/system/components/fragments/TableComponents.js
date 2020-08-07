@@ -291,6 +291,8 @@ export const TableContent = ({
       return <Tag>{text}</Tag>;
     case "FILE_DATE":
       return Strings.toDate(text);
+    case "COMPONENT":
+      return text;
     case "FILE_SIZE":
       return Strings.bytesToSize(text, 2);
     case "NEW_WINDOW":

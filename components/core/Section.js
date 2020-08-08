@@ -6,6 +6,7 @@ import { css } from "@emotion/react";
 
 const STYLES_SECTION = css`
   width: 100%;
+  min-width: 960px;
   box-shadow: 0 0 0 1px ${Constants.system.gray}, 0 1px 4px rgba(0, 0, 0, 0.04);
   border-radius: 4px;
   font-weight: 400;
@@ -56,8 +57,7 @@ const STYLES_BUTTON = css`
   letter-spacing: 0.2px;
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
-  box-shadow: 0 0 0 1px ${Constants.system.border},
-    0 1px 4px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 0 0 1px ${Constants.system.border}, 0 1px 4px rgba(0, 0, 0, 0.07);
   cursor: pointer;
   background-color: ${Constants.system.white};
   color: ${Constants.system.black};
@@ -83,11 +83,7 @@ export default (props) => {
           <div css={STYLES_RIGHT}>
             {props.buttons.map((b) => {
               return (
-                <span
-                  key={b.name}
-                  css={STYLES_BUTTON}
-                  onClick={() => props.onAction(b)}
-                >
+                <span key={b.name} css={STYLES_BUTTON} onClick={() => props.onAction(b)}>
                   {b.name}
                 </span>
               );

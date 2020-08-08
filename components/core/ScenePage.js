@@ -9,7 +9,7 @@ const STYLES_SCENE = css`
   padding: 88px 48px 128px 48px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 88px 24px 128px 24px;
+    padding: 104px 24px 128px 24px;
   }
 `;
 

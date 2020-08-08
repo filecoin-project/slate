@@ -1,3 +1,8 @@
+// TODO(jim):
+// Deprecate the Table component.
+
+// NOTE(jim):
+// Only use the Table component for prototyping.
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
@@ -26,6 +31,7 @@ const STYLES_TABLE_EXPAND_SECTION = css`
   align-items: center;
   justify-content: center;
   transition: 200ms ease all;
+
   svg {
     transition: 200ms ease all;
   }
@@ -51,6 +57,7 @@ const STYLES_TABLE_ROW = css`
   border-bottom: 1px solid ${Constants.system.gray};
   display: flex;
   align-items: flex-start;
+  width: 100%;
   transition: 200ms ease all;
 
   :last-child {
@@ -67,10 +74,10 @@ const STYLES_TABLE_SELECTED_ROW = css`
 const STYLES_TABLE_TOP_ROW = css`
   box-sizing: border-box;
   font-family: ${Constants.font.semiBold};
-  width: 100%;
   padding: 0 8px 0 8px;
   border-bottom: 1px solid ${Constants.system.gray};
   display: flex;
+  width: 100%;
   align-items: flex-start;
 `;
 
@@ -124,11 +131,7 @@ export class Table extends React.Component {
         {this.props.noLabel ? null : (
           <div css={STYLES_TABLE_TOP_ROW}>
             {data.columns.map((c, cIndex) => {
-              const text = c.hideLabel
-                ? ""
-                : Strings.isEmpty(c.name)
-                ? c.key
-                : c.name;
+              const text = c.hideLabel ? "" : Strings.isEmpty(c.name) ? c.key : c.name;
               let localWidth = c.width ? c.width : width;
               let flexShrink = c.width && c.width !== "100%" ? "0" : null;
               if (cIndex === 0 && !c.width) {
@@ -144,15 +147,12 @@ export class Table extends React.Component {
                     backgroundColor: ac[c.key].color,
                     flexShrink,
                   }}
-                  tooltip={c.tooltip}
-                >
+                  tooltip={c.tooltip}>
                   {text}
                 </SubSystem.TableColumn>
               );
             })}
-            {this.props.onClick ? (
-              <div css={STYLES_TABLE_EXPAND_SECTION} />
-            ) : null}
+            {this.props.onClick ? <div css={STYLES_TABLE_EXPAND_SECTION} /> : null}
           </div>
         )}
 
@@ -167,8 +167,7 @@ export class Table extends React.Component {
                   const text = r[each];
 
                   let localWidth = field.width ? field.width : width;
-                  let flexShrink =
-                    field.width && field.width !== "100%" ? "0" : null;
+                  let flexShrink = field.width && field.width !== "100%" ? "0" : null;
                   if (cIndex === 0 && !field.width) {
                     localWidth = "100%";
                   }
@@ -178,14 +177,11 @@ export class Table extends React.Component {
                       key={`${each}-${i}-${cIndex}`}
                       style={{
                         width: localWidth,
-                        backgroundColor: this.props.noColor
-                          ? null
-                          : field.color,
+                        backgroundColor: this.props.noColor ? null : field.color,
                         flexShrink,
                       }}
                       contentStyle={field.contentStyle}
-                      copyable={field.copyable}
-                    >
+                      copyable={field.copyable}>
                       <div style={field.style}>
                         <SubSystem.TableContent
                           data={r}
@@ -207,16 +203,14 @@ export class Table extends React.Component {
                       alignItems: "center",
                       alignSelf: "center",
                       justifyContent: "flex-start",
-                    }}
-                  >
+                    }}>
                     <div
                       css={STYLES_TABLE_EXPAND_SECTION}
                       onClick={() => this._handleClick(r.id)}
                       style={{
                         cursor: r.children ? "pointer" : "default",
                         display: "inline-flex",
-                      }}
-                    >
+                      }}>
                       {r.children ? (
                         <SVG.Plus
                           height="16px"

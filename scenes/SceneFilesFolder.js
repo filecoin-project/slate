@@ -65,10 +65,7 @@ export default class SceneFilesFolder extends React.Component {
     let rows = this.props.viewer.library[0].children.map((each) => {
       return {
         ...each,
-        button:
-          each.networks && each.networks.includes("FILECOIN")
-            ? null
-            : "Store on Filecoin",
+        button: each.networks && each.networks.includes("FILECOIN") ? null : "Store on Filecoin",
       };
     });
 
@@ -116,27 +113,20 @@ export default class SceneFilesFolder extends React.Component {
           description="At the moment there are some bugs with deals on our Devnet but our team is working through them."
         />
 
-        <DataMeter
-          stats={this.props.viewer.stats}
-          style={{ margin: "48px 0 24px 0" }}
-        />
+        <DataMeter stats={this.props.viewer.stats} style={{ margin: "48px 0 24px 0" }} />
 
-        <System.H1 style={{ marginTop: 48 }}>
-          {this.props.current.name}
-        </System.H1>
+        <System.H1 style={{ marginTop: 48 }}>{this.props.current.name}</System.H1>
         <Section
           onAction={this.props.onAction}
-          title={`${Strings.bytesToSize(
-            this.props.viewer.stats.bytes
-          )} uploaded`}
+          title={`${Strings.bytesToSize(this.props.viewer.stats.bytes)} uploaded`}
+          style={{ minWidth: "1200px" }}
           buttons={[
             {
               name: "Upload data",
               type: "SIDEBAR",
               value: "SIDEBAR_ADD_FILE_TO_BUCKET",
             },
-          ]}
-        >
+          ]}>
           <System.Table
             key={this.props.current.folderId}
             data={data}

@@ -38,6 +38,10 @@ const STYLES_HEADER = css`
   left: 0;
   right: 0;
   top: 0;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
 `;
 
 const STYLES_CONTENT = css`
@@ -84,7 +88,7 @@ const STYLES_NAVIGATION = css`
 
   ${STYLES_SCROLL}
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     width: auto;
   }
 `;
@@ -109,7 +113,7 @@ const STYLES_SIDEBAR_WEB = css`
 
   ${STYLES_SCROLL}
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
 `;

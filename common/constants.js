@@ -12,9 +12,9 @@ export const sizes = {
 export const zindex = {
   navigation: 1,
   sidebar: 2,
-  modal: 3,
-  tooltip: 4,
-  header: 5,
+  header: 3,
+  modal: 4,
+  tooltip: 5,
 };
 
 export const font = {

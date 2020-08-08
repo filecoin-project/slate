@@ -9,27 +9,6 @@ import { Tooltip } from "react-tippy";
 
 import ApplicationControlMenu from "~/components/core/ApplicationControlMenu";
 
-const STYLES_CIRCLE = css`
-  height: 32px;
-  width: 32px;
-  border-radius: 32px;
-  background-color: ${Constants.system.black};
-  color: ${Constants.system.white};
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  position: relative;
-  transition: 200ms ease all;
-  cursor: pointer;
-  user-select: none;
-
-  :hover {
-    color: ${Constants.system.white};
-    background-color: ${Constants.system.brand};
-  }
-`;
-
 const STYLES_ICON_ELEMENT = css`
   height: 40px;
   width: 40px;
@@ -39,6 +18,7 @@ const STYLES_ICON_ELEMENT = css`
   color: #565151;
   user-select: none;
   cursor: pointer;
+  pointer-events: auto;
 
   :hover {
     color: ${Constants.system.brand};
@@ -50,26 +30,19 @@ const STYLES_ICON_ELEMENT = css`
   }
 `;
 
-const STYLES_HOME = css`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  margin-right: 24px;
-  margin-left: 24px;
-  font-size: 14px;
-  text-transform: uppercase;
-  font-family: ${Constants.font.codeBold};
-`;
-
 const STYLES_APPLICATION_HEADER = css`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
-  height: 100%;
-  background: ${Constants.system.foreground};
-  box-shadow: inset 0 -1px 0 0 ${Constants.system.border};
+  height: 88px;
+  padding: 12px 48px 0 36px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
 `;
 
 const STYLES_LEFT = css`
@@ -94,37 +67,6 @@ const STYLES_RIGHT = css`
   padding-right: 16px;
 `;
 
-const STYLES_PROFILE = css`
-  font-family: ${Constants.font.semiBold};
-  background-color: ${Constants.system.pitchBlack};
-  color: ${Constants.system.white};
-  font-size: 12px;
-  line-height: 12px;
-  text-decoration: none;
-  height: 36px;
-  padding-right: 24px;
-  border-radius: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  transition: 200ms ease all;
-
-  :hover {
-    background-color: ${Constants.system.brand};
-  }
-`;
-
-const STYLES_IMAGE = css`
-  background-size: cover;
-  background-position: 50% 50%;
-  flex-shrink: 0;
-  height: 32px;
-  width: 32px;
-  border-radius: 32px;
-  margin-right: 16px;
-  margin-left: 2px;
-`;
-
 export default class ApplicationHeader extends React.Component {
   render() {
     const isBackDisabled =
@@ -137,7 +79,6 @@ export default class ApplicationHeader extends React.Component {
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
-          <span css={STYLES_HOME}>Slate</span>
           <span
             css={STYLES_ICON_ELEMENT}
             style={
@@ -147,10 +88,12 @@ export default class ApplicationHeader extends React.Component {
             }
             onClick={isBackDisabled ? () => {} : this.props.onBack}
           >
-            <SVG.NavigationArrow
-              height="16px"
-              style={{ transform: `rotate(180deg)` }}
-            />
+            <Tooltip animation="fade" animateFill={false} title="Go back">
+              <SVG.NavigationArrow
+                height="16px"
+                style={{ transform: `rotate(180deg)` }}
+              />
+            </Tooltip>
           </span>
           <span
             css={STYLES_ICON_ELEMENT}
@@ -161,48 +104,13 @@ export default class ApplicationHeader extends React.Component {
             }
             onClick={isForwardDisabled ? () => {} : this.props.onForward}
           >
-            <SVG.NavigationArrow height="16px" />
+            <Tooltip animation="fade" animateFill={false} title="Go forward">
+              <SVG.NavigationArrow height="16px" />
+            </Tooltip>
           </span>
         </div>
         <div css={STYLES_MIDDLE} />
-        <div css={STYLES_RIGHT}>
-          <Tooltip
-            animation="fade"
-            animateFill={false}
-            title="View your profile"
-          >
-            <a
-              css={STYLES_PROFILE}
-              href={`/${this.props.viewer.username}`}
-              target="_blank"
-            >
-              <span
-                css={STYLES_IMAGE}
-                style={{
-                  backgroundImage: `url('${this.props.viewer.data.photo}')`,
-                }}
-              />
-              {this.props.viewer.username}
-            </a>
-          </Tooltip>
-
-          <ApplicationControlMenu
-            style={{ marginLeft: 12 }}
-            popover={
-              <System.PopoverNavigation
-                style={{ right: 0, top: "48px", cursor: "pointer" }}
-                onNavigateTo={this.props.onNavigateTo}
-                onAction={this.props.onAction}
-                onSignOut={this.props.onSignOut}
-                navigation={[
-                  { text: "Profile & account settings", value: 13 },
-                  { text: "Filecoin settings", value: 14 },
-                  { text: "Sign out", value: 0, action: "SIGN_OUT" },
-                ]}
-              />
-            }
-          />
-        </div>
+        <div css={STYLES_RIGHT} />
       </header>
     );
   }

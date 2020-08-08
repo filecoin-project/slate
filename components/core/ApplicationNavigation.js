@@ -1,10 +1,13 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
+import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
+import { Tooltip } from "react-tippy";
 
+import ApplicationControlMenu from "~/components/core/ApplicationControlMenu";
 import Pill from "~/components/core/Pill";
 import DataMeter from "~/components/core/DataMeter";
 
@@ -37,6 +40,13 @@ const STYLES_NAVIGATION = css`
   font-size: 18px;
 `;
 
+const STYLES_NAVIGATION_HEADER = css`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 64px 24px 48px 48px;
+`;
+
 const STYLES_NAVIGATION_ITEM = css`
   display: flex;
   align-items: flex-start;
@@ -47,6 +57,39 @@ const STYLES_NAVIGATION_ITEM = css`
   :hover {
     color: ${Constants.system.brand};
   }
+`;
+
+const STYLES_PROFILE = css`
+  font-family: ${Constants.font.semiBold};
+  color: ${Constants.system.pitchBlack};
+  background-color: ${Constants.system.white};
+  font-size: 12px;
+  line-height: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+  padding-right: 24px;
+  height: 36px;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transition: 200ms ease all;
+
+  :hover {
+    color: ${Constants.system.white};
+    background-color: ${Constants.system.brand};
+  }
+`;
+
+const STYLES_IMAGE = css`
+  background-size: cover;
+  background-position: 50% 50%;
+  flex-shrink: 0;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  margin-right: 16px;
+  margin-left: 2px;
 `;
 
 const STYLES_EXPANDER = css`
@@ -238,6 +281,48 @@ export default class ApplicationNavigation extends React.Component {
   render() {
     return (
       <nav css={STYLES_NAVIGATION}>
+        <div css={STYLES_NAVIGATION_HEADER}>
+          <ApplicationControlMenu
+            style={{ marginRight: 16 }}
+            popover={
+              <System.PopoverNavigation
+                style={{
+                  left: 0,
+                  top: "48px",
+                  cursor: "pointer",
+                }}
+                onNavigateTo={this.props.onNavigateTo}
+                onAction={this.props.onAction}
+                onSignOut={this.props.onSignOut}
+                navigation={[
+                  { text: "Profile & account settings", value: 13 },
+                  { text: "Filecoin settings", value: 14 },
+                  { text: "Sign out", value: 0, action: "SIGN_OUT" },
+                ]}
+              />
+            }
+          />
+
+          <Tooltip
+            animation="fade"
+            animateFill={false}
+            title="View your profile"
+          >
+            <a
+              css={STYLES_PROFILE}
+              href={`/${this.props.viewer.username}`}
+              target="_blank"
+            >
+              <span
+                css={STYLES_IMAGE}
+                style={{
+                  backgroundImage: `url('${this.props.viewer.data.photo}')`,
+                }}
+              />
+              {this.props.viewer.username}
+            </a>
+          </Tooltip>
+        </div>
         {this.props.navigation.map((each) => {
           if (!each) {
             return null;

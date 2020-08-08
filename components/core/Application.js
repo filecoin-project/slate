@@ -468,6 +468,7 @@ export default class ApplicationPage extends React.Component {
         navigation={navigation}
         onNavigateTo={this._handleNavigateTo}
         onAction={this._handleAction}
+        onSignOut={this._handleSignOut}
       />
     );
 
@@ -479,9 +480,6 @@ export default class ApplicationPage extends React.Component {
         onBack={this._handleBack}
         onForward={this._handleForward}
         history={this.state.history}
-        onNavigateTo={this._handleNavigateTo}
-        onAction={this._handleAction}
-        onSignOut={this._handleSignOut}
       />
     );
 

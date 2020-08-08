@@ -13,6 +13,7 @@ import DataMeter from "~/components/core/DataMeter";
 
 const IconMap = {
   HOME: <SVG.Home height="20px" />,
+  ACTIVITY: <SVG.Activity height="20px" />,
   FILE: <SVG.Image height="20px" />,
   FOLDER: <SVG.Folder height="20px" />,
   WALLET: <SVG.Wallet height="20px" />,

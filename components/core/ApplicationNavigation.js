@@ -9,7 +9,6 @@ import { Tooltip } from "react-tippy";
 
 import ApplicationControlMenu from "~/components/core/ApplicationControlMenu";
 import Pill from "~/components/core/Pill";
-import DataMeter from "~/components/core/DataMeter";
 
 const IconMap = {
   HOME: <SVG.Home height="20px" />,
@@ -349,8 +348,6 @@ export default class ApplicationNavigation extends React.Component {
             </NodeReference>
           );
         })}
-        <br />
-        <DataMeter stats={this.props.viewer.stats} />
       </nav>
     );
   }

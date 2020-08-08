@@ -7,6 +7,7 @@ import { css } from "@emotion/react";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
+import DataMeter from "~/components/core/DataMeter";
 
 const POLLING_INTERVAL = 10000;
 
@@ -113,6 +114,11 @@ export default class SceneFilesFolder extends React.Component {
         <System.DescriptionGroup
           label="Are Filecoin deals working?"
           description="At the moment there are some bugs with deals on our Devnet but our team is working through them."
+        />
+
+        <DataMeter
+          stats={this.props.viewer.stats}
+          style={{ margin: "48px 0 24px 0" }}
         />
 
         <System.H1 style={{ marginTop: 48 }}>

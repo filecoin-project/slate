@@ -11,11 +11,9 @@ const MAX_IN_BYTES = 10737418240;
 const STYLES_CONTAINER = css`
   border-radius: 4px;
   border: 1px solid ${Constants.system.border};
-  padding: 16px;
-`;
-
-const STYLES_GUTTER = css`
-  padding: 16px 16px 16px 16px;
+  padding: 24px;
+  max-width: 768px;
+  width: 100%;
 `;
 
 const STYLES_DATA = css`
@@ -92,41 +90,32 @@ export default (props) => {
   const percentage = props.stats.bytes / props.stats.maximumBytes;
 
   return (
-    <div css={STYLES_GUTTER}>
-      <div css={STYLES_CONTAINER}>
-        <System.P style={{ fontSize: 12 }}>
-          <strong css={STYLES_TITLE}>Usage</strong>
-          Slate users get 1GB of IPFS storage from Textile for free{" "}
-          <strong
-            css={STYLES_HREF}
-            onClick={() => alert("TODO: SUBSCRIPTION OPTIONS")}
-          >
-            (upgrade)
-          </strong>
-          . In the future you can extend this with your own plugins using our
-          SDK.
-          <br />
-          <br />
-        </System.P>
+    <div css={STYLES_CONTAINER} style={props.style}>
+      <System.P style={{ fontSize: 12 }}>
+        <strong css={STYLES_TITLE}>Usage</strong>
+        Slate users get 1GB of IPFS storage from Textile. In the future you can
+        extend this with your own plugins using our SDK.
+        <br />
+        <br />
+      </System.P>
 
-        <div css={STYLES_STATS_ROW}>
-          <div css={STYLES_LEFT}>{Strings.bytesToSize(props.stats.bytes)}</div>
-          <div css={STYLES_RIGHT}>
-            {Strings.bytesToSize(props.stats.maximumBytes)}
-          </div>
+      <div css={STYLES_STATS_ROW}>
+        <div css={STYLES_LEFT}>{Strings.bytesToSize(props.stats.bytes)}</div>
+        <div css={STYLES_RIGHT}>
+          {Strings.bytesToSize(props.stats.maximumBytes)}
         </div>
+      </div>
 
-        <div css={STYLES_ROW}>
-          <div css={STYLES_LEFT}>Used</div>
-          <div css={STYLES_RIGHT}>Total</div>
-        </div>
+      <div css={STYLES_ROW}>
+        <div css={STYLES_LEFT}>Used</div>
+        <div css={STYLES_RIGHT}>Total</div>
+      </div>
 
-        <div css={STYLES_DATA} style={{ marginTop: 4 }}>
-          <div
-            css={STYLES_DATA_METER}
-            style={{ width: `${percentage * 100}%` }}
-          />
-        </div>
+      <div css={STYLES_DATA} style={{ marginTop: 4 }}>
+        <div
+          css={STYLES_DATA_METER}
+          style={{ width: `${percentage * 100}%` }}
+        />
       </div>
     </div>
   );

@@ -1,11 +1,9 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
-import { Tooltip } from "react-tippy";
 
 import ApplicationControlMenu from "~/components/core/ApplicationControlMenu";
 import Pill from "~/components/core/Pill";
@@ -46,7 +44,7 @@ const STYLES_NAVIGATION_HEADER = css`
   justify-content: flex-start;
   padding: 64px 24px 48px 48px;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 64px 0 48px 16px;
   }
 `;
@@ -86,7 +84,7 @@ const STYLES_PROFILE = css`
     background-color: ${Constants.system.brand};
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
 `;
@@ -105,7 +103,7 @@ const STYLES_PROFILE_IMAGE = css`
 const STYLES_EXPANDER = css`
   flex-shrink: 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
 `;
@@ -131,7 +129,7 @@ const STYLES_CHILDREN = css`
   align-items: flex-start;
   justify-content: flex-start;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
 `;
@@ -149,7 +147,7 @@ const STYLES_ICON_ELEMENT = css`
     transition: 200ms ease transform;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 0 8px 0 16px;
   }
 `;

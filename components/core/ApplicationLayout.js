@@ -1,12 +1,27 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
 
-const NAVIGATION_WIDTH = 288;
-const HEADER_HEIGHT = 72;
+const STYLES_SCROLL = css`
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: ${Constants.system.foreground};
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${Constants.system.darkGray};
+  }
+`;
 
 const STYLES_LAYOUT = css`
   display: flex;
@@ -33,26 +48,30 @@ const STYLES_CONTENT = css`
   position: relative;
 `;
 
-const STYLES_BODY = css`
-  -webkit-overflow-scrolling: touch;
+const STYLES_BODY_WEB = css`
+  display: block;
   height: 100%;
   min-height: 10%;
   width: 100%;
 
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
+  ${STYLES_SCROLL}
 
-  ::-webkit-scrollbar {
-    width: 6px;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
   }
+`;
 
-  ::-webkit-scrollbar-track {
-    background: ${Constants.system.foreground};
-  }
+const STYLES_BODY_MOBILE = css`
+  display: none;
+  height: 100%;
+  min-height: 10%;
+  width: 100%;
+  padding: 80px 0px 88px 0px;
 
-  ::-webkit-scrollbar-thumb {
-    background: ${Constants.system.darkGray};
+  ${STYLES_SCROLL}
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
   }
 `;
 
@@ -63,48 +82,35 @@ const STYLES_NAVIGATION = css`
   width: ${Constants.sizes.navigation}px;
   border-right: 1px solid ${Constants.system.border};
 
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: ${Constants.system.foreground};
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${Constants.system.darkGray};
-  }
+  ${STYLES_SCROLL}
 
   @media (max-width: 768px) {
     width: auto;
   }
 `;
 
-const STYLES_SIDEBAR = css`
+const STYLES_SIDEBAR_MOBILE = css`
+  display: none;
+  width: 100%;
+  padding: 0;
+  flex-shrink: 0;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+  }
+`;
+
+const STYLES_SIDEBAR_WEB = css`
   height: 100vh;
   width: ${Constants.sizes.sidebar}px;
   padding: 0;
   flex-shrink: 0;
   box-shadow: inset 1px 0 0 0 ${Constants.system.border};
 
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
+  ${STYLES_SCROLL}
 
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: ${Constants.system.foreground};
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${Constants.system.darkGray};
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -133,23 +139,29 @@ const STYLES_SIDEBAR_CONTENT = css`
 
 export default class ApplicationLayout extends React.Component {
   render() {
+    let sidebarElements = null;
+    if (this.props.sidebar) {
+      sidebarElements = (
+        <React.Fragment>
+          <div css={STYLES_SIDEBAR_HEADER}>
+            <div css={STYLES_BLOCK} onClick={this.props.onDismissSidebar}>
+              <SVG.Dismiss height="24px" />
+            </div>
+          </div>
+          <div css={STYLES_SIDEBAR_CONTENT}>{this.props.sidebar}</div>
+        </React.Fragment>
+      );
+    }
+
     return (
       <div css={STYLES_LAYOUT}>
         <div css={STYLES_NAVIGATION}>{this.props.navigation}</div>
         <div css={STYLES_CONTENT}>
           <div css={STYLES_HEADER}>{this.props.header}</div>
-          <div css={STYLES_BODY}>{this.props.children}</div>
+          <div css={STYLES_BODY_WEB}>{this.props.children}</div>
+          <div css={STYLES_BODY_MOBILE}>{this.props.sidebar ? sidebarElements : this.props.children}</div>
         </div>
-        {this.props.sidebar ? (
-          <div css={STYLES_SIDEBAR}>
-            <div css={STYLES_SIDEBAR_HEADER}>
-              <div css={STYLES_BLOCK} onClick={this.props.onDismissSidebar}>
-                <SVG.Dismiss height="24px" />
-              </div>
-            </div>
-            <div css={STYLES_SIDEBAR_CONTENT}>{this.props.sidebar}</div>
-          </div>
-        ) : null}
+        {this.props.sidebar ? <div css={STYLES_SIDEBAR_WEB}>{sidebarElements}</div> : null}
       </div>
     );
   }

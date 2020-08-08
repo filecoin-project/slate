@@ -29,7 +29,7 @@ const STYLES_SLATE = css`
   min-height: 10%;
   height: 100%;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 0 24px 0 24px;
   }
 `;
@@ -75,21 +75,11 @@ export default class SlatePage extends React.Component {
     });
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-        image={image}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric>
-            {this.props.slate.ownername}
-          </WebsitePrototypeHeaderGeneric>
+          <WebsitePrototypeHeaderGeneric>{this.props.slate.ownername}</WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
-            <Slate
-              items={this.props.slate.data.objects}
-              onSelect={this._handleSelect}
-            />
+            <Slate items={this.props.slate.data.objects} onSelect={this._handleSelect} />
           </div>
           <WebsitePrototypeFooter style={{ marginTop: 88 }} />
         </div>

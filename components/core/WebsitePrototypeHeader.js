@@ -13,7 +13,7 @@ const STYLES_CONTAINER = css`
   justify-content: center;
   padding: 16px 24px 16px 24px;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
   }
 `;
@@ -44,7 +44,7 @@ const STYLES_RIGHT = css`
   justify-content: flex-end;
   padding: 12px 0 12px 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     justify-content: center;
   }
 `;
@@ -53,11 +53,7 @@ export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
-        <a
-          css={STYLES_LINK}
-          href="/"
-          style={{ marginRight: 24, fontFamily: Constants.font.codeBold }}
-        >
+        <a css={STYLES_LINK} href="/" style={{ marginRight: 24, fontFamily: Constants.font.codeBold }}>
           Slate {Constants.values.version}
         </a>
         <a css={STYLES_LINK} href="/_/system">

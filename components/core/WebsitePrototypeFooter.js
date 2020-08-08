@@ -13,7 +13,7 @@ const STYLES_CONTAINER = css`
   justify-content: center;
   padding: 16px 24px 16px 24px;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
   }
 `;
@@ -44,7 +44,7 @@ const STYLES_RIGHT = css`
   justify-content: flex-end;
   padding: 12px 0 12px 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     justify-content: center;
   }
 `;

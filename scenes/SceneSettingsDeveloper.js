@@ -14,17 +14,25 @@ const STYLES_KEY = css`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 12px;
+  width: 100%;
+  max-width: 488px;
+  background-color: ${Constants.system.black};
+  color: ${Constants.system.white};
+  border: 4px solid ${Constants.system.black};
+  border-radius: 52px;
 `;
 
 const STYLES_KEY_LEFT = css`
-  flex-shrink: 0;
+  min-width: 10%;
+  width: 100%;
   font-family: ${Constants.font.code};
+  padding: 12px 16px 12px 16px;
+  font-size: 11px;
 `;
 
 const STYLES_KEY_RIGHT = css`
   padding-left: 24px;
-  min-width: 10%;
-  width: 100%;
+  flex-shrink: 0;
 `;
 
 const STYLES_CIRCLE_BUTTON = css`
@@ -35,10 +43,16 @@ const STYLES_CIRCLE_BUTTON = css`
   align-items: center;
   justify-content: center;
   user-select: none;
-  background: ${Constants.system.black};
-  color: ${Constants.system.white};
+  background: ${Constants.system.white};
+  color: ${Constants.system.black};
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
   cursor: pointer;
+  transition: 200ms ease all;
+
+  :hover {
+    background: ${Constants.system.brand};
+    color: ${Constants.system.white};
+  }
 `;
 
 class Key extends React.Component {
@@ -46,6 +60,10 @@ class Key extends React.Component {
 
   _handleToggleVisible = () => {
     this.setState({ visible: !this.state.visible });
+  };
+
+  _handleDelete = async (id) => {
+    await this.props.onDelete(id);
   };
 
   render() {
@@ -61,12 +79,11 @@ class Key extends React.Component {
             css={STYLES_CIRCLE_BUTTON}
             onClick={this._handleToggleVisible}
             style={{
-              marginRight: 16,
-              backgroundColor: this.state.visible ? null : Constants.system.brand,
+              marginRight: 12,
             }}>
             <SVG.Privacy height="16px" />
           </span>
-          <span css={STYLES_CIRCLE_BUTTON} onClick={() => this.props.onDelete(this.props.data.id)}>
+          <span css={STYLES_CIRCLE_BUTTON} onClick={() => this._handleDelete(this.props.data.id)}>
             <SVG.Dismiss height="16px" />
           </span>
         </div>

@@ -1,43 +1,11 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
-import * as SchemaTable from "~/common/schema-table";
-import * as Data from "~/common/data";
 
 import { css } from "@emotion/react";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
-
-const STYLES_ROW = css`
-  display: flex;
-  margin-top: 24px;
-  width: 100%;
-
-  :first-child {
-    margin-top: 0px;
-  }
-`;
-
-const STYLES_COLUMN = css`
-  display: inline-flex;
-  padding: 0 12px 0 12px;
-  max-width: 25%;
-  width: 100%;
-
-  :first-child {
-    padding: 0 12px 0 0;
-  }
-
-  :last-child {
-    padding: 0 0 0 12px;
-  }
-
-  @media (max-width: 768px) {
-    max-width: 100%;
-  }
-`;
 
 export default class SceneHome extends React.Component {
   state = {
@@ -78,9 +46,7 @@ export default class SceneHome extends React.Component {
     };
 
     // TODO(jim): Refactor later.
-    const slateButtons = [
-      { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
-    ];
+    const slateButtons = [{ name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" }];
 
     // TODO(jim): Refactor later.
     const data = {
@@ -104,7 +70,6 @@ export default class SceneHome extends React.Component {
           name: "Network",
           type: "NETWORK_TYPE",
           width: "100%",
-          tooltip: "This data is publicly available to share on the internet!",
         },
       ],
       rows: this.props.viewer.library[0].children.map((each) => {
@@ -156,11 +121,7 @@ export default class SceneHome extends React.Component {
         />
         <System.H1 style={{ marginTop: 48 }}>Home</System.H1>
         {this.props.viewer.addresses[0] ? (
-          <Section
-            title="Wallet addresses"
-            buttons={walletButtons}
-            onAction={this.props.onAction}
-          >
+          <Section title="Wallet addresses" buttons={walletButtons} onAction={this.props.onAction}>
             <System.Table
               data={wallet}
               name="transaction"
@@ -170,11 +131,7 @@ export default class SceneHome extends React.Component {
           </Section>
         ) : null}
 
-        <Section
-          title="Slates"
-          buttons={slateButtons}
-          onAction={this.props.onAction}
-        >
+        <Section title="Slates" buttons={slateButtons} onAction={this.props.onAction}>
           <System.Table
             data={slates}
             name="slate"
@@ -184,11 +141,7 @@ export default class SceneHome extends React.Component {
         </Section>
 
         {this.props.viewer.library[0] ? (
-          <Section
-            title="Recent data"
-            buttons={dataButtons}
-            onAction={this.props.onAction}
-          >
+          <Section title="Recent data" buttons={dataButtons} onAction={this.props.onAction}>
             <System.Table
               data={data}
               name="data"

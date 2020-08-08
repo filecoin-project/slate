@@ -4,6 +4,7 @@ export const values = {
 };
 
 export const sizes = {
+  mobile: 768,
   navigation: 288,
   sidebar: 416,
   header: 72,

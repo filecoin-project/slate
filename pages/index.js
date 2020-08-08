@@ -18,7 +18,7 @@ const STYLES_ROOT = css`
   text-align: center;
   font-size: 1rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 0.78rem;
   }
 `;
@@ -53,7 +53,7 @@ const STYLES_CARD_PARAGRAPH = css`
   font-size: 1.2rem;
   color: ${Constants.system.white};
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px;
     font-size: 1rem;
   }
@@ -66,7 +66,7 @@ const STYLES_CARD_ACTIONS = css`
   color: ${Constants.system.white};
   padding: 24px;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 16px;
   }
 `;
@@ -79,7 +79,7 @@ const STYLES_CARD_ACTIONS_LEFT = css`
   font-size: 12px;
   text-align: left;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 10px;
   }
 `;
@@ -117,45 +117,29 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description =
-      "The place for all of your assets. Powered by Textile and Filecoin.";
+    const description = "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host";
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
           <div css={STYLES_MIDDLE}>
             <div css={STYLES_CARD}>
-              <img
-                css={STYLES_CARD_IMAGE}
-                src="/static/social-github-dark.jpg"
-              />
+              <img css={STYLES_CARD_IMAGE} src="/static/social-github-dark.jpg" />
               <p css={STYLES_CARD_PARAGRAPH}>
-                Store your files, turn them into collections, and share them
-                with the world — with{" "}
-                <a
-                  css={STYLES_LINK}
-                  href="https://github.com/filecoin-project/slate"
-                  target="_blank"
-                >
+                Store your files, turn them into collections, and share them with the world — with{" "}
+                <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
                   Filecoin & Slate
                 </a>
                 .
               </p>
               <div css={STYLES_CARD_ACTIONS}>
                 <div css={STYLES_CARD_ACTIONS_LEFT}>
-                  Try out our alpha testing application v
-                  {Constants.values.version} for Filecoin
+                  Try out our alpha testing application v{Constants.values.version} for Filecoin
                 </div>
                 <div css={STYLES_CARD_ACTIONS_RIGHT}>
-                  <System.ButtonPrimary onClick={() => window.open("/_")}>
-                    Use Slate
-                  </System.ButtonPrimary>
+                  <System.ButtonPrimary onClick={() => window.open("/_")}>Use Slate</System.ButtonPrimary>
                 </div>
               </div>
             </div>

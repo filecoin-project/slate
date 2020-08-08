@@ -24,26 +24,6 @@ const STYLES_ROOT = css`
   height: 100vh;
   text-align: center;
   font-size: 1rem;
-
-  @media (max-width: 880px) {
-    :after {
-      content: "We're sorry! This application is only supported on desktop or desktop web.";
-      z-index: 999999;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 48px;
-      color: ${Constants.system.white};
-      background-color: ${Constants.system.pitchBlack};
-    }
-  }
 `;
 
 const STYLES_MIDDLE = css`
@@ -92,9 +72,7 @@ export default class SceneSignIn extends React.Component {
     await delay(100);
 
     if (!Validations.username(this.state.username)) {
-      alert(
-        "TODO: Your username was invalid, only characters and numbers allowed."
-      );
+      alert("TODO: Your username was invalid, only characters and numbers allowed.");
       this.setState({ loading: false });
       return;
     }
@@ -128,12 +106,7 @@ export default class SceneSignIn extends React.Component {
           Sign in to manage your data, slates, and profile.
         </System.P>
 
-        <System.Input
-          label="Username"
-          name="username"
-          value={this.state.username}
-          onChange={this._handleChange}
-        />
+        <System.Input label="Username" name="username" value={this.state.username} onChange={this._handleChange} />
         <div css={STYLES_CODE_PREVIEW} style={{ marginTop: 8 }}>
           Characters + numbers only
         </div>
@@ -155,8 +128,7 @@ export default class SceneSignIn extends React.Component {
           full
           style={{ marginTop: 48 }}
           onClick={!this.state.loading ? this._handleSubmit : () => {}}
-          loading={this.state.loading}
-        >
+          loading={this.state.loading}>
           Sign in
         </System.ButtonPrimary>
       </div>

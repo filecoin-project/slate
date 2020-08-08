@@ -154,19 +154,7 @@ const STYLES_ICON_ELEMENT = css`
   }
 `;
 
-const Item = ({
-  data,
-  id,
-  activeId,
-  activeIds,
-  level,
-  children,
-  showActive,
-  treeChildren,
-  decorator,
-  onToggleShow,
-  onNavigateTo,
-}) => {
+const Item = ({ data, id, activeIds, level, children, showActive, decorator, onToggleShow, onNavigateTo }) => {
   return (
     <span css={STYLES_NAVIGATION_ITEM} style={{ padding: `0 0 0 ${level * 16}px` }}>
       <span css={STYLES_EXPANDER} onClick={onToggleShow ? onToggleShow : null}>
@@ -222,18 +210,7 @@ class NodeReference extends React.Component {
   };
 
   render() {
-    const {
-      id,
-      activeId,
-      activeIds,
-      level,
-      children,
-      treeChildren,
-      activePage,
-      decorator,
-      onNavigateTo,
-      data,
-    } = this.props;
+    const { id, activeId, activeIds, level, children, treeChildren, decorator, onNavigateTo, data } = this.props;
     const { showTreeChildren } = this.state;
 
     let showActive = showTreeChildren || activeIds[id];
@@ -311,17 +288,15 @@ export default class ApplicationNavigation extends React.Component {
             }
           />
 
-          <Tooltip animation="fade" animateFill={false} title="View your profile">
-            <a css={STYLES_PROFILE} style={{ marginLeft: 16 }} href={`/${this.props.viewer.username}`} target="_blank">
-              <span
-                css={STYLES_PROFILE_IMAGE}
-                style={{
-                  backgroundImage: `url('${this.props.viewer.data.photo}')`,
-                }}
-              />
-              {this.props.viewer.username}
-            </a>
-          </Tooltip>
+          <a css={STYLES_PROFILE} style={{ marginLeft: 16 }} href={`/${this.props.viewer.username}`} target="_blank">
+            <span
+              css={STYLES_PROFILE_IMAGE}
+              style={{
+                backgroundImage: `url('${this.props.viewer.data.photo}')`,
+              }}
+            />
+            {this.props.viewer.username}
+          </a>
         </div>
         {this.props.navigation.map((each) => {
           if (!each) {

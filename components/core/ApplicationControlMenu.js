@@ -58,22 +58,16 @@ export default class ApplicationControlMenu extends React.Component {
         captureScroll={true}
         enabled={this.state.visible}
         onOutsideRectEvent={this._handleHide}
-        style={this.props.style}
-      >
-        <Tooltip animation="fade" animateFill={false} title={title}>
-          <span
-            onClick={this._handleClick}
-            css={STYLES_BUTTON}
-            style={{
-              backgroundColor: this.state.visible
-                ? Constants.system.brand
-                : null,
-              color: this.state.visible ? Constants.system.white : null,
-            }}
-          >
-            <OldSVG.ChevronDown height="20px" />
-          </span>
-        </Tooltip>
+        style={this.props.style}>
+        <span
+          onClick={this._handleClick}
+          css={STYLES_BUTTON}
+          style={{
+            backgroundColor: this.state.visible ? Constants.system.brand : null,
+            color: this.state.visible ? Constants.system.white : null,
+          }}>
+          <OldSVG.ChevronDown height="20px" />
+        </span>
 
         {this.state.visible ? this.props.popover : null}
       </Dismissible>

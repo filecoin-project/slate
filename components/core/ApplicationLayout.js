@@ -78,6 +78,10 @@ const STYLES_NAVIGATION = css`
   ::-webkit-scrollbar-thumb {
     background: ${Constants.system.darkGray};
   }
+
+  @media (max-width: 768px) {
+    width: auto;
+  }
 `;
 
 const STYLES_SIDEBAR = css`

@@ -35,7 +35,7 @@ const IconMap = {
 
 const STYLES_NAVIGATION = css`
   width: 100%;
-  display; block;
+  display: block;
   padding: 24px 0 0 0;
   font-size: 18px;
 `;
@@ -45,6 +45,10 @@ const STYLES_NAVIGATION_HEADER = css`
   align-items: center;
   justify-content: flex-start;
   padding: 64px 24px 48px 48px;
+
+  @media (max-width: 768px) {
+    padding: 64px 0 48px 16px;
+  }
 `;
 
 const STYLES_NAVIGATION_ITEM = css`
@@ -53,8 +57,10 @@ const STYLES_NAVIGATION_ITEM = css`
   justify-content: space-between;
   cursor: pointer;
   color: ${Constants.system.black};
+  padding-right: 24px;
 
   :hover {
+    padding-right: 0px;
     color: ${Constants.system.brand};
   }
 `;
@@ -79,9 +85,13 @@ const STYLES_PROFILE = css`
     color: ${Constants.system.white};
     background-color: ${Constants.system.brand};
   }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
-const STYLES_IMAGE = css`
+const STYLES_PROFILE_IMAGE = css`
   background-size: cover;
   background-position: 50% 50%;
   flex-shrink: 0;
@@ -94,6 +104,10 @@ const STYLES_IMAGE = css`
 
 const STYLES_EXPANDER = css`
   flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const STYLES_ICON = css`
@@ -101,6 +115,7 @@ const STYLES_ICON = css`
   position: relative;
 `;
 
+// NOTE(jim): Adjusts on mobile.
 const STYLES_CHILDREN = css`
   min-width: 10%;
   width: 100%;
@@ -115,6 +130,10 @@ const STYLES_CHILDREN = css`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const STYLES_ICON_ELEMENT = css`
@@ -128,6 +147,10 @@ const STYLES_ICON_ELEMENT = css`
   svg {
     transform: rotate(0deg);
     transition: 200ms ease transform;
+  }
+
+  @media (max-width: 768px) {
+    margin: 0 8px 0 16px;
   }
 `;
 
@@ -145,22 +168,15 @@ const Item = ({
   onNavigateTo,
 }) => {
   return (
-    <span
-      css={STYLES_NAVIGATION_ITEM}
-      style={{ padding: `0 24px 0 ${level * 16}px` }}
-    >
+    <span css={STYLES_NAVIGATION_ITEM} style={{ padding: `0 0 0 ${level * 16}px` }}>
       <span css={STYLES_EXPANDER} onClick={onToggleShow ? onToggleShow : null}>
         <span
           css={STYLES_ICON_ELEMENT}
           style={{
             color: activeIds[id] ? Constants.system.brand : null,
-          }}
-        >
+          }}>
           {onToggleShow ? (
-            <SVG.ExpandArrow
-              height="8px"
-              style={showActive ? { transform: `rotate(90deg)` } : null}
-            />
+            <SVG.ExpandArrow height="8px" style={showActive ? { transform: `rotate(90deg)` } : null} />
           ) : null}
         </span>
       </span>
@@ -169,8 +185,7 @@ const Item = ({
           css={STYLES_ICON_ELEMENT}
           style={{
             color: activeIds[id] ? Constants.system.brand : null,
-          }}
-        >
+          }}>
           {IconMap[decorator]}
           {decorator === "LOGS" ? (
             <Pill
@@ -178,8 +193,7 @@ const Item = ({
                 left: 18,
                 top: `2px`,
                 background: Constants.system.black,
-              }}
-            >
+              }}>
               56
             </Pill>
           ) : null}
@@ -191,8 +205,7 @@ const Item = ({
         style={{
           fontFamily: decorator === "FILE" ? Constants.font.text : null,
           color: activeIds[id] ? Constants.system.brand : null,
-        }}
-      >
+        }}>
         {children}
       </span>
     </span>
@@ -238,10 +251,7 @@ class NodeReference extends React.Component {
           treeChildren={treeChildren}
           onNavigateTo={onNavigateTo}
           decorator={decorator}
-          onToggleShow={
-            treeChildren && treeChildren.length ? this._handleToggleShow : null
-          }
-        >
+          onToggleShow={treeChildren && treeChildren.length ? this._handleToggleShow : null}>
           {children}
         </Item>
 
@@ -265,8 +275,7 @@ class NodeReference extends React.Component {
                   onNavigateTo={onNavigateTo}
                   level={level + 1}
                   treeChildren={child.children}
-                  decorator={child.decorator}
-                >
+                  decorator={child.decorator}>
                   {child.name}
                 </NodeReference>
               );
@@ -283,7 +292,6 @@ export default class ApplicationNavigation extends React.Component {
       <nav css={STYLES_NAVIGATION}>
         <div css={STYLES_NAVIGATION_HEADER}>
           <ApplicationControlMenu
-            style={{ marginRight: 16 }}
             popover={
               <System.PopoverNavigation
                 style={{
@@ -303,18 +311,10 @@ export default class ApplicationNavigation extends React.Component {
             }
           />
 
-          <Tooltip
-            animation="fade"
-            animateFill={false}
-            title="View your profile"
-          >
-            <a
-              css={STYLES_PROFILE}
-              href={`/${this.props.viewer.username}`}
-              target="_blank"
-            >
+          <Tooltip animation="fade" animateFill={false} title="View your profile">
+            <a css={STYLES_PROFILE} style={{ marginLeft: 16 }} href={`/${this.props.viewer.username}`} target="_blank">
               <span
-                css={STYLES_IMAGE}
+                css={STYLES_PROFILE_IMAGE}
                 style={{
                   backgroundImage: `url('${this.props.viewer.data.photo}')`,
                 }}
@@ -342,8 +342,7 @@ export default class ApplicationNavigation extends React.Component {
               onNavigateTo={this.props.onNavigateTo}
               level={0}
               treeChildren={each.children}
-              decorator={each.decorator}
-            >
+              decorator={each.decorator}>
               {each.name}
             </NodeReference>
           );

@@ -31,7 +31,7 @@ const STYLES_APPLICATION_HEADER = css`
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;
-  height: 112px;
+  height: 104px;
   padding: 12px 48px 0 36px;
   pointer-events: none;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 0) 100%);

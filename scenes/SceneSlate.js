@@ -2,44 +2,14 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
+import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
-import Section from "~/components/core/Section";
-
-const STYLES_GROUP = css`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-  max-width: 480px;
-`;
-
-const STYLES_LEFT = css`
-  padding: 12px 0 0 0;
-  min-width: 10%;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-`;
-
-const STYLES_RIGHT = css`
-  padding-left: 48px;
-  padding-top: 24px;
-  flex-shrink: 0;
-`;
-
-const STYLES_LINK = css`
-  color: ${Constants.system.black};
-  font-family: ${Constants.font.semiBold};
-  cursor: pointer;
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-`;
+import Slate from "~/components/core/Slate";
+import MediaObject from "~/components/core/MediaObject";
+import CircleButtonLight from "~/components/core/CircleButtonLight";
 
 export default class SceneSlate extends React.Component {
   state = {
@@ -49,8 +19,15 @@ export default class SceneSlate extends React.Component {
     loading: false,
   };
 
+  componentDidMount() {
+    this._handleUpdateCarousel(this.state);
+  }
+
   componentDidUpdate(prevProps) {
-    if (prevProps.current.slatename !== this.props.current.slatename) {
+    const isNewSlateScene = prevProps.current.slatename !== this.props.current.slatename;
+    const isUpdated = this.props.current.data.objects.length !== prevProps.current.data.objects.length;
+
+    if (isNewSlateScene || isUpdated) {
       this.setState({
         slatename: this.props.current.slatename,
         public: this.props.current.data.public,
@@ -59,19 +36,6 @@ export default class SceneSlate extends React.Component {
       });
     }
   }
-
-  _handleRemoveItem = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this item?")) {
-      return null;
-    }
-
-    this.setState(
-      { objects: this.state.objects.filter((o) => o.id !== id) },
-      async () => {
-        await this._handleSave();
-      }
-    );
-  };
 
   _handleSave = async (e) => {
     this.setState({ loading: true });
@@ -86,185 +50,99 @@ export default class SceneSlate extends React.Component {
     });
 
     if (!response) {
+      this.setState({ loading: false });
       alert("TODO: Server Error");
-      return this.setState({ loading: false });
     }
 
     if (response.error) {
+      this.setState({ loading: false });
       alert(`TODO: ${response.decorator}`);
-      return this.setState({ loading: false });
     }
 
     await this.props.onRehydrate();
-    this.setState({ loading: false });
+
+    this._handleUpdateCarousel(this.state);
   };
 
-  _handleDelete = async (e) => {
+  _handleUpdateCarousel = (state) => {
+    System.dispatchCustomEvent({
+      name: "slate-global-create-carousel",
+      detail: {
+        slides: state.objects.map((each) => {
+          return { id: each.id, component: <MediaObject key={each.id} useImageFallback data={each} /> };
+        }),
+      },
+    });
+  };
+
+  _handleDelete = async (id) => {
     this.setState({ loading: true });
 
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this Slate? This action is irreversible."
-      )
-    ) {
-      return this.setState({ loading: false });
-    }
-
-    const response = await Actions.deleteSlate({
+    const response = await Actions.updateSlate({
       id: this.props.current.slateId,
+      slatename: this.state.slatename,
+      data: {
+        objects: this.state.objects.filter((o) => o.id !== id),
+        public: this.state.public,
+      },
     });
 
     if (!response) {
+      this.setState({ loading: false });
       alert("TODO: Server Error");
-      return this.setState({ loading: false });
     }
 
     if (response.error) {
+      this.setState({ loading: false });
       alert(`TODO: ${response.decorator}`);
-      return this.setState({ loading: false });
     }
 
-    await this.props.onAction({ type: "NAVIGATE", value: 3 });
-    return await this.props.onRehydrate();
+    await this.props.onRehydrate();
+
+    this._handleUpdateCarousel(this.state);
+
+    this.setState({ loading: false });
   };
 
-  _handleChange = (e) => {
-    if (e && e.persist) {
-      e.persist();
-    }
+  _handleSelect = (index) =>
+    System.dispatchCustomEvent({
+      name: "slate-global-open-carousel",
+      detail: { index },
+    });
 
-    this.setState({ [e.target.name]: e.target.value });
+  _handleAdd = () => {
+    return this.props.onAction({
+      type: "SIDEBAR",
+      value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+      data: this.props.current,
+    });
+  };
+
+  _handleShowSettings = () => {
+    return this.props.onAction({
+      type: "SIDEBAR",
+      value: "SIDEBAR_SINGLE_SLATE_SETTINGS",
+      data: this.props.current,
+    });
   };
 
   render() {
-    const { data } = this.props.current;
     const { slatename, objects } = this.state;
-    const url = `/${this.props.viewer.username}/${slatename}`;
-
-    const slates = {
-      columns: [
-        { key: "name", name: "Data", type: "FILE_LINK", width: "328px" },
-        { key: "url", name: "Data URL", width: "100%" },
-        { key: "type", name: "Data type", type: "TEXT_TAG", width: "136px" },
-        {
-          key: "button",
-          name: "Remove",
-          width: "136px",
-          hideLabel: true,
-        },
-      ],
-      rows: objects.map((o) => {
-        return {
-          ...o,
-          button: (
-            <span
-              css={STYLES_LINK}
-              onClick={() => this._handleRemoveItem(o.id)}
-            >
-              Delete
-            </span>
-          ),
-        };
-      }),
-    };
-
-    const slateButtons = [
-      {
-        name: "View slate",
-        type: "NEW_WINDOW",
-        value: url,
-      },
-      {
-        name: "Upload data",
-        type: "SIDEBAR",
-        value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-        data: this.props.current,
-      },
-    ];
-
-    const slateURL = `https://slate.host/${
-      this.props.viewer.username
-    }/${slatename}`;
 
     return (
-      <ScenePage>
-        <System.DescriptionGroup
-          label="Will the Slate page look like this in the final product?"
-          description="No! Consider this page just a functionality test. Slates will be collaborative mood boards and will have a much more intuitive experience than this."
-        />
-        <System.H1 style={{ marginTop: 48 }}>{slatename}</System.H1>
-        <Section
-          title="Slate elements"
-          buttons={slateButtons}
-          onAction={this.props.onAction}
-        >
-          <System.Table
-            data={slates}
-            name={slateURL}
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
-          />
-        </Section>
+      <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
+        <System.H1 style={{ marginBottom: 24, paddingLeft: 24 }}>
+          {slatename}{" "}
+          <CircleButtonLight onClick={this._handleAdd} style={{ marginLeft: 16, marginRight: 12 }}>
+            <SVG.Plus height="16px" />
+          </CircleButtonLight>
+          <CircleButtonLight onClick={this._handleShowSettings}>
+            <SVG.Settings height="16px" />
+          </CircleButtonLight>
+        </System.H1>
 
-        <System.Input
-          containerStyle={{ marginTop: 48 }}
-          style={{ marginTop: 24 }}
-          label="Slatename"
-          description={
-            <React.Fragment>
-              Changing the slatename will change your public slate URL. Your
-              slate URL is:{" "}
-              <a href={slateURL} target="_blank">
-                {slateURL}
-              </a>
-            </React.Fragment>
-          }
-          name="slatename"
-          value={this.state.slatename}
-          placeholder="Slatename"
-          onChange={this._handleChange}
-          onSubmit={this._handleSave}
-        />
-
-        <div css={STYLES_GROUP} style={{ marginTop: 48 }}>
-          <div css={STYLES_LEFT}>
-            <System.DescriptionGroup
-              label="Change privacy"
-              description="If enabled, your slate will be visible to anyone in the world. If disabled, your slate will only be visible to you on this screen."
-            />
-          </div>
-          <div css={STYLES_RIGHT}>
-            <System.Toggle
-              name="public"
-              onChange={this._handleChange}
-              active={this.state.public}
-            />
-          </div>
-        </div>
-
-        <div style={{ marginTop: 32 }}>
-          <System.ButtonPrimary
-            onClick={this._handleSave}
-            loading={this.state.loading}
-          >
-            Save changes
-          </System.ButtonPrimary>
-        </div>
-
-        <System.DescriptionGroup
-          style={{ marginTop: 48 }}
-          label="Delete this slate"
-          description="This action is irreversible."
-        />
-
-        <div style={{ marginTop: 32 }}>
-          <System.ButtonSecondary
-            onClick={this._handleDelete}
-            loading={this.state.loading}
-          >
-            Delete {this.state.slatename}
-          </System.ButtonSecondary>
-        </div>
+        <Slate editing items={objects} onSelect={this._handleSelect} />
+        <System.GlobalCarousel editing loading={this.state.loading} onDelete={this._handleDelete} />
       </ScenePage>
     );
   }

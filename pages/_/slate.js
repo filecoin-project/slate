@@ -50,7 +50,10 @@ export default class SlatePage extends React.Component {
       name: "slate-global-create-carousel",
       detail: {
         slides: this.props.slate.data.objects.map((each) => {
-          return <MediaObject key={each.id} useImageFallback data={each} />;
+          return {
+            id: each.id,
+            component: <MediaObject key={each.id} useImageFallback data={each} />,
+          };
         }),
       },
     });

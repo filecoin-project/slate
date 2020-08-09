@@ -94,17 +94,6 @@ const STYLES_NAVIGATION = css`
   }
 `;
 
-const STYLES_SIDEBAR_MOBILE = css`
-  display: none;
-  width: 100%;
-  padding: 0;
-  flex-shrink: 0;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-  }
-`;
-
 const STYLES_SIDEBAR_WEB = css`
   height: 100vh;
   width: ${Constants.sizes.sidebar}px;
@@ -122,6 +111,7 @@ const STYLES_SIDEBAR_WEB = css`
 const STYLES_SIDEBAR_HEADER = css`
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 20px;
 `;
 
 const STYLES_SIDEBAR_CONTENT = css`

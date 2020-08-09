@@ -29,6 +29,7 @@ import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds
 import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal";
 import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket";
 import SidebarDragDropNotice from "~/components/sidebars/SidebarDragDropNotice";
+import SidebarSingleSlateSettings from "~/components/sidebars/SidebarSingleSlateSettings";
 
 // NOTE(jim):
 // Core components to the application structure.
@@ -210,6 +211,7 @@ export default class ApplicationPage extends React.Component {
 
   _handleSubmit = async (data) => {
     let response;
+
     if (data.type === "CREATE_SLATE") {
       response = await Actions.createSlate({
         name: data.name,
@@ -251,8 +253,7 @@ export default class ApplicationPage extends React.Component {
   _handleDeleteYourself = async () => {
     // TODO(jim):
     // Put this somewhere better for messages.
-    const message =
-      "Do you really want to delete your account? It will be permanently removed";
+    const message = "Do you really want to delete your account? It will be permanently removed";
     if (!window.confirm(message)) {
       return false;
     }
@@ -423,6 +424,7 @@ export default class ApplicationPage extends React.Component {
     SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
     SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
     SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
+    SIDEBAR_SINGLE_SLATE_SETTINGS: <SidebarSingleSlateSettings />,
   };
 
   scenes = {
@@ -447,12 +449,8 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           title="Slate: sign in"
           description="Sign in to your Slate account to manage your assets."
-          url="https://slate.host/_"
-        >
-          <SceneSignIn
-            onAuthenticate={this._handleAuthenticate}
-            onNavigateTo={this._handleNavigateTo}
-          />
+          url="https://slate.host/_">
+          <SceneSignIn onAuthenticate={this._handleAuthenticate} onNavigateTo={this._handleNavigateTo} />
         </WebsitePrototypeWrapper>
       );
     }
@@ -513,6 +511,7 @@ export default class ApplicationPage extends React.Component {
         onCancel: this._handleCancel,
         onSetFile: this._handleSetFile,
         onSidebarLoading: this._handleSidebarLoading,
+        onAction: this._handleAction,
         onRehydrate: this.rehydrate,
       });
     }
@@ -523,17 +522,12 @@ export default class ApplicationPage extends React.Component {
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper
-          title={title}
-          description={description}
-          url={url}
-        >
+        <WebsitePrototypeWrapper title={title} description={description} url={url}>
           <ApplicationLayout
             navigation={navigationElement}
             header={headerElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}
-          >
+            onDismissSidebar={this._handleDismissSidebar}>
             {scene}
           </ApplicationLayout>
         </WebsitePrototypeWrapper>

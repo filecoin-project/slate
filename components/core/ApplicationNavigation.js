@@ -6,7 +6,6 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/react";
 
 import ApplicationControlMenu from "~/components/core/ApplicationControlMenu";
-import Pill from "~/components/core/Pill";
 
 const IconMap = {
   HOME: <SVG.Home height="20px" />,
@@ -55,6 +54,7 @@ const STYLES_NAVIGATION_ITEM = css`
   justify-content: space-between;
   cursor: pointer;
   color: ${Constants.system.black};
+  user-select: none;
   padding-right: 24px;
 
   :hover {
@@ -66,7 +66,7 @@ const STYLES_NAVIGATION_ITEM = css`
 const STYLES_PROFILE = css`
   font-family: ${Constants.font.semiBold};
   color: ${Constants.system.pitchBlack};
-  background-color: ${Constants.system.white};
+  background-color: ${Constants.system.gray};
   font-size: 12px;
   line-height: 12px;
   text-decoration: none;
@@ -173,23 +173,12 @@ const Item = ({ data, id, activeIds, level, children, showActive, decorator, onT
             color: activeIds[id] ? Constants.system.brand : null,
           }}>
           {IconMap[decorator]}
-          {decorator === "LOGS" ? (
-            <Pill
-              style={{
-                left: 18,
-                top: `2px`,
-                background: Constants.system.black,
-              }}>
-              56
-            </Pill>
-          ) : null}
         </span>
       </span>
       <span
         css={STYLES_CHILDREN}
         onClick={() => onNavigateTo({ id }, data)}
         style={{
-          fontFamily: decorator === "FILE" ? Constants.font.text : null,
           color: activeIds[id] ? Constants.system.brand : null,
         }}>
         {children}

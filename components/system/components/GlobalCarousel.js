@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
+import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 const STYLES_BACKGROUND = css`
   position: fixed;
@@ -41,6 +42,30 @@ const STYLES_BOX = css`
   }
 `;
 
+const STYLES_BUTTON = css`
+  font-family: ${Constants.font.code};
+  font-size: 10px;
+  text-transform: uppercase;
+  user-select: none;
+  height: 32px;
+  padding: 0 16px 0 16px;
+  border-radius: 32px;
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: ${Constants.zindex.modal};
+  background: ${Constants.system.pitchBlack};
+  transition: 200ms ease all;
+  color: ${Constants.system.white};
+  cursor: pointer;
+  margin: auto;
+
+  :hover {
+    background-color: ${Constants.system.black};
+  }
+`;
+
 export class GlobalCarousel extends React.Component {
   state = {
     slides: null,
@@ -58,19 +83,10 @@ export class GlobalCarousel extends React.Component {
 
   componentWillUnmount = () => {
     window.removeEventListener("keydown", this._handleKeyDown);
-    window.removeEventListener(
-      "slate-global-create-carousel",
-      this._handleCreate
-    );
-    window.removeEventListener(
-      "slate-global-delete-carousel",
-      this._handleDelete
-    );
+    window.removeEventListener("slate-global-create-carousel", this._handleCreate);
+    window.removeEventListener("slate-global-delete-carousel", this._handleDelete);
     window.removeEventListener("slate-global-open-carousel", this._handleOpen);
-    window.removeEventListener(
-      "slate-global-close-carousel",
-      this._handleClose
-    );
+    window.removeEventListener("slate-global-close-carousel", this._handleClose);
   };
 
   _handleKeyDown = (e) => {
@@ -89,8 +105,7 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  _handleOpen = (e) =>
-    this.setState({ visible: true, index: e.detail.index || 0 });
+  _handleOpen = (e) => this.setState({ visible: true, index: e.detail.index || 0 });
 
   _handleClose = () => this.setState({ visible: false, index: 0 });
 
@@ -101,7 +116,7 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handleDelete = (e) => {
-    this.setState({ slides: null });
+    this.setState({ slides: null, visible: false, index: 0 });
   };
 
   _handleNext = () => {
@@ -110,9 +125,7 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handlePrevious = () => {
-    const index =
-      (this.state.index + this.state.slides.length - 1) %
-      this.state.slides.length;
+    const index = (this.state.index + this.state.slides.length - 1) % this.state.slides.length;
     this.setState({ index });
   };
 
@@ -122,33 +135,32 @@ export class GlobalCarousel extends React.Component {
       return null;
     }
 
+    const current = this.state.slides[this.state.index];
+    if (!current) {
+      return null;
+    }
+
     return (
       <div css={STYLES_BACKGROUND} style={this.props.style}>
-        <span
-          css={STYLES_BOX}
-          onClick={this._handleClose}
-          style={{ top: 8, right: 16 }}
-        >
+        {this.props.editing ? (
+          <span css={STYLES_BUTTON} onClick={() => this.props.onDelete(current.id)} style={{ top: 56, right: 16 }}>
+            {this.props.loading ? <LoaderSpinner style={{ height: 16, width: 16 }} /> : "Delete Object"}
+          </span>
+        ) : null}
+
+        <span css={STYLES_BOX} onClick={this._handleClose} style={{ top: 8, right: 16 }}>
           <SVG.Dismiss height="20px" />
         </span>
 
-        <span
-          css={STYLES_BOX}
-          onClick={this._handlePrevious}
-          style={{ top: 0, left: 16, bottom: 0 }}
-        >
+        <span css={STYLES_BOX} onClick={this._handlePrevious} style={{ top: 0, left: 16, bottom: 0 }}>
           <SVG.ChevronLeft height="20px" />
         </span>
 
-        <span
-          css={STYLES_BOX}
-          onClick={this._handleNext}
-          style={{ top: 0, right: 16, bottom: 0 }}
-        >
+        <span css={STYLES_BOX} onClick={this._handleNext} style={{ top: 0, right: 16, bottom: 0 }}>
           <SVG.ChevronRight height="20px" />
         </span>
 
-        {this.state.slides[this.state.index]}
+        {current.component}
       </div>
     );
   }

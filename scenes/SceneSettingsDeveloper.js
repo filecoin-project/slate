@@ -15,11 +15,11 @@ const STYLES_KEY = css`
   justify-content: space-between;
   margin-bottom: 12px;
   width: 100%;
-  max-width: 488px;
+  max-width: 416px;
   background-color: ${Constants.system.black};
   color: ${Constants.system.white};
   border: 4px solid ${Constants.system.black};
-  border-radius: 52px;
+  border-radius: 36px;
 `;
 
 const STYLES_KEY_LEFT = css`
@@ -36,9 +36,9 @@ const STYLES_KEY_RIGHT = css`
 `;
 
 const STYLES_CIRCLE_BUTTON = css`
-  height: 48px;
-  width: 48px;
-  border-radius: 48px;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -79,11 +79,16 @@ class Key extends React.Component {
             css={STYLES_CIRCLE_BUTTON}
             onClick={this._handleToggleVisible}
             style={{
-              marginRight: 12,
+              marginRight: 8,
             }}>
             <SVG.Privacy height="16px" />
           </span>
-          <span css={STYLES_CIRCLE_BUTTON} onClick={() => this._handleDelete(this.props.data.id)}>
+          <span
+            css={STYLES_CIRCLE_BUTTON}
+            onClick={() => this._handleDelete(this.props.data.id)}
+            style={{
+              marginRight: 4,
+            }}>
             <SVG.Dismiss height="16px" />
           </span>
         </div>
@@ -278,8 +283,11 @@ export default class SceneSettingsDeveloper extends React.Component {
               description="This API request will return a specific slate. If you don't provide an ID argument the response will contain the most recently modified slate."
             />
             <CodeBlock children={EXAMPLE_GET_SLATE(key, slateId)} style={{ maxWidth: "768px" }} />
-            <br />
-            <br />
+            <System.DescriptionGroup
+              style={{ marginTop: 48, marginBottom: 16 }}
+              label="Get slate by ID: Response"
+              description="This is the shape of the response."
+            />
             <CodeBlock children={EXAMPLE_GET_SLATE_RESPONSE(key)} style={{ maxWidth: "768px" }} />
             <System.DescriptionGroup
               style={{ marginTop: 48 }}

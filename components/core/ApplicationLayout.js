@@ -11,7 +11,7 @@ const STYLES_SCROLL = css`
   -ms-overflow-style: -ms-autohiding-scrollbar;
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
 
   ::-webkit-scrollbar-track {
@@ -27,6 +27,7 @@ const STYLES_LAYOUT = css`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const STYLES_HEADER = css`
@@ -123,6 +124,10 @@ const STYLES_SIDEBAR_HEADER = css`
   justify-content: flex-end;
 `;
 
+const STYLES_SIDEBAR_CONTENT = css`
+  padding: 24px;
+`;
+
 const STYLES_BLOCK = css`
   height: 56px;
   width: 56px;
@@ -135,10 +140,6 @@ const STYLES_BLOCK = css`
   :hover {
     color: ${Constants.system.brand};
   }
-`;
-
-const STYLES_SIDEBAR_CONTENT = css`
-  padding: 24px;
 `;
 
 export default class ApplicationLayout extends React.Component {

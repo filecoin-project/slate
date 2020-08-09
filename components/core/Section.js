@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_SECTION = css`
+  flex-shrink: 0;
   width: 100%;
   min-width: 960px;
   box-shadow: 0 0 0 1px ${Constants.system.gray}, 0 1px 4px rgba(0, 0, 0, 0.04);
@@ -26,6 +27,7 @@ const STYLES_HEADER = css`
   padding: 24px 24px 24px 20px;
   overflow: hidden;
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
 `;
@@ -42,6 +44,7 @@ const STYLES_RIGHT = css`
 const STYLES_CHILDREN = css`
   background: ${Constants.system.white};
   border-radius: 0 0 4px 4px;
+  width: 100%;
 `;
 
 const STYLES_BUTTON = css`

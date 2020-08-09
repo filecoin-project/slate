@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Chart.css";
 import CreateChart from "./CreateChart";
 
 class Chart extends Component {
@@ -116,7 +115,6 @@ class Chart extends Component {
       const category1 = [];
       const category2 = [];
       const category3 = [];
-      const categoryMisc = [];
 
       data.forEach((data) => {
         if (data.category == "1") {

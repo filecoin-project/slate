@@ -10,6 +10,8 @@ import { css } from "@emotion/react";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 
+import ChartParent from "~/components/stats/ChartParent";
+
 const STYLES_ROW = css`
   display: flex;
   align-items: flex-start;
@@ -405,7 +407,7 @@ export default class StatsPage extends React.Component {
         </Section>
 
         <Section title="Node">
-          <span>Insert chart here</span>
+          <ChartParent></ChartParent>
         </Section>
       </ScenePage>
     );

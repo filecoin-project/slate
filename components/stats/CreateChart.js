@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Chart.css";
 
 //WIP - Circle creation function is not set up correctly. Polylines
 //and ticks functions are not created. Dream set up is to have preset color
@@ -11,8 +10,22 @@ class CreateChart extends Component {
   //and then set those to the corrosponding attributes
   //to ultimately return a cluster of unique circle elements
 
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+
+  minX = this.props.minX;
+  organizedData = this.props.organizedData;
+  maxX = this.props.maxX;
+  minY = this.props.minY;
+  maxY = this.props.maxY;
+  ticks = this.props.ticks;
+  xLabel = this.props.xLabel;
+  yLabel = this.props.yLabel;
+
   createCircles = () => {
-    const { organizedData } = this.props;
+    const organizedData = this.props.organizedData;
     for (let group of organizedData) {
       for (let i = 0; i < group.length; i++) {
         let circles = group.map((g) => {
@@ -20,32 +33,26 @@ class CreateChart extends Component {
           let x = g.x;
           let y = g.y;
           console.log(g);
-          return <circle cx={x} cy={y} r="2" className={classN} />;
+          this.newPathJSX;
         });
       }
     }
   };
 
+  newPathJSX = () => {
+    return <circle cx={x} cy={y} r="2" className={classN} />;
+  };
+
   render() {
-    const {
-      minX,
-      maxX,
-      minY,
-      maxY,
-      ticks,
-      xLabel,
-      yLabel,
-      organizedData,
-    } = this.props;
+    this.createCircles();
 
     return (
       <div className="container">
-        <svg className="graph" viewBox="0 0 600 600">
+        <svg className="graph" id="graph" viewBox="0 0 600 600">
           {/*X Axis - could be made dynamic by allowing viewbox to be set by user or api*/}
           <g>
             <line className="x-line" x1="25" y1="550" x2="575" y2="550" />
           </g>
-          <g>{this.createCircles()}</g>
         </svg>
       </div>
     );
@@ -53,4 +60,3 @@ class CreateChart extends Component {
 }
 
 export default CreateChart;
-

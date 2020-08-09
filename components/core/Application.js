@@ -4,6 +4,7 @@ import * as Actions from "~/common/actions";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
 import * as Validations from "~/common/validations";
+import * as System from "~/components/system";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -530,6 +531,7 @@ export default class ApplicationPage extends React.Component {
             onDismissSidebar={this._handleDismissSidebar}>
             {scene}
           </ApplicationLayout>
+          <System.GlobalCarousel />
         </WebsitePrototypeWrapper>
       </React.Fragment>
     );

@@ -69,14 +69,21 @@ export default class SceneSlate extends React.Component {
       name: "slate-global-create-carousel",
       detail: {
         slides: state.objects.map((each) => {
-          return { id: each.id, component: <MediaObject key={each.id} useImageFallback data={each} /> };
+          return {
+            onDelete: this._handleDelete,
+            id: each.id,
+            component: <MediaObject key={each.id} useImageFallback data={each} />,
+          };
         }),
       },
     });
   };
 
   _handleDelete = async (id) => {
-    this.setState({ loading: true });
+    System.dispatchCustomEvent({
+      name: "state-global-carousel-loading",
+      detail: { loading: true },
+    });
 
     const response = await Actions.updateSlate({
       id: this.props.current.slateId,
@@ -88,12 +95,18 @@ export default class SceneSlate extends React.Component {
     });
 
     if (!response) {
-      this.setState({ loading: false });
+      System.dispatchCustomEvent({
+        name: "state-global-carousel-loading",
+        detail: { loading: false },
+      });
       alert("TODO: Server Error");
     }
 
     if (response.error) {
-      this.setState({ loading: false });
+      System.dispatchCustomEvent({
+        name: "state-global-carousel-loading",
+        detail: { loading: false },
+      });
       alert(`TODO: ${response.decorator}`);
     }
 
@@ -101,7 +114,10 @@ export default class SceneSlate extends React.Component {
 
     this._handleUpdateCarousel(this.state);
 
-    this.setState({ loading: false });
+    System.dispatchCustomEvent({
+      name: "state-global-carousel-loading",
+      detail: { loading: false },
+    });
   };
 
   _handleSelect = (index) =>
@@ -142,7 +158,6 @@ export default class SceneSlate extends React.Component {
         </System.H1>
 
         <Slate editing items={objects} onSelect={this._handleSelect} />
-        <System.GlobalCarousel editing loading={this.state.loading} onDelete={this._handleDelete} />
       </ScenePage>
     );
   }

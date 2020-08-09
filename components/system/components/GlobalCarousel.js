@@ -71,6 +71,7 @@ export class GlobalCarousel extends React.Component {
     slides: null,
     visible: false,
     index: 0,
+    loading: false,
   };
 
   componentDidMount = () => {
@@ -79,6 +80,7 @@ export class GlobalCarousel extends React.Component {
     window.addEventListener("slate-global-delete-carousel", this._handleDelete);
     window.addEventListener("slate-global-open-carousel", this._handleOpen);
     window.addEventListener("slate-global-close-carousel", this._handleClose);
+    window.addEventListener("state-global-carousel-loading", this._handleSetLoading);
   };
 
   componentWillUnmount = () => {
@@ -87,6 +89,7 @@ export class GlobalCarousel extends React.Component {
     window.removeEventListener("slate-global-delete-carousel", this._handleDelete);
     window.removeEventListener("slate-global-open-carousel", this._handleOpen);
     window.removeEventListener("slate-global-close-carousel", this._handleClose);
+    window.removeEventListener("state-global-carousel-loading", this._handleSetLoading);
   };
 
   _handleKeyDown = (e) => {
@@ -105,9 +108,11 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  _handleOpen = (e) => this.setState({ visible: true, index: e.detail.index || 0 });
+  _handleSetLoading = (e) => this.setState({ loading: e.detail.loading });
 
-  _handleClose = () => this.setState({ visible: false, index: 0 });
+  _handleOpen = (e) => this.setState({ visible: true, index: e.detail.index || 0, loading: false });
+
+  _handleClose = () => this.setState({ visible: false, index: 0, loading: false });
 
   _handleCreate = (e) => {
     this.setState({
@@ -121,12 +126,12 @@ export class GlobalCarousel extends React.Component {
 
   _handleNext = () => {
     const index = (this.state.index + 1) % this.state.slides.length;
-    this.setState({ index });
+    this.setState({ index, loading: false });
   };
 
   _handlePrevious = () => {
     const index = (this.state.index + this.state.slides.length - 1) % this.state.slides.length;
-    this.setState({ index });
+    this.setState({ index, loading: false });
   };
 
   render() {
@@ -142,9 +147,9 @@ export class GlobalCarousel extends React.Component {
 
     return (
       <div css={STYLES_BACKGROUND} style={this.props.style}>
-        {this.props.editing ? (
-          <span css={STYLES_BUTTON} onClick={() => this.props.onDelete(current.id)} style={{ top: 56, right: 16 }}>
-            {this.props.loading ? <LoaderSpinner style={{ height: 16, width: 16 }} /> : "Delete Object"}
+        {current.onDelete ? (
+          <span css={STYLES_BUTTON} onClick={() => current.onDelete(current.id)} style={{ top: 56, right: 16 }}>
+            {this.state.loading ? <LoaderSpinner style={{ height: 16, width: 16 }} /> : "Delete Object"}
           </span>
         ) : null}
 

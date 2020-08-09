@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import * as React from "react";
 
 //WIP - Circle creation function is not set up correctly. Polylines
 //and ticks functions are not created. Dream set up is to have preset color
 //classes in css that are dynamically assigned to new categories.
 
-class CreateChart extends Component {
+class CreateChart extends React.Component {
   //Function does not work. It should loop through
   //organizedData to pull x and y and category name
   //and then set those to the corrosponding attributes

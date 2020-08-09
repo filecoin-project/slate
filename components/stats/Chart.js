@@ -1,20 +1,17 @@
-import React, { Component } from "react";
+import * as React from "react";
 import CreateChart from "./CreateChart";
 
-class Chart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      minX: {},
-      maxX: {},
-      minY: {},
-      maxY: {},
-      ticks: {},
-      xLabel: {},
-      yLabel: {},
-      organizedData: [],
-    };
-  }
+class Chart extends React.Component {
+  state = {
+    minX: {},
+    maxX: {},
+    minY: {},
+    maxY: {},
+    ticks: {},
+    xLabel: {},
+    yLabel: {},
+    organizedData: [],
+  };
 
   componentDidMount() {
     this.getXLabel();
@@ -166,18 +163,16 @@ class Chart extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <CreateChart
-          minX={this.state.minX}
-          maxX={this.state.maxX}
-          minY={this.state.minY}
-          maxY={this.state.maxY}
-          ticks={this.state.minX.ticks}
-          xLabel={this.state.xLabel}
-          yLabel={this.state.yLabel}
-          organizedData={this.state.organizedData}
-        />
-      </React.Fragment>
+      <CreateChart
+        minX={this.state.minX}
+        maxX={this.state.maxX}
+        minY={this.state.minY}
+        maxY={this.state.maxY}
+        ticks={this.state.minX.ticks}
+        xLabel={this.state.xLabel}
+        yLabel={this.state.yLabel}
+        organizedData={this.state.organizedData}
+      />
     );
   }
 }

@@ -17,15 +17,9 @@ const MOCKDATA = [
   { date: "December 17, 2050 03:24:00", category: "3", value: 200 },
 ];
 
-const STYLE_CONTAINER = {
-  width: "100%",
-  height: "600px",
-  width: "600px",
-};
-
 function ChartParent() {
   return (
-    <div style={STYLE_CONTAINER}>
+    <div>
       <HardChart />
       <div className="chart-container">
         <Chart data={MOCKDATA} />

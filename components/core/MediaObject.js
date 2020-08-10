@@ -50,13 +50,15 @@ const STYLES_IMAGE = css`
 export default class MediaObject extends React.Component {
   render() {
     const name = `${this.props.data.name}`;
-    const url = this.props.data.url
-      ? this.props.data.url
-      : `https://hub.textile.io${this.props.data.ipfs}`;
+    const url = this.props.data.url ? this.props.data.url : `https://hub.textile.io${this.props.data.ipfs}`;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
 
     if (type.startsWith("application/pdf")) {
       return <object css={STYLES_OBJECT} data={url} type={type} />;
+    }
+
+    if (type.startsWith("application/epub")) {
+      return <div css={STYLES_FAILURE}>No Preview</div>;
     }
 
     if (type.startsWith("video/")) {
@@ -77,7 +79,7 @@ export default class MediaObject extends React.Component {
       );
     }
 
-    if (type.startsWith("image/") || this.props.useImageFallback) {
+    if (type.startsWith("image/")) {
       return (
         <div css={STYLES_ASSET}>
           <img css={STYLES_IMAGE} src={url} />

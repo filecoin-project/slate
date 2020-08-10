@@ -74,6 +74,10 @@ export const isFileTypeAllowed = (type = "") => {
     return true;
   }
 
+  if (type.startsWith("application/epub")) {
+    return true;
+  }
+
   if (type.startsWith("audio/")) {
     return true;
   }

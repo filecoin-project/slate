@@ -54,6 +54,16 @@ export default class SlateMediaObjectPreview extends React.Component {
       );
     }
 
+    if (this.props.type && this.props.type.startsWith("application/epub")) {
+      return (
+        <span css={STYLES_ITEM}>
+          <div css={STYLES_PDF} onClick={this.props.onClick}>
+            EPub
+          </div>
+        </span>
+      );
+    }
+
     if (this.props.type && this.props.type.startsWith("application/pdf")) {
       return (
         <span css={STYLES_ITEM}>

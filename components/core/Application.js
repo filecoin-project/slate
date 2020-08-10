@@ -460,6 +460,7 @@ export default class ApplicationPage extends React.Component {
     const navigation = NavigationData.generate(this.state.viewer);
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
+    console.log(current);
 
     const navigationElement = (
       <ApplicationNavigation
@@ -473,7 +474,7 @@ export default class ApplicationPage extends React.Component {
       />
     );
 
-    const headerElement = (
+    let headerElement = (
       <ApplicationHeader
         viewer={this.state.viewer}
         pageTitle={current.target.pageTitle}
@@ -483,6 +484,10 @@ export default class ApplicationPage extends React.Component {
         history={this.state.history}
       />
     );
+
+    if (current.target.decorator === "FILE") {
+      headerElement = null;
+    }
 
     const scene = React.cloneElement(this.scenes[current.target.decorator], {
       current: current.target,

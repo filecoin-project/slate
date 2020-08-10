@@ -75,10 +75,10 @@ export default class SceneFilesFolder extends React.Component {
         {
           key: "size",
           name: "Size",
-          width: "116px",
+          width: "84px",
           type: "FILE_SIZE",
         },
-        { key: "type", name: "Type", type: "TEXT_TAG", width: "136px" },
+        { key: "type", name: "Type", type: "TEXT_TAG", width: "172px" },
         {
           key: "networks",
           name: "Networks",

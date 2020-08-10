@@ -12,7 +12,7 @@ const STYLES_FLEX = css`
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  height: calc(100vh - ${Constants.sizes.header}px);
+  height: 100vh;
   background-color: ${Constants.system.pitchBlack};
 `;
 

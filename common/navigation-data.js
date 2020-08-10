@@ -46,7 +46,6 @@ const constructSlatesTreeForNavigation = (slates) => {
       name: s.slatename,
       pageTitle: `Viewing ${s.slatename}`,
       decorator: "SLATE",
-      ignore: true,
     };
   });
 };
@@ -71,9 +70,8 @@ export const generate = ({ library = [], slates = [] }) => [
     name: "Slates",
     pageTitle: "Slates",
     decorator: "SLATES",
-    children: null,
+    children: constructSlatesTreeForNavigation(slates),
   },
-  ...constructSlatesTreeForNavigation(slates),
   constructFilesTreeForNavigation(library),
   {
     id: 4,

@@ -243,6 +243,12 @@ export default class SystemPage extends React.Component {
             <br />
             Components
           </span>
+
+          <SidebarLink
+            url={url}
+            href="/_/system/avatar-group"
+            title="Avatar Group"
+          />
           <SidebarLink url={url} href="/_/system/buttons" title="Buttons" />
           <SidebarLink url={url} href="/_/system/card-tabs" title="Card Tabs" />
           <SidebarLink url={url} href="/_/system/carousel" title="Carousel" />
@@ -284,11 +290,6 @@ export default class SystemPage extends React.Component {
             url={url}
             href="/_/system/typography"
             title="Typography"
-          />
-          <SidebarLink
-            url={url}
-            href="/_/system/avatar-group"
-            title="Avatar Group"
           />
 
           <div

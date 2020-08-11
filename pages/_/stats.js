@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-
 import * as System from "~/components/system";
+
 import Section from "~/components/core/Section";
 import ChartParent from "~/components/stats/ChartParent";
 
@@ -400,7 +400,7 @@ export default class StatsPage extends React.Component {
         </Section>
 
         <Section title="Node">
-          <ChartParent></ChartParent>
+          <ChartParent />
         </Section>
       </div>
     );

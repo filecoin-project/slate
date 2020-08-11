@@ -13,11 +13,14 @@ export const POSTGRES_ADMIN_USERNAME = process.env.POSTGRES_ADMIN_USERNAME;
 export const POSTGRES_HOSTNAME = process.env.POSTGRES_HOSTNAME;
 export const POSTGRES_DATABASE = process.env.POSTGRES_DATABASE;
 export const JWT_SECRET = process.env.JWT_SECRET;
+export const LOCAL_PASSWORD_ROUNDS_MANUAL =
+  process.env.LOCAL_PASSWORD_ROUNDS_MANUAL;
+export const LOCAL_PASSWORD_ROUNDS = process.env.LOCAL_PASSWORD_ROUNDS;
 
 // TODO(jim):
 // Brittle, don't let people know the number of times something is salted.
 // Not a big deal for testing at the moment.
-export const LOCAL_PASSWORD_SECRET = `$2b$13$${
+export const LOCAL_PASSWORD_SECRET = `$2b$${LOCAL_PASSWORD_ROUNDS}$${
   process.env.LOCAL_PASSWORD_SECRET
 }`;
 

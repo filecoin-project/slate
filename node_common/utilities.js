@@ -4,6 +4,7 @@ import * as Powergate from "~/node_common/powergate";
 import * as Constants from "~/node_common/constants";
 
 import JWT from "jsonwebtoken";
+import BCrypt from "bcrypt";
 
 import { Buckets } from "@textile/hub";
 import { Libp2pCryptoIdentity } from "@textile/threads-core";
@@ -35,6 +36,20 @@ export const getIdFromCookie = (req) => {
   }
 
   return id;
+};
+
+export const encryptPassword = async (text) => {
+  if (!text) {
+    return null;
+  }
+
+  let hash = text;
+  for (let i = 0; i < Environment.LOCAL_PASSWORD_ROUNDS_MANUAL; i++) {
+    hash = await BCrypt.hash(hash, salt);
+  }
+  hash = await BCrypt.hash(hash, Environment.LOCAL_PASSWORD_SECRET);
+
+  return hash;
 };
 
 export const parseAuthHeader = (value) => {

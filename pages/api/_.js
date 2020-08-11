@@ -2,7 +2,7 @@ import * as MW from "~/node_common/middleware";
 
 const initCORS = MW.init(MW.CORS);
 
-export default (req, res) => {
+export default async (req, res) => {
   initCORS(req, res);
 
   return res

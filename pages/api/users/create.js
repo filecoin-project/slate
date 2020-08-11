@@ -38,16 +38,13 @@ export default async (req, res) => {
       .send({ decorator: "SERVER_INVALID_PASSWORD", error: true });
   }
 
-  // TODO(jim): Do not expose how many times you are salting
-  // in OSS, add a random value as an environment variable.
-  const salt = await BCrypt.genSalt(13);
-  const hash = await BCrypt.hash(req.body.data.password, salt);
-  const double = await BCrypt.hash(hash, salt);
-  const triple = await BCrypt.hash(double, Environment.LOCAL_PASSWORD_SECRET);
-
+  const rounds = Number(Environment.LOCAL_PASSWORD_ROUNDS);
+  const salt = await BCrypt.genSalt(rounds);
+  const hash = await Utilities.encryptPassword(req.body.data.password, salt);
   const pg = await Powergate.createNewToken();
 
-  // API
+  // TODO(jim):
+  // Single Key Textile Auth.
   const identity = await Libp2pCryptoIdentity.fromRandom();
   const api = identity.toString();
 
@@ -60,7 +57,7 @@ export default async (req, res) => {
   } = await Utilities.getBucketAPIFromUserToken(api);
 
   const user = await Data.createUser({
-    password: triple,
+    password: hash,
     salt,
     username: req.body.data.username.toLowerCase(),
     data: {

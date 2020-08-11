@@ -38,7 +38,7 @@ export const getIdFromCookie = (req) => {
   return id;
 };
 
-export const encryptPassword = async (text) => {
+export const encryptPassword = async (text, salt) => {
   if (!text) {
     return null;
   }

@@ -1,5 +1,6 @@
 import * as React from "react";
-import CreateChart from "./CreateChart";
+
+import CreateChart from "~/components/stats/CreateChart";
 
 class Chart extends React.Component {
   state = {

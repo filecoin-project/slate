@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import HardChart from "./HardChart";
-import Chart from "./Chart";
+import * as React from "react";
+
+import HardChart from "~/components/stats/HardChart";
+import Chart from "~/components/stats/Chart";
 
 const MOCKDATA = [
   { date: "December 17, 1995 03:24:00", category: "1", value: 100 },

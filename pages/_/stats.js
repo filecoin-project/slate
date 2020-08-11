@@ -1,14 +1,12 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
-import * as System from "~/components/system";
-import * as SchemaTable from "~/common/schema-table";
-import Section from "~/components/core/Section";
-import ScenePage from "~/components/core/ScenePage";
-import { css } from "@emotion/react";
 
+import * as System from "~/components/system";
+import Section from "~/components/core/Section";
 import ChartParent from "~/components/stats/ChartParent";
+
+import { css } from "@emotion/react";
 
 const STYLES_ROW = css`
   display: flex;
@@ -309,12 +307,8 @@ const EXAMPLE_MINERS = {
 
 export default class StatsPage extends React.Component {
   render() {
-    const title = `Stats Page`;
-    const description = "This is to experiment with analytics.";
-    const url = "https://slate.host/analytics";
-
     return (
-      <ScenePage>
+      <div>
         <System.H1>Stats</System.H1>
 
         <Section
@@ -408,7 +402,7 @@ export default class StatsPage extends React.Component {
         <Section title="Node">
           <ChartParent></ChartParent>
         </Section>
-      </ScenePage>
+      </div>
     );
   }
 }

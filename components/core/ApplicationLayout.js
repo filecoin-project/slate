@@ -3,21 +3,19 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
+import { GlobalTooltip } from "~/components/system/components/fragments/GlobalTooltip";
 
 const STYLES_SCROLL = css`
   -webkit-overflow-scrolling: touch;
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: -ms-autohiding-scrollbar;
-
   ::-webkit-scrollbar {
     width: 4px;
   }
-
   ::-webkit-scrollbar-track {
     background: ${Constants.system.foreground};
   }
-
   ::-webkit-scrollbar-thumb {
     background: ${Constants.system.darkGray};
   }
@@ -39,7 +37,6 @@ const STYLES_HEADER = css`
   left: 0;
   right: 0;
   top: 0;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
@@ -58,9 +55,7 @@ const STYLES_BODY_WEB = css`
   height: 100%;
   min-height: 10%;
   width: 100%;
-
   ${STYLES_SCROLL}
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
@@ -72,9 +67,7 @@ const STYLES_BODY_MOBILE = css`
   min-height: 10%;
   width: 100%;
   padding: 80px 0px 88px 0px;
-
   ${STYLES_SCROLL}
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
   }
@@ -86,9 +79,7 @@ const STYLES_NAVIGATION = css`
   z-index: ${Constants.zindex.navigation};
   width: ${Constants.sizes.navigation}px;
   border-right: 1px solid ${Constants.system.border};
-
   ${STYLES_SCROLL}
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: auto;
   }
@@ -100,9 +91,7 @@ const STYLES_SIDEBAR_WEB = css`
   padding: 0;
   flex-shrink: 0;
   box-shadow: inset 1px 0 0 0 ${Constants.system.border};
-
   ${STYLES_SCROLL}
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
@@ -126,13 +115,16 @@ const STYLES_BLOCK = css`
   justify-content: center;
   transition: 200ms ease all;
   cursor: pointer;
-
   :hover {
     color: ${Constants.system.brand};
   }
 `;
 
 export default class ApplicationLayout extends React.Component {
+  _sidebar;
+  _navigation;
+  _body;
+
   render() {
     let sidebarElements = null;
     if (this.props.sidebar) {
@@ -144,19 +136,52 @@ export default class ApplicationLayout extends React.Component {
             </div>
           </div>
           <div css={STYLES_SIDEBAR_CONTENT}>{this.props.sidebar}</div>
+          <GlobalTooltip
+            elementRef={this._sidebar}
+            allowedTypes={["sidebar"]}
+          />
         </React.Fragment>
       );
     }
-
     return (
       <div css={STYLES_LAYOUT}>
-        <div css={STYLES_NAVIGATION}>{this.props.navigation}</div>
+        <div
+          css={STYLES_NAVIGATION}
+          ref={(c) => {
+            this._navigation = c;
+          }}
+        >
+          {this.props.navigation}
+          <GlobalTooltip
+            elementRef={this._navigation}
+            allowedTypes={["navigation"]}
+          />
+        </div>
         <div css={STYLES_CONTENT}>
           <div css={STYLES_HEADER}>{this.props.header}</div>
-          <div css={STYLES_BODY_WEB}>{this.props.children}</div>
-          <div css={STYLES_BODY_MOBILE}>{this.props.sidebar ? sidebarElements : this.props.children}</div>
+          <div
+            css={STYLES_BODY_WEB}
+            ref={(c) => {
+              this._body = c;
+            }}
+          >
+            {this.props.children}
+          </div>
+          <div css={STYLES_BODY_MOBILE}>
+            {this.props.sidebar ? sidebarElements : this.props.children}
+          </div>
+          <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} />
         </div>
-        {this.props.sidebar ? <div css={STYLES_SIDEBAR_WEB}>{sidebarElements}</div> : null}
+        {this.props.sidebar ? (
+          <div
+            css={STYLES_SIDEBAR_WEB}
+            ref={(c) => {
+              this._sidebar = c;
+            }}
+          >
+            {sidebarElements}
+          </div>
+        ) : null}
       </div>
     );
   }

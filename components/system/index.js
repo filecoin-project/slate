@@ -35,7 +35,6 @@ import { CardTabGroup } from "~/components/system/components/CardTabGroup";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 import { DatePicker } from "~/components/system/components/DatePicker";
-import { HoverTile } from '~/components/system/components/HoverTile';
 import { Input } from "~/components/system/components/Input";
 import { ListEditor } from "~/components/system/components/ListEditor";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
@@ -72,7 +71,11 @@ import {
 // NOTE(jim): Fragments
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { CodeText } from "~/components/system/components/fragments/CodeText";
-import { TooltipAnchor } from "~/components/system/components/fragments/TooltipAnchor";
+import {
+  GlobalTooltip,
+  TooltipAnchor,
+  TooltipWrapper,
+} from "~/components/system/components/fragments/GlobalTooltip";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import {
   TableContent,
@@ -114,7 +117,6 @@ export {
   GlobalModal,
   GlobalCarousel,
   GlobalNotification,
-  HoverTile,
   Input,
   ListEditor,
   PopoverNavigation,
@@ -138,10 +140,12 @@ export {
   LI,
   // NOTE(jim): Fragments, not meant to be used.
   Boundary,
-  TooltipAnchor,
   DescriptionGroup,
+  GlobalTooltip,
   TableContent,
   TableColumn,
+  TooltipAnchor,
+  TooltipWrapper,
   // NOTE(jim): System values
   Constants,
   SVG,

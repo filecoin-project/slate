@@ -37,6 +37,7 @@ import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 import { DatePicker } from "~/components/system/components/DatePicker";
 import { Input } from "~/components/system/components/Input";
 import { ListEditor } from "~/components/system/components/ListEditor";
+import { HoverTile } from "~/components/system/components/HoverTile";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { RadioGroup } from "~/components/system/components/RadioGroup";
 import {
@@ -118,6 +119,7 @@ export {
   GlobalCarousel,
   GlobalNotification,
   Input,
+  HoverTile,
   ListEditor,
   PopoverNavigation,
   RadioGroup,

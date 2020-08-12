@@ -8,19 +8,28 @@ import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
 
+const STYLES_NUMBER = css`
+  font-family: ${Constants.font.semiBold};
+  font-weight: 400;
+`;
+
 export default class SceneHome extends React.Component {
   render() {
     // TODO(jim): Refactor later.
     const slates = {
       columns: [
-        { key: "id", id: "id", name: "ID" },
         {
           key: "slatename",
           name: "Slate Name",
-          width: "228px",
+          width: "100%",
           type: "SLATE_LINK",
         },
         { key: "url", name: "URL", width: "268px", type: "NEW_WINDOW" },
+        { key: "id", id: "id", name: "Slate ID", width: "296px" },
+        {
+          key: "objects",
+          name: "Objects",
+        },
         {
           key: "public",
           name: "Public",
@@ -31,8 +40,9 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `/${this.props.viewer.username}/${each.slatename}`,
+          url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
           public: each.data.public,
+          objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
         };
       }),
     };

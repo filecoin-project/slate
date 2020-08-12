@@ -35,6 +35,7 @@ import { CardTabGroup } from "~/components/system/components/CardTabGroup";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 import { DatePicker } from "~/components/system/components/DatePicker";
+import { HoverTile } from '~/components/system/components/HoverTile';
 import { Input } from "~/components/system/components/Input";
 import { ListEditor } from "~/components/system/components/ListEditor";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
@@ -113,6 +114,7 @@ export {
   GlobalModal,
   GlobalCarousel,
   GlobalNotification,
+  HoverTile,
   Input,
   ListEditor,
   PopoverNavigation,

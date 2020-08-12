@@ -17,20 +17,14 @@ export default async (req, res) => {
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(500)
-      .json({ decorator: "SERVER_DELETE_SLATE", error: true });
+    return res.status(500).json({ decorator: "SERVER_GET_BUCKET_DATA", error: true });
   }
 
   const user = await Data.getUserById({
     id,
   });
 
-  const {
-    buckets,
-    bucketKey,
-    bucketName,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+  const { buckets, bucketKey, bucketName } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
   const r = await buckets.list();
   const items = await buckets.listIpfsPath(r[0].path);

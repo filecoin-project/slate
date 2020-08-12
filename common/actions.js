@@ -1,6 +1,5 @@
 import "isomorphic-fetch";
 
-import * as State from "~/common/state";
 import * as Strings from "~/common/strings";
 
 const REQUEST_HEADERS = {
@@ -19,6 +18,13 @@ const returnJSON = async (route, options) => {
   const json = await response.json();
 
   return json;
+};
+
+export const health = async (data) => {
+  return await returnJSON(`/api/_`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data: { success: true } }),
+  });
 };
 
 export const sendFilecoin = async (data) => {
@@ -80,13 +86,6 @@ export const checkCIDStatus = async (data) => {
   });
 };
 
-export const health = async (data) => {
-  return await returnJSON(`/api/_`, {
-    ...DEFAULT_OPTIONS,
-    body: JSON.stringify({ data: { success: true } }),
-  });
-};
-
 export const createSlate = async (data) => {
   return await returnJSON(`/api/slates/create`, {
     ...DEFAULT_OPTIONS,
@@ -123,6 +122,13 @@ export const generateAPIKey = async () => {
 
 export const deleteAPIKey = async (data) => {
   return await returnJSON(`/api/keys/delete`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
+export const deleteBucketItem = async (data) => {
+  return await returnJSON(`/api/data/remove`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });

@@ -240,7 +240,7 @@ export class TooltipWrapper extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ display: "inline-flex" }}>
         {this.state.sample ? (
           <div
             ref={(c) => {

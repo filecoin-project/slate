@@ -2,9 +2,9 @@ import * as React from "react";
 import * as System from "~/components/system";
 
 import Group from "~/components/system/Group";
-import SystemPage from "../../../components/system/SystemPage";
+import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
-import CodeBlock from '~/components/system/CodeBlock';
+import CodeBlock from "~/components/system/CodeBlock";
 
 export default class SystemHoverTile extends React.Component {
   render() {
@@ -19,7 +19,9 @@ export default class SystemHoverTile extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>The Hover Tile component is an animated, moving container.</System.P>
+        <System.P>
+          The Hover Tile component is an animated, moving container.
+        </System.P>
         <br />
         <br />
         <br />
@@ -93,7 +95,8 @@ import { HoverTile } from "slate-react-system";`}
                   a: "style",
                   b: "Object",
                   c: "{}",
-                  d: "Style object used to style the Hover Tile (background-color, etc.)",
+                  d:
+                    "Style object used to style the Hover Tile (background-color, etc.)",
                 },
               ],
             }}

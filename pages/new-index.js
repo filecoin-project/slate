@@ -14,13 +14,62 @@ const STYLES_ROOT = css`
   flex-direction: column;
   justify-content: space-between;
 
+  h1{
+    font-size: 4.768rem;
+    color: ${Constants.system.black};
+    padding: 0px 0px 32px 0px;
+    width: 64%;
+  }
+
+  h2{
+    font-size: 1.953rem;
+    color: ${Constants.system.black};
+    width: 48%;
+  }
+
+  p{
+    font-size: 1rem;
+    color: ${Constants.system.black};
+  }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 0.78rem;
+    h1{
+      font-size: 2.441rem;
+    }
+    h2{
+      font-size: 1.25rem;
+    }
+    p{
+      font-size: 0.78rem;
+    }
   }
 `;
 
-const STYLES_HERO= css`
+const STYLES_HERO = css`
+  padding: 88px 24px;
+  width: 100vw;
+  height: 100vh;
+  background: ${Constants.system.foreground};
+`;
+const STYLES_SECTION_WHITE = css`
+  padding: 88px 24px;
+  width: 100vw;
+  height: 100vh;
+  background: ${Constants.system.white};
+`;
 
+const STYLES_SECTION_GRAY = css`
+  padding: 88px 24px;
+  width: 100vw;
+  height: 100vh;
+  background: ${Constants.system.gray};
+`;
+
+const STYLES_SECTION_FOREGROUND = css`
+  padding: 88px 24px;
+  width: 100vw;
+  height: 100vh;
+  background: ${Constants.system.foreground};
 `;
 
 
@@ -46,45 +95,44 @@ export default class IndexPage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
-          <section css={STYLES_HERO}>
-          <System.H1>Store your files, turn them into collections, and share them with the world — with Slate.</System.H1>
-          <br/>
-        </section>
+            <section css={STYLES_HERO}>
+            <System.H1>Store your files, turn them into collections, and share them with the world — with Slate.</System.H1>
+            <br/>
+            </section>
+            <section css={STYLES_SECTION_WHITE}>
+              <h1>Simple, intuitive</h1>
+              <h2>Words about things</h2>
+            </section>
 
-        <section>
-          <System.H3>Simple, intuitive</System.H3>
-          <System.P>Words about things</System.P>
-        </section>
+            <section css={STYLES_SECTION_FOREGROUND}>
+              <h1>Private & Secure</h1>
+              <h2>All your files are encryped and only acessible by you and the people you chose to share.</h2>
+            </section>
+            
+            <section css={STYLES_SECTION_WHITE}>
+              <h1>Store files</h1>
+              <h2>Words about things</h2>
+            </section>
 
-        <section>
-          <System.H3>Private & Secure</System.H3>
-          <System.P>Words about things</System.P>
-        </section>
-        
-        <section>
-          <System.H3>Store files</System.H3>
-          <System.P>Words about things</System.P>
-        </section>
+            <section css={STYLES_SECTION_FOREGROUND}>
+              <h1>Creating Slates</h1>
+              <h2>Words about things</h2>
+            </section>
 
-        <section>
-          <System.H3>Creating Slates</System.H3>
-          <System.P>Words about things</System.P>
-        </section>
+            <section css={STYLES_SECTION_WHITE}>
+              <h1>Share with</h1>
+              <h2>Words about things</h2>
+            </section>
 
-        <section>
-          <System.H3>Share with</System.H3>
-          <System.P>Words about things</System.P>
-        </section>
+            <section css={STYLES_SECTION_FOREGROUND}>
+              <h1>Open Source</h1>
+              <h2>Words about things</h2>
+            </section>
 
-        <section>
-          <System.H3>Open Source</System.H3>
-          <System.P>Words about things</System.P>
-        </section>
-
-        <section>
-          <System.H3>Free, unlimited storage, for now</System.H3>
-          <System.P>Words about things</System.P>
-        </section>
+            <section css={STYLES_SECTION_WHITE}>
+              <h1>Free, unlimited storage, for now</h1>
+              <h2>Words about things</h2>
+            </section>
           <WebsitePrototypeFooter />
         </div>
       </WebsitePrototypeWrapper>

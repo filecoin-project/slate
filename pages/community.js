@@ -52,9 +52,9 @@ export default class IndexPage extends React.Component {
   }
 
   render() {
-    const title = `Slate Community`;
+    const title = `Slate`;
     const description = "The place for all of your assets. Powered by Textile and Filecoin.";
-    const url = "/community";
+    const url = "https://slate.host";
 
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url}>

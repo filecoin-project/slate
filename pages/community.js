@@ -18,6 +18,10 @@ const STYLES_ROOT = css`
   text-align: center;
   font-size: 1rem;
 
+  h1{
+    color: #fff;
+  }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 0.78rem;
   }
@@ -48,17 +52,40 @@ export default class IndexPage extends React.Component {
   }
 
   render() {
-    const title = `Slate Community`;
+    const title = `Slate`;
     const description = "The place for all of your assets. Powered by Textile and Filecoin.";
-    const url = "/community";
+    const url = "https://slate.host";
 
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
+          <div>
+          <System.H1>Get involved</System.H1>
+
+
+          <System.P>We’d love for you to join us! Getting involved is simple:</System.P>
+          <System.UL>
+            <System.LI>Creating an open source design system</System.LI>
+            <System.LI>Building a dynamic component library for open source projects</System.LI>
+            <System.LI>Learning how to write front-end code</System.LI>
+          </System.UL>
+          <System.P>Slate is built by a growing community of collaborators and contributors. If you’re interested in…</System.P>
+          <System.UL>
+            <System.LI>Find something cool you to work on and file an issue</System.LI>
+            <System.LI>If you see something you want to fix or change, <a>submit a PR</a></System.LI>
+            <System.LI>Reach out to us any time. We're always available on Twitter to answer your questions: <a>@_slate</a></System.LI>
+          </System.UL>
+
+          </div>
+
           <div css={STYLES_MIDDLE}>
+          <System.H1>Code of Conduct</System.H1>
+            <System.P>All participants of Slate are expected to abide by our Code of Conduct, both online and during in-person events that are hosted and/or associated with Slate.</System.P>
+            
             <System.H1>Code of Conduct</System.H1>
             <System.P>All participants of Slate are expected to abide by our Code of Conduct, both online and during in-person events that are hosted and/or associated with Slate.</System.P>
+            
             </div>
           </div>
           <WebsitePrototypeFooter />

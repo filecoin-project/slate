@@ -35,7 +35,7 @@ const STYLES_LINK = css`
 
 const STYLES_LEFT = css`
   flex-shrink: 0;
-  padding: 0 8px 0 8px;
+  padding: 0px 8px 0px 8px;
 `;
 
 const STYLES_RIGHT = css`

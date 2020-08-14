@@ -16,10 +16,8 @@ const STYLES_CONTAINER = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
-    flex-direction: column;
     justify-content: left;
     height: 100%;
-    flex-wrap: wrap;
   }
 `;
 
@@ -136,7 +134,7 @@ export default (props) => {
         </div>
         <br />
         <br />
-        <div style={{ flex:1 }}>
+        <div style={{ flex:2 }}>
           Stay in the looop
           <br />
           <br />

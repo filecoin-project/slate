@@ -3,7 +3,6 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 import * as System from "~/components/system";
-import * as SchemaTable from "~/common/schema-table";
 
 import { css } from "@emotion/react";
 

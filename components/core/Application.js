@@ -42,6 +42,31 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
+const SIDEBARS = {
+  SIDEBAR_FILE_STORAGE_DEAL: <SidebarFileStorageDeal />,
+  SIDEBAR_WALLET_SEND_FUNDS: <SidebarWalletSendFunds />,
+  SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,
+  SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
+  SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
+  SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
+  SIDEBAR_SINGLE_SLATE_SETTINGS: <SidebarSingleSlateSettings />,
+};
+
+const SCENES = {
+  HOME: <SceneHome />,
+  WALLET: <SceneWallet />,
+  FOLDER: <SceneFilesFolder />,
+  FILE: <SceneFile />,
+  SLATE: <SceneSlate />,
+  DEALS: <SceneDeals />,
+  SETTINGS: <SceneSettings />,
+  SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
+  EDIT_ACCOUNT: <SceneEditAccount />,
+  SLATES: <SceneSlates />,
+  LOCAL_DATA: <SceneLocalData />,
+  ACTIVITY: <SceneActivity />,
+};
+
 export default class ApplicationPage extends React.Component {
   state = {
     selected: State.getSelectedState(this.props.viewer),
@@ -253,8 +278,7 @@ export default class ApplicationPage extends React.Component {
   _handleDeleteYourself = async () => {
     // TODO(jim):
     // Put this somewhere better for messages.
-    const message =
-      "Do you really want to delete your account? It will be permanently removed";
+    const message = "Do you really want to delete your account? It will be permanently removed";
     if (!window.confirm(message)) {
       return false;
     }
@@ -344,7 +368,7 @@ export default class ApplicationPage extends React.Component {
 
     if (options.type === "SIDEBAR") {
       return this.setState({
-        sidebar: this.sidebars[options.value],
+        sidebar: SIDEBARS[options.value],
         data: options.data,
       });
     }
@@ -418,44 +442,18 @@ export default class ApplicationPage extends React.Component {
     );
   };
 
-  sidebars = {
-    SIDEBAR_FILE_STORAGE_DEAL: <SidebarFileStorageDeal />,
-    SIDEBAR_WALLET_SEND_FUNDS: <SidebarWalletSendFunds />,
-    SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,
-    SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
-    SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
-    SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
-    SIDEBAR_SINGLE_SLATE_SETTINGS: <SidebarSingleSlateSettings />,
-  };
-
-  scenes = {
-    HOME: <SceneHome />,
-    WALLET: <SceneWallet />,
-    FOLDER: <SceneFilesFolder />,
-    FILE: <SceneFile />,
-    SLATE: <SceneSlate />,
-    DEALS: <SceneDeals />,
-    SETTINGS: <SceneSettings />,
-    SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
-    EDIT_ACCOUNT: <SceneEditAccount />,
-    SLATES: <SceneSlates />,
-    LOCAL_DATA: <SceneLocalData />,
-    ACTIVITY: <SceneActivity />,
-  };
-
   render() {
+    // TODO(colin): Populate this.
+    console.log({ analytics: this.props.analytics });
+
     // NOTE(jim): Not authenticated.
     if (!this.state.viewer) {
       return (
         <WebsitePrototypeWrapper
           title="Slate: sign in"
           description="Sign in to your Slate account to manage your assets."
-          url="https://slate.host/_"
-        >
-          <SceneSignIn
-            onAuthenticate={this._handleAuthenticate}
-            onNavigateTo={this._handleNavigateTo}
-          />
+          url="https://slate.host/_">
+          <SceneSignIn onAuthenticate={this._handleAuthenticate} onNavigateTo={this._handleNavigateTo} />
         </WebsitePrototypeWrapper>
       );
     }
@@ -464,7 +462,6 @@ export default class ApplicationPage extends React.Component {
     const navigation = NavigationData.generate(this.state.viewer);
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
-    console.log(current);
 
     const navigationElement = (
       <ApplicationNavigation
@@ -493,7 +490,7 @@ export default class ApplicationPage extends React.Component {
       headerElement = null;
     }
 
-    const scene = React.cloneElement(this.scenes[current.target.decorator], {
+    const scene = React.cloneElement(SCENES[current.target.decorator], {
       current: current.target,
       data: this.state.data,
       viewer: this.state.viewer,
@@ -532,17 +529,12 @@ export default class ApplicationPage extends React.Component {
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper
-          title={title}
-          description={description}
-          url={url}
-        >
+        <WebsitePrototypeWrapper title={title} description={description} url={url}>
           <ApplicationLayout
             navigation={navigationElement}
             header={headerElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}
-          >
+            onDismissSidebar={this._handleDismissSidebar}>
             {scene}
           </ApplicationLayout>
           <System.GlobalCarousel />

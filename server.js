@@ -1,15 +1,14 @@
 import * as Environment from "~/node_common/environment";
-import * as Constants from "./node_common/constants";
 import * as Validations from "~/common/validations";
 import * as Data from "~/node_common/data";
-import * as ViewerManager from "~/node_common/managers/viewer";
 import * as Utilities from "~/node_common/utilities";
-import * as Strings from "./common/strings";
+
+import * as ViewerManager from "~/node_common/managers/viewer";
+import * as AnalyticsManager from "~/node_common/managers/analytics";
 
 import express from "express";
 import next from "next";
 import compression from "compression";
-import JWT from "jsonwebtoken";
 
 const app = next({
   dev: !Environment.IS_PRODUCTION,
@@ -38,8 +37,10 @@ app.prepare().then(async () => {
       });
     }
 
+    let analytics = await AnalyticsManager.get();
     return app.render(req, res, "/_", {
       viewer,
+      analytics,
     });
   });
 
@@ -118,9 +119,7 @@ app.prepare().then(async () => {
     }
 
     return app.render(req, res, "/_/slate", {
-      slate: JSON.parse(
-        JSON.stringify({ ...slate, ownername: req.params.username })
-      ),
+      slate: JSON.parse(JSON.stringify({ ...slate, ownername: req.params.username })),
     });
   });
 

@@ -133,18 +133,19 @@ export function progress({
   };
 }
 
-export default (url, options) =>
+export default (url, options, onProgress) =>
   new Promise((resolve, reject) =>
     fetch(url, options)
       .then(
         progress({
-          onProgress(p) {
-            console.log(p);
-          },
-          onError(err) {
+          onProgress,
+          onError: (err) => {
             reject(err);
           },
         })
       )
-      .then((data) => resolve(data))
+      .then((data) => {
+        console.log({ upload: data });
+        resolve(data);
+      })
   );

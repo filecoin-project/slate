@@ -10,6 +10,8 @@ import {
   injectCodeBlockStyles,
 } from "~/common/styles/global";
 
+import "react-slideshow-image/dist/styles.css";
+
 // NOTE(wwwjim):
 // https://nextjs.org/docs/advanced-features/custom-app
 function MyApp({ Component, pageProps }) {

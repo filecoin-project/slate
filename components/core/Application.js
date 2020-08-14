@@ -39,6 +39,7 @@ import ApplicationHeader from "~/components/core/ApplicationHeader";
 import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
+import UFetch from "~/common/fetch-utilities";
 
 const cookies = new Cookies();
 
@@ -114,7 +115,8 @@ export default class ApplicationPage extends React.Component {
       body: data,
     };
 
-    const response = await fetch(`/api/data/${file.name}`, options);
+    const response = await UFetch(`/api/data/${file.name}`, options);
+
     const json = await response.json();
 
     if (!json) {

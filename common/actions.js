@@ -20,6 +20,18 @@ const returnJSON = async (route, options) => {
   return json;
 };
 
+export const fetchWithProgress = (url, options, onProgress) => {
+  return new Promise((resolve, reject) => {
+    var xhr = new XMLHttpRequest();
+    xhr.open(options.method || "get", url);
+    for (var k in options.headers || {}) xhr.setRequestHeader(k, options.headers[k]);
+    xhr.onload = (e) => resolve(e.target.responseText);
+    xhr.onerror = reject;
+    if (xhr.upload && onProgress) xhr.upload.onprogress = onProgress; // event.loaded / event.total * 100 ; //event.lengthComputable
+    xhr.send(options.body);
+  });
+};
+
 export const health = async (data) => {
   return await returnJSON(`/api/_`, {
     ...DEFAULT_OPTIONS,

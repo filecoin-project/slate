@@ -32,11 +32,7 @@ export const formMultipart = (req, res, { user }) =>
       const localPath = `./${path}`;
       const data = LibraryManager.createLocalDataIncomplete(files.data);
 
-      const {
-        buckets,
-        bucketKey,
-        bucketName,
-      } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+      const { buckets, bucketKey, bucketName } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
       let readFile;
       let push;

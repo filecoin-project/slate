@@ -160,12 +160,12 @@ export default class ApplicationLayout extends React.Component {
     }
     return (
       <div css={STYLES_LAYOUT}>
+        <GlobalTooltip elementRef={this._navigation} allowedTypes={["navigation"]} />
         <div
           css={STYLES_NAVIGATION}
           ref={(c) => {
             this._navigation = c;
           }}>
-          <GlobalTooltip elementRef={this._navigation} allowedTypes={["navigation"]} />
           {this.props.navigation}
         </div>
         <div css={STYLES_CONTENT}>

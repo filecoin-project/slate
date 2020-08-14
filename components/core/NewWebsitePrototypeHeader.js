@@ -12,7 +12,7 @@ const STYLES_CONTAINER = css`
   justify-content: center;
   padding: 16px 24px;
   postion: fixed;
-  top: 0;
+  top: 0px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
@@ -35,7 +35,7 @@ const STYLES_LINK = css`
 
 const STYLES_LEFT = css`
   flex-shrink: 0;
-  padding: 0px 8px 0px 8px;
+  padding: 12px 0 12px 0;
 `;
 
 const STYLES_RIGHT = css`

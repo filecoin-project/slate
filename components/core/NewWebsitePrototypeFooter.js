@@ -15,9 +15,10 @@ const STYLES_CONTAINER = css`
   background-color: ${Constants.system.black};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
+    flex-shrink: 0;
     display: block;
     justify-content: left;
-    height: 100%;
+    height: 512px;
   }
 `;
 

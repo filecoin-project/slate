@@ -21,6 +21,23 @@ const STYLES_SCROLL = css`
   }
 `;
 
+const STYLES_NO_VISIBLE_SCROLL = css`
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  ::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+  }
+  ::-webkit-scrollbar-track {
+    background: ${Constants.system.foreground};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${Constants.system.darkGray};
+  }
+`;
+
 const STYLES_LAYOUT = css`
   display: flex;
   align-items: flex-start;
@@ -74,12 +91,13 @@ const STYLES_BODY_MOBILE = css`
 `;
 
 const STYLES_NAVIGATION = css`
+  z-index: 1;
   flex-shrink: 0;
   height: 100vh;
   z-index: ${Constants.zindex.navigation};
   width: ${Constants.sizes.navigation}px;
   border-right: 1px solid ${Constants.system.border};
-  ${STYLES_SCROLL}
+  ${STYLES_NO_VISIBLE_SCROLL}
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: auto;
   }
@@ -130,16 +148,13 @@ export default class ApplicationLayout extends React.Component {
     if (this.props.sidebar) {
       sidebarElements = (
         <React.Fragment>
+          <GlobalTooltip elementRef={this._sidebar} allowedTypes={["sidebar"]} />
           <div css={STYLES_SIDEBAR_HEADER}>
             <div css={STYLES_BLOCK} onClick={this.props.onDismissSidebar}>
               <SVG.Dismiss height="24px" />
             </div>
           </div>
           <div css={STYLES_SIDEBAR_CONTENT}>{this.props.sidebar}</div>
-          <GlobalTooltip
-            elementRef={this._sidebar}
-            allowedTypes={["sidebar"]}
-          />
         </React.Fragment>
       );
     }
@@ -149,36 +164,28 @@ export default class ApplicationLayout extends React.Component {
           css={STYLES_NAVIGATION}
           ref={(c) => {
             this._navigation = c;
-          }}
-        >
+          }}>
+          <GlobalTooltip elementRef={this._navigation} allowedTypes={["navigation"]} />
           {this.props.navigation}
-          <GlobalTooltip
-            elementRef={this._navigation}
-            allowedTypes={["navigation"]}
-          />
         </div>
         <div css={STYLES_CONTENT}>
+          <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} />
           <div css={STYLES_HEADER}>{this.props.header}</div>
           <div
             css={STYLES_BODY_WEB}
             ref={(c) => {
               this._body = c;
-            }}
-          >
+            }}>
             {this.props.children}
           </div>
-          <div css={STYLES_BODY_MOBILE}>
-            {this.props.sidebar ? sidebarElements : this.props.children}
-          </div>
-          <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} />
+          <div css={STYLES_BODY_MOBILE}>{this.props.sidebar ? sidebarElements : this.props.children}</div>
         </div>
         {this.props.sidebar ? (
           <div
             css={STYLES_SIDEBAR_WEB}
             ref={(c) => {
               this._sidebar = c;
-            }}
-          >
+            }}>
             {sidebarElements}
           </div>
         ) : null}

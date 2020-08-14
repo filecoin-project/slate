@@ -33,12 +33,8 @@ export class GlobalTooltip extends React.Component {
   };
 
   getStyle = (rect, bubbleRect, vertical, horizontal) => {
-    let yOffset = this.props.elementRef
-      ? this.props.elementRef.scrollTop
-      : window.pageYOffset;
-    let xOffset = this.props.elementRef
-      ? this.props.elementRef.scrollLeft
-      : window.pageXOffset;
+    let yOffset = this.props.elementRef ? this.props.elementRef.scrollTop : window.pageYOffset;
+    let xOffset = this.props.elementRef ? this.props.elementRef.scrollLeft : window.pageXOffset;
     let style = { position: "absolute" };
     switch (vertical) {
       case "above":
@@ -48,9 +44,7 @@ export class GlobalTooltip extends React.Component {
         style.top = `${rect.bottom - bubbleRect.height + yOffset}px`;
         break;
       case "center":
-        style.top = `${
-          rect.top + 0.5 * rect.height - 0.5 * bubbleRect.height + yOffset
-        }px`;
+        style.top = `${rect.top + 0.5 * rect.height - 0.5 * bubbleRect.height + yOffset}px`;
         break;
       case "down":
         style.top = `${rect.top + yOffset}px`;
@@ -67,9 +61,7 @@ export class GlobalTooltip extends React.Component {
         style.left = `${rect.right - bubbleRect.width + xOffset}px`;
         break;
       case "center":
-        style.left = `${
-          rect.left + 0.5 * rect.width - 0.5 * bubbleRect.width + xOffset
-        }px`;
+        style.left = `${rect.left + 0.5 * rect.width - 0.5 * bubbleRect.width + xOffset}px`;
         break;
       case "right":
         style.left = `${rect.left + xOffset}px`;
@@ -82,12 +74,8 @@ export class GlobalTooltip extends React.Component {
   };
 
   getOrientation = (rect, bubbleRect, vertical, horizontal) => {
-    let yOffset = this.props.elementRef
-      ? this.props.elementRef.scrollTop
-      : window.pageYOffset;
-    let xOffset = this.props.elementRef
-      ? this.props.elementRef.scrollLeft
-      : window.pageXOffset;
+    let yOffset = this.props.elementRef ? this.props.elementRef.scrollTop : window.pageYOffset;
+    let xOffset = this.props.elementRef ? this.props.elementRef.scrollLeft : window.pageXOffset;
     if (!vertical) {
       if (bubbleRect.height > rect.top + yOffset) {
         vertical = "below";
@@ -116,12 +104,12 @@ export class GlobalTooltip extends React.Component {
   };
 
   _handleAdd = (e) => {
-    if (
-      this.props.allowedTypes &&
-      !this.props.allowedTypes.includes(e.detail.type)
-    )
+    if (this.props.allowedTypes && !this.props.allowedTypes.includes(e.detail.type)) {
       return;
+    }
+
     let tooltips = this.state.tooltips;
+
     tooltips[e.detail.id] = {
       id: e.detail.id,
       show: false,
@@ -135,11 +123,10 @@ export class GlobalTooltip extends React.Component {
   };
 
   _handleRemove = (e) => {
-    if (
-      this.props.allowedTypes &&
-      !this.props.allowedTypes.includes(e.detail.type)
-    )
+    if (this.props.allowedTypes && !this.props.allowedTypes.includes(e.detail.type)) {
       return;
+    }
+
     if (this.state.tooltips[e.detail.id]) {
       let tooltips = this.state.tooltips;
       delete tooltips[e.detail.id];
@@ -148,11 +135,6 @@ export class GlobalTooltip extends React.Component {
   };
 
   _handleShow = (e) => {
-    if (
-      this.props.allowedTypes &&
-      !this.props.allowedTypes.includes(e.detail.type)
-    )
-      return;
     if (this.state.tooltips[e.detail.id]) {
       let tooltips = this.state.tooltips;
       if (!tooltips[e.detail.id].style) {
@@ -171,11 +153,6 @@ export class GlobalTooltip extends React.Component {
   };
 
   _handleHide = (e) => {
-    if (
-      this.props.allowedTypes &&
-      !this.props.allowedTypes.includes(e.detail.type)
-    )
-      return;
     if (this.state.tooltips[e.detail.id]) {
       let tooltips = this.state.tooltips;
       tooltips[e.detail.id].show = false;
@@ -214,8 +191,9 @@ export class TooltipWrapper extends React.Component {
     sample: true,
   };
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     let bubbleRect = this._bubble.getBoundingClientRect();
+
     dispatchCustomEvent({
       name: "add-tooltip",
       detail: {
@@ -247,8 +225,7 @@ export class TooltipWrapper extends React.Component {
               this._bubble = c;
             }}
             style={{ display: "inline-flex" }}
-            css={STYLES_INVISIBLE}
-          >
+            css={STYLES_INVISIBLE}>
             {this.props.content}
           </div>
         ) : null}
@@ -256,8 +233,7 @@ export class TooltipWrapper extends React.Component {
           ref={(c) => {
             this._root = c;
           }}
-          style={{ display: "inline-flex" }}
-        >
+          style={{ display: "inline-flex" }}>
           {this.props.children}
         </div>
       </div>
@@ -328,20 +304,16 @@ export class TooltipAnchor extends React.Component {
         content={content}
         horizontal={this.props.horizontal}
         vertical={this.props.vertical}
-        type={this.props.type}
-      >
+        type={this.props.type}>
         <span
           css={STYLES_TOOLTIP_ANCHOR}
           style={this.props.anchorStyle}
           onMouseEnter={this._handleMouseEnter}
-          onMouseLeave={this._handleMouseLeave}
-        >
+          onMouseLeave={this._handleMouseLeave}>
           {this.props.children ? (
             this.props.children
           ) : (
-            <SVG.Information
-              height={this.props.height ? this.props.height : "24px"}
-            />
+            <SVG.Information height={this.props.height ? this.props.height : "24px"} />
           )}
         </span>
       </TooltipWrapper>

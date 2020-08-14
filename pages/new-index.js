@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
-
+import { motion, useViewportScroll, useTransform } from "framer-motion";
 import { css, keyframes } from "@emotion/react";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
@@ -25,7 +25,7 @@ text-align: center;
 `;
 const STYLES_HERO_TEXT = css`
   text-align: center;
-  color: ${Constants.system.foreground};
+  color: ${Constants.system.black};
   width: 80vw;
   margin: auto; 
 `;
@@ -103,45 +103,31 @@ const STYLES_SECTION_FOREGROUND = css`
 
 const STYLES_SECTION_FRONT = css`
   padding: 88px 24px 24px 24px;
-  margin: 0px 0px 0px 0px;
+  margin: 0px;
   position: relative;
   z-index : 2;
+}
+`;
 
-// const STYLES_VIEWS_TEXT = css`
-// align-items: center;
-// height: 80%;
-// ul {
-//   list-style-type: none;
-//   position: relative;
-//   padding-top: 20vh;
-// }
-// a {
-//   font-size: 1.953rem;
-//   color: ${Constants.system.black};
-//   text-decoration: none;
-// }
-// a:hover{
-//   font-size: 1.953rem;
-//   color: ${Constants.system.black};
-//   text-decoration-style: wavy;
-//   font-weight: bold;
-// }
-// img {
-//   display: none;
-//   height: 301px;
-//   position: absolute;
-//   right: 0;
-//   top: 0;
-//   width: 300px;
-// }
-// a:hover + img,
-// img:hover {
-//   width: 65%;
-//   height: auto;
-//   display: block;
-// }
-// }
-// `;
+const STYLES_VIEWS_TEXT = css`
+ display: inline-flex;
+  align-items: center;
+  font-size: 1.953rem;
+  color: ${Constants.system.black};
+  text-decoration: none;
+  margin: 30vh 0px;
+}
+`;
+
+const STYLES_VIEWS_IMAGES = css`
+  display: inline-flex;
+  position: absolute;
+  img{
+    max-width: 500px;
+    height: auto;
+  }
+}
+`;
 
 const STYLES_SECTION_BACK = css`
   margin: 0px 0px 0px 0px;
@@ -180,7 +166,7 @@ const STYLES_SIMPLE_FLOW_CONTAINER = css `
 
 const STYLES_ARROW_CONTAINER = css `
   width: 200px;
-`
+`;
 
 const STYLES_SECTION_TEXT = css`
   display: block;
@@ -195,49 +181,49 @@ const STYLES_SECTION_SVG_CONTAINER = css`
 const STYLES_STROKE_KF = keyframes`
  from { stroke-dashoffset: 1; }
  to { stroke-dashoffset: 0;}
-`
+`;
 
 const STYLES_SVG_AN = css`
   animation: ${STYLES_STROKE_KF} 5s ease-in-out infinite alternate;
-`
+`;
 
 const STYLES_CONTR_CONTAINER = css `
   display: flex;
-`
+`;
 const STYLES_CONTR_LIST = css `
   display: flex;
   justify-content: space-around;
   width: 100vw;
   list-style: none;
-`
+`;
 
 const STYLES_CONTR_LI0 = css `
   font-size: 1.953rem;
   color: ${Constants.system.black};
   text-decoration: none;
   padding-bottom: 1.5rem;
-`
+`;
 const STYLES_CONTR_LI1 = css `
   font-size: 1.953rem;
   color: ${Constants.system.black};
   text-decoration: none;
   opacity: .76;
   padding-bottom: 1.5rem;
-`
+`;
 const STYLES_CONTR_LI2 = css `
   font-size: 1.953rem;
   color: ${Constants.system.black};
   text-decoration: none;
   opacity: .56;
   padding-bottom: 1.5rem;
-`
+`;
 const STYLES_CONTR_LI3 = css `
   font-size: 1.953rem;
   color: ${Constants.system.black};
   text-decoration: none;
   opacity: .26;
   padding-bottom: 1.5rem;
-`
+`;
 const STYLES_MEDIA_LEFT = css`
   position: absolute;
   right: 16%;
@@ -252,31 +238,58 @@ const fadeImages = [
   "/static/media/url.jpg",
 ];
 
+const viewsImages = [
+  "/static/media/slate-views-moodboard.png",
+  "/static/media/slate-views-canvas.png",
+  "/static/media/slate-views-presentation.png",
+  "/static/media/slate-views-blog.png",
+];
+
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
   };
 };
 
+export const MyComponent = () => (
+  <motion.div
+    animate={{ rotate: 360 }}
+    transition={{ duration: 2 }}
+  />
+)
+export const MyMotion = () => {
+  const { scrollYProgress } = useViewportScroll()
+  return <motion.div style={{ scaleX: scrollYProgress }} />
+}
+
 export default class IndexPage extends React.Component {
   async componentDidMount() {
     const response = await Actions.health();
     console.log("HEALTH_CHECK", response);
+   
+  
   }
   render() {
     const title = `Slate`;
     const description = "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host";
+  
+  
 
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
             <section css={STYLES_HERO_SECTION}>
+            
             <div css={STYLES_HERO_TEXT}>
-              <System.H1>Slate is the gateway to Filecoin.</System.H1>
+             
+ 
+                   <System.H1>Slate is the gateway to Filecoin.</System.H1>
               <br/>
               <System.H2>By creating a safe, open, and moddable storage system that is easy to use, we create paths to a new network of designed around trust.</System.H2>
+             
+
            </div>
           
             </section>
@@ -333,19 +346,19 @@ export default class IndexPage extends React.Component {
                     pauseOnHover={false}
                   >
                     <div className="each-fade" css={STYLES_MEDIA}>
-                    <img src={fadeImages[0]} />
+                      <img src={fadeImages[0]} />
                     </div>
                     <div className="each-fade"  css={STYLES_MEDIA}>
-                    <img src={fadeImages[1]}/>
+                      <img src={fadeImages[1]}/>
                     </div>
                     <div className="each-fade"  css={STYLES_MEDIA}>
-                    <img src={fadeImages[2]}/>
+                     <img src={fadeImages[2]}/>
                     </div>
                     <div className="each-fade"  css={STYLES_MEDIA}>
-                    <img src={fadeImages[3]}/>
+                     <img src={fadeImages[3]}/>
                     </div>
                     <div className="each-fade"  css={STYLES_MEDIA}>
-                    <img src={fadeImages[4]}/>
+                      <img src={fadeImages[4]}/>
                     </div>
                   </Fade>  
                 </div>
@@ -371,28 +384,44 @@ export default class IndexPage extends React.Component {
             <section css={STYLES_SECTION_FOREGROUND}>
               <h1>Making a Slate</h1>
               <h2>Slates give you rich previews and different layouts to view your files.</h2>
-                {/* <div css={STYLES_VIEWS_TEXT}>
-                <ul>
-                    <li>
-                        <a href="#">Create moodboards</a>
-                        <img src="/static/slate-views-moodboard.png" alt=""/>
-                    </li>
-                    <li>
-                        <a href="#">Organize research</a>
-                        <img src="/static/slate-views-canvas.png" alt=""/>
-                    </li>
-                    <li>
-                        <a href="#">Share presentations</a>
-                        <img src="/static/slate-views-presentation.png" alt=""/>
-                    </li>
-
-                </ul>
-                </div> */}
+              <div css={STYLES_VIEWS_TEXT} >
+                <TextLoop interval={3200}>
+                  <span>Create moodboards</span>
+                  <span>Organize research</span>
+                  <span>Share presentations</span>
+                  <span>Create a Blog</span>
+                  <span>URL</span>
+                </TextLoop>
+              </div>
+               <div css={STYLES_VIEWS_IMAGES}>
+               <Fade 
+                    arrows={false} 
+                    duration={2400} 
+                    transitionDuration={800}     
+                    pauseOnHover={true}
+                  >
+                    <div className="each-fade" >
+                      <img src={viewsImages[0]} />
+                    </div>
+                    <div className="each-fade"  >
+                    <img src={viewsImages[1]} />
+                    </div>
+                    <div className="each-fade"  >
+                      <img src={viewsImages[2]}/>
+                    </div>
+                    <div className="each-fade"  >
+                      <img src={viewsImages[3]}/>
+                    </div>
+                  </Fade> 
+               </div>
             </section>
 
             <section css={STYLES_SECTION_WHITE}>
               <h1>Share with</h1>
               <h2>Words about things</h2>
+              <div css={STYLES_VIEWS_IMAGES}>
+                <img src="/static/media/slate-share.gif" alt="" />
+              </div>
             </section>
 
             <section css={STYLES_SECTION_FOREGROUND}>

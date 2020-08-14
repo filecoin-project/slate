@@ -2,8 +2,8 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
-
-import { css } from "@emotion/react";
+import { motion, useViewportScroll, useTransform } from "framer-motion";
+import { css, keyframes } from "@emotion/react";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
@@ -25,7 +25,7 @@ text-align: center;
 `;
 const STYLES_HERO_TEXT = css`
   text-align: center;
-  color: ${Constants.system.foreground};
+  color: ${Constants.system.black};
   width: 80vw;
   margin: auto; 
 `;
@@ -103,45 +103,31 @@ const STYLES_SECTION_FOREGROUND = css`
 
 const STYLES_SECTION_FRONT = css`
   padding: 88px 24px 24px 24px;
-  margin: 0px 0px 0px 0px;
+  margin: 0px;
   position: relative;
   z-index : 2;
+}
+`;
 
-// const STYLES_VIEWS_TEXT = css`
-// align-items: center;
-// height: 80%;
-// ul {
-//   list-style-type: none;
-//   position: relative;
-//   padding-top: 20vh;
-// }
-// a {
-//   font-size: 1.953rem;
-//   color: ${Constants.system.black};
-//   text-decoration: none;
-// }
-// a:hover{
-//   font-size: 1.953rem;
-//   color: ${Constants.system.black};
-//   text-decoration-style: wavy;
-//   font-weight: bold;
-// }
-// img {
-//   display: none;
-//   height: 301px;
-//   position: absolute;
-//   right: 0;
-//   top: 0;
-//   width: 300px;
-// }
-// a:hover + img,
-// img:hover {
-//   width: 65%;
-//   height: auto;
-//   display: block;
-// }
-// }
-// `;
+const STYLES_VIEWS_TEXT = css`
+ display: inline-flex;
+  align-items: center;
+  font-size: 1.953rem;
+  color: ${Constants.system.black};
+  text-decoration: none;
+  margin: 30vh 0px;
+}
+`;
+
+const STYLES_VIEWS_IMAGES = css`
+  display: inline-flex;
+  position: absolute;
+  img{
+    max-width: 500px;
+    height: auto;
+  }
+}
+`;
 
 const STYLES_SECTION_BACK = css`
   margin: 0px 0px 0px 0px;
@@ -169,6 +155,75 @@ const STYLES_MEDIA = css`
   background-repeat: no-repeat;
 `;
 
+const STYLES_SIMPLE_FLOW_CONTAINER = css `
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  justify-content: space-around;
+  padding-top: 20vh;
+  align-items: center;
+`;
+
+const STYLES_ARROW_CONTAINER = css `
+  width: 200px;
+`;
+
+const STYLES_SECTION_TEXT = css`
+  display: block;
+  max-width: 980px;
+`;
+
+const STYLES_SECTION_SVG_CONTAINER = css`
+  display: flex;
+  justify-content: center;
+`;
+
+const STYLES_STROKE_KF = keyframes`
+ from { stroke-dashoffset: 1; }
+ to { stroke-dashoffset: 0;}
+`;
+
+const STYLES_SVG_AN = css`
+  animation: ${STYLES_STROKE_KF} 5s ease-in-out infinite alternate;
+`;
+
+const STYLES_CONTR_CONTAINER = css `
+  display: flex;
+`;
+const STYLES_CONTR_LIST = css `
+  display: flex;
+  justify-content: space-around;
+  width: 100vw;
+  list-style: none;
+`;
+
+const STYLES_CONTR_LI0 = css `
+  font-size: 1.953rem;
+  color: ${Constants.system.black};
+  text-decoration: none;
+  padding-bottom: 1.5rem;
+`;
+const STYLES_CONTR_LI1 = css `
+  font-size: 1.953rem;
+  color: ${Constants.system.black};
+  text-decoration: none;
+  opacity: .76;
+  padding-bottom: 1.5rem;
+`;
+const STYLES_CONTR_LI2 = css `
+  font-size: 1.953rem;
+  color: ${Constants.system.black};
+  text-decoration: none;
+  opacity: .56;
+  padding-bottom: 1.5rem;
+`;
+const STYLES_CONTR_LI3 = css `
+  font-size: 1.953rem;
+  color: ${Constants.system.black};
+  text-decoration: none;
+  opacity: .26;
+  padding-bottom: 1.5rem;
+`;
 const STYLES_MEDIA_LEFT = css`
   position: absolute;
   right: 16%;
@@ -183,37 +238,93 @@ const fadeImages = [
   "/static/media/url.jpg",
 ];
 
+const viewsImages = [
+  "/static/media/slate-views-moodboard.png",
+  "/static/media/slate-views-canvas.png",
+  "/static/media/slate-views-presentation.png",
+  "/static/media/slate-views-blog.png",
+];
+
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
   };
 };
 
+export const MyComponent = () => (
+  <motion.div
+    animate={{ rotate: 360 }}
+    transition={{ duration: 2 }}
+  />
+)
+export const MyMotion = () => {
+  const { scrollYProgress } = useViewportScroll()
+  return <motion.div style={{ scaleX: scrollYProgress }} />
+}
+
 export default class IndexPage extends React.Component {
   async componentDidMount() {
     const response = await Actions.health();
     console.log("HEALTH_CHECK", response);
+   
+  
   }
   render() {
     const title = `Slate`;
     const description = "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host";
+  
+  
 
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
             <section css={STYLES_HERO_SECTION}>
+            
             <div css={STYLES_HERO_TEXT}>
-              <System.H1>Slate is the gateway to Filecoin.</System.H1>
+             
+ 
+                   <System.H1>Slate is the gateway to Filecoin.</System.H1>
               <br/>
               <System.H2>By creating a safe, open, and moddable storage system that is easy to use, we create paths to a new network of designed around trust.</System.H2>
+             
+
            </div>
           
             </section>
             <section css={STYLES_SECTION_WHITE}>
               <h1>Simple, intuitive</h1>
-              <h2>Words about things</h2>
+              <h2>Break way from abstract visualizations of your files.<br/>Securely organize your data in a relatable way</h2>
+              <div css={STYLES_SIMPLE_FLOW_CONTAINER}>
+                <div>{/*<ButtonPrimary>Upload File</ButtonPrimary> Figure out hoiw to pull in correctly*/}<button>Upload File</button></div>
+                <div css={STYLES_ARROW_CONTAINER}>
+                  <svg viewBox="0 0 350 100">
+                    <defs>
+                      <marker id="arrowhead" markerWidth="10" markerHeight="7"
+                      refX="0" refY="1.5" orient="auto" fill="#1b1f23">
+                        <polygon points="0 0, 5 1.5, 0 3" />
+                      </marker>
+                    </defs>
+                    <line x1="5" y1="50" x2="250" y2="50" stroke="#1b1f23"
+                    stroke-width="8" marker-end="url(#arrowhead)" />
+                  </svg>
+                </div>
+                <div><p>Slate securely stores your file</p></div>
+                <div css={STYLES_ARROW_CONTAINER}>
+                  <svg viewBox="0 0 350 100">
+                    <defs>
+                      <marker id="arrowhead" markerWidth="10" markerHeight="7"
+                      refX="0" refY="1.5" orient="auto" fill="#1b1f23">
+                        <polygon points="0 0, 5 1.5, 0 3" />
+                      </marker>
+                    </defs>
+                    <line x1="5" y1="50" x2="250" y2="50" stroke="#1b1f23"
+                    stroke-width="8" marker-end="url(#arrowhead)" />
+                  </svg>
+                </div>
+                <div><p>Share!</p></div>
+              </div>
             </section>
       
             <section css={STYLES_SECTION_FOREGROUND}>
@@ -235,19 +346,19 @@ export default class IndexPage extends React.Component {
                     pauseOnHover={false}
                   >
                     <div className="each-fade" css={STYLES_MEDIA}>
-                    <img src={fadeImages[0]} />
+                      <img src={fadeImages[0]} />
                     </div>
                     <div className="each-fade"  css={STYLES_MEDIA}>
-                    <img src={fadeImages[1]}/>
+                      <img src={fadeImages[1]}/>
                     </div>
                     <div className="each-fade"  css={STYLES_MEDIA}>
-                    <img src={fadeImages[2]}/>
+                     <img src={fadeImages[2]}/>
                     </div>
                     <div className="each-fade"  css={STYLES_MEDIA}>
-                    <img src={fadeImages[3]}/>
+                     <img src={fadeImages[3]}/>
                     </div>
                     <div className="each-fade"  css={STYLES_MEDIA}>
-                    <img src={fadeImages[4]}/>
+                      <img src={fadeImages[4]}/>
                     </div>
                   </Fade>  
                 </div>
@@ -273,33 +384,64 @@ export default class IndexPage extends React.Component {
             <section css={STYLES_SECTION_FOREGROUND}>
               <h1>Making a Slate</h1>
               <h2>Slates give you rich previews and different layouts to view your files.</h2>
-                {/* <div css={STYLES_VIEWS_TEXT}>
-                <ul>
-                    <li>
-                        <a href="#">Create moodboards</a>
-                        <img src="/static/slate-views-moodboard.png" alt=""/>
-                    </li>
-                    <li>
-                        <a href="#">Organize research</a>
-                        <img src="/static/slate-views-canvas.png" alt=""/>
-                    </li>
-                    <li>
-                        <a href="#">Share presentations</a>
-                        <img src="/static/slate-views-presentation.png" alt=""/>
-                    </li>
-
-                </ul>
-                </div> */}
+              <div css={STYLES_VIEWS_TEXT} >
+                <TextLoop interval={3200}>
+                  <span>Create moodboards</span>
+                  <span>Organize research</span>
+                  <span>Share presentations</span>
+                  <span>Create a Blog</span>
+                  <span>URL</span>
+                </TextLoop>
+              </div>
+               <div css={STYLES_VIEWS_IMAGES}>
+               <Fade 
+                    arrows={false} 
+                    duration={2400} 
+                    transitionDuration={800}     
+                    pauseOnHover={true}
+                  >
+                    <div className="each-fade" >
+                      <img src={viewsImages[0]} />
+                    </div>
+                    <div className="each-fade"  >
+                    <img src={viewsImages[1]} />
+                    </div>
+                    <div className="each-fade"  >
+                      <img src={viewsImages[2]}/>
+                    </div>
+                    <div className="each-fade"  >
+                      <img src={viewsImages[3]}/>
+                    </div>
+                  </Fade> 
+               </div>
             </section>
 
             <section css={STYLES_SECTION_WHITE}>
               <h1>Share with</h1>
               <h2>Words about things</h2>
+              <div css={STYLES_VIEWS_IMAGES}>
+                <img src="/static/media/slate-share.gif" alt="" />
+              </div>
             </section>
 
             <section css={STYLES_SECTION_FOREGROUND}>
               <h1>Open Source</h1>
-              <h2>Words about things</h2>
+              <h2 css={STYLES_SECTION_TEXT}>"Collaboration makes better software". <br/><br/>Pair that with Filecoin's transparent marketplace as Slates's foundation. And you got yourself real nice power couple right there.</h2>
+              <div css={STYLES_SECTION_SVG_CONTAINER}>
+                <svg viewBox="-15 125 750 750" width="800" height="800">
+                  <path css={STYLES_SVG_AN} stroke="#b2b2b2" fill="none" strokeWidth="3" strokeDasharray="1 1" pathLength="1"
+                    d="m 398.40437,595.27818 c 40.32082,-14.97419 61.36968,-43.81349 61.36968,-93.44762 0,-49.63413 -41.82527,-93.37059 -94.0866,-93.45552 -55.14896,-0.0896 -96.75182,43.64 -96.0866,93.45552 0.66523,49.81551 24.42164,82.95509 62.44642,94.93898 L 264.68924,762.47972 C 174.536,739.14196 82.84508,632.78774 82.84508,501.83056 c 0,-155.10914 124.63284,-280.84993 280.84238,-280.84993 156.20954,0 282.84239,125.74079 282.84239,280.84993 0,132.99462 -90.82075,237.8649 -182.89748,261.11527 z"
+                  />
+                </svg>
+              </div>
+              <div css={STYLES_CONTR_CONTAINER}>
+                <ul css={STYLES_CONTR_LIST}>
+                  <li css={STYLES_CONTR_LI0}>Jimmylee<br/>github.com/jimmylee</li>
+                  <li css={STYLES_CONTR_LI1}>Martinalong<br/>github.com/martinalong</li>
+                  <li css={STYLES_CONTR_LI2}>William Felker<br/>github.com/gndclouds</li>
+                  <li css={STYLES_CONTR_LI3}>Uonai<br/>github.com/uonai</li>
+                </ul>
+              </div>
             </section>
           <WebsitePrototypeFooter />
         </div>

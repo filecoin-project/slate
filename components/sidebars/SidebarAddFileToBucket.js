@@ -61,25 +61,29 @@ export default class SidebarAddFileToBucket extends React.Component {
       return;
     }
 
-    console.log(file);
-
     const isAllowed = Validations.isFileTypeAllowed(file.type);
     if (!isAllowed) {
       alert("TODO: File type is not allowed, yet.");
       return;
     }
 
-    await this.props.onSetFile({
+    const response = await this.props.onSetFile({
       file,
       slate: this.props.data && this.props.data.slateId ? { id: this.props.data.slateId } : null,
     });
+
+    if (!response) {
+      return alert("TODO: File upload error");
+    }
+
+    if (response.error) {
+      return alert("TODO: File upload error");
+    }
 
     await this.props.onRehydrate({ resetFiles: true });
   };
 
   render() {
-    console.log(this.props.fileLoading);
-
     return (
       <React.Fragment>
         <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload data</System.P>
@@ -109,7 +113,6 @@ export default class SidebarAddFileToBucket extends React.Component {
         {this.props.fileLoading
           ? Object.keys(this.props.fileLoading).map((timestamp) => {
               const p = this.props.fileLoading[timestamp];
-              console.log({ p });
               return (
                 <React.Fragment key={timestamp}>
                   <strong css={STYLES_STRONG}>{p.name}</strong>

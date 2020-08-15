@@ -29,8 +29,8 @@ const STYLES_DATA = css`
 const STYLES_DATA_METER = css`
   flex-shrink: 0;
   height: 100%;
-  background-color: ${Constants.system.brand};
-  background-image: linear-gradient(315deg, ${Constants.system.brand} 0%, #009ffd 74%);
+  background-color: #2935ff;
+  background-image: linear-gradient(to left, #2935ff, #342fc4, #33288b, #2b2157, #1d1927);
 `;
 
 const STYLES_ROW = css`

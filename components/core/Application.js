@@ -233,9 +233,10 @@ export default class ApplicationPage extends React.Component {
             });
 
             isUploading = true;
-            await this._handleSetFile({ file, slate });
+            const fileUpload = await this._handleSetFile({ file, slate });
           }
 
+          // TODO(jim): Support multiple files by removing this.
           break;
         }
       }
@@ -265,6 +266,7 @@ export default class ApplicationPage extends React.Component {
 
     if (options && options.resetFiles) {
       updates.fileLoading = null;
+      updates.sidebar = null;
     }
 
     this.setState(updates);

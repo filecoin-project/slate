@@ -1,17 +1,39 @@
-import * as Constants from "~/node_common/constants";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Utilities from "~/node_common/utilities";
 
-import FS from "fs-extra";
 import FORM from "formidable";
 
-// TODO(jim): Ideally we never keep the file locally.
+import { PassThrough } from "stream";
+
 export const formMultipart = (req, res, { user }) =>
   new Promise((resolve, reject) => {
     const f = new FORM.IncomingForm();
-    f.uploadDir = Constants.FILE_STORAGE_URL;
+    const p = new PassThrough();
+    const file = {};
+
     f.keepExtensions = true;
-    f.parse(req, async (e, fields, files) => {
+
+    f.onPart = (part) => {
+      if (!part.filename) {
+        form.handlePart(part);
+        return;
+      }
+
+      file.name = part.filename;
+      file.type = part.mime;
+
+      part.on("data", function (buffer) {
+        p.write(buffer);
+      });
+
+      part.on("end", function (data) {
+        p.end();
+      });
+    };
+
+    f.parse(req, async (e) => {
+      const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+
       if (e) {
         return reject({
           decorator: "SERVER_UPLOAD_PARSE_FAILURE",
@@ -20,40 +42,39 @@ export const formMultipart = (req, res, { user }) =>
         });
       }
 
-      if (!files.data) {
+      if (!file && !file.name) {
         return reject({
           decorator: "SERVER_UPLOAD_ERROR_CHECK_FORM_TYPE",
           error: true,
-          message: files,
+          message: file,
         });
       }
 
-      const path = files.data._writeStream.path;
-      const localPath = `./${path}`;
-      const data = LibraryManager.createLocalDataIncomplete(files.data);
+      const data = LibraryManager.createLocalDataIncomplete(file);
 
-      const { buckets, bucketKey, bucketName } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
-
-      let readFile;
       let push;
       try {
-        readFile = FS.createReadStream(path, {
-          highWaterMark: 1024 * 1024 * 3,
-        });
-
-        push = await buckets.pushPath(bucketKey, data.name, readFile);
+        push = await buckets.pushPath(bucketKey, data.name, p);
       } catch (e) {
-        await FS.unlinkSync(localPath);
-
         return reject({
           decorator: "SERVER_BUCKETS_PUSH_ISSUE",
           error: true,
           message: e,
         });
       }
-      // NOTE(jim): Remove the file when you're done with it.
-      await FS.unlinkSync(localPath);
 
-      return resolve({ data, ipfs: push.path.path });
+      let ipfs = push.path.path;
+      try {
+        const newUpload = await buckets.listIpfsPath(ipfs);
+        data.size = newUpload.size;
+      } catch (e) {
+        return reject({
+          decorator: "SERVER_BUCKETS_VERIFY_ISSUE",
+          error: true,
+          message: e,
+        });
+      }
+
+      return resolve({ data, ipfs });
     });
   });

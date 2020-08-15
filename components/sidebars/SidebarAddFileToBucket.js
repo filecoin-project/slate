@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/react";
+import { DataMeterBar } from "~/components/core/DataMeter";
 
 const STYLES_FILE_HIDDEN = css`
   height: 1px;
@@ -42,6 +43,14 @@ const STYLES_IMAGE_PREVIEW = css`
   margin-top: 48px;
 `;
 
+const STYLES_STRONG = css`
+  display: block;
+  margin: 16px 0 4px 0;
+  font-weight: 400;
+  font-family: ${Constants.font.medium};
+  font-size: 0.8rem;
+`;
+
 export default class SidebarAddFileToBucket extends React.Component {
   _handleUpload = async (e) => {
     e.persist();
@@ -64,9 +73,13 @@ export default class SidebarAddFileToBucket extends React.Component {
       file,
       slate: this.props.data && this.props.data.slateId ? { id: this.props.data.slateId } : null,
     });
+
+    await this.props.onRehydrate({ resetFiles: true });
   };
 
   render() {
+    console.log(this.props.fileLoading);
+
     return (
       <React.Fragment>
         <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload data</System.P>
@@ -83,20 +96,28 @@ export default class SidebarAddFileToBucket extends React.Component {
           type="label"
           htmlFor="file"
           style={{ marginTop: 24 }}
-          loading={this.props.fileLoading}
-        >
+          loading={!!this.props.fileLoading}>
           Add file
         </System.ButtonPrimary>
 
         {!this.props.fileLoading ? (
-          <System.ButtonSecondary
-            full
-            style={{ marginTop: 16 }}
-            onClick={this.props.onCancel}
-          >
+          <System.ButtonSecondary full style={{ marginTop: 16 }} onClick={this.props.onCancel}>
             Cancel
           </System.ButtonSecondary>
         ) : null}
+
+        {this.props.fileLoading
+          ? Object.keys(this.props.fileLoading).map((timestamp) => {
+              const p = this.props.fileLoading[timestamp];
+              console.log({ p });
+              return (
+                <React.Fragment key={timestamp}>
+                  <strong css={STYLES_STRONG}>{p.name}</strong>
+                  <DataMeterBar bytes={p.loaded} maximumBytes={p.total} />
+                </React.Fragment>
+              );
+            })
+          : null}
       </React.Fragment>
     );
   }

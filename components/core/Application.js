@@ -5,6 +5,7 @@ import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
 import * as Validations from "~/common/validations";
 import * as System from "~/components/system";
+import * as Window from "~/common/window";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -39,7 +40,6 @@ import ApplicationHeader from "~/components/core/ApplicationHeader";
 import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
-import progressFetch from "~/common/fetch-utilities";
 
 const cookies = new Cookies();
 
@@ -102,38 +102,63 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleSetFile = async ({ file, slate }) => {
-    this.setState({ fileLoading: true });
+    let formData = new FormData();
+    formData.append("data", file);
+    console.log({ file });
 
-    let data = new FormData();
-    data.append("data", file);
-
-    const options = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
+    this.setState({
+      fileLoading: {
+        [file.lastModified]: {
+          name: file.name,
+          loaded: 0,
+          total: file.size,
+        },
       },
-      body: data,
-    };
-
-    const response = await progressFetch(`/api/data/${file.name}`, options, (p) => {
-      console.log(p);
     });
 
-    const json = await response.json();
+    const upload = (path) =>
+      new Promise((resolve, reject) => {
+        const XHR = new XMLHttpRequest();
+        XHR.open("post", path, true);
+        XHR.onerror = (event) => {
+          console.log(event);
+        };
+        XHR.onprogress = (event) => {
+          console.log("FILE UPLOAD PROGRESS", event);
+          this.setState({
+            fileLoading: {
+              ...this.state.fileLoading,
+              [file.lastModified]: {
+                name: file.name,
+                loaded: event.loaded,
+                total: event.total,
+              },
+            },
+          });
+        };
+        XHR.onloadend = (event) => {
+          console.log("FILE UPLOAD END", event);
+          resolve(JSON.parse(event.target.response));
+        };
+        XHR.send(formData);
+      });
+
+    const json = await upload(`/api/data/${file.name}`);
+    console.log(json);
 
     if (!json) {
-      this.setState({ sidebar: null, fileLoading: false });
-      return;
+      this.setState({ sidebar: null, fileLoading: null });
+      return { error: "NO_RESPONSE" };
     }
 
     if (json.error) {
-      this.setState({ sidebar: null, fileLoading: false });
-      return;
+      this.setState({ sidebar: null, fileLoading: null });
+      return json;
     }
 
     if (!json.data) {
-      this.setState({ sidebar: null, fileLoading: false });
-      return;
+      this.setState({ sidebar: null, fileLoading: null });
+      return json;
     }
 
     if (json && slate) {
@@ -152,9 +177,7 @@ export default class ApplicationPage extends React.Component {
       }
     }
 
-    await this.rehydrate();
-
-    this.setState({ sidebar: null, fileLoading: false });
+    return json;
   };
 
   _handleDragEnter = (e) => {
@@ -196,12 +219,11 @@ export default class ApplicationPage extends React.Component {
       slate = { ...current.target, id: current.target.slateId };
     }
 
+    let isUploading = false;
     if (e.dataTransfer.items) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
-
-          console.log(file);
 
           if (Validations.isFileTypeAllowed(file.type)) {
             this._handleAction({
@@ -210,6 +232,7 @@ export default class ApplicationPage extends React.Component {
               data: slate,
             });
 
+            isUploading = true;
             await this._handleSetFile({ file, slate });
           }
 
@@ -218,10 +241,15 @@ export default class ApplicationPage extends React.Component {
       }
     }
 
-    this.setState({ fileLoading: false });
+    if (!isUploading) {
+      return;
+    }
+
+    await this.rehydrate();
+    this.setState({ sidebar: null, fileLoading: null });
   };
 
-  rehydrate = async () => {
+  rehydrate = async (options) => {
     const response = await Actions.hydrateAuthenticatedUser();
 
     console.log("REHYDRATION CALL", response);
@@ -230,10 +258,16 @@ export default class ApplicationPage extends React.Component {
       return null;
     }
 
-    this.setState({
+    const updates = {
       viewer: State.getInitialState(response.data),
       selected: State.getSelectedState(response.data),
-    });
+    };
+
+    if (options && options.resetFiles) {
+      updates.fileLoading = null;
+    }
+
+    this.setState(updates);
 
     return { rehydrated: true };
   };

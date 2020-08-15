@@ -54,30 +54,55 @@ const STYLES_STRONG = css`
 export default class SidebarAddFileToBucket extends React.Component {
   _handleUpload = async (e) => {
     e.persist();
-    let file = e.target.files[0];
+    let files = [];
+    let fileLoading = {};
+    for (let i = 0; i < e.target.files.length; i++) {
+      let file = e.target.files[i];
 
-    if (!file) {
-      alert("TODO: Something went wrong");
+      if (!file) {
+        alert("TODO: Something went wrong");
+        continue;
+      }
+
+      const isAllowed = Validations.isFileTypeAllowed(file.type);
+      if (!isAllowed) {
+        alert("TODO: File type is not allowed, yet.");
+        continue;
+      }
+
+      files.push(file);
+      fileLoading[`${file.lastModified}-${file.name}`] = {
+        name: file.name,
+        loaded: 0,
+        total: file.size,
+      };
+    }
+
+    if (!files.length) {
+      alert("TODO: Files not supported error");
       return;
     }
 
-    const isAllowed = Validations.isFileTypeAllowed(file.type);
-    if (!isAllowed) {
-      alert("TODO: File type is not allowed, yet.");
-      return;
-    }
+    this.props.onRegisterFile({ fileLoading });
 
-    const response = await this.props.onSetFile({
-      file,
-      slate: this.props.data && this.props.data.slateId ? { id: this.props.data.slateId } : null,
-    });
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const slate = this.props.data && this.props.data.slateId ? { id: this.props.data.slateId } : null;
 
-    if (!response) {
-      return alert("TODO: File upload error");
-    }
+      const response = await this.props.onUploadFile({
+        file,
+        slate,
+      });
 
-    if (response.error) {
-      return alert("TODO: File upload error");
+      if (!response) {
+        alert("TODO: File upload error");
+        continue;
+      }
+
+      if (response.error) {
+        alert("TODO: File upload error");
+        continue;
+      }
     }
 
     await this.props.onRehydrate({ resetFiles: true });

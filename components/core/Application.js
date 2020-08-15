@@ -101,20 +101,15 @@ export default class ApplicationPage extends React.Component {
     this.setState({ online: navigator.onLine });
   };
 
-  _handleSetFile = async ({ file, slate }) => {
+  _handleRegisterFile = ({ fileLoading }) => {
+    return this.setState({
+      fileLoading,
+    });
+  };
+
+  _handleUploadFile = async ({ file, slate }) => {
     let formData = new FormData();
     formData.append("data", file);
-    console.log({ file });
-
-    this.setState({
-      fileLoading: {
-        [file.lastModified]: {
-          name: file.name,
-          loaded: 0,
-          total: file.size,
-        },
-      },
-    });
 
     const upload = (path) =>
       new Promise((resolve, reject) => {
@@ -128,7 +123,7 @@ export default class ApplicationPage extends React.Component {
           this.setState({
             fileLoading: {
               ...this.state.fileLoading,
-              [file.lastModified]: {
+              [`${file.lastModified}-${file.name}`]: {
                 name: file.name,
                 loaded: event.loaded,
                 total: event.total,
@@ -147,17 +142,14 @@ export default class ApplicationPage extends React.Component {
     console.log(json);
 
     if (!json) {
-      this.setState({ sidebar: null, fileLoading: null });
       return { error: "NO_RESPONSE" };
     }
 
     if (json.error) {
-      this.setState({ sidebar: null, fileLoading: null });
       return json;
     }
 
     if (!json.data) {
-      this.setState({ sidebar: null, fileLoading: null });
       return json;
     }
 
@@ -219,7 +211,8 @@ export default class ApplicationPage extends React.Component {
       slate = { ...current.target, id: current.target.slateId };
     }
 
-    let isUploading = false;
+    const files = [];
+    let fileLoading = {};
     if (e.dataTransfer.items) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
@@ -232,22 +225,32 @@ export default class ApplicationPage extends React.Component {
               data: slate,
             });
 
-            isUploading = true;
-            const fileUpload = await this._handleSetFile({ file, slate });
+            files.push(file);
+            fileLoading[`${file.lastModified}-${file.name}`] = {
+              name: file.name,
+              loaded: 0,
+              total: file.size,
+            };
           }
-
-          // TODO(jim): Support multiple files by removing this.
-          break;
         }
       }
     }
 
-    if (!isUploading) {
+    if (!files.length) {
+      alert("TODO: Files not supported error");
       return;
     }
 
-    await this.rehydrate();
-    this.setState({ sidebar: null, fileLoading: null });
+    // NOTE(jim): Stages each file.
+    this._handleRegisterFile({ fileLoading });
+
+    // NOTE(jim): Uploads each file.
+    for (let i = 0; i < files.length; i++) {
+      await this._handleUploadFile({ file: files[i], slate });
+    }
+
+    // NOTE(jim): Rehydrates user.
+    await this.rehydrate({ resetFiles: true });
   };
 
   rehydrate = async (options) => {
@@ -556,7 +559,8 @@ export default class ApplicationPage extends React.Component {
         onSelectedChange: this._handleSelectedChange,
         onSubmit: this._handleSubmit,
         onCancel: this._handleCancel,
-        onSetFile: this._handleSetFile,
+        onRegisterFile: this._handleRegisterFile,
+        onUploadFile: this._handleUploadFile,
         onSidebarLoading: this._handleSidebarLoading,
         onAction: this._handleAction,
         onRehydrate: this.rehydrate,

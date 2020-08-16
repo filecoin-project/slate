@@ -1,36 +1,14 @@
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Utilities from "~/node_common/utilities";
+import * as Constants from "~/node_common/constants";
 
 import B from "busboy";
-import util from "util";
+import FS from "fs";
+import path from "path";
 
-import { Readable } from "stream";
+import { v4 as uuid } from "uuid";
 
 const HIGH_WATER_MARK = 1024 * 1024 * 3;
-
-const ReadStream = function (object) {
-  if (object instanceof Buffer || typeof object === "string") {
-    Readable.call(this, {
-      highWaterMark: HIGH_WATER_MARK,
-      encoding: "utf8",
-    });
-  } else {
-    Readable.call(this, { objectMode: true });
-  }
-  this._object = object;
-};
-
-util.inherits(ReadStream, Readable);
-
-ReadStream.prototype._read = function () {
-  this.push(this._object);
-  this.push(null);
-  this._object = null;
-};
-
-const createReadStream = (object) => {
-  return new ReadStream(object);
-};
 
 export const formMultipart = (req, res, { user }) =>
   new Promise(async (resolve, reject) => {
@@ -39,26 +17,24 @@ export const formMultipart = (req, res, { user }) =>
       highWaterMark: HIGH_WATER_MARK,
     });
 
-    let fields = [];
-    let buffer = null;
     let target = null;
+    let tempPath = null;
 
     form.on("file", function (fieldname, file, filename, encoding, mime) {
-      file.on("data", (data) => {
-        fields.push(data);
-      });
+      target = {
+        type: mime,
+        name: filename,
+      };
 
-      file.on("end", () => {
-        target = {
-          type: mime,
-          name: filename,
-        };
-
-        buffer = Buffer.concat(fields);
-      });
+      // TODO(jim):
+      // Construct a stream instead.
+      tempPath = path.join(Constants.FILE_STORAGE_URL, path.basename(`temp-${uuid()}`));
+      let outStream = FS.createWriteStream(tempPath);
+      return file.pipe(outStream);
     });
 
-    form.on("error", (e) => {
+    form.on("error", async (e) => {
+      await FS.unlinkSync(tempPath);
       return reject({
         decorator: "SERVER_UPLOAD_PARSE_FAILURE",
         error: true,
@@ -67,14 +43,17 @@ export const formMultipart = (req, res, { user }) =>
     });
 
     form.on("finish", async () => {
+      // NOTE(jim):
+      // FS.createReadStream works the most consistently.
+      const readStream = FS.createReadStream(tempPath, { highWaterMark: HIGH_WATER_MARK });
       const data = LibraryManager.createLocalDataIncomplete(target);
-      const stream = createReadStream(buffer);
 
       let push;
       try {
         const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
-        push = await buckets.pushPath(bucketKey, data.name, stream);
+        push = await buckets.pushPath(bucketKey, data.name, readStream);
       } catch (e) {
+        await FS.unlinkSync(tempPath);
         return reject({
           decorator: "SERVER_BUCKETS_PUSH_ISSUE",
           error: true,
@@ -82,6 +61,12 @@ export const formMultipart = (req, res, { user }) =>
         });
       }
 
+      // NOTE(jim)
+      // Delete temporary local file,
+      await FS.unlinkSync(tempPath);
+
+      // NOTE(jim)
+      // Get remote file size from bucket.
       let ipfs = push.path.path;
       try {
         const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);

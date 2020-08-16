@@ -2,7 +2,7 @@ import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Strings from "~/common/strings";
-import * as Upload from "~/node_common/upload";
+import * as Upload from "~/node_common/upload-fs";
 
 const initCORS = MW.init(MW.CORS);
 
@@ -67,9 +67,7 @@ export default async (req, res) => {
   });
 
   if (!uploadResponse) {
-    return res
-      .status(404)
-      .send({ decorator: "V1_SERVER_API_UPLOAD_ERROR", error: true });
+    return res.status(404).send({ decorator: "V1_SERVER_API_UPLOAD_ERROR", error: true });
   }
 
   if (uploadResponse.error) {

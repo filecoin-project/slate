@@ -1,5 +1,5 @@
 import * as MW from "~/node_common/middleware";
-import * as Upload from "~/node_common/upload";
+import * as Upload from "~/node_common/upload-fs";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
@@ -28,17 +28,13 @@ export default async (req, res) => {
   });
 
   if (!response) {
-    return res
-      .status(404)
-      .send({ decorator: "SERVER_UPLOAD_ERROR", error: true });
+    return res.status(404).send({ decorator: "SERVER_UPLOAD_ERROR", error: true });
   }
 
   if (response.error) {
     // NOTE(jim): To debug potential textile issues with matching CIDs.
     console.log({ message: response.message });
-    return res
-      .status(500)
-      .send({ decorator: response.decorator, error: response.error });
+    return res.status(500).send({ decorator: response.decorator, error: response.error });
   }
 
   const { data, ipfs } = response;

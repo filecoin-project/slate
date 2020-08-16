@@ -1,5 +1,6 @@
 .next
 .env
+.env-production
 .DS_STORE
 DS_STORE
 package-lock.json

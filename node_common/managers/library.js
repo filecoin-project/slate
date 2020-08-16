@@ -19,13 +19,13 @@ export const createBucket = ({ id, name }) => {
 // Every root level user gets a bucket.
 export const init = ({ bucketName, readableName }) => [createBucket({ id: bucketName, name: readableName })];
 
-export const createLocalDataIncomplete = ({ type, size, name }) => {
+export const createLocalDataIncomplete = ({ type, size, name }, id = null) => {
   return {
-    id: `data-${uuid()}`,
+    id: !id ? `data-${uuid()}` : id,
+    name: name,
     decorator: "FILE",
     icon: type,
     size: size,
-    name: `data-${uuid()}`,
     file: name,
     type: type,
     date: new Date(),

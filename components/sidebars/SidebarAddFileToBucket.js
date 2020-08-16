@@ -135,13 +135,21 @@ export default class SidebarAddFileToBucket extends React.Component {
           </System.ButtonSecondary>
         ) : null}
 
+        <br />
+
         {this.props.fileLoading
           ? Object.keys(this.props.fileLoading).map((timestamp) => {
               const p = this.props.fileLoading[timestamp];
               return (
                 <React.Fragment key={timestamp}>
                   <strong css={STYLES_STRONG}>{p.name}</strong>
-                  <DataMeterBar bytes={p.loaded} maximumBytes={p.total} />
+                  <DataMeterBar
+                    failed={p.failed}
+                    inaccurate
+                    leftLabel={p.failed ? "failed" : "progress"}
+                    bytes={p.loaded}
+                    maximumBytes={p.total}
+                  />
                 </React.Fragment>
               );
             })

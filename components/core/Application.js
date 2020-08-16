@@ -5,7 +5,6 @@ import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
 import * as Validations from "~/common/validations";
 import * as System from "~/components/system";
-import * as Window from "~/common/window";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -133,7 +132,13 @@ export default class ApplicationPage extends React.Component {
         };
         XHR.onloadend = (event) => {
           console.log("FILE UPLOAD END", event);
-          resolve(JSON.parse(event.target.response));
+          try {
+            return resolve(JSON.parse(event.target.response));
+          } catch (e) {
+            return resolve({
+              error: "SERVER_UPLOAD_ERROR",
+            });
+          }
         };
         XHR.send(formData);
       });
@@ -141,19 +146,20 @@ export default class ApplicationPage extends React.Component {
     const json = await upload(`/api/data/${file.name}`);
     console.log(json);
 
-    if (!json) {
-      return { error: "NO_RESPONSE" };
+    if (!json || json.error || !json.data) {
+      this.setState({
+        fileLoading: {
+          ...this.state.fileLoading,
+          [`${file.lastModified}-${file.name}`]: {
+            name: file.name,
+            failed: true,
+          },
+        },
+      });
+      return !json ? { error: "NO_RESPONSE" } : json;
     }
 
-    if (json.error) {
-      return json;
-    }
-
-    if (!json.data) {
-      return json;
-    }
-
-    if (json && slate) {
+    if (slate) {
       const addResponse = await fetch(`/api/slates/add-url`, {
         method: "POST",
         headers: {

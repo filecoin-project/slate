@@ -69,6 +69,7 @@ const STYLES_TITLE = css`
   font-size: 14px;
   display: block;
   margin-bottom: 4px;
+  overflow-wrap: break-word;
 `;
 
 export const DataMeterBar = (props) => {
@@ -76,17 +77,21 @@ export const DataMeterBar = (props) => {
 
   return (
     <React.Fragment>
-      <div css={STYLES_STATS_ROW}>
-        <div css={STYLES_LEFT}>{Strings.bytesToSize(props.bytes)}</div>
-        <div css={STYLES_RIGHT}>{Strings.bytesToSize(props.maximumBytes)}</div>
-      </div>
+      {!props.inaccurate ? (
+        <div css={STYLES_STATS_ROW}>
+          <div css={STYLES_LEFT}>{Strings.bytesToSize(props.bytes)}</div>
+          <div css={STYLES_RIGHT}>{Strings.bytesToSize(props.maximumBytes)}</div>
+        </div>
+      ) : null}
 
       <div css={STYLES_ROW}>
-        <div css={STYLES_LEFT}>Used</div>
-        <div css={STYLES_RIGHT}>Total</div>
+        <div css={STYLES_LEFT} style={{ color: props.failed ? Constants.system.red : null }}>
+          {props.leftLabel}
+        </div>
+        <div css={STYLES_RIGHT}>{props.rightLabel}</div>
       </div>
 
-      <div css={STYLES_DATA} style={{ marginTop: 4 }}>
+      <div css={STYLES_DATA} style={{ marginTop: 4, backgroundColor: props.failed ? Constants.system.red : null }}>
         <div css={STYLES_DATA_METER} style={{ width: `${percentage * 100}%` }} />
       </div>
     </React.Fragment>
@@ -104,7 +109,12 @@ export default (props) => {
         <br />
       </System.P>
 
-      <DataMeterBar bytes={props.stats.bytes} maximumBytes={props.stats.maximumBytes} />
+      <DataMeterBar
+        leftLabel="used"
+        rightLabel="total"
+        bytes={props.stats.bytes}
+        maximumBytes={props.stats.maximumBytes}
+      />
     </div>
   );
 };

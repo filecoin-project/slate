@@ -6,10 +6,12 @@ import FORM from "formidable";
 import { PassThrough } from "stream";
 
 export const formMultipart = (req, res, { user }) =>
-  new Promise((resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     const f = new FORM.IncomingForm();
-    const p = new PassThrough();
+    const p = new PassThrough({ highWaterMark: 1024 * 1024 * 3 });
     const file = {};
+
+    const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
     f.keepExtensions = true;
 
@@ -31,9 +33,11 @@ export const formMultipart = (req, res, { user }) =>
       });
     };
 
-    f.parse(req, async (e) => {
-      const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+    f.on("progress", (bytesReceived, bytesExpected) => {
+      // console.log({ bytesReceived, bytesExpected });
+    });
 
+    f.parse(req, async (e) => {
       if (e) {
         return reject({
           decorator: "SERVER_UPLOAD_PARSE_FAILURE",
@@ -50,6 +54,7 @@ export const formMultipart = (req, res, { user }) =>
         });
       }
 
+      // NOTE(jim): Creates a Slate compatable Data object.
       const data = LibraryManager.createLocalDataIncomplete(file);
 
       let push;

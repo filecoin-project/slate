@@ -36,19 +36,11 @@ export const DescriptionGroup = (props) => {
       {!Strings.isEmpty(props.label) ? (
         <div css={STYLES_DESCRIPTION_GROUP_LABEL}>
           {props.label}{" "}
-          {props.tooltip ? (
-            <TooltipAnchor
-              tooltip={props.tooltip}
-              height="14px"
-              style={{ paddingTop: 0 }}
-            />
-          ) : null}
+          {props.tooltip ? <TooltipAnchor tooltip={props.tooltip} height="14px" style={{ paddingTop: 0 }} /> : null}
         </div>
       ) : null}
       {!Strings.isEmpty(props.description) ? (
-        <div css={STYLES_DESCRIPTION_GROUP_DESCRIPTION}>
-          {props.description}
-        </div>
+        <div css={STYLES_DESCRIPTION_GROUP_DESCRIPTION}>{props.description}</div>
       ) : null}
     </div>
   );

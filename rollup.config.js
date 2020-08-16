@@ -38,7 +38,6 @@ const generateOutput = (outputPath) => {
             "PureComponent",
           ],
           "node_modules/react-dom/index.js": ["render", "hydrate"],
-          "node_modules/react-tippy/dist/react-tippy.js": ["Tooltip"],
         },
       }),
       terser(),
@@ -46,7 +45,4 @@ const generateOutput = (outputPath) => {
   };
 };
 
-export default [
-  generateOutput("dist/index.js"),
-  generateOutput("../slate-react-system/src/index.js"),
-];
+export default [generateOutput("dist/index.js"), generateOutput("../slate-react-system/src/index.js")];

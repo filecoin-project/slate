@@ -4,11 +4,7 @@ import { CacheProvider, Global } from "@emotion/react";
 import { cache } from "@emotion/css";
 
 import App from "next/app";
-import {
-  injectGlobalStyles,
-  injectTooltipStyles,
-  injectCodeBlockStyles,
-} from "~/common/styles/global";
+import { injectGlobalStyles, injectCodeBlockStyles } from "~/common/styles/global";
 
 // NOTE(wwwjim):
 // https://nextjs.org/docs/advanced-features/custom-app
@@ -16,7 +12,6 @@ function MyApp({ Component, pageProps }) {
   return (
     <CacheProvider value={cache}>
       <Global styles={injectGlobalStyles()} />
-      <Global styles={injectTooltipStyles()} />
       <Global styles={injectCodeBlockStyles()} />
       <Component {...pageProps} />
     </CacheProvider>

@@ -7,7 +7,6 @@ import * as Strings from "~/common/strings";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { CodeText } from "~/components/system/components/fragments/CodeText";
 import { css } from "@emotion/react";
-import { Tooltip } from "react-tippy";
 
 import Avatar from "~/components/core/Avatar";
 
@@ -154,11 +153,9 @@ const Link = (props) => {
 
 export const TableColumn = (props) => {
   const tooltipElement = props.tooltip ? (
-    <Tooltip animation="fade" animateFill={false} title={props.tooltip}>
-      <span css={STYLES_CONTENT_BUTTON}>
-        <SVG.Information height="14px" />
-      </span>
-    </Tooltip>
+    <span css={STYLES_CONTENT_BUTTON}>
+      <SVG.Information height="14px" />
+    </span>
   ) : null;
 
   const copyableElement = props.copyable ? (

@@ -3,7 +3,6 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
-import { Tooltip } from "react-tippy";
 
 const STYLES_ICON_ELEMENT = css`
   height: 40px;
@@ -34,11 +33,7 @@ const STYLES_APPLICATION_HEADER = css`
   height: 104px;
   padding: 12px 48px 0 36px;
   pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 1) 30%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 0) 100%);
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 12px 24px 0 12px;
@@ -69,54 +64,32 @@ const STYLES_RIGHT = css`
 
 export default class ApplicationHeader extends React.Component {
   render() {
-    const isBackDisabled =
-      this.props.currentIndex === 0 || this.props.history.length < 2;
+    const isBackDisabled = this.props.currentIndex === 0 || this.props.history.length < 2;
 
     const isForwardDisabled =
-      this.props.currentIndex === this.props.history.length - 1 ||
-      this.props.history.length < 2;
+      this.props.currentIndex === this.props.history.length - 1 || this.props.history.length < 2;
 
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
           <span
             css={STYLES_ICON_ELEMENT}
-            style={
-              isBackDisabled
-                ? { cursor: "not-allowed", color: Constants.system.border }
-                : null
-            }
-            onClick={isBackDisabled ? () => {} : this.props.onBack}
-          >
-            <Tooltip animation="fade" animateFill={false} title="Go back">
-              <SVG.NavigationArrow
-                height="16px"
-                style={{ transform: `rotate(180deg)` }}
-              />
-            </Tooltip>
+            style={isBackDisabled ? { cursor: "not-allowed", color: Constants.system.border } : null}
+            onClick={isBackDisabled ? () => {} : this.props.onBack}>
+            <SVG.NavigationArrow height="16px" style={{ transform: `rotate(180deg)` }} />
           </span>
           <span
             css={STYLES_ICON_ELEMENT}
-            style={
-              isForwardDisabled
-                ? { cursor: "not-allowed", color: Constants.system.border }
-                : null
-            }
-            onClick={isForwardDisabled ? () => {} : this.props.onForward}
-          >
-            <Tooltip animation="fade" animateFill={false} title="Go forward">
-              <SVG.NavigationArrow height="16px" />
-            </Tooltip>
+            style={isForwardDisabled ? { cursor: "not-allowed", color: Constants.system.border } : null}
+            onClick={isForwardDisabled ? () => {} : this.props.onForward}>
+            <SVG.NavigationArrow height="16px" />
           </span>
 
           <span
             css={STYLES_ICON_ELEMENT}
             style={{ marginLeft: 24 }}
-            onClick={() => window.alert("TODO: SPOTLIGHT SEARCH")}
-          >
-            <Tooltip animation="fade" animateFill={false} title="Coming Soon">
-              <SVG.Search height="20px" />
-            </Tooltip>
+            onClick={() => window.alert("TODO: SPOTLIGHT SEARCH")}>
+            <SVG.Search height="20px" />
           </span>
         </div>
         <div css={STYLES_MIDDLE} />

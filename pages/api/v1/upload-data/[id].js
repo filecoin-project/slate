@@ -2,7 +2,7 @@ import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Strings from "~/common/strings";
-import * as Upload from "~/node_common/upload-fs";
+import * as Upload from "~/node_common/upload";
 
 const initCORS = MW.init(MW.CORS);
 

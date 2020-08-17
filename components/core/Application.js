@@ -108,7 +108,20 @@ export default class ApplicationPage extends React.Component {
 
   _handleUploadFile = async ({ file, slate }) => {
     let formData = new FormData();
-    formData.append("data", file);
+    const HEIC2ANY = require("heic2any");
+
+    // TODO(jim): Put this somewhere else to handle conversion cases.
+    if (file.type.startsWith("image/heic")) {
+      const converted = await HEIC2ANY({
+        blob: file,
+        toType: "image/png",
+        quality: 1,
+      });
+
+      formData.append("data", converted);
+    } else {
+      formData.append("data", file);
+    }
 
     const upload = (path) =>
       new Promise((resolve, reject) => {

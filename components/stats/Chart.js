@@ -2,7 +2,7 @@ import * as React from "react";
 
 import CreateChart from "~/components/stats/CreateChart";
 
-class Chart extends React.Component {
+export default class Chart extends React.Component {
   state = {
     minX: {},
     maxX: {},
@@ -202,7 +202,6 @@ class Chart extends React.Component {
     }
   }
 
-
   render() {
     if (this.state.organizedData.length) {
       return (
@@ -226,5 +225,3 @@ class Chart extends React.Component {
     }
   }
 }
-
-export default Chart;

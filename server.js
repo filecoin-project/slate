@@ -9,6 +9,7 @@ import * as AnalyticsManager from "~/node_common/managers/analytics";
 import express from "express";
 import next from "next";
 import compression from "compression";
+import cors from "cors";
 
 const app = next({
   dev: !Environment.IS_PRODUCTION,
@@ -20,6 +21,8 @@ const handler = app.getRequestHandler();
 
 app.prepare().then(async () => {
   const server = express();
+
+  app.use(cors());
 
   if (Environment.IS_PRODUCTION) {
     server.use(compression());
@@ -119,7 +122,9 @@ app.prepare().then(async () => {
     }
 
     return app.render(req, res, "/_/slate", {
-      slate: JSON.parse(JSON.stringify({ ...slate, ownername: req.params.username })),
+      slate: JSON.parse(
+        JSON.stringify({ ...slate, ownername: req.params.username })
+      ),
     });
   });
 

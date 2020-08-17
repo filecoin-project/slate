@@ -7,8 +7,9 @@ export const get = async () => {
   // Current endpoints available for consumption
   // Endpoints: blocks, blockParents, blockRewards, blockMessages, receipts, messages
   const endpoint = "blocks";
-  const response = await fetch(Constants.ANALYTICS_URL + endpoint);
-  const analytics = response.json();
-  // TODO(colin): We can bind Analytics here on the server.
-  return analytics;
+  // const response = await fetch(Constants.ANALYTICS_URL + endpoint);
+  // const analytics = response.json();
+
+  // TODO(jim): re-enable when we use the data.
+  return { disabled: true };
 };

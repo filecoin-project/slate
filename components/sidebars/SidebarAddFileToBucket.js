@@ -145,8 +145,8 @@ export default class SidebarAddFileToBucket extends React.Component {
                   <strong css={STYLES_STRONG}>{p.name}</strong>
                   <DataMeterBar
                     failed={p.failed}
-                    inaccurate
-                    leftLabel={p.failed ? "failed" : "progress"}
+                    leftLabel={p.failed ? "failed" : "uploaded"}
+                    rightLabel={p.failed ? null : "total"}
                     bytes={p.loaded}
                     maximumBytes={p.total}
                   />

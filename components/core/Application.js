@@ -117,19 +117,28 @@ export default class ApplicationPage extends React.Component {
         XHR.onerror = (event) => {
           console.log(event);
         };
-        XHR.onprogress = (event) => {
-          console.log("FILE UPLOAD PROGRESS", event);
-          this.setState({
-            fileLoading: {
-              ...this.state.fileLoading,
-              [`${file.lastModified}-${file.name}`]: {
-                name: file.name,
-                loaded: event.loaded,
-                total: event.total,
-              },
-            },
-          });
-        };
+
+        // NOTE(jim): UPLOADS ONLY.
+        XHR.upload.addEventListener(
+          "progress",
+          (event) => {
+            if (event.lengthComputable) {
+              console.log("FILE UPLOAD PROGRESS", event);
+              this.setState({
+                fileLoading: {
+                  ...this.state.fileLoading,
+                  [`${file.lastModified}-${file.name}`]: {
+                    name: file.name,
+                    loaded: event.loaded,
+                    total: event.total,
+                  },
+                },
+              });
+            }
+          },
+          false
+        );
+
         XHR.onloadend = (event) => {
           console.log("FILE UPLOAD END", event);
           try {

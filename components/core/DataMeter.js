@@ -77,12 +77,10 @@ export const DataMeterBar = (props) => {
 
   return (
     <React.Fragment>
-      {!props.inaccurate ? (
-        <div css={STYLES_STATS_ROW}>
-          <div css={STYLES_LEFT}>{Strings.bytesToSize(props.bytes)}</div>
-          <div css={STYLES_RIGHT}>{Strings.bytesToSize(props.maximumBytes)}</div>
-        </div>
-      ) : null}
+      <div css={STYLES_STATS_ROW}>
+        <div css={STYLES_LEFT}>{Strings.bytesToSize(props.bytes)}</div>
+        <div css={STYLES_RIGHT}>{Strings.bytesToSize(props.maximumBytes)}</div>
+      </div>
 
       <div css={STYLES_ROW}>
         <div css={STYLES_LEFT} style={{ color: props.failed ? Constants.system.red : null }}>

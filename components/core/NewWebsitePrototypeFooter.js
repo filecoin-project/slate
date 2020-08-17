@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
+import { motion } from "framer-motion";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.code};
@@ -18,7 +19,7 @@ const STYLES_CONTAINER = css`
     flex-shrink: 0;
     display: block;
     justify-content: left;
-    height: 512px;
+    height: 504px;
   }
 `;
 
@@ -48,6 +49,17 @@ const STYLES_SLATE = css`
   font-size: 1rem;
   color: ${Constants.system.white};  
 `;
+
+const STYLES_TRADEMARK = css`
+  width: 80px;
+  margin: -64px 0px 16px 0px;
+`;
+
+const transition = {
+  loop: Infinity,
+  ease: "easeInOut",
+  duration: 4
+}
 
 const STYLES_CREDIT = css`
   flex-shrink: 0;
@@ -80,7 +92,12 @@ const STYLES_RIGHT = css`
 export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
+      
       <div css={STYLES_LEFT}>
+        <motion.div css={STYLES_TRADEMARK} animate={{ rotateY: 360 }}
+      transition={transition}>
+          <img width = "80px" src="/static/slate.png" />
+        </motion.div>
         <div css={STYLES_SLATE}>
           Slate is the gateway to {" "} 
           <a css={STYLES_LINK} href="https://filecoin.io">Filecoin</a> –

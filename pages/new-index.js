@@ -11,6 +11,8 @@ import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter"
 
 import TextLoop from "react-text-loop";
 import { Fade } from "react-slideshow-image";
+import Confetti from 'react-confetti';
+import { useWindowSize } from "@react-hook/window-size/throttled";
 
 const STYLES_HERO_SECTION = css`
 text-align: center;
@@ -109,26 +111,6 @@ const STYLES_SECTION_FRONT = css`
 }
 `;
 
-const STYLES_VIEWS_TEXT = css`
- display: inline-flex;
-  align-items: center;
-  font-size: 1.953rem;
-  color: ${Constants.system.black};
-  text-decoration: none;
-  margin: 30vh 0px;
-}
-`;
-
-const STYLES_VIEWS_IMAGES = css`
-  display: inline-flex;
-  position: absolute;
-  img{
-    max-width: 500px;
-    height: auto;
-  }
-}
-`;
-
 const STYLES_SECTION_BACK = css`
   margin: 0px 0px 0px 0px;
   width: 100vw;
@@ -138,6 +120,31 @@ const STYLES_SECTION_BACK = css`
   background-size: cover;   
   background-position: center;   
   background-repeat: no-repeat;
+`;
+
+const STYLES_VIEWS_TEXT = css`
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.953rem;
+  color: ${Constants.system.black};
+  text-decoration: none;
+  margin: 30vh 0px;
+`;
+
+const STYLES_VIEWS_IMAGES = css`
+  display: inline-flex;
+  position: absolute;
+  img{
+    max-width: 500px;
+    height: auto;
+  }
+`;
+
+const STYLES_SLATE = css`
+  display: flex;
+  flex: 1 0 auto;
+  width: 100vw;
+  height: 100vh; 
 `;
 
 const STYLES_SECTION_MEDIA = css`
@@ -176,6 +183,9 @@ const STYLES_SECTION_TEXT = css`
 const STYLES_SECTION_SVG_CONTAINER = css`
   display: flex;
   justify-content: center;
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
 `;
 
 const STYLES_STROKE_KF = keyframes`
@@ -226,7 +236,7 @@ const STYLES_CONTR_LI3 = css `
 `;
 const STYLES_MEDIA_LEFT = css`
   position: absolute;
-  right: 16%;
+  right: 12%;
   bottom: 24px
 `;
 
@@ -244,6 +254,12 @@ const viewsImages = [
   "/static/media/slate-views-presentation.png",
   "/static/media/slate-views-blog.png",
 ];
+
+const Component = (props) => {
+  const [width, height] = useWindowSize()
+  const onlyWidth = useWindowWidth()
+  const onlyHeight = useWindowHeight()
+}
 
 export const getServerSideProps = async (context) => {
   return {
@@ -266,36 +282,27 @@ export default class IndexPage extends React.Component {
   async componentDidMount() {
     const response = await Actions.health();
     console.log("HEALTH_CHECK", response);
-   
-  
   }
+  
   render() {
     const title = `Slate`;
     const description = "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host";
-  
-  
-
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
             <section css={STYLES_HERO_SECTION}>
-            
-            <div css={STYLES_HERO_TEXT}>
-             
- 
-                   <System.H1>Slate is the gateway to Filecoin.</System.H1>
-              <br/>
-              <System.H2>By creating a safe, open, and moddable storage system that is easy to use, we create paths to a new network of designed around trust.</System.H2>
-             
-
-           </div>
-          
+              <div css={STYLES_HERO_TEXT}>
+                <System.H1>Slate is the gateway to Filecoin.</System.H1>
+                <br/>
+                <System.H2>By creating a safe, open, and moddable storage system that is easy to use, we create paths to a new network of designed around trust.</System.H2>
+              </div>
             </section>
+
             <section css={STYLES_SECTION_WHITE}>
               <h1>Simple, intuitive</h1>
-              <h2>Break way from abstract visualizations of your files.<br/>Securely organize your data in a relatable way</h2>
+              <h2>Break away from abstract visualizations of your files.<br/>Securely organize your data in a relatable way</h2>
               <div css={STYLES_SIMPLE_FLOW_CONTAINER}>
                 <div>{/*<ButtonPrimary>Upload File</ButtonPrimary> Figure out hoiw to pull in correctly*/}<button>Upload File</button></div>
                 <div css={STYLES_ARROW_CONTAINER}>
@@ -337,7 +344,6 @@ export default class IndexPage extends React.Component {
 
             
             <section css={STYLES_SECTION_MEDIA}>
-              
                 <div css={STYLES_SECTION_BACK}>
                   <Fade 
                     arrows={false} 
@@ -384,17 +390,17 @@ export default class IndexPage extends React.Component {
             <section css={STYLES_SECTION_FOREGROUND}>
               <h1>Making a Slate</h1>
               <h2>Slates give you rich previews and different layouts to view your files.</h2>
-              <div css={STYLES_VIEWS_TEXT} >
-                <TextLoop interval={3200}>
-                  <span>Create moodboards</span>
-                  <span>Organize research</span>
-                  <span>Share presentations</span>
-                  <span>Create a Blog</span>
-                  <span>URL</span>
-                </TextLoop>
-              </div>
-               <div css={STYLES_VIEWS_IMAGES}>
-               <Fade 
+                <div css={STYLES_VIEWS_TEXT} >
+                  <TextLoop interval={3200}>
+                    <span>Create moodboards</span>
+                    <span>Organize research</span>
+                    <span>Share presentations</span>
+                    <span>Create a Blog</span>
+                    <span>URL</span>
+                  </TextLoop>
+                </div>
+                <div css={STYLES_VIEWS_IMAGES}>
+                  <Fade 
                     arrows={false} 
                     duration={2400} 
                     transitionDuration={800}     
@@ -404,7 +410,7 @@ export default class IndexPage extends React.Component {
                       <img src={viewsImages[0]} />
                     </div>
                     <div className="each-fade"  >
-                    <img src={viewsImages[1]} />
+                      <img src={viewsImages[1]} />
                     </div>
                     <div className="each-fade"  >
                       <img src={viewsImages[2]}/>
@@ -413,7 +419,7 @@ export default class IndexPage extends React.Component {
                       <img src={viewsImages[3]}/>
                     </div>
                   </Fade> 
-               </div>
+                </div>
             </section>
 
             <section css={STYLES_SECTION_WHITE}>
@@ -425,6 +431,12 @@ export default class IndexPage extends React.Component {
             </section>
 
             <section css={STYLES_SECTION_FOREGROUND}>
+              {/* <Confetti
+                width={Component.onlyWidth}
+                height={Component.onlyHeight}
+                numberOfPieces={50}
+                colors={['#0047FF', '#ff0000', '#28a745', '#FFC940']}
+              /> */}
               <h1>Open Source</h1>
               <h2 css={STYLES_SECTION_TEXT}>"Collaboration makes better software". <br/><br/>Pair that with Filecoin's transparent marketplace as Slates's foundation. And you got yourself real nice power couple right there.</h2>
               <div css={STYLES_SECTION_SVG_CONTAINER}>
@@ -443,7 +455,7 @@ export default class IndexPage extends React.Component {
                 </ul>
               </div>
             </section>
-          <WebsitePrototypeFooter />
+          <WebsitePrototypeFooter /> 
         </div>
       </WebsitePrototypeWrapper>
     );

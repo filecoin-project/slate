@@ -22,7 +22,7 @@ const handler = app.getRequestHandler();
 app.prepare().then(async () => {
   const server = express();
 
-  app.use(cors());
+  server.use(cors());
 
   if (Environment.IS_PRODUCTION) {
     server.use(compression());

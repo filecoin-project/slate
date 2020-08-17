@@ -8,7 +8,10 @@ class Chart extends React.Component {
     maxX: {},
     minY: {},
     maxY: {},
-    ticks: {},
+    deltaX: {},
+    deltaY: {},
+    bufferX: {},
+    ticks: [],
     xLabel: {},
     yLabel: {},
     organizedData: [],
@@ -21,8 +24,8 @@ class Chart extends React.Component {
     this.getMaxX();
     this.getMinY();
     this.getMaxY();
-    this.getTicks();
     this.sepCategories();
+    this.getTicks();
   }
 
   //Set Axis Labels
@@ -48,6 +51,7 @@ class Chart extends React.Component {
     this.setState({
       minX: data[0].date,
     });
+    return data[0].date;
   }
 
   getMaxX() {
@@ -71,6 +75,7 @@ class Chart extends React.Component {
       //Spread operator is slow!! refactor to use for loop or .reduce
       minY: Math.min(...values),
     });
+    return Math.min(...values);
   }
 
   getMaxY() {
@@ -86,25 +91,48 @@ class Chart extends React.Component {
     return Math.max(...values);
   }
 
-  //Work on logic to pull only 4 values evenly distributed
   getTicks() {
     const { data } = this.props;
-    const ticks = [];
-    const maxTicks = 4;
-    let y = {};
-    const dates = data.map((x) => {
-      y = x.date;
-      return y;
+    const { maxTicks } = this.props;
+    const { xWall } = this.props;
+    const maxX = Date.parse(this.getMaxX());
+    const minX = Date.parse(this.getMinX());
+    let diffX = maxX - minX;
+    let dX = xWall / diffX;
+    let bufferX = (600 - xWall) / 2;
+    const allTicks = [];
+    const dates = data.map((z) => {
+      let t = {
+        date: "",
+        x: "",
+      };
+      t.date = z.date;
+      t.x = Math.floor((Date.parse(z.date) - minX) * dX + bufferX);
+      return t;
     });
+    dates.sort(this.sortDates("x"));
     const delta = Math.ceil(dates.length / maxTicks);
     for (let i = 0; i < dates.length; i = i + delta) {
-      ticks.push(dates[i]);
+      allTicks.push(dates[i]);
     }
-    this.setState({
-      ticks: ticks,
-    });
+    this.setState((prevState) => ({
+      ticks: [...prevState.ticks, allTicks],
+    }));
   }
 
+  sortDates(key) {
+    return function innerSort(a, b) {
+      const varA = typeof a[key] === "string" ? a[key].toUpperCase() : a[key];
+      const varB = typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
+      let comparison = 0;
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
+      return comparison;
+    };
+  }
   //Organize Categories Into Seperate Arrays within a Larger Array
   sepCategories() {
     const { data } = this.props;
@@ -130,7 +158,6 @@ class Chart extends React.Component {
       oData.push(category2);
       oData.push(category3);
 
-      //!bug! Not sure why state is updated but then console.log's nothing
       this.setState((prevState) => ({
         organizedData: [...prevState.organizedData, oData],
       }));
@@ -140,41 +167,63 @@ class Chart extends React.Component {
 
   //Map through arrays of arrays of an array of objects and add x and y key/value pairs to each object.
   createCoordinates(z) {
+    const { yCeiling } = this.props;
+    const { xWall } = this.props;
     const oData = z;
-    const mX = this.getMaxX();
-    const mY = this.getMaxY();
-    const deltaY = 600 / mY;
-    const deltaX = 600 / Date.parse(mX);
+    const maxX = Date.parse(this.getMaxX());
+    const minX = Date.parse(this.getMinX());
+    const maxY = this.getMaxY();
+    const minY = this.getMinY();
+    let diffY = maxY - minY;
+    let diffX = maxX - minX;
+    let dY = yCeiling / diffY;
+    let dX = xWall / diffX;
+    let bufferY = (600 - yCeiling) / 2;
+    let bufferX = (600 - xWall) / 2;
+
+    this.setState({ deltaX: dX });
+    this.setState({ deltaY: dY });
+    this.setState({ bufferX });
 
     for (let group of oData) {
       for (let i = 0; i < group.length; i++) {
         if (group[i].category) {
           let yPoints = group.map((y) => {
-            y["y"] = Math.floor(y.value * deltaY);
+            let yValue = Math.floor((y.value - minY) * dY);
+            y["y"] = yCeiling - yValue + bufferY;
           });
+
           let xPoints = group.map((x) => {
-            x["x"] = Math.floor(Date.parse(x.date) * deltaX);
+            let xValue = Math.floor((Date.parse(x.date) - minX) * dX);
+            x["x"] = xValue + bufferX;
           });
         }
       }
     }
   }
 
-  //Get All Y Coordinates
 
   render() {
-    return (
-      <CreateChart
-        minX={this.state.minX}
-        maxX={this.state.maxX}
-        minY={this.state.minY}
-        maxY={this.state.maxY}
-        ticks={this.state.minX.ticks}
-        xLabel={this.state.xLabel}
-        yLabel={this.state.yLabel}
-        organizedData={this.state.organizedData}
-      />
-    );
+    if (this.state.organizedData.length) {
+      return (
+        <React.Fragment>
+          <CreateChart
+            minX={this.state.minX}
+            maxX={this.state.maxX}
+            minY={this.state.minY}
+            maxY={this.state.maxY}
+            deltaX={this.state.deltaX}
+            deltaY={this.state.deltaY}
+            ticks={this.state.ticks}
+            xLabel={this.state.xLabel}
+            yLabel={this.state.yLabel}
+            organizedData={this.state.organizedData}
+          />
+        </React.Fragment>
+      );
+    } else {
+      return <React.Fragment></React.Fragment>;
+    }
   }
 }
 

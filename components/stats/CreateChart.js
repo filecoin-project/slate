@@ -1,58 +1,156 @@
 import * as React from "react";
+import * as Constants from "~/common/constants";
+import ReactDOM from "react-dom";
 
-//WIP - Circle creation function is not set up correctly. Polylines
-//and ticks functions are not created. Dream set up is to have preset color
-//classes in css that are dynamically assigned to new categories.
+import { css } from "@emotion/react";
+
+const STYLES_GRAPH_CONTAINER = css`
+  display: flex;
+`;
+
+const STYLES_GRAPH = css`
+    height: 600px;
+    margin: auto;
+`;
+
+const STYLES_X_LINE = css`
+    stroke: ${Constants.system.black};
+`;
+
+const STYLES_CHART_CIRCLE = css`
+    stroke: none;
+    fill: ${Constants.system.brand};
+`;
+
+const STYLES_CHART_LINE = css`
+    stroke: ${Constants.system.brand};
+    fill: none;
+`;
+
+const STYLES_CHART_TEXT = css`
+    fill: ${Constants.system.black};
+`;
 
 class CreateChart extends React.Component {
-  //Function does not work. It should loop through
-  //organizedData to pull x and y and category name
-  //and then set those to the corrosponding attributes
-  //to ultimately return a cluster of unique circle elements
 
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
   }
 
-  minX = this.props.minX;
-  organizedData = this.props.organizedData;
-  maxX = this.props.maxX;
-  minY = this.props.minY;
-  maxY = this.props.maxY;
-  ticks = this.props.ticks;
-  xLabel = this.props.xLabel;
-  yLabel = this.props.yLabel;
+  componentDidMount() {
+  this.createLines();
+  this.createCircles();
+  this.createTicks();
+}
 
-  createCircles = () => {
-    const organizedData = this.props.organizedData;
-    for (let group of organizedData) {
-      for (let i = 0; i < group.length; i++) {
-        let circles = group.map((g) => {
-          let classN = g.category;
-          let x = g.x;
-          let y = g.y;
-          console.log(g);
-          this.newPathJSX;
-        });
+  monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+createCircles = () => {
+  const { organizedData } = this.props;
+  let oData = organizedData.flat(2);
+  let allCircles = oData.map((g, index) => {
+    return (
+      <circle
+        key={index}
+        cx={g.x}
+        cy={g.y}
+        r="2"
+        css={STYLES_CHART_CIRCLE}
+      />
+    );
+  });
+  ReactDOM.render(allCircles, document.getElementById("circles"));
+};
+
+createLines = () => {
+  const { organizedData } = this.props;
+
+  if (organizedData.length) {
+    let allLines = [];
+    for (let groups of organizedData) {
+      for (let group of groups) {
+        let polyLines = this.loopData(group);
+        allLines.push(polyLines);
       }
-    }
-  };
 
-  newPathJSX = () => {
-    return <circle cx={x} cy={y} r="2" className={classN} />;
-  };
+      ReactDOM.render(allLines, document.getElementById("lines"));
+    }
+  }
+};
+
+loopData = (g) => {
+  let coordinates = [];
+  let i = {};
+  console.log(g);
+  g.map((o, index) => {
+    coordinates.push(o.x);
+    coordinates.push(o.y);
+    i[`id`] = o.id;
+  });
+  let polyLine = (
+    <polyline
+      css={STYLES_CHART_LINE}
+      key={i.id}
+      points={this.drawPoints(coordinates)}
+    />
+  );
+  return polyLine;
+};
+
+drawPoints = (a) => {
+  const c = a.toString();
+  const regex = /([0-9]+),\s([0-9]+),\s/g;
+  const cOrganized = c.replace(regex, "$1,$2 ");
+  return cOrganized;
+};
+
+createTicks = () => {
+  const { ticks } = this.props;
+  const fTicks = ticks.flat(1);
+  const tickLines = [];
+
+  for (let tick of fTicks) {
+    const tDate = new Date(tick.date);
+    const month = this.monthNames[tDate.getMonth()];
+    const year = tDate.getUTCFullYear();
+
+    let tickLine = (
+      <g>
+        <line css={STYLES_X_LINE} x1={tick.x} y1="550" x2={tick.x} y2="560" />
+        <text css={STYLES_CHART_TEXT} textAnchor="middle" x={tick.x} y="575">
+          {`${month} ${year}`}
+        </text>
+      </g>
+    );
+    tickLines.push(tickLine);
+  }
+  ReactDOM.render(tickLines, document.getElementById("tickContainer"));
+};
 
   render() {
-    this.createCircles();
-
     return (
-      <div className="container">
-        <svg className="graph" id="graph" viewBox="0 0 600 600">
-          {/*X Axis - could be made dynamic by allowing viewbox to be set by user or api*/}
+      <div css={STYLES_GRAPH_CONTAINER}>
+        <svg css={STYLES_GRAPH} viewBox="0 0 600 600">
+          <g id="circles"></g>
+          <g id="lines"></g>
           <g>
-            <line className="x-line" x1="25" y1="550" x2="575" y2="550" />
+            <line css={STYLES_X_LINE} x1="25" y1="550" x2="575" y2="550" />
           </g>
+          <g id="tickContainer"></g>
         </svg>
       </div>
     );

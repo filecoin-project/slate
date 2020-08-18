@@ -21,6 +21,7 @@ import SceneSettingsDeveloper from "~/scenes/SceneSettingsDeveloper";
 import SceneSignIn from "~/scenes/SceneSignIn";
 import SceneSlate from "~/scenes/SceneSlate";
 import SceneActivity from "~/scenes/SceneActivity";
+import SceneDirectory from "~/scenes/SceneDirectory";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -65,6 +66,7 @@ const SCENES = {
   SLATES: <SceneSlates />,
   LOCAL_DATA: <SceneLocalData />,
   ACTIVITY: <SceneActivity />,
+  DIRECTORY: <SceneDirectory />,
 };
 
 export default class ApplicationPage extends React.Component {

@@ -1,8 +1,7 @@
 import * as Strings from "~/common/strings";
 
-// NOTE(jim)
-// Return the desired navigation entity based on the constructed navigation
-// and targetId
+// NOTE(jim):
+// Recursion for nested entities (any number).
 export const getCurrentById = (navigation, targetId) => {
   let target = null;
   let activeIds = {};
@@ -59,10 +58,10 @@ export const generate = ({ library = [], slates = [] }) => [
     children: null,
   },
   {
-    id: "V1_NAVIGATION_ACTIVITY",
-    name: "Activity",
-    pageTitle: "Your activity",
-    decorator: "ACTIVITY",
+    id: "V1_NAVIGATION_DIRECTORY",
+    name: "Directory",
+    pageTitle: "Your directory",
+    decorator: "DIRECTORY",
     children: null,
   },
   {
@@ -76,7 +75,7 @@ export const generate = ({ library = [], slates = [] }) => [
   {
     id: "V1_NAVIGATION_LOCAL",
     name: "Local",
-    pageTitle: "Local data",
+    pageTitle: "Your local data",
     decorator: "LOCAL_DATA",
     children: [],
     ignore: false,
@@ -94,6 +93,13 @@ export const generate = ({ library = [], slates = [] }) => [
         decorator: "DEALS",
       },
     ],
+  },
+  {
+    id: "V1_NAVIGATION_NETWORK",
+    name: "Network",
+    pageTitle: "The Filecoin Network",
+    decorator: "ACTIVITY",
+    children: null,
   },
   {
     id: "V1_NAVIGATION_API",

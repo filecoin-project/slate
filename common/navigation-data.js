@@ -52,21 +52,21 @@ const constructSlatesTreeForNavigation = (slates) => {
 
 export const generate = ({ library = [], slates = [] }) => [
   {
-    id: 1,
+    id: "V1_NAVIGATION_HOME",
     name: "Home",
     pageTitle: "Welcome back!",
     decorator: "HOME",
     children: null,
   },
   {
-    id: 18,
+    id: "V1_NAVIGATION_ACTIVITY",
     name: "Activity",
     pageTitle: "Your activity",
     decorator: "ACTIVITY",
     children: null,
   },
   {
-    id: 3,
+    id: "V1_NAVIGATION_SLATES",
     name: "Slates",
     pageTitle: "Slates",
     decorator: "SLATES",
@@ -74,7 +74,7 @@ export const generate = ({ library = [], slates = [] }) => [
   },
   constructFilesTreeForNavigation(library),
   {
-    id: 4,
+    id: "V1_NAVIGATION_LOCAL",
     name: "Local",
     pageTitle: "Local data",
     decorator: "LOCAL_DATA",
@@ -82,29 +82,13 @@ export const generate = ({ library = [], slates = [] }) => [
     ignore: false,
   },
   {
-    id: 15,
-    name: null,
-    pageTitle: "files",
-    decorator: "FILE",
-    children: null,
-    ignore: true,
-  },
-  {
-    id: 17,
-    name: null,
-    pageTitle: "slate",
-    decorator: "SLATE",
-    children: null,
-    ignore: true,
-  },
-  {
-    id: 2,
+    id: "V1_NAVIGATION_WALLET",
     name: "Wallet",
     pageTitle: "Your wallet and addresses",
     decorator: "WALLET",
     children: [
       {
-        id: 6,
+        id: "V1_NAVIGATION_DEAL_HISTORY",
         name: "Deal history",
         pageTitle: "Your deal history",
         decorator: "DEALS",
@@ -112,14 +96,14 @@ export const generate = ({ library = [], slates = [] }) => [
     ],
   },
   {
-    id: 16,
+    id: "V1_NAVIGATION_API",
     name: "API",
     pageTitle: "Developer API",
     decorator: "SETTINGS_DEVELOPER",
     children: null,
   },
   {
-    id: 13,
+    id: "V1_NAVIGATION_PROFILE",
     name: "Profile & Account Settings",
     pageTitle: "Your Profile & Account Settings",
     decorator: "EDIT_ACCOUNT",
@@ -127,7 +111,7 @@ export const generate = ({ library = [], slates = [] }) => [
     ignore: true,
   },
   {
-    id: 14,
+    id: "V1_NAVIGATION_FILECOIN_SETTINGS",
     name: "Filecoin Settings",
     pageTitle: "Filecoin Settings.",
     decorator: "SETTINGS",

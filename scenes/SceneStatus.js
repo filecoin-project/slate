@@ -57,20 +57,22 @@ export default class SceneStatus extends React.Component {
       <ScenePage>
         <System.H1>Status</System.H1>
 
-        <Section title="Node" onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo}>
+        <Section
+          title="Node"
+          onAction={this.props.onAction}
+          onNavigateTo={this.props.onNavigateTo}
+        >
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Peer ID</div>
             <div css={STYLES_RIGHT}>
-              Qma9T5YraSnpRDZqRR4krcSJabThc8nwZuJV3LercPHufi <strong css={STYLES_TEXT_CTA}>(copy)</strong>
+              Qma9T5YraSnpRDZqRR4krcSJabThc8nwZuJV3LercPHufi{" "}
+              <strong css={STYLES_TEXT_CTA}>(copy)</strong>
             </div>
           </div>
 
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
-              Peers{" "}
-              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 8 })}>
-                (view)
-              </strong>
+              Peers <strong css={STYLES_TEXT_CTA}>(view)</strong>
             </div>
             <div css={STYLES_RIGHT}>4</div>
           </div>
@@ -82,10 +84,7 @@ export default class SceneStatus extends React.Component {
 
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
-              Miners{" "}
-              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 11 })}>
-                (view)
-              </strong>
+              Miners <strong css={STYLES_TEXT_CTA}>(view)</strong>
             </div>
             <div css={STYLES_RIGHT}>1</div>
           </div>
@@ -108,7 +107,8 @@ export default class SceneStatus extends React.Component {
               type: "ACTION",
               value: "ACTION_DISCONNECT",
             },
-          ]}>
+          ]}
+        >
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Network</div>
             <div css={STYLES_RIGHT}>Mainnet</div>
@@ -138,7 +138,8 @@ export default class SceneStatus extends React.Component {
               type: "ACTION",
               value: "ACTION_IMPORT_CHAIN_DATA",
             },
-          ]}>
+          ]}
+        >
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Status</div>
             <div css={STYLES_RIGHT}>Message Sync 30%</div>
@@ -167,7 +168,9 @@ export default class SceneStatus extends React.Component {
           description="Reset your usage data on this Filecoin Node."
         />
 
-        <System.ButtonSecondary style={{ marginTop: 16 }}>Reset</System.ButtonSecondary>
+        <System.ButtonSecondary style={{ marginTop: 16 }}>
+          Reset
+        </System.ButtonSecondary>
       </ScenePage>
     );
   }

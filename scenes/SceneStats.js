@@ -149,7 +149,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STATS_WALLET",
             },
-          ]}>
+          ]}
+        >
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Total FIL Balance</div>
             <div css={STYLES_RIGHT}>Value (FIL/ATTOFIL)</div>
@@ -173,7 +174,12 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Total wallet addresses{" "}
-              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 2 })}>
+              <strong
+                css={STYLES_TEXT_CTA}
+                onClick={() =>
+                  this.props.onNavigateTo({ id: "V1_NAVIGATION_SLATES" })
+                }
+              >
                 (view)
               </strong>
             </div>
@@ -182,7 +188,12 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Total payment channels{" "}
-              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 3 })}>
+              <strong
+                css={STYLES_TEXT_CTA}
+                onClick={() =>
+                  this.props.onNavigateTo({ id: "V1_NAVIGATION_SLATES" })
+                }
+              >
                 (view)
               </strong>
             </div>
@@ -191,7 +202,12 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Total FIL in payment channels{" "}
-              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 3 })}>
+              <strong
+                css={STYLES_TEXT_CTA}
+                onClick={() =>
+                  this.props.onNavigateTo({ id: "V1_NAVIGATION_SLATES" })
+                }
+              >
                 (view)
               </strong>
             </div>
@@ -214,7 +230,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STATS_NODE",
             },
-          ]}>
+          ]}
+        >
           <div css={STYLES_GRAPH_ROW}>
             <div css={STYLES_GRAPH_ROW_LEFT}>
               <div css={STYLES_GRAPH_OBJECT}>
@@ -331,10 +348,7 @@ export default class SceneStats extends React.Component {
           </div>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
-              Favorite peers{" "}
-              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: 8 })}>
-                (view)
-              </strong>
+              Favorite peers <strong css={STYLES_TEXT_CTA}>(view)</strong>
             </div>
             <div css={STYLES_RIGHT}>42 peers</div>
           </div>
@@ -359,7 +373,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STATS_DATA",
             },
-          ]}>
+          ]}
+        >
           <div css={STYLES_GRAPH_ROW}>
             <div css={STYLES_GRAPH_ROW_LEFT}>
               <div css={STYLES_GRAPH_OBJECT}>
@@ -504,7 +519,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_MOST_COMMON_CIDS",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             data={{
               columns: [
@@ -568,7 +584,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_TOP_STORAGE_DEALS_GB",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             data={{
               columns: [
@@ -579,7 +596,8 @@ export default class SceneStats extends React.Component {
                   key: "date",
                   name: "Date uploaded",
                   width: "168px",
-                  tooltip: "This date represents when the file was first uploaded to the network.",
+                  tooltip:
+                    "This date represents when the file was first uploaded to the network.",
                 },
               ],
               rows: [],
@@ -601,7 +619,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_TOP_STORAGE_DEALS_FIL",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             data={{
               columns: [
@@ -612,7 +631,8 @@ export default class SceneStats extends React.Component {
                   key: "date",
                   name: "Date uploaded",
                   width: "168px",
-                  tooltip: "This date represents when the file was first uploaded to the network.",
+                  tooltip:
+                    "This date represents when the file was first uploaded to the network.",
                 },
               ],
               rows: [],

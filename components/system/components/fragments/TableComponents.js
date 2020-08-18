@@ -69,7 +69,9 @@ const COMPONENTS_TRANSACTION_DIRECTION = {
 
 const COMPONENTS_TRANSACTION_STATUS = {
   "0": <Tag>Qualified</Tag>,
-  "1": <Tag style={{ background: Constants.system.green }}>Sealed On Filecoin</Tag>,
+  "1": (
+    <Tag style={{ background: Constants.system.green }}>Sealed On Filecoin</Tag>
+  ),
   "2": <LoaderSpinner style={{ width: 20, height: 20 }} />,
 };
 
@@ -165,7 +167,10 @@ export const TableColumn = (props) => {
   ) : null;
 
   return (
-    <span css={props.top ? STYLES_TOP_COLUMN : STYLES_COLUMN} style={props.style}>
+    <span
+      css={props.top ? STYLES_TOP_COLUMN : STYLES_COLUMN}
+      style={props.style}
+    >
       <span css={STYLES_CONTENT} style={props.contentStyle}>
         {props.children}
       </span>
@@ -178,7 +183,14 @@ export const TableColumn = (props) => {
 // TODO(jim): We probably won't use this Table component for long.
 // Once we have components for all the necessary flows. We will probably
 // make bespoke components for each experience.
-export const TableContent = ({ type, text, action, data = {}, onNavigateTo, onAction }) => {
+export const TableContent = ({
+  type,
+  text,
+  action,
+  data = {},
+  onNavigateTo,
+  onAction,
+}) => {
   const { status, online } = data;
 
   if (text === null || text === undefined) {
@@ -187,13 +199,23 @@ export const TableContent = ({ type, text, action, data = {}, onNavigateTo, onAc
 
   switch (type) {
     case "DEAL_CATEGORY":
-      return <React.Fragment>{text == 1 ? "Storage" : "Retrieval"}</React.Fragment>;
+      return (
+        <React.Fragment>{text == 1 ? "Storage" : "Retrieval"}</React.Fragment>
+      );
     case "BUTTON":
-      return <Link onClick={() => onAction({ type: "SIDEBAR", value: action, data })}>{text}</Link>;
+      return (
+        <Link
+          onClick={() => onAction({ type: "SIDEBAR", value: action, data })}
+        >
+          {text}
+        </Link>
+      );
     case "TRANSACTION_DIRECTION":
       return COMPONENTS_TRANSACTION_DIRECTION[text];
     case "TRANSACTION_STATUS":
-      return <React.Fragment>{COMPONENTS_TRANSACTION_STATUS[text]} </React.Fragment>;
+      return (
+        <React.Fragment>{COMPONENTS_TRANSACTION_STATUS[text]} </React.Fragment>
+      );
     case "OBJECT_TYPE":
       return COMPONENTS_OBJECT_TYPE(text);
     case "ICON":
@@ -206,12 +228,18 @@ export const TableContent = ({ type, text, action, data = {}, onNavigateTo, onAc
     case "DEAL_STATUS_RETRIEVAL":
       return RETRIEVAL_DEAL_STATES[`${text}`];
     case "DEAL_STATUS":
-      return data["deal_category"] === 1 ? STORAGE_DEAL_STATES[`${text}`] : RETRIEVAL_DEAL_STATES[`${text}`];
+      return data["deal_category"] === 1
+        ? STORAGE_DEAL_STATES[`${text}`]
+        : RETRIEVAL_DEAL_STATES[`${text}`];
     case "STORAGE_DEAL_STATUS":
       return (
         <React.Fragment>
           {COMPONENTS_TRANSACTION_STATUS[`${text}`]}
-          {data.error ? <Tag style={{ background: Constants.system.red }}>Previously Failed</Tag> : null}
+          {data.error ? (
+            <Tag style={{ background: Constants.system.red }}>
+              Previously Failed
+            </Tag>
+          ) : null}
         </React.Fragment>
       );
     case "BANDWIDTH_UPLOAD":
@@ -229,9 +257,15 @@ export const TableContent = ({ type, text, action, data = {}, onNavigateTo, onAc
         </React.Fragment>
       );
     case "MINER_AVAILABILITY":
-      return text == 1 ? <Tag style={{ background: Constants.system.green }}>Online</Tag> : null;
+      return text == 1 ? (
+        <Tag style={{ background: Constants.system.green }}>Online</Tag>
+      ) : null;
     case "DEAL_AUTO_RENEW":
-      return text == 1 ? <Tag style={{ background: Constants.system.brand }}>True</Tag> : <Tag>False</Tag>;
+      return text == 1 ? (
+        <Tag style={{ background: Constants.system.brand }}>True</Tag>
+      ) : (
+        <Tag>False</Tag>
+      );
     case "NOTIFICATION_ERROR":
       return (
         <Tag style={{ background: Constants.system.red }}>
@@ -243,7 +277,11 @@ export const TableContent = ({ type, text, action, data = {}, onNavigateTo, onAc
         return <Tag key={each}>{each}</Tag>;
       });
     case "SLATE_PUBLIC_TEXT_TAG":
-      return !text ? <Tag>Private</Tag> : <Tag style={{ background: Constants.system.green }}>Public</Tag>;
+      return !text ? (
+        <Tag>Private</Tag>
+      ) : (
+        <Tag style={{ background: Constants.system.green }}>Public</Tag>
+      );
     case "TEXT_TAG":
       return <Tag>{text}</Tag>;
     case "FILE_DATE":
@@ -263,13 +301,19 @@ export const TableContent = ({ type, text, action, data = {}, onNavigateTo, onAc
         return text;
       }
 
-      return <Link onClick={() => onNavigateTo({ id: data.id }, data)}>{text}</Link>;
+      return (
+        <Link onClick={() => onNavigateTo({ id: data.id }, data)}>{text}</Link>
+      );
     case "FILE_LINK":
       if (!data) {
         return text;
       }
 
-      return <Link onClick={() => onNavigateTo({ id: 15 }, data)}>{text}</Link>;
+      return (
+        <Link onClick={() => onNavigateTo({ id: "V1_NAVIGATION_FILE" }, data)}>
+          {text}
+        </Link>
+      );
     default:
       return text;
   }

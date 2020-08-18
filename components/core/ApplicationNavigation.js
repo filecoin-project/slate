@@ -10,6 +10,7 @@ import ApplicationControlMenu from "~/components/core/ApplicationControlMenu";
 const IconMap = {
   HOME: <SVG.Home height="20px" />,
   ACTIVITY: <SVG.Activity height="20px" />,
+  DIRECTORY: <SVG.Directory height="20px" />,
   FILE: <SVG.Image height="20px" />,
   FOLDER: <SVG.Folder height="20px" />,
   WALLET: <SVG.Wallet height="20px" />,
@@ -152,17 +153,34 @@ const STYLES_ICON_ELEMENT = css`
   }
 `;
 
-const Item = ({ data, id, activeIds, level, children, showActive, decorator, onToggleShow, onNavigateTo }) => {
+const Item = ({
+  data,
+  id,
+  activeIds,
+  level,
+  children,
+  showActive,
+  decorator,
+  onToggleShow,
+  onNavigateTo,
+}) => {
   return (
-    <span css={STYLES_NAVIGATION_ITEM} style={{ padding: `0 0 0 ${level * 16}px` }}>
+    <span
+      css={STYLES_NAVIGATION_ITEM}
+      style={{ padding: `0 0 0 ${level * 16}px` }}
+    >
       <span css={STYLES_EXPANDER} onClick={onToggleShow ? onToggleShow : null}>
         <span
           css={STYLES_ICON_ELEMENT}
           style={{
             color: activeIds[id] ? Constants.system.brand : null,
-          }}>
+          }}
+        >
           {onToggleShow ? (
-            <SVG.ExpandArrow height="8px" style={showActive ? { transform: `rotate(90deg)` } : null} />
+            <SVG.ExpandArrow
+              height="8px"
+              style={showActive ? { transform: `rotate(90deg)` } : null}
+            />
           ) : null}
         </span>
       </span>
@@ -171,7 +189,8 @@ const Item = ({ data, id, activeIds, level, children, showActive, decorator, onT
           css={STYLES_ICON_ELEMENT}
           style={{
             color: activeIds[id] ? Constants.system.brand : null,
-          }}>
+          }}
+        >
           {IconMap[decorator]}
         </span>
       </span>
@@ -180,7 +199,8 @@ const Item = ({ data, id, activeIds, level, children, showActive, decorator, onT
         onClick={() => onNavigateTo({ id }, data)}
         style={{
           color: activeIds[id] ? Constants.system.brand : null,
-        }}>
+        }}
+      >
         {children}
       </span>
     </span>
@@ -197,7 +217,17 @@ class NodeReference extends React.Component {
   };
 
   render() {
-    const { id, activeId, activeIds, level, children, treeChildren, decorator, onNavigateTo, data } = this.props;
+    const {
+      id,
+      activeId,
+      activeIds,
+      level,
+      children,
+      treeChildren,
+      decorator,
+      onNavigateTo,
+      data,
+    } = this.props;
     const { showTreeChildren } = this.state;
 
     let showActive = showTreeChildren || activeIds[id];
@@ -215,7 +245,10 @@ class NodeReference extends React.Component {
           treeChildren={treeChildren}
           onNavigateTo={onNavigateTo}
           decorator={decorator}
-          onToggleShow={treeChildren && treeChildren.length ? this._handleToggleShow : null}>
+          onToggleShow={
+            treeChildren && treeChildren.length ? this._handleToggleShow : null
+          }
+        >
           {children}
         </Item>
 
@@ -239,7 +272,8 @@ class NodeReference extends React.Component {
                   onNavigateTo={onNavigateTo}
                   level={level + 1}
                   treeChildren={child.children}
-                  decorator={child.decorator}>
+                  decorator={child.decorator}
+                >
                   {child.name}
                 </NodeReference>
               );
@@ -261,7 +295,12 @@ export default class ApplicationNavigation extends React.Component {
             onSignOut={this.props.onSignOut}
           />
 
-          <a css={STYLES_PROFILE} style={{ marginLeft: 16 }} href={`/${this.props.viewer.username}`} target="_blank">
+          <a
+            css={STYLES_PROFILE}
+            style={{ marginLeft: 16 }}
+            href={`/${this.props.viewer.username}`}
+            target="_blank"
+          >
             <span
               css={STYLES_PROFILE_IMAGE}
               style={{
@@ -290,7 +329,8 @@ export default class ApplicationNavigation extends React.Component {
               onNavigateTo={this.props.onNavigateTo}
               level={0}
               treeChildren={each.children}
-              decorator={each.decorator}>
+              decorator={each.decorator}
+            >
               {each.name}
             </NodeReference>
           );

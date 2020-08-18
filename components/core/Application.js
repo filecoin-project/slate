@@ -65,7 +65,7 @@ const SCENES = {
   EDIT_ACCOUNT: <SceneEditAccount />,
   SLATES: <SceneSlates />,
   LOCAL_DATA: <SceneLocalData />,
-  ACTIVITY: <SceneActivity />,
+  NETWORK: <SceneActivity />,
   DIRECTORY: <SceneDirectory />,
 };
 

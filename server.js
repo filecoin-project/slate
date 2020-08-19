@@ -47,6 +47,10 @@ app.prepare().then(async () => {
     });
   });
 
+  server.get("/system", async (req, res) => {
+    res.redirect("/_/system");
+  });
+
   server.get("/:username", async (req, res) => {
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -122,9 +126,7 @@ app.prepare().then(async () => {
     }
 
     return app.render(req, res, "/_/slate", {
-      slate: JSON.parse(
-        JSON.stringify({ ...slate, ownername: req.params.username })
-      ),
+      slate: JSON.parse(JSON.stringify({ ...slate, ownername: req.params.username })),
     });
   });
 

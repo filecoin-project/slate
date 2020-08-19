@@ -10,6 +10,8 @@ const REJECT_LIST = [
   "_next",
   "next",
   "webpack",
+  "system",
+  "experience",
   "root",
   "www",
   "website",

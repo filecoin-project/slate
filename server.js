@@ -31,6 +31,28 @@ app.prepare().then(async () => {
   server.use("/public", express.static("public"));
 
   server.get("/_", async (req, res) => {
+    // NOTE(jim): Move health check into a utility method.
+    let buckets = null;
+    try {
+      const response = await fetch("https://hub.textile.io/health", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 204) {
+        buckets = true;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    // TODO(jim): Do something more robust here.
+    if (!buckets) {
+      return res.redirect("/maintenance");
+    }
+
     const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;

@@ -106,8 +106,6 @@ const STYLES_LINK = css`
 // TODO(jim): Refactor this health check later.
 export const getServerSideProps = async (context) => {
   let buckets = false;
-
-  let json;
   try {
     const response = await fetch("https://hub.textile.io/health", {
       headers: {
@@ -115,16 +113,12 @@ export const getServerSideProps = async (context) => {
         "Content-Type": "application/json",
       },
     });
-    json = await response.json();
+
+    if (response.status === 204) {
+      buckets = true;
+    }
   } catch (e) {
     console.log(e);
-    console.log("slate - services are down...");
-  }
-
-  // TODO(jim): Do something more robust here.
-  if (json) {
-    console.log(json);
-    buckets = true;
   }
 
   return {
@@ -134,16 +128,18 @@ export const getServerSideProps = async (context) => {
 
 export default class IndexPage extends React.Component {
   state = {
-    available: true,
+    available: this.props.buckets,
   };
 
   async componentDidMount() {
-    const response = await Actions.health({ buckets: true });
+    const response = await Actions.health({});
     console.log("HEALTH_CHECK", response);
 
     if (response && response.data) {
-      this.setState({ available: this.props.buckets });
+      return this.setState({ available: this.props.buckets });
     }
+
+    return this.setState({ available: false });
   }
 
   render() {
@@ -165,7 +161,7 @@ export default class IndexPage extends React.Component {
                 </a>
                 .
               </p>
-              {this.props.available ? (
+              {this.state.available ? (
                 <div css={STYLES_CARD_ACTIONS}>
                   <div css={STYLES_CARD_ACTIONS_LEFT}>
                     Try out our alpha testing application v{Constants.values.version} for Filecoin

@@ -9,7 +9,7 @@ import * as Validations from "~/common/validations";
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
-import { Libp2pCryptoIdentity } from "@textile/threads-core";
+import { PrivateKey } from "@textile/hub";
 
 const initCORS = MW.init(MW.CORS);
 
@@ -45,7 +45,7 @@ export default async (req, res) => {
 
   // TODO(jim):
   // Single Key Textile Auth.
-  const identity = await Libp2pCryptoIdentity.fromRandom();
+  const identity = await PrivateKey.fromRandom();
   const api = identity.toString();
 
   // TODO(jim):

@@ -20,10 +20,10 @@ const returnJSON = async (route, options) => {
   return json;
 };
 
-export const health = async (data) => {
+export const health = async (data = {}) => {
   return await returnJSON(`/api/_`, {
     ...DEFAULT_OPTIONS,
-    body: JSON.stringify({ data: { success: true } }),
+    body: JSON.stringify({ data: { buckets: data.buckets } }),
   });
 };
 

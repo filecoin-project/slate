@@ -25,6 +25,8 @@ const REJECT_LIST = [
   "403",
   "404",
   "500",
+  "maintenance",
+  "updates",
   "login",
   "authenticate",
   "sign-in",

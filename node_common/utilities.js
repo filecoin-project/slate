@@ -6,8 +6,7 @@ import * as Constants from "~/node_common/constants";
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
-import { Buckets } from "@textile/hub";
-import { Libp2pCryptoIdentity } from "@textile/threads-core";
+import { Buckets, PrivateKey } from "@textile/hub";
 import { ffsOptions } from "@textile/powergate-client";
 
 const BUCKET_NAME = "data";
@@ -68,7 +67,7 @@ export const getBucketAPI = async () => {
 
 // NOTE(jim): Requires @textile/hub
 export const getBucketAPIFromUserToken = async (token) => {
-  const identity = await Libp2pCryptoIdentity.fromString(token);
+  const identity = await PrivateKey.fromString(token);
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await buckets.getToken(identity);
   const root = await buckets.open(BUCKET_NAME);

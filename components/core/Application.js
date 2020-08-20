@@ -4,6 +4,7 @@ import * as Actions from "~/common/actions";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
 import * as Validations from "~/common/validations";
+import * as FileUtilities from "~/common/file-utilities";
 import * as System from "~/components/system";
 
 // NOTE(jim):
@@ -102,104 +103,14 @@ export default class ApplicationPage extends React.Component {
     this.setState({ online: navigator.onLine });
   };
 
-  _handleRegisterFile = ({ fileLoading }) => {
+  _handleUploadFile = async ({ file, slate }) => {
+    return await FileUtilities.upload({ file, slate, setState: this.setState });
+  };
+
+  _handleRegisterFileLoading = ({ fileLoading }) => {
     return this.setState({
       fileLoading,
     });
-  };
-
-  _handleUploadFile = async ({ file, slate }) => {
-    let formData = new FormData();
-    const HEIC2ANY = require("heic2any");
-
-    // TODO(jim): Put this somewhere else to handle conversion cases.
-    if (file.type.startsWith("image/heic")) {
-      const converted = await HEIC2ANY({
-        blob: file,
-        toType: "image/png",
-        quality: 1,
-      });
-
-      formData.append("data", converted);
-    } else {
-      formData.append("data", file);
-    }
-
-    const upload = (path) =>
-      new Promise((resolve, reject) => {
-        const XHR = new XMLHttpRequest();
-        XHR.open("post", path, true);
-        XHR.onerror = (event) => {
-          console.log(event);
-        };
-
-        // NOTE(jim): UPLOADS ONLY.
-        XHR.upload.addEventListener(
-          "progress",
-          (event) => {
-            if (event.lengthComputable) {
-              console.log("FILE UPLOAD PROGRESS", event);
-              this.setState({
-                fileLoading: {
-                  ...this.state.fileLoading,
-                  [`${file.lastModified}-${file.name}`]: {
-                    name: file.name,
-                    loaded: event.loaded,
-                    total: event.total,
-                  },
-                },
-              });
-            }
-          },
-          false
-        );
-
-        XHR.onloadend = (event) => {
-          console.log("FILE UPLOAD END", event);
-          try {
-            return resolve(JSON.parse(event.target.response));
-          } catch (e) {
-            return resolve({
-              error: "SERVER_UPLOAD_ERROR",
-            });
-          }
-        };
-        XHR.send(formData);
-      });
-
-    const json = await upload(`/api/data/${file.name}`);
-    console.log(json);
-
-    if (!json || json.error || !json.data) {
-      this.setState({
-        fileLoading: {
-          ...this.state.fileLoading,
-          [`${file.lastModified}-${file.name}`]: {
-            name: file.name,
-            failed: true,
-          },
-        },
-      });
-      return !json ? { error: "NO_RESPONSE" } : json;
-    }
-
-    if (slate) {
-      const addResponse = await fetch(`/api/slates/add-url`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ slate, data: { ...json.data } }),
-      });
-
-      if (!addResponse || addResponse.error) {
-        console.log(addResponse.error);
-        alert("TODO: Adding an image to Slate went wrong.");
-      }
-    }
-
-    return json;
   };
 
   _handleDragEnter = (e) => {
@@ -272,7 +183,7 @@ export default class ApplicationPage extends React.Component {
     }
 
     // NOTE(jim): Stages each file.
-    this._handleRegisterFile({ fileLoading });
+    this._handleRegisterFileLoading({ fileLoading });
 
     // NOTE(jim): Uploads each file.
     for (let i = 0; i < files.length; i++) {
@@ -517,9 +428,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   render() {
-    // TODO(colin): Populate this.
-    console.log({ analytics: this.props.analytics });
-
     // NOTE(jim): Not authenticated.
     if (!this.state.viewer) {
       return (
@@ -594,7 +502,7 @@ export default class ApplicationPage extends React.Component {
         onSelectedChange: this._handleSelectedChange,
         onSubmit: this._handleSubmit,
         onCancel: this._handleCancel,
-        onRegisterFile: this._handleRegisterFile,
+        onRegisterFileLoading: this._handleRegisterFileLoading,
         onUploadFile: this._handleUploadFile,
         onSidebarLoading: this._handleSidebarLoading,
         onAction: this._handleAction,

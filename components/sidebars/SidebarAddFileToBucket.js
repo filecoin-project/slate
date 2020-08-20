@@ -83,11 +83,14 @@ export default class SidebarAddFileToBucket extends React.Component {
       return;
     }
 
-    this.props.onRegisterFile({ fileLoading });
+    this.props.onRegisterFileLoading({ fileLoading });
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      const slate = this.props.data && this.props.data.slateId ? { id: this.props.data.slateId } : null;
+      const slate =
+        this.props.data && this.props.data.slateId
+          ? { id: this.props.data.slateId }
+          : null;
 
       const response = await this.props.onUploadFile({
         file,
@@ -111,12 +114,20 @@ export default class SidebarAddFileToBucket extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload data</System.P>
-        <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+          Upload data
+        </System.P>
+        <input
+          css={STYLES_FILE_HIDDEN}
+          type="file"
+          id="file"
+          onChange={this._handleUpload}
+        />
 
         {this.props.data && this.props.data.decorator === "SLATE" ? (
           <System.P style={{ marginTop: 24 }}>
-            This will add data to your Slate named <strong>{this.props.data.slatename}</strong>.
+            This will add data to your Slate named{" "}
+            <strong>{this.props.data.slatename}</strong>.
           </System.P>
         ) : null}
 
@@ -125,12 +136,17 @@ export default class SidebarAddFileToBucket extends React.Component {
           type="label"
           htmlFor="file"
           style={{ marginTop: 24 }}
-          loading={!!this.props.fileLoading}>
+          loading={!!this.props.fileLoading}
+        >
           Add file
         </System.ButtonPrimary>
 
         {!this.props.fileLoading ? (
-          <System.ButtonSecondary full style={{ marginTop: 16 }} onClick={this.props.onCancel}>
+          <System.ButtonSecondary
+            full
+            style={{ marginTop: 16 }}
+            onClick={this.props.onCancel}
+          >
             Cancel
           </System.ButtonSecondary>
         ) : null}

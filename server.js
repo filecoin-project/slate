@@ -30,26 +30,27 @@ app.prepare().then(async () => {
 
   server.use("/public", express.static("public"));
 
-  server.get("/_", async (req, res) => {
-    // NOTE(jim): Move health check into a utility method.
-    let buckets = null;
-    try {
-      const response = await fetch("https://hub.textile.io/health", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+  server.get("/system", async (req, res) => {
+    res.redirect("/_/system");
+  });
 
-      if (response.status === 204) {
-        buckets = true;
-      }
-    } catch (e) {
-      console.log(e);
-    }
+  server.get("/experiences", async (req, res) => {
+    res.redirect("/_/system");
+  });
+
+  server.get("/system/:component", async (req, res) => {
+    res.redirect(`/_/system/${req.params.component}`);
+  });
+
+  server.get("/experiences/:module", async (req, res) => {
+    res.redirect(`/_/experiences/${req.params.module}`);
+  });
+
+  server.get("/_", async (req, res) => {
+    const isBucketsAvailable = await Utilities.checkTextile();
 
     // TODO(jim): Do something more robust here.
-    if (!buckets) {
+    if (!isBucketsAvailable) {
       return res.redirect("/maintenance");
     }
 
@@ -67,22 +68,6 @@ app.prepare().then(async () => {
       viewer,
       analytics,
     });
-  });
-
-  server.get("/system", async (req, res) => {
-    res.redirect("/_/system");
-  });
-
-  server.get("/experiences", async (req, res) => {
-    res.redirect("/_/system");
-  });
-
-  server.get("/system/:component", async (req, res) => {
-    res.redirect(`/_/system/${req.params.component}`);
-  });
-
-  server.get("/experiences/:module", async (req, res) => {
-    res.redirect(`/_/experiences/${req.params.module}`);
   });
 
   server.get("/:username", async (req, res) => {

@@ -16,6 +16,25 @@ const TEXTILE_KEY_INFO = {
   secret: Environment.TEXTILE_HUB_SECRET,
 };
 
+export const checkTextile = async () => {
+  try {
+    const response = await fetch("https://hub.textile.io/health", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 204) {
+      return true;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
+  return false;
+};
+
 export const getIdFromCookie = (req) => {
   let id;
   if (!Strings.isEmpty(req.headers.cookie)) {

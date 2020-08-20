@@ -73,6 +73,18 @@ app.prepare().then(async () => {
     res.redirect("/_/system");
   });
 
+  server.get("/experiences", async (req, res) => {
+    res.redirect("/_/system");
+  });
+
+  server.get("/system/:component", async (req, res) => {
+    res.redirect(`/_/system/${req.params.component}`);
+  });
+
+  server.get("/experiences/:module", async (req, res) => {
+    res.redirect(`/_/experiences/${req.params.module}`);
+  });
+
   server.get("/:username", async (req, res) => {
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -148,7 +160,9 @@ app.prepare().then(async () => {
     }
 
     return app.render(req, res, "/_/slate", {
-      slate: JSON.parse(JSON.stringify({ ...slate, ownername: req.params.username })),
+      slate: JSON.parse(
+        JSON.stringify({ ...slate, ownername: req.params.username })
+      ),
     });
   });
 

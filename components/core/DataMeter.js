@@ -30,7 +30,14 @@ const STYLES_DATA_METER = css`
   flex-shrink: 0;
   height: 100%;
   background-color: #2935ff;
-  background-image: linear-gradient(to left, #2935ff, #342fc4, #33288b, #2b2157, #1d1927);
+  background-image: linear-gradient(
+    to left,
+    #2935ff,
+    #342fc4,
+    #33288b,
+    #2b2157,
+    #1d1927
+  );
 `;
 
 const STYLES_ROW = css`
@@ -83,14 +90,26 @@ export const DataMeterBar = (props) => {
       </div>
 
       <div css={STYLES_ROW}>
-        <div css={STYLES_LEFT} style={{ color: props.failed ? Constants.system.red : null }}>
+        <div
+          css={STYLES_LEFT}
+          style={{ color: props.failed ? Constants.system.red : null }}
+        >
           {props.leftLabel}
         </div>
         <div css={STYLES_RIGHT}>{props.rightLabel}</div>
       </div>
 
-      <div css={STYLES_DATA} style={{ marginTop: 4, backgroundColor: props.failed ? Constants.system.red : null }}>
-        <div css={STYLES_DATA_METER} style={{ width: `${percentage * 100}%` }} />
+      <div
+        css={STYLES_DATA}
+        style={{
+          marginTop: 4,
+          backgroundColor: props.failed ? Constants.system.red : null,
+        }}
+      >
+        <div
+          css={STYLES_DATA_METER}
+          style={{ width: `${percentage * 100}%` }}
+        />
       </div>
     </React.Fragment>
   );
@@ -101,8 +120,8 @@ export default (props) => {
     <div css={STYLES_CONTAINER} style={props.style}>
       <System.P style={{ fontSize: 12 }}>
         <strong css={STYLES_TITLE}>Usage</strong>
-        Slate users get 1GB of IPFS storage from Textile. In the future you can extend this with your own plugins using
-        our SDK.
+        Slate users get 1GB of IPFS storage from Textile. In the future you can
+        extend this with your own plugins using our SDK.
         <br />
         <br />
       </System.P>

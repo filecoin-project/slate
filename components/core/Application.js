@@ -466,15 +466,11 @@ export default class ApplicationPage extends React.Component {
         viewer={this.state.viewer}
         pageTitle={current.target.pageTitle}
         currentIndex={this.state.currentIndex}
+        history={this.state.history}
         onBack={this._handleBack}
         onForward={this._handleForward}
-        history={this.state.history}
       />
     );
-
-    if (current.target.decorator === "FILE") {
-      headerElement = null;
-    }
 
     const scene = React.cloneElement(SCENES[current.target.decorator], {
       current: current.target,
@@ -511,19 +507,19 @@ export default class ApplicationPage extends React.Component {
     }
 
     const title = `Slate : ${current.target.pageTitle}`;
-    const description = "This is an early preview.";
+    const description = "";
     const url = "https://slate.host/_";
 
     return (
       <React.Fragment>
         <WebsitePrototypeWrapper
-          title={title}
           description={description}
+          title={title}
           url={url}
         >
           <ApplicationLayout
-            navigation={navigationElement}
             header={headerElement}
+            navigation={navigationElement}
             sidebar={sidebarElement}
             onDismissSidebar={this._handleDismissSidebar}
           >

@@ -105,7 +105,8 @@ export default class WebRectBoundary extends React.PureComponent {
           this._root = c;
         }}
         style={this.props.style}
-        onClick={this.props.onClick}>
+        onClick={this.props.onClick}
+      >
         {this.props.children}
       </div>
     );

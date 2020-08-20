@@ -92,12 +92,20 @@ export default class DataView extends React.Component {
   };
 
   _handleMakeDeal = (data) => {
-    this.props.onAction({ type: "SIDEBAR", value: "SIDEBAR_FILE_STORAGE_DEAL", data });
+    this.props.onAction({
+      type: "SIDEBAR",
+      value: "SIDEBAR_FILE_STORAGE_DEAL",
+      data,
+    });
   };
 
   _handleDelete = async (cid) => {
     this.setState({ loading: true });
-    if (!window.confirm("Are you sure you want to delete this? It will be removed from your Slates too.")) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this? It will be removed from your Slates too."
+      )
+    ) {
       this.setState({ loading: false });
       return null;
     }
@@ -149,12 +157,16 @@ export default class DataView extends React.Component {
                   <System.ButtonPrimary
                     loading={this.state.loading}
                     style={{ marginRight: 16 }}
-                    onClick={() => this._handleMakeDeal(each)}>
+                    onClick={() => this._handleMakeDeal(each)}
+                  >
                     Store on Filecoin
                   </System.ButtonPrimary>
                 )}
 
-                <System.ButtonSecondary loading={this.state.loading} onClick={() => this._handleDelete(cid)}>
+                <System.ButtonSecondary
+                  loading={this.state.loading}
+                  onClick={() => this._handleDelete(cid)}
+                >
                   Delete
                 </System.ButtonSecondary>
               </div>
@@ -182,7 +194,8 @@ export default class DataView extends React.Component {
         onAction={this.props.onAction}
         title={`${Strings.bytesToSize(this.props.viewer.stats.bytes)} uploaded`}
         style={{ minWidth: "880px" }}
-        buttons={this.props.buttons}>
+        buttons={this.props.buttons}
+      >
         <System.Table
           data={data}
           selectedRowId={this.state.selectedRowId}

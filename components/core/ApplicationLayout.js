@@ -148,7 +148,10 @@ export default class ApplicationLayout extends React.Component {
     if (this.props.sidebar) {
       sidebarElements = (
         <React.Fragment>
-          <GlobalTooltip elementRef={this._sidebar} allowedTypes={["sidebar"]} />
+          <GlobalTooltip
+            elementRef={this._sidebar}
+            allowedTypes={["sidebar"]}
+          />
           <div css={STYLES_SIDEBAR_HEADER}>
             <div css={STYLES_BLOCK} onClick={this.props.onDismissSidebar}>
               <SVG.Dismiss height="24px" />
@@ -160,12 +163,16 @@ export default class ApplicationLayout extends React.Component {
     }
     return (
       <div css={STYLES_LAYOUT}>
-        <GlobalTooltip elementRef={this._navigation} allowedTypes={["navigation"]} />
+        <GlobalTooltip
+          elementRef={this._navigation}
+          allowedTypes={["navigation"]}
+        />
         <div
           css={STYLES_NAVIGATION}
           ref={(c) => {
             this._navigation = c;
-          }}>
+          }}
+        >
           {this.props.navigation}
         </div>
         <div css={STYLES_CONTENT}>
@@ -175,17 +182,21 @@ export default class ApplicationLayout extends React.Component {
             css={STYLES_BODY_WEB}
             ref={(c) => {
               this._body = c;
-            }}>
+            }}
+          >
             {this.props.children}
           </div>
-          <div css={STYLES_BODY_MOBILE}>{this.props.sidebar ? sidebarElements : this.props.children}</div>
+          <div css={STYLES_BODY_MOBILE}>
+            {this.props.sidebar ? sidebarElements : this.props.children}
+          </div>
         </div>
         {this.props.sidebar ? (
           <div
             css={STYLES_SIDEBAR_WEB}
             ref={(c) => {
               this._sidebar = c;
-            }}>
+            }}
+          >
             {sidebarElements}
           </div>
         ) : null}

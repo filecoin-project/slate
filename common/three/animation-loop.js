@@ -15,7 +15,7 @@ export default class AnimationLoop {
       this._timeThen =
         this._timeNow - (timeDelta % (SECOND / FRAMES_PER_SECOND));
 
-      this._subscribers.forEach(callback => {
+      this._subscribers.forEach((callback) => {
         callback.call();
       });
     }

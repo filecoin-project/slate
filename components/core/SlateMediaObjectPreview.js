@@ -76,7 +76,11 @@ export default class SlateMediaObjectPreview extends React.Component {
 
     return (
       <span css={STYLES_ITEM}>
-        <img css={STYLES_IMAGE} src={this.props.url} onClick={this.props.onClick} />
+        <img
+          css={STYLES_IMAGE}
+          src={this.props.url}
+          onClick={this.props.onClick}
+        />
       </span>
     );
   }

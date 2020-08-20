@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as System from "~/components/system";
-import * as SchemaTable from "~/common/schema-table";
 
 import ScenePage from "~/components/core/ScenePage";
 import Section from "~/components/core/Section";
@@ -29,10 +28,40 @@ export default class SceneDataTransfer extends React.Component {
         />
 
         {this.state.sub_navigation === "2" ? (
-          <Section title="Past transfers" onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo}>
+          <Section
+            title="Past transfers"
+            onAction={this.props.onAction}
+            onNavigateTo={this.props.onNavigateTo}
+          >
             <System.Table
               data={{
-                columns: SchemaTable.DataTransfer,
+                columns: [
+                  {
+                    key: "data-cid",
+                    name: "Data CID",
+                    copyable: true,
+                    tooltip: "Data CID explainer.",
+                    width: "224px",
+                  },
+                  {
+                    key: "deal-cid",
+                    name: "Deal CID",
+                    copyable: true,
+                    tooltip: "Deal CID explainer.",
+                    width: "100%",
+                  },
+                  {
+                    key: "data-source",
+                    name: "Source",
+                    width: "120px",
+                  },
+                  {
+                    key: "data-destination",
+                    name: "Destination",
+                    width: "120px",
+                  },
+                  { key: "size", name: "Size", width: "140px" },
+                ],
                 rows: this.props.viewer.data_transfers,
               }}
               selectedRowId={this.state.table_past_transfer}
@@ -45,7 +74,11 @@ export default class SceneDataTransfer extends React.Component {
         ) : null}
 
         {this.state.sub_navigation === "1" ? (
-          <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="Current transfers">
+          <Section
+            onAction={this.props.onAction}
+            onNavigateTo={this.props.onNavigateTo}
+            title="Current transfers"
+          >
             <System.P style={{ padding: 24 }}>There are no transfers</System.P>
           </Section>
         ) : null}

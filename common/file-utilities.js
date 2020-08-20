@@ -2,6 +2,11 @@ export const upload = async ({ file, slate, setState }) => {
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 
+  // NOTE(jim): You must provide a file from an type="file" input field.
+  if (!file) {
+    return null;
+  }
+
   // TODO(jim): Put this somewhere else to handle conversion cases.
   if (file.type.startsWith("image/heic")) {
     const converted = await HEIC2ANY({
@@ -15,7 +20,7 @@ export const upload = async ({ file, slate, setState }) => {
     formData.append("data", file);
   }
 
-  const upload = (path) =>
+  const _privateUploadMethod = (path) =>
     new Promise((resolve, reject) => {
       const XHR = new XMLHttpRequest();
       XHR.open("post", path, true);
@@ -27,6 +32,10 @@ export const upload = async ({ file, slate, setState }) => {
       XHR.upload.addEventListener(
         "progress",
         (event) => {
+          if (!setState) {
+            return;
+          }
+
           if (event.lengthComputable) {
             console.log("FILE UPLOAD PROGRESS", event);
             setState({
@@ -57,19 +66,20 @@ export const upload = async ({ file, slate, setState }) => {
       XHR.send(formData);
     });
 
-  const json = await upload(`/api/data/${file.name}`);
-  console.log(json);
-
+  const json = await _privateUploadMethod(`/api/data/${file.name}`);
   if (!json || json.error || !json.data) {
-    setState({
-      fileLoading: {
-        ...this.state.fileLoading,
-        [`${file.lastModified}-${file.name}`]: {
-          name: file.name,
-          failed: true,
+    if (setState) {
+      setState({
+        fileLoading: {
+          ...this.state.fileLoading,
+          [`${file.lastModified}-${file.name}`]: {
+            name: file.name,
+            failed: true,
+          },
         },
-      },
-    });
+      });
+    }
+
     return !json ? { error: "NO_RESPONSE" } : json;
   }
 

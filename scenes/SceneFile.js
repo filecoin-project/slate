@@ -4,7 +4,7 @@ import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
 
-import MediaObject from "~/components/core/MediaObject";
+import SlateMediaObject from "~/components/core/SlateMediaObject";
 
 const STYLES_FLEX = css`
   display: flex;
@@ -83,7 +83,7 @@ export default class SceneFile extends React.Component {
             <SVG.Dismiss height="24px" />
           </div>
         </div>
-        <MediaObject data={this.props.data} />
+        <SlateMediaObject data={this.props.data} />
       </div>
     );
   }

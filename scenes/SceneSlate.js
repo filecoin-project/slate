@@ -8,7 +8,7 @@ import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
 import Slate from "~/components/core/Slate";
-import MediaObject from "~/components/core/MediaObject";
+import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonLight from "~/components/core/CircleButtonLight";
 
 export default class SceneSlate extends React.Component {
@@ -33,6 +33,10 @@ export default class SceneSlate extends React.Component {
         public: this.props.current.data.public,
         objects: this.props.current.data.objects,
         loading: false,
+      });
+
+      this._handleUpdateCarousel({
+        objects: this.props.current.data.objects,
       });
     }
   }
@@ -72,7 +76,7 @@ export default class SceneSlate extends React.Component {
           return {
             onDelete: this._handleDelete,
             id: each.id,
-            component: <MediaObject key={each.id} useImageFallback data={each} />,
+            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
           };
         }),
       },

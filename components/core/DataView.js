@@ -7,7 +7,7 @@ import * as Actions from "~/common/actions";
 import { css } from "@emotion/react";
 
 import Section from "~/components/core/Section";
-import MediaObject from "~/components/core/MediaObject";
+import SlateMediaObject from "~/components/core/SlateMediaObject";
 
 const COLUMNS_SCHEMA = [
   { key: "cid", name: "CID", width: "100%" },
@@ -77,7 +77,7 @@ export default class DataView extends React.Component {
           return {
             id: each.id,
             cid,
-            component: <MediaObject key={each.id} data={each} />,
+            component: <SlateMediaObject key={each.id} data={each} />,
           };
         }),
       },
@@ -101,11 +101,7 @@ export default class DataView extends React.Component {
 
   _handleDelete = async (cid) => {
     this.setState({ loading: true });
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this? It will be removed from your Slates too."
-      )
-    ) {
+    if (!window.confirm("Are you sure you want to delete this? It will be removed from your Slates too.")) {
       this.setState({ loading: false });
       return null;
     }
@@ -157,16 +153,12 @@ export default class DataView extends React.Component {
                   <System.ButtonPrimary
                     loading={this.state.loading}
                     style={{ marginRight: 16 }}
-                    onClick={() => this._handleMakeDeal(each)}
-                  >
+                    onClick={() => this._handleMakeDeal(each)}>
                     Store on Filecoin
                   </System.ButtonPrimary>
                 )}
 
-                <System.ButtonSecondary
-                  loading={this.state.loading}
-                  onClick={() => this._handleDelete(cid)}
-                >
+                <System.ButtonSecondary loading={this.state.loading} onClick={() => this._handleDelete(cid)}>
                   Delete
                 </System.ButtonSecondary>
               </div>
@@ -194,8 +186,7 @@ export default class DataView extends React.Component {
         onAction={this.props.onAction}
         title={`${Strings.bytesToSize(this.props.viewer.stats.bytes)} uploaded`}
         style={{ minWidth: "880px" }}
-        buttons={this.props.buttons}
-      >
+        buttons={this.props.buttons}>
         <System.Table
           data={data}
           selectedRowId={this.state.selectedRowId}

@@ -47,12 +47,10 @@ const STYLES_IMAGE = css`
   max-height: 100%;
 `;
 
-export default class MediaObject extends React.Component {
+export default class SlateMediaObject extends React.Component {
   render() {
     const name = `${this.props.data.name}`;
-    const url = this.props.data.url
-      ? this.props.data.url
-      : `https://hub.textile.io${this.props.data.ipfs}`;
+    const url = this.props.data.url ? this.props.data.url : `https://hub.textile.io${this.props.data.ipfs}`;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
 
     if (type.startsWith("application/pdf")) {

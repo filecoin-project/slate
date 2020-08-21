@@ -32,7 +32,7 @@ const STYLES_NAVIGATION_HEADER = css`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 64px 24px 48px 48px;
+  padding: 64px 24px 48px 42px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 64px 0 48px 16px;
@@ -63,8 +63,8 @@ const STYLES_PROFILE = css`
   text-decoration: none;
   flex-shrink: 0;
   padding-right: 24px;
-  height: 36px;
-  border-radius: 36px;
+  height: 38px;
+  border-radius: 38px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -88,7 +88,7 @@ const STYLES_PROFILE_IMAGE = css`
   width: 32px;
   border-radius: 32px;
   margin-right: 16px;
-  margin-left: 2px;
+  margin-left: 4px;
 `;
 
 const STYLES_EXPANDER = css`
@@ -139,7 +139,7 @@ const STYLES_ICON_ELEMENT = css`
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 8px 0 16px;
+    margin: 0 8px 0 12px;
   }
 `;
 

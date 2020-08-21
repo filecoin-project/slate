@@ -40,7 +40,7 @@ export const typescale = {
 export const system = {
   white: "#ffffff",
   foreground: "#f7f7f7",
-  gray: "#e5e5e5",
+  gray: "#e0e0e0",
   border: "#d8d8d8",
   darkGray: "#b2b2b2",
   black: "#1b1f23",

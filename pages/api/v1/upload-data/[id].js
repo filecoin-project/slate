@@ -67,7 +67,9 @@ export default async (req, res) => {
   });
 
   if (!uploadResponse) {
-    return res.status(404).send({ decorator: "V1_SERVER_API_UPLOAD_ERROR", error: true });
+    return res
+      .status(404)
+      .send({ decorator: "V1_SERVER_API_UPLOAD_ERROR", error: true });
   }
 
   if (uploadResponse.error) {
@@ -114,8 +116,9 @@ export default async (req, res) => {
   const url = `https://hub.textile.io${updatedData.ipfs}`;
   const newSlateObjectEntity = {
     id: updatedData.id,
-    ownerId: user.id,
     name: updatedData.name,
+    type: updatedData.type,
+    ownerId: user.id,
     url,
   };
 

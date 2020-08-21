@@ -14,24 +14,6 @@ import { Fade } from "react-slideshow-image";
 import Confetti from 'react-confetti';
 import { useWindowSize } from "@react-hook/window-size/throttled";
 
-const STYLES_HERO_SECTION = css`
-text-align: center;
-  width: 100vw;
-  height: 100vh;
-  padding-top: 30vh;
-  background-image: url("");  
-   background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  transition: width 2s, height 4s;
-`;
-const STYLES_HERO_TEXT = css`
-  text-align: center;
-  color: ${Constants.system.black};
-  width: 80vw;
-  margin: auto; 
-`;
-
 const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
@@ -49,6 +31,25 @@ const STYLES_ROOT = css`
     font-size: 1rem;
     color: ${Constants.system.black};
   }
+
+  a:link {
+    color: ${Constants.system.darkGray};
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: ${Constants.system.brand};
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+  a:active {
+    color: yellow;
+    background-color: transparent;
+    text-decoration: none;
+  }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     h1{
       font-size: 2.441rem;
@@ -60,6 +61,27 @@ const STYLES_ROOT = css`
       font-size: 0.78rem;
     }
   }
+`;
+
+const STYLES_HERO_SECTION = css`
+  text-align: center;
+  width: 100vw;
+  height: auto;
+  padding: 30vh 24px;
+  background-image: url("");  
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  transition: width 2s, height 4s;
+`;
+
+const STYLES_HERO_TEXT = css`
+  text-align: center;
+  color: ${Constants.system.black};
+  width: 80vw;
+  margin: auto; 
+  position: relative;
+  z-index : 2;
 `;
 
 const STYLES_FOREGROUND_H1 = css`
@@ -75,24 +97,102 @@ const STYLES_FOREGROUND_H2 = css`
   width: 48%;
 `;
 
-const STYLES_HERO = css`
-  padding: 88px 24px;
-  width: 100vw;
-  height: 100vh;
-  background: ${Constants.system.foreground};
+const STYLES_SLATE_CARD_GROUP = css`
+  display: flex;
+  justify-content:space-between;
+  height: auto;
+  width: 100%;
 `;
+
+const STYLES_SLATE_CARD = css`
+  width: 32vw;
+  height: 240px;
+
+  a:visited {
+    color: ${Constants.system.green};
+    background-color: transparent;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: ${Constants.system.brand};
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+  a:active {
+    color: ${Constants.system.brand};
+    background-color: transparent;
+    text-decoration: none;
+  }
+`;
+
+const STYLES_SLATE_CARD_TEXT = css`
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  align-items: left;
+  width: 32vw;
+  height: 240px;
+  padding: 12px;
+  border-style: solid;
+  border-width: 1px;
+  position: relative;
+  z-index : 2;
+
+  a:visited {
+    color: ${Constants.system.green};
+    background-color: transparent;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: ${Constants.system.brand};
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+  a:active {
+    color: ${Constants.system.brand};
+    background-color: transparent;
+    text-decoration: none;
+  }
+`;
+
+const STYLES_SLATE_CARD_MEDIA = css`
+  width: 32vw;
+  height: 240px;
+  position: absolute;
+  z-index: 0;
+`;
+
+const STYLES_SLATE_CARD_TITLE = css`
+  font-size: 1.25rem;
+  text-align: left;
+  width: 100%;
+  color: ${Constants.system.gray};
+  text-decoration: none;
+  transition: 200ms ease color;
+`;
+
+const STYLES_SLATE_CARD_EXPLAINER = css`
+  display: flex;
+  justify-content:space-between;
+`;
+
+const STYLES_SLATE_CARD_PARAGRAPH = css`
+  font-size: 12px;
+  text-align: left;
+  color: ${Constants.system.gray};
+  text-decoration: none;
+  transition: 200ms ease color;
+`;
+
 const STYLES_SECTION_WHITE = css`
   padding: 88px 24px;
   width: 100vw;
   height: 100vh;
   background: ${Constants.system.white};
-`;
-
-const STYLES_SECTION_GRAY = css`
-  padding: 88px 24px;
-  width: 100vw;
-  height: 100vh;
-  background: ${Constants.system.gray};
 `;
 
 const STYLES_SECTION_FOREGROUND = css`
@@ -138,13 +238,6 @@ const STYLES_VIEWS_IMAGES = css`
     max-width: 500px;
     height: auto;
   }
-`;
-
-const STYLES_SLATE = css`
-  display: flex;
-  flex: 1 0 auto;
-  width: 100vw;
-  height: 100vh; 
 `;
 
 const STYLES_SECTION_MEDIA = css`
@@ -293,6 +386,45 @@ export default class IndexPage extends React.Component {
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
             <section css={STYLES_HERO_SECTION}>
+              <div css={STYLES_SLATE_CARD_GROUP}>
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                  <div css={STYLES_SLATE_CARD}>
+                    <img css={STYLES_SLATE_CARD_MEDIA} src="/static/social-github-dark.jpg" />
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Green</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@internetjim</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-></div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                  <div css={STYLES_SLATE_CARD}>
+                    <img css={STYLES_SLATE_CARD_MEDIA} src="/static/social-github-dark.jpg" />
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Green</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@internetjim</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-></div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                  <div css={STYLES_SLATE_CARD}>
+                    <img css={STYLES_SLATE_CARD_MEDIA} src="/static/social-github-dark.jpg" />
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Green</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@internetjim</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-></div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                
+              </div>
               <div css={STYLES_HERO_TEXT}>
                 <System.H1>Slate is the gateway to Filecoin.</System.H1>
                 <br/>

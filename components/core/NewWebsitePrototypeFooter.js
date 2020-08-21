@@ -92,7 +92,6 @@ const STYLES_RIGHT = css`
 export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
-      
       <div css={STYLES_LEFT}>
         <motion.div css={STYLES_TRADEMARK} animate={{ rotateY: 360 }}
       transition={transition}>

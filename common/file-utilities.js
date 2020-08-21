@@ -1,4 +1,4 @@
-export const upload = async ({ file, slate, setState }) => {
+export const upload = async ({ file, slate, context }) => {
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 
@@ -32,15 +32,15 @@ export const upload = async ({ file, slate, setState }) => {
       XHR.upload.addEventListener(
         "progress",
         (event) => {
-          if (!setState) {
+          if (!context) {
             return;
           }
 
           if (event.lengthComputable) {
             console.log("FILE UPLOAD PROGRESS", event);
-            setState({
+            context.setState({
               fileLoading: {
-                ...this.state.fileLoading,
+                ...context.state.fileLoading,
                 [`${file.lastModified}-${file.name}`]: {
                   name: file.name,
                   loaded: event.loaded,
@@ -68,10 +68,10 @@ export const upload = async ({ file, slate, setState }) => {
 
   const json = await _privateUploadMethod(`/api/data/${file.name}`);
   if (!json || json.error || !json.data) {
-    if (setState) {
-      setState({
+    if (context) {
+      context.setState({
         fileLoading: {
-          ...this.state.fileLoading,
+          ...context.state.fileLoading,
           [`${file.lastModified}-${file.name}`]: {
             name: file.name,
             failed: true,

@@ -3,14 +3,27 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
-import { LoaderSpinner } from "~/components/system/components/Loaders";
 
-const STYLES_BACKGROUND = css`
+import SlateMediaObjectSidebar from "~/components/core/SlateMediaObjectSidebar";
+
+const STYLES_ROOT = css`
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: ${Constants.system.pitchBlack};
+  color: ${Constants.system.white};
+  z-index: ${Constants.zindex.modal};
+`;
+
+const STYLES_ROOT_CONTENT = css`
+  position: relative;
   padding: 88px 24px 88px 24px;
   width: 100%;
   height: 100%;
@@ -18,9 +31,6 @@ const STYLES_BACKGROUND = css`
   align-items: center;
   justify-content: center;
   user-select: none;
-  background-color: ${Constants.system.pitchBlack};
-  color: ${Constants.system.white};
-  z-index: ${Constants.zindex.modal};
 `;
 
 const STYLES_BOX = css`
@@ -43,67 +53,13 @@ const STYLES_BOX = css`
   }
 `;
 
-const STYLES_BUTTON = css`
-  font-family: ${Constants.font.code};
-  font-size: 10px;
-  text-transform: uppercase;
-  user-select: none;
-  height: 32px;
-  padding: 0 16px 0 16px;
-  border-radius: 32px;
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  z-index: ${Constants.zindex.modal};
-  background: ${Constants.system.pitchBlack};
-  transition: 200ms ease all;
-  color: ${Constants.system.white};
-  cursor: pointer;
-  margin: auto;
-  text-decoration: none;
-
-  :hover {
-    background-color: ${Constants.system.black};
-  }
-`;
-
-const STYLES_LINK = css`
-  font-family: ${Constants.font.code};
-  font-size: 10px;
-  user-select: none;
-  height: 32px;
-  top: 8px;
-  left: 16px;
-  padding: 0 16px 0 16px;
-  border-radius: 32px;
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  z-index: ${Constants.zindex.modal};
-  background: ${Constants.system.pitchBlack};
-  transition: 200ms ease all;
-  color: ${Constants.system.white};
-  cursor: pointer;
-  margin: auto;
-  text-decoration: none;
-
-  :visited {
-    color: ${Constants.system.white};
-  }
-
-  :hover {
-    background-color: ${Constants.system.black};
-  }
-`;
-
 export class GlobalCarousel extends React.Component {
   state = {
     slides: null,
     visible: false,
     index: 0,
     loading: false,
+    saving: false,
   };
 
   componentDidMount = () => {
@@ -140,19 +96,21 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  _handleSetLoading = (e) => this.setState({ loading: e.detail.loading });
+  _handleSetLoading = (e) => this.setState({ ...e.detail });
 
   _handleOpen = (e) => {
-    this.setState({ visible: true, index: e.detail.index || 0, loading: false });
+    this.setState({ visible: true, index: e.detail.index || 0, loading: false, saving: false });
   };
 
-  _handleClose = () => this.setState({ visible: false, index: 0, loading: false });
+  _handleClose = () => this.setState({ visible: false, index: 0, loading: false, saving: false });
 
   _handleCreate = (e) => {
+    const shouldPersist = this.state.visible && this.state.index < e.detail.slides.length;
+
     this.setState({
-      slides: e.detail.slides,
-      visible: false,
-      index: 0,
+      slides: [...e.detail.slides],
+      visible: shouldPersist ? true : false,
+      index: shouldPersist ? this.state.index : 0,
     });
   };
 
@@ -162,12 +120,12 @@ export class GlobalCarousel extends React.Component {
 
   _handleNext = () => {
     const index = (this.state.index + 1) % this.state.slides.length;
-    this.setState({ index, loading: false });
+    this.setState({ index, loading: false, saving: false });
   };
 
   _handlePrevious = () => {
     const index = (this.state.index + this.state.slides.length - 1) % this.state.slides.length;
-    this.setState({ index, loading: false });
+    this.setState({ index, loading: false, saving: false });
   };
 
   render() {
@@ -182,27 +140,25 @@ export class GlobalCarousel extends React.Component {
     }
 
     return (
-      <div css={STYLES_BACKGROUND} style={this.props.style}>
-        {current.cid ? (
-          <a css={STYLES_LINK} href={`https://hub.textile.io/ipfs/${current.cid}`} target="_blank">
-            OPEN {current.cid}
-          </a>
-        ) : null}
-        {current.onDelete ? (
-          <span css={STYLES_BUTTON} onClick={() => current.onDelete(current.id)} style={{ top: 56, right: 16 }}>
-            {this.state.loading ? <LoaderSpinner style={{ height: 16, width: 16 }} /> : "Delete Object"}
+      <div css={STYLES_ROOT}>
+        <div css={STYLES_ROOT_CONTENT} style={this.props.style}>
+          <span css={STYLES_BOX} onClick={this._handleClose} style={{ top: 8, right: 16 }}>
+            <SVG.Dismiss height="20px" />
           </span>
-        ) : null}
-        <span css={STYLES_BOX} onClick={this._handleClose} style={{ top: 8, right: 16 }}>
-          <SVG.Dismiss height="20px" />
-        </span>
-        <span css={STYLES_BOX} onClick={this._handlePrevious} style={{ top: 0, left: 16, bottom: 0 }}>
-          <SVG.ChevronLeft height="20px" />
-        </span>
-        <span css={STYLES_BOX} onClick={this._handleNext} style={{ top: 0, right: 16, bottom: 0 }}>
-          <SVG.ChevronRight height="20px" />
-        </span>
-        {current.component}
+          <span css={STYLES_BOX} onClick={this._handlePrevious} style={{ top: 0, left: 16, bottom: 0 }}>
+            <SVG.ChevronLeft height="20px" />
+          </span>
+          <span css={STYLES_BOX} onClick={this._handleNext} style={{ top: 0, right: 16, bottom: 0 }}>
+            <SVG.ChevronRight height="20px" />
+          </span>
+          {current.component}
+        </div>
+        <SlateMediaObjectSidebar
+          key={current.id}
+          saving={this.state.saving}
+          loading={this.state.loading}
+          {...current}
+        />
       </div>
     );
   }

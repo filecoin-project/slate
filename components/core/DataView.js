@@ -74,9 +74,11 @@ export default class DataView extends React.Component {
       detail: {
         slides: this.props.items.map((each) => {
           const cid = each.ipfs.replace("/ipfs/", "");
+
           return {
             id: each.id,
             cid,
+            data: each,
             component: <SlateMediaObject key={each.id} data={each} />,
           };
         }),

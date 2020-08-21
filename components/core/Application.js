@@ -104,7 +104,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleUploadFile = async ({ file, slate }) => {
-    return await FileUtilities.upload({ file, slate, setState: this.setState });
+    return await FileUtilities.upload({ file, slate, context: this });
   };
 
   _handleRegisterFileLoading = ({ fileLoading }) => {
@@ -262,8 +262,7 @@ export default class ApplicationPage extends React.Component {
   _handleDeleteYourself = async () => {
     // TODO(jim):
     // Put this somewhere better for messages.
-    const message =
-      "Do you really want to delete your account? It will be permanently removed";
+    const message = "Do you really want to delete your account? It will be permanently removed";
     if (!window.confirm(message)) {
       return false;
     }
@@ -434,12 +433,8 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           title="Slate: sign in"
           description="Sign in to your Slate account to manage your assets."
-          url="https://slate.host/_"
-        >
-          <SceneSignIn
-            onAuthenticate={this._handleAuthenticate}
-            onNavigateTo={this._handleNavigateTo}
-          />
+          url="https://slate.host/_">
+          <SceneSignIn onAuthenticate={this._handleAuthenticate} onNavigateTo={this._handleNavigateTo} />
         </WebsitePrototypeWrapper>
       );
     }
@@ -512,17 +507,12 @@ export default class ApplicationPage extends React.Component {
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper
-          description={description}
-          title={title}
-          url={url}
-        >
+        <WebsitePrototypeWrapper description={description} title={title} url={url}>
           <ApplicationLayout
             header={headerElement}
             navigation={navigationElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}
-          >
+            onDismissSidebar={this._handleDismissSidebar}>
             {scene}
           </ApplicationLayout>
           <System.GlobalCarousel />

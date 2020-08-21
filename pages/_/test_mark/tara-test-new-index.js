@@ -259,26 +259,29 @@ const STYLES_SIMPLE_FLOW_CONTAINER = css `
   display: flex;
   flex-direction: row;
   width: 100vw;
-  justify-content: space-around;
+  justify-content: center;
   padding-top: 20vh;
   align-items: center;
 `;
 
+const STYLES_SIMPLE_ITEM = css `
+  text-align: center;
+  font-style: italic; 
+  
+`;
+
 const STYLES_ARROW_CONTAINER = css `
-  width: 200px;
+  width: 100px;
 `;
 
-const STYLES_SECTION_TEXT = css`
-  display: block;
-  max-width: 980px;
-`;
-
-const STYLES_SECTION_SVG_CONTAINER = css`
+const STYLES_OS_CONTAINER = css `
   display: flex;
-  justify-content: center;
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
+  flex-direction: row;
+`;
+
+const STYLES_SECTION_SVG_CONTAINER = css `
+  height: 350px;
+  width: auto;
 `;
 
 const STYLES_STROKE_KF = keyframes`
@@ -296,36 +299,36 @@ const STYLES_CONTR_CONTAINER = css `
 const STYLES_CONTR_LIST = css `
   display: flex;
   justify-content: space-around;
-  width: 100vw;
+  width: 100%;
   list-style: none;
+  li {
+    font-size: 1rem;
+    text-decoration: none;
+    color: ${Constants.system.black};
+    text-decoration: none;
+    padding: 1.5rem 0;
+  }
+  li:nth-child(n+5) {
+    display: none;
+  }
 `;
 
 const STYLES_CONTR_LI0 = css `
-  font-size: 1.953rem;
-  color: ${Constants.system.black};
-  text-decoration: none;
-  padding-bottom: 1.5rem;
+    order: 0;
 `;
 const STYLES_CONTR_LI1 = css `
-  font-size: 1.953rem;
-  color: ${Constants.system.black};
-  text-decoration: none;
+  order: 1;
   opacity: .76;
-  padding-bottom: 1.5rem;
+
 `;
 const STYLES_CONTR_LI2 = css `
-  font-size: 1.953rem;
-  color: ${Constants.system.black};
-  text-decoration: none;
+  order: 2;
   opacity: .56;
-  padding-bottom: 1.5rem;
+
 `;
 const STYLES_CONTR_LI3 = css `
-  font-size: 1.953rem;
-  color: ${Constants.system.black};
-  text-decoration: none;
+  order: 3;
   opacity: .26;
-  padding-bottom: 1.5rem;
 `;
 const STYLES_MEDIA_LEFT = css`
   position: absolute;
@@ -394,7 +397,7 @@ export default class IndexPage extends React.Component {
                       <div css={STYLES_SLATE_CARD_TITLE}>Green</div>
                       <div css={STYLES_SLATE_CARD_EXPLAINER}>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@internetjim</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-></div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
                     </div>
                   </div>
@@ -406,7 +409,7 @@ export default class IndexPage extends React.Component {
                       <div css={STYLES_SLATE_CARD_TITLE}>Green</div>
                       <div css={STYLES_SLATE_CARD_EXPLAINER}>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@internetjim</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-></div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
                     </div>
                   </div>
@@ -418,7 +421,7 @@ export default class IndexPage extends React.Component {
                       <div css={STYLES_SLATE_CARD_TITLE}>Green</div>
                       <div css={STYLES_SLATE_CARD_EXPLAINER}>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@internetjim</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-></div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
                     </div>
                   </div>
@@ -436,7 +439,10 @@ export default class IndexPage extends React.Component {
               <h1>Simple, intuitive</h1>
               <h2>Break away from abstract visualizations of your files.<br/>Securely organize your data in a relatable way</h2>
               <div css={STYLES_SIMPLE_FLOW_CONTAINER}>
-                <div>{/*<ButtonPrimary>Upload File</ButtonPrimary> Figure out hoiw to pull in correctly*/}<button>Upload File</button></div>
+                <div css={STYLES_SIMPLE_ITEM}>
+                <System.SVG.BandwidthUp height='88px' />
+                 <p>Upload Your File</p>
+                </div>
                 <div css={STYLES_ARROW_CONTAINER}>
                   <svg viewBox="0 0 350 100">
                     <defs>
@@ -449,7 +455,10 @@ export default class IndexPage extends React.Component {
                     stroke-width="8" marker-end="url(#arrowhead)" />
                   </svg>
                 </div>
-                <div><p>Slate securely stores your file</p></div>
+                <div css={STYLES_SIMPLE_ITEM}>
+                <System.OldSVG.Peers height='88px' />
+                  <p>Slate securely stores your file</p>
+                  </div>
                 <div css={STYLES_ARROW_CONTAINER}>
                   <svg viewBox="0 0 350 100">
                     <defs>
@@ -462,7 +471,10 @@ export default class IndexPage extends React.Component {
                     stroke-width="8" marker-end="url(#arrowhead)" />
                   </svg>
                 </div>
-                <div><p>Share!</p></div>
+                <div css={STYLES_SIMPLE_ITEM}>
+                <System.OldSVG.Deals height='88px' />
+                  <p>Share!</p>
+                  </div>
               </div>
             </section>
       
@@ -570,9 +582,9 @@ export default class IndexPage extends React.Component {
                 colors={['#0047FF', '#ff0000', '#28a745', '#FFC940']}
               /> */}
               <h1>Open Source</h1>
-              <h2 css={STYLES_SECTION_TEXT}>"Collaboration makes better software". <br/><br/>Pair that with Filecoin's transparent marketplace as Slates's foundation. And you got yourself real nice power couple right there.</h2>
-              <div css={STYLES_SECTION_SVG_CONTAINER}>
-                <svg viewBox="-15 125 750 750" width="800" height="800">
+              <div css={STYLES_OS_CONTAINER}>
+                <h2 css={{marginRight: "10%"}}>"Collaboration makes better software". <br/><br/>Pair that with Filecoin's transparent marketplace as Slates's foundation. And you got yourself real nice power couple right there.</h2>
+                <svg viewBox="-15 125 750 750" css={STYLES_SECTION_SVG_CONTAINER}>
                   <path css={STYLES_SVG_AN} stroke="#b2b2b2" fill="none" strokeWidth="3" strokeDasharray="1 1" pathLength="1"
                     d="m 398.40437,595.27818 c 40.32082,-14.97419 61.36968,-43.81349 61.36968,-93.44762 0,-49.63413 -41.82527,-93.37059 -94.0866,-93.45552 -55.14896,-0.0896 -96.75182,43.64 -96.0866,93.45552 0.66523,49.81551 24.42164,82.95509 62.44642,94.93898 L 264.68924,762.47972 C 174.536,739.14196 82.84508,632.78774 82.84508,501.83056 c 0,-155.10914 124.63284,-280.84993 280.84238,-280.84993 156.20954,0 282.84239,125.74079 282.84239,280.84993 0,132.99462 -90.82075,237.8649 -182.89748,261.11527 z"
                   />
@@ -584,8 +596,18 @@ export default class IndexPage extends React.Component {
                   <li css={STYLES_CONTR_LI1}>Martinalong<br/>github.com/martinalong</li>
                   <li css={STYLES_CONTR_LI2}>William Felker<br/>github.com/gndclouds</li>
                   <li css={STYLES_CONTR_LI3}>Uonai<br/>github.com/uonai</li>
+                  <li>Tara Lin<br/>github.com/tarafanlin</li>
+                  <li>JasonLeyser<br/>github.com/jasonleyser</li>
+                  <li>Akuoko Daniel Jnr<br/>github.com/akuokojnr</li>
+                  <li>Tommy Tran<br/>github.com/tmytrn</li>
+                  <li>Oluwaseun Oyebade<br/>github.com/motdde</li>
+                  <li>Harisbutt<br/>github.com/harisbutt</li>
+                  <li>Jordan Booker<br/>github.com/jordattebayo</li>
+                  <li>Jhannes-jp<br/>github.com/johannes-jp</li>
+                  <li>Anish Agnihotri<br/>github.com/Anish-Agnihotri</li>
+                  <li>Aminejvm<br/>github.com/Aminejvm</li>
                 </ul>
-              </div>
+              </div> 
             </section>
           <WebsitePrototypeFooter /> 
         </div>

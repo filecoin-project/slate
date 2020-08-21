@@ -85,6 +85,7 @@ const STYLES_BUTTON = css`
   color: ${Constants.system.white};
   width: 100%;
   padding: 16px 24px 16px 24px;
+  min-height: 56px;
   font-size: 14px;
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
@@ -115,14 +116,12 @@ const STYLES_SIDEBAR_CONTENT = css`
 `;
 
 export default class SlateMediaObjectSidebar extends React.Component {
-  state = this.props.data
-    ? {
-        title: this.props.data.title ? this.props.data.title : "",
-        body: this.props.data.body ? this.props.data.body : "",
-        source: this.props.data.source ? this.props.data.source : "",
-        author: this.props.data.author ? this.props.data.author : "",
-      }
-    : { title: "", body: "", source: "", author: "" };
+  state = {
+    title: this.props.data.title ? this.props.data.title : "",
+    body: this.props.data.body ? this.props.data.body : "",
+    source: this.props.data.source ? this.props.data.source : "",
+    author: this.props.data.author ? this.props.data.author : "",
+  };
 
   _handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -192,13 +191,15 @@ export default class SlateMediaObjectSidebar extends React.Component {
     }
 
     if (this.props.onDelete) {
-      <span key="sidebar-media-object-delete" css={STYLES_BUTTON} onClick={() => this.props.onDelete(this.props.id)}>
-        {this.props.loading ? (
-          <LoaderSpinner style={{ height: 16, width: 16 }} />
-        ) : (
-          <span>Delete Slate object&nbsp;&nbsp;&nbsp;⭢</span>
-        )}
-      </span>;
+      elements.push(
+        <span key="sidebar-media-object-delete" css={STYLES_BUTTON} onClick={() => this.props.onDelete(this.props.id)}>
+          {this.props.loading ? (
+            <LoaderSpinner style={{ height: 16, width: 16 }} />
+          ) : (
+            <span>Delete Slate object&nbsp;&nbsp;&nbsp;⭢</span>
+          )}
+        </span>
+      );
     }
 
     if (!elements.length) {

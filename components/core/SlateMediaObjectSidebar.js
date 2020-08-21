@@ -214,6 +214,10 @@ export default class SlateMediaObjectSidebar extends React.Component {
         );
       } else {
         const hasTitle = !Strings.isEmpty(this.props.data.title);
+        const hasBody = !Strings.isEmpty(this.props.data.body);
+        const hasSource = !Strings.isEmpty(this.props.data.source);
+        const hasAuthor = !Strings.isEmpty(this.props.data.author);
+
         if (hasTitle) {
           elements.push(
             <div key="sidebar-media-info-title" css={STYLES_SIDEBAR_SECTION}>
@@ -222,8 +226,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
           );
         }
 
-        const hasBody = !Strings.isEmpty(this.props.data.body);
-        if (hasBody) {
+        if (hasBody || hasTitle || hasSource || hasAuthor) {
           elements.push(
             <div key="sidebar-media-info-body" css={STYLES_SIDEBAR_CONTENT}>
               <p css={STYLES_BODY}>{this.props.data.body}</p>
@@ -231,7 +234,6 @@ export default class SlateMediaObjectSidebar extends React.Component {
           );
         }
 
-        const hasSource = !Strings.isEmpty(this.props.data.source);
         if (hasSource) {
           elements.push(
             <div key="sidebar-media-info-source" css={STYLES_SIDEBAR_SECTION}>
@@ -246,7 +248,6 @@ export default class SlateMediaObjectSidebar extends React.Component {
           );
         }
 
-        const hasAuthor = !Strings.isEmpty(this.props.data.author);
         if (hasAuthor) {
           elements.push(
             <div key="sidebar-media-info-author" css={STYLES_SIDEBAR_SECTION}>

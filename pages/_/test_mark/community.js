@@ -1,4 +1,4 @@
-import * as React from "react";
+ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
@@ -11,30 +11,30 @@ import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 
 const STYLES_ROOT = css`
-display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  h1{
+  h1 {
     font-size: 4.768rem;
     padding: 0px 0px 32px 0px;
     width: 100%;
   }
-  h2{
+  h2 {
     font-size: 1.953rem;
     width: 48%;
   }
-  p{
+  p {
     font-size: 1rem;
     color: ${Constants.system.black};
   }
   @media (max-width: ${Constants.sizes.mobile}px) {
-    h1{
+    h1 {
       font-size: 2.441rem;
     }
-    h2{
+    h2 {
       font-size: 1.25rem;
     }
-    p{
+    p {
       font-size: 0.78rem;
     }
   }
@@ -51,7 +51,6 @@ const STYLES_MIDDLE = css`
   padding: 24px;
 `;
 
-
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
@@ -66,63 +65,77 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description = "The place for all of your assets. Powered by Textile and Filecoin.";
+    const description =
+      "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host/community";
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+      >
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
-        
-        <section>
+
+          <section>
             <System.H1>Open source</System.H1>
-            <System.P>Slate is designed and built by a growing community of hackers, artists, and creatives on the web. </System.P>
-            
+            <System.P>
+              Slate is designed and built by a growing community of hackers,
+              artists, and creatives on the web.{" "}
+            </System.P>
           </section>
 
           <section>
-          <System.H1>Contribute</System.H1>
+            <System.H1>Contribute</System.H1>
             <System.P>Get involved with the project and contribute.</System.P>
-            <a> 
+            <a>
               <button>Contribute on Github</button>
-              </a>
-            
+            </a>
             <img src="" alt="" />
-            <div></div>
-            <System.P>“Maybe put here an interesting quote about collaboration?”
-<span>–Albert Einstein</span></System.P>
+            <System.P>
+              “Maybe put here an interesting quote about collaboration?
+              <span>–Albert Einstein</span>
+            </System.P>
           </section>
 
           <section>
-          <System.H1>Contact</System.H1>
-            <System.P>Reach out to any of the core contributors, reach us on Twitter, or join our Slack.</System.P>
-            <a> 
+            <System.H1>Contact</System.H1>
+            <System.P>
+              Reach out to any of the core contributors, reach us on Twitter, or
+              join our Slack.
+            </System.P>
+            <a>
               <button>Join Slack Discussions</button>
             </a>
-            <a> 
+            <a>
               <button>Twitter @_slate</button>
             </a>
           </section>
 
           <section>
-          <System.H1>Integrate</System.H1>
-            <System.P>Explore our API and SDK and build on top of Slate</System.P>
+            <System.H1>Integrate</System.H1>
+            <System.P>
+              Explore our API and SDK and build on top of Slate
+            </System.P>
             <CodeBlock>npm install --save slate-react-system</CodeBlock>
-            
             <img src="" alt="" />
           </section>
 
           <section>
-          <System.H1>Design System</System.H1>
-            <System.P>Check out our open source design system. You can use these components, experiences, and constants in your own React projects. First, install the npm module: </System.P>
+            <System.H1>Design System</System.H1>
+            <System.P>
+              Check out our open source design system. You can use these
+              components, experiences, and constants in your own React projects.
+              First, install the npm module:{" "}
+            </System.P>
             <CodeBlock>npm install --save slate-react-system</CodeBlock>
             <img src="" alt="" />
           </section>
 
-          
           <WebsitePrototypeFooter />
-          </div>
-        </WebsitePrototypeWrapper>
+        </div>
+      </WebsitePrototypeWrapper>
     );
   }
 }

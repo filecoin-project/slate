@@ -52,6 +52,7 @@ export default class SlatePage extends React.Component {
         slides: this.props.slate.data.objects.map((each) => {
           return {
             id: each.id,
+            data: each,
             component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
           };
         }),

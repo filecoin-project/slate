@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -46,7 +47,7 @@ class SidebarInput extends React.Component {
   render() {
     return (
       <div css={STYLES_SIDEBAR_INPUT}>
-        <label for={`sidebar-label-${this.props.name}`} css={STYLES_SIDEAR_INPUT_LABEL}>
+        <label htmlFor={`sidebar-label-${this.props.name}`} css={STYLES_SIDEAR_INPUT_LABEL}>
           {this.props.name}
         </label>
         <TextareaAutoSize
@@ -64,7 +65,7 @@ class SidebarInput extends React.Component {
 }
 
 const STYLES_SIDEBAR = css`
-  width: 320px;
+  width: 420px;
   flex-shrink: 0;
   height: 100%;
   background-color: ${Constants.system.pitchBlack};
@@ -115,6 +116,20 @@ const STYLES_SIDEBAR_CONTENT = css`
   }
 `;
 
+const STYLES_HEADING = css`
+  font-family: ${Constants.font.medium};
+  font-size: 16px;
+  line-height: 1.225;
+  font-weight: 400;
+  padding: 16px 24px 24px 24px;
+`;
+
+const STYLES_BODY = css`
+  font-size: 16px;
+  line-height: 1.225;
+  padding: 24px;
+`;
+
 export default class SlateMediaObjectSidebar extends React.Component {
   state = {
     title: this.props.data.title ? this.props.data.title : "",
@@ -130,41 +145,89 @@ export default class SlateMediaObjectSidebar extends React.Component {
   render() {
     const elements = [];
 
-    if (this.props.onObjectSave) {
-      elements.push(
-        <React.Fragment key="sidebar-media-object-info">
-          <div css={STYLES_SIDEBAR_SECTION}>
-            <SidebarInput
-              name="title"
-              value={this.state.title}
-              onChange={this._handleChange}
-              style={{ fontFamily: Constants.font.medium, fontSize: 20 }}
-            />
-          </div>
-          <div css={STYLES_SIDEBAR_CONTENT} style={{ borderTop: `1px solid #222222` }}>
-            <SidebarInput name="body" value={this.state.body} onChange={this._handleChange} />
-          </div>
-          <div css={STYLES_SIDEBAR_SECTION} style={{ borderTop: `1px solid #222222` }}>
-            <SidebarInput name="source" value={this.state.source} onChange={this._handleChange} />
-          </div>
-          <div css={STYLES_SIDEBAR_SECTION} style={{ borderTop: `1px solid #222222` }}>
-            <SidebarInput name="author" value={this.state.author} onChange={this._handleChange} />
-          </div>{" "}
-        </React.Fragment>
-      );
+    if (this.props.data) {
+      if (this.props.onObjectSave) {
+        elements.push(
+          <React.Fragment key="sidebar-media-object-info">
+            <div css={STYLES_SIDEBAR_SECTION}>
+              <SidebarInput
+                name="title"
+                value={this.state.title}
+                onChange={this._handleChange}
+                style={{ fontFamily: Constants.font.medium, fontSize: 16 }}
+              />
+            </div>
+            <div css={STYLES_SIDEBAR_CONTENT} style={{ borderTop: `1px solid #222222` }}>
+              <SidebarInput name="body" value={this.state.body} onChange={this._handleChange} />
+            </div>
+            <div css={STYLES_SIDEBAR_SECTION} style={{ borderTop: `1px solid #222222` }}>
+              <SidebarInput name="source" value={this.state.source} onChange={this._handleChange} />
+            </div>
+            <div css={STYLES_SIDEBAR_SECTION} style={{ borderTop: `1px solid #222222` }}>
+              <SidebarInput name="author" value={this.state.author} onChange={this._handleChange} />
+            </div>{" "}
+          </React.Fragment>
+        );
 
-      elements.push(
-        <span
-          key="sidebar-media-save-button"
-          css={STYLES_BUTTON}
-          onClick={() => this.props.onObjectSave({ ...this.props.data, ...this.state })}>
-          {this.props.saving ? (
-            <LoaderSpinner style={{ height: 16, width: 16 }} />
-          ) : (
-            <span>Save&nbsp;&nbsp;&nbsp;⭢</span>
-          )}
-        </span>
-      );
+        elements.push(
+          <span
+            key="sidebar-media-save-button"
+            css={STYLES_BUTTON}
+            onClick={() => this.props.onObjectSave({ ...this.props.data, ...this.state })}>
+            {this.props.saving ? (
+              <LoaderSpinner style={{ height: 16, width: 16 }} />
+            ) : (
+              <span>Save&nbsp;&nbsp;&nbsp;⭢</span>
+            )}
+          </span>
+        );
+      } else {
+        const hasTitle = !Strings.isEmpty(this.props.data.title);
+        if (hasTitle) {
+          elements.push(
+            <div key="sidebar-media-info-title" css={STYLES_SIDEBAR_SECTION}>
+              <h1 css={STYLES_HEADING}>{this.props.data.title}</h1>
+            </div>
+          );
+        }
+
+        const hasBody = !Strings.isEmpty(this.props.data.body);
+        if (hasBody) {
+          elements.push(
+            <div key="sidebar-media-info-body" css={STYLES_SIDEBAR_CONTENT}>
+              <p css={STYLES_BODY}>{this.props.data.body}</p>
+            </div>
+          );
+        }
+
+        const hasSource = !Strings.isEmpty(this.props.data.source);
+        if (hasSource) {
+          elements.push(
+            <div key="sidebar-media-info-source" css={STYLES_SIDEBAR_SECTION}>
+              <div css={STYLES_SIDEAR_INPUT_LABEL} style={{ position: "relative" }}>
+                Source
+              </div>
+              <p css={STYLES_BODY}>{this.props.data.source}</p>
+            </div>
+          );
+        }
+
+        const hasAuthor = !Strings.isEmpty(this.props.data.author);
+        if (hasAuthor) {
+          elements.push(
+            <div key="sidebar-media-info-author" css={STYLES_SIDEBAR_SECTION}>
+              <div css={STYLES_SIDEAR_INPUT_LABEL} style={{ position: "relative" }}>
+                Author
+              </div>
+              <p css={STYLES_BODY}>{this.props.data.source}</p>
+            </div>
+          );
+        }
+
+        if (this.props.renderPlaceholder) {
+          elements.push(<div key="sidebar-media-info-placeholder" css={STYLES_SIDEBAR_CONTENT}></div>);
+        }
+      }
     }
 
     if (this.props.cid) {

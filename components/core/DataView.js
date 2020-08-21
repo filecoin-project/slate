@@ -79,6 +79,7 @@ export default class DataView extends React.Component {
             id: each.id,
             cid,
             data: each,
+            renderPlaceholder: true,
             component: <SlateMediaObject key={each.id} data={each} />,
           };
         }),

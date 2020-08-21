@@ -47,7 +47,10 @@ class SidebarInput extends React.Component {
   render() {
     return (
       <div css={STYLES_SIDEBAR_INPUT}>
-        <label htmlFor={`sidebar-label-${this.props.name}`} css={STYLES_SIDEAR_INPUT_LABEL}>
+        <label
+          htmlFor={`sidebar-label-${this.props.name}`}
+          css={STYLES_SIDEAR_INPUT_LABEL}
+        >
           {this.props.name}
         </label>
         <TextareaAutoSize
@@ -122,12 +125,16 @@ const STYLES_HEADING = css`
   line-height: 1.225;
   font-weight: 400;
   padding: 16px 24px 24px 24px;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `;
 
 const STYLES_BODY = css`
   font-size: 16px;
   line-height: 1.225;
   padding: 24px;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `;
 
 export default class SlateMediaObjectSidebar extends React.Component {
@@ -157,14 +164,35 @@ export default class SlateMediaObjectSidebar extends React.Component {
                 style={{ fontFamily: Constants.font.medium, fontSize: 16 }}
               />
             </div>
-            <div css={STYLES_SIDEBAR_CONTENT} style={{ borderTop: `1px solid #222222` }}>
-              <SidebarInput name="body" value={this.state.body} onChange={this._handleChange} />
+            <div
+              css={STYLES_SIDEBAR_CONTENT}
+              style={{ borderTop: `1px solid #222222` }}
+            >
+              <SidebarInput
+                name="body"
+                value={this.state.body}
+                onChange={this._handleChange}
+              />
             </div>
-            <div css={STYLES_SIDEBAR_SECTION} style={{ borderTop: `1px solid #222222` }}>
-              <SidebarInput name="source" value={this.state.source} onChange={this._handleChange} />
+            <div
+              css={STYLES_SIDEBAR_SECTION}
+              style={{ borderTop: `1px solid #222222` }}
+            >
+              <SidebarInput
+                name="source"
+                value={this.state.source}
+                onChange={this._handleChange}
+              />
             </div>
-            <div css={STYLES_SIDEBAR_SECTION} style={{ borderTop: `1px solid #222222` }}>
-              <SidebarInput name="author" value={this.state.author} onChange={this._handleChange} />
+            <div
+              css={STYLES_SIDEBAR_SECTION}
+              style={{ borderTop: `1px solid #222222` }}
+            >
+              <SidebarInput
+                name="author"
+                value={this.state.author}
+                onChange={this._handleChange}
+              />
             </div>{" "}
           </React.Fragment>
         );
@@ -173,7 +201,10 @@ export default class SlateMediaObjectSidebar extends React.Component {
           <span
             key="sidebar-media-save-button"
             css={STYLES_BUTTON}
-            onClick={() => this.props.onObjectSave({ ...this.props.data, ...this.state })}>
+            onClick={() =>
+              this.props.onObjectSave({ ...this.props.data, ...this.state })
+            }
+          >
             {this.props.saving ? (
               <LoaderSpinner style={{ height: 16, width: 16 }} />
             ) : (
@@ -204,7 +235,10 @@ export default class SlateMediaObjectSidebar extends React.Component {
         if (hasSource) {
           elements.push(
             <div key="sidebar-media-info-source" css={STYLES_SIDEBAR_SECTION}>
-              <div css={STYLES_SIDEAR_INPUT_LABEL} style={{ position: "relative" }}>
+              <div
+                css={STYLES_SIDEAR_INPUT_LABEL}
+                style={{ position: "relative" }}
+              >
                 Source
               </div>
               <p css={STYLES_BODY}>{this.props.data.source}</p>
@@ -216,7 +250,10 @@ export default class SlateMediaObjectSidebar extends React.Component {
         if (hasAuthor) {
           elements.push(
             <div key="sidebar-media-info-author" css={STYLES_SIDEBAR_SECTION}>
-              <div css={STYLES_SIDEAR_INPUT_LABEL} style={{ position: "relative" }}>
+              <div
+                css={STYLES_SIDEAR_INPUT_LABEL}
+                style={{ position: "relative" }}
+              >
                 Author
               </div>
               <p css={STYLES_BODY}>{this.props.data.source}</p>
@@ -225,7 +262,12 @@ export default class SlateMediaObjectSidebar extends React.Component {
         }
 
         if (this.props.renderPlaceholder) {
-          elements.push(<div key="sidebar-media-info-placeholder" css={STYLES_SIDEBAR_CONTENT}></div>);
+          elements.push(
+            <div
+              key="sidebar-media-info-placeholder"
+              css={STYLES_SIDEBAR_CONTENT}
+            />
+          );
         }
       }
     }
@@ -236,7 +278,8 @@ export default class SlateMediaObjectSidebar extends React.Component {
           key="sidebar-media-open-file"
           css={STYLES_BUTTON}
           href={`https://hub.textile.io/ipfs/${this.props.cid}`}
-          target="_blank">
+          target="_blank"
+        >
           Open file in a new browser tab &nbsp;&nbsp;⭢
         </a>
       );
@@ -247,7 +290,8 @@ export default class SlateMediaObjectSidebar extends React.Component {
           css={STYLES_BUTTON}
           href={`https://hub.textile.io/ipfs/${this.props.cid}`}
           target="_blank"
-          download={this.props.cid}>
+          download={this.props.cid}
+        >
           Download file &nbsp;&nbsp;⭢
         </a>
       );
@@ -255,7 +299,11 @@ export default class SlateMediaObjectSidebar extends React.Component {
 
     if (this.props.onDelete) {
       elements.push(
-        <span key="sidebar-media-object-delete" css={STYLES_BUTTON} onClick={() => this.props.onDelete(this.props.id)}>
+        <span
+          key="sidebar-media-object-delete"
+          css={STYLES_BUTTON}
+          onClick={() => this.props.onDelete(this.props.id)}
+        >
           {this.props.loading ? (
             <LoaderSpinner style={{ height: 16, width: 16 }} />
           ) : (

@@ -90,19 +90,19 @@ export default class IndexPage extends React.Component {
               harassment. Towards this end, certain behaviors and practices will
               not be tolerated.
             </System.P>
-            <System.Ul>
-              <System.Li>Be respectful.</System.Li>
-              <System.Li>We're here to help: abuse@filecoin.io</System.Li>
-              <System.Li>Abusive behavior is never tolerated.</System.Li>
-              <System.Li>
+            <System.UL>
+              <System.LI>Be respectful.</System.LI>
+              <System.LI>We're here to help: abuse@filecoin.io</System.LI>
+              <System.LI>Abusive behavior is never tolerated.</System.LI>
+              <System.LI>
                 Violations of this code may result in swift and permanent
                 expulsion from the Slate community.
-              </System.Li>
-              <System.Li>
+              </System.LI>
+              <System.LI>
                 "Too long, didn't read" is not a valid excuse for not knowing
                 what is in this document.
-              </System.Li>
-            </System.Ul>
+              </System.LI>
+            </System.UL>
             <System.P>
               We expect all members of the Slate community to abide by this Code
               of Conduct at all times in all Slate community venues, online and

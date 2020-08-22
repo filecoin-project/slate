@@ -3,9 +3,6 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 import * as Strings from "~/common/strings";
 
-// TODO(jim): Doesn't work with rollup.
-// import FocusLock from "react-focus-lock";
-
 import { css } from "@emotion/react";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 

@@ -114,11 +114,19 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDragEnter = (e) => {
+    e.preventDefault();
     if (this.state.sidebar) {
       return;
     }
 
-    e.preventDefault();
+    // NOTE(jim): Only allow the sidebar to show with file drag and drop.
+    if (
+      e.dataTransfer.items &&
+      e.dataTransfer.items.length &&
+      e.dataTransfer.items[0].kind !== "file"
+    ) {
+      return;
+    }
 
     this._handleAction({
       type: "SIDEBAR",
@@ -137,6 +145,12 @@ export default class ApplicationPage extends React.Component {
   _handleSidebarLoading = (sidebarLoading) => this.setState({ sidebarLoading });
 
   _handleDrop = async (e) => {
+    // NOTE(jim): If this is true, then drag and drop came from a slate object.
+    const data = e.dataTransfer.getData("slate-object-drag-data");
+    if (data) {
+      return;
+    }
+
     e.preventDefault();
 
     this.setState({ fileLoading: true });
@@ -154,7 +168,7 @@ export default class ApplicationPage extends React.Component {
 
     const files = [];
     let fileLoading = {};
-    if (e.dataTransfer.items) {
+    if (e.dataTransfer.items && e.dataTransfer.items.length) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
@@ -444,8 +458,6 @@ export default class ApplicationPage extends React.Component {
         </WebsitePrototypeWrapper>
       );
     }
-
-    console.log(this.state.viewer);
 
     // NOTE(jim): Authenticated.
     const navigation = NavigationData.generate(this.state.viewer);

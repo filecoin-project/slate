@@ -12,6 +12,14 @@ import Slate from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonLight from "~/components/core/CircleButtonLight";
 
+const moveIndex = (set, fromIndex, toIndex) => {
+  const element = set[fromIndex];
+  set.splice(fromIndex, 1);
+  set.splice(toIndex, 0, element);
+
+  return set;
+};
+
 export default class SceneSlate extends React.Component {
   state = {
     slatename: this.props.current.slatename,
@@ -55,6 +63,12 @@ export default class SceneSlate extends React.Component {
       });
     }
   }
+
+  _handleMoveIndex = async (from, to) => {
+    const objects = moveIndex(this.state.objects, from.index, to.index);
+    this.setState({ objects });
+    await this._handleSave(null, objects);
+  };
 
   _handleSave = async (e, objects) => {
     this.setState({ loading: true });
@@ -217,7 +231,12 @@ export default class SceneSlate extends React.Component {
         >
           {body}
         </ScenePageHeader>
-        <Slate editing items={objects} onSelect={this._handleSelect} />
+        <Slate
+          editing
+          items={objects}
+          onMoveIndex={this._handleMoveIndex}
+          onSelect={this._handleSelect}
+        />
       </ScenePage>
     );
   }

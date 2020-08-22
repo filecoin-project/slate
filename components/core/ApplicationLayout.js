@@ -83,7 +83,7 @@ const STYLES_BODY_MOBILE = css`
   height: 100%;
   min-height: 10%;
   width: 100%;
-  padding: 80px 0px 88px 0px;
+  padding: 0px 0px 88px 0px;
   ${STYLES_SCROLL}
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
@@ -118,7 +118,7 @@ const STYLES_SIDEBAR_WEB = css`
 const STYLES_SIDEBAR_HEADER = css`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 `;
 
 const STYLES_SIDEBAR_CONTENT = css`

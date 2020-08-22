@@ -8,7 +8,7 @@ import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import Slate from "~/components/core/Slate";
+import Slate, { generateLayout } from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonLight from "~/components/core/CircleButtonLight";
 
@@ -26,6 +26,9 @@ export default class SceneSlate extends React.Component {
     public: this.props.current.data.public,
     objects: this.props.current.data.objects,
     body: this.props.current.data.body,
+    layouts: this.props.current.data.layouts
+      ? this.props.current.data.layouts
+      : generateLayout(this.props.current.data.objects),
     loading: false,
   };
 
@@ -34,14 +37,10 @@ export default class SceneSlate extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const isNewSlateScene =
-      prevProps.current.slatename !== this.props.current.slatename;
+    const isNewSlateScene = prevProps.current.slatename !== this.props.current.slatename;
 
     let isUpdated = false;
-    if (
-      this.props.current.data.objects.length !==
-      prevProps.current.data.objects.length
-    ) {
+    if (this.props.current.data.objects.length !== prevProps.current.data.objects.length) {
       isUpdated = true;
     }
 
@@ -55,6 +54,7 @@ export default class SceneSlate extends React.Component {
         public: this.props.current.data.public,
         objects: this.props.current.data.objects,
         body: this.props.current.data.body,
+        layouts: this.props.current.data.layouts,
         loading: false,
       });
 
@@ -64,13 +64,21 @@ export default class SceneSlate extends React.Component {
     }
   }
 
+  _handleChangeLayout = async (layout, layouts) => {
+    this.setState({ layouts });
+  };
+
+  _handleSaveLayout = async () => {
+    await this._handleSave(null, null, this.state.layouts);
+  };
+
   _handleMoveIndex = async (from, to) => {
     const objects = moveIndex(this.state.objects, from.index, to.index);
     this.setState({ objects });
     await this._handleSave(null, objects);
   };
 
-  _handleSave = async (e, objects) => {
+  _handleSave = async (e, objects, layouts) => {
     this.setState({ loading: true });
 
     const response = await Actions.updateSlate({
@@ -78,6 +86,7 @@ export default class SceneSlate extends React.Component {
       slatename: this.state.slatename,
       data: {
         objects: objects ? objects : this.state.objects,
+        layouts: layouts ? layouts : this.state.layouts,
         public: this.state.public,
         body: this.state.body,
       },
@@ -135,9 +144,7 @@ export default class SceneSlate extends React.Component {
             id: each.id,
             cid,
             data: each,
-            component: (
-              <SlateMediaObject key={each.id} useImageFallback data={each} />
-            ),
+            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
           };
         }),
       },
@@ -155,7 +162,9 @@ export default class SceneSlate extends React.Component {
       slatename: this.state.slatename,
       data: {
         objects: this.state.objects.filter((o) => o.id !== id),
+        layouts: this.state.layouts,
         public: this.state.public,
+        body: this.state.body,
       },
     });
 
@@ -217,23 +226,23 @@ export default class SceneSlate extends React.Component {
           title={slatename}
           actions={
             <React.Fragment>
-              <CircleButtonLight
-                onClick={this._handleAdd}
-                style={{ marginLeft: 12, marginRight: 12 }}
-              >
+              <CircleButtonLight onClick={this._handleAdd} style={{ marginLeft: 12, marginRight: 12 }}>
                 <SVG.Plus height="16px" />
               </CircleButtonLight>
               <CircleButtonLight onClick={this._handleShowSettings}>
                 <SVG.Settings height="16px" />
               </CircleButtonLight>
             </React.Fragment>
-          }
-        >
+          }>
           {body}
         </ScenePageHeader>
         <Slate
+          key={slatename}
           editing
           items={objects}
+          layouts={this.state.layouts}
+          onLayoutChange={this._handleChangeLayout}
+          onLayoutSave={this._handleSaveLayout}
           onMoveIndex={this._handleMoveIndex}
           onSelect={this._handleSelect}
         />

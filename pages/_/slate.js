@@ -22,7 +22,7 @@ const STYLES_ROOT = css`
 
 const STYLES_SLATE = css`
   padding: 0 88px 0 88px;
-  max-width: 1328px;
+  max-width: 1660px;
   display: block;
   width: 100%;
   margin: 0 auto 0 auto;
@@ -53,9 +53,7 @@ export default class SlatePage extends React.Component {
           return {
             id: each.id,
             data: each,
-            component: (
-              <SlateMediaObject key={each.id} useImageFallback data={each} />
-            ),
+            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
           };
         }),
       },
@@ -81,18 +79,13 @@ export default class SlatePage extends React.Component {
     });
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-        image={image}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric>
-            {this.props.slate.ownername}
-          </WebsitePrototypeHeaderGeneric>
+          <WebsitePrototypeHeaderGeneric>{this.props.slate.ownername}</WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
             <Slate
+              editable={false}
+              layouts={this.props.slate.data.layouts}
               items={this.props.slate.data.objects}
               onSelect={this._handleSelect}
             />

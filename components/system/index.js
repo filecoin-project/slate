@@ -37,6 +37,7 @@ import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 import { DatePicker } from "~/components/system/components/DatePicker";
 import { Input } from "~/components/system/components/Input";
 import { ListEditor } from "~/components/system/components/ListEditor";
+import { HoverTile } from "~/components/system/components/HoverTile";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { RadioGroup } from "~/components/system/components/RadioGroup";
 import {
@@ -71,7 +72,11 @@ import {
 // NOTE(jim): Fragments
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { CodeText } from "~/components/system/components/fragments/CodeText";
-import { TooltipAnchor } from "~/components/system/components/fragments/TooltipAnchor";
+import {
+  GlobalTooltip,
+  TooltipAnchor,
+  TooltipWrapper,
+} from "~/components/system/components/fragments/GlobalTooltip";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import {
   TableContent,
@@ -114,6 +119,7 @@ export {
   GlobalCarousel,
   GlobalNotification,
   Input,
+  HoverTile,
   ListEditor,
   PopoverNavigation,
   RadioGroup,
@@ -136,10 +142,12 @@ export {
   LI,
   // NOTE(jim): Fragments, not meant to be used.
   Boundary,
-  TooltipAnchor,
   DescriptionGroup,
+  GlobalTooltip,
   TableContent,
   TableColumn,
+  TooltipAnchor,
+  TooltipWrapper,
   // NOTE(jim): System values
   Constants,
   SVG,

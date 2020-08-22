@@ -2,7 +2,8 @@
   "name": "slate",
   "description": "",
   "author": "slate",
-  "version": "0.0.7",
+  "version": "0.1.0",
+  "license": "MIT",
   "engines": {
     "node": "14.7.0"
   },
@@ -30,6 +31,7 @@
       "main": "./electron/main.js"
     }
   },
+  "repository": "filecoin-project/slate",
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
@@ -42,21 +44,22 @@
     "@emotion/react": "11.0.0-next.12",
     "@emotion/server": "11.0.0-next.12",
     "@react-hook/window-size": "^3.0.7",
-    "@textile/hub": "^0.4.1",
+    "@textile/hub": "^0.5.3",
     "@textile/powergate-client": "0.2.0",
-    "@textile/threads-core": "^0.1.33",
     "babel-plugin-module-resolver": "^4.0.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "busboy": "^0.3.1",
     "chart.js": "^2.9.3",
     "chartkick": "^3.2.0",
     "compression": "^1.7.4",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "formidable": "^1.2.2",
     "framer": "^1.2.5",
     "framer-motion": "^2.4.2",
     "fs-extra": "^9.0.1",
+    "heic2any": "0.0.3",
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.20.10",
@@ -80,8 +83,6 @@
     "uuid": "^8.0.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
     "electron": "^9.0.5",

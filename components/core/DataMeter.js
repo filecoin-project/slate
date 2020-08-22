@@ -29,11 +29,14 @@ const STYLES_DATA = css`
 const STYLES_DATA_METER = css`
   flex-shrink: 0;
   height: 100%;
-  background-color: ${Constants.system.brand};
+  background-color: #2935ff;
   background-image: linear-gradient(
-    315deg,
-    ${Constants.system.brand} 0%,
-    #009ffd 74%
+    to left,
+    #2935ff,
+    #342fc4,
+    #33288b,
+    #2b2157,
+    #1d1927
   );
 `;
 
@@ -73,22 +76,46 @@ const STYLES_TITLE = css`
   font-size: 14px;
   display: block;
   margin-bottom: 4px;
+  overflow-wrap: break-word;
 `;
 
-const STYLES_HREF = css`
-  font-family: ${Constants.font.semiBold};
-  font-weight: 400;
-  cursor: pointer;
-  transition: 200ms ease color;
+export const DataMeterBar = (props) => {
+  const percentage = props.bytes / props.maximumBytes;
 
-  :hover {
-    color: ${Constants.system.brand};
-  }
-`;
+  return (
+    <React.Fragment>
+      <div css={STYLES_STATS_ROW}>
+        <div css={STYLES_LEFT}>{Strings.bytesToSize(props.bytes)}</div>
+        <div css={STYLES_RIGHT}>{Strings.bytesToSize(props.maximumBytes)}</div>
+      </div>
+
+      <div css={STYLES_ROW}>
+        <div
+          css={STYLES_LEFT}
+          style={{ color: props.failed ? Constants.system.red : null }}
+        >
+          {props.leftLabel}
+        </div>
+        <div css={STYLES_RIGHT}>{props.rightLabel}</div>
+      </div>
+
+      <div
+        css={STYLES_DATA}
+        style={{
+          marginTop: 4,
+          backgroundColor: props.failed ? Constants.system.red : null,
+        }}
+      >
+        <div
+          css={STYLES_DATA_METER}
+          style={{ width: `${percentage * 100}%` }}
+        />
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default (props) => {
-  const percentage = props.stats.bytes / props.stats.maximumBytes;
-
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <System.P style={{ fontSize: 12 }}>
@@ -99,24 +126,12 @@ export default (props) => {
         <br />
       </System.P>
 
-      <div css={STYLES_STATS_ROW}>
-        <div css={STYLES_LEFT}>{Strings.bytesToSize(props.stats.bytes)}</div>
-        <div css={STYLES_RIGHT}>
-          {Strings.bytesToSize(props.stats.maximumBytes)}
-        </div>
-      </div>
-
-      <div css={STYLES_ROW}>
-        <div css={STYLES_LEFT}>Used</div>
-        <div css={STYLES_RIGHT}>Total</div>
-      </div>
-
-      <div css={STYLES_DATA} style={{ marginTop: 4 }}>
-        <div
-          css={STYLES_DATA_METER}
-          style={{ width: `${percentage * 100}%` }}
-        />
-      </div>
+      <DataMeterBar
+        leftLabel="used"
+        rightLabel="total"
+        bytes={props.stats.bytes}
+        maximumBytes={props.stats.maximumBytes}
+      />
     </div>
   );
 };

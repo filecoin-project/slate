@@ -6,29 +6,30 @@ import { css } from "@emotion/react";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
+import DataView from "~/components/core/DataView";
+
+const STYLES_NUMBER = css`
+  font-family: ${Constants.font.semiBold};
+  font-weight: 400;
+`;
 
 export default class SceneHome extends React.Component {
-  state = {
-    data: null,
-    transaction: null,
-  };
-
-  _handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
   render() {
     // TODO(jim): Refactor later.
     const slates = {
       columns: [
-        { key: "id", id: "id", name: "ID" },
         {
           key: "slatename",
           name: "Slate Name",
-          width: "228px",
+          width: "100%",
           type: "SLATE_LINK",
         },
         { key: "url", name: "URL", width: "268px", type: "NEW_WINDOW" },
+        { key: "id", id: "id", name: "Slate ID", width: "296px" },
+        {
+          key: "objects",
+          name: "Objects",
+        },
         {
           key: "public",
           name: "Public",
@@ -39,59 +40,18 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `/${this.props.viewer.username}/${each.slatename}`,
+          url: `https://slate.host/${this.props.viewer.username}/${
+            each.slatename
+          }`,
           public: each.data.public,
+          objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
         };
       }),
     };
 
     // TODO(jim): Refactor later.
-    const slateButtons = [{ name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" }];
-
-    // TODO(jim): Refactor later.
-    const data = {
-      columns: [
-        { key: "name", name: "Data", type: "FILE_LINK", width: "328px" },
-        {
-          key: "size",
-          name: "Size",
-          width: "140px",
-          type: "FILE_SIZE",
-        },
-        { key: "type", name: "Type", type: "TEXT_TAG", width: "136px" },
-        {
-          key: "date",
-          name: "Date uploaded",
-          width: "160px",
-          type: "FILE_DATE",
-        },
-        {
-          key: "networks",
-          name: "Network",
-          type: "NETWORK_TYPE",
-          width: "100%",
-        },
-      ],
-      rows: this.props.viewer.library[0].children.map((each) => {
-        return {
-          ...each,
-          button: "Store on Filecoin",
-        };
-      }),
-    };
-
-    // TODO(jim): Refactor later.
-    const dataButtons = [
-      {
-        name: "View files",
-        type: "NAVIGATE",
-        value: this.props.viewer.library[0].id,
-      },
-      {
-        name: "Upload data",
-        type: "SIDEBAR",
-        value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-      },
+    const slateButtons = [
+      { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
     ];
 
     // TODO(jim): Refactor later.
@@ -109,7 +69,7 @@ export default class SceneHome extends React.Component {
       {
         name: "View all",
         type: "NAVIGATE",
-        value: 2,
+        value: "V1_NAVIGATION_WALLET",
       },
     ];
 
@@ -120,8 +80,13 @@ export default class SceneHome extends React.Component {
           description="No! Consider this page just a functionality test. Home will have Filecoin network analytics and updates from the people you engage with."
         />
         <System.H1 style={{ marginTop: 48 }}>Home</System.H1>
+
         {this.props.viewer.addresses[0] ? (
-          <Section title="Wallet addresses" buttons={walletButtons} onAction={this.props.onAction}>
+          <Section
+            title="Wallet addresses"
+            buttons={walletButtons}
+            onAction={this.props.onAction}
+          >
             <System.Table
               data={wallet}
               name="transaction"
@@ -131,7 +96,11 @@ export default class SceneHome extends React.Component {
           </Section>
         ) : null}
 
-        <Section title="Slates" buttons={slateButtons} onAction={this.props.onAction}>
+        <Section
+          title="Slates"
+          buttons={slateButtons}
+          onAction={this.props.onAction}
+        >
           <System.Table
             data={slates}
             name="slate"
@@ -141,14 +110,24 @@ export default class SceneHome extends React.Component {
         </Section>
 
         {this.props.viewer.library[0] ? (
-          <Section title="Recent data" buttons={dataButtons} onAction={this.props.onAction}>
-            <System.Table
-              data={data}
-              name="data"
-              onAction={this.props.onAction}
-              onNavigateTo={this.props.onNavigateTo}
-            />
-          </Section>
+          <DataView
+            buttons={[
+              {
+                name: "View files",
+                type: "NAVIGATE",
+                value: this.props.viewer.library[0].id,
+              },
+              {
+                name: "Upload data",
+                type: "SIDEBAR",
+                value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+              },
+            ]}
+            viewer={this.props.viewer}
+            items={this.props.viewer.library[0].children}
+            onAction={this.props.onAction}
+            onRehydrate={this.props.onRehydrate}
+          />
         ) : null}
       </ScenePage>
     );

@@ -4,12 +4,7 @@ export default async ({ key }) => {
   return await runQuery({
     label: "GET_API_KEY_BY_KEY",
     queryFn: async (DB) => {
-      const query = await DB.select("*")
-        .from("keys")
-        .where({ key })
-        .first();
-
-      console.log(query);
+      const query = await DB.select("*").from("keys").where({ key }).first();
 
       if (!query || query.error) {
         return null;

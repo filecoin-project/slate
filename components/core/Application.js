@@ -4,6 +4,7 @@ import * as Actions from "~/common/actions";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
 import * as Validations from "~/common/validations";
+import * as FileUtilities from "~/common/file-utilities";
 import * as System from "~/components/system";
 
 // NOTE(jim):
@@ -21,6 +22,7 @@ import SceneSettingsDeveloper from "~/scenes/SceneSettingsDeveloper";
 import SceneSignIn from "~/scenes/SceneSignIn";
 import SceneSlate from "~/scenes/SceneSlate";
 import SceneActivity from "~/scenes/SceneActivity";
+import SceneDirectory from "~/scenes/SceneDirectory";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -42,11 +44,37 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
+const SIDEBARS = {
+  SIDEBAR_FILE_STORAGE_DEAL: <SidebarFileStorageDeal />,
+  SIDEBAR_WALLET_SEND_FUNDS: <SidebarWalletSendFunds />,
+  SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,
+  SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
+  SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
+  SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
+  SIDEBAR_SINGLE_SLATE_SETTINGS: <SidebarSingleSlateSettings />,
+};
+
+const SCENES = {
+  HOME: <SceneHome />,
+  WALLET: <SceneWallet />,
+  FOLDER: <SceneFilesFolder />,
+  FILE: <SceneFile />,
+  SLATE: <SceneSlate />,
+  DEALS: <SceneDeals />,
+  SETTINGS: <SceneSettings />,
+  SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
+  EDIT_ACCOUNT: <SceneEditAccount />,
+  SLATES: <SceneSlates />,
+  LOCAL_DATA: <SceneLocalData />,
+  NETWORK: <SceneActivity />,
+  DIRECTORY: <SceneDirectory />,
+};
+
 export default class ApplicationPage extends React.Component {
   state = {
     selected: State.getSelectedState(this.props.viewer),
     viewer: State.getInitialState(this.props.viewer),
-    history: [{ id: 1, scrollTop: 0, data: null }],
+    history: [{ id: "V1_NAVIGATION_HOME", scrollTop: 0, data: null }],
     currentIndex: 0,
     data: null,
     sidebar: null,
@@ -59,7 +87,6 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("dragleave", this._handleDragLeave);
     window.addEventListener("dragover", this._handleDragOver);
     window.addEventListener("drop", this._handleDrop);
-
     window.addEventListener("online", this._handleOnlineStatus);
     window.addEventListener("offline", this._handleOnlineStatus);
   }
@@ -76,57 +103,14 @@ export default class ApplicationPage extends React.Component {
     this.setState({ online: navigator.onLine });
   };
 
-  _handleSetFile = async ({ file, slate }) => {
-    this.setState({ fileLoading: true });
+  _handleUploadFile = async ({ file, slate }) => {
+    return await FileUtilities.upload({ file, slate, context: this });
+  };
 
-    let data = new FormData();
-    data.append("data", file);
-
-    const options = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: data,
-    };
-
-    const response = await fetch(`/api/data/${file.name}`, options);
-    const json = await response.json();
-
-    if (!json) {
-      this.setState({ sidebar: null, fileLoading: false });
-      return;
-    }
-
-    if (json.error) {
-      this.setState({ sidebar: null, fileLoading: false });
-      return;
-    }
-
-    if (!json.data) {
-      this.setState({ sidebar: null, fileLoading: false });
-      return;
-    }
-
-    if (json && slate) {
-      const addResponse = await fetch(`/api/slates/add-url`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ slate, data: { ...json.data } }),
-      });
-
-      if (!addResponse || addResponse.error) {
-        console.log(addResponse.error);
-        alert("TODO: Adding an image to Slate went wrong.");
-      }
-    }
-
-    await this.rehydrate();
-
-    this.setState({ sidebar: null, fileLoading: false });
+  _handleRegisterFileLoading = ({ fileLoading }) => {
+    return this.setState({
+      fileLoading,
+    });
   };
 
   _handleDragEnter = (e) => {
@@ -168,12 +152,12 @@ export default class ApplicationPage extends React.Component {
       slate = { ...current.target, id: current.target.slateId };
     }
 
+    const files = [];
+    let fileLoading = {};
     if (e.dataTransfer.items) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
-
-          console.log(file);
 
           if (Validations.isFileTypeAllowed(file.type)) {
             this._handleAction({
@@ -182,18 +166,35 @@ export default class ApplicationPage extends React.Component {
               data: slate,
             });
 
-            await this._handleSetFile({ file, slate });
+            files.push(file);
+            fileLoading[`${file.lastModified}-${file.name}`] = {
+              name: file.name,
+              loaded: 0,
+              total: file.size,
+            };
           }
-
-          break;
         }
       }
     }
 
-    this.setState({ fileLoading: false });
+    if (!files.length) {
+      alert("TODO: Files not supported error");
+      return;
+    }
+
+    // NOTE(jim): Stages each file.
+    this._handleRegisterFileLoading({ fileLoading });
+
+    // NOTE(jim): Uploads each file.
+    for (let i = 0; i < files.length; i++) {
+      await this._handleUploadFile({ file: files[i], slate });
+    }
+
+    // NOTE(jim): Rehydrates user.
+    await this.rehydrate({ resetFiles: true });
   };
 
-  rehydrate = async () => {
+  rehydrate = async (options) => {
     const response = await Actions.hydrateAuthenticatedUser();
 
     console.log("REHYDRATION CALL", response);
@@ -202,10 +203,17 @@ export default class ApplicationPage extends React.Component {
       return null;
     }
 
-    this.setState({
+    const updates = {
       viewer: State.getInitialState(response.data),
       selected: State.getSelectedState(response.data),
-    });
+    };
+
+    if (options && options.resetFiles) {
+      updates.fileLoading = null;
+      updates.sidebar = null;
+    }
+
+    this.setState(updates);
 
     return { rehydrated: true };
   };
@@ -344,7 +352,7 @@ export default class ApplicationPage extends React.Component {
 
     if (options.type === "SIDEBAR") {
       return this.setState({
-        sidebar: this.sidebars[options.value],
+        sidebar: SIDEBARS[options.value],
         data: options.data,
       });
     }
@@ -418,31 +426,6 @@ export default class ApplicationPage extends React.Component {
     );
   };
 
-  sidebars = {
-    SIDEBAR_FILE_STORAGE_DEAL: <SidebarFileStorageDeal />,
-    SIDEBAR_WALLET_SEND_FUNDS: <SidebarWalletSendFunds />,
-    SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,
-    SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
-    SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
-    SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
-    SIDEBAR_SINGLE_SLATE_SETTINGS: <SidebarSingleSlateSettings />,
-  };
-
-  scenes = {
-    HOME: <SceneHome />,
-    WALLET: <SceneWallet />,
-    FOLDER: <SceneFilesFolder />,
-    FILE: <SceneFile />,
-    SLATE: <SceneSlate />,
-    DEALS: <SceneDeals />,
-    SETTINGS: <SceneSettings />,
-    SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
-    EDIT_ACCOUNT: <SceneEditAccount />,
-    SLATES: <SceneSlates />,
-    LOCAL_DATA: <SceneLocalData />,
-    ACTIVITY: <SceneActivity />,
-  };
-
   render() {
     // NOTE(jim): Not authenticated.
     if (!this.state.viewer) {
@@ -460,7 +443,6 @@ export default class ApplicationPage extends React.Component {
     const navigation = NavigationData.generate(this.state.viewer);
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
-    console.log(current);
 
     const navigationElement = (
       <ApplicationNavigation
@@ -479,17 +461,13 @@ export default class ApplicationPage extends React.Component {
         viewer={this.state.viewer}
         pageTitle={current.target.pageTitle}
         currentIndex={this.state.currentIndex}
+        history={this.state.history}
         onBack={this._handleBack}
         onForward={this._handleForward}
-        history={this.state.history}
       />
     );
 
-    if (current.target.decorator === "FILE") {
-      headerElement = null;
-    }
-
-    const scene = React.cloneElement(this.scenes[current.target.decorator], {
+    const scene = React.cloneElement(SCENES[current.target.decorator], {
       current: current.target,
       data: this.state.data,
       viewer: this.state.viewer,
@@ -515,7 +493,8 @@ export default class ApplicationPage extends React.Component {
         onSelectedChange: this._handleSelectedChange,
         onSubmit: this._handleSubmit,
         onCancel: this._handleCancel,
-        onSetFile: this._handleSetFile,
+        onRegisterFileLoading: this._handleRegisterFileLoading,
+        onUploadFile: this._handleUploadFile,
         onSidebarLoading: this._handleSidebarLoading,
         onAction: this._handleAction,
         onRehydrate: this.rehydrate,
@@ -523,15 +502,15 @@ export default class ApplicationPage extends React.Component {
     }
 
     const title = `Slate : ${current.target.pageTitle}`;
-    const description = "This is an early preview.";
+    const description = "";
     const url = "https://slate.host/_";
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper title={title} description={description} url={url}>
+        <WebsitePrototypeWrapper description={description} title={title} url={url}>
           <ApplicationLayout
-            navigation={navigationElement}
             header={headerElement}
+            navigation={navigationElement}
             sidebar={sidebarElement}
             onDismissSidebar={this._handleDismissSidebar}>
             {scene}

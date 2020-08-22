@@ -103,16 +103,43 @@ const STYLES_LINK = css`
   }
 `;
 
+// TODO(jim): Refactor this health check later.
 export const getServerSideProps = async (context) => {
+  let buckets = false;
+  try {
+    const response = await fetch("https://hub.textile.io/health", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 204) {
+      buckets = true;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
   return {
-    props: { ...context.query },
+    props: { ...context.query, buckets },
   };
 };
 
 export default class IndexPage extends React.Component {
+  state = {
+    available: this.props.buckets,
+  };
+
   async componentDidMount() {
-    const response = await Actions.health();
+    const response = await Actions.health({});
     console.log("HEALTH_CHECK", response);
+
+    if (response && response.data) {
+      return this.setState({ available: this.props.buckets });
+    }
+
+    return this.setState({ available: false });
   }
 
   render() {
@@ -134,14 +161,22 @@ export default class IndexPage extends React.Component {
                 </a>
                 .
               </p>
-              <div css={STYLES_CARD_ACTIONS}>
-                <div css={STYLES_CARD_ACTIONS_LEFT}>
-                  Try out our alpha testing application v{Constants.values.version} for Filecoin
+              {this.state.available ? (
+                <div css={STYLES_CARD_ACTIONS}>
+                  <div css={STYLES_CARD_ACTIONS_LEFT}>
+                    Try out our alpha testing application v{Constants.values.version} for Filecoin
+                  </div>
+                  <div css={STYLES_CARD_ACTIONS_RIGHT}>
+                    <System.ButtonPrimary onClick={() => window.open("/_")}>Use Slate</System.ButtonPrimary>
+                  </div>
                 </div>
-                <div css={STYLES_CARD_ACTIONS_RIGHT}>
-                  <System.ButtonPrimary onClick={() => window.open("/_")}>Use Slate</System.ButtonPrimary>
+              ) : (
+                <div css={STYLES_CARD_ACTIONS}>
+                  <div css={STYLES_CARD_ACTIONS_LEFT} style={{ textAlign: "center" }}>
+                    Slate is currently down for maintenance.
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <WebsitePrototypeFooter />

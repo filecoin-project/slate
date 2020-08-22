@@ -2,6 +2,7 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as Validations from "~/common/validations";
+import * as FileUtilities from "~/common/file-utilities";
 
 import { css } from "@emotion/react";
 
@@ -51,19 +52,7 @@ export default class SceneEditAccount extends React.Component {
       return;
     }
 
-    let data = new FormData();
-    data.append("data", file);
-
-    const options = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: data,
-    };
-
-    const response = await fetch(`/api/data/${file.name}`, options);
-    const json = await response.json();
+    const json = await FileUtilities.upload({ file });
 
     if (json.error) {
       alert("TODO: Image already exists in bucket error message");
@@ -148,25 +137,15 @@ export default class SceneEditAccount extends React.Component {
           description="This image will appear in various lists."
         />
 
-        <Avatar
-          style={{ marginTop: 24 }}
-          size={256}
-          url={this.props.viewer.data.photo}
-        />
+        <Avatar style={{ marginTop: 24 }} size={256} url={this.props.viewer.data.photo} />
 
         <div style={{ marginTop: 24 }}>
-          <input
-            css={STYLES_FILE_HIDDEN}
-            type="file"
-            id="file"
-            onChange={this._handleUpload}
-          />
+          <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
           <System.ButtonPrimary
             style={{ margin: "0 16px 16px 0" }}
             type="label"
             htmlFor="file"
-            loading={this.state.changingAvatar}
-          >
+            loading={this.state.changingAvatar}>
             Pick avatar
           </System.ButtonPrimary>
         </div>
@@ -176,8 +155,7 @@ export default class SceneEditAccount extends React.Component {
           label="Username"
           description={
             <React.Fragment>
-              This is your username on Slate. Your username is used for your
-              profile URL{" "}
+              This is your username on Slate. Your username is used for your profile URL{" "}
               <a href={profileURL} target="_blank">
                 {profileURL}
               </a>
@@ -190,10 +168,7 @@ export default class SceneEditAccount extends React.Component {
         />
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary
-            onClick={this._handleSave}
-            loading={this.state.changingUsername}
-          >
+          <System.ButtonPrimary onClick={this._handleSave} loading={this.state.changingUsername}>
             Change username
           </System.ButtonPrimary>
         </div>
@@ -225,10 +200,7 @@ export default class SceneEditAccount extends React.Component {
         />
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary
-            onClick={this._handleChangePassword}
-            loading={this.state.changingPassword}
-          >
+          <System.ButtonPrimary onClick={this._handleChangePassword} loading={this.state.changingPassword}>
             Change password
           </System.ButtonPrimary>
         </div>
@@ -240,10 +212,7 @@ export default class SceneEditAccount extends React.Component {
         />
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary
-            onClick={this._handleDelete}
-            loading={this.state.deleting}
-          >
+          <System.ButtonPrimary onClick={this._handleDelete} loading={this.state.deleting}>
             Delete my account
           </System.ButtonPrimary>
         </div>

@@ -3,8 +3,7 @@ import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 
-import { Buckets } from "@textile/hub";
-import { Libp2pCryptoIdentity } from "@textile/threads-core";
+import { Buckets, PrivateKey } from "@textile/hub";
 
 import JWT from "jsonwebtoken";
 
@@ -40,13 +39,13 @@ export default async (req, res) => {
   await Data.deleteAPIKeysForUserId({ userId: user.id });
   await Data.deleteSlatesForUserId({ userId: user.id });
 
-  const i = await Libp2pCryptoIdentity.fromString(user.data.tokens.api);
+  const i = await PrivateKey.fromString(user.data.tokens.api);
   const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   const tokenResponse = await b.getToken(i);
-  const openResponse = await b.open("data");
+  const openResponse = await b.getOrInit("data");
 
   try {
-    const response = await b.remove(openResponse.key);
+    const response = await b.remove(openResponse.root.key);
     console.log({ response });
   } catch (e) {
     console.log(e);

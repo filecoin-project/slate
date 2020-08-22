@@ -4,11 +4,7 @@ import { CacheProvider, Global } from "@emotion/react";
 import { cache } from "@emotion/css";
 
 import App from "next/app";
-import {
-  injectGlobalStyles,
-  injectTooltipStyles,
-  injectCodeBlockStyles,
-} from "~/common/styles/global";
+import { injectGlobalStyles, injectCodeBlockStyles } from "~/common/styles/global";
 
 import "react-slideshow-image/dist/styles.css";
 
@@ -18,7 +14,6 @@ function MyApp({ Component, pageProps }) {
   return (
     <CacheProvider value={cache}>
       <Global styles={injectGlobalStyles()} />
-      <Global styles={injectTooltipStyles()} />
       <Global styles={injectCodeBlockStyles()} />
       <Component {...pageProps} />
     </CacheProvider>

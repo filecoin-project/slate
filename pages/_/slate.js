@@ -8,7 +8,7 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
 import Slate from "~/components/core/Slate";
-import MediaObject from "~/components/core/MediaObject";
+import SlateMediaObject from "~/components/core/SlateMediaObject";
 
 const STYLES_ROOT = css`
   display: flex;
@@ -52,7 +52,8 @@ export default class SlatePage extends React.Component {
         slides: this.props.slate.data.objects.map((each) => {
           return {
             id: each.id,
-            component: <MediaObject key={each.id} useImageFallback data={each} />,
+            data: each,
+            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
           };
         }),
       },

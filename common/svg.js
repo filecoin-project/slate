@@ -1,3 +1,22 @@
+export const Directory = (props) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      height={props.height}
+      style={props.style}
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94" />
+    </svg>
+  );
+};
+
 export const Layers = (props) => {
   return (
     <svg
@@ -17,6 +36,25 @@ export const Layers = (props) => {
         <path d="m5.1 9.375-4.017 2.078-.00000007.00000003c-.3021.156451-.420172.528179-.263721.830279.058544.113046.150675.205177.263721.263721l10.209 5.281h.00000001c.444136.229361.971863.229361 1.416.00000005l10.209-5.281.00000002-.00000001c.3021-.156451.420172-.528179.263721-.830279-.058544-.113046-.150675-.205177-.263721-.263721l-4.017-2.078" />
         <path d="m5.1 14.625-4.017 2.075-.00000007.00000003c-.3021.156451-.420172.528179-.263721.830279.058544.113046.150675.205177.263721.263721l10.209 5.281h.00000001c.444136.229361.971863.229361 1.416.00000005l10.209-5.275.00000002-.00000001c.3021-.156451.420172-.528179.263721-.830279-.058544-.113046-.150675-.205177-.263721-.263721l-4.017-2.081" />
       </g>
+    </svg>
+  );
+};
+
+export const Search = (props) => {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.5"
+      height={props.height}
+      style={props.style}
+    >
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
   );
 };
@@ -48,8 +86,6 @@ export const Activity = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

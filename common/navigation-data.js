@@ -1,8 +1,7 @@
 import * as Strings from "~/common/strings";
 
-// NOTE(jim)
-// Return the desired navigation entity based on the constructed navigation
-// and targetId
+// NOTE(jim):
+// Recursion for nested entities (any number).
 export const getCurrentById = (navigation, targetId) => {
   let target = null;
   let activeIds = {};
@@ -52,85 +51,76 @@ const constructSlatesTreeForNavigation = (slates) => {
 
 export const generate = ({ library = [], slates = [] }) => [
   {
-    id: 1,
+    id: "V1_NAVIGATION_HOME",
+    decorator: "HOME",
     name: "Home",
     pageTitle: "Welcome back!",
-    decorator: "HOME",
     children: null,
   },
   {
-    id: 18,
-    name: "Activity",
-    pageTitle: "Your activity",
-    decorator: "ACTIVITY",
+    id: "V1_NAVIGATION_DIRECTORY",
+    decorator: "DIRECTORY",
+    name: "Directory",
+    pageTitle: "Your directory",
     children: null,
   },
   {
-    id: 3,
+    id: "V1_NAVIGATION_SLATES",
+    decorator: "SLATES",
     name: "Slates",
     pageTitle: "Slates",
-    decorator: "SLATES",
     children: constructSlatesTreeForNavigation(slates),
   },
   constructFilesTreeForNavigation(library),
   {
-    id: 4,
-    name: "Local",
-    pageTitle: "Local data",
+    id: "V1_NAVIGATION_LOCAL",
     decorator: "LOCAL_DATA",
+    name: "Local",
+    pageTitle: "Your local data",
     children: [],
     ignore: false,
   },
   {
-    id: 15,
-    name: null,
-    pageTitle: "files",
-    decorator: "FILE",
-    children: null,
-    ignore: true,
-  },
-  {
-    id: 17,
-    name: null,
-    pageTitle: "slate",
-    decorator: "SLATE",
-    children: null,
-    ignore: true,
-  },
-  {
-    id: 2,
+    id: "V1_NAVIGATION_WALLET",
+    decorator: "WALLET",
     name: "Wallet",
     pageTitle: "Your wallet and addresses",
-    decorator: "WALLET",
     children: [
       {
-        id: 6,
+        id: "V1_NAVIGATION_DEAL_HISTORY",
+        decorator: "DEALS",
         name: "Deal history",
         pageTitle: "Your deal history",
-        decorator: "DEALS",
       },
     ],
   },
   {
-    id: 16,
-    name: "API",
-    pageTitle: "Developer API",
-    decorator: "SETTINGS_DEVELOPER",
+    id: "V1_NAVIGATION_NETWORK",
+    decorator: "NETWORK",
+    name: "Network",
+    pageTitle: "The Filecoin Network",
     children: null,
   },
   {
-    id: 13,
+    id: "V1_NAVIGATION_API",
+    decorator: "SETTINGS_DEVELOPER",
+    name: "API",
+    pageTitle: "Developer API",
+    children: null,
+  },
+  {
+    id: "V1_NAVIGATION_PROFILE",
+    decorator: "EDIT_ACCOUNT",
     name: "Profile & Account Settings",
     pageTitle: "Your Profile & Account Settings",
-    decorator: "EDIT_ACCOUNT",
     children: null,
     ignore: true,
   },
   {
-    id: 14,
+    id: "V1_NAVIGATION_FILECOIN_SETTINGS",
+    decorator: "SETTINGS",
     name: "Filecoin Settings",
     pageTitle: "Filecoin Settings.",
-    decorator: "SETTINGS",
     children: null,
     ignore: true,
   },

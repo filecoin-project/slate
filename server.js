@@ -1,15 +1,15 @@
 import * as Environment from "~/node_common/environment";
-import * as Constants from "./node_common/constants";
 import * as Validations from "~/common/validations";
 import * as Data from "~/node_common/data";
-import * as ViewerManager from "~/node_common/managers/viewer";
 import * as Utilities from "~/node_common/utilities";
-import * as Strings from "./common/strings";
+
+import * as ViewerManager from "~/node_common/managers/viewer";
+import * as AnalyticsManager from "~/node_common/managers/analytics";
 
 import express from "express";
 import next from "next";
 import compression from "compression";
-import JWT from "jsonwebtoken";
+import cors from "cors";
 
 const app = next({
   dev: !Environment.IS_PRODUCTION,
@@ -22,13 +22,38 @@ const handler = app.getRequestHandler();
 app.prepare().then(async () => {
   const server = express();
 
+  server.use(cors());
+
   if (Environment.IS_PRODUCTION) {
     server.use(compression());
   }
 
   server.use("/public", express.static("public"));
 
+  server.get("/system", async (req, res) => {
+    res.redirect("/_/system");
+  });
+
+  server.get("/experiences", async (req, res) => {
+    res.redirect("/_/system");
+  });
+
+  server.get("/system/:component", async (req, res) => {
+    res.redirect(`/_/system/${req.params.component}`);
+  });
+
+  server.get("/experiences/:module", async (req, res) => {
+    res.redirect(`/_/experiences/${req.params.module}`);
+  });
+
   server.get("/_", async (req, res) => {
+    const isBucketsAvailable = await Utilities.checkTextile();
+
+    // TODO(jim): Do something more robust here.
+    if (!isBucketsAvailable) {
+      return res.redirect("/maintenance");
+    }
+
     const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;
@@ -38,8 +63,10 @@ app.prepare().then(async () => {
       });
     }
 
+    let analytics = await AnalyticsManager.get();
     return app.render(req, res, "/_", {
       viewer,
+      analytics,
     });
   });
 

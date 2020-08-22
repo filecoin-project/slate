@@ -8,7 +8,7 @@ import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
 import Slate from "~/components/core/Slate";
-import MediaObject from "~/components/core/MediaObject";
+import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonLight from "~/components/core/CircleButtonLight";
 
 export default class SceneSlate extends React.Component {
@@ -34,17 +34,21 @@ export default class SceneSlate extends React.Component {
         objects: this.props.current.data.objects,
         loading: false,
       });
+
+      this._handleUpdateCarousel({
+        objects: this.props.current.data.objects,
+      });
     }
   }
 
-  _handleSave = async (e) => {
+  _handleSave = async (e, objects) => {
     this.setState({ loading: true });
 
     const response = await Actions.updateSlate({
       id: this.props.current.slateId,
       slatename: this.state.slatename,
       data: {
-        objects: this.state.objects,
+        objects: objects ? objects : this.state.objects,
         public: this.state.public,
       },
     });
@@ -64,15 +68,44 @@ export default class SceneSlate extends React.Component {
     this._handleUpdateCarousel(this.state);
   };
 
+  _handleObjectSave = async (object) => {
+    System.dispatchCustomEvent({
+      name: "state-global-carousel-loading",
+      detail: { saving: true },
+    });
+
+    const objects = [...this.state.objects];
+    for (let i = 0; i < objects.length; i++) {
+      if (objects[i].id === object.id) {
+        objects[i] = object;
+        break;
+      }
+    }
+
+    this.setState({ objects });
+
+    await this._handleSave(null, objects);
+
+    System.dispatchCustomEvent({
+      name: "state-global-carousel-loading",
+      detail: { saving: false },
+    });
+  };
+
   _handleUpdateCarousel = (state) => {
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: {
         slides: state.objects.map((each) => {
+          const cid = each.url.replace("https://hub.textile.io/ipfs/", "");
+
           return {
             onDelete: this._handleDelete,
+            onObjectSave: this._handleObjectSave,
             id: each.id,
-            component: <MediaObject key={each.id} useImageFallback data={each} />,
+            cid,
+            data: each,
+            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
           };
         }),
       },

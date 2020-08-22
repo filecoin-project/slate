@@ -116,8 +116,9 @@ export default async (req, res) => {
   const url = `https://hub.textile.io${updatedData.ipfs}`;
   const newSlateObjectEntity = {
     id: updatedData.id,
-    ownerId: user.id,
     name: updatedData.name,
+    type: updatedData.type,
+    ownerId: user.id,
     url,
   };
 

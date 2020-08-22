@@ -47,22 +47,24 @@ const STYLES_IMAGE = css`
   max-height: 100%;
 `;
 
-export default class MediaObject extends React.Component {
+export default class SlateMediaObject extends React.Component {
   render() {
     const name = `${this.props.data.name}`;
     const url = this.props.data.url ? this.props.data.url : `https://hub.textile.io${this.props.data.ipfs}`;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
 
+    let element = <div css={STYLES_FAILURE}>No Preview</div>;
+
     if (type.startsWith("application/pdf")) {
-      return <object css={STYLES_OBJECT} data={url} type={type} />;
+      element = <object css={STYLES_OBJECT} data={url} type={type} />;
     }
 
     if (type.startsWith("application/epub")) {
-      return <div css={STYLES_FAILURE}>No Preview</div>;
+      element = <div css={STYLES_FAILURE}>No Preview</div>;
     }
 
     if (type.startsWith("video/")) {
-      return (
+      element = (
         <video autoPlay controls name="media" css={STYLES_OBJECT}>
           <source src={url} type={type} />
         </video>
@@ -70,7 +72,7 @@ export default class MediaObject extends React.Component {
     }
 
     if (type.startsWith("audio/")) {
-      return (
+      element = (
         <div css={STYLES_ASSET}>
           <audio autoPlay controls name="media">
             <source src={url} type={type} />
@@ -80,13 +82,13 @@ export default class MediaObject extends React.Component {
     }
 
     if (type.startsWith("image/")) {
-      return (
+      element = (
         <div css={STYLES_ASSET}>
           <img css={STYLES_IMAGE} src={url} />
         </div>
       );
     }
 
-    return <div css={STYLES_FAILURE}>No Preview</div>;
+    return element;
   }
 }

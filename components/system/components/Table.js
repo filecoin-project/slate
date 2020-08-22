@@ -66,6 +66,7 @@ const STYLES_TABLE_ROW = css`
 `;
 
 const STYLES_TABLE_SELECTED_ROW = css`
+  background-color: ${Constants.system.foreground};
   box-sizing: border-box;
   display: block;
   border-bottom: 1px solid ${Constants.system.gray};

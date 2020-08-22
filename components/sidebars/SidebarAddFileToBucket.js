@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/react";
+import { DataMeterBar } from "~/components/core/DataMeter";
 
 const STYLES_FILE_HIDDEN = css`
   height: 1px;
@@ -42,39 +43,91 @@ const STYLES_IMAGE_PREVIEW = css`
   margin-top: 48px;
 `;
 
+const STYLES_STRONG = css`
+  display: block;
+  margin: 16px 0 4px 0;
+  font-weight: 400;
+  font-family: ${Constants.font.medium};
+  font-size: 0.8rem;
+`;
+
 export default class SidebarAddFileToBucket extends React.Component {
   _handleUpload = async (e) => {
     e.persist();
-    let file = e.target.files[0];
+    let files = [];
+    let fileLoading = {};
+    for (let i = 0; i < e.target.files.length; i++) {
+      let file = e.target.files[i];
 
-    if (!file) {
-      alert("TODO: Something went wrong");
+      if (!file) {
+        alert("TODO: Something went wrong");
+        continue;
+      }
+
+      const isAllowed = Validations.isFileTypeAllowed(file.type);
+      if (!isAllowed) {
+        alert("TODO: File type is not allowed, yet.");
+        continue;
+      }
+
+      files.push(file);
+      fileLoading[`${file.lastModified}-${file.name}`] = {
+        name: file.name,
+        loaded: 0,
+        total: file.size,
+      };
+    }
+
+    if (!files.length) {
+      alert("TODO: Files not supported error");
       return;
     }
 
-    console.log(file);
+    this.props.onRegisterFileLoading({ fileLoading });
 
-    const isAllowed = Validations.isFileTypeAllowed(file.type);
-    if (!isAllowed) {
-      alert("TODO: File type is not allowed, yet.");
-      return;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const slate =
+        this.props.data && this.props.data.slateId
+          ? { id: this.props.data.slateId }
+          : null;
+
+      const response = await this.props.onUploadFile({
+        file,
+        slate,
+      });
+
+      if (!response) {
+        alert("TODO: File upload error");
+        continue;
+      }
+
+      if (response.error) {
+        alert("TODO: File upload error");
+        continue;
+      }
     }
 
-    await this.props.onSetFile({
-      file,
-      slate: this.props.data && this.props.data.slateId ? { id: this.props.data.slateId } : null,
-    });
+    await this.props.onRehydrate({ resetFiles: true });
   };
 
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload data</System.P>
-        <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+          Upload data
+        </System.P>
+        <input
+          css={STYLES_FILE_HIDDEN}
+          type="file"
+          id="file"
+          onChange={this._handleUpload}
+        />
 
         {this.props.data && this.props.data.decorator === "SLATE" ? (
           <System.P style={{ marginTop: 24 }}>
-            This will add data to your Slate named <strong>{this.props.data.slatename}</strong>.
+            This will add data to your Slate named{" "}
+            <strong>{this.props.data.slatename}</strong>.
           </System.P>
         ) : null}
 
@@ -83,7 +136,7 @@ export default class SidebarAddFileToBucket extends React.Component {
           type="label"
           htmlFor="file"
           style={{ marginTop: 24 }}
-          loading={this.props.fileLoading}
+          loading={!!this.props.fileLoading}
         >
           Add file
         </System.ButtonPrimary>
@@ -97,6 +150,26 @@ export default class SidebarAddFileToBucket extends React.Component {
             Cancel
           </System.ButtonSecondary>
         ) : null}
+
+        <br />
+
+        {this.props.fileLoading
+          ? Object.keys(this.props.fileLoading).map((timestamp) => {
+              const p = this.props.fileLoading[timestamp];
+              return (
+                <React.Fragment key={timestamp}>
+                  <strong css={STYLES_STRONG}>{p.name}</strong>
+                  <DataMeterBar
+                    failed={p.failed}
+                    leftLabel={p.failed ? "failed" : "uploaded"}
+                    rightLabel={p.failed ? null : "total"}
+                    bytes={p.loaded}
+                    maximumBytes={p.total}
+                  />
+                </React.Fragment>
+              );
+            })
+          : null}
       </React.Fragment>
     );
   }

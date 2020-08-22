@@ -9,20 +9,11 @@ import ApplicationControlMenu from "~/components/core/ApplicationControlMenu";
 
 const IconMap = {
   HOME: <SVG.Home height="20px" />,
-  ACTIVITY: <SVG.Activity height="20px" />,
-  FILE: <SVG.Image height="20px" />,
+  NETWORK: <SVG.Activity height="20px" />,
+  DIRECTORY: <SVG.Directory height="20px" />,
   FOLDER: <SVG.Folder height="20px" />,
   WALLET: <SVG.Wallet height="20px" />,
-  CHANNELS: <SVG.Channels height="20px" />,
   DEALS: <SVG.Deals height="20px" />,
-  PEERS: <SVG.Peers height="20px" />,
-  DEALS: <SVG.Deals height="20px" />,
-  STATUS: <SVG.Status height="20px" />,
-  STATS: <SVG.Stats height="20px" />,
-  DATA_TRANSFER: <SVG.DataTransfer height="20px" />,
-  LOGS: <SVG.Logs height="20px" />,
-  MINERS: <SVG.Miners height="20px" />,
-  STORAGE_MARKET: <SVG.StorageMarket height="20px" />,
   SLATES: <SVG.Layers height="20px" />,
   SLATE: <SVG.Slates height="20px" />,
   LOCAL_DATA: <SVG.HardDrive height="20px" />,
@@ -41,7 +32,7 @@ const STYLES_NAVIGATION_HEADER = css`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 64px 24px 48px 48px;
+  padding: 64px 24px 48px 42px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 64px 0 48px 16px;
@@ -72,8 +63,8 @@ const STYLES_PROFILE = css`
   text-decoration: none;
   flex-shrink: 0;
   padding-right: 24px;
-  height: 36px;
-  border-radius: 36px;
+  height: 38px;
+  border-radius: 38px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -97,7 +88,7 @@ const STYLES_PROFILE_IMAGE = css`
   width: 32px;
   border-radius: 32px;
   margin-right: 16px;
-  margin-left: 2px;
+  margin-left: 4px;
 `;
 
 const STYLES_EXPANDER = css`
@@ -148,7 +139,7 @@ const STYLES_ICON_ELEMENT = css`
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 8px 0 16px;
+    margin: 0 8px 0 12px;
   }
 `;
 
@@ -289,23 +280,9 @@ export default class ApplicationNavigation extends React.Component {
       <nav css={STYLES_NAVIGATION}>
         <div css={STYLES_NAVIGATION_HEADER}>
           <ApplicationControlMenu
-            popover={
-              <System.PopoverNavigation
-                style={{
-                  left: 0,
-                  top: "48px",
-                  cursor: "pointer",
-                }}
-                onNavigateTo={this.props.onNavigateTo}
-                onAction={this.props.onAction}
-                onSignOut={this.props.onSignOut}
-                navigation={[
-                  { text: "Profile & account settings", value: 13 },
-                  { text: "Filecoin settings", value: 14 },
-                  { text: "Sign out", value: 0, action: "SIGN_OUT" },
-                ]}
-              />
-            }
+            onNavigateTo={this.props.onNavigateTo}
+            onAction={this.props.onAction}
+            onSignOut={this.props.onSignOut}
           />
 
           <a

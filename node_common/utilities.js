@@ -4,9 +4,9 @@ import * as Powergate from "~/node_common/powergate";
 import * as Constants from "~/node_common/constants";
 
 import JWT from "jsonwebtoken";
+import BCrypt from "bcrypt";
 
-import { Buckets } from "@textile/hub";
-import { Libp2pCryptoIdentity } from "@textile/threads-core";
+import { Buckets, PrivateKey } from "@textile/hub";
 import { ffsOptions } from "@textile/powergate-client";
 
 const BUCKET_NAME = "data";
@@ -14,6 +14,25 @@ const BUCKET_NAME = "data";
 const TEXTILE_KEY_INFO = {
   key: Environment.TEXTILE_HUB_KEY,
   secret: Environment.TEXTILE_HUB_SECRET,
+};
+
+export const checkTextile = async () => {
+  try {
+    const response = await fetch("https://hub.textile.io/health", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 204) {
+      return true;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
+  return false;
 };
 
 export const getIdFromCookie = (req) => {
@@ -37,6 +56,20 @@ export const getIdFromCookie = (req) => {
   return id;
 };
 
+export const encryptPassword = async (text, salt) => {
+  if (!text) {
+    return null;
+  }
+
+  let hash = text;
+  for (let i = 0; i < Environment.LOCAL_PASSWORD_ROUNDS_MANUAL; i++) {
+    hash = await BCrypt.hash(hash, salt);
+  }
+  hash = await BCrypt.hash(hash, Environment.LOCAL_PASSWORD_SECRET);
+
+  return hash;
+};
+
 export const parseAuthHeader = (value) => {
   if (typeof value !== "string") {
     return null;
@@ -53,12 +86,12 @@ export const getBucketAPI = async () => {
 
 // NOTE(jim): Requires @textile/hub
 export const getBucketAPIFromUserToken = async (token) => {
-  const identity = await Libp2pCryptoIdentity.fromString(token);
+  const identity = await PrivateKey.fromString(token);
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await buckets.getToken(identity);
-  const root = await buckets.open(BUCKET_NAME);
+  const target = await buckets.getOrInit(BUCKET_NAME);
 
-  return { buckets, bucketKey: root.key, bucketName: BUCKET_NAME };
+  return { buckets, bucketKey: target.root.key, bucketName: BUCKET_NAME };
 };
 
 // NOTE(jim): Requires Powergate, does not require token.

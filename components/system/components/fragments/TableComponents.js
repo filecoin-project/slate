@@ -7,7 +7,6 @@ import * as Strings from "~/common/strings";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { CodeText } from "~/components/system/components/fragments/CodeText";
 import { css } from "@emotion/react";
-import { Tooltip } from "react-tippy";
 
 import Avatar from "~/components/core/Avatar";
 
@@ -156,11 +155,9 @@ const Link = (props) => {
 
 export const TableColumn = (props) => {
   const tooltipElement = props.tooltip ? (
-    <Tooltip animation="fade" animateFill={false} title={props.tooltip}>
-      <span css={STYLES_CONTENT_BUTTON}>
-        <SVG.Information height="14px" />
-      </span>
-    </Tooltip>
+    <span css={STYLES_CONTENT_BUTTON}>
+      <SVG.Information height="14px" />
+    </span>
   ) : null;
 
   const copyableElement = props.copyable ? (
@@ -239,7 +236,9 @@ export const TableContent = ({
         <React.Fragment>
           {COMPONENTS_TRANSACTION_STATUS[`${text}`]}
           {data.error ? (
-            <Tag style={{ background: Constants.system.red }}>Failed Deal</Tag>
+            <Tag style={{ background: Constants.system.red }}>
+              Previously Failed
+            </Tag>
           ) : null}
         </React.Fragment>
       );
@@ -275,11 +274,7 @@ export const TableContent = ({
       );
     case "NETWORK_TYPE":
       return text.map((each) => {
-        return (
-          <Tag key={each} style={{ background: Constants.system.brand }}>
-            {each}
-          </Tag>
-        );
+        return <Tag key={each}>{each}</Tag>;
       });
     case "SLATE_PUBLIC_TEXT_TAG":
       return !text ? (
@@ -314,7 +309,11 @@ export const TableContent = ({
         return text;
       }
 
-      return <Link onClick={() => onNavigateTo({ id: 15 }, data)}>{text}</Link>;
+      return (
+        <Link onClick={() => onNavigateTo({ id: "V1_NAVIGATION_FILE" }, data)}>
+          {text}
+        </Link>
+      );
     default:
       return text;
   }

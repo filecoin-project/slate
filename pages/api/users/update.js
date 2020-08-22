@@ -70,15 +70,14 @@ export default async (req, res) => {
         .json({ decorator: "SERVER_INVALID_PASSWORD", error: true });
     }
 
-    const salt = await BCrypt.genSalt(13);
-    const hash = await BCrypt.hash(req.body.password, salt);
-    const double = await BCrypt.hash(hash, salt);
-    const triple = await BCrypt.hash(double, Environment.LOCAL_PASSWORD_SECRET);
+    const rounds = Number(Environment.LOCAL_PASSWORD_ROUNDS);
+    const salt = await BCrypt.genSalt(rounds);
+    const hash = await Utilities.encryptPassword(req.body.password, salt);
 
     await Data.updateUserById({
       id: user.id,
       salt,
-      password: triple,
+      password: hash,
     });
   }
 

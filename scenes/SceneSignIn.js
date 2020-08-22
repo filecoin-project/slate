@@ -72,7 +72,9 @@ export default class SceneSignIn extends React.Component {
     await delay(100);
 
     if (!Validations.username(this.state.username)) {
-      alert("TODO: Your username was invalid, only characters and numbers allowed.");
+      alert(
+        "TODO: Your username was invalid, only characters and numbers allowed."
+      );
       this.setState({ loading: false });
       return;
     }
@@ -95,7 +97,7 @@ export default class SceneSignIn extends React.Component {
       return;
     }
 
-    return this.props.onNavigateTo({ id: 1 });
+    return this.props.onNavigateTo({ id: "V1_NAVIGATION_HOME" });
   };
 
   render() {
@@ -106,7 +108,12 @@ export default class SceneSignIn extends React.Component {
           Sign in to manage your data, slates, and profile.
         </System.P>
 
-        <System.Input label="Username" name="username" value={this.state.username} onChange={this._handleChange} />
+        <System.Input
+          label="Username"
+          name="username"
+          value={this.state.username}
+          onChange={this._handleChange}
+        />
         <div css={STYLES_CODE_PREVIEW} style={{ marginTop: 8 }}>
           Characters + numbers only
         </div>
@@ -128,7 +135,8 @@ export default class SceneSignIn extends React.Component {
           full
           style={{ marginTop: 48 }}
           onClick={!this.state.loading ? this._handleSubmit : () => {}}
-          loading={this.state.loading}>
+          loading={this.state.loading}
+        >
           Sign in
         </System.ButtonPrimary>
       </div>

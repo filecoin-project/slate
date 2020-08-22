@@ -5,7 +5,6 @@ import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 
 import JWT from "jsonwebtoken";
-import BCrypt from "bcrypt";
 
 const initCORS = MW.init(MW.CORS);
 
@@ -42,14 +41,12 @@ export default async (req, res) => {
       .send({ decorator: "SERVER_SIGN_IN_USER_NOT_FOUND", error: true });
   }
 
-  const phaseOne = await BCrypt.hash(req.body.data.password, user.salt);
-  const phaseTwo = await BCrypt.hash(phaseOne, user.salt);
-  const phaseThree = await BCrypt.hash(
-    phaseTwo,
-    Environment.LOCAL_PASSWORD_SECRET
+  const hash = await Utilities.encryptPassword(
+    req.body.data.password,
+    user.salt
   );
 
-  if (phaseThree !== user.password) {
+  if (hash !== user.password) {
     return res
       .status(403)
       .send({ decorator: "SERVER_SIGN_IN_AUTH", error: true });

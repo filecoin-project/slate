@@ -14,29 +14,11 @@ const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  h1 {
-    font-size: 4.768rem;
-    padding: 0px 0px 32px 0px;
-    width: 100%;
-  }
-  h2 {
-    font-size: 1.953rem;
-    width: 48%;
-  }
-  p {
-    font-size: 1rem;
-    color: ${Constants.system.black};
+
+  section {
+    padding: 150px;
   }
   @media (max-width: ${Constants.sizes.mobile}px) {
-    h1 {
-      font-size: 2.441rem;
-    }
-    h2 {
-      font-size: 1.25rem;
-    }
-    p {
-      font-size: 0.78rem;
-    }
   }
 `;
 
@@ -224,10 +206,15 @@ export default class IndexPage extends React.Component {
             <br />
             <System.H2>Credit and License</System.H2>
             <System.P>
-              This Code of Conduct is based on the [npm Code of
-              Conduct](https://www.npmjs.com/policies/conduct). This document
-              may be reused under a [Creative Commons Attribution-ShareAlike
-              License](http://creativecommons.org/licenses/by-sa/4.0/).
+              This Code of Conduct is based on the
+              <a href="https://www.npmjs.com/policies/conduct">
+                npm Code of Conduct
+              </a>
+              . This document may be reused under a
+              <a href="http://creativecommons.org/licenses/by-sa/4.0/">
+                Creative Commons Attribution-ShareAlike License
+              </a>
+              .
             </System.P>
           </section>
         </div>

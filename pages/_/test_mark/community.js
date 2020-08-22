@@ -1,4 +1,4 @@
- import * as React from "react";
+import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
@@ -40,17 +40,6 @@ const STYLES_ROOT = css`
   }
 `;
 
-const STYLES_MIDDLE = css`
-  position: relative;
-  min-height: 10%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 24px;
-`;
-
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
@@ -75,9 +64,8 @@ export default class IndexPage extends React.Component {
         description={description}
         url={url}
       >
+        <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeader />
-
           <section>
             <System.H1>Open source</System.H1>
             <System.P>
@@ -85,7 +73,6 @@ export default class IndexPage extends React.Component {
               artists, and creatives on the web.{" "}
             </System.P>
           </section>
-
           <section>
             <System.H1>Contribute</System.H1>
             <System.P>Get involved with the project and contribute.</System.P>
@@ -98,7 +85,6 @@ export default class IndexPage extends React.Component {
               <span>–Albert Einstein</span>
             </System.P>
           </section>
-
           <section>
             <System.H1>Contact</System.H1>
             <System.P>
@@ -112,7 +98,6 @@ export default class IndexPage extends React.Component {
               <button>Twitter @_slate</button>
             </a>
           </section>
-
           <section>
             <System.H1>Integrate</System.H1>
             <System.P>
@@ -121,7 +106,6 @@ export default class IndexPage extends React.Component {
             <CodeBlock>npm install --save slate-react-system</CodeBlock>
             <img src="" alt="" />
           </section>
-
           <section>
             <System.H1>Design System</System.H1>
             <System.P>
@@ -132,9 +116,8 @@ export default class IndexPage extends React.Component {
             <CodeBlock>npm install --save slate-react-system</CodeBlock>
             <img src="" alt="" />
           </section>
-
-          <WebsitePrototypeFooter />
         </div>
+        <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>
     );
   }

@@ -40,17 +40,6 @@ const STYLES_ROOT = css`
   }
 `;
 
-const STYLES_MIDDLE = css`
-  position: relative;
-  min-height: 10%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 24px;
-`;
-
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
@@ -75,9 +64,8 @@ export default class IndexPage extends React.Component {
         description={description}
         url={url}
       >
+        <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeader />
-
           <section>
             <System.H1>Slate Guidelines and Terms of Service</System.H1>
             <System.P>
@@ -103,6 +91,10 @@ export default class IndexPage extends React.Component {
                 what is in this document.
               </System.LI>
             </System.UL>
+<<<<<<< HEAD
+=======
+            <br />
+>>>>>>> Nav and Footer Moved outside content Div
             <System.P>
               We expect all members of the Slate community to abide by this Code
               of Conduct at all times in all Slate community venues, online and
@@ -123,6 +115,7 @@ export default class IndexPage extends React.Component {
               "discriminatory", "hateful", or "confusing" will be decided at the
               sole discretion of the Filecoin abuse team.
             </System.P>
+            <br />
             <System.H2>Friendly Harassment-Free Space</System.H2>Friendly
             Harassment-Free Space
             <System.P>
@@ -157,6 +150,7 @@ export default class IndexPage extends React.Component {
               intellectual property restrictions. You will be solely responsible
               for any violation of laws or others' intellectual property rights.
             </System.P>
+            <br />
             <System.H2>Avoid Marketing or Soliciting</System.H2>
             <System.P>
               You are welcome to post endorsements of tools, products or
@@ -164,6 +158,7 @@ export default class IndexPage extends React.Component {
               blatant advertising, marketing or any kind of spam. Selling
               commercial services or fundraising is not allowed.
             </System.P>
+            <br />
             <System.H2>Reporting Violations of this Code of Conduct</System.H2>
             <System.P>
               If you believe someone is harassing you or has otherwise violated
@@ -172,6 +167,7 @@ export default class IndexPage extends React.Component {
               problem, please include as much detail as possible. It is easiest
               for us to address issues when we have more context.
             </System.P>
+            <br />
             <System.H2>Copyright Violations</System.H2>
             <System.P>
               We respect the intellectual property of others and ask that you do
@@ -183,6 +179,7 @@ export default class IndexPage extends React.Component {
               to: abuse@filecoin.io. Please make sure your notice meets the
               Digital Millennium Copyright Act requirements.
             </System.P>
+            <br />
             <System.H2>Consequences</System.H2>
             <System.P>
               All content published to public Filecoin infrastructure is hosted
@@ -195,6 +192,7 @@ export default class IndexPage extends React.Component {
               community without warning (and without refund in the case of a
               paid event or service).
             </System.P>
+            <br />
             <System.H2>Addressing Grievances</System.H2>
             <System.P>
               Please contact abuse@filecoin.io if you need to report a problem
@@ -206,6 +204,7 @@ export default class IndexPage extends React.Component {
               being most in the interest of fostering a safe and friendly
               community.
             </System.P>
+            <br />
             <System.H2>Contact Info</System.H2>
             <System.P>
               Please contact abuse@filecoin.io if you need to report a problem
@@ -215,12 +214,14 @@ export default class IndexPage extends React.Component {
               content. We are happy to provide guidance to help you be a
               successful part of our community.
             </System.P>
+            <br />
             <System.H2>Changes</System.H2>
             <System.P>
               This is a living document and may be updated from time to time.
               Please refer to the git history for this document to view the
               changes.
             </System.P>
+            <br />
             <System.H2>Credit and License</System.H2>
             <System.P>
               This Code of Conduct is based on the [npm Code of
@@ -229,9 +230,8 @@ export default class IndexPage extends React.Component {
               License](http://creativecommons.org/licenses/by-sa/4.0/).
             </System.P>
           </section>
-
-          <WebsitePrototypeFooter />
         </div>
+        <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>
     );
   }

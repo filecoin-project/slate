@@ -13,41 +13,34 @@ const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  h1 {
-    font-size: 4.768rem;
-    padding: 0px 0px 32px 0px;
-    width: 100%;
+  section {
+    margin: auto;
   }
-  h2 {
-    font-size: 1.953rem;
-    width: 48%;
-  }
-  p {
-    font-size: 1rem;
-    color: ${Constants.system.black};
-  }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
-    h1 {
-      font-size: 2.441rem;
-    }
-    h2 {
-      font-size: 1.25rem;
-    }
-    p {
-      font-size: 0.78rem;
-    }
   }
 `;
 
-const STYLES_MIDDLE = css`
-  position: relative;
-  min-height: 10%;
-  height: 100%;
+const STYLES_APP = css`
+  background-color: #e2e2e2;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 24px;
+  flex-direction: row;
+`;
+
+const STYLES_EXTENSTION = css`
+  background-color: #c4c4c4;
+  display: flex;
+  flex-direction: row;
+`;
+const STYLES_WRAPPER_TEXT = css`
+  width: 40%;
+  align-items: left;
+`;
+const STYLES_BROWSER = css`
+  width: 60%;
+  border: 1px solid #000000;
+  box-shadow: 0px 0px 0px #dcdcdc;
+  align-items: right;
 `;
 
 export const getServerSideProps = async (context) => {
@@ -63,9 +56,8 @@ export default class IndexPage extends React.Component {
   }
 
   render() {
-    const title = `Slate`;
-    const description =
-      "The place for all of your assets. Powered by Textile and Filecoin.";
+    const title = `Slate Download`;
+    const description = "Donwload Slate app and web extenstion";
     const url = "https://slate.host/download";
 
     return (
@@ -74,47 +66,55 @@ export default class IndexPage extends React.Component {
         description={description}
         url={url}
       >
+        <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeader />
+          <section css={STYLES_APP}>
+            <div css={STYLES_WRAPPER_TEXT}>
+              <System.H1>Slate client for Mac, Windows and Linux</System.H1>
+              <System.P>
+                Local folder and offline client for seamless filesharing between
+                your machine and the network
+              </System.P>
+              <a>
+                <button>
+                  Download Slate for <span>Mac</span>
+                </button>
+              </a>
+              <System.P>
+                Also avaible for <a>Windows</a> and <a>Linux</a>
+              </System.P>
+            </div>
 
-          <section>
-            <System.H1>Slate client for Mac, Windows and Linux</System.H1>
-            <System.P>
-              Local folder and offline client for seamless filesharing between
-              your machine and the network
-            </System.P>
-            <a>
-              <button>
-                Download Slate for <span>Mac</span>
-              </button>
-            </a>
-            <System.P>
-              Also avaible for <a>Windows</a> and <a>Linux</a>
-            </System.P>
-
-            <img src="" alt="" />
+            <img
+              css={STYLES_BROWSER}
+              src="https://source.unsplash.com/user/gndclouds/800x600"
+              alt="example image"
+            />
           </section>
 
-          <section>
-            <System.H1>Slate Chrome Extensions</System.H1>
-            <System.P>
-              Take any image on the web and save it to Slate right from your
-              browser tab
-            </System.P>
-            <a>
-              <button>Get Chrome Extension</button>
-            </a>
-
-            <img src="" alt="" />
+          <section css={STYLES_EXTENSTION}>
+            <div css={STYLES_WRAPPER_TEXT}>
+              <System.H1>Slate Chrome Extensions</System.H1>
+              <System.P>
+                Take any image on the web and save it to Slate right from your
+                browser tab
+              </System.P>
+              <a>
+                <button>Get Chrome Extension</button>
+              </a>
+            </div>
+            <img
+              css={STYLES_BROWSER}
+              src="https://source.unsplash.com/user/gndclouds/800x600"
+              alt="example image"
+            />
           </section>
           <section>
             <System.H1>Changelog</System.H1>
             <System.P>List of releases</System.P>
-
-            <img src="" alt="" />
           </section>
-          <WebsitePrototypeFooter />
         </div>
+        <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>
     );
   }

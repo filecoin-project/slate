@@ -386,8 +386,8 @@ export default class IndexPage extends React.Component {
         description={description}
         url={url}
       >
+        <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeader />
           <section css={STYLES_HERO_SECTION}>
             <div css={STYLES_SLATE_CARD_GROUP}>
               <a
@@ -738,8 +738,8 @@ export default class IndexPage extends React.Component {
               </ul>
             </div>
           </section>
-          <WebsitePrototypeFooter />
         </div>
+        <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>
     );
   }

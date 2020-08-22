@@ -1,6 +1,3 @@
-export const topDevelopersInTheWorld = ["Jordan"];
-export const topLegoLover = ["Will"];
-
 export const values = {
   version: "0.1.0",
   sds: "0.1.0",

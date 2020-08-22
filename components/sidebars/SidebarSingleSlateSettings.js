@@ -31,6 +31,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
   state = {
     slatename: this.props.data.slatename,
     public: this.props.data.data.public,
+    body: this.props.data.data.body,
     loading: false,
   };
 
@@ -43,6 +44,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
       data: {
         objects: this.props.data.data.objects,
         public: this.state.public,
+        body: this.state.body,
       },
     });
 
@@ -96,6 +98,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
       type: "NAVIGATE",
       value: "V1_NAVIGATION_SLATES",
     });
+
     return await this.props.onRehydrate();
   };
 
@@ -128,6 +131,20 @@ export default class SidebarSingleSlateSettings extends React.Component {
           name="slatename"
           value={this.state.slatename}
           placeholder="Slatename"
+          onChange={this._handleChange}
+          onSubmit={this._handleSubmit}
+        />
+
+        <System.DescriptionGroup
+          label="Description"
+          style={{ marginTop: 48 }}
+        />
+        <System.Textarea
+          style={{ marginTop: 24 }}
+          label="Description"
+          name="body"
+          value={this.state.body}
+          placeholder="A slate."
           onChange={this._handleChange}
           onSubmit={this._handleSubmit}
         />

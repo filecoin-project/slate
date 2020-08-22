@@ -117,6 +117,7 @@ export default async (req, res) => {
   const newSlateObjectEntity = {
     id: updatedData.id,
     name: updatedData.name,
+    title: updatedData.name,
     type: updatedData.type,
     ownerId: user.id,
     url,

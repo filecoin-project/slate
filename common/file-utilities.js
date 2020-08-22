@@ -90,7 +90,7 @@ export const upload = async ({ file, slate, context }) => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ slate, data: { ...json.data } }),
+      body: JSON.stringify({ slate, data: { title: file.name, ...json.data } }),
     });
 
     if (!addResponse || addResponse.error) {

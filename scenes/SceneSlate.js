@@ -17,6 +17,7 @@ export default class SceneSlate extends React.Component {
     slatename: this.props.current.slatename,
     public: this.props.current.data.public,
     objects: this.props.current.data.objects,
+    body: this.props.current.data.body,
     loading: false,
   };
 
@@ -27,15 +28,25 @@ export default class SceneSlate extends React.Component {
   componentDidUpdate(prevProps) {
     const isNewSlateScene =
       prevProps.current.slatename !== this.props.current.slatename;
-    const isUpdated =
+
+    let isUpdated = false;
+    if (
       this.props.current.data.objects.length !==
-      prevProps.current.data.objects.length;
+      prevProps.current.data.objects.length
+    ) {
+      isUpdated = true;
+    }
+
+    if (this.props.current.data.body !== prevProps.current.data.body) {
+      isUpdated = true;
+    }
 
     if (isNewSlateScene || isUpdated) {
       this.setState({
         slatename: this.props.current.slatename,
         public: this.props.current.data.public,
         objects: this.props.current.data.objects,
+        body: this.props.current.data.body,
         loading: false,
       });
 
@@ -54,6 +65,7 @@ export default class SceneSlate extends React.Component {
       data: {
         objects: objects ? objects : this.state.objects,
         public: this.state.public,
+        body: this.state.body,
       },
     });
 
@@ -182,7 +194,7 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
-    const { slatename, objects } = this.state;
+    const { slatename, objects, body = "A slate." } = this.state;
 
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
@@ -203,7 +215,7 @@ export default class SceneSlate extends React.Component {
             </React.Fragment>
           }
         >
-          https://slate.host/{this.props.viewer.username}/{slatename}
+          {body}
         </ScenePageHeader>
         <Slate editing items={objects} onSelect={this._handleSelect} />
       </ScenePage>

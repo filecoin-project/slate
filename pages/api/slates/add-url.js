@@ -11,7 +11,9 @@ export default async (req, res) => {
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res.status(403).json({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
+    return res
+      .status(403)
+      .json({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
   }
 
   const user = await Data.getUserById({
@@ -58,6 +60,7 @@ export default async (req, res) => {
           id: req.body.data.id,
           ownerId: user.id,
           name: req.body.data.name,
+          title: req.body.data.title,
           type: req.body.data.type,
           url: `https://hub.textile.io${req.body.data.ipfs}`,
         },
@@ -80,5 +83,7 @@ export default async (req, res) => {
     });
   }
 
-  return res.status(200).json({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
+  return res
+    .status(200)
+    .json({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
 };

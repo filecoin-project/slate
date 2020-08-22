@@ -53,7 +53,9 @@ export default class SlatePage extends React.Component {
           return {
             id: each.id,
             data: each,
-            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
+            component: (
+              <SlateMediaObject key={each.id} useImageFallback data={each} />
+            ),
           };
         }),
       },
@@ -69,7 +71,7 @@ export default class SlatePage extends React.Component {
   render() {
     const title = `${this.props.slate.ownername}/${this.props.slate.slatename}`;
     const url = `https://slate.host/${title}`;
-    const description = "A slate.";
+    const description = this.props.slate.data.body;
 
     let image;
     this.props.slate.data.objects.forEach((o) => {
@@ -79,11 +81,21 @@ export default class SlatePage extends React.Component {
     });
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+        image={image}
+      >
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric>{this.props.slate.ownername}</WebsitePrototypeHeaderGeneric>
+          <WebsitePrototypeHeaderGeneric>
+            {this.props.slate.ownername}
+          </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
-            <Slate items={this.props.slate.data.objects} onSelect={this._handleSelect} />
+            <Slate
+              items={this.props.slate.data.objects}
+              onSelect={this._handleSelect}
+            />
           </div>
           <WebsitePrototypeFooter style={{ marginTop: 88 }} />
         </div>

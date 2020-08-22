@@ -7,6 +7,7 @@ import * as SVG from "~/components/system/svg";
 import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
+import ScenePageHeader from "~/components/core/ScenePageHeader";
 import Slate from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonLight from "~/components/core/CircleButtonLight";
@@ -24,8 +25,11 @@ export default class SceneSlate extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const isNewSlateScene = prevProps.current.slatename !== this.props.current.slatename;
-    const isUpdated = this.props.current.data.objects.length !== prevProps.current.data.objects.length;
+    const isNewSlateScene =
+      prevProps.current.slatename !== this.props.current.slatename;
+    const isUpdated =
+      this.props.current.data.objects.length !==
+      prevProps.current.data.objects.length;
 
     if (isNewSlateScene || isUpdated) {
       this.setState({
@@ -105,7 +109,9 @@ export default class SceneSlate extends React.Component {
             id: each.id,
             cid,
             data: each,
-            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
+            component: (
+              <SlateMediaObject key={each.id} useImageFallback data={each} />
+            ),
           };
         }),
       },
@@ -180,16 +186,25 @@ export default class SceneSlate extends React.Component {
 
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
-        <System.H1 style={{ marginBottom: 24, paddingLeft: 24 }}>
-          {slatename}{" "}
-          <CircleButtonLight onClick={this._handleAdd} style={{ marginLeft: 16, marginRight: 12 }}>
-            <SVG.Plus height="16px" />
-          </CircleButtonLight>
-          <CircleButtonLight onClick={this._handleShowSettings}>
-            <SVG.Settings height="16px" />
-          </CircleButtonLight>
-        </System.H1>
-
+        <ScenePageHeader
+          style={{ padding: `0 24px 0 24px` }}
+          title={slatename}
+          actions={
+            <React.Fragment>
+              <CircleButtonLight
+                onClick={this._handleAdd}
+                style={{ marginLeft: 12, marginRight: 12 }}
+              >
+                <SVG.Plus height="16px" />
+              </CircleButtonLight>
+              <CircleButtonLight onClick={this._handleShowSettings}>
+                <SVG.Settings height="16px" />
+              </CircleButtonLight>
+            </React.Fragment>
+          }
+        >
+          https://slate.host/{this.props.viewer.username}/{slatename}
+        </ScenePageHeader>
         <Slate editing items={objects} onSelect={this._handleSelect} />
       </ScenePage>
     );

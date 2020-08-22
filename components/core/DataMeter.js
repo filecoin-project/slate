@@ -118,14 +118,6 @@ export const DataMeterBar = (props) => {
 export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
-      <System.P style={{ fontSize: 12 }}>
-        <strong css={STYLES_TITLE}>Usage</strong>
-        Slate users get 1GB of IPFS storage from Textile. In the future you can
-        extend this with your own plugins using our SDK.
-        <br />
-        <br />
-      </System.P>
-
       <DataMeterBar
         leftLabel="used"
         rightLabel="total"

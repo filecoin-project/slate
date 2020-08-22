@@ -8,6 +8,7 @@ import { css } from "@emotion/react";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
+import ScenePageHeader from "~/components/core/ScenePageHeader";
 
 const STYLES_GROUP = css`
   padding: 24px;
@@ -129,7 +130,9 @@ export default class SceneWallet extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>Wallet</System.H1>
+        <ScenePageHeader title="Wallet [WIP]">
+          This scene is currently a work in progress.
+        </ScenePageHeader>
 
         <Section
           onAction={this.props.onAction}
@@ -142,7 +145,8 @@ export default class SceneWallet extends React.Component {
               type: "SIDEBAR",
               value: "SIDEBAR_CREATE_WALLET_ADDRESS",
             },
-          ]}>
+          ]}
+        >
           <div css={STYLES_GROUP}>
             <System.SelectMenu
               label="Select your address"
@@ -158,7 +162,11 @@ export default class SceneWallet extends React.Component {
             <div css={STYLES_TEXT}>
               <div>
                 <div css={STYLES_FOCUS}>
-                  {this.state.visible ? currentAddress.address : <span css={STYLES_FOCUS_EMPAHSIS}>Hidden</span>}
+                  {this.state.visible ? (
+                    currentAddress.address
+                  ) : (
+                    <span css={STYLES_FOCUS_EMPAHSIS}>Hidden</span>
+                  )}
                 </div>
                 <div css={STYLES_SUBTEXT}>Filecoin address</div>
               </div>
@@ -166,7 +174,8 @@ export default class SceneWallet extends React.Component {
               <div style={{ marginTop: 24 }}>
                 <div css={STYLES_FOCUS}>
                   {currentAddress.name}{" "}
-                  {this.props.viewer.settings_cold_default_address === currentAddress.address ? (
+                  {this.props.viewer.settings_cold_default_address ===
+                  currentAddress.address ? (
                     <strong css={STYLES_FOCUS_EMPAHSIS}>(Primary)</strong>
                   ) : null}
                 </div>
@@ -175,7 +184,9 @@ export default class SceneWallet extends React.Component {
 
               <div css={STYLES_ITEM_GROUP}>
                 <div css={STYLES_ITEM}>
-                  <div css={STYLES_FOCUS}>{Strings.formatNumber(currentAddress.balance)}</div>
+                  <div css={STYLES_FOCUS}>
+                    {Strings.formatNumber(currentAddress.balance)}
+                  </div>
                   <div css={STYLES_SUBTEXT}>Filecoin</div>
                 </div>
 
@@ -193,7 +204,8 @@ export default class SceneWallet extends React.Component {
                       type: "SIDEBAR",
                       value: "SIDEBAR_WALLET_SEND_FUNDS",
                     })
-                  }>
+                  }
+                >
                   Send Filecoin
                 </System.ButtonPrimary>
               </div>
@@ -204,11 +216,17 @@ export default class SceneWallet extends React.Component {
                 onClick={this._handleMakeAddressVisible}
                 style={{
                   marginRight: 16,
-                  backgroundColor: this.state.visible ? null : Constants.system.brand,
-                }}>
+                  backgroundColor: this.state.visible
+                    ? null
+                    : Constants.system.brand,
+                }}
+              >
                 <SVG.Privacy height="16px" />
               </span>
-              <span css={STYLES_CIRCLE_BUTTON} onClick={() => this._handleCopy(currentAddress.address)}>
+              <span
+                css={STYLES_CIRCLE_BUTTON}
+                onClick={() => this._handleCopy(currentAddress.address)}
+              >
                 <SVG.CopyAndPaste height="16px" />
               </span>
             </div>

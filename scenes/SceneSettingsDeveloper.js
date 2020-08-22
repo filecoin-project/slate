@@ -7,6 +7,7 @@ import * as SVG from "~/components/system/svg";
 import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
+import ScenePageHeader from "~/components/core/ScenePageHeader";
 import CodeBlock from "~/components/system/CodeBlock";
 
 const STYLES_KEY = css`
@@ -72,7 +73,9 @@ class Key extends React.Component {
         {this.state.visible ? (
           <div css={STYLES_KEY_LEFT}>{this.props.data.key}</div>
         ) : (
-          <div css={STYLES_KEY_LEFT}>XXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXX</div>
+          <div css={STYLES_KEY_LEFT}>
+            XXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXX
+          </div>
         )}
         <div css={STYLES_KEY_RIGHT}>
           <span
@@ -80,7 +83,8 @@ class Key extends React.Component {
             onClick={this._handleToggleVisible}
             style={{
               marginRight: 8,
-            }}>
+            }}
+          >
             <SVG.Privacy height="16px" />
           </span>
           <span
@@ -88,7 +92,8 @@ class Key extends React.Component {
             onClick={() => this._handleDelete(this.props.data.id)}
             style={{
               marginRight: 4,
-            }}>
+            }}
+          >
             <SVG.Dismiss height="16px" />
           </span>
         </div>
@@ -97,7 +102,10 @@ class Key extends React.Component {
   }
 }
 
-const EXAMPLE_GET_SLATE = (key, slateId) => `const response = await fetch('https://slate.host/api/v1/get-slate', {
+const EXAMPLE_GET_SLATE = (
+  key,
+  slateId
+) => `const response = await fetch('https://slate.host/api/v1/get-slate', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -113,7 +121,9 @@ const EXAMPLE_GET_SLATE = (key, slateId) => `const response = await fetch('https
 const json = await response.json();
 console.log(json);`;
 
-const EXAMPLE_GET = (key) => `const response = await fetch('https://slate.host/api/v1/get', {
+const EXAMPLE_GET = (
+  key
+) => `const response = await fetch('https://slate.host/api/v1/get', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -152,7 +162,10 @@ const EXAMPLE_GET_SLATE_RESPONSE = (key, slateId) => `{
   }
 }`;
 
-const EXAMPLE_UPLOAD_TO_SLATE = (key, slateId) => `const url = 'https://slate.host/api/v1/upload-data/${slateId}';
+const EXAMPLE_UPLOAD_TO_SLATE = (
+  key,
+  slateId
+) => `const url = 'https://slate.host/api/v1/upload-data/${slateId}';
 
 let file = e.target.files[0];
 let data = new FormData();
@@ -195,7 +208,11 @@ export default class SceneSettingsDeveloper extends React.Component {
   _handleDelete = async (id) => {
     this.setState({ loading: true });
 
-    if (!window.confirm("Are you sure you want to delete this key? This action is irreversible")) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this key? This action is irreversible"
+      )
+    ) {
       this.setState({ loading: false });
       return;
     }
@@ -249,19 +266,22 @@ export default class SceneSettingsDeveloper extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>Developer API</System.H1>
-        <System.DescriptionGroup
-          style={{ marginTop: 48, marginBottom: 48 }}
-          label="Generate an API key"
-          description="You can use your API key to get slates and add images to slates. You can have a total of 10 keys at any given time."
-        />
+        <ScenePageHeader title="Developer API">
+          You can use your API key to get slates and add images to slates. You
+          can have a total of 10 keys at any given time.
+        </ScenePageHeader>
+        <br />
+        <br />
 
         {this.props.viewer.keys.map((k) => {
           return <Key key={k.id} data={k} onDelete={this._handleDelete} />;
         })}
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary onClick={this._handleSave} loading={this.state.loading}>
+          <System.ButtonPrimary
+            onClick={this._handleSave}
+            loading={this.state.loading}
+          >
             Generate
           </System.ButtonPrimary>
         </div>
@@ -274,7 +294,10 @@ export default class SceneSettingsDeveloper extends React.Component {
               label="Get all slates"
               description="This API request will return all of your public slates."
             />
-            <CodeBlock children={EXAMPLE_GET(key)} style={{ maxWidth: "768px" }} />
+            <CodeBlock
+              children={EXAMPLE_GET(key)}
+              style={{ maxWidth: "768px" }}
+            />
             <br />
             <br />
             <System.DescriptionGroup
@@ -282,19 +305,28 @@ export default class SceneSettingsDeveloper extends React.Component {
               label="Get slate by ID"
               description="This API request will return a specific slate. If you don't provide an ID argument the response will contain the most recently modified slate."
             />
-            <CodeBlock children={EXAMPLE_GET_SLATE(key, slateId)} style={{ maxWidth: "768px" }} />
+            <CodeBlock
+              children={EXAMPLE_GET_SLATE(key, slateId)}
+              style={{ maxWidth: "768px" }}
+            />
             <System.DescriptionGroup
               style={{ marginTop: 48, marginBottom: 16 }}
               label="Get slate by ID: Response"
               description="This is the shape of the response."
             />
-            <CodeBlock children={EXAMPLE_GET_SLATE_RESPONSE(key)} style={{ maxWidth: "768px" }} />
+            <CodeBlock
+              children={EXAMPLE_GET_SLATE_RESPONSE(key)}
+              style={{ maxWidth: "768px" }}
+            />
             <System.DescriptionGroup
               style={{ marginTop: 48 }}
               label="Upload data to slate by ID"
               description="This API request will add a JavaScript file object to your slate."
             />
-            <CodeBlock children={EXAMPLE_UPLOAD_TO_SLATE(key, slateId)} style={{ maxWidth: "768px" }} />
+            <CodeBlock
+              children={EXAMPLE_UPLOAD_TO_SLATE(key, slateId)}
+              style={{ maxWidth: "768px" }}
+            />
           </React.Fragment>
         ) : null}
       </ScenePage>

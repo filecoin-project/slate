@@ -7,6 +7,7 @@ import { css } from "@emotion/react";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
+import ScenePageHeader from "~/components/core/ScenePageHeader";
 
 const STYLES_NESTED_TABLE = css`
   display: grid;
@@ -41,7 +42,9 @@ export default class SceneDeals extends React.Component {
     console.log(this.props);
     return (
       <ScenePage>
-        <System.H1>Deals</System.H1>
+        <ScenePageHeader title="Deals [WIP]">
+          This scene is currently a work in progress.
+        </ScenePageHeader>
 
         <Section title="Filecoin storage deal history">
           <System.Table

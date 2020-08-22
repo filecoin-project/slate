@@ -7,6 +7,7 @@ import { css } from "@emotion/react";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
+import ScenePageHeader from "~/components/core/ScenePageHeader";
 
 const STYLES_NUMBER = css`
   font-family: ${Constants.font.semiBold};
@@ -75,11 +76,9 @@ export default class SceneHome extends React.Component {
 
     return (
       <ScenePage>
-        <System.DescriptionGroup
-          label="Will the Home page look like this in the final product?"
-          description="No! Consider this page just a functionality test. Home will have Filecoin network analytics and updates from the people you engage with."
-        />
-        <System.H1 style={{ marginTop: 48 }}>Home</System.H1>
+        <ScenePageHeader title="Home [WIP]">
+          This scene is currently a work in progress.
+        </ScenePageHeader>
 
         {this.props.viewer.addresses[0] ? (
           <Section

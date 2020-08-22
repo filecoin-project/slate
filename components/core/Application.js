@@ -179,6 +179,7 @@ export default class ApplicationPage extends React.Component {
 
     if (!files.length) {
       alert("TODO: Files not supported error");
+      this._handleRegisterFileLoading({ fileLoading: null });
       return;
     }
 

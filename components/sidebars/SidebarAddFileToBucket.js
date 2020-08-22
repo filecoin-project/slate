@@ -80,7 +80,7 @@ export default class SidebarAddFileToBucket extends React.Component {
 
     if (!files.length) {
       alert("TODO: Files not supported error");
-      return;
+      return this.props.onRegisterFileLoading({ fileLoading: null });
     }
 
     this.props.onRegisterFileLoading({ fileLoading });

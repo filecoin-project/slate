@@ -62,6 +62,7 @@ export default async (req, res) => {
     username: req.body.data.username.toLowerCase(),
     data: {
       photo: "https://slate.host/static/a1.jpg",
+      body: "A user of Slate.",
       settings_deals_auto_approve: false,
       tokens: { pg, api },
       library: LibraryManager.init({ bucketName, readableName: "Data" }),

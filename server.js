@@ -106,7 +106,7 @@ app.prepare().then(async () => {
       viewer,
       creator: {
         username: creator.username,
-        data: { photo: creator.data.photo },
+        data: { photo: creator.data.photo, body: creator.data.body },
         slates: JSON.parse(JSON.stringify(slates)),
       },
     });

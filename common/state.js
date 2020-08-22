@@ -62,6 +62,7 @@ export const getInitialState = (props) => {
   }
 
   const {
+    id,
     status,
     stats,
     messageList,
@@ -79,11 +80,9 @@ export const getInitialState = (props) => {
   } = props;
 
   return {
-    id: info.id,
+    id,
     username,
-    data: {
-      photo: data.photo,
-    },
+    data,
 
     // NOTE(jim): Local settings
     settings_deals_auto_approve: settings.deals_auto_approve,

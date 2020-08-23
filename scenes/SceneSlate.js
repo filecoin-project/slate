@@ -54,8 +54,6 @@ export default class SceneSlate extends React.Component {
         layouts = { lg: generateLayout(this.props.current.data.objects) };
       }
 
-      console.log("new layouts", layouts);
-
       this.setState({
         slatename: this.props.current.slatename,
         public: this.props.current.data.public,

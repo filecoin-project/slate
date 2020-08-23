@@ -130,6 +130,9 @@ export default class Slate extends React.Component {
   generateDOM = () => {
     return this.props.layouts.lg.map((each, index) => {
       const data = this.props.items[each.i];
+      if (!data) {
+        return <div key={index} />;
+      }
 
       return (
         <div key={index} css={STYLES_ITEM}>

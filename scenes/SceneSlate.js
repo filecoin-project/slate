@@ -49,14 +49,19 @@ export default class SceneSlate extends React.Component {
     }
 
     if (isNewSlateScene || isUpdated) {
+      let layouts = this.props.current.data.layouts;
+      if (!layouts) {
+        layouts = { lg: generateLayout(this.props.current.data.objects) };
+      }
+
+      console.log("new layouts", layouts);
+
       this.setState({
         slatename: this.props.current.slatename,
         public: this.props.current.data.public,
         objects: this.props.current.data.objects,
         body: this.props.current.data.body,
-        layouts: this.props.current.data.layouts
-          ? this.props.current.data.layouts
-          : { lg: generateLayout(this.props.current.data.objects) },
+        layouts: layouts,
         loading: false,
       });
 

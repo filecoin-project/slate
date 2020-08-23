@@ -11,9 +11,7 @@ export default async (req, res) => {
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(403)
-      .json({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
+    return res.status(403).json({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
   }
 
   const user = await Data.getUserById({
@@ -50,22 +48,41 @@ export default async (req, res) => {
     });
   }
 
+  const objects = [
+    ...slate.data.objects,
+    {
+      id: req.body.data.id,
+      ownerId: user.id,
+      name: req.body.data.name,
+      title: req.body.data.title,
+      type: req.body.data.type,
+      url: `https://hub.textile.io${req.body.data.ipfs}`,
+    },
+  ];
+
+  let layouts = slate.data.layouts;
+  if (layouts) {
+    const keys = Object.keys(slate.data.layouts);
+    for (let i = 0; i < keys.length; i++) {
+      layouts[keys[i]].push({
+        x: (objects.length * 2) % 10,
+        y: 0,
+        w: 2,
+        h: 2,
+        minW: 2,
+        minH: 2,
+        i: `${objects.length}`.toString(),
+      });
+    }
+  }
+
   const update = await Data.updateSlateById({
     id: slate.id,
     updated_at: new Date(),
     data: {
       ...slate.data,
-      objects: [
-        {
-          id: req.body.data.id,
-          ownerId: user.id,
-          name: req.body.data.name,
-          title: req.body.data.title,
-          type: req.body.data.type,
-          url: `https://hub.textile.io${req.body.data.ipfs}`,
-        },
-        ...slate.data.objects,
-      ],
+      layouts,
+      objects,
     },
   });
 
@@ -83,7 +100,5 @@ export default async (req, res) => {
     });
   }
 
-  return res
-    .status(200)
-    .json({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
+  return res.status(200).json({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
 };

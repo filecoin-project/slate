@@ -151,6 +151,7 @@ export default class Slate extends React.Component {
   };
 
   onLayoutChange = (layout, layouts) => {
+    this.setState({ saving: "IDLE" });
     this.props.onLayoutChange(layout, layouts);
   };
 

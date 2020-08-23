@@ -54,7 +54,9 @@ export default class SceneSlate extends React.Component {
         public: this.props.current.data.public,
         objects: this.props.current.data.objects,
         body: this.props.current.data.body,
-        layouts: this.props.current.data.layouts,
+        layouts: this.props.current.data.layouts
+          ? this.props.current.data.layouts
+          : { lg: generateLayout(this.props.current.data.objects) },
         loading: false,
       });
 

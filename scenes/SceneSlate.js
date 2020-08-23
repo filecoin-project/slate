@@ -162,12 +162,29 @@ export default class SceneSlate extends React.Component {
       detail: { loading: true },
     });
 
+    let index;
+    const objects = this.state.objects.filter((o, i) => {
+      if (o.id === id) {
+        index = i;
+      }
+
+      return o.id !== id;
+    });
+
+    const keys = Object.keys(this.state.layouts);
+    let layouts = this.state.layouts;
+    for (let j = 0; j < keys.length; j++) {
+      layouts[keys[j]] = layouts[keys[j]].filter((each, i) => {
+        return i !== index;
+      });
+    }
+
     const response = await Actions.updateSlate({
       id: this.props.current.slateId,
       slatename: this.state.slatename,
       data: {
-        objects: this.state.objects.filter((o) => o.id !== id),
-        layouts: this.state.layouts,
+        objects,
+        layouts,
         public: this.state.public,
         body: this.state.body,
       },

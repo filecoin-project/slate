@@ -106,7 +106,7 @@ app.prepare().then(async () => {
       viewer,
       creator: {
         username: creator.username,
-        data: { photo: creator.data.photo, body: creator.data.body },
+        data: { photo: creator.data.photo, body: creator.data.body ? creator.data.body : "A user on Slate." },
         slates: JSON.parse(JSON.stringify(slates)),
       },
     });
@@ -145,9 +145,7 @@ app.prepare().then(async () => {
     }
 
     return app.render(req, res, "/_/slate", {
-      slate: JSON.parse(
-        JSON.stringify({ ...slate, ownername: req.params.username })
-      ),
+      slate: JSON.parse(JSON.stringify({ ...slate, ownername: req.params.username })),
     });
   });
 

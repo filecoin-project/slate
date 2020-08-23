@@ -28,7 +28,7 @@ export default class SceneSlate extends React.Component {
     body: this.props.current.data.body,
     layouts: this.props.current.data.layouts
       ? this.props.current.data.layouts
-      : generateLayout(this.props.current.data.objects),
+      : { lg: generateLayout(this.props.current.data.objects) },
     loading: false,
   };
 
@@ -218,6 +218,8 @@ export default class SceneSlate extends React.Component {
 
   render() {
     const { slatename, objects, body = "A slate." } = this.state;
+
+    console.log(this.state.layouts);
 
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>

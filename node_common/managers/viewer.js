@@ -31,7 +31,7 @@ export const getById = async ({ id }) => {
   try {
     data = {
       id: user.id,
-      data: { photo: user.data.photo, body: user.data.body },
+      data: { photo: user.data.photo, body: user.data.body ? user.data.body : "" },
       settings: {
         deals_auto_approve: user.data.settings_deals_auto_approve,
       },

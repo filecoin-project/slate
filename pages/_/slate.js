@@ -7,7 +7,7 @@ import { css } from "@emotion/react";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
-import Slate from "~/components/core/Slate";
+import Slate, { generateLayout } from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 
 const STYLES_ROOT = css`
@@ -41,6 +41,12 @@ export const getServerSideProps = async (context) => {
 };
 
 export default class SlatePage extends React.Component {
+  state = {
+    layouts: this.props.slate.data.layouts
+      ? this.props.slate.data.layouts
+      : { lg: generateLayout(this.props.slate.data.objects) },
+  };
+
   componentDidMount() {
     if (!this.props.slate) {
       return null;
@@ -85,7 +91,7 @@ export default class SlatePage extends React.Component {
           <div css={STYLES_SLATE}>
             <Slate
               editable={false}
-              layouts={this.props.slate.data.layouts}
+              layouts={this.state.layouts}
               items={this.props.slate.data.objects}
               onSelect={this._handleSelect}
             />

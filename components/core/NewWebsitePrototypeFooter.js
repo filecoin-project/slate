@@ -12,7 +12,7 @@ const STYLES_CONTAINER = css`
   display: flex;
   align-items: top;
   justify-content: top;
-  padding: 48px 24px;
+  padding: 48px 88px;
   background-color: ${Constants.system.black};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -40,14 +40,14 @@ const STYLES_LINK = css`
 const STYLES_LEFT = css`
   flex-shrink: 0;
   font-size: 1rem;
-  color: ${Constants.system.white};  
+  color: ${Constants.system.white};
 `;
 
 const STYLES_SLATE = css`
   flex-shrink: 0;
   padding: 0px 0px 8px 0px;
   font-size: 1rem;
-  color: ${Constants.system.white};  
+  color: ${Constants.system.white};
 `;
 
 const STYLES_TRADEMARK = css`
@@ -58,14 +58,14 @@ const STYLES_TRADEMARK = css`
 const transition = {
   loop: Infinity,
   ease: "easeInOut",
-  duration: 4
-}
+  duration: 4,
+};
 
 const STYLES_CREDIT = css`
   flex-shrink: 0;
   padding: 8px 0px 8px 0px;
   font-size: 12px;
-  color: ${Constants.system.white};  
+  color: ${Constants.system.white};
 `;
 
 const STYLES_RIGHT = css`
@@ -76,9 +76,9 @@ const STYLES_RIGHT = css`
   align-items: top;
   justify-content: flex-end;
   position: absolute;
-  right: 24px;
+  right: 88px;
 
-  color: ${Constants.system.gray};
+  color: ${Constants.system.darkGray};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     position: absolute;
@@ -93,15 +93,20 @@ export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
-        <motion.div css={STYLES_TRADEMARK} animate={{ rotateY: 360 }}
-      transition={transition}>
-          <img width = "80px" src="/static/slate.png" />
+        <motion.div
+          css={STYLES_TRADEMARK}
+          animate={{ rotateY: 360 }}
+          transition={transition}
+        >
+          <img width="80px" src="/static/slate.png" />
         </motion.div>
         <div css={STYLES_SLATE}>
-          Slate is the gateway to {" "} 
-          <a css={STYLES_LINK} href="https://filecoin.io">Filecoin</a> –
-          <br />
-          A new network design we trust.  
+          Slate is the gateway to{" "}
+          <a css={STYLES_LINK} href="https://filecoin.io">
+            Filecoin
+          </a>{" "}
+          –
+          <br />A new network design we trust.
         </div>
         <div css={STYLES_CREDIT}>
           Powered by{" "}
@@ -119,7 +124,7 @@ export default (props) => {
       <br />
       <br />
       <div css={STYLES_RIGHT}>
-        <div style={{ flex:1 }}>
+        <div style={{ marginRight: 48 }}>
           <b>Reach out</b>
           <br />
           <br />
@@ -133,7 +138,7 @@ export default (props) => {
         </div>
         <br />
         <br />
-        <div style={{ flex:1 }}>
+        <div>
           Resources
           <br />
           <br />
@@ -141,32 +146,19 @@ export default (props) => {
             Github
           </a>
           <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
+          <a
+            css={STYLES_LINK}
+            href="https://github.com/filecoin-project/slate/issues"
+          >
             Community Guidelines
           </a>
           <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
+          <a
+            css={STYLES_LINK}
+            href="https://github.com/filecoin-project/slate/issues"
+          >
             Privacy
           </a>
-        </div>
-        <br />
-        <br />
-        <div style={{ flex:2 }}>
-          Stay in the looop
-          <br />
-          <br />
-          <a css={STYLES_LINK} href="https://twitter.com/_slate">
-            Github
-          </a>
-          <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
-            Community Guidelines
-          </a>
-          <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
-            Privacy
-          </a>
-          <br />
         </div>
       </div>
     </div>

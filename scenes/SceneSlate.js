@@ -171,6 +171,8 @@ export default class SceneSlate extends React.Component {
       return o.id !== id;
     });
 
+    // NOTE(jim): Every time we remove an object from a slate.
+    // We will want to remove the object from the layouts too.
     const keys = Object.keys(this.state.layouts);
     let layouts = this.state.layouts;
     for (let j = 0; j < keys.length; j++) {

@@ -24,7 +24,6 @@ const STYLES_ROOT = css`
 
 const STYLES_ROOT_CONTENT = css`
   position: relative;
-  padding: 88px 24px 88px 24px;
   width: 100%;
   height: 100%;
   display: flex;

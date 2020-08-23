@@ -1,4 +1,4 @@
-![Slate](https://user-images.githubusercontent.com/310223/88096926-48f21880-cb4c-11ea-803f-1984f4515651.png)
+![Slate](https://user-images.githubusercontent.com/310223/90989634-2048ae80-e550-11ea-938f-302a35ee1174.png)
 
 # Slate
 
@@ -6,11 +6,9 @@
 
 - [Design System](https://slate.host/_/system)
 - [Release Repository](https://github.com/filecoin-project/slate-react-system)
-- [Live Application Prototype](https://slate.host/_)
+- [Live Application Release Candidate](https://slate.host/_)
 
-![screenshot](https://user-images.githubusercontent.com/310223/88253285-3a981f80-cc66-11ea-884b-e3b055f6bf46.png)
-
-#### Current prototype (July 22nd, 2020)
+### Introduction
 
 Our goal is to create a new kind of storage solution that encourages collaboration and research, while also building it on a completely transparent and open source foundation. Over time, we hope to grow Slate into an elegant experience for:
 

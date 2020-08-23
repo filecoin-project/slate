@@ -32,6 +32,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
     slatename: this.props.data.slatename,
     public: this.props.data.data.public,
     body: this.props.data.data.body,
+    layouts: this.props.data.data.layouts,
     loading: false,
   };
 
@@ -43,6 +44,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
       slatename: this.state.slatename,
       data: {
         objects: this.props.data.data.objects,
+        layouts: this.props.data.data.layouts,
         public: this.state.public,
         body: this.state.body,
       },
@@ -72,11 +74,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
   _handleDelete = async (e) => {
     this.setState({ loading: true });
 
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this Slate? This action is irreversible."
-      )
-    ) {
+    if (!window.confirm("Are you sure you want to delete this Slate? This action is irreversible.")) {
       return this.setState({ loading: false });
     }
 
@@ -108,12 +106,8 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
-          Slate Settings
-        </System.P>
-        <System.P style={{ marginTop: 24 }}>
-          Update settings for {this.props.data.slatename}.
-        </System.P>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>Slate Settings</System.P>
+        <System.P style={{ marginTop: 24 }}>Update settings for {this.props.data.slatename}.</System.P>
 
         <System.Input
           containerStyle={{ marginTop: 48 }}
@@ -121,8 +115,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           label="Slatename"
           description={
             <React.Fragment>
-              Changing the slatename will change your public slate URL. Your
-              slate URL is:{" "}
+              Changing the slatename will change your public slate URL. Your slate URL is:{" "}
               <a href={url} target="_blank">
                 https://slate.host{url}
               </a>
@@ -135,10 +128,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           onSubmit={this._handleSubmit}
         />
 
-        <System.DescriptionGroup
-          label="Description"
-          style={{ marginTop: 48 }}
-        />
+        <System.DescriptionGroup label="Description" style={{ marginTop: 48 }} />
         <System.Textarea
           style={{ marginTop: 24 }}
           label="Description"
@@ -157,29 +147,17 @@ export default class SidebarSingleSlateSettings extends React.Component {
             />
           </div>
           <div css={STYLES_RIGHT}>
-            <System.Toggle
-              name="public"
-              onChange={this._handleChange}
-              active={this.state.public}
-            />
+            <System.Toggle name="public" onChange={this._handleChange} active={this.state.public} />
           </div>
         </div>
 
         <div style={{ marginTop: 32 }}>
-          <System.ButtonPrimary
-            full
-            onClick={this._handleSubmit}
-            loading={this.state.loading}
-          >
+          <System.ButtonPrimary full onClick={this._handleSubmit} loading={this.state.loading}>
             Save changes
           </System.ButtonPrimary>
 
           {!this.state.loading ? (
-            <System.ButtonSecondary
-              style={{ marginTop: 16 }}
-              full
-              onClick={this._handleCancel}
-            >
+            <System.ButtonSecondary style={{ marginTop: 16 }} full onClick={this._handleCancel}>
               Cancel
             </System.ButtonSecondary>
           ) : null}
@@ -195,11 +173,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
         {!this.state.loading ? (
           <div style={{ marginTop: 32 }}>
-            <System.ButtonSecondary
-              full
-              onClick={this._handleDelete}
-              loading={this.state.loading}
-            >
+            <System.ButtonSecondary full onClick={this._handleDelete} loading={this.state.loading}>
               Delete {this.props.data.slatename}
             </System.ButtonSecondary>
           </div>

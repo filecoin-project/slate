@@ -4,7 +4,11 @@ import { CacheProvider, Global } from "@emotion/react";
 import { cache } from "@emotion/css";
 
 import App from "next/app";
-import { injectGlobalStyles, injectCodeBlockStyles } from "~/common/styles/global";
+import {
+  injectGlobalStyles,
+  injectGlobalGridStyles,
+  injectCodeBlockStyles,
+} from "~/common/styles/global";
 
 import "react-slideshow-image/dist/styles.css";
 
@@ -15,6 +19,7 @@ function MyApp({ Component, pageProps }) {
     <CacheProvider value={cache}>
       <Global styles={injectGlobalStyles()} />
       <Global styles={injectCodeBlockStyles()} />
+      <Global styles={injectGlobalGridStyles()} />
       <Component {...pageProps} />
     </CacheProvider>
   );

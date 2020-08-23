@@ -71,6 +71,7 @@
     "react-confetti": "^6.0.0",
     "react-dom": "^16.12.0",
     "react-draggable": "^4.4.3",
+    "react-grid-layout": "^1.0.0",
     "react-slideshow-image": "^3.0.2",
     "react-text-loop": "^2.3.0",
     "regenerator-runtime": "^0.13.5",

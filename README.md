@@ -59,7 +59,7 @@ TEXTILE_HUB_SECRET=XXX
 ### Install and run
 
 ```sh
-git clone git@github.com:filecoin-project/slate.git
+git clone https://github.com/filecoin-project/slate.git
 cd slate
 npm install
 

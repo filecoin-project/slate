@@ -122,13 +122,31 @@ export default async (req, res) => {
     ownerId: user.id,
     url,
   };
+  const objects = [...slate.data.objects, newSlateObjectEntity];
+
+  let layouts = slate.data.layouts;
+  if (layouts) {
+    const keys = Object.keys(slate.data.layouts);
+    for (let i = 0; i < keys.length; i++) {
+      layouts[keys[i]].push({
+        x: (objects.length * 2) % 10,
+        y: 0,
+        w: 2,
+        h: 2,
+        minW: 2,
+        minH: 2,
+        i: `${objects.length}`.toString(),
+      });
+    }
+  }
 
   const updatedSlate = await Data.updateSlateById({
     id: slate.id,
     updated_at: new Date(),
     data: {
       ...slate.data,
-      objects: [newSlateObjectEntity, ...slate.data.objects],
+      objects,
+      layouts,
     },
   });
 

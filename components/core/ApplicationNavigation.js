@@ -19,6 +19,7 @@ const IconMap = {
   LOCAL_DATA: <SVG.HardDrive height="20px" />,
   PROFILE_PAGE: <SVG.ProfileUser height="20px" />,
   SETTINGS_DEVELOPER: <SVG.SettingsDeveloper height="20px" />,
+  DIRECTORY: <SVG.Directory height="20px" />,
 };
 
 const STYLES_NAVIGATION = css`
@@ -69,7 +70,8 @@ const STYLES_PROFILE = css`
   align-items: center;
   justify-content: flex-start;
   transition: 200ms ease all;
-/*
+  cursor: pointer;
+
   :hover {
     color: ${Constants.system.white};
     background-color: ${Constants.system.brand};
@@ -256,11 +258,16 @@ export default class ApplicationNavigation extends React.Component {
     return (
       <nav css={STYLES_NAVIGATION}>
         <div css={STYLES_NAVIGATION_HEADER}>
-          <a
+          <div
             css={STYLES_PROFILE}
             style={{ marginRight: 16 }}
-            href={`/${this.props.viewer.username}`}
-            target="_blank"
+            onClick={() =>
+              this.props.onAction({
+                type: "NAVIGATE",
+                value: "V1_NAVIGATION_PROFILE",
+                data: this.props.viewer,
+              })
+            }
           >
             <span
               css={STYLES_PROFILE_IMAGE}
@@ -269,7 +276,7 @@ export default class ApplicationNavigation extends React.Component {
               }}
             />
             {this.props.viewer.username}
-          </a>
+          </div>
           <ApplicationControlMenu
             onNavigateTo={this.props.onNavigateTo}
             onAction={this.props.onAction}

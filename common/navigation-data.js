@@ -111,7 +111,7 @@ export const generate = ({ library = [], slates = [] }) => [
     children: null,
   },
   {
-    id: "V1_NAVIGATION_PROFILE",
+    id: "V1_NAVIGATION_PROFILE_EDIT",
     decorator: "EDIT_ACCOUNT",
     name: "Profile & Account Settings",
     pageTitle: "Your Profile & Account Settings",
@@ -123,6 +123,14 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SETTINGS",
     name: "Filecoin Settings",
     pageTitle: "Filecoin Settings.",
+    children: null,
+    ignore: true,
+  },
+  {
+    id: "V1_NAVIGATION_PROFILE",
+    decorator: "PROFILE",
+    name: "Profile",
+    pageTitle: "Profile",
     children: null,
     ignore: true,
   },

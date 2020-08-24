@@ -67,6 +67,7 @@ const STYLES_HEADER_RIGHT = css`
   padding-left: 24px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
+    padding-left: 0px;
     margin-top: 16px;
     text-align: center;
   }

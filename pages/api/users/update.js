@@ -5,8 +5,6 @@ import * as Utilities from "~/node_common/utilities";
 import * as Validations from "~/common/validations";
 import * as Powergate from "~/node_common/powergate";
 
-import DB from "~/node_common/database";
-import PG from "~/node_common/powergate";
 import BCrypt from "bcrypt";
 
 const initCORS = MW.init(MW.CORS);
@@ -18,9 +16,7 @@ export default async (req, res) => {
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(500)
-      .json({ decorator: "SERVER_USER_UPDATE", error: true });
+    return res.status(500).json({ decorator: "SERVER_USER_UPDATE", error: true });
   }
 
   const user = await Data.getUserById({
@@ -28,15 +24,11 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res
-      .status(404)
-      .json({ decorator: "SERVER_USER_UPDATE_USER_NOT_FOUND", error: true });
+    return res.status(404).json({ decorator: "SERVER_USER_UPDATE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
-    return res
-      .status(500)
-      .json({ decorator: "SERVER_USER_UPDATE_USER_NOT_FOUND", error: true });
+    return res.status(500).json({ decorator: "SERVER_USER_UPDATE_USER_NOT_FOUND", error: true });
   }
 
   const PG = Powergate.get(user);
@@ -65,9 +57,7 @@ export default async (req, res) => {
   // in OSS, add a random value as an environment variable.
   if (req.body.type == "CHANGE_PASSWORD") {
     if (!Validations.password(req.body.password)) {
-      return res
-        .status(500)
-        .json({ decorator: "SERVER_INVALID_PASSWORD", error: true });
+      return res.status(500).json({ decorator: "SERVER_INVALID_PASSWORD", error: true });
     }
 
     const rounds = Number(Environment.LOCAL_PASSWORD_ROUNDS);
@@ -89,9 +79,7 @@ export default async (req, res) => {
       data = await PG.ffs.setDefaultStorageConfig(req.body.config);
     } catch (e) {
       console.log(e);
-      return res
-        .status(500)
-        .send({ decorator: "SERVER_USER_UPDATE_SETTINGS_CONFIG", error: true });
+      return res.status(500).send({ decorator: "SERVER_USER_UPDATE_SETTINGS_CONFIG", error: true });
     }
   }
 
@@ -100,15 +88,9 @@ export default async (req, res) => {
   if (req.body.type === "CREATE_FILECOIN_ADDRESS") {
     let data;
     try {
-      data = await PG.ffs.newAddr(
-        req.body.address.name,
-        req.body.address.type,
-        req.body.address.makeDefault
-      );
+      data = await PG.ffs.newAddr(req.body.address.name, req.body.address.type, req.body.address.makeDefault);
     } catch (e) {
-      return res
-        .status(500)
-        .send({ decorator: "SERVER_CREATE_FILECOIN_ADDRESS", error: true });
+      return res.status(500).send({ decorator: "SERVER_CREATE_FILECOIN_ADDRESS", error: true });
     }
   }
 

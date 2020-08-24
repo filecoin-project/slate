@@ -2,11 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as OldSVG from "~/components/system/svg";
 
-import {
-  TooltipWrapper,
-  dispatchCustomEvent,
-  PopoverNavigation,
-} from "~/components/system";
+import { TooltipWrapper, dispatchCustomEvent, PopoverNavigation } from "~/components/system";
 import { css } from "@emotion/react";
 
 import Dismissible from "~/components/core/Dismissible";
@@ -71,8 +67,7 @@ export default class ApplicationControlMenu extends React.Component {
             captureScroll={false}
             enabled
             onOutsideRectEvent={this._handleHide}
-            style={this.props.style}
-          >
+            style={this.props.style}>
             <PopoverNavigation
               style={{
                 left: 0,
@@ -87,23 +82,23 @@ export default class ApplicationControlMenu extends React.Component {
                   text: "Profile & account settings",
                   value: "V1_NAVIGATION_PROFILE",
                 },
+                /*
                 {
                   text: "Filecoin settings",
                   value: "V1_NAVIGATION_FILECOIN_SETTINGS",
                 },
+                */
                 { text: "Sign out", value: null, action: "SIGN_OUT" },
               ]}
             />
           </Dismissible>
-        }
-      >
+        }>
         <CircleButtonLight
           onClick={this._handleClick}
           style={{
             backgroundColor: this.state.visible ? Constants.system.brand : null,
             color: this.state.visible ? Constants.system.white : null,
-          }}
-        >
+          }}>
           <OldSVG.ChevronDown height="20px" />
         </CircleButtonLight>
       </TooltipWrapper>

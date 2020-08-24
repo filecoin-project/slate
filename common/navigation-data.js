@@ -80,6 +80,7 @@ export const generate = ({ library = [], slates = [] }) => [
     children: [],
     ignore: false,
   },
+  /*
   {
     id: "V1_NAVIGATION_WALLET",
     decorator: "WALLET",
@@ -94,6 +95,7 @@ export const generate = ({ library = [], slates = [] }) => [
       },
     ],
   },
+  */
   {
     id: "V1_NAVIGATION_NETWORK",
     decorator: "NETWORK",

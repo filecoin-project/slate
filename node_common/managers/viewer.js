@@ -51,6 +51,8 @@ export const getById = async ({ id }) => {
       info: null,
     };
 
+    // TODO(jim): Disables Powergate Features
+    /*
     const updates = await Utilities.refresh(user);
     const updatesWithToken = await Utilities.refreshWithToken(user);
 
@@ -58,6 +60,7 @@ export const getById = async ({ id }) => {
       ...updates,
       ...updatesWithToken,
     });
+    */
   } catch (e) {
     console.log(e);
     return null;

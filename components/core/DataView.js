@@ -56,6 +56,17 @@ const STYLES_SECTION = css`
 
 const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
+/*
+  {this.state.loading || isOnNetwork ? null : (
+    <System.ButtonPrimary
+      loading={this.state.loading}
+      style={{ marginRight: 16 }}
+      onClick={() => this._handleMakeDeal(each)}>
+      Store on Filecoin
+    </System.ButtonPrimary>
+  )}
+*/
+
 export default class DataView extends React.Component {
   state = {
     selectedRowId: null,
@@ -152,15 +163,6 @@ export default class DataView extends React.Component {
             <React.Fragment>
               <div css={STYLES_LABEL}>Actions</div>
               <div css={STYLES_SECTION}>
-                {this.state.loading || isOnNetwork ? null : (
-                  <System.ButtonPrimary
-                    loading={this.state.loading}
-                    style={{ marginRight: 16 }}
-                    onClick={() => this._handleMakeDeal(each)}>
-                    Store on Filecoin
-                  </System.ButtonPrimary>
-                )}
-
                 <System.ButtonSecondary loading={this.state.loading} onClick={() => this._handleDelete(cid)}>
                   Delete
                 </System.ButtonSecondary>

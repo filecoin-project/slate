@@ -34,6 +34,44 @@ const STYLES_SLATE = css`
   }
 `;
 
+const STYLES_HEADER = css`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 12px 0 12px 0;
+  max-width: 540px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    max-width: none;
+    display: block;
+  }
+`;
+
+const STYLES_HEADER_LEFT = css`
+  font-family: ${Constants.font.semiBold};
+  text-transform: none;
+  flex-shrink: 0;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    text-align: center;
+  }
+`;
+
+const STYLES_HEADER_RIGHT = css`
+  font-family: ${Constants.font.text};
+  text-transform: none;
+  line-height: 1.5;
+  text-align: left;
+  min-width: 10%;
+  width: 100%;
+  padding-left: 24px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-top: 16px;
+    text-align: center;
+  }
+`;
+
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
@@ -74,7 +112,7 @@ export default class SlatePage extends React.Component {
 
   render() {
     const title = `${this.props.slate.ownername}/${this.props.slate.slatename}`;
-    const url = `https://slate.host/${title}`;
+    const url = `https://slate.host/${this.props.slate.ownername}`;
     const description = this.props.slate.data.body;
 
     let image;
@@ -87,7 +125,14 @@ export default class SlatePage extends React.Component {
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric>{this.props.slate.ownername}</WebsitePrototypeHeaderGeneric>
+          <WebsitePrototypeHeaderGeneric href={url}>
+            <div css={STYLES_HEADER}>
+              <div css={STYLES_HEADER_LEFT}>
+                {this.props.slate.ownername} / {this.props.slate.slatename}
+              </div>
+              <div css={STYLES_HEADER_RIGHT}>{this.props.slate.data.body}</div>
+            </div>
+          </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
             <Slate
               editable={false}

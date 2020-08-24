@@ -9,7 +9,7 @@ const STYLES_CONTAINER = css`
   font-size: 12px;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 16px 24px 16px 24px;
 
@@ -53,11 +53,7 @@ export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
-        <a
-          css={STYLES_LINK}
-          href={`/${props.children}`}
-          style={{ fontFamily: Constants.font.codeBold }}
-        >
+        <a css={STYLES_LINK} href={props.href} style={{ fontFamily: Constants.font.codeBold }}>
           {props.children}
         </a>
       </div>

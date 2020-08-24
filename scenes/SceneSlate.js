@@ -33,7 +33,7 @@ export default class SceneSlate extends React.Component {
     loading: false,
     editing: this.props.viewer.slates
       .map((slate) => slate.id)
-      .includes(this.props.data.slateId),
+      .includes(this.props.data.id),
   };
 
   componentDidMount() {
@@ -99,7 +99,7 @@ export default class SceneSlate extends React.Component {
     this.setState({ loading: true });
 
     const response = await Actions.updateSlate({
-      id: this.props.data.slateId,
+      id: this.props.data.id,
       data: {
         objects: objects ? objects : this.state.objects,
         layouts: layouts ? layouts : this.state.layouts,

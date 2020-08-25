@@ -107,7 +107,7 @@ const STYLES_LINK = css`
 export const getServerSideProps = async (context) => {
   let buckets = false;
   try {
-    const response = await fetch("https://hub.textile.io/health", {
+    const response = await fetch("https://slate.textile.io/health", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

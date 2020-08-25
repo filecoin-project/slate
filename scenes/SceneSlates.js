@@ -7,6 +7,7 @@ import { css } from "@emotion/react";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import Section from "~/components/core/Section";
+import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
 
 const STYLES_NUMBER = css`
   font-family: ${Constants.font.semiBold};
@@ -17,39 +18,14 @@ const STYLES_NUMBER = css`
 export default class SceneSlates extends React.Component {
   render() {
     // TODO(jim): Refactor later.
-    const slates = {
-      columns: [
-        {
-          key: "name",
-          name: "Slate Name",
-          width: "100%",
-          type: "SLATE_LINK",
-        },
-        { key: "url", name: "URL", width: "268px", type: "NEW_WINDOW" },
-        { key: "id", id: "id", name: "Slate ID", width: "296px" },
-        {
-          key: "objects",
-          name: "Objects",
-        },
-        {
-          key: "public",
-          name: "Public",
-          type: "SLATE_PUBLIC_TEXT_TAG",
-          width: "188px",
-        },
-      ],
-      rows: this.props.viewer.slates.map((each) => {
-        return {
-          ...each,
-          name: each.data.name,
-          url: `https://slate.host/${this.props.viewer.username}/${
-            each.slatename
-          }`,
-          public: each.data.public,
-          objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
-        };
-      }),
-    };
+    const slates = this.props.viewer.slates.map((each) => {
+      return {
+        ...each,
+        url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
+        public: each.data.public,
+        objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
+      };
+    });
 
     // TODO(jim): Refactor later.
     const slateButtons = [
@@ -58,21 +34,12 @@ export default class SceneSlates extends React.Component {
 
     return (
       <ScenePage>
-        <ScenePageHeader title="Slates [WIP]">
+        <ScenePageHeader title="Slates">
           This scene is currently a work in progress.
         </ScenePageHeader>
-        <Section
-          title="Slates"
-          buttons={slateButtons}
-          onAction={this.props.onAction}
-        >
-          <System.Table
-            data={slates}
-            name="slate"
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
-          />
-        </Section>
+        {this.props.viewer.slates.map((slate) => (
+          <SlatePreviewBlock slate={slate} />
+        ))}
       </ScenePage>
     );
   }

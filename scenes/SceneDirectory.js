@@ -7,6 +7,7 @@ import * as SVG from "~/components/system/svg";
 import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
+import ScenePageHeader from "~/components/core/ScenePageHeader";
 
 const data = {
   peers: [
@@ -211,11 +212,16 @@ const STYLES_TAB = css`
   cursor: pointer;
   display: inline-block;
   font-size: ${Constants.typescale.lvl2};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    font-size: ${Constants.typescale.lvl1};
+    margin-right: 12px;
+  }
 `;
 
 const STYLES_TAB_GROUP = css`
   border-bottom: 1px solid ${Constants.system.gray};
-  margin: 48px 0px 24px 0px;
+  margin: 24px 0px 24px 0px;
 `;
 
 const STYLES_USER_ENTRY = css`
@@ -257,8 +263,8 @@ export default class SceneDirectory extends React.Component {
   render() {
     console.log(this.props);
     return (
-      <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
-        <div style={{ fontSize: Constants.typescale.lvl4 }}>Directory</div>
+      <ScenePage>
+        <ScenePageHeader title="Directory" />
         <div css={STYLES_TAB_GROUP}>
           <div
             css={STYLES_TAB}
@@ -270,7 +276,7 @@ export default class SceneDirectory extends React.Component {
             }}
             onClick={() => this.setState({ tab: "peers" })}
           >
-            Trusted Peers
+            Trusted
           </div>
           <div
             css={STYLES_TAB}
@@ -287,6 +293,7 @@ export default class SceneDirectory extends React.Component {
           <div
             css={STYLES_TAB}
             style={{
+              marginRight: "0px",
               color:
                 this.state.tab === "followers"
                   ? Constants.system.pitchBlack

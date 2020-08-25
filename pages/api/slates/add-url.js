@@ -58,7 +58,7 @@ export default async (req, res) => {
       name: req.body.data.name,
       title: req.body.data.title,
       type: req.body.data.type,
-      url: `https:${cid}.${IPFS_GATEWAY_DOMAIN}`
+      url: `https://${cid}.${IPFS_GATEWAY_DOMAIN}`
     },
   ];
 

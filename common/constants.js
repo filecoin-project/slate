@@ -60,3 +60,7 @@ export const theme = {
   pageBackground: system.foreground,
   pageText: system.black,
 };
+
+export const gateways = {
+  ipfs: "ipfs.slate.textile.io",
+}

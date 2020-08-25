@@ -1,5 +1,6 @@
 import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
+import { IPFS_GATEWAY_DOMAIN } from "~/node_common/constants";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Strings from "~/common/strings";
 import * as Upload from "~/node_common/upload";
@@ -113,7 +114,8 @@ export default async (req, res) => {
     });
   }
 
-  const url = `https://hub.textile.io${updatedData.ipfs}`;
+  const cid = req.body.data.ipfs.replace('/ipfs/')
+  const url = `https://${cid}.${IPFS_GATEWAY_DOMAIN}`
   const newSlateObjectEntity = {
     id: updatedData.id,
     name: updatedData.name,

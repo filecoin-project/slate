@@ -50,9 +50,10 @@ const STYLES_IMAGE = css`
 
 export default class SlateMediaObject extends React.Component {
   render() {
+    console.log(this.props.data);
+
     const name = `${this.props.data.name}`;
-    const cid = this.props.data.ipfs.replace("/ipfs/", "");
-    const url = Strings.getCIDGatewayURL(cid);
+    const url = this.props.data.url;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
 
     let element = <div css={STYLES_FAILURE}>No Preview</div>;

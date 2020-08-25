@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 
@@ -50,8 +51,8 @@ const STYLES_IMAGE = css`
 export default class SlateMediaObject extends React.Component {
   render() {
     const name = `${this.props.data.name}`;
-    const cid = this.props.data.ipfs.replace('/ipfs/', '')
-    const url = this.props.data.url ? this.props.data.url : `https://${cid}.${Constants.gateways.ipfs}`
+    const cid = this.props.data.ipfs.replace("/ipfs/", "");
+    const url = Strings.getCIDGatewayURL(cid);
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
 
     let element = <div css={STYLES_FAILURE}>No Preview</div>;

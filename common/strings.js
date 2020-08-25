@@ -1,3 +1,5 @@
+import * as Constants from "~/common/constants";
+
 const MINUTE = 60;
 const HOUR = MINUTE * 60;
 const DAY = HOUR * 24;
@@ -27,6 +29,10 @@ export const getKey = (text) => {
   }
 
   return text.replace("Basic ", "");
+};
+
+export const getCIDGatewayURL = (cid) => {
+  return `https://${cid}.${Constants.gateways.ipfs}`;
 };
 
 export const createSlug = (text) => {

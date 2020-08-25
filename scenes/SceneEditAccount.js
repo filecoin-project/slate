@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
-import * as Constants from "~/common/Constants";
+import * as Constants from "~/common/constants";
+import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
 import * as FileUtilities from "~/common/file-utilities";
 
@@ -64,10 +65,10 @@ export default class SceneEditAccount extends React.Component {
       return;
     }
 
-    const cid = json.data.ipfs.replace('/ipfs/', '')
+    const cid = json.data.ipfs.replace("/ipfs/", "");
     await Actions.updateViewer({
       data: {
-        photo: `https://${cid}.${Constants.gateways.ipfs}`,
+        photo: Strings.getCIDGatewayURL(cid),
         body: this.state.body,
         name: this.state.name,
       },

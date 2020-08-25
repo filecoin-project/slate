@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 
@@ -69,8 +70,8 @@ const STYLES_PATH = css`
 
 export default class SceneFile extends React.Component {
   render() {
-    const cid = this.props.data.ipfs.replace('/ipfs/', '')
-    const fileURL = this.props.data.url ? this.props.data.url : `https://${cid}.${Constants.gateways.ipfs}`;
+    const cid = this.props.data.ipfs.replace("/ipfs/", "");
+    const fileURL = Strings.getCIDGatewayURL(cid);
 
     return (
       <div css={STYLES_FLEX}>

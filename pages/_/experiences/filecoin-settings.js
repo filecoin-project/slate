@@ -81,6 +81,10 @@ class Example extends React.Component {
 `;
 
 export default class SystemPageFilecoinSettings extends React.Component {
+  _handleSave = async (storageConfig) => {
+    alert("Saved");
+  };
+
   render() {
     return (
       <SystemPage

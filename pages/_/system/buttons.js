@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
+import Group from "~/components/system/Group";
 
 export default class SystemPageButtons extends React.Component {
   render() {
@@ -155,6 +156,41 @@ class ExampleDisabledLabel extends React.Component {
   }
 }`}
         </CodeBlock>
+        <br />
+        <br />
+        <br />
+        <System.H2>Accepted React Properties</System.H2>
+        <hr />
+        <br />
+        <Group title="Buttons">
+          <System.Table
+            data={{
+              columns: [
+                { key: "a", name: "Name", width: "128px" },
+                { key: "b", name: "Type", width: "88px", type: "OBJECT_TYPE" },
+                { key: "c", name: "Default", width: "88px" },
+                { key: "d", name: "Description", width: "100%" },
+              ],
+              rows: [
+                {
+                  id: 1,
+                  a: "type",
+                  b: "string",
+                  c: "null",
+                  d: "If set to 'label', button will be a label.",
+                },
+                {
+                  id: 2,
+                  a: "full",
+                  b: "boolean",
+                  c: "false",
+                  d:
+                    "If true, width is set to 100%. Otherwise, width is according to the content of the button.",
+                },
+              ],
+            }}
+          />
+        </Group>
       </SystemPage>
     );
   }

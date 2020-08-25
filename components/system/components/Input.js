@@ -181,7 +181,6 @@ export class Input extends React.Component {
             disabled={this.props.disabled}
             readOnly={this.props.readOnly}
             style={{
-              ...this.props.style,
               boxShadow: this.props.validation
                 ? `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
                     INPUT_COLOR_MAP[this.props.validation]
@@ -189,6 +188,7 @@ export class Input extends React.Component {
                 : null,
               paddingRight:
                 this.props.copyable || this.props.icon ? "32px" : "24px",
+              ...this.props.style,
             }}
           />
           <div

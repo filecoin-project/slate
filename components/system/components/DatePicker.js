@@ -328,7 +328,7 @@ export class DatePicker extends React.Component {
         <Boundary
           enabled={this.state.cal}
           onOutsideRectEvent={this._handleCalendar}
-          style={{ maxWidth: this.props.full ? "auto" : "480px" }}
+          style={{ maxWidth: this.props.full ? "none" : "480px" }}
         >
           <div css={STYLES_DATE_INPUT}>
             <input

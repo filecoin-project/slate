@@ -19,6 +19,9 @@ export const getById = async ({ id }) => {
   let data = null;
   const slates = await Data.getSlatesByUserId({ userId: id });
   const keys = await Data.getAPIKeysByUserId({ userId: id });
+  const subscriptions = await Data.getSubscriptionsByUserId({ userId: id });
+  const activity = await Data.getActivityForUserId({ userId: id });
+  const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
 
   let bytes = 0;
   user.data.library[0].children.forEach((each) => {
@@ -50,6 +53,9 @@ export const getById = async ({ id }) => {
       status: null,
       addrsList: null,
       info: null,
+      subscriptions,
+      activity,
+      trusted,
     };
   } catch (e) {
     console.log(e);

@@ -37,7 +37,7 @@ import deleteSubscriptionById from "~/node_common/data/methods/delete-subscripti
 // NOTE(jim):
 // Trust postgres queries
 import createTrustedRelationship from "~/node_common/data/methods/create-trusted-relationship";
-import getTrustedRelationshipsByUserId from "~/node-common/data/methods/get-trusted-relationships-by-user-id";
+import getTrustedRelationshipsByUserId from "~/node_common/data/methods/get-trusted-relationships-by-user-id";
 import getTrustedRelationshipByUserIds from "~/node_common/data/methods/get-trusted-relationship-by-ids";
 import getTrustedRelationshipById from "~/node_common/data/methods/get-trusted-relationship-by-id";
 import deleteTrustedRelationshipById from "~/node_common/data/methods/delete-trusted-relationship-by-id";

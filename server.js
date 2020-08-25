@@ -106,12 +106,12 @@ app.prepare().then(async () => {
       viewer,
       creator: {
         username: creator.username,
+        slates,
         data: {
           photo: creator.data.photo,
           name: creator.data.name ? creator.data.name : creator.username,
           body: creator.data.body ? creator.data.body : "A user on Slate.",
         },
-        slates: JSON.parse(JSON.stringify(slates)),
       },
     });
   });
@@ -148,10 +148,26 @@ app.prepare().then(async () => {
       return res.redirect("/403");
     }
 
+    const id = Utilities.getIdFromCookie(req);
+
+    let viewer = null;
+    if (id) {
+      viewer = await ViewerManager.getById({
+        id,
+      });
+    }
+
     return app.render(req, res, "/_/slate", {
-      slate: JSON.parse(
-        JSON.stringify({ ...slate, ownername: req.params.username })
-      ),
+      viewer,
+      creator: {
+        username: creator.username,
+        data: {
+          photo: creator.data.photo,
+          name: creator.data.name ? creator.data.name : creator.username,
+          body: creator.data.body ? creator.data.body : "A user on Slate.",
+        },
+      },
+      slate,
     });
   });
 

@@ -14,7 +14,7 @@ export default async ({ slatename }) => {
       }
 
       if (query.id) {
-        return query;
+        return JSON.parse(JSON.stringify(query));
       }
 
       return null;

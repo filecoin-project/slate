@@ -14,7 +14,7 @@ export default async ({ username }) => {
       }
 
       if (query.id) {
-        return query;
+        return JSON.parse(JSON.stringify(query));
       }
 
       return null;

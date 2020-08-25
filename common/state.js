@@ -53,11 +53,19 @@ export const getSelectedState = (props) => {
 
   return {
     address: null,
-    // address: info.defaultStorageConfig.cold.filecoin.addr,
+    address: info.defaultStorageConfig.cold.filecoin.addr,
   };
 };
 
 export const getInitialState = (props) => {
+  if (!props) {
+    return null;
+  }
+
+  return { ...props };
+};
+
+export const _deprecated_getInitialState = (props) => {
   if (!props) {
     return null;
   }
@@ -89,20 +97,28 @@ export const getInitialState = (props) => {
     settings_deals_auto_approve: settings.deals_auto_approve,
 
     // NOTE(jim): Powergate Hot Settings
-    // settings_hot_enabled: info.defaultStorageConfig.hot.enabled,
-    // settings_hot_allow_unfreeze: info.defaultStorageConfig.hot.allowUnfreeze,
-    // settings_hot_ipfs_add_timeout: info.defaultStorageConfig.hot.ipfs.addTimeout,
+    settings_hot_enabled: info.defaultStorageConfig.hot.enabled,
+    settings_hot_allow_unfreeze: info.defaultStorageConfig.hot.allowUnfreeze,
+    settings_hot_ipfs_add_timeout:
+      info.defaultStorageConfig.hot.ipfs.addTimeout,
 
     // NOTE(jim): Powergate Cold Settings
-    // settings_cold_enabled: info.defaultStorageConfig.cold.enabled,
-    // settings_cold_default_address: info.defaultStorageConfig.cold.filecoin.addr,
-    // settings_cold_default_duration: info.defaultStorageConfig.cold.filecoin.dealMinDuration,
-    // settings_cold_default_replication_factor: info.defaultStorageConfig.cold.filecoin.repFactor,
-    // settings_cold_default_excluded_miners: info.defaultStorageConfig.cold.filecoin.excludedMinersList,
-    // settings_cold_default_trusted_miners: info.defaultStorageConfig.cold.filecoin.trustedMinersList,
-    // settings_cold_default_max_price: info.defaultStorageConfig.cold.filecoin.maxPrice,
-    // settings_cold_default_auto_renew: info.defaultStorageConfig.cold.filecoin.renew.enabled,
-    // settings_cold_default_auto_renew_max_price: info.defaultStorageConfig.cold.filecoin.renew.threshold,
+    settings_cold_enabled: info.defaultStorageConfig.cold.enabled,
+    settings_cold_default_address: info.defaultStorageConfig.cold.filecoin.addr,
+    settings_cold_default_duration:
+      info.defaultStorageConfig.cold.filecoin.dealMinDuration,
+    settings_cold_default_replication_factor:
+      info.defaultStorageConfig.cold.filecoin.repFactor,
+    settings_cold_default_excluded_miners:
+      info.defaultStorageConfig.cold.filecoin.excludedMinersList,
+    settings_cold_default_trusted_miners:
+      info.defaultStorageConfig.cold.filecoin.trustedMinersList,
+    settings_cold_default_max_price:
+      info.defaultStorageConfig.cold.filecoin.maxPrice,
+    settings_cold_default_auto_renew:
+      info.defaultStorageConfig.cold.filecoin.renew.enabled,
+    settings_cold_default_auto_renew_max_price:
+      info.defaultStorageConfig.cold.filecoin.renew.threshold,
 
     storageList,
     retrievalList,
@@ -110,7 +126,7 @@ export const getInitialState = (props) => {
     keys,
     stats,
     library,
-    // peers: transformPeers(peersList),
-    // addresses: transformAddresses(addrsList, info),
+    peers: transformPeers(peersList),
+    addresses: transformAddresses(addrsList, info),
   };
 };

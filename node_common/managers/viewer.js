@@ -17,11 +17,8 @@ export const getById = async ({ id }) => {
   }
 
   let data = null;
-  const response = await Data.getSlatesByUserId({ userId: id });
-  const slates = JSON.parse(JSON.stringify(response));
-
-  const keysRaw = await Data.getAPIKeysByUserId({ userId: id });
-  const keys = JSON.parse(JSON.stringify(keysRaw));
+  const slates = await Data.getSlatesByUserId({ userId: id });
+  const keys = await Data.getAPIKeysByUserId({ userId: id });
 
   let bytes = 0;
   user.data.library[0].children.forEach((each) => {
@@ -54,17 +51,6 @@ export const getById = async ({ id }) => {
       addrsList: null,
       info: null,
     };
-
-    // TODO(jim): Disables Powergate Features
-    /*
-    const updates = await Utilities.refresh(user);
-    const updatesWithToken = await Utilities.refreshWithToken(user);
-
-    data = await Utilities.updateStateData(data, {
-      ...updates,
-      ...updatesWithToken,
-    });
-    */
   } catch (e) {
     console.log(e);
     return null;

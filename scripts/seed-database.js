@@ -88,11 +88,69 @@ const createKeysTable = db.schema.createTable("keys", function(table) {
     .defaultTo(db.raw("now()"));
 });
 
+const createSubscriptionTable = db.schema.createTable("subscriptions", function(
+  table
+) {
+  table
+    .uuid("id")
+    .primary()
+    .unique()
+    .notNullable()
+    .defaultTo(db.raw("uuid_generate_v4()"));
+  table.string("owner_user_id").nullable();
+  table.string("target_slate_id").nullable();
+  table.string("target_user_id").nullable();
+  table.jsonb("data").nullable();
+  table
+    .timestamp("created_at")
+    .notNullable()
+    .defaultTo(db.raw("now()"));
+});
+
+const createTrustedTable = db.schema.createTable("trusted", function(table) {
+  table
+    .uuid("id")
+    .primary()
+    .unique()
+    .notNullable()
+    .defaultTo(db.raw("uuid_generate_v4()"));
+  table.string("owner_user_id").nullable();
+  table.string("target_user_id").nullable();
+  table.jsonb("data").nullable();
+  table
+    .timestamp("created_at")
+    .notNullable()
+    .defaultTo(db.raw("now()"));
+});
+
+const createActivityTable = db.schema.createTable("activity", function(table) {
+  table
+    .uuid("id")
+    .primary()
+    .unique()
+    .notNullable()
+    .defaultTo(db.raw("uuid_generate_v4()"));
+  table.string("owner_slate_id").nullable();
+  table.string("owner_user_id").nullable();
+  table.jsonb("data").nullable();
+  table
+    .timestamp("created_at")
+    .notNullable()
+    .defaultTo(db.raw("now()"));
+});
+
 // --------------------------
 // RUN
 // --------------------------
 
-Promise.all([createUsersTable, createSlatesTable, createKeysTable]);
+Promise.all([
+  createUsersTable,
+  createSlatesTable,
+  createKeysTable,
+  createSubscriptionTable,
+  createActivityTable,
+  createTrustedTable,
+]);
 
 console.log(`FINISHED: seed-database.js`);
 console.log(`          CTRL +C to return to terminal.`);

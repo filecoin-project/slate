@@ -14,7 +14,7 @@ export default async ({ id }) => {
       }
 
       if (query.id) {
-        return query;
+        return JSON.parse(JSON.stringify(query));
       }
 
       return null;

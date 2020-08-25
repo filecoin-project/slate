@@ -12,7 +12,7 @@ export default async ({ userId }) => {
         return [];
       }
 
-      return query;
+      return JSON.parse(JSON.stringify(query));
     },
     errorFn: async (e) => {
       return {

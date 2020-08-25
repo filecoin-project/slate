@@ -98,7 +98,9 @@ export default class SlatePage extends React.Component {
           return {
             id: each.id,
             data: each,
-            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
+            component: (
+              <SlateMediaObject key={each.id} useImageFallback data={each} />
+            ),
           };
         }),
       },
@@ -112,8 +114,10 @@ export default class SlatePage extends React.Component {
     });
 
   render() {
-    const title = `${this.props.slate.ownername}/${this.props.slate.slatename}`;
-    const url = `https://slate.host/${this.props.slate.ownername}`;
+    const title = `${this.props.creator.username}/${
+      this.props.slate.slatename
+    }`;
+    const url = `https://slate.host/${this.props.creator.username}`;
     const description = this.props.slate.data.body;
 
     let image;
@@ -124,12 +128,17 @@ export default class SlatePage extends React.Component {
     });
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+        image={image}
+      >
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeaderGeneric href={url}>
             <div css={STYLES_HEADER}>
               <div css={STYLES_HEADER_LEFT}>
-                {this.props.slate.ownername} / {this.props.slate.slatename}
+                {this.props.creator.username} / {this.props.slate.slatename}
               </div>
               <div css={STYLES_HEADER_RIGHT}>{this.props.slate.data.body}</div>
             </div>

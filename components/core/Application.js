@@ -72,8 +72,8 @@ const SCENES = {
 
 export default class ApplicationPage extends React.Component {
   state = {
-    selected: State.getSelectedState(this.props.viewer),
-    viewer: State.getInitialState(this.props.viewer),
+    selected: {},
+    viewer: this.props.viewer,
     history: [{ id: "V1_NAVIGATION_HOME", scrollTop: 0, data: null }],
     currentIndex: 0,
     data: null,
@@ -120,7 +120,11 @@ export default class ApplicationPage extends React.Component {
     }
 
     // NOTE(jim): Only allow the sidebar to show with file drag and drop.
-    if (e.dataTransfer.items && e.dataTransfer.items.length && e.dataTransfer.items[0].kind !== "file") {
+    if (
+      e.dataTransfer.items &&
+      e.dataTransfer.items.length &&
+      e.dataTransfer.items[0].kind !== "file"
+    ) {
       return;
     }
 
@@ -274,7 +278,8 @@ export default class ApplicationPage extends React.Component {
   _handleDeleteYourself = async () => {
     // TODO(jim):
     // Put this somewhere better for messages.
-    const message = "Do you really want to delete your account? It will be permanently removed";
+    const message =
+      "Do you really want to delete your account? It will be permanently removed";
     if (!window.confirm(message)) {
       return false;
     }
@@ -445,8 +450,12 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           title="Slate: sign in"
           description="Sign in to your Slate account to manage your assets."
-          url="https://slate.host/_">
-          <SceneSignIn onAuthenticate={this._handleAuthenticate} onNavigateTo={this._handleNavigateTo} />
+          url="https://slate.host/_"
+        >
+          <SceneSignIn
+            onAuthenticate={this._handleAuthenticate}
+            onNavigateTo={this._handleNavigateTo}
+          />
         </WebsitePrototypeWrapper>
       );
     }
@@ -519,12 +528,17 @@ export default class ApplicationPage extends React.Component {
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper description={description} title={title} url={url}>
+        <WebsitePrototypeWrapper
+          description={description}
+          title={title}
+          url={url}
+        >
           <ApplicationLayout
             header={headerElement}
             navigation={navigationElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}>
+            onDismissSidebar={this._handleDismissSidebar}
+          >
             {scene}
           </ApplicationLayout>
           <System.GlobalCarousel />

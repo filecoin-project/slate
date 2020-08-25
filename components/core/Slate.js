@@ -30,9 +30,10 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_ACTIONS = css`
+  z-index: ${Constants.zindex.navigation};
   bottom: 16px;
   right: 8px;
-  position: fixed;
+  position: absolute;
   flex-direction: column;
   display: flex;
 `;
@@ -137,7 +138,10 @@ export default class Slate extends React.Component {
       return (
         <div key={index} css={STYLES_ITEM}>
           <SlateMediaObjectPreview type={data.type} url={data.url} />
-          <figure css={STYLES_BUTTON} onClick={() => this.props.onSelect(index)}>
+          <figure
+            css={STYLES_BUTTON}
+            onClick={() => this.props.onSelect(index)}
+          >
             <CircleButtonLight>
               <SVG.Eye height="16px" />
             </CircleButtonLight>
@@ -173,7 +177,8 @@ export default class Slate extends React.Component {
           useCSSTransforms={false}
           compactType={this.state.compactType}
           preventCollision={false}
-          margin={[24, 24]}>
+          margin={[24, 24]}
+        >
           {this.generateDOM()}
         </ResponsiveReactGridLayout>
         {this.props.editing ? (
@@ -181,11 +186,18 @@ export default class Slate extends React.Component {
             <span css={STYLES_ACTION_BUTTON} onClick={this._handleResetLayout}>
               Reset Layout
             </span>
-            <span css={STYLES_ACTION_BUTTON} onClick={this._handleSaveLayout}>
+            <span
+              css={STYLES_ACTION_BUTTON}
+              onClick={this._handleSaveLayout}
+              style={{
+                backgroundColor:
+                  this.state.saving === "IDLE" ? Constants.system.brand : null,
+              }}
+            >
               {this.state.saving === "SAVING" ? (
                 <LoaderSpinner style={{ height: 16, width: 16 }} />
               ) : this.state.saving === "IDLE" ? (
-                "Save Layout"
+                "Save"
               ) : (
                 "Saved"
               )}

@@ -28,6 +28,7 @@ export default class SlateMediaObjectPreview extends React.Component {
     // NOTE(jim):
     // This is a hack to catch this undefined case I don't want to track down yet.
     const url = this.props.url.replace("https://undefined", "https://");
+    console.log(url);
 
     let element = <div css={STYLES_ENTITY}>No Preview</div>;
 

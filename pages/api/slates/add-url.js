@@ -1,5 +1,5 @@
 import * as MW from "~/node_common/middleware";
-import { IPFS_GATEWAY_DOMAIN } from "~/node_common/constants";
+import * as Constants from "~/node_common/constants";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 
@@ -12,7 +12,9 @@ export default async (req, res) => {
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res.status(403).json({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
+    return res
+      .status(403)
+      .json({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
   }
 
   const user = await Data.getUserById({
@@ -49,7 +51,7 @@ export default async (req, res) => {
     });
   }
 
-  const cid = req.body.data.ipfs.replace('/ipfs/')
+  const cid = req.body.data.ipfs.replace("/ipfs/");
   const objects = [
     ...slate.data.objects,
     {
@@ -58,7 +60,7 @@ export default async (req, res) => {
       name: req.body.data.name,
       title: req.body.data.title,
       type: req.body.data.type,
-      url: `https://${cid}.${IPFS_GATEWAY_DOMAIN}`
+      url: `https://${cid}.${Constants.IPFS_GATEWAY_DOMAIN}`,
     },
   ];
 
@@ -102,5 +104,7 @@ export default async (req, res) => {
     });
   }
 
-  return res.status(200).json({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
+  return res
+    .status(200)
+    .json({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
 };

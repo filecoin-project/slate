@@ -31,14 +31,24 @@ export default class SceneSlates extends React.Component {
     const slateButtons = [
       { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
     ];
-
+    console.log(this.props);
     return (
       <ScenePage>
         <ScenePageHeader title="Slates">
           This scene is currently a work in progress.
         </ScenePageHeader>
-        {this.props.viewer.slates.map((slate) => (
-          <SlatePreviewBlock slate={slate} />
+        {this.props.data.children.map((slate) => (
+          <div
+            key={slate.id}
+            // onClick={() =>
+            //   this.props.onAction({
+            //     type: "NAVIGATE",
+            //     value: slate.id,
+            //   })
+            // }
+          >
+            <SlatePreviewBlock slate={slate} />
+          </div>
         ))}
       </ScenePage>
     );

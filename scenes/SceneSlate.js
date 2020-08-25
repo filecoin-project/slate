@@ -23,6 +23,7 @@ const moveIndex = (set, fromIndex, toIndex) => {
 export default class SceneSlate extends React.Component {
   state = {
     name: this.props.data.data.name,
+    username: this.props.data.owner.username,
     slatename: this.props.data.slatename,
     public: this.props.data.data.public,
     objects: this.props.data.data.objects,
@@ -63,6 +64,7 @@ export default class SceneSlate extends React.Component {
       }
 
       this.setState({
+        username: this.props.data.owner.username,
         slatename: this.props.data.slatename,
         public: this.props.data.data.public,
         objects: this.props.data.data.objects,
@@ -264,13 +266,19 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
-    const { slatename, objects, body = "A slate.", name } = this.state;
+    const {
+      username,
+      slatename,
+      objects,
+      body = "A slate.",
+      name,
+    } = this.state;
 
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
         <ScenePageHeader
           style={{ padding: `0 24px 0 24px` }}
-          title={name}
+          title={`${username} / ${name}`}
           actions={
             this.state.editing ? (
               <React.Fragment>

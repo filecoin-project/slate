@@ -76,7 +76,7 @@ export default class Profile extends React.Component {
                         type: "NAVIGATE",
                         value: this.props.sceneId,
                         scene: "SLATE",
-                        data: slate,
+                        data: { owner: data, ...slate },
                       })
                     }
                   >

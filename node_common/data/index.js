@@ -26,9 +26,29 @@ import getAPIKeyByKey from "~/node_common/data/methods/get-api-key-by-key";
 import getAPIKeysByUserId from "~/node_common/data/methods/get-api-keys-by-user-id";
 
 // NOTE(jim):
-import getSubscriptionsByUserId from "~/node_common/data/methods/get-subscriptions-by-user-id";
+// Subscription postgres queries
 import createSubscription from "~/node_common/data/methods/create-subscription";
+import getSubscriptionById from "~/node_common/data/methods/get-subscription-by-id";
+import getSubscriptionsByUserId from "~/node_common/data/methods/get-subscriptions-by-user-id";
+import getSubscriptionsToUserId from "~/node_common/data/methods/get-subscriptions-to-user-id";
+import getSubscriptionsToSlateId from "~/node_common/data/methods/get-subscriptions-to-slate-id";
 import deleteSubscriptionById from "~/node_common/data/methods/delete-subscription-by-id";
+
+// NOTE(jim):
+// Trust postgres queries
+import createTrustedRelationship from "~/node_common/data/methods/create-trusted-relationship";
+import getTrustedRelationshipsByUserId from "~/node-common/data/methods/get-trusted-relationships-by-user-id";
+import getTrustedRelationshipByUserIds from "~/node_common/data/methods/get-trusted-relationship-by-ids";
+import getTrustedRelationshipById from "~/node_common/data/methods/get-trusted-relationship-by-id";
+import deleteTrustedRelationshipById from "~/node_common/data/methods/delete-trusted-relationship-by-id";
+
+// NOTE(jim):
+// Activity postgres queries
+import createActivity from "~/node_common/data/methods/create-activity";
+import getActivityForUserId from "~/node_common/data/methods/get-activity-for-user-id";
+import getActivityForSlateId from "~/node_common/data/methods/get-activity-for-slate-id";
+import getActivityById from "~/node_common/data/methods/get-activity-by-id";
+import deleteActivityById from "~/node_common/data/methods/delete-activity-by-id";
 
 export {
   // NOTE(jim): User operations.
@@ -53,7 +73,22 @@ export {
   getAPIKeyByKey,
   getAPIKeysByUserId,
   // NOTE(jim): Subscription operations,
+  createSubscription,
+  getSubscriptionById,
   getSubscriptionsByUserId,
-  deleteSubscriptionById
-  createSubscription
+  getSubscriptionsToSlateId,
+  getSubscriptionsToUserId,
+  deleteSubscriptionById,
+  // NOTE(jim): Trust operations
+  createTrustedRelationship,
+  getTrustedRelationshipsByUserId,
+  getTrustedRelationshipByUserIds,
+  getTrustedRelationshipById,
+  deleteTrustedRelationshipById,
+  // NOTE(jim): Activity operations
+  createActivity,
+  getActivityForUserId,
+  getActivityForSlateId,
+  getActivityById,
+  deleteActivityById,
 };

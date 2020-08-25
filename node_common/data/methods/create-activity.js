@@ -1,15 +1,15 @@
 import { runQuery } from "~/node_common/data/utilities";
 
-export default async ({ subscriberUserId, slateId, userId }) => {
+export default async ({ slateId, userId, data }) => {
   return await runQuery({
-    label: "CREATE_SUBSCRIPTION",
+    label: "CREATE_ACTIVITY",
     queryFn: async (DB) => {
       const query = await DB.insert({
-        owner_user_id: subscriberUserId,
-        target_slate_id: slateId,
-        target_user_id: userId,
+        owner_slate_id: slateId,
+        owner_user_id: userId,
+        data,
       })
-        .into("subscriptions")
+        .into("activity")
         .returning("*");
 
       const index = query ? query.pop() : null;
@@ -17,7 +17,7 @@ export default async ({ subscriberUserId, slateId, userId }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "CREATE_SUBSCRIPTION",
+        error: "CREATE_ACTIVITY",
         source: e,
       };
     },

@@ -72,6 +72,7 @@ export const generate = ({ library = [], slates = [] }) => [
     children: constructSlatesTreeForNavigation(slates),
   },
   constructFilesTreeForNavigation(library),
+  /*
   {
     id: "V1_NAVIGATION_LOCAL",
     decorator: "LOCAL_DATA",
@@ -80,7 +81,6 @@ export const generate = ({ library = [], slates = [] }) => [
     children: [],
     ignore: false,
   },
-  /*
   {
     id: "V1_NAVIGATION_WALLET",
     decorator: "WALLET",
@@ -94,8 +94,7 @@ export const generate = ({ library = [], slates = [] }) => [
         pageTitle: "Your deal history",
       },
     ],
-  },
-  */
+  }, 
   {
     id: "V1_NAVIGATION_NETWORK",
     decorator: "NETWORK",
@@ -103,6 +102,7 @@ export const generate = ({ library = [], slates = [] }) => [
     pageTitle: "The Filecoin Network",
     children: null,
   },
+  */
   {
     id: "V1_NAVIGATION_API",
     decorator: "SETTINGS_DEVELOPER",

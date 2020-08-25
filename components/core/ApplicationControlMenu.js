@@ -96,12 +96,12 @@ export default class ApplicationControlMenu extends React.Component {
         <CircleButtonLight
           onClick={this._handleClick}
           style={{
-            backgroundColor: this.state.visible ? Constants.system.brand : null,
+            backgroundColor: this.state.visible ? Constants.system.brand : Constants.system.white,
             color: this.state.visible ? Constants.system.white : null,
           }}>
           <OldSVG.ChevronDown height="20px" />
         </CircleButtonLight>
-      </TooltipWrapper>
+      </TooltipWrapper> 
     );
   }
 }

@@ -57,7 +57,7 @@ const STYLES_NAVIGATION_ITEM = css`
 const STYLES_PROFILE = css`
   font-family: ${Constants.font.semiBold};
   color: ${Constants.system.pitchBlack};
-  background-color: ${Constants.system.gray};
+  background-color: ${Constants.system.white};
   font-size: 12px;
   line-height: 12px;
   text-decoration: none;
@@ -69,12 +69,12 @@ const STYLES_PROFILE = css`
   align-items: center;
   justify-content: flex-start;
   transition: 200ms ease all;
-
+/*
   :hover {
     color: ${Constants.system.white};
     background-color: ${Constants.system.brand};
   }
-
+*/
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
@@ -279,15 +279,9 @@ export default class ApplicationNavigation extends React.Component {
     return (
       <nav css={STYLES_NAVIGATION}>
         <div css={STYLES_NAVIGATION_HEADER}>
-          <ApplicationControlMenu
-            onNavigateTo={this.props.onNavigateTo}
-            onAction={this.props.onAction}
-            onSignOut={this.props.onSignOut}
-          />
-
           <a
             css={STYLES_PROFILE}
-            style={{ marginLeft: 16 }}
+            style={{ marginRight: 16 }}
             href={`/${this.props.viewer.username}`}
             target="_blank"
           >
@@ -299,6 +293,11 @@ export default class ApplicationNavigation extends React.Component {
             />
             {this.props.viewer.username}
           </a>
+          <ApplicationControlMenu
+            onNavigateTo={this.props.onNavigateTo}
+            onAction={this.props.onAction}
+            onSignOut={this.props.onSignOut}
+          />
         </div>
         {this.props.navigation.map((each) => {
           if (!each) {

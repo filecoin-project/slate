@@ -33,6 +33,7 @@ export default class SceneEditAccount extends React.Component {
     confirm: "",
     body: this.props.viewer.data.body,
     photo: this.props.viewer.data.photo,
+    name: this.props.viewer.data.name,
     deleting: false,
     changingPassword: false,
     changingUsername: false,
@@ -66,6 +67,7 @@ export default class SceneEditAccount extends React.Component {
       data: {
         photo: `https://hub.textile.io${json.data.ipfs}`,
         body: this.state.body,
+        name: this.state.name,
       },
     });
 
@@ -81,6 +83,7 @@ export default class SceneEditAccount extends React.Component {
       data: {
         photo: this.state.photo,
         body: this.state.body,
+        name: this.state.name,
       },
     });
 
@@ -102,6 +105,7 @@ export default class SceneEditAccount extends React.Component {
       data: {
         photo: this.state.photo,
         body: this.state.body,
+        name: this.state.name,
       },
     });
 
@@ -188,8 +192,8 @@ export default class SceneEditAccount extends React.Component {
           label="Username"
           description={
             <React.Fragment>
-              This is your username on Slate. Your username is used for your
-              profile URL{" "}
+              This is your username on Slate. Your username is unique and used
+              for your profile URL{" "}
               <a href={profileURL} target="_blank">
                 {profileURL}
               </a>
@@ -197,7 +201,7 @@ export default class SceneEditAccount extends React.Component {
           }
           name="username"
           value={this.state.username}
-          placeholder="Name"
+          placeholder="Username"
           onChange={this._handleChange}
         />
 
@@ -210,7 +214,17 @@ export default class SceneEditAccount extends React.Component {
           </System.ButtonPrimary>
         </div>
 
-        <System.DescriptionGroup label="Bio" style={{ marginTop: 48 }} />
+        <System.Input
+          containerStyle={{ marginTop: 48 }}
+          label="Name"
+          description={`This is how your name will be publicly shown.`}
+          name="name"
+          value={this.state.name}
+          placeholder="Your name"
+          onChange={this._handleChange}
+        />
+
+        <System.DescriptionGroup label="Bio" style={{ marginTop: 24 }} />
         <System.Textarea
           style={{ marginTop: 24 }}
           label="Bio"
@@ -225,7 +239,7 @@ export default class SceneEditAccount extends React.Component {
             onClick={this._handleSaveBio}
             loading={this.state.changingBio}
           >
-            Change bio
+            Update information
           </System.ButtonPrimary>
         </div>
 

@@ -186,11 +186,18 @@ export default class Slate extends React.Component {
             <span css={STYLES_ACTION_BUTTON} onClick={this._handleResetLayout}>
               Reset Layout
             </span>
-            <span css={STYLES_ACTION_BUTTON} onClick={this._handleSaveLayout}>
+            <span
+              css={STYLES_ACTION_BUTTON}
+              onClick={this._handleSaveLayout}
+              style={{
+                backgroundColor:
+                  this.state.saving === "IDLE" ? Constants.system.brand : null,
+              }}
+            >
               {this.state.saving === "SAVING" ? (
                 <LoaderSpinner style={{ height: 16, width: 16 }} />
               ) : this.state.saving === "IDLE" ? (
-                "Save Layout"
+                "Save"
               ) : (
                 "Saved"
               )}

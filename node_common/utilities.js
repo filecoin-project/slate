@@ -18,7 +18,7 @@ const TEXTILE_KEY_INFO = {
 
 export const checkTextile = async () => {
   try {
-    const response = await fetch("https://hub.textile.io/health", {
+    const response = await fetch("https://slate.textile.io/health", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

@@ -141,8 +141,9 @@ export default class SceneSlate extends React.Component {
       name: "slate-global-create-carousel",
       detail: {
         slides: state.objects.map((each) => {
-          const cid = each.url.replace("https://hub.textile.io/ipfs/", "");
-
+          // NOTE
+          // regex here performs https://{cid}.ipfs.hub.textile.io => [https://{cid}, {cid}]
+          let cid = each.url.match(/(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i)[1]
           return {
             onDelete: this._handleDelete,
             onObjectSave: this._handleObjectSave,

@@ -69,7 +69,8 @@ const STYLES_PATH = css`
 
 export default class SceneFile extends React.Component {
   render() {
-    const fileURL = this.props.data.url ? this.props.data.url : `https://hub.textile.io${this.props.data.ipfs}`;
+    const cid = this.props.data.ipfs.replace('/ipfs/', '')
+    const fileURL = this.props.data.url ? this.props.data.url : `https://${cid}.${Constants.gateways.ipfs}`;
 
     return (
       <div css={STYLES_FLEX}>

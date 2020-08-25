@@ -8,7 +8,7 @@ import { Table } from "~/components/system/components/Table";
 import { StatUpload, StatDownload } from "~/components/system/components/Stat";
 
 let genericImg =
-  "https://hub.textile.io/ipfs/bafybeiblly23jomdjjiq7ilth667npcfm5llqb5xfstodbbfa5pxtoek7u";
+  `https://bafybeiblly23jomdjjiq7ilth667npcfm5llqb5xfstodbbfa5pxtoek7u.${Constants.gateways.ipfs}`;
 
 const STYLES_BUTTON = `
   font-family: ${Constants.font.text};

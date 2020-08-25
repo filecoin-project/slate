@@ -278,7 +278,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
         <a
           key="sidebar-media-open-file"
           css={STYLES_BUTTON}
-          href={`https://hub.textile.io/ipfs/${this.props.cid}`}
+          href={`https://${this.props.cid}.${Constants.gateways.ipfs}`}
           target="_blank"
         >
           Open file in a new browser tab &nbsp;&nbsp;⭢
@@ -289,7 +289,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
         <a
           key="sidebar-media-download-file"
           css={STYLES_BUTTON}
-          href={`https://hub.textile.io/ipfs/${this.props.cid}`}
+          href={`https://${this.props.cid}.${Constants.gateways.ipfs}`}
           target="_blank"
           download={this.props.cid}
         >

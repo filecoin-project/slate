@@ -14,13 +14,13 @@ const friendsList = {
       id: 72572959238,
       user: "@martina",
       img:
-        "https://hub.textile.io/ipfs/bafybeiguo2uhd63reslbqkkgsqedgeikhtuwn5lzqpnqzluoaa3rnkfcvi",
+        "https://bafybeiguo2uhd63reslbqkkgsqedgeikhtuwn5lzqpnqzluoaa3rnkfcvi.ipfs.hub.textile.io",
     },
     {
       id: 2572952030,
       user: "@jim",
       img:
-        "https://hub.textile.io/ipfs/bafybeicuz5wrxonu7ud6eskrnshxb66ksg3ncu3ie776xuiydlxrkfuvmu",
+        "https://bafybeicuz5wrxonu7ud6eskrnshxb66ksg3ncu3ie776xuiydlxrkfuvmu.ipfs.hub.textile.io",
     },
   ],
   friends: [
@@ -41,7 +41,7 @@ const friendsList = {
       id: 637838385993,
       user: "@aaron",
       img:
-        "https://hub.textile.io/ipfs/bafkreicb2lookm56omsfjwuwuziwftizmdsj4oneveuqiqlu6k5hc7j5nq",
+        "https://bafkreicb2lookm56omsfjwuwuziwftizmdsj4oneveuqiqlu6k5hc7j5nq.ipfs.hub.textile.io",
       info: {
         chainHead:
           "bafyl5q5qo5wolfxsui4ciujfucqwf6gqso4lettcjwl2tyismgol7c4tngvoono5rmytuqotye7oosfjv6g7a",
@@ -55,7 +55,7 @@ const friendsList = {
       id: 982799203032,
       user: "@colin",
       img:
-        "https://hub.textile.io/ipfs/bafybeigxb4arecl6iwsvjnwzi2lqpmmif6l2kgwptac7q3tzqmsimci2yq",
+        "https://bafybeigxb4arecl6iwsvjnwzi2lqpmmif6l2kgwptac7q3tzqmsimci2yq.ipfs.hub.textile.io",
       info: {
         chainHead:
           "t3ual5q5qo5wolfxsui4ciujfucqwf6gqso4lettcjwl2tyismgol7c4tngvoono5rmytuqotye7oosfjv6g7a",
@@ -69,7 +69,7 @@ const friendsList = {
       id: 673883729083,
       user: "@jason",
       img:
-        "https://hub.textile.io/ipfs/bafybeicp3x3poprnrsxhnqscsiuobxejxsbcsu2t4yhte6qmcofjvjqbn4",
+        "https://bafybeicp3x3poprnrsxhnqscsiuobxejxsbcsu2t4yhte6qmcofjvjqbn4.ipfs.hub.textile.io",
       info: {
         chainHead:
           "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q",
@@ -97,13 +97,13 @@ export default class SystemPagePeersList extends React.Component {
           id: 72572959238,
           user: "@martina",
           img:
-            "https://hub.textile.io/ipfs/bafybeiguo2uhd63reslbqkkgsqedgeikhtuwn5lzqpnqzluoaa3rnkfcvi",
+            "https://bafybeiguo2uhd63reslbqkkgsqedgeikhtuwn5lzqpnqzluoaa3rnkfcvi.ipfs.hub.textile.io",
         },
         {
           id: 2572952030,
           user: "@jim",
           img:
-            "https://hub.textile.io/ipfs/bafybeicuz5wrxonu7ud6eskrnshxb66ksg3ncu3ie776xuiydlxrkfuvmu",
+            "https://bafybeicuz5wrxonu7ud6eskrnshxb66ksg3ncu3ie776xuiydlxrkfuvmu.ipfs.hub.textile.io",
         },
       ],
       friends: [
@@ -124,7 +124,7 @@ export default class SystemPagePeersList extends React.Component {
           id: 637838385993,
           user: "@aaron",
           img:
-            "https://hub.textile.io/ipfs/bafkreicb2lookm56omsfjwuwuziwftizmdsj4oneveuqiqlu6k5hc7j5nq",
+            "https://bafkreicb2lookm56omsfjwuwuziwftizmdsj4oneveuqiqlu6k5hc7j5nq.ipfs.hub.textile.io",
           info: {
             chainHead:
               "bafyl5q5qo5wolfxsui4ciujfucqwf6gqso4lettcjwl2tyismgol7c4tngvoono5rmytuqotye7oosfjv6g7a",
@@ -138,7 +138,7 @@ export default class SystemPagePeersList extends React.Component {
           id: 982799203032,
           user: "@colin",
           img:
-            "https://hub.textile.io/ipfs/bafybeigxb4arecl6iwsvjnwzi2lqpmmif6l2kgwptac7q3tzqmsimci2yq",
+            "https://bafybeigxb4arecl6iwsvjnwzi2lqpmmif6l2kgwptac7q3tzqmsimci2yq.ipfs.hub.textile.io",
           info: {
             chainHead:
               "t3ual5q5qo5wolfxsui4ciujfucqwf6gqso4lettcjwl2tyismgol7c4tngvoono5rmytuqotye7oosfjv6g7a",
@@ -152,7 +152,7 @@ export default class SystemPagePeersList extends React.Component {
           id: 673883729083,
           user: "@jason",
           img:
-            "https://hub.textile.io/ipfs/bafybeicp3x3poprnrsxhnqscsiuobxejxsbcsu2t4yhte6qmcofjvjqbn4",
+            "https://bafybeicp3x3poprnrsxhnqscsiuobxejxsbcsu2t4yhte6qmcofjvjqbn4.ipfs.hub.textile.io",
           info: {
             chainHead:
               "t3solnyrrblqlmvi6gmzewzvu62vs7uqvkl22yemzr63bcylbaaqsg44mnipepuafg7efzzx4zwcsi66jgze3q",

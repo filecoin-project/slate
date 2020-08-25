@@ -1,4 +1,5 @@
 import * as MW from "~/node_common/middleware";
+import { IPFS_GATEWAY_DOMAIN } from "~/node_common/constants";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 
@@ -48,6 +49,7 @@ export default async (req, res) => {
     });
   }
 
+  const cid = req.body.data.ipfs.replace('/ipfs/')
   const objects = [
     ...slate.data.objects,
     {
@@ -56,7 +58,7 @@ export default async (req, res) => {
       name: req.body.data.name,
       title: req.body.data.title,
       type: req.body.data.type,
-      url: `https://hub.textile.io${req.body.data.ipfs}`,
+      url: `https:${cid}.${IPFS_GATEWAY_DOMAIN}`
     },
   ];
 

@@ -1,12 +1,16 @@
 import { runQuery } from "~/node_common/data/utilities";
 
-export default async ({ id }) => {
+export default async ({ subscriberUserId, slateId, userId }) => {
   return await runQuery({
     label: "GET_SUBSCRIPTION_BY_ID",
     queryFn: async (DB) => {
       const query = await DB.select("*")
         .from("subscriptions")
-        .where({ id })
+        .where({
+          owner_user_id: subscriberUserId,
+          target_slate_id: slateId,
+          target_user_id: userId,
+        })
         .first();
 
       if (!query || query.error) {

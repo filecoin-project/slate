@@ -65,7 +65,7 @@ export default async (req, res) => {
 
     return res
       .status(200)
-      .json({ decorator: "SERVER_SUBSCRIBE", data: unsubscribeResponse });
+      .json({ decorator: "SERVER_UNSUBSCRIBE", data: unsubscribeResponse });
   }
 
   const subscribeResponse = await Data.createSubscription({

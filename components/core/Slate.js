@@ -30,10 +30,10 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_ACTIONS = css`
+  z-index: ${Constants.zindex.navigation};
   bottom: 16px;
   right: 8px;
   position: absolute;
-  z-index: 1;
   flex-direction: column;
   display: flex;
 `;

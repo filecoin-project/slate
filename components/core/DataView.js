@@ -84,14 +84,17 @@ export default class DataView extends React.Component {
       name: "slate-global-create-carousel",
       detail: {
         slides: this.props.items.map((each) => {
+          // TODO(jim): Shouldn't really be handled here.
           const cid = each.ipfs.replace("/ipfs/", "");
+          const url = Strings.getCIDGatewayURL(cid);
+          const data = { ...each, url, cid };
 
           return {
-            id: each.id,
+            id: data.id,
             cid,
-            data: each,
+            data,
             renderPlaceholder: true,
-            component: <SlateMediaObject key={each.id} data={each} />,
+            component: <SlateMediaObject key={data.id} data={data} />,
           };
         }),
       },
@@ -115,7 +118,11 @@ export default class DataView extends React.Component {
 
   _handleDelete = async (cid) => {
     this.setState({ loading: true });
-    if (!window.confirm("Are you sure you want to delete this? It will be removed from your Slates too.")) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this? It will be removed from your Slates too."
+      )
+    ) {
       this.setState({ loading: false });
       return null;
     }
@@ -163,7 +170,10 @@ export default class DataView extends React.Component {
             <React.Fragment>
               <div css={STYLES_LABEL}>Actions</div>
               <div css={STYLES_SECTION}>
-                <System.ButtonSecondary loading={this.state.loading} onClick={() => this._handleDelete(cid)}>
+                <System.ButtonSecondary
+                  loading={this.state.loading}
+                  onClick={() => this._handleDelete(cid)}
+                >
                   Delete
                 </System.ButtonSecondary>
               </div>
@@ -191,7 +201,8 @@ export default class DataView extends React.Component {
         onAction={this.props.onAction}
         title={`${Strings.bytesToSize(this.props.viewer.stats.bytes)} uploaded`}
         style={{ minWidth: "880px" }}
-        buttons={this.props.buttons}>
+        buttons={this.props.buttons}
+      >
         <System.Table
           data={data}
           selectedRowId={this.state.selectedRowId}

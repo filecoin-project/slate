@@ -50,8 +50,6 @@ const STYLES_IMAGE = css`
 
 export default class SlateMediaObject extends React.Component {
   render() {
-    console.log(this.props.data);
-
     const name = `${this.props.data.name}`;
     const url = this.props.data.url;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";

@@ -42,7 +42,7 @@ const constructSlatesTreeForNavigation = (slates) => {
     return {
       ...s,
       slateId: s.id,
-      name: s.slatename,
+      name: s.data.name || s.slatename,
       pageTitle: `Viewing ${s.slatename}`,
       decorator: "SLATE",
     };

@@ -25,8 +25,8 @@ const STYLES_RIGHT = css`
 
 const STYLES_HEADER = css`
   box-sizing: border-box;
-  font-family: ${Constants.font.semiBold};
-  font-size: 20px;
+  font-family: ${Constants.font.text};
+  font-size: ${Constants.typescale.lvl4};
   padding: 0;
   margin-bottom: 8px;
   display: block;
@@ -38,7 +38,7 @@ const STYLES_HEADER = css`
 const STYLES_DESCRIPTION = css`
   box-sizing: border-box;
   font-family: ${Constants.font.text};
-  font-size: 14px;
+  font-size: ${Constants.typescale.lvl1};
   margin-bottom: 12px;
   line-height: 1.5;
   display: block;

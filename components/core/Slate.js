@@ -32,7 +32,8 @@ const STYLES_CONTAINER = css`
 const STYLES_ACTIONS = css`
   bottom: 16px;
   right: 8px;
-  position: fixed;
+  position: absolute;
+  z-index: 1;
   flex-direction: column;
   display: flex;
 `;
@@ -137,7 +138,10 @@ export default class Slate extends React.Component {
       return (
         <div key={index} css={STYLES_ITEM}>
           <SlateMediaObjectPreview type={data.type} url={data.url} />
-          <figure css={STYLES_BUTTON} onClick={() => this.props.onSelect(index)}>
+          <figure
+            css={STYLES_BUTTON}
+            onClick={() => this.props.onSelect(index)}
+          >
             <CircleButtonLight>
               <SVG.Eye height="16px" />
             </CircleButtonLight>
@@ -173,7 +177,8 @@ export default class Slate extends React.Component {
           useCSSTransforms={false}
           compactType={this.state.compactType}
           preventCollision={false}
-          margin={[24, 24]}>
+          margin={[24, 24]}
+        >
           {this.generateDOM()}
         </ResponsiveReactGridLayout>
         {this.props.editing ? (

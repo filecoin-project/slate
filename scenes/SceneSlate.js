@@ -142,7 +142,7 @@ export default class SceneSlate extends React.Component {
       detail: {
         slides: state.objects.map((each) => {
           // NOTE
-          // regex here performs https://{cid}.ipfs.hub.textile.io => [https://{cid}, {cid}]
+          // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
           let cid = each.url.match(/(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i)[1]
           return {
             onDelete: this._handleDelete,

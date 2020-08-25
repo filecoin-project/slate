@@ -37,10 +37,14 @@ export default class SceneSlate extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const isNewSlateScene = prevProps.current.slatename !== this.props.current.slatename;
+    const isNewSlateScene =
+      prevProps.current.slatename !== this.props.current.slatename;
 
     let isUpdated = false;
-    if (this.props.current.data.objects.length !== prevProps.current.data.objects.length) {
+    if (
+      this.props.current.data.objects.length !==
+      prevProps.current.data.objects.length
+    ) {
       isUpdated = true;
     }
 
@@ -141,16 +145,26 @@ export default class SceneSlate extends React.Component {
       name: "slate-global-create-carousel",
       detail: {
         slides: state.objects.map((each) => {
+          // NOTE(jim):
+          // This is a hack to catch this undefined case I don't want to track down yet.
+          const url = each.url.replace("https://undefined", "https://");
+
           // NOTE
           // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
-          let cid = each.url.match(/(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i)[1]
+          let cid = url.match(
+            /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i
+          )[1];
+          const data = { ...each, cid, url };
+
           return {
             onDelete: this._handleDelete,
             onObjectSave: this._handleObjectSave,
-            id: each.id,
+            id: data.id,
             cid,
-            data: each,
-            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
+            data,
+            component: (
+              <SlateMediaObject key={each.id} useImageFallback data={data} />
+            ),
           };
         }),
       },
@@ -244,8 +258,6 @@ export default class SceneSlate extends React.Component {
   render() {
     const { slatename, objects, body = "A slate." } = this.state;
 
-    console.log(this.state.layouts);
-
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
         <ScenePageHeader
@@ -253,14 +265,18 @@ export default class SceneSlate extends React.Component {
           title={slatename}
           actions={
             <React.Fragment>
-              <CircleButtonLight onClick={this._handleAdd} style={{ marginLeft: 12, marginRight: 12 }}>
+              <CircleButtonLight
+                onClick={this._handleAdd}
+                style={{ marginLeft: 12, marginRight: 12 }}
+              >
                 <SVG.Plus height="16px" />
               </CircleButtonLight>
               <CircleButtonLight onClick={this._handleShowSettings}>
                 <SVG.Settings height="16px" />
               </CircleButtonLight>
             </React.Fragment>
-          }>
+          }
+        >
           {body}
         </ScenePageHeader>
         <Slate

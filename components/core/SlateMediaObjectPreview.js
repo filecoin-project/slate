@@ -25,6 +25,10 @@ const STYLES_ENTITY = css`
 
 export default class SlateMediaObjectPreview extends React.Component {
   render() {
+    // NOTE(jim):
+    // This is a hack to catch this undefined case I don't want to track down yet.
+    const url = this.props.url.replace("https://undefined", "https://");
+
     let element = <div css={STYLES_ENTITY}>No Preview</div>;
 
     if (this.props.type && this.props.type.startsWith("video/")) {
@@ -44,7 +48,7 @@ export default class SlateMediaObjectPreview extends React.Component {
     }
 
     if (this.props.type && this.props.type.startsWith("image/")) {
-      element = <img css={STYLES_IMAGE} src={this.props.url} />;
+      element = <img css={STYLES_IMAGE} src={url} />;
     }
 
     return element;

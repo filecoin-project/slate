@@ -13,7 +13,18 @@ export default async ({ query }) => {
         return [];
       }
 
-      return JSON.parse(JSON.stringify(r));
+      // TODO(jim): Not a fan of this. Need something more secure.
+      const sanitized = r.map((each) => {
+        return {
+          data: {
+            name: each.data.name,
+            photo: each.data.photo,
+            body: each.data.body,
+          },
+        };
+      });
+
+      return JSON.parse(JSON.stringify(sanitized));
     },
     errorFn: async (e) => {
       return {

@@ -12,7 +12,9 @@ export default async (req, res) => {
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res.status(500).json({ decorator: "SERVER_FIND_USER_UPDATE_SLATE", error: true });
+    return res
+      .status(500)
+      .json({ decorator: "SERVER_FIND_USER_UPDATE_SLATE", error: true });
   }
 
   const user = await Data.getUserById({
@@ -36,32 +38,51 @@ export default async (req, res) => {
   const response = await Data.getSlateById({ id: req.body.data.id });
 
   if (!response) {
-    return res.status(404).json({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
+    return res
+      .status(404)
+      .json({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
   }
 
   if (response.error) {
-    return res.status(500).json({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
+    return res
+      .status(500)
+      .json({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
+  }
+
+  if (!req.body.data) {
+    return res.status(500).json({
+      decorator: "SERVER_UPDATE_SLATE_MUST_PROVIDE_DATA",
+      error: true,
+    });
+  }
+
+  if (!req.body.data.data.name) {
+    return res.status(500).json({
+      decorator: "SERVER_UPDATE_SLATE_MUST_PROVIDE_NAME",
+      error: true,
+    });
   }
 
   const slate = await Data.updateSlateById({
     id: response.id,
-    slatename: Strings.createSlug(req.body.data.slatename),
+    slatename: Strings.createSlug(req.body.data.data.name),
     updated_at: new Date(),
     data: {
       ...response.data,
-      objects: req.body.data.data.objects,
-      layouts: req.body.data.data.layouts,
-      public: req.body.data.data.public,
-      body: req.body.data.data.body,
+      ...req.body.data.data,
     },
   });
 
   if (!slate) {
-    return res.status(404).json({ decorator: "SERVER_UPDATE_SLATE", error: true });
+    return res
+      .status(404)
+      .json({ decorator: "SERVER_UPDATE_SLATE", error: true });
   }
 
   if (slate.error) {
-    return res.status(500).json({ decorator: "SERVER_UPDATE_SLATE", error: true });
+    return res
+      .status(500)
+      .json({ decorator: "SERVER_UPDATE_SLATE", error: true });
   }
 
   return res.status(200).json({ decorator: "SERVER_UPDATE_SLATE", slate });

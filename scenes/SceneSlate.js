@@ -22,6 +22,7 @@ const moveIndex = (set, fromIndex, toIndex) => {
 
 export default class SceneSlate extends React.Component {
   state = {
+    name: this.props.current.data.name,
     slatename: this.props.current.slatename,
     public: this.props.current.data.public,
     objects: this.props.current.data.objects,
@@ -63,6 +64,7 @@ export default class SceneSlate extends React.Component {
         public: this.props.current.data.public,
         objects: this.props.current.data.objects,
         body: this.props.current.data.body,
+        name: this.props.current.data.name,
         layouts: layouts,
         loading: false,
       });
@@ -92,12 +94,12 @@ export default class SceneSlate extends React.Component {
 
     const response = await Actions.updateSlate({
       id: this.props.current.slateId,
-      slatename: this.state.slatename,
       data: {
         objects: objects ? objects : this.state.objects,
         layouts: layouts ? layouts : this.state.layouts,
         public: this.state.public,
         body: this.state.body,
+        name: this.state.name,
       },
     });
 
@@ -198,12 +200,12 @@ export default class SceneSlate extends React.Component {
 
     const response = await Actions.updateSlate({
       id: this.props.current.slateId,
-      slatename: this.state.slatename,
       data: {
         objects,
         layouts,
         public: this.state.public,
         body: this.state.body,
+        name: this.state.name,
       },
     });
 
@@ -256,13 +258,13 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
-    const { slatename, objects, body = "A slate." } = this.state;
+    const { slatename, objects, body = "A slate.", name } = this.state;
 
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
         <ScenePageHeader
           style={{ padding: `0 24px 0 24px` }}
-          title={slatename}
+          title={name}
           actions={
             <React.Fragment>
               <CircleButtonLight

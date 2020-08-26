@@ -46,7 +46,7 @@ export default async (req, res) => {
   }
 
   const slate = await Data.createSlate({
-    slatename,
+    slatename: Strings.createSlug(req.body.data.name),
     data: {
       public: true,
       ownerId: id,

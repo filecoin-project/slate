@@ -20,7 +20,7 @@ export default class SceneSlates extends React.Component {
     const slates = {
       columns: [
         {
-          key: "slatename",
+          key: "name",
           name: "Slate Name",
           width: "100%",
           type: "SLATE_LINK",
@@ -41,6 +41,7 @@ export default class SceneSlates extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
+          name: each.data.name,
           url: `https://slate.host/${this.props.viewer.username}/${
             each.slatename
           }`,

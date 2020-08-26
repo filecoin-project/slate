@@ -20,7 +20,7 @@ export default class SceneHome extends React.Component {
     const slates = {
       columns: [
         {
-          key: "slatename",
+          key: "name",
           name: "Slate Name",
           width: "100%",
           type: "SLATE_LINK",
@@ -41,7 +41,10 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
+          url: `https://slate.host/${this.props.viewer.username}/${
+            each.slatename
+          }`,
+          name: each.data.name,
           public: each.data.public,
           objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
         };
@@ -49,7 +52,9 @@ export default class SceneHome extends React.Component {
     };
 
     // TODO(jim): Refactor later.
-    const slateButtons = [{ name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" }];
+    const slateButtons = [
+      { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
+    ];
 
     /*
     // TODO(jim): Refactor later.
@@ -87,9 +92,15 @@ export default class SceneHome extends React.Component {
 
     return (
       <ScenePage>
-        <ScenePageHeader title="Home [WIP]">This scene is currently a work in progress.</ScenePageHeader>
+        <ScenePageHeader title="Home [WIP]">
+          This scene is currently a work in progress.
+        </ScenePageHeader>
 
-        <Section title="Slates" buttons={slateButtons} onAction={this.props.onAction}>
+        <Section
+          title="Slates"
+          buttons={slateButtons}
+          onAction={this.props.onAction}
+        >
           <System.Table
             data={slates}
             name="slate"

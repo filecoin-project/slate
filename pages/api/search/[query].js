@@ -20,9 +20,6 @@ export default async (req, res) => {
   const users = await Data.queryUsers({ query });
   const slates = await Data.querySlates({ query });
 
-  console.log(users);
-  console.log(slates);
-
   let results = [...users, ...slates];
 
   return res.status(200).send({

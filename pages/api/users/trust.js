@@ -66,7 +66,7 @@ export default async (req, res) => {
     });
   }
 
-  const existingResponse = await Data.getTrustedRelationshipByUserIds({
+  let existingResponse = await Data.getTrustedRelationshipByUserIds({
     ownerUserId: user.id,
     targetUserId: targetUser.id,
   });
@@ -74,6 +74,18 @@ export default async (req, res) => {
   if (existingResponse && existingResponse.error) {
     return res.status(500).json({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_CHECK_ERROR",
+      error: true,
+    });
+  }
+
+  let invertedResponse = await Data.getTrustedRelationshipByUserIds({
+    targetUserId: user.id,
+    ownerUserId: targetUser.id,
+  });
+
+  if (invertedResponse) {
+    return res.status(500).json({
+      decorator: "SERVER_TRUSTED_RELATIONSHIP_INVERTED_CHECK_ERROR",
       error: true,
     });
   }

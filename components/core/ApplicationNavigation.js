@@ -273,6 +273,7 @@ export default class ApplicationNavigation extends React.Component {
             onSignOut={this.props.onSignOut}
           />
         </div>
+
         {this.props.navigation.map((each) => {
           if (!each || each.ignore) {
             return null;

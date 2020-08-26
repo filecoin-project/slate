@@ -22,6 +22,9 @@ export const getById = async ({ id }) => {
   const subscriptions = await Data.getSubscriptionsByUserId({ userId: id });
   const activity = await Data.getActivityForUserId({ userId: id });
   const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
+  const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
+    userId: id,
+  });
 
   let bytes = 0;
   user.data.library[0].children.forEach((each) => {
@@ -56,6 +59,7 @@ export const getById = async ({ id }) => {
       subscriptions,
       activity,
       trusted,
+      pendingTrusted,
     };
   } catch (e) {
     console.log(e);

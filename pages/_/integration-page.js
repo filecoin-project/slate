@@ -62,9 +62,23 @@ export default class IntegrationPage extends React.Component {
     this.setState(updates);
   };
 
+  _handleDelete = async (entity) => {
+    const response = await Actions.deleteTrustRelationship({ id: entity.id });
+
+    await this._handleUpdate();
+  };
+
   _handleTrust = async (user) => {
     const response = await Actions.createTrustRelationship({
       userId: user.target_user_id ? user.target_user_id : user.id,
+    });
+
+    await this._handleUpdate();
+  };
+
+  _handleAccept = async (user) => {
+    const response = await Actions.updateTrustRelationship({
+      userId: user.owner_user_id,
     });
 
     await this._handleUpdate();
@@ -93,27 +107,43 @@ export default class IntegrationPage extends React.Component {
     return (
       <div css={STYLES_ROW}>
         <div css={STYLES_COLUMN}>
-          {this.state.viewer.trusted.map((each) => {
-            const status = [];
-            if (each.owner_user_id === this.state.viewer.id) {
-              status.push("THIS IS A REQUEST YOU MADE");
-            }
-
-            if (!each.data.verified) {
-              status.push(
-                "BUT THE PERSON YOU ASKED TO ACCEPT HAS NOT ACCEPTED"
-              );
-            }
-
-            each.status = status;
-
+          {this.state.viewer.pendingTrusted.map((each) => {
             return (
               <div css={STYLES_ITEM} key={each.id}>
                 {JSON.stringify(each, null, 1)}{" "}
                 <div>
-                  <button onClick={() => this._handleTrust(each)}>
-                    Cancel Pending Request Or Delete Friend
-                  </button>
+                  {!each.data.verified ? (
+                    <button onClick={() => this._handleAccept(each)}>
+                      Accept
+                    </button>
+                  ) : null}
+
+                  {each.data.verified ? (
+                    <button onClick={() => this._handleDelete(each)}>
+                      Delete
+                    </button>
+                  ) : null}
+                </div>
+              </div>
+            );
+          })}
+
+          {this.state.viewer.trusted.map((each) => {
+            return (
+              <div css={STYLES_ITEM} key={each.id}>
+                {JSON.stringify(each, null, 1)}{" "}
+                <div>
+                  {!each.data.verified ? (
+                    <button onClick={() => this._handleTrust(each)}>
+                      Cancel Pending Request Or Delete Friend
+                    </button>
+                  ) : null}
+
+                  {each.data.verified ? (
+                    <button onClick={() => this._handleDelete(each)}>
+                      Delete
+                    </button>
+                  ) : null}
                 </div>
               </div>
             );

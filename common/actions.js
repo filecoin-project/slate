@@ -46,6 +46,20 @@ export const sendFilecoin = async (data) => {
   });
 };
 
+export const deleteTrustRelationship = async (data) => {
+  return await returnJSON(`/api/users/trust-delete`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
+export const updateTrustRelationship = async (data) => {
+  return await returnJSON(`/api/users/trust-update`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
 export const createTrustRelationship = async (data) => {
   return await returnJSON(`/api/users/trust`, {
     ...DEFAULT_OPTIONS,

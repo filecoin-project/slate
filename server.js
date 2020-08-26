@@ -70,6 +70,21 @@ app.prepare().then(async () => {
     });
   });
 
+  server.get("/_/integration-page", async (req, res) => {
+    const id = Utilities.getIdFromCookie(req);
+
+    let viewer = null;
+    if (id) {
+      viewer = await ViewerManager.getById({
+        id,
+      });
+    }
+
+    return app.render(req, res, "/_/integration-page", {
+      viewer,
+    });
+  });
+
   server.get("/:username", async (req, res) => {
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {

@@ -73,10 +73,6 @@ export default class IndexPage extends React.Component {
                 what is in this document.
               </System.LI>
             </System.UL>
-<<<<<<< HEAD
-=======
-            <br />
->>>>>>> Nav and Footer Moved outside content Div
             <System.P>
               We expect all members of the Slate community to abide by this Code
               of Conduct at all times in all Slate community venues, online and

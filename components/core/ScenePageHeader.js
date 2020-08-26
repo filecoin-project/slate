@@ -10,7 +10,7 @@ const STYLES_ROOT = css`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  max-width: 578px;
+  max-width: 648px;
   width: 100%;
 `;
 
@@ -21,6 +21,7 @@ const STYLES_LEFT = css`
 
 const STYLES_RIGHT = css`
   flex-shrink: 0;
+  padding-left: 24px;
 `;
 
 const STYLES_HEADER = css`
@@ -54,7 +55,7 @@ export default (props) => {
         <div css={STYLES_HEADER}>{props.title}</div>
         <div css={STYLES_DESCRIPTION}>{props.children}</div>
       </div>
-      <div css={STYLES_RIGHT}>{props.actions}</div>
+      {props.actions ? <div css={STYLES_RIGHT}>{props.actions}</div> : null}
     </header>
   );
 };

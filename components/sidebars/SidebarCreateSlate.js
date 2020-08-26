@@ -72,14 +72,6 @@ export default class SidebarCreateSlate extends React.Component {
         >
           Create {this.state.name}
         </System.ButtonPrimary>
-
-        <System.ButtonSecondary
-          full
-          style={{ marginTop: 16 }}
-          onClick={this._handleCancel}
-        >
-          Cancel
-        </System.ButtonSecondary>
       </div>
     );
   }

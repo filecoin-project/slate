@@ -12,7 +12,7 @@ const STYLES_CONTAINER = css`
   border-radius: 4px;
   border: 1px solid ${Constants.system.border};
   padding: 24px;
-  max-width: 768px;
+  max-width: 100%;
   width: 100%;
 `;
 

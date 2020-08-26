@@ -111,7 +111,7 @@ export default class SidebarAddFileToBucket extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload data</System.P>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload Data</System.P>
         <input css={STYLES_FILE_HIDDEN} type="file" multiple id="file" onChange={this._handleUpload} />
 
         {this.props.data && this.props.data.decorator === "SLATE" ? (
@@ -128,12 +128,6 @@ export default class SidebarAddFileToBucket extends React.Component {
           loading={!!this.props.fileLoading}>
           Add file
         </System.ButtonPrimary>
-
-        {!this.props.fileLoading ? (
-          <System.ButtonSecondary full style={{ marginTop: 16 }} onClick={this.props.onCancel}>
-            Cancel
-          </System.ButtonSecondary>
-        ) : null}
 
         <br />
 

@@ -70,12 +70,8 @@ export default class SceneFilesFolder extends React.Component {
 
         <DataMeter
           stats={this.props.viewer.stats}
-          style={{ margin: "48px 0 24px 0" }}
+          style={{ margin: "48px 0 48px 0" }}
         />
-
-        <System.H1 style={{ marginTop: 48 }}>
-          {this.props.current.name}
-        </System.H1>
 
         <DataView
           buttons={[

@@ -220,8 +220,7 @@ export default class ApplicationPage extends React.Component {
     console.log("REHYDRATION CALL", response);
 
     const updates = {
-      viewer: State.getInitialState(response.data),
-      selected: State.getSelectedState(response.data),
+      viewer: response.data,
     };
 
     if (options && options.resetFiles) {

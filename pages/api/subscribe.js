@@ -39,6 +39,7 @@ export default async (req, res) => {
   });
 
   if (existingResponse && existingResponse.error) {
+    console.log(existingResponse);
     return res.status(500).json({
       decorator: "SERVER_SUBSCRIBE_SUBSCRIPTION_CHECK_ERROR",
       error: true,

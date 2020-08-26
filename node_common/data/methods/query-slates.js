@@ -13,7 +13,11 @@ export default async ({ query }) => {
         return [];
       }
 
-      return JSON.parse(JSON.stringify(r));
+      const sanitized = r.map((each) => {
+        return { ...each, type: "SLATE" };
+      });
+
+      return JSON.parse(JSON.stringify(sanitized));
     },
     errorFn: async (e) => {
       return {

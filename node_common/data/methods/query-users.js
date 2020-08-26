@@ -16,6 +16,9 @@ export default async ({ query }) => {
       // TODO(jim): Not a fan of this. Need something more secure.
       const sanitized = r.map((each) => {
         return {
+          type: "USER",
+          id: each.id,
+          username: each.username,
           data: {
             name: each.data.name,
             photo: each.data.photo,

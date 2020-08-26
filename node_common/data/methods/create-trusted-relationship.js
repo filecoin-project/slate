@@ -7,12 +7,13 @@ export default async ({ ownerUserId, targetUserId }) => {
       const query = await DB.insert({
         owner_user_id: ownerUserId,
         target_user_id: targetUserId,
+        data: { verified: false },
       })
         .into("trusted")
         .returning("*");
 
       const index = query ? query.pop() : null;
-      return index;
+      return JSON.parse(JSON.stringify(index));
     },
     errorFn: async (e) => {
       return {

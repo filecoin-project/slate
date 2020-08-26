@@ -63,8 +63,9 @@ export default class IntegrationPage extends React.Component {
   };
 
   _handleTrust = async (user) => {
-    const response = await Actions.createTrustRelationship({ userId: user.id });
-    console.log(response);
+    const response = await Actions.createTrustRelationship({
+      userId: user.target_user_id ? user.target_user_id : user.id,
+    });
 
     await this._handleUpdate();
   };
@@ -93,9 +94,27 @@ export default class IntegrationPage extends React.Component {
       <div css={STYLES_ROW}>
         <div css={STYLES_COLUMN}>
           {this.state.viewer.trusted.map((each) => {
+            const status = [];
+            if (each.owner_user_id === this.state.viewer.id) {
+              status.push("THIS IS A REQUEST YOU MADE");
+            }
+
+            if (!each.data.verified) {
+              status.push(
+                "BUT THE PERSON YOU ASKED TO ACCEPT HAS NOT ACCEPTED"
+              );
+            }
+
+            each.status = status;
+
             return (
               <div css={STYLES_ITEM} key={each.id}>
                 {JSON.stringify(each, null, 1)}{" "}
+                <div>
+                  <button onClick={() => this._handleTrust(each)}>
+                    Cancel Pending Request Or Delete Friend
+                  </button>
+                </div>
               </div>
             );
           })}

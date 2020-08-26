@@ -34,9 +34,41 @@ export default async (req, res) => {
     });
   }
 
+  if (!req.body.data || !req.body.data.userId) {
+    return res.status(500).json({
+      decorator: "SERVER_TRUSTED_RELATIONSHIP_MUST_PROVIDE_SOMEONE_TO_TRUST",
+      error: true,
+    });
+  }
+
+  if (user.id === req.body.data.userId) {
+    return res.status(500).json({
+      decorator: "SERVER_TRUSTED_RELATIONSHIP_CAN_NOT_TRUST_YOURSELF",
+      error: true,
+    });
+  }
+
+  const targetUser = await Data.getUserById({
+    id: req.body.data.userId,
+  });
+
+  if (!targetUser) {
+    return res.status(404).json({
+      decorator: "SERVER_TRUSTED_RELATIONSHIP_TARGET_USER_NOT_FOUND",
+      error: true,
+    });
+  }
+
+  if (targetUser.error) {
+    return res.status(500).json({
+      decorator: "SERVER_TRUSTED_RELATIONSHIP_TARGET_USER_NOT_FOUND",
+      error: true,
+    });
+  }
+
   const existingResponse = await Data.getTrustedRelationshipByUserIds({
     ownerUserId: user.id,
-    targetUserId: req.body.data.userId,
+    targetUserId: targetUser.id,
   });
 
   if (existingResponse && existingResponse.error) {

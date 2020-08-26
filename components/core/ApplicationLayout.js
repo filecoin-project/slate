@@ -196,16 +196,14 @@ export default class ApplicationLayout extends React.Component {
           </div>
         </div>
         {this.props.sidebar ? (
-          <Boundary onOutsideRectEvent={this.props.onDismissSidebar} enabled>
-            <div
-              css={STYLES_SIDEBAR_WEB}
-              ref={(c) => {
-                this._sidebar = c;
-              }}
-            >
-              {sidebarElements}
-            </div>
-          </Boundary>
+          <div
+            css={STYLES_SIDEBAR_WEB}
+            ref={(c) => {
+              this._sidebar = c;
+            }}
+          >
+            {sidebarElements}
+          </div>
         ) : null}
       </div>
     );

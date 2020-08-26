@@ -53,6 +53,8 @@ const STYLES_STRONG = css`
 
 export default class SidebarAddFileToBucket extends React.Component {
   _handleUpload = async (e) => {
+    console.log("handle upload");
+
     e.persist();
     let files = [];
     let fileLoading = {};
@@ -87,7 +89,10 @@ export default class SidebarAddFileToBucket extends React.Component {
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      const slate = this.props.data && this.props.data.slateId ? { id: this.props.data.slateId } : null;
+      const slate =
+        this.props.data && this.props.data.slateId
+          ? { id: this.props.data.slateId }
+          : null;
 
       const response = await this.props.onUploadFile({
         file,
@@ -105,18 +110,29 @@ export default class SidebarAddFileToBucket extends React.Component {
       }
     }
 
+    console.log("file upload");
+
     await this.props.onRehydrate({ resetFiles: true });
   };
 
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>Upload Data</System.P>
-        <input css={STYLES_FILE_HIDDEN} type="file" multiple id="file" onChange={this._handleUpload} />
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+          Upload Data
+        </System.P>
+        <input
+          css={STYLES_FILE_HIDDEN}
+          multiple
+          type="file"
+          id="file"
+          onChange={this._handleUpload}
+        />
 
         {this.props.data && this.props.data.decorator === "SLATE" ? (
           <System.P style={{ marginTop: 24 }}>
-            This will add data to your Slate named <strong>{this.props.data.slatename}</strong>.
+            This will add data to your Slate named{" "}
+            <strong>{this.props.data.slatename}</strong>.
           </System.P>
         ) : null}
 
@@ -125,7 +141,8 @@ export default class SidebarAddFileToBucket extends React.Component {
           type="label"
           htmlFor="file"
           style={{ marginTop: 24 }}
-          loading={!!this.props.fileLoading}>
+          loading={!!this.props.fileLoading}
+        >
           Add file
         </System.ButtonPrimary>
 

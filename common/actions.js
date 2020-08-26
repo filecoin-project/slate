@@ -46,6 +46,17 @@ export const sendFilecoin = async (data) => {
   });
 };
 
+export const search = async (data) => {
+  if (Strings.isEmpty(data.query)) {
+    return { decorator: "NO_SERVER_TRIP", data: [] };
+  }
+
+  return await returnJSON(`/api/search/${data.query}`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify(data),
+  });
+};
+
 export const updateViewer = async (data) => {
   return await returnJSON(`/api/users/update`, {
     ...DEFAULT_OPTIONS,

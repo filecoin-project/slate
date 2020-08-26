@@ -50,6 +50,11 @@ import getActivityForSlateId from "~/node_common/data/methods/get-activity-for-s
 import getActivityById from "~/node_common/data/methods/get-activity-by-id";
 import deleteActivityById from "~/node_common/data/methods/delete-activity-by-id";
 
+// NOTE(jim):
+// Search postgres queries
+import querySlates from "~/node_common/data/methods/query-slates";
+import queryUsers from "~/node_common/data/methods/query-users";
+
 export {
   // NOTE(jim): User operations.
   createUser,
@@ -91,4 +96,7 @@ export {
   getActivityForSlateId,
   getActivityById,
   deleteActivityById,
+  // NOTE(jim): Search
+  queryUsers,
+  querySlates,
 };

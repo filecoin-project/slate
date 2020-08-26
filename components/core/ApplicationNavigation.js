@@ -143,61 +143,59 @@ const STYLES_ICON_ELEMENT = css`
   }
 `;
 
-const Item = ({
-  data,
-  id,
-  activeIds,
-  level,
-  children,
-  showActive,
-  decorator,
-  onToggleShow,
-  onNavigateTo,
-}) => {
+const Item = (props) => {
   return (
     <span
       css={STYLES_NAVIGATION_ITEM}
-      style={{ padding: `0 0 0 ${level * 16}px` }}
+      style={{ padding: `0 0 0 ${props.level * 16}px` }}
     >
-      <span css={STYLES_EXPANDER} onClick={onToggleShow ? onToggleShow : null}>
+      <span
+        css={STYLES_EXPANDER}
+        onClick={props.onToggleShow ? props.onToggleShow : null}
+      >
         <span
           css={STYLES_ICON_ELEMENT}
           style={{
-            color: activeIds[id] ? Constants.system.brand : null,
+            color: props.activeIds[props.id] ? Constants.system.brand : null,
           }}
         >
-          {onToggleShow ? (
+          {props.treeChildren && props.treeChildren.length ? (
             <SVG.ExpandArrow
               height="8px"
-              style={showActive ? { transform: `rotate(90deg)` } : null}
+              style={props.expanded ? { transform: `rotate(90deg)` } : null}
             />
           ) : null}
         </span>
       </span>
-      <span css={STYLES_ICON} onClick={() => onNavigateTo({ id }, data)}>
+      <span
+        css={STYLES_ICON}
+        onClick={() => props.onNavigateTo({ id: props.id }, props.data)}
+      >
         <span
           css={STYLES_ICON_ELEMENT}
+          children={IconMap[props.decorator]}
           style={{
-            color: activeIds[id] ? Constants.system.brand : null,
+            color: props.activeIds[props.id] ? Constants.system.brand : null,
           }}
-        >
-          {IconMap[decorator]}
-        </span>
+        />
       </span>
       <span
         css={STYLES_CHILDREN}
-        onClick={() => onNavigateTo({ id }, data)}
+        children={props.children}
+        onClick={() => props.onNavigateTo({ id: props.id }, props.data)}
         style={{
-          color: activeIds[id] ? Constants.system.brand : null,
+          color: props.activeIds[props.id] ? Constants.system.brand : null,
         }}
-      >
-        {children}
-      </span>
+      />
     </span>
   );
 };
 
 class NodeReference extends React.Component {
+  static defaultProps = {
+    treeChildren: [],
+  };
+
   state = {
     showTreeChildren: false,
   };
@@ -207,65 +205,41 @@ class NodeReference extends React.Component {
   };
 
   render() {
-    const {
-      id,
-      activeId,
-      activeIds,
-      level,
-      children,
-      treeChildren,
-      decorator,
-      onNavigateTo,
-      data,
-    } = this.props;
-    const { showTreeChildren } = this.state;
-
-    let showActive = showTreeChildren || activeIds[id];
-    let showChildren = showActive && treeChildren && treeChildren.length;
-
     return (
       <React.Fragment>
         <Item
-          id={id}
-          data={data}
-          activeId={activeId}
-          activeIds={activeIds}
-          level={level}
-          showActive={showActive}
-          treeChildren={treeChildren}
-          onNavigateTo={onNavigateTo}
-          decorator={decorator}
-          onToggleShow={
-            treeChildren && treeChildren.length ? this._handleToggleShow : null
-          }
-        >
-          {children}
-        </Item>
+          id={this.props.id}
+          data={this.props.data}
+          activeId={this.props.activeId}
+          activeIds={this.props.activeIds}
+          level={this.props.level}
+          treeChildren={this.props.treeChildren}
+          onNavigateTo={this.props.onNavigateTo}
+          decorator={this.props.decorator}
+          onToggleShow={this._handleToggleShow}
+          expanded={this.state.showTreeChildren}
+          children={this.props.children}
+        />
 
-        {showChildren
-          ? treeChildren.map((child) => {
-              if (!child) {
-                return null;
-              }
-
-              if (child.ignore) {
+        {this.state.showTreeChildren
+          ? this.props.treeChildren.map((child) => {
+              if (!child || child.ignore) {
                 return null;
               }
 
               return (
                 <NodeReference
+                  key={child.id}
                   data={child}
                   id={child.id}
-                  activeId={activeId}
-                  activeIds={activeIds}
-                  key={child.id}
-                  onNavigateTo={onNavigateTo}
-                  level={level + 1}
+                  activeId={this.props.activeId}
+                  activeIds={this.props.activeIds}
+                  onNavigateTo={this.props.onNavigateTo}
+                  level={this.props.level + 1}
                   treeChildren={child.children}
                   decorator={child.decorator}
-                >
-                  {child.name}
-                </NodeReference>
+                  children={child.name}
+                />
               );
             })
           : null}
@@ -300,11 +274,7 @@ export default class ApplicationNavigation extends React.Component {
           />
         </div>
         {this.props.navigation.map((each) => {
-          if (!each) {
-            return null;
-          }
-
-          if (each.ignore) {
+          if (!each || each.ignore) {
             return null;
           }
 
@@ -319,9 +289,8 @@ export default class ApplicationNavigation extends React.Component {
               level={0}
               treeChildren={each.children}
               decorator={each.decorator}
-            >
-              {each.name}
-            </NodeReference>
+              children={each.name}
+            />
           );
         })}
       </nav>

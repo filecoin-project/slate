@@ -11,7 +11,6 @@ const STYLES_ROOT = css`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  max-width: 648px;
   width: 100%;
 `;
 
@@ -22,7 +21,7 @@ const STYLES_LEFT = css`
 
 const STYLES_RIGHT = css`
   flex-shrink: 0;
-  padding-left: 24px;
+  justify-self: end;
 `;
 
 const STYLES_HEADER = css`

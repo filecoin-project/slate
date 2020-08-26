@@ -12,6 +12,14 @@ import Slate, { generateLayout } from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 
+const STYLES_USERNAME = css`
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
+`;
+
 const moveIndex = (set, fromIndex, toIndex) => {
   const element = set[fromIndex];
   set.splice(fromIndex, 1);
@@ -23,7 +31,7 @@ const moveIndex = (set, fromIndex, toIndex) => {
 export default class SceneSlate extends React.Component {
   state = {
     name: this.props.data.data.name,
-    username: this.props.data.owner.username,
+    username: this.props.data.owner ? this.props.data.owner.username : null,
     slatename: this.props.data.slatename,
     public: this.props.data.data.public,
     objects: this.props.data.data.objects,
@@ -64,7 +72,7 @@ export default class SceneSlate extends React.Component {
       }
 
       this.setState({
-        username: this.props.data.owner.username,
+        username: this.props.data.owner ? this.props.data.owner.username : null,
         slatename: this.props.data.slatename,
         public: this.props.data.data.public,
         objects: this.props.data.data.objects,
@@ -278,7 +286,28 @@ export default class SceneSlate extends React.Component {
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
         <ScenePageHeader
           style={{ padding: `0 24px 0 24px` }}
-          title={`${username} / ${name}`}
+          title={
+            username ? (
+              <span>
+                <span
+                  onClick={() =>
+                    this.props.onAction({
+                      type: "NAVIGATE",
+                      value: this.props.sceneId,
+                      scene: "PROFILE",
+                      data: this.props.data.owner,
+                    })
+                  }
+                  css={STYLES_USERNAME}
+                >
+                  {username}
+                </span>{" "}
+                / {slatename}
+              </span>
+            ) : (
+              slatename
+            )
+          }
           actions={
             this.state.editing ? (
               <React.Fragment>

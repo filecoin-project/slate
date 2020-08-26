@@ -353,7 +353,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDismissSidebar = () => {
-    this.setState({ sidebar: null, sidebarLoading: false });
+    this.setState({ sidebar: null, sidebarLoading: false, sidebarData: null });
   };
 
   _handleAction = (options) => {
@@ -380,7 +380,7 @@ export default class ApplicationPage extends React.Component {
     if (options.type === "SIDEBAR") {
       return this.setState({
         sidebar: SIDEBARS[options.value],
-        data: options.data,
+        sidebarData: options.data,
       });
     }
 

@@ -14,6 +14,40 @@ const STYLES_NUMBER = css`
   font-weight: 400;
 `;
 
+const STYLES_ACTIONS = css`
+  z-index: ${Constants.zindex.navigation};
+  bottom: 16px;
+  right: 8px;
+  position: absolute;
+  flex-direction: column;
+  display: flex;
+`;
+
+const STYLES_ACTION_BUTTON = css`
+  font-family: ${Constants.font.code};
+  font-size: 10px;
+  text-transform: uppercase;
+  user-select: none;
+  height: 32px;
+  padding: 0 16px 0 16px;
+  border-radius: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: ${Constants.zindex.modal};
+  background: ${Constants.system.pitchBlack};
+  transition: 200ms ease all;
+  color: ${Constants.system.white};
+  cursor: pointer;
+  margin: auto;
+  margin: 4px 16px 4px 16px;
+  flex-shrink: 0;
+  text-decoration: none;
+  :hover {
+    background-color: ${Constants.system.black};
+  }
+`;
+
 // TODO(jim): Slates design.
 export default class SceneSlates extends React.Component {
   render() {
@@ -40,16 +74,31 @@ export default class SceneSlates extends React.Component {
         {this.props.data.children.map((slate) => (
           <div
             key={slate.id}
-            // onClick={() =>
-            //   this.props.onAction({
-            //     type: "NAVIGATE",
-            //     value: slate.id,
-            //   })
-            // }
+            onClick={() =>
+              this.props.onAction({
+                type: "NAVIGATE",
+                value: slate.id,
+                data: slate,
+              })
+            }
           >
             <SlatePreviewBlock slate={slate} />
           </div>
         ))}
+        <div css={STYLES_ACTIONS}>
+          <span
+            css={STYLES_ACTION_BUTTON}
+            onClick={() =>
+              this.props.onAction({
+                name: "Create slate",
+                type: "SIDEBAR",
+                value: "SIDEBAR_CREATE_SLATE",
+              })
+            }
+          >
+            Create slate
+          </span>
+        </div>
       </ScenePage>
     );
   }

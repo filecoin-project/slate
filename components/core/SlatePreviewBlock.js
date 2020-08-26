@@ -12,7 +12,7 @@ const STYLES_IMAGE_ROW = css`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  height: 186px;
+  max-height: 186px;
   overflow: hidden;
 `;
 

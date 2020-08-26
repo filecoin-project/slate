@@ -5,7 +5,7 @@ import { css } from "@emotion/react";
 import { motion } from "framer-motion";
 
 const STYLES_CONTAINER = css`
-  font-family: ${Constants.font.code};
+  font-family: ${Constants.font.text};
   font-size: 12px;
   line-height: 1.25;
   width: 100%;
@@ -14,12 +14,14 @@ const STYLES_CONTAINER = css`
   justify-content: top;
   padding: 48px 88px;
   background-color: ${Constants.system.black};
-
   @media (max-width: ${Constants.sizes.mobile}px) {
+    position: absolute;
+    z-index: 2;
     flex-shrink: 0;
     display: block;
     justify-content: left;
-    height: 504px;
+    height: 400px;
+    padding: 48px 24px;
   }
 `;
 
@@ -85,7 +87,6 @@ const STYLES_RIGHT = css`
     Left: 24px;
     justify-content: flex-start;
     flex-direction: column;
-    margin: 16px 0px 48px 0px;
   }
 `;
 

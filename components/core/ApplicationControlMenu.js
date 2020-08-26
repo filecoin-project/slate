@@ -79,7 +79,7 @@ export default class ApplicationControlMenu extends React.Component {
               onSignOut={this._handleSignOut}
               navigation={[
                 {
-                  text: "Profile & account settings",
+                  text: "Account Settings",
                   value: "V1_NAVIGATION_PROFILE",
                 },
                 /*
@@ -88,7 +88,7 @@ export default class ApplicationControlMenu extends React.Component {
                   value: "V1_NAVIGATION_FILECOIN_SETTINGS",
                 },
                 */
-                { text: "Sign out", value: null, action: "SIGN_OUT" },
+                { text: "Sign Out", value: null, action: "SIGN_OUT" },
               ]}
             />
           </Dismissible>

@@ -159,7 +159,7 @@ export default class SceneEditAccount extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>Profile & account settings</System.H1>
+        <System.H1>Account Settings</System.H1>
 
         <System.DescriptionGroup
           style={{ marginTop: 48 }}

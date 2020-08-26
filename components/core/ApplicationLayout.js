@@ -133,8 +133,6 @@ const STYLES_BLOCK = css`
   justify-content: center;
   transition: 200ms ease all;
   cursor: pointer;
-  :hover {
-    color: ${Constants.system.brand};
   }
 `;
 

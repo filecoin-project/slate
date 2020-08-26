@@ -27,10 +27,10 @@ export const system = {
 
 export const zindex = {
   navigation: 1,
-  sidebar: 2,
+  sidebar: 4,
   header: 3,
-  modal: 4,
-  tooltip: 5,
+  modal: 5,
+  tooltip: 6,
 };
 
 export const font = {
@@ -63,4 +63,4 @@ export const theme = {
 
 export const gateways = {
   ipfs: "ipfs.slate.textile.io",
-}
+};

@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 
@@ -33,6 +34,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
     public: this.props.data.data.public,
     body: this.props.data.data.body,
     layouts: this.props.data.data.layouts,
+    name: this.props.data.data.name,
     loading: false,
   };
 
@@ -41,8 +43,8 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
     const response = await Actions.updateSlate({
       id: this.props.data.slateId,
-      slatename: this.state.slatename,
       data: {
+        name: this.state.name,
         objects: this.props.data.data.objects,
         layouts: this.props.data.data.layouts,
         public: this.state.public,
@@ -74,7 +76,11 @@ export default class SidebarSingleSlateSettings extends React.Component {
   _handleDelete = async (e) => {
     this.setState({ loading: true });
 
-    if (!window.confirm("Are you sure you want to delete this Slate? This action is irreversible.")) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this Slate? This action is irreversible."
+      )
+    ) {
       return this.setState({ loading: false });
     }
 
@@ -102,33 +108,42 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
   render() {
     const { slatename } = this.state;
-    const url = `/${this.props.viewer.username}/${slatename}`;
+    const slug = Strings.createSlug(this.state.name);
+    const url = `/${this.props.viewer.username}/${slug}`;
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>Slate Settings</System.P>
-        <System.P style={{ marginTop: 24 }}>Update settings for {this.props.data.slatename}.</System.P>
+        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+          Slate Settings
+        </System.P>
+        <System.P style={{ marginTop: 24 }}>
+          Update settings for {this.props.data.slatename}.
+        </System.P>
 
         <System.Input
           containerStyle={{ marginTop: 48 }}
           style={{ marginTop: 24 }}
-          label="Slatename"
+          label="Slate name"
           description={
             <React.Fragment>
-              Changing the slatename will change your public slate URL. Your slate URL is:{" "}
+              Changing the slatename will change your public slate URL. Your
+              slate URL is:{" "}
               <a href={url} target="_blank">
                 https://slate.host{url}
               </a>
             </React.Fragment>
           }
-          name="slatename"
-          value={this.state.slatename}
-          placeholder="Slatename"
+          name="name"
+          value={this.state.name}
+          placeholder="Name"
           onChange={this._handleChange}
           onSubmit={this._handleSubmit}
         />
 
-        <System.DescriptionGroup label="Description" style={{ marginTop: 48 }} />
+        <System.DescriptionGroup
+          label="Description"
+          style={{ marginTop: 48 }}
+        />
         <System.Textarea
           style={{ marginTop: 24 }}
           label="Description"
@@ -147,17 +162,29 @@ export default class SidebarSingleSlateSettings extends React.Component {
             />
           </div>
           <div css={STYLES_RIGHT}>
-            <System.Toggle name="public" onChange={this._handleChange} active={this.state.public} />
+            <System.Toggle
+              name="public"
+              onChange={this._handleChange}
+              active={this.state.public}
+            />
           </div>
         </div>
 
         <div style={{ marginTop: 32 }}>
-          <System.ButtonPrimary full onClick={this._handleSubmit} loading={this.state.loading}>
+          <System.ButtonPrimary
+            full
+            onClick={this._handleSubmit}
+            loading={this.state.loading}
+          >
             Save changes
           </System.ButtonPrimary>
 
           {!this.state.loading ? (
-            <System.ButtonSecondary style={{ marginTop: 16 }} full onClick={this._handleCancel}>
+            <System.ButtonSecondary
+              style={{ marginTop: 16 }}
+              full
+              onClick={this._handleCancel}
+            >
               Cancel
             </System.ButtonSecondary>
           ) : null}
@@ -173,7 +200,11 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
         {!this.state.loading ? (
           <div style={{ marginTop: 32 }}>
-            <System.ButtonSecondary full onClick={this._handleDelete} loading={this.state.loading}>
+            <System.ButtonSecondary
+              full
+              onClick={this._handleDelete}
+              loading={this.state.loading}
+            >
               Delete {this.props.data.slatename}
             </System.ButtonSecondary>
           </div>

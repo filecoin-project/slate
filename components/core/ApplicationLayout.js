@@ -4,6 +4,7 @@ import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
 import { GlobalTooltip } from "~/components/system/components/fragments/GlobalTooltip";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
 
 const STYLES_SCROLL = css`
   -webkit-overflow-scrolling: touch;
@@ -104,10 +105,15 @@ const STYLES_NAVIGATION = css`
 `;
 
 const STYLES_SIDEBAR_WEB = css`
+  z-index: ${Constants.zindex.sidebar};
   height: 100vh;
   width: ${Constants.sizes.sidebar}px;
   padding: 0;
   flex-shrink: 0;
+  position: absolute;
+  background-color: ${Constants.system.foreground};
+  top: 0;
+  right: 0;
   box-shadow: inset 1px 0 0 0 ${Constants.system.border};
   ${STYLES_SCROLL}
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -181,6 +187,7 @@ export default class ApplicationLayout extends React.Component {
             ref={(c) => {
               this._body = c;
             }}
+            id="slate-client-body"
           >
             {this.props.children}
           </div>
@@ -189,14 +196,16 @@ export default class ApplicationLayout extends React.Component {
           </div>
         </div>
         {this.props.sidebar ? (
-          <div
-            css={STYLES_SIDEBAR_WEB}
-            ref={(c) => {
-              this._sidebar = c;
-            }}
-          >
-            {sidebarElements}
-          </div>
+          <Boundary onOutsideRectEvent={this.props.onDismissSidebar} enabled>
+            <div
+              css={STYLES_SIDEBAR_WEB}
+              ref={(c) => {
+                this._sidebar = c;
+              }}
+            >
+              {sidebarElements}
+            </div>
+          </Boundary>
         ) : null}
       </div>
     );

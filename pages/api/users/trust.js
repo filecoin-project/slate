@@ -109,7 +109,7 @@ export default async (req, res) => {
 
   const trustResponse = await Data.createTrustedRelationship({
     ownerUserId: user.id,
-    targetUserId: req.body.data.userId,
+    targetUserId: targetUser.id,
   });
 
   if (!trustResponse) {

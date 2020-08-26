@@ -13,9 +13,20 @@ export default async ({ query }) => {
         return [];
       }
 
-      const sanitized = r.map((each) => {
-        return { ...each, type: "SLATE" };
-      });
+      const sanitized = r
+        .filter((each) => each.data.public)
+        .map((each) => {
+          return {
+            id: each.id,
+            slatename: each.slatename,
+            data: {
+              name: each.data.name,
+              body: each.data.body,
+              objects: each.data.objects,
+            },
+            type: "SLATE",
+          };
+        });
 
       return JSON.parse(JSON.stringify(sanitized));
     },

@@ -32,14 +32,67 @@ export default async (req, res) => {
       .json({ decorator: "SERVER_SUBSCRIBE_USER_NOT_FOUND", error: true });
   }
 
+  if (!req.body.data || (!req.body.data.userId && !req.body.data.slateId)) {
+    return res.status(500).json({
+      decorator: "SERVER_SUBSCRIBE_MUST_PROVIDE_SLATE_OR_USER",
+      error: true,
+    });
+  }
+
+  if (user.id === req.body.data.userId) {
+    return res.status(500).json({
+      decorator: "SERVER_SUBSCRIBE_CAN_NOT_SUBSCRIBE_TO_YOURSELF",
+      error: true,
+    });
+  }
+
+  let targetUser;
+  if (req.body.data.userId) {
+    targetUser = await Data.getUserById({
+      id: req.body.data.userId,
+    });
+
+    if (!targetUser) {
+      return res.status(404).json({
+        decorator: "SERVER_SUBSCRIBE_TARGET_USER_NOT_FOUND",
+        error: true,
+      });
+    }
+
+    if (targetUser.error) {
+      return res.status(500).json({
+        decorator: "SERVER_SUBSCRIBE_TARGET_USER_NOT_FOUND",
+        error: true,
+      });
+    }
+  }
+
+  let targetSlate;
+  if (req.body.data.slateId) {
+    targetSlate = await Data.getSlateById({ id: req.body.data.slateId });
+
+    if (!targetSlate) {
+      return res.status(404).json({
+        decorator: "SERVER_SUBSCRIBE_TARGET_SLATE_NOT_FOUND",
+        error: true,
+      });
+    }
+
+    if (targetSlate.error) {
+      return res.status(500).json({
+        decorator: "SERVER_SUBSCRIBE_TARGET_SLATE_NOT_FOUND",
+        error: true,
+      });
+    }
+  }
+
   const existingResponse = await Data.getSubscriptionById({
     subscriberUserId: user.id,
-    slateId: req.body.data.slateId,
-    userId: req.body.data.userId,
+    slateId: targetSlate ? targetSlate.id : null,
+    userId: targetUser ? targetUser.id : null,
   });
 
   if (existingResponse && existingResponse.error) {
-    console.log(existingResponse);
     return res.status(500).json({
       decorator: "SERVER_SUBSCRIBE_SUBSCRIPTION_CHECK_ERROR",
       error: true,
@@ -71,8 +124,8 @@ export default async (req, res) => {
 
   const subscribeResponse = await Data.createSubscription({
     subscriberUserId: user.id,
-    slateId: req.body.data.slateId,
-    userId: req.body.data.userId,
+    slateId: targetSlate ? targetSlate.id : null,
+    userId: targetUser ? targetUser.id : null,
   });
 
   if (!subscribeResponse) {

@@ -1,13 +1,15 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
+import * as Actions from "~/common/actions";
+import * as OldSVG from "~/common/svg";
 
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
-import CircleButtonLight from "~/components/core/CircleButtonLight";
+import CircleButtonGray from "~/components/core/CircleButtonGray";
 
 // NOTE(jim): I broke my own rules to do this. Sorry.
 const STYLES_ITEM = css`
@@ -21,6 +23,11 @@ const STYLES_ITEM = css`
     figure {
       visibility: visible;
       opacity: 1;
+    }
+
+    img,
+    article {
+      opacity: 0.4;
     }
   }
 `;
@@ -42,10 +49,16 @@ const STYLES_BUTTON = css`
   opacity: 0;
   visibility: hidden;
   transition: 200ms ease all;
-  margin: auto;
   position: absolute;
-  top: 16px;
-  left: 16px;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 
 const STYLES_ACTION_BUTTON = css`
@@ -128,6 +141,36 @@ export default class Slate extends React.Component {
     this.setState({ saving: "SAVED" });
   };
 
+  _handleSelect = (e, index) => {
+    // TODO(jim): Test this again in React 17
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onSelect(index);
+  };
+
+  _handleDeepLink = async (e, object) => {
+    // TODO(jim): Test this again in React 17
+    e.preventDefault();
+    e.stopPropagation();
+
+    const response = await Actions.getSlateBySlatename({
+      query: object.deeplink,
+      deeplink: true,
+    });
+
+    if (!response.data) {
+      alert("TODO: Can not find deeplink");
+    }
+
+    if (!response.data.slate) {
+      alert("TODO: Can not find deeplink");
+    }
+
+    return window.open(
+      `/${response.data.slate.user.username}/${response.data.slate.slatename}`
+    );
+  };
+
   generateDOM = () => {
     return this.props.layouts.lg.map((each, index) => {
       const data = this.props.items[each.i];
@@ -138,13 +181,23 @@ export default class Slate extends React.Component {
       return (
         <div key={index} css={STYLES_ITEM}>
           <SlateMediaObjectPreview type={data.type} url={data.url} />
-          <figure
-            css={STYLES_BUTTON}
-            onClick={() => this.props.onSelect(index)}
-          >
-            <CircleButtonLight>
+          <figure css={STYLES_BUTTON}>
+            <CircleButtonGray
+              style={{ marginRight: 16 }}
+              onMouseUp={(e) => this._handleSelect(e, index)}
+              onTouchEnd={(e) => this._handleSelect(e, index)}
+            >
               <SVG.Eye height="16px" />
-            </CircleButtonLight>
+            </CircleButtonGray>
+
+            {data.deeplink ? (
+              <CircleButtonGray
+                onMouseUp={(e) => this._handleDeepLink(e, data)}
+                onTouchEnd={(e) => this._handleDeepLink(e, data)}
+              >
+                <OldSVG.DeepLink height="16px" />
+              </CircleButtonGray>
+            ) : null}
           </figure>
         </div>
       );

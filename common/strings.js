@@ -35,9 +35,9 @@ export const getCIDGatewayURL = (cid) => {
   return `https://${cid}.${Constants.gateways.ipfs}`;
 };
 
-export const createSlug = (text) => {
+export const createSlug = (text, base = "untitled") => {
   if (isEmpty(text)) {
-    return "untitled";
+    return base;
   }
 
   const a = "æøåàáäâèéëêìíïîòóöôùúüûñçßÿœæŕśńṕẃǵǹḿǘẍźḧ·/_,:;";

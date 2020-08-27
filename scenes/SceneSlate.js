@@ -267,15 +267,19 @@ export default class SceneSlate extends React.Component {
           title={name}
           actions={
             <React.Fragment>
-              <CircleButtonLight
-                onClick={this._handleAdd}
+              <CircleButtonGray
+                onMouseUp={this._handleAdd}
+                onTouchEnd={this._handleAdd}
                 style={{ marginLeft: 12, marginRight: 12 }}
               >
                 <SVG.Plus height="16px" />
-              </CircleButtonLight>
-              <CircleButtonLight onClick={this._handleShowSettings}>
+              </CircleButtonGray>
+              <CircleButtonGray
+                onMouseUp={this._handleShowSettings}
+                onTouchEnd={this._handleShowSettings}
+              >
                 <SVG.Settings height="16px" />
-              </CircleButtonLight>
+              </CircleButtonGray>
             </React.Fragment>
           }
         >

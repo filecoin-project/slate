@@ -53,8 +53,6 @@ const STYLES_STRONG = css`
 
 export default class SidebarAddFileToBucket extends React.Component {
   _handleUpload = async (e) => {
-    console.log("handle upload");
-
     e.persist();
     let files = [];
     let fileLoading = {};
@@ -109,8 +107,6 @@ export default class SidebarAddFileToBucket extends React.Component {
         continue;
       }
     }
-
-    console.log("file upload");
 
     await this.props.onRehydrate({ resetFiles: true });
   };

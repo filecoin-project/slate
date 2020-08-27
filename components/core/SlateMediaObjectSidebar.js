@@ -143,10 +143,15 @@ export default class SlateMediaObjectSidebar extends React.Component {
     body: this.props.data.body ? this.props.data.body : "",
     source: this.props.data.source ? this.props.data.source : "",
     author: this.props.data.author ? this.props.data.author : "",
+    deeplink: this.props.data.deeplink ? this.props.data.deeplink : "",
   };
 
   _handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  _handleChangeDeepLink = (e) => {
+    this.setState({ [e.target.name]: Strings.createSlug(e.target.value, "") });
   };
 
   render() {
@@ -193,7 +198,17 @@ export default class SlateMediaObjectSidebar extends React.Component {
                 value={this.state.author}
                 onChange={this._handleChange}
               />
-            </div>{" "}
+            </div>
+            <div
+              css={STYLES_SIDEBAR_SECTION}
+              style={{ borderTop: `1px solid #222222` }}
+            >
+              <SidebarInput
+                name="deeplink"
+                value={this.state.deeplink}
+                onChange={this._handleChangeDeepLink}
+              />
+            </div>
           </React.Fragment>
         );
 

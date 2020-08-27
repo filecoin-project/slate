@@ -8,6 +8,7 @@ const STYLES_IMAGE = css`
   max-width: 100%;
   max-height: 100%;
   pointer-events: none;
+  transition: 200ms ease all;
 `;
 
 const STYLES_ENTITY = css`
@@ -29,22 +30,22 @@ export default class SlateMediaObjectPreview extends React.Component {
     // This is a hack to catch this undefined case I don't want to track down yet.
     const url = this.props.url.replace("https://undefined", "https://");
 
-    let element = <div css={STYLES_ENTITY}>No Preview</div>;
+    let element = <article css={STYLES_ENTITY}>No Preview</article>;
 
     if (this.props.type && this.props.type.startsWith("video/")) {
-      element = <div css={STYLES_ENTITY}>Video</div>;
+      element = <article css={STYLES_ENTITY}>Video</article>;
     }
 
     if (this.props.type && this.props.type.startsWith("audio/")) {
-      element = <div css={STYLES_ENTITY}>Audio</div>;
+      element = <article css={STYLES_ENTITY}>Audio</article>;
     }
 
     if (this.props.type && this.props.type.startsWith("application/epub")) {
-      element = <div css={STYLES_ENTITY}>EPub</div>;
+      element = <article css={STYLES_ENTITY}>EPub</article>;
     }
 
     if (this.props.type && this.props.type.startsWith("application/pdf")) {
-      element = <div css={STYLES_ENTITY}>PDF</div>;
+      element = <article css={STYLES_ENTITY}>PDF</article>;
     }
 
     if (this.props.type && this.props.type.startsWith("image/")) {

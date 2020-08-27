@@ -20,6 +20,7 @@ export default async ({ query }) => {
             id: each.id,
             slatename: each.slatename,
             data: {
+              ownerId: each.data.ownerId,
               name: each.data.name,
               body: each.data.body,
               objects: each.data.objects,

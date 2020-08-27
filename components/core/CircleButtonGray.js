@@ -19,6 +19,13 @@ const STYLES_BUTTON = css`
   cursor: pointer;
   user-select: none;
   flex-shrink: 0;
+  box-shadow: 0 0 1px 4px rgba(0, 0, 0, 0.04);
+
+  :hover {
+    background-color: ${Constants.system.brand};
+    color: ${Constants.system.white};
+    transform: scale(1.2);
+  }
 `;
 
 export default (props) => {

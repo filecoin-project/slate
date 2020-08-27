@@ -56,6 +56,8 @@ import deleteActivityById from "~/node_common/data/methods/delete-activity-by-id
 // Search postgres queries
 import querySlates from "~/node_common/data/methods/query-slates";
 import queryUsers from "~/node_common/data/methods/query-users";
+import getEverySlate from "~/node_common/data/methods/get-every-slate";
+import getEveryUser from "~/node_common/data/methods/get-every-user";
 
 export {
   // NOTE(jim): User operations.
@@ -103,4 +105,6 @@ export {
   // NOTE(jim): Search
   queryUsers,
   querySlates,
+  getEverySlate,
+  getEveryUser,
 };

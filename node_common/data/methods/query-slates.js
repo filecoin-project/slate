@@ -1,3 +1,5 @@
+import * as Serializers from "~/common/serializers";
+
 import { runQuery } from "~/node_common/data/utilities";
 
 export default async ({ query }) => {
@@ -15,20 +17,7 @@ export default async ({ query }) => {
 
       const sanitized = r
         .filter((each) => each.data.public)
-        .map((each) => {
-          return {
-            id: each.id,
-            slatename: each.slatename,
-            data: {
-              ownerId: each.data.ownerId,
-              name: each.data.name,
-              body: each.data.body,
-              objects: each.data.objects,
-            },
-            type: "SLATE",
-          };
-        });
-
+        .map((each) => Serializers.slate(each));
       return JSON.parse(JSON.stringify(sanitized));
     },
     errorFn: async (e) => {

@@ -2,14 +2,11 @@ import * as Serializers from "~/common/serializers";
 
 import { runQuery } from "~/node_common/data/utilities";
 
-export default async ({ query }) => {
+export default async () => {
   return await runQuery({
-    label: "QUERY_USERS",
+    label: "GET_EVERY_USER",
     queryFn: async (DB) => {
-      const r = await DB.select("id", "username", "data")
-        .from("users")
-        .where("username", "like", `%${query}%`)
-        .limit(24);
+      const r = await DB.select("id", "username", "data").from("users");
 
       if (!r || r.error) {
         return [];
@@ -20,7 +17,7 @@ export default async ({ query }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "QUERY_USERS",
+        error: "GET_EVERY_USER",
         source: e,
       };
     },

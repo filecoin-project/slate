@@ -46,6 +46,12 @@ export const sendFilecoin = async (data) => {
   });
 };
 
+export const getNetworkDirectory = async () => {
+  return await returnJSON(`/api/directory`, {
+    ...DEFAULT_OPTIONS,
+  });
+};
+
 export const getSlateBySlatename = async (data) => {
   return await returnJSON(`/api/search/slates/${data.query}`, {
     ...DEFAULT_OPTIONS,

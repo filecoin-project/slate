@@ -38,7 +38,10 @@ export default class IntegrationPage extends React.Component {
     viewer: this.props.viewer,
   };
 
-  componentDidMount() {}
+  async componentDidMount() {
+    const response = await Actions.getNetworkDirectory();
+    console.log(response);
+  }
 
   _handleChange = async (e) => {
     const query = e.target.value;

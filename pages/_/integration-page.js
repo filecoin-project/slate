@@ -105,8 +105,6 @@ export default class IntegrationPage extends React.Component {
   };
 
   render() {
-    console.log(this.state.viewer);
-
     return (
       <div css={STYLES_ROW}>
         <div css={STYLES_COLUMN}>

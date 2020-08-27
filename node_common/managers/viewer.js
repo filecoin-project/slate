@@ -2,6 +2,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Powergate from "~/node_common/powergate";
 import * as Constants from "~/node_common/constants";
+import * as Serializers from "~/common/serializers";
 
 export const getById = async ({ id }) => {
   const user = await Data.getUserById({
@@ -20,6 +21,13 @@ export const getById = async ({ id }) => {
   const slates = await Data.getSlatesByUserId({ userId: id });
   const keys = await Data.getAPIKeysByUserId({ userId: id });
   const subscriptions = await Data.getSubscriptionsByUserId({ userId: id });
+
+  const serializedSubscriptions = await Serializers.doSubscriptions({
+    users: [id],
+    slates: [],
+    subscriptions,
+  });
+
   const activity = await Data.getActivityForUserId({ userId: id });
   const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
   const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
@@ -56,7 +64,7 @@ export const getById = async ({ id }) => {
       status: null,
       addrsList: null,
       info: null,
-      subscriptions,
+      subscriptions: serializedSubscriptions,
       activity,
       trusted,
       pendingTrusted,

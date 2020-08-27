@@ -151,7 +151,8 @@ const Item = (props) => {
     >
       <span
         css={STYLES_EXPANDER}
-        onClick={props.onToggleShow ? props.onToggleShow : null}
+        onMouseUp={props.onToggleShow ? props.onToggleShow : null}
+        onTouchEnd={props.onToggleShow ? props.onToggleShow : null}
       >
         <span
           css={STYLES_ICON_ELEMENT}
@@ -169,7 +170,8 @@ const Item = (props) => {
       </span>
       <span
         css={STYLES_ICON}
-        onClick={() => props.onNavigateTo({ id: props.id }, props.data)}
+        onMouseUp={() => props.onNavigateTo({ id: props.id }, props.data)}
+        onTouchEnd={() => props.onNavigateTo({ id: props.id }, props.data)}
       >
         <span
           css={STYLES_ICON_ELEMENT}
@@ -182,7 +184,8 @@ const Item = (props) => {
       <span
         css={STYLES_CHILDREN}
         children={props.children}
-        onClick={() => props.onNavigateTo({ id: props.id }, props.data)}
+        onMouseUp={() => props.onNavigateTo({ id: props.id }, props.data)}
+        onTouchEnd={() => props.onNavigateTo({ id: props.id }, props.data)}
         style={{
           color: props.activeIds[props.id] ? Constants.system.brand : null,
         }}

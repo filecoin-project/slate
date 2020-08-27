@@ -19,7 +19,7 @@ const STYLES_BUTTON = css`
   cursor: pointer;
   user-select: none;
   flex-shrink: 0;
-  box-shadow: 0 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 0 1px 4px rgba(0, 0, 0, 0.007);
 
   :hover {
     background-color: ${Constants.system.brand};

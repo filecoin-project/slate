@@ -10,7 +10,7 @@ import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import Slate, { generateLayout } from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
-import CircleButtonLight from "~/components/core/CircleButtonLight";
+import CircleButtonGray from "~/components/core/CircleButtonGray";
 
 const moveIndex = (set, fromIndex, toIndex) => {
   const element = set[fromIndex];

@@ -157,7 +157,11 @@ export default class ApplicationLayout extends React.Component {
             allowedTypes={["sidebar"]}
           />
           <div css={STYLES_SIDEBAR_HEADER}>
-            <div css={STYLES_BLOCK} onClick={this.props.onDismissSidebar}>
+            <div
+              css={STYLES_BLOCK}
+              onMouseUp={this.props.onDismissSidebar}
+              onTouchEnd={this.props.onDismissSidebar}
+            >
               <SVG.Dismiss height="24px" />
             </div>
           </div>

@@ -147,28 +147,10 @@ export default class SlateMediaObjectSidebar extends React.Component {
   };
 
   _handleChange = (e) => {
-    if (
-      e.key === "ArrowLeft" ||
-      e.key === "Left" ||
-      e.key === "ArrowRight" ||
-      e.key === "Right"
-    ) {
-      e.stopPropagation();
-    }
-
     this.setState({ [e.target.name]: e.target.value });
   };
 
   _handleChangeDeepLink = (e) => {
-    if (
-      e.key === "ArrowLeft" ||
-      e.key === "Left" ||
-      e.key === "ArrowRight" ||
-      e.key === "Right"
-    ) {
-      e.stopPropagation();
-    }
-
     this.setState({ [e.target.name]: Strings.createSlug(e.target.value, "") });
   };
 

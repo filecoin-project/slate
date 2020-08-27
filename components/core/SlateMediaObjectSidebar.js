@@ -1,9 +1,11 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
+import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
+import { ProcessedText } from "~/components/system/components/Typography";
 
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
@@ -236,7 +238,9 @@ export default class SlateMediaObjectSidebar extends React.Component {
         if (hasTitle) {
           elements.push(
             <div key="sidebar-media-info-title" css={STYLES_SIDEBAR_SECTION}>
-              <h1 css={STYLES_HEADING}>{this.props.data.title}</h1>
+              <h1 css={STYLES_HEADING}>
+                <ProcessedText text={this.props.data.title} />
+              </h1>
             </div>
           );
         }
@@ -244,7 +248,9 @@ export default class SlateMediaObjectSidebar extends React.Component {
         if (hasBody || hasTitle || hasSource || hasAuthor) {
           elements.push(
             <div key="sidebar-media-info-body" css={STYLES_SIDEBAR_CONTENT}>
-              <p css={STYLES_BODY}>{this.props.data.body}</p>
+              <p css={STYLES_BODY}>
+                <ProcessedText text={this.props.data.body} />
+              </p>
             </div>
           );
         }
@@ -258,7 +264,9 @@ export default class SlateMediaObjectSidebar extends React.Component {
               >
                 Source
               </div>
-              <p css={STYLES_BODY}>{this.props.data.source}</p>
+              <p css={STYLES_BODY}>
+                <ProcessedText text={this.props.data.source} />
+              </p>
             </div>
           );
         }
@@ -272,7 +280,9 @@ export default class SlateMediaObjectSidebar extends React.Component {
               >
                 Author
               </div>
-              <p css={STYLES_BODY}>{this.props.data.source}</p>
+              <p css={STYLES_BODY}>
+                <ProcessedText text={this.props.data.source} />
+              </p>
             </div>
           );
         }

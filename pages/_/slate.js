@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
+import { ProcessedText } from "~/components/system/components/Typography";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
@@ -51,6 +52,17 @@ const STYLES_HEADER_LEFT = css`
   font-family: ${Constants.font.semiBold};
   text-transform: none;
   flex-shrink: 0;
+  color: ${Constants.system.pitchBlack};
+  text-decoration: none;
+  transition: 200ms ease color;
+
+  :visited {
+    color: ${Constants.system.black};
+  }
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     text-align: center;
@@ -135,12 +147,14 @@ export default class SlatePage extends React.Component {
         image={image}
       >
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric href={url}>
+          <WebsitePrototypeHeaderGeneric>
             <div css={STYLES_HEADER}>
-              <div css={STYLES_HEADER_LEFT}>
+              <a css={STYLES_HEADER_LEFT} href={url}>
                 {this.props.creator.username} / {this.props.slate.slatename}
+              </a>
+              <div css={STYLES_HEADER_RIGHT}>
+                <ProcessedText text={this.props.slate.data.body} />
               </div>
-              <div css={STYLES_HEADER_RIGHT}>{this.props.slate.data.body}</div>
             </div>
           </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>

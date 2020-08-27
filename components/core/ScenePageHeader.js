@@ -5,6 +5,7 @@ import * as Strings from "~/common/strings";
 import { css } from "@emotion/react";
 
 import { TooltipAnchor } from "~/components/system/components/fragments/TooltipAnchor";
+import { ProcessedText } from "~/components/system/components/Typography";
 
 const STYLES_ROOT = css`
   display: flex;
@@ -53,7 +54,9 @@ export default (props) => {
     <header css={STYLES_ROOT} style={props.style}>
       <div css={STYLES_LEFT}>
         <div css={STYLES_HEADER}>{props.title}</div>
-        <div css={STYLES_DESCRIPTION}>{props.children}</div>
+        <div css={STYLES_DESCRIPTION}>
+          <ProcessedText text={props.children} />
+        </div>
       </div>
       {props.actions ? <div css={STYLES_RIGHT}>{props.actions}</div> : null}
     </header>

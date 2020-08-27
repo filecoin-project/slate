@@ -1,26 +1,83 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Actions from "~/common/actions";
+import * as StringReplace from "~/vendor/react-string-replace";
 
 import { css } from "@emotion/react";
 
-const ANCHOR = `
-  a {
-    font-family: ${Constants.font.text};
-    font-weight: 400;
-    text-decoration: none;
-    color: #6a737d;
-    transition: 200ms ease color;
+const LINK_STYLES = `
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  text-decoration: none;
+  color: #6a737d;
+  cursor: pointer;
+  transition: 200ms ease color;
 
-    :visited {
-      color: #959da5;
-    }
-
-    :hover {
-      color: #959da5;
-    }
+  :visited {
+    color: #959da5;
   }
 
+  :hover {
+    color: #959da5;
+  }
 `;
+
+const STYLES_LINK = css`
+  ${LINK_STYLES}
+`;
+
+const ANCHOR = `
+  a {
+    ${LINK_STYLES}
+  }
+`;
+
+const onDeepLink = async (object) => {
+  const response = await Actions.getSlateBySlatename({
+    query: object.deeplink,
+    deeplink: true,
+  });
+
+  if (!response.data) {
+    alert("TODO: Can not find deeplink");
+  }
+
+  if (!response.data.slate) {
+    alert("TODO: Can not find deeplink");
+  }
+
+  return window.open(
+    `/${response.data.slate.user.username}/${response.data.slate.slatename}`
+  );
+};
+
+export const ProcessedText = ({ text }) => {
+  let replacedText;
+
+  replacedText = StringReplace(text, /(https?:\/\/\S+)/g, (match, i) => (
+    <a css={STYLES_LINK} key={match + i} href={match} target="_blank">
+      {match}
+    </a>
+  ));
+
+  replacedText = StringReplace(replacedText, /@(\w+)/g, (match, i) => (
+    <a css={STYLES_LINK} key={match + i} target="_blank" href={`/${match}`}>
+      @{match}
+    </a>
+  ));
+
+  replacedText = StringReplace(replacedText, /#(\w+)/g, (match, i) => (
+    <span
+      css={STYLES_LINK}
+      key={match + i}
+      onClick={() => onDeepLink({ deeplink: match })}
+    >
+      #{match}
+    </span>
+  ));
+
+  return <React.Fragment>{replacedText}</React.Fragment>;
+};
 
 const STYLES_H1 = css`
   box-sizing: border-box;

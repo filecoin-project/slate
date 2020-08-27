@@ -53,9 +53,17 @@ export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
-        <a css={STYLES_LINK} href={props.href} style={{ fontFamily: Constants.font.codeBold }}>
-          {props.children}
-        </a>
+        {props.href ? (
+          <a
+            css={STYLES_LINK}
+            href={props.href}
+            style={{ fontFamily: Constants.font.codeBold }}
+          >
+            {props.children}
+          </a>
+        ) : (
+          props.children
+        )}
       </div>
       <div css={STYLES_RIGHT}>
         <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate">

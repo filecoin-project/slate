@@ -67,19 +67,48 @@ export class GlobalCarousel extends React.Component {
     window.addEventListener("slate-global-delete-carousel", this._handleDelete);
     window.addEventListener("slate-global-open-carousel", this._handleOpen);
     window.addEventListener("slate-global-close-carousel", this._handleClose);
-    window.addEventListener("state-global-carousel-loading", this._handleSetLoading);
+    window.addEventListener(
+      "state-global-carousel-loading",
+      this._handleSetLoading
+    );
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("keydown", this._handleKeyDown);
-    window.removeEventListener("slate-global-create-carousel", this._handleCreate);
-    window.removeEventListener("slate-global-delete-carousel", this._handleDelete);
+    window.removeEventListener(
+      "slate-global-create-carousel",
+      this._handleCreate
+    );
+    window.removeEventListener(
+      "slate-global-delete-carousel",
+      this._handleDelete
+    );
     window.removeEventListener("slate-global-open-carousel", this._handleOpen);
-    window.removeEventListener("slate-global-close-carousel", this._handleClose);
-    window.removeEventListener("state-global-carousel-loading", this._handleSetLoading);
+    window.removeEventListener(
+      "slate-global-close-carousel",
+      this._handleClose
+    );
+    window.removeEventListener(
+      "state-global-carousel-loading",
+      this._handleSetLoading
+    );
   };
 
   _handleKeyDown = (e) => {
+    const inputs = document.querySelectorAll("input");
+    for (let i = 0; i < inputs.length; i++) {
+      if (document.activeElement === inputs[i]) {
+        return;
+      }
+    }
+
+    const textareas = document.querySelectorAll("textarea");
+    for (let i = 0; i < textareas.length; i++) {
+      if (document.activeElement === textareas[i]) {
+        return;
+      }
+    }
+
     switch (e.key) {
       case "Escape":
         this._handleClose();
@@ -98,13 +127,20 @@ export class GlobalCarousel extends React.Component {
   _handleSetLoading = (e) => this.setState({ ...e.detail });
 
   _handleOpen = (e) => {
-    this.setState({ visible: true, index: e.detail.index || 0, loading: false, saving: false });
+    this.setState({
+      visible: true,
+      index: e.detail.index || 0,
+      loading: false,
+      saving: false,
+    });
   };
 
-  _handleClose = () => this.setState({ visible: false, index: 0, loading: false, saving: false });
+  _handleClose = () =>
+    this.setState({ visible: false, index: 0, loading: false, saving: false });
 
   _handleCreate = (e) => {
-    const shouldPersist = this.state.visible && this.state.index < e.detail.slides.length;
+    const shouldPersist =
+      this.state.visible && this.state.index < e.detail.slides.length;
 
     this.setState({
       slides: [...e.detail.slides],
@@ -123,7 +159,9 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handlePrevious = () => {
-    const index = (this.state.index + this.state.slides.length - 1) % this.state.slides.length;
+    const index =
+      (this.state.index + this.state.slides.length - 1) %
+      this.state.slides.length;
     this.setState({ index, loading: false, saving: false });
   };
 
@@ -141,13 +179,25 @@ export class GlobalCarousel extends React.Component {
     return (
       <div css={STYLES_ROOT}>
         <div css={STYLES_ROOT_CONTENT} style={this.props.style}>
-          <span css={STYLES_BOX} onClick={this._handleClose} style={{ top: 8, right: 16 }}>
+          <span
+            css={STYLES_BOX}
+            onClick={this._handleClose}
+            style={{ top: 8, right: 16 }}
+          >
             <SVG.Dismiss height="20px" />
           </span>
-          <span css={STYLES_BOX} onClick={this._handlePrevious} style={{ top: 0, left: 16, bottom: 0 }}>
+          <span
+            css={STYLES_BOX}
+            onClick={this._handlePrevious}
+            style={{ top: 0, left: 16, bottom: 0 }}
+          >
             <SVG.ChevronLeft height="20px" />
           </span>
-          <span css={STYLES_BOX} onClick={this._handleNext} style={{ top: 0, right: 16, bottom: 0 }}>
+          <span
+            css={STYLES_BOX}
+            onClick={this._handleNext}
+            style={{ top: 0, right: 16, bottom: 0 }}
+          >
             <SVG.ChevronRight height="20px" />
           </span>
           {current.component}

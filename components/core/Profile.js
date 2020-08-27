@@ -2,7 +2,6 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
-import { ButtonPrimary } from "~/components/system/components/Buttons";
 
 import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
 
@@ -29,17 +28,6 @@ const STYLES_LINK = css`
   text-decoration: none;
 `;
 
-const BUTTON_STYLE = {
-  backgroundColor: "transparent",
-  color: Constants.system.brand,
-  border: `1px solid ${Constants.system.border}`,
-  boxShadow: "none",
-  fontFamily: Constants.font.text,
-  margin: "8px",
-  padding: "8px 16px",
-  minHeight: "30px",
-};
-
 export default class Profile extends React.Component {
   render() {
     let data = this.props.creator ? this.props.creator : this.props.data;
@@ -49,19 +37,7 @@ export default class Profile extends React.Component {
         <img css={STYLES_PROFILE_IMAGE} src={data.data.photo} />
         <div css={STYLES_NAME}>{data.username}</div>
         {/* TODO: replace with real name when added */}
-        {this.props.editing ? null : (
-          <div>
-            <ButtonPrimary style={BUTTON_STYLE} onClick={this._handleFollow}>
-              {this.props.follow ? "Unfollow" : "Follow"}
-            </ButtonPrimary>
-            <ButtonPrimary style={BUTTON_STYLE} onClick={this._handleTrust}>
-              {this.props.trust ? "Remove Peer" : "Add Peer"}
-            </ButtonPrimary>
-            <ButtonPrimary style={BUTTON_STYLE} onClick={this._handleSendMoney}>
-              Send Money
-            </ButtonPrimary>
-          </div>
-        )}
+        {this.props.buttons}
         <br />
         {data.slates && data.slates.length ? (
           <div style={{ width: "100%" }}>

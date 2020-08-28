@@ -484,6 +484,7 @@ export default class ApplicationPage extends React.Component {
         pageTitle={current.target.pageTitle}
         currentIndex={this.state.currentIndex}
         history={this.state.history}
+        onAction={this._handleAction}
         onBack={this._handleBack}
         onForward={this._handleForward}
       />
@@ -543,6 +544,7 @@ export default class ApplicationPage extends React.Component {
             {scene}
           </ApplicationLayout>
           <System.GlobalCarousel />
+          <System.GlobalModal />
         </WebsitePrototypeWrapper>
       </React.Fragment>
     );

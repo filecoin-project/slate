@@ -17,25 +17,17 @@ const STYLES_BACKGROUND = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(45, 41, 38, 0.6);
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: ${Constants.zindex.modal};
 `;
 
 const STYLES_MODAL = css`
+  box-sizing: border-box;
   position: relative;
-  padding: 8px;
-  max-width: 568px;
+  max-width: 680px;
   width: 100%;
-  border-radius: 4px;
+  border-radius: 16px;
   background-color: ${Constants.system.white};
-`;
-
-const STYLES_CLOSE_ICON = css`
-  height: 24px;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  cursor: pointer;
 `;
 
 export class GlobalModal extends React.Component {
@@ -92,11 +84,6 @@ export class GlobalModal extends React.Component {
           isDataMenuCaptured={true}
         >
           <div css={STYLES_MODAL} style={this.props.style}>
-            <SVG.Dismiss
-              css={STYLES_CLOSE_ICON}
-              onClick={this._handleDelete}
-              onKeyPress={this._handleEnterPress}
-            />
             {this.state.modal}
           </div>
         </Boundary>

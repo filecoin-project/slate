@@ -1,8 +1,7 @@
-import * as React from "react";
+import React, { useRef, useState } from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
-import CodeBlock from "~/components/system/CodeBlock";
 
 import { css } from "@emotion/react";
 
@@ -14,19 +13,35 @@ const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   section {
     padding: 150px;
   }
   @media (max-width: ${Constants.sizes.mobile}px) {
   }
 `;
+const STYLES_COPY_EMAIL = css`
+  display: inline;
+`;
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async context => {
   return {
-    props: { ...context.query },
+    props: { ...context.query }
   };
 };
+export function CopyEmail() {
+  const [copySuccess, setCopySuccess] = useState("");
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText("abuse@filecoin.io");
+    setCopySuccess("Copied!");
+  }
+  return (
+    <div css={STYLES_COPY_EMAIL}>
+      <a onClick={copyToClipboard}>abuse@filecoin.io</a>
+      {copySuccess}
+    </div>
+  );
+}
 
 export default class IndexPage extends React.Component {
   async componentDidMount() {
@@ -39,7 +54,6 @@ export default class IndexPage extends React.Component {
     const description =
       "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host/privacy";
-
     return (
       <WebsitePrototypeWrapper
         title={title}
@@ -50,6 +64,7 @@ export default class IndexPage extends React.Component {
         <div css={STYLES_ROOT}>
           <section>
             <System.H1>Slate Guidelines and Terms of Service</System.H1>
+            <br />
             <System.P>
               Slate is designed and built by a growing community of hackers,
               artists, and creatives on the web.{" "}
@@ -62,7 +77,9 @@ export default class IndexPage extends React.Component {
             </System.P>
             <System.UL>
               <System.LI>Be respectful.</System.LI>
-              <System.LI>We're here to help: abuse@filecoin.io</System.LI>
+              <System.LI>
+                We're here to help: <CopyEmail />
+              </System.LI>
               <System.LI>Abusive behavior is never tolerated.</System.LI>
               <System.LI>
                 Violations of this code may result in swift and permanent
@@ -73,12 +90,14 @@ export default class IndexPage extends React.Component {
                 what is in this document.
               </System.LI>
             </System.UL>
+            <br />
             <System.P>
               We expect all members of the Slate community to abide by this Code
               of Conduct at all times in all Slate community venues, online and
               in person, and in one-on-one communications pertaining to Slate
               affairs.
             </System.P>
+            <br />
             <System.P>
               This policy covers the usage of Filecoin public infrastructure, as
               well as other Filecoin websites, Filecoin related events, and any
@@ -88,14 +107,16 @@ export default class IndexPage extends React.Component {
               GitHub repositories, IRC channels, social media, mailing lists,
               and public events.
             </System.P>
+            <br />
             <System.P>
               The definitions of various subjective terms such as
               "discriminatory", "hateful", or "confusing" will be decided at the
               sole discretion of the Filecoin abuse team.
             </System.P>
             <br />
-            <System.H2>Friendly Harassment-Free Space</System.H2>Friendly
-            Harassment-Free Space
+            <br />
+            <System.H2>Friendly Harassment-Free Space</System.H2>
+            <br />
             <System.P>
               We are committed to providing a friendly, safe and welcoming
               environment for all, regardless of gender identity, sexual
@@ -130,6 +151,7 @@ export default class IndexPage extends React.Component {
             </System.P>
             <br />
             <System.H2>Avoid Marketing or Soliciting</System.H2>
+            <br />
             <System.P>
               You are welcome to post endorsements of tools, products or
               services that you personally find useful, but please refrain from
@@ -137,16 +159,19 @@ export default class IndexPage extends React.Component {
               commercial services or fundraising is not allowed.
             </System.P>
             <br />
+            <br />
             <System.H2>Reporting Violations of this Code of Conduct</System.H2>
             <System.P>
               If you believe someone is harassing you or has otherwise violated
-              this Code of Conduct, please contact us at abuse@filecoin.io to
-              send us an abuse report. If this is the initial report of a
-              problem, please include as much detail as possible. It is easiest
-              for us to address issues when we have more context.
+              this Code of Conduct, please contact us at <CopyEmail /> to send
+              us an abuse report. If this is the initial report of a problem,
+              please include as much detail as possible. It is easiest for us to
+              address issues when we have more context.
             </System.P>
             <br />
+            <br />
             <System.H2>Copyright Violations</System.H2>
+            <br />
             <System.P>
               We respect the intellectual property of others and ask that you do
               too. If you believe any content or other materials available
@@ -154,11 +179,13 @@ export default class IndexPage extends React.Component {
               by you and you would like to submit a notice pursuant to the
               Digital Millennium Copyright Act or other similar international
               law, you can submit a notice to our agent for service of notice
-              to: abuse@filecoin.io. Please make sure your notice meets the
-              Digital Millennium Copyright Act requirements.
+              to: <CopyEmail />. Please make sure your notice meets the Digital
+              Millennium Copyright Act requirements.
             </System.P>
             <br />
+            <br />
             <System.H2>Consequences</System.H2>
+            <br />
             <System.P>
               All content published to public Filecoin infrastructure is hosted
               at the sole discretion of the Filecoin team. Unacceptable behavior
@@ -171,42 +198,55 @@ export default class IndexPage extends React.Component {
               paid event or service).
             </System.P>
             <br />
+            <br />
             <System.H2>Addressing Grievances</System.H2>
+            <br />
             <System.P>
-              Please contact abuse@filecoin.io if you need to report a problem
-              or address a grievance related to an abuse report. If you feel you
+              Please contact <CopyEmail /> if you need to report a problem or
+              address a grievance related to an abuse report. If you feel you
               have been falsely or unfairly accused of violating this Code of
-              Conduct, you should contact abuse@filecoin.io. We will do our best
-              to ensure that your grievance is handled appropriately. In
-              general, we will choose the course of action that we judge as
-              being most in the interest of fostering a safe and friendly
-              community.
+              Conduct, you should contact <CopyEmail />. We will do our best to
+              ensure that your grievance is handled appropriately. In general,
+              we will choose the course of action that we judge as being most in
+              the interest of fostering a safe and friendly community.
             </System.P>
             <br />
+            <br />
             <System.H2>Contact Info</System.H2>
+            <br />
             <System.P>
-              Please contact abuse@filecoin.io if you need to report a problem
-              or address a grievance related to an abuse report. You are also
+              Please contact <CopyEmail /> if you need to report a problem or
+              address a grievance related to an abuse report. You are also
               encouraged to contact us if you are curious about something that
               might be "on the line" between appropriate and inappropriate
               content. We are happy to provide guidance to help you be a
               successful part of our community.
             </System.P>
             <br />
+            <br />
             <System.H2>Changes</System.H2>
+            <br />
             <System.P>
               This is a living document and may be updated from time to time.
-              Please refer to the git history for this document to view the
-              changes.
+              Please refer to the{" "}
+              <a
+                href="https://github.com/filecoin-project/slate/commits/main"
+                alt="GitHub Changelog"
+              >
+                git history
+              </a>{" "}
+              for this document to view the changes.
             </System.P>
             <br />
+            <br />
             <System.H2>Credit and License</System.H2>
+            <br />
             <System.P>
-              This Code of Conduct is based on the
+              This Code of Conduct is based on the{" "}
               <a href="https://www.npmjs.com/policies/conduct">
                 npm Code of Conduct
               </a>
-              . This document may be reused under a
+              . This document may be reused under a{" "}
               <a href="http://creativecommons.org/licenses/by-sa/4.0/">
                 Creative Commons Attribution-ShareAlike License
               </a>

@@ -25,6 +25,7 @@ const STYLES_MODAL = css`
   width: 95vw;
   max-width: 600px;
   height: 60vh;
+  max-height: 500px;
   padding: 24px;
 `;
 
@@ -50,7 +51,6 @@ const STYLES_PROFILE_IMAGE = css`
 `;
 
 const UserEntry = ({ item }) => {
-  //TODO: change from link to onAction once profiles are supported in-client
   return (
     <a css={STYLES_LINK} href={`/${item.username}`}>
       <div css={STYLES_ENTRY}>
@@ -113,9 +113,9 @@ const SlateEntry = ({ item, onAction }) => {
   //TODO: utilize auto suggest feature of minisearch
   return (
     <div
-      onClick={() => {
-        onAction({ type: "NAVIGATE", value: 17, data: item });
-      }}
+    // onClick={() => {
+    //   onAction({ type: "NAVIGATE", value: 17, data: item });
+    // }}
     >
       <div css={STYLES_ENTRY}>
         <div css={STYLES_SLATE_ENTRY_CONTAINER}>
@@ -147,9 +147,9 @@ const FileEntry = ({ item, onAction }) => {
   return (
     <div
       css={STYLES_LINK}
-      onClick={() => {
-        onAction({ type: "NAVIGATE", value: 15, data: { url: item.url } });
-      }}
+      // onClick={() => {
+      //   onAction({ type: "NAVIGATE", value: 15, data: { url: item.url } });
+      // }}
     >
       <div css={STYLES_ENTRY}>
         <div css={STYLES_USER_ENTRY_CONTAINER}>
@@ -226,8 +226,13 @@ export class SpotlightSearch extends React.Component {
     const response = await Actions.getNetworkDirectory();
     console.log(response.data);
     this.miniSearch = new MiniSearch({
-      fields: ["slatename", "data.name", "data.body", "username"], // fields to index for full-text search
+      fields: ["slatename", "data.name", "username"], // fields to index for full-text search
       storeFields: ["type", "slatename", "username", "data", "id"], // fields to return with search results
+      extractField: (entry, fieldName) => {
+        return fieldName
+          .split(".")
+          .reduce((doc, key) => doc && doc[key], entry); // Access nested fields
+      },
       searchOptions: {
         // boost: { "data.name": 2 },
         fuzzy: 0.2,
@@ -239,13 +244,13 @@ export class SpotlightSearch extends React.Component {
   };
 
   _handleChange = (e) => {
-    if (e.target.value !== null) {
-      if (e.target.value.substring(0, 1) === "/") {
-        window.location.pathname = e.target.value;
-      } else {
-        window.location.href = e.target.value;
-      }
-    }
+    // if (e.target.value !== null) {
+    //   if (e.target.value.substring(0, 1) === "/") {
+    //     window.location.pathname = e.target.value;
+    //   } else {
+    //     window.location.href = e.target.value;
+    //   }
+    // }
   };
 
   _handleInputChange = (e) => {
@@ -297,25 +302,26 @@ export class SpotlightSearch extends React.Component {
           onInputChange={this._handleInputChange}
           inputValue={this.state.inputValue}
           style={STYLES_INPUT_MENU}
-          defaultOptions={options.map((option) => {
-            return {
-              name: (
-                <div
-                  css={STYLES_DROPDOWN_ITEM}
-                  onClick={() => this._handleAction(option.action)}
-                >
-                  <div
-                    css={STYLES_ICON_CIRCLE}
-                    style={{ height: "40px", width: "40px" }}
-                  >
-                    {option.icon}
-                  </div>
-                  <div>{option.name}</div>
-                </div>
-              ),
-              value: option.name,
-            };
-          })}
+          defaultOptions={[]}
+          // defaultOptions={options.map((option) => {
+          //   return {
+          //     name: (
+          //       <div
+          //         css={STYLES_DROPDOWN_ITEM}
+          //         onClick={() => this._handleAction(option.action)}
+          //       >
+          //         <div
+          //           css={STYLES_ICON_CIRCLE}
+          //           style={{ height: "40px", width: "40px" }}
+          //         >
+          //           {option.icon}
+          //         </div>
+          //         <div>{option.name}</div>
+          //       </div>
+          //     ),
+          //     value: option.name,
+          //   };
+          // })}
         />
       </div>
     );

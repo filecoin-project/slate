@@ -35,7 +35,7 @@ export function SlatePreviewRow(props) {
       ? props.slate.data.objects.slice(0, numItems)
       : props.slate.data.objects;
   return (
-    <div css={STYLES_IMAGE_ROW}>
+    <div css={STYLES_IMAGE_ROW} style={props.containerStyle}>
       {objects.map((each) => (
         <div key={each.url} css={STYLES_ITEM_BOX} style={props.style}>
           <SlateMediaObjectPreview type={each.type} url={each.url} />

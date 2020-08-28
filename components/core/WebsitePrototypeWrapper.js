@@ -6,7 +6,7 @@ import { GoogleScript } from "~/common/analytics";
 
 export default class WebsitePrototypeWrapper extends React.Component {
   static defaultProps = {
-    image: "/static/social.png",
+    image: "/static/art-v2-social.png",
   };
 
   render() {

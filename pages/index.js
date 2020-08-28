@@ -36,9 +36,9 @@ const STYLES_MIDDLE = css`
 
 const STYLES_CARD = css`
   margin: 0 auto 0 auto;
-  max-width: 420px;
+  max-width: 640px;
   width: 100%;
-  background: ${Constants.system.pitchBlack};
+  background: #000000;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 `;
@@ -50,7 +50,7 @@ const STYLES_CARD_IMAGE = css`
 
 const STYLES_CARD_PARAGRAPH = css`
   padding: 48px;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   color: ${Constants.system.white};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -144,19 +144,32 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description = "The place for all of your assets. Powered by Textile and Filecoin.";
+    const description =
+      "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host";
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+      >
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
           <div css={STYLES_MIDDLE}>
             <div css={STYLES_CARD}>
-              <img css={STYLES_CARD_IMAGE} src="/static/social-github-dark.jpg" />
+              <img
+                css={STYLES_CARD_IMAGE}
+                src="/public/static/art-v2-index.png"
+              />
               <p css={STYLES_CARD_PARAGRAPH}>
-                Store your files, turn them into collections, and share them with the world — with{" "}
-                <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
+                Store your files, turn them into collections, and share them
+                with the world — with{" "}
+                <a
+                  css={STYLES_LINK}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   Filecoin & Slate
                 </a>
                 .
@@ -164,15 +177,21 @@ export default class IndexPage extends React.Component {
               {this.state.available ? (
                 <div css={STYLES_CARD_ACTIONS}>
                   <div css={STYLES_CARD_ACTIONS_LEFT}>
-                    Try out our alpha testing application v{Constants.values.version} for Filecoin
+                    Try out our alpha testing application v
+                    {Constants.values.version} for Filecoin
                   </div>
                   <div css={STYLES_CARD_ACTIONS_RIGHT}>
-                    <System.ButtonPrimary onClick={() => window.open("/_")}>Use Slate</System.ButtonPrimary>
+                    <System.ButtonPrimary onClick={() => window.open("/_")}>
+                      Use Slate
+                    </System.ButtonPrimary>
                   </div>
                 </div>
               ) : (
                 <div css={STYLES_CARD_ACTIONS}>
-                  <div css={STYLES_CARD_ACTIONS_LEFT} style={{ textAlign: "center" }}>
+                  <div
+                    css={STYLES_CARD_ACTIONS_LEFT}
+                    style={{ textAlign: "center" }}
+                  >
                     Slate is currently down for maintenance.
                   </div>
                 </div>

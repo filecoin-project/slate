@@ -22,21 +22,6 @@ const STYLES_BODY = css`
   }
 `;
 
-const STYLES_ICON_ELEMENT = css`
-  height: 48px;
-  width: 48px;
-  border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${Constants.system.brand};
-  background-image: url("/static/social.png");
-  background-size: cover;
-  color: ${Constants.system.white};
-  user-select: none;
-`;
-
 const STYLES_SIDEBAR = css`
   padding: 88px 24px 128px 24px;
   position: fixed;
@@ -154,13 +139,13 @@ export default class SystemPage extends React.Component {
           <meta property="og:url" content={url} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-          <meta property="og:image" content="/static/social.png" />
+          <meta property="og:image" content="/static/art-v2-social.png" />
 
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content={url} />
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
-          <meta property="twitter:image" content="/static/social.png" />
+          <meta property="twitter:image" content="/static/art-v2-social.png" />
 
           <link
             rel="icon"
@@ -187,10 +172,6 @@ export default class SystemPage extends React.Component {
         </Head>
         <div css={STYLES_BODY}>{children}</div>
         <div css={STYLES_SIDEBAR}>
-          <a css={STYLES_ICON_ELEMENT} href="/_/system" />
-          <br />
-          <br />
-
           <span css={STYLES_LABEL}>Experiences</span>
           <SidebarLink
             url={url}

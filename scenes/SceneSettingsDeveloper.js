@@ -154,7 +154,7 @@ const EXAMPLE_GET_SLATE_RESPONSE = (key, slateId) => `{
           id: "data-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
           name: "data-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
           ownerId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-          url: "https://slate.host/static/social.png"
+          url: "https://slate.host/static/art-v2-social.png"
         }
       ],
       ownerId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"

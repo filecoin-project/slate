@@ -15,8 +15,24 @@ export default class SystemPageCarousel extends React.Component {
       name: "slate-global-create-carousel",
       detail: {
         slides: [
-          { component: <img key="image-1" src="/static/cube_000.jpg" style={style} /> },
-          { component: <img key="image-2" src="/static/cube_f7f7f7.jpg" style={style} /> },
+          {
+            component: (
+              <img
+                key="image-1"
+                src="/static/art-v1-ryan-prudhomme-6.png"
+                style={style}
+              />
+            ),
+          },
+          {
+            component: (
+              <img
+                key="image-2"
+                src="/static/art-v1-ryan-prudhomme-5.jpg"
+                style={style}
+              />
+            ),
+          },
         ],
       },
     });
@@ -38,20 +54,29 @@ export default class SystemPageCarousel extends React.Component {
 
   render() {
     return (
-      <SystemPage title="SDS: Carousel" description="..." url="https://slate.host/_/system/carousel">
+      <SystemPage
+        title="SDS: Carousel"
+        description="..."
+        url="https://slate.host/_/system/carousel"
+      >
         <System.H1>
           Carousel <ViewSourceLink file="system/carousel.js" />
         </System.H1>
         <br />
         <br />
-        <System.P>The carousel component is used to display multiple images.</System.P>
+        <System.P>
+          The carousel component is used to display multiple images.
+        </System.P>
         <br />
         <br />
         <br />
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import React and the Carousel Component, as well as the dispatchCustomEvent function.</System.P>
+        <System.P>
+          Import React and the Carousel Component, as well as the
+          dispatchCustomEvent function.
+        </System.P>
         <br />
         <CodeBlock>
           {`import * as React from "react";
@@ -67,12 +92,14 @@ import {
         <hr />
         <br />
         <System.P>
-          Declare the component at the root level of your document (e.g. in index.js or App.js) so it is accessible
-          throughout and will not get buried in the DOM tree.
+          Declare the component at the root level of your document (e.g. in
+          index.js or App.js) so it is accessible throughout and will not get
+          buried in the DOM tree.
         </System.P>
         <br />
         <System.P>
-          Optionally, use <System.CodeText>style</System.CodeText> to style the background.
+          Optionally, use <System.CodeText>style</System.CodeText> to style the
+          background.
         </System.P>
         <br />
         <CodeBlock>
@@ -110,8 +137,8 @@ import {
       display: "block" 
     };
     const slides = [
-      {component: <img key="i-1" src="/static/social.png" style={style} />},
-      {component: <img key="i-2" src="/static/social.jpg" style={style} />}
+      {component: <img key="i-1" src="/static/art-v2-social.png" style={style} />},
+      {component: <img key="i-2" src="/static/art-v1-ryan-prudhomme-6.png" style={style} />}
     ];
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
@@ -157,7 +184,8 @@ import {
                   a: "style",
                   b: "Object",
                   c: "{}",
-                  d: "Style object used to style the carousel background (color, etc.)",
+                  d:
+                    "Style object used to style the carousel background (color, etc.)",
                 },
               ],
             }}
@@ -172,7 +200,8 @@ import {
         <hr />
         <br />
         <System.P>
-          Note that these properties are passed through a custom event rather than as react properties.
+          Note that these properties are passed through a custom event rather
+          than as react properties.
         </System.P>
         <br />
         <Group title="Notifications">
@@ -187,14 +216,22 @@ import {
               rows: [
                 {
                   id: 1,
-                  a: <span style={{ fontFamily: Constants.font.semiBold }}>slides</span>,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      slides
+                    </span>
+                  ),
                   b: ["Component[]", "Component"],
                   c: "null",
                   d: "Components to be rendered inside the carousel",
                 },
                 {
                   id: 2,
-                  a: <span style={{ fontFamily: Constants.font.semiBold }}>index</span>,
+                  a: (
+                    <span style={{ fontFamily: Constants.font.semiBold }}>
+                      index
+                    </span>
+                  ),
                   b: ["number"],
                   c: 0,
                   d: "Index of the initial slide",

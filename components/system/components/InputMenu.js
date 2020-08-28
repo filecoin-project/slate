@@ -17,6 +17,13 @@ const STYLES_DROPDOWN = css`
   background-color: ${Constants.system.white};
   overflow: hidden;
   width: 100%;
+
+  scrollbar-width: none;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const STYLES_DROPDOWN_ITEM = css`

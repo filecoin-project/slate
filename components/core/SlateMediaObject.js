@@ -51,7 +51,9 @@ const STYLES_IMAGE = css`
 export default class SlateMediaObject extends React.Component {
   render() {
     const name = `${this.props.data.name}`;
-    const url = this.props.data.url;
+    // NOTE(jim):
+    // This is a hack to catch this undefined case I don't want to track down yet.
+    const url = this.props.data.url.replace("https://undefined", "https://");
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
 
     let element = <div css={STYLES_FAILURE}>No Preview</div>;

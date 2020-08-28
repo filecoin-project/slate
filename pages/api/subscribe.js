@@ -2,6 +2,7 @@ import * as Environment from "~/node_common/environment";
 import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
+import * as Serializers from "~/node_common/serializers";
 import * as Validations from "~/common/validations";
 
 const initCORS = MW.init(MW.CORS);
@@ -140,7 +141,13 @@ export default async (req, res) => {
       .json({ decorator: "SERVER_SUBSCRIBE_ERROR", error: true });
   }
 
-  return res
-    .status(200)
-    .json({ decorator: "SERVER_SUBSCRIBE", data: subscribeResponse });
+  return res.status(200).json({
+    decorator: "SERVER_SUBSCRIBE",
+    data: {
+      ...subscribeResponse,
+      owner: Serializers.user(user),
+      slate: targetSlate ? Serializers.slate(targetSlate) : null,
+      user: targetUser ? Serializers.user(targetUser) : null,
+    },
+  });
 };

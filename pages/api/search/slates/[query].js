@@ -1,6 +1,7 @@
 import * as MW from "~/node_common/middleware";
-import * as Strings from "~/common/strings";
 import * as Data from "~/node_common/data";
+import * as Serializers from "~/node_common/serializers";
+import * as Strings from "~/common/strings";
 
 const initCORS = MW.init(MW.CORS);
 const initAuth = MW.init(MW.RequireCookieAuthentication);
@@ -23,28 +24,16 @@ export default async (req, res) => {
     if (slates.length) {
       const slate = { ...slates[0] };
       const user = await Data.getUserById({ id: slate.data.ownerId });
-
-      // NOTE(jim): I need to make sure that serializing user data is more
-      // straightforward, because there is sensitive data that comes back
-      // from this query.
-      slate.user = {
-        username: user.username,
-        id: user.id,
-        data: {
-          name: user.data.name,
-          body: user.data.body,
-          photo: user.data.photo,
-        },
-      };
+      slate.user = Serializers.user(user);
 
       return res.status(200).send({
-        decorator: "SERVER_FIND_CLOSEST_LINK",
+        decorator: "SERVER_DEEPLINK",
         data: { slate },
       });
     }
 
     return res.status(500).send({
-      decorator: "SERVER_FIND_CLOSEST_LINK_ERROR",
+      decorator: "SERVER_DEEPLINK_ERROR",
       error: true,
     });
   }

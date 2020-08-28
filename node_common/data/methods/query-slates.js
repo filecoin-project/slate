@@ -1,4 +1,4 @@
-import * as Serializers from "~/common/serializers";
+import * as Serializers from "~/node_common/serializers";
 
 import { runQuery } from "~/node_common/data/utilities";
 

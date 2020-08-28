@@ -2,7 +2,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Powergate from "~/node_common/powergate";
 import * as Constants from "~/node_common/constants";
-import * as Serializers from "~/common/serializers";
+import * as Serializers from "~/node_common/serializers";
 
 export const getById = async ({ id }) => {
   const user = await Data.getUserById({
@@ -17,21 +17,26 @@ export const getById = async ({ id }) => {
     return null;
   }
 
-  let data = null;
+  const activity = await Data.getActivityForUserId({ userId: id });
   const slates = await Data.getSlatesByUserId({ userId: id });
   const keys = await Data.getAPIKeysByUserId({ userId: id });
   const subscriptions = await Data.getSubscriptionsByUserId({ userId: id });
-
   const serializedSubscriptions = await Serializers.doSubscriptions({
     users: [id],
     slates: [],
     subscriptions,
   });
-
-  const activity = await Data.getActivityForUserId({ userId: id });
   const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
+  const serializedTrusted = await Serializers.doTrusted({
+    users: [id],
+    trusted,
+  });
   const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
     userId: id,
+  });
+  const serializedPendingTrusted = await Serializers.doPendingTrusted({
+    users: [id],
+    pendingTrusted,
   });
 
   let bytes = 0;
@@ -39,40 +44,26 @@ export const getById = async ({ id }) => {
     bytes = each.size + bytes;
   });
 
-  try {
-    data = {
-      id: user.id,
-      data: {
-        photo: user.data.photo,
-        name: user.data.name ? user.data.name : user.username,
-        body: user.data.body ? user.data.body : "",
-      },
-      settings: {
-        deals_auto_approve: user.data.settings_deals_auto_approve,
-      },
-      stats: {
-        bytes,
-        maximumBytes: Constants.TEXTILE_ACCOUNT_BYTE_LIMIT,
-      },
-      username: user.username,
-      library: user.data.library,
-      storageList: [],
-      retrievalList: [],
-      slates,
-      keys,
-      messageList: null,
-      status: null,
-      addrsList: null,
-      info: null,
-      subscriptions: serializedSubscriptions,
-      activity,
-      trusted,
-      pendingTrusted,
-    };
-  } catch (e) {
-    console.log(e);
-    return null;
-  }
+  return {
+    ...Serializers.user(user),
+    type: "VIEWER",
 
-  return data;
+    // NOTE(jim): The only safe viewer fields to expose.
+    settings: {
+      deals_auto_approve: user.data.settings_deals_auto_approve,
+    },
+    library: user.data.library,
+
+    // NOTE(jim): Remaining data.
+    stats: {
+      bytes,
+      maximumBytes: Constants.TEXTILE_ACCOUNT_BYTE_LIMIT,
+    },
+    keys,
+    activity,
+    slates,
+    subscriptions: serializedSubscriptions,
+    trusted: serializedTrusted,
+    pendingTrusted: serializedPendingTrusted,
+  };
 };

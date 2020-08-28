@@ -12,6 +12,7 @@ export default async ({ slatename, data = {} }) => {
         .returning("*");
 
       const index = query ? query.pop() : null;
+      index.type = "SLATE";
       return index;
     },
     errorFn: async (e) => {

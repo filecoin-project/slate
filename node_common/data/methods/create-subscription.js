@@ -13,6 +13,7 @@ export default async ({ subscriberUserId, slateId, userId }) => {
         .returning("*");
 
       const index = query ? query.pop() : null;
+      index.type = "SUBSCRIPTION";
       return JSON.parse(JSON.stringify(index));
     },
     errorFn: async (e) => {

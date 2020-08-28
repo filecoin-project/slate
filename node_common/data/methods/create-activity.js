@@ -13,6 +13,7 @@ export default async ({ slateId, userId, data }) => {
         .returning("*");
 
       const index = query ? query.pop() : null;
+      index.type = "ACTIVITY";
       return JSON.parse(JSON.stringify(index));
     },
     errorFn: async (e) => {

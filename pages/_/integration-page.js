@@ -75,6 +75,7 @@ export default class IntegrationPage extends React.Component {
     const response = await Actions.createTrustRelationship({
       userId: user.target_user_id ? user.target_user_id : user.id,
     });
+    console.log(response);
 
     await this._handleUpdate();
   };
@@ -83,6 +84,7 @@ export default class IntegrationPage extends React.Component {
     const response = await Actions.updateTrustRelationship({
       userId: user.owner_user_id,
     });
+    console.log(response);
 
     await this._handleUpdate();
   };
@@ -93,12 +95,14 @@ export default class IntegrationPage extends React.Component {
       response = await Actions.createSubscription({
         userId: entity.target_user_id ? entity.target_user_id : entity.id,
       });
+      console.log(response);
     }
 
     if (entity.type === "SLATE" || entity.target_slate_id) {
       response = await Actions.createSubscription({
         slateId: entity.target_slate_id ? entity.target_slate_id : entity.id,
       });
+      console.log(response);
     }
 
     await this._handleUpdate();

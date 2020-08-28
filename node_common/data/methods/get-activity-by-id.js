@@ -14,6 +14,7 @@ export default async ({ id }) => {
       }
 
       if (query.id) {
+        query.type = "ACTIVITY";
         return JSON.parse(JSON.stringify(query));
       }
 

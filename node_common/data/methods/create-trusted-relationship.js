@@ -13,6 +13,7 @@ export default async ({ ownerUserId, targetUserId }) => {
         .returning("*");
 
       const index = query ? query.pop() : null;
+      index.type = "TRUSTED_RELATIONSHIP";
       return JSON.parse(JSON.stringify(index));
     },
     errorFn: async (e) => {

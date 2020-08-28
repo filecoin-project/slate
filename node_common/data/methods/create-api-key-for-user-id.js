@@ -13,6 +13,7 @@ export default async ({ userId, key, level = 1 }) => {
         .returning("*");
 
       const index = query ? query.pop() : null;
+      index.type = "API_KEY";
       return index;
     },
     errorFn: async (e) => {

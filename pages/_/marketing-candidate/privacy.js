@@ -66,15 +66,12 @@ export default class IndexPage extends React.Component {
             <System.H1>Slate Guidelines and Terms of Service</System.H1>
             <br />
             <System.P>
-              Slate is designed and built by a growing community of hackers,
-              artists, and creatives on the web.{" "}
-            </System.P>
-            <System.P>
               We believe that our mission is best served in an environment that
               is friendly, safe, and accepting; free from intimidation or
               harassment. Towards this end, certain behaviors and practices will
               not be tolerated.
             </System.P>
+            <br />
             <System.UL>
               <System.LI>Be respectful.</System.LI>
               <System.LI>
@@ -97,6 +94,7 @@ export default class IndexPage extends React.Component {
               in person, and in one-on-one communications pertaining to Slate
               affairs.
             </System.P>
+
             <br />
             <System.P>
               This policy covers the usage of Filecoin public infrastructure, as
@@ -108,6 +106,7 @@ export default class IndexPage extends React.Component {
               and public events.
             </System.P>
             <br />
+
             <System.P>
               The definitions of various subjective terms such as
               "discriminatory", "hateful", or "confusing" will be decided at the
@@ -126,28 +125,39 @@ export default class IndexPage extends React.Component {
               differences of opinion regarding technical choices, and that every
               design or implementation choice carries a trade-off and numerous
               costs. There is seldom a single right answer. A difference of
-              technology preferences is not a license to be rude. Any spamming,
-              trolling, flaming, baiting, or other attention-stealing behavior
-              is not welcome, and will not be tolerated. Harassing other users
-              is never tolerated, whether via public or private media. Avoid
-              using offensive or harassing nicknames, or other identifiers that
-              might detract from a friendly, safe, and welcoming environment for
-              all. Harassment includes, but is not limited to: harmful or
-              prejudicial verbal or written comments related to gender identity,
-              sexual orientation, disability, ethnicity, religion, age, physical
+              technology preferences is not a license to be rude.{" "}
+            </System.P>
+            <br />
+            <System.P>
+              Any spamming, trolling, flaming, baiting, or other
+              attention-stealing behavior is not welcome, and will not be
+              tolerated. Harassing other users is never tolerated, whether via
+              public or private media. Avoid using offensive or harassing
+              nicknames, or other identifiers that might detract from a
+              friendly, safe, and welcoming environment for all.{" "}
+            </System.P>
+            <br />
+            <System.P>
+              Harassment includes, but is not limited to: harmful or prejudicial
+              verbal or written comments related to gender identity, sexual
+              orientation, disability, ethnicity, religion, age, physical
               appearance, body size, race, or similar personal characteristics;
               inappropriate use of nudity, sexual images, and/or sexually
               explicit language in public spaces; threats of physical or
               non-physical harm; deliberate intimidation, stalking or following;
               harassing photography or recording; sustained disruption of talks
               or other events; inappropriate physical contact; and unwelcome
-              sexual attention. Media shared through public infrastructure run
-              by the Filecoin team must not contain illegal or infringing
-              content. You should only publish content via Filecoin public
-              infrastructure if you have the right to do so. This include
-              complying with all software license agreements or other
-              intellectual property restrictions. You will be solely responsible
-              for any violation of laws or others' intellectual property rights.
+              sexual attention.{" "}
+            </System.P>
+            <br />
+            <System.P>
+              Media shared through public infrastructure run by the Filecoin
+              team must not contain illegal or infringing content. You should
+              only publish content via Filecoin public infrastructure if you
+              have the right to do so. This include complying with all software
+              license agreements or other intellectual property restrictions.
+              You will be solely responsible for any violation of laws or
+              others' intellectual property rights.
             </System.P>
             <br />
             <System.H2>Avoid Marketing or Soliciting</System.H2>
@@ -161,6 +171,7 @@ export default class IndexPage extends React.Component {
             <br />
             <br />
             <System.H2>Reporting Violations of this Code of Conduct</System.H2>
+            <br />
             <System.P>
               If you believe someone is harassing you or has otherwise violated
               this Code of Conduct, please contact us at <CopyEmail /> to send

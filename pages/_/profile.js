@@ -15,29 +15,15 @@ export const getServerSideProps = async (context) => {
 };
 
 const STYLES_ROOT = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background-color: ${Constants.system.white};
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   text-align: center;
   font-size: 1rem;
+  min-height: 100vh;
 `;
 
 export default class ProfilePage extends React.Component {
-  state = {
-    follow: false, //TODO: get the real trust status from the api
-    trust: false,
-  };
-
-  _handleFollow = () => {};
-
-  _handleTrust = () => {};
-
-  _handleSendMoney = () => {};
-
   render() {
-    console.log(this.props);
     const title = this.props.creator ? `${this.props.creator.username}` : "404";
     const url = `https://slate.host/${title}`;
     const description = this.props.creator.data.body;
@@ -51,12 +37,9 @@ export default class ProfilePage extends React.Component {
       >
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
-          <Profile
-            {...this.props}
-            onFollow={this._handleFollow}
-            onTrust={this._handleTrust}
-            onSendMoney={this._handleSendMoney}
-          />
+          <div style={{ marginTop: "80px" }}>
+            <Profile {...this.props} />
+          </div>
           <WebsitePrototypeFooter />
         </div>
       </WebsitePrototypeWrapper>

@@ -70,8 +70,7 @@ const STYLES_PROFILE = css`
   align-items: center;
   justify-content: flex-start;
   transition: 200ms ease all;
-  cursor: pointer;
-
+/*
   :hover {
     color: ${Constants.system.white};
     background-color: ${Constants.system.brand};

@@ -8,6 +8,7 @@ import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
 const STYLES_PROFILE = css`
   text-align: center;
   width: 100%;
+  margin-top: 16px;
 `;
 
 const STYLES_PROFILE_IMAGE = css`
@@ -30,10 +31,9 @@ const STYLES_LINK = css`
 
 export default class Profile extends React.Component {
   render() {
-    let data = this.props.creator ? this.props.creator : this.props.data;
+    let data = this.props.creator ? this.props.creator : this.props.data; //do we need this?
     return (
       <div css={STYLES_PROFILE}>
-        <br />
         <img css={STYLES_PROFILE_IMAGE} src={data.data.photo} />
         <div css={STYLES_NAME}>{data.username}</div>
         {/* TODO: replace with real name when added */}

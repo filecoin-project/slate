@@ -11,9 +11,12 @@ const STYLES_IMAGE_ROW = css`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
   max-height: 186px;
   overflow: hidden;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    justify-content: center;
+  }
 `;
 
 const STYLES_ITEM_BOX = css`
@@ -26,14 +29,15 @@ const STYLES_ITEM_BOX = css`
 `;
 
 export function SlatePreviewRow(props) {
+  let numItems = props.numItems || 5;
   let objects =
-    props.slate.data.objects.length > 5
-      ? props.slate.data.objects.slice(0, 5)
+    props.slate.data.objects.length > numItems
+      ? props.slate.data.objects.slice(0, numItems)
       : props.slate.data.objects;
   return (
     <div css={STYLES_IMAGE_ROW}>
       {objects.map((each) => (
-        <div css={STYLES_ITEM_BOX} style={props.style}>
+        <div key={each.url} css={STYLES_ITEM_BOX} style={props.style}>
           <SlateMediaObjectPreview type={each.type} url={each.url} />
         </div>
       ))}

@@ -160,6 +160,7 @@ export default class IndexPage extends React.Component {
               others' intellectual property rights.
             </System.P>
             <br />
+            <br />
             <System.H2>Avoid Marketing or Soliciting</System.H2>
             <br />
             <System.P>

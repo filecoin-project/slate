@@ -26,7 +26,7 @@ const STYLES_DROPDOWN_ITEM = css`
   border-radius: 16px;
   border: 1px solid ${Constants.system.white};
   :hover {
-    border-color: ${Constants.system.border} !important;
+    border-color: ${Constants.system.border};
   }
 `;
 
@@ -186,7 +186,7 @@ export class InputMenu extends React.Component {
                   borderColor:
                     this.state.selectedIndex === i
                       ? Constants.system.border
-                      : Constants.system.white,
+                      : "auto",
                   ...this.props.itemStyle,
                 }}
               >

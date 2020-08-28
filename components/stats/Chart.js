@@ -45,22 +45,24 @@ export default class Chart extends React.Component {
     });
   }
 
-  //Get Min & Max X
-  getMinX() {
-    const { data } = this.props;
-    this.setState({
-      minX: data[0].date,
-    });
-    return data[0].date;
-  }
-
-  getMaxX() {
-    const { data } = this.props;
-    this.setState({
-      maxX: data[data.length - 1].date,
-    });
-    return data[data.length - 1].date;
-  }
+    //Get Min & Max X
+    getMinX() {
+      const { data } = this.props;
+      let dates = data.sort(this.sortDates("date"));
+      this.setState({
+        minX: dates[0].date,
+      });
+      return dates[0].date;
+    }
+  
+    getMaxX() {
+      const { data } = this.props;
+      let dates = data.sort(this.sortDates("date"));
+      this.setState({
+        maxX: dates[data.length - 1].date,
+      });
+      return dates[data.length - 1].date;
+    }
 
   //Get Min & Max Y Values
   getMinY() {

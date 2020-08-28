@@ -7,21 +7,29 @@ import Section from "~/components/core/Section";
 
 import Chart from "~/components/stats/Chart";
 
-const data = [
-  { id: 1, date: "December 17, 1995 03:24:00", category: "1", value: 100 },
-  { id: 2, date: "December 17, 2000 03:24:00", category: "1", value: 150 },
-  { id: 3, date: "December 17, 2005 03:24:00", category: "1", value: 200 },
-  { id: 4, date: "December 17, 2007 03:24:00", category: "1", value: 100 },
-  { id: 5, date: "December 17, 2008 03:24:00", category: "1", value: 250 },
-  { id: 6, date: "December 17, 2010 03:24:00", category: "1", value: 110 },
-  { id: 7, date: "December 17, 1995 03:24:00", category: "2", value: 150 },
-  { id: 8, date: "December 17, 2000 03:24:00", category: "2", value: 200 },
-  { id: 9, date: "December 17, 2005 03:24:00", category: "2", value: 100 },
-  { id: 10, date: "December 17, 2010 03:24:00", category: "2", value: 150 },
-  { id: 11, date: "December 17, 1995 03:24:00", category: "3", value: 200 },
-  { id: 12, date: "December 17, 2000 03:24:00", category: "3", value: 100 },
-  { id: 13, date: "December 17, 2005 03:24:00", category: "3", value: 150 },
-  { id: 14, date: "December 17, 2010 03:24:00", category: "3", value: 200 },
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+const randomDate = (start, end) => {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+let data = [
+  { id: 1, date: randomDate(new Date(2018, 0, 1), new Date()), category: "1", value: getRandomInt(1000) },
+  { id: 2, date: randomDate(new Date(2018, 0, 1), new Date()), category: "1", value: getRandomInt(1000) },
+  { id: 4, date: randomDate(new Date(2018, 0, 1), new Date()), category: "1", value: getRandomInt(1000) },
+  { id: 3, date: randomDate(new Date(2018, 0, 1), new Date()), category: "1", value: getRandomInt(1000) },
+  { id: 5, date: randomDate(new Date(2018, 0, 1), new Date()), category: "1", value: getRandomInt(1000) },
+  { id: 6, date: randomDate(new Date(2018, 0, 1), new Date()), category: "1", value: getRandomInt(1000) },
+  { id: 7, date: randomDate(new Date(2018, 0, 1), new Date()), category: "2", value: getRandomInt(1000) },
+  { id: 8, date: randomDate(new Date(2018, 0, 1), new Date()), category: "2", value: getRandomInt(1000) },
+  { id: 9, date: randomDate(new Date(2018, 0, 1), new Date()), category: "2", value: getRandomInt(1000) },
+  { id: 10, date: randomDate(new Date(2018, 0, 1), new Date()), category: "2", value: getRandomInt(1000) },
+  { id: 11, date: randomDate(new Date(2018, 0, 1), new Date()), category: "3", value: getRandomInt(1000) },
+  { id: 12, date: randomDate(new Date(2018, 0, 1), new Date()), category: "3", value: getRandomInt(1000) },
+  { id: 13, date: randomDate(new Date(2018, 0, 1), new Date()), category: "3", value: getRandomInt(1000) },
+  { id: 14, date: randomDate(new Date(2018, 0, 1), new Date()), category: "3", value: getRandomInt(1000) },
 ];
 
 // Use this to determine how many tick marks to be written on X axis

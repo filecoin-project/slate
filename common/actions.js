@@ -46,6 +46,12 @@ export const sendFilecoin = async (data) => {
   });
 };
 
+export const archive = async () => {
+  return await returnJSON(`/api/data/archive`, {
+    ...DEFAULT_OPTIONS,
+  });
+};
+
 export const getNetworkDirectory = async () => {
   return await returnJSON(`/api/directory`, {
     ...DEFAULT_OPTIONS,

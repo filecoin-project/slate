@@ -80,6 +80,11 @@ export default class SceneFilesFolder extends React.Component {
               type: "SIDEBAR",
               value: "SIDEBAR_ADD_FILE_TO_BUCKET",
             },
+            {
+              name: "Filecoin archive",
+              type: "SIDEBAR",
+              value: "SIDEBAR_FILECOIN_ARCHIVE",
+            },
           ]}
           viewer={this.props.viewer}
           items={this.props.viewer.library[0].children}

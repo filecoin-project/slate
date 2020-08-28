@@ -91,7 +91,12 @@ export const getBucketAPIFromUserToken = async (token) => {
   await buckets.getToken(identity);
   const target = await buckets.getOrInit(BUCKET_NAME);
 
-  return { buckets, bucketKey: target.root.key, bucketName: BUCKET_NAME };
+  return {
+    buckets,
+    bucketKey: target.root.key,
+    bucketRoot: target,
+    bucketName: BUCKET_NAME,
+  };
 };
 
 // NOTE(jim): Requires Powergate, does not require token.

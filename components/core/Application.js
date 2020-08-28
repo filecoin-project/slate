@@ -33,6 +33,7 @@ import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal
 import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket";
 import SidebarDragDropNotice from "~/components/sidebars/SidebarDragDropNotice";
 import SidebarSingleSlateSettings from "~/components/sidebars/SidebarSingleSlateSettings";
+import SidebarFilecoinArchive from "~/components/sidebars/SidebarFilecoinArchive";
 
 // NOTE(jim):
 // Core components to the application structure.
@@ -45,6 +46,7 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 const SIDEBARS = {
+  SIDEBAR_FILECOIN_ARCHIVE: <SidebarFilecoinArchive />,
   SIDEBAR_FILE_STORAGE_DEAL: <SidebarFileStorageDeal />,
   SIDEBAR_WALLET_SEND_FUNDS: <SidebarWalletSendFunds />,
   SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,

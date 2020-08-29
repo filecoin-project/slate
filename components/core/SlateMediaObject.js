@@ -68,7 +68,7 @@ export default class SlateMediaObject extends React.Component {
 
     if (type.startsWith("video/")) {
       element = (
-        <video autoPlay controls name="media" css={STYLES_OBJECT}>
+        <video autoPlay playsInline controls name="media" css={STYLES_OBJECT}>
           <source src={url} type={type} />
         </video>
       );

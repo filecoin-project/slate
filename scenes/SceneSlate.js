@@ -40,13 +40,10 @@ export default class SceneSlate extends React.Component {
       ? this.props.data.data.layouts
       : { lg: generateLayout(this.props.data.data.objects) },
     loading: false,
-    editing: this.props.viewer.slates
-      .map((slate) => slate.id)
-      .includes(this.props.data.id),
+    editing: this.props.data.data.ownerId === this.props.viewer.id,
   };
 
   componentDidMount() {
-    console.log(this.props);
     this._handleUpdateCarousel(this.state);
   }
 
@@ -80,7 +77,7 @@ export default class SceneSlate extends React.Component {
         name: this.props.data.data.name,
         layouts: layouts,
         loading: false,
-        isOwner: this.props.viewer.slates
+        editing: this.props.viewer.slates
           .map((slate) => slate.id)
           .includes(this.props.data.slateId),
       });
@@ -180,6 +177,7 @@ export default class SceneSlate extends React.Component {
             id: data.id,
             cid,
             data,
+            editing: this.state.editing,
             component: (
               <SlateMediaObject key={each.id} useImageFallback data={data} />
             ),

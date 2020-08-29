@@ -71,6 +71,14 @@ export const generate = ({ library = [], slates = [] }) => [
     pageTitle: "Slates",
     children: constructSlatesTreeForNavigation(slates),
   },
+  {
+    id: "V1_NAVIGATION_SLATE",
+    decorator: "VIEW_SLATE",
+    name: "Slate",
+    pageTitle: "Slate",
+    children: null,
+    ignore: true,
+  },
   constructFilesTreeForNavigation(library),
   /*
   {
@@ -131,6 +139,14 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "PROFILE",
     name: "Profile",
     pageTitle: "Profile",
+    children: null,
+    ignore: true,
+  },
+  {
+    id: "V1_NAVIGATION_FILE",
+    decorator: "FILE",
+    name: "File",
+    pageTitle: "File",
     children: null,
     ignore: true,
   },

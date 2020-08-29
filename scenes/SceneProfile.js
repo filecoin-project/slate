@@ -11,9 +11,7 @@ import ScenePage from "~/components/core/ScenePage";
 import Profile from "~/components/core/Profile";
 import CircleButtonLight from "~/components/core/CircleButtonLight";
 
-const BUTTON_STYLE = {
-  backgroundColor: "transparent",
-  color: Constants.system.brand,
+const BUTTON_STYLES = {
   border: `1px solid ${Constants.system.border}`,
   boxShadow: "none",
   fontFamily: Constants.font.text,
@@ -22,15 +20,85 @@ const BUTTON_STYLE = {
   minHeight: "30px",
 };
 
+const BUTTON_SECONDARY_STYLE = {
+  ...BUTTON_STYLES,
+  backgroundColor: Constants.system.white,
+  color: Constants.system.brand,
+};
+
+const BUTTON_PRIMARY_STYLE = {
+  ...BUTTON_STYLES,
+  backgroundColor: Constants.system.brand,
+  color: Constants.system.white,
+};
+
+const STATUS_BUTTON_MAP = {
+  trusted: "Remove peer",
+  untrusted: "Add peer",
+  sent: "Cancel request",
+  received: "Accept request",
+};
+
 export default class SceneProfile extends React.Component {
   state = {
     loading: false,
-    isTrusted: this.props.viewer.trusted
-      .map((trusted) => trusted.target_user_id)
-      .includes(this.props.data.data.ownerId),
-    isFollowing: this.props.viewer.subscriptions
-      .map((subscription) => subscription.target_user_id)
-      .includes(this.props.data.data.ownerId),
+    trustStatus: "untrusted",
+    followStatus: false,
+  };
+
+  componentDidMount = () => {
+    this.setStatus(this.props.viewer);
+  };
+
+  componentDidUpdate(prevProps) {
+    const isNewScene = prevProps.data.username !== this.props.data.username;
+
+    let isUpdated = false;
+    // if (
+    //   this.props.data.data.objects.length !== prevProps.data.data.objects.length
+    // ) {
+    //   isUpdated = true;
+    // }
+
+    // if (this.props.data.data.body !== prevProps.data.data.body) {
+    //   isUpdated = true;
+    // }
+
+    if (isNewScene || isUpdated) {
+      this.setStatus(this.props.viewer);
+    }
+  }
+
+  setStatus = (viewer) => {
+    let newState = { trustStatus: "untrusted", followStatus: false };
+    let trust = viewer.trusted.filter((entry) => {
+      return entry.target_user_id === this.props.data.id;
+    });
+    if (trust.length) {
+      if (trust[0].data.verified) {
+        newState.trustStatus = "trusted";
+      } else {
+        newState.trustStatus = "sent";
+      }
+    }
+    let pendingTrust = viewer.pendingTrusted.filter((entry) => {
+      return entry.owner_user_id === this.props.data.id;
+    });
+    if (pendingTrust.length) {
+      if (pendingTrust[0].data.verified) {
+        newState.trustStatus = "trusted";
+      } else {
+        newState.trustStatus = "received";
+      }
+    }
+    if (
+      viewer.subscriptions.filter((entry) => {
+        return entry.target_user_id === this.props.data.id;
+      }).length
+    ) {
+      newState.followStatus = true;
+    }
+    this.setState(newState);
   };
 
   _handleUpdate = async (e) => {
@@ -43,33 +111,31 @@ export default class SceneProfile extends React.Component {
 
     let viewer = response.data;
 
-    this.setState({
-      isTrusted: viewer.trusted
-        .map((trusted) => trusted.target_user_id)
-        .includes(this.props.data.data.ownerId),
-      isFollowing: viewer.subscriptions
-        .map((subscription) => subscription.target_user_id)
-        .includes(this.props.data.data.ownerId),
-    });
+    this.setStatus(viewer);
   };
 
   _handleTrust = async () => {
-    console.log(this.props.data.id);
     let response;
-    if (this.state.isTrusted) {
-      response = await Actions.deleteTrustRelationship({
-        id: this.props.data.id,
+    if (
+      this.state.trustStatus === "untrusted" ||
+      this.state.trustStatus === "sent"
+    ) {
+      response = await Actions.createTrustRelationship({
+        userId: this.props.data.id,
+      });
+    } else if (this.state.trustStatus === "received") {
+      response = await Actions.updateTrustRelationship({
+        userId: this.props.data.id,
       });
     } else {
-      response = await Actions.createTrustRelationship({
-        userId: this.props.data.id, //check if it's this.props.data.id or what
+      response = await Actions.deleteTrustRelationship({
+        id: this.props.data.id,
       });
     }
     await this._handleUpdate();
   };
 
   _handleFollow = async () => {
-    console.log(this.props.data.id);
     let response = await Actions.createSubscription({
       userId: this.props.data.id,
     });
@@ -79,11 +145,26 @@ export default class SceneProfile extends React.Component {
   render() {
     let buttons = (
       <div>
-        <ButtonPrimary style={BUTTON_STYLE} onClick={this._handleFollow}>
-          {this.state.isFollowing ? "Unfollow" : "Follow"}
+        <ButtonPrimary
+          style={
+            this.state.followStatus
+              ? BUTTON_SECONDARY_STYLE
+              : BUTTON_PRIMARY_STYLE
+          }
+          onClick={this._handleFollow}
+        >
+          {this.state.followStatus ? "Unfollow" : "Follow"}
         </ButtonPrimary>
-        <ButtonPrimary style={BUTTON_STYLE} onClick={this._handleTrust}>
-          {this.state.isTrusted ? "Remove Peer" : "Add Peer"}
+        <ButtonPrimary
+          style={
+            this.state.trustStatus === "untrusted" ||
+            this.state.trustStatus === "received"
+              ? BUTTON_PRIMARY_STYLE
+              : BUTTON_SECONDARY_STYLE
+          }
+          onClick={this._handleTrust}
+        >
+          {STATUS_BUTTON_MAP[this.state.trustStatus]}
         </ButtonPrimary>
         {this.state.isTrusted ? (
           <ButtonPrimary style={BUTTON_STYLE} onClick={this._handleSendMoney}>
@@ -92,8 +173,6 @@ export default class SceneProfile extends React.Component {
         ) : null}
       </div>
     );
-    //add additional state for pending request and to accept a pending request
-    console.log(this.props);
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
         <Profile

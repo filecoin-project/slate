@@ -12,10 +12,12 @@ const STYLES_PROFILE = css`
 `;
 
 const STYLES_PROFILE_IMAGE = css`
+  background-size: cover;
+  background-position: 50% 50%;
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 `;
 
@@ -34,7 +36,10 @@ export default class Profile extends React.Component {
     let data = this.props.creator ? this.props.creator : this.props.data; //do we need this?
     return (
       <div css={STYLES_PROFILE}>
-        <img css={STYLES_PROFILE_IMAGE} src={data.data.photo} />
+        <div
+          css={STYLES_PROFILE_IMAGE}
+          style={{ backgroundImage: `url('${data.data.photo}')` }}
+        />
         <div css={STYLES_NAME}>{data.username}</div>
         {/* TODO: replace with real name when added */}
         {this.props.buttons}

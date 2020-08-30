@@ -40,6 +40,7 @@ const STYLES_CARD = css`
   width: 100%;
   background: #000000;
   border-radius: 8px;
+  padding-top: 24px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 `;
 
@@ -154,7 +155,7 @@ export default class IndexPage extends React.Component {
           <WebsitePrototypeHeader />
           <div css={STYLES_MIDDLE}>
             <div css={STYLES_CARD}>
-              <img css={STYLES_CARD_IMAGE} src="/public/static/new-brand-teaser.png" />
+              <img css={STYLES_CARD_IMAGE} src="/public/static/teaser.png" />
               <p css={STYLES_CARD_PARAGRAPH}>
                 Store your files, turn them into collections, and share them with the world — with{" "}
                 <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">

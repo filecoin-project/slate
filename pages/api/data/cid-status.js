@@ -1,8 +1,6 @@
 import * as MW from "~/node_common/middleware";
-import * as Constants from "~/node_common/constants";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
-import * as Strings from "~/node_common/utilities";
 import * as Powergate from "~/node_common/powergate";
 import * as LibraryManager from "~/node_common/managers/library";
 
@@ -21,11 +19,15 @@ export default async (req, res) => {
   initAuth(req, res);
 
   if (!req.body.data) {
-    return res.status(500).send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
   }
 
   if (!req.body.data.length) {
-    return res.status(500).send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
   }
 
   const id = Utilities.getIdFromCookie(req);

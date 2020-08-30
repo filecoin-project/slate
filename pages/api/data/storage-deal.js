@@ -1,12 +1,10 @@
 import * as MW from "~/node_common/middleware";
-import * as Constants from "~/node_common/constants";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
-import * as Strings from "~/node_common/utilities";
 import * as Powergate from "~/node_common/powergate";
 import * as LibraryManager from "~/node_common/managers/library";
 
-import { ffsOptions } from "@textile/powergate-client";
+// import { ffsOptions } from "@textile/powergate-client";
 
 const initCORS = MW.init(MW.CORS);
 const initAuth = MW.init(MW.RequireCookieAuthentication);
@@ -45,11 +43,14 @@ export default async (req, res) => {
   const PG = Powergate.get(user);
   let jobId;
   try {
+    throw new Error("Powergate disabled");
+    /*
     const Deal = await PG.ffs.pushStorageConfig(
       cid,
       ffsOptions.withOverride(true)
     );
     jobId = Deal && Deal.jobId ? Deal.jobId : null;
+    */
   } catch (e) {
     console.log(e);
     return res.status(500).send({

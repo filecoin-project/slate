@@ -4,6 +4,7 @@ import * as Powergate from "~/node_common/powergate";
 import * as Constants from "~/node_common/constants";
 import * as Serializers from "~/node_common/serializers";
 
+// TODO(jim): Work on better serialization when adoption starts occuring.
 export const getById = async ({ id }) => {
   const user = await Data.getUserById({
     id,
@@ -17,6 +18,8 @@ export const getById = async ({ id }) => {
     return null;
   }
 
+  // TODO(jim): You can serialize this last because you will have all the information
+  // from subscriptionsed, trusted, and pendingTrusted most likely.
   const activity = await Data.getActivityForUserId({ userId: id });
   const slates = await Data.getSlatesByUserId({ userId: id });
   const keys = await Data.getAPIKeysByUserId({ userId: id });
@@ -25,6 +28,7 @@ export const getById = async ({ id }) => {
   let serializedUsersMap = { [user.id]: Serializers.user(user) };
   let serializedSlatesMap = {};
 
+  // NOTE(jim): The most expensive call first.
   const r1 = await Serializers.doSubscriptions({
     users: [],
     slates: [],
@@ -33,6 +37,7 @@ export const getById = async ({ id }) => {
     serializedSlatesMap,
   });
 
+  // NOTE(jim): If any trusted users are subscription users, this ends up being cheaper.
   const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
   const r2 = await Serializers.doTrusted({
     users: [],
@@ -41,6 +46,7 @@ export const getById = async ({ id }) => {
     serializedSlatesMap: r1.serializedSlatesMap,
   });
 
+  // NOTE(jim): This should be the cheapest call.
   const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
     userId: [],
   });

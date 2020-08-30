@@ -7,7 +7,8 @@ import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
 import { Buckets, PrivateKey } from "@textile/hub";
-import { ffsOptions } from "@textile/powergate-client";
+// import { ffsOptions } from "@textile/powergate-client";
+const ffsOptions = {};
 
 const BUCKET_NAME = "data";
 
@@ -38,10 +39,7 @@ export const checkTextile = async () => {
 export const getIdFromCookie = (req) => {
   let id;
   if (!Strings.isEmpty(req.headers.cookie)) {
-    const token = req.headers.cookie.replace(
-      /(?:(?:^|.*;\s*)WEB_SERVICE_SESSION_KEY\s*\=\s*([^;]*).*$)|^.*$/,
-      "$1"
-    );
+    const token = req.headers.cookie.replace(/(?:(?:^|.*;\s*)WEB_SERVICE_SESSION_KEY\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
     if (!Strings.isEmpty(token)) {
       try {
@@ -120,15 +118,9 @@ export const refreshWithToken = async (user) => {
 
   const includeFinal = ffsOptions.withIncludeFinal(true);
   const includePending = ffsOptions.withIncludePending(true);
-  const fromAddresses = ffsOptions.withFromAddresses(
-    info.defaultStorageConfig.cold.filecoin.addr
-  );
+  const fromAddresses = ffsOptions.withFromAddresses(info.defaultStorageConfig.cold.filecoin.addr);
 
-  const s = await PG.ffs.listStorageDealRecords(
-    includeFinal,
-    includePending,
-    fromAddresses
-  );
+  const s = await PG.ffs.listStorageDealRecords(includeFinal, includePending, fromAddresses);
 
   const r = await PG.ffs.listRetrievalDealRecords();
 

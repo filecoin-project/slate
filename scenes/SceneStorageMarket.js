@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
-import { LineChart } from "~/vendor/react-chartkick";
+// import { LineChart } from "~/vendor/react-chartkick";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
@@ -83,18 +83,12 @@ export default class SceneStorageMarket extends React.Component {
         <System.H1>2,534 FIL</System.H1>
         <System.P>
           Last Storage Order / GB / Month{" "}
-          <strong style={{ color: Constants.system.green, fontWeight: 400 }}>
-            +143.24 (6.08)%
-          </strong>
+          <strong style={{ color: Constants.system.green, fontWeight: 400 }}>+143.24 (6.08)%</strong>
         </System.P>
 
         <div css={STYLES_CHART_SECTION}>
           <div css={STYLES_LEFT}>
-            <Section
-              onAction={this.props.onAction}
-              onNavigateTo={this.props.onNavigateTo}
-              title="Storage market"
-            >
+            <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="Storage market">
               <div css={STYLES_OPTIONS}>
                 <span css={STYLES_OPTION}>1 Day</span>
                 <span css={STYLES_OPTION}>1 Week</span>
@@ -102,37 +96,10 @@ export default class SceneStorageMarket extends React.Component {
                 <span css={STYLES_OPTION}>6 Month</span>
                 <span css={STYLES_OPTION}>1 Year</span>
               </div>
-              <LineChart
-                data={[
-                  ["2017-01-01 00:00:00 UTC", 1],
-                  ["2018-01-01 00:00:00 UTC", 5],
-                  ["2019-01-01 00:00:00 UTC", 25],
-                  ["2020-01-01 00:00:00 UTC", 200],
-                  [new Date(), 400],
-                ]}
-                library={{
-                  backgroundColor: "transparent",
-                  scales: {
-                    yAxes: [
-                      {
-                        display: false,
-                      },
-                    ],
-                  },
-                }}
-                dataset={{ lineTension: 0, pointRadius: 0, borderWidth: 1 }}
-                width="100%"
-                height="640px"
-                colors={[Constants.system.brand]}
-              />
             </Section>
           </div>
           <div css={STYLES_RIGHT}>
-            <Section
-              onAction={this.props.onAction}
-              onNavigateTo={this.props.onNavigateTo}
-              title="Statistics"
-            >
+            <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="Statistics">
               <div css={STYLES_ITEM}>
                 <div css={STYLES_FOCUS}>8,422 FIL/GB/Month</div>
                 <div css={STYLES_SUBTEXT}>Market Storage Price</div>
@@ -186,8 +153,7 @@ export default class SceneStorageMarket extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STORAGE_DEALS",
             },
-          ]}
-        >
+          ]}>
           <System.Table
             data={{
               columns: [

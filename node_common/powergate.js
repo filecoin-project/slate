@@ -1,5 +1,6 @@
 import * as Constants from "~/node_common/constants";
 
+/*
 import { createPow } from "@textile/powergate-client";
 
 // NOTE(jim):
@@ -14,4 +15,13 @@ export const createNewToken = async () => {
 export const get = (user) => {
   Powergate.setToken(user.data.tokens.pg);
   return Powergate;
+};
+*/
+
+export const createNewToken = async () => {
+  return null;
+};
+
+export const get = (user) => {
+  return {};
 };

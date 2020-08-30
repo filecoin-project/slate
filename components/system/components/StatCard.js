@@ -1,4 +1,6 @@
 import * as React from "react";
+
+/*
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 
@@ -65,9 +67,7 @@ export const StatCard = (props) => {
     <div css={STYLES_STAT_CARD}>
       <div css={STYLES_STAT_CARD_TOP}>
         <div css={STYLES_STAT_CARD_VALUE_GROUP}>
-          <span css={STYLES_STAT_CARD_VALUE}>
-            {Strings.formatNumber(props.value)}
-          </span>{" "}
+          <span css={STYLES_STAT_CARD_VALUE}>{Strings.formatNumber(props.value)}</span>{" "}
           <span css={STYLES_STAT_CARD_DENOMINATION}>{props.denomination}</span>
           <LineChart
             data={props.data}
@@ -92,4 +92,10 @@ export const StatCard = (props) => {
       </div>
     </div>
   );
+};
+
+*/
+
+export const StatCard = (props) => {
+  return <div>Charts are unavailable</div>;
 };

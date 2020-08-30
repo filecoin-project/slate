@@ -49,7 +49,7 @@ const STYLES_RIGHT = css`
   }
 `;
 
-export default (props) => {
+export const WebsitePrototypeHeaderGeneric = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
@@ -57,8 +57,7 @@ export default (props) => {
           <a
             css={STYLES_LINK}
             href={props.href}
-            style={{ fontFamily: Constants.font.codeBold }}
-          >
+            style={{ fontFamily: Constants.font.codeBold }}>
             {props.children}
           </a>
         ) : (
@@ -73,3 +72,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default WebsitePrototypeHeaderGeneric;

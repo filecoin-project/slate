@@ -49,7 +49,7 @@ const STYLES_DESCRIPTION = css`
   overflow-wrap: break-word;
 `;
 
-export default (props) => {
+export const ScenePageHeader = (props) => {
   return (
     <header css={STYLES_ROOT} style={props.style}>
       <div css={STYLES_LEFT}>
@@ -62,3 +62,5 @@ export default (props) => {
     </header>
   );
 };
+
+export default ScenePageHeader;

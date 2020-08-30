@@ -14,4 +14,6 @@ const STYLES_SCENE = css`
   }
 `;
 
-export default (props) => <div css={STYLES_SCENE} {...props} />;
+export const ScenePage = (props) => <div css={STYLES_SCENE} {...props} />;
+
+export default ScenePage;

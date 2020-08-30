@@ -92,8 +92,7 @@ export const DataMeterBar = (props) => {
       <div css={STYLES_ROW}>
         <div
           css={STYLES_LEFT}
-          style={{ color: props.failed ? Constants.system.red : null }}
-        >
+          style={{ color: props.failed ? Constants.system.red : null }}>
           {props.leftLabel}
         </div>
         <div css={STYLES_RIGHT}>{props.rightLabel}</div>
@@ -104,8 +103,7 @@ export const DataMeterBar = (props) => {
         style={{
           marginTop: 4,
           backgroundColor: props.failed ? Constants.system.red : null,
-        }}
-      >
+        }}>
         <div
           css={STYLES_DATA_METER}
           style={{ width: `${percentage * 100}%` }}
@@ -115,7 +113,7 @@ export const DataMeterBar = (props) => {
   );
 };
 
-export default (props) => {
+export const DataMeter = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <DataMeterBar
@@ -127,3 +125,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default DataMeter;

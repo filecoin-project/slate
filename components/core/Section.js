@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
@@ -78,7 +77,7 @@ const STYLES_BUTTON = css`
   }
 `;
 
-export default (props) => {
+export const Section = (props) => {
   return (
     <div css={STYLES_SECTION} style={props.style}>
       <header css={STYLES_HEADER}>
@@ -90,8 +89,7 @@ export default (props) => {
                 <span
                   key={b.name}
                   css={STYLES_BUTTON}
-                  onClick={() => props.onAction(b)}
-                >
+                  onClick={() => props.onAction(b)}>
                   {b.name}
                 </span>
               );
@@ -103,3 +101,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default Section;

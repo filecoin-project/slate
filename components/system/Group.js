@@ -29,7 +29,7 @@ const STYLES_GROUP = css`
   border-radius: 0 0 4px 4px;
 `;
 
-export default (props) => {
+export const Group = (props) => {
   return (
     <div css={STYLES_GROUP_CONTAINER} style={props.style} id={props.id}>
       <header css={STYLES_HEADER}>
@@ -41,3 +41,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default Group;

@@ -49,7 +49,7 @@ const STYLES_RIGHT = css`
   }
 `;
 
-export default (props) => {
+export const WebsitePrototypeFooter = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <p css={STYLES_LEFT}>
@@ -66,24 +66,23 @@ export default (props) => {
         <a
           css={STYLES_LINK}
           href="https://twitter.com/_slate"
-          style={{ marginRight: 24 }}
-        >
+          style={{ marginRight: 24 }}>
           Twitter
         </a>
         <a
           css={STYLES_LINK}
           href="https://filecoin.io/slack"
-          style={{ marginRight: 24 }}
-        >
+          style={{ marginRight: 24 }}>
           Slack
         </a>
         <a
           css={STYLES_LINK}
-          href="https://github.com/filecoin-project/slate/issues"
-        >
+          href="https://github.com/filecoin-project/slate/issues">
           Contribute
         </a>
       </div>
     </div>
   );
 };
+
+export default WebsitePrototypeFooter;

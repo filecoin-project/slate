@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
 
@@ -28,6 +27,8 @@ const STYLES_BUTTON = css`
   }
 `;
 
-export default (props) => {
+export const CircleButtonGray = (props) => {
   return <span css={STYLES_BUTTON} {...props} />;
 };
+
+export default CircleButtonGray;

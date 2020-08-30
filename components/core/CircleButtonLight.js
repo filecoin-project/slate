@@ -21,6 +21,8 @@ const STYLES_BUTTON = css`
   flex-shrink: 0;
 `;
 
-export default (props) => {
+export const CircleButtonLight = (props) => {
   return <span css={STYLES_BUTTON} {...props} />;
 };
+
+export default CircleButtonLight;

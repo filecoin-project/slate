@@ -21,22 +21,34 @@ export const getById = async ({ id }) => {
   const slates = await Data.getSlatesByUserId({ userId: id });
   const keys = await Data.getAPIKeysByUserId({ userId: id });
   const subscriptions = await Data.getSubscriptionsByUserId({ userId: id });
-  const serializedSubscriptions = await Serializers.doSubscriptions({
-    users: [id],
+
+  let serializedUsersMap = { [user.id]: Serializers.user(user) };
+  let serializedSlatesMap = {};
+
+  const r1 = await Serializers.doSubscriptions({
+    users: [],
     slates: [],
     subscriptions,
+    serializedUsersMap,
+    serializedSlatesMap,
   });
+
   const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
-  const serializedTrusted = await Serializers.doTrusted({
-    users: [id],
+  const r2 = await Serializers.doTrusted({
+    users: [],
     trusted,
+    serializedUsersMap: r1.serializedUsersMap,
+    serializedSlatesMap: r1.serializedSlatesMap,
   });
+
   const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
-    userId: id,
+    userId: [],
   });
-  const serializedPendingTrusted = await Serializers.doPendingTrusted({
+  const r3 = await Serializers.doPendingTrusted({
     users: [id],
     pendingTrusted,
+    serializedUsersMap: r2.serializedUsersMap,
+    serializedSlatesMap: r2.serializedSlatesMap,
   });
 
   let bytes = 0;
@@ -62,8 +74,8 @@ export const getById = async ({ id }) => {
     keys,
     activity,
     slates,
-    subscriptions: serializedSubscriptions,
-    trusted: serializedTrusted,
-    pendingTrusted: serializedPendingTrusted,
+    subscriptions: r1.serializedSubscriptions,
+    trusted: r2.serializedTrusted,
+    pendingTrusted: r3.serializedPendingTrusted,
   };
 };

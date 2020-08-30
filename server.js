@@ -2,6 +2,7 @@ import * as Environment from "~/node_common/environment";
 import * as Validations from "~/common/validations";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
+import * as Serializers from "~/node_common/serializers";
 
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as AnalyticsManager from "~/node_common/managers/analytics";
@@ -29,22 +30,13 @@ app.prepare().then(async () => {
   }
 
   server.use("/public", express.static("public"));
-
-  server.get("/system", async (req, res) => {
-    res.redirect("/_/system");
-  });
-
-  server.get("/experiences", async (req, res) => {
-    res.redirect("/_/system");
-  });
-
-  server.get("/system/:component", async (req, res) => {
-    res.redirect(`/_/system/${req.params.component}`);
-  });
-
-  server.get("/experiences/:module", async (req, res) => {
-    res.redirect(`/_/experiences/${req.params.module}`);
-  });
+  server.get("/system", async (r, s) => s.redirect("/_/system"));
+  server.get("/experiences", async (r, s) => s.redirect("/_/system"));
+  server.get("/_/experiences", async (r, s) => s.redirect("/_/system"));
+  server.get("/system/:c", async (r, s) => s.redirect(`/_/system/${r.params.c}`));
+  server.get("/experiences/:m", async (r, s) => s.redirect(`/_/experiences/${r.params.m}`));
+  server.all("/api/:a", async (r, s) => handler(r, s, r.url));
+  server.all("/api/:a/:b", async (r, s) => handler(r, s, r.url));
 
   server.get("/_", async (req, res) => {
     const isBucketsAvailable = await Utilities.checkTextile();
@@ -85,6 +77,9 @@ app.prepare().then(async () => {
     });
   });
 
+  server.all("/_/:a", async (r, s) => handler(r, s, r.url));
+  server.all("/_/:a/:b", async (r, s) => handler(r, s, r.url));
+
   server.get("/:username", async (req, res) => {
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -119,15 +114,7 @@ app.prepare().then(async () => {
 
     return app.render(req, res, "/_/profile", {
       viewer,
-      creator: {
-        username: creator.username,
-        slates,
-        data: {
-          photo: creator.data.photo,
-          name: creator.data.name ? creator.data.name : creator.username,
-          body: creator.data.body ? creator.data.body : "A user on Slate.",
-        },
-      },
+      creator: Serializers.user({ ...creator, slates }),
     });
   });
 
@@ -174,21 +161,12 @@ app.prepare().then(async () => {
 
     return app.render(req, res, "/_/slate", {
       viewer,
-      creator: {
-        username: creator.username,
-        data: {
-          photo: creator.data.photo,
-          name: creator.data.name ? creator.data.name : creator.username,
-          body: creator.data.body ? creator.data.body : "A user on Slate.",
-        },
-      },
+      creator: Serializers.user(creator),
       slate,
     });
   });
 
-  server.all("*", async (req, res) => {
-    return handler(req, res, req.url);
-  });
+  server.all("*", async (r, s) => handler(r, s, r.url));
 
   server.listen(Environment.PORT, async (e) => {
     if (e) throw e;

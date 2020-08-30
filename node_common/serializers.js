@@ -5,6 +5,7 @@ export const user = (entity) => {
     type: "USER",
     id: entity.id,
     username: entity.username,
+    slates: entity.slates ? entity.slates : [],
     data: {
       name: entity.data.name ? entity.data.name : "",
       photo: entity.data.photo ? entity.data.photo : "",
@@ -51,104 +52,148 @@ export const doSlates = async ({ serializedUsers, slates }) => {
   return { serializedSlates: JSON.parse(JSON.stringify(sanitized)), userToSlatesMap };
 };
 
-export const doTrusted = async ({ users, trusted }) => {
+export const doTrusted = async ({ users, trusted, serializedUsersMap, serializedSlatesMap }) => {
   trusted.forEach((each) => {
-    if (each.target_user_id) {
+    if (each.target_user_id && !serializedUsersMap[each.target_user_id]) {
       users.push(each.target_user_id);
     }
   });
 
-  const userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
+  let userEntities = [];
+  if (users.length) {
+    userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
+  }
 
   const sanitized = trusted.map((data) => {
     let u = null;
     let o = null;
 
-    // TODO(jim): Cache these as you go.
     if (data.target_user_id) {
-      u = userEntities.find((e) => data.target_user_id === e.id);
-      u = user(u);
+      if (serializedUsersMap[data.target_user_id]) {
+        u = serializedUsersMap[data.target_user_id];
+      } else {
+        u = userEntities.find((e) => data.target_user_id === e.id);
+        u = user(u);
+        serializedUsersMap[data.target_user_id] = u;
+      }
     }
 
     if (data.owner_user_id) {
-      o = userEntities.find((e) => data.owner_user_id === e.id);
-      o = user(o);
+      if (serializedUsersMap[data.owner_user_id]) {
+        o = serializedUsersMap[data.owner_user_id];
+      } else {
+        o = userEntities.find((e) => data.owner_user_id === e.id);
+        o = user(o);
+        serializedUsersMap[data.owner_user_id] = o;
+      }
     }
 
     return { ...data, user: u, owner: o };
   });
 
-  return JSON.parse(JSON.stringify(sanitized));
+  return { serializedTrusted: JSON.parse(JSON.stringify(sanitized)), serializedUsersMap, serializedSlatesMap };
 };
 
-export const doPendingTrusted = async ({ users, pendingTrusted }) => {
+export const doPendingTrusted = async ({ users, pendingTrusted, serializedUsersMap, serializedSlatesMap }) => {
   pendingTrusted.forEach((each) => {
-    if (each.owner_user_id) {
+    if (each.owner_user_id && !serializedUsersMap[each.owner.user_id]) {
       users.push(each.owner_user_id);
     }
   });
 
-  const userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
+  let userEntities = [];
+  if (users.length) {
+    userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
+  }
 
   const sanitized = pendingTrusted.map((data) => {
     let u = null;
     let o = null;
 
-    // TODO(jim): Cache these as you go.
     if (data.target_user_id) {
-      u = userEntities.find((e) => data.target_user_id === e.id);
-      u = user(u);
+      if (serializedUsersMap[data.target_user_id]) {
+        u = serializedUsersMap[data.target_user_id];
+      } else {
+        u = userEntities.find((e) => data.target_user_id === e.id);
+        u = user(u);
+        serializedUsersMap[data.target_user_id] = u;
+      }
     }
 
     if (data.owner_user_id) {
-      o = userEntities.find((e) => data.owner_user_id === e.id);
-      o = user(o);
+      if (serializedUsersMap[data.owner_user_id]) {
+        o = serializedUsersMap[data.owner_user_id];
+      } else {
+        o = userEntities.find((e) => data.owner_user_id === e.id);
+        o = user(o);
+        serializedUsersMap[data.owner_user_id] = o;
+      }
     }
 
     return { ...data, user: u, owner: o };
   });
 
-  return JSON.parse(JSON.stringify(sanitized));
+  return { serializedPendingTrusted: JSON.parse(JSON.stringify(sanitized)), serializedUsersMap, serializedSlatesMap };
 };
 
-export const doSubscriptions = async ({ users, slates, subscriptions }) => {
+export const doSubscriptions = async ({ users, slates, subscriptions, serializedUsersMap, serializedSlatesMap }) => {
   subscriptions.forEach((each) => {
-    if (each.target_user_id) {
+    if (each.target_user_id && !serializedUsersMap[each.target_user_id]) {
       users.push(each.target_user_id);
     }
 
-    if (each.target_slate_id) {
+    if (each.target_slate_id && !serializedSlatesMap[each.target_slate_id]) {
       slates.push(each.target_slate_id);
     }
   });
 
-  const userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
+  let userEntities = [];
+  if (users.length) {
+    userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
+  }
 
-  const slateEntities = await DB.select("id", "slatename", "data").from("slates").whereIn("id", slates);
+  let slateEntities = [];
+  if (slates.length) {
+    slateEntities = await DB.select("id", "slatename", "data").from("slates").whereIn("id", slates);
+  }
 
   const sanitized = subscriptions.map((data) => {
     let u = null;
     let o = null;
     let s = null;
 
-    // TODO(jim): Cache these as you go.
     if (data.target_user_id) {
-      u = userEntities.find((e) => data.target_user_id === e.id);
-      u = user(u);
+      if (serializedUsersMap[data.target_user_id]) {
+        u = serializedUsersMap[data.target_user_id];
+      } else {
+        u = userEntities.find((e) => data.target_user_id === e.id);
+        u = user(u);
+        serializedUsersMap[data.target_user_id] = u;
+      }
     }
 
     if (data.owner_user_id) {
-      o = userEntities.find((e) => data.owner_user_id === e.id);
-      o = user(o);
+      if (serializedUsersMap[data.owner_user_id]) {
+        o = serializedUsersMap[data.owner_user_id];
+      } else {
+        o = userEntities.find((e) => data.owner_user_id === e.id);
+        o = user(o);
+        serializedUsersMap[data.owner_user_id] = o;
+      }
     }
 
     if (data.target_slate_id) {
-      s = slateEntities.find((e) => data.target_slate_id === e.id);
-      s = slate(s);
+      if (serializedSlatesMap[data.target_slate_id]) {
+        s = serializedSlatesMap[data.target_slate_id];
+      } else {
+        s = slateEntities.find((e) => data.target_slate_id === e.id);
+        s = slate(s);
+        serializedSlatesMap[data.target_slate_id] = s;
+      }
     }
 
     return { ...data, user: u, owner: o, slate: s };
   });
 
-  return JSON.parse(JSON.stringify(sanitized));
+  return { serializedSubscriptions: JSON.parse(JSON.stringify(sanitized)), serializedUsersMap, serializedSlatesMap };
 };

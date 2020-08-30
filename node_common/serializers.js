@@ -27,6 +27,30 @@ export const slate = (entity) => {
   };
 };
 
+export const doSlates = async ({ serializedUsers, slates }) => {
+  const userToSlatesMap = {};
+
+  const sanitized = slates.map((d) => {
+    let o = null;
+
+    if (userToSlatesMap[d.data.ownerId]) {
+      userToSlatesMap[d.data.ownerId].push(d);
+    }
+
+    if (!userToSlatesMap[d.data.ownerId]) {
+      userToSlatesMap[d.data.ownerId] = [d];
+    }
+
+    if (d.data.ownerId) {
+      o = serializedUsers.find((e) => d.data.ownerId === e.id);
+    }
+
+    return { ...d, owner: o };
+  });
+
+  return { serializedSlates: JSON.parse(JSON.stringify(sanitized)), userToSlatesMap };
+};
+
 export const doTrusted = async ({ users, trusted }) => {
   trusted.forEach((each) => {
     if (each.target_user_id) {
@@ -34,9 +58,7 @@ export const doTrusted = async ({ users, trusted }) => {
     }
   });
 
-  const userEntities = await DB.select("id", "username", "data")
-    .from("users")
-    .whereIn("id", users);
+  const userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
 
   const sanitized = trusted.map((data) => {
     let u = null;
@@ -66,9 +88,7 @@ export const doPendingTrusted = async ({ users, pendingTrusted }) => {
     }
   });
 
-  const userEntities = await DB.select("id", "username", "data")
-    .from("users")
-    .whereIn("id", users);
+  const userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
 
   const sanitized = pendingTrusted.map((data) => {
     let u = null;
@@ -102,13 +122,9 @@ export const doSubscriptions = async ({ users, slates, subscriptions }) => {
     }
   });
 
-  const userEntities = await DB.select("id", "username", "data")
-    .from("users")
-    .whereIn("id", users);
+  const userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
 
-  const slateEntities = await DB.select("id", "slatename", "data")
-    .from("slates")
-    .whereIn("id", slates);
+  const slateEntities = await DB.select("id", "slatename", "data").from("slates").whereIn("id", slates);
 
   const sanitized = subscriptions.map((data) => {
     let u = null;

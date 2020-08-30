@@ -199,6 +199,7 @@ export class SearchModal extends React.Component {
 
   componentDidMount = async () => {
     const response = await Actions.getNetworkDirectory();
+    console.log(response);
     this.miniSearch = new MiniSearch({
       fields: ["slatename", "data.name", "username", "filename"],
       storeFields: ["type", "slatename", "username", "data", "id"],

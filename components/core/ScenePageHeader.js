@@ -21,6 +21,7 @@ const STYLES_LEFT = css`
 
 const STYLES_RIGHT = css`
   flex-shrink: 0;
+  padding-left: 24px;
   justify-self: end;
 `;
 

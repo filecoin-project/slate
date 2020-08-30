@@ -77,6 +77,7 @@ export default class SceneProfile extends React.Component {
     if (trust.length) {
       if (trust[0].data.verified) {
         newState.trustStatus = "trusted";
+        newState.trustId = entry.id;
       } else {
         newState.trustStatus = "sent";
       }
@@ -87,6 +88,7 @@ export default class SceneProfile extends React.Component {
     if (pendingTrust.length) {
       if (pendingTrust[0].data.verified) {
         newState.trustStatus = "trusted";
+        newState.trustId = entry.id;
       } else {
         newState.trustStatus = "received";
       }
@@ -129,7 +131,7 @@ export default class SceneProfile extends React.Component {
       });
     } else {
       response = await Actions.deleteTrustRelationship({
-        id: this.props.data.id,
+        id: this.state.trustId,
       });
     }
     await this._handleUpdate();

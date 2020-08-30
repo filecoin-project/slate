@@ -359,6 +359,9 @@ export default class ApplicationPage extends React.Component {
   _handleAction = (options) => {
     console.log(options);
     if (options.type === "NAVIGATE") {
+      // NOTE(martina): The `scene` property is only necessary when you need to display a component different from the one corresponding to the tab it appears in
+      // + e.g. to display <SceneProfile/> while on the Home tab
+      // + `scene` should be the decorator of the component you want displayed
       return this._handleNavigateTo(
         { id: options.value, scene: options.scene },
         options.data
@@ -507,10 +510,7 @@ export default class ApplicationPage extends React.Component {
     );
 
     const scene = React.cloneElement(
-      SCENES[
-        this.state.history[this.state.currentIndex].scene ||
-          current.target.decorator
-      ],
+      SCENES[next.scene || current.target.decorator],
       {
         current: current.target,
         data: this.state.data,

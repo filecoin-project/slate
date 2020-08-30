@@ -36,7 +36,7 @@ const STYLES_MIDDLE = css`
 
 const STYLES_CARD = css`
   margin: 0 auto 0 auto;
-  max-width: 640px;
+  max-width: 420px;
   width: 100%;
   background: #000000;
   border-radius: 8px;
@@ -50,7 +50,7 @@ const STYLES_CARD_IMAGE = css`
 
 const STYLES_CARD_PARAGRAPH = css`
   padding: 48px;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   color: ${Constants.system.white};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -90,16 +90,17 @@ const STYLES_CARD_ACTIONS_RIGHT = css`
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.green};
+  color: #6a737d;
   text-decoration: none;
   transition: 200ms ease color;
+  cursor: pointer;
 
   :visited {
-    color: ${Constants.system.green};
+    color: #959da5;
   }
 
   :hover {
-    color: ${Constants.system.brand};
+    color: #959da5;
   }
 `;
 
@@ -144,54 +145,36 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description =
-      "The place for all of your assets. Powered by Textile and Filecoin.";
+    const description = "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host";
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
           <div css={STYLES_MIDDLE}>
             <div css={STYLES_CARD}>
-              <img
-                css={STYLES_CARD_IMAGE}
-                src="/public/static/art-v2-index.png"
-              />
+              <img css={STYLES_CARD_IMAGE} src="/public/static/new-brand-teaser.png" />
               <p css={STYLES_CARD_PARAGRAPH}>
-                Store your files, turn them into collections, and share them
-                with the world — with{" "}
-                <a
-                  css={STYLES_LINK}
-                  href="https://github.com/filecoin-project/slate"
-                  target="_blank"
-                >
+                Store your files, turn them into collections, and share them with the world — with{" "}
+                <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
                   Filecoin & Slate
                 </a>
                 .
+                <br />
+                <br />
+                We launch September 14th.
               </p>
               {this.state.available ? (
                 <div css={STYLES_CARD_ACTIONS}>
-                  <div css={STYLES_CARD_ACTIONS_LEFT}>
-                    Try out our alpha testing application v
-                    {Constants.values.version} for Filecoin
-                  </div>
+                  <div css={STYLES_CARD_ACTIONS_LEFT}>alpha test v{Constants.values.version} for Filecoin</div>
                   <div css={STYLES_CARD_ACTIONS_RIGHT}>
-                    <System.ButtonPrimary onClick={() => window.open("/_")}>
-                      Use Slate
-                    </System.ButtonPrimary>
+                    <System.ButtonPrimary onClick={() => window.open("/_")}>Join Slate</System.ButtonPrimary>
                   </div>
                 </div>
               ) : (
                 <div css={STYLES_CARD_ACTIONS}>
-                  <div
-                    css={STYLES_CARD_ACTIONS_LEFT}
-                    style={{ textAlign: "center" }}
-                  >
+                  <div css={STYLES_CARD_ACTIONS_LEFT} style={{ textAlign: "center" }}>
                     Slate is currently down for maintenance.
                   </div>
                 </div>

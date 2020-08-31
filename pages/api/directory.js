@@ -10,10 +10,12 @@ export default async (req, res) => {
   initAuth(req, res);
 
   const users = await Data.getEveryUser();
-
   const slates = await Data.getEverySlate();
 
-  const { serializedSlates, userToSlatesMap } = await Serializers.doSlates({ serializedUsers: users, slates });
+  const { serializedSlates, userToSlatesMap } = await Serializers.doSlates({
+    serializedUsers: users,
+    slates,
+  });
 
   for (let i = 0; i < users.length; i++) {
     users[i].slates = userToSlatesMap[users[i].id];

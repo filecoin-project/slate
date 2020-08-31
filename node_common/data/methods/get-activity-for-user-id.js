@@ -15,10 +15,12 @@ export default async ({ userId }) => {
       return JSON.parse(JSON.stringify(query));
     },
     errorFn: async (e) => {
-      return {
+      console.log({
         error: "GET_ACTIVITY_FOR_USER_ID",
         source: e,
-      };
+      });
+
+      return [];
     },
   });
 };

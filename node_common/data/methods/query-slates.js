@@ -21,10 +21,12 @@ export default async ({ query }) => {
       return JSON.parse(JSON.stringify(sanitized));
     },
     errorFn: async (e) => {
-      return {
+      console.log({
         error: "QUERY_SLATES",
         source: e,
-      };
+      });
+
+      return [];
     },
   });
 };

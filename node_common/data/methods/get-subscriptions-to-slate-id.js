@@ -15,10 +15,12 @@ export default async ({ slateId }) => {
       return JSON.parse(JSON.stringify(query));
     },
     errorFn: async (e) => {
-      return {
+      console.log({
         error: "GET_SUBSCRIPTIONS_TO_SLATE_ID",
         source: e,
-      };
+      });
+
+      return [];
     },
   });
 };

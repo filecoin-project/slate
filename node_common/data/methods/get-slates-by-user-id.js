@@ -28,10 +28,12 @@ export default async ({ userId, publicOnly = false }) => {
       return JSON.parse(JSON.stringify(query));
     },
     errorFn: async (e) => {
-      return {
+      console.log({
         error: "GET_SLATES_BY_USER_ID",
         source: e,
-      };
+      });
+
+      return [];
     },
   });
 };

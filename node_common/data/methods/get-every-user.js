@@ -16,10 +16,12 @@ export default async () => {
       return JSON.parse(JSON.stringify(sanitized));
     },
     errorFn: async (e) => {
-      return {
+      console.log({
         error: "GET_EVERY_USER",
         source: e,
-      };
+      });
+
+      return [];
     },
   });
 };

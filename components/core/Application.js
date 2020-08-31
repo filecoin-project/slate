@@ -23,7 +23,6 @@ import SceneSignIn from "~/scenes/SceneSignIn";
 import SceneSlate from "~/scenes/SceneSlate";
 import SceneActivity from "~/scenes/SceneActivity";
 import SceneDirectory from "~/scenes/SceneDirectory";
-import SceneProfile from "~/scenes/SceneProfile";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -59,9 +58,6 @@ const SIDEBARS = {
 
 const SCENES = {
   HOME: <SceneHome />,
-  DIRECTORY: <SceneDirectory />,
-  PROFILE: <SceneProfile />,
-  VIEW_SLATE: <SceneSlate />,
   WALLET: <SceneWallet />,
   FOLDER: <SceneFilesFolder />,
   FILE: <SceneFile />,
@@ -77,8 +73,6 @@ const SCENES = {
 };
 
 export default class ApplicationPage extends React.Component {
-  _body;
-
   state = {
     selected: {},
     viewer: this.props.viewer,
@@ -238,7 +232,7 @@ export default class ApplicationPage extends React.Component {
 
     this.setState(updates);
 
-    return response;
+    return { rehydrated: true };
   };
 
   _handleSubmit = async (data) => {
@@ -353,19 +347,13 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDismissSidebar = () => {
-    this.setState({ sidebar: null, sidebarLoading: false, sidebarData: null });
+    this.setState({ sidebar: null, sidebarLoading: false, data: null });
   };
 
   _handleAction = (options) => {
     console.log(options);
     if (options.type === "NAVIGATE") {
-      // NOTE(martina): The `scene` property is only necessary when you need to display a component different from the one corresponding to the tab it appears in
-      // + e.g. to display <SceneProfile/> while on the Home tab
-      // + `scene` should be the decorator of the component you want displayed
-      return this._handleNavigateTo(
-        { id: options.value, scene: options.scene },
-        options.data
-      );
+      return this._handleNavigateTo({ id: options.value }, options.data);
     }
 
     if (options.type === "NEW_WINDOW") {
@@ -383,7 +371,7 @@ export default class ApplicationPage extends React.Component {
     if (options.type === "SIDEBAR") {
       return this.setState({
         sidebar: SIDEBARS[options.value],
-        sidebarData: options.data,
+        data: options.data,
       });
     }
 
@@ -391,9 +379,8 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleNavigateTo = (next, data = null) => {
-    let body = document.getElementById("slate-client-body");
-    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop; //window.scrollY => body.scrollTop (where body is the body of the ApplicationLayout)
-    this.state.history[this.state.currentIndex].data = this.state.data; //BUG FIX: was originally = data. So it was setting it equal to the data for the next one rather than the current one
+    this.state.history[this.state.currentIndex].scrollTop = window.scrollY;
+    this.state.history[this.state.currentIndex].data = data;
 
     if (this.state.currentIndex !== this.state.history.length - 1) {
       const adjustedArray = [...this.state.history];
@@ -406,7 +393,7 @@ export default class ApplicationPage extends React.Component {
           data,
           sidebar: null,
         },
-        () => body.scrollTo(0, 0)
+        () => window.scrollTo(0, 0)
       );
     }
 
@@ -417,14 +404,12 @@ export default class ApplicationPage extends React.Component {
         data,
         sidebar: null,
       },
-      () => body.scrollTo(0, 0)
+      () => window.scrollTo(0, 0)
     );
   };
 
   _handleBack = () => {
-    let body = document.getElementById("slate-client-body");
-    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
-    this.state.history[this.state.currentIndex].data = this.state.data; //BUG FIX: if you go back, it doesn't save the data for that page. so if you go forward to it again, it breaks. changed data => this.state.data
+    this.state.history[this.state.currentIndex].scrollTop = window.scrollY;
 
     const next = this.state.history[this.state.currentIndex - 1];
 
@@ -436,14 +421,13 @@ export default class ApplicationPage extends React.Component {
       },
       () => {
         console.log({ next });
-        body.scrollTo(0, next.scrollTop);
+        window.scrollTo(0, next.scrollTop);
       }
     );
   };
 
   _handleForward = () => {
-    let body = document.getElementById("slate-client-body");
-    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
+    this.state.history[this.state.currentIndex].scrollTop = window.scrollY;
 
     const next = this.state.history[this.state.currentIndex + 1];
 
@@ -455,7 +439,7 @@ export default class ApplicationPage extends React.Component {
       },
       () => {
         console.log({ next });
-        body.scrollTo(0, next.scrollTop);
+        window.scrollTo(0, next.scrollTop);
       }
     );
   };
@@ -483,7 +467,6 @@ export default class ApplicationPage extends React.Component {
     const navigation = NavigationData.generate(this.state.viewer);
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
-    console.log(this.state.history);
 
     const navigationElement = (
       <ApplicationNavigation
@@ -509,24 +492,20 @@ export default class ApplicationPage extends React.Component {
       />
     );
 
-    const scene = React.cloneElement(
-      SCENES[next.scene || current.target.decorator],
-      {
-        current: current.target,
-        data: this.state.data,
-        viewer: this.state.viewer,
-        selected: this.state.selected,
-        onNavigateTo: this._handleNavigateTo,
-        onSelectedChange: this._handleSelectedChange,
-        onViewerChange: this._handleViewerChange,
-        onDeleteYourself: this._handleDeleteYourself,
-        onAction: this._handleAction,
-        onBack: this._handleBack,
-        onForward: this._handleForward,
-        onRehydrate: this.rehydrate,
-        sceneId: current.target.id,
-      }
-    );
+    const scene = React.cloneElement(SCENES[current.target.decorator], {
+      current: current.target,
+      data: this.state.data,
+      viewer: this.state.viewer,
+      selected: this.state.selected,
+      onNavigateTo: this._handleNavigateTo,
+      onSelectedChange: this._handleSelectedChange,
+      onViewerChange: this._handleViewerChange,
+      onDeleteYourself: this._handleDeleteYourself,
+      onAction: this._handleAction,
+      onBack: this._handleBack,
+      onForward: this._handleForward,
+      onRehydrate: this.rehydrate,
+    });
 
     let sidebarElement;
     if (this.state.sidebar) {

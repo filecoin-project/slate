@@ -67,7 +67,6 @@ export default class IntegrationPage extends React.Component {
 
   _handleDelete = async (entity) => {
     const response = await Actions.deleteTrustRelationship({ id: entity.id });
-    console.log(response);
 
     await this._handleUpdate();
   };

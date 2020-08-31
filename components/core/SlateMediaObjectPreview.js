@@ -30,48 +30,26 @@ export default class SlateMediaObjectPreview extends React.Component {
     // This is a hack to catch this undefined case I don't want to track down yet.
     const url = this.props.url.replace("https://undefined", "https://");
 
-    let element = (
-      <article css={STYLES_ENTITY} style={this.props.style}>
-        No Preview
-      </article>
-    );
+    let element = <article css={STYLES_ENTITY}>No Preview</article>;
 
     if (this.props.type && this.props.type.startsWith("video/")) {
-      element = (
-        <article css={STYLES_ENTITY} style={this.props.style}>
-          Video
-        </article>
-      );
+      element = <article css={STYLES_ENTITY}>Video</article>;
     }
 
     if (this.props.type && this.props.type.startsWith("audio/")) {
-      element = (
-        <article css={STYLES_ENTITY} style={this.props.style}>
-          Audio
-        </article>
-      );
+      element = <article css={STYLES_ENTITY}>Audio</article>;
     }
 
     if (this.props.type && this.props.type.startsWith("application/epub")) {
-      element = (
-        <article css={STYLES_ENTITY} style={this.props.style}>
-          EPub
-        </article>
-      );
+      element = <article css={STYLES_ENTITY}>EPub</article>;
     }
 
     if (this.props.type && this.props.type.startsWith("application/pdf")) {
-      element = (
-        <article css={STYLES_ENTITY} style={this.props.style}>
-          PDF
-        </article>
-      );
+      element = <article css={STYLES_ENTITY}>PDF</article>;
     }
 
     if (this.props.type && this.props.type.startsWith("image/")) {
-      element = (
-        <img css={STYLES_IMAGE} style={this.props.imageStyle} src={url} />
-      );
+      element = <img css={STYLES_IMAGE} src={url} />;
     }
 
     return element;

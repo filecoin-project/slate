@@ -116,6 +116,14 @@ export default class ApplicationHeader extends React.Component {
           <span
             css={STYLES_ICON_ELEMENT}
             style={{ marginLeft: 24 }}
+            onClick={this.props.onRehydrate}
+          >
+            <SVG.Refresh height="16px" />
+          </span>
+
+          <span
+            css={STYLES_ICON_ELEMENT}
+            style={{ marginLeft: 24 }}
             onClick={this._handleCreateSearch}
           >
             <SVG.Search height="20px" />

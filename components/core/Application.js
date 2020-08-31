@@ -504,6 +504,7 @@ export default class ApplicationPage extends React.Component {
         currentIndex={this.state.currentIndex}
         history={this.state.history}
         onAction={this._handleAction}
+        onRehydrate={this.rehydrate}
         onBack={this._handleBack}
         onForward={this._handleForward}
       />

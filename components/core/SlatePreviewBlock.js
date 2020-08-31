@@ -42,6 +42,8 @@ export function SlatePreviewRow(props) {
             type={each.type}
             url={each.url}
             style={props.previewStyle}
+            title={each.title || each.name}
+            small={props.small}
           />
         </div>
       ))}

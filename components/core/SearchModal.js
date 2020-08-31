@@ -100,6 +100,12 @@ const STYLES_LINK_HOVER = css`
   }
 `;
 
+const STYLES_TITLE = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
 const SlateEntry = ({ item }) => {
   return (
     <div css={STYLES_ENTRY}>
@@ -107,8 +113,10 @@ const SlateEntry = ({ item }) => {
         <div css={STYLES_ICON_CIRCLE}>
           <SVG.Slate2 height="16px" />
         </div>
-        <strong>{item.data.name}</strong>
-        <div>@{item.owner.username}</div>
+        <div css={STYLES_TITLE}>{item.data.name}</div>
+        {item.owner && item.owner.username ? (
+          <div>@{item.owner.username}</div>
+        ) : null}
       </div>
       {item.data.objects.length ? (
         <div css={STYLES_SLATE_IMAGES_CONTAINER}>
@@ -121,6 +129,7 @@ const SlateEntry = ({ item }) => {
             }}
             previewStyle={{ fontSize: "12px", padding: "4px" }}
             slate={item}
+            small
           />
         </div>
       ) : null}
@@ -135,14 +144,18 @@ const FileEntry = ({ item }) => {
         <div css={STYLES_ICON_CIRCLE}>
           <SVG.Folder2 height="16px" />
         </div>
-        <strong>{item.data.file.title || item.data.file.name}</strong>
-        <div css={STYLES_LINK_HOVER}>@{item.data.slate.owner.username}</div>
+        <div css={STYLES_TITLE}>
+          {item.data.file.title || item.data.file.name}
+        </div>
+        {item.data.slate.owner && item.data.slate.owner.username ? (
+          <div>@{item.data.slate.owner.username}</div>
+        ) : null}
       </div>
       <div css={STYLES_SLATE_IMAGE}>
         <SlateMediaObjectPreview
           style={{ fontSize: "12px", padding: "4px" }}
           url={item.data.file.url}
-          type={item.type}
+          type={item.data.file.type}
         />
       </div>
     </div>
@@ -210,6 +223,8 @@ export class SearchModal extends React.Component {
       this.miniSearch.addAll(response.data.users);
       this.miniSearch.addAll(response.data.slates);
       this.miniSearch.addAll(files);
+      console.log(response.data.slates);
+      console.log(files);
     }
   };
 
@@ -254,9 +269,11 @@ export class SearchModal extends React.Component {
 
   _handleSelect = async (value) => {
     if (value.type === "SLATE") {
-      value.data.owner = this.users.filter((user) => {
-        return user.username === value.data.owner.username;
-      })[0]; //TODO: slightly hacky way of getting the data. May want to serialize later?
+      if (value.data.owner && value.data.owner.username) {
+        value.data.owner = this.users.filter((user) => {
+          return user.username === value.data.owner.username;
+        })[0];
+      } //TODO: slightly hacky way of getting the data. May want to serialize later?
       this.props.onAction({
         type: "NAVIGATE",
         value: "V1_NAVIGATION_SLATE",
@@ -272,9 +289,11 @@ export class SearchModal extends React.Component {
     }
     if (value.type === "FILE") {
       let slate = value.data.data.slate;
-      slate.owner = this.users.filter((user) => {
-        return user.username === slate.owner.username;
-      })[0]; //TODO: slightly hacky way of getting the data. May want to serialize later?
+      if (slate.owner && slate.owner.username) {
+        slate.owner = this.users.filter((user) => {
+          return user.username === slate.owner.username;
+        })[0];
+      } //TODO: slightly hacky way of getting the data. May want to serialize later?
       this.props.onAction({
         type: "NAVIGATE",
         value: "V1_NAVIGATION_SLATE",

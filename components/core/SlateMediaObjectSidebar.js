@@ -160,7 +160,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
     const elements = [];
 
     if (this.props.data) {
-      if (this.props.onObjectSave) {
+      if (this.props.editing) {
         elements.push(
           <React.Fragment key="sidebar-media-object-info">
             <div css={STYLES_SIDEBAR_SECTION}>
@@ -300,30 +300,29 @@ export default class SlateMediaObjectSidebar extends React.Component {
 
     if (this.props.cid) {
       elements.push(
-        <a
-          key="sidebar-media-open-file"
-          css={STYLES_BUTTON}
-          href={Strings.getCIDGatewayURL(this.props.cid)}
-          target="_blank"
-        >
-          Open file in a new browser tab &nbsp;&nbsp;⭢
-        </a>
-      );
-
-      elements.push(
-        <a
-          key="sidebar-media-download-file"
-          css={STYLES_BUTTON}
-          href={Strings.getCIDGatewayURL(this.props.cid)}
-          target="_blank"
-          download={this.props.cid}
-        >
-          Download file &nbsp;&nbsp;⭢
-        </a>
+        <div css={STYLES_SIDEBAR} style={{ height: "auto" }}>
+          <a
+            key="sidebar-media-open-file"
+            css={STYLES_BUTTON}
+            href={Strings.getCIDGatewayURL(this.props.cid)}
+            target="_blank"
+          >
+            Open file in new tab &nbsp;&nbsp;⭢
+          </a>
+          <a
+            key="sidebar-media-download-file"
+            css={STYLES_BUTTON}
+            href={Strings.getCIDGatewayURL(this.props.cid)}
+            target="_blank"
+            download={this.props.cid}
+          >
+            Download file &nbsp;&nbsp;⭢
+          </a>
+        </div>
       );
     }
 
-    if (this.props.onDelete) {
+    if (this.props.onDelete && this.props.editing) {
       elements.push(
         <span
           key="sidebar-media-object-delete"
@@ -333,7 +332,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
           {this.props.loading ? (
             <LoaderSpinner style={{ height: 16, width: 16 }} />
           ) : (
-            <span>Delete Slate object&nbsp;&nbsp;&nbsp;⭢</span>
+            <span>Delete from slate&nbsp;&nbsp;&nbsp;⭢</span>
           )}
         </span>
       );

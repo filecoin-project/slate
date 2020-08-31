@@ -83,7 +83,8 @@ export default class SceneDirectory extends React.Component {
   };
 
   _handleUpdate = async (e) => {
-    const response = await Actions.hydrateAuthenticatedUser();
+    let response = await this.props.onRehydrate();
+    // const response = await Actions.hydrateAuthenticatedUser();
 
     if (!response || response.error) {
       alert("TODO: error fetching authenticated viewer");

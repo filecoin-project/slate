@@ -94,13 +94,13 @@ const STYLES_SLATE_IMAGE = css`
 
 const STYLES_LINK_HOVER = css`
   color: ${Constants.system.black};
-  text-decoration: none;
   :hover {
     color: ${Constants.system.brand};
   }
 `;
 
-const SlateEntry = ({ item }) => {
+const SlateEntry = ({ item, onAction }) => {
+  console.log(item);
   return (
     <div css={STYLES_ENTRY}>
       <div css={STYLES_SLATE_ENTRY_CONTAINER}>
@@ -108,11 +108,7 @@ const SlateEntry = ({ item }) => {
           <SVG.Slate2 height="16px" />
         </div>
         <strong>{item.data.name}</strong>
-        {/* <div>
-            <a css={STYLES_LINK_HOVER} href={`/${item.username}`}>   TODO: add the owner to the slate entries 
-              @{item.data.username} 
-            </a>
-          </div> */}
+        <div>@{item.owner.username}</div>
       </div>
       {item.data.objects.length ? (
         <div css={STYLES_SLATE_IMAGES_CONTAINER}>
@@ -139,9 +135,7 @@ const FileEntry = ({ item }) => {
           <SVG.Folder2 height="16px" />
         </div>
         <strong>{item.data.file.title || item.data.file.name}</strong>
-        {/* <a href={`/${file.username}`} css={STYLES_LINK_HOVER}>  TODO: add back in when owner is added to slates
-          @{file.username} 
-        </a> */}
+        <div css={STYLES_LINK_HOVER}>@{item.data.slate.owner.username}</div>
       </div>
       <div css={STYLES_SLATE_IMAGE}>
         <SlateMediaObjectPreview url={item.data.file.url} type={item.type} />
@@ -202,7 +196,15 @@ export class SearchModal extends React.Component {
     console.log(response);
     this.miniSearch = new MiniSearch({
       fields: ["slatename", "data.name", "username", "filename"],
-      storeFields: ["type", "slatename", "username", "data", "id"],
+      storeFields: [
+        "type",
+        "slatename",
+        "username",
+        "data",
+        "id",
+        "slates",
+        "owner",
+      ],
       extractField: (entry, fieldName) => {
         return fieldName
           .split(".")
@@ -222,12 +224,14 @@ export class SearchModal extends React.Component {
                 type: "FILE",
                 id: file.id,
                 filename: file.title,
-                data: { file, index: i, slate }, //{ ...file.data, index: i, slate },
+                data: { file, index: i, slate },
               };
             })
           );
         }
       }
+      this.users = response.data.users;
+      this.slates = response.data.slates;
       this.miniSearch.addAll(response.data.users);
       this.miniSearch.addAll(response.data.slates);
       this.miniSearch.addAll(files);
@@ -244,7 +248,7 @@ export class SearchModal extends React.Component {
             options.push({
               value: {
                 type: "USER",
-                data: { ...item, slates: [] },
+                data: item,
               },
               component: <UserEntry item={item} />,
             });
@@ -254,7 +258,9 @@ export class SearchModal extends React.Component {
                 type: "SLATE",
                 data: item,
               },
-              component: <SlateEntry item={item} />,
+              component: (
+                <SlateEntry item={item} onAction={this.props.onAction} />
+              ),
             });
           } else if (item.type === "FILE") {
             options.push({
@@ -273,6 +279,9 @@ export class SearchModal extends React.Component {
 
   _handleSelect = async (value) => {
     if (value.type === "SLATE") {
+      value.data.owner = this.users.filter((user) => {
+        return user.username === value.data.owner.username;
+      })[0]; //TODO: slightly hacky way of getting the data. May want to serialize later?
       this.props.onAction({
         type: "NAVIGATE",
         value: "V1_NAVIGATION_SLATE",
@@ -287,10 +296,14 @@ export class SearchModal extends React.Component {
       });
     }
     if (value.type === "FILE") {
+      let slate = value.data.data.slate;
+      slate.owner = this.users.filter((user) => {
+        return user.username === slate.owner.username;
+      })[0]; //TODO: slightly hacky way of getting the data. May want to serialize later?
       this.props.onAction({
         type: "NAVIGATE",
         value: "V1_NAVIGATION_SLATE",
-        data: value.data.data.slate,
+        data: slate,
       });
       dispatchCustomEvent({
         name: "slate-global-open-carousel",

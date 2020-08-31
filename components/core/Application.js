@@ -238,7 +238,7 @@ export default class ApplicationPage extends React.Component {
 
     this.setState(updates);
 
-    return { rehydrated: true };
+    return response;
   };
 
   _handleSubmit = async (data) => {

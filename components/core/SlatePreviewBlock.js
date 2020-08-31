@@ -38,7 +38,11 @@ export function SlatePreviewRow(props) {
     <div css={STYLES_IMAGE_ROW} style={props.containerStyle}>
       {objects.map((each) => (
         <div key={each.url} css={STYLES_ITEM_BOX} style={props.style}>
-          <SlateMediaObjectPreview type={each.type} url={each.url} />
+          <SlateMediaObjectPreview
+            type={each.type}
+            url={each.url}
+            style={props.previewStyle}
+          />
         </div>
       ))}
     </div>
@@ -65,7 +69,7 @@ export default function SlatePreviewBlock(props) {
   return (
     <div css={STYLES_BLOCK}>
       <div css={STYLES_SLATE_NAME}>{props.slate.data.name}</div>
-      <SlatePreviewRow {...props} />
+      <SlatePreviewRow {...props} previewStyle={props.previewStyle} />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { css } from "@emotion/react";
 import { SearchDropdown } from "~/components/core/SearchDropdown";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { SlatePreviewRow } from "~/components/core/SlatePreviewBlock";
+import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 const STYLES_ICON_CIRCLE = css`
   height: 24px;
@@ -99,8 +100,7 @@ const STYLES_LINK_HOVER = css`
   }
 `;
 
-const SlateEntry = ({ item, onAction }) => {
-  console.log(item);
+const SlateEntry = ({ item }) => {
   return (
     <div css={STYLES_ENTRY}>
       <div css={STYLES_SLATE_ENTRY_CONTAINER}>
@@ -119,6 +119,7 @@ const SlateEntry = ({ item, onAction }) => {
               maxHeight: "72px",
               justifyContent: "flex-start",
             }}
+            previewStyle={{ fontSize: "12px", padding: "4px" }}
             slate={item}
           />
         </div>
@@ -138,62 +139,36 @@ const FileEntry = ({ item }) => {
         <div css={STYLES_LINK_HOVER}>@{item.data.slate.owner.username}</div>
       </div>
       <div css={STYLES_SLATE_IMAGE}>
-        <SlateMediaObjectPreview url={item.data.file.url} type={item.type} />
+        <SlateMediaObjectPreview
+          style={{ fontSize: "12px", padding: "4px" }}
+          url={item.data.file.url}
+          type={item.type}
+        />
       </div>
     </div>
   );
 };
 
-const STYLES_DROPDOWN_ITEM = css`
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  align-items: center;
-  cursor: pointer;
+const STYLES_LOADER = css`
+  position: absolute;
+  top: calc(50% - 22px);
+  left: calc(50% - 22px);
 `;
-
-const options = [
-  {
-    name: "Send money",
-    link: null,
-    icon: <SVG.Wallet2 height="16px" />,
-    action: { type: "NAVIGATE", value: 2 },
-  },
-  {
-    name: "New slate",
-    link: null,
-    icon: <SVG.Slate2 height="16px" />,
-    action: { type: "NAVIGATE", value: 3 },
-  },
-  {
-    name: "Upload file",
-    link: null,
-    icon: <SVG.Folder2 height="16px" />,
-    action: { type: "NAVIGATE", value: "data" },
-  },
-  {
-    name: "Account settings",
-    link: null,
-    icon: <SVG.Tool2 height="16px" />,
-    action: { type: "NAVIGATE", value: 13 },
-  },
-  {
-    name: "Filecoin settings",
-    link: null,
-    icon: <SVG.Tool2 height="16px" />,
-    action: { type: "NAVIGATE", value: 14 },
-  },
-];
 
 export class SearchModal extends React.Component {
   state = {
-    options: [],
-    value: null,
+    loading: true,
+    results: [],
     inputValue: "",
   };
 
   componentDidMount = async () => {
+    await this.fillDirectory();
+    this.setState({ loading: false });
+  };
+
+  fillDirectory = async () => {
     const response = await Actions.getNetworkDirectory();
-    console.log(response);
     this.miniSearch = new MiniSearch({
       fields: ["slatename", "data.name", "username", "filename"],
       storeFields: [
@@ -239,13 +214,13 @@ export class SearchModal extends React.Component {
   };
 
   _handleChange = (e) => {
-    if (this.miniSearch) {
+    if (!this.state.loading) {
       this.setState({ inputValue: e.target.value }, () => {
-        let results = this.miniSearch.search(this.state.inputValue);
-        let options = [];
-        for (let item of results) {
+        let searchResults = this.miniSearch.search(this.state.inputValue);
+        let results = [];
+        for (let item of searchResults) {
           if (item.type === "USER") {
-            options.push({
+            results.push({
               value: {
                 type: "USER",
                 data: item,
@@ -253,7 +228,7 @@ export class SearchModal extends React.Component {
               component: <UserEntry item={item} />,
             });
           } else if (item.type === "SLATE") {
-            options.push({
+            results.push({
               value: {
                 type: "SLATE",
                 data: item,
@@ -263,7 +238,7 @@ export class SearchModal extends React.Component {
               ),
             });
           } else if (item.type === "FILE") {
-            options.push({
+            results.push({
               value: {
                 type: "FILE",
                 data: item,
@@ -271,7 +246,7 @@ export class SearchModal extends React.Component {
               component: <FileEntry item={item} />,
             });
           }
-          this.setState({ options });
+          this.setState({ results });
         }
       });
     }
@@ -320,37 +295,14 @@ export class SearchModal extends React.Component {
     return (
       <div css={STYLES_MODAL}>
         <SearchDropdown
-          show
-          search
-          name="exampleThree"
           placeholder="Search..."
-          options={this.state.options}
+          results={this.state.results}
           onSelect={this._handleSelect}
-          value={this.state.value}
           onChange={this._handleChange}
           inputValue={this.state.inputValue}
           style={STYLES_SEARCH_DROPDOWN}
-          defaultOptions={[]}
-          // defaultOptions={options.map((option) => {
-          //   return {
-          //     name: (
-          //       <div
-          //         css={STYLES_DROPDOWN_ITEM}
-          //         onClick={() => this._handleAction(option.action)}
-          //       >
-          //         <div
-          //           css={STYLES_ICON_CIRCLE}
-          //           style={{ height: "40px", width: "40px" }}
-          //         >
-          //           {option.icon}
-          //         </div>
-          //         <div>{option.name}</div>
-          //       </div>
-          //     ),
-          //     value: option.name,
-          //   };
-          // })}
         />
+        {this.state.loading ? <LoaderSpinner css={STYLES_LOADER} /> : null}
       </div>
     );
   }

@@ -76,6 +76,10 @@ export class SearchDropdown extends React.Component {
   _input;
   _optionRoot;
 
+  static defaultProps = {
+    defaultResults: [],
+  };
+
   state = {
     selectedIndex: -1,
   };
@@ -97,7 +101,7 @@ export class SearchDropdown extends React.Component {
   };
 
   _handleSelect = (index) => {
-    this.props.onSelect(this.props.options[index].value);
+    this.props.onSelect(this.props.results[index].value);
   };
 
   _handleDocumentKeydown = (e) => {
@@ -107,7 +111,7 @@ export class SearchDropdown extends React.Component {
     } else if (e.keyCode === 9) {
       this._handleDelete();
     } else if (e.keyCode === 40) {
-      if (this.state.selectedIndex < this.props.options.length - 1) {
+      if (this.state.selectedIndex < this.props.results.length - 1) {
         let listElem = this._optionRoot.children[this.state.selectedIndex + 1];
         let elemRect = listElem.getBoundingClientRect();
         let rootRect = this._optionRoot.getBoundingClientRect();
@@ -133,7 +137,7 @@ export class SearchDropdown extends React.Component {
       e.preventDefault();
     } else if (e.keyCode === 13) {
       if (
-        this.props.options.length > this.state.selectedIndex &&
+        this.props.results.length > this.state.selectedIndex &&
         this.state.selectedIndex !== -1
       ) {
         this._handleSelect(this.state.selectedIndex);
@@ -170,9 +174,9 @@ export class SearchDropdown extends React.Component {
             css={STYLES_DROPDOWN}
             style={this.props.style}
           >
-            {(this.props.options && this.props.options.length
-              ? this.props.options
-              : this.props.defaultOptions
+            {(this.props.results && this.props.results.length
+              ? this.props.results
+              : this.props.defaultResults
             ).map((each, i) => (
               <div
                 key={each.value.data.id}

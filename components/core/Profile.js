@@ -40,7 +40,8 @@ export default class Profile extends React.Component {
           css={STYLES_PROFILE_IMAGE}
           style={{ backgroundImage: `url('${data.data.photo}')` }}
         />
-        <div css={STYLES_NAME}>{data.username}</div>/{this.props.buttons}
+        <div css={STYLES_NAME}>{data.username}</div>
+        {this.props.buttons}
         <br />
         {data.slates && data.slates.length ? (
           <div style={{ width: "100%" }}>

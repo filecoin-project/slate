@@ -180,7 +180,11 @@ export default class Slate extends React.Component {
 
       return (
         <div key={index} css={STYLES_ITEM}>
-          <SlateMediaObjectPreview type={data.type} url={data.url} />
+          <SlateMediaObjectPreview
+            type={data.type}
+            url={data.url}
+            title={data.title || data.name}
+          />
           <figure css={STYLES_BUTTON}>
             <CircleButtonGray
               style={{ marginRight: 16 }}

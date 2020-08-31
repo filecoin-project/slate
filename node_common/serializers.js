@@ -49,10 +49,18 @@ export const doSlates = async ({ serializedUsers, slates }) => {
     return { ...d, owner: o };
   });
 
-  return { serializedSlates: JSON.parse(JSON.stringify(sanitized)), userToSlatesMap };
+  return {
+    serializedSlates: JSON.parse(JSON.stringify(sanitized)),
+    userToSlatesMap,
+  };
 };
 
-export const doTrusted = async ({ users, trusted, serializedUsersMap, serializedSlatesMap }) => {
+export const doTrusted = async ({
+  users,
+  trusted,
+  serializedUsersMap,
+  serializedSlatesMap,
+}) => {
   trusted.forEach((each) => {
     if (each.target_user_id && !serializedUsersMap[each.target_user_id]) {
       users.push(each.target_user_id);
@@ -64,11 +72,17 @@ export const doTrusted = async ({ users, trusted, serializedUsersMap, serialized
     console.log({ query: `CHECK_TO_SERIALIZE` });
     if (users.length) {
       console.log({ query: `(${users.length}) USERS_FOR_SERIALIZATION` });
-      userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
+      userEntities = await DB.select("id", "username", "data")
+        .from("users")
+        .whereIn("id", users);
     }
   } catch (e) {
     console.log("FAILED TO SERIALIZE");
-    return { serializedTrusted: trusted, serializedUsersMap, serializedSlatesMap };
+    return {
+      serializedTrusted: trusted,
+      serializedUsersMap,
+      serializedSlatesMap,
+    };
   }
 
   const sanitized = trusted.map((data) => {
@@ -98,12 +112,21 @@ export const doTrusted = async ({ users, trusted, serializedUsersMap, serialized
     return { ...data, user: u, owner: o };
   });
 
-  return { serializedTrusted: JSON.parse(JSON.stringify(sanitized)), serializedUsersMap, serializedSlatesMap };
+  return {
+    serializedTrusted: JSON.parse(JSON.stringify(sanitized)),
+    serializedUsersMap,
+    serializedSlatesMap,
+  };
 };
 
-export const doPendingTrusted = async ({ users, pendingTrusted, serializedUsersMap, serializedSlatesMap }) => {
+export const doPendingTrusted = async ({
+  users,
+  pendingTrusted,
+  serializedUsersMap,
+  serializedSlatesMap,
+}) => {
   pendingTrusted.forEach((each) => {
-    if (each.owner_user_id && !serializedUsersMap[each.owner.user_id]) {
+    if (each.owner_user_id && !serializedUsersMap[each.owner_user_id]) {
       users.push(each.owner_user_id);
     }
   });
@@ -114,11 +137,17 @@ export const doPendingTrusted = async ({ users, pendingTrusted, serializedUsersM
     console.log({ query: `CHECK_TO_SERIALIZE` });
     if (users.length) {
       console.log({ query: `(${users.length}) USERS_FOR_SERIALIZATION` });
-      userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
+      userEntities = await DB.select("id", "username", "data")
+        .from("users")
+        .whereIn("id", users);
     }
   } catch (e) {
     console.log("FAILED TO SERIALIZE");
-    return { serializedPendingTrusted: pendingTrusted, serializedUsersMap, serializedSlatesMap };
+    return {
+      serializedPendingTrusted: pendingTrusted,
+      serializedUsersMap,
+      serializedSlatesMap,
+    };
   }
 
   const sanitized = pendingTrusted.map((data) => {
@@ -148,10 +177,20 @@ export const doPendingTrusted = async ({ users, pendingTrusted, serializedUsersM
     return { ...data, user: u, owner: o };
   });
 
-  return { serializedPendingTrusted: JSON.parse(JSON.stringify(sanitized)), serializedUsersMap, serializedSlatesMap };
+  return {
+    serializedPendingTrusted: JSON.parse(JSON.stringify(sanitized)),
+    serializedUsersMap,
+    serializedSlatesMap,
+  };
 };
 
-export const doSubscriptions = async ({ users, slates, subscriptions, serializedUsersMap, serializedSlatesMap }) => {
+export const doSubscriptions = async ({
+  users,
+  slates,
+  subscriptions,
+  serializedUsersMap,
+  serializedSlatesMap,
+}) => {
   subscriptions.forEach((each) => {
     if (each.target_user_id && !serializedUsersMap[each.target_user_id]) {
       users.push(each.target_user_id);
@@ -167,11 +206,17 @@ export const doSubscriptions = async ({ users, slates, subscriptions, serialized
     console.log({ query: `CHECK_TO_SERIALIZE` });
     if (users.length) {
       console.log({ query: `(${users.length}) USERS_FOR_SERIALIZATION` });
-      userEntities = await DB.select("id", "username", "data").from("users").whereIn("id", users);
+      userEntities = await DB.select("id", "username", "data")
+        .from("users")
+        .whereIn("id", users);
     }
   } catch (e) {
     console.log("FAILED TO SERIALIZE");
-    return { serializedSubscriptions: subscriptions, serializedUsersMap, serializedSlatesMap };
+    return {
+      serializedSubscriptions: subscriptions,
+      serializedUsersMap,
+      serializedSlatesMap,
+    };
   }
 
   let slateEntities = [];
@@ -179,11 +224,17 @@ export const doSubscriptions = async ({ users, slates, subscriptions, serialized
     console.log({ query: `CHECK_TO_SERIALIZE` });
     if (slates.length) {
       console.log({ query: `(${slates.length}) SLATES_FOR_SERIALIZATION` });
-      slateEntities = await DB.select("id", "slatename", "data").from("slates").whereIn("id", slates);
+      slateEntities = await DB.select("id", "slatename", "data")
+        .from("slates")
+        .whereIn("id", slates);
     }
   } catch (e) {
     console.log("FAILED TO SERIALIZE");
-    return { serializedSubscriptions: subscriptions, serializedUsersMap, serializedSlatesMap };
+    return {
+      serializedSubscriptions: subscriptions,
+      serializedUsersMap,
+      serializedSlatesMap,
+    };
   }
 
   const sanitized = subscriptions.map((data) => {
@@ -224,5 +275,9 @@ export const doSubscriptions = async ({ users, slates, subscriptions, serialized
     return { ...data, user: u, owner: o, slate: s };
   });
 
-  return { serializedSubscriptions: JSON.parse(JSON.stringify(sanitized)), serializedUsersMap, serializedSlatesMap };
+  return {
+    serializedSubscriptions: JSON.parse(JSON.stringify(sanitized)),
+    serializedUsersMap,
+    serializedSlatesMap,
+  };
 };

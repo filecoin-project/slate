@@ -48,7 +48,7 @@ export const getById = async ({ id }) => {
 
   // NOTE(jim): This should be the cheapest call.
   const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
-    userId: id,
+    userId: [],
   });
   const r3 = await Serializers.doPendingTrusted({
     users: [id],

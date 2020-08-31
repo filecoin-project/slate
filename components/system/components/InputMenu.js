@@ -17,7 +17,9 @@ const STYLES_DROPDOWN = css`
   background-color: ${Constants.system.white};
   overflow: hidden;
   width: 100%;
+
   scrollbar-width: none;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 
   ::-webkit-scrollbar {
     display: none;
@@ -30,10 +32,8 @@ const STYLES_DROPDOWN_ITEM = css`
   font-size: 0.8em;
   border-radius: 16px;
   border: 1px solid ${Constants.system.white};
-  cursor: pointer;
-
   :hover {
-    border-color: ${Constants.system.border} !important;
+    border-color: ${Constants.system.border};
   }
 `;
 
@@ -72,13 +72,9 @@ const STYLES_INPUT = css`
   }
 `;
 
-export class SearchDropdown extends React.Component {
+export class InputMenu extends React.Component {
   _input;
   _optionRoot;
-
-  static defaultProps = {
-    defaultResults: [],
-  };
 
   state = {
     selectedIndex: -1,
@@ -93,15 +89,27 @@ export class SearchDropdown extends React.Component {
     window.removeEventListener("keydown", this._handleDocumentKeydown);
   };
 
-  _handleChange = (e) => {
+  _handleInputChange = (e) => {
     if (this.state.selectedIndex !== -1) {
       this.setState({ selectedIndex: -1 });
     }
-    this.props.onChange(e);
+    this.props.onChange({
+      target: {
+        value: null,
+        name: this.props.name,
+      },
+    });
+    this.props.onInputChange(e);
   };
 
   _handleSelect = (index) => {
-    this.props.onSelect(this.props.results[index].value);
+    let e = {
+      target: {
+        value: this.props.options[index].value,
+        name: this.props.name,
+      },
+    };
+    this.props.onChange(e);
   };
 
   _handleDocumentKeydown = (e) => {
@@ -111,7 +119,7 @@ export class SearchDropdown extends React.Component {
     } else if (e.keyCode === 9) {
       this._handleDelete();
     } else if (e.keyCode === 40) {
-      if (this.state.selectedIndex < this.props.results.length - 1) {
+      if (this.state.selectedIndex < this.props.options.length - 1) {
         let listElem = this._optionRoot.children[this.state.selectedIndex + 1];
         let elemRect = listElem.getBoundingClientRect();
         let rootRect = this._optionRoot.getBoundingClientRect();
@@ -137,7 +145,7 @@ export class SearchDropdown extends React.Component {
       e.preventDefault();
     } else if (e.keyCode === 13) {
       if (
-        this.props.results.length > this.state.selectedIndex &&
+        this.props.options.length > this.state.selectedIndex &&
         this.state.selectedIndex !== -1
       ) {
         this._handleSelect(this.state.selectedIndex);
@@ -155,7 +163,7 @@ export class SearchDropdown extends React.Component {
             value={this.props.inputValue}
             placeholder={this.props.placeholder}
             style={this.props.inputStyle}
-            onChange={this._handleChange}
+            onChange={this._handleInputChange}
             ref={(c) => {
               this._input = c;
             }}
@@ -174,23 +182,22 @@ export class SearchDropdown extends React.Component {
             css={STYLES_DROPDOWN}
             style={this.props.style}
           >
-            {(this.props.results && this.props.results.length
-              ? this.props.results
-              : this.props.defaultResults
+            {(this.props.options && this.props.options.length
+              ? this.props.options
+              : this.props.defaultOptions
             ).map((each, i) => (
               <div
-                key={each.value.data.id}
+                key={each.value}
                 css={STYLES_DROPDOWN_ITEM}
                 style={{
                   borderColor:
                     this.state.selectedIndex === i
                       ? Constants.system.border
-                      : Constants.system.white,
+                      : "auto",
                   ...this.props.itemStyle,
                 }}
-                onClick={() => this.props.onSelect(each.value)}
               >
-                {each.component}
+                {each.name}
               </div>
             ))}
           </div>

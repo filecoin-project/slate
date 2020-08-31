@@ -71,14 +71,6 @@ export const generate = ({ library = [], slates = [] }) => [
     pageTitle: "Slates",
     children: constructSlatesTreeForNavigation(slates),
   },
-  {
-    id: "V1_NAVIGATION_SLATE",
-    decorator: "VIEW_SLATE",
-    name: "Slate",
-    pageTitle: "Slate",
-    children: null,
-    ignore: true,
-  },
   constructFilesTreeForNavigation(library),
   /*
   {
@@ -119,7 +111,7 @@ export const generate = ({ library = [], slates = [] }) => [
     children: null,
   },
   {
-    id: "V1_NAVIGATION_PROFILE_EDIT",
+    id: "V1_NAVIGATION_PROFILE",
     decorator: "EDIT_ACCOUNT",
     name: "Profile & Account Settings",
     pageTitle: "Your Profile & Account Settings",
@@ -131,22 +123,6 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SETTINGS",
     name: "Filecoin Settings",
     pageTitle: "Filecoin Settings.",
-    children: null,
-    ignore: true,
-  },
-  {
-    id: "V1_NAVIGATION_PROFILE",
-    decorator: "PROFILE",
-    name: "Profile",
-    pageTitle: "Profile",
-    children: null,
-    ignore: true,
-  },
-  {
-    id: "V1_NAVIGATION_FILE",
-    decorator: "FILE",
-    name: "File",
-    pageTitle: "File",
     children: null,
     ignore: true,
   },

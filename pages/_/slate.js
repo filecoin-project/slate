@@ -110,7 +110,6 @@ export default class SlatePage extends React.Component {
           return {
             id: each.id,
             data: each,
-            editing: false,
             component: (
               <SlateMediaObject key={each.id} useImageFallback data={each} />
             ),
@@ -127,7 +126,9 @@ export default class SlatePage extends React.Component {
     });
 
   render() {
-    const title = `${this.props.creator.username}/${this.props.slate.slatename}`;
+    const title = `${this.props.creator.username}/${
+      this.props.slate.slatename
+    }`;
     const url = `https://slate.host/${this.props.creator.username}`;
     const description = this.props.slate.data.body;
 
@@ -158,7 +159,7 @@ export default class SlatePage extends React.Component {
           </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
             <Slate
-              editing={false}
+              editable={false}
               layouts={this.state.layouts}
               items={this.props.slate.data.objects}
               onSelect={this._handleSelect}

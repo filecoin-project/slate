@@ -77,7 +77,6 @@ export default class SceneProfile extends React.Component {
     if (trust.length) {
       let relation = trust[0];
       newState.trustId = relation.id;
-      console.log(relation.id);
       if (relation.data.verified) {
         newState.trustStatus = "trusted";
       } else {
@@ -90,7 +89,6 @@ export default class SceneProfile extends React.Component {
     if (pendingTrust.length) {
       let relation = pendingTrust[0];
       newState.trustId = relation.id;
-      console.log(relation.id);
       if (pendingTrust[0].data.verified) {
         newState.trustStatus = "trusted";
       } else {
@@ -109,8 +107,6 @@ export default class SceneProfile extends React.Component {
 
   _handleUpdate = async (e) => {
     let response = await this.props.onRehydrate();
-    // const response = await Actions.hydrateAuthenticatedUser();
-    console.log(response);
     if (!response || response.error) {
       alert("TODO: error fetching authenticated viewer");
       return null;
@@ -127,24 +123,20 @@ export default class SceneProfile extends React.Component {
       this.state.trustStatus === "untrusted" ||
       this.state.trustStatus === "sent"
     ) {
-      console.log(this.props.data);
       response = await Actions.createTrustRelationship({
         userId: this.props.data.id,
       });
       console.log(response);
-      console.log("cancel request or create trust");
     } else if (this.state.trustStatus === "received") {
       response = await Actions.updateTrustRelationship({
         userId: this.props.data.id,
       });
       console.log(response);
-      console.log("accept");
     } else {
       response = await Actions.deleteTrustRelationship({
         id: this.state.trustId,
       });
       console.log(response);
-      console.log("delete trust");
     }
     await this._handleUpdate();
   };
@@ -154,7 +146,6 @@ export default class SceneProfile extends React.Component {
       userId: this.props.data.id,
     });
     console.log(response);
-    console.log("follow / unfollow");
     await this._handleUpdate();
   };
 

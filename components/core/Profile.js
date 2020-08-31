@@ -33,16 +33,14 @@ const STYLES_LINK = css`
 
 export default class Profile extends React.Component {
   render() {
-    let data = this.props.creator ? this.props.creator : this.props.data; //do we need this?
+    let data = this.props.creator ? this.props.creator : this.props.data;
     return (
       <div css={STYLES_PROFILE}>
         <div
           css={STYLES_PROFILE_IMAGE}
           style={{ backgroundImage: `url('${data.data.photo}')` }}
         />
-        <div css={STYLES_NAME}>{data.username}</div>
-        {/* TODO: replace with real name when added */}
-        {this.props.buttons}
+        <div css={STYLES_NAME}>{data.username}</div>/{this.props.buttons}
         <br />
         {data.slates && data.slates.length ? (
           <div style={{ width: "100%" }}>

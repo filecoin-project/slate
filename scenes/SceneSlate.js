@@ -12,6 +12,14 @@ import Slate, { generateLayout } from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 
+const STYLES_USERNAME = css`
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
+`;
+
 const moveIndex = (set, fromIndex, toIndex) => {
   const element = set[fromIndex];
   set.splice(fromIndex, 1);
@@ -22,15 +30,17 @@ const moveIndex = (set, fromIndex, toIndex) => {
 
 export default class SceneSlate extends React.Component {
   state = {
-    name: this.props.current.data.name,
-    slatename: this.props.current.slatename,
-    public: this.props.current.data.public,
-    objects: this.props.current.data.objects,
-    body: this.props.current.data.body,
-    layouts: this.props.current.data.layouts
-      ? this.props.current.data.layouts
-      : { lg: generateLayout(this.props.current.data.objects) },
+    name: this.props.data.data.name,
+    username: this.props.data.owner ? this.props.data.owner.username : null,
+    slatename: this.props.data.slatename,
+    public: this.props.data.data.public,
+    objects: this.props.data.data.objects,
+    body: this.props.data.data.body,
+    layouts: this.props.data.data.layouts
+      ? this.props.data.data.layouts
+      : { lg: generateLayout(this.props.data.data.objects) },
     loading: false,
+    editing: this.props.data.data.ownerId === this.props.viewer.id,
   };
 
   componentDidMount() {
@@ -39,38 +49,41 @@ export default class SceneSlate extends React.Component {
 
   componentDidUpdate(prevProps) {
     const isNewSlateScene =
-      prevProps.current.slatename !== this.props.current.slatename;
+      prevProps.data.slatename !== this.props.data.slatename;
 
     let isUpdated = false;
     if (
-      this.props.current.data.objects.length !==
-      prevProps.current.data.objects.length
+      this.props.data.data.objects.length !== prevProps.data.data.objects.length
     ) {
       isUpdated = true;
     }
 
-    if (this.props.current.data.body !== prevProps.current.data.body) {
+    if (this.props.data.data.body !== prevProps.data.data.body) {
       isUpdated = true;
     }
 
     if (isNewSlateScene || isUpdated) {
-      let layouts = this.props.current.data.layouts;
+      let layouts = this.props.data.data.layouts;
       if (!layouts) {
-        layouts = { lg: generateLayout(this.props.current.data.objects) };
+        layouts = { lg: generateLayout(this.props.data.data.objects) };
       }
 
       this.setState({
-        slatename: this.props.current.slatename,
-        public: this.props.current.data.public,
-        objects: this.props.current.data.objects,
-        body: this.props.current.data.body,
-        name: this.props.current.data.name,
+        username: this.props.data.owner ? this.props.data.owner.username : null,
+        slatename: this.props.data.slatename,
+        public: this.props.data.data.public,
+        objects: this.props.data.data.objects,
+        body: this.props.data.data.body,
+        name: this.props.data.data.name,
         layouts: layouts,
         loading: false,
+        editing: this.props.viewer.slates
+          .map((slate) => slate.id)
+          .includes(this.props.data.slateId),
       });
 
       this._handleUpdateCarousel({
-        objects: this.props.current.data.objects,
+        objects: this.props.data.data.objects,
       });
     }
   }
@@ -93,7 +106,7 @@ export default class SceneSlate extends React.Component {
     this.setState({ loading: true });
 
     const response = await Actions.updateSlate({
-      id: this.props.current.slateId,
+      id: this.props.data.id,
       data: {
         objects: objects ? objects : this.state.objects,
         layouts: layouts ? layouts : this.state.layouts,
@@ -164,6 +177,7 @@ export default class SceneSlate extends React.Component {
             id: data.id,
             cid,
             data,
+            editing: this.state.editing,
             component: (
               <SlateMediaObject key={each.id} useImageFallback data={data} />
             ),
@@ -199,7 +213,7 @@ export default class SceneSlate extends React.Component {
     }
 
     const response = await Actions.updateSlate({
-      id: this.props.current.slateId,
+      id: this.props.data.slateId,
       data: {
         objects,
         layouts,
@@ -245,7 +259,7 @@ export default class SceneSlate extends React.Component {
     return this.props.onAction({
       type: "SIDEBAR",
       value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-      data: this.props.current,
+      data: this.props.data,
     });
   };
 
@@ -253,41 +267,70 @@ export default class SceneSlate extends React.Component {
     return this.props.onAction({
       type: "SIDEBAR",
       value: "SIDEBAR_SINGLE_SLATE_SETTINGS",
-      data: this.props.current,
+      data: this.props.data,
     });
   };
 
   render() {
-    const { slatename, objects, body = "A slate.", name } = this.state;
+    const {
+      username,
+      slatename,
+      objects,
+      body = "A slate.",
+      name,
+    } = this.state;
 
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
         <ScenePageHeader
           style={{ padding: `0 24px 0 24px` }}
-          title={name}
+          title={
+            username ? (
+              <span>
+                <span
+                  onClick={() =>
+                    this.props.onAction({
+                      type: "NAVIGATE",
+                      value: this.props.sceneId,
+                      scene: "PROFILE",
+                      data: this.props.data.owner,
+                    })
+                  }
+                  css={STYLES_USERNAME}
+                >
+                  {username}
+                </span>{" "}
+                / {slatename}
+              </span>
+            ) : (
+              slatename
+            )
+          }
           actions={
-            <React.Fragment>
-              <CircleButtonGray
-                onMouseUp={this._handleAdd}
-                onTouchEnd={this._handleAdd}
-                style={{ marginLeft: 12, marginRight: 12 }}
-              >
-                <SVG.Plus height="16px" />
-              </CircleButtonGray>
-              <CircleButtonGray
-                onMouseUp={this._handleShowSettings}
-                onTouchEnd={this._handleShowSettings}
-              >
-                <SVG.Settings height="16px" />
-              </CircleButtonGray>
-            </React.Fragment>
+            this.state.editing ? (
+              <React.Fragment>
+                <CircleButtonGray
+                  onMouseUp={this._handleAdd}
+                  onTouchEnd={this._handleAdd}
+                  style={{ marginLeft: 12, marginRight: 12 }}
+                >
+                  <SVG.Plus height="16px" />
+                </CircleButtonGray>
+                <CircleButtonGray
+                  onMouseUp={this._handleShowSettings}
+                  onTouchEnd={this._handleShowSettings}
+                >
+                  <SVG.Settings height="16px" />
+                </CircleButtonGray>
+              </React.Fragment>
+            ) : null
           }
         >
           {body}
         </ScenePageHeader>
         <Slate
           key={slatename}
-          editing
+          editing={this.state.editing}
           items={objects}
           layouts={this.state.layouts}
           onLayoutChange={this._handleChangeLayout}

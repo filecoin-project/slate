@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
-import { SpotlightSearch } from "~/components/system/modules/SpotlightSearch";
+import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_ICON_ELEMENT = css`
@@ -72,7 +72,7 @@ export default class ApplicationHeader extends React.Component {
   _handleCreateSearch = (e) => {
     dispatchCustomEvent({
       name: "create-modal",
-      detail: { modal: <SpotlightSearch onAction={this.props.onAction} /> },
+      detail: { modal: <SearchModal onAction={this.props.onAction} /> },
     });
   };
 

@@ -64,7 +64,14 @@ const STYLES_TAB = css`
 
 const STYLES_TAB_GROUP = css`
   ${"" /* border-bottom: 1px solid ${Constants.system.gray}; */}
-  margin: 32px 0px 24px 0px;
+  margin: 38px 0px 24px 0px;
+`;
+
+const STYLES_EMPTY_MESSAGE = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
 `;
 
 // TODO(jim): Slates design.
@@ -155,7 +162,13 @@ export default class SceneSlates extends React.Component {
               </div>
             ))
           : null}
-        {this.state.tab === "following" ? "Coming soon!" : null}
+        {this.state.tab === "following" ? (
+          <div css={STYLES_EMPTY_MESSAGE}>
+            <div style={{ maxWidth: "400px", textAlign: "center" }}>
+              Coming soon!
+            </div>
+          </div>
+        ) : null}
         {/* this.props.viewer.subscriptions
               .filter((each) => {
                 return !!each.target_slate_id;

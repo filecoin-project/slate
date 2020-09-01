@@ -22,8 +22,8 @@ const STYLES_TAB = css`
 `;
 
 const STYLES_TAB_GROUP = css`
-  border-bottom: 1px solid ${Constants.system.gray};
-  margin: 32px 0px 24px 0px;
+  ${"" /* border-bottom: 1px solid ${Constants.system.gray}; */}
+  margin: 40px 0px 24px 0px;
 `;
 
 const STYLES_USER_ENTRY = css`

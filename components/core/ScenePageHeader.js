@@ -27,7 +27,7 @@ const STYLES_RIGHT = css`
 
 const STYLES_HEADER = css`
   box-sizing: border-box;
-  font-family: ${Constants.font.text};
+  font-family: ${Constants.font.medium};
   font-size: ${Constants.typescale.lvl4};
   padding: 0;
   margin-bottom: 8px;

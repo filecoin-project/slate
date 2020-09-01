@@ -60,7 +60,12 @@ export default class Profile extends React.Component {
                       })
                     }
                   >
-                    <SlatePreviewBlock slate={slate} />
+                    <SlatePreviewBlock
+                      slate={slate}
+                      editing={
+                        relation.slate.data.ownerId === this.props.viewer.id
+                      }
+                    />
                   </div>
                 );
               }

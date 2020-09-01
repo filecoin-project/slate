@@ -51,7 +51,7 @@ export default async (req, res) => {
     });
   }
 
-  const cid = req.body.data.ipfs.replace("/ipfs/");
+  const cid = req.body.data.ipfs.replace("/ipfs/", "");
   const objects = [
     ...slate.data.objects,
     {

@@ -11,7 +11,6 @@ import { css } from "@emotion/react";
 import { SearchDropdown } from "~/components/core/SearchDropdown";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { SlatePreviewRow } from "~/components/core/SlatePreviewBlock";
-import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 const STYLES_ICON_CIRCLE = css`
   height: 24px;
@@ -162,12 +161,6 @@ const FileEntry = ({ item }) => {
   );
 };
 
-const STYLES_LOADER = css`
-  position: absolute;
-  top: calc(50% - 22px);
-  left: calc(50% - 22px);
-`;
-
 export class SearchModal extends React.Component {
   state = {
     loading: true,
@@ -314,6 +307,7 @@ export class SearchModal extends React.Component {
     return (
       <div css={STYLES_MODAL}>
         <SearchDropdown
+          disabled={this.state.loading}
           placeholder="Search..."
           results={this.state.results}
           onSelect={this._handleSelect}
@@ -321,7 +315,6 @@ export class SearchModal extends React.Component {
           inputValue={this.state.inputValue}
           style={STYLES_SEARCH_DROPDOWN}
         />
-        {this.state.loading ? <LoaderSpinner css={STYLES_LOADER} /> : null}
       </div>
     );
   }

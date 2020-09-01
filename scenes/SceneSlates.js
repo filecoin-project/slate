@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
 
@@ -8,6 +9,7 @@ import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import Section from "~/components/core/Section";
 import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
+import CircleButtonGray from "~/components/core/CircleButtonGray";
 
 const STYLES_NUMBER = css`
   font-family: ${Constants.font.semiBold};
@@ -48,8 +50,37 @@ const STYLES_ACTION_BUTTON = css`
   }
 `;
 
+const STYLES_TAB = css`
+  padding: 8px 8px 8px 0px;
+  margin-right: 24px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: ${Constants.typescale.lvl1};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-right: 12px;
+  }
+`;
+
+const STYLES_TAB_GROUP = css`
+  ${"" /* border-bottom: 1px solid ${Constants.system.gray}; */}
+  margin: 32px 0px 24px 0px;
+`;
+
 // TODO(jim): Slates design.
 export default class SceneSlates extends React.Component {
+  state = {
+    tab: "my",
+  };
+
+  _handleAdd = () => {
+    return this.props.onAction({
+      name: "Create slate",
+      type: "SIDEBAR",
+      value: "SIDEBAR_CREATE_SLATE",
+    });
+  };
+
   render() {
     // TODO(jim): Refactor later.
     const slates = this.props.viewer.slates.map((each) => {
@@ -68,37 +99,81 @@ export default class SceneSlates extends React.Component {
     console.log(this.props);
     return (
       <ScenePage>
-        <ScenePageHeader title="Slates">
-          This scene is currently a work in progress.
-        </ScenePageHeader>
-        {this.props.data.children.map((slate) => (
+        <ScenePageHeader
+          title="Slates"
+          actions={
+            this.state.tab === "my" ? (
+              <CircleButtonGray
+                onMouseUp={this._handleAdd}
+                onTouchEnd={this._handleAdd}
+                style={{ marginLeft: 12 }}
+              >
+                <SVG.Plus height="16px" />
+              </CircleButtonGray>
+            ) : null
+          }
+        />
+        <div css={STYLES_TAB_GROUP}>
           <div
-            key={slate.id}
-            onClick={() =>
-              this.props.onAction({
-                type: "NAVIGATE",
-                value: slate.id,
-                data: slate,
-              })
-            }
+            css={STYLES_TAB}
+            style={{
+              color:
+                this.state.tab === "my"
+                  ? Constants.system.pitchBlack
+                  : Constants.system.gray,
+            }}
+            onClick={() => this.setState({ tab: "my" })}
           >
-            <SlatePreviewBlock slate={slate} />
+            My Slates
           </div>
-        ))}
-        <div css={STYLES_ACTIONS}>
-          <span
-            css={STYLES_ACTION_BUTTON}
-            onClick={() =>
-              this.props.onAction({
-                name: "Create slate",
-                type: "SIDEBAR",
-                value: "SIDEBAR_CREATE_SLATE",
-              })
-            }
+          <div
+            css={STYLES_TAB}
+            style={{
+              color:
+                this.state.tab === "following"
+                  ? Constants.system.pitchBlack
+                  : Constants.system.gray,
+            }}
+            onClick={() => this.setState({ tab: "following" })}
           >
-            Create slate
-          </span>
+            Following
+          </div>
         </div>
+        {this.state.tab === "my"
+          ? this.props.data.children.map((slate) => (
+              <div
+                key={slate.id}
+                onClick={() =>
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: slate.id,
+                    data: slate,
+                  })
+                }
+              >
+                <SlatePreviewBlock slate={slate} editing />
+              </div>
+            ))
+          : null}
+        {this.state.tab === "following" ? "Coming soon!" : null}
+        {/* this.props.viewer.subscriptions
+              .filter((each) => {
+                return !!each.target_slate_id;
+              })
+              .map((relation) => (
+                <div
+                  key={relation.slate.id}
+                  onClick={() =>
+                    this.props.onAction({
+                      type: "NAVIGATE",
+                      value: "V1_NAVIGATION_SLATE",
+                      data: relation.slate,
+                    })
+                  }
+                >
+                  <SlatePreviewBlock slate={relation.slate} />
+                </div>
+              )) */}
       </ScenePage>
     );
   }

@@ -14,17 +14,16 @@ const STYLES_TAB = css`
   margin-right: 24px;
   cursor: pointer;
   display: inline-block;
-  font-size: ${Constants.typescale.lvl2};
+  font-size: ${Constants.typescale.lvl1};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: ${Constants.typescale.lvl1};
     margin-right: 12px;
   }
 `;
 
 const STYLES_TAB_GROUP = css`
   border-bottom: 1px solid ${Constants.system.gray};
-  margin: 24px 0px 24px 0px;
+  margin: 32px 0px 24px 0px;
 `;
 
 const STYLES_USER_ENTRY = css`
@@ -75,6 +74,13 @@ function UserEntry({ user, button, onClick }) {
   );
 }
 
+const STYLES_EMPTY_MESSAGE = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+`;
+
 export default class SceneDirectory extends React.Component {
   state = {
     loading: false,
@@ -118,6 +124,126 @@ export default class SceneDirectory extends React.Component {
   };
 
   render() {
+    let requests = this.state.viewer.pendingTrusted
+      .filter((relation) => {
+        return !relation.data.verified;
+      })
+      .map((relation) => {
+        let button = (
+          <div
+            css={STYLES_ACTION_BUTTON}
+            onClick={() => this._handleAccept(relation.owner.id)}
+          >
+            Accept
+          </div>
+        );
+        return (
+          <UserEntry
+            user={relation.owner}
+            button={button}
+            onClick={() => {
+              this.props.onAction({
+                type: "NAVIGATE",
+                value: this.props.sceneId,
+                scene: "PROFILE",
+                data: relation.owner,
+              });
+            }}
+          />
+        );
+      });
+
+    let trusted = this.state.viewer.pendingTrusted
+      .filter((relation) => {
+        return relation.data.verified;
+      })
+      .map((relation) => {
+        let button = (
+          <div
+            css={STYLES_ACTION_BUTTON}
+            onClick={() => this._handleDelete(relation.id)}
+          >
+            Remove
+          </div>
+        );
+        return (
+          <UserEntry
+            user={relation.owner}
+            button={button}
+            onClick={() => {
+              this.props.onAction({
+                type: "NAVIGATE",
+                value: this.props.sceneId,
+                scene: "PROFILE",
+                data: relation.owner,
+              });
+            }}
+          />
+        );
+      });
+    if (!trusted) {
+      trusted = [];
+    }
+    trusted.push(
+      ...this.state.viewer.trusted
+        .filter((relation) => {
+          return relation.data.verified;
+        })
+        .map((relation) => {
+          let button = (
+            <div
+              css={STYLES_ACTION_BUTTON}
+              onClick={() => this._handleDelete(relation.id)}
+            >
+              Remove
+            </div>
+          );
+          return (
+            <UserEntry
+              user={relation.user}
+              button={button}
+              onClick={() => {
+                this.props.onAction({
+                  type: "NAVIGATE",
+                  value: this.props.sceneId,
+                  scene: "PROFILE",
+                  data: relation.user,
+                });
+              }}
+            />
+          );
+        })
+    );
+
+    let following = this.state.viewer.subscriptions
+      .filter((relation) => {
+        return !!relation.target_user_id;
+      })
+      .map((relation) => {
+        let button = (
+          <div
+            css={STYLES_ACTION_BUTTON}
+            onClick={() => this._handleFollow(relation.user.id)}
+          >
+            Unfollow
+          </div>
+        );
+        return (
+          <UserEntry
+            user={relation.user}
+            button={button}
+            onClick={() => {
+              this.props.onAction({
+                type: "NAVIGATE",
+                value: this.props.sceneId,
+                scene: "PROFILE",
+                data: relation.user,
+              });
+            }}
+          />
+        );
+      });
+
     return (
       <ScenePage>
         <ScenePageHeader title="Directory" />
@@ -160,126 +286,42 @@ export default class SceneDirectory extends React.Component {
             Following
           </div>
         </div>
-        {this.state.tab === "requests"
-          ? this.state.viewer.pendingTrusted
-              .filter((relation) => {
-                return !relation.data.verified;
-              })
-              .map((relation) => {
-                let button = (
-                  <div
-                    css={STYLES_ACTION_BUTTON}
-                    onClick={() => this._handleAccept(relation.owner.id)}
-                  >
-                    Accept
-                  </div>
-                );
-                return (
-                  <UserEntry
-                    user={relation.owner}
-                    button={button}
-                    onClick={() => {
-                      this.props.onAction({
-                        type: "NAVIGATE",
-                        value: this.props.sceneId,
-                        scene: "PROFILE",
-                        data: relation.owner,
-                      });
-                    }}
-                  />
-                );
-              })
-          : null}
-        {this.state.tab === "peers" ? (
-          <div>
-            {this.state.viewer.pendingTrusted
-              .filter((relation) => {
-                return relation.data.verified;
-              })
-              .map((relation) => {
-                let button = (
-                  <div
-                    css={STYLES_ACTION_BUTTON}
-                    onClick={() => this._handleDelete(relation.id)}
-                  >
-                    Remove
-                  </div>
-                );
-                return (
-                  <UserEntry
-                    user={relation.owner}
-                    button={button}
-                    onClick={() => {
-                      this.props.onAction({
-                        type: "NAVIGATE",
-                        value: this.props.sceneId,
-                        scene: "PROFILE",
-                        data: relation.owner,
-                      });
-                    }}
-                  />
-                );
-              })}
-            {this.state.viewer.trusted
-              .filter((relation) => {
-                return relation.data.verified;
-              })
-              .map((relation) => {
-                let button = (
-                  <div
-                    css={STYLES_ACTION_BUTTON}
-                    onClick={() => this._handleDelete(relation.id)}
-                  >
-                    Remove
-                  </div>
-                );
-                return (
-                  <UserEntry
-                    user={relation.user}
-                    button={button}
-                    onClick={() => {
-                      this.props.onAction({
-                        type: "NAVIGATE",
-                        value: this.props.sceneId,
-                        scene: "PROFILE",
-                        data: relation.user,
-                      });
-                    }}
-                  />
-                );
-              })}
-          </div>
+        {this.state.tab === "requests" ? (
+          requests.length ? (
+            requests
+          ) : (
+            <div css={STYLES_EMPTY_MESSAGE}>
+              <div style={{ maxWidth: "400px", textAlign: "center" }}>
+                No requests at the moment! Once someone sends you a trust
+                request it'll appear here.
+              </div>
+            </div>
+          )
         ) : null}
-        {this.state.tab === "following"
-          ? this.state.viewer.subscriptions
-              .filter((relation) => {
-                return !!relation.target_user_id;
-              })
-              .map((relation) => {
-                let button = (
-                  <div
-                    css={STYLES_ACTION_BUTTON}
-                    onClick={() => this._handleFollow(relation.user.id)}
-                  >
-                    Unfollow
-                  </div>
-                );
-                return (
-                  <UserEntry
-                    user={relation.user}
-                    button={button}
-                    onClick={() => {
-                      this.props.onAction({
-                        type: "NAVIGATE",
-                        value: this.props.sceneId,
-                        scene: "PROFILE",
-                        data: relation.user,
-                      });
-                    }}
-                  />
-                );
-              })
-          : null}
+        {this.state.tab === "peers" ? (
+          trusted.length ? (
+            trusted
+          ) : (
+            <div css={STYLES_EMPTY_MESSAGE}>
+              <div style={{ maxWidth: "400px", textAlign: "center" }}>
+                You have no peers yet. Get started by searching for your friends
+                and sending them a peer request!
+              </div>
+            </div>
+          )
+        ) : null}
+        {this.state.tab === "following" ? (
+          following.length ? (
+            following
+          ) : (
+            <div css={STYLES_EMPTY_MESSAGE}>
+              <div style={{ maxWidth: "400px", textAlign: "center" }}>
+                You are not following anybody. Get started by searching for your
+                friends and clicking follow!
+              </div>
+            </div>
+          )
+        ) : null}
       </ScenePage>
     );
   }

@@ -18,6 +18,7 @@ const STYLES_DROPDOWN = css`
   overflow: hidden;
   width: 100%;
   scrollbar-width: none;
+  padding-bottom: 24px;
 
   ::-webkit-scrollbar {
     display: none;
@@ -165,36 +166,35 @@ export class SearchDropdown extends React.Component {
             style={{ position: "absolute", left: "12px", top: "10px" }}
           />
         </div>
-        {
-          <div
-            data-menu
-            ref={(c) => {
-              this._optionRoot = c;
-            }}
-            css={STYLES_DROPDOWN}
-            style={this.props.style}
-          >
-            {(this.props.results && this.props.results.length
-              ? this.props.results
-              : this.props.defaultResults
-            ).map((each, i) => (
-              <div
-                key={each.value.data.id}
-                css={STYLES_DROPDOWN_ITEM}
-                style={{
-                  borderColor:
-                    this.state.selectedIndex === i
-                      ? Constants.system.border
-                      : Constants.system.white,
-                  ...this.props.itemStyle,
-                }}
-                onClick={() => this.props.onSelect(each.value)}
-              >
-                {each.component}
-              </div>
-            ))}
-          </div>
-        }
+
+        <div
+          data-menu
+          ref={(c) => {
+            this._optionRoot = c;
+          }}
+          css={STYLES_DROPDOWN}
+          style={this.props.style}
+        >
+          {(this.props.results && this.props.results.length
+            ? this.props.results
+            : this.props.defaultResults
+          ).map((each, i) => (
+            <div
+              key={each.value.data.id}
+              css={STYLES_DROPDOWN_ITEM}
+              style={{
+                borderColor:
+                  this.state.selectedIndex === i
+                    ? Constants.system.border
+                    : Constants.system.white,
+                ...this.props.itemStyle,
+              }}
+              onClick={() => this.props.onSelect(each.value)}
+            >
+              {each.component}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

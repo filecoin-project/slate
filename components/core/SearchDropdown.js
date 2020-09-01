@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
+import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 const STYLES_DROPDOWN_CONTAINER = css`
   box-sizing: border-box;
@@ -30,8 +31,9 @@ const STYLES_DROPDOWN_ITEM = css`
   padding: 8px;
   font-size: 0.8em;
   border-radius: 16px;
-  border: 1px solid ${Constants.system.white};
+  border: 1px solid transparent;
   cursor: pointer;
+  margin-bottom: -1px;
 
   :hover {
     border-color: ${Constants.system.border} !important;
@@ -73,6 +75,11 @@ const STYLES_INPUT = css`
   }
 `;
 
+const STYLES_LOADER = css`
+  display: flex;
+  justify-content: center;
+`;
+
 export class SearchDropdown extends React.Component {
   _input;
   _optionRoot;
@@ -87,11 +94,16 @@ export class SearchDropdown extends React.Component {
 
   componentDidMount = () => {
     window.addEventListener("keydown", this._handleDocumentKeydown);
-    this._input.focus();
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("keydown", this._handleDocumentKeydown);
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.disabled && !this.props.disabled) {
+      this._input.focus();
+    }
   };
 
   _handleChange = (e) => {
@@ -150,23 +162,29 @@ export class SearchDropdown extends React.Component {
   render() {
     return (
       <div css={STYLES_DROPDOWN_CONTAINER} style={this.props.containerStyle}>
-        <div style={{ position: "relative" }}>
-          <input
-            css={STYLES_INPUT}
-            value={this.props.inputValue}
-            placeholder={this.props.placeholder}
-            style={this.props.inputStyle}
-            onChange={this._handleChange}
-            ref={(c) => {
-              this._input = c;
-            }}
-          />
-          <SVG.Search
-            height="20px"
-            style={{ position: "absolute", left: "12px", top: "10px" }}
-          />
-        </div>
-
+        {this.props.disabled ? (
+          <div css={STYLES_LOADER}>
+            <LoaderSpinner />
+          </div>
+        ) : (
+          <div style={{ position: "relative" }}>
+            <input
+              disabled={this.props.disabled}
+              css={STYLES_INPUT}
+              value={this.props.inputValue}
+              placeholder={this.props.placeholder}
+              style={this.props.inputStyle}
+              onChange={this._handleChange}
+              ref={(c) => {
+                this._input = c;
+              }}
+            />
+            <SVG.Search
+              height="20px"
+              style={{ position: "absolute", left: "12px", top: "10px" }}
+            />
+          </div>
+        )}
         <div
           data-menu
           ref={(c) => {
@@ -186,7 +204,7 @@ export class SearchDropdown extends React.Component {
                 borderColor:
                   this.state.selectedIndex === i
                     ? Constants.system.border
-                    : Constants.system.white,
+                    : "transparent",
                 ...this.props.itemStyle,
               }}
               onClick={() => this.props.onSelect(each.value)}

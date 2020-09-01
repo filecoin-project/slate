@@ -191,6 +191,7 @@ export default class SceneProfile extends React.Component {
               ? null
               : buttons
           }
+          editing={this.props.viewer.username === this.props.data.username}
         />
       </ScenePage>
     );

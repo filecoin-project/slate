@@ -56,6 +56,25 @@ export default class SceneSlates extends React.Component {
       };
     });
 
+    let subscriptions = this.props.viewer.subscriptions
+      .filter((each) => {
+        return !!each.target_slate_id;
+      })
+      .map((relation) => (
+        <div
+          key={relation.slate.id}
+          onClick={() =>
+            this.props.onAction({
+              type: "NAVIGATE",
+              value: "V1_NAVIGATION_SLATE",
+              data: relation.slate,
+            })
+          }
+        >
+          <SlatePreviewBlock slate={relation.slate} />
+        </div>
+      ));
+
     // TODO(jim): Refactor later.
     const slateButtons = [
       { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
@@ -106,28 +125,15 @@ export default class SceneSlates extends React.Component {
           )
         ) : null}
         {this.state.tab === 1 ? (
-          <EmptyState style={{ marginTop: 88 }}>
-            This feature is coming soon.
-          </EmptyState>
+          subscriptions.length ? (
+            subscriptions
+          ) : (
+            <EmptyState style={{ marginTop: 88 }}>
+              You aren't following any slates yet! Get started by following any
+              slates you encounter that you want to be updated on
+            </EmptyState>
+          )
         ) : null}
-        {this.props.viewer.subscriptions
-          .filter((each) => {
-            return !!each.target_slate_id;
-          })
-          .map((relation) => (
-            <div
-              key={relation.slate.id}
-              onClick={() =>
-                this.props.onAction({
-                  type: "NAVIGATE",
-                  value: "V1_NAVIGATION_SLATE",
-                  data: relation.slate,
-                })
-              }
-            >
-              <SlatePreviewBlock slate={relation.slate} />
-            </div>
-          ))}
       </ScenePage>
     );
   }

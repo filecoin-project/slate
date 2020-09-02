@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
+import { ProcessedText } from "~/components/system/components/Typography";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -325,7 +326,7 @@ export default class SceneSlate extends React.Component {
             ) : null
           }
         >
-          {body}
+          <ProcessedText text={body} />
         </ScenePageHeader>
         <Slate
           key={slatename}

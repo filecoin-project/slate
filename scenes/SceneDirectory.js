@@ -239,7 +239,6 @@ export default class SceneDirectory extends React.Component {
           />
         );
       });
-
     return (
       <ScenePage>
         <ScenePageHeader title="Directory" />

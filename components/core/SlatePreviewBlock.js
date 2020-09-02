@@ -64,7 +64,7 @@ const STYLES_BLOCK = css`
 
 const STYLES_TITLE_LINE = css`
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto auto 1fr;
   align-items: center;
   font-size: ${Constants.typescale.lvl1};
   margin-bottom: 16px;
@@ -83,6 +83,14 @@ const STYLES_COPY_INPUT = css`
   position: absolute;
   tabindex: -1;
   opacity: 0;
+`;
+
+const STYLES_TAG = css`
+  margin-left: 24px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: ${Constants.system.gray};
+  color: ${Constants.system.white};
 `;
 
 export default class SlatePreviewBlock extends Component {
@@ -108,10 +116,12 @@ export default class SlatePreviewBlock extends Component {
           <strong style={{ fontSize: Constants.typescale.lvl2 }}>
             {this.props.slate.data.name}
           </strong>
-          {this.props.editing && !this.props.slate.data.public ? (
-            <div style={{ marginLeft: "24px" }}>
-              <SVG.Lock height="16px" />
-            </div>
+          {this.props.editing ? (
+            this.props.slate.data.public ? (
+              <div css={STYLES_TAG}>Public</div>
+            ) : (
+              <div css={STYLES_TAG}>Private</div>
+            )
           ) : null}
           {this.props.editing ? (
             <div style={{ justifySelf: "end" }}>

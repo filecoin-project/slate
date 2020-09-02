@@ -61,7 +61,8 @@ export default class SceneSlate extends React.Component {
 
   componentDidUpdate(prevProps) {
     const updated =
-      this.props.current.updated_at !== prevProps.current.updated_at;
+      this.props.current.updated_at !== prevProps.current.updated_at ||
+      this.props.data.slatename !== prevProps.data.slatename;
 
     if (!updated) {
       return;
@@ -86,6 +87,30 @@ export default class SceneSlate extends React.Component {
       objects: this.props.data.data.objects,
     });
   }
+
+  _handleUpdate = async (e) => {
+    let response = await this.props.onRehydrate();
+    if (!response || response.error) {
+      alert("TODO: error fetching authenticated viewer");
+      return null;
+    }
+
+    let viewer = response.data;
+
+    this.setState({
+      following: !!viewer.subscriptions.filter((subscription) => {
+        return subscription.target_slate_id === this.props.data.id;
+      }).length,
+    });
+  };
+
+  _handleFollow = async () => {
+    let response = await Actions.createSubscription({
+      slateId: this.props.data.id,
+    });
+    console.log(response);
+    // await this._handleUpdate();
+  };
 
   _handleChangeLayout = async (layout, layouts) => {
     this.setState({ layouts, saving: "SAVING" });
@@ -279,7 +304,7 @@ export default class SceneSlate extends React.Component {
       body = "A slate.",
       name,
     } = this.state;
-
+    console.log(this.props);
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
         <ScenePageHeader
@@ -323,7 +348,15 @@ export default class SceneSlate extends React.Component {
                   <SVG.Settings height="16px" />
                 </CircleButtonGray>
               </React.Fragment>
-            ) : null
+            ) : (
+              <div onClick={this._handleFollow}>
+                {!!this.props.viewer.subscriptions.filter((subscription) => {
+                  return subscription.target_slate_id === this.props.data.id;
+                }).length
+                  ? "Unfollow"
+                  : "Follow"}
+              </div>
+            )
           }
         >
           <ProcessedText text={body} />

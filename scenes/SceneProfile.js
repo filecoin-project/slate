@@ -183,6 +183,7 @@ export default class SceneProfile extends React.Component {
     return (
       <ScenePage>
         <Profile
+          {...this.props}
           onAction={this.props.onAction}
           creator={this.props.data}
           sceneId={this.props.sceneId}

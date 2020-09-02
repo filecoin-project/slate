@@ -23,6 +23,9 @@ export const system = {
   green: "#28a745",
   yellow: " #FFC940",
   red: "#ff0000",
+  slate: "#27292e",
+  moonstone: "#807d78",
+  wall: "#cfced3",
 };
 
 export const zindex = {

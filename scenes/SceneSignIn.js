@@ -112,6 +112,10 @@ export default class SceneSignIn extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  _handleUsernameChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value.toLowerCase() });
+  };
+
   _handleSubmit = async () => {
     this.setState({ loading: true });
 
@@ -155,7 +159,7 @@ export default class SceneSignIn extends React.Component {
     this.setState({ loading: true });
 
     const response = await Actions.checkUsername({
-      username: this.state.username,
+      username: this.state.username.toLowerCase(),
     });
 
     if (!response) {
@@ -205,7 +209,7 @@ export default class SceneSignIn extends React.Component {
               name="username"
               type="text"
               value={this.state.username}
-              onChange={this._handleChange}
+              onChange={this._handleUsernameChange}
               onSubmit={this._handleCheckUsername}
             />
 

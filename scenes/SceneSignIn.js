@@ -48,6 +48,20 @@ const STYLES_POPOVER = css`
   width: 100%;
   background: ${Constants.system.white};
   color: ${Constants.system.black};
+
+  @keyframes authentication-popover-fade-in {
+    from {
+      transform: translateY(-8px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+
+  animation: authentication-popover-fade-in 400ms ease;
 `;
 
 const STYLES_LINKS = css`

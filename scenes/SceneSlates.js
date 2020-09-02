@@ -10,6 +10,7 @@ import ScenePageHeader from "~/components/core/ScenePageHeader";
 import Section from "~/components/core/Section";
 import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
+import EmptyState from "~/components/core/EmptyState";
 
 const STYLES_NUMBER = css`
   font-family: ${Constants.font.semiBold};
@@ -56,6 +57,7 @@ const STYLES_TAB = css`
   cursor: pointer;
   display: inline-block;
   font-size: ${Constants.typescale.lvl1};
+  user-select: none;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin-right: 12px;
@@ -64,14 +66,8 @@ const STYLES_TAB = css`
 
 const STYLES_TAB_GROUP = css`
   ${"" /* border-bottom: 1px solid ${Constants.system.gray}; */}
-  margin: 38px 0px 24px 0px;
-`;
-
-const STYLES_EMPTY_MESSAGE = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
+  margin: 36px 0px 24px 0px;
+  padding: 0 0 0 2px;
 `;
 
 // TODO(jim): Slates design.
@@ -93,7 +89,9 @@ export default class SceneSlates extends React.Component {
     const slates = this.props.viewer.slates.map((each) => {
       return {
         ...each,
-        url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
+        url: `https://slate.host/${this.props.viewer.username}/${
+          each.slatename
+        }`,
         public: each.data.public,
         objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
       };
@@ -163,11 +161,9 @@ export default class SceneSlates extends React.Component {
             ))
           : null}
         {this.state.tab === "following" ? (
-          <div css={STYLES_EMPTY_MESSAGE}>
-            <div style={{ maxWidth: "400px", textAlign: "center" }}>
-              Coming soon!
-            </div>
-          </div>
+          <EmptyState style={{ marginTop: 88 }}>
+            This feature is coming soon.
+          </EmptyState>
         ) : null}
         {/* this.props.viewer.subscriptions
               .filter((each) => {

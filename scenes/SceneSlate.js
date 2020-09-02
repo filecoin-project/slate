@@ -28,58 +28,55 @@ const moveIndex = (set, fromIndex, toIndex) => {
   return set;
 };
 
+// TODO(jim + martina):
+// Sub state for scenes and sidebars is getting out of hand.
+// I don't want some crazy global solution, so lets think of a rudimentry
+// way to keep things sane
+const setStateData = (source, viewer) => {
+  return {
+    name: source.data.name,
+    username: source.owner ? source.owner.username : null,
+    slatename: source.slatename,
+    public: source.data.public,
+    objects: source.data.objects,
+    body: source.data.body,
+    layouts: source.data.layouts
+      ? source.data.layouts
+      : { lg: generateLayout(source.data.objects) },
+    editing: source.data.ownerId === viewer.id,
+    loading: false,
+  };
+};
+
 export default class SceneSlate extends React.Component {
   state = {
-    name: this.props.data.data.name,
-    username: this.props.data.owner ? this.props.data.owner.username : null,
-    slatename: this.props.data.slatename,
-    public: this.props.data.data.public,
-    objects: this.props.data.data.objects,
-    body: this.props.data.data.body,
-    layouts: this.props.data.data.layouts
-      ? this.props.data.data.layouts
-      : { lg: generateLayout(this.props.data.data.objects) },
+    ...setStateData(this.props.data, this.props.viewer),
     loading: false,
-    editing: this.props.data.data.ownerId === this.props.viewer.id,
+    editing: (this.props.data.data.ownerId = this.props.viewer.id),
   };
 
   componentDidMount() {
     this._handleUpdateCarousel(this.state);
   }
 
+  // TODO(jim): move to timestamps. This is stupid.
   componentDidUpdate(prevProps) {
-    const isNewSlateScene =
-      prevProps.data.slatename !== this.props.data.slatename;
+    const updated =
+      this.props.current.updated_at !== prevProps.current.updated_at;
 
-    let isUpdated = false;
-    if (
-      this.props.data.data.objects.length !== prevProps.data.data.objects.length
-    ) {
-      isUpdated = true;
-    }
+    if (updated) {
+      let editing;
 
-    if (this.props.data.data.body !== prevProps.data.data.body) {
-      isUpdated = true;
-    }
-
-    if (isNewSlateScene || isUpdated) {
-      let layouts = this.props.data.data.layouts;
-      if (!layouts) {
-        layouts = { lg: generateLayout(this.props.data.data.objects) };
-      }
+      this.props.viewer.slates.forEach((slate) => {
+        if (slate.id === this.props.current.slateId) {
+          editing = true;
+        }
+      });
 
       this.setState({
-        username: this.props.data.owner ? this.props.data.owner.username : null,
-        slatename: this.props.data.slatename,
-        public: this.props.data.data.public,
-        objects: this.props.data.data.objects,
-        body: this.props.data.data.body,
-        name: this.props.data.data.name,
-        layouts: layouts,
+        ...setStateData(this.props.current, this.props.viewer),
         loading: false,
-        editing: this.props.viewer.slates
-          .map((slate) => slate.id)
-          .includes(this.props.data.slateId),
+        editing,
       });
 
       this._handleUpdateCarousel({

@@ -5,7 +5,7 @@ import * as SVG from "~/components/system/svg";
 import { css } from "@emotion/react";
 
 const STYLES_BUTTON = css`
-  background-color: ${Constants.system.gray};
+  background-color: ${Constants.system.white};
   color: ${Constants.system.pitchBlack};
   display: inline-flex;
   width: 36px;
@@ -19,6 +19,11 @@ const STYLES_BUTTON = css`
   cursor: pointer;
   user-select: none;
   flex-shrink: 0;
+
+  :hover {
+    color: ${Constants.system.white};
+    background-color: ${Constants.system.brand};
+  }
 `;
 
 export const CircleButtonLight = (props) => {

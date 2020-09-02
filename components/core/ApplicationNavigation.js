@@ -5,7 +5,7 @@ import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 
-import ApplicationControlMenu from "~/components/core/ApplicationControlMenu";
+import ApplicationUserControls from "~/components/core/ApplicationUserControls";
 
 const IconMap = {
   HOME: <SVG.Home height="20px" />,
@@ -29,17 +29,6 @@ const STYLES_NAVIGATION = css`
   font-size: 18px;
 `;
 
-const STYLES_NAVIGATION_HEADER = css`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 64px 24px 48px 42px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 64px 0 48px 16px;
-  }
-`;
-
 const STYLES_NAVIGATION_ITEM = css`
   display: flex;
   align-items: flex-start;
@@ -53,44 +42,6 @@ const STYLES_NAVIGATION_ITEM = css`
     padding-right: 0px;
     color: ${Constants.system.brand};
   }
-`;
-
-const STYLES_PROFILE = css`
-  font-family: ${Constants.font.semiBold};
-  color: ${Constants.system.pitchBlack};
-  background-color: ${Constants.system.white};
-  font-size: 12px;
-  line-height: 12px;
-  text-decoration: none;
-  flex-shrink: 0;
-  padding-right: 24px;
-  height: 38px;
-  border-radius: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  transition: 200ms ease all;
-  cursor: pointer;
-/*
-  :hover {
-    color: ${Constants.system.white};
-    background-color: ${Constants.system.brand};
-  }
-*/
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
-`;
-
-const STYLES_PROFILE_IMAGE = css`
-  background-size: cover;
-  background-position: 50% 50%;
-  flex-shrink: 0;
-  height: 32px;
-  width: 32px;
-  border-radius: 32px;
-  margin-right: 16px;
-  margin-left: 4px;
 `;
 
 const STYLES_EXPANDER = css`
@@ -257,32 +208,12 @@ export default class ApplicationNavigation extends React.Component {
   render() {
     return (
       <nav css={STYLES_NAVIGATION}>
-        <div css={STYLES_NAVIGATION_HEADER}>
-          <div
-            css={STYLES_PROFILE}
-            style={{ marginRight: 16 }}
-            onClick={() =>
-              this.props.onAction({
-                type: "NAVIGATE",
-                value: "V1_NAVIGATION_PROFILE",
-                data: this.props.viewer,
-              })
-            }
-          >
-            <span
-              css={STYLES_PROFILE_IMAGE}
-              style={{
-                backgroundImage: `url('${this.props.viewer.data.photo}')`,
-              }}
-            />
-            {this.props.viewer.username}
-          </div>
-          <ApplicationControlMenu
-            onNavigateTo={this.props.onNavigateTo}
-            onAction={this.props.onAction}
-            onSignOut={this.props.onSignOut}
-          />
-        </div>
+        <ApplicationUserControls
+          viewer={this.props.viewer}
+          onNavigateTo={this.props.onNavigateTo}
+          onAction={this.props.onAction}
+          onSignOut={this.props.onSignOut}
+        />
 
         {this.props.navigation.map((each) => {
           if (!each || each.ignore) {
@@ -296,11 +227,11 @@ export default class ApplicationNavigation extends React.Component {
               acitveId={this.props.activeId}
               activeIds={this.props.activeIds}
               key={each.id}
-              onNavigateTo={this.props.onNavigateTo}
               level={0}
               treeChildren={each.children}
               decorator={each.decorator}
               children={each.name}
+              onNavigateTo={this.props.onNavigateTo}
             />
           );
         })}

@@ -9,7 +9,6 @@ import { ButtonPrimary } from "~/components/system/components/Buttons";
 
 import ScenePage from "~/components/core/ScenePage";
 import Profile from "~/components/core/Profile";
-import CircleButtonLight from "~/components/core/CircleButtonLight";
 
 const BUTTON_STYLES = {
   border: `1px solid ${Constants.system.border}`,

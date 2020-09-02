@@ -8,6 +8,7 @@ import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
+import EmptyState from "~/components/core/EmptyState";
 
 const STYLES_TAB = css`
   padding: 8px 8px 8px 0px;
@@ -73,13 +74,6 @@ function UserEntry({ user, button, onClick }) {
     </div>
   );
 }
-
-const STYLES_EMPTY_MESSAGE = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
-`;
 
 export default class SceneDirectory extends React.Component {
   state = {
@@ -290,36 +284,30 @@ export default class SceneDirectory extends React.Component {
           requests.length ? (
             requests
           ) : (
-            <div css={STYLES_EMPTY_MESSAGE}>
-              <div style={{ maxWidth: "400px", textAlign: "center" }}>
-                No requests at the moment! Once someone sends you a trust
-                request it'll appear here.
-              </div>
-            </div>
+            <EmptyState style={{ marginTop: 88 }}>
+              No requests at the moment! Once someone sends you a trust request
+              it will appear here.
+            </EmptyState>
           )
         ) : null}
         {this.state.tab === "peers" ? (
           trusted.length ? (
             trusted
           ) : (
-            <div css={STYLES_EMPTY_MESSAGE}>
-              <div style={{ maxWidth: "400px", textAlign: "center" }}>
-                You have no peers yet. Get started by searching for your friends
-                and sending them a peer request!
-              </div>
-            </div>
+            <EmptyState style={{ marginTop: 88 }}>
+              You have no peers yet. Get started by searching for your friends
+              and sending them a peer request!
+            </EmptyState>
           )
         ) : null}
         {this.state.tab === "following" ? (
           following.length ? (
             following
           ) : (
-            <div css={STYLES_EMPTY_MESSAGE}>
-              <div style={{ maxWidth: "400px", textAlign: "center" }}>
-                You are not following anybody. Get started by searching for your
-                friends and clicking follow!
-              </div>
-            </div>
+            <EmptyState style={{ marginTop: 88 }}>
+              You are not following anybody. Get started by searching for your
+              friends and clicking follow!
+            </EmptyState>
           )
         ) : null}
       </ScenePage>

@@ -1,8 +1,8 @@
-import { css } from "@emotion/react";
-
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
+
+import { css } from "@emotion/react";
 
 const STYLES_PILL = css`
   position: absolute;

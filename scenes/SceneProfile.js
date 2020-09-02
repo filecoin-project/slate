@@ -5,7 +5,10 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
-import { ButtonPrimary } from "~/components/system/components/Buttons";
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+} from "~/components/system/components/Buttons";
 
 import ScenePage from "~/components/core/ScenePage";
 import Profile from "~/components/core/Profile";
@@ -17,18 +20,6 @@ const BUTTON_STYLES = {
   margin: "8px",
   padding: "8px 16px",
   minHeight: "30px",
-};
-
-const BUTTON_SECONDARY_STYLE = {
-  ...BUTTON_STYLES,
-  backgroundColor: Constants.system.white,
-  color: Constants.system.brand,
-};
-
-const BUTTON_PRIMARY_STYLE = {
-  ...BUTTON_STYLES,
-  backgroundColor: Constants.system.brand,
-  color: Constants.system.white,
 };
 
 const STATUS_BUTTON_MAP = {
@@ -151,37 +142,48 @@ export default class SceneProfile extends React.Component {
   render() {
     let buttons = (
       <div>
-        <ButtonPrimary
-          style={
-            this.state.followStatus
-              ? BUTTON_SECONDARY_STYLE
-              : BUTTON_PRIMARY_STYLE
-          }
-          onClick={this._handleFollow}
-        >
-          {this.state.followStatus ? "Unfollow" : "Follow"}
-        </ButtonPrimary>
-        <ButtonPrimary
-          style={
-            this.state.trustStatus === "untrusted" ||
-            this.state.trustStatus === "received"
-              ? BUTTON_PRIMARY_STYLE
-              : BUTTON_SECONDARY_STYLE
-          }
-          onClick={this._handleTrust}
-        >
-          {STATUS_BUTTON_MAP[this.state.trustStatus]}
-        </ButtonPrimary>
-        {this.state.isTrusted ? (
+        {this.state.followStatus ? (
+          <ButtonSecondary
+            style={{ margin: "0px 8px" }}
+            onClick={this._handleFollow}
+          >
+            Unfollow
+          </ButtonSecondary>
+        ) : (
+          <ButtonPrimary
+            style={{ margin: "0px 8px" }}
+            onClick={this._handleFollow}
+          >
+            Follow
+          </ButtonPrimary>
+        )}
+        {this.state.trustStatus === "untrusted" ||
+        this.state.trustStatus === "received" ? (
+          <ButtonPrimary
+            style={{ margin: "0px 8px" }}
+            onClick={this._handleTrust}
+          >
+            {STATUS_BUTTON_MAP[this.state.trustStatus]}
+          </ButtonPrimary>
+        ) : (
+          <ButtonSecondary
+            style={{ margin: "0px 8px" }}
+            onClick={this._handleTrust}
+          >
+            {STATUS_BUTTON_MAP[this.state.trustStatus]}
+          </ButtonSecondary>
+        )}
+        {/* {this.state.trustStatus === "trusted" ? (
           <ButtonPrimary style={BUTTON_STYLE} onClick={this._handleSendMoney}>
             Send Money
           </ButtonPrimary>
-        ) : null}
+        ) : null} */}
       </div>
     );
     return (
-      <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
+      <ScenePage>
         <Profile
+          {...this.props}
           onAction={this.props.onAction}
           creator={this.props.data}
           sceneId={this.props.sceneId}

@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
+import { ProcessedText } from "~/components/system/components/Typography";
 
 import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
 
@@ -23,7 +24,18 @@ const STYLES_PROFILE_IMAGE = css`
 
 const STYLES_NAME = css`
   font-size: ${Constants.typescale.lvl3};
-  margin: 16px 0px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 24px 0 24px;
+`;
+
+const STYLES_DESCRIPTION = css`
+  font-size: ${Constants.typescale.lvl1};
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 24px 0 24px;
 `;
 
 const STYLES_LINK = css`
@@ -40,11 +52,22 @@ export default class Profile extends React.Component {
           css={STYLES_PROFILE_IMAGE}
           style={{ backgroundImage: `url('${data.data.photo}')` }}
         />
-        <div css={STYLES_NAME}>{data.username}</div>
+        <br />
+        <div css={STYLES_NAME}>{data.data.name || data.username}</div>
+        <br />
+        {data.data.body ? (
+          <React.Fragment>
+            <div css={STYLES_DESCRIPTION}>
+              <ProcessedText text={data.data.body} />
+            </div>
+            <br />
+          </React.Fragment>
+        ) : null}
+        <br />
         {this.props.buttons}
         <br />
         {data.slates && data.slates.length ? (
-          <div style={{ width: "100%" }}>
+          <div>
             {data.slates.map((slate) => {
               const url = `/${data.username}/${slate.slatename}`;
               if (this.props.onAction) {

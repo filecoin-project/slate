@@ -28,12 +28,19 @@ export default class SidebarCreateSlate extends React.Component {
       name: this.state.name,
     });
 
+    console.log(response);
+
     if (response && response.error) {
       // TODO(jim): Error task.
       alert(response.decorator);
     }
 
     this.setState({ loading: false });
+    this.props.onAction({
+      type: "NAVIGATE",
+      value: response.slate.id,
+      data: response.slate,
+    });
   };
 
   _handleCancel = () => {

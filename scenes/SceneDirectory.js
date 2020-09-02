@@ -5,6 +5,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
 
 import { css } from "@emotion/react";
+import { TabGroup } from "~/components/core/TabGroup";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -80,7 +81,7 @@ function UserEntry({ user, button, onClick }) {
 export default class SceneDirectory extends React.Component {
   state = {
     loading: false,
-    tab: "requests",
+    tab: 0,
     viewer: this.props.viewer,
   };
 
@@ -239,50 +240,15 @@ export default class SceneDirectory extends React.Component {
           />
         );
       });
-
     return (
       <ScenePage>
         <ScenePageHeader title="Directory" />
-        <div css={STYLES_TAB_GROUP}>
-          <div
-            css={STYLES_TAB}
-            style={{
-              color:
-                this.state.tab === "requests"
-                  ? Constants.system.pitchBlack
-                  : Constants.system.gray,
-            }}
-            onClick={() => this.setState({ tab: "requests" })}
-          >
-            Requests
-          </div>
-          <div
-            css={STYLES_TAB}
-            style={{
-              color:
-                this.state.tab === "peers"
-                  ? Constants.system.pitchBlack
-                  : Constants.system.gray,
-            }}
-            onClick={() => this.setState({ tab: "peers" })}
-          >
-            Trusted
-          </div>
-          <div
-            css={STYLES_TAB}
-            style={{
-              marginRight: "0px",
-              color:
-                this.state.tab === "following"
-                  ? Constants.system.pitchBlack
-                  : Constants.system.gray,
-            }}
-            onClick={() => this.setState({ tab: "following" })}
-          >
-            Following
-          </div>
-        </div>
-        {this.state.tab === "requests" ? (
+        <TabGroup
+          tabs={["Requests", "Trusted", "Following"]}
+          value={this.state.tab}
+          onChange={(value) => this.setState({ tab: value })}
+        />
+        {this.state.tab === 0 ? (
           requests.length ? (
             requests
           ) : (
@@ -292,7 +258,7 @@ export default class SceneDirectory extends React.Component {
             </EmptyState>
           )
         ) : null}
-        {this.state.tab === "peers" ? (
+        {this.state.tab === 1 ? (
           trusted.length ? (
             trusted
           ) : (
@@ -302,7 +268,7 @@ export default class SceneDirectory extends React.Component {
             </EmptyState>
           )
         ) : null}
-        {this.state.tab === "following" ? (
+        {this.state.tab === 2 ? (
           following.length ? (
             following
           ) : (

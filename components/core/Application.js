@@ -481,9 +481,11 @@ export default class ApplicationPage extends React.Component {
 
     // NOTE(jim): Authenticated.
     const navigation = NavigationData.generate(this.state.viewer);
+    console.log(navigation);
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
     console.log(this.state.history);
+    console.log(current);
 
     const navigationElement = (
       <ApplicationNavigation

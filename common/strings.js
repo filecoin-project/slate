@@ -31,6 +31,14 @@ export const getKey = (text) => {
   return text.replace("Basic ", "");
 };
 
+export const getPresentationName = (user) => {
+  if (!isEmpty(user.data.name)) {
+    return user.data.name;
+  }
+
+  return user.username;
+};
+
 export const getCIDGatewayURL = (cid) => {
   return `https://${cid}.${Constants.gateways.ipfs}`;
 };

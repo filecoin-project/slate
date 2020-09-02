@@ -3,11 +3,14 @@ import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
+import { Logo } from "~/common/logo";
 
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
+import Avatar from "~/components/core/Avatar";
 
 const delay = (time) =>
   new Promise((resolve) =>
@@ -21,7 +24,7 @@ const STYLES_ROOT = css`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 100vh;
+  min-height: 100vh;
   text-align: center;
   font-size: 1rem;
 `;
@@ -41,10 +44,38 @@ const STYLES_MIDDLE = css`
 const STYLES_POPOVER = css`
   padding: 32px;
   border-radius: 4px;
-  max-width: 336px;
+  max-width: 376px;
   width: 100%;
   background: ${Constants.system.white};
   color: ${Constants.system.black};
+`;
+
+const STYLES_LINKS = css`
+  margin-top: 24px;
+  max-width: 376px;
+  width: 100%;
+  padding-left: 26px;
+`;
+
+const STYLES_LINK_ITEM = css`
+  display: block;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: ${Constants.font.semiBold};
+  user-select: none;
+  cursor: pointer;
+  margin-top: 2px;
+  color: ${Constants.system.black};
+  transition: 200ms ease all;
+
+  :visited {
+    color: ${Constants.system.black};
+  }
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
 `;
 
 const STYLES_CODE_PREVIEW = css`
@@ -57,6 +88,7 @@ const STYLES_CODE_PREVIEW = css`
 
 export default class SceneSignIn extends React.Component {
   state = {
+    scene: "WELCOME",
     username: "",
     password: "",
     loading: false,
@@ -73,14 +105,15 @@ export default class SceneSignIn extends React.Component {
 
     if (!Validations.username(this.state.username)) {
       alert(
-        "TODO: Your username was invalid, only characters and numbers allowed."
+        "Your username was invalid, only characters and numbers are allowed."
       );
       this.setState({ loading: false });
       return;
     }
 
     if (!Validations.password(this.state.password)) {
-      alert("TODO: Your password must be at least 8 characters.");
+      alert("Your password must be at least 8 characters.");
+      this.setState({ loading: false });
       return;
     }
 
@@ -89,10 +122,8 @@ export default class SceneSignIn extends React.Component {
       password: this.state.password,
     });
 
-    console.log("AUTH_RESPONSE", response);
-
     if (!response || response.error) {
-      alert("TODO: Failed to authenticate message.");
+      alert("We could not sign you into your account, try again later.");
       this.setState({ loading: false });
       return;
     }
@@ -100,47 +131,200 @@ export default class SceneSignIn extends React.Component {
     return this.props.onNavigateTo({ id: "V1_NAVIGATION_HOME" });
   };
 
-  render() {
-    let popover = (
-      <div css={STYLES_POPOVER}>
-        <System.H3>Welcome</System.H3>
-        <System.P style={{ marginTop: 8, marginBottom: 32 }}>
-          Sign in to manage your data, slates, and profile.
-        </System.P>
+  _handleCheckUsername = async () => {
+    if (!Validations.username(this.state.username)) {
+      return alert(
+        "Your username was invalid, only characters and numbers are allowed."
+      );
+    }
 
-        <System.Input
-          label="Username"
-          name="username"
-          value={this.state.username}
-          onChange={this._handleChange}
-        />
-        <div css={STYLES_CODE_PREVIEW} style={{ marginTop: 8 }}>
-          Characters + numbers only
+    this.setState({ loading: true });
+
+    const response = await Actions.checkUsername({
+      username: this.state.username,
+    });
+
+    if (!response) {
+      return this.setState({
+        scene: "CREATE_ACCOUNT",
+        loading: false,
+        user: null,
+      });
+    }
+
+    if (response.data) {
+      return this.setState({
+        scene: "SIGN_IN",
+        loading: false,
+        user: response.data,
+      });
+    }
+
+    return this.setState({
+      scene: "CREATE_ACCOUNT",
+      loading: false,
+      user: null,
+    });
+  };
+
+  _getPopoverComponent = () => {
+    if (this.state.scene === "WELCOME") {
+      return (
+        <React.Fragment>
+          <div css={STYLES_POPOVER} key={this.state.scene}>
+            <Logo
+              height="36px"
+              style={{ display: "block", margin: "48px auto 64px auto" }}
+            />
+
+            <System.H3 style={{ fontWeight: 700, textAlign: "center" }}>
+              Welcome
+            </System.H3>
+            <System.P style={{ marginTop: 16, textAlign: "center" }}>
+              Enter your username to create a new account or sign into an
+              existing one.
+            </System.P>
+
+            <System.Input
+              containerStyle={{ marginTop: 24 }}
+              label="Username"
+              name="username"
+              type="text"
+              value={this.state.username}
+              onChange={this._handleChange}
+              onSubmit={this._handleCheckUsername}
+            />
+
+            <System.ButtonPrimary
+              full
+              style={{ marginTop: 24 }}
+              loading={this.state.loading}
+              onClick={this._handleCheckUsername}
+            >
+              Continue
+            </System.ButtonPrimary>
+          </div>
+          <div css={STYLES_LINKS}>
+            <a css={STYLES_LINK_ITEM} href="#" target="_blank">
+              ⭢ Terms of service
+            </a>
+            <a css={STYLES_LINK_ITEM} href="#" target="_blank">
+              ⭢ Community guidelines
+            </a>
+          </div>
+        </React.Fragment>
+      );
+    }
+
+    if (this.state.scene === "CREATE_ACCOUNT") {
+      return (
+        <React.Fragment>
+          <div css={STYLES_POPOVER} key={this.state.scene}>
+            <Avatar
+              size={88}
+              url={"/public/static/new-brand-teaser.png"}
+              style={{ margin: "48px auto 64px auto", display: "block" }}
+            />
+
+            <System.H3 style={{ fontWeight: 700, textAlign: "center" }}>
+              {this.state.username} is available!
+            </System.H3>
+            <System.P
+              style={{ marginTop: 16, marginBottom: 24, textAlign: "center" }}
+            >
+              Enter a password to create an account.
+            </System.P>
+
+            <System.Input
+              containerStyle={{ marginTop: 24 }}
+              label="Password"
+              name="password"
+              type="password"
+              value={this.state.password}
+              onChange={this._handleChange}
+              onSubmit={this._handleSubmit}
+            />
+
+            <System.ButtonPrimary
+              full
+              style={{ marginTop: 24 }}
+              onClick={!this.state.loading ? this._handleSubmit : () => {}}
+              loading={this.state.loading}
+            >
+              Create account
+            </System.ButtonPrimary>
+          </div>
+          <div css={STYLES_LINKS}>
+            <div
+              css={STYLES_LINK_ITEM}
+              onClick={() => {
+                this.setState({ scene: "WELCOME", loading: false });
+              }}
+            >
+              ⭢ Already have an account?
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    }
+
+    return (
+      <React.Fragment>
+        <div css={STYLES_POPOVER} key={this.state.scene}>
+          <Avatar
+            size={88}
+            url={this.state.user.data.photo}
+            style={{ margin: "48px auto 64px auto", display: "block" }}
+          />
+
+          <System.H3
+            style={{ fontWeight: 700, textAlign: "center", display: "block" }}
+          >
+            Welcome back {Strings.getPresentationName(this.state.user)}!
+          </System.H3>
+          <System.P
+            style={{ marginTop: 16, marginBottom: 24, textAlign: "center" }}
+          >
+            Enter your password to access your account, slates, and the
+            developer API.
+          </System.P>
+
+          <System.Input
+            containerStyle={{ marginTop: 24 }}
+            label="Password"
+            name="password"
+            type="password"
+            value={this.state.password}
+            onChange={this._handleChange}
+            onSubmit={this._handleSubmit}
+          />
+
+          <System.ButtonPrimary
+            full
+            style={{ marginTop: 32 }}
+            onClick={!this.state.loading ? this._handleSubmit : () => {}}
+            loading={this.state.loading}
+          >
+            Sign in
+          </System.ButtonPrimary>
         </div>
-
-        <System.Input
-          containerStyle={{ marginTop: 24 }}
-          label="Password"
-          name="password"
-          type="password"
-          value={this.state.password}
-          onChange={this._handleChange}
-          onSubmit={this._handleSubmit}
-        />
-        <div css={STYLES_CODE_PREVIEW} style={{ marginTop: 8 }}>
-          At least 8 characters
+        <div css={STYLES_LINKS}>
+          <div
+            css={STYLES_LINK_ITEM}
+            onClick={() => {
+              this.setState({ scene: "WELCOME", loading: false });
+            }}
+          >
+            ⭢ Not {Strings.getPresentationName(this.state.user)}? Sign in as
+            someone else.
+          </div>
         </div>
-
-        <System.ButtonPrimary
-          full
-          style={{ marginTop: 48 }}
-          onClick={!this.state.loading ? this._handleSubmit : () => {}}
-          loading={this.state.loading}
-        >
-          Sign in
-        </System.ButtonPrimary>
-      </div>
+      </React.Fragment>
     );
+  };
+
+  render() {
+    const popover = this._getPopoverComponent();
 
     return (
       <div css={STYLES_ROOT}>

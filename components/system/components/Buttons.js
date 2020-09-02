@@ -95,10 +95,11 @@ export const ButtonPrimary = (props) => {
       <label
         css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
         style={props.style}
-        onClick={props.onClick}
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}
+        onMouseUp={props.onClick}
+        onTouchEnd={props.onClick}
       />
     );
   }
@@ -107,7 +108,8 @@ export const ButtonPrimary = (props) => {
     <button
       css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
       style={props.style}
-      onClick={props.onClick}
+      onMouseUp={props.onClick}
+      onTouchEnd={props.onClick}
       children={props.children}
     />
   );
@@ -176,7 +178,8 @@ export const ButtonSecondary = (props) => {
           props.full ? STYLES_BUTTON_SECONDARY_FULL : STYLES_BUTTON_SECONDARY
         }
         style={props.style}
-        onClick={props.onClick}
+        onMouseUp={props.onClick}
+        onTouchEnd={props.onClick}
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}

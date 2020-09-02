@@ -46,6 +46,13 @@ export const sendFilecoin = async (data) => {
   });
 };
 
+export const checkUsername = async (data) => {
+  return await returnJSON(`/api/users/check`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
 export const archive = async () => {
   return await returnJSON(`/api/data/archive`, {
     ...DEFAULT_OPTIONS,

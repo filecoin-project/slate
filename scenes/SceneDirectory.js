@@ -16,6 +16,7 @@ const STYLES_TAB = css`
   cursor: pointer;
   display: inline-block;
   font-size: ${Constants.typescale.lvl1};
+  user-select: none;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin-right: 12px;

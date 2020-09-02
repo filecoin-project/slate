@@ -126,7 +126,7 @@ export default class ApplicationHeader extends React.Component {
             style={{ marginLeft: 24 }}
             onClick={this._handleCreateSearch}
           >
-            <SVG.Search height="20px" />
+            <SVG.Search height="19px" />
           </span>
         </div>
         <div css={STYLES_MIDDLE} />

@@ -60,13 +60,15 @@ export default class SidebarAddFileToBucket extends React.Component {
       let file = e.target.files[i];
 
       if (!file) {
-        alert("TODO: Something went wrong");
+        alert("We could not find any files to upload.");
         continue;
       }
 
       const isAllowed = Validations.isFileTypeAllowed(file.type);
       if (!isAllowed) {
-        alert("TODO: File type is not allowed, yet.");
+        alert(
+          `We currently do not accept ${file.type} yet but may in the future.`
+        );
         continue;
       }
 
@@ -79,7 +81,7 @@ export default class SidebarAddFileToBucket extends React.Component {
     }
 
     if (!files.length) {
-      alert("TODO: Files not supported error");
+      alert("We could not find any files to upload.");
       return this.props.onRegisterFileLoading({ fileLoading: null });
     }
 
@@ -98,12 +100,16 @@ export default class SidebarAddFileToBucket extends React.Component {
       });
 
       if (!response) {
-        alert("TODO: File upload error");
+        alert(
+          "Something went wrong with saving your new file. Please refresh your browser."
+        );
         continue;
       }
 
       if (response.error) {
-        alert("TODO: File upload error");
+        alert(
+          "Something went wrong with saving your new file. Please refresh your browser."
+        );
         continue;
       }
     }

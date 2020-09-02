@@ -57,6 +57,7 @@ export default class SidebarCreateSlate extends React.Component {
           name="name"
           value={this.state.name}
           onChange={this._handleChange}
+          onSubmit={this._handleSubmit}
         />
 
         <System.P style={{ marginTop: 24 }}>

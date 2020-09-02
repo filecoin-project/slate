@@ -32,7 +32,7 @@ const moveIndex = (set, fromIndex, toIndex) => {
 // Sub state for scenes and sidebars is getting out of hand.
 // I don't want some crazy global solution, so lets think of a rudimentry
 // way to keep things sane
-const setStateData = (source, viewer) => {
+const setStateData = (source) => {
   return {
     name: source.data.name,
     username: source.owner ? source.owner.username : null,
@@ -43,8 +43,6 @@ const setStateData = (source, viewer) => {
     layouts: source.data.layouts
       ? source.data.layouts
       : { lg: generateLayout(source.data.objects) },
-    editing: source.data.ownerId === viewer.id,
-    loading: false,
   };
 };
 
@@ -52,41 +50,45 @@ export default class SceneSlate extends React.Component {
   state = {
     ...setStateData(this.props.data, this.props.viewer),
     loading: false,
-    editing: (this.props.data.data.ownerId = this.props.viewer.id),
+    saving: "IDLE",
+    editing: this.props.data.data.ownerId === this.props.viewer.id,
   };
 
   componentDidMount() {
     this._handleUpdateCarousel(this.state);
   }
 
-  // TODO(jim): move to timestamps. This is stupid.
   componentDidUpdate(prevProps) {
     const updated =
       this.props.current.updated_at !== prevProps.current.updated_at;
 
-    if (updated) {
-      let editing;
-
-      this.props.viewer.slates.forEach((slate) => {
-        if (slate.id === this.props.current.slateId) {
-          editing = true;
-        }
-      });
-
-      this.setState({
-        ...setStateData(this.props.current, this.props.viewer),
-        loading: false,
-        editing,
-      });
-
-      this._handleUpdateCarousel({
-        objects: this.props.data.data.objects,
-      });
+    if (!updated) {
+      return;
     }
+
+    let editing;
+
+    this.props.viewer.slates.forEach((slate) => {
+      if (slate.id === this.props.current.slateId) {
+        editing = true;
+      }
+    });
+
+    this.setState({
+      ...setStateData(this.props.current, this.props.viewer),
+      loading: false,
+      saving: "SAVED",
+      editing,
+    });
+
+    this._handleUpdateCarousel({
+      objects: this.props.data.data.objects,
+    });
   }
 
   _handleChangeLayout = async (layout, layouts) => {
-    this.setState({ layouts });
+    this.setState({ layouts, saving: "SAVING" });
+    await this._handleSave(null, null, layouts);
   };
 
   _handleSaveLayout = async () => {
@@ -114,12 +116,12 @@ export default class SceneSlate extends React.Component {
     });
 
     if (!response) {
-      this.setState({ loading: false });
+      this.setState({ loading: false, saving: "ERROR" });
       alert("TODO: Server Error");
     }
 
     if (response.error) {
-      this.setState({ loading: false });
+      this.setState({ loading: false, saving: "ERROR" });
       alert(`TODO: ${response.decorator}`);
     }
 
@@ -328,6 +330,7 @@ export default class SceneSlate extends React.Component {
         <Slate
           key={slatename}
           editing={this.state.editing}
+          saving={this.state.saving}
           items={objects}
           layouts={this.state.layouts}
           onLayoutChange={this._handleChangeLayout}

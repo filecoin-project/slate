@@ -33,8 +33,12 @@ app.prepare().then(async () => {
   server.get("/system", async (r, s) => s.redirect("/_/system"));
   server.get("/experiences", async (r, s) => s.redirect("/_/system"));
   server.get("/_/experiences", async (r, s) => s.redirect("/_/system"));
-  server.get("/system/:c", async (r, s) => s.redirect(`/_/system/${r.params.c}`));
-  server.get("/experiences/:m", async (r, s) => s.redirect(`/_/experiences/${r.params.m}`));
+  server.get("/system/:c", async (r, s) =>
+    s.redirect(`/_/system/${r.params.c}`)
+  );
+  server.get("/experiences/:m", async (r, s) =>
+    s.redirect(`/_/experiences/${r.params.m}`)
+  );
   server.all("/api/:a", async (r, s) => handler(r, s, r.url));
   server.all("/api/:a/:b", async (r, s) => handler(r, s, r.url));
 

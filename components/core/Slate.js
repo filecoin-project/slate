@@ -115,7 +115,6 @@ export default class Slate extends React.Component {
   state = {
     currentBreakpoint: "lg",
     compactType: "vertical",
-    saving: "IDLE",
   };
 
   _handleResetLayout = () => {
@@ -136,9 +135,7 @@ export default class Slate extends React.Component {
       return null;
     }
 
-    this.setState({ saving: "SAVING" });
     await this.props.onLayoutSave();
-    this.setState({ saving: "SAVED" });
   };
 
   _handleSelect = (e, index) => {
@@ -187,7 +184,7 @@ export default class Slate extends React.Component {
           />
           <figure css={STYLES_BUTTON}>
             <CircleButtonGray
-              style={{ marginRight: 16 }}
+              style={{ margin: 8 }}
               onMouseUp={(e) => this._handleSelect(e, index)}
               onTouchEnd={(e) => this._handleSelect(e, index)}
             >
@@ -196,6 +193,7 @@ export default class Slate extends React.Component {
 
             {data.deeplink ? (
               <CircleButtonGray
+                style={{ margin: 8 }}
                 onMouseUp={(e) => this._handleDeepLink(e, data)}
                 onTouchEnd={(e) => this._handleDeepLink(e, data)}
               >
@@ -215,7 +213,6 @@ export default class Slate extends React.Component {
   };
 
   onLayoutChange = (layout, layouts) => {
-    this.setState({ saving: "IDLE" });
     this.props.onLayoutChange(layout, layouts);
   };
 
@@ -248,12 +245,12 @@ export default class Slate extends React.Component {
               onClick={this._handleSaveLayout}
               style={{
                 backgroundColor:
-                  this.state.saving === "IDLE" ? Constants.system.brand : null,
+                  this.props.saving === "IDLE" ? Constants.system.brand : null,
               }}
             >
-              {this.state.saving === "SAVING" ? (
+              {this.props.saving === "SAVING" ? (
                 <LoaderSpinner style={{ height: 16, width: 16 }} />
-              ) : this.state.saving === "IDLE" ? (
+              ) : this.props.saving === "IDLE" ? (
                 "Save"
               ) : (
                 "Saved"

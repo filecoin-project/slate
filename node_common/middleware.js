@@ -19,6 +19,7 @@ export const init = (middleware) => {
 };
 
 export const CORS = async (req, res, next) => {
+  /*
   res.header("Access-Control-Allow-Origin", "*");
 
   res.header(
@@ -34,6 +35,7 @@ export const CORS = async (req, res, next) => {
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
+  */
 
   next();
 };

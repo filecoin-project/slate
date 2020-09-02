@@ -12,27 +12,24 @@ const STYLES_CONTAINER = css`
   display: flex;
   align-items: top;
   justify-content: top;
-  padding: 48px 88px;
-  background-color: ${Constants.system.black};
+  padding: 96px 88px 240px 88px;
+  background-color: ${Constants.system.pitchBlack};
   @media (max-width: ${Constants.sizes.mobile}px) {
     position: absolute;
     z-index: 2;
     flex-shrink: 0;
     display: block;
     justify-content: left;
-    height: 400px;
-    padding: 48px 24px;
+    height: 640px;
+    padding: 64px 24px;
   }
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.gray};
+  color: ${Constants.system.moonstone};
   text-decoration: none;
   transition: 200ms ease color;
-
-  :visited {
-    color: ${Constants.system.green};
-  }
+  line-height: 1.5;
 
   :hover {
     color: ${Constants.system.brand};
@@ -41,72 +38,58 @@ const STYLES_LINK = css`
 
 const STYLES_LEFT = css`
   flex-shrink: 0;
-  font-size: 1rem;
+  font-size: 1.563rem;
   color: ${Constants.system.white};
 `;
 
 const STYLES_SLATE = css`
   flex-shrink: 0;
   padding: 0px 0px 8px 0px;
-  font-size: 1rem;
+  font-size: 1.563rem;
   color: ${Constants.system.white};
 `;
 
 const STYLES_TRADEMARK = css`
   width: 80px;
-  margin: -64px 0px 16px 0px;
+  margin: -8px 16px 16px 0px;
 `;
-
-const transition = {
-  loop: Infinity,
-  ease: "easeInOut",
-  duration: 4,
-};
 
 const STYLES_CREDIT = css`
   flex-shrink: 0;
   padding: 8px 0px 8px 0px;
-  font-size: 12px;
+  font-size: 1rem;
   color: ${Constants.system.white};
+  line-height: 1.5;
 `;
 
 const STYLES_RIGHT = css`
   min-width: 10%;
   width: 50%;
   display: flex;
-  flex: 1 1 0px
   align-items: top;
   justify-content: flex-end;
   position: absolute;
   right: 88px;
+  font-size: 1rem;
 
-  color: ${Constants.system.darkGray};
+  color: ${Constants.system.gray};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     position: absolute;
-    Left: 24px;
-    justify-content: flex-start;
-    flex-direction: column;
+    left: 24px;
+    display: block;
   }
 `;
 
 export default (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
+      <div css={STYLES_TRADEMARK}>
+        <img width="88px" src="/static/landing/marketing-tesseract.png" />
+      </div>
       <div css={STYLES_LEFT}>
-        <motion.div
-          css={STYLES_TRADEMARK}
-          animate={{ rotateY: 360 }}
-          transition={transition}
-        >
-          <img width="80px" src="/static/slate.png" />
-        </motion.div>
         <div css={STYLES_SLATE}>
-          Slate is the gateway to{" "}
-          <a css={STYLES_LINK} href="https://filecoin.io">
-            Filecoin
-          </a>{" "}
-          –
+          Slate is the gateway to Filecoin –
           <br />A new network design we trust.
         </div>
         <div css={STYLES_CREDIT}>
@@ -125,9 +108,8 @@ export default (props) => {
       <br />
       <br />
       <div css={STYLES_RIGHT}>
-        <div style={{ marginRight: 48 }}>
-          <b>Reach out</b>
-          <br />
+        <div style={{ marginRight: 88 }}>
+          <p>Reach out</p>
           <br />
           <a css={STYLES_LINK} href="https://twitter.com/_slate">
             Twitter
@@ -140,24 +122,17 @@ export default (props) => {
         <br />
         <br />
         <div>
-          Resources
-          <br />
+          <p>Resources</p>
           <br />
           <a css={STYLES_LINK} href="https://twitter.com/_slate">
             Github
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate/issues"
-          >
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
             Community Guidelines
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate/issues"
-          >
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
             Privacy
           </a>
         </div>

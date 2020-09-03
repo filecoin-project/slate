@@ -24,7 +24,12 @@ import SceneSlate from "~/scenes/SceneSlate";
 import SceneActivity from "~/scenes/SceneActivity";
 import SceneDirectory from "~/scenes/SceneDirectory";
 import SceneProfile from "~/scenes/SceneProfile";
+<<<<<<< HEAD
 import SceneSentinel from "~/scenes/SceneSentinel";
+=======
+import ScenePublicProfile from "~/scenes/ScenePublicProfile";
+import ScenePublicSlate from "~/scenes/ScenePublicSlate";
+>>>>>>> working on serialized endpoint
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -64,7 +69,8 @@ const SCENES = {
   HOME: <SceneHome />,
   DIRECTORY: <SceneDirectory />,
   PROFILE: <SceneProfile />,
-  VIEW_SLATE: <SceneSlate />,
+  PUBLIC_SLATE: <ScenePublicSlate />,
+  PUBLIC_PROFILE: <ScenePublicProfile />,
   WALLET: <SceneWallet />,
   FOLDER: <SceneFilesFolder />,
   FILE: <SceneFile />,

@@ -205,3 +205,17 @@ export const deleteBucketItem = async (data) => {
     body: JSON.stringify({ data }),
   });
 };
+
+export const getSerializedSlate = async (data) => {
+  return await returnJSON(`/api/slates/get-serialized`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
+export const getSerializedProfile = async (data) => {
+  return await returnJSON(`/api/users/get-serialized`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};

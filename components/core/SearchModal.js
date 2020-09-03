@@ -241,9 +241,7 @@ export class SearchModal extends React.Component {
                 type: "SLATE",
                 data: item,
               },
-              component: (
-                <SlateEntry item={item} onAction={this.props.onAction} />
-              ),
+              component: <SlateEntry item={item} />,
             });
           } else if (item.type === "FILE") {
             results.push({
@@ -262,15 +260,17 @@ export class SearchModal extends React.Component {
 
   _handleSelect = async (value) => {
     if (value.type === "SLATE") {
-      if (value.data.owner && value.data.owner.username) {
-        value.data.owner = this.users.filter((user) => {
-          return user.username === value.data.owner.username;
-        })[0];
-      } //TODO: slightly hacky way of getting the data. May want to serialize later?
+      // if (value.data.owner && value.data.owner.username) {
+      //   value.data.owner = this.users.filter((user) => {
+      //     return user.username === value.data.owner.username;
+      //   })[0];
+      // } //TODO: slightly hacky way of getting the data. May want to serialize later?
+      console.log(value);
       this.props.onAction({
         type: "NAVIGATE",
         value: "V1_NAVIGATION_SLATE",
-        data: value.data,
+        scene: "PUBLIC_SLATE",
+        data: { id: value.data.id },
       });
     }
     if (value.type === "USER") {

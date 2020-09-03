@@ -24,6 +24,7 @@ import SceneSlate from "~/scenes/SceneSlate";
 import SceneActivity from "~/scenes/SceneActivity";
 import SceneDirectory from "~/scenes/SceneDirectory";
 import SceneProfile from "~/scenes/SceneProfile";
+import SceneSentinel from "~/scenes/SceneSentinel";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -74,7 +75,7 @@ const SCENES = {
   EDIT_ACCOUNT: <SceneEditAccount />,
   SLATES: <SceneSlates />,
   LOCAL_DATA: <SceneLocalData />,
-  NETWORK: <SceneActivity />,
+  NETWORK: <SceneSentinel />,
   DIRECTORY: <SceneDirectory />,
 };
 

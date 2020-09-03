@@ -116,7 +116,15 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SETTINGS_DEVELOPER",
     name: "API",
     pageTitle: "Developer API",
-    children: null,
+    children: [
+      {
+        id: "V1_NAVIGATION_NETWORK",
+        decorator: "NETWORK",
+        name: "Filecoin Network",
+        pageTitle: "The Filecoin Network",
+        children: null,
+      },
+    ],
   },
   {
     id: "V1_NAVIGATION_PROFILE_EDIT",

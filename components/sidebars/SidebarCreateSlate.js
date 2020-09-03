@@ -33,6 +33,7 @@ export default class SidebarCreateSlate extends React.Component {
     if (response && response.error) {
       // TODO(jim): Error task.
       alert(response.decorator);
+      return;
     }
 
     this.setState({ loading: false });

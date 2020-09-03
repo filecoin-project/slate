@@ -1,14 +1,9 @@
-import * as MW from "~/node_common/middleware";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 import * as Powergate from "~/node_common/powergate";
 
-const initCORS = MW.init(MW.CORS);
-
 export default async (req, res) => {
-  initCORS(req, res);
-
   if (Strings.isEmpty(req.headers.authorization)) {
     return res.status(404).send({
       decorator: "SERVER_API_KEY_MISSING",
@@ -43,13 +38,13 @@ export default async (req, res) => {
   if (!user) {
     return res
       .status(404)
-      .json({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
+      .send({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
     return res
       .status(500)
-      .json({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
+      .send({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
   }
 
   const slates = await Data.getSlatesByUserId({
@@ -58,18 +53,18 @@ export default async (req, res) => {
   });
 
   if (!slates) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "V1_GET_SLATES_NOT_FOUND",
       error: true,
     });
   }
 
   if (slates.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "V1_GET_SLATES_NOT_FOUND",
       error: true,
     });
   }
 
-  return res.status(200).json({ decorator: "V1_GET", slates });
+  return res.status(200).send({ decorator: "V1_GET", slates });
 };

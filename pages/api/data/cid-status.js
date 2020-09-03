@@ -1,11 +1,7 @@
-import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Powergate from "~/node_common/powergate";
 import * as LibraryManager from "~/node_common/managers/library";
-
-const initCORS = MW.init(MW.CORS);
-const initAuth = MW.init(MW.RequireCookieAuthentication);
 
 const check = async (PG, jobId) =>
   new Promise((resolve) => {
@@ -15,9 +11,6 @@ const check = async (PG, jobId) =>
   });
 
 export default async (req, res) => {
-  initCORS(req, res);
-  initAuth(req, res);
-
   if (!req.body.data) {
     return res
       .status(500)

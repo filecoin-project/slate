@@ -2,18 +2,12 @@ import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 
-const initCORS = MW.init(MW.CORS);
-const initAuth = MW.init(MW.RequireCookieAuthentication);
-
 export default async (req, res) => {
-  initCORS(req, res);
-  initAuth(req, res);
-
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
     return res
       .status(403)
-      .json({ decorator: "SERVER_REMOVE_DATA_NOT_ALLOWED", error: true });
+      .send({ decorator: "SERVER_REMOVE_DATA_NOT_ALLOWED", error: true });
   }
 
   const user = await Data.getUserById({
@@ -21,14 +15,14 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "SERVER_BUCKET_ARCHIVE_DEAL_USER_NOT_FOUND",
       error: true,
     });
   }
 
   if (user.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_BUCKET_ARCHIVE_DEAL_USER_NOT_FOUND",
       error: true,
     });

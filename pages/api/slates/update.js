@@ -1,20 +1,13 @@
-import * as MW from "~/node_common/middleware";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 
-const initCORS = MW.init(MW.CORS);
-const initAuth = MW.init(MW.RequireCookieAuthentication);
-
 export default async (req, res) => {
-  initCORS(req, res);
-  initAuth(req, res);
-
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_FIND_USER_UPDATE_SLATE", error: true });
+      .send({ decorator: "SERVER_FIND_USER_UPDATE_SLATE", error: true });
   }
 
   const user = await Data.getUserById({
@@ -22,14 +15,14 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "SERVER_FIND_USER_UPDATE_SLATE_USER_NOT_FOUND",
       error: true,
     });
   }
 
   if (user.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_FIND_USER_UPDATE_SLATE_USER_NOT_FOUND",
       error: true,
     });
@@ -40,24 +33,24 @@ export default async (req, res) => {
   if (!response) {
     return res
       .status(404)
-      .json({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
+      .send({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
   }
 
   if (response.error) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
+      .send({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
   }
 
   if (!req.body.data) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_UPDATE_SLATE_MUST_PROVIDE_DATA",
       error: true,
     });
   }
 
   if (!req.body.data.data.name) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_UPDATE_SLATE_MUST_PROVIDE_NAME",
       error: true,
     });
@@ -76,14 +69,14 @@ export default async (req, res) => {
   if (!slate) {
     return res
       .status(404)
-      .json({ decorator: "SERVER_UPDATE_SLATE", error: true });
+      .send({ decorator: "SERVER_UPDATE_SLATE", error: true });
   }
 
   if (slate.error) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_UPDATE_SLATE", error: true });
+      .send({ decorator: "SERVER_UPDATE_SLATE", error: true });
   }
 
-  return res.status(200).json({ decorator: "SERVER_UPDATE_SLATE", slate });
+  return res.status(200).send({ decorator: "SERVER_UPDATE_SLATE", slate });
 };

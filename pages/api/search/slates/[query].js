@@ -1,15 +1,8 @@
-import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Serializers from "~/node_common/serializers";
 import * as Strings from "~/common/strings";
 
-const initCORS = MW.init(MW.CORS);
-const initAuth = MW.init(MW.RequireCookieAuthentication);
-
 export default async (req, res) => {
-  initCORS(req, res);
-  initAuth(req, res);
-
   if (Strings.isEmpty(req.query.query)) {
     return {
       decorator: "SERVER_SEARCH_NO_QUERY",

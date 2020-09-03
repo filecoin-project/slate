@@ -1,20 +1,13 @@
 import * as Environment from "~/node_common/environment";
-import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
 import * as Validations from "~/common/validations";
 
-const initCORS = MW.init(MW.CORS);
-const initAuth = MW.init(MW.RequireCookieAuthentication);
-
 export default async (req, res) => {
-  initCORS(req, res);
-  initAuth(req, res);
-
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res.status(500).json({ decorator: "SERVER_SUBSCRIBE", error: true });
+    return res.status(500).send({ decorator: "SERVER_SUBSCRIBE", error: true });
   }
 
   const user = await Data.getUserById({
@@ -24,24 +17,24 @@ export default async (req, res) => {
   if (!user) {
     return res
       .status(404)
-      .json({ decorator: "SERVER_SUBSCRIBE_USER_NOT_FOUND", error: true });
+      .send({ decorator: "SERVER_SUBSCRIBE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_SUBSCRIBE_USER_NOT_FOUND", error: true });
+      .send({ decorator: "SERVER_SUBSCRIBE_USER_NOT_FOUND", error: true });
   }
 
   if (!req.body.data || (!req.body.data.userId && !req.body.data.slateId)) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_SUBSCRIBE_MUST_PROVIDE_SLATE_OR_USER",
       error: true,
     });
   }
 
   if (user.id === req.body.data.userId) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_SUBSCRIBE_CAN_NOT_SUBSCRIBE_TO_YOURSELF",
       error: true,
     });
@@ -54,14 +47,14 @@ export default async (req, res) => {
     });
 
     if (!targetUser) {
-      return res.status(404).json({
+      return res.status(404).send({
         decorator: "SERVER_SUBSCRIBE_TARGET_USER_NOT_FOUND",
         error: true,
       });
     }
 
     if (targetUser.error) {
-      return res.status(500).json({
+      return res.status(500).send({
         decorator: "SERVER_SUBSCRIBE_TARGET_USER_NOT_FOUND",
         error: true,
       });
@@ -73,14 +66,14 @@ export default async (req, res) => {
     targetSlate = await Data.getSlateById({ id: req.body.data.slateId });
 
     if (!targetSlate) {
-      return res.status(404).json({
+      return res.status(404).send({
         decorator: "SERVER_SUBSCRIBE_TARGET_SLATE_NOT_FOUND",
         error: true,
       });
     }
 
     if (targetSlate.error) {
-      return res.status(500).json({
+      return res.status(500).send({
         decorator: "SERVER_SUBSCRIBE_TARGET_SLATE_NOT_FOUND",
         error: true,
       });
@@ -94,7 +87,7 @@ export default async (req, res) => {
   });
 
   if (existingResponse && existingResponse.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_SUBSCRIBE_SUBSCRIPTION_CHECK_ERROR",
       error: true,
     });
@@ -109,18 +102,18 @@ export default async (req, res) => {
     if (!unsubscribeResponse) {
       return res
         .status(404)
-        .json({ decorator: "SERVER_UNSUBSCRIBE_NOT_FOUND", error: true });
+        .send({ decorator: "SERVER_UNSUBSCRIBE_NOT_FOUND", error: true });
     }
 
     if (unsubscribeResponse.error) {
       return res
         .status(500)
-        .json({ decorator: "SERVER_UNSUBSCRIBE_ERROR", error: true });
+        .send({ decorator: "SERVER_UNSUBSCRIBE_ERROR", error: true });
     }
 
     return res
       .status(200)
-      .json({ decorator: "SERVER_UNSUBSCRIBE", data: unsubscribeResponse });
+      .send({ decorator: "SERVER_UNSUBSCRIBE", data: unsubscribeResponse });
   }
 
   const subscribeResponse = await Data.createSubscription({
@@ -132,16 +125,16 @@ export default async (req, res) => {
   if (!subscribeResponse) {
     return res
       .status(404)
-      .json({ decorator: "SERVER_SUBSCRIBE_NOT_FOUND", error: true });
+      .send({ decorator: "SERVER_SUBSCRIBE_NOT_FOUND", error: true });
   }
 
   if (subscribeResponse.error) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_SUBSCRIBE_ERROR", error: true });
+      .send({ decorator: "SERVER_SUBSCRIBE_ERROR", error: true });
   }
 
-  return res.status(200).json({
+  return res.status(200).send({
     decorator: "SERVER_SUBSCRIBE",
     data: {
       ...subscribeResponse,

@@ -1,20 +1,13 @@
 import * as Environment from "~/node_common/environment";
-import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
 import * as Validations from "~/common/validations";
 
-const initCORS = MW.init(MW.CORS);
-const initAuth = MW.init(MW.RequireCookieAuthentication);
-
 export default async (req, res) => {
-  initCORS(req, res);
-  initAuth(req, res);
-
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res.status(500).json({ decorator: "SERVER_TRUST", error: true });
+    return res.status(500).send({ decorator: "SERVER_TRUST", error: true });
   }
 
   const user = await Data.getUserById({
@@ -22,28 +15,28 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_USER_NOT_FOUND",
       error: true,
     });
   }
 
   if (user.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_USER_NOT_FOUND",
       error: true,
     });
   }
 
   if (!req.body.data || !req.body.data.userId) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_MUST_PROVIDE_SOMEONE_TO_TRUST",
       error: true,
     });
   }
 
   if (user.id === req.body.data.userId) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_CAN_NOT_TRUST_YOURSELF",
       error: true,
     });
@@ -54,14 +47,14 @@ export default async (req, res) => {
   });
 
   if (!targetUser) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_TARGET_USER_NOT_FOUND",
       error: true,
     });
   }
 
   if (targetUser.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_TARGET_USER_NOT_FOUND",
       error: true,
     });
@@ -73,7 +66,7 @@ export default async (req, res) => {
   });
 
   if (existingResponse && existingResponse.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_CHECK_ERROR",
       error: true,
     });
@@ -85,7 +78,7 @@ export default async (req, res) => {
   });
 
   if (invertedResponse) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_INVERTED_CHECK_ERROR",
       error: true,
     });
@@ -101,20 +94,20 @@ export default async (req, res) => {
     );
 
     if (!deleteRelationshipResponse) {
-      return res.status(404).json({
+      return res.status(404).send({
         decorator: "SERVER_DELETE_TRUSTED_RELATIONSHIP_NOT_FOUND",
         error: true,
       });
     }
 
     if (deleteRelationshipResponse.error) {
-      return res.status(500).json({
+      return res.status(500).send({
         decorator: "SERVER_DELETE_TRUSTED_RELATIONSHIP_ERROR",
         error: true,
       });
     }
 
-    return res.status(200).json({
+    return res.status(200).send({
       decorator: "SERVER_DELETE_TRUSTED_RELATIONSHIP",
       data: deleteRelationshipResponse,
     });
@@ -126,7 +119,7 @@ export default async (req, res) => {
   });
 
   if (!trustResponse) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "SERVER_TRUSTED_RELATIONSHIP_NOT_FOUND",
       error: true,
     });
@@ -135,10 +128,10 @@ export default async (req, res) => {
   if (trustResponse.error) {
     return res
       .status(500)
-      .json({ decorator: "SERVER_TRUSTED_RELATIONSHIP_ERROR", error: true });
+      .send({ decorator: "SERVER_TRUSTED_RELATIONSHIP_ERROR", error: true });
   }
 
-  return res.status(200).json({
+  return res.status(200).send({
     decorator: "SERVER_TRUSTED_RELATIONSHIP",
     data: {
       ...trustResponse,

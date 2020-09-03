@@ -1,11 +1,8 @@
-import * as MW from "~/node_common/middleware";
 import * as Data from "~/node_common/data";
 import * as Constants from "~/node_common/constants";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Strings from "~/common/strings";
 import * as Upload from "~/node_common/upload";
-
-const initCORS = MW.init(MW.CORS);
 
 // NOTE(jim): To support multipart request.
 export const config = {
@@ -15,8 +12,6 @@ export const config = {
 };
 
 export default async (req, res) => {
-  initCORS(req, res);
-
   if (Strings.isEmpty(req.headers.authorization)) {
     return res.status(404).send({
       decorator: "SERVER_API_KEY_MISSING",
@@ -27,14 +22,14 @@ export default async (req, res) => {
   let slate = await Data.getSlateById({ id: req.query.id });
 
   if (!slate) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "V1_SERVER_UPLOAD_SLATE_NOT_FOUND",
       error: true,
     });
   }
 
   if (slate.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "V1_SERVER_UPLOAD_SLATE_NOT_FOUND",
       error: true,
     });
@@ -101,14 +96,14 @@ export default async (req, res) => {
   slate = await Data.getSlateById({ id: req.query.id });
 
   if (!slate) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "V1_SERVER_UPLOAD_SLATE_NOT_FOUND",
       error: true,
     });
   }
 
   if (slate.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "V1_SERVER_UPLOAD_SLATE_NOT_FOUND",
       error: true,
     });
@@ -153,14 +148,14 @@ export default async (req, res) => {
   });
 
   if (!updatedSlate) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "V1_SERVER_UPLOAD_TO_SLATE_ERROR",
       error: true,
     });
   }
 
   if (updatedSlate.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "V1_SERVER_UPLOAD_TO_SLATE_ERROR",
       error: true,
     });

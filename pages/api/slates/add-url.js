@@ -7,7 +7,7 @@ export default async (req, res) => {
   if (!id) {
     return res
       .status(403)
-      .json({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
+      .send({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
   }
 
   const user = await Data.getUserById({
@@ -15,14 +15,14 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND",
       error: true,
     });
   }
 
   if (user.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND",
       error: true,
     });
@@ -31,14 +31,14 @@ export default async (req, res) => {
   const slate = await Data.getSlateById({ id: req.body.slate.id });
 
   if (!slate) {
-    return res.status(404).json({
+    return res.status(404).send({
       decorator: "SERVER_ADD_TO_SLATE_SLATE_NOT_FOUND",
       error: true,
     });
   }
 
   if (slate.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_ADD_TO_SLATE_SLATE_NOT_FOUND",
       error: true,
     });
@@ -82,14 +82,14 @@ export default async (req, res) => {
   });
 
   if (!update) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_ADD_TO_SLATE_ERROR",
       error: true,
     });
   }
 
   if (update.error) {
-    return res.status(500).json({
+    return res.status(500).send({
       decorator: "SERVER_ADD_TO_SLATE_ERROR",
       error: true,
     });
@@ -97,5 +97,5 @@ export default async (req, res) => {
 
   return res
     .status(200)
-    .json({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
+    .send({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
 };

@@ -1,16 +1,11 @@
 import * as Environment from "~/node_common/environment";
-import * as MW from "~/node_common/middleware";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 
 import JWT from "jsonwebtoken";
 
-const initCORS = MW.init(MW.CORS);
-
 export default async (req, res) => {
-  initCORS(req, res);
-
   // NOTE(jim): We don't need to validate here.
   if (Strings.isEmpty(req.body.data.username)) {
     return res.status(500).send({ decorator: "SERVER_SIGN_IN", error: true });

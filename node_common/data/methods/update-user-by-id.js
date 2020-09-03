@@ -8,7 +8,7 @@ export default async ({ id, data, username, salt, password }) => {
   }
 
   if (username) {
-    updateObject.username = username;
+    updateObject.username = username.toLowerCase();
   }
 
   if (salt) {

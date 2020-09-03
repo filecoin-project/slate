@@ -117,6 +117,11 @@ export default class SceneEditAccount extends React.Component {
     this.setState({ changingUsername: false });
   };
 
+  _handleUsernameChange = (e) => {
+    e.persist();
+    this.setState({ [e.target.name]: e.target.value.toLowerCase() });
+  };
+
   _handleChangePassword = async (e) => {
     this.setState({ changingPassword: true });
     if (this.state.password !== this.state.confirm) {
@@ -206,7 +211,7 @@ export default class SceneEditAccount extends React.Component {
           name="username"
           value={this.state.username}
           placeholder="Username"
-          onChange={this._handleChange}
+          onChange={this._handleUsernameChange}
         />
 
         <div style={{ marginTop: 24 }}>

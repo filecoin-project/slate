@@ -29,8 +29,6 @@ export default async (req, res) => {
       .send({ decorator: "SERVER_USER_UPDATE_USER_NOT_FOUND", error: true });
   }
 
-  // const PG = Powergate.get(user);
-
   if (req.body.data) {
     const response = await Data.updateUserById({
       id: user.id,

@@ -12,7 +12,7 @@ const STYLES_IMAGE_ROW = css`
   flex-wrap: wrap;
   height: 170px;
   overflow: hidden;
-  margin: 0 -16px;
+  margin-right: -34px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     justify-content: center;
@@ -22,11 +22,15 @@ const STYLES_IMAGE_ROW = css`
 const STYLES_ITEM_BOX = css`
   width: 170px;
   height: 170px;
-  margin: 0px 16px;
+  margin-right: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0px 0px 0px 1px ${Constants.system.gray} inset;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 0 auto;
+  }
 `;
 
 export function SlatePreviewRow(props) {
@@ -37,15 +41,8 @@ export function SlatePreviewRow(props) {
       : props.slate.data.objects;
   return (
     <div css={STYLES_IMAGE_ROW} style={props.containerStyle}>
-      {objects.map((each, i) => (
-        <div
-          key={each.url}
-          css={STYLES_ITEM_BOX}
-          style={{
-            marginRight: i === objects.length - 1 ? "0px" : "auto",
-            ...props.style,
-          }}
-        >
+      {objects.map((each) => (
+        <div key={each.url} css={STYLES_ITEM_BOX} style={props.style}>
           <SlateMediaObjectPreview
             type={each.type}
             url={each.url}

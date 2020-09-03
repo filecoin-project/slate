@@ -66,6 +66,7 @@ export default class SceneEditAccount extends React.Component {
     }
 
     const cid = json.data.ipfs.replace("/ipfs/", "");
+    const url = Strings.getCIDGatewayURL(cid);
     await Actions.updateViewer({
       data: {
         photo: Strings.getCIDGatewayURL(cid),
@@ -76,7 +77,7 @@ export default class SceneEditAccount extends React.Component {
 
     await this.props.onRehydrate();
 
-    this.setState({ changingAvatar: false });
+    this.setState({ changingAvatar: false, photo: url });
   };
 
   _handleSaveBio = async (e) => {

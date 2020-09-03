@@ -18,19 +18,6 @@ const STYLES_NUMBER = css`
   font-weight: 400;
 `;
 
-const STYLES_TAB = css`
-  padding: 8px 8px 8px 0px;
-  margin-right: 24px;
-  cursor: pointer;
-  display: inline-block;
-  font-size: ${Constants.typescale.lvl1};
-  user-select: none;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin-right: 12px;
-  }
-`;
-
 // TODO(jim): Slates design.
 export default class SceneSlates extends React.Component {
   state = {

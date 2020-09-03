@@ -11,25 +11,6 @@ import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import EmptyState from "~/components/core/EmptyState";
 
-const STYLES_TAB = css`
-  padding: 8px 8px 8px 0px;
-  margin-right: 24px;
-  cursor: pointer;
-  display: inline-block;
-  font-size: ${Constants.typescale.lvl1};
-  user-select: none;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin-right: 12px;
-  }
-`;
-
-const STYLES_TAB_GROUP = css`
-  ${"" /* border-bottom: 1px solid ${Constants.system.gray}; */}
-  margin: 36px 0px 24px 0px;
-  padding: 0 0 0 2px;
-`;
-
 const STYLES_USER_ENTRY = css`
   display: grid;
   grid-template-columns: 1fr auto;
@@ -142,7 +123,7 @@ export default class SceneDirectory extends React.Component {
               this.props.onAction({
                 type: "NAVIGATE",
                 value: this.props.sceneId,
-                scene: "PROFILE",
+                scene: "PUBLIC_PROFILE",
                 data: relation.owner,
               });
             }}
@@ -171,7 +152,7 @@ export default class SceneDirectory extends React.Component {
               this.props.onAction({
                 type: "NAVIGATE",
                 value: this.props.sceneId,
-                scene: "PROFILE",
+                scene: "PUBLIC_PROFILE",
                 data: relation.owner,
               });
             }}
@@ -203,7 +184,7 @@ export default class SceneDirectory extends React.Component {
                 this.props.onAction({
                   type: "NAVIGATE",
                   value: this.props.sceneId,
-                  scene: "PROFILE",
+                  scene: "PUBLIC_PROFILE",
                   data: relation.user,
                 });
               }}

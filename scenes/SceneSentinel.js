@@ -40,16 +40,14 @@ export default class SceneSentinel extends React.Component {
                   key: "route",
                   name: "Route",
                   width: "100%",
+                  name: "URL",
+                  type: "NEW_WINDOW",
                 },
               ],
               rows: this.state.routes.map((r) => {
                 const route = `https://sentinel.slate.host${r}?offset=0&limit=200`;
                 return {
-                  route: (
-                    <a href={route} target="_blank">
-                      {route}
-                    </a>
-                  ),
+                  route,
                 };
               }),
             }}

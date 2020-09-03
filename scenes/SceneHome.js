@@ -25,7 +25,7 @@ export default class SceneHome extends React.Component {
           width: "100%",
           type: "SLATE_LINK",
         },
-        { key: "url", name: "URL", width: "268px", type: "NEW_WINDOW" },
+        { key: "url", width: "268px", name: "URL", type: "NEW_WINDOW" },
         { key: "id", id: "id", name: "Slate ID", width: "296px" },
         {
           key: "objects",

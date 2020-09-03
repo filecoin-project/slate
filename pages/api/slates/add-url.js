@@ -1,15 +1,8 @@
-import * as MW from "~/node_common/middleware";
 import * as Constants from "~/node_common/constants";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 
-const initCORS = MW.init(MW.CORS);
-const initAuth = MW.init(MW.RequireCookieAuthentication);
-
 export default async (req, res) => {
-  initCORS(req, res);
-  initAuth(req, res);
-
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
     return res
@@ -73,8 +66,6 @@ export default async (req, res) => {
         y: 0,
         w: 2,
         h: 2,
-        minW: 2,
-        minH: 2,
         i: `${objects.length}`.toString(),
       });
     }

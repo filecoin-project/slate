@@ -29,10 +29,6 @@ const moveIndex = (set, fromIndex, toIndex) => {
   return set;
 };
 
-// TODO(jim + martina):
-// Sub state for scenes and sidebars is getting out of hand.
-// I don't want some crazy global solution, so lets think of a rudimentry
-// way to keep things sane
 const setStateData = (source) => {
   return {
     name: source.data.name,
@@ -49,27 +45,28 @@ const setStateData = (source) => {
 
 export default class SceneSlate extends React.Component {
   state = {
-    ...setStateData(this.props.data, this.props.viewer),
+    ...setStateData(this.props.current, this.props.viewer),
     loading: false,
     saving: "IDLE",
-    editing: this.props.data.data.ownerId === this.props.viewer.id,
+    editing: this.props.current.data.ownerId === this.props.viewer.id,
   };
 
   componentDidMount() {
     this._handleUpdateCarousel(this.state);
   }
 
+  // NOTE(jim):
+  // When we are swapping Scenes.
   componentDidUpdate(prevProps) {
-    const updated =
-      this.props.current.updated_at !== prevProps.current.updated_at ||
-      this.props.data.slatename !== prevProps.data.slatename;
+    const oldDate = prevProps.current.updated_at;
+    const newDate = this.props.current.updated_at;
+    const updated = newDate > oldDate;
 
     if (!updated) {
-      return;
+      return null;
     }
 
     let editing;
-
     this.props.viewer.slates.forEach((slate) => {
       if (slate.id === this.props.current.slateId) {
         editing = true;
@@ -84,7 +81,7 @@ export default class SceneSlate extends React.Component {
     });
 
     this._handleUpdateCarousel({
-      objects: this.props.data.data.objects,
+      objects: this.props.current.data.objects,
     });
   }
 
@@ -99,22 +96,21 @@ export default class SceneSlate extends React.Component {
 
     this.setState({
       following: !!viewer.subscriptions.filter((subscription) => {
-        return subscription.target_slate_id === this.props.data.id;
+        return subscription.target_slate_id === this.props.current.id;
       }).length,
     });
   };
 
   _handleFollow = async () => {
     let response = await Actions.createSubscription({
-      slateId: this.props.data.id,
+      slateId: this.props.current.id,
     });
     console.log(response);
     // await this._handleUpdate();
   };
 
   _handleChangeLayout = async (layout, layouts) => {
-    this.setState({ layouts, saving: "SAVING" });
-    await this._handleSave(null, null, layouts);
+    this.setState({ layouts });
   };
 
   _handleSaveLayout = async () => {
@@ -131,7 +127,7 @@ export default class SceneSlate extends React.Component {
     this.setState({ loading: true });
 
     const response = await Actions.updateSlate({
-      id: this.props.data.id,
+      id: this.props.current.id,
       data: {
         objects: objects ? objects : this.state.objects,
         layouts: layouts ? layouts : this.state.layouts,
@@ -238,7 +234,7 @@ export default class SceneSlate extends React.Component {
     }
 
     const response = await Actions.updateSlate({
-      id: this.props.data.slateId,
+      id: this.props.current.slateId,
       data: {
         objects,
         layouts,
@@ -284,7 +280,7 @@ export default class SceneSlate extends React.Component {
     return this.props.onAction({
       type: "SIDEBAR",
       value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-      data: this.props.data,
+      data: this.props.current,
     });
   };
 
@@ -292,7 +288,7 @@ export default class SceneSlate extends React.Component {
     return this.props.onAction({
       type: "SIDEBAR",
       value: "SIDEBAR_SINGLE_SLATE_SETTINGS",
-      data: this.props.data,
+      data: this.props.current,
     });
   };
 
@@ -304,7 +300,7 @@ export default class SceneSlate extends React.Component {
       body = "A slate.",
       name,
     } = this.state;
-    console.log(this.props);
+
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
         <ScenePageHeader
@@ -318,7 +314,7 @@ export default class SceneSlate extends React.Component {
                       type: "NAVIGATE",
                       value: this.props.sceneId,
                       scene: "PROFILE",
-                      data: this.props.data.owner,
+                      data: this.props.current.owner,
                     })
                   }
                   css={STYLES_USERNAME}
@@ -351,7 +347,7 @@ export default class SceneSlate extends React.Component {
             ) : (
               <div onClick={this._handleFollow}>
                 {!!this.props.viewer.subscriptions.filter((subscription) => {
-                  return subscription.target_slate_id === this.props.data.id;
+                  return subscription.target_slate_id === this.props.current.id;
                 }).length
                   ? "Unfollow"
                   : "Follow"}

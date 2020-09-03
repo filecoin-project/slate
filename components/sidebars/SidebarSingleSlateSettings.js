@@ -33,7 +33,6 @@ export default class SidebarSingleSlateSettings extends React.Component {
     slatename: this.props.data.slatename,
     public: this.props.data.data.public,
     body: this.props.data.data.body,
-    layouts: this.props.data.data.layouts,
     name: this.props.data.data.name,
     loading: false,
   };
@@ -45,8 +44,6 @@ export default class SidebarSingleSlateSettings extends React.Component {
       id: this.props.data.slateId,
       data: {
         name: this.state.name,
-        objects: this.props.data.data.objects,
-        layouts: this.props.data.data.layouts,
         public: this.state.public,
         body: this.state.body,
       },

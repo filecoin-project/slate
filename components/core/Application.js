@@ -334,6 +334,8 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
+    await Actions.generateAPIKey();
+
     return await this.rehydrate();
   };
 

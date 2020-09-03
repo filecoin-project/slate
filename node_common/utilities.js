@@ -1,14 +1,11 @@
 import * as Environment from "~/node_common/environment";
 import * as Strings from "~/common/strings";
-import * as Powergate from "~/node_common/powergate";
 import * as Constants from "~/node_common/constants";
 
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
 import { Buckets, PrivateKey } from "@textile/hub";
-// import { ffsOptions } from "@textile/powergate-client";
-const ffsOptions = {};
 
 const BUCKET_NAME = "data";
 
@@ -82,11 +79,6 @@ export const parseAuthHeader = (value) => {
   return matches && { scheme: matches[1], value: matches[2] };
 };
 
-export const getBucketAPI = async () => {
-  const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
-  return { buckets };
-};
-
 // NOTE(jim): Requires @textile/hub
 export const getBucketAPIFromUserToken = async (token) => {
   const identity = await PrivateKey.fromString(token);
@@ -99,47 +91,6 @@ export const getBucketAPIFromUserToken = async (token) => {
     bucketKey: target.root.key,
     bucketRoot: target,
     bucketName: BUCKET_NAME,
-  };
-};
-
-// NOTE(jim): Requires Powergate, does not require token.
-export const refresh = async (user) => {
-  const PG = Powergate.get(user);
-  const Health = await PG.health.check();
-  const status = Health.status ? Health.status : null;
-  const messageList = Health.messageList ? Health.messageList : null;
-
-  return { messageList, status };
-};
-
-// NOTE(jim): Requires Powergate & authentication
-export const refreshWithToken = async (user) => {
-  const PG = Powergate.get(user);
-  const Addresses = await PG.ffs.addrs();
-  const addrsList = Addresses.addrsList ? Addresses.addrsList : null;
-
-  const NetworkInfo = await PG.ffs.info();
-  const info = NetworkInfo.info ? NetworkInfo.info : null;
-
-  const includeFinal = ffsOptions.withIncludeFinal(true);
-  const includePending = ffsOptions.withIncludePending(true);
-  const fromAddresses = ffsOptions.withFromAddresses(
-    info.defaultStorageConfig.cold.filecoin.addr
-  );
-
-  const s = await PG.ffs.listStorageDealRecords(
-    includeFinal,
-    includePending,
-    fromAddresses
-  );
-
-  const r = await PG.ffs.listRetrievalDealRecords();
-
-  return {
-    addrsList,
-    info,
-    storageList: s.recordsList,
-    retrievalList: r.recordsList,
   };
 };
 

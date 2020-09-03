@@ -37,17 +37,22 @@ export const checkTextile = async () => {
 };
 
 export const getIdFromCookie = (req) => {
-  let id;
-  if (!Strings.isEmpty(req.headers.cookie)) {
-    const token = req.headers.cookie.replace(/(?:(?:^|.*;\s*)WEB_SERVICE_SESSION_KEY\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  let id = null;
+  if (Strings.isEmpty(req.headers.cookie)) {
+    return id;
+  }
 
-    if (!Strings.isEmpty(token)) {
-      try {
-        const decoded = JWT.verify(token, Environment.JWT_SECRET);
-        id = decoded.id;
-      } catch (e) {
-        console.log(e);
-      }
+  const token = req.headers.cookie.replace(
+    /(?:(?:^|.*;\s*)WEB_SERVICE_SESSION_KEY\s*\=\s*([^;]*).*$)|^.*$/,
+    "$1"
+  );
+
+  if (!Strings.isEmpty(token)) {
+    try {
+      const decoded = JWT.verify(token, Environment.JWT_SECRET);
+      id = decoded.id;
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -118,9 +123,15 @@ export const refreshWithToken = async (user) => {
 
   const includeFinal = ffsOptions.withIncludeFinal(true);
   const includePending = ffsOptions.withIncludePending(true);
-  const fromAddresses = ffsOptions.withFromAddresses(info.defaultStorageConfig.cold.filecoin.addr);
+  const fromAddresses = ffsOptions.withFromAddresses(
+    info.defaultStorageConfig.cold.filecoin.addr
+  );
 
-  const s = await PG.ffs.listStorageDealRecords(includeFinal, includePending, fromAddresses);
+  const s = await PG.ffs.listStorageDealRecords(
+    includeFinal,
+    includePending,
+    fromAddresses
+  );
 
   const r = await PG.ffs.listRetrievalDealRecords();
 

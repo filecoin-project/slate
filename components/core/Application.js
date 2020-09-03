@@ -534,6 +534,7 @@ export default class ApplicationPage extends React.Component {
     let sidebarElement;
     if (this.state.sidebar) {
       sidebarElement = React.cloneElement(this.state.sidebar, {
+        current: current.target,
         selected: this.state.selected,
         viewer: this.state.viewer,
         data: this.state.data,

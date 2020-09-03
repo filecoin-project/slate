@@ -1,4 +1,3 @@
-import * as MW from "~/node_common/middleware";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Powergate from "~/node_common/powergate";

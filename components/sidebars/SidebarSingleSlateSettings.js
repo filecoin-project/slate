@@ -30,10 +30,10 @@ const STYLES_RIGHT = css`
 
 export default class SidebarSingleSlateSettings extends React.Component {
   state = {
-    slatename: this.props.data.slatename,
-    public: this.props.data.data.public,
-    body: this.props.data.data.body,
-    name: this.props.data.data.name,
+    slatename: this.props.current.slatename,
+    public: this.props.current.data.public,
+    body: this.props.current.data.body,
+    name: this.props.current.data.name,
     loading: false,
   };
 
@@ -41,7 +41,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
     this.setState({ loading: true });
 
     const response = await Actions.updateSlate({
-      id: this.props.data.slateId,
+      id: this.props.current.id,
       data: {
         name: this.state.name,
         public: this.state.public,
@@ -82,7 +82,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
     }
 
     const response = await Actions.deleteSlate({
-      id: this.props.data.slateId,
+      id: this.props.current.id,
     });
 
     if (!response) {
@@ -104,6 +104,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const { slatename } = this.state;
     const slug = Strings.createSlug(this.state.name);
     const url = `/${this.props.viewer.username}/${slug}`;
@@ -114,7 +115,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           Slate Settings
         </System.P>
         <System.P style={{ marginTop: 24 }}>
-          Update settings for {this.props.data.slatename}.
+          Update settings for {this.props.current.slatename}.
         </System.P>
 
         <System.Input
@@ -202,7 +203,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
               onClick={this._handleDelete}
               loading={this.state.loading}
             >
-              Delete {this.props.data.slatename}
+              Delete {this.props.current.slatename}
             </System.ButtonSecondary>
           </div>
         ) : null}

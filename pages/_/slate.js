@@ -52,6 +52,7 @@ const STYLES_HEADER_LEFT = css`
   font-family: ${Constants.font.semiBold};
   text-transform: none;
   flex-shrink: 0;
+  line-height: 1.5;
   color: ${Constants.system.pitchBlack};
   text-decoration: none;
   transition: 200ms ease color;
@@ -127,7 +128,9 @@ export default class SlatePage extends React.Component {
     });
 
   render() {
-    const title = `${this.props.creator.username}/${this.props.slate.slatename}`;
+    const title = `${this.props.creator.username}/${
+      this.props.slate.slatename
+    }`;
     const url = `https://slate.host/${this.props.creator.username}`;
     const description = this.props.slate.data.body;
 

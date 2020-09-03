@@ -2,6 +2,23 @@ import * as Constants from "~/node_common/constants";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 
+const generateLayout = (items) => {
+  return items.map((item, i) => {
+    var y = Math.ceil(Math.random() * 4) + 1;
+
+    return {
+      x: (i * 2) % 10,
+      y: 0,
+      w: 2,
+      h: 2,
+      minW: 2,
+      minH: 2,
+      // NOTE(jim): Library quirk thats required.
+      i: i.toString(),
+    };
+  });
+};
+
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
@@ -57,19 +74,8 @@ export default async (req, res) => {
     },
   ];
 
-  let layouts = slate.data.layouts;
-  if (layouts) {
-    const keys = Object.keys(slate.data.layouts);
-    for (let i = 0; i < keys.length; i++) {
-      layouts[keys[i]].push({
-        x: (objects.length * 2) % 10,
-        y: 0,
-        w: 2,
-        h: 2,
-        i: `${objects.length}`.toString(),
-      });
-    }
-  }
+  // TODO(jim): Preserve layouts when adding.
+  let layouts = { lg: generateLayout(objects) };
 
   const update = await Data.updateSlateById({
     id: slate.id,

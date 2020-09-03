@@ -31,12 +31,7 @@ const moveIndex = (set, fromIndex, toIndex) => {
 
 const setStateData = (source) => {
   return {
-    name: source.data.name,
-    username: source.owner ? source.owner.username : null,
-    slatename: source.slatename,
-    public: source.data.public,
     objects: source.data.objects,
-    body: source.data.body,
     layouts: source.data.layouts
       ? source.data.layouts
       : { lg: generateLayout(source.data.objects) },
@@ -44,6 +39,9 @@ const setStateData = (source) => {
 };
 
 export default class SceneSlate extends React.Component {
+  _timeout = null;
+  _remoteLock = false;
+
   state = {
     ...setStateData(this.props.current, this.props.viewer),
     loading: false,
@@ -51,39 +49,61 @@ export default class SceneSlate extends React.Component {
     editing: this.props.current.data.ownerId === this.props.viewer.id,
   };
 
+  // NOTE(jim):
+  // The purpose of this is to update the Scene appropriately when
+  // it changes but isn't mounted.
+  componentDidUpdate(prevProps) {
+    if (prevProps.current.id !== this.props.current.id) {
+      this.setState({
+        ...setStateData(this.props.current, this.props.viewer),
+        loading: false,
+        saving: "IDLE",
+        editing: this.props.current.data.ownerId === this.props.viewer.id,
+      });
+
+      this._handleUpdateCarousel({
+        objects: this.props.current.data.objects,
+        editing: this.state.editing,
+      });
+    }
+  }
+
   componentDidMount() {
     this._handleUpdateCarousel(this.state);
+    window.addEventListener(
+      "remote-update-slate-screen",
+      this._handleRemoteUpdate
+    );
   }
 
-  // NOTE(jim):
-  // When we are swapping Scenes.
-  componentDidUpdate(prevProps) {
-    const oldDate = prevProps.current.updated_at;
-    const newDate = this.props.current.updated_at;
-    const updated = newDate > oldDate;
+  componentWillUnmount() {
+    window.removeEventListener(
+      "update-current-slate",
+      this._handleRemoteUpdate
+    );
+  }
 
-    if (!updated) {
-      return null;
-    }
+  _handleRemoteUpdate = async ({ detail }) => {
+    if (!this._remoteLock) {
+      this._remoteLock = true;
+      const response = await Actions.getSlateById({
+        id: this.props.current.id,
+      });
 
-    let editing;
-    this.props.viewer.slates.forEach((slate) => {
-      if (slate.id === this.props.current.slateId) {
-        editing = true;
+      if (!response || response.error) {
+        this._remoteLock = false;
+        return;
       }
-    });
 
-    this.setState({
-      ...setStateData(this.props.current, this.props.viewer),
-      loading: false,
-      saving: "SAVED",
-      editing,
-    });
+      this.setState({ layouts: null, objects: null });
 
-    this._handleUpdateCarousel({
-      objects: this.props.current.data.objects,
-    });
-  }
+      const { slate } = response;
+      console.log(slate);
+
+      await this._handleSave(null, slate.data.objects, slate.data.layouts);
+      this._remoteLock = false;
+    }
+  };
 
   _handleUpdate = async (e) => {
     let response = await this.props.onRehydrate();
@@ -110,7 +130,7 @@ export default class SceneSlate extends React.Component {
   };
 
   _handleChangeLayout = async (layout, layouts) => {
-    this.setState({ layouts });
+    this.setState({ layouts, saving: "IDLE" });
   };
 
   _handleSaveLayout = async () => {
@@ -124,16 +144,14 @@ export default class SceneSlate extends React.Component {
   };
 
   _handleSave = async (e, objects, layouts) => {
-    this.setState({ loading: true });
+    this.setState({ loading: true, saving: "SAVING" });
 
     const response = await Actions.updateSlate({
       id: this.props.current.id,
       data: {
+        name: this.props.current.data.name,
         objects: objects ? objects : this.state.objects,
         layouts: layouts ? layouts : this.state.layouts,
-        public: this.state.public,
-        body: this.state.body,
-        name: this.state.name,
       },
     });
 
@@ -149,7 +167,16 @@ export default class SceneSlate extends React.Component {
 
     await this.props.onRehydrate();
 
-    this._handleUpdateCarousel(this.state);
+    this.setState({
+      saving: "SAVED",
+      layouts: layouts ? layouts : this.state.layouts,
+      objects: objects ? objects : this.state.objects,
+    });
+
+    this._handleUpdateCarousel({
+      objects: objects ? objects : this.state.objects,
+      editing: this.state.editing,
+    });
   };
 
   _handleObjectSave = async (object) => {
@@ -165,8 +192,6 @@ export default class SceneSlate extends React.Component {
         break;
       }
     }
-
-    this.setState({ objects });
 
     await this._handleSave(null, objects);
 
@@ -223,24 +248,14 @@ export default class SceneSlate extends React.Component {
       return o.id !== id;
     });
 
-    // NOTE(jim): Every time we remove an object from a slate.
-    // We will want to remove the object from the layouts too.
-    const keys = Object.keys(this.state.layouts);
-    let layouts = this.state.layouts;
-    for (let j = 0; j < keys.length; j++) {
-      layouts[keys[j]] = layouts[keys[j]].filter((each, i) => {
-        return i !== index;
-      });
-    }
-
+    // TODO(jim): This is a brute force way to handle this.
+    const layouts = { lg: generateLayout(objects) };
     const response = await Actions.updateSlate({
       id: this.props.current.slateId,
       data: {
+        name: this.props.current.data.name,
         objects,
         layouts,
-        public: this.state.public,
-        body: this.state.body,
-        name: this.state.name,
       },
     });
 
@@ -260,9 +275,10 @@ export default class SceneSlate extends React.Component {
       alert(`TODO: ${response.decorator}`);
     }
 
+    this._handleUpdateCarousel({ objects, editing: this.state.editing });
+    this.setState({ layouts: null, objects: null });
     await this.props.onRehydrate();
-
-    this._handleUpdateCarousel(this.state);
+    this.setState({ layouts, objects });
 
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",
@@ -293,13 +309,9 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
-    const {
-      username,
-      slatename,
-      objects,
-      body = "A slate.",
-      name,
-    } = this.state;
+    const { username, slatename, data, name } = this.props.current;
+    const { body = "A slate." } = data;
+    const { objects, layouts } = this.state;
 
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
@@ -357,17 +369,18 @@ export default class SceneSlate extends React.Component {
         >
           <ProcessedText text={body} />
         </ScenePageHeader>
-        <Slate
-          key={slatename}
-          editing={this.state.editing}
-          saving={this.state.saving}
-          items={objects}
-          layouts={this.state.layouts}
-          onLayoutChange={this._handleChangeLayout}
-          onLayoutSave={this._handleSaveLayout}
-          onMoveIndex={this._handleMoveIndex}
-          onSelect={this._handleSelect}
-        />
+        {layouts ? (
+          <Slate
+            editing={this.state.editing}
+            saving={this.state.saving}
+            items={objects}
+            layouts={layouts}
+            onLayoutChange={this._handleChangeLayout}
+            onLayoutSave={this._handleSaveLayout}
+            onMoveIndex={this._handleMoveIndex}
+            onSelect={this._handleSelect}
+          />
+        ) : null}
       </ScenePage>
     );
   }

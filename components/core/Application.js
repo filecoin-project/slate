@@ -44,6 +44,8 @@ import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
 
+import { dispatchCustomEvent } from "~/common/custom-events";
+
 const cookies = new Cookies();
 
 const SIDEBARS = {
@@ -215,6 +217,11 @@ export default class ApplicationPage extends React.Component {
 
     // NOTE(jim): Rehydrates user.
     await this.rehydrate({ resetFiles: true });
+
+    dispatchCustomEvent({
+      name: "remote-update-slate-screen",
+      detail: {},
+    });
   };
 
   rehydrate = async (options) => {
@@ -228,7 +235,7 @@ export default class ApplicationPage extends React.Component {
     console.log("REHYDRATION CALL", response);
 
     const updates = {
-      viewer: response.data,
+      viewer: JSON.parse(JSON.stringify(response.data)),
     };
 
     if (options && options.resetFiles) {
@@ -268,8 +275,6 @@ export default class ApplicationPage extends React.Component {
         amount: data.amount,
       });
     }
-
-    console.log({ response });
 
     await this.rehydrate();
 

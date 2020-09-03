@@ -220,7 +220,6 @@ export default class Slate extends React.Component {
     return (
       <div css={STYLES_CONTAINER}>
         <ResponsiveReactGridLayout
-          className="layout"
           columns={COLUMN_MAP}
           layouts={this.props.layouts}
           isDraggable={!!this.props.editing}
@@ -235,6 +234,7 @@ export default class Slate extends React.Component {
         >
           {this.generateDOM()}
         </ResponsiveReactGridLayout>
+
         {this.props.editing ? (
           <div css={STYLES_ACTIONS}>
             <span css={STYLES_ACTION_BUTTON} onClick={this._handleResetLayout}>
@@ -242,7 +242,8 @@ export default class Slate extends React.Component {
             </span>
             <span
               css={STYLES_ACTION_BUTTON}
-              onClick={this._handleSaveLayout}
+              onMouseUp={this._handleSaveLayout}
+              onTouchEnd={this._handleSaveLayout}
               style={{
                 backgroundColor:
                   this.props.saving === "IDLE" ? Constants.system.brand : null,

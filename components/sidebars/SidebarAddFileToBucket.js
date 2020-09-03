@@ -115,6 +115,11 @@ export default class SidebarAddFileToBucket extends React.Component {
     }
 
     await this.props.onRehydrate({ resetFiles: true });
+
+    dispatchCustomEvent({
+      name: "remote-update-slate-screen",
+      detail: {},
+    });
   };
 
   render() {

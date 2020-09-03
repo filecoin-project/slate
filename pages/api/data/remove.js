@@ -2,6 +2,23 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Strings from "~/common/strings";
 
+const generateLayout = (items) => {
+  return items.map((item, i) => {
+    var y = Math.ceil(Math.random() * 4) + 1;
+
+    return {
+      x: (i * 2) % 10,
+      y: 0,
+      w: 2,
+      h: 2,
+      minW: 2,
+      minH: 2,
+      // NOTE(jim): Library quirk thats required.
+      i: i.toString(),
+    };
+  });
+};
+
 export default async (req, res) => {
   if (Strings.isEmpty(req.body.data.cid)) {
     return res
@@ -62,15 +79,16 @@ export default async (req, res) => {
   const slates = await Data.getSlatesByUserId({ userId: id });
   for (let i = 0; i < slates.length; i++) {
     const slate = slates[i];
-
-    await Data.updateSlateById({
+    const objects = slate.data.objects.filter(
+      (o) => !o.url.includes(req.body.data.cid)
+    );
+    const layouts = await Data.updateSlateById({
       id: slate.id,
       updated_at: new Date(),
       data: {
         ...slate.data,
-        objects: slate.data.objects.filter(
-          (o) => !o.url.includes(req.body.data.cid)
-        ),
+        objects,
+        layouts: { lg: generateLayout(objects) },
       },
     });
   }

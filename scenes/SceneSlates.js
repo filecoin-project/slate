@@ -50,7 +50,9 @@ export default class SceneSlates extends React.Component {
     const slates = this.props.viewer.slates.map((each) => {
       return {
         ...each,
-        url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
+        url: `https://slate.host/${this.props.viewer.username}/${
+          each.slatename
+        }`,
         public: each.data.public,
         objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
       };
@@ -75,11 +77,6 @@ export default class SceneSlates extends React.Component {
         </div>
       ));
 
-    // TODO(jim): Refactor later.
-    const slateButtons = [
-      { name: "Create slate", type: "SIDEBAR", value: "SIDEBAR_CREATE_SLATE" },
-    ];
-    console.log(this.props);
     return (
       <ScenePage>
         <ScenePageHeader
@@ -101,8 +98,9 @@ export default class SceneSlates extends React.Component {
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}
         />
+
         {this.state.tab === 0 ? (
-          this.props.data.children.length ? (
+          this.props.data && this.props.data.children.length ? (
             this.props.data.children.map((slate) => (
               <div
                 key={slate.id}
@@ -124,6 +122,7 @@ export default class SceneSlates extends React.Component {
             </EmptyState>
           )
         ) : null}
+
         {this.state.tab === 1 ? (
           subscriptions.length ? (
             subscriptions

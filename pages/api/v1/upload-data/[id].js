@@ -4,6 +4,23 @@ import * as LibraryManager from "~/node_common/managers/library";
 import * as Strings from "~/common/strings";
 import * as Upload from "~/node_common/upload";
 
+const generateLayout = (items) => {
+  return items.map((item, i) => {
+    var y = Math.ceil(Math.random() * 4) + 1;
+
+    return {
+      x: (i * 2) % 10,
+      y: 0,
+      w: 2,
+      h: 2,
+      minW: 2,
+      minH: 2,
+      // NOTE(jim): Library quirk thats required.
+      i: i.toString(),
+    };
+  });
+};
+
 // NOTE(jim): To support multipart request.
 export const config = {
   api: {
@@ -121,21 +138,8 @@ export default async (req, res) => {
   };
   const objects = [...slate.data.objects, newSlateObjectEntity];
 
-  let layouts = slate.data.layouts;
-  if (layouts) {
-    const keys = Object.keys(slate.data.layouts);
-    for (let i = 0; i < keys.length; i++) {
-      layouts[keys[i]].push({
-        x: (objects.length * 2) % 10,
-        y: 0,
-        w: 2,
-        h: 2,
-        minW: 2,
-        minH: 2,
-        i: `${objects.length}`.toString(),
-      });
-    }
-  }
+  // TODO(jim): Preserve layouts when adding.
+  let layouts = { lg: generateLayout(objects) };
 
   const updatedSlate = await Data.updateSlateById({
     id: slate.id,

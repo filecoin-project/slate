@@ -300,9 +300,12 @@ export default class SlateMediaObjectSidebar extends React.Component {
 
     if (this.props.cid) {
       elements.push(
-        <div css={STYLES_SIDEBAR} style={{ height: "auto" }}>
+        <div
+          css={STYLES_SIDEBAR}
+          key="sidebar-media-open-file"
+          style={{ height: "auto" }}
+        >
           <a
-            key="sidebar-media-open-file"
             css={STYLES_BUTTON}
             href={Strings.getCIDGatewayURL(this.props.cid)}
             target="_blank"
@@ -310,7 +313,6 @@ export default class SlateMediaObjectSidebar extends React.Component {
             Open file in new tab &nbsp;&nbsp;⭢
           </a>
           <a
-            key="sidebar-media-download-file"
             css={STYLES_BUTTON}
             href={Strings.getCIDGatewayURL(this.props.cid)}
             target="_blank"

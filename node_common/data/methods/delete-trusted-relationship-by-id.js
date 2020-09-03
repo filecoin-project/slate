@@ -12,8 +12,8 @@ export default async ({ id }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "DELETE_TRUSTED_RELATIONSHIP_BY_ID",
-        source: e,
+        decorator: "DELETE_TRUSTED_RELATIONSHIP_BY_ID",
+        error: e,
       };
     },
   });

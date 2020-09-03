@@ -79,6 +79,10 @@ export default class SceneSlate extends React.Component {
       "remote-delete-object",
       this._handleRemoteDeleteObject
     );
+    window.addEventListener(
+      "remote-object-update",
+      this._handleRemoteSaveObject
+    );
   }
 
   componentWillUnmount() {
@@ -89,6 +93,10 @@ export default class SceneSlate extends React.Component {
     window.removeEventListener(
       "remote-delete-object",
       this._handleRemoteDeleteObject
+    );
+    window.removeEventListener(
+      "remote-object-update",
+      this._handleRemoteSaveObject
     );
   }
 
@@ -188,7 +196,9 @@ export default class SceneSlate extends React.Component {
     });
   };
 
-  _handleObjectSave = async (object) => {
+  _handleRemoteSaveObject = async ({ detail }) => {
+    const { object } = detail;
+
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",
       detail: { saving: true },
@@ -234,7 +244,11 @@ export default class SceneSlate extends React.Component {
                 name: "remote-delete-object",
                 detail: { id: data.id },
               }),
-            onObjectSave: this._handleObjectSave,
+            onObjectSave: (object) =>
+              System.dispatchCustomEvent({
+                name: "remote-object-update",
+                detail: { object },
+              }),
             id: data.id,
             cid,
             data,

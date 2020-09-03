@@ -3,6 +3,7 @@ import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/components/system/svg";
+import * as Window from "~/common/window";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
@@ -74,12 +75,20 @@ export default class SceneSlate extends React.Component {
       "remote-update-slate-screen",
       this._handleRemoteUpdate
     );
+    window.addEventListener(
+      "remote-delete-object",
+      this._handleRemoteDeleteObject
+    );
   }
 
   componentWillUnmount() {
     window.removeEventListener(
       "update-current-slate",
       this._handleRemoteUpdate
+    );
+    window.removeEventListener(
+      "remote-delete-object",
+      this._handleRemoteDeleteObject
     );
   }
 
@@ -202,10 +211,12 @@ export default class SceneSlate extends React.Component {
   };
 
   _handleUpdateCarousel = (state) => {
+    const objects = [...state.objects];
+
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: {
-        slides: state.objects.map((each) => {
+        slides: objects.map((each) => {
           // NOTE(jim):
           // This is a hack to catch this undefined case I don't want to track down yet.
           const url = each.url.replace("https://undefined", "https://");
@@ -218,40 +229,40 @@ export default class SceneSlate extends React.Component {
           const data = { ...each, cid, url };
 
           return {
-            onDelete: this._handleDelete,
+            onDelete: () =>
+              System.dispatchCustomEvent({
+                name: "remote-delete-object",
+                detail: { id: data.id },
+              }),
             onObjectSave: this._handleObjectSave,
             id: data.id,
             cid,
             data,
             editing: this.state.editing,
-            component: (
-              <SlateMediaObject key={each.id} useImageFallback data={data} />
-            ),
+            component: <SlateMediaObject key={each.id} data={data} />,
           };
         }),
       },
     });
   };
 
-  _handleDelete = async (id) => {
+  _handleRemoteDeleteObject = async ({ detail }) => {
+    const { id } = detail;
+
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",
       detail: { loading: true },
     });
 
-    let index;
     const objects = this.state.objects.filter((o, i) => {
-      if (o.id === id) {
-        index = i;
-      }
-
       return o.id !== id;
     });
 
     // TODO(jim): This is a brute force way to handle this.
     const layouts = { lg: generateLayout(objects) };
+
     const response = await Actions.updateSlate({
-      id: this.props.current.slateId,
+      id: this.props.current.id,
       data: {
         name: this.props.current.data.name,
         objects,
@@ -275,10 +286,17 @@ export default class SceneSlate extends React.Component {
       alert(`TODO: ${response.decorator}`);
     }
 
-    this._handleUpdateCarousel({ objects, editing: this.state.editing });
-    this.setState({ layouts: null, objects: null });
+    this._handleUpdateCarousel({
+      objects: response.slate.data.objects,
+      editing: this.state.editing,
+    });
+
+    this.setState({
+      objects: response.slate.data.objects,
+      layouts: response.slate.data.layouts,
+    });
+
     await this.props.onRehydrate();
-    this.setState({ layouts, objects });
 
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",

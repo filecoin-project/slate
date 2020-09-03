@@ -144,6 +144,7 @@ export default class SceneDirectory extends React.Component {
             Remove
           </div>
         );
+        console.log(relation.owner);
         return (
           <UserEntry
             user={relation.owner}
@@ -214,7 +215,7 @@ export default class SceneDirectory extends React.Component {
               this.props.onAction({
                 type: "NAVIGATE",
                 value: this.props.sceneId,
-                scene: "PROFILE",
+                scene: "PUBLIC_PROFILE",
                 data: relation.user,
               });
             }}

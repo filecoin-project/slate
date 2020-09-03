@@ -41,20 +41,7 @@ export default class SceneProfile extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    const isNewScene = prevProps.data.username !== this.props.data.username;
-
-    let isUpdated = false;
-    // if (
-    //   this.props.data.data.objects.length !== prevProps.data.data.objects.length
-    // ) {
-    //   isUpdated = true;
-    // }
-
-    // if (this.props.data.data.body !== prevProps.data.data.body) {
-    //   isUpdated = true;
-    // }
-
-    if (isNewScene || isUpdated) {
+    if (prevProps.data.username !== this.props.data.username) {
       this.setStatus(this.props.viewer);
     }
   }
@@ -140,6 +127,7 @@ export default class SceneProfile extends React.Component {
   };
 
   render() {
+    console.log(this.props.data);
     let buttons = (
       <div>
         {this.state.followStatus ? (
@@ -173,11 +161,6 @@ export default class SceneProfile extends React.Component {
             {STATUS_BUTTON_MAP[this.state.trustStatus]}
           </ButtonSecondary>
         )}
-        {/* {this.state.trustStatus === "trusted" ? (
-          <ButtonPrimary style={BUTTON_STYLE} onClick={this._handleSendMoney}>
-            Send Money
-          </ButtonPrimary>
-        ) : null} */}
       </div>
     );
     return (

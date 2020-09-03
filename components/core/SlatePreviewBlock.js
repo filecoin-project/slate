@@ -10,7 +10,7 @@ const STYLES_IMAGE_ROW = css`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  max-height: 186px;
+  height: 186px;
   overflow: hidden;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -52,13 +52,12 @@ export function SlatePreviewRow(props) {
 
 const STYLES_BLOCK = css`
   border: 1px solid ${Constants.system.border};
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: 20px;
+  padding: 40px;
   font-size: 12px;
   text-align: left;
-  margin: 24px auto;
-  width: 100%;
-  max-width: 980px;
+  margin: 24px auto 48px auto;
+  max-width: 1012px;
   cursor: pointer;
 `;
 
@@ -88,7 +87,7 @@ const STYLES_COPY_INPUT = css`
 const STYLES_TAG = css`
   margin-left: 24px;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 2px;
   background-color: ${Constants.system.gray};
   color: ${Constants.system.white};
 `;
@@ -118,7 +117,12 @@ export default class SlatePreviewBlock extends Component {
           </strong>
           {this.props.editing ? (
             this.props.slate.data.public ? (
-              <div css={STYLES_TAG}>Public</div>
+              <div
+                css={STYLES_TAG}
+                style={{ backgroundColor: Constants.system.brand }}
+              >
+                Public
+              </div>
             ) : (
               <div css={STYLES_TAG}>Private</div>
             )
@@ -139,7 +143,7 @@ export default class SlatePreviewBlock extends Component {
           previewStyle={this.props.previewStyle}
         />
         <input
-          readonly
+          readOnly
           ref={(c) => {
             this._ref = c;
           }}

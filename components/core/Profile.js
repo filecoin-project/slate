@@ -69,7 +69,6 @@ export default class Profile extends React.Component {
         {data.slates && data.slates.length ? (
           <div>
             {data.slates.map((slate) => {
-              const url = `/${data.username}/${slate.slatename}`;
               if (this.props.onAction) {
                 return (
                   <div
@@ -78,18 +77,28 @@ export default class Profile extends React.Component {
                       this.props.onAction({
                         type: "NAVIGATE",
                         value: this.props.sceneId,
-                        scene: "SLATE",
-                        data: { owner: data, ...slate },
+                        scene: "PUBLIC_SLATE",
+                        data: slate,
                       })
                     }
                   >
                     <SlatePreviewBlock
+                      key={url}
                       slate={slate}
                       editing={this.props.editing}
+                      onClick={() =>
+                        this.props.onAction({
+                          type: "NAVIGATE",
+                          value: this.props.sceneId,
+                          scene: "PUBLIC_SLATE",
+                          data: slate,
+                        })
+                      }
                     />
                   </div>
                 );
               }
+              const url = `/${data.username}/${slate.slatename}`;
               return (
                 <a key={url} href={url} css={STYLES_LINK}>
                   <SlatePreviewBlock slate={slate} />

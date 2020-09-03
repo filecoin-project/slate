@@ -216,8 +216,6 @@ export class SearchModal extends React.Component {
       this.miniSearch.addAll(response.data.users);
       this.miniSearch.addAll(response.data.slates);
       this.miniSearch.addAll(files);
-      console.log(response.data.slates);
-      console.log(files);
     }
   };
 
@@ -260,17 +258,10 @@ export class SearchModal extends React.Component {
 
   _handleSelect = async (value) => {
     if (value.type === "SLATE") {
-      // if (value.data.owner && value.data.owner.username) {
-      //   value.data.owner = this.users.filter((user) => {
-      //     return user.username === value.data.owner.username;
-      //   })[0];
-      // } //TODO: slightly hacky way of getting the data. May want to serialize later?
-      console.log(value);
       this.props.onAction({
         type: "NAVIGATE",
         value: "V1_NAVIGATION_SLATE",
-        scene: "PUBLIC_SLATE",
-        data: { id: value.data.id },
+        data: value.data,
       });
     }
     if (value.type === "USER") {
@@ -281,16 +272,10 @@ export class SearchModal extends React.Component {
       });
     }
     if (value.type === "FILE") {
-      let slate = value.data.data.slate;
-      if (slate.owner && slate.owner.username) {
-        slate.owner = this.users.filter((user) => {
-          return user.username === slate.owner.username;
-        })[0];
-      } //TODO: slightly hacky way of getting the data. May want to serialize later?
-      this.props.onAction({
+      await this.props.onAction({
         type: "NAVIGATE",
         value: "V1_NAVIGATION_SLATE",
-        data: slate,
+        data: value.data.data.slate,
       });
       dispatchCustomEvent({
         name: "slate-global-open-carousel",

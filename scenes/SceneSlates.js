@@ -25,11 +25,13 @@ export default class SceneSlates extends React.Component {
   };
 
   _handleAdd = () => {
-    return this.props.onAction({
+    this.props.onAction({
       name: "Create slate",
       type: "SIDEBAR",
       value: "SIDEBAR_CREATE_SLATE",
     });
+    console.log(this.props.viewer);
+    this.props.onRehydrate();
   };
 
   render() {
@@ -37,9 +39,7 @@ export default class SceneSlates extends React.Component {
     const slates = this.props.viewer.slates.map((each) => {
       return {
         ...each,
-        url: `https://slate.host/${this.props.viewer.username}/${
-          each.slatename
-        }`,
+        url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
         public: each.data.public,
         objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
       };
@@ -87,8 +87,8 @@ export default class SceneSlates extends React.Component {
         />
 
         {this.state.tab === 0 ? (
-          this.props.data && this.props.data.children.length ? (
-            this.props.data.children.map((slate) => (
+          this.props.viewer.slates && this.props.viewer.slates.length ? (
+            this.props.viewer.slates.map((slate) => (
               <div
                 key={slate.id}
                 onClick={() =>

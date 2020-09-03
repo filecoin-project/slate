@@ -13,6 +13,20 @@ import ScenePageHeader from "~/components/core/ScenePageHeader";
 import Slate, { generateLayout } from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+} from "~/components/system/components/Buttons";
+
+const STYLES_BUTTON = css`
+  color: ${Constants.system.brand};
+  cursor: pointer;
+  padding: 4px 8px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const STYLES_USERNAME = css`
   cursor: pointer;
@@ -122,28 +136,12 @@ export default class SceneSlate extends React.Component {
     }
   };
 
-  _handleUpdate = async (e) => {
-    let response = await this.props.onRehydrate();
-    if (!response || response.error) {
-      alert("TODO: error fetching authenticated viewer");
-      return null;
-    }
-
-    let viewer = response.data;
-
-    this.setState({
-      following: !!viewer.subscriptions.filter((subscription) => {
-        return subscription.target_slate_id === this.props.current.id;
-      }).length,
-    });
-  };
-
   _handleFollow = async () => {
     let response = await Actions.createSubscription({
       slateId: this.props.current.id,
     });
     console.log(response);
-    // await this._handleUpdate();
+    this.props.onRehydrate();
   };
 
   _handleChangeLayout = async (layout, layouts) => {
@@ -341,29 +339,32 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
-    const { username, slatename, data, name } = this.props.current;
+    const { user, slatename, data } = this.props.current;
     const { body = "A slate." } = data;
     const { objects, layouts } = this.state;
+    let following = !!this.props.viewer.subscriptions.filter((subscription) => {
+      return subscription.target_slate_id === this.props.current.id;
+    }).length;
 
     return (
       <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
         <ScenePageHeader
           style={{ padding: `0 24px 0 24px` }}
           title={
-            username ? (
+            user ? (
               <span>
                 <span
                   onClick={() =>
                     this.props.onAction({
                       type: "NAVIGATE",
                       value: this.props.sceneId,
-                      scene: "PROFILE",
-                      data: this.props.current.owner,
+                      scene: "PUBLIC_PROFILE",
+                      data: user,
                     })
                   }
                   css={STYLES_USERNAME}
                 >
-                  {username}
+                  {user.username}
                 </span>{" "}
                 / {slatename}
               </span>
@@ -390,11 +391,15 @@ export default class SceneSlate extends React.Component {
               </React.Fragment>
             ) : (
               <div onClick={this._handleFollow}>
-                {!!this.props.viewer.subscriptions.filter((subscription) => {
-                  return subscription.target_slate_id === this.props.current.id;
-                }).length
-                  ? "Unfollow"
-                  : "Follow"}
+                {following ? (
+                  <div css={STYLES_BUTTON} onClick={this._handleFollow}>
+                    Unfollow
+                  </div>
+                ) : (
+                  <div css={STYLES_BUTTON} onClick={this._handleFollow}>
+                    Follow
+                  </div>
+                )}
               </div>
             )
           }

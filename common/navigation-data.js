@@ -73,7 +73,7 @@ export const generate = ({ library = [], slates = [] }) => [
   },
   {
     id: "V1_NAVIGATION_SLATE",
-    decorator: "VIEW_SLATE",
+    decorator: "PUBLIC_SLATE",
     name: "Slate",
     pageTitle: "Slate",
     children: null,
@@ -144,7 +144,7 @@ export const generate = ({ library = [], slates = [] }) => [
   },
   {
     id: "V1_NAVIGATION_PROFILE",
-    decorator: "PROFILE",
+    decorator: "PUBLIC_PROFILE",
     name: "Profile",
     pageTitle: "Profile",
     children: null,

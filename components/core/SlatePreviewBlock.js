@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-
+import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
+import { ProcessedText } from "~/components/system/components/Typography";
+
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
 const STYLES_IMAGE_ROW = css`
@@ -139,6 +140,7 @@ const STYLES_BODY = css`
   font-size: 0.9rem;
   margin-bottom: 24px;
   line-height: 20px;
+  white-space: pre-wrap;
 `;
 
 const STYLES_CREATE_NEW = css`
@@ -152,7 +154,7 @@ const STYLES_CREATE_NEW = css`
   height: 160px;
 `;
 
-export default class SlatePreviewBlock extends Component {
+export default class SlatePreviewBlock extends React.Component {
   _ref;
 
   state = {
@@ -212,7 +214,9 @@ export default class SlatePreviewBlock extends Component {
           ) : null}
         </div>
         {this.props.slate.data.body ? (
-          <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
+          <div css={STYLES_BODY}>
+            <ProcessedText text={this.props.slate.data.body} />
+          </div>
         ) : (
           <div style={{ height: "8px" }} />
         )}

@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as OldSVG from "~/components/system/svg";
+import * as SVG from "~/common/svg";
 
 import {
   TooltipWrapper,
@@ -189,7 +189,7 @@ export default class ApplicationUserControls extends React.Component {
                 color: this.state.visible ? Constants.system.white : null,
               }}
             >
-              <OldSVG.ChevronDown height="20px" />
+              <SVG.ChevronDown height="20px" />
             </CircleButtonLight>
           </div>
         </TooltipWrapper>

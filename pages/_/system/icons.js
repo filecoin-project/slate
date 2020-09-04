@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as System from "~/components/system";
-import * as SVG from "~/components/system/svg";
-import * as OldSVG from "~/common/svg";
+import * as SVG from "~/common/svg";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
@@ -19,17 +18,17 @@ const ICONS = [
   <SVG.CopyAndPaste height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <SVG.Plus height={DEFAULT_SYSTEM_ICON_SIZE} />,
   <SVG.CheckBox height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.Layers height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.Slates height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.Home height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.Activity height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.Directory height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.Folder height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.Wallet height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.Deals height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.HardDrive height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.ProfileUser height={DEFAULT_SYSTEM_ICON_SIZE} />,
-  <OldSVG.SettingsDeveloper height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.Layers height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.Slates height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.Home height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.Activity height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.Directory height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.Folder height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.Wallet height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.Deals height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.HardDrive height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.ProfileUser height={DEFAULT_SYSTEM_ICON_SIZE} />,
+  <SVG.SettingsDeveloper height={DEFAULT_SYSTEM_ICON_SIZE} />,
 ];
 
 const STYLES_ICON = css`
@@ -67,10 +66,7 @@ export default class SystemPageIcons extends React.Component {
         <System.P>Import the SVG Components.</System.P>
         <br />
         <br />
-        <CodeBlock>
-          {`import { SVG } from "slate-react-system";
-import { OldSVG } from "slate-react-system";`}
-        </CodeBlock>
+        <CodeBlock>{`import { SVG } from "slate-react-system";`}</CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
@@ -79,20 +75,20 @@ import { OldSVG } from "slate-react-system";`}
         <System.P>Declare the SVG icons.</System.P>
         <br />
         <CodeBlock>
-          {`<OldSVG.Home height='88px' />
-<OldSVG.Folder height='88px' />
-<OldSVG.Wallet height='88px' />
-<OldSVG.Channels height='88px' />
-<OldSVG.Deals height='88px' />
-<OldSVG.Peers height='88px' />
-<OldSVG.Deals height='88px' />
-<OldSVG.Status height='88px' />
-<OldSVG.Stats height='88px' />
-<OldSVG.DataTransfer height='88px' />
-<OldSVG.Logs height='88px' />
-<OldSVG.Miners height='88px' />
-<OldSVG.StorageMarket height='88px' />
-<OldSVG.Slates height='88px' />
+          {`<SVG.Home height='88px' />
+<SVG.Folder height='88px' />
+<SVG.Wallet height='88px' />
+<SVG.Channels height='88px' />
+<SVG.Deals height='88px' />
+<SVG.Peers height='88px' />
+<SVG.Deals height='88px' />
+<SVG.Status height='88px' />
+<SVG.Stats height='88px' />
+<SVG.DataTransfer height='88px' />
+<SVG.Logs height='88px' />
+<SVG.Miners height='88px' />
+<SVG.StorageMarket height='88px' />
+<SVG.Slates height='88px' />
 <SVG.BandwidthUp height='88px' />
 <SVG.BandwidthDown height='88px' />
 <SVG.Information height='88px' />

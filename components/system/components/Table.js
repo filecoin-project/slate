@@ -10,7 +10,7 @@ import * as SubSystem from "~/components/system/components/fragments/TableCompon
 
 import { css } from "@emotion/react";
 import { P } from "~/components/system/components/Typography";
-import * as SVG from "~/components/system/svg";
+import * as SVG from "~/common/svg";
 
 const TABLE_COLUMN_WIDTH_DEFAULTS = {
   1: "100%",
@@ -132,7 +132,11 @@ export class Table extends React.Component {
         {this.props.noLabel ? null : (
           <div css={STYLES_TABLE_TOP_ROW}>
             {data.columns.map((c, cIndex) => {
-              const text = c.hideLabel ? "" : Strings.isEmpty(c.name) ? c.key : c.name;
+              const text = c.hideLabel
+                ? ""
+                : Strings.isEmpty(c.name)
+                ? c.key
+                : c.name;
               let localWidth = c.width ? c.width : width;
               let flexShrink = c.width && c.width !== "100%" ? "0" : null;
               if (cIndex === 0 && !c.width) {
@@ -148,12 +152,15 @@ export class Table extends React.Component {
                     backgroundColor: ac[c.key].color,
                     flexShrink,
                   }}
-                  tooltip={c.tooltip}>
+                  tooltip={c.tooltip}
+                >
                   {text}
                 </SubSystem.TableColumn>
               );
             })}
-            {this.props.onClick ? <div css={STYLES_TABLE_EXPAND_SECTION} /> : null}
+            {this.props.onClick ? (
+              <div css={STYLES_TABLE_EXPAND_SECTION} />
+            ) : null}
           </div>
         )}
 
@@ -168,7 +175,8 @@ export class Table extends React.Component {
                   const text = r[each];
 
                   let localWidth = field.width ? field.width : width;
-                  let flexShrink = field.width && field.width !== "100%" ? "0" : null;
+                  let flexShrink =
+                    field.width && field.width !== "100%" ? "0" : null;
                   if (cIndex === 0 && !field.width) {
                     localWidth = "100%";
                   }
@@ -178,11 +186,14 @@ export class Table extends React.Component {
                       key={`${each}-${i}-${cIndex}`}
                       style={{
                         width: localWidth,
-                        backgroundColor: this.props.noColor ? null : field.color,
+                        backgroundColor: this.props.noColor
+                          ? null
+                          : field.color,
                         flexShrink,
                       }}
                       contentStyle={field.contentStyle}
-                      copyable={field.copyable}>
+                      copyable={field.copyable}
+                    >
                       <div style={field.style}>
                         <SubSystem.TableContent
                           data={r}
@@ -204,14 +215,16 @@ export class Table extends React.Component {
                       alignItems: "center",
                       alignSelf: "center",
                       justifyContent: "flex-start",
-                    }}>
+                    }}
+                  >
                     <div
                       css={STYLES_TABLE_EXPAND_SECTION}
                       onClick={() => this._handleClick(r.id)}
                       style={{
                         cursor: r.children ? "pointer" : "default",
                         display: "inline-flex",
-                      }}>
+                      }}
+                    >
                       {r.children ? (
                         <SVG.Plus
                           height="16px"

@@ -93,7 +93,7 @@ const SlateEntry = ({ item }) => {
     <div css={STYLES_ENTRY}>
       <div css={STYLES_SLATE_ENTRY_CONTAINER}>
         <div css={STYLES_ICON_CIRCLE}>
-          <SVG.Slate2 height="16px" />
+          <SVG.Slate height="16px" />
         </div>
         <div css={STYLES_TITLE}>{item.data.name}</div>
         {item.owner && item.owner.username ? (
@@ -114,7 +114,7 @@ const FileEntry = ({ item }) => {
     <div css={STYLES_ENTRY}>
       <div css={STYLES_USER_ENTRY_CONTAINER}>
         <div css={STYLES_ICON_CIRCLE}>
-          <SVG.Folder2 height="16px" />
+          <SVG.Folder height="16px" />
         </div>
         <div css={STYLES_TITLE}>
           {item.data.file.title || item.data.file.name}

@@ -85,8 +85,7 @@ import {
 
 import { AvatarGroup } from "~/components/system/components/AvatarGroup";
 
-import * as SVG from "~/components/system/svg";
-import * as OldSVG from "~/common/svg";
+import * as SVG from "~/common/svg";
 
 // NOTE(jim): Export everything.
 export {
@@ -151,7 +150,6 @@ export {
   // NOTE(jim): System values
   Constants,
   SVG,
-  OldSVG,
   LoaderCircles,
   LoaderDiamonds,
   LoaderMoon,

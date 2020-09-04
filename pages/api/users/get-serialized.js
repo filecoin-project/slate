@@ -4,7 +4,7 @@ import * as Strings from "~/common/strings";
 
 export default async (req, res) => {
   let user = await Data.getUserById({ id: req.body.data.id });
-  if (!user) {
+  if (!user || user.error) {
     return res.status(404).send({
       decorator: "USER_NOT_FOUND",
       error: true,
@@ -16,6 +16,14 @@ export default async (req, res) => {
     userId: req.body.data.id,
     publicOnly: true,
   });
+  if (slates.error) {
+    if (!user || user.error) {
+      return res.status(404).send({
+        decorator: "SLATES_NOT_FOUND",
+        error: true,
+      });
+    }
+  }
   user.slates = [];
   for (let slate of slates) {
     user.slates.push(Serializers.slate(slate));

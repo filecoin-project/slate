@@ -227,6 +227,11 @@ const STYLES_MENU_OPEN = css`
 
 export const NewWebsitePrototypeHeader = (props) => {
   const [open, setOpen] = useState(false);
+
+  const viewSourceURL = "https://github.com/filecoin-project/slate";
+  const designSystemURL = "/_/system";
+  const signInURL = "/_";
+
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
@@ -235,26 +240,30 @@ export const NewWebsitePrototypeHeader = (props) => {
         </a>
       </div>
       <div css={STYLES_RIGHT}>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href="https://github.com/filecoin-project/slate">
-          Get involved
+        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={designSystemURL}>
+          Design system
         </a>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href="/_/system">
-          Sign up
+        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={viewSourceURL}>
+          View source
         </a>
-        <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate">
-          Download
+        <a css={STYLES_LINK} href={signInURL}>
+          Sign in
         </a>
       </div>
       <div>
-        <div open={open} onClick={() => setOpen(!open)} css={open ? STYLES_BURGER_OPEN : STYLES_BURGER}>
+        <div
+          open={open}
+          onClick={() => setOpen(!open)}
+          css={open ? STYLES_BURGER_OPEN : STYLES_BURGER}
+        >
           <div css={open ? STYLES_BURGER_BUN_OPEN : STYLES_BURGER_BUN} />
           <div css={open ? STYLES_BURGER_MEAT_OPEN : STYLES_BURGER_MEAT} />
           <div css={open ? STYLES_BURGER_BUN2_OPEN : STYLES_BURGER_BUN2} />
         </div>
         <div open={open} css={open ? STYLES_MENU_OPEN : STYLES_MENU}>
-          <a href="/">Get involved</a>
-          <a href="/">Sign up</a>
-          <a href="/">Download</a>
+          <a href={designSystemURL}>Design system</a>
+          <a href={viewSourceURL}>View source</a>
+          <a href={signInURL}>Sign in</a>
         </div>
       </div>
     </div>

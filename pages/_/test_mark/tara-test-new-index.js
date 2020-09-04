@@ -481,11 +481,18 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description = "Welcome to the future of file sharing. Powered by Textile, Filecoin, IPFS.";
+    const description =
+      "Welcome to the future of file sharing. Powered by Textile, Filecoin, IPFS.";
     const url = "https://slate.host";
-    const image = "https://bafybeifedze7dm4zesvgekukziw23gbtfodxiz63nxgybbyo2koxeybmla.ipfs.slate.textile.io/";
+    const image =
+      "https://bafybeifedze7dm4zesvgekukziw23gbtfodxiz63nxgybbyo2koxeybmla.ipfs.slate.textile.io/";
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+        image={image}
+      >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <section css={STYLES_SECTION_HERO}>
@@ -500,7 +507,10 @@ export default class IndexPage extends React.Component {
               </h1>
 
               <div css={STYLES_ACTIONS_RIGHT}>
-                <div css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("/_")}>
+                <div
+                  css={STYLES_BUTTON_PRIMARY}
+                  onClick={() => window.open("/_")}
+                >
                   Use Slate
                 </div>
               </div>
@@ -508,20 +518,28 @@ export default class IndexPage extends React.Component {
             <br />
 
             <div css={STYLES_IMAGE}>
-              <video Autoplay="autoplay" Loop="loop" src="/static/landing/marketing-hero.mov" type="video/mov" />
+              <video
+                Autoplay="autoplay"
+                Loop="loop"
+                src="/static/landing/marketing-hero.mov"
+                type="video/mov"
+              />
             </div>
             <div css={STYLES_TEXT_BLOCK}>
               <h2>
                 Slate{" "}
                 <span css={STYLES_HIGHLIGHT}>
-                  is a fully open-source file sharing network designed for research and collaboration.
+                  is a fully open-source file sharing network designed for
+                  research and collaboration.
                 </span>
                 <br />
                 <br />
                 <span css={STYLES_HIGHLIGHT}>Store</span> your data,
                 <br />
-                <span css={STYLES_HIGHLIGHT}>organize</span> it any way you like, <br />
-                <span css={STYLES_HIGHLIGHT}>and share</span> it with the world securely.
+                <span css={STYLES_HIGHLIGHT}>organize</span> it any way you
+                like, <br />
+                <span css={STYLES_HIGHLIGHT}>and share</span> it with the world
+                securely.
                 <br />
                 <br />
               </h2>
@@ -552,8 +570,10 @@ export default class IndexPage extends React.Component {
                 </span>
               </h1>
               <h3>
-                <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of file to your storage system. <br />
-                <span css={STYLES_HIGHLIGHT}>Organize</span> them any way you like with slates.
+                <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of
+                file to your storage system. <br />
+                <span css={STYLES_HIGHLIGHT}>Organize</span> them any way you
+                like with slates.
               </h3>
             </div>
             <div css={STYLES_IMAGE}>
@@ -568,8 +588,9 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>anywhere</span>
               </h1>
               <h3>
-                <span css={STYLES_HIGHLIGHT}>The Slate Chrome extension</span> lets you seamlessly upload files to your
-                slates from anywhere on the web.
+                <span css={STYLES_HIGHLIGHT}>The Slate Chrome extension</span>{" "}
+                lets you seamlessly upload files to your slates from anywhere on
+                the web.
               </h3>
             </div>
             <div css={STYLES_MEDIA_LEFT}>
@@ -583,7 +604,8 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>Organize and publish</span>
               </h1>
               <h3>
-                <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your files, giving you complete flexibility.
+                <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your
+                files, giving you complete flexibility.
               </h3>
             </div>
             <br />
@@ -608,7 +630,12 @@ export default class IndexPage extends React.Component {
               </h2>
             </div>
             <div css={STYLES_IMAGE}>
-              <video Autoplay="autoplay" Loop="loop" src="/static/landing/marketing-research.mov" type="video/mov" />
+              <video
+                Autoplay="autoplay"
+                Loop="loop"
+                src="/static/landing/marketing-research.mov"
+                type="video/mov"
+              />
             </div>
             <br />
             <br />
@@ -630,8 +657,9 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>Collaborate and share</span>
               </h1>
               <h3>
-                <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built on top of a storage system making it
-                possible to connect with other people on the Filecoin network.
+                <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built
+                on top of a storage system making it possible to connect with
+                other people on the Filecoin network.
               </h3>
             </div>
 
@@ -647,8 +675,11 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>trust, privacy, and security</span>
               </h1>
               <h3>
-                <span css={STYLES_HIGHLIGHT}>Slate is built on Filecoin and IPFS</span> — technologies built around
-                ownership and transparency for the future of the web.
+                <span css={STYLES_HIGHLIGHT}>
+                  Slate is built on Filecoin and IPFS
+                </span>{" "}
+                — technologies built around ownership and transparency for the
+                future of the web.
               </h3>
               <div>
                 <a css={STYLES_LINK_WHITE} href="https://filecoin.io">
@@ -664,14 +695,22 @@ export default class IndexPage extends React.Component {
 
           <section css={STYLES_SECTION_SLATE_WALL}>
             <div css={STYLES_SLATE_CARD_GRAY}>
-              <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/_" target="_blank">
+              <a
+                css={STYLES_SLATE_CARD_PARAGRAPH}
+                href="https://slate.host/_"
+                target="_blank"
+              >
                 <div css={STYLES_SLATE_CARD_TEXT}>
                   <div css={STYLES_SLATE_CARD_CTA_TITLE}>
                     Join us <br />
-                    <span css={STYLES_HIGHLIGHT_BLACK}>in the open, secure network</span>
+                    <span css={STYLES_HIGHLIGHT_BLACK}>
+                      in the open, secure network
+                    </span>
                   </div>
                   <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                    <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>Create your first slate</div>
+                    <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>
+                      Create your first slate
+                    </div>
                     <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>-&gt;</div>
                   </div>
                 </div>
@@ -681,9 +720,15 @@ export default class IndexPage extends React.Component {
             <br />
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Dogs of Marcus Aurelius</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>
+                      Dogs of Marcus Aurelius
+                    </div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>@internetjim</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
@@ -692,7 +737,11 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Globe</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -703,7 +752,11 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Digital Renaissance</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -716,7 +769,11 @@ export default class IndexPage extends React.Component {
             </div>
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>42</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -727,7 +784,11 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Slate</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -738,7 +799,11 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Clouds</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -751,7 +816,11 @@ export default class IndexPage extends React.Component {
             </div>
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Honeycomb</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -762,7 +831,11 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Extension</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -773,11 +846,17 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>More</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>Explore Slates</div>
+                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>
+                        Explore Slates
+                      </div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                     </div>
                   </div>

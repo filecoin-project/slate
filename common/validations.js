@@ -35,6 +35,16 @@ const REJECT_LIST = [
   "log-in",
   "log_in",
   "logout",
+  "terms",
+  "terms-of-service",
+  "community",
+  "privacy",
+  "reset-password",
+  "reset",
+  "logout",
+  "dashboard",
+  "analytics",
+  "data",
 ];
 
 export const userRoute = (text) => {

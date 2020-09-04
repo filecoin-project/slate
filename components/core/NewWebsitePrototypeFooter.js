@@ -112,7 +112,11 @@ export const NewWebsitePrototypeFooter = (props) => {
         <div style={{ marginRight: 88 }}>
           <p>Reach out</p>
           <br />
-          <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
+          <a
+            css={STYLES_LINK}
+            href="https://twitter.com/_slate"
+            target="_blank"
+          >
             Twitter
           </a>
           <br />
@@ -125,19 +129,23 @@ export const NewWebsitePrototypeFooter = (props) => {
         <div>
           <p>Resources</p>
           <br />
-          <a css={STYLES_LINK} href="/" target="_blank">
+          <a css={STYLES_LINK} href="/_/system" target="_blank">
             Design system
           </a>
           <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
+          <a
+            css={STYLES_LINK}
+            href="https://github.com/filecoin-project/slate"
+            target="_blank"
+          >
             View source
           </a>
           <br />
-          <a css={STYLES_LINK} href="./community" target="_blank">
+          <a css={STYLES_LINK} href="/community" target="_blank">
             Community Guidelines
           </a>
           <br />
-          <a css={STYLES_LINK} href="./privacy" target="_blank">
+          <a css={STYLES_LINK} href="/privacy" target="_blank">
             Privacy
           </a>
         </div>

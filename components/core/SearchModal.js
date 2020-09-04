@@ -78,25 +78,8 @@ const STYLES_SLATE_ENTRY_CONTAINER = css`
 `;
 
 const STYLES_SLATE_IMAGES_CONTAINER = css`
-  margin-left: 32px;
-`;
-
-const STYLES_SLATE_IMAGE = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 72px;
-  width: 72px;
-  padding: 8px;
-  box-sizing: border-box;
-  margin-left: 32px;
-`;
-
-const STYLES_LINK_HOVER = css`
-  color: ${Constants.system.black};
-  :hover {
-    color: ${Constants.system.brand};
-  }
+  margin-top: 8px;
+  margin-left: 40px;
 `;
 
 const STYLES_TITLE = css`
@@ -119,17 +102,7 @@ const SlateEntry = ({ item }) => {
       </div>
       {item.data.objects.length ? (
         <div css={STYLES_SLATE_IMAGES_CONTAINER}>
-          <SlatePreviewRow
-            numItems={4}
-            style={{ width: "72px", height: "72px", padding: "8px" }}
-            containerStyle={{
-              maxHeight: "72px",
-              justifyContent: "flex-start",
-            }}
-            previewStyle={{ fontSize: "12px", padding: "4px" }}
-            slate={item}
-            small
-          />
+          <SlatePreviewRow numItems={4} slate={item} small />
         </div>
       ) : null}
     </div>
@@ -150,11 +123,11 @@ const FileEntry = ({ item }) => {
           <div>@{item.data.slate.owner.username}</div>
         ) : null}
       </div>
-      <div css={STYLES_SLATE_IMAGE}>
-        <SlateMediaObjectPreview
-          style={{ fontSize: "12px", padding: "4px" }}
-          url={item.data.file.url}
-          type={item.data.file.type}
+      <div css={STYLES_SLATE_IMAGES_CONTAINER}>
+        <SlatePreviewRow
+          numItems={1}
+          slate={{ data: { objects: [item.data.file] } }}
+          small
         />
       </div>
     </div>

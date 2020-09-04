@@ -24,6 +24,7 @@ const STYLES_PROFILE_IMAGE = css`
 
 const STYLES_NAME = css`
   font-size: ${Constants.typescale.lvl3};
+  font-family: ${Constants.font.medium};
   width: 100%;
   max-width: 420px;
   margin: 0 auto;
@@ -86,14 +87,6 @@ export default class Profile extends React.Component {
                       key={url}
                       slate={slate}
                       editing={this.props.editing}
-                      onClick={() =>
-                        this.props.onAction({
-                          type: "NAVIGATE",
-                          value: this.props.sceneId,
-                          scene: "PUBLIC_SLATE",
-                          data: slate,
-                        })
-                      }
                     />
                   </div>
                 );

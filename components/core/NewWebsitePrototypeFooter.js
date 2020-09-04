@@ -2,7 +2,6 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
-import { motion } from "framer-motion";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};
@@ -26,7 +25,7 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.moonstone};
+  color: ${Constants.system.darkGray};
   text-decoration: none;
   transition: 200ms ease color;
   line-height: 1.5;
@@ -39,26 +38,25 @@ const STYLES_LINK = css`
 const STYLES_LEFT = css`
   flex-shrink: 0;
   font-size: 1.563rem;
-  color: ${Constants.system.white};
+  color: ${Constants.system.c};
 `;
 
 const STYLES_SLATE = css`
   flex-shrink: 0;
   padding: 0px 0px 8px 0px;
   font-size: 1.563rem;
-  color: ${Constants.system.white};
+  color: ${Constants.system.gray};
 `;
 
 const STYLES_TRADEMARK = css`
-  width: 80px;
-  margin: -8px 16px 16px 0px;
+  margin: 0px 16px 16px 0px;
 `;
 
 const STYLES_CREDIT = css`
   flex-shrink: 0;
   padding: 8px 0px 8px 0px;
   font-size: 1rem;
-  color: ${Constants.system.white};
+  color: ${Constants.system.gray};
   line-height: 1.5;
 `;
 
@@ -81,11 +79,14 @@ const STYLES_RIGHT = css`
   }
 `;
 
-export default (props) => {
+export const NewWebsitePrototypeFooter = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_TRADEMARK}>
-        <img width="88px" src="/static/landing/marketing-tesseract.png" />
+        <img
+          width="32px"
+          src="https://bafkreigojwgoqkcpi4oyjoncmiuacg3zen7mlg75fkz27k5n32golvbkb4.ipfs.slate.textile.io/"
+        />
       </div>
       <div css={STYLES_LEFT}>
         <div css={STYLES_SLATE}>
@@ -94,11 +95,11 @@ export default (props) => {
         </div>
         <div css={STYLES_CREDIT}>
           Powered by{" "}
-          <a css={STYLES_LINK} href="https://textile.io">
+          <a css={STYLES_LINK} href="https://textile.io" target="_blank">
             Textile
           </a>{" "}
           and{" "}
-          <a css={STYLES_LINK} href="https://filecoin.io">
+          <a css={STYLES_LINK} href="https://filecoin.io" target="_blank">
             Filecoin
           </a>
           <br />
@@ -111,11 +112,11 @@ export default (props) => {
         <div style={{ marginRight: 88 }}>
           <p>Reach out</p>
           <br />
-          <a css={STYLES_LINK} href="https://twitter.com/_slate">
+          <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
             Twitter
           </a>
           <br />
-          <a css={STYLES_LINK} href="https://filecoin.io/slack">
+          <a css={STYLES_LINK} href="https://filecoin.io/slack" target="_blank">
             Slack
           </a>
         </div>
@@ -124,15 +125,19 @@ export default (props) => {
         <div>
           <p>Resources</p>
           <br />
-          <a css={STYLES_LINK} href="https://twitter.com/_slate">
-            Github
+          <a css={STYLES_LINK} href="/" target="_blank">
+            Design system
           </a>
           <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
+            View source
+          </a>
+          <br />
+          <a css={STYLES_LINK} href="./community" target="_blank">
             Community Guidelines
           </a>
           <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues">
+          <a css={STYLES_LINK} href="./privacy" target="_blank">
             Privacy
           </a>
         </div>
@@ -140,3 +145,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default NewWebsitePrototypeFooter;

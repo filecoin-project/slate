@@ -7,27 +7,42 @@
 - [Design System](https://slate.host/_/system)
 - [Release Repository](https://github.com/filecoin-project/slate-react-system)
 - [Live Application Release Candidate](https://slate.host/_)
+- [Powered by Filecoin](https://filecoin.io)
+- [Powered by Textile](https://textile.io)
+- [Follow us on Twitter](https://twitter.com/_slate)
 
 ### Introduction
 
-Our goal is to create a new kind of storage solution that encourages collaboration and research, while also building it on a completely transparent and open source foundation. Over time, we hope to grow Slate into an elegant experience for:
+Slate is the first open source file storage application designed to encourage collaboration and research across a distributed network. It is a first step towards enabling a thriving network for data storage and transactions powered by IPFS, Filecoin and Textile that is open and usable for everyone. Our goal is to provide a meaningful story for every feature the protocol provides today and in the future. The Slate Project is the byproduct of a growing community of contributors from around the world.
 
-- Creating mood boards, hosting data, and making connections between topics you are researching
-- Replacing S3 with a Developer API and API keys
-- Every feature supported by [Filecoin](https://filecoin.io)
-- Storing images and sharing them with friends :)
+Slate is tightly scoped for the present and more broadly thought out for the future. Our primary objective is to create a best-in-class experience for uploading, collecting, and sharing media. Additional filetypes will be supported, but our focus is to start with the pieces that apply to everyone and then dial into more specific formats.
 
-Slate is a client for [Filecoin](https://filecoin.io), Powered by [Textile's](https://textile.io) Powergate and Buckets.
+- Example Slate: https://slate.host/tara/loom
+- Example User Profile: https://slate.host/gndclouds
+- Our New Brand: https://slate.host/narative/slate-brand-identity
+- Monet on Filecoin: https://slate.host/slate/monet
+
+### Developer API
+
+Slate has a Developer API that allows you upload files using code. Every user who creates an account on Slate can use the API today. Here is an example of how simple it is:
+
+```js
+const response = await fetch('https://slate.host/api/v1/get', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Basic XXX-YOUR-SLATE-KEY-XXX',
+  }
+});
+```
+
+Create an account today and let us know what you think!
 
 # Get involved.
 
-Slate is built by a growing community of collaborators and contributors. If you’re interested in…
+Slate is built by a growing community of collaborators and contributors. We’d love for you to join us! 
 
-- Creating an open source design system
-- Building a dynamic component library for open source projects
-- Learning how to write front-end code
-
-We’d love for you to join us! Getting involved is simple:
+Getting involved is simple:
 
 - Find something cool you to work on and [file an issue](https://github.com/filecoin-project/slate/issues)
 - If you see something you want to fix or change, **submit a PR**

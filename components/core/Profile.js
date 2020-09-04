@@ -94,7 +94,7 @@ export default class Profile extends React.Component {
               const url = `/${data.username}/${slate.slatename}`;
               return (
                 <a key={url} href={url} css={STYLES_LINK}>
-                  <SlatePreviewBlock slate={slate} />
+                  <SlatePreviewBlock external slate={slate} />
                 </a>
               );
             })}

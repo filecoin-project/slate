@@ -9,7 +9,7 @@ import {
 } from "~/components/system";
 import { css } from "@emotion/react";
 
-import Dismissible from "~/components/core/Dismissible";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
 import CircleButtonLight from "~/components/core/CircleButtonLight";
 
 const APPLICATION_CONTROL_MENU_ID = "application-control-menu";
@@ -131,7 +131,7 @@ export default class ApplicationUserControls extends React.Component {
           horizontal="right"
           vertical="below"
           content={
-            <Dismissible
+            <Boundary
               captureResize={true}
               captureScroll={false}
               enabled
@@ -142,20 +142,20 @@ export default class ApplicationUserControls extends React.Component {
                 style={{
                   left: "0px",
                   top: "16px",
-                  cursor: "pointer",
                 }}
-                onNavigateTo={this._handleNavigateTo}
-                onAction={this._handleAction}
-                onSignOut={this._handleSignOut}
                 navigation={[
                   {
-                    text: "Profile & account settings",
-                    value: "V1_NAVIGATION_PROFILE_EDIT",
+                    text: "Account settings",
+                    onClick: () =>
+                      this.props.onAction({
+                        type: "NAVIGATE",
+                        value: "V1_NAVIGATION_PROFILE_EDIT",
+                      }),
                   },
-                  { text: "Sign Out", value: null, action: "SIGN_OUT" },
+                  { text: "Sign out", onClick: this._handleSignOut },
                 ]}
               />
-            </Dismissible>
+            </Boundary>
           }
         >
           <div css={STYLES_FLEX_ROW}>

@@ -4,6 +4,10 @@ import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
+import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
+import { TooltipWrapper } from "~/components/system/components/fragments/GlobalTooltip";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
@@ -74,7 +78,7 @@ export function SlatePreviewRow(props) {
     >
       {objects.map((each) => (
         <div
-          key={each.url}
+          key={each.id}
           css={props.small ? STYLES_ITEM_BOX_SMALL : STYLES_ITEM_BOX}
           style={props.style}
         >
@@ -154,19 +158,53 @@ const STYLES_CREATE_NEW = css`
   height: 160px;
 `;
 
+const STYLES_ICON_BOX = css`
+  height: 24px;
+  width: 24px;
+  display: block;
+  align-items: center;
+  justify-content: center;
+`;
+
 export default class SlatePreviewBlock extends React.Component {
   _ref;
+  _test;
 
   state = {
-    copyable: "",
+    isMenuOpen: false,
+    copyValue: "",
+  };
+
+  _componentDidMount = () => {
+    console.log(this._test.getBoundingClientRect());
   };
 
   _handleCopy = (e, value) => {
     e.stopPropagation();
-    console.log("copy");
-    this.setState({ copyable: value }, () => {
+    this.setState({ copyValue: value }, () => {
       this._ref.select();
       document.execCommand("copy");
+    });
+  };
+
+  _handleClick = (e) => {
+    e.stopPropagation();
+    console.log("show tooltip");
+    dispatchCustomEvent({
+      name: "show-tooltip",
+      detail: {
+        id: `slate-tooltip-${this.props.slate.id}`,
+      },
+    });
+  };
+
+  _handleHide = (e) => {
+    console.log("hide tooltip");
+    dispatchCustomEvent({
+      name: "hide-tooltip",
+      detail: {
+        id: `slate-tooltip-${this.props.slate.id}`,
+      },
     });
   };
 
@@ -174,8 +212,69 @@ export default class SlatePreviewBlock extends React.Component {
     if (!this.props.editing && !this.props.slate.data.objects.length) {
       return null;
     }
+    let contextMenu = (
+      <React.Fragment>
+        <Boundary
+          captureResize={true}
+          captureScroll={false}
+          enabled
+          onOutsideRectEvent={this._handleHide}
+          style={this.props.style}
+        >
+          <PopoverNavigation
+            style={{
+              left: "0px",
+              top: "16px",
+            }}
+            navigation={
+              this.props.editing
+                ? [
+                    {
+                      text: "Copy URL",
+                      onClick: (e) =>
+                        this._handleCopy(
+                          e,
+                          `https://slate.host/${this.props.slate.owner.username}/${this.props.slate.slatename}`
+                        ),
+                    },
+                    {
+                      text: "Copy slate ID",
+                      onClick: (e) => this._handleCopy(e, this.props.slate.id),
+                    },
+                  ]
+                : [
+                    {
+                      text: "Copy URL",
+                      onClick: (e) =>
+                        this._handleCopy(
+                          e,
+                          `https://slate.host/${this.props.slate.owner.username}/${this.props.slate.slatename}`
+                        ),
+                    },
+                  ]
+            }
+          />
+        </Boundary>
+        <input
+          readOnly
+          ref={(c) => {
+            this._ref = c;
+          }}
+          value={this.state.copyValue}
+          css={STYLES_COPY_INPUT}
+        />
+      </React.Fragment>
+    );
+
     return (
-      <div css={STYLES_BLOCK}>
+      <div
+        css={STYLES_BLOCK}
+        style={
+          this.props.external
+            ? { backgroundColor: Constants.system.white, border: "none" }
+            : {}
+        }
+      >
         <div css={STYLES_TITLE_LINE}>
           <div
             style={{
@@ -208,16 +307,26 @@ export default class SlatePreviewBlock extends React.Component {
               </div>
             )
           ) : null}
-          {this.props.editing ? (
-            <div style={{ justifySelf: "end" }}>
-              <div
-                css={STYLES_BUTTON}
-                onClick={(e) => this._handleCopy(e, this.props.slate.id)}
+          {this.props.external ? null : (
+            <div
+              style={{ justifySelf: "flex-end" }}
+              ref={(c) => {
+                this._test = c;
+              }}
+            >
+              <TooltipWrapper
+                id={`slate-tooltip-${this.props.slate.id}`}
+                type="body"
+                content={contextMenu}
+                horizontal="left"
+                vertical="below"
               >
-                Copy ID
-              </div>
+                <div css={STYLES_ICON_BOX} onClick={this._handleClick}>
+                  <SVG.MoreHorizontal height="16px" />
+                </div>
+              </TooltipWrapper>
             </div>
-          ) : null}
+          )}
         </div>
         {this.props.slate.data.body ? (
           <div css={STYLES_BODY}>
@@ -237,14 +346,6 @@ export default class SlatePreviewBlock extends React.Component {
             <div>Add Files</div>
           </div>
         )}
-        <input
-          readOnly
-          ref={(c) => {
-            this._ref = c;
-          }}
-          value={this.state.copyable}
-          css={STYLES_COPY_INPUT}
-        />
       </div>
     );
   }

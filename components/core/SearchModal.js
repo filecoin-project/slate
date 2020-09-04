@@ -59,7 +59,7 @@ const UserEntry = ({ item }) => {
           style={{ backgroundImage: `url(${item.data.photo})` }}
           css={STYLES_PROFILE_IMAGE}
         />
-        {item.data.name ? <strong>{item.data.name}</strong> : null}
+        {item.data.name ? <div>{item.data.name}</div> : null}
         <div>@{item.username}</div>
       </div>
     </div>

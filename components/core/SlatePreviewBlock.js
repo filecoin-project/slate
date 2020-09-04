@@ -177,14 +177,14 @@ export default class SlatePreviewBlock extends React.Component {
     return (
       <div css={STYLES_BLOCK}>
         <div css={STYLES_TITLE_LINE}>
-          <strong
+          <div
             style={{
               fontSize: Constants.typescale.lvl2,
               fontFamily: Constants.font.semiBold,
             }}
           >
             {this.props.slate.data.name}
-          </strong>
+          </div>
           {this.props.editing ? (
             this.props.slate.data.public ? (
               <div

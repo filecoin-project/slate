@@ -20,6 +20,7 @@ const STYLES_TAB = css`
   cursor: pointer;
   display: inline-block;
   font-size: ${Constants.typescale.lvl1};
+  font-family: ${Constants.font.medium};
   user-select: none;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -36,10 +37,7 @@ export class TabGroup extends React.Component {
             css={STYLES_TAB}
             key={tab}
             style={{
-              color:
-                this.props.value === i
-                  ? Constants.system.pitchBlack
-                  : Constants.system.gray,
+              opacity: this.props.value === i ? "100%" : "25%",
             }}
             onClick={() => this.props.onChange(i)}
           >

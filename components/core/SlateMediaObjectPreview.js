@@ -16,7 +16,6 @@ const STYLES_ENTITY = css`
   height: 100%;
   width: 100%;
   border: 1px solid ${Constants.system.border};
-  background-color: ${Constants.system.foreground};
   font-size: 24px;
   display: flex;
   flex-direction: column;
@@ -25,7 +24,7 @@ const STYLES_ENTITY = css`
   cursor: pointer;
   pointer-events: none;
   padding: 8px;
-  font-size: 16px;
+  font-size: 0.9rem;
 `;
 
 const STYLES_TITLE = css`
@@ -34,8 +33,6 @@ const STYLES_TITLE = css`
   margin-top: 8px;
   overflow: hidden;
   word-break: break-all;
-  ${"" /* text-overflow: ellipsis;
-  white-space: nowrap; */}
 `;
 
 export default class SlateMediaObjectPreview extends React.Component {

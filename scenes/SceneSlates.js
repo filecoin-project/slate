@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
-import * as SVG from "~/components/system/svg";
+import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 import { TabGroup } from "~/components/core/TabGroup";

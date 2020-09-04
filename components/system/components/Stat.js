@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
-import * as Strings from "~/common/strings"
+import * as SVG from "~/common/svg";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 
@@ -17,21 +17,19 @@ const STYLES_BANDWIDTH = css`
 `;
 
 export const StatUpload = (props) => {
-  const size = Strings.bytesToSize(props.size, props.decimal || 2)
+  const size = Strings.bytesToSize(props.size, props.decimal || 2);
   return (
     <div css={STYLES_BANDWIDTH} style={props.style}>
-      <SVG.BandwidthUp height="16px" style={{ marginRight: 8 }} />{" "}
-      {size}
+      <SVG.BandwidthUp height="16px" style={{ marginRight: 8 }} /> {size}
     </div>
   );
 };
 
 export const StatDownload = (props) => {
-  const size = Strings.bytesToSize(props.size, props.decimal || 2)
+  const size = Strings.bytesToSize(props.size, props.decimal || 2);
   return (
     <div css={STYLES_BANDWIDTH} style={props.style}>
-      <SVG.BandwidthDown height="16px" style={{ marginRight: 8 }} />{" "}
-      {size}
+      <SVG.BandwidthDown height="16px" style={{ marginRight: 8 }} /> {size}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
+import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 import {

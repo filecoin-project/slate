@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
+import * as SVG from "~/common/svg";
 import * as Actions from "~/common/actions";
-import * as OldSVG from "~/common/svg";
 
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { css } from "@emotion/react";
@@ -194,7 +193,8 @@ export default class Slate extends React.Component {
             <CircleButtonGray
               style={{ margin: 8 }}
               onMouseUp={(e) => this._handleSelect(e, index)}
-              onTouchEnd={(e) => this._handleSelect(e, index)}>
+              onTouchEnd={(e) => this._handleSelect(e, index)}
+            >
               <SVG.Eye height="16px" />
             </CircleButtonGray>
 
@@ -202,8 +202,9 @@ export default class Slate extends React.Component {
               <CircleButtonGray
                 style={{ margin: 8 }}
                 onMouseUp={(e) => this._handleDeepLink(e, data)}
-                onTouchEnd={(e) => this._handleDeepLink(e, data)}>
-                <OldSVG.DeepLink height="16px" />
+                onTouchEnd={(e) => this._handleDeepLink(e, data)}
+              >
+                <SVG.DeepLink height="16px" />
               </CircleButtonGray>
             ) : null}
           </figure>
@@ -236,7 +237,8 @@ export default class Slate extends React.Component {
           useCSSTransforms={false}
           compactType={this.state.compactType}
           preventCollision={false}
-          margin={[24, 24]}>
+          margin={[24, 24]}
+        >
           {this.generateDOM()}
         </ResponsiveReactGridLayout>
 
@@ -252,7 +254,8 @@ export default class Slate extends React.Component {
               style={{
                 backgroundColor:
                   this.props.saving === "IDLE" ? Constants.system.brand : null,
-              }}>
+              }}
+            >
               {this.props.saving === "SAVING" ? (
                 <LoaderSpinner style={{ height: 16, width: 16 }} />
               ) : this.props.saving === "IDLE" ? (

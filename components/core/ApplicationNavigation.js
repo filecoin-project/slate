@@ -15,10 +15,10 @@ const IconMap = {
   WALLET: <SVG.Wallet height="20px" />,
   DEALS: <SVG.Deals height="20px" />,
   SLATES: <SVG.Layers height="20px" />,
-  SLATE: <SVG.Slates height="20px" />,
+  SLATE: <SVG.Slate height="20px" />,
   LOCAL_DATA: <SVG.HardDrive height="20px" />,
   PROFILE_PAGE: <SVG.ProfileUser height="20px" />,
-  SETTINGS_DEVELOPER: <SVG.SettingsDeveloper height="20px" />,
+  SETTINGS_DEVELOPER: <SVG.Tool height="20px" />,
   DIRECTORY: <SVG.Directory height="20px" />,
 };
 
@@ -64,7 +64,7 @@ const STYLES_CHILDREN = css`
   height: 100%;
   overflow-wrap: break-word;
   padding: 11px 0px 14px 8px;
-  font-family: ${Constants.font.semiBold};
+  font-family: ${Constants.font.text};
   font-weight: 400;
   font-size: 14px;
   line-height: 1.225;

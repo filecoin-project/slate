@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/components/system/svg";
-import * as OldSVG from "~/common/svg";
+import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -34,7 +33,7 @@ const COMPONENTS_ICON = {
   PNG: <SVG.FileImage height="24px" />,
   ["image/png"]: <SVG.FileImage height="24px" />,
   ["image/jpeg"]: <SVG.FileImage height="24px" />,
-  FOLDER: <OldSVG.Folder height="24px" />,
+  FOLDER: <SVG.Folder height="24px" />,
 };
 
 const STYLES_TABLE_TAG = css`

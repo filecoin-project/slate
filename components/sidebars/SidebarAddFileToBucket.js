@@ -91,8 +91,8 @@ export default class SidebarAddFileToBucket extends React.Component {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const slate =
-        this.props.data && this.props.data.slateId
-          ? { id: this.props.data.slateId }
+        this.props.data && this.props.data.id
+          ? { id: this.props.data.id }
           : null;
 
       const response = await this.props.onUploadFile({
@@ -149,8 +149,7 @@ export default class SidebarAddFileToBucket extends React.Component {
           type="label"
           htmlFor="file"
           style={{ marginTop: 24 }}
-          loading={!!this.props.fileLoading}
-        >
+          loading={!!this.props.fileLoading}>
           Add file
         </System.ButtonPrimary>
 

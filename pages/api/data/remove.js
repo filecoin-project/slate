@@ -3,6 +3,14 @@ import * as Utilities from "~/node_common/utilities";
 import * as Strings from "~/common/strings";
 
 const generateLayout = (items) => {
+  if (!items) {
+    return [];
+  }
+
+  if (!items.length) {
+    return [];
+  }
+
   return items.map((item, i) => {
     var y = Math.ceil(Math.random() * 4) + 1;
 

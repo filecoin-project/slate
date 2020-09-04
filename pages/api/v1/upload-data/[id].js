@@ -5,6 +5,14 @@ import * as Strings from "~/common/strings";
 import * as Upload from "~/node_common/upload";
 
 const generateLayout = (items) => {
+  if (!items) {
+    return [];
+  }
+
+  if (!items.length) {
+    return [];
+  }
+
   return items.map((item, i) => {
     var y = Math.ceil(Math.random() * 4) + 1;
 

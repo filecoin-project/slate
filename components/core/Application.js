@@ -480,8 +480,7 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           title="Slate: sign in"
           description="Sign in to your Slate account to manage your assets."
-          url="https://slate.host/_"
-        >
+          url="https://slate.host/_">
           <SceneSignIn
             onAuthenticate={this._handleAuthenticate}
             onNavigateTo={this._handleNavigateTo}
@@ -568,14 +567,12 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           description={description}
           title={title}
-          url={url}
-        >
+          url={url}>
           <ApplicationLayout
             header={headerElement}
             navigation={navigationElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}
-          >
+            onDismissSidebar={this._handleDismissSidebar}>
             {scene}
           </ApplicationLayout>
           <System.GlobalCarousel />

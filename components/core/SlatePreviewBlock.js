@@ -197,7 +197,13 @@ export default class SlatePreviewBlock extends React.Component {
                 Public
               </div>
             ) : (
-              <div css={STYLES_TAG} style={{ opacity: "25%" }}>
+              <div
+                css={STYLES_TAG}
+                style={{
+                  color: "rgba(0,0,0,0.25)",
+                  borderColor: "rgba(0,0,0,0.25)",
+                }}
+              >
                 Private
               </div>
             )

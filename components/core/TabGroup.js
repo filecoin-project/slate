@@ -37,7 +37,10 @@ export class TabGroup extends React.Component {
             css={STYLES_TAB}
             key={tab}
             style={{
-              opacity: this.props.value === i ? "100%" : "25%",
+              color:
+                this.props.value === i
+                  ? Constants.system.black
+                  : "rgba(0,0,0,0.25)",
             }}
             onClick={() => this.props.onChange(i)}
           >

@@ -1,14 +1,13 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
-import * as System from "~/components/system";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 
 import TextLoop from "react-text-loop";
-import { motion, useViewportScroll, useTransform } from "framer-motion";
+// import { motion, useViewportScroll, useTransform } from "framer-motion";
 import { css, keyframes } from "@emotion/react";
 
 const STYLES_ROOT = css`
@@ -17,20 +16,23 @@ const STYLES_ROOT = css`
   justify-content: space-between;
   h1 {
     font-size: 3.815rem;
+    line-height: 1.25;
     padding: 0px 0px 32px 0px;
     width: 100%;
-    color: ${Constants.system.moonstone};
+    color: ${Constants.system.darkGray};
   }
   h2 {
     font-size: 2.441em;
+    line-height: 1.25;
     padding: 0px 0px 32px 0px;
     width: 100%;
-    color: ${Constants.system.moonstone};
+    color: ${Constants.system.darkGray};
   }
   h3 {
     font-size: 1.563em;
-    padding: 0px 0px 32px 0px;
-    color: ${Constants.system.moonstone};
+    line-height: 1.5;
+    padding: 0px 0px 16px 0px;
+    color: ${Constants.system.darkGray};
   }
   p {
     font-size: 1rem;
@@ -59,7 +61,7 @@ const STYLES_ROOT = css`
     h1 {
       font-size: 1.953rem;
       padding: 0px 0px 16px 0px;
-      line-height: 1.5;
+      line-height: 1.25;
     }
     h2 {
       font-size: 1.25rem;
@@ -93,9 +95,9 @@ const STYLES_SECTION_HERO = css`
   flex-direction: column;
   justify-content: center;
   margin: -88px 0px 0px 0px;
-  background: ${Constants.system.pitchBlack};
+  background: ${Constants.system.black};
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 40vh 24px 0 24px;
+    padding: 40vh 24px 48px 24px;
     display: block;
   }
 `;
@@ -118,7 +120,7 @@ const STYLES_SECTION_SLATE = css`
   flex-direction: column;
   padding: 88px;
   width: 100vw;
-  background: ${Constants.system.pitchBlack};
+  background: ${Constants.system.slate};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 64px 24px;
@@ -126,13 +128,13 @@ const STYLES_SECTION_SLATE = css`
   }
 `;
 
-const STYLES_SECTION_WALL = css`
+const STYLES_SECTION_PITCHBLACK = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 88px;
   width: 100vw;
-  background: ${Constants.system.wall};
+  background: ${Constants.system.pitchBlack};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 64px 24px;
@@ -149,7 +151,7 @@ const STYLES_IMAGE = css`
     box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
   }
   video {
-    margin: 32px auto;
+    margin: 32px auto 88px auto;
     border-radius: 8px;
     width: 100%;
     height: auto;
@@ -180,7 +182,6 @@ const STYLES_IMAGE_SMALL = css`
     width: 32vw;
     height: auto;
     display: block;
-    box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
   }
   @media (max-width: ${Constants.sizes.mobile}px) {
     img {
@@ -188,7 +189,6 @@ const STYLES_IMAGE_SMALL = css`
       border-radius: 4px;
       width: 70%;
       height: auto;
-      box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
     }
   }
 `;
@@ -197,16 +197,52 @@ const STYLES_MEDIA_LEFT = css`
   img {
     margin: 64px 0 0 -240px;
     width: 80vw;
-    border-radius: 8px;
-    box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
+  }
+  video {
+    margin: 64px 0 0 -240px;
+    border-radius: 4px;
+    width: 80vw;
+    box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     img {
       margin: 24px 0 0 -80px;
       width: 80vw;
-      border-radius: 8px;
-      box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
+    }
+  }
+`;
+
+const STYLES_MEDIA_LEFT_OVERLAP = css`
+  img {
+    margin: -320px 0 0 -48px;
+    width: 60vw;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    img {
+      margin: 24px 0 0 -80px;
+      width: 100vw;
+    }
+  }
+`;
+
+const STYLES_MEDIA_RIGHT_OVERLAP = css`
+  img {
+    float: right;
+    margin-right: 240px;
+    margin-top: -80px;
+    width: 24vw;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    img {
+      margin: 24px 0 0 80px;
+      width: 50vw;
     }
   }
 `;
@@ -217,10 +253,12 @@ const STYLES_TEXT_BLOCK = css`
   justify-content: space-between;
   width: 56vw;
   align-self: center;
+  z-index: 10;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 88%;
     right: 24px;
+    z-index: 10;
   }
 `;
 
@@ -381,15 +419,15 @@ const STYLES_SLATE_CARD_TITLE = css`
 `;
 
 const STYLES_SLATE_CARD_CTA_TITLE = css`
-  font-size: 2.441em;
+  font-size: 3.815rem;
   font-weight: 700;
   text-align: left;
   width: 100%;
   padding: 12px;
-
+  color: ${Constants.system.moonstone};
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 0px;
-    font-size: 1rem;
+    font-size: 1.953rem;
   }
 `;
 
@@ -419,7 +457,7 @@ const STYLES_SLATE_CARD_CTA_PARAGRAPH = css`
   text-align: left;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 0.78rem;
+    font-size: 1rem;
   }
 `;
 
@@ -429,11 +467,11 @@ export const getServerSideProps = async (context) => {
   };
 };
 
-export const MyComponent = () => <motion.div animate={{ rotate: 360 }} transition={{ duration: 2 }} />;
-export const MyMotion = () => {
-  const { scrollYProgress } = useViewportScroll();
-  return <motion.div style={{ scaleX: scrollYProgress }} />;
-};
+// export const MyComponent = () => <motion.div animate={{ rotate: 360 }} transition={{ duration: 2 }} />;
+// export const MyMotion = () => {
+//   const { scrollYProgress } = useViewportScroll();
+//   return <motion.div style={{ scaleX: scrollYProgress }} />;
+// };
 
 export default class IndexPage extends React.Component {
   async componentDidMount() {
@@ -443,20 +481,24 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description = "The place for all of your assets. Powered by Textile and Filecoin.";
+    const description = "Welcome to the future of file sharing. Powered by Textile, Filecoin, IPFS.";
     const url = "https://slate.host";
+    const image = "https://bafybeifedze7dm4zesvgekukziw23gbtfodxiz63nxgybbyo2koxeybmla.ipfs.slate.textile.io/";
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <section css={STYLES_SECTION_HERO}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1>
-                Welcome to
+                A file storage network
                 <br />
-                <span css={STYLES_HIGHLIGHT}>the future of file sharing</span>
+                <span css={STYLES_HIGHLIGHT}>
+                  for you, your files, <br />
+                  and your friends
+                </span>
               </h1>
-              <h2>Powered by Textile, Filecoin, IPFS</h2>
+
               <div css={STYLES_ACTIONS_RIGHT}>
                 <div css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("/_")}>
                   Use Slate
@@ -464,10 +506,11 @@ export default class IndexPage extends React.Component {
               </div>
             </div>
             <br />
+
             <div css={STYLES_IMAGE}>
               <video Autoplay="autoplay" Loop="loop" src="/static/landing/marketing-hero.mov" type="video/mov" />
             </div>
-            {/* <div css={STYLES_TEXT_BLOCK}>
+            <div css={STYLES_TEXT_BLOCK}>
               <h2>
                 Slate{" "}
                 <span css={STYLES_HIGHLIGHT}>
@@ -479,37 +522,17 @@ export default class IndexPage extends React.Component {
                 <br />
                 <span css={STYLES_HIGHLIGHT}>organize</span> it any way you like, <br />
                 <span css={STYLES_HIGHLIGHT}>and share</span> it with the world securely.
-              </h2>
-              <div css={STYLES_ACTIONS_RIGHT}>
-                <div css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("/_")}>
-                  Use Slate
-                </div>
-              </div>
-            </div> */}
-          </section>
-          <section css={STYLES_SECTION_WALL}>
-            <div css={STYLES_TEXT_BLOCK}>
-              <h1>
-                <span css={STYLES_HIGHLIGHT_BLACK}>Store, organize, share</span>
                 <br />
-              </h1>
+                <br />
+              </h2>
+              <h3>Powered by</h3>
               <h2>
-                Slate{" "}
-                <span css={STYLES_HIGHLIGHT_BLACK}>
-                  is a fully open-source file sharing network designed for research and collaboration.
+                <span css={STYLES_HIGHLIGHT}>
+                  Textile <br />
+                  Filecoin <br />
+                  IPFS
                 </span>
-                <br />
-                <br />
-                <span css={STYLES_HIGHLIGHT_BLACK}>Store</span> your data,
-                <br />
-                <span css={STYLES_HIGHLIGHT_BLACK}>organize</span> it any way you like, <br />
-                <span css={STYLES_HIGHLIGHT_BLACK}>and share</span> it with the world securely.
               </h2>
-              <div css={STYLES_ACTIONS_RIGHT}>
-                <div css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("/_")}>
-                  Use Slate
-                </div>
-              </div>
             </div>
           </section>
           <section css={STYLES_SECTION_SLATE}>
@@ -520,16 +543,17 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>
                   for your{" "}
                   <TextLoop interval={1200}>
-                    <span>image</span>
-                    <span>video</span>
-                    <span>text</span>
-                    <span>URL</span>
+                    <span>images</span>
+                    <span>videos</span>
+                    <span>audios</span>
+                    <span>ePUBs</span>
+                    <span>PDFs</span>
                   </TextLoop>
                 </span>
               </h1>
               <h3>
                 <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of file to your storage system. <br />
-                <span css={STYLES_HIGHLIGHT}>Organize</span> them any way you like with Slates.
+                <span css={STYLES_HIGHLIGHT}>Organize</span> them any way you like with slates.
               </h3>
             </div>
             <div css={STYLES_IMAGE}>
@@ -545,11 +569,11 @@ export default class IndexPage extends React.Component {
               </h1>
               <h3>
                 <span css={STYLES_HIGHLIGHT}>The Slate Chrome extension</span> lets you seamlessly upload files to your
-                Slates from anywhere on the web.
+                slates from anywhere on the web.
               </h3>
             </div>
             <div css={STYLES_MEDIA_LEFT}>
-              <img src="/static/landing/marketing-extension.png" />
+              <img src="https://bafybeiefyhindtituzzcncmdihxag6ypfqofpljqpp52ulcg5mjrepk6va.ipfs.slate.textile.io/" />
             </div>
           </section>
 
@@ -559,7 +583,7 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>Organize and publish</span>
               </h1>
               <h3>
-                <span css={STYLES_HIGHLIGHT}>Modular interface</span> for your files, giving you complete flexibility.
+                <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your files, giving you complete flexibility.
               </h3>
             </div>
             <br />
@@ -568,7 +592,7 @@ export default class IndexPage extends React.Component {
 
             <div css={STYLES_TEXT_BLOCK}>
               <h2>
-                <span css={STYLES_HIGHLIGHT}>Create moodboard</span>
+                <span css={STYLES_HIGHLIGHT}>Create moodboards</span>
               </h2>
             </div>
             <div css={STYLES_IMAGE}>
@@ -592,7 +616,7 @@ export default class IndexPage extends React.Component {
 
             <div css={STYLES_TEXT_BLOCK}>
               <h2>
-                <span css={STYLES_HIGHLIGHT}>Share presentation</span>
+                <span css={STYLES_HIGHLIGHT}>Share presentations</span>
               </h2>
             </div>
             <div css={STYLES_IMAGE}>
@@ -607,12 +631,12 @@ export default class IndexPage extends React.Component {
               </h1>
               <h3>
                 <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built on top of a storage system making it
-                possible to connect.
+                possible to connect with other people on the Filecoin network.
               </h3>
             </div>
 
-            <div css={STYLES_IMAGE_SMALL}>
-              <img src="/static/landing/marketing-network.png" />
+            <div css={STYLES_MEDIA_LEFT_OVERLAP}>
+              <img src="https://bafybeifo7djff5cyfdedhnbnw6bdtdmkswlwtizyzrfri4v3sebuavrqu4.ipfs.slate.textile.io/" />
             </div>
           </section>
 
@@ -623,7 +647,7 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>trust, privacy, and security</span>
               </h1>
               <h3>
-                <span css={STYLES_HIGHLIGHT}>Slate is built on Filecoin and IPFS</span> — technologies built for
+                <span css={STYLES_HIGHLIGHT}>Slate is built on Filecoin and IPFS</span> — technologies built around
                 ownership and transparency for the future of the web.
               </h3>
               <div>
@@ -633,24 +657,21 @@ export default class IndexPage extends React.Component {
               </div>
             </div>
 
-            <div css={STYLES_IMAGE_SMALL}>
+            <div css={STYLES_MEDIA_RIGHT_OVERLAP}>
               <img src="/static/landing/marketing-slate-cube.png" />
             </div>
           </section>
 
           <section css={STYLES_SECTION_SLATE_WALL}>
-            <div css={STYLES_TEXT_BLOCK}>
-              <h1>
-                Join us <br />
-                <span css={STYLES_HIGHLIGHT_BLACK}>in the open, secure network</span>
-              </h1>
-            </div>
             <div css={STYLES_SLATE_CARD_GRAY}>
               <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/_" target="_blank">
                 <div css={STYLES_SLATE_CARD_TEXT}>
-                  <div css={STYLES_SLATE_CARD_CTA_TITLE}>A Slate</div>
+                  <div css={STYLES_SLATE_CARD_CTA_TITLE}>
+                    Join us <br />
+                    <span css={STYLES_HIGHLIGHT_BLACK}>in the open, secure network</span>
+                  </div>
                   <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                    <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>Start Slate</div>
+                    <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>Create your first slate</div>
                     <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>-&gt;</div>
                   </div>
                 </div>

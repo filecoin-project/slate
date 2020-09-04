@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
+import { Logo } from "~/common/logo.js";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};
   font-size: 1rem;
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   padding: 16px 88px;
@@ -40,6 +41,7 @@ const STYLES_LINK = css`
 const STYLES_LEFT = css`
   flex-shrink: 0;
   padding: 12px 0;
+  height: 24px;
 `;
 
 const STYLES_RIGHT = css`
@@ -54,7 +56,6 @@ const STYLES_RIGHT = css`
   }
 `;
 
-// Tara: [WIP] mobile burger menu
 const STYLES_BURGER = css`
   display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -156,8 +157,9 @@ const STYLES_BURGER_BUN2_OPEN = css`
 
 const STYLES_MENU = css`
   display: none;
+  visibility: 0;
+  opacity: 0;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     background: ${Constants.system.pitchBlack};
@@ -170,6 +172,7 @@ const STYLES_MENU = css`
     right: 0;
     transition: transform 0.3s ease-in-out;
     transform: translateX(100%);
+    transition-property: transform, opacity, visibility;
 
     a {
       padding: 16px 0;
@@ -177,7 +180,7 @@ const STYLES_MENU = css`
       text-decoration: none;
       transition: color 0.3s linear;
 
-      font-size: 2.441em;
+      font-size: 1.563rem;
       text-align: left;
 
       &:hover {
@@ -188,9 +191,10 @@ const STYLES_MENU = css`
 `;
 
 const STYLES_MENU_OPEN = css`
-  display: none;
+  opacity: 1;
+  visibility: visible;
+  display: flex;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     background: ${Constants.system.pitchBlack};
@@ -203,6 +207,7 @@ const STYLES_MENU_OPEN = css`
     right: 0;
     transition: transform 0.3s ease-in-out;
     transform: translateX(0);
+    transition-property: transform, opacity, visibility;
 
     a {
       padding: 16px 0;
@@ -210,7 +215,7 @@ const STYLES_MENU_OPEN = css`
       text-decoration: none;
       transition: color 0.3s linear;
 
-      font-size: 2.441em;
+      font-size: 1.563rem;
       text-align: left;
 
       &:hover {
@@ -220,27 +225,21 @@ const STYLES_MENU_OPEN = css`
   }
 `;
 
-export default (props) => {
+export const NewWebsitePrototypeHeader = (props) => {
   const [open, setOpen] = useState(false);
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
-        <a css={STYLES_LINK} href="/" style={{ marginRight: 24, fontFamily: Constants.font.semiBold }}>
-          Slate {Constants.values.version}
+        <a css={STYLES_LINK} href="/" style={{ marginRight: 24 }}>
+          <Logo style={{ width: 64 }} />
         </a>
       </div>
       <div css={STYLES_RIGHT}>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href="/_/system">
-          View Source
-        </a>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href="/_/system">
-          Design System
-        </a>
         <a css={STYLES_LINK} style={{ marginRight: 24 }} href="https://github.com/filecoin-project/slate">
-          Community
+          Get involved
         </a>
         <a css={STYLES_LINK} style={{ marginRight: 24 }} href="/_/system">
-          Sign Up
+          Sign up
         </a>
         <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate">
           Download
@@ -253,9 +252,7 @@ export default (props) => {
           <div css={open ? STYLES_BURGER_BUN2_OPEN : STYLES_BURGER_BUN2} />
         </div>
         <div open={open} css={open ? STYLES_MENU_OPEN : STYLES_MENU}>
-          <a href="/">View source</a>
-          <a href="/">Design system</a>
-          <a href="/">Community</a>
+          <a href="/">Get involved</a>
           <a href="/">Sign up</a>
           <a href="/">Download</a>
         </div>
@@ -263,3 +260,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default NewWebsitePrototypeHeader;

@@ -11,7 +11,7 @@ const STYLES_CONTAINER = css`
   display: flex;
   align-items: top;
   justify-content: top;
-  padding: 96px 88px 240px 88px;
+  padding: 96px 88px 96px 88px;
   background-color: ${Constants.system.pitchBlack};
   @media (max-width: ${Constants.sizes.mobile}px) {
     position: absolute;
@@ -79,7 +79,7 @@ const STYLES_RIGHT = css`
   }
 `;
 
-export const NewWebsitePrototypeFooter = (props) => {
+export const NewWebsitePrototypeFooter = props => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_TRADEMARK}>

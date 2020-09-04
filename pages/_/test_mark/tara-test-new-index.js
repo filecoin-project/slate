@@ -461,9 +461,9 @@ const STYLES_SLATE_CARD_CTA_PARAGRAPH = css`
   }
 `;
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async context => {
   return {
-    props: { ...context.query },
+    props: { ...context.query }
   };
 };
 

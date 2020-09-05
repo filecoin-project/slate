@@ -25,19 +25,12 @@ const STYLES_HEADER = css`
   }
 `;
 
-const STYLES_FLEX_ROW = css`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  width: 204px;
-`;
-
 const STYLES_PROFILE = css`
   display: flex;
   align-items: center;
   justify-content: flex-start;
   min-width: 10%;
-  width: 100%;
+  width: 204px;
 
   font-family: ${Constants.font.semiBold};
   color: ${Constants.system.pitchBlack};
@@ -56,6 +49,18 @@ const STYLES_PROFILE = css`
   }
 `;
 
+const STYLES_PROFILE_MOBILE = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
 const STYLES_PROFILE_IMAGE = css`
   background-size: cover;
   background-position: 50% 50%;
@@ -64,6 +69,14 @@ const STYLES_PROFILE_IMAGE = css`
   width: 32px;
   border-radius: 4px;
   margin-left: 8px;
+  cursor: pointer;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    height: 24px;
+    width: 24px;
+    margin-left: 0px;
+    margin-bottom: 4px;
+  }
 `;
 
 const STYLES_PROFILE_USERNAME = css`
@@ -76,6 +89,16 @@ const STYLES_PROFILE_USERNAME = css`
   user-select: none;
   font-family: ${Constants.font.medium};
   font-size: 14px;
+`;
+
+const STYLES_ITEM_BOX_MOBILE = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background-color: ${Constants.system.white};
+  cursor: pointer;
+  border-radius: 4px;
 `;
 
 const STYLES_ITEM_BOX = css`
@@ -165,29 +188,32 @@ export default class ApplicationUserControls extends React.Component {
             </Boundary>
           }
         >
-          <div css={STYLES_FLEX_ROW}>
-            <div
-              css={STYLES_PROFILE}
-              onClick={() =>
-                this.props.onAction({
-                  type: "NAVIGATE",
-                  value: "V1_NAVIGATION_PROFILE",
-                  data: this.props.viewer,
-                })
-              }
-            >
-              <span
-                css={STYLES_PROFILE_IMAGE}
-                style={{
-                  backgroundImage: `url('${this.props.viewer.data.photo}')`,
-                }}
-              />
-              <span css={STYLES_PROFILE_USERNAME}>
-                {this.props.viewer.username}
-              </span>
-              <div onClick={this._handleClick} css={STYLES_ITEM_BOX}>
-                <SVG.ChevronDown height="20px" />
-              </div>
+          <div
+            css={STYLES_PROFILE}
+            onClick={() =>
+              this.props.onAction({
+                type: "NAVIGATE",
+                value: "V1_NAVIGATION_PROFILE",
+                data: this.props.viewer,
+              })
+            }
+          >
+            <span
+              css={STYLES_PROFILE_IMAGE}
+              style={{
+                backgroundImage: `url('${this.props.viewer.data.photo}')`,
+              }}
+            />
+            <span css={STYLES_PROFILE_USERNAME}>
+              {this.props.viewer.username}
+            </span>
+            <div onClick={this._handleClick} css={STYLES_ITEM_BOX}>
+              <SVG.ChevronDown height="20px" />
+            </div>
+          </div>
+          <div css={STYLES_PROFILE_MOBILE}>
+            <div onClick={this._handleClick} css={STYLES_ITEM_BOX_MOBILE}>
+              <SVG.ChevronDown height="20px" />
             </div>
           </div>
         </TooltipWrapper>

@@ -13,15 +13,6 @@ import {
 import ScenePage from "~/components/core/ScenePage";
 import Profile from "~/components/core/Profile";
 
-const BUTTON_STYLES = {
-  border: `1px solid ${Constants.system.border}`,
-  boxShadow: "none",
-  fontFamily: Constants.font.text,
-  margin: "8px",
-  padding: "8px 16px",
-  minHeight: "30px",
-};
-
 const STATUS_BUTTON_MAP = {
   trusted: "Remove peer",
   untrusted: "Add peer",

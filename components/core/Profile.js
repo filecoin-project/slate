@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
 
 import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
+import SceneContent from "~/components/core/SceneContent";
 
 const STYLES_PROFILE = css`
   text-align: center;
@@ -67,42 +68,44 @@ export default class Profile extends React.Component {
         <br />
         {this.props.buttons}
         <br />
-        {data.slates && data.slates.length ? (
-          <div>
-            {data.slates.map((slate) => {
-              if (this.props.onAction) {
+        <SceneContent>
+          {data.slates && data.slates.length ? (
+            <div>
+              {data.slates.map((slate) => {
+                if (this.props.onAction) {
+                  return (
+                    <div
+                      key={slate.id}
+                      onClick={() =>
+                        this.props.onAction({
+                          type: "NAVIGATE",
+                          value: this.props.sceneId,
+                          scene: "PUBLIC_SLATE",
+                          data: slate,
+                        })
+                      }
+                    >
+                      <SlatePreviewBlock
+                        slate={slate}
+                        username={data.username}
+                        editing={this.props.editing}
+                      />
+                    </div>
+                  );
+                }
                 return (
-                  <div
+                  <a
                     key={slate.id}
-                    onClick={() =>
-                      this.props.onAction({
-                        type: "NAVIGATE",
-                        value: this.props.sceneId,
-                        scene: "PUBLIC_SLATE",
-                        data: slate,
-                      })
-                    }
+                    href={`/${data.username}/${slate.slatename}`}
+                    css={STYLES_LINK}
                   >
-                    <SlatePreviewBlock
-                      slate={slate}
-                      username={data.username}
-                      editing={this.props.editing}
-                    />
-                  </div>
+                    <SlatePreviewBlock external slate={slate} />
+                  </a>
                 );
-              }
-              return (
-                <a
-                  key={slate.id}
-                  href={`/${data.username}/${slate.slatename}`}
-                  css={STYLES_LINK}
-                >
-                  <SlatePreviewBlock external slate={slate} />
-                </a>
-              );
-            })}
-          </div>
-        ) : null}
+              })}
+            </div>
+          ) : null}
+        </SceneContent>
       </div>
     );
   }

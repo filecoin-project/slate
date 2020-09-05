@@ -88,6 +88,7 @@ export function SlatePreviewRow(props) {
           style={props.style}
         >
           <SlateMediaObjectPreview
+            charCap={30}
             type={each.type}
             url={each.url}
             style={{ border: "none", ...props.previewStyle }}

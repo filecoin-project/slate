@@ -75,7 +75,7 @@ const STYLES_PROFILE_USERNAME = css`
   padding-left: 12px;
   user-select: none;
   font-family: ${Constants.font.medium};
-  font-size: ${Constants.typescale.lvl1};
+  font-size: 14px;
 `;
 
 const STYLES_ITEM_BOX = css`
@@ -186,7 +186,7 @@ export default class ApplicationUserControls extends React.Component {
                 {this.props.viewer.username}
               </span>
               <div onClick={this._handleClick} css={STYLES_ITEM_BOX}>
-                <OldSVG.ChevronDown height="20px" />
+                <SVG.ChevronDown height="20px" />
               </div>
             </div>
           </div>

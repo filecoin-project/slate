@@ -33,16 +33,21 @@ const STYLES_TITLE = css`
   margin-top: 8px;
   overflow: hidden;
   word-break: break-all;
+  text-overflow: break-word;
 `;
 
 export default class SlateMediaObjectPreview extends React.Component {
+  static defaultProps = {
+    charCap: 30,
+  };
+
   render() {
     // NOTE(jim):
     // This is a hack to catch this undefined case I don't want to track down yet.
     const url = this.props.url.replace("https://undefined", "https://");
     const title =
-      this.props.title && this.props.title.length > 30
-        ? this.props.title.substring(0, 30) + "..."
+      this.props.title && this.props.title.length > this.props.charCap
+        ? this.props.title.substring(0, this.props.charCap) + "..."
         : this.props.title;
 
     let element = (

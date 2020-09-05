@@ -339,7 +339,7 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
-    const { user, slatename, data } = this.props.current;
+    const { user, data } = this.props.current;
     const { body = "A slate." } = data;
     const { objects, layouts } = this.state;
     let following = !!this.props.viewer.subscriptions.filter((subscription) => {
@@ -366,10 +366,10 @@ export default class SceneSlate extends React.Component {
                 >
                   {user.username}
                 </span>{" "}
-                / {slatename}
+                / {data.name}
               </span>
             ) : (
-              slatename
+              data.name
             )
           }
           actions={

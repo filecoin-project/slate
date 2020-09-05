@@ -150,32 +150,6 @@ const STYLES_MENU = css`
 const STYLES_NAVLINK = css`
   display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
-<<<<<<< HEAD
-    flex-direction: column;
-    justify-content: center;
-    background: ${Constants.system.pitchBlack};
-    height: 100vh;
-    width: 100vw;
-    text-align: left;
-    padding: 24px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transition: transform 0.3s ease-in-out;
-    transform: translateX(0);
-    transition-property: transform, opacity, visibility;
-
-    a {
-      padding: 16px 0;
-      color: ${Constants.system.white};
-      text-decoration: none;
-      transition: color 0.3s linear;
-      font-size: 1.563rem;
-      text-align: left;
-      &:hover {
-        color: ${Constants.system.darkGray};
-      }
-=======
     padding: 16px 0;
     color: ${Constants.system.white};
     text-decoration: none;
@@ -187,14 +161,10 @@ const STYLES_NAVLINK = css`
 
     &:hover {
       color: ${Constants.system.darkGray};
->>>>>>> lannding: fix burger menu bug, content tweaks and improve CSS code quality
     }
   }
 `;
 
-<<<<<<< HEAD
-const NewWebsitePrototypeHeader = props => {
-=======
 const openMenu = {
   display: `flex`,
   transform: `translateX(0)`,
@@ -205,7 +175,6 @@ const openNavLink = {
 };
 
 export const NewWebsitePrototypeHeader = (props) => {
->>>>>>> lannding: fix burger menu bug, content tweaks and improve CSS code quality
   const [open, setOpen] = useState(false);
 
   const communityURL = "/community";
@@ -237,11 +206,6 @@ export const NewWebsitePrototypeHeader = (props) => {
           <div css={STYLES_BURGER_MEAT} style={styleBurgerMeat} />
           <div css={STYLES_BURGER_BUN2} style={styleBurgerBun2} />
         </div>
-<<<<<<< HEAD
-        <div open={open} css={open ? STYLES_MENU_OPEN : STYLES_MENU}>
-          <a href={communityURL}>Get involved</a>
-          <a href={signInURL}>Sign in</a>
-=======
         <div css={STYLES_MENU} style={styleMenu}>
           <a css={STYLES_NAVLINK} style={styleNavLink} href={designSystemURL}>
             Design system
@@ -252,7 +216,6 @@ export const NewWebsitePrototypeHeader = (props) => {
           <a css={STYLES_NAVLINK} style={styleNavLink} href={signInURL}>
             Sign in
           </a>
->>>>>>> lannding: fix burger menu bug, content tweaks and improve CSS code quality
         </div>
       </div>
     </div>

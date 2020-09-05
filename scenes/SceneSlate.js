@@ -339,7 +339,7 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
-    const { user, slatename, data } = this.props.current;
+    const { user, data } = this.props.current;
     const { body = "A slate." } = data;
     const { objects, layouts } = this.state;
     let following = !!this.props.viewer.subscriptions.filter((subscription) => {
@@ -366,10 +366,10 @@ export default class SceneSlate extends React.Component {
                 >
                   {user.username}
                 </span>{" "}
-                / {slatename}
+                / {data.name}
               </span>
             ) : (
-              slatename
+              data.name
             )
           }
           actions={
@@ -392,13 +392,9 @@ export default class SceneSlate extends React.Component {
             ) : (
               <div onClick={this._handleFollow}>
                 {following ? (
-                  <div css={STYLES_BUTTON} onClick={this._handleFollow}>
-                    Unfollow
-                  </div>
+                  <div css={STYLES_BUTTON}>Unfollow</div>
                 ) : (
-                  <div css={STYLES_BUTTON} onClick={this._handleFollow}>
-                    Follow
-                  </div>
+                  <div css={STYLES_BUTTON}>Follow</div>
                 )}
               </div>
             )

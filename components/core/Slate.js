@@ -185,6 +185,7 @@ export default class Slate extends React.Component {
       return (
         <div key={index} css={STYLES_ITEM}>
           <SlateMediaObjectPreview
+            charCap={70}
             type={data.type}
             url={data.url}
             title={data.title || data.name}

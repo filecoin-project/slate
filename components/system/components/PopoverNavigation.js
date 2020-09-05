@@ -7,13 +7,15 @@ const STYLES_POPOVER = css`
   z-index: ${Constants.zindex.tooltip};
   box-sizing: border-box;
   font-family: ${Constants.font.text};
-  position: absolute;
   width: 204px;
   border-radius: 4px;
   user-select: none;
+  position: absolute;
   background-color: ${Constants.system.white};
   color: ${Constants.system.pitchBlack};
-  box-shadow: inset 0 0 0 1px ${Constants.system.border}, 0 1px 4px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(229, 229, 229, 0.75);
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.05);
+  padding: 8px 0px;
 `;
 
 const STYLES_POPOVER_ITEM = css`
@@ -21,8 +23,7 @@ const STYLES_POPOVER_ITEM = css`
   box-sizing: border-box;
   top: 0;
   left: 0;
-  padding: 8px 24px 8px 24px;
-  margin: 8px 0 8px 0;
+  padding: 16px 24px 16px 24px;
   display: flex;
   align-items: center;
   height: 40px;
@@ -32,36 +33,24 @@ const STYLES_POPOVER_ITEM = css`
   font-size: 12px;
 
   :hover {
-    background-color: ${Constants.system.brand};
-    color: ${Constants.system.white};
+    color: ${Constants.system.brand} !important;
   }
 `;
 
 export class PopoverNavigation extends React.Component {
-  static defaultProps = {
-    onNavigateTo: () => {
-      console.error("requires onNavigateTo");
-    },
-  };
-
   render() {
     return (
       <div css={STYLES_POPOVER} style={this.props.style}>
-        {this.props.navigation.map((each) => {
-          if (each.action === "SIGN_OUT") {
-            return (
-              <div key={each.value} css={STYLES_POPOVER_ITEM} onClick={this.props.onSignOut}>
-                {each.text}
-              </div>
-            );
-          }
-
-          return (
-            <div key={each.value} css={STYLES_POPOVER_ITEM} onClick={() => this.props.onNavigateTo({ id: each.value })}>
-              {each.text}
-            </div>
-          );
-        })}
+        {this.props.navigation.map((each) => (
+          <div
+            key={each.text}
+            css={STYLES_POPOVER_ITEM}
+            style={this.props.itemStyle}
+            onClick={each.onClick}
+          >
+            {each.text}
+          </div>
+        ))}
       </div>
     );
   }

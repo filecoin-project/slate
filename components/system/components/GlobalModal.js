@@ -39,12 +39,20 @@ export class GlobalModal extends React.Component {
     window.addEventListener("create-modal", this._handleCreate);
     window.addEventListener("delete-modal", this._handleDelete);
     window.addEventListener("keydown", this._handleDocumentKeydown);
+    window.addEventListener("scroll", this._handleScroll);
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("create-modal", this._handleCreate);
     window.removeEventListener("delete-modal", this._handleDelete);
     window.removeEventListener("keydown", this._handleDocumentKeydown);
+    window.removeEventListener("scroll", this._handleScroll);
+  };
+
+  _handleScroll = (e) => {
+    if (this.state.modal) {
+      e.stopPropagation();
+    }
   };
 
   _handleCreate = (e) => {

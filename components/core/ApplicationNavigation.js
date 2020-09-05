@@ -37,6 +37,7 @@ const STYLES_NAVIGATION_ITEM = css`
   color: ${Constants.system.black};
   user-select: none;
   padding-right: 24px;
+  font-family: ${Constants.font.medium};
 
   :hover {
     padding-right: 0px;
@@ -64,7 +65,7 @@ const STYLES_CHILDREN = css`
   height: 100%;
   overflow-wrap: break-word;
   padding: 11px 0px 14px 8px;
-  font-family: ${Constants.font.text};
+  font-family: ${Constants.font.medium};
   font-weight: 400;
   font-size: 14px;
   line-height: 1.225;

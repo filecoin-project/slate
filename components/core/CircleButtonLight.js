@@ -10,7 +10,7 @@ const STYLES_BUTTON = css`
   display: inline-flex;
   width: 36px;
   height: 36px;
-  border-radius: 36px;
+  border-radius: 4px;
   background-size: cover;
   background-position: 50% 50%;
   transition: 100ms ease all;

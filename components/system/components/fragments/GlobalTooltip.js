@@ -152,7 +152,7 @@ export class GlobalTooltip extends React.Component {
     }
   };
 
-  _handleShow = (e) => {
+  _handleShow = async (e) => {
     if (this.state.tooltips[e.detail.id]) {
       let tooltips = this.state.tooltips;
       if (!tooltips[e.detail.id].style) {

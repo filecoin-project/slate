@@ -97,7 +97,7 @@ export default class ApplicationHeader extends React.Component {
             onClick={isBackDisabled ? () => {} : this.props.onBack}
           >
             <SVG.NavigationArrow
-              height="16px"
+              height="24px"
               style={{ transform: `rotate(180deg)` }}
             />
           </span>
@@ -110,7 +110,7 @@ export default class ApplicationHeader extends React.Component {
             }
             onClick={isForwardDisabled ? () => {} : this.props.onForward}
           >
-            <SVG.NavigationArrow height="16px" />
+            <SVG.NavigationArrow height="24px" />
           </span>
 
           <span
@@ -118,7 +118,7 @@ export default class ApplicationHeader extends React.Component {
             style={{ marginLeft: 24 }}
             onClick={this.props.onRehydrate}
           >
-            <SVG.Refresh height="16px" />
+            <SVG.Refresh height="20px" />
           </span>
 
           <span
@@ -126,7 +126,7 @@ export default class ApplicationHeader extends React.Component {
             style={{ marginLeft: 24 }}
             onClick={this._handleCreateSearch}
           >
-            <SVG.Search height="19px" />
+            <SVG.Search height="20px" />
           </span>
         </div>
         <div css={STYLES_MIDDLE} />

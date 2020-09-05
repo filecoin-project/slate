@@ -15,9 +15,9 @@ const STYLES_PROFILE = css`
 const STYLES_PROFILE_IMAGE = css`
   background-size: cover;
   background-position: 50% 50%;
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
+  width: 152px;
+  height: 152px;
+  border-radius: 4px;
   margin: 0 auto;
   padding: 0;
 `;

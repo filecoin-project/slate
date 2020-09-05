@@ -32,9 +32,14 @@ const STYLES_ITEM_BOX = css`
   align-items: center;
   justify-content: center;
   box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
+  cursor: pointer;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 0 auto;
+  }
+
+  :hover {
+    color: ${Constants.system.brand};
   }
 `;
 
@@ -159,11 +164,17 @@ const STYLES_CREATE_NEW = css`
 `;
 
 const STYLES_ICON_BOX = css`
-  height: 24px;
-  width: 24px;
-  display: block;
+  height: 32px;
+  width: 32px;
+  display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  color: ${Constants.system.darkGray};
+`;
+
+const STYLES_CONTEXT_MENU = css`
+  position: absolute;
 `;
 
 export default class SlatePreviewBlock extends React.Component {
@@ -171,7 +182,7 @@ export default class SlatePreviewBlock extends React.Component {
   _test;
 
   state = {
-    isMenuOpen: false,
+    showMenu: false,
     copyValue: "",
   };
 
@@ -184,31 +195,37 @@ export default class SlatePreviewBlock extends React.Component {
     this.setState({ copyValue: value }, () => {
       this._ref.select();
       document.execCommand("copy");
+      this._handleHide();
     });
   };
 
   _handleClick = (e) => {
     e.stopPropagation();
-    console.log("show tooltip");
-    dispatchCustomEvent({
-      name: "show-tooltip",
-      detail: {
-        id: `slate-tooltip-${this.props.slate.id}`,
-      },
-    });
+    if (this.state.showMenu) {
+      this._handleHide();
+      return;
+    }
+    this.setState({ showMenu: true });
+    // dispatchCustomEvent({
+    //   name: "show-tooltip",
+    //   detail: {
+    //     id: `slate-tooltip-${this.props.slate.id}`,
+    //   },
+    // });
   };
 
   _handleHide = (e) => {
-    console.log("hide tooltip");
-    dispatchCustomEvent({
-      name: "hide-tooltip",
-      detail: {
-        id: `slate-tooltip-${this.props.slate.id}`,
-      },
-    });
+    this.setState({ showMenu: false });
+    // dispatchCustomEvent({
+    //   name: "hide-tooltip",
+    //   detail: {
+    //     id: `slate-tooltip-${this.props.slate.id}`,
+    //   },
+    // });
   };
 
   render() {
+    console.log(this.props);
     if (!this.props.editing && !this.props.slate.data.objects.length) {
       return null;
     }
@@ -219,12 +236,11 @@ export default class SlatePreviewBlock extends React.Component {
           captureScroll={false}
           enabled
           onOutsideRectEvent={this._handleHide}
-          style={this.props.style}
         >
           <PopoverNavigation
             style={{
-              left: "0px",
               top: "16px",
+              right: "-12px",
             }}
             navigation={
               this.props.editing
@@ -306,7 +322,9 @@ export default class SlatePreviewBlock extends React.Component {
                 Private
               </div>
             )
-          ) : null}
+          ) : (
+            <div />
+          )}
           {this.props.external ? null : (
             <div
               style={{ justifySelf: "flex-end" }}
@@ -314,17 +332,20 @@ export default class SlatePreviewBlock extends React.Component {
                 this._test = c;
               }}
             >
-              <TooltipWrapper
+              {/* <TooltipWrapper
                 id={`slate-tooltip-${this.props.slate.id}`}
                 type="body"
                 content={contextMenu}
                 horizontal="left"
                 vertical="below"
-              >
-                <div css={STYLES_ICON_BOX} onClick={this._handleClick}>
-                  <SVG.MoreHorizontal height="16px" />
-                </div>
-              </TooltipWrapper>
+              > */}
+              <div css={STYLES_ICON_BOX} onClick={this._handleClick}>
+                <SVG.MoreHorizontal height="24px" />
+                {this.state.showMenu ? (
+                  <div css={STYLES_CONTEXT_MENU}>{contextMenu}</div>
+                ) : null}
+              </div>
+              {/* </TooltipWrapper> */}
             </div>
           )}
         </div>

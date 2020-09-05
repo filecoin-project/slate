@@ -29,13 +29,12 @@ const STYLES_FLEX_ROW = css`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  width: 100%;
-  max-width: 228px;
+  width: 204px;
 `;
 
 const STYLES_PROFILE = css`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   min-width: 10%;
   width: 100%;
@@ -46,16 +45,11 @@ const STYLES_PROFILE = css`
   font-size: 12px;
   line-height: 12px;
   text-decoration: none;
-  padding-right: 24px;
-  border-radius: 32px;
-  min-height: 38px;
-  transition: 200ms ease all;
+  border-radius: 4px;
+  min-height: 48px;
   cursor: pointer;
-
-  :hover {
-    color: ${Constants.system.white};
-    background-color: ${Constants.system.brand};
-  }
+  border: 1px solid rgba(229, 229, 229, 0.25);
+  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.03);
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -68,9 +62,8 @@ const STYLES_PROFILE_IMAGE = css`
   flex-shrink: 0;
   height: 32px;
   width: 32px;
-  border-radius: 32px;
-  margin-left: 3px;
-  margin-top: 3px;
+  border-radius: 4px;
+  margin-left: 8px;
 `;
 
 const STYLES_PROFILE_USERNAME = css`
@@ -79,15 +72,36 @@ const STYLES_PROFILE_USERNAME = css`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  padding: 12px 0 12px 16px;
+  padding-left: 12px;
   user-select: none;
+  font-family: ${Constants.font.medium};
+  font-size: ${Constants.typescale.lvl1};
+`;
+
+const STYLES_ITEM_BOX = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 8px;
+  padding-right: 12px;
+  transition: 200ms ease all;
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
 `;
 
 export default class ApplicationUserControls extends React.Component {
   state = { visible: false };
 
   _handleClick = (e) => {
-    this.setState({ visible: !this.state.visible });
+    e.stopPropagation();
+    if (this.state.visible) {
+      this._handleHide();
+      return;
+    }
+    this.setState({ visible: true });
 
     dispatchCustomEvent({
       name: "show-tooltip",
@@ -105,11 +119,6 @@ export default class ApplicationUserControls extends React.Component {
         id: APPLICATION_CONTROL_MENU_ID,
       },
     });
-  };
-
-  _handleNavigateTo = (data) => {
-    this._handleHide();
-    return this.props.onNavigateTo(data);
   };
 
   _handleAction = (data) => {
@@ -139,15 +148,13 @@ export default class ApplicationUserControls extends React.Component {
               style={this.props.style}
             >
               <PopoverNavigation
-                style={{
-                  left: "0px",
-                  top: "16px",
-                }}
+                style={{ position: "relative", top: "8px" }}
+                itemStyle={{ color: Constants.system.darkGray }}
                 navigation={[
                   {
                     text: "Account settings",
                     onClick: () =>
-                      this.props.onAction({
+                      this._handleAction({
                         type: "NAVIGATE",
                         value: "V1_NAVIGATION_PROFILE_EDIT",
                       }),
@@ -161,7 +168,6 @@ export default class ApplicationUserControls extends React.Component {
           <div css={STYLES_FLEX_ROW}>
             <div
               css={STYLES_PROFILE}
-              style={{ marginRight: 16 }}
               onClick={() =>
                 this.props.onAction({
                   type: "NAVIGATE",
@@ -179,18 +185,10 @@ export default class ApplicationUserControls extends React.Component {
               <span css={STYLES_PROFILE_USERNAME}>
                 {this.props.viewer.username}
               </span>
+              <div onClick={this._handleClick} css={STYLES_ITEM_BOX}>
+                <OldSVG.ChevronDown height="20px" />
+              </div>
             </div>
-            <CircleButtonLight
-              onClick={this._handleClick}
-              style={{
-                backgroundColor: this.state.visible
-                  ? Constants.system.brand
-                  : null,
-                color: this.state.visible ? Constants.system.white : null,
-              }}
-            >
-              <SVG.ChevronDown height="20px" />
-            </CircleButtonLight>
           </div>
         </TooltipWrapper>
       </div>

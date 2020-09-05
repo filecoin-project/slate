@@ -176,14 +176,13 @@ const openNavLink = {
 
 export const NewWebsitePrototypeHeader = (props) => {
   const [open, setOpen] = useState(false);
-
   const communityURL = "/community";
   const signInURL = "/_";
   const styleMenu = open ? openMenu : null;
-  const styleNavLink = open ? openNavLink : null;
   const styleBurgerBun = open ? openBurgerBun : null;
   const styleBurgerMeat = open ? openBurgerMeat : null;
   const styleBurgerBun2 = open ? openBurgerBun2 : null;
+  const styleNavLink = open ? openNavLink : null;
 
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
@@ -200,18 +199,15 @@ export const NewWebsitePrototypeHeader = (props) => {
           Sign in
         </a>
       </div>
-      <div css={STYLES_MOBILENAV} open={open}>
+      <div css={STYLES_MOBILENAV}>
         <div onClick={() => setOpen(!open)} css={STYLES_BURGER}>
           <div css={STYLES_BURGER_BUN} style={styleBurgerBun} />
           <div css={STYLES_BURGER_MEAT} style={styleBurgerMeat} />
           <div css={STYLES_BURGER_BUN2} style={styleBurgerBun2} />
         </div>
         <div css={STYLES_MENU} style={styleMenu}>
-          <a css={STYLES_NAVLINK} style={styleNavLink} href={designSystemURL}>
-            Design system
-          </a>
-          <a css={STYLES_NAVLINK} style={styleNavLink} href={viewSourceURL}>
-            View source
+          <a css={STYLES_NAVLINK} style={styleNavLink} href={communityURL}>
+            Get involved
           </a>
           <a css={STYLES_NAVLINK} style={styleNavLink} href={signInURL}>
             Sign in

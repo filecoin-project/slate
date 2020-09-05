@@ -138,7 +138,7 @@ const NewWebsitePrototypeFooter = props => {
           <p>Resources</p>
           <br />
           <a css={STYLES_LINK} href="/system" target="_blank">
-            Design System
+            Design system
           </a>
           <br />
           <a
@@ -146,7 +146,7 @@ const NewWebsitePrototypeFooter = props => {
             href="https://github.com/filecoin-project/slate"
             target="_blank"
           >
-            View Source
+            View source
           </a>
           <br />
           <a css={STYLES_LINK} href="/community" target="_blank">

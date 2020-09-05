@@ -228,7 +228,7 @@ const STYLES_MENU_OPEN = css`
 const NewWebsitePrototypeHeader = props => {
   const [open, setOpen] = useState(false);
 
-  const commuityURL = "/community";
+  const communityURL = "/community";
   const signInURL = "/_";
 
   return (
@@ -239,11 +239,11 @@ const NewWebsitePrototypeHeader = props => {
         </a>
       </div>
       <div css={STYLES_RIGHT}>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={commuityURL}>
-          Get Involved
+        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={communityURL}>
+          Get involved
         </a>
         <a css={STYLES_LINK} href={signInURL}>
-          Sign In
+          Sign in
         </a>
       </div>
       <div>
@@ -257,7 +257,7 @@ const NewWebsitePrototypeHeader = props => {
           <div css={open ? STYLES_BURGER_BUN2_OPEN : STYLES_BURGER_BUN2} />
         </div>
         <div open={open} css={open ? STYLES_MENU_OPEN : STYLES_MENU}>
-          <a href={commuityURL}>Get Involved</a>
+          <a href={communityURL}>Get involved</a>
           <a href={signInURL}>Sign in</a>
         </div>
       </div>

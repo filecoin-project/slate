@@ -30,7 +30,7 @@ const STYLES_LINK = css`
   text-decoration: none;
   transition: 200ms ease color;
   :visited {
-    color: ${Constants.system.darkGray};
+    color: ${Constants.system.gray};
   }
 
   :hover {

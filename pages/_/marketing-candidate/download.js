@@ -191,18 +191,18 @@ export default class IndexPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SECTION_CHILD}>
               <h1 css={STYLES_H1}>Slate Chrome Extensions</h1>
-              <p css={STYLES_H2}>
+              <h2 css={STYLES_H2}>
                 Take any image on the web and save it to Slate right from your
                 browser tab.
-              </p>
+              </h2>
               <a src="/">
                 <button css={STYLES_BUTTON_PRIMARY}>
                   Get Chrome Extension
                 </button>
               </a>
-              <p css={STYLES_ANNOTATION}>
+              <h2 css={STYLES_ANNOTATION}>
                 Currently avaible for <a href="/">Chrome</a>.
-              </p>
+              </h2>
             </div>
             <div css={STYLES_SECTION_CHILD}>
               <img
@@ -215,10 +215,10 @@ export default class IndexPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SECTION_CHILD}>
               <h1 css={STYLES_H1}>Slate client for Mac, Windows and Linux</h1>
-              <p css={STYLES_H2}>
+              <h2 css={STYLES_H2}>
                 Local folder and offline client for seamless filesharing between
                 your machine and the network.
-              </p>
+              </h2>
               <a>
                 <button css={STYLES_BUTTON_PRIMARY}>Coming soon</button>
               </a>
@@ -234,10 +234,10 @@ export default class IndexPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SECTION_CHILD}>
               <h1 css={STYLES_H1}>Releases</h1>
-              <p css={STYLES_H2}>
+              <h2 css={STYLES_H2}>
                 Slate is built in public and all past releases are always
                 avaible for download.
-              </p>
+              </h2>
             </div>
             <div css={STYLES_SECTION_CHILD}>
               <System.Table

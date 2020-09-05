@@ -146,19 +146,27 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description = "The place for all of your assets. Powered by Textile and Filecoin.";
+    const description =
+      "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host";
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
           <div css={STYLES_MIDDLE}>
             <div css={STYLES_CARD}>
               <img css={STYLES_CARD_IMAGE} src="/public/static/teaser.png" />
               <p css={STYLES_CARD_PARAGRAPH}>
-                Store your files, turn them into collections, and share them with the world — with{" "}
-                <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
+                Store your files, turn them into collections, and share them
+                with the world — with{" "}
+                <a
+                  css={STYLES_LINK}
+                  href="https://github.com/filecoin-project/slate"
+                  target="_blank">
                   Filecoin & Slate
                 </a>
                 .
@@ -168,14 +176,15 @@ export default class IndexPage extends React.Component {
               </p>
               {this.state.available ? (
                 <div css={STYLES_CARD_ACTIONS}>
-                  <div css={STYLES_CARD_ACTIONS_LEFT}>alpha test v{Constants.values.version} for Filecoin</div>
-                  <div css={STYLES_CARD_ACTIONS_RIGHT}>
-                    <System.ButtonPrimary onClick={() => window.open("/_")}>Join Slate</System.ButtonPrimary>
-                  </div>
+                  <System.ButtonPrimaryFull onClick={() => window.open("/_")}>
+                    Sign in to Slate Alpha
+                  </System.ButtonPrimaryFull>
                 </div>
               ) : (
                 <div css={STYLES_CARD_ACTIONS}>
-                  <div css={STYLES_CARD_ACTIONS_LEFT} style={{ textAlign: "center" }}>
+                  <div
+                    css={STYLES_CARD_ACTIONS_LEFT}
+                    style={{ textAlign: "center" }}>
                     Slate is currently down for maintenance.
                   </div>
                 </div>

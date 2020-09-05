@@ -2,7 +2,7 @@
   "name": "slate",
   "description": "",
   "author": "slate",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
   "engines": {
     "node": "14.7.0"

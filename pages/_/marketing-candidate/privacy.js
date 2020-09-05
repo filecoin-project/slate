@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
@@ -12,7 +11,9 @@ const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 88px 24px 128px 24px;
+  padding: 88px 32px 128px 32px;
+  max-width: 784px;
+  margin: 0 auto 0 auto;
 `;
 
 const STYLES_COPY_EMAIL = css`
@@ -39,17 +40,13 @@ export function CopyEmail() {
   );
 }
 
-export default class IndexPage extends React.Component {
-  async componentDidMount() {
-    const response = await Actions.health();
-    console.log("HEALTH_CHECK", response);
-  }
-
+export default class PrivacyPage extends React.Component {
   render() {
-    const title = `Slate`;
+    const title = `Slate: Guidelines and Terms of Service`;
     const description =
-      "The place for all of your assets. Powered by Textile and Filecoin.";
+      "We believe that our mission is best served in an environment that is friendly, safe, and accepting.";
     const url = "https://slate.host/privacy";
+
     return (
       <WebsitePrototypeWrapper
         title={title}

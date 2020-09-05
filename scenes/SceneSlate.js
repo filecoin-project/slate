@@ -392,13 +392,9 @@ export default class SceneSlate extends React.Component {
             ) : (
               <div onClick={this._handleFollow}>
                 {following ? (
-                  <div css={STYLES_BUTTON} onClick={this._handleFollow}>
-                    Unfollow
-                  </div>
+                  <div css={STYLES_BUTTON}>Unfollow</div>
                 ) : (
-                  <div css={STYLES_BUTTON} onClick={this._handleFollow}>
-                    Follow
-                  </div>
+                  <div css={STYLES_BUTTON}>Follow</div>
                 )}
               </div>
             )

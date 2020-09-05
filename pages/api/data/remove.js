@@ -87,18 +87,28 @@ export default async (req, res) => {
   const slates = await Data.getSlatesByUserId({ userId: id });
   for (let i = 0; i < slates.length; i++) {
     const slate = slates[i];
-    const objects = slate.data.objects.filter(
-      (o) => !o.url.includes(req.body.data.cid)
-    );
-    const layouts = await Data.updateSlateById({
-      id: slate.id,
-      updated_at: new Date(),
-      data: {
-        ...slate.data,
-        objects,
-        layouts: { lg: generateLayout(objects) },
-      },
+
+    let removal = false;
+    const objects = slate.data.objects.filter((o) => {
+      if (o.url.includes(req.body.data.cid)) {
+        removal = true;
+        return false;
+      }
+
+      return true;
     });
+
+    if (removal) {
+      const layouts = await Data.updateSlateById({
+        id: slate.id,
+        updated_at: new Date(),
+        data: {
+          ...slate.data,
+          objects,
+          layouts: { lg: generateLayout(objects) },
+        },
+      });
+    }
   }
 
   // NOTE(jim):

@@ -17,18 +17,25 @@ const STYLES_USER_ENTRY = css`
   align-items: center;
   font-size: ${Constants.typescale.lvl1};
   cursor: pointer;
+  border: 1px solid rgba(229, 229, 229, 0.75);
+  border-radius: 4px;
+  margin-bottom: 8px;
 `;
 
 const STYLES_USER = css`
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
+  margin: 24px;
+  color: ${Constants.system.brand};
+  font-family: ${Constants.font.medium};
+  font-size: ${Constants.typescale.lvl1};
 `;
 
 const STYLES_ACTION_BUTTON = css`
-  padding: 8px;
   cursor: pointer;
   justify-self: end;
+  padding: 24px;
 
   :hover {
     color: ${Constants.system.brand};
@@ -40,11 +47,11 @@ const STYLES_PROFILE_IMAGE = css`
   background-position: 50% 50%;
   height: 24px;
   width: 24px;
-  margin: 8px 24px 8px 8px;
-  border-radius: 50%;
+  margin-right: 16px;
+  border-radius: 4px;
 `;
 
-function UserEntry({ user, button, onClick }) {
+function UserEntry({ user, button, onClick, message }) {
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
       <div css={STYLES_USER} onClick={onClick}>
@@ -52,7 +59,12 @@ function UserEntry({ user, button, onClick }) {
           css={STYLES_PROFILE_IMAGE}
           style={{ backgroundImage: `url(${user.data.photo})` }}
         />
-        <div>@{user.username}</div>
+        <span>
+          {user.data.name || `@${user.username}`}
+          {message ? (
+            <span style={{ color: Constants.system.black }}>{message}</span>
+          ) : null}
+        </span>
       </div>
       {button}
     </div>
@@ -127,6 +139,7 @@ export default class SceneDirectory extends React.Component {
                 data: relation.owner,
               });
             }}
+            message=" requested to trust you"
           />
         );
       });

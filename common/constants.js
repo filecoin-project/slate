@@ -19,7 +19,7 @@ export const system = {
   darkGray: "#b2b2b2",
   black: "#1b1f23",
   pitchBlack: "#0c0c0c",
-  brand: "#0047FF",
+  brand: "#0061BB",
   link: "#2935ff",
   green: "#28a745",
   yellow: " #FFC940",

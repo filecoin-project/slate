@@ -28,7 +28,6 @@ const STYLES_LINK = css`
   color: ${Constants.system.moonstone};
   text-decoration: none;
   transition: 200ms ease color;
-
   :visited {
     color: ${Constants.system.moonstone};
   }
@@ -50,7 +49,6 @@ const STYLES_RIGHT = css`
   display: flex;
   padding: 12px 0;
   justify-content: flex-end;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
@@ -214,10 +212,8 @@ const STYLES_MENU_OPEN = css`
       color: ${Constants.system.white};
       text-decoration: none;
       transition: color 0.3s linear;
-
       font-size: 1.563rem;
       text-align: left;
-
       &:hover {
         color: ${Constants.system.darkGray};
       }

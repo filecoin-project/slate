@@ -28,7 +28,6 @@ const STYLES_LINK = css`
   color: ${Constants.system.moonstone};
   text-decoration: none;
   transition: 200ms ease color;
-
   :visited {
     color: ${Constants.system.moonstone};
   }
@@ -50,7 +49,6 @@ const STYLES_RIGHT = css`
   display: flex;
   padding: 12px 0;
   justify-content: flex-end;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
@@ -214,10 +212,8 @@ const STYLES_MENU_OPEN = css`
       color: ${Constants.system.white};
       text-decoration: none;
       transition: color 0.3s linear;
-
       font-size: 1.563rem;
       text-align: left;
-
       &:hover {
         color: ${Constants.system.darkGray};
       }
@@ -225,11 +221,10 @@ const STYLES_MENU_OPEN = css`
   }
 `;
 
-export const NewWebsitePrototypeHeader = (props) => {
+const NewWebsitePrototypeHeader = props => {
   const [open, setOpen] = useState(false);
 
-  const viewSourceURL = "https://github.com/filecoin-project/slate";
-  const designSystemURL = "/_/system";
+  const communityURL = "/community";
   const signInURL = "/_";
 
   return (
@@ -240,11 +235,8 @@ export const NewWebsitePrototypeHeader = (props) => {
         </a>
       </div>
       <div css={STYLES_RIGHT}>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={designSystemURL}>
-          Design system
-        </a>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={viewSourceURL}>
-          View source
+        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={communityURL}>
+          Get involved
         </a>
         <a css={STYLES_LINK} href={signInURL}>
           Sign in
@@ -261,8 +253,7 @@ export const NewWebsitePrototypeHeader = (props) => {
           <div css={open ? STYLES_BURGER_BUN2_OPEN : STYLES_BURGER_BUN2} />
         </div>
         <div open={open} css={open ? STYLES_MENU_OPEN : STYLES_MENU}>
-          <a href={designSystemURL}>Design system</a>
-          <a href={viewSourceURL}>View source</a>
+          <a href={communityURL}>Get involved</a>
           <a href={signInURL}>Sign in</a>
         </div>
       </div>

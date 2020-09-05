@@ -79,7 +79,7 @@ const STYLES_RIGHT = css`
   }
 `;
 
-export const NewWebsitePrototypeFooter = props => {
+const NewWebsitePrototypeFooter = props => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_TRADEMARK}>
@@ -109,7 +109,7 @@ export const NewWebsitePrototypeFooter = props => {
       <br />
       <br />
       <div css={STYLES_RIGHT}>
-        <div style={{ marginRight: 88 }}>
+        <div>
           <p>Reach out</p>
           <br />
           <a
@@ -123,13 +123,21 @@ export const NewWebsitePrototypeFooter = props => {
           <a css={STYLES_LINK} href="https://filecoin.io/slack" target="_blank">
             Slack
           </a>
+          <br />
+          <a
+            css={STYLES_LINK}
+            href="https://github.com/filecoin-project/slate"
+            target="_blank"
+          >
+            Github
+          </a>
         </div>
         <br />
         <br />
         <div>
           <p>Resources</p>
           <br />
-          <a css={STYLES_LINK} href="/_/system" target="_blank">
+          <a css={STYLES_LINK} href="/system" target="_blank">
             Design system
           </a>
           <br />
@@ -142,7 +150,7 @@ export const NewWebsitePrototypeFooter = props => {
           </a>
           <br />
           <a css={STYLES_LINK} href="/community" target="_blank">
-            Community Guidelines
+            Community
           </a>
           <br />
           <a css={STYLES_LINK} href="/privacy" target="_blank">

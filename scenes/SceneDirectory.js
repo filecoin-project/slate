@@ -13,7 +13,7 @@ import EmptyState from "~/components/core/EmptyState";
 
 const STYLES_USER_ENTRY = css`
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   font-size: ${Constants.typescale.lvl1};
   cursor: pointer;
@@ -32,14 +32,18 @@ const STYLES_USER = css`
   font-size: ${Constants.typescale.lvl1};
 `;
 
+const STYLES_BUTTONS = css`
+  justify-self: end;
+  display: flex;
+  flex-direction: row;
+  margin-right: 48px;
+`;
+
 const STYLES_ACTION_BUTTON = css`
   cursor: pointer;
-  justify-self: end;
-  padding: 24px;
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
+  padding: 8px;
+  color: ${Constants.system.brand};
+  font-family: ${Constants.font.medium};
 `;
 
 const STYLES_PROFILE_IMAGE = css`
@@ -75,56 +79,52 @@ export default class SceneDirectory extends React.Component {
   state = {
     loading: false,
     tab: 0,
-    viewer: this.props.viewer,
-  };
-
-  _handleUpdate = async (e) => {
-    let response = await this.props.onRehydrate();
-    // const response = await Actions.hydrateAuthenticatedUser();
-
-    if (!response || response.error) {
-      alert("TODO: error fetching authenticated viewer");
-      return null;
-    }
-
-    let viewer = response.data;
-
-    this.setState({ viewer });
   };
 
   _handleDelete = async (id) => {
     const response = await Actions.deleteTrustRelationship({
       id: id,
     });
-    await this._handleUpdate();
+    await this.props.onRehydrate();
   };
 
   _handleAccept = async (id) => {
     const response = await Actions.updateTrustRelationship({
       userId: id,
     });
-    await this._handleUpdate();
+    await this.props.onRehydrate();
   };
 
   _handleFollow = async (id) => {
     const response = await Actions.createSubscription({
       userId: id,
     });
-    await this._handleUpdate();
+    await this.props.onRehydrate();
   };
 
   render() {
-    let requests = this.state.viewer.pendingTrusted
+    let requests = this.props.viewer.pendingTrusted
       .filter((relation) => {
         return !relation.data.verified;
       })
       .map((relation) => {
         let button = (
-          <div
-            css={STYLES_ACTION_BUTTON}
-            onClick={() => this._handleAccept(relation.owner.id)}
-          >
-            Accept
+          <div css={STYLES_BUTTONS}>
+            <div
+              css={STYLES_ACTION_BUTTON}
+              onClick={() => this._handleAccept(relation.owner.id)}
+            >
+              Accept
+            </div>
+            <div
+              css={STYLES_ACTION_BUTTON}
+              style={{ color: Constants.system.darkGray, marginLeft: "16px" }}
+              onClick={() => {
+                this._handleDelete(relation.id);
+              }}
+            >
+              Decline
+            </div>
           </div>
         );
         return (
@@ -144,7 +144,7 @@ export default class SceneDirectory extends React.Component {
         );
       });
 
-    let trusted = this.state.viewer.pendingTrusted
+    let trusted = this.props.viewer.pendingTrusted
       .filter((relation) => {
         return relation.data.verified;
       })
@@ -177,7 +177,7 @@ export default class SceneDirectory extends React.Component {
       trusted = [];
     }
     trusted.push(
-      ...this.state.viewer.trusted
+      ...this.props.viewer.trusted
         .filter((relation) => {
           return relation.data.verified;
         })
@@ -207,7 +207,7 @@ export default class SceneDirectory extends React.Component {
         })
     );
 
-    let following = this.state.viewer.subscriptions
+    let following = this.props.viewer.subscriptions
       .filter((relation) => {
         return !!relation.target_user_id;
       })

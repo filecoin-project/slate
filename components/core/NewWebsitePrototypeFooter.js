@@ -3,16 +3,19 @@ import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 
+const STYLES_P = css`
+  font-size: 1rem;
+  line-height: 1.618;
+  padding: 0px 0px 8px 0px;
+  color: ${Constants.system.gray};
+`;
 const STYLES_CONTAINER = css`
-  font-family: ${Constants.font.text};
-  font-size: 12px;
-  line-height: 1.25;
   width: 100%;
   display: flex;
+  background-color: ${Constants.system.pitchBlack};
   align-items: top;
   justify-content: top;
   padding: 96px 88px 96px 88px;
-  background-color: ${Constants.system.pitchBlack};
   @media (max-width: ${Constants.sizes.mobile}px) {
     position: absolute;
     z-index: 2;
@@ -28,36 +31,24 @@ const STYLES_LINK = css`
   color: ${Constants.system.darkGray};
   text-decoration: none;
   transition: 200ms ease color;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.618;
 
   :hover {
     color: ${Constants.system.brand};
   }
 `;
 
-const STYLES_LEFT = css`
-  flex-shrink: 0;
-  font-size: 1.563rem;
-  color: ${Constants.system.c};
-`;
-
 const STYLES_SLATE = css`
   flex-shrink: 0;
-  padding: 0px 0px 8px 0px;
-  font-size: 1.563rem;
+  padding: 0px 0px 16px 0px;
+  font-size: 1rem;
+  line-height: 1.618;
   color: ${Constants.system.gray};
 `;
 
 const STYLES_TRADEMARK = css`
-  margin: 0px 16px 16px 0px;
-`;
-
-const STYLES_CREDIT = css`
-  flex-shrink: 0;
-  padding: 8px 0px 8px 0px;
-  font-size: 1rem;
-  color: ${Constants.system.gray};
-  line-height: 1.5;
+  margin: 2px 12px 0 0;
 `;
 
 const STYLES_RIGHT = css`
@@ -68,7 +59,6 @@ const STYLES_RIGHT = css`
   justify-content: flex-end;
   position: absolute;
   right: 88px;
-  font-size: 1rem;
 
   color: ${Constants.system.gray};
 
@@ -79,44 +69,43 @@ const STYLES_RIGHT = css`
   }
 `;
 
-const NewWebsitePrototypeFooter = props => {
+export const NewWebsitePrototypeFooter = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
-      <div css={STYLES_TRADEMARK}>
+      <div>
         <img
-          width="32px"
+          css={STYLES_TRADEMARK}
+          width="20px"
           src="https://bafkreigojwgoqkcpi4oyjoncmiuacg3zen7mlg75fkz27k5n32golvbkb4.ipfs.slate.textile.io/"
         />
       </div>
-      <div css={STYLES_LEFT}>
-        <div css={STYLES_SLATE}>
-          Slate is the gateway to Filecoin –
-          <br />A new network design we trust.
-        </div>
-        <div css={STYLES_CREDIT}>
-          Powered by{" "}
-          <a css={STYLES_LINK} href="https://textile.io" target="_blank">
-            Textile
-          </a>{" "}
-          and{" "}
-          <a css={STYLES_LINK} href="https://filecoin.io" target="_blank">
-            Filecoin
-          </a>
-          <br />
-          MIT License
+      <div>
+        <div>
+          <p css={STYLES_SLATE}>
+            Slate is the gateway to Filecoin –
+            <br />A new network design we trust.
+          </p>
+          <p css={STYLES_P}>
+            Powered by{" "}
+            <a css={STYLES_LINK} href="https://textile.io" target="_blank">
+              Textile
+            </a>{" "}
+            and{" "}
+            <a css={STYLES_LINK} href="https://filecoin.io" target="_blank">
+              Filecoin
+            </a>
+            <br />
+            MIT License
+            <br />
+            <br />
+            <br />
+          </p>
         </div>
       </div>
-      <br />
-      <br />
       <div css={STYLES_RIGHT}>
-        <div>
-          <p>Reach out</p>
-          <br />
-          <a
-            css={STYLES_LINK}
-            href="https://twitter.com/_slate"
-            target="_blank"
-          >
+        <div style={{ marginRight: 88 }}>
+          <p css={STYLES_P}>Reach out</p>
+          <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
             Twitter
           </a>
           <br />
@@ -124,28 +113,19 @@ const NewWebsitePrototypeFooter = props => {
             Slack
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate"
-            target="_blank"
-          >
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
             Github
           </a>
         </div>
         <br />
         <br />
         <div>
-          <p>Resources</p>
-          <br />
-          <a css={STYLES_LINK} href="/system" target="_blank">
+          <p css={STYLES_P}>Resources</p>
+          <a css={STYLES_LINK} href="/_/system" target="_blank">
             Design system
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate"
-            target="_blank"
-          >
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
             View source
           </a>
           <br />

@@ -8,6 +8,7 @@ export const sizes = {
   navigation: 288,
   sidebar: 416,
   header: 72,
+  tablet: 960,
 };
 
 export const system = {

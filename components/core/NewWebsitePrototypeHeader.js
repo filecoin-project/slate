@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 import { Logo } from "~/common/logo.js";
+import { NearestMipMapLinearFilter } from "three";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};
@@ -25,11 +26,11 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.moonstone};
+  color: ${Constants.system.darkGray};
   text-decoration: none;
   transition: 200ms ease color;
   :visited {
-    color: ${Constants.system.moonstone};
+    color: ${Constants.system.gray};
   }
 
   :hover {
@@ -54,6 +55,13 @@ const STYLES_RIGHT = css`
   }
 `;
 
+const STYLES_MOBILENAV = css`
+  display: none;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: flex;
+  }
+`;
+
 const STYLES_BURGER = css`
   display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -70,94 +78,59 @@ const STYLES_BURGER = css`
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    color: ${Constants.system.white};
+    color: ${Constants.system.darkGray};
   }
 `;
 
 const STYLES_BURGER_BUN = css`
   width: 24px;
   height: 2px;
-  background: ${Constants.system.white};
-  transition: all 0.3s linear;
+  background: ${Constants.system.darkGray};
+  transition: all 0.2s linear;
   position: relative;
   transform-origin: 1px;
   transform: rotate(0);
+  transistion-property: transform;
 `;
+
+const openBurgerBun = {
+  transform: `rotate(45deg)`,
+};
 
 const STYLES_BURGER_MEAT = css`
   width: 24px;
   height: 2px;
-  background: ${Constants.system.white};
-  transition: all 0.3s linear;
+  background: ${Constants.system.darkGray};
+  transition: all 0.2s linear;
   position: relative;
   transform-origin: 1px;
   opacity: 1;
+  transistion-property: transform;
 `;
+
+const openBurgerMeat = {
+  opacity: `0`,
+};
 
 const STYLES_BURGER_BUN2 = css`
   width: 24px;
   height: 2px;
-  background: ${Constants.system.white};
-  transition: all 0.3s linear;
+  background: ${Constants.system.darkGray};
+  transition: all 0.2s linear;
   position: relative;
   transform-origin: 1px;
   transform: rotate(0);
+  transistion-property: transform;
 `;
 
-const STYLES_BURGER_OPEN = css`
-  display: none;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 24px;
-    height: 24px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 10;
-  }
-`;
-
-const STYLES_BURGER_BUN_OPEN = css`
-  width: 24px;
-  height: 2px;
-  background: ${Constants.system.white};
-  transition: all 0.3s linear;
-  position: relative;
-  transform-origin: 1px;
-  transform: rotate(45deg);
-`;
-
-const STYLES_BURGER_MEAT_OPEN = css`
-  width: 24px;
-  height: 2px;
-  background: ${Constants.system.white};
-  transition: all 0.3s linear;
-  position: relative;
-  transform-origin: 1px;
-  opacity: 0;
-`;
-
-const STYLES_BURGER_BUN2_OPEN = css`
-  width: 24px;
-  height: 2px;
-  background: ${Constants.system.white};
-  transition: all 0.3s linear;
-  position: relative;
-  transform-origin: 1px;
-  transform: rotate(-45deg);
-`;
+const openBurgerBun2 = {
+  transform: `rotate(-45deg)`,
+};
 
 const STYLES_MENU = css`
   display: none;
-  visibility: 0;
-  opacity: 0;
   @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
     flex-direction: column;
     justify-content: center;
     background: ${Constants.system.pitchBlack};
@@ -168,64 +141,49 @@ const STYLES_MENU = css`
     position: absolute;
     top: 0;
     right: 0;
-    transition: transform 0.3s ease-in-out;
     transform: translateX(100%);
-    transition-property: transform, opacity, visibility;
-
-    a {
-      padding: 16px 0;
-      color: ${Constants.system.white};
-      text-decoration: none;
-      transition: color 0.3s linear;
-
-      font-size: 1.563rem;
-      text-align: left;
-
-      &:hover {
-        color: ${Constants.system.darkGray};
-      }
-    }
+    transition: 1s ease-in-out;
+    transition-property: transform, width;
   }
 `;
 
-const STYLES_MENU_OPEN = css`
-  opacity: 1;
-  visibility: visible;
-  display: flex;
+const STYLES_NAVLINK = css`
+  display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    flex-direction: column;
-    justify-content: center;
-    background: ${Constants.system.pitchBlack};
-    height: 100vh;
-    width: 100vw;
-    text-align: left;
-    padding: 24px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transition: transform 0.3s ease-in-out;
-    transform: translateX(0);
-    transition-property: transform, opacity, visibility;
+    padding: 16px 0;
+    color: ${Constants.system.white};
+    text-decoration: none;
+    transition: color 0.3s linear;
+    transition-property: transform;
 
-    a {
-      padding: 16px 0;
-      color: ${Constants.system.white};
-      text-decoration: none;
-      transition: color 0.3s linear;
-      font-size: 1.563rem;
-      text-align: left;
-      &:hover {
-        color: ${Constants.system.darkGray};
-      }
+    font-size: 1.563rem;
+    text-align: left;
+
+    &:hover {
+      color: ${Constants.system.darkGray};
     }
   }
 `;
 
-const NewWebsitePrototypeHeader = props => {
+const openMenu = {
+  display: `flex`,
+  transform: `translateX(0)`,
+};
+
+const openNavLink = {
+  display: `flex`,
+};
+
+export const NewWebsitePrototypeHeader = (props) => {
   const [open, setOpen] = useState(false);
 
   const communityURL = "/community";
   const signInURL = "/_";
+  const styleMenu = open ? openMenu : null;
+  const styleNavLink = open ? openNavLink : null;
+  const styleBurgerBun = open ? openBurgerBun : null;
+  const styleBurgerMeat = open ? openBurgerMeat : null;
+  const styleBurgerBun2 = open ? openBurgerBun2 : null;
 
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
@@ -242,19 +200,22 @@ const NewWebsitePrototypeHeader = props => {
           Sign in
         </a>
       </div>
-      <div>
-        <div
-          open={open}
-          onClick={() => setOpen(!open)}
-          css={open ? STYLES_BURGER_OPEN : STYLES_BURGER}
-        >
-          <div css={open ? STYLES_BURGER_BUN_OPEN : STYLES_BURGER_BUN} />
-          <div css={open ? STYLES_BURGER_MEAT_OPEN : STYLES_BURGER_MEAT} />
-          <div css={open ? STYLES_BURGER_BUN2_OPEN : STYLES_BURGER_BUN2} />
+      <div css={STYLES_MOBILENAV} open={open}>
+        <div onClick={() => setOpen(!open)} css={STYLES_BURGER}>
+          <div css={STYLES_BURGER_BUN} style={styleBurgerBun} />
+          <div css={STYLES_BURGER_MEAT} style={styleBurgerMeat} />
+          <div css={STYLES_BURGER_BUN2} style={styleBurgerBun2} />
         </div>
-        <div open={open} css={open ? STYLES_MENU_OPEN : STYLES_MENU}>
-          <a href={communityURL}>Get involved</a>
-          <a href={signInURL}>Sign in</a>
+        <div css={STYLES_MENU} style={styleMenu}>
+          <a css={STYLES_NAVLINK} style={styleNavLink} href={designSystemURL}>
+            Design system
+          </a>
+          <a css={STYLES_NAVLINK} style={styleNavLink} href={viewSourceURL}>
+            View source
+          </a>
+          <a css={STYLES_NAVLINK} style={styleNavLink} href={signInURL}>
+            Sign in
+          </a>
         </div>
       </div>
     </div>

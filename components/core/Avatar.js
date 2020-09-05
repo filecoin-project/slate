@@ -11,6 +11,7 @@ const STYLES_AVATAR = css`
   background-position: 50% 50%;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   position: relative;
+  border-radius: 4px;
   background-color: ${Constants.system.black};
 `;
 
@@ -55,11 +56,9 @@ export default class AvatarEntity extends React.Component {
           ...this.props.style,
           width: `${this.props.size}px`,
           height: `${this.props.size}px`,
-          borderRadius: `${this.props.size}px`,
           backgroundImage: `url('${this.props.url}')`,
           cursor: this.props.onClick ? "pointer" : this.props.style,
-        }}
-      >
+        }}>
         {this.state.visible ? this.props.popover : null}
         {this.props.online ? <span css={STYLES_AVATAR_ONLINE} /> : null}
       </Dismissible>

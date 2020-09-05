@@ -10,97 +10,154 @@ import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader"
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 
 const STYLES_ROOT = css`
-  padding: 16px 88px;
-  section {
-    width: 1140px;
-    margin: auto;
-    padding: 15vh 0;
-  }
-  h1 {
-    font-size: 46px;
-    line-height: 100%;
-  }
-  button {
-    background: #36383d;
-    color: white;
-    width: 300px;
-    height: 60px;
-    border-radius: 5px;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 18px;
-    align-items: center;
-    text-align: center;
-    margin: auto;
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    h1 {
-      font-size: 1.953rem;
-      padding: 0px 0px 16px 0px;
-      line-height: 1.25;
-    }
-    h2 {
-      font-size: 1.25rem;
-      padding: 0px 0px 8px 0px;
-      line-height: 1.5;
-    }
-    h3 {
-      font-size: 1rem;
-      padding: 0px 0px 8px 0px;
-      line-height: 1.5;
-      color: ${Constants.system.moonstone};
-    }
-    p {
-      font-size: 0.78rem;
-    }
-    img {
-      width: 80%;
-      hight: auto;
-    }
-  }
-`;
-
-const STYLES_APP = css`
   display: flex;
-  flex-direction: row;
-  align-self: center;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 
+const STYLES_H1 = css`
+  font-size: 1.953rem;
+  line-height: 1.25;
+  padding: 0px 0px 32px 0px;
+  width: 100%;
+  color: ${Constants.system.pitchBlack};
   @media (max-width: ${Constants.sizes.mobile}px) {
-    flex-direction: column;
+    font-size: 1.953rem;
+    padding: 0px 0px 16px 0px;
+    line-height: 1.25;
   }
 `;
 
-const STYLES_EXTENSTION = css`
-  display: flex;
-  flex-direction: row;
-  align-self: center;
+const STYLES_H2 = css`
+  font-size: 1.25rem;
+  line-height: 1.25;
+  padding: 0px 0px 32px 0px;
+  width: 100%;
+  color: ${Constants.system.darkGray};
   @media (max-width: ${Constants.sizes.mobile}px) {
-    flex-direction: column;
+    font-size: 1.25rem;
+    padding: 0px 0px 8px 0px;
+    line-height: 1.5;
   }
 `;
 
-const STYLES_WRAPPER_TEXT = css`
-  width: 40%;
-  align-self: center;
-  padding: 0 50px;
+const STYLES_H3 = css`
+  font-size: 1.563em;
+  line-height: 1.5;
+  padding: 0px 0px 16px 0px;
+  color: ${Constants.system.darkGray};
   @media (max-width: ${Constants.sizes.mobile}px) {
-    flex-direction: column;
-    width: 100%;
-    padding: 0 10px;
+    font-size: 1rem;
+    padding: 0px 0px 8px 0px;
+    line-height: 1.5;
+    color: ${Constants.system.moonstone};
   }
 `;
 
-const STYLES_BROWSER_WINDOW = css`
-  background: #ffffff;
-  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  align-self: center;
+const STYLES_P = css`
+  font-size: 1rem;
+  color: ${Constants.system.black};
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    font-size: 0.78rem;
+  }
+`;
+
+const STYLES_A = css`
+  :link {
+    color: ${Constants.system.darkGray};
+    background-color: transparent;
+    text-decoration: none;
+  }
+  :hover {
+    color: ${Constants.system.pitchBlack};
+    background-color: transparent;
+    text-decoration: none;
+  }
+  :active {
+    color: yellow;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  @media (max-width: ${Constants.sizes.mobile}px) {
+  }
+`;
+
+const STYLES_IMG = css`
+  width: 100%;
+  :hover {
+  }
+  @media (max-width: ${Constants.sizes.mobile}px) {
+  }
 `;
 
 const STYLES_ANNOTATION = css`
+  padding-top: 7px;
   font-size: 12px;
   color: #646464;
+`;
+
+const STYLES_BUTTON_PRIMARY = css`
+  box-sizing: border-box;
+  border-radius: 2px;
+  outline: 0;
+  border: 0;
+  min-height: 40px;
+  padding: 6px 24px 6px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  font-family: ${Constants.font.semiBold};
+  transition: 200ms ease all;
+  user-select: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  background-color: ${Constants.system.wall};
+  color: ${Constants.system.slate};
+  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+  :hover {
+    background-color: ${Constants.system.pitchBlack};
+    box-shadow: 0px 10px 90px 20px rgba(207, 206, 211, 0.3);
+    color: ${Constants.system.wall};
+  }
+  :focus {
+    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
+    background-color: ${Constants.system.pitchBlack};
+    color: ${Constants.system.wall};
+    outline: 0;
+    border: 0;
+  }
+`;
+
+const STYLES_SECTION_WRAPPER = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 55vh;
+  margin: 10px auto;
+  :nth-child(even) {
+    margin: 150px auto;
+    flex-direction: row-reverse;
+  }
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    :nth-child(even) {
+      flex-direction: column;
+    }
+  }
+`;
+
+const STYLES_SECTION_CHILD = css`
+  width: 50%;
+  padding: 0 50px;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    padding: 20px;
+  }
 `;
 
 export const getServerSideProps = async context => {
@@ -131,92 +188,103 @@ export default class IndexPage extends React.Component {
       >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <section css={STYLES_EXTENSTION}>
-            <div css={STYLES_BROWSER_WINDOW}>
+          <div css={STYLES_SECTION_WRAPPER}>
+            <div css={STYLES_SECTION_CHILD}>
+              <h1 css={STYLES_H1}>Slate Chrome Extensions</h1>
+              <h2 css={STYLES_H2}>
+                Take any image on the web and save it to Slate right from your
+                browser tab.
+              </h2>
+              <a src="/">
+                <button css={STYLES_BUTTON_PRIMARY}>
+                  Get Chrome Extension
+                </button>
+              </a>
+              <h2 css={STYLES_ANNOTATION}>
+                Currently avaible for <a href="/">Chrome</a>.
+              </h2>
+            </div>
+            <div css={STYLES_SECTION_CHILD}>
               <img
+                css={STYLES_IMG}
                 src="https://d2w9rnfcy7mm78.cloudfront.net/8547413/original_613b9b0a650a3f274c68e1407f552ff3.png?1599111034?bc=0"
                 alt="Slate browser extension"
               />
             </div>
-            <div css={STYLES_WRAPPER_TEXT}>
-              <System.H1>Slate Chrome Extensions</System.H1>
-              <br />
-
-              <System.P>
-                Take any image on the web and save it to Slate right from your
-                browser tab
-              </System.P>
-              <br />
-              <br />
-              <a>
-                <button>Get Chrome Extension</button>
-              </a>
-              <System.P css={STYLES_ANNOTATION}>
-                Currently avaible for <a href="/">Chrome</a>.
-              </System.P>
-            </div>
-          </section>
-          <section css={STYLES_APP}>
-            <div css={STYLES_WRAPPER_TEXT}>
-              <System.H1>Slate client for Mac, Windows and Linux</System.H1>
-              <br />
-              <System.P>
+          </div>
+          <div css={STYLES_SECTION_WRAPPER}>
+            <div css={STYLES_SECTION_CHILD}>
+              <h1 css={STYLES_H1}>Slate client for Mac, Windows and Linux</h1>
+              <h2 css={STYLES_H2}>
                 Local folder and offline client for seamless filesharing between
-                your machine and the network
-              </System.P>
-              <br />
-              <br />
+                your machine and the network.
+              </h2>
               <a>
-                <button>Coming Soon</button>
+                <button css={STYLES_BUTTON_PRIMARY}>Coming soon</button>
               </a>
-              <System.P css={STYLES_ANNOTATION}>
-                Also avaible for <a>Windows</a> and <a>Linux</a>
-              </System.P>
             </div>
-            <div css={STYLES_BROWSER_WINDOW}>
+            <div css={STYLES_SECTION_CHILD}>
               <img
+                css={STYLES_IMG}
                 src="https://d2w9rnfcy7mm78.cloudfront.net/8547413/original_613b9b0a650a3f274c68e1407f552ff3.png?1599111034?bc=0"
-                alt="Slate Web App Screenshot"
+                alt="Slate browser extension"
               />
             </div>
-          </section>
-
-          <section css={STYLES_APP}>
-            <div css={STYLES_WRAPPER_TEXT}>
-              <System.H1>Releases</System.H1>
-              <br />
-              <System.P>
+          </div>{" "}
+          <div css={STYLES_SECTION_WRAPPER}>
+            <div css={STYLES_SECTION_CHILD}>
+              <h1 css={STYLES_H1}>Releases</h1>
+              <h2 css={STYLES_H2}>
                 Slate is built in public and all past releases are always
                 avaible for download.
-              </System.P>
+              </h2>
             </div>
-            <div>
+            <div css={STYLES_SECTION_CHILD}>
               <System.Table
                 data={{
                   columns: [
-                    { key: "a", name: "Version / Product", width: "50%" },
-                    { key: "b", name: "Date", width: "50%" },
-                    { key: "c", name: "Link", width: "50%" }
+                    { key: "a", name: "Version", width: "70px" },
+
+                    { key: "b", name: "Product", width: "200px" },
+
+                    { key: "c", name: "Date" },
+
+                    {
+                      key: "d",
+                      name: "Download link",
+                      copyable: true
+                    }
                   ],
+
                   rows: [
                     {
                       id: 1,
-                      a: "v1.0.0 Design System",
-                      b: "2020 09 14",
-                      c: "Download"
+
+                      a: "v1.0",
+
+                      b: "Chrome Extension",
+
+                      c: "2020-09-07",
+
+                      d: "Download"
                     },
+
                     {
-                      id: 1,
-                      a: "v1.0.0 Chome Extenstion",
-                      b: "2020 09 14",
-                      c: "Download"
+                      id: 2,
+
+                      a: "v1.0",
+
+                      b: "Design System",
+
+                      c: "2020-09-07",
+
+                      d: "Download"
                     }
                   ]
                 }}
-                name="exampleOne"
               />
             </div>
-          </section>
+          </div>
         </div>
         <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>

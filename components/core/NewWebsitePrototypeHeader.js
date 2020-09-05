@@ -225,11 +225,10 @@ const STYLES_MENU_OPEN = css`
   }
 `;
 
-export const NewWebsitePrototypeHeader = (props) => {
+const NewWebsitePrototypeHeader = props => {
   const [open, setOpen] = useState(false);
 
-  const viewSourceURL = "https://github.com/filecoin-project/slate";
-  const designSystemURL = "/_/system";
+  const commuityURL = "/community";
   const signInURL = "/_";
 
   return (
@@ -240,14 +239,11 @@ export const NewWebsitePrototypeHeader = (props) => {
         </a>
       </div>
       <div css={STYLES_RIGHT}>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={designSystemURL}>
-          Design system
-        </a>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={viewSourceURL}>
-          View source
+        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={commuityURL}>
+          Get Involved
         </a>
         <a css={STYLES_LINK} href={signInURL}>
-          Sign in
+          Sign In
         </a>
       </div>
       <div>
@@ -261,8 +257,7 @@ export const NewWebsitePrototypeHeader = (props) => {
           <div css={open ? STYLES_BURGER_BUN2_OPEN : STYLES_BURGER_BUN2} />
         </div>
         <div open={open} css={open ? STYLES_MENU_OPEN : STYLES_MENU}>
-          <a href={designSystemURL}>Design system</a>
-          <a href={viewSourceURL}>View source</a>
+          <a href={commuityURL}>Get Involved</a>
           <a href={signInURL}>Sign in</a>
         </div>
       </div>

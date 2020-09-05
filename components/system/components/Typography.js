@@ -61,7 +61,11 @@ export const ProcessedText = ({ text }) => {
   ));
 
   replacedText = StringReplace(replacedText, /@(\w+)/g, (match, i) => (
-    <a css={STYLES_LINK} key={match + i} target="_blank" href={`/${match}`}>
+    <a
+      css={STYLES_LINK}
+      key={match + i}
+      target="_blank"
+      href={`/${match}`.toLowerCase()}>
       @{match}
     </a>
   ));
@@ -70,8 +74,7 @@ export const ProcessedText = ({ text }) => {
     <span
       css={STYLES_LINK}
       key={match + i}
-      onClick={() => onDeepLink({ deeplink: match })}
-    >
+      onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}>
       #{match}
     </span>
   ));

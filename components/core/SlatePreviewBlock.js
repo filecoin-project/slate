@@ -186,10 +186,6 @@ export default class SlatePreviewBlock extends React.Component {
     copyValue: "",
   };
 
-  _componentDidMount = () => {
-    console.log(this._test.getBoundingClientRect());
-  };
-
   _handleCopy = (e, value) => {
     e.stopPropagation();
     this.setState({ copyValue: value }, () => {
@@ -225,7 +221,6 @@ export default class SlatePreviewBlock extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     if (!this.props.editing && !this.props.slate.data.objects.length) {
       return null;
     }
@@ -250,7 +245,7 @@ export default class SlatePreviewBlock extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `https://slate.host/${this.props.slate.owner.username}/${this.props.slate.slatename}`
+                          `https://slate.host/${this.props.username}/${this.props.slate.slatename}`
                         ),
                     },
                     {
@@ -264,7 +259,7 @@ export default class SlatePreviewBlock extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `https://slate.host/${this.props.slate.owner.username}/${this.props.slate.slatename}`
+                          `https://slate.host/${this.props.username}/${this.props.slate.slatename}`
                         ),
                     },
                   ]
@@ -325,7 +320,7 @@ export default class SlatePreviewBlock extends React.Component {
           ) : (
             <div />
           )}
-          {this.props.external ? null : (
+          {this.props.external ? null : this.props.username ? (
             <div
               style={{ justifySelf: "flex-end" }}
               ref={(c) => {
@@ -347,7 +342,7 @@ export default class SlatePreviewBlock extends React.Component {
               </div>
               {/* </TooltipWrapper> */}
             </div>
-          )}
+          ) : null}
         </div>
         {this.props.slate.data.body ? (
           <div css={STYLES_BODY}>

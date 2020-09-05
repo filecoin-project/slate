@@ -135,7 +135,6 @@ export class GlobalTooltip extends React.Component {
       horizontal: e.detail.horizontal,
     };
     this.setState({ tooltips });
-    console.log(tooltips);
   };
 
   _handleRemove = (e) => {
@@ -158,9 +157,6 @@ export class GlobalTooltip extends React.Component {
       let tooltips = this.state.tooltips;
       if (!tooltips[e.detail.id].style) {
         let rect = tooltips[e.detail.id].root.getBoundingClientRect();
-        console.log(tooltips[e.detail.id]);
-        console.log(tooltips[e.detail.id].root);
-        console.log(rect);
         let style = this.getOrientation(
           rect,
           tooltips[e.detail.id].bubbleRect,
@@ -215,7 +211,6 @@ export class TooltipWrapper extends React.Component {
 
   componentDidMount = async () => {
     let bubbleRect = this._bubble.getBoundingClientRect();
-    console.log(this._bubble);
 
     dispatchCustomEvent({
       name: "add-tooltip",

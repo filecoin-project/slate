@@ -35,16 +35,6 @@ export default class SceneSlates extends React.Component {
   };
 
   render() {
-    // TODO(jim): Refactor later.
-    const slates = this.props.viewer.slates.map((each) => {
-      return {
-        ...each,
-        url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
-        public: each.data.public,
-        objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
-      };
-    });
-
     let subscriptions = this.props.viewer.subscriptions
       .filter((each) => {
         return !!each.target_slate_id;
@@ -60,7 +50,7 @@ export default class SceneSlates extends React.Component {
             })
           }
         >
-          <SlatePreviewBlock slate={relation.slate} />
+          <SlatePreviewBlock username={null} slate={relation.slate} />
         </div>
       ));
 
@@ -99,7 +89,11 @@ export default class SceneSlates extends React.Component {
                   })
                 }
               >
-                <SlatePreviewBlock slate={slate} editing />
+                <SlatePreviewBlock
+                  slate={slate}
+                  username={this.props.viewer.username}
+                  editing
+                />
               </div>
             ))
           ) : (

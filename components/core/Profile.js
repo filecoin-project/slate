@@ -73,7 +73,7 @@ export default class Profile extends React.Component {
               if (this.props.onAction) {
                 return (
                   <div
-                    key={url}
+                    key={slate.id}
                     onClick={() =>
                       this.props.onAction({
                         type: "NAVIGATE",
@@ -84,16 +84,19 @@ export default class Profile extends React.Component {
                     }
                   >
                     <SlatePreviewBlock
-                      key={url}
                       slate={slate}
+                      username={data.username}
                       editing={this.props.editing}
                     />
                   </div>
                 );
               }
-              const url = `/${data.username}/${slate.slatename}`;
               return (
-                <a key={url} href={url} css={STYLES_LINK}>
+                <a
+                  key={slate.id}
+                  href={`/${data.username}/${slate.slatename}`}
+                  css={STYLES_LINK}
+                >
                   <SlatePreviewBlock external slate={slate} />
                 </a>
               );

@@ -17,10 +17,10 @@ const STYLES_KEY = css`
   margin-bottom: 12px;
   width: 100%;
   max-width: 416px;
-  background-color: ${Constants.system.black};
-  color: ${Constants.system.white};
-  border: 4px solid ${Constants.system.black};
-  border-radius: 36px;
+  background-color: ${Constants.system.gray};
+  color: ${Constants.system.pitchBlack};
+  border: 4px solid ${Constants.system.gray};
+  border-radius: 4px;
 `;
 
 const STYLES_KEY_LEFT = css`
@@ -39,7 +39,7 @@ const STYLES_KEY_RIGHT = css`
 const STYLES_CIRCLE_BUTTON = css`
   height: 32px;
   width: 32px;
-  border-radius: 32px;
+  border-radius: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -83,8 +83,7 @@ class Key extends React.Component {
             onClick={this._handleToggleVisible}
             style={{
               marginRight: 8,
-            }}
-          >
+            }}>
             <SVG.Privacy height="16px" />
           </span>
           <span
@@ -92,8 +91,7 @@ class Key extends React.Component {
             onClick={() => this._handleDelete(this.props.data.id)}
             style={{
               marginRight: 4,
-            }}
-          >
+            }}>
             <SVG.Dismiss height="16px" />
           </span>
         </div>
@@ -280,15 +278,13 @@ export default class SceneSettingsDeveloper extends React.Component {
         <div style={{ marginTop: 24 }}>
           <System.ButtonPrimary
             onClick={this._handleSave}
-            loading={this.state.loading}
-          >
+            loading={this.state.loading}>
             Generate
           </System.ButtonPrimary>
         </div>
 
         {key ? (
           <React.Fragment>
-            <System.H2 style={{ marginTop: 64 }}>Usage (JavaScript)</System.H2>
             <System.DescriptionGroup
               style={{ marginTop: 48 }}
               label="Get all slates"

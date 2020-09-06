@@ -30,14 +30,17 @@ const STYLES_NAME = css`
   max-width: 420px;
   margin: 0 auto;
   padding: 0 24px 0 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const STYLES_DESCRIPTION = css`
   font-size: ${Constants.typescale.lvl1};
   width: 100%;
-  max-width: 420px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 0 24px 0 24px;
+  word-wrap: break-word;
 `;
 
 const STYLES_LINK = css`

@@ -135,6 +135,7 @@ const STYLES_BODY = css`
   margin-bottom: 24px;
   line-height: 20px;
   white-space: pre-wrap;
+  word-wrap: break-word;
 `;
 
 const STYLES_CREATE_NEW = css`

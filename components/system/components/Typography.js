@@ -91,6 +91,7 @@ const STYLES_H1 = css`
   color: inherit;
   text-decoration: none;
   display: block;
+  overflow-wrap: break-word;
 
   :hover {
     color: inherit;
@@ -118,7 +119,7 @@ const STYLES_H2 = css`
   line-height: 1.1;
   font-family: ${Constants.font.medium};
   font-weight: 400;
-
+  overflow-wrap: break-word;
   color: inherit;
   text-decoration: none;
   display: block;
@@ -149,6 +150,7 @@ const STYLES_H3 = css`
   line-height: 1.1;
   font-family: ${Constants.font.medium};
   font-weight: 400;
+  overflow-wrap: break-word;
   color: inherit;
   text-decoration: none;
   display: block;
@@ -179,6 +181,7 @@ const STYLES_H4 = css`
   line-height: 1.1;
   font-family: ${Constants.font.medium};
   font-weight: 400;
+  overflow-wrap: break-word;
   color: inherit;
   text-decoration: none;
   display: block;
@@ -208,6 +211,7 @@ const STYLES_P = css`
   font-family: ${Constants.font.text};
   font-size: ${Constants.typescale.lvl1};
   line-height: 1.5;
+  overflow-wrap: break-word;
 
   strong {
     font-family: ${Constants.font.semiBold};

@@ -1,12 +1,8 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
-
-import { css } from "@emotion/react";
-
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+import * as Validations from "~/common/validations";
 
 export default class SidebarCreateSlate extends React.Component {
   state = {
@@ -17,8 +13,8 @@ export default class SidebarCreateSlate extends React.Component {
   _handleSubmit = async () => {
     this.setState({ loading: true });
 
-    if (Strings.isEmpty(this.state.name)) {
-      alert("TODO: Provide a name");
+    if (!Validations.slatename(this.state.name)) {
+      alert("Please provide a name under 48 characters.");
       this.setState({ loading: false });
       return;
     }
@@ -28,11 +24,10 @@ export default class SidebarCreateSlate extends React.Component {
       name: this.state.name,
     });
 
-    console.log(response);
-
     if (response && response.error) {
-      // TODO(jim): Error task.
-      alert(response.decorator);
+      alert(
+        "Something went wrong while trying to create your new slate. Please try again."
+      );
       return;
     }
 
@@ -77,8 +72,7 @@ export default class SidebarCreateSlate extends React.Component {
           full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
-          loading={this.state.loading}
-        >
+          loading={this.state.loading}>
           Create {this.state.name}
         </System.ButtonPrimary>
       </div>

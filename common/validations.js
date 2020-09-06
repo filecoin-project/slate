@@ -59,8 +59,24 @@ export const userRoute = (text) => {
   return true;
 };
 
+export const slatename = (text) => {
+  if (Strings.isEmpty(text)) {
+    return false;
+  }
+
+  if (text.length > 48) {
+    return false;
+  }
+
+  return true;
+};
+
 export const username = (text) => {
   if (Strings.isEmpty(text)) {
+    return false;
+  }
+
+  if (text.length > 48) {
     return false;
   }
 

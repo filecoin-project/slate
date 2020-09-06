@@ -19,6 +19,7 @@ const STYLES_BUTTON = `
   letter-spacing: 0.2px;
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
+  overflow-wrap: break-word;
   user-select: none;
 `;
 
@@ -37,6 +38,7 @@ const STYLES_BUTTON_FULL = `
   letter-spacing: 0.2px;
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
+  overflow-wrap: break-word;
   user-select: none;
 `;
 
@@ -48,7 +50,7 @@ const STYLES_BUTTON_PRIMARY = css`
   color: ${Constants.system.white};
 
   :hover {
-    background-color: #003fe3;
+    background-color: #204a8a;
   }
 
   :focus {
@@ -67,7 +69,7 @@ const STYLES_BUTTON_PRIMARY_FULL = css`
   color: ${Constants.system.white};
 
   :hover {
-    background-color: #003fe3;
+    background-color: #204a8a;
   }
 
   :focus {
@@ -83,8 +85,7 @@ export const ButtonPrimary = (props) => {
     return (
       <button
         css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
-        style={props.style}
-      >
+        style={props.style}>
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
     );
@@ -164,8 +165,7 @@ export const ButtonSecondary = (props) => {
         css={
           props.full ? STYLES_BUTTON_SECONDARY_FULL : STYLES_BUTTON_SECONDARY
         }
-        style={props.style}
-      >
+        style={props.style}>
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
     );

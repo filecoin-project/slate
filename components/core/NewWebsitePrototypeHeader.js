@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
@@ -15,7 +15,7 @@ const STYLES_CONTAINER = css`
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 42;
+  z-index: ${Constants.zindex.header};
   height: 88px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -73,11 +73,11 @@ const STYLES_BURGER = css`
     justify-content: space-around;
     width: 24px;
     height: 24px;
+    z-index: ${Constants.zindex.header};
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 10;
     color: ${Constants.system.darkGray};
   }
 `;
@@ -130,6 +130,7 @@ const openBurgerBun2 = {
 const STYLES_MENU = css`
   display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
+    z-index: ${Constants.zindex.header}
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -142,7 +143,7 @@ const STYLES_MENU = css`
     top: 0;
     right: 0;
     transform: translateX(100%);
-    transition: 1s ease-in-out;
+    transition: 200ms ease-in-out;
     transition-property: transform, width;
   }
 `;
@@ -150,12 +151,12 @@ const STYLES_MENU = css`
 const STYLES_NAVLINK = css`
   display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 16px 0;
+    z-index: ${Constants.zindex.header};
+    padding: 8px 0;
     color: ${Constants.system.white};
     text-decoration: none;
     transition: color 0.3s linear;
     transition-property: transform;
-
     font-size: 1.563rem;
     text-align: left;
 
@@ -176,11 +177,12 @@ const openNavLink = {
 
 const NewWebsitePrototypeHeader = (props) => {
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    window.addEventListener("resize", handleOpen);
+    return () => window.removeEventListener("resize", handleOpen);
+  });
   const handleOpen = () => {
-    handleOpen();
-    window.addEventListener("resize", () => {
-      useState({ open: false });
-    });
+    setOpen(false);
   };
   const communityURL = "/community";
   const signInURL = "/_";

@@ -13,6 +13,7 @@ const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  max-width: 1440px;
 `;
 
 const STYLES_H1 = css`
@@ -186,12 +187,10 @@ const STYLES_TEXT_BLOCK = css`
   justify-content: space-between;
   width: 56vw;
   align-self: center;
-  z-index: 10;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 88%;
     right: 24px;
-    z-index: 10;
   }
 `;
 
@@ -442,8 +441,9 @@ export default class IndexPage extends React.Component {
             <div>
               <video
                 css={STYLES_VIDEO_BIG}
-                Autoplay="autoplay"
-                Loop="loop"
+                autoPlay
+                loop
+                muted
                 src="https://bafybeihptz3tl5zxoronrlefow6kovk3jzllgfv36nt7metavqa4en26km.ipfs.slate.textile.io/"
                 type="video/mp4"
               />
@@ -495,8 +495,9 @@ export default class IndexPage extends React.Component {
               <div css={STYLES_FILETYPE}>
                 <div>
                   <video
-                    Autoplay="autoplay"
-                    Loop="loop"
+                    autoPlay
+                    loop
+                    muted
                     css={STYLES_VIDEO_SMALL}
                     src="https://bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze.ipfs.slate.textile.io/"
                     type="video/mp4"
@@ -504,8 +505,9 @@ export default class IndexPage extends React.Component {
                 </div>
                 <div>
                   <video
-                    Autoplay="autoplay"
-                    Loop="loop"
+                    autoPlay
+                    loop
+                    muted
                     css={STYLES_VIDEO_SMALL}
                     src="https://bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q.ipfs.slate.textile.io/"
                     type="video/mp4"
@@ -515,8 +517,9 @@ export default class IndexPage extends React.Component {
               <div css={STYLES_FILETYPE}>
                 <div>
                   <video
-                    Autoplay="autoplay"
-                    Loop="loop"
+                    autoPlay
+                    loop
+                    muted
                     css={STYLES_VIDEO_SMALL}
                     src="https://bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi.ipfs.slate.textile.io/"
                     type="video/mp4"
@@ -524,8 +527,9 @@ export default class IndexPage extends React.Component {
                 </div>
                 <div>
                   <video
-                    Autoplay="autoplay"
-                    Loop="loop"
+                    autoPlay
+                    loop
+                    muted
                     css={STYLES_VIDEO_SMALL}
                     src="https://bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga.ipfs.slate.textile.io/"
                     type="video/mp4"
@@ -572,8 +576,9 @@ export default class IndexPage extends React.Component {
               <h2 css={STYLES_H2}>Create moodboards</h2>
               <video
                 css={STYLES_VIDEO_BIG}
-                Autoplay="autoplay"
-                Loop="loop"
+                autoPlay
+                loop
+                muted
                 src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
                 type="video/mp4"
               />
@@ -581,8 +586,9 @@ export default class IndexPage extends React.Component {
               <h2 css={STYLES_H2}>Organize research</h2>
               <video
                 css={STYLES_VIDEO_BIG}
-                Autoplay="autoplay"
-                Loop="loop"
+                autoPlay
+                loop
+                muted
                 src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
                 type="video/mp4"
               />
@@ -590,8 +596,9 @@ export default class IndexPage extends React.Component {
               <h2 css={STYLES_H2}>Share presentations</h2>
               <video
                 css={STYLES_VIDEO_BIG}
-                Autoplay="autoplay"
-                Loop="loop"
+                autoPlay
+                loop
+                muted
                 src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
                 type="video/mp4"
               />
@@ -615,8 +622,9 @@ export default class IndexPage extends React.Component {
             <div>
               <video
                 css={STYLES_VIDEO_BIG}
-                Autoplay="autoplay"
-                Loop="loop"
+                autoPlay
+                loop
+                muted
                 src="https://bafybeidnaytqqghnwoduomvefwmnxz3kqllyl5xhyzc4azcl4zflscqcry.ipfs.slate.textile.io/"
                 type="video/mp4"
               />

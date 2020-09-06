@@ -31,9 +31,10 @@ const STYLES_POPOVER_ITEM = css`
   transition: 200ms ease all;
   cursor: pointer;
   font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
 
   :hover {
-    color: ${Constants.system.brand} !important;
+    color: ${Constants.system.brand};
   }
 `;
 

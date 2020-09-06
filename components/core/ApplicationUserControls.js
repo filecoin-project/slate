@@ -83,9 +83,9 @@ const STYLES_PROFILE_USERNAME = css`
   min-width: 10%;
   width: 100%;
   white-space: nowrap;
-  text-overflow: ellipsis;
   overflow: hidden;
-  padding-left: 12px;
+  text-overflow: ellipsis;
+  padding: 12px;
   user-select: none;
   font-family: ${Constants.font.medium};
   font-size: 14px;
@@ -172,7 +172,6 @@ export default class ApplicationUserControls extends React.Component {
             >
               <PopoverNavigation
                 style={{ position: "relative", top: "8px" }}
-                itemStyle={{ color: Constants.system.darkGray }}
                 navigation={[
                   {
                     text: "Account settings",

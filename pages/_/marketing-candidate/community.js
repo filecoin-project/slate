@@ -93,6 +93,7 @@ const STYLES_A = css`
 const STYLES_IMG = css`
   width: 180px;
   border-radius: 4px;
+  display: block;
 `;
 
 const STYLES_BUTTON_PRIMARY = css`
@@ -255,13 +256,12 @@ export default class CommunityPage extends React.Component {
                     height={300}
                     width={200}
                     style={{ padding: 10 }}>
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Jason Leyser"
-                        src="https://bafkreie3dvujhpil4tgv2qx2lng5bfeif7reyybmgaftub6n4wxx4vnbly.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Jason Leyser"
+                      src="https://bafkreie3dvujhpil4tgv2qx2lng5bfeif7reyybmgaftub6n4wxx4vnbly.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>Jason Leyser</p>
                       <p css={STYLES_CARD_GITHUB}>@jasonleyser</p>
@@ -275,13 +275,12 @@ export default class CommunityPage extends React.Component {
                     height={300}
                     width={200}
                     style={{ padding: 10 }}>
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Cake"
-                        src="https://bafkreibfbxpiypzw4t7ubvjsxac7z3fdigvran5sayp2ibbuxhvzeivn4a.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Cake"
+                      src="https://bafkreibfbxpiypzw4t7ubvjsxac7z3fdigvran5sayp2ibbuxhvzeivn4a.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>Cake</p>
                       <p css={STYLES_CARD_GITHUB}>@jimmylee</p>
@@ -295,13 +294,12 @@ export default class CommunityPage extends React.Component {
                     height={300}
                     width={200}
                     style={{ padding: 10 }}>
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Martina Long"
-                        src="https://bafkreif4mdwcxtykrcl2sfs6kcapg3d2tjyjjpcpmxnw3rqshbvr5ncjdi.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Martina Long"
+                      src="https://bafkreif4mdwcxtykrcl2sfs6kcapg3d2tjyjjpcpmxnw3rqshbvr5ncjdi.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>Martina Long</p>
                       <p css={STYLES_CARD_GITHUB}>@martinalong</p>
@@ -335,13 +333,12 @@ export default class CommunityPage extends React.Component {
                     height={300}
                     width={200}
                     style={{ padding: 10 }}>
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Tara Lin"
-                        src="https://bafkreibku3qhls572oo4hskrg4t32c2kcj4auujyxioz5i44pfbaatwqbe.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Tara Lin"
+                      src="https://bafkreibku3qhls572oo4hskrg4t32c2kcj4auujyxioz5i44pfbaatwqbe.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>Tara Lin</p>
                       <p css={STYLES_CARD_GITHUB}>@tarafanlin</p>
@@ -355,13 +352,12 @@ export default class CommunityPage extends React.Component {
                     height={300}
                     width={200}
                     style={{ padding: 10 }}>
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for William Felker"
-                        src="https://bafybeic25subftulrkrxrw2ggpjblamofj3uemi2vaoqmlqzyzg2lfji5q.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for William Felker"
+                      src="https://bafybeic25subftulrkrxrw2ggpjblamofj3uemi2vaoqmlqzyzg2lfji5q.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>William Felker</p>
                       <p css={STYLES_CARD_GITHUB}>@gndclouds</p>
@@ -381,13 +377,12 @@ export default class CommunityPage extends React.Component {
                     height={300}
                     width={200}
                     style={{ padding: 10 }}>
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Pooja Shah"
-                        src="https://bafkreifqrmwuvlky7urkmkxyswksyjjpxvk62jwqgol35bfdfshgmcjmba.ipfs.slate.textile.io/"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Pooja Shah"
+                      src="https://bafkreifqrmwuvlky7urkmkxyswksyjjpxvk62jwqgol35bfdfshgmcjmba.ipfs.slate.textile.io/"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>Pooja Shah</p>
                       <p css={STYLES_CARD_GITHUB}>@pooja</p>
@@ -401,16 +396,15 @@ export default class CommunityPage extends React.Component {
                     height={300}
                     width={200}
                     style={{ padding: 10 }}>
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Why"
-                        src="https://bafkreiczwqnp5c6msa42pihhobagcbq6r5lkxuucmm3rmccb5lh46x3h7u.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Why"
+                      src="https://bafkreiczwqnp5c6msa42pihhobagcbq6r5lkxuucmm3rmccb5lh46x3h7u.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
-                      <p css={STYLES_CARD_NAME}>Pooja Shah</p>
-                      <p css={STYLES_CARD_GITHUB}>@pooja</p>
+                      <p css={STYLES_CARD_NAME}>Why</p>
+                      <p css={STYLES_CARD_GITHUB}>@whyrusleeping</p>
                     </div>
                   </System.HoverTile>
                 </a>

@@ -71,14 +71,12 @@ export function SlatePreviewRow(props) {
   return (
     <div
       css={props.small ? STYLES_IMAGE_ROW_SMALL : STYLES_IMAGE_ROW}
-      style={props.containerStyle}
-    >
+      style={props.containerStyle}>
       {objects.map((each) => (
         <div
           key={each.id}
           css={props.small ? STYLES_ITEM_BOX_SMALL : STYLES_ITEM_BOX}
-          style={props.style}
-        >
+          style={props.style}>
           <SlateMediaObjectPreview
             charCap={30}
             type={each.type}
@@ -110,6 +108,7 @@ const STYLES_TITLE_LINE = css`
   align-items: center;
   font-size: ${Constants.typescale.lvl1};
   margin-bottom: 16px;
+  overflow-wrap: break-word;
 `;
 
 const STYLES_COPY_INPUT = css`
@@ -215,8 +214,7 @@ export default class SlatePreviewBlock extends React.Component {
           captureResize={true}
           captureScroll={false}
           enabled
-          onOutsideRectEvent={this._handleHide}
-        >
+          onOutsideRectEvent={this._handleHide}>
           <PopoverNavigation
             style={{
               top: "16px",
@@ -269,15 +267,13 @@ export default class SlatePreviewBlock extends React.Component {
           this.props.external
             ? { backgroundColor: Constants.system.white, border: "none" }
             : {}
-        }
-      >
+        }>
         <div css={STYLES_TITLE_LINE}>
           <div
             style={{
               fontSize: Constants.typescale.lvl2,
               fontFamily: Constants.font.semiBold,
-            }}
-          >
+            }}>
             {this.props.slate.data.name}
           </div>
           {this.props.editing ? (
@@ -287,8 +283,7 @@ export default class SlatePreviewBlock extends React.Component {
                 style={{
                   borderColor: Constants.system.brand,
                   color: Constants.system.brand,
-                }}
-              >
+                }}>
                 Public
               </div>
             ) : (
@@ -297,8 +292,7 @@ export default class SlatePreviewBlock extends React.Component {
                 style={{
                   color: "rgba(0,0,0,0.25)",
                   borderColor: "rgba(0,0,0,0.25)",
-                }}
-              >
+                }}>
                 Private
               </div>
             )
@@ -310,8 +304,7 @@ export default class SlatePreviewBlock extends React.Component {
               style={{ justifySelf: "flex-end" }}
               ref={(c) => {
                 this._test = c;
-              }}
-            >
+              }}>
               {/* <TooltipWrapper
                 id={`slate-tooltip-${this.props.slate.id}`}
                 type="body"

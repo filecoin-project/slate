@@ -6,7 +6,8 @@ import { GoogleScript } from "~/common/analytics";
 
 export default class WebsitePrototypeWrapper extends React.Component {
   static defaultProps = {
-    image: "/static/new-brand-teaser.png",
+    image:
+      "https://bafybeihtmqpx2lnlvaerfhq5imi2y3jzuf4jqspmmqbth3ebim4ebc2lqy.ipfs.slate.textile.io/",
   };
 
   render() {
@@ -26,12 +27,30 @@ export default class WebsitePrototypeWrapper extends React.Component {
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content={this.props.url} />
           <meta property="twitter:title" content={this.props.title} />
-          <meta property="twitter:description" content={this.props.description} />
+          <meta
+            property="twitter:description"
+            content={this.props.description}
+          />
           <meta property="twitter:image" content={this.props.image} />
 
-          <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png" />
-          <link rel="icon" type="image/png" sizes="96x96" href="/static/favicon-96x96.png" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png" />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/static/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="/static/favicon-96x96.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/static/favicon-16x16.png"
+          />
 
           <link rel="shortcut icon" href="/static/favicon.ico" />
           <GoogleScript id="UA-52930282-7" />

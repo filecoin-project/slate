@@ -426,14 +426,11 @@ export default class IndexPage extends React.Component {
     const description =
       "Welcome to the future of file sharing. Powered by Textile, Filecoin, and IPFS.";
     const url = "https://slate.host";
-    const image =
-      "https://bafybeigojoj4lsnrzrrpf2zx7humyaliyqvc2a6xxgefcjijmahkf2ei64.ipfs.slate.textile.io/";
     return (
       <WebsitePrototypeWrapper
         title={title}
         description={description}
-        url={url}
-        image={image}>
+        url={url}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <section css={STYLES_SECTION_HERO}>

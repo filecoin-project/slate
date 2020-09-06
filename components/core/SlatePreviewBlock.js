@@ -114,7 +114,6 @@ const STYLES_TITLE_LINE = css`
 const STYLES_COPY_INPUT = css`
   pointer-events: none;
   position: absolute;
-  tabindex: -1;
   opacity: 0;
 `;
 

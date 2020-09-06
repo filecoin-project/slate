@@ -1,20 +1,19 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
-import CodeBlock from "~/components/system/CodeBlock";
-import ReactDOM from "react-dom";
 
 import { css } from "@emotion/react";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
   padding: 16px 88px;
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     padding: 5px 10px;
   }
@@ -29,6 +28,7 @@ const STYLES_H1 = css`
   padding: 0px 0px 32px 0px;
   width: 100%;
   color: ${Constants.system.pitchBlack};
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 1.953rem;
     padding: 0px 0px 16px 0px;
@@ -42,6 +42,7 @@ const STYLES_H2 = css`
   padding: 0px 0px 32px 0px;
   width: 100%;
   color: ${Constants.system.darkGray};
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 1.25rem;
     padding: 0px 0px 8px 0px;
@@ -54,6 +55,7 @@ const STYLES_H3 = css`
   line-height: 1.5;
   padding: 0px 0px 16px 0px;
   color: ${Constants.system.darkGray};
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 1rem;
     padding: 0px 0px 8px 0px;
@@ -65,17 +67,17 @@ const STYLES_H3 = css`
 const STYLES_P = css`
   font-size: 1rem;
   color: ${Constants.system.black};
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 0.78rem;
   }
 `;
 
 const STYLES_A = css`
-  :link {
-    color: ${Constants.system.darkGray};
-    background-color: transparent;
-    text-decoration: none;
-  }
+  color: ${Constants.system.darkGray};
+  background-color: transparent;
+  text-decoration: none;
+
   :hover {
     color: ${Constants.system.pitchBlack};
     background-color: transparent;
@@ -86,16 +88,11 @@ const STYLES_A = css`
     background-color: transparent;
     text-decoration: none;
   }
-  @media (max-width: ${Constants.sizes.mobile}px) {
-  }
 `;
 
 const STYLES_IMG = css`
   width: 180px;
   border-radius: 4px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-  }
 `;
 
 const STYLES_BUTTON_PRIMARY = css`
@@ -117,11 +114,13 @@ const STYLES_BUTTON_PRIMARY = css`
   background-color: ${Constants.system.wall};
   color: ${Constants.system.slate};
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+
   :hover {
     background-color: ${Constants.system.pitchBlack};
     box-shadow: 0px 10px 90px 20px rgba(207, 206, 211, 0.3);
     color: ${Constants.system.wall};
   }
+
   :focus {
     box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
     background-color: ${Constants.system.pitchBlack};
@@ -139,6 +138,7 @@ const STYLES_SECTION_WRAPPER = css`
   margin: 10px auto;
   width: 100%;
   flex-wrap: wrap;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     flex-direction: column;
     justify-content: space-between;
@@ -148,9 +148,11 @@ const STYLES_SECTION_WRAPPER = css`
 
 const STYLES_SECTION_CHILD_FULL = css`
   width: 100%;
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
   }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
     padding: 20px;
@@ -159,58 +161,57 @@ const STYLES_SECTION_CHILD_FULL = css`
 const STYLES_SECTION_CHILD_SPLIT = css`
   padding: 50px;
   width: 50%;
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
     padding: 20px;
   }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
     padding: 20px;
   }
 `;
 const STYLES_CARD_NAME = css`
-font-size: 1.3rem;
-font-weight: 600;
-letter-spacing: 0.002em;
-text-align: center;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.002em;
+  text-align: center;
 `;
+
 const STYLES_CARD_GITHUB = css`
   font-size: 1rem;
   font-weight: 400;
   letter-spacing: 0.002em;
   text-align: center;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-  }
 `;
+
 const STYLES_CARD_TEXT = css`
   padding: 20px 5px;
   color: ${Constants.system.pitchBlack};
-  :hover {
-  }
-  @media (max-width: ${Constants.sizes.mobile}px) {
-  }
 `;
+
 const STYLES_CARD_WRAPPER = css`
   float: left;
   width: 150px;
   transition: 200ms ease box-shadow;
   border-radius: 4px;
   margin: 20px 40px;
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
     padding: 20px;
   }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
     padding: 20px;
   }
 `;
 
-export const getServerSideProps = async context => {
+export const getServerSideProps = async (context) => {
   return {
-    props: { ...context.query }
+    props: { ...context.query },
   };
 };
 
@@ -225,8 +226,7 @@ export default class CommunityPage extends React.Component {
       <WebsitePrototypeWrapper
         title={title}
         description={description}
-        url={url}
-      >
+        url={url}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_WRAPPER}>
@@ -254,8 +254,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -275,8 +274,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -296,8 +294,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -317,8 +314,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -338,8 +334,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -359,8 +354,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -386,8 +380,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -407,8 +400,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -428,8 +420,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -449,8 +440,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -470,8 +460,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -491,8 +480,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -512,8 +500,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -534,8 +521,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}
@@ -555,8 +541,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
-                  >
+                    style={{ padding: 10 }}>
                     <div>
                       <img
                         css={STYLES_IMG}

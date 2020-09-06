@@ -17,15 +17,17 @@ const STYLES_ROOT = css`
 
 const STYLES_H1 = css`
   font-size: 3.815rem;
-  line-height: 1.1;
+  line-height: 1.25;
   padding: 0px 0px 32px 0px;
   width: 100%;
   color: ${Constants.system.darkGray};
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: 3.052rem;
+    padding: 0px 0px 24px 0px;
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 1.953rem;
     padding: 0px 0px 8px 0px;
-    line-height: 1.25;
-    color: ${Constants.system.darkGray};
   }
 `;
 
@@ -34,8 +36,11 @@ const STYLES_H2 = css`
   line-height: 1.25;
   padding: 16px 0px 0 0px;
   width: 100%;
-
   color: ${Constants.system.darkGray};
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: 1.563rem;
+    padding: 8px 0px 0px 0px;
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 1.25rem;
     padding: 8px 0px 0 0px;
@@ -44,14 +49,17 @@ const STYLES_H2 = css`
 `;
 
 const STYLES_H3 = css`
-  font-size: 1.563em;
+  font-size: 1.563rem;
   line-height: 1.5;
   padding: 16px 0px 0px 0px;
   color: ${Constants.system.darkGray};
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: 1.25rem;
+    padding: 8px 0px 0px 0px;
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 1rem;
     padding: 8px 0px 0px 0px;
-    line-height: 1.5;
   }
 `;
 
@@ -103,42 +111,31 @@ const STYLES_SECTION_SLATE = css`
   }
 `;
 
-const STYLES_IMAGE = css`
-  margin: 32px auto;
-  border-radius: 8px;
-  width: 100%;
-  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 24px auto 32px auto;
-    border-radius: 4px;
-  }
-`;
-
 const STYLES_FILETYPE = css`
   display: flex;
   gap: 48px;
   width: 100%;
   margin: 48px 0 0 0;
-  @media (max-width: ${Constants.sizes.mobile}px) {
+  @media (max-width: ${Constants.sizes.tablet}px) {
     gap: 24px;
     margin: 24px 0 0 0;
   }
 `;
 
 const STYLES_VIDEO_BIG = css`
-  margin: 32px auto 88px auto;
+  margin: 48px auto 88px auto;
   border-radius: 8px;
   width: 100%;
   height: auto;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    margin: 32px auto 64px auto;
+    border-radius: 4px;
+  }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 24px auto 64px auto;
+    margin: 24px auto 48px auto;
     border-radius: 4px;
-    width: 100%;
-    height: auto;
-    box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -156,7 +153,7 @@ const STYLES_VIDEO_SMALL = css`
 const STYLES_MEDIA_LEFT = css`
   margin: 64px 0 0 -240px;
   width: 80vw;
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -167,25 +164,19 @@ const STYLES_MEDIA_LEFT = css`
   }
 `;
 
-const STYLES_MEDIA_LEFT_OVERLAP = css`
-  margin: -320px 0 0 -48px;
-  width: 60vw;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 24px 0 0 -80px;
-    width: 100vw;
-  }
-`;
-
 const STYLES_MEDIA_RIGHT_OVERLAP = css`
   float: right;
-  margin-right: 240px;
-  margin-top: -80px;
+  margin: -40px 240px 0 0;
   width: 24vw;
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    margin: 24px 0 0 80px;
+    width: 32vw;
+  }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 24px 0 0 80px;
-    width: 50vw;
+    width: 48vw;
   }
 `;
 
@@ -310,6 +301,7 @@ const STYLES_SLATE_CARD_GRAY = css`
   box-shadow: 0px 4px 80px 4px rgba(0, 0, 0, 0.1);
   text-decoration: none;
   transition: 200ms ease box-shadow;
+  border-radius: 8px;
   a {
     color: ${Constants.system.pitchBlack};
   }
@@ -362,14 +354,17 @@ const STYLES_SLATE_CARD_TITLE = css`
 
 const STYLES_SLATE_CARD_CTA_TITLE = css`
   font-size: 3.815rem;
-  font-weight: 700;
   text-align: left;
-  width: 100%;
+  line-height: 1.25;
   padding: 12px;
-  color: ${Constants.system.moonstone};
+  width: 100%;
+  color: ${Constants.system.darkGray};
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: 3.052rem;
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 0px;
     font-size: 1.953rem;
+    padding: 0px 0px 8px 0px;
   }
 `;
 
@@ -450,7 +445,7 @@ export default class IndexPage extends React.Component {
                 Autoplay="autoplay"
                 Loop="loop"
                 src="https://bafybeihptz3tl5zxoronrlefow6kovk3jzllgfv36nt7metavqa4en26km.ipfs.slate.textile.io/"
-                type="video/mov"
+                type="video/mp4"
               />
             </div>
             <div css={STYLES_TEXT_BLOCK}>
@@ -497,42 +492,47 @@ export default class IndexPage extends React.Component {
               <h3 css={STYLES_H3}>
                 <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of file to your storage system. <br />
               </h3>
-            </div>
-            <div css={STYLES_FILETYPE}>
-              <div>
-                <video
-                  Autoplay="autoplay"
-                  Loop="loop"
-                  css={STYLES_VIDEO_SMALL}
-                  src="https://bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze.ipfs.slate.textile.io/"
-                />
+              <div css={STYLES_FILETYPE}>
+                <div>
+                  <video
+                    Autoplay="autoplay"
+                    Loop="loop"
+                    css={STYLES_VIDEO_SMALL}
+                    src="https://bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze.ipfs.slate.textile.io/"
+                    type="video/mp4"
+                  />
+                </div>
+                <div>
+                  <video
+                    Autoplay="autoplay"
+                    Loop="loop"
+                    css={STYLES_VIDEO_SMALL}
+                    src="https://bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q.ipfs.slate.textile.io/"
+                    type="video/mp4"
+                  />
+                </div>
               </div>
-              <div>
-                <video
-                  Autoplay="autoplay"
-                  Loop="loop"
-                  css={STYLES_VIDEO_SMALL}
-                  src="https://bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q.ipfs.slate.textile.io/"
-                />
+              <div css={STYLES_FILETYPE}>
+                <div>
+                  <video
+                    Autoplay="autoplay"
+                    Loop="loop"
+                    css={STYLES_VIDEO_SMALL}
+                    src="https://bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi.ipfs.slate.textile.io/"
+                    type="video/mp4"
+                  />
+                </div>
+                <div>
+                  <video
+                    Autoplay="autoplay"
+                    Loop="loop"
+                    css={STYLES_VIDEO_SMALL}
+                    src="https://bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga.ipfs.slate.textile.io/"
+                    type="video/mp4"
+                  />
+                </div>
               </div>
-            </div>
-            <div css={STYLES_FILETYPE}>
-              <div>
-                <video
-                  Autoplay="autoplay"
-                  Loop="loop"
-                  css={STYLES_VIDEO_SMALL}
-                  src="https://bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi.ipfs.slate.textile.io/"
-                />
-              </div>
-              <div>
-                <video
-                  Autoplay="autoplay"
-                  Loop="loop"
-                  css={STYLES_VIDEO_SMALL}
-                  src="https://bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga.ipfs.slate.textile.io/"
-                />
-              </div>
+              s
             </div>
           </section>
 
@@ -558,60 +558,53 @@ export default class IndexPage extends React.Component {
           <section css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT}>Organize and publish</span>
+                <span css={STYLES_HIGHLIGHT}>
+                  Organize <br />
+                  and publish
+                </span>
               </h1>
               <h3 css={STYLES_H3}>
                 <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your files, giving you complete flexibility.
               </h3>
-            </div>
-            <br />
-            <br />
-            <br />
-
-            <div css={STYLES_TEXT_BLOCK}>
-              <h2 css={STYLES_H2}>
-                <span css={STYLES_HIGHLIGHT}>Create moodboards</span>
-              </h2>
-            </div>
-            <div>
-              <img css={STYLES_IMAGE} src="/static/landing/marketing-moodboard.png" />
-            </div>
-            <br />
-            <br />
-            <br />
-
-            <div css={STYLES_TEXT_BLOCK}>
-              <h2 css={STYLES_H2}>
-                <span css={STYLES_HIGHLIGHT}>Organize research</span>
-              </h2>
-            </div>
-            <div>
+              <br />
+              <br />
+              <br />
+              <h2 css={STYLES_H2}>Create moodboards</h2>
               <video
                 css={STYLES_VIDEO_BIG}
                 Autoplay="autoplay"
                 Loop="loop"
-                src="/static/landing/marketing-research.mov"
-                type="video/mov"
+                src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
+                type="video/mp4"
               />
-            </div>
-            <br />
-            <br />
-            <br />
 
-            <div css={STYLES_TEXT_BLOCK}>
-              <h2 css={STYLES_H2}>
-                <span css={STYLES_HIGHLIGHT}>Share presentations</span>
-              </h2>
-            </div>
-            <div>
-              <img css={STYLES_IMAGE} src="/static/landing/marketing-presentation.png" />
+              <h2 css={STYLES_H2}>Organize research</h2>
+              <video
+                css={STYLES_VIDEO_BIG}
+                Autoplay="autoplay"
+                Loop="loop"
+                src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
+                type="video/mp4"
+              />
+
+              <h2 css={STYLES_H2}>Share presentations</h2>
+              <video
+                css={STYLES_VIDEO_BIG}
+                Autoplay="autoplay"
+                Loop="loop"
+                src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
+                type="video/mp4"
+              />
             </div>
           </section>
 
           <section css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT}>Collaborate and share</span>
+                <span css={STYLES_HIGHLIGHT}>
+                  Collaborate <br />
+                  and share
+                </span>
               </h1>
               <h3 css={STYLES_H3}>
                 <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built on top of a storage system making it
@@ -620,9 +613,12 @@ export default class IndexPage extends React.Component {
             </div>
 
             <div>
-              <img
-                css={STYLES_MEDIA_LEFT_OVERLAP}
-                src="https://bafybeifo7djff5cyfdedhnbnw6bdtdmkswlwtizyzrfri4v3sebuavrqu4.ipfs.slate.textile.io/"
+              <video
+                css={STYLES_VIDEO_BIG}
+                Autoplay="autoplay"
+                Loop="loop"
+                src="https://bafybeidnaytqqghnwoduomvefwmnxz3kqllyl5xhyzc4azcl4zflscqcry.ipfs.slate.textile.io/"
+                type="video/mp4"
               />
             </div>
           </section>
@@ -631,13 +627,16 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
                 Built on <br />
-                <span css={STYLES_HIGHLIGHT}>trust, privacy, and security</span>
+                <span css={STYLES_HIGHLIGHT}>
+                  trust, privacy, <br />
+                  and security
+                </span>
               </h1>
               <h3 css={STYLES_H3}>
                 <span css={STYLES_HIGHLIGHT}>Slate is built on Filecoin and IPFS</span> — technologies built around
                 ownership and transparency for the future of the web.
               </h3>
-              <a css={STYLES_LINK_WHITE} href="https://filecoin.io">
+              <a css={STYLES_LINK_WHITE} href="https://filecoin.io" target="_blank">
                 Learn more about Filecoin -&gt;
               </a>
             </div>
@@ -651,10 +650,10 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_SLATE_CARD_GRAY}>
               <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/_" target="_blank">
                 <div css={STYLES_SLATE_CARD_TEXT}>
-                  <div css={STYLES_SLATE_CARD_CTA_TITLE}>
+                  <h1 css={STYLES_SLATE_CARD_CTA_TITLE}>
                     Join us <br />
                     <span css={STYLES_HIGHLIGHT_BLACK}>in the open, secure network</span>
-                  </div>
+                  </h1>
                   <div css={STYLES_SLATE_CARD_EXPLAINER}>
                     <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>Create your first slate</div>
                     <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>-&gt;</div>
@@ -666,33 +665,33 @@ export default class IndexPage extends React.Component {
             <br />
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/gndclouds/urban-gardens" target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Dogs of Marcus Aurelius</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>Urban gardens</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@internetjim</div>
+                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@gndclouds</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                     </div>
                   </div>
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/haris/shapes-and-letters" target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Globe</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>Shapes and letters</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@martinalong</div>
+                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                     </div>
                   </div>
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/jason/mountains" target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Digital Renaissance</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>Mountains</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@harisbutt</div>
+                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@jason</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                     </div>
                   </div>
@@ -701,9 +700,9 @@ export default class IndexPage extends React.Component {
             </div>
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/tara/loom" target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>42</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>Loom</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tara</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
@@ -712,9 +711,9 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/slate/brand" target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Slate</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>Brand</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
@@ -723,11 +722,15 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://slate.host/tcosta/montreal-underground"
+                  target="_blank"
+                >
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Clouds</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>Montreal underground</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@gndcloud</div>
+                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tcosta</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                     </div>
                   </div>
@@ -736,33 +739,33 @@ export default class IndexPage extends React.Component {
             </div>
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/slate/monet" target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Honeycomb</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>Monet</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@Thiago</div>
+                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                     </div>
                   </div>
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/haris/book-shelf" target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Extension</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>Book shelf</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@jason</div>
+                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                     </div>
                   </div>
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://github.com/filecoin-project/slate" target="_blank">
+                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/slate/papers" target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>More</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>Papers</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>Explore Slates</div>
+                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                     </div>
                   </div>

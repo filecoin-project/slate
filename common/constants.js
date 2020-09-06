@@ -9,6 +9,7 @@ export const sizes = {
   sidebar: 416,
   header: 72,
   tablet: 960,
+  desktop: 1440,
 };
 
 export const system = {

@@ -16,9 +16,9 @@ const STYLES_CONTAINER = css`
   align-items: top;
   justify-content: top;
   padding: 96px 88px 96px 88px;
+  z-index: ${Constants.zindex.navigation};
   @media (max-width: ${Constants.sizes.mobile}px) {
     position: absolute;
-    z-index: 2;
     flex-shrink: 0;
     display: block;
     justify-content: left;

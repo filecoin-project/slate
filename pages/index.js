@@ -355,6 +355,7 @@ const STYLES_SLATE_CARD_CTA_TITLE = css`
   text-align: left;
   line-height: 1.25;
   padding: 12px;
+  overflow-wrap: break-word;
   width: 100%;
   color: ${Constants.system.darkGray};
 

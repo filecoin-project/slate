@@ -65,7 +65,7 @@ const STYLES_BURGER = css`
   display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
     position: absolute;
-    top: 20px;
+    top: 24px;
     right: 24px;
     display: flex;
     flex-direction: column;

@@ -218,17 +218,13 @@ export default class SceneSignIn extends React.Component {
               full
               style={{ marginTop: 24 }}
               loading={this.state.loading}
-              onClick={this._handleCheckUsername}
-            >
+              onClick={this._handleCheckUsername}>
               Continue
             </System.ButtonPrimary>
           </div>
           <div css={STYLES_LINKS}>
-            <a css={STYLES_LINK_ITEM} href="#" target="_blank">
-              ⭢ Terms of service
-            </a>
-            <a css={STYLES_LINK_ITEM} href="#" target="_blank">
-              ⭢ Community guidelines
+            <a css={STYLES_LINK_ITEM} href="/privacy" target="_blank">
+              ⭢ Terms & privacy policy
             </a>
           </div>
         </React.Fragment>
@@ -249,8 +245,7 @@ export default class SceneSignIn extends React.Component {
               {this.state.username} is available!
             </System.H3>
             <System.P
-              style={{ marginTop: 16, marginBottom: 24, textAlign: "center" }}
-            >
+              style={{ marginTop: 16, marginBottom: 24, textAlign: "center" }}>
               Enter a password to create an account.
             </System.P>
 
@@ -268,8 +263,7 @@ export default class SceneSignIn extends React.Component {
               full
               style={{ marginTop: 24 }}
               onClick={!this.state.loading ? this._handleSubmit : () => {}}
-              loading={this.state.loading}
-            >
+              loading={this.state.loading}>
               Create account
             </System.ButtonPrimary>
           </div>
@@ -278,8 +272,7 @@ export default class SceneSignIn extends React.Component {
               css={STYLES_LINK_ITEM}
               onClick={() => {
                 this.setState({ scene: "WELCOME", loading: false });
-              }}
-            >
+              }}>
               ⭢ Already have an account?
             </div>
           </div>
@@ -297,13 +290,11 @@ export default class SceneSignIn extends React.Component {
           />
 
           <System.H3
-            style={{ fontWeight: 700, textAlign: "center", display: "block" }}
-          >
+            style={{ fontWeight: 700, textAlign: "center", display: "block" }}>
             Welcome back {Strings.getPresentationName(this.state.user)}!
           </System.H3>
           <System.P
-            style={{ marginTop: 16, marginBottom: 24, textAlign: "center" }}
-          >
+            style={{ marginTop: 16, marginBottom: 24, textAlign: "center" }}>
             Enter your password to access your account, slates, and the
             developer API.
           </System.P>
@@ -322,8 +313,7 @@ export default class SceneSignIn extends React.Component {
             full
             style={{ marginTop: 32 }}
             onClick={!this.state.loading ? this._handleSubmit : () => {}}
-            loading={this.state.loading}
-          >
+            loading={this.state.loading}>
             Sign in
           </System.ButtonPrimary>
         </div>
@@ -332,8 +322,7 @@ export default class SceneSignIn extends React.Component {
             css={STYLES_LINK_ITEM}
             onClick={() => {
               this.setState({ scene: "WELCOME", loading: false });
-            }}
-          >
+            }}>
             ⭢ Not {Strings.getPresentationName(this.state.user)}? Sign in as
             someone else.
           </div>

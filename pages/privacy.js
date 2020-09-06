@@ -12,7 +12,7 @@ const STYLES_ROOT = css`
   flex-direction: column;
   justify-content: space-between;
   padding: 88px 32px 128px 32px;
-  max-width: 784px;
+  max-width: 736px;
   width: 100%;
   margin: 0 auto 0 auto;
 `;

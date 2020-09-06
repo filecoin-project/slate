@@ -147,19 +147,12 @@ const STYLES_FILETYPE_GRID_ITEM = css`
     width: 100%;
     padding: 0 0 24px 0;
   }
-
-  video {
-    display: block;
-    margin: 0;
-    padding: 0;
-    outline: 0;
-  }
 `;
 
 const STYLES_VIDEO_BIG = css`
   display: block;
-  margin: 0;
-  background-color: ${Constants.system.white};
+  padding: 0;
+  outline: 0;
   margin: 48px auto 88px auto;
   border-radius: 4px;
   width: 100%;
@@ -176,8 +169,8 @@ const STYLES_VIDEO_BIG = css`
 
 const STYLES_VIDEO_SMALL = css`
   display: block;
-  margin: 0;
-  background-color: ${Constants.system.white};
+  padding: 0;
+  outline: 0;
   border-radius: 4px;
   width: 100%;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
@@ -235,7 +228,7 @@ const STYLES_BUTTON_PRIMARY = css`
   border-radius: 2px;
   outline: 0;
   border: 0;
-  min-height: 56px;
+  min-height: 48px;
   padding: 0px 24px 0px 24px;
   display: inline-flex;
   align-items: center;
@@ -461,17 +454,16 @@ export default class IndexPage extends React.Component {
             </div>
             <br />
 
-            <div>
-              <video
-                css={STYLES_VIDEO_BIG}
-                autoPlay
-                loop
-                muted
-                src="https://bafybeifsvkepb46prksbt7ank6o5gxeqcz4lshrn7d34ruzitxqr3hiqka.ipfs.slate.textile.io/"
-                type="video/m4v"
-                playsInline
-              />
-            </div>
+            <video
+              css={STYLES_VIDEO_BIG}
+              autoPlay
+              loop
+              muted
+              src="https://bafybeifsvkepb46prksbt7ank6o5gxeqcz4lshrn7d34ruzitxqr3hiqka.ipfs.slate.textile.io/"
+              type="video/m4v"
+              playsInline
+            />
+
             <div css={STYLES_TEXT_BLOCK}>
               <h2 css={STYLES_H2}>
                 Slate{" "}
@@ -732,7 +724,7 @@ export default class IndexPage extends React.Component {
                   <h1 css={STYLES_SLATE_CARD_CTA_TITLE}>
                     Join us <br />
                     <span css={STYLES_HIGHLIGHT_BLACK}>
-                      in the open, secure network
+                      in our open & secure network
                     </span>
                   </h1>
                   <div css={STYLES_SLATE_CARD_EXPLAINER}>

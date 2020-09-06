@@ -183,7 +183,7 @@ const NewWebsitePrototypeHeader = (props) => {
   const handleOpen = () => {
     setOpen(false);
   };
-  const communityURL = "/community";
+  const communityURL = "https://github.com/filecoin-project/slate";
   const signInURL = "/_";
   const styleMenu = open ? openMenu : null;
   const styleBurgerBun = open ? openBurgerBun : null;

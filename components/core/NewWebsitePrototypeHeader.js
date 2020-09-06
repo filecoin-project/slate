@@ -3,7 +3,6 @@ import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 import { Logo } from "~/common/logo.js";
-import { NearestMipMapLinearFilter } from "three";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};

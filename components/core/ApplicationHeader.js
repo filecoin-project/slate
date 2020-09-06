@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
@@ -68,11 +68,39 @@ const STYLES_RIGHT = css`
   padding-right: 16px;
 `;
 
+const rotate = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const STYLES_ROTATION = css`
+  animation: ${rotate} 1s linear infinite;
+`;
+
+const STYLES_STATIC = css`
+  transition: 200ms ease all;
+`;
+
 export default class ApplicationHeader extends React.Component {
+  state = {
+    isRefreshing: false,
+  };
+
   _handleCreateSearch = (e) => {
     dispatchCustomEvent({
       name: "create-modal",
       detail: { modal: <SearchModal onAction={this.props.onAction} /> },
+    });
+  };
+
+  _handleRehydrate = (e) => {
+    this.setState({ isRefreshing: true }, async () => {
+      await this.props.onRehydrate();
+      this.setState({ isRefreshing: false });
     });
   };
 
@@ -114,11 +142,12 @@ export default class ApplicationHeader extends React.Component {
           </span>
 
           <span
-            css={STYLES_ICON_ELEMENT}
+            css={this.state.isRefreshing ? STYLES_ROTATION : STYLES_STATIC}
             style={{ marginLeft: 24 }}
-            onClick={this.props.onRehydrate}
           >
-            <SVG.Refresh height="20px" />
+            <span css={STYLES_ICON_ELEMENT} onClick={this._handleRehydrate}>
+              <SVG.Refresh height="20px" />
+            </span>
           </span>
 
           <span

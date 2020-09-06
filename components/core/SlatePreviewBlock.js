@@ -50,10 +50,6 @@ const STYLES_IMAGE_ROW_SMALL = css`
   height: 56px;
   overflow: hidden;
   margin: 0px -8px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    justify-content: center;
-  }
 `;
 
 const STYLES_ITEM_BOX_SMALL = css`
@@ -64,10 +60,6 @@ const STYLES_ITEM_BOX_SMALL = css`
   align-items: center;
   justify-content: center;
   box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 auto;
-  }
 `;
 
 export function SlatePreviewRow(props) {
@@ -118,14 +110,6 @@ const STYLES_TITLE_LINE = css`
   align-items: center;
   font-size: ${Constants.typescale.lvl1};
   margin-bottom: 16px;
-`;
-
-const STYLES_BUTTON = css`
-  display: inline-block;
-  margin-left: 12px;
-  padding: 4px 8px;
-  cursor: pointer;
-  color: ${Constants.system.brand};
 `;
 
 const STYLES_COPY_INPUT = css`
@@ -358,9 +342,11 @@ export default class SlatePreviewBlock extends React.Component {
             previewStyle={this.props.previewStyle}
           />
         ) : (
-          <div css={STYLES_CREATE_NEW}>
-            <SVG.Plus height="24px" />
-            <div>Add Files</div>
+          <div css={STYLES_IMAGE_ROW}>
+            <div css={STYLES_CREATE_NEW}>
+              <SVG.Plus height="24px" />
+              <div>Add Files</div>
+            </div>
           </div>
         )}
       </div>

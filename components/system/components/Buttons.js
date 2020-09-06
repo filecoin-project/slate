@@ -46,16 +46,16 @@ const STYLES_BUTTON_PRIMARY = css`
   ${STYLES_BUTTON}
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  background-color: ${Constants.system.brand};
+  background-color: ${Constants.system.slate};
   color: ${Constants.system.white};
 
   :hover {
-    background-color: #204a8a;
+    background-color: #313540;
   }
 
   :focus {
     box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: ${Constants.system.brand};
+    background-color: #313540;
     outline: 0;
     border: 0;
   }
@@ -65,16 +65,16 @@ const STYLES_BUTTON_PRIMARY_FULL = css`
   ${STYLES_BUTTON_FULL}
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  background-color: ${Constants.system.brand};
+  background-color: ${Constants.system.slate};
   color: ${Constants.system.white};
 
   :hover {
-    background-color: #204a8a;
+    background-color: #313540;
   }
 
   :focus {
     box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: ${Constants.system.brand};
+    background-color: #313540;
     outline: 0;
     border: 0;
   }

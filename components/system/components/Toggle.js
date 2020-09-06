@@ -51,9 +51,8 @@ export class Toggle extends React.Component {
           css={STYLES_TOGGLE}
           onClick={this._handleChange}
           style={{
-            backgroundColor: this.props.active ? Constants.system.brand : null,
-          }}
-        >
+            backgroundColor: this.props.active ? Constants.system.yellow : null,
+          }}>
           <figure
             css={STYLES_DIAL}
             style={{ transform: this.props.active ? `translateX(40px)` : null }}

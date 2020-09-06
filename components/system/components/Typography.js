@@ -8,17 +8,16 @@ import { css } from "@emotion/react";
 const LINK_STYLES = `
   font-family: ${Constants.font.text};
   font-weight: 400;
-  text-decoration: none;
-  color: #6a737d;
+  color: ${Constants.system.moonstone};
   cursor: pointer;
   transition: 200ms ease color;
 
   :visited {
-    color: #959da5;
+    color: ${Constants.system.moonstone};
   }
 
   :hover {
-    color: #959da5;
+    color: ${Constants.system.slate};
   }
 `;
 

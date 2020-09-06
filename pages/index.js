@@ -177,7 +177,7 @@ export default class IndexPage extends React.Component {
               {this.state.available ? (
                 <div css={STYLES_CARD_ACTIONS}>
                   <System.ButtonPrimaryFull onClick={() => window.open("/_")}>
-                    Sign in to Slate Alpha
+                    Use Slate (Alpha)
                   </System.ButtonPrimaryFull>
                 </div>
               ) : (

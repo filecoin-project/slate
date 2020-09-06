@@ -28,6 +28,22 @@ const STYLES_DESCRIPTION_GROUP_DESCRIPTION = css`
   width: 100%;
   white-space: pre-wrap;
   overflow-wrap: break-word;
+
+  a {
+    font-family: ${Constants.font.text};
+    font-weight: 400;
+    color: ${Constants.system.moonstone};
+    cursor: pointer;
+    transition: 200ms ease color;
+
+    :visited {
+      color: ${Constants.system.moonstone};
+    }
+
+    :hover {
+      color: ${Constants.system.slate};
+    }
+  }
 `;
 
 export const DescriptionGroup = (props) => {

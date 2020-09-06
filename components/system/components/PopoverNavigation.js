@@ -31,7 +31,6 @@ const STYLES_POPOVER_ITEM = css`
   transition: 200ms ease all;
   cursor: pointer;
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.5);
 
   :hover {
     color: ${Constants.system.brand};
@@ -47,8 +46,7 @@ export class PopoverNavigation extends React.Component {
             key={each.text}
             css={STYLES_POPOVER_ITEM}
             style={this.props.itemStyle}
-            onClick={each.onClick}
-          >
+            onClick={each.onClick}>
             {each.text}
           </div>
         ))}

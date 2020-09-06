@@ -59,8 +59,8 @@ const UserEntry = ({ item }) => {
           style={{ backgroundImage: `url(${item.data.photo})` }}
           css={STYLES_PROFILE_IMAGE}
         />
-        {item.data.name ? <div>{item.data.name}</div> : null}
-        <div>@{item.username}</div>
+        {item.data.name ? <div css={STYLES_TITLE}>{item.data.name}</div> : null}
+        <div css={STYLES_TITLE}>@{item.username}</div>
       </div>
     </div>
   );
@@ -97,7 +97,7 @@ const SlateEntry = ({ item }) => {
         </div>
         <div css={STYLES_TITLE}>{item.data.name}</div>
         {item.owner && item.owner.username ? (
-          <div>@{item.owner.username}</div>
+          <div css={STYLES_TITLE}>@{item.owner.username}</div>
         ) : null}
       </div>
       {item.data.objects.length ? (
@@ -120,7 +120,7 @@ const FileEntry = ({ item }) => {
           {item.data.file.title || item.data.file.name}
         </div>
         {item.data.slate.owner && item.data.slate.owner.username ? (
-          <div>@{item.data.slate.owner.username}</div>
+          <div css={STYLES_TITLE}>@{item.data.slate.owner.username}</div>
         ) : null}
       </div>
       <div css={STYLES_SLATE_IMAGES_CONTAINER}>
@@ -165,7 +165,7 @@ export class SearchModal extends React.Component {
           .reduce((doc, key) => doc && doc[key], entry);
       },
       searchOptions: {
-        fuzzy: 0.2,
+        fuzzy: 0.15,
       },
     });
     let files = [];
@@ -196,35 +196,49 @@ export class SearchModal extends React.Component {
     if (!this.state.loading) {
       this.setState({ inputValue: e.target.value }, () => {
         let searchResults = this.miniSearch.search(this.state.inputValue);
-        let results = [];
-        for (let item of searchResults) {
-          if (item.type === "USER") {
-            results.push({
-              value: {
-                type: "USER",
-                data: item,
-              },
-              component: <UserEntry item={item} />,
-            });
-          } else if (item.type === "SLATE") {
-            results.push({
-              value: {
-                type: "SLATE",
-                data: item,
-              },
-              component: <SlateEntry item={item} />,
-            });
-          } else if (item.type === "FILE") {
-            results.push({
-              value: {
-                type: "FILE",
-                data: item,
-              },
-              component: <FileEntry item={item} />,
-            });
-          }
-          this.setState({ results });
+        let ids = new Set();
+        for (let result of searchResults) {
+          ids.add(result.id);
         }
+        let autofill = this.miniSearch.autoSuggest(this.state.inputValue);
+        for (let i = 0; i < autofill.length; i++) {
+          // console.log(this.miniSearch.search(autofill[i].suggestion)[0]);
+          let result = this.miniSearch.search(autofill[i].suggestion)[0];
+          if (!ids.has(result.id)) {
+            ids.add(result.id);
+            searchResults.push(result);
+          }
+        }
+        this.setState({ results: searchResults });
+        // let results = [];
+        // for (let item of searchResults) {
+        //   if (item.type === "USER") {
+        //     results.push({
+        //       value: {
+        //         type: "USER",
+        //         data: item,
+        //       },
+        //       component: <UserEntry item={item} />,
+        //     });
+        //   } else if (item.type === "SLATE") {
+        //     results.push({
+        //       value: {
+        //         type: "SLATE",
+        //         data: item,
+        //       },
+        //       component: <SlateEntry item={item} />,
+        //     });
+        //   } else if (item.type === "FILE") {
+        //     results.push({
+        //       value: {
+        //         type: "FILE",
+        //         data: item,
+        //       },
+        //       component: <FileEntry item={item} />,
+        //     });
+        //   }
+        //   this.setState({ results });
+        // }
       });
     }
   };
@@ -262,12 +276,40 @@ export class SearchModal extends React.Component {
   };
 
   render() {
+    let results = [];
+    for (let item of this.state.results) {
+      if (item.type === "USER") {
+        results.push({
+          value: {
+            type: "USER",
+            data: item,
+          },
+          component: <UserEntry item={item} />,
+        });
+      } else if (item.type === "SLATE") {
+        results.push({
+          value: {
+            type: "SLATE",
+            data: item,
+          },
+          component: <SlateEntry item={item} />,
+        });
+      } else if (item.type === "FILE") {
+        results.push({
+          value: {
+            type: "FILE",
+            data: item,
+          },
+          component: <FileEntry item={item} />,
+        });
+      }
+    }
     return (
       <div css={STYLES_MODAL}>
         <SearchDropdown
           disabled={this.state.loading}
           placeholder="Search..."
-          results={this.state.results}
+          results={results}
           onSelect={this._handleSelect}
           onChange={this._handleChange}
           inputValue={this.state.inputValue}

@@ -193,10 +193,7 @@ export class SearchDropdown extends React.Component {
           css={STYLES_DROPDOWN}
           style={this.props.style}
         >
-          {(this.props.results && this.props.results.length
-            ? this.props.results
-            : this.props.defaultResults
-          ).map((each, i) => (
+          {this.props.results.map((each, i) => (
             <div
               key={each.value.data.id}
               css={STYLES_DROPDOWN_ITEM}

@@ -289,8 +289,8 @@ export default class SceneDirectory extends React.Component {
                 >
                   <PopoverNavigation
                     style={{
-                      top: "16px",
-                      right: "-12px",
+                      top: "40px",
+                      right: "0px",
                     }}
                     navigation={[
                       {
@@ -349,8 +349,8 @@ export default class SceneDirectory extends React.Component {
               >
                 <PopoverNavigation
                   style={{
-                    top: "16px",
-                    right: "-12px",
+                    top: "40px",
+                    right: "0px",
                   }}
                   navigation={[
                     {

@@ -14,7 +14,13 @@ import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter"
 const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  padding: 16px 88px;
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    padding: 5px 10px;
+  }
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 5px 5px;
+  }
 `;
 
 const STYLES_H1 = css`
@@ -85,17 +91,11 @@ const STYLES_A = css`
 `;
 
 const STYLES_IMG = css`
-  width: 150px;
+  width: 180px;
   border-radius: 4px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
   }
-`;
-
-const STYLES_ANNOTATION = css`
-  padding-top: 7px;
-  font-size: 12px;
-  color: #646464;
 `;
 
 const STYLES_BUTTON_PRIMARY = css`
@@ -113,7 +113,6 @@ const STYLES_BUTTON_PRIMARY = css`
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
   user-select: none;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   background-color: ${Constants.system.wall};
   color: ${Constants.system.slate};
@@ -137,10 +136,9 @@ const STYLES_SECTION_WRAPPER = css`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 55vh;
   margin: 10px auto;
   width: 100%;
-
+  flex-wrap: wrap;
   @media (max-width: ${Constants.sizes.mobile}px) {
     flex-direction: column;
     justify-content: space-between;
@@ -149,8 +147,10 @@ const STYLES_SECTION_WRAPPER = css`
 `;
 
 const STYLES_SECTION_CHILD_FULL = css`
-  padding: 50px;
-  margin: 15px;
+  width: 100%;
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
     padding: 20px;
@@ -158,24 +158,49 @@ const STYLES_SECTION_CHILD_FULL = css`
 `;
 const STYLES_SECTION_CHILD_SPLIT = css`
   padding: 50px;
-  margin: 15px;
   width: 50%;
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+    padding: 20px;
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
     padding: 20px;
   }
 `;
+const STYLES_CARD_NAME = css`
+font-size: 1.3rem;
+font-weight: 600;
+letter-spacing: 0.002em;
+text-align: center;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+
+`;
+const STYLES_CARD_GITHUB = css`
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.002em;
+  text-align: center;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+  }
+`;
+const STYLES_CARD_TEXT = css`
+  padding: 20px 5px;
+  color: ${Constants.system.pitchBlack};
+  :hover {
+  }
+  @media (max-width: ${Constants.sizes.mobile}px) {
+  }
+`;
 const STYLES_CARD_WRAPPER = css`
   float: left;
-  display: inline;
   width: 150px;
   transition: 200ms ease box-shadow;
   border-radius: 4px;
-  box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.02);
-  margin: 20px;
-  :hover {
-    transition: 200ms ease box-shadow;
-    box-shadow: 0px 10px 40px 20px rgba(0, 0, 0, 0.1);
+  margin: 20px 40px;
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+    padding: 20px;
   }
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
@@ -189,12 +214,7 @@ export const getServerSideProps = async context => {
   };
 };
 
-export default class IndexPage extends React.Component {
-  async componentDidMount() {
-    const response = await Actions.health();
-    console.log("HEALTH_CHECK", response);
-  }
-
+export default class CommunityPage extends React.Component {
   render() {
     const title = `Slate`;
     const description =
@@ -224,86 +244,135 @@ export default class IndexPage extends React.Component {
               />
             </div>
           </div>
+
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SECTION_CHILD_FULL}>
               <h1 css={STYLES_H1}>Core Team</h1>
               <br />
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/jasonleyser">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Jason Leyser"
-                      src="https://bafkreie3dvujhpil4tgv2qx2lng5bfeif7reyybmgaftub6n4wxx4vnbly.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Jason Leyser</p>
-                  <p css={STYLES_P}>@jasonleyser</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Jason Leyser"
+                        src="https://bafkreie3dvujhpil4tgv2qx2lng5bfeif7reyybmgaftub6n4wxx4vnbly.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Jason Leyser</p>
+                      <p css={STYLES_CARD_GITHUB}>@jasonleyser</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/jimmylee">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Cake"
-                      src="https://bafkreibfbxpiypzw4t7ubvjsxac7z3fdigvran5sayp2ibbuxhvzeivn4a.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Cake</p>
-                  <p css={STYLES_P}>@jimmylee</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Cake"
+                        src="https://bafkreibfbxpiypzw4t7ubvjsxac7z3fdigvran5sayp2ibbuxhvzeivn4a.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Cake</p>
+                      <p css={STYLES_CARD_GITHUB}>@jimmylee</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/martinalong">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Martina Long"
-                      src="https://bafkreif4mdwcxtykrcl2sfs6kcapg3d2tjyjjpcpmxnw3rqshbvr5ncjdi.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Martina Long</p>
-                  <p css={STYLES_P}>@martinalong</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Martina Long"
+                        src="https://bafkreif4mdwcxtykrcl2sfs6kcapg3d2tjyjjpcpmxnw3rqshbvr5ncjdi.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Martina Long</p>
+                      <p css={STYLES_CARD_GITHUB}>@martinalong</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/harisbutt">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Haris Butt"
-                      src="https://bafkreigs2w7wsambbek5v5e4ykkoketj6r6ho6t3snm7jso7hodyzxbqfu.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Haris Butt</p>
-                  <p css={STYLES_P}>@harisbutt</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Haris Butt"
+                        src="https://bafkreigs2w7wsambbek5v5e4ykkoketj6r6ho6t3snm7jso7hodyzxbqfu.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Haris Butt</p>
+                      <p css={STYLES_CARD_GITHUB}>@harisbutt</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/tarafanlin">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Tara Lin"
-                      src="https://bafkreibku3qhls572oo4hskrg4t32c2kcj4auujyxioz5i44pfbaatwqbe.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Tara Lin</p>
-                  <p css={STYLES_P}>@tarafanlin</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Tara Lin"
+                        src="https://bafkreibku3qhls572oo4hskrg4t32c2kcj4auujyxioz5i44pfbaatwqbe.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Tara Lin</p>
+                      <p css={STYLES_CARD_GITHUB}>@tarafanlin</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/gndclouds">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for William Felker"
-                      src="https://bafybeic25subftulrkrxrw2ggpjblamofj3uemi2vaoqmlqzyzg2lfji5q.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>William Felker</p>
-                  <p css={STYLES_P}>@gndclouds</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for William Felker"
+                        src="https://bafybeic25subftulrkrxrw2ggpjblamofj3uemi2vaoqmlqzyzg2lfji5q.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>William Felker</p>
+                      <p css={STYLES_CARD_GITHUB}>@gndclouds</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
             </div>
@@ -314,120 +383,192 @@ export default class IndexPage extends React.Component {
               <br />
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/pooja">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Pooja Shah"
-                      src="https://bafkreifqrmwuvlky7urkmkxyswksyjjpxvk62jwqgol35bfdfshgmcjmba.ipfs.slate.textile.io/"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Pooja Shah</p>
-                  <p css={STYLES_P}>@pooja</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Pooja Shah"
+                        src="https://bafkreifqrmwuvlky7urkmkxyswksyjjpxvk62jwqgol35bfdfshgmcjmba.ipfs.slate.textile.io/"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Pooja Shah</p>
+                      <p css={STYLES_CARD_GITHUB}>@pooja</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/whyrusleeping">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Why"
-                      src="https://bafkreiczwqnp5c6msa42pihhobagcbq6r5lkxuucmm3rmccb5lh46x3h7u.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Pooja Shah</p>
-                  <p css={STYLES_P}>@pooja</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Why"
+                        src="https://bafkreiczwqnp5c6msa42pihhobagcbq6r5lkxuucmm3rmccb5lh46x3h7u.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Pooja Shah</p>
+                      <p css={STYLES_CARD_GITHUB}>@pooja</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/asutula">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Aaron Sutula"
-                      src="https://bafkreihl4pll4esqivugvam7d7j6oxbms4kz6c3azq77vf2ittwuon2dy4.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Aaron Sutula</p>
-                  <p css={STYLES_P}>@asutula</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Aaron Sutula"
+                        src="https://bafkreihl4pll4esqivugvam7d7j6oxbms4kz6c3azq77vf2ittwuon2dy4.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Aaron Sutula</p>
+                      <p css={STYLES_CARD_GITHUB}>@asutula</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/jsign">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Ignacio Hagopian"
-                      src="https://bafkreieqpfn4bpqv3yrdr22surdngc3xyn574miybm3awjosfu6fcmbd6a.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Ignacio Hagopian</p>
-                  <p css={STYLES_P}>@jsign</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Ignacio Hagopian"
+                        src="https://bafkreieqpfn4bpqv3yrdr22surdngc3xyn574miybm3awjosfu6fcmbd6a.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Ignacio Hagopian</p>
+                      <p css={STYLES_CARD_GITHUB}>@jsign</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/sanderpick">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Sander Pick"
-                      src="https://bafkreial7bum4chyd2rubvxkyufis4qczvb7xerrzis7eg6gyshbf7ltci.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Sander Pick</p>
-                  <p css={STYLES_P}>@sanderpick</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Sander Pick"
+                        src="https://bafkreial7bum4chyd2rubvxkyufis4qczvb7xerrzis7eg6gyshbf7ltci.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Sander Pick</p>
+                      <p css={STYLES_CARD_GITHUB}>@sanderpick</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/andrewxhill">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Andrew Hill"
-                      src="https://bafkreighz4m7bqjmt7cidgbbocbzp65f4liuzebwq6d64t27slhpe2cigm.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Andrew Hill</p>
-                  <p css={STYLES_P}>@andrewxhill</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Andrew Hill"
+                        src="https://bafkreighz4m7bqjmt7cidgbbocbzp65f4liuzebwq6d64t27slhpe2cigm.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Andrew Hill</p>
+                      <p css={STYLES_CARD_GITHUB}>@andrewxhill</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/akuokojnr">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Akuoko Daniel Jnr"
-                      src="https://bafkreibpqkmnm6vijyxlkbcjyayoo7b6tnf4tzelzsi4wk3z6o7enhpbrm.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Akuoko Daniel Jnr</p>
-                  <p css={STYLES_P}>@akuokojnr</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Akuoko Daniel Jnr"
+                        src="https://bafkreibpqkmnm6vijyxlkbcjyayoo7b6tnf4tzelzsi4wk3z6o7enhpbrm.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Akuoko Daniel Jnr</p>
+                      <p css={STYLES_CARD_GITHUB}>@akuokojnr</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
 
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/narative">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Narative"
-                      src="https://bafkreihgmyxi2rzp4gtkoxwkrajiwivrbttixfjrdfb6qz5fhpdaofrhoi.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Narative</p>
-                  <p css={STYLES_P}>@narative</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Narative"
+                        src="https://bafkreihgmyxi2rzp4gtkoxwkrajiwivrbttixfjrdfb6qz5fhpdaofrhoi.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Narative</p>
+                      <p css={STYLES_CARD_GITHUB}>@narative</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/narative">
-                  <div>
-                    <img
-                      css={STYLES_IMG}
-                      alt="Github Profile Photo for Colin S. Mccaleb"
-                      src="https://bafkreigxhplpm7adi3p77eljj3g66lcnnzig7m6ihpervxwqeti3tbqudi.ipfs.slate.textile.io"
-                    />
-                  </div>
-                  <p css={STYLES_P}>Colin S. McCaleb</p>
-                  <p css={STYLES_P}>@uonai</p>
+                  <System.HoverTile
+                    height={300}
+                    width={200}
+                    style={{ padding: 10 }}
+                  >
+                    <div>
+                      <img
+                        css={STYLES_IMG}
+                        alt="Github Profile Photo for Colin S. Mccaleb"
+                        src="https://bafkreigxhplpm7adi3p77eljj3g66lcnnzig7m6ihpervxwqeti3tbqudi.ipfs.slate.textile.io"
+                      />
+                    </div>
+                    <div css={STYLES_CARD_TEXT}>
+                      <p css={STYLES_CARD_NAME}>Colin S. McCaleb</p>
+                      <p css={STYLES_CARD_GITHUB}>@uonai</p>
+                    </div>
+                  </System.HoverTile>
                 </a>
               </div>
             </div>
@@ -446,7 +587,9 @@ export default class IndexPage extends React.Component {
               <p css={STYLES_P}>
                 Get involved with the project and contribute.
               </p>
-              <button>
+              <br />
+
+              <button css={STYLES_BUTTON_PRIMARY}>
                 <a>Github</a>
               </button>
             </div>
@@ -458,7 +601,9 @@ export default class IndexPage extends React.Component {
                 Reach out to any of the core contributors, reach us on Twitter,
                 or join our Slack.
               </p>
-              <button>
+              <br />
+
+              <button css={STYLES_BUTTON_PRIMARY}>
                 <a>Github</a>
               </button>
             </div>
@@ -468,14 +613,18 @@ export default class IndexPage extends React.Component {
               <p css={STYLES_P}>
                 Explore our API and SDK and build on top of Slate.
               </p>
+
+              <br />
               <CodeBlock>npm install --save slate-react-system</CodeBlock>
             </div>
+            <br />
             <div css={STYLES_SECTION_CHILD_SPLIT}>
               <h2 css={STYLES_H2}>Design System</h2>
-              <br />
               <p css={STYLES_P}>
                 Check out our open source design system for your projects.
               </p>
+
+              <br />
               <CodeBlock>npm install --save slate-react-system</CodeBlock>
             </div>
           </div>

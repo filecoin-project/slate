@@ -125,43 +125,34 @@ const STYLES_FILETYPE = css`
 
 const STYLES_VIDEO_BIG = css`
   margin: 48px auto 88px auto;
-  border-radius: 8px;
+  border-radius: 4px;
   width: 100%;
   height: auto;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
   @media (max-width: ${Constants.sizes.tablet}px) {
     margin: 32px auto 64px auto;
-    border-radius: 4px;
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 24px auto 48px auto;
-    border-radius: 4px;
   }
 `;
 
 const STYLES_VIDEO_SMALL = css`
-  border-radius: 8px;
+  border-radius: 4px;
   width: 100%;
   height: auto;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    border-radius: 4px;
-  }
 `;
 
 const STYLES_MEDIA_LEFT = css`
   margin: 64px 0 0 -240px;
   width: 80vw;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 24px 0 0 -80px;
-    width: 80vw;
-    border-radius: 4px;
-    box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -300,7 +291,7 @@ const STYLES_SLATE_CARD_GRAY = css`
   box-shadow: 0px 4px 80px 4px rgba(0, 0, 0, 0.1);
   text-decoration: none;
   transition: 200ms ease box-shadow;
-  border-radius: 8px;
+  border-radius: 4px;
   a {
     color: ${Constants.system.pitchBlack};
   }
@@ -444,8 +435,8 @@ export default class IndexPage extends React.Component {
                 autoPlay
                 loop
                 muted
-                src="https://bafybeihptz3tl5zxoronrlefow6kovk3jzllgfv36nt7metavqa4en26km.ipfs.slate.textile.io/"
-                type="video/mp4"
+                src="https://bafybeifsvkepb46prksbt7ank6o5gxeqcz4lshrn7d34ruzitxqr3hiqka.ipfs.slate.textile.io/"
+                type="video/m4v"
               />
             </div>
             <div css={STYLES_TEXT_BLOCK}>
@@ -579,7 +570,7 @@ export default class IndexPage extends React.Component {
                 autoPlay
                 loop
                 muted
-                src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
+                src="https://bafybeie3q44jsb7ttklkcej52jmvtdvxfs2w7jpwmqhq7tatyijkw62km4.ipfs.slate.textile.io/"
                 type="video/mp4"
               />
 
@@ -599,7 +590,7 @@ export default class IndexPage extends React.Component {
                 autoPlay
                 loop
                 muted
-                src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
+                src="https://bafybeia4bvim5wcvsqoqb27pkky6b6ocamzv3pbgltgso43tdz454bmjsu.ipfs.slate.textile.io/"
                 type="video/mp4"
               />
             </div>

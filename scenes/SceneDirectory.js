@@ -80,6 +80,12 @@ const STYLES_MESSAGE = css`
   }
 `;
 
+const STYLES_NAME = css`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
 function UserEntry({ user, button, onClick, message }) {
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
@@ -88,7 +94,7 @@ function UserEntry({ user, button, onClick, message }) {
           css={STYLES_PROFILE_IMAGE}
           style={{ backgroundImage: `url(${user.data.photo})` }}
         />
-        <span>
+        <span css={STYLES_NAME}>
           {user.data.name || `@${user.username}`}
           {message ? <span css={STYLES_MESSAGE}>{message}</span> : null}
         </span>
@@ -387,11 +393,75 @@ export default class SceneDirectory extends React.Component {
           />
         );
       });
+
+    let followers = this.props.viewer.subscribers.map((relation) => {
+      let button = (
+        <div
+          css={STYLES_ITEM_BOX}
+          onClick={(e) => this._handleClick(e, relation.id)}
+        >
+          <SVG.MoreHorizontal height="24px" />
+          {this.state.contextMenu === relation.id ? (
+            <Boundary
+              captureResize={true}
+              captureScroll={false}
+              enabled
+              onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
+            >
+              <PopoverNavigation
+                style={{
+                  top: "40px",
+                  right: "0px",
+                }}
+                navigation={[
+                  {
+                    text: "Copy Profile URL",
+                    onClick: (e) =>
+                      this._handleCopy(
+                        e,
+                        `https://slate.host/${relation.owner.username}`
+                      ),
+                  },
+                  {
+                    text: this.props.viewer.subscriptions.filter(
+                      (subscription) => {
+                        return (
+                          subscription.target_user_id === relation.owner.id
+                        );
+                      }
+                    ).length
+                      ? "Unfollow"
+                      : "Follow",
+                    onClick: (e) => this._handleFollow(e, relation.owner.id),
+                  },
+                ]}
+              />
+            </Boundary>
+          ) : null}
+        </div>
+      );
+      return (
+        <UserEntry
+          key={relation.id}
+          user={relation.owner}
+          button={button}
+          onClick={() => {
+            this.props.onAction({
+              type: "NAVIGATE",
+              value: this.props.sceneId,
+              scene: "PUBLIC_PROFILE",
+              data: relation.owner,
+            });
+          }}
+        />
+      );
+    });
+
     return (
       <ScenePage>
         <ScenePageHeader title="Directory" />
         <TabGroup
-          tabs={["Requests", "Trusted", "Following"]}
+          tabs={["Requests", "Trusted", "Following", "Followers"]}
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}
         />
@@ -423,6 +493,15 @@ export default class SceneDirectory extends React.Component {
               <EmptyState style={{ marginTop: 88 }}>
                 You are not following anybody. Get started by searching for your
                 friends and clicking follow!
+              </EmptyState>
+            )
+          ) : null}
+          {this.state.tab === 3 ? (
+            followers.length ? (
+              followers
+            ) : (
+              <EmptyState style={{ marginTop: 88 }}>
+                You don't have any followers yet
               </EmptyState>
             )
           ) : null}

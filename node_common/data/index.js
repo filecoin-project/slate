@@ -32,6 +32,7 @@ import getSubscriptionById from "~/node_common/data/methods/get-subscription-by-
 import getSubscriptionsByUserId from "~/node_common/data/methods/get-subscriptions-by-user-id";
 import getSubscriptionsToUserId from "~/node_common/data/methods/get-subscriptions-to-user-id";
 import getSubscriptionsToSlateId from "~/node_common/data/methods/get-subscriptions-to-slate-id";
+import getSubscribersByUserId from "~/node_common/data/methods/get-subscribers-by-user-id";
 import deleteSubscriptionById from "~/node_common/data/methods/delete-subscription-by-id";
 
 // NOTE(jim):
@@ -87,6 +88,7 @@ export {
   getSubscriptionsByUserId,
   getSubscriptionsToSlateId,
   getSubscriptionsToUserId,
+  getSubscribersByUserId,
   deleteSubscriptionById,
   // NOTE(jim): Trust operations
   createTrustedRelationship,

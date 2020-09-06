@@ -281,3 +281,69 @@ export const doSubscriptions = async ({
     serializedSlatesMap,
   };
 };
+
+export const doSubscribers = async ({
+  users,
+  slates,
+  subscribers,
+  serializedUsersMap,
+  serializedSlatesMap,
+}) => {
+  subscribers.forEach((each) => {
+    if (each.owner_user_id && !serializedUsersMap[each.owner_user_id]) {
+      users.push(each.owner_user_id);
+    }
+  });
+
+  let userEntities = [];
+  try {
+    console.log({ query: `CHECK_TO_SERIALIZE` });
+    if (users.length) {
+      console.log({ query: `(${users.length}) USERS_FOR_SERIALIZATION` });
+      userEntities = await DB.select("id", "username", "data")
+        .from("users")
+        .whereIn("id", users);
+    }
+  } catch (e) {
+    console.log("FAILED TO SERIALIZE");
+    return {
+      serializedSubscribers: subscribers,
+      serializedUsersMap,
+      serializedSlatesMap,
+    };
+  }
+
+  const sanitized = subscribers.map((data) => {
+    let u = null;
+    let o = null;
+    let s = null;
+
+    if (data.owner_user_id) {
+      if (serializedUsersMap[data.owner_user_id]) {
+        o = serializedUsersMap[data.owner_user_id];
+      } else {
+        o = userEntities.find((e) => data.owner_user_id === e.id);
+        o = user(o);
+        serializedUsersMap[data.owner_user_id] = o;
+      }
+    }
+
+    if (data.target_user_id) {
+      if (serializedUsersMap[data.target_user_id]) {
+        u = serializedUsersMap[data.target_user_id];
+      } else {
+        u = userEntities.find((e) => data.target_user_id === e.id);
+        u = user(u);
+        serializedUsersMap[data.target_user_id] = u;
+      }
+    }
+
+    return { ...data, user: u, owner: o, slate: s };
+  });
+
+  return {
+    serializedSubscribers: JSON.parse(JSON.stringify(sanitized)),
+    serializedUsersMap,
+    serializedSlatesMap,
+  };
+};

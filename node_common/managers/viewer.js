@@ -23,6 +23,7 @@ export const getById = async ({ id }) => {
   const slates = await Data.getSlatesByUserId({ userId: id });
   const keys = await Data.getAPIKeysByUserId({ userId: id });
   const subscriptions = await Data.getSubscriptionsByUserId({ userId: id });
+  const subscribers = await Data.getSubscribersByUserId({ userId: id });
 
   let serializedUsersMap = { [user.id]: Serializers.user(user) };
   let serializedSlatesMap = {};
@@ -36,24 +37,32 @@ export const getById = async ({ id }) => {
     serializedSlatesMap,
   });
 
-  // NOTE(jim): If any trusted users are subscription users, this ends up being cheaper.
-  const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
-  const r2 = await Serializers.doTrusted({
+  const r2 = await Serializers.doSubscribers({
     users: [],
-    trusted,
+    slates: [],
+    subscribers,
     serializedUsersMap: r1.serializedUsersMap,
     serializedSlatesMap: r1.serializedSlatesMap,
+  });
+
+  // NOTE(jim): If any trusted users are subscription users, this ends up being cheaper.
+  const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
+  const r3 = await Serializers.doTrusted({
+    users: [],
+    trusted,
+    serializedUsersMap: r2.serializedUsersMap,
+    serializedSlatesMap: r2.serializedSlatesMap,
   });
 
   // NOTE(jim): This should be the cheapest call.
   const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
     userId: id,
   });
-  const r3 = await Serializers.doPendingTrusted({
+  const r4 = await Serializers.doPendingTrusted({
     users: [id],
     pendingTrusted,
-    serializedUsersMap: r2.serializedUsersMap,
-    serializedSlatesMap: r2.serializedSlatesMap,
+    serializedUsersMap: r3.serializedUsersMap,
+    serializedSlatesMap: r3.serializedSlatesMap,
   });
 
   let bytes = 0;
@@ -80,7 +89,8 @@ export const getById = async ({ id }) => {
     activity,
     slates,
     subscriptions: r1.serializedSubscriptions,
-    trusted: r2.serializedTrusted,
-    pendingTrusted: r3.serializedPendingTrusted,
+    subscribers: r2.serializedSubscribers,
+    trusted: r3.serializedTrusted,
+    pendingTrusted: r4.serializedPendingTrusted,
   };
 };

@@ -131,22 +131,38 @@ const STYLES_SECTION_SLATE = css`
 
 const STYLES_FILETYPE = css`
   display: flex;
-  gap: 48px;
+  flex-wrap: wrap;
   width: 100%;
-  margin: 48px 0 0 0;
 
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    gap: 24px;
-    margin: 24px 0 0 0;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+  }
+`;
+
+const STYLES_FILETYPE_GRID_ITEM = css`
+  padding: 0 48px 48px 0;
+  width: 50%;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    padding: 0 0 24px 0;
+  }
+
+  video {
+    display: block;
+    margin: 0;
+    padding: 0;
+    outline: 0;
   }
 `;
 
 const STYLES_VIDEO_BIG = css`
+  display: block;
+  margin: 0;
   background-color: ${Constants.system.white};
   margin: 48px auto 88px auto;
   border-radius: 4px;
   width: 100%;
-  height: auto;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
 
   @media (max-width: ${Constants.sizes.tablet}px) {
@@ -159,10 +175,11 @@ const STYLES_VIDEO_BIG = css`
 `;
 
 const STYLES_VIDEO_SMALL = css`
+  display: block;
+  margin: 0;
   background-color: ${Constants.system.white};
   border-radius: 4px;
   width: 100%;
-  height: auto;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
 `;
 
@@ -519,13 +536,13 @@ export default class IndexPage extends React.Component {
                   </TextLoop>
                 </span>
               </h1>
-              <h3 css={STYLES_H3}>
+              <h3 css={STYLES_H3} style={{ marginBottom: 48 }}>
                 <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of
                 media file to your storage system.
                 <br />
               </h3>
               <div css={STYLES_FILETYPE}>
-                <div>
+                <div css={STYLES_FILETYPE_GRID_ITEM}>
                   <video
                     autoPlay
                     loop
@@ -536,7 +553,7 @@ export default class IndexPage extends React.Component {
                     playsInline
                   />
                 </div>
-                <div>
+                <div css={STYLES_FILETYPE_GRID_ITEM}>
                   <video
                     autoPlay
                     loop
@@ -549,7 +566,7 @@ export default class IndexPage extends React.Component {
                 </div>
               </div>
               <div css={STYLES_FILETYPE}>
-                <div>
+                <div css={STYLES_FILETYPE_GRID_ITEM}>
                   <video
                     autoPlay
                     loop
@@ -560,7 +577,7 @@ export default class IndexPage extends React.Component {
                     playsInline
                   />
                 </div>
-                <div>
+                <div css={STYLES_FILETYPE_GRID_ITEM}>
                   <video
                     autoPlay
                     loop

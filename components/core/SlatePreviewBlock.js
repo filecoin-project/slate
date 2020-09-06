@@ -71,12 +71,14 @@ export function SlatePreviewRow(props) {
   return (
     <div
       css={props.small ? STYLES_IMAGE_ROW_SMALL : STYLES_IMAGE_ROW}
-      style={props.containerStyle}>
+      style={props.containerStyle}
+    >
       {objects.map((each) => (
         <div
           key={each.id}
           css={props.small ? STYLES_ITEM_BOX_SMALL : STYLES_ITEM_BOX}
-          style={props.style}>
+          style={props.style}
+        >
           <SlateMediaObjectPreview
             charCap={30}
             type={each.type}
@@ -103,8 +105,8 @@ const STYLES_BLOCK = css`
 `;
 
 const STYLES_TITLE_LINE = css`
-  display: grid;
-  grid-template-columns: auto auto 1fr;
+  width: 100%;
+  display: flex;
   align-items: center;
   font-size: ${Constants.typescale.lvl1};
   margin-bottom: 16px;
@@ -118,7 +120,7 @@ const STYLES_COPY_INPUT = css`
 `;
 
 const STYLES_TAG = css`
-  margin-left: 16px;
+  margin-right: 16px;
   padding: 4px 8px;
   border-radius: 2px;
   border: 1px solid ${Constants.system.black};
@@ -158,6 +160,15 @@ const STYLES_ICON_BOX = css`
 
 const STYLES_CONTEXT_MENU = css`
   position: absolute;
+`;
+
+const STYLES_TITLE = css`
+  font-size: ${Constants.typescale.lvl2};
+  font-family: ${Constants.font.semiBold};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 16px;
 `;
 
 export default class SlatePreviewBlock extends React.Component {
@@ -213,7 +224,8 @@ export default class SlatePreviewBlock extends React.Component {
           captureResize={true}
           captureScroll={false}
           enabled
-          onOutsideRectEvent={this._handleHide}>
+          onOutsideRectEvent={this._handleHide}
+        >
           <PopoverNavigation
             style={{
               top: "16px",
@@ -266,15 +278,10 @@ export default class SlatePreviewBlock extends React.Component {
           this.props.external
             ? { backgroundColor: Constants.system.white, border: "none" }
             : {}
-        }>
+        }
+      >
         <div css={STYLES_TITLE_LINE}>
-          <div
-            style={{
-              fontSize: Constants.typescale.lvl2,
-              fontFamily: Constants.font.semiBold,
-            }}>
-            {this.props.slate.data.name}
-          </div>
+          <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
           {this.props.editing ? (
             this.props.slate.data.public ? (
               <div
@@ -282,7 +289,8 @@ export default class SlatePreviewBlock extends React.Component {
                 style={{
                   borderColor: Constants.system.brand,
                   color: Constants.system.brand,
-                }}>
+                }}
+              >
                 Public
               </div>
             ) : (
@@ -291,7 +299,8 @@ export default class SlatePreviewBlock extends React.Component {
                 style={{
                   color: "rgba(0,0,0,0.25)",
                   borderColor: "rgba(0,0,0,0.25)",
-                }}>
+                }}
+              >
                 Private
               </div>
             )
@@ -300,10 +309,11 @@ export default class SlatePreviewBlock extends React.Component {
           )}
           {this.props.external ? null : this.props.username ? (
             <div
-              style={{ justifySelf: "flex-end" }}
+              style={{ marginLeft: "auto" }}
               ref={(c) => {
                 this._test = c;
-              }}>
+              }}
+            >
               {/* <TooltipWrapper
                 id={`slate-tooltip-${this.props.slate.id}`}
                 type="body"

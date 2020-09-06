@@ -15,7 +15,7 @@ const STYLES_CONTAINER = css`
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 3;
+  z-index: 42;
   height: 88px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -30,7 +30,7 @@ const STYLES_LINK = css`
   text-decoration: none;
   transition: 200ms ease color;
   :visited {
-    color: ${Constants.system.gray};
+    color: ${Constants.system.darkGray};
   }
 
   :hover {
@@ -174,8 +174,14 @@ const openNavLink = {
   display: `flex`,
 };
 
-export const NewWebsitePrototypeHeader = (props) => {
+const NewWebsitePrototypeHeader = (props) => {
   const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    handleOpen();
+    window.addEventListener("resize", () => {
+      useState({ open: false });
+    });
+  };
   const communityURL = "/community";
   const signInURL = "/_";
   const styleMenu = open ? openMenu : null;

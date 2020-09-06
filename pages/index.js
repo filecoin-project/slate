@@ -451,6 +451,7 @@ export default class IndexPage extends React.Component {
                 muted
                 src="https://bafybeifsvkepb46prksbt7ank6o5gxeqcz4lshrn7d34ruzitxqr3hiqka.ipfs.slate.textile.io/"
                 type="video/m4v"
+                playsInline
               />
             </div>
             <div css={STYLES_TEXT_BLOCK}>
@@ -531,6 +532,7 @@ export default class IndexPage extends React.Component {
                     css={STYLES_VIDEO_SMALL}
                     src="https://bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze.ipfs.slate.textile.io/"
                     type="video/mp4"
+                    playsInline
                   />
                 </div>
                 <div>
@@ -541,6 +543,7 @@ export default class IndexPage extends React.Component {
                     css={STYLES_VIDEO_SMALL}
                     src="https://bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q.ipfs.slate.textile.io/"
                     type="video/mp4"
+                    playsInline
                   />
                 </div>
               </div>
@@ -553,6 +556,7 @@ export default class IndexPage extends React.Component {
                     css={STYLES_VIDEO_SMALL}
                     src="https://bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi.ipfs.slate.textile.io/"
                     type="video/mp4"
+                    playsInline
                   />
                 </div>
                 <div>
@@ -563,10 +567,10 @@ export default class IndexPage extends React.Component {
                     css={STYLES_VIDEO_SMALL}
                     src="https://bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga.ipfs.slate.textile.io/"
                     type="video/mp4"
+                    playsInline
                   />
                 </div>
               </div>
-              s
             </div>
           </section>
 
@@ -613,6 +617,7 @@ export default class IndexPage extends React.Component {
                 muted
                 src="https://bafybeie3q44jsb7ttklkcej52jmvtdvxfs2w7jpwmqhq7tatyijkw62km4.ipfs.slate.textile.io/"
                 type="video/mp4"
+                playsInline
               />
 
               <h2 css={STYLES_H2}>Organize research</h2>
@@ -623,6 +628,7 @@ export default class IndexPage extends React.Component {
                 muted
                 src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
                 type="video/mp4"
+                playsInline
               />
 
               <h2 css={STYLES_H2}>Share presentations</h2>
@@ -633,6 +639,7 @@ export default class IndexPage extends React.Component {
                 muted
                 src="https://bafybeia4bvim5wcvsqoqb27pkky6b6ocamzv3pbgltgso43tdz454bmjsu.ipfs.slate.textile.io/"
                 type="video/mp4"
+                playsInline
               />
             </div>
           </section>
@@ -660,6 +667,7 @@ export default class IndexPage extends React.Component {
                 muted
                 src="https://bafybeidnaytqqghnwoduomvefwmnxz3kqllyl5xhyzc4azcl4zflscqcry.ipfs.slate.textile.io/"
                 type="video/mp4"
+                playsInline
               />
             </div>
           </section>

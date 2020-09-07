@@ -186,7 +186,7 @@ export default class IndexPage extends React.Component {
         description={description}
         url={url}
       >
-        <WebsitePrototypeHeader />
+        <WebsitePrototypeHeader color="dark" />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SECTION_CHILD}>

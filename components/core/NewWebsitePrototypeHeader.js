@@ -16,7 +16,7 @@ const STYLES_CONTAINER = css`
   top: 0;
   z-index: ${Constants.zindex.header};
   height: 88px;
-
+  mix-blend-mode: difference;
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: flex;
     justify-content: space-between;
@@ -93,7 +93,7 @@ const STYLES_BURGER_BUN = css`
 `;
 
 const openBurgerBun = {
-  transform: `rotate(45deg)`,
+  transform: `rotate(45deg)`
 };
 
 const STYLES_BURGER_MEAT = css`
@@ -108,7 +108,7 @@ const STYLES_BURGER_MEAT = css`
 `;
 
 const openBurgerMeat = {
-  opacity: `0`,
+  opacity: `0`
 };
 
 const STYLES_BURGER_BUN2 = css`
@@ -123,7 +123,7 @@ const STYLES_BURGER_BUN2 = css`
 `;
 
 const openBurgerBun2 = {
-  transform: `rotate(-45deg)`,
+  transform: `rotate(-45deg)`
 };
 
 const STYLES_MENU = css`
@@ -167,15 +167,16 @@ const STYLES_NAVLINK = css`
 
 const openMenu = {
   display: `flex`,
-  transform: `translateX(0)`,
+  transform: `translateX(0)`
 };
 
 const openNavLink = {
-  display: `flex`,
+  display: `flex`
 };
 
-const NewWebsitePrototypeHeader = (props) => {
+const NewWebsitePrototypeHeader = props => {
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     window.addEventListener("resize", handleOpen);
     return () => window.removeEventListener("resize", handleOpen);

@@ -16,7 +16,7 @@ const STYLES_CONTAINER = css`
   top: 0;
   z-index: ${Constants.zindex.header};
   height: 88px;
-
+  mix-blend-mode: difference;
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: flex;
     justify-content: space-between;
@@ -176,7 +176,6 @@ const openNavLink = {
 
 const NewWebsitePrototypeHeader = props => {
   const [open, setOpen] = useState(false);
-  const navBurgerColor = this.props.color;
 
   useEffect(() => {
     window.addEventListener("resize", handleOpen);

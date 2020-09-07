@@ -338,10 +338,32 @@ export default class SceneSlate extends React.Component {
     });
   };
 
+  _handleSlateLink = async (slatename) => {
+    const response = await Actions.getSlateBySlatename({
+      query: slatename,
+      deeplink: true,
+    });
+
+    if (!response.data) {
+      alert("Could not find Slate.");
+      return;
+    }
+
+    if (!response.data.slate) {
+      alert("Could not find Slate.");
+      return;
+    }
+
+    return window.open(
+      `/${response.data.slate.user.username}/${response.data.slate.slatename}`
+    );
+  };
+
   render() {
-    const { user, data } = this.props.current;
+    const { user, data, slatename } = this.props.current;
     const { body = "A slate." } = data;
     const { objects, layouts } = this.state;
+
     let following = !!this.props.viewer.subscriptions.filter((subscription) => {
       return subscription.target_slate_id === this.props.current.id;
     }).length;
@@ -378,9 +400,16 @@ export default class SceneSlate extends React.Component {
                 <CircleButtonGray
                   onMouseUp={this._handleAdd}
                   onTouchEnd={this._handleAdd}
-                  style={{ marginLeft: 12, marginRight: 12 }}
+                  style={{ marginRight: 16 }}
                 >
                   <SVG.Plus height="16px" />
+                </CircleButtonGray>
+                <CircleButtonGray
+                  onMouseUp={() => this._handleSlateLink(slatename)}
+                  onTouchEnd={() => this._handleSlateLink(slatename)}
+                  style={{ marginRight: 16 }}
+                >
+                  <SVG.DeepLink height="16px" />
                 </CircleButtonGray>
                 <CircleButtonGray
                   onMouseUp={this._handleShowSettings}

@@ -164,11 +164,13 @@ export default class Slate extends React.Component {
     });
 
     if (!response.data) {
-      alert("TODO: Can not find deeplink");
+      alert("Could not find Slate.");
+      return;
     }
 
     if (!response.data.slate) {
-      alert("TODO: Can not find deeplink");
+      alert("Could not find Slate.");
+      return;
     }
 
     return window.open(

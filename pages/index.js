@@ -151,6 +151,7 @@ const STYLES_FILETYPE_GRID_ITEM = css`
 
 const STYLES_VIDEO_BIG = css`
   display: block;
+  background-color: ${Constants.system.moonstone};
   padding: 0;
   outline: 0;
   margin: 48px auto 88px auto;
@@ -169,6 +170,7 @@ const STYLES_VIDEO_BIG = css`
 
 const STYLES_VIDEO_SMALL = css`
   display: block;
+  background-color: ${Constants.system.moonstone};
   padding: 0;
   outline: 0;
   border-radius: 4px;
@@ -423,10 +425,14 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description = "Welcome to the future of file sharing. Powered by Textile, Filecoin, and IPFS.";
+    const description =
+      "Welcome to the future of file sharing. Powered by Textile, Filecoin, and IPFS.";
     const url = "https://slate.host";
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <section css={STYLES_SECTION_HERO}>
@@ -438,7 +444,9 @@ export default class IndexPage extends React.Component {
               </h1>
 
               <div css={STYLES_ACTIONS_RIGHT}>
-                <div css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("/_")}>
+                <div
+                  css={STYLES_BUTTON_PRIMARY}
+                  onClick={() => window.open("/_")}>
                   Use Slate
                 </div>
               </div>
@@ -453,7 +461,7 @@ export default class IndexPage extends React.Component {
               type="video/m4v"
               playsInline
               style={{
-                backgroundImage: `url(https://bafybeigalcaqfsxj4iiy5lseonatvvaglsxoz33knc5kngnilp2l23wndu.ipfs.slate.textile.io/`,
+                backgroundImage: `url('https://bafybeigalcaqfsxj4iiy5lseonatvvaglsxoz33knc5kngnilp2l23wndu.ipfs.slate.textile.io/')`,
                 borderRadius: `4px`,
                 width: `100%`,
                 boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -465,7 +473,10 @@ export default class IndexPage extends React.Component {
                 Slate{" "}
                 <span css={STYLES_HIGHLIGHT}>
                   is a{" "}
-                  <a css={STYLES_LINK} href={"https://github.com/filecoin-project/slate"} target="_blank">
+                  <a
+                    css={STYLES_LINK}
+                    href={"https://github.com/filecoin-project/slate"}
+                    target="_blank">
                     fully open-source
                   </a>{" "}
                   file sharing network designed for research and collaboration.
@@ -474,19 +485,27 @@ export default class IndexPage extends React.Component {
                 <br />
                 <span css={STYLES_HIGHLIGHT}>Store</span> your data,
                 <br />
-                <span css={STYLES_HIGHLIGHT}>organize</span> it any way you like, <br />
-                <span css={STYLES_HIGHLIGHT}>and share</span> it with the world securely.
+                <span css={STYLES_HIGHLIGHT}>organize</span> it any way you
+                like, <br />
+                <span css={STYLES_HIGHLIGHT}>and share</span> it with the world
+                securely.
                 <br />
                 <br />
               </h2>
               <h3 css={STYLES_H3}>Powered by</h3>
               <h2 css={STYLES_H2}>
                 <span css={STYLES_HIGHLIGHT}>
-                  <a href="https://textile.io" css={STYLES_LINK} target="_blank">
+                  <a
+                    href="https://textile.io"
+                    css={STYLES_LINK}
+                    target="_blank">
                     Textile
                   </a>{" "}
                   <br />
-                  <a href="https://filecoin.io" css={STYLES_LINK} target="_blank">
+                  <a
+                    href="https://filecoin.io"
+                    css={STYLES_LINK}
+                    target="_blank">
                     Filecoin
                   </a>
                   <br />
@@ -514,7 +533,8 @@ export default class IndexPage extends React.Component {
                 </span>
               </h1>
               <h3 css={STYLES_H3} style={{ marginBottom: 48 }}>
-                <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of media file to your storage system.
+                <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of
+                media file to your storage system.
                 <br />
               </h3>
               <div css={STYLES_FILETYPE}>
@@ -528,7 +548,7 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url(https://bafybeic4c572po5xd2crtcgr4m7vipddfttcaslsyy64xkl77pyocgqrii.ipfs.slate.textile.io/`,
+                      backgroundImage: `url('https://bafybeic4c572po5xd2crtcgr4m7vipddfttcaslsyy64xkl77pyocgqrii.ipfs.slate.textile.io/')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
                       boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -545,7 +565,7 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url(https://bafybeicpw2w6udug33s5sfcratqxabiebzwrhe34jfdmycc5imippcjjli.ipfs.slate.textile.io/`,
+                      backgroundImage: `url('https://bafybeicpw2w6udug33s5sfcratqxabiebzwrhe34jfdmycc5imippcjjli.ipfs.slate.textile.io/')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
                       boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -564,7 +584,7 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url(https://bafkreiexblrnkrzp4ywwtfxrt6xo4aexo6dmphvfdjkwbcxphbivkrd2xi.ipfs.slate.textile.io/`,
+                      backgroundImage: `url('https://bafkreiexblrnkrzp4ywwtfxrt6xo4aexo6dmphvfdjkwbcxphbivkrd2xi.ipfs.slate.textile.io/')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
                       boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -581,7 +601,7 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url(https://bafkreiefuyyk6dcjhyk3hl2httqvdlnl3mo6wrfzgmponexrc75jop757y.ipfs.slate.textile.io/`,
+                      backgroundImage: `url('https://bafkreiefuyyk6dcjhyk3hl2httqvdlnl3mo6wrfzgmponexrc75jop757y.ipfs.slate.textile.io/')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
                       boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -599,8 +619,9 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>anywhere</span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>The Slate Chrome extension</span> lets you seamlessly upload files to your
-                slates from anywhere on the web.
+                <span css={STYLES_HIGHLIGHT}>The Slate Chrome extension</span>{" "}
+                lets you seamlessly upload files to your slates from anywhere on
+                the web.
               </h3>
             </div>
             <div>
@@ -620,7 +641,8 @@ export default class IndexPage extends React.Component {
                 </span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your files, giving you complete flexibility.
+                <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your
+                files, giving you complete flexibility.
               </h3>
               <br />
               <br />
@@ -636,7 +658,7 @@ export default class IndexPage extends React.Component {
                 type="video/mp4"
                 playsInline
                 style={{
-                  backgroundImage: `url(https://bafybeiaxdqxxwksdykptwghh5du6fhwobavohyrgsajgzje2vvhbxphsl4.ipfs.slate.textile.io/`,
+                  backgroundImage: `url('https://bafybeiaxdqxxwksdykptwghh5du6fhwobavohyrgsajgzje2vvhbxphsl4.ipfs.slate.textile.io/')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
                   boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -654,7 +676,7 @@ export default class IndexPage extends React.Component {
                 type="video/mp4"
                 playsInline
                 style={{
-                  backgroundImage: `url(https://bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi.ipfs.slate.textile.io/`,
+                  backgroundImage: `url('https://bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi.ipfs.slate.textile.io/')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
                   boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -672,7 +694,7 @@ export default class IndexPage extends React.Component {
                 type="video/mp4"
                 playsInline
                 style={{
-                  backgroundImage: `url(https://bafkreihlxav37dy6vqwrcamvbhub72zy3z6doayhjwtvqqvrlbvojum3um.ipfs.slate.textile.io/`,
+                  backgroundImage: `url('https://bafkreihlxav37dy6vqwrcamvbhub72zy3z6doayhjwtvqqvrlbvojum3um.ipfs.slate.textile.io/')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
                   boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -690,8 +712,9 @@ export default class IndexPage extends React.Component {
                 </span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built on top of a storage system making it
-                possible to connect with other people on the Filecoin network.
+                <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built
+                on top of a storage system making it possible to connect with
+                other people on the Filecoin network.
               </h3>
             </div>
 
@@ -705,7 +728,7 @@ export default class IndexPage extends React.Component {
                 type="video/mp4"
                 playsInline
                 style={{
-                  backgroundImage: `url(https://bafkreid67aupu7dpnekkej77ik642zyrytkfhgpwxdoyhxey6qbcyuxrpq.ipfs.slate.textile.io/`,
+                  backgroundImage: `url('https://bafkreid67aupu7dpnekkej77ik642zyrytkfhgpwxdoyhxey6qbcyuxrpq.ipfs.slate.textile.io/')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
                   boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -724,29 +747,45 @@ export default class IndexPage extends React.Component {
                 </span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>Slate is built on Filecoin and IPFS</span> — technologies built around
-                ownership and transparency for the future of the web.
+                <span css={STYLES_HIGHLIGHT}>
+                  Slate is built on Filecoin and IPFS
+                </span>{" "}
+                — technologies built around ownership and transparency for the
+                future of the web.
               </h3>
-              <a css={STYLES_LINK_WHITE} href="https://filecoin.io" target="_blank">
+              <a
+                css={STYLES_LINK_WHITE}
+                href="https://filecoin.io"
+                target="_blank">
                 Learn more about Filecoin -&gt;
               </a>
             </div>
 
             <div>
-              <img css={STYLES_MEDIA_RIGHT_OVERLAP} src="/static/landing/marketing-slate-cube.png" />
+              <img
+                css={STYLES_MEDIA_RIGHT_OVERLAP}
+                src="/static/landing/marketing-slate-cube.png"
+              />
             </div>
           </section>
 
           <section css={STYLES_SECTION_SLATE_WALL}>
             <div css={STYLES_SLATE_CARD_GRAY}>
-              <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/_" target="_blank">
+              <a
+                css={STYLES_SLATE_CARD_PARAGRAPH}
+                href="https://slate.host/_"
+                target="_blank">
                 <div css={STYLES_SLATE_CARD_TEXT}>
                   <h1 css={STYLES_SLATE_CARD_CTA_TITLE}>
                     Join us <br />
-                    <span css={STYLES_HIGHLIGHT_BLACK}>in our open & secure network</span>
+                    <span css={STYLES_HIGHLIGHT_BLACK}>
+                      in our open & secure network
+                    </span>
                   </h1>
                   <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                    <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>Create your first slate</div>
+                    <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>
+                      Create your first slate
+                    </div>
                     <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>-&gt;</div>
                   </div>
                 </div>
@@ -756,7 +795,10 @@ export default class IndexPage extends React.Component {
             <br />
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/gndclouds/urban-gardens" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://slate.host/gndclouds/urban-gardens"
+                  target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Urban gardens</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -767,7 +809,10 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/haris/shapes-and-letters" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://slate.host/haris/shapes-and-letters"
+                  target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Shapes and letters</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -778,7 +823,10 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/jason/mountains" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://slate.host/jason/mountains"
+                  target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Mountains</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -791,7 +839,10 @@ export default class IndexPage extends React.Component {
             </div>
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/tara/loom" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://slate.host/tara/loom"
+                  target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Loom</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -802,7 +853,10 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/slate/brand" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://slate.host/slate/brand"
+                  target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Brand</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -816,10 +870,11 @@ export default class IndexPage extends React.Component {
                 <a
                   css={STYLES_SLATE_CARD_PARAGRAPH}
                   href="https://slate.host/tcosta/montreal-underground"
-                  target="_blank"
-                >
+                  target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Montreal underground</div>
+                    <div css={STYLES_SLATE_CARD_TITLE}>
+                      Montreal underground
+                    </div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tcosta</div>
                       <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
@@ -830,7 +885,10 @@ export default class IndexPage extends React.Component {
             </div>
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/slate/monet" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://slate.host/slate/monet"
+                  target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Monet</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -841,7 +899,10 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/haris/book-shelf" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://slate.host/haris/book-shelf"
+                  target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Book shelf</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>
@@ -852,7 +913,10 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <div css={STYLES_SLATE_CARD}>
-                <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/slate/papers" target="_blank">
+                <a
+                  css={STYLES_SLATE_CARD_PARAGRAPH}
+                  href="https://slate.host/slate/papers"
+                  target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <div css={STYLES_SLATE_CARD_TITLE}>Papers</div>
                     <div css={STYLES_SLATE_CARD_EXPLAINER}>

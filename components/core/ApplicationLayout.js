@@ -111,12 +111,11 @@ const STYLES_SIDEBAR_WEB = css`
   width: ${Constants.sizes.sidebar}px;
   padding: 0;
   flex-shrink: 0;
-  position: fixed;
-  background-color: ${Constants.system.foreground};
+  position: absolute;
+  background-color: rgba(247, 247, 247, 0.75);
+  backdrop-filter: blur(25px); 
   top: 0;
   right: 0;
-  bottom: 0;
-  box-shadow: inset 1px 0 0 0 ${Constants.system.border};
   ${STYLES_SCROLL}
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -141,6 +140,11 @@ const STYLES_BLOCK = css`
   justify-content: center;
   transition: 200ms ease all;
   cursor: pointer;
+<<<<<<< HEAD
+=======
+  color: rgba(0, 0, 0, 0.25);
+  color: ${Constants.system.darkGray};
+>>>>>>> sidebar blur style
 `;
 
 export default class ApplicationLayout extends React.Component {

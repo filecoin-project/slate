@@ -135,7 +135,12 @@ export default class SidebarAddFileToBucket extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+        <System.P
+          style={{
+            fontFamily: Constants.font.semiBold,
+            fontSize: Constants.typescale.lvl3,
+          }}
+        >
           Upload Data
         </System.P>
         <input
@@ -149,7 +154,12 @@ export default class SidebarAddFileToBucket extends React.Component {
         {this.props.data && this.props.data.decorator === "SLATE" ? (
           <System.P style={{ marginTop: 24 }}>
             This will add data to your Slate named{" "}
-            <strong>{this.props.data.slatename}</strong>.
+            <strong>
+              {this.props.data.data && this.props.data.data.name
+                ? this.props.data.data.name
+                : this.props.data.slatename}
+            </strong>
+            .
           </System.P>
         ) : null}
 

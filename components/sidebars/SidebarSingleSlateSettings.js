@@ -105,17 +105,22 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
   render() {
     console.log(this.props);
-    const { slatename } = this.state;
     const slug = Strings.createSlug(this.state.name);
     const url = `/${this.props.viewer.username}/${slug}`;
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+        <System.P
+          style={{
+            fontFamily: Constants.font.semiBold,
+            fontSize: Constants.typescale.lvl3,
+          }}
+        >
           Slate Settings
         </System.P>
         <System.P style={{ marginTop: 24 }}>
-          Update settings for {this.props.current.slatename}.
+          Update settings for{" "}
+          {this.props.current.data.name || this.props.current.slatename}.
         </System.P>
 
         <System.Input
@@ -136,11 +141,15 @@ export default class SidebarSingleSlateSettings extends React.Component {
           placeholder="Name"
           onChange={this._handleChange}
           onSubmit={this._handleSubmit}
+          descriptionStyle={{ fontSize: "20px !important" }}
+          labelStyle={{ fontSize: "20px" }}
         />
 
         <System.DescriptionGroup
           label="Description"
           style={{ marginTop: 48 }}
+          descriptionStyle={{ fontSize: Constants.system.lvl1 }}
+          labelStyle={{ fontSize: Constants.system.lvl2 }}
         />
         <System.Textarea
           style={{ marginTop: 24 }}
@@ -157,6 +166,8 @@ export default class SidebarSingleSlateSettings extends React.Component {
             <System.DescriptionGroup
               label="Change privacy"
               description="If enabled, your slate will be visible to anyone in the world. If disabled, your slate will only be visible to you on this screen."
+              descriptionStyle={{ fontSize: Constants.system.lvl1 }}
+              labelStyle={{ fontSize: Constants.system.lvl2 }}
             />
           </div>
           <div css={STYLES_RIGHT}>

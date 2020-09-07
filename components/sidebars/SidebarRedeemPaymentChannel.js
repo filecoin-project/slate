@@ -24,7 +24,12 @@ export default class SidebarRedeemPaymentChannel extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+        <System.P
+          style={{
+            fontFamily: Constants.font.semiBold,
+            fontSize: Constants.typescale.lvl3,
+          }}
+        >
           Redeem Payment Channel
         </System.P>
       </React.Fragment>

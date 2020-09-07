@@ -79,7 +79,7 @@ export default class SceneSlates extends React.Component {
                   this.props.onAction({
                     type: "NAVIGATE",
                     value: slate.id,
-                    data: slate,
+                    data: { decorator: "SLATE", ...slate },
                   })
                 }
               >

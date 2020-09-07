@@ -5,8 +5,6 @@ import { css } from "@emotion/react";
 
 const STYLES_PAGE_CONTENT = css`
   width: 100%;
-  ${"" /* max-width: 1074px;
-  padding: 0px 24px; */}
   max-width: 1024px;
   padding: 0px;
   margin: 0 auto;

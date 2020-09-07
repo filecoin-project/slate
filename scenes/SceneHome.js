@@ -8,6 +8,7 @@ import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
+import SceneContent from "~/components/core/SceneContent";
 
 const STYLES_NUMBER = css`
   font-family: ${Constants.font.semiBold};
@@ -91,41 +92,33 @@ export default class SceneHome extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Home">
-          Welcome back! Here is your data and slates.
+          Welcome back! Here is your data.
         </ScenePageHeader>
 
-        <Section
-          title="Slates"
-          buttons={slateButtons}
-          onAction={this.props.onAction}>
-          <System.Table
-            data={slates}
-            name="slate"
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
-          />
-        </Section>
-
-        {this.props.viewer.library[0] ? (
-          <DataView
-            buttons={[
-              {
-                name: "View files",
-                type: "NAVIGATE",
-                value: this.props.viewer.library[0].id,
-              },
-              {
-                name: "Upload data",
-                type: "SIDEBAR",
-                value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-              },
-            ]}
-            viewer={this.props.viewer}
-            items={this.props.viewer.library[0].children}
-            onAction={this.props.onAction}
-            onRehydrate={this.props.onRehydrate}
-          />
-        ) : null}
+        <SceneContent>
+          {this.props.viewer.library[0] ? (
+            <div style={{ marginTop: "48px" }}>
+              <DataView
+                buttons={[
+                  {
+                    name: "View files",
+                    type: "NAVIGATE",
+                    value: this.props.viewer.library[0].id,
+                  },
+                  {
+                    name: "Upload data",
+                    type: "SIDEBAR",
+                    value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+                  },
+                ]}
+                viewer={this.props.viewer}
+                items={this.props.viewer.library[0].children}
+                onAction={this.props.onAction}
+                onRehydrate={this.props.onRehydrate}
+              />
+            </div>
+          ) : null}
+        </SceneContent>
       </ScenePage>
     );
   }

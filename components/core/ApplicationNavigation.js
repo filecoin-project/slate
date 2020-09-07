@@ -26,7 +26,6 @@ const STYLES_NAVIGATION = css`
   width: 100%;
   display: block;
   padding: 24px 0 0 0;
-  font-size: 18px;
 `;
 
 const STYLES_NAVIGATION_ITEM = css`

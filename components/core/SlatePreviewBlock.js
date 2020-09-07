@@ -17,7 +17,6 @@ const STYLES_IMAGE_ROW = css`
   flex-wrap: wrap;
   height: 160px;
   overflow: hidden;
-  margin: 0px -18px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     justify-content: center;
@@ -41,6 +40,14 @@ const STYLES_ITEM_BOX = css`
   :hover {
     color: ${Constants.system.brand};
   }
+
+  :last-child {
+    margin-right: 0px;
+  }
+
+  :first-child {
+    margin-left: 0px;
+  }
 `;
 
 const STYLES_IMAGE_ROW_SMALL = css`
@@ -49,7 +56,6 @@ const STYLES_IMAGE_ROW_SMALL = css`
   flex-wrap: wrap;
   height: 56px;
   overflow: hidden;
-  margin: 0px -8px;
 `;
 
 const STYLES_ITEM_BOX_SMALL = css`
@@ -60,6 +66,14 @@ const STYLES_ITEM_BOX_SMALL = css`
   align-items: center;
   justify-content: center;
   box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
+
+  :first-child {
+    margin-left: 0px;
+  }
+
+  :last-child {
+    margin-right: 0px;
+  }
 `;
 
 export function SlatePreviewRow(props) {

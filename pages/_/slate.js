@@ -97,9 +97,12 @@ const STYLES_LOGO = css`
   display: inline-flex;
   flex-shrink: 0;
   margin-right: 16px;
-  padding-top: 1px;
+  cursor: pointer;
+  transform: translateY(-2px);
+  transition: 200ms ease all;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
+    color: ${Constants.system.brand};
     transform: translateY(3px);
   }
 `;
@@ -169,7 +172,11 @@ export default class SlatePage extends React.Component {
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeaderGeneric>
             <div css={STYLES_HEADER}>
-              <SVGLogo.Symbol height="16px" css={STYLES_LOGO} />
+              <SVGLogo.Symbol
+                height="20px"
+                css={STYLES_LOGO}
+                onClick={() => window.open(url)}
+              />
               <a css={STYLES_HEADER_LEFT} href={url}>
                 {this.props.creator.username} / {this.props.slate.slatename}
               </a>

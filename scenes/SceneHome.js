@@ -41,9 +41,7 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `https://slate.host/${this.props.viewer.username}/${
-            each.slatename
-          }`,
+          url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
           name: each.data.name,
           public: each.data.public,
           objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
@@ -92,15 +90,14 @@ export default class SceneHome extends React.Component {
 
     return (
       <ScenePage>
-        <ScenePageHeader title="Home [WIP]">
-          This scene is currently a work in progress.
+        <ScenePageHeader title="Home">
+          Welcome back! Here is your data and slates.
         </ScenePageHeader>
 
         <Section
           title="Slates"
           buttons={slateButtons}
-          onAction={this.props.onAction}
-        >
+          onAction={this.props.onAction}>
           <System.Table
             data={slates}
             name="slate"

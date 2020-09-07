@@ -64,8 +64,9 @@ export default class SceneFilesFolder extends React.Component {
   render() {
     return (
       <ScenePage>
-        <ScenePageHeader title="Data [WIP]">
-          This scene is currently a work in progress.
+        <ScenePageHeader title="Data">
+          Manage all the data used across your Slates and archive backups on to
+          the Filecoin Network.
         </ScenePageHeader>
 
         <DataMeter
@@ -80,11 +81,11 @@ export default class SceneFilesFolder extends React.Component {
               type: "SIDEBAR",
               value: "SIDEBAR_ADD_FILE_TO_BUCKET",
             },
-            {
+            /* {
               name: "Filecoin archive",
               type: "SIDEBAR",
               value: "SIDEBAR_FILECOIN_ARCHIVE",
-            },
+            }, */
           ]}
           viewer={this.props.viewer}
           items={this.props.viewer.library[0].children}

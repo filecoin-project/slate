@@ -11,7 +11,6 @@ import { PopoverNavigation } from "~/components/system/components/PopoverNavigat
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import SceneContent from "~/components/core/SceneContent";
 import EmptyState from "~/components/core/EmptyState";
 
 const STYLES_USER_ENTRY = css`
@@ -465,55 +464,53 @@ export default class SceneDirectory extends React.Component {
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}
         />
-        <SceneContent>
-          {this.state.tab === 0 ? (
-            requests.length ? (
-              requests
-            ) : (
-              <EmptyState style={{ marginTop: 88 }}>
-                No requests at the moment! Once someone sends you a trust
-                request it will appear here.
-              </EmptyState>
-            )
-          ) : null}
-          {this.state.tab === 1 ? (
-            trusted.length ? (
-              trusted
-            ) : (
-              <EmptyState style={{ marginTop: 88 }}>
-                You have no peers yet. Get started by searching for your friends
-                and sending them a peer request!
-              </EmptyState>
-            )
-          ) : null}
-          {this.state.tab === 2 ? (
-            following.length ? (
-              following
-            ) : (
-              <EmptyState style={{ marginTop: 88 }}>
-                You are not following anybody. Get started by searching for your
-                friends and clicking follow!
-              </EmptyState>
-            )
-          ) : null}
-          {this.state.tab === 3 ? (
-            followers.length ? (
-              followers
-            ) : (
-              <EmptyState style={{ marginTop: 88 }}>
-                You don't have any followers yet
-              </EmptyState>
-            )
-          ) : null}
-          <input
-            readOnly
-            ref={(c) => {
-              this._ref = c;
-            }}
-            value={this.state.copyValue}
-            css={STYLES_COPY_INPUT}
-          />
-        </SceneContent>
+        {this.state.tab === 0 ? (
+          requests.length ? (
+            requests
+          ) : (
+            <EmptyState style={{ marginTop: 88 }}>
+              No requests at the moment! Once someone sends you a trust request
+              it will appear here.
+            </EmptyState>
+          )
+        ) : null}
+        {this.state.tab === 1 ? (
+          trusted.length ? (
+            trusted
+          ) : (
+            <EmptyState style={{ marginTop: 88 }}>
+              You have no peers yet. Get started by searching for your friends
+              and sending them a peer request!
+            </EmptyState>
+          )
+        ) : null}
+        {this.state.tab === 2 ? (
+          following.length ? (
+            following
+          ) : (
+            <EmptyState style={{ marginTop: 88 }}>
+              You are not following anybody. Get started by searching for your
+              friends and clicking follow!
+            </EmptyState>
+          )
+        ) : null}
+        {this.state.tab === 3 ? (
+          followers.length ? (
+            followers
+          ) : (
+            <EmptyState style={{ marginTop: 88 }}>
+              You don't have any followers yet
+            </EmptyState>
+          )
+        ) : null}
+        <input
+          readOnly
+          ref={(c) => {
+            this._ref = c;
+          }}
+          value={this.state.copyValue}
+          css={STYLES_COPY_INPUT}
+        />
       </ScenePage>
     );
   }

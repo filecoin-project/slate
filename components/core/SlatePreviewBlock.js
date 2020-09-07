@@ -108,13 +108,13 @@ export function SlatePreviewRow(props) {
 }
 
 const STYLES_BLOCK = css`
-  border: 1px solid ${Constants.system.border};
+  box-shadow: inset 0 0 0 1px ${Constants.system.border};
   border-radius: 8px;
   padding: 32px 40px;
   font-size: 12px;
   text-align: left;
   margin: 24px auto 48px auto;
-  max-width: 1026px;
+  max-width: 1024px;
   cursor: pointer;
 `;
 
@@ -291,7 +291,7 @@ export default class SlatePreviewBlock extends React.Component {
         css={STYLES_BLOCK}
         style={
           this.props.external
-            ? { backgroundColor: Constants.system.white, border: "none" }
+            ? { backgroundColor: Constants.system.white, boxShadow: "none" }
             : {}
         }
       >

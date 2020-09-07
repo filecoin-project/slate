@@ -12,7 +12,6 @@ import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
 import DataMeter from "~/components/core/DataMeter";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import SceneContent from "~/components/core/SceneContent";
 
 const VIEW_LIMIT = 20;
 
@@ -147,12 +146,10 @@ export default class SceneFilesFolder extends React.Component {
           }
         />
         <TabGroup disabled tabs={["Usage"]} />
-        <SceneContent>
-          <DataMeter
-            stats={this.props.viewer.stats}
-            style={{ margin: "48px 0 48px 0" }}
-          />
-        </SceneContent>
+        <DataMeter
+          stats={this.props.viewer.stats}
+          style={{ margin: "48px 0 48px 0" }}
+        />
         <div css={STYLES_HEADER_LINE}>
           <TabGroup disabled tabs={["Uploads"]} style={{ margin: 0 }} />
           <React.Fragment>
@@ -190,46 +187,44 @@ export default class SceneFilesFolder extends React.Component {
             </div>
           </React.Fragment>
         </div>
-        <SceneContent>
-          <DataView
-            view={this.state.view}
-            viewer={this.props.viewer}
-            items={this.props.viewer.library[0].children.slice(
-              this.state.startIndex,
-              this.state.startIndex + VIEW_LIMIT
-            )}
-            onAction={this.props.onAction}
-            onRehydrate={this.props.onRehydrate}
-          />
-          <div css={STYLES_ARROWS}>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={
-                this.state.startIndex - VIEW_LIMIT >= 0
-                  ? null
-                  : { cursor: "not-allowed", color: Constants.system.border }
-              }
-              onClick={() => this._increment(-1)}
-            >
-              <SVG.NavigationArrow
-                height="24px"
-                style={{ transform: `rotate(180deg)` }}
-              />
-            </span>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={
-                this.state.startIndex + VIEW_LIMIT <
-                this.props.viewer.library[0].children.length
-                  ? null
-                  : { cursor: "not-allowed", color: Constants.system.border }
-              }
-              onClick={() => this._increment(1)}
-            >
-              <SVG.NavigationArrow height="24px" />
-            </span>
-          </div>
-        </SceneContent>
+        <DataView
+          view={this.state.view}
+          viewer={this.props.viewer}
+          items={this.props.viewer.library[0].children.slice(
+            this.state.startIndex,
+            this.state.startIndex + VIEW_LIMIT
+          )}
+          onAction={this.props.onAction}
+          onRehydrate={this.props.onRehydrate}
+        />
+        <div css={STYLES_ARROWS}>
+          <span
+            css={STYLES_ICON_ELEMENT}
+            style={
+              this.state.startIndex - VIEW_LIMIT >= 0
+                ? null
+                : { cursor: "not-allowed", color: Constants.system.border }
+            }
+            onClick={() => this._increment(-1)}
+          >
+            <SVG.NavigationArrow
+              height="24px"
+              style={{ transform: `rotate(180deg)` }}
+            />
+          </span>
+          <span
+            css={STYLES_ICON_ELEMENT}
+            style={
+              this.state.startIndex + VIEW_LIMIT <
+              this.props.viewer.library[0].children.length
+                ? null
+                : { cursor: "not-allowed", color: Constants.system.border }
+            }
+            onClick={() => this._increment(1)}
+          >
+            <SVG.NavigationArrow height="24px" />
+          </span>
+        </div>
       </ScenePage>
     );
   }

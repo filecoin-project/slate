@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as SVGLogo from "~/common/logo";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
@@ -41,6 +42,8 @@ const STYLES_HEADER = css`
   justify-content: space-between;
   padding: 12px 0 12px 0;
   max-width: 540px;
+  width: 100%;
+  overflow-wrap: break-word;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     max-width: none;
@@ -56,6 +59,9 @@ const STYLES_HEADER_LEFT = css`
   color: ${Constants.system.pitchBlack};
   text-decoration: none;
   transition: 200ms ease color;
+  overflow-wrap: break-word;
+  max-width: 228px;
+  text-align: left;
 
   :visited {
     color: ${Constants.system.black};
@@ -77,12 +83,24 @@ const STYLES_HEADER_RIGHT = css`
   text-align: left;
   min-width: 10%;
   width: 100%;
-  padding-left: 24px;
+  padding-left: 16px;
+  overflow-wrap: break-word;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding-left: 0px;
     margin-top: 16px;
     text-align: center;
+  }
+`;
+
+const STYLES_LOGO = css`
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-right: 16px;
+  padding-top: 1px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    transform: translateY(3px);
   }
 `;
 
@@ -151,6 +169,7 @@ export default class SlatePage extends React.Component {
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeaderGeneric>
             <div css={STYLES_HEADER}>
+              <SVGLogo.Symbol height="16px" css={STYLES_LOGO} />
               <a css={STYLES_HEADER_LEFT} href={url}>
                 {this.props.creator.username} / {this.props.slate.slatename}
               </a>

@@ -369,7 +369,10 @@ export default class SceneSlate extends React.Component {
     }).length;
 
     return (
-      <ScenePage style={{ padding: `88px 24px 128px 24px`, maxWidth: "none" }}>
+      <ScenePage
+        style={{ padding: `88px 24px 128px 24px` }}
+        contentStyle={{ maxWidth: "none" }}
+      >
         <ScenePageHeader
           style={{ padding: `0 24px 0 24px` }}
           title={

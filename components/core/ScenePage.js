@@ -21,7 +21,9 @@ const STYLES_CONTENT = css`
 
 export const ScenePage = (props) => (
   <div css={STYLES_SCENE} {...props}>
-    <div css={STYLES_CONTENT}>{props.children}</div>
+    <div css={STYLES_CONTENT} style={props.contentStyle}>
+      {props.children}
+    </div>
   </div>
 );
 

@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
-import * as SVGLogo from "~/common/logo";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
@@ -33,77 +32,6 @@ const STYLES_SLATE = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 0 24px 0 24px;
-  }
-`;
-
-const STYLES_HEADER = css`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 12px 0 12px 0;
-  max-width: 540px;
-  width: 100%;
-  overflow-wrap: break-word;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    max-width: none;
-    display: block;
-  }
-`;
-
-const STYLES_HEADER_LEFT = css`
-  font-family: ${Constants.font.semiBold};
-  text-transform: none;
-  flex-shrink: 0;
-  line-height: 1.5;
-  color: ${Constants.system.pitchBlack};
-  text-decoration: none;
-  transition: 200ms ease color;
-  overflow-wrap: break-word;
-  max-width: 228px;
-  text-align: left;
-
-  :visited {
-    color: ${Constants.system.black};
-  }
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    text-align: center;
-  }
-`;
-
-const STYLES_HEADER_RIGHT = css`
-  font-family: ${Constants.font.text};
-  text-transform: none;
-  line-height: 1.5;
-  text-align: left;
-  min-width: 10%;
-  width: 100%;
-  padding-left: 16px;
-  overflow-wrap: break-word;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding-left: 0px;
-    margin-top: 16px;
-    text-align: center;
-  }
-`;
-
-const STYLES_LOGO = css`
-  display: inline-flex;
-  flex-shrink: 0;
-  margin-right: 16px;
-  cursor: pointer;
-  transform: translateY(-2px);
-  transition: 200ms ease all;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    color: ${Constants.system.brand};
-    transform: translateY(3px);
   }
 `;
 
@@ -162,6 +90,10 @@ export default class SlatePage extends React.Component {
       }
     });
 
+    const headerTitle = `${this.props.creator.username} / ${
+      this.props.slate.slatename
+    }`;
+
     return (
       <WebsitePrototypeWrapper
         title={title}
@@ -170,20 +102,8 @@ export default class SlatePage extends React.Component {
         image={image}
       >
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric>
-            <div css={STYLES_HEADER}>
-              <SVGLogo.Symbol
-                height="20px"
-                css={STYLES_LOGO}
-                onClick={() => window.open(url)}
-              />
-              <a css={STYLES_HEADER_LEFT} href={url}>
-                {this.props.creator.username} / {this.props.slate.slatename}
-              </a>
-              <div css={STYLES_HEADER_RIGHT}>
-                <ProcessedText text={this.props.slate.data.body} />
-              </div>
-            </div>
+          <WebsitePrototypeHeaderGeneric href={url} title={headerTitle}>
+            <ProcessedText text={this.props.slate.data.body} />
           </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
             <Slate

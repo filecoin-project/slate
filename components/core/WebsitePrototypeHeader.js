@@ -10,7 +10,7 @@ const STYLES_CONTAINER = css`
   font-size: 12px;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 16px 24px 16px 24px;
 
@@ -23,6 +23,7 @@ const STYLES_LINK = css`
   color: ${Constants.system.pitchBlack};
   text-decoration: none;
   transition: 200ms ease color;
+  display: block;
 
   :visited {
     color: ${Constants.system.black};
@@ -31,14 +32,23 @@ const STYLES_LINK = css`
   :hover {
     color: ${Constants.system.brand};
   }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 16px 0 0 0;
+  }
 `;
 
 const STYLES_LEFT = css`
   flex-shrink: 0;
   padding: 0 8px 0 8px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+  }
 `;
 
 const STYLES_RIGHT = css`
@@ -46,10 +56,12 @@ const STYLES_RIGHT = css`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  padding: 12px 0 12px 0;
+  text-align: left;
+  padding: 0 8px 0 8px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    justify-content: center;
+    display: block;
+    text-align: left;
   }
 `;
 
@@ -63,7 +75,8 @@ const WebsitePrototypeHeader = (props) => {
         <a
           css={STYLES_LINK}
           href="/"
-          style={{ marginRight: 24, fontFamily: Constants.font.codeBold }}>
+          style={{ marginRight: 24, fontFamily: Constants.font.codeBold }}
+        >
           {Constants.values.version}
         </a>
         <a css={STYLES_LINK} href="/_/system">

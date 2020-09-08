@@ -76,7 +76,7 @@ export const DataMeterBar = (props) => {
   return (
     <React.Fragment>
       <div css={STYLES_TITLE}>
-        {Strings.bytesToSize(props.bytes)} of Available{" "}
+        {Strings.bytesToSize(props.bytes)} of available{" "}
         {Strings.bytesToSize(props.maximumBytes)} Used
       </div>
 

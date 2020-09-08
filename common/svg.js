@@ -659,9 +659,9 @@ export const Refresh = (props) => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <polyline points="23 4 23 10 17 10"></polyline>
-    <polyline points="1 20 1 14 7 14"></polyline>
-    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+    <polyline points="23 4 23 10 17 10" />
+    <polyline points="1 20 1 14 7 14" />
+    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
   </svg>
 );
 
@@ -768,8 +768,8 @@ export const Eye = (props) => (
     height={props.height}
     style={props.style}
   >
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
   </svg>
 );
 
@@ -878,7 +878,7 @@ export const Plus = (props) => (
   </svg>
 );
 
-export const Logo = (props) => (
+export const FilecoinLogo = (props) => (
   <svg
     viewBox="0 0 127 127"
     height={props.height}

@@ -8,6 +8,7 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/react";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
+import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
@@ -114,6 +115,7 @@ export default class DataView extends React.Component {
   state = {
     selectedRowId: null,
     menu: null,
+    loading: {},
   };
 
   async componentDidMount() {
@@ -180,13 +182,13 @@ export default class DataView extends React.Component {
   };
 
   _handleDelete = async (cid) => {
-    this.setState({ loading: true });
+    this.setState({ loading: { ...this.state.loading, [cid]: true } });
     if (
       !window.confirm(
         "Are you sure you want to delete this? It will be removed from your Slates too."
       )
     ) {
-      this.setState({ loading: false });
+      this.setState({ loading: { ...this.state.loading, [cid]: false } });
       return null;
     }
 
@@ -194,13 +196,13 @@ export default class DataView extends React.Component {
     console.log(response);
 
     if (!response) {
-      this.setState({ loading: false });
+      this.setState({ loading: { ...this.state.loading, [cid]: false } });
       alert("TODO: Broken response error");
       return;
     }
 
     if (response.error) {
-      this.setState({ loading: false });
+      this.setState({ loading: { ...this.state.loading, [cid]: false } });
       alert("TODO: Bucket delete error");
       return;
     }
@@ -252,9 +254,18 @@ export default class DataView extends React.Component {
         more: (
           <div
             css={STYLES_ICON_BOX}
-            onClick={() => this.setState({ menu: each.id })}
+            onClick={
+              this.state.loading[cid]
+                ? () => {}
+                : () => this.setState({ menu: each.id })
+            }
           >
-            <SVG.MoreHorizontal height="24px" />
+            {this.state.loading[cid] ? (
+              <LoaderSpinner style={{ height: 24, width: 24 }} />
+            ) : (
+              <SVG.MoreHorizontal height="24px" />
+            )}
+
             {this.state.menu === each.id ? (
               <Boundary
                 captureResize={true}
@@ -309,8 +320,8 @@ export default class DataView extends React.Component {
           data={data}
           noColor
           topRowStyle={{
-            backgroundColor: Constants.system.foreground,
             ...STYLES_TABLE_VALUE,
+            backgroundColor: Constants.system.foreground,
             fontFamily: Constants.font.semiBold,
             padding: "12px 24px",
           }}

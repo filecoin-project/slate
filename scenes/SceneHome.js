@@ -14,6 +14,25 @@ const STYLES_NUMBER = css`
   font-weight: 400;
 `;
 
+const STYLES_VIDEO_BIG = css`
+  display: block;
+  background-color: ${Constants.system.moonstone};
+  padding: 0;
+  outline: 0;
+  margin: 48px auto 88px auto;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    margin: 32px auto 64px auto;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 24px auto 48px auto;
+  }
+`;
+
 export default class SceneHome extends React.Component {
   render() {
     // TODO(jim): Refactor later.
@@ -91,7 +110,9 @@ export default class SceneHome extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Home">
-          Welcome back! Here is your data.
+          {this.props.viewer.library[0]
+            ? "Welcome back! Here is your data."
+            : "Welcome to Slate! Here's how to get started."}
         </ScenePageHeader>
 
         {this.props.viewer.library[0] ? (
@@ -115,7 +136,24 @@ export default class SceneHome extends React.Component {
               onRehydrate={this.props.onRehydrate}
             />
           </div>
-        ) : null}
+        ) : (
+          <video
+            css={STYLES_VIDEO_BIG}
+            autoPlay
+            loop
+            muted
+            src="https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io"
+            type="video/m4v"
+            playsInline
+            style={{
+              backgroundImage: `url('https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io')`,
+              borderRadius: `4px`,
+              width: `100%`,
+              boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
+              backgroundSize: `cover`,
+            }}
+          />
+        )}
       </ScenePage>
     );
   }

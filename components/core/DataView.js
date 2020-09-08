@@ -120,6 +120,12 @@ export default class DataView extends React.Component {
     await this._handleUpdate();
   }
 
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.items !== this.props.items) {
+      this._handleUpdate();
+    }
+  };
+
   _handleUpdate = async () => {
     // NOTE(jim): Hack to handle some race conditions.
     await delay(200);
@@ -265,6 +271,14 @@ export default class DataView extends React.Component {
                     {
                       text: "Copy CID",
                       onClick: (e) => this._handleCopy(e, cid),
+                    },
+                    {
+                      text: "Copy Link",
+                      onClick: (e) =>
+                        this._handleCopy(
+                          e,
+                          `https://${cid}.ipfs.slate.textile.io`
+                        ),
                     },
                     {
                       text: "Delete",

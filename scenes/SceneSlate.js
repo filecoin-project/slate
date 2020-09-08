@@ -322,11 +322,15 @@ export default class SceneSlate extends React.Component {
       detail: { index },
     });
 
-  _handleAdd = () => {
-    return this.props.onAction({
+  _handleAdd = async () => {
+    await this.props.onAction({
       type: "SIDEBAR",
       value: "SIDEBAR_ADD_FILE_TO_BUCKET",
       data: this.props.current,
+    });
+    this._handleUpdateCarousel({
+      objects: this.props.current.data.objects,
+      editing: this.state.editing,
     });
   };
 

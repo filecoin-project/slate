@@ -371,7 +371,7 @@ export default class SceneSlate extends React.Component {
     return (
       <ScenePage
         style={{ padding: `88px 24px 128px 24px` }}
-        contentStyle={{ maxWidth: "none" }}
+        contentStyle={{ maxWidth: "1660px" }}
       >
         <ScenePageHeader
           style={{ padding: `0 24px 0 24px` }}

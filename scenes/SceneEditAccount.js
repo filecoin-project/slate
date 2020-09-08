@@ -52,6 +52,7 @@ export default class SceneEditAccount extends React.Component {
       return;
     }
 
+    // NOTE(jim): Only allow images for account avatar.
     if (!file.type.startsWith("image/")) {
       alert("TODO: Error message for not an image.");
       return;

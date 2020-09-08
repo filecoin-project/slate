@@ -83,12 +83,17 @@ export default class SlatePage extends React.Component {
     const url = `https://slate.host/${this.props.creator.username}`;
     const description = this.props.slate.data.body;
 
+    const { objects } = this.props.slate.data;
+
+    // TODO(jim): Takes the first image found
+    // but we want this to be a user choice.
     let image;
-    this.props.slate.data.objects.forEach((o) => {
-      if (o.type && o.type.startsWith("image/")) {
-        image = o.url;
+    for (let i = 0; i < objects.length; i++) {
+      if (objects[i].type && objects[i].type.startsWith("image/")) {
+        image = objects[i].url;
+        break;
       }
-    });
+    }
 
     const headerTitle = `${this.props.creator.username} / ${
       this.props.slate.slatename
@@ -109,7 +114,7 @@ export default class SlatePage extends React.Component {
             <Slate
               editing={false}
               layouts={this.state.layouts}
-              items={this.props.slate.data.objects}
+              items={objects}
               onSelect={this._handleSelect}
             />
           </div>

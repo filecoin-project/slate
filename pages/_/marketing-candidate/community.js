@@ -1,101 +1,116 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
-import CodeBlock from "~/components/system/CodeBlock";
-import ReactDOM from "react-dom";
 
 import { css } from "@emotion/react";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
-  padding: 16px 88px;
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    padding: 5px 10px;
-  }
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 5px 5px;
-  }
+  justify-content: space-between;
+  max-width: 1440px;
+  margin: -88px 0 0 0;
+  background-color: ${Constants.system.wall};
 `;
 
 const STYLES_H1 = css`
-  font-size: 1.953rem;
+  font-size: 3.815rem;
   line-height: 1.25;
-  padding: 0px 0px 32px 0px;
   width: 100%;
-  color: ${Constants.system.pitchBlack};
+  color: ${Constants.system.slate};
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: 3.052rem;
+    padding: 0px 0px 16px 0px;
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 1.953rem;
-    padding: 0px 0px 16px 0px;
-    line-height: 1.25;
+    padding: 0px 0px 8px 0px;
   }
 `;
 
 const STYLES_H2 = css`
-  font-size: 1.25rem;
+  font-size: 2.441em;
   line-height: 1.25;
-  padding: 0px 0px 32px 0px;
+  padding: 16px 0px 0 0px;
   width: 100%;
-  color: ${Constants.system.darkGray};
+  color: ${Constants.system.slate};
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: 1.563rem;
+    padding: 8px 0px 0px 0px;
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 1.25rem;
-    padding: 0px 0px 8px 0px;
+    padding: 8px 0px 0 0px;
     line-height: 1.5;
   }
 `;
 
 const STYLES_H3 = css`
-  font-size: 1.563em;
+  font-size: 1.563rem;
   line-height: 1.5;
-  padding: 0px 0px 16px 0px;
-  color: ${Constants.system.darkGray};
+  padding: 16px 0px 0px 0px;
+  color: ${Constants.system.slate};
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: 1.25rem;
+    padding: 8px 0px 0px 0px;
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 1rem;
-    padding: 0px 0px 8px 0px;
-    line-height: 1.5;
-    color: ${Constants.system.moonstone};
+    padding: 8px 0px 0px 0px;
   }
 `;
 
 const STYLES_P = css`
   font-size: 1rem;
+  padding: 16px 0px 0px 0px;
   color: ${Constants.system.black};
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 0.78rem;
   }
 `;
 
-const STYLES_A = css`
-  :link {
-    color: ${Constants.system.darkGray};
-    background-color: transparent;
-    text-decoration: none;
-  }
-  :hover {
-    color: ${Constants.system.pitchBlack};
-    background-color: transparent;
-    text-decoration: none;
-  }
-  :active {
-    color: yellow;
-    background-color: transparent;
-    text-decoration: none;
-  }
+const STYLES_SECTION_HERO = css`
+  width: 100vw;
+  padding: 30vh 88px 88px 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 40vh 24px 48px 24px;
+    display: block;
+  }
+`;
+
+const STYLES_TEXT_BLOCK = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 56vw;
+  align-self: center;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 88%;
+    right: 24px;
+  }
+`;
+
+const STYLES_HEROIMG = css`
+  float: right;
+  margin: -80px 0 0 0;
+  width: 50vw;
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    margin: 0;
   }
 `;
 
 const STYLES_IMG = css`
-  width: 180px;
+  width: 100%;
   border-radius: 4px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-  }
+  display: block;
 `;
 
 const STYLES_BUTTON_PRIMARY = css`
@@ -133,81 +148,80 @@ const STYLES_BUTTON_PRIMARY = css`
 
 const STYLES_SECTION_WRAPPER = css`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px auto;
-  width: 100%;
-  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 88px;
+  width: 100vw;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    padding: 64px 24px;
+    display: block;
   }
 `;
-
 const STYLES_SECTION_CHILD_FULL = css`
+  display: flex;
   width: 100%;
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    width: 100%;
-  }
   @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    padding: 20px;
+    flex-direction: column;
   }
 `;
 const STYLES_SECTION_CHILD_SPLIT = css`
-  padding: 50px;
   width: 50%;
+  padding: 16px;
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
-    padding: 20px;
-  }
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    padding: 20px;
+    padding: 16px 0;
   }
 `;
-const STYLES_CARD_NAME = css`
-font-size: 1.3rem;
-font-weight: 600;
-letter-spacing: 0.002em;
-text-align: center;
-  @media (max-width: ${Constants.sizes.mobile}px) {
 
+const STYLES_CARD_GROUP = css`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 48px;
 `;
+
+const STYLES_CARD_NAME = css`
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.002em;
+  text-align: center;
+`;
+
 const STYLES_CARD_GITHUB = css`
   font-size: 1rem;
   font-weight: 400;
   letter-spacing: 0.002em;
   text-align: center;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-  }
-`;
-const STYLES_CARD_TEXT = css`
-  padding: 20px 5px;
-  color: ${Constants.system.pitchBlack};
-  :hover {
-  }
-  @media (max-width: ${Constants.sizes.mobile}px) {
-  }
-`;
-const STYLES_CARD_WRAPPER = css`
-  float: left;
-  width: 150px;
-  transition: 200ms ease box-shadow;
-  border-radius: 4px;
-  margin: 20px 40px;
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    width: 100%;
-    padding: 20px;
-  }
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    padding: 20px;
-  }
 `;
 
+const STYLES_CARD_TEXT = css`
+  padding: 20px 5px;
+`;
+
+const STYLES_CARD_WRAPPER = css`
+  width: calc(100% / 7 px);
+  transition: 200ms ease box-shadow;
+  padding: 16px 16px 0 0;
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 50%;
+  }
+`;
+const STYLES_SLATE_CARD_EFFECTS = css`
+  border-radius: 4px;
+  height: 100%;
+  cursor: default;
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/13471/sparkles.gif");
+  background-position: center;
+  z-index: 2;
+  :hover {
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/13471/sparkles.gif");
+    background-position: center;
+    background-size: 180%;
+    mix-blend-mode: color-dodge;
+    opacity: 1;
+    z-index: 2;
+  }
+  :after {
+  }
+`;
 export const getServerSideProps = async context => {
   return {
     props: { ...context.query }
@@ -218,7 +232,7 @@ export default class CommunityPage extends React.Component {
   render() {
     const title = `Slate`;
     const description =
-      "The place for all of your assets. Powered by Textile and Filecoin.";
+      "Slate is designed and built by a growing community of hackers, artists, and creatives on the web.";
     const url = "https://slate.host/community";
 
     return (
@@ -227,47 +241,50 @@ export default class CommunityPage extends React.Component {
         description={description}
         url={url}
       >
-        <WebsitePrototypeHeader color="dark" />
+        <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_SECTION_CHILD_FULL}>
-              <h1 css={STYLES_H1}>
+          <div css={STYLES_SECTION_HERO}>
+            <div css={STYLES_TEXT_BLOCK}>
+              <h1 css={STYLES_H1}>Community</h1>
+              <h2 css={STYLES_H2}>
                 Slate is designed and built by a growing community of hackers,
                 artists, and creatives on the web.
-              </h1>
+              </h2>
             </div>
-            <div css={STYLES_SECTION_CHILD_FULL}>
+            <div>
               <img
-                css={STYLES_IMG}
-                src=" https://bafybeihi2f53tmtwxv5f5jd2wcxtzrutgvxg5xsawfv3ousfjz2yfurm2i.ipfs.slate.textile.io"
-                alt="Slate browser extension"
+                css={STYLES_HEROIMG}
+                src="https://bafybeihg57cndacdyww5rl62qjbitltdxnj4xpuyeohzv6wos2fnsrknza.ipfs.slate.textile.io/"
+                alt="Slate hive tesseract"
               />
             </div>
           </div>
 
           <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_SECTION_CHILD_FULL}>
-              <h1 css={STYLES_H1}>Core Team</h1>
-              <br />
+            <div css={STYLES_TEXT_BLOCK}>
+              <h2 css={STYLES_H2}>Core Team</h2>
+            </div>
+            <div css={STYLES_CARD_GROUP}>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/jasonleyser">
-                  <System.HoverTile
+                  <System.HoverTileColorful
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
-                    <div>
+                    <div css={STYLES_SLATE_CARD_EFFECTS}>
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Jason Leyser"
                         src="https://bafkreie3dvujhpil4tgv2qx2lng5bfeif7reyybmgaftub6n4wxx4vnbly.ipfs.slate.textile.io"
                       />
+
+                      <div css={STYLES_CARD_TEXT}>
+                        <p css={STYLES_CARD_NAME}>Jason Leyser</p>
+                        <p css={STYLES_CARD_GITHUB}>@jasonleyser</p>
+                      </div>
                     </div>
-                    <div css={STYLES_CARD_TEXT}>
-                      <p css={STYLES_CARD_NAME}>Jason Leyser</p>
-                      <p css={STYLES_CARD_GITHUB}>@jasonleyser</p>
-                    </div>
-                  </System.HoverTile>
+                  </System.HoverTileColorful>
                 </a>
               </div>
               <div css={STYLES_CARD_WRAPPER}>
@@ -275,15 +292,14 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Cake"
-                        src="https://bafkreibfbxpiypzw4t7ubvjsxac7z3fdigvran5sayp2ibbuxhvzeivn4a.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Cake"
+                      src="https://bafkreibfbxpiypzw4t7ubvjsxac7z3fdigvran5sayp2ibbuxhvzeivn4a.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>Cake</p>
                       <p css={STYLES_CARD_GITHUB}>@jimmylee</p>
@@ -296,15 +312,14 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Martina Long"
-                        src="https://bafkreif4mdwcxtykrcl2sfs6kcapg3d2tjyjjpcpmxnw3rqshbvr5ncjdi.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Martina Long"
+                      src="https://bafkreif4mdwcxtykrcl2sfs6kcapg3d2tjyjjpcpmxnw3rqshbvr5ncjdi.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>Martina Long</p>
                       <p css={STYLES_CARD_GITHUB}>@martinalong</p>
@@ -317,7 +332,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
                     <div>
                       <img
@@ -338,15 +353,14 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Tara Lin"
-                        src="https://bafkreibku3qhls572oo4hskrg4t32c2kcj4auujyxioz5i44pfbaatwqbe.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Tara Lin"
+                      src="https://bafkreibku3qhls572oo4hskrg4t32c2kcj4auujyxioz5i44pfbaatwqbe.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>Tara Lin</p>
                       <p css={STYLES_CARD_GITHUB}>@tarafanlin</p>
@@ -359,15 +373,14 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for William Felker"
-                        src="https://bafybeic25subftulrkrxrw2ggpjblamofj3uemi2vaoqmlqzyzg2lfji5q.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for William Felker"
+                      src="https://bafybeic25subftulrkrxrw2ggpjblamofj3uemi2vaoqmlqzyzg2lfji5q.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>William Felker</p>
                       <p css={STYLES_CARD_GITHUB}>@gndclouds</p>
@@ -378,23 +391,23 @@ export default class CommunityPage extends React.Component {
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_SECTION_CHILD_FULL}>
-              <h1 css={STYLES_H1}>Contributors</h1>
-              <br />
+            <div css={STYLES_TEXT_BLOCK}>
+              <h2 css={STYLES_H2}>Contributors</h2>
+            </div>
+            <div css={STYLES_CARD_GROUP}>
               <div css={STYLES_CARD_WRAPPER}>
                 <a href="https://github.com/pooja">
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Pooja Shah"
-                        src="https://bafkreifqrmwuvlky7urkmkxyswksyjjpxvk62jwqgol35bfdfshgmcjmba.ipfs.slate.textile.io/"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Pooja Shah"
+                      src="https://bafkreifqrmwuvlky7urkmkxyswksyjjpxvk62jwqgol35bfdfshgmcjmba.ipfs.slate.textile.io/"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
                       <p css={STYLES_CARD_NAME}>Pooja Shah</p>
                       <p css={STYLES_CARD_GITHUB}>@pooja</p>
@@ -407,18 +420,17 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
-                    <div>
-                      <img
-                        css={STYLES_IMG}
-                        alt="Github Profile Photo for Why"
-                        src="https://bafkreiczwqnp5c6msa42pihhobagcbq6r5lkxuucmm3rmccb5lh46x3h7u.ipfs.slate.textile.io"
-                      />
-                    </div>
+                    <img
+                      css={STYLES_IMG}
+                      alt="Github Profile Photo for Why"
+                      src="https://bafkreiczwqnp5c6msa42pihhobagcbq6r5lkxuucmm3rmccb5lh46x3h7u.ipfs.slate.textile.io"
+                    />
+
                     <div css={STYLES_CARD_TEXT}>
-                      <p css={STYLES_CARD_NAME}>Pooja Shah</p>
-                      <p css={STYLES_CARD_GITHUB}>@pooja</p>
+                      <p css={STYLES_CARD_NAME}>Why</p>
+                      <p css={STYLES_CARD_GITHUB}>@whyrusleeping</p>
                     </div>
                   </System.HoverTile>
                 </a>
@@ -428,7 +440,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
                     <div>
                       <img
@@ -449,7 +461,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
                     <div>
                       <img
@@ -470,7 +482,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
                     <div>
                       <img
@@ -491,7 +503,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
                     <div>
                       <img
@@ -512,7 +524,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
                     <div>
                       <img
@@ -534,7 +546,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
                     <div>
                       <img
@@ -555,7 +567,7 @@ export default class CommunityPage extends React.Component {
                   <System.HoverTile
                     height={300}
                     width={200}
-                    style={{ padding: 10 }}
+                    style={{ padding: 8 }}
                   >
                     <div>
                       <img
@@ -574,58 +586,55 @@ export default class CommunityPage extends React.Component {
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_SECTION_CHILD_FULL}>
+            <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>Get involved</h1>
-              <p css={STYLES_P}>
+              <h3 css={STYLES_H3}>
                 Slate is a fully open-source file sharing network designed for
                 research and collaboration.
-              </p>
+              </h3>
             </div>
-            <div css={STYLES_SECTION_CHILD_SPLIT}>
-              <h2 css={STYLES_H2}>Contribute</h2>
-              <br />
-              <p css={STYLES_P}>
-                Get involved with the project and contribute.
-              </p>
-              <br />
-
-              <button css={STYLES_BUTTON_PRIMARY}>
-                <a>Github</a>
-              </button>
+            <div css={STYLES_SECTION_CHILD_FULL}>
+              <div css={STYLES_SECTION_CHILD_SPLIT}>
+                <h3 css={STYLES_H3}>Contribute</h3>
+                <p css={STYLES_P}>
+                  Get involved with the project and contribute.
+                </p>
+                <br />
+                <button css={STYLES_BUTTON_PRIMARY}>
+                  <a>Github</a>
+                </button>
+              </div>
+              <div css={STYLES_SECTION_CHILD_SPLIT}>
+                <h3 css={STYLES_H3}>Contact</h3>
+                <p css={STYLES_P}>
+                  {" "}
+                  Reach out to any of the core contributors, reach us on
+                  Twitter, or join our Slack.
+                </p>
+                <br />
+                <button css={STYLES_BUTTON_PRIMARY}>
+                  <a>Github</a>
+                </button>
+              </div>
             </div>
-            <div css={STYLES_SECTION_CHILD_SPLIT}>
-              <h2 css={STYLES_H2}>Contact</h2>
+            <div css={STYLES_SECTION_CHILD_FULL}>
+              <div css={STYLES_SECTION_CHILD_SPLIT}>
+                <h3 css={STYLES_H3}>Integrate</h3>
+                <p css={STYLES_P}>
+                  Explore our API and SDK and build on top of Slate.
+                </p>
+                <br />
+                <CodeBlock>npm install --save slate-react-system</CodeBlock>
+              </div>
               <br />
-              <p css={STYLES_P}>
-                {" "}
-                Reach out to any of the core contributors, reach us on Twitter,
-                or join our Slack.
-              </p>
-              <br />
-
-              <button css={STYLES_BUTTON_PRIMARY}>
-                <a>Github</a>
-              </button>
-            </div>
-            <div css={STYLES_SECTION_CHILD_SPLIT}>
-              <h2 css={STYLES_H2}>Integrate</h2>
-              <br />
-              <p css={STYLES_P}>
-                Explore our API and SDK and build on top of Slate.
-              </p>
-
-              <br />
-              <CodeBlock>npm install --save slate-react-system</CodeBlock>
-            </div>
-            <br />
-            <div css={STYLES_SECTION_CHILD_SPLIT}>
-              <h2 css={STYLES_H2}>Design System</h2>
-              <p css={STYLES_P}>
-                Check out our open source design system for your projects.
-              </p>
-
-              <br />
-              <CodeBlock>npm install --save slate-react-system</CodeBlock>
+              <div css={STYLES_SECTION_CHILD_SPLIT}>
+                <h3 css={STYLES_H3}>Design System</h3>
+                <p css={STYLES_P}>
+                  Check out our open source design system for your projects.
+                </p>
+                <br />
+                <CodeBlock>npm install --save slate-react-system</CodeBlock>
+              </div>
             </div>
           </div>
         </div>

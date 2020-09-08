@@ -13,7 +13,7 @@ import { SendAddressFilecoin } from "~/components/system/modules/SendAddressFile
 import { FilecoinBalancesList } from "~/components/system/modules/FilecoinBalancesList";
 import {
   FilecoinStorageDealsList,
-  FilecoinRetrievalDealsList,
+  FilecoinRetrievalDealsList
 } from "~/components/system/modules/FilecoinDealsList";
 import { FilecoinSettings } from "~/components/system/modules/FilecoinSettings";
 
@@ -29,7 +29,7 @@ import {
   ButtonSecondary,
   ButtonSecondaryFull,
   ButtonDisabled,
-  ButtonDisabledFull,
+  ButtonDisabledFull
 } from "~/components/system/components/Buttons";
 import { CardTabGroup } from "~/components/system/components/CardTabGroup";
 import { CheckBox } from "~/components/system/components/CheckBox";
@@ -38,6 +38,7 @@ import { DatePicker } from "~/components/system/components/DatePicker";
 import { Input } from "~/components/system/components/Input";
 import { ListEditor } from "~/components/system/components/ListEditor";
 import { HoverTile } from "~/components/system/components/HoverTile";
+import { HoverTileColorful } from "~/components/system/components/HoverTileColorful";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { RadioGroup } from "~/components/system/components/RadioGroup";
 import {
@@ -46,12 +47,12 @@ import {
   LoaderMoon,
   LoaderRotate,
   LoaderProgress,
-  LoaderSpinner,
+  LoaderSpinner
 } from "~/components/system/components/Loaders";
 import { Slider } from "~/components/system/components/Slider";
 import {
   SelectCountryMenu,
-  SelectMenu,
+  SelectMenu
 } from "~/components/system/components/SelectMenus";
 import { StatUpload, StatDownload } from "~/components/system/components/Stat";
 import { TabGroup } from "~/components/system/components/TabGroup";
@@ -66,7 +67,7 @@ import {
   P,
   UL,
   OL,
-  LI,
+  LI
 } from "~/components/system/components/Typography";
 
 // NOTE(jim): Fragments
@@ -75,12 +76,12 @@ import { CodeText } from "~/components/system/components/fragments/CodeText";
 import {
   GlobalTooltip,
   TooltipAnchor,
-  TooltipWrapper,
+  TooltipWrapper
 } from "~/components/system/components/fragments/GlobalTooltip";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import {
   TableContent,
-  TableColumn,
+  TableColumn
 } from "~/components/system/components/fragments/TableComponents";
 
 import { AvatarGroup } from "~/components/system/components/AvatarGroup";
@@ -119,6 +120,7 @@ export {
   GlobalNotification,
   Input,
   HoverTile,
+  HoverTileColorful,
   ListEditor,
   PopoverNavigation,
   RadioGroup,
@@ -156,5 +158,5 @@ export {
   LoaderRotate,
   LoaderProgress,
   LoaderSpinner,
-  AvatarGroup,
+  AvatarGroup
 };

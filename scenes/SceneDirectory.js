@@ -469,8 +469,8 @@ export default class SceneDirectory extends React.Component {
             requests
           ) : (
             <EmptyState style={{ marginTop: 88 }}>
-              No requests at the moment! Once someone sends you a trust request
-              it will appear here.
+              No requests at the moment! <br />
+              Once someone sends you a trust request it will appear here.
             </EmptyState>
           )
         ) : null}
@@ -479,8 +479,9 @@ export default class SceneDirectory extends React.Component {
             trusted
           ) : (
             <EmptyState style={{ marginTop: 88 }}>
-              You have no peers yet. Get started by searching for your friends
-              and sending them a peer request!
+              You have no peers yet. <br />
+              Get started by searching for your friends and sending them a peer
+              request!
             </EmptyState>
           )
         ) : null}
@@ -489,8 +490,8 @@ export default class SceneDirectory extends React.Component {
             following
           ) : (
             <EmptyState style={{ marginTop: 88 }}>
-              You are not following anybody. Get started by searching for your
-              friends and clicking follow!
+              You are not following anybody. <br />
+              Get started by searching for your friends and clicking follow!
             </EmptyState>
           )
         ) : null}
@@ -499,7 +500,7 @@ export default class SceneDirectory extends React.Component {
             followers
           ) : (
             <EmptyState style={{ marginTop: 88 }}>
-              You don't have any followers yet
+              You don't have any followers yet.
             </EmptyState>
           )
         ) : null}

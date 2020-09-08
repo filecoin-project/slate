@@ -92,8 +92,9 @@ export default class SceneSlates extends React.Component {
             ))
           ) : (
             <EmptyState style={{ marginTop: 88 }}>
-              You have no slates yet! Create a new slate by clicking the plus
-              button
+              You have no slates yet!
+              <br />
+              Create a new slate by clicking the plus button.
             </EmptyState>
           )
         ) : null}
@@ -103,8 +104,9 @@ export default class SceneSlates extends React.Component {
             subscriptions
           ) : (
             <EmptyState style={{ marginTop: 88 }}>
-              You aren't following any slates yet! Get started by following any
-              slates you encounter that you want to be updated on
+              You aren't following any slates yet! <br />
+              Get started by following any slates you encounter that you want to
+              be updated on.
             </EmptyState>
           )
         ) : null}

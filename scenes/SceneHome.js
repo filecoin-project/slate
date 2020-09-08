@@ -34,6 +34,14 @@ const STYLES_VIDEO_BIG = css`
 `;
 
 export default class SceneHome extends React.Component {
+  _handleCreateSlate = () => {
+    this.props.onAction({
+      type: "NAVIGATE",
+      value: "V1_NAVIGATION_SLATES",
+      data: null,
+    });
+  };
+
   render() {
     // TODO(jim): Refactor later.
     const slates = {
@@ -60,7 +68,9 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
+          url: `https://slate.host/${this.props.viewer.username}/${
+            each.slatename
+          }`,
           name: each.data.name,
           public: each.data.public,
           objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
@@ -106,16 +116,20 @@ export default class SceneHome extends React.Component {
     </Section>
   ) : null}
   */
+    let hasChildren = false;
+    if (this.props.viewer && this.props.viewer.library[0].children.length) {
+      hasChildren = true;
+    }
 
     return (
       <ScenePage>
         <ScenePageHeader title="Home">
-          {this.props.viewer.library[0].length
+          {hasChildren
             ? "Welcome back! Here is your data."
-            : "Welcome to Slate! Here's how to get started."}
+            : "Welcome to Slate! You can share files with anyone in the world. Here is how it works:"}
         </ScenePageHeader>
 
-        {this.props.viewer.library[0].length ? (
+        {hasChildren ? (
           <div style={{ marginTop: "48px" }}>
             <DataView
               buttons={[
@@ -137,22 +151,29 @@ export default class SceneHome extends React.Component {
             />
           </div>
         ) : (
-          <video
-            css={STYLES_VIDEO_BIG}
-            autoPlay
-            loop
-            muted
-            src="https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io"
-            type="video/m4v"
-            playsInline
-            style={{
-              backgroundImage: `url('https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io')`,
-              borderRadius: `4px`,
-              width: `100%`,
-              boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
-              backgroundSize: `cover`,
-            }}
-          />
+          <React.Fragment>
+            <video
+              css={STYLES_VIDEO_BIG}
+              autoPlay
+              loop
+              muted
+              src="https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io"
+              type="video/m4v"
+              playsInline
+              style={{
+                backgroundImage: `url('https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io')`,
+                borderRadius: `4px`,
+                width: `100%`,
+                boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
+                backgroundSize: `cover`,
+              }}
+            />
+            <System.P>When you're ready, create a slate!</System.P>
+            <br />
+            <System.ButtonPrimary onClick={this._handleCreateSlate}>
+              Create a Slate
+            </System.ButtonPrimary>
+          </React.Fragment>
         )}
       </ScenePage>
     );

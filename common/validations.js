@@ -100,6 +100,14 @@ export const password = (text) => {
 };
 
 export const isFileTypeAllowed = (type = "") => {
+  if (type.startsWith("text/")) {
+    return true;
+  }
+
+  if (type.startsWith("application/font-woff")) {
+    return true;
+  }
+
   if (type.startsWith("application/pdf")) {
     return true;
   }

@@ -6,47 +6,47 @@ import { css } from "@emotion/react";
 export const injectGlobalStyles = () => css`
   @font-face {
     font-family: 'mono';
-    src: url('/static/SFMono-Medium.woff');
+    src: url('https://bafkreialkhtjtpwocdadbmra3o7mii47bzgl3k2v2ossrpvhk3qqsbqtza.ipfs.slate.textile.io');
   }
 
   @font-face {
     font-family: 'mono-bold';
-    src: url('/static/SFMono-Bold.woff');
+    src: url('https://bafkreigaktonxehwl5bzah5ze4iruw272qybj22wpy32pgrcka3y4jvhc4.ipfs.slate.textile.io');
   }
 
   @font-face {
     font-family: 'inter-regular';
-    src: url('/static/Inter-Regular.woff');
+    src: url('https://bafkreic3hkcuwvrmf6trweqcjp62valsfjh3zvwacikoreynakgw67wrvy.ipfs.slate.textile.io');
   }
 
   @font-face {
     font-family: 'inter-semi-bold';
-    src: url('/static/Inter-SemiBold.woff');
+    src: url('https://bafkreiaezvuz6wawoqyntfl4gbprol3e7majovgof3uxvhilvd2pgk4w54.ipfs.slate.textile.io');
   }
 
   @font-face {
     font-family: 'inter-medium';
-    src: url('/static/Inter-Medium.woff');
+    src: url('https://bafkreiapyxmqjwoowqpek2cjocouzxoalwlzwwbv3dscug3e5l2ok7xmqe.ipfs.slate.textile.io');
   }
 
   @font-face {
     font-family: 'fira-code-regular';
-    src: url('/static/FiraCode-Regular.woff');
+    src: url('https://bafkreibtxh3xdwh6rp2k2uhtjssialbm25girhsck7qks2psycnzwvmtke.ipfs.slate.textile.io');
   }
 
   @font-face {
     font-family: 'fira-code-bold';
-    src: url('/static/FiraCode-Bold.woff');
+    src: url('https://bafkreidyich64vyb4nqzvn6uvfcgsbegafe7dqd2ks4wjtcg5jwte6aetm.ipfs.slate.textile.io');
   }
 
   @font-face {
     font-family: 'jet-brains-regular';
-    src: url('/static/JetBrainsMono-Regular.woff');
+    src: url('https://bafkreiabqv4534pnjhohcc2aclsgbp2twugldrlzg6wqdehajerrcwgu7e.ipfs.slate.textile.io');
   }
 
   @font-face {
     font-family: 'jet-brains-bold';
-    src: url('/static/JetBrainsMono-Bold.woff');
+    src: url('https://bafkreiejfxvbejf4a56x5tdo6w3n2kkrynwniv65rkkmrozxujroq6v4am.ipfs.slate.textile.io');
   }
 
   html, body, div, span, applet, object, iframe,

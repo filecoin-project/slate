@@ -110,12 +110,12 @@ export default class SceneHome extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Home">
-          {this.props.viewer.library[0]
+          {this.props.viewer.library[0].length
             ? "Welcome back! Here is your data."
             : "Welcome to Slate! Here's how to get started."}
         </ScenePageHeader>
 
-        {this.props.viewer.library[0] ? (
+        {this.props.viewer.library[0].length ? (
           <div style={{ marginTop: "48px" }}>
             <DataView
               buttons={[

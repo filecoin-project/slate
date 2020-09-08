@@ -14,7 +14,7 @@ const STYLES_ROOT = css`
   flex-direction: column;
   justify-content: space-between;
   max-width: 1440px;
-  margin: -88px 0 0 0;
+  margin: -88px 0 88px 0;
   background-color: ${Constants.system.foreground};
 `;
 
@@ -25,11 +25,11 @@ const STYLES_H1 = css`
   width: 100%;
   color: ${Constants.system.slate};
   @media (max-width: ${Constants.sizes.tablet}px) {
-    font-size: 3.052rem;
+    font-size: ${Constants.typescale.lvl6};
     padding: 0px 0px 16px 0px;
   }
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 1.953rem;
+    font-size: ${Constants.typescale.lvl5};
     padding: 0px 0px 8px 0px;
   }
 `;
@@ -41,11 +41,11 @@ const STYLES_H2 = css`
   width: 100%;
   color: ${Constants.system.black};
   @media (max-width: ${Constants.sizes.tablet}px) {
-    font-size: 1.563rem;
+    font-size: ${Constants.typescale.lvl4};
     padding: 8px 0px 0px 0px;
   }
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 1.25rem;
+    font-size: ${Constants.typescale.lvl3};
     padding: 8px 0px 0 0px;
     line-height: 1.5;
   }
@@ -57,11 +57,11 @@ const STYLES_H3 = css`
   padding: 16px 0px 0px 0px;
   color: ${Constants.system.slate};
   @media (max-width: ${Constants.sizes.tablet}px) {
-    font-size: 1.25rem;
+    font-size: ${Constants.typescale.lvl2};
     padding: 8px 0px 0px 0px;
   }
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 1rem;
+    font-size: ${Constants.typescale.lvl1};
     padding: 8px 0px 0px 0px;
   }
 `;
@@ -85,7 +85,7 @@ const STYLES_TEXT_BLOCK = css`
   width: 56vw;
   align-self: center;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 88%;
+    width: 88vw;
     right: 24px;
   }
 `;
@@ -146,7 +146,7 @@ const STYLES_SECTION_WRAPPER = css`
   padding: 88px;
   width: 100vw;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 64px 24px;
+    padding: 88px 24px;
     display: block;
   }
 `;
@@ -159,9 +159,11 @@ const STYLES_SECTION_CHILD_FULL = css`
   }
 `;
 const STYLES_SECTION_CHILD_SPLIT = css`
-  width: 70%;
+  width: 64%;
   height: 40vh;
-  @media (max-width: ${Constants.sizes.tablet}px) {
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    height: 24vh;
+    width: 100%;
     flex-direction: column;
   }
 `;
@@ -169,6 +171,9 @@ const STYLES_SECTION_CHILD_SPLIT = css`
 const STYLES_CARD_GROUP = css`
   display: flex;
   margin-top: 48px;
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    margin-top: 16px;
+  }
 `;
 
 const STYLES_CARD_NAME = css`
@@ -251,8 +256,8 @@ export default class CommunityPage extends React.Component {
               </h3>
               <br />
               <div>
-                <button css={STYLES_BUTTON_PRIMARY}>
-                  <a>Join our community</a>
+                <button css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("https://filecoin.io/slack")}>
+                  Join our community
                 </button>
               </div>
             </div>
@@ -538,8 +543,6 @@ export default class CommunityPage extends React.Component {
                 The Slate Project is the byproduct of a growing community of contributors from around the world. We’d
                 love for you to join us, get involved in the project and contribute.
               </h3>
-            </div>
-            <div css={STYLES_TEXT_BLOCK}>
               <div css={STYLES_SECTION_CHILD_FULL}>
                 <h3 css={STYLES_H3}>Contribute</h3>
                 <div css={STYLES_SECTION_CHILD_SPLIT}>
@@ -553,7 +556,7 @@ export default class CommunityPage extends React.Component {
                     css={STYLES_BUTTON_PRIMARY}
                     onClick={() => window.open("https://github.com/filecoin-project/slate")}
                   >
-                    <a>Github</a>
+                    Github
                   </button>
                 </div>
               </div>
@@ -571,10 +574,10 @@ export default class CommunityPage extends React.Component {
                     style={{ marginRight: 24 }}
                     onClick={() => window.open("https://twitter.com/_slate")}
                   >
-                    <a>Twitter</a>
+                    Twitter
                   </button>
                   <button css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("https://filecoin.io/slack")}>
-                    <a>Slack</a>
+                    Slack
                   </button>
                 </div>
               </div>
@@ -598,6 +601,15 @@ export default class CommunityPage extends React.Component {
                   <br />
                   <br />
                   <CodeBlock>npm install --save slate-react-system</CodeBlock>
+                  <br />
+                  <br />
+                  <button
+                    css={STYLES_BUTTON_PRIMARY}
+                    style={{ marginRight: 24 }}
+                    onClick={() => window.open("http://localhost:1337/_/system")}
+                  >
+                    Design system
+                  </button>
                 </div>
               </div>
             </div>

@@ -48,7 +48,7 @@ const STYLES_SLATE = css`
 `;
 
 const STYLES_TRADEMARK = css`
-  margin: 2px 12px 0 0;
+  margin: 2px 12px 8px 0;
 `;
 
 const STYLES_RIGHT = css`
@@ -105,10 +105,7 @@ export const NewWebsitePrototypeFooter = (props) => {
       <div css={STYLES_RIGHT}>
         <div style={{ marginRight: 88 }}>
           <p css={STYLES_P}>Reach out</p>
-          <a
-            css={STYLES_LINK}
-            href="https://twitter.com/_slate"
-            target="_blank">
+          <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
             Twitter
           </a>
           <br />
@@ -116,10 +113,7 @@ export const NewWebsitePrototypeFooter = (props) => {
             Slack
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate"
-            target="_blank">
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
             Github
           </a>
         </div>
@@ -131,17 +125,11 @@ export const NewWebsitePrototypeFooter = (props) => {
             Design system
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate"
-            target="_blank">
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
             View source
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate/issues"
-            target="_blank">
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues" target="_blank">
             Community
           </a>
           <br />

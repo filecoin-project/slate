@@ -115,7 +115,7 @@ const SlateItem = (props) => {
         </div>
 
         <div css={STYLES_DESCRIPTION}>
-          {props.slate.data.objects.length}{" "}
+          {Strings.zeroPad(props.slate.data.objects.length, 4)}{" "}
           {Strings.pluralize("object", props.slate.data.objects.length)}{" "}
           {!props.member ? (
             <span

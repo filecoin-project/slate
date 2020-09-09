@@ -36,7 +36,7 @@ const STYLES_ROW = css`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  font-family: ${Constants.font.text};
+  font-family: ${Constants.font.code};
   color: ${Constants.system.darkGray};
   font-size: 10px;
   margin-top: 2px;
@@ -75,11 +75,6 @@ export const DataMeterBar = (props) => {
 
   return (
     <React.Fragment>
-      <div css={STYLES_TITLE}>
-        {Strings.bytesToSize(props.bytes)} of available{" "}
-        {Strings.bytesToSize(props.maximumBytes)} Used
-      </div>
-
       <div css={STYLES_ROW}>
         <div
           css={STYLES_LEFT}
@@ -93,7 +88,7 @@ export const DataMeterBar = (props) => {
       <div
         css={STYLES_DATA}
         style={{
-          marginTop: 16,
+          marginTop: 8,
           backgroundColor: props.failed ? Constants.system.red : null,
         }}
       >
@@ -109,6 +104,11 @@ export const DataMeterBar = (props) => {
 export const DataMeter = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
+      <div css={STYLES_TITLE}>
+        {Strings.bytesToSize(props.stats.bytes)} of{" "}
+        {Strings.bytesToSize(props.stats.maximumBytes)} used
+      </div>
+
       <DataMeterBar
         bytes={props.stats.bytes}
         maximumBytes={props.stats.maximumBytes}

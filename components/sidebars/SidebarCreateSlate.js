@@ -4,6 +4,8 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
 
+const SLATE_LIMIT = 20;
+
 export default class SidebarCreateSlate extends React.Component {
   state = {
     name: "",
@@ -11,6 +13,11 @@ export default class SidebarCreateSlate extends React.Component {
   };
 
   _handleSubmit = async () => {
+    if (this.props.viewer.slates.length >= SLATE_LIMIT) {
+      alert("You have reached the limit of 20 Slates.");
+      return;
+    }
+
     this.setState({ loading: true });
 
     if (!Validations.slatename(this.state.name)) {
@@ -72,7 +79,8 @@ export default class SidebarCreateSlate extends React.Component {
           full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
-          loading={this.state.loading}>
+          loading={this.state.loading}
+        >
           Create {this.state.name}
         </System.ButtonPrimary>
       </div>

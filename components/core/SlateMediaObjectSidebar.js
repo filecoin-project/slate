@@ -8,6 +8,7 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { ProcessedText } from "~/components/system/components/Typography";
 
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
+import SlateMediaObjectSidebarDataManager from "~/components/core/SlateMediaObjectSidebarDataManager";
 
 const STYLES_SIDEBAR_INPUT = css`
   position: relative;
@@ -34,7 +35,7 @@ const STYLES_SIDEBAR_TEXTAREA = css`
   }
 `;
 
-const STYLES_SIDEAR_INPUT_LABEL = css`
+const STYLES_SIDEBAR_INPUT_LABEL = css`
   font-family: ${Constants.font.code};
   letter-spacing: 0.1px;
   color: #999;
@@ -51,7 +52,7 @@ class SidebarInput extends React.Component {
       <div css={STYLES_SIDEBAR_INPUT}>
         <label
           htmlFor={`sidebar-label-${this.props.name}`}
-          css={STYLES_SIDEAR_INPUT_LABEL}
+          css={STYLES_SIDEBAR_INPUT_LABEL}
         >
           {this.props.name}
         </label>
@@ -259,7 +260,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
           elements.push(
             <div key="sidebar-media-info-source" css={STYLES_SIDEBAR_SECTION}>
               <div
-                css={STYLES_SIDEAR_INPUT_LABEL}
+                css={STYLES_SIDEBAR_INPUT_LABEL}
                 style={{ position: "relative" }}
               >
                 Source
@@ -275,7 +276,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
           elements.push(
             <div key="sidebar-media-info-author" css={STYLES_SIDEBAR_SECTION}>
               <div
-                css={STYLES_SIDEAR_INPUT_LABEL}
+                css={STYLES_SIDEBAR_INPUT_LABEL}
                 style={{ position: "relative" }}
               >
                 Author
@@ -286,16 +287,21 @@ export default class SlateMediaObjectSidebar extends React.Component {
             </div>
           );
         }
-
-        if (this.props.renderPlaceholder) {
-          elements.push(
-            <div
-              key="sidebar-media-info-placeholder"
-              css={STYLES_SIDEBAR_CONTENT}
-            />
-          );
-        }
       }
+    }
+
+    // NOTE(jim): Only on the data view.
+    if (this.props.renderDataControls) {
+      elements.push(
+        <SlateMediaObjectSidebarDataManager
+          key="sidebar-media-data-controls"
+          data={this.props.data}
+          slates={this.props.slates}
+          loading={this.props.loading}
+          onAddToSlate={this.props.onAddToSlate}
+          onRemoveFromSlate={this.props.onRemoveFromSlate}
+        />
+      );
     }
 
     if (this.props.cid) {
@@ -324,12 +330,36 @@ export default class SlateMediaObjectSidebar extends React.Component {
       );
     }
 
+    // NOTE(jim):
+    // Delete data object, and it the reference on every slate.
+    if (this.props.onDataDelete) {
+      elements.push(
+        <span
+          key="sidebar-media-object-delete"
+          css={STYLES_BUTTON}
+          onMouseUp={this.props.onDataDelete}
+          onTouchEnd={this.props.onDataDelete}
+        >
+          {this.props.loading ? (
+            <LoaderSpinner style={{ height: 16, width: 16 }} />
+          ) : (
+            <span>
+              Delete from all slates and data storage&nbsp;&nbsp;&nbsp;⭢
+            </span>
+          )}
+        </span>
+      );
+    }
+
+    // NOTE(jim):
+    // Delete slate media object, but not the data.
     if (this.props.onDelete && this.props.editing) {
       elements.push(
         <span
           key="sidebar-media-object-delete"
           css={STYLES_BUTTON}
-          onClick={() => this.props.onDelete(this.props.id)}
+          onMouseUp={() => this.props.onDelete(this.props.id)}
+          onTouchEnd={() => this.props.onDelete(this.props.id)}
         >
           {this.props.loading ? (
             <LoaderSpinner style={{ height: 16, width: 16 }} />

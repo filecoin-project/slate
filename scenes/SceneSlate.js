@@ -53,6 +53,8 @@ const setStateData = (source) => {
   };
 };
 
+let isMounted = false;
+
 export default class SceneSlate extends React.Component {
   _timeout = null;
   _remoteLock = false;
@@ -84,6 +86,12 @@ export default class SceneSlate extends React.Component {
   }
 
   componentDidMount() {
+    if (isMounted) {
+      return false;
+    }
+
+    isMounted = true;
+
     this._handleUpdateCarousel(this.state);
     window.addEventListener(
       "remote-update-slate-screen",
@@ -100,6 +108,8 @@ export default class SceneSlate extends React.Component {
   }
 
   componentWillUnmount() {
+    isMounted = false;
+
     window.removeEventListener(
       "update-current-slate",
       this._handleRemoteUpdate

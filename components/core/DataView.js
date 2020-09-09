@@ -9,6 +9,8 @@ import { css } from "@emotion/react";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
+import { dispatchCustomEvent } from "~/common/custom-events";
+import { generateLayout } from "~/components/core/Slate";
 
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
@@ -111,15 +113,48 @@ const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
   )}
 */
 
+let mounted = false;
+
 export default class DataView extends React.Component {
+  _mounted = false;
+
   state = {
-    selectedRowId: null,
     menu: null,
     loading: {},
   };
 
   async componentDidMount() {
+    if (!mounted) {
+      mounted = true;
+      window.addEventListener("remote-data-deletion", this._handleDataDeletion);
+      window.addEventListener(
+        "remote-slate-object-remove",
+        this._handleRemoteSlateObjectRemove
+      );
+      window.addEventListener(
+        "remote-slate-object-add",
+        this._handleRemoteSlateObjectAdd
+      );
+    }
+
     await this._handleUpdate();
+  }
+
+  componentWillUnmount() {
+    mounted = false;
+
+    window.removeEventListener(
+      "remote-data-deletion",
+      this._handleDataDeletion
+    );
+    window.removeEventListener(
+      "remote-slate-object-remove",
+      this._handleRemoteSlateObjectRemove
+    );
+    window.removeEventListener(
+      "remote-slate-object-add",
+      this._handleRemoteSlateObjectAdd
+    );
   }
 
   componentDidUpdate = (prevProps) => {
@@ -143,10 +178,29 @@ export default class DataView extends React.Component {
 
           return {
             id: data.id,
+            slates: this.props.viewer.slates,
             cid,
             data,
-            renderPlaceholder: true,
+            renderDataControls: true,
             component: <SlateMediaObject key={data.id} data={data} />,
+            onDataDelete: () => {
+              return dispatchCustomEvent({
+                name: "remote-data-deletion",
+                detail: { cid },
+              });
+            },
+            onRemoveFromSlate: (data) => {
+              return dispatchCustomEvent({
+                name: "remote-slate-object-remove",
+                detail: { ...data },
+              });
+            },
+            onAddToSlate: (data) => {
+              return dispatchCustomEvent({
+                name: "remote-slate-object-add",
+                detail: { ...data },
+              });
+            },
           };
         }),
       },
@@ -157,6 +211,94 @@ export default class DataView extends React.Component {
     System.dispatchCustomEvent({
       name: "slate-global-open-carousel",
       detail: { index },
+    });
+  };
+
+  _handleDataDeletion = (e) => {
+    this._handleDelete(e.detail.cid);
+  };
+
+  _handleRemoteSlateObjectAdd = async ({ detail }) => {
+    const { id, slate, data } = detail;
+
+    System.dispatchCustomEvent({
+      name: "state-global-carousel-loading",
+      detail: { loading: { id: slate.id } },
+    });
+
+    const addResponse = await fetch(`/api/slates/add-url`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ slate, data: { title: data.name, ...data } }),
+    });
+
+    if (!addResponse || addResponse.error) {
+      alert("We could not add this object to your slate.");
+      return null;
+    }
+
+    await this.props.onRehydrate();
+    await this._handleUpdate();
+
+    System.dispatchCustomEvent({
+      name: "state-global-carousel-loading",
+      detail: { loading: false },
+    });
+  };
+
+  _handleRemoteSlateObjectRemove = async ({ detail }) => {
+    const { id, slate } = detail;
+
+    System.dispatchCustomEvent({
+      name: "state-global-carousel-loading",
+      detail: { loading: { id: slate.id } },
+    });
+
+    const objects = slate.data.objects.filter((o, i) => {
+      return o.id !== id;
+    });
+
+    // TODO(jim): This is a brute force way to handle this.
+    const layouts = { lg: generateLayout(objects) };
+
+    const response = await Actions.updateSlate({
+      id: slate.id,
+      data: {
+        name: slate.data.name,
+        objects,
+        layouts,
+      },
+    });
+
+    if (!response) {
+      System.dispatchCustomEvent({
+        name: "state-global-carousel-loading",
+        detail: { loading: false },
+      });
+
+      alert("We failed to remove the object from your Slate.");
+      return null;
+    }
+
+    if (response.error) {
+      System.dispatchCustomEvent({
+        name: "state-global-carousel-loading",
+        detail: { loading: false },
+      });
+
+      alert("We failed to remove the object from your Slate.");
+      return null;
+    }
+
+    await this.props.onRehydrate();
+    await this._handleUpdate();
+
+    System.dispatchCustomEvent({
+      name: "state-global-carousel-loading",
+      detail: { loading: false },
     });
   };
 
@@ -181,35 +323,51 @@ export default class DataView extends React.Component {
     this.setState({ menu: null });
   };
 
+  _handleRemoteDeletion = async (e) => {
+    await this._handleDelete(e.detail.cid);
+  };
+
+  _handleLoading = ({ cid }) => {
+    System.dispatchCustomEvent({
+      name: "state-global-carousel-loading",
+      detail: { loading: !this.state.loading[cid] },
+    });
+
+    this.setState({
+      loading: { ...this.state.loading, [cid]: !this.state.loading[cid] },
+    });
+  };
+
   _handleDelete = async (cid) => {
-    this.setState({ loading: { ...this.state.loading, [cid]: true } });
+    this._handleLoading({ cid });
+
     if (
       !window.confirm(
         "Are you sure you want to delete this? It will be removed from your Slates too."
       )
     ) {
-      this.setState({ loading: { ...this.state.loading, [cid]: false } });
+      this._handleLoading({ cid });
       return null;
     }
 
     const response = await Actions.deleteBucketItem({ cid });
-    console.log(response);
 
     if (!response) {
-      this.setState({ loading: { ...this.state.loading, [cid]: false } });
+      this._handleLoading({ cid });
       alert("TODO: Broken response error");
-      return;
+      return null;
     }
 
     if (response.error) {
-      this.setState({ loading: { ...this.state.loading, [cid]: false } });
+      this._handleLoading({ cid });
       alert("TODO: Bucket delete error");
-      return;
+      return null;
     }
 
     await this.props.onRehydrate();
     await this._handleUpdate();
-    this.setState({ loading: false });
+    this._handleLoading({ cid });
+    return null;
   };
 
   _handleClick = (e) => {
@@ -326,11 +484,8 @@ export default class DataView extends React.Component {
             padding: "12px 24px",
           }}
           rowStyle={STYLES_TABLE_VALUE}
-          selectedRowId={this.state.selectedRowId}
-          name="selectedRowId"
           onAction={this.props.onAction}
           onNavigateTo={this.props.onNavigateTo}
-          onChange={this._handleChange}
         />
         <input
           readOnly

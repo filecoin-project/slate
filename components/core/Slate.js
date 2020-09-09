@@ -39,7 +39,7 @@ const STYLES_ACTIONS = css`
   z-index: ${Constants.zindex.navigation};
   bottom: 16px;
   right: 8px;
-  position: absolute;
+  position: fixed;
   flex-direction: column;
   display: flex;
 `;

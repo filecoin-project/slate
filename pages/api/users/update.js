@@ -49,8 +49,26 @@ export default async (req, res) => {
     }
   }
 
-  // TODO(jim): Do not expose how many times you are salting
-  // in OSS, add a random value as an environment variable.
+  // TODO(jim): POWERGATE
+  // Doesn't actually work yet.
+  if (req.body.type === "SET_DEFAULT_STORAGE_CONFIG") {
+    const {
+      power,
+      powerInfo,
+      powerHealth,
+    } = await Utilities.getPowergateAPIFromUserToken(user.data.tokens.api);
+
+    let data;
+    try {
+      data = await power.ffs.setDefaultStorageConfig(req.body.config);
+    } catch (e) {
+      console.log(e);
+      return res
+        .status(500)
+        .send({ decorator: "SERVER_USER_UPDATE_SETTINGS_CONFIG", error: true });
+    }
+  }
+
   if (req.body.type == "CHANGE_PASSWORD") {
     if (!Validations.password(req.body.password)) {
       return res

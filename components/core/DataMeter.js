@@ -5,8 +5,7 @@ import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
 
-// NOTE(jim): 10 GB
-const MAX_IN_BYTES = 10737418240;
+const MAX_IN_BYTES = 10737418240 * 50;
 
 const STYLES_CONTAINER = css`
   border-radius: 4px;

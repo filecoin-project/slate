@@ -196,6 +196,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
                 marginTop: 16,
                 backgroundColor: "#e5e5e5",
                 color: Constants.system.red,
+                boxShadow: "none",
               }}
               full
               onClick={this._handleCancel}
@@ -206,15 +207,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
         </div>
 
         {!this.state.loading ? (
-          <System.DescriptionGroup
-            style={{ marginTop: 48 }}
-            label="Delete this slate"
-            description="This action is irreversible."
-          />
-        ) : null}
-
-        {!this.state.loading ? (
-          <div style={{ marginTop: 32 }}>
+          <div style={{ marginTop: 48 }}>
             <System.ButtonSecondary
               full
               onClick={this._handleDelete}
@@ -222,6 +215,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
               style={{
                 backgroundColor: "#e5e5e5",
                 color: Constants.system.red,
+                boxShadow: "none",
               }}
             >
               Delete{" "}

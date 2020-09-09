@@ -123,7 +123,7 @@ const STYLES_SECTION_SLATE = css`
   flex-direction: column;
   padding: 88px;
   width: 100vw;
-  background: ${Constants.system.slate};
+  ${"" /* background: ${Constants.system.slate}; */}
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 64px 24px;
@@ -424,9 +424,9 @@ const STYLES_SLATE_CARD_IMAGE = css`
   }
 `;
 
-export const getServerSideProps = async context => {
+export const getServerSideProps = async (context) => {
   return {
-    props: { ...context.query }
+    props: { ...context.query },
   };
 };
 
@@ -601,7 +601,7 @@ export default class IndexPage extends React.Component {
                 borderRadius: `4px`,
                 width: `100%`,
                 boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
-                backgroundSize: `cover`
+                backgroundSize: `cover`,
               }}
             />
             <div css={STYLES_TEXT_BLOCK}>
@@ -690,7 +690,7 @@ export default class IndexPage extends React.Component {
                       backgroundImage: `url('https://bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4.ipfs.slate.textile.io/')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
-                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                     }}
                   />
                 </div>
@@ -707,7 +707,7 @@ export default class IndexPage extends React.Component {
                       backgroundImage: `url('https://bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou.ipfs.slate.textile.io/')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
-                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                     }}
                   />
                 </div>
@@ -726,7 +726,7 @@ export default class IndexPage extends React.Component {
                       backgroundImage: `url('https://bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti.ipfs.slate.textile.io/')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
-                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                     }}
                   />
                 </div>
@@ -743,7 +743,7 @@ export default class IndexPage extends React.Component {
                       backgroundImage: `url('https://bafkreihu7k46n6eixx6sxjv7aolou5bgvksvb7ryju3gbwie22t6r2dhli.ipfs.slate.textile.io/')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
-                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                     }}
                   />
                 </div>
@@ -801,7 +801,7 @@ export default class IndexPage extends React.Component {
                   backgroundImage: `url('https://bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq.ipfs.slate.textile.io/')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
-                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                 }}
               />
 
@@ -819,7 +819,7 @@ export default class IndexPage extends React.Component {
                   backgroundImage: `url('https://bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi.ipfs.slate.textile.io/')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
-                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                 }}
               />
 
@@ -837,7 +837,7 @@ export default class IndexPage extends React.Component {
                   backgroundImage: `url('https://bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u.ipfs.slate.textile.io/')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
-                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                 }}
               />
             </div>
@@ -871,7 +871,7 @@ export default class IndexPage extends React.Component {
                   backgroundImage: `url('https://bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4.ipfs.slate.textile.io/')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
-                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                 }}
               />
             </div>

@@ -532,11 +532,7 @@ export default class IndexPage extends React.Component {
         description={description}
         url={url}
       >
-<<<<<<< HEAD
         <WebsitePrototypeHeader />
-=======
-        <WebsitePrototypeHeader color="light" />
->>>>>>> main
         <div css={STYLES_ROOT}>
           <section css={STYLES_SECTION_HERO}>
             <div css={STYLES_TEXT_BLOCK}>
@@ -906,7 +902,6 @@ export default class IndexPage extends React.Component {
             <br />
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-<<<<<<< HEAD
                 <div css={STYLES_SLATE_CARD_URBAN_GARDENS}>
                   <a
                     css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -919,25 +914,12 @@ export default class IndexPage extends React.Component {
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@gndclouds</div>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
-=======
-                <a
-                  css={STYLES_SLATE_CARD_PARAGRAPH}
-                  href="https://slate.host/gndclouds/urban-gardens"
-                  target="_blank"
-                >
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Urban gardens</div>
-                    <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@gndclouds</div>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
->>>>>>> main
                     </div>
                   </a>
                 </div>
               </div>
 
               <div css={STYLES_SLATE_CARD}>
-<<<<<<< HEAD
                 <div css={STYLES_SLATE_CARD_SHAPES_LETTERS}>
                   <a
                     css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -952,24 +934,11 @@ export default class IndexPage extends React.Component {
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
-=======
-                <a
-                  css={STYLES_SLATE_CARD_PARAGRAPH}
-                  href="https://slate.host/haris/shapes-and-letters"
-                  target="_blank"
-                >
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Shapes and letters</div>
-                    <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
->>>>>>> main
                     </div>
                   </a>
                 </div>
               </div>
               <div css={STYLES_SLATE_CARD}>
-<<<<<<< HEAD
                 <div css={STYLES_SLATE_CARD_MOUNTIANS}>
                   <a
                     css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -982,18 +951,6 @@ export default class IndexPage extends React.Component {
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@jason</div>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
-=======
-                <a
-                  css={STYLES_SLATE_CARD_PARAGRAPH}
-                  href="https://slate.host/jason/mountains"
-                  target="_blank"
-                >
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Mountains</div>
-                    <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@jason</div>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
->>>>>>> main
                     </div>
                   </a>
                 </div>
@@ -1002,7 +959,6 @@ export default class IndexPage extends React.Component {
 
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-<<<<<<< HEAD
                 <div css={STYLES_SLATE_CARD_LOOM}>
                   <a
                     css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -1015,24 +971,11 @@ export default class IndexPage extends React.Component {
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tara</div>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
-=======
-                <a
-                  css={STYLES_SLATE_CARD_PARAGRAPH}
-                  href="https://slate.host/tara/loom"
-                  target="_blank"
-                >
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Loom</div>
-                    <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tara</div>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
->>>>>>> main
                     </div>
                   </a>
                 </div>
               </div>
               <div css={STYLES_SLATE_CARD}>
-<<<<<<< HEAD
                 <div css={STYLES_SLATE_CARD_BRAND}>
                   <a
                     css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -1045,24 +988,11 @@ export default class IndexPage extends React.Component {
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
-=======
-                <a
-                  css={STYLES_SLATE_CARD_PARAGRAPH}
-                  href="https://slate.host/slate/brand"
-                  target="_blank"
-                >
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Brand</div>
-                    <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
->>>>>>> main
                     </div>
                   </a>
                 </div>
               </div>
               <div css={STYLES_SLATE_CARD}>
-<<<<<<< HEAD
                 <div css={STYLES_SLATE_CARD_UNDERGROUND}>
                   <a
                     css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -1077,20 +1007,6 @@ export default class IndexPage extends React.Component {
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tcosta</div>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
-=======
-                <a
-                  css={STYLES_SLATE_CARD_PARAGRAPH}
-                  href="https://slate.host/tcosta/montreal-underground"
-                  target="_blank"
-                >
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>
-                      Montreal underground
-                    </div>
-                    <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tcosta</div>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
->>>>>>> main
                     </div>
                   </a>
                 </div>
@@ -1099,7 +1015,6 @@ export default class IndexPage extends React.Component {
 
             <div css={STYLES_SLATE_CARD_GROUP}>
               <div css={STYLES_SLATE_CARD}>
-<<<<<<< HEAD
                 <div css={STYLES_SLATE_CARD_MONET}>
                   <a
                     css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -1112,24 +1027,11 @@ export default class IndexPage extends React.Component {
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
-=======
-                <a
-                  css={STYLES_SLATE_CARD_PARAGRAPH}
-                  href="https://slate.host/slate/monet"
-                  target="_blank"
-                >
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Monet</div>
-                    <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
->>>>>>> main
                     </div>
                   </a>
                 </div>
               </div>
               <div css={STYLES_SLATE_CARD}>
-<<<<<<< HEAD
                 <div css={STYLES_SLATE_CARD_BOOK_SHELF}>
                   <a
                     css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -1142,24 +1044,11 @@ export default class IndexPage extends React.Component {
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
-=======
-                <a
-                  css={STYLES_SLATE_CARD_PARAGRAPH}
-                  href="https://slate.host/haris/book-shelf"
-                  target="_blank"
-                >
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Book shelf</div>
-                    <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
->>>>>>> main
                     </div>
                   </a>
                 </div>
               </div>
               <div css={STYLES_SLATE_CARD}>
-<<<<<<< HEAD
                 <div css={STYLES_SLATE_CARD_PAPERS}>
                   <a
                     css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -1172,18 +1061,6 @@ export default class IndexPage extends React.Component {
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
                         <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
                       </div>
-=======
-                <a
-                  css={STYLES_SLATE_CARD_PARAGRAPH}
-                  href="https://slate.host/slate/papers"
-                  target="_blank"
-                >
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <div css={STYLES_SLATE_CARD_TITLE}>Papers</div>
-                    <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
-                      <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
->>>>>>> main
                     </div>
                   </a>
                 </div>

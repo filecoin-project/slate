@@ -5,6 +5,8 @@ import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
+import { Input } from "~/components/core/Input";
+import { Textarea } from "~/components/core/Textarea";
 
 const STYLES_GROUP = css`
   display: flex;
@@ -118,15 +120,11 @@ export default class SidebarSingleSlateSettings extends React.Component {
         >
           Slate Settings
         </System.P>
-        <System.P style={{ marginTop: 24 }}>
-          Update settings for{" "}
-          {this.props.current.data.name || this.props.current.slatename}.
-        </System.P>
 
-        <System.Input
+        <Input
           containerStyle={{ marginTop: 48 }}
           style={{ marginTop: 24 }}
-          label="Slate name"
+          label="Name"
           description={
             <React.Fragment>
               Changing the slatename will change your public slate URL. Your
@@ -151,7 +149,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           descriptionStyle={{ fontSize: Constants.system.lvl1 }}
           labelStyle={{ fontSize: Constants.system.lvl2 }}
         />
-        <System.Textarea
+        <Textarea
           style={{ marginTop: 24 }}
           label="Description"
           name="body"
@@ -165,7 +163,11 @@ export default class SidebarSingleSlateSettings extends React.Component {
           <div css={STYLES_LEFT}>
             <System.DescriptionGroup
               label="Change privacy"
-              description="If enabled, your slate will be visible to anyone in the world. If disabled, your slate will only be visible to you on this screen."
+              description={
+                this.state.public
+                  ? "This slate is public"
+                  : "This slate is private"
+              }
               descriptionStyle={{ fontSize: Constants.system.lvl1 }}
               labelStyle={{ fontSize: Constants.system.lvl2 }}
             />
@@ -190,7 +192,11 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
           {!this.state.loading ? (
             <System.ButtonSecondary
-              style={{ marginTop: 16 }}
+              style={{
+                marginTop: 16,
+                backgroundColor: "#e5e5e5",
+                color: Constants.system.red,
+              }}
               full
               onClick={this._handleCancel}
             >
@@ -213,8 +219,15 @@ export default class SidebarSingleSlateSettings extends React.Component {
               full
               onClick={this._handleDelete}
               loading={this.state.loading}
+              style={{
+                backgroundColor: "#e5e5e5",
+                color: Constants.system.red,
+              }}
             >
-              Delete {this.props.current.slatename}
+              Delete{" "}
+              {this.props.current.data && this.props.current.data.name
+                ? this.props.current.data.name
+                : this.props.current.slatename}
             </System.ButtonSecondary>
           </div>
         ) : null}

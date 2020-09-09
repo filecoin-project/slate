@@ -151,7 +151,9 @@ export default class SidebarAddFileToBucket extends React.Component {
           onChange={this._handleUpload}
         />
 
-        {this.props.data && this.props.data.decorator === "SLATE" ? (
+        {this.props.data &&
+        (this.props.data.slatename ||
+          (this.props.data.data && this.props.data.data.name)) ? (
           <System.P style={{ marginTop: 24 }}>
             This will add data to your Slate named{" "}
             <strong>
@@ -162,6 +164,10 @@ export default class SidebarAddFileToBucket extends React.Component {
             .
           </System.P>
         ) : null}
+
+        <System.P style={{ marginTop: 24 }}>
+          Click below or drop a file anywhere on the page to upload a file.
+        </System.P>
 
         {!this.props.fileLoading ? (
           <System.ButtonPrimary

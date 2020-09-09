@@ -1,5 +1,7 @@
 .next
 .env
+.env-development
+.env-textile
 .env-production
 .DS_STORE
 DS_STORE

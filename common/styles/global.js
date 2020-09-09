@@ -230,7 +230,6 @@ export const injectCodeBlockStyles = () => css`
     code,
     pre {
       color: #fff5b1;
-      text-shadow: 0 0 2px #100c0f, 0 0 5px #dc078e33, 0 0 10px #fff3;
       font-family: ${Constants.font.code};
       font-size: 12px;
       text-align: left;
@@ -280,13 +279,12 @@ export const injectCodeBlockStyles = () => css`
     .token.unit,
     .token.hexcode,
     .token.deleted {
-      color: cyan;
+      color: ${Constants.system.moonstone};
     }
 
     .token.property,
     .token.selector {
       color: #ffdf5d;
-      text-shadow: 0 0 2px #100c0f, 0 0 10px #257c5575, 0 0 35px #21272475;
     }
 
     .token.function-name {
@@ -299,8 +297,7 @@ export const injectCodeBlockStyles = () => css`
     .token.function, 
     .token.constant,
     .token.symbol {
-      color: #c8e1ff;
-      text-shadow: 0 0 2px #001716, 0 0 3px #03edf975, 0 0 5px #03edf975, 0 0 8px #03edf975;
+      color: ${Constants.system.gray};
     }
 
     .token.important,
@@ -308,8 +305,7 @@ export const injectCodeBlockStyles = () => css`
     .token.keyword,
     .token.selector .token.class,
     .token.builtin {
-      color: #f9c513;
-      text-shadow: 0 0 2px #393a33, 0 0 8px #f39f0575, 0 0 2px #f39f0575;
+      color: #FFFFFF;
     }
 
     .token.string,
@@ -323,7 +319,7 @@ export const injectCodeBlockStyles = () => css`
     .token.operator,
     .token.entity,
     .token.url {
-      color: #f9c513;
+      color: ${Constants.system.moonstone};
     }
 
     .token.important,

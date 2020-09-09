@@ -2,6 +2,7 @@ import Head from "next/head";
 
 import * as React from "react";
 import * as SVG from "~/common/svg";
+import * as SVGLogo from "~/common/logo";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
@@ -178,6 +179,9 @@ export default class SystemPage extends React.Component {
         </Head>
         <div css={STYLES_BODY}>{children}</div>
         <div css={STYLES_SIDEBAR}>
+          <a css={STYLES_LINK} href="/" style={{ marginTop: 0 }}>
+            <SVGLogo.Logo height="32px" style={{ marginBottom: 24 }} />
+          </a>
           <span css={STYLES_LABEL}>Experiences</span>
           <SidebarLink
             url={url}
@@ -298,62 +302,6 @@ export default class SystemPage extends React.Component {
           >
             <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
             View source
-          </div>
-          <div
-            css={STYLES_SMALL_LINK}
-            onClick={() => {
-              window.open(
-                "https://github.com/filecoin-shipyard/js-lotus-client"
-              );
-            }}
-          >
-            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
-            JS Lotus Client
-          </div>
-          <div
-            css={STYLES_SMALL_LINK}
-            onClick={() => {
-              window.open("https://github.com/textileio/js-powergate-client");
-            }}
-          >
-            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
-            JS Powergate Client
-          </div>
-          <div
-            css={STYLES_SMALL_LINK}
-            onClick={() => {
-              window.open("https://docs.textile.io/");
-            }}
-          >
-            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
-            Textile Documentation
-          </div>
-          <div
-            css={STYLES_SMALL_LINK}
-            onClick={() => {
-              window.open("https://docs.lotu.sh/");
-            }}
-          >
-            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
-            Lotus Documentation
-          </div>
-          <div
-            css={STYLES_SMALL_LINK}
-            onClick={() => {
-              window.open("https://docs.filecoin.io/");
-            }}
-          >
-            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
-            Filecoin Documentation
-          </div>
-          <div
-            css={STYLES_SMALL_LINK}
-            onClick={() => {
-              window.open("https://filecoin.io/#community");
-            }}
-          >
-            <SVG.ExpandBox height="12px" style={{ marginRight: 10 }} />
-            Community
           </div>
         </div>
       </div>

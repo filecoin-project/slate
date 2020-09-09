@@ -402,7 +402,8 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleNavigateTo = (next, data = null) => {
-    let body = document.getElementById("slate-client-body");
+    let body = document.documentElement || document.body;
+    console.log(body.scrollTop);
     this.state.history[this.state.currentIndex].scrollTop = body.scrollTop; //window.scrollY => body.scrollTop (where body is the body of the ApplicationLayout)
     this.state.history[this.state.currentIndex].data = this.state.data; //BUG FIX: was originally = data. So it was setting it equal to the data for the next one rather than the current one
 
@@ -433,7 +434,8 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleBack = () => {
-    let body = document.getElementById("slate-client-body");
+    let body = document.documentElement || document.body;
+    console.log(body.scrollTop);
     this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
     this.state.history[this.state.currentIndex].data = this.state.data; //BUG FIX: if you go back, it doesn't save the data for that page. so if you go forward to it again, it breaks. changed data => this.state.data
 
@@ -453,7 +455,8 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleForward = () => {
-    let body = document.getElementById("slate-client-body");
+    let body = document.documentElement || document.body;
+    console.log(body.scrollTop);
     this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
 
     const next = this.state.history[this.state.currentIndex + 1];
@@ -478,7 +481,8 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           title="Slate: sign in"
           description="Sign in to your Slate account to manage your assets."
-          url="https://slate.host/_">
+          url="https://slate.host/_"
+        >
           <SceneSignIn
             onAuthenticate={this._handleAuthenticate}
             onNavigateTo={this._handleNavigateTo}
@@ -565,12 +569,14 @@ export default class ApplicationPage extends React.Component {
         <WebsitePrototypeWrapper
           description={description}
           title={title}
-          url={url}>
+          url={url}
+        >
           <ApplicationLayout
             header={headerElement}
             navigation={navigationElement}
             sidebar={sidebarElement}
-            onDismissSidebar={this._handleDismissSidebar}>
+            onDismissSidebar={this._handleDismissSidebar}
+          >
             {scene}
           </ApplicationLayout>
           <System.GlobalCarousel />

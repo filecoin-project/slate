@@ -35,57 +35,6 @@ const STYLES_SLATE = css`
   }
 `;
 
-const STYLES_HEADER = css`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 12px 0 12px 0;
-  max-width: 540px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    max-width: none;
-    display: block;
-  }
-`;
-
-const STYLES_HEADER_LEFT = css`
-  font-family: ${Constants.font.semiBold};
-  text-transform: none;
-  flex-shrink: 0;
-  line-height: 1.5;
-  color: ${Constants.system.pitchBlack};
-  text-decoration: none;
-  transition: 200ms ease color;
-
-  :visited {
-    color: ${Constants.system.black};
-  }
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    text-align: center;
-  }
-`;
-
-const STYLES_HEADER_RIGHT = css`
-  font-family: ${Constants.font.text};
-  text-transform: none;
-  line-height: 1.5;
-  text-align: left;
-  min-width: 10%;
-  width: 100%;
-  padding-left: 24px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding-left: 0px;
-    margin-top: 16px;
-    text-align: center;
-  }
-`;
-
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
@@ -134,12 +83,21 @@ export default class SlatePage extends React.Component {
     const url = `https://slate.host/${this.props.creator.username}`;
     const description = this.props.slate.data.body;
 
+    const { objects } = this.props.slate.data;
+
+    // TODO(jim): Takes the first image found
+    // but we want this to be a user choice.
     let image;
-    this.props.slate.data.objects.forEach((o) => {
-      if (o.type && o.type.startsWith("image/")) {
-        image = o.url;
+    for (let i = 0; i < objects.length; i++) {
+      if (objects[i].type && objects[i].type.startsWith("image/")) {
+        image = objects[i].url;
+        break;
       }
-    });
+    }
+
+    const headerTitle = `${this.props.creator.username} / ${
+      this.props.slate.slatename
+    }`;
 
     return (
       <WebsitePrototypeWrapper
@@ -149,21 +107,14 @@ export default class SlatePage extends React.Component {
         image={image}
       >
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric>
-            <div css={STYLES_HEADER}>
-              <a css={STYLES_HEADER_LEFT} href={url}>
-                {this.props.creator.username} / {this.props.slate.slatename}
-              </a>
-              <div css={STYLES_HEADER_RIGHT}>
-                <ProcessedText text={this.props.slate.data.body} />
-              </div>
-            </div>
+          <WebsitePrototypeHeaderGeneric href={url} title={headerTitle}>
+            <ProcessedText text={this.props.slate.data.body} />
           </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
             <Slate
               editing={false}
               layouts={this.state.layouts}
-              items={this.props.slate.data.objects}
+              items={objects}
               onSelect={this._handleSelect}
             />
           </div>

@@ -8,7 +8,6 @@ import { TabGroup } from "~/components/core/TabGroup";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import SceneContent from "~/components/core/SceneContent";
 import Section from "~/components/core/Section";
 import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
@@ -71,46 +70,46 @@ export default class SceneSlates extends React.Component {
           onChange={(value) => this.setState({ tab: value })}
         />
 
-        <SceneContent>
-          {this.state.tab === 0 ? (
-            this.props.viewer.slates && this.props.viewer.slates.length ? (
-              this.props.viewer.slates.map((slate) => (
-                <div
-                  key={slate.id}
-                  onClick={() =>
-                    this.props.onAction({
-                      type: "NAVIGATE",
-                      value: slate.id,
-                      data: slate,
-                    })
-                  }
-                >
-                  <SlatePreviewBlock
-                    slate={slate}
-                    username={this.props.viewer.username}
-                    editing
-                  />
-                </div>
-              ))
-            ) : (
-              <EmptyState style={{ marginTop: 88 }}>
-                You have no slates yet! Create a new slate by clicking the plus
-                button
-              </EmptyState>
-            )
-          ) : null}
+        {this.state.tab === 0 ? (
+          this.props.viewer.slates && this.props.viewer.slates.length ? (
+            this.props.viewer.slates.map((slate) => (
+              <div
+                key={slate.id}
+                onClick={() =>
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: slate.id,
+                    data: { decorator: "SLATE", ...slate },
+                  })
+                }
+              >
+                <SlatePreviewBlock
+                  slate={slate}
+                  username={this.props.viewer.username}
+                  editing
+                />
+              </div>
+            ))
+          ) : (
+            <EmptyState style={{ marginTop: 88 }}>
+              You have no slates yet!
+              <br />
+              Create a new slate by clicking the plus button.
+            </EmptyState>
+          )
+        ) : null}
 
-          {this.state.tab === 1 ? (
-            subscriptions.length ? (
-              subscriptions
-            ) : (
-              <EmptyState style={{ marginTop: 88 }}>
-                You aren't following any slates yet! Get started by following
-                any slates you encounter that you want to be updated on
-              </EmptyState>
-            )
-          ) : null}
-        </SceneContent>
+        {this.state.tab === 1 ? (
+          subscriptions.length ? (
+            subscriptions
+          ) : (
+            <EmptyState style={{ marginTop: 88 }}>
+              You aren't following any slates yet! <br />
+              Get started by following any slates you encounter that you want to
+              be updated on.
+            </EmptyState>
+          )
+        ) : null}
       </ScenePage>
     );
   }

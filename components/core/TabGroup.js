@@ -17,7 +17,6 @@ const STYLES_TAB_GROUP = css`
 const STYLES_TAB = css`
   padding: 8px 8px 8px 0px;
   margin-right: 24px;
-  cursor: pointer;
   display: inline-block;
   font-size: ${Constants.typescale.lvl1};
   font-family: ${Constants.font.medium};
@@ -31,18 +30,22 @@ const STYLES_TAB = css`
 export class TabGroup extends React.Component {
   render() {
     return (
-      <div css={STYLES_TAB_GROUP}>
+      <div css={STYLES_TAB_GROUP} style={this.props.style}>
         {this.props.tabs.map((tab, i) => (
           <div
             css={STYLES_TAB}
             key={tab}
             style={{
               color:
-                this.props.value === i
+                this.props.disabled || this.props.value === i
                   ? Constants.system.black
                   : "rgba(0,0,0,0.25)",
+              cursor: this.props.disabled ? "auto" : "pointer",
+              ...this.props.itemStyle,
             }}
-            onClick={() => this.props.onChange(i)}
+            onClick={
+              this.props.disabled ? () => {} : () => this.props.onChange(i)
+            }
           >
             {tab}
           </div>

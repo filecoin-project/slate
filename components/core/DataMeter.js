@@ -11,7 +11,7 @@ const MAX_IN_BYTES = 10737418240;
 const STYLES_CONTAINER = css`
   border-radius: 4px;
   border: 1px solid ${Constants.system.border};
-  padding: 24px;
+  padding: 32px;
   max-width: 100%;
   width: 100%;
 `;
@@ -20,24 +20,16 @@ const STYLES_DATA = css`
   width: 100%;
   display: flex;
   align-items: center;
-  height: 8px;
+  height: 16px;
   border-radius: 3px;
-  background-color: ${Constants.system.border};
+  background-color: ${Constants.system.foreground};
   overflow: hidden;
 `;
 
 const STYLES_DATA_METER = css`
   flex-shrink: 0;
-  height: 100%;
-  background-color: #2935ff;
-  background-image: linear-gradient(
-    to left,
-    #2935ff,
-    #342fc4,
-    #33288b,
-    #2b2157,
-    #1d1927
-  );
+  height: 16px;
+  background-color: ${Constants.system.brand};
 `;
 
 const STYLES_ROW = css`
@@ -55,7 +47,7 @@ const STYLES_STATS_ROW = css`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  font-family: ${Constants.font.code};
+  font-family: ${Constants.font.text};
   color: ${Constants.system.black};
   font-size: 12px;
   text-transform: uppercase;
@@ -71,9 +63,8 @@ const STYLES_RIGHT = css`
 `;
 
 const STYLES_TITLE = css`
-  font-family: ${Constants.font.semiBold};
-  font-weight: 400;
-  font-size: 14px;
+  font-family: ${Constants.font.medium};
+  font-size: ${Constants.typescale.lvl1};
   display: block;
   margin-bottom: 4px;
   overflow-wrap: break-word;
@@ -84,15 +75,11 @@ export const DataMeterBar = (props) => {
 
   return (
     <React.Fragment>
-      <div css={STYLES_STATS_ROW}>
-        <div css={STYLES_LEFT}>{Strings.bytesToSize(props.bytes)}</div>
-        <div css={STYLES_RIGHT}>{Strings.bytesToSize(props.maximumBytes)}</div>
-      </div>
-
       <div css={STYLES_ROW}>
         <div
           css={STYLES_LEFT}
-          style={{ color: props.failed ? Constants.system.red : null }}>
+          style={{ color: props.failed ? Constants.system.red : null }}
+        >
           {props.leftLabel}
         </div>
         <div css={STYLES_RIGHT}>{props.rightLabel}</div>
@@ -101,9 +88,10 @@ export const DataMeterBar = (props) => {
       <div
         css={STYLES_DATA}
         style={{
-          marginTop: 4,
+          marginTop: 8,
           backgroundColor: props.failed ? Constants.system.red : null,
-        }}>
+        }}
+      >
         <div
           css={STYLES_DATA_METER}
           style={{ width: `${percentage * 100}%` }}
@@ -116,9 +104,12 @@ export const DataMeterBar = (props) => {
 export const DataMeter = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
+      <div css={STYLES_TITLE}>
+        {Strings.bytesToSize(props.stats.bytes)} of{" "}
+        {Strings.bytesToSize(props.stats.maximumBytes)} used
+      </div>
+
       <DataMeterBar
-        leftLabel="used"
-        rightLabel="total"
         bytes={props.stats.bytes}
         maximumBytes={props.stats.maximumBytes}
       />

@@ -54,7 +54,7 @@ const STYLES_TABLE_ROW = css`
   position: relative;
   box-sizing: border-box;
   padding: 0 8px 0 8px;
-  border-bottom: 1px solid ${Constants.system.gray};
+  border-bottom: 1px solid rgba(229, 229, 229, 0.75);
   display: flex;
   align-items: flex-start;
   width: 100%;
@@ -69,14 +69,14 @@ const STYLES_TABLE_SELECTED_ROW = css`
   background-color: ${Constants.system.foreground};
   box-sizing: border-box;
   display: block;
-  border-bottom: 1px solid ${Constants.system.gray};
+  border-bottom: 1px solid rgba(229, 229, 229, 0.75);
 `;
 
 const STYLES_TABLE_TOP_ROW = css`
   box-sizing: border-box;
   font-family: ${Constants.font.semiBold};
   padding: 0 8px 0 8px;
-  border-bottom: 1px solid ${Constants.system.gray};
+  border-bottom: 1px solid rgba(229, 229, 229, 0.75);
   display: flex;
   width: 100%;
   align-items: flex-start;
@@ -130,7 +130,7 @@ export class Table extends React.Component {
     return (
       <React.Fragment>
         {this.props.noLabel ? null : (
-          <div css={STYLES_TABLE_TOP_ROW}>
+          <div css={STYLES_TABLE_TOP_ROW} style={this.props.topRowStyle}>
             {data.columns.map((c, cIndex) => {
               const text = c.hideLabel
                 ? ""
@@ -149,7 +149,9 @@ export class Table extends React.Component {
                   key={`table-top-${c.key}-${cIndex}`}
                   style={{
                     width: localWidth,
-                    backgroundColor: ac[c.key].color,
+                    backgroundColor: this.props.noColor
+                      ? null
+                      : ac[c.key].color,
                     flexShrink,
                   }}
                   tooltip={c.tooltip}
@@ -169,7 +171,7 @@ export class Table extends React.Component {
 
           return (
             <React.Fragment key={`${r.id}-${i}`}>
-              <div css={STYLES_TABLE_ROW}>
+              <div css={STYLES_TABLE_ROW} style={this.props.rowStyle}>
                 {Object.keys(ac).map((each, cIndex) => {
                   const field = ac[each];
                   const text = r[each];

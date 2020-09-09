@@ -26,3 +26,4 @@ export const LOCAL_PASSWORD_SECRET = `$2b$${LOCAL_PASSWORD_ROUNDS}$${
 
 export const TEXTILE_HUB_KEY = process.env.TEXTILE_HUB_KEY;
 export const TEXTILE_HUB_SECRET = process.env.TEXTILE_HUB_SECRET;
+export const TEXTILE_HUB_STAGING_HOST = process.env.TEXTILE_HUB_STAGING_HOST;

@@ -2,6 +2,8 @@ import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 
+const SLATE_LIMIT = 20;
+
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
@@ -36,6 +38,13 @@ export default async (req, res) => {
     return res
       .status(500)
       .send({ decorator: "SERVER_EXISTING_SLATE", error: true });
+  }
+
+  const slates = await Data.getSlatesByUserId({ userId: id });
+  if (slates.length >= SLATE_LIMIT) {
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_SLATE_LIMIT", error: true });
   }
 
   const slate = await Data.createSlate({

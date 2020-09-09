@@ -53,6 +53,8 @@ const setStateData = (source) => {
   };
 };
 
+let isMounted = false;
+
 export default class SceneSlate extends React.Component {
   _timeout = null;
   _remoteLock = false;
@@ -84,6 +86,12 @@ export default class SceneSlate extends React.Component {
   }
 
   componentDidMount() {
+    if (isMounted) {
+      return false;
+    }
+
+    isMounted = true;
+
     this._handleUpdateCarousel(this.state);
     window.addEventListener(
       "remote-update-slate-screen",
@@ -100,6 +108,8 @@ export default class SceneSlate extends React.Component {
   }
 
   componentWillUnmount() {
+    isMounted = false;
+
     window.removeEventListener(
       "update-current-slate",
       this._handleRemoteUpdate
@@ -322,11 +332,15 @@ export default class SceneSlate extends React.Component {
       detail: { index },
     });
 
-  _handleAdd = () => {
-    return this.props.onAction({
+  _handleAdd = async () => {
+    await this.props.onAction({
       type: "SIDEBAR",
       value: "SIDEBAR_ADD_FILE_TO_BUCKET",
       data: this.props.current,
+    });
+    this._handleUpdateCarousel({
+      objects: this.props.current.data.objects,
+      editing: this.state.editing,
     });
   };
 
@@ -338,16 +352,41 @@ export default class SceneSlate extends React.Component {
     });
   };
 
+  _handleSlateLink = async (slatename) => {
+    const response = await Actions.getSlateBySlatename({
+      query: slatename,
+      deeplink: true,
+    });
+
+    if (!response.data) {
+      alert("Could not find Slate.");
+      return;
+    }
+
+    if (!response.data.slate) {
+      alert("Could not find Slate.");
+      return;
+    }
+
+    return window.open(
+      `/${response.data.slate.user.username}/${response.data.slate.slatename}`
+    );
+  };
+
   render() {
-    const { user, data } = this.props.current;
+    const { user, data, slatename } = this.props.current;
     const { body = "A slate." } = data;
     const { objects, layouts } = this.state;
+
     let following = !!this.props.viewer.subscriptions.filter((subscription) => {
       return subscription.target_slate_id === this.props.current.id;
     }).length;
 
     return (
-      <ScenePage style={{ padding: `88px 24px 128px 24px` }}>
+      <ScenePage
+        style={{ padding: `88px 24px 128px 24px` }}
+        contentStyle={{ maxWidth: "1660px" }}
+      >
         <ScenePageHeader
           style={{ padding: `0 24px 0 24px` }}
           title={
@@ -378,9 +417,16 @@ export default class SceneSlate extends React.Component {
                 <CircleButtonGray
                   onMouseUp={this._handleAdd}
                   onTouchEnd={this._handleAdd}
-                  style={{ marginLeft: 12, marginRight: 12 }}
+                  style={{ marginRight: 16 }}
                 >
                   <SVG.Plus height="16px" />
+                </CircleButtonGray>
+                <CircleButtonGray
+                  onMouseUp={() => this._handleSlateLink(slatename)}
+                  onTouchEnd={() => this._handleSlateLink(slatename)}
+                  style={{ marginRight: 16 }}
+                >
+                  <SVG.DeepLink height="16px" />
                 </CircleButtonGray>
                 <CircleButtonGray
                   onMouseUp={this._handleShowSettings}

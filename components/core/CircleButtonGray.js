@@ -23,7 +23,6 @@ const STYLES_BUTTON = css`
   :hover {
     background-color: ${Constants.system.brand};
     color: ${Constants.system.white};
-    transform: scale(1.2);
   }
 `;
 

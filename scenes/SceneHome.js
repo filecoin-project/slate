@@ -14,7 +14,34 @@ const STYLES_NUMBER = css`
   font-weight: 400;
 `;
 
+const STYLES_VIDEO_BIG = css`
+  display: block;
+  background-color: ${Constants.system.moonstone};
+  padding: 0;
+  outline: 0;
+  margin: 48px auto 88px auto;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    margin: 32px auto 64px auto;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 24px auto 48px auto;
+  }
+`;
+
 export default class SceneHome extends React.Component {
+  _handleCreateSlate = () => {
+    this.props.onAction({
+      type: "NAVIGATE",
+      value: "V1_NAVIGATION_SLATES",
+      data: null,
+    });
+  };
+
   render() {
     // TODO(jim): Refactor later.
     const slates = {
@@ -41,7 +68,9 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
+          url: `https://slate.host/${this.props.viewer.username}/${
+            each.slatename
+          }`,
           name: each.data.name,
           public: each.data.public,
           objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
@@ -87,45 +116,65 @@ export default class SceneHome extends React.Component {
     </Section>
   ) : null}
   */
+    let hasChildren = false;
+    if (this.props.viewer && this.props.viewer.library[0].children.length) {
+      hasChildren = true;
+    }
 
     return (
       <ScenePage>
         <ScenePageHeader title="Home">
-          Welcome back! Here is your data and slates.
+          {hasChildren
+            ? "Welcome back! Here is your data."
+            : "Welcome to Slate! You can share files with anyone in the world. Here is how it works:"}
         </ScenePageHeader>
 
-        <Section
-          title="Slates"
-          buttons={slateButtons}
-          onAction={this.props.onAction}>
-          <System.Table
-            data={slates}
-            name="slate"
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
-          />
-        </Section>
-
-        {this.props.viewer.library[0] ? (
-          <DataView
-            buttons={[
-              {
-                name: "View files",
-                type: "NAVIGATE",
-                value: this.props.viewer.library[0].id,
-              },
-              {
-                name: "Upload data",
-                type: "SIDEBAR",
-                value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-              },
-            ]}
-            viewer={this.props.viewer}
-            items={this.props.viewer.library[0].children}
-            onAction={this.props.onAction}
-            onRehydrate={this.props.onRehydrate}
-          />
-        ) : null}
+        {hasChildren ? (
+          <div style={{ marginTop: "48px" }}>
+            <DataView
+              buttons={[
+                {
+                  name: "View files",
+                  type: "NAVIGATE",
+                  value: this.props.viewer.library[0].id,
+                },
+                {
+                  name: "Upload data",
+                  type: "SIDEBAR",
+                  value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+                },
+              ]}
+              viewer={this.props.viewer}
+              items={this.props.viewer.library[0].children}
+              onAction={this.props.onAction}
+              onRehydrate={this.props.onRehydrate}
+            />
+          </div>
+        ) : (
+          <React.Fragment>
+            <video
+              css={STYLES_VIDEO_BIG}
+              autoPlay
+              loop
+              muted
+              src="https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io"
+              type="video/m4v"
+              playsInline
+              style={{
+                backgroundImage: `url('https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io')`,
+                borderRadius: `4px`,
+                width: `100%`,
+                boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
+                backgroundSize: `cover`,
+              }}
+            />
+            <System.P>When you're ready, create a slate!</System.P>
+            <br />
+            <System.ButtonPrimary onClick={this._handleCreateSlate}>
+              Create a Slate
+            </System.ButtonPrimary>
+          </React.Fragment>
+        )}
       </ScenePage>
     );
   }

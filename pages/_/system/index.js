@@ -14,7 +14,7 @@ export default class SystemPageRoot extends React.Component {
         url="https://slate.host/_/system"
       >
         <img
-          src="/public/static/art-v2-system.png"
+          src="https://bafybeidu5v3ytcy3ynghrmu7zftfinpt3s5pghqmpytrohmpk57ba4suye.ipfs.slate.textile.io/"
           style={{
             display: "inline-flex",
             width: "100%",

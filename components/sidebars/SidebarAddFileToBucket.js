@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
 
@@ -50,6 +51,14 @@ const STYLES_STRONG = css`
   font-weight: 400;
   font-family: ${Constants.font.medium};
   font-size: 0.8rem;
+  oveflow-wrap: break-word;
+`;
+
+const STYLES_PERFORMANCE = css`
+  font-family: ${Constants.font.code};
+  font-size: 12px;
+  display: block;
+  margin: 0 0 8px 0;
 `;
 
 export default class SidebarAddFileToBucket extends React.Component {
@@ -144,14 +153,16 @@ export default class SidebarAddFileToBucket extends React.Component {
           </System.P>
         ) : null}
 
-        <System.ButtonPrimary
-          full
-          type="label"
-          htmlFor="file"
-          style={{ marginTop: 24 }}
-          loading={!!this.props.fileLoading}>
-          Add file
-        </System.ButtonPrimary>
+        {!this.props.fileLoading ? (
+          <System.ButtonPrimary
+            full
+            type="label"
+            htmlFor="file"
+            style={{ marginTop: 24 }}
+          >
+            Add file
+          </System.ButtonPrimary>
+        ) : null}
 
         <br />
 
@@ -161,6 +172,11 @@ export default class SidebarAddFileToBucket extends React.Component {
               return (
                 <React.Fragment key={timestamp}>
                   <strong css={STYLES_STRONG}>{p.name}</strong>
+
+                  <strong css={STYLES_PERFORMANCE}>
+                    {Strings.bytesToSize(p.loaded)} /{" "}
+                    {Strings.bytesToSize(p.total)}
+                  </strong>
                   <DataMeterBar
                     failed={p.failed}
                     leftLabel={p.failed ? "failed" : "uploaded"}

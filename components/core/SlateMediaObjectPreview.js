@@ -78,7 +78,7 @@ export default class SlateMediaObjectPreview extends React.Component {
       element = (
         <article css={STYLES_ENTITY} style={this.props.style}>
           <div>
-            <SVG.Music height="24px" />
+            <SVG.Sound height="24px" />
           </div>
           {this.props.title && !this.props.small ? (
             <div css={STYLES_TITLE}>{title}</div>

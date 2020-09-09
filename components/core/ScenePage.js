@@ -14,6 +14,17 @@ const STYLES_SCENE = css`
   }
 `;
 
-export const ScenePage = (props) => <div css={STYLES_SCENE} {...props} />;
+const STYLES_CONTENT = css`
+  max-width: 1024px;
+  margin: 0 auto;
+`;
+
+export const ScenePage = (props) => (
+  <div css={STYLES_SCENE} {...props}>
+    <div css={STYLES_CONTENT} style={props.contentStyle}>
+      {props.children}
+    </div>
+  </div>
+);
 
 export default ScenePage;

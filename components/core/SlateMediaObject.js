@@ -62,10 +62,6 @@ export default class SlateMediaObject extends React.Component {
       element = <object css={STYLES_OBJECT} data={url} type={type} />;
     }
 
-    if (type.startsWith("application/epub")) {
-      element = <div css={STYLES_FAILURE}>No Preview</div>;
-    }
-
     if (type.startsWith("video/")) {
       element = (
         <video autoPlay playsInline controls name="media" css={STYLES_OBJECT}>

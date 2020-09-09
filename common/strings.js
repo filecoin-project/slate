@@ -31,12 +31,25 @@ export const getKey = (text) => {
   return text.replace("Basic ", "");
 };
 
+export const getPresentationSlateName = (slate) => {
+  if (!isEmpty(slate.data.name)) {
+    return slate.data.name;
+  }
+
+  return slate.slatename;
+};
+
 export const getPresentationName = (user) => {
   if (!isEmpty(user.data.name)) {
     return user.data.name;
   }
 
   return user.username;
+};
+
+export const zeroPad = (num, places) => {
+  var zero = places - num.toString().length + 1;
+  return Array(+(zero > 0 && zero)).join("0") + num;
 };
 
 export const getCIDGatewayURL = (cid) => {
@@ -51,7 +64,10 @@ export const createSlug = (text, base = "untitled") => {
     return base;
   }
 
-  text = text.toString().toLowerCase().trim();
+  text = text
+    .toString()
+    .toLowerCase()
+    .trim();
 
   const sets = [
     { to: "a", from: "[ÀÁÂÃÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶ]" },

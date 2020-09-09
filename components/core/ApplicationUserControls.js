@@ -18,10 +18,10 @@ const STYLES_HEADER = css`
   display: block;
   position: relative;
   width: 100%;
-  padding: 64px 24px 48px 42px;
+  padding: 64px 24px 40px 42px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 64px 0 48px 16px;
+    padding: 68px 0 56px 16px;
   }
 `;
 

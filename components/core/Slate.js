@@ -80,6 +80,7 @@ const STYLES_ACTION_BUTTON = css`
   margin: 4px 16px 4px 16px;
   flex-shrink: 0;
   text-decoration: none;
+
   :hover {
     background-color: ${Constants.system.black};
   }
@@ -163,11 +164,13 @@ export default class Slate extends React.Component {
     });
 
     if (!response.data) {
-      alert("TODO: Can not find deeplink");
+      alert("Could not find Slate.");
+      return;
     }
 
     if (!response.data.slate) {
-      alert("TODO: Can not find deeplink");
+      alert("Could not find Slate.");
+      return;
     }
 
     return window.open(
@@ -254,7 +257,7 @@ export default class Slate extends React.Component {
               onTouchEnd={this._handleSaveLayout}
               style={{
                 backgroundColor:
-                  this.props.saving === "IDLE" ? Constants.system.brand : null,
+                  this.props.saving === "IDLE" ? Constants.system.green : null,
               }}
             >
               {this.props.saving === "SAVING" ? (

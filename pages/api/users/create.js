@@ -54,7 +54,8 @@ export default async (req, res) => {
     salt,
     username: req.body.data.username.toLowerCase(),
     data: {
-      photo: "https://slate.host/static/a1.jpg",
+      photo:
+        "https://bafkreibf3hoiyuk2ywjyoy24ywaaclo4k5rz53flesvr5h4qjlyzxamozm.ipfs.slate.textile.io",
       body: "A user of Slate.",
       settings_deals_auto_approve: false,
       tokens: { api },

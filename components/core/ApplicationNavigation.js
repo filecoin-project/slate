@@ -20,6 +20,7 @@ const IconMap = {
   PROFILE_PAGE: <SVG.ProfileUser height="20px" />,
   SETTINGS_DEVELOPER: <SVG.Tool height="20px" />,
   DIRECTORY: <SVG.Directory height="20px" />,
+  ARCHIVE: <SVG.Layers height="20px" />,
 };
 
 const STYLES_NAVIGATION = css`

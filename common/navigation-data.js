@@ -33,7 +33,15 @@ const constructFilesTreeForNavigation = (library) => {
   return {
     ...library[0],
     name: `Data`,
-    children: [],
+    children: [
+      {
+        id: "V1_NAVIGATION_ARCHIVE",
+        decorator: "ARCHIVE",
+        name: "Archive",
+        pageTitle: "Archive on Filecoin",
+        children: null,
+      },
+    ],
   };
 };
 

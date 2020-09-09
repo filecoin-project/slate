@@ -27,6 +27,7 @@ import SceneProfile from "~/scenes/SceneProfile";
 import SceneSentinel from "~/scenes/SceneSentinel";
 import ScenePublicProfile from "~/scenes/ScenePublicProfile";
 import ScenePublicSlate from "~/scenes/ScenePublicSlate";
+import SceneArchive from "~/scenes/SceneArchive";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -80,6 +81,7 @@ const SCENES = {
   LOCAL_DATA: <SceneLocalData />,
   NETWORK: <SceneSentinel />,
   DIRECTORY: <SceneDirectory />,
+  ARCHIVE: <SceneArchive />,
 };
 
 export default class ApplicationPage extends React.Component {

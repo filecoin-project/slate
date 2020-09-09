@@ -52,10 +52,18 @@ export const font = {
 };
 
 export const typescale = {
+  lvl0: `0.8rem`,
   lvl1: `1rem`,
   lvl2: `1.25rem`,
   lvl3: `1.563rem`,
   lvl4: `1.953rem`,
+  lvl5: `2.441rem`,
+  lvl6: `3.052rem`,
+  lvl7: `3.815rem`,
+  lvl8: `4.768rem`,
+  lvl9: `5.96rem`,
+  lvl10: `7.451rem`,
+  lvl11: `9.313rem`,
 };
 
 export const code = {};

@@ -9,8 +9,6 @@ import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter"
 import TextLoop from "react-text-loop";
 import { css } from "@emotion/react";
 
-import ReactDOM from "react-dom";
-
 const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
@@ -296,7 +294,6 @@ const STYLES_SLATE_CARD = css`
   border-radius: 4px;
   transition: 200ms ease box-shadow;
   box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.02);
-
   :hover {
     transition: 200ms ease box-shadow;
     box-shadow: 0px 10px 40px 20px rgba(0, 0, 0, 0.1);
@@ -412,15 +409,103 @@ const STYLES_SLATE_CARD_CTA_PARAGRAPH = css`
     font-size: 1rem;
   }
 `;
-const STYLES_SLATE_CARD_IMAGE = css`
+const STYLES_SLATE_CARD_URBAN_GARDENS = css`
   border-radius: 4px;
   height: 100%;
   :hover {
+    background-image: url(https://bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu.ipfs.slate.textile.io/);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     opacity: 0.5;
-    height: 100%;
+  }
+`;
+const STYLES_SLATE_CARD_SHAPES_LETTERS = css`
+  borderradius: 4px;
+  height: 100%;
+  :hover {
+    background-image: url(https://bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm.ipfs.slate.textile.io/);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+  }
+`;
+const STYLES_SLATE_CARD_MOUNTIANS = css`
+  border-radius: 4px;
+  height: 100%;
+  :hover {
+    background-image: url(https://bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4.ipfs.slate.textile.io/);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+  }
+`;
+const STYLES_SLATE_CARD_LOOM = css`
+  border-radius: 4px;
+  height: 100%;
+  :hover {
+    background-image: url(https://bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna.ipfs.slate.textile.io/);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+  }
+`;
+const STYLES_SLATE_CARD_BRAND = css`
+  border-radius: 4px;
+  height: 100%;
+  :hover {
+    background-image: url(https://bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa.ipfs.slate.textile.io/);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+  }
+`;
+const STYLES_SLATE_CARD_UNDERGROUND = css`
+  border-radius: 4px;
+  height: 100%;
+  :hover {
+    background-image: url(https://bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda.ipfs.slate.textile.io/);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+  }
+`;
+const STYLES_SLATE_CARD_MONET = css`
+  border-radius: 4px;
+  height: 100%;
+  :hover {
+    background-image: url(https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+  }
+`;
+const STYLES_SLATE_CARD_BOOK_SHELF = css`
+  border-radius: 4px;
+  height: 100%;
+  :hover {
+    background-image: url(https://bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri.ipfs.slate.textile.io/);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+  }
+`;
+const STYLES_SLATE_CARD_PAPERS = css`
+  border-radius: 4px;
+  height: 100%;
+  :hover {
+    background-image: url(https://bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm.ipfs.slate.textile.io/);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
   }
 `;
 
@@ -434,128 +519,7 @@ export default class IndexPage extends React.Component {
   async componentDidMount() {
     const response = await Actions.health();
     console.log("HEALTH_CHECK", response);
-    this.addExampleSlates();
   }
-
-  coolSlates = [
-    {
-      id: 1,
-      slateName: "Urban gardens",
-      slateUrl: "https://slate.host/gndclouds/urban-gardens",
-      slateUser: "gndclouds",
-      previewImageUrl:
-        "https://bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu.ipfs.slate.textile.io/"
-    },
-    {
-      id: 2,
-      slateName: "Shapes and Letters",
-      slateUrl: "https://slate.host/haris/shapes-and-letters",
-      slateUser: "haris",
-      previewImageUrl:
-        "https://bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm.ipfs.slate.textile.io/"
-    },
-    {
-      id: 3,
-      slateName: "Mountains",
-      slateUrl: "https://slate.host/jason/mountains",
-      slateUser: "jason",
-      previewImageUrl:
-        "https://bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4.ipfs.slate.textile.io/"
-    },
-    {
-      id: 4,
-      slateName: "Loom",
-      slateUrl: "https://slate.host/tara/loom",
-      slateUser: "tara",
-      previewImageUrl:
-        "https://bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna.ipfs.slate.textile.io/"
-    },
-    {
-      id: 5,
-      slateName: "Brand",
-      slateUrl: "https://slate.host/slate/brand",
-      slateUser: "slate",
-      previewImageUrl:
-        "https://bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa.ipfs.slate.textile.io/"
-    },
-    {
-      id: 6,
-      slateName: "Montreal underground",
-      slateUrl: "https://slate.host/tcosta/montreal-underground",
-      slateUser: "tcosta",
-      previewImageUrl:
-        "https://bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda.ipfs.slate.textile.io/"
-    },
-    {
-      id: 7,
-      slateName: "Monet",
-      slateUrl: "https://slate.host/slate/monet",
-      slateUser: "slate",
-      previewImageUrl:
-        "https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/"
-    },
-    {
-      id: 8,
-      slateName: "Book shelf",
-      slateUrl: "https://slate.host/haris/book-shelf",
-      slateUser: "haris",
-      previewImageUrl:
-        "https://bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri.ipfs.slate.textile.io/"
-    },
-    {
-      id: 9,
-      slateName: "Papers",
-      slateUrl: "https://slate.host/slate/papers",
-      slateUser: "@slate",
-      previewImageUrl:
-        "https://bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm.ipfs.slate.textile.io/"
-    }
-  ];
-  addExampleSlates = () => {
-    console.log("Function Running");
-    const allExampleSlates = [];
-    const slates = this.coolSlates;
-    for (let c of slates) {
-      allExampleSlates.push(
-        <div key={c.id} css={STYLES_SLATE_CARD}>
-          <div
-            css={css`
-              height: 100%;
-
-              :hover {
-                background: url(${c.previewImageUrl});
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                opacity: 0.5;
-                height: 100%;
-              }
-            `}
-          >
-            <a
-              css={STYLES_SLATE_CARD_PARAGRAPH}
-              href={c.slateURL}
-              target="_blank"
-            >
-              <div css={STYLES_SLATE_CARD_TEXT}>
-                <div css={STYLES_SLATE_CARD_TITLE}>{c.slateName}</div>
-                <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                  <div
-                    css={STYLES_SLATE_CARD_PARAGRAPH}
-                  >{`@${c.slateUser}`}</div>
-                  <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      );
-    }
-    ReactDOM.render(
-      allExampleSlates,
-      document.getElementById("example-slates")
-    );
-  };
 
   render() {
     const title = `Slate`;
@@ -570,7 +534,7 @@ export default class IndexPage extends React.Component {
       >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SECTION_HERO}>
+          <section css={STYLES_SECTION_HERO}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
                 A file storage network <br />
@@ -654,8 +618,8 @@ export default class IndexPage extends React.Component {
                 </span>
               </h2>
             </div>
-          </div>
-          <div css={STYLES_SECTION_SLATE}>
+          </section>
+          <section css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
                 A new home
@@ -749,9 +713,9 @@ export default class IndexPage extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
-          <div css={STYLES_SECTION_SLATE}>
+          <section css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
                 Upload from <br />
@@ -770,9 +734,9 @@ export default class IndexPage extends React.Component {
                 alt="Slate Web Clipper being used in chrome dropdown menu"
               />
             </div>
-          </div>
+          </section>
 
-          <div css={STYLES_SECTION_SLATE}>
+          <section css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
                 <span css={STYLES_HIGHLIGHT}>
@@ -841,9 +805,9 @@ export default class IndexPage extends React.Component {
                 }}
               />
             </div>
-          </div>
+          </section>
 
-          <div css={STYLES_SECTION_SLATE}>
+          <section css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
                 <span css={STYLES_HIGHLIGHT}>
@@ -875,9 +839,9 @@ export default class IndexPage extends React.Component {
                 }}
               />
             </div>
-          </div>
+          </section>
 
-          <div css={STYLES_SECTION_SLATE}>
+          <section css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
                 Built on <br />
@@ -909,9 +873,9 @@ export default class IndexPage extends React.Component {
                 alt="Slate logo in frosted cube"
               />
             </div>
-          </div>
+          </section>
 
-          <div css={STYLES_SECTION_SLATE_WALL}>
+          <section css={STYLES_SECTION_SLATE_WALL}>
             <div css={STYLES_SLATE_CARD_GRAY}>
               <a
                 css={STYLES_SLATE_CARD_PARAGRAPH}
@@ -928,15 +892,181 @@ export default class IndexPage extends React.Component {
                   <div css={STYLES_SLATE_CARD_EXPLAINER}>
                     <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>
                       Create your first slate
-                    </div>{" "}
+                    </div>
                     <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>-&gt;</div>
                   </div>
                 </div>
               </a>
             </div>
             <br />
-            <br /> <div id="example-slates" css={STYLES_SLATE_CARD_GROUP}></div>
-          </div>
+            <br />
+            <div css={STYLES_SLATE_CARD_GROUP}>
+              <div css={STYLES_SLATE_CARD}>
+                <div css={STYLES_SLATE_CARD_URBAN_GARDENS}>
+                  <a
+                    css={STYLES_SLATE_CARD_PARAGRAPH}
+                    href="https://slate.host/gndclouds/urban-gardens"
+                    target="_blank"
+                  >
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Urban gardens</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@gndclouds</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div css={STYLES_SLATE_CARD}>
+                <div css={STYLES_SLATE_CARD_SHAPES_LETTERS}>
+                  <a
+                    css={STYLES_SLATE_CARD_PARAGRAPH}
+                    href="https://slate.host/haris/shapes-and-letters"
+                    target="_blank"
+                  >
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>
+                        Shapes and letters
+                      </div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div css={STYLES_SLATE_CARD}>
+                <div css={STYLES_SLATE_CARD_MOUNTIANS}>
+                  <a
+                    css={STYLES_SLATE_CARD_PARAGRAPH}
+                    href="https://slate.host/jason/mountains"
+                    target="_blank"
+                  >
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Mountains</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@jason</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div css={STYLES_SLATE_CARD_GROUP}>
+              <div css={STYLES_SLATE_CARD}>
+                <div css={STYLES_SLATE_CARD_LOOM}>
+                  <a
+                    css={STYLES_SLATE_CARD_PARAGRAPH}
+                    href="https://slate.host/tara/loom"
+                    target="_blank"
+                  >
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Loom</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tara</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div css={STYLES_SLATE_CARD}>
+                <div css={STYLES_SLATE_CARD_BRAND}>
+                  <a
+                    css={STYLES_SLATE_CARD_PARAGRAPH}
+                    href="https://slate.host/slate/brand"
+                    target="_blank"
+                  >
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Brand</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div css={STYLES_SLATE_CARD}>
+                <div css={STYLES_SLATE_CARD_UNDERGROUND}>
+                  <a
+                    css={STYLES_SLATE_CARD_PARAGRAPH}
+                    href="https://slate.host/tcosta/montreal-underground"
+                    target="_blank"
+                  >
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>
+                        Montreal underground
+                      </div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tcosta</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div css={STYLES_SLATE_CARD_GROUP}>
+              <div css={STYLES_SLATE_CARD}>
+                <div css={STYLES_SLATE_CARD_MONET}>
+                  <a
+                    css={STYLES_SLATE_CARD_PARAGRAPH}
+                    href="https://slate.host/slate/monet"
+                    target="_blank"
+                  >
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Monet</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div css={STYLES_SLATE_CARD}>
+                <div css={STYLES_SLATE_CARD_BOOK_SHELF}>
+                  <a
+                    css={STYLES_SLATE_CARD_PARAGRAPH}
+                    href="https://slate.host/haris/book-shelf"
+                    target="_blank"
+                  >
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Book shelf</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div css={STYLES_SLATE_CARD}>
+                <div css={STYLES_SLATE_CARD_PAPERS}>
+                  <a
+                    css={STYLES_SLATE_CARD_PARAGRAPH}
+                    href="https://slate.host/slate/papers"
+                    target="_blank"
+                  >
+                    <div css={STYLES_SLATE_CARD_TEXT}>
+                      <div css={STYLES_SLATE_CARD_TITLE}>Papers</div>
+                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
+                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
         <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>

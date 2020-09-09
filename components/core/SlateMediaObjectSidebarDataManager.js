@@ -19,6 +19,31 @@ const STYLES_CONTAINER = css`
   }
 `;
 
+const STYLES_META = css`
+  padding: 14px 24px 8px 24px;
+  overflow-wrap: break-word;
+  border-bottom: 1px solid #222222;
+`;
+
+const STYLES_META_TITLE = css`
+  font-family: ${Constants.font.code};
+  font-size: 14px;
+`;
+
+const STYLES_META_ITEM = css`
+  display: inline-flex;
+  margin-right: 24px;
+  margin-bottom: 16px;
+`;
+
+const STYLES_META_DETAILS = css`
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: ${Constants.font.code};
+  color: #777;
+  margin-top: 24px;
+`;
+
 const STYLES_ITEM = css`
   display: flex;
   align-items: flex-start;
@@ -127,7 +152,7 @@ const SlateItem = (props) => {
 
 export default class SlateMediaObjectSidebarDataManager extends React.Component {
   render() {
-    const { id } = this.props.data;
+    const { id, cid, file, type, size } = this.props.data;
 
     const slateElements = this.props.slates.map((s) => {
       const hasElement = s.data.objects.some((o) => o.id === id);
@@ -150,6 +175,18 @@ export default class SlateMediaObjectSidebarDataManager extends React.Component 
       );
     });
 
-    return <div css={STYLES_CONTAINER}>{slateElements}</div>;
+    return (
+      <div css={STYLES_CONTAINER}>
+        <div css={STYLES_META}>
+          <div css={STYLES_META_TITLE}>{cid}</div>
+          <div css={STYLES_META_DETAILS}>
+            <span css={STYLES_META_ITEM}>{file}</span>{" "}
+            <span css={STYLES_META_ITEM}>{type}</span>{" "}
+            <span css={STYLES_META_ITEM}>{Strings.bytesToSize(size)}</span>
+          </div>
+        </div>
+        {slateElements}
+      </div>
+    );
   }
 }

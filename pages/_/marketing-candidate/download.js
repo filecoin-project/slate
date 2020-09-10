@@ -16,83 +16,59 @@ const STYLES_ROOT = css`
 `;
 
 const STYLES_H1 = css`
-  font-size: 1.953rem;
-  line-height: 1.25;
-  padding: 0px 0px 32px 0px;
+  font-size: ${Constants.typescale.lvl5};
+  line-height: 1.3;
+  padding: 0px 0px 24px 0px;
+  letter-spacing: -0.021rem;
   width: 100%;
-  color: ${Constants.system.pitchBlack};
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 1.953rem;
+  color: ${Constants.system.slate};
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: ${Constants.typescale.lvl5};
     padding: 0px 0px 16px 0px;
-    line-height: 1.25;
   }
-`;
 
-const STYLES_H2 = css`
-  font-size: 1.25rem;
-  line-height: 1.25;
-  padding: 0px 0px 32px 0px;
-  width: 100%;
-  color: ${Constants.system.darkGray};
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 1.25rem;
-    padding: 0px 0px 8px 0px;
-    line-height: 1.5;
+    font-size: ${Constants.typescale.lvl3};
   }
 `;
 
 const STYLES_H3 = css`
-  font-size: 1.563em;
+  font-size: ${Constants.typescale.lvl2};
   line-height: 1.5;
-  padding: 0px 0px 16px 0px;
-  color: ${Constants.system.darkGray};
+  letter-spacing: -0.014rem;
+  padding: 0 0 24px 0;
+  color: ${Constants.system.slate};
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: ${Constants.typescale.lvl2};
+  }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 1rem;
-    padding: 0px 0px 8px 0px;
-    line-height: 1.5;
-    color: ${Constants.system.moonstone};
+    font-size: ${Constants.typescale.lvl1};
   }
 `;
 
-const STYLES_P = css`
-  font-size: 1rem;
-  color: ${Constants.system.black};
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 0.78rem;
-  }
-`;
+const STYLES_TEXT_BLOCK = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 56vw;
+  width: 100%;
+  align-self: center;
 
-const STYLES_A = css`
-  :link {
-    color: ${Constants.system.darkGray};
-    background-color: transparent;
-    text-decoration: none;
-  }
-  :hover {
-    color: ${Constants.system.pitchBlack};
-    background-color: transparent;
-    text-decoration: none;
-  }
-  :active {
-    color: yellow;
-    background-color: transparent;
-    text-decoration: none;
-  }
   @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    right: 24px;
   }
 `;
 
 const STYLES_IMG = css`
+  margin-top: 48px;
   width: 100%;
-  :hover {
-  }
-  @media (max-width: ${Constants.sizes.mobile}px) {
-  }
 `;
 
 const STYLES_ANNOTATION = css`
-  padding-top: 7px;
-  font-size: 12px;
+  font-size: ${Constants.typescale.lvl0};
   color: #646464;
 `;
 
@@ -101,26 +77,28 @@ const STYLES_BUTTON_PRIMARY = css`
   border-radius: 2px;
   outline: 0;
   border: 0;
-  min-height: 40px;
-  padding: 6px 24px 6px 24px;
+  min-height: 48px;
+  padding: 0px 24px 0px 24px;
+  margin: 24px 0 16px 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 16px;
   letter-spacing: 0.2px;
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
   user-select: none;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  background-color: ${Constants.system.wall};
-  color: ${Constants.system.slate};
+  background-color: ${Constants.system.slate};
+  color: ${Constants.system.white};
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+
   :hover {
-    background-color: ${Constants.system.pitchBlack};
+    background-color: ${Constants.system.white};
     box-shadow: 0px 10px 90px 20px rgba(207, 206, 211, 0.3);
-    color: ${Constants.system.wall};
+    color: ${Constants.system.slate};
   }
+
   :focus {
     box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
     background-color: ${Constants.system.pitchBlack};
@@ -130,39 +108,54 @@ const STYLES_BUTTON_PRIMARY = css`
   }
 `;
 
-const STYLES_SECTION_WRAPPER = css`
+const STYLES_LINK_WHITE = css`
+  color: ${Constants.system.pitchBlack};
+  text-decoration: none;
+  transition: 200ms ease color;
+  padding: 24px 0 0 0;
+
+  :hover {
+    color: ${Constants.system.moonstone};
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    font-size: 0.78rem;
+  }
+`;
+
+const STYLES_SECTION_HERO = css`
+  width: 100vw;
+  padding: 30vh 88px 88px 88px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 55vh;
-  margin: 10px auto;
-  :nth-child(even) {
-    margin: 150px auto;
-    flex-direction: row-reverse;
-  }
+  flex-direction: column;
+  justify-content: center;
+  margin: -88px 0px px 0px;
+  background: ${Constants.system.foreground};
+
   @media (max-width: ${Constants.sizes.mobile}px) {
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    :nth-child(even) {
-      flex-direction: column;
-    }
+    padding: 16vh 24px 48px 24px;
+    display: block;
   }
 `;
 
-const STYLES_SECTION_CHILD = css`
-  width: 50%;
-  padding: 0 50px;
+const STYLES_SECTION_WRAPPER = css`
+  width: 100vw;
+  padding: 88px 88px 160px 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: -88px 0px px 0px;
+  background: ${Constants.system.foreground};
+
   @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    padding: 20px;
+    padding: 64px 24px;
+    display: block;
   }
 `;
 
-export const getServerSideProps = async context => {
+export const getServerSideProps = async (context) => {
   return {
-    props: { ...context.query }
+    props: { ...context.query },
   };
 };
 
@@ -173,7 +166,7 @@ export default class IndexPage extends React.Component {
   }
   getOs = () => {
     const os = ["Windows", "Linux", "Mac"]; // add your OS values
-    return os.find(v => navigator.appVersion.indexOf(v) >= 0);
+    return os.find((v) => navigator.appVersion.indexOf(v) >= 0);
   };
   render() {
     const title = `Slate Download`;
@@ -181,79 +174,49 @@ export default class IndexPage extends React.Component {
     const url = "https://slate.host/download";
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <WebsitePrototypeHeader color="dark" />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_SECTION_CHILD}>
+          <div css={STYLES_SECTION_HERO}>
+            <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>Slate Chrome Extensions</h1>
-              <h2 css={STYLES_H2}>
-                Take any image on the web and save it to Slate right from your
-                browser tab.
-              </h2>
+              <h3 css={STYLES_H3}>Take any image on the web and save it to Slate right from your browser tab.</h3>
               <a src="/">
-                <button css={STYLES_BUTTON_PRIMARY}>
-                  Get Chrome Extension
-                </button>
+                <button css={STYLES_BUTTON_PRIMARY}>Get Chrome Extension</button>
               </a>
-              <h2 css={STYLES_ANNOTATION}>
-                Currently avaible for <a href="/">Chrome</a>.
-              </h2>
-            </div>
-            <div css={STYLES_SECTION_CHILD}>
+              <p css={STYLES_ANNOTATION}>
+                Currently avaible for{" "}
+                <a css={STYLES_LINK_WHITE} href="/">
+                  Chrome
+                </a>
+                .
+              </p>
               <img
                 css={STYLES_IMG}
-                src="https://d2w9rnfcy7mm78.cloudfront.net/8547413/original_613b9b0a650a3f274c68e1407f552ff3.png?1599111034?bc=0"
+                src="https://bafybeibwppu23j5wgshqvm5qyqv3c6pmhp3y5irdwn3ivvnnrpexiguzbi.ipfs.slate.textile.io/"
                 alt="Slate browser extension"
               />
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_SECTION_CHILD}>
-              <h1 css={STYLES_H1}>Slate client for Mac, Windows and Linux</h1>
-              <h2 css={STYLES_H2}>
-                Local folder and offline client for seamless filesharing between
-                your machine and the network.
-              </h2>
-              <a>
-                <button css={STYLES_BUTTON_PRIMARY}>Coming soon</button>
-              </a>
-            </div>
-            <div css={STYLES_SECTION_CHILD}>
-              <img
-                css={STYLES_IMG}
-                src="https://d2w9rnfcy7mm78.cloudfront.net/8547413/original_613b9b0a650a3f274c68e1407f552ff3.png?1599111034?bc=0"
-                alt="Slate browser extension"
-              />
-            </div>
-          </div>{" "}
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_SECTION_CHILD}>
+            <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>Releases</h1>
-              <h2 css={STYLES_H2}>
-                Slate is built in public and all past releases are always
-                avaible for download.
-              </h2>
-            </div>
-            <div css={STYLES_SECTION_CHILD}>
+              <h3 css={STYLES_H3}>Slate is built in public and all past releases are always avaible for download.</h3>
               <System.Table
                 data={{
                   columns: [
-                    { key: "a", name: "Version", width: "70px" },
+                    { key: "a", name: "Version", width: "15%" },
 
-                    { key: "b", name: "Product", width: "200px" },
+                    { key: "b", name: "Product", width: "20%" },
 
-                    { key: "c", name: "Date" },
+                    { key: "c", name: "Date", width: "20%" },
 
                     {
                       key: "d",
                       name: "Download link",
-                      copyable: true
-                    }
+                      copyable: true,
+                      width: "45%",
+                    },
                   ],
 
                   rows: [
@@ -266,7 +229,7 @@ export default class IndexPage extends React.Component {
 
                       c: "2020-09-07",
 
-                      d: "Download"
+                      d: "Download",
                     },
 
                     {
@@ -278,9 +241,9 @@ export default class IndexPage extends React.Component {
 
                       c: "2020-09-07",
 
-                      d: "Download"
-                    }
-                  ]
+                      d: "Download",
+                    },
+                  ],
                 }}
               />
             </div>

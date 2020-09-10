@@ -518,7 +518,6 @@ export default class IndexPage extends React.Component {
     },
   ];
   addExampleSlates = () => {
-    console.log("Function Running");
     const allExampleSlates = [];
     const slates = this.coolSlates;
     for (let c of slates) {

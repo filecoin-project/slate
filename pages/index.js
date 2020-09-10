@@ -8,10 +8,10 @@ import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter"
 
 import TextLoop from "react-text-loop";
 import { css } from "@emotion/react";
+import ReactDOM from "react-dom";
 
 const STYLES_BODY = css`
   height: 100vh;
-  max-width: 1440px;
   position: fixed;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -318,9 +318,9 @@ const STYLES_SLATE_CARD_GROUP = css`
 `;
 
 const STYLES_SLATE_CARD = css`
-  width: calc(100% / 3 + 1px);
+  width: 33.33%;
   height: calc(100vh / 4);
-  margin-left: -1px;
+  margin: -1px 0 0 -1px;
   transition: 200ms ease box-shadow;
   border: 1px solid ${Constants.system.darkGray};
   :hover {
@@ -448,7 +448,110 @@ export default class IndexPage extends React.Component {
   async componentDidMount() {
     const response = await Actions.health();
     console.log("HEALTH_CHECK", response);
+
+    this.addExampleSlates();
   }
+
+  coolSlates = [
+    {
+      id: 1,
+      slateName: "Urban gardens",
+      slateUrl: "https://slate.host/gndclouds/urban-gardens",
+      slateUser: "gndclouds",
+      previewImageUrl: "https://bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu.ipfs.slate.textile.io/",
+    },
+    {
+      id: 2,
+      slateName: "Shapes and Letters",
+      slateUrl: "https://slate.host/haris/shapes-and-letters",
+      slateUser: "haris",
+      previewImageUrl: "https://bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm.ipfs.slate.textile.io/",
+    },
+    {
+      id: 3,
+      slateName: "Mountains",
+      slateUrl: "https://slate.host/jason/mountains",
+      slateUser: "jason",
+      previewImageUrl: "https://bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4.ipfs.slate.textile.io/",
+    },
+    {
+      id: 4,
+      slateName: "Loom",
+      slateUrl: "https://slate.host/tara/loom",
+      slateUser: "tara",
+      previewImageUrl: "https://bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna.ipfs.slate.textile.io/",
+    },
+    {
+      id: 5,
+      slateName: "Brand",
+      slateUrl: "https://slate.host/slate/brand",
+      slateUser: "slate",
+      previewImageUrl: "https://bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa.ipfs.slate.textile.io/",
+    },
+    {
+      id: 6,
+      slateName: "Montreal underground",
+      slateUrl: "https://slate.host/tcosta/montreal-underground",
+      slateUser: "tcosta",
+      previewImageUrl: "https://bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda.ipfs.slate.textile.io/",
+    },
+    {
+      id: 7,
+      slateName: "Monet",
+      slateUrl: "https://slate.host/slate/monet",
+      slateUser: "slate",
+      previewImageUrl: "https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/",
+    },
+    {
+      id: 8,
+      slateName: "Book shelf",
+      slateUrl: "https://slate.host/haris/book-shelf",
+      slateUser: "haris",
+      previewImageUrl: "https://bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri.ipfs.slate.textile.io/",
+    },
+    {
+      id: 9,
+      slateName: "Papers",
+      slateUrl: "https://slate.host/slate/papers",
+      slateUser: "@slate",
+      previewImageUrl: "https://bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm.ipfs.slate.textile.io/",
+    },
+  ];
+  addExampleSlates = () => {
+    console.log("Function Running");
+    const allExampleSlates = [];
+    const slates = this.coolSlates;
+    for (let c of slates) {
+      allExampleSlates.push(
+        <div key={c.id} css={STYLES_SLATE_CARD}>
+          <div
+            css={css`
+              height: 100%;
+              :hover {
+                background: url(${c.previewImageUrl});
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                opacity: 1;
+                height: 100%;
+              }
+            `}
+          >
+            <a css={STYLES_SLATE_CARD_PARAGRAPH} href={c.slateURL} target="_blank">
+              <div css={STYLES_SLATE_CARD_TEXT}>
+                <div css={STYLES_SLATE_CARD_TITLE}>{c.slateName}</div>
+                <div css={STYLES_SLATE_CARD_EXPLAINER}>
+                  <div css={STYLES_SLATE_CARD_PARAGRAPH}>{`@${c.slateUser}`}</div>
+                  <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.render(allExampleSlates, document.getElementById("example-slates"));
+  };
 
   render() {
     const title = `Slate`;
@@ -457,9 +560,9 @@ export default class IndexPage extends React.Component {
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_BODY}>
-          <WebsitePrototypeHeader color="light" />
+          <WebsitePrototypeHeader />
           <div css={STYLES_ROOT}>
-            <section css={STYLES_SECTION_HERO}>
+            <div css={STYLES_SECTION_HERO}>
               <div css={STYLES_TEXT_BLOCK}>
                 <h1 css={STYLES_H1}>
                   A file storage network <br />
@@ -478,11 +581,11 @@ export default class IndexPage extends React.Component {
                 autoPlay
                 loop
                 muted
-                src="https://bafybeifsvkepb46prksbt7ank6o5gxeqcz4lshrn7d34ruzitxqr3hiqka.ipfs.slate.textile.io/"
+                src="https://bafybeidfr2x5ftxzixjxtrgiqm6iuotzip25tlrpase226jog3tqenqd4a.ipfs.slate.textile.io/"
                 type="video/m4v"
                 playsInline
                 style={{
-                  backgroundImage: `url('https://bafybeigalcaqfsxj4iiy5lseonatvvaglsxoz33knc5kngnilp2l23wndu.ipfs.slate.textile.io/')`,
+                  backgroundImage: `url('https://bafybeict43te7wcy7pdw3v45dwwedwxw7yjthbytdsja6dpsiqkgil7iey.ipfs.slate.textile.io/')`,
                   borderRadius: `4px`,
                   width: `100%`,
                   boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -525,8 +628,8 @@ export default class IndexPage extends React.Component {
                   </span>
                 </h2>
               </div>
-            </section>
-            <section css={STYLES_SECTION_SLATE}>
+            </div>
+            <div css={STYLES_SECTION_SLATE}>
               <div css={STYLES_TEXT_BLOCK}>
                 <h1 css={STYLES_H1}>
                   A new home{" "}
@@ -552,11 +655,11 @@ export default class IndexPage extends React.Component {
                       loop
                       muted
                       css={STYLES_VIDEO_SMALL}
-                      src="https://bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze.ipfs.slate.textile.io/"
+                      src="https://bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4.ipfs.slate.textile.io/"
                       type="video/mp4"
                       playsInline
                       style={{
-                        backgroundImage: `url('https://bafybeic4c572po5xd2crtcgr4m7vipddfttcaslsyy64xkl77pyocgqrii.ipfs.slate.textile.io/')`,
+                        backgroundImage: `url('https://bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou.ipfs.slate.textile.io/')`,
                         backgroundSize: `cover`,
                         borderRadius: `4px`,
                         boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -573,7 +676,7 @@ export default class IndexPage extends React.Component {
                       type="video/mp4"
                       playsInline
                       style={{
-                        backgroundImage: `url('https://bafybeicpw2w6udug33s5sfcratqxabiebzwrhe34jfdmycc5imippcjjli.ipfs.slate.textile.io/')`,
+                        backgroundImage: `url('https://bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti.ipfs.slate.textile.io/')`,
                         backgroundSize: `cover`,
                         borderRadius: `4px`,
                         boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -592,7 +695,7 @@ export default class IndexPage extends React.Component {
                       type="video/mp4"
                       playsInline
                       style={{
-                        backgroundImage: `url('https://bafkreiexblrnkrzp4ywwtfxrt6xo4aexo6dmphvfdjkwbcxphbivkrd2xi.ipfs.slate.textile.io/')`,
+                        backgroundImage: `url('https://bafkreihu7k46n6eixx6sxjv7aolou5bgvksvb7ryju3gbwie22t6r2dhli.ipfs.slate.textile.io/')`,
                         backgroundSize: `cover`,
                         borderRadius: `4px`,
                         boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -618,9 +721,9 @@ export default class IndexPage extends React.Component {
                   </div>
                 </div>
               </div>
-            </section>
+            </div>
 
-            <section css={STYLES_SECTION_SLATE}>
+            <div css={STYLES_SECTION_SLATE}>
               <div css={STYLES_TEXT_BLOCK}>
                 <h1 css={STYLES_H1}>
                   Upload from <span css={STYLES_HIGHLIGHT}>anywhere</span>
@@ -634,11 +737,13 @@ export default class IndexPage extends React.Component {
                 <img
                   css={STYLES_MEDIA_LEFT}
                   src="https://bafybeibwppu23j5wgshqvm5qyqv3c6pmhp3y5irdwn3ivvnnrpexiguzbi.ipfs.slate.textile.io/"
+                  // src="https://bafybeig46uuyp3fkjpk2edeqlmt26r3rxdola52dy7kbgvjms6olyucjdu.ipfs.slate.textile.io/"
+                  // alt="Slate Web Clipper being used in chrome dropdown menu"
                 />
               </div>
-            </section>
+            </div>
 
-            <section css={STYLES_SECTION_SLATE}>
+            <div css={STYLES_SECTION_SLATE}>
               <div css={STYLES_TEXT_BLOCK}>
                 <h1 css={STYLES_H1}>
                   <span css={STYLES_HIGHLIGHT}>Organize and publish</span>
@@ -662,7 +767,7 @@ export default class IndexPage extends React.Component {
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('https://bafybeiaxdqxxwksdykptwghh5du6fhwobavohyrgsajgzje2vvhbxphsl4.ipfs.slate.textile.io/')`,
+                    backgroundImage: `url('bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq.ipfs.slate.textile.io/')`,
                     backgroundSize: `cover`,
                     borderRadius: `4px`,
                     boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -678,7 +783,7 @@ export default class IndexPage extends React.Component {
                   autoPlay
                   loop
                   muted
-                  src="https://bafybeifrvssh7hata6kbhkq26zkmiw7ti66vvc3pc5aptapqmpafotsufm.ipfs.slate.textile.io/"
+                  src="https://bafybeigstyjfpzazdlmgkfuhw4yxrneux3opvbls7nmv6gq7dbnhmy6xwy.ipfs.slate.textile.io/"
                   type="video/mp4"
                   playsInline
                   style={{
@@ -698,20 +803,20 @@ export default class IndexPage extends React.Component {
                   autoPlay
                   loop
                   muted
-                  src="https://bafybeia4bvim5wcvsqoqb27pkky6b6ocamzv3pbgltgso43tdz454bmjsu.ipfs.slate.textile.io/"
+                  src="https://bafybeiampkmsxeihxnuz2hkgbhtzosgkwghslpwm7dsrxrzlqwa7tvzreq.ipfs.slate.textile.io/"
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('https://bafkreihlxav37dy6vqwrcamvbhub72zy3z6doayhjwtvqqvrlbvojum3um.ipfs.slate.textile.io/')`,
+                    backgroundImage: `url('https://bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u.ipfs.slate.textile.io/')`,
                     backgroundSize: `cover`,
                     borderRadius: `4px`,
                     boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                   }}
                 />
               </div>
-            </section>
+            </div>
 
-            <section css={STYLES_SECTION_SLATE}>
+            <div css={STYLES_SECTION_SLATE}>
               <div css={STYLES_TEXT_BLOCK}>
                 <h1 css={STYLES_H1}>
                   <span css={STYLES_HIGHLIGHT}>Collaborate and connect</span>
@@ -728,20 +833,20 @@ export default class IndexPage extends React.Component {
                   autoPlay
                   loop
                   muted
-                  src="https://bafybeidnaytqqghnwoduomvefwmnxz3kqllyl5xhyzc4azcl4zflscqcry.ipfs.slate.textile.io/"
+                  src="https://bafybeih63zq5f7htbhkmrog447ybytyid2yi6fix4k6z3pbegxpcq2r2qa.ipfs.slate.textile.io/"
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('https://bafkreid67aupu7dpnekkej77ik642zyrytkfhgpwxdoyhxey6qbcyuxrpq.ipfs.slate.textile.io/')`,
+                    backgroundImage: `url('https://bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4.ipfs.slate.textile.io/')`,
                     backgroundSize: `cover`,
                     borderRadius: `4px`,
                     boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                   }}
                 />
               </div>
-            </section>
+            </div>
 
-            <section css={STYLES_SECTION_SLATE}>
+            <div css={STYLES_SECTION_SLATE}>
               <div css={STYLES_TEXT_BLOCK}>
                 <h1 css={STYLES_H1}>
                   Built on <span css={STYLES_HIGHLIGHT}>trust, privacy, and security</span>
@@ -758,12 +863,12 @@ export default class IndexPage extends React.Component {
               <div>
                 <img
                   css={STYLES_MEDIA_RIGHT_OVERLAP}
-                  src="https://bafybeihi2f53tmtwxv5f5jd2wcxtzrutgvxg5xsawfv3ousfjz2yfurm2i.ipfs.slate.textile.io/"
+                  src="https://bafybeiaex6rorqtumulc4x3u4sbl5pdbn5sx45mvm6uvbebu4cxgk3okjy.ipfs.slate.textile.io/"
                 />
               </div>
-            </section>
+            </div>
 
-            <section css={STYLES_SECTION_SLATE_WALL}>
+            <div css={STYLES_SECTION_SLATE_WALL}>
               <div css={STYLES_SLATE_CARD_CTA}>
                 <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/_" target="_blank">
                   <div css={STYLES_SLATE_CARD_TEXT}>
@@ -779,125 +884,8 @@ export default class IndexPage extends React.Component {
                 </a>
               </div>
               <br />
-              <br />
-              <div css={STYLES_SLATE_CARD_GROUP}>
-                <div css={STYLES_SLATE_CARD}>
-                  <a
-                    css={STYLES_SLATE_CARD_PARAGRAPH}
-                    href="https://slate.host/gndclouds/urban-gardens"
-                    target="_blank"
-                  >
-                    <div css={STYLES_SLATE_CARD_TEXT}>
-                      <div css={STYLES_SLATE_CARD_TITLE}>Urban gardens</div>
-                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@gndclouds</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <div css={STYLES_SLATE_CARD}>
-                  <a
-                    css={STYLES_SLATE_CARD_PARAGRAPH}
-                    href="https://slate.host/haris/shapes-and-letters"
-                    target="_blank"
-                  >
-                    <div css={STYLES_SLATE_CARD_TEXT}>
-                      <div css={STYLES_SLATE_CARD_TITLE}>Shapes and letters</div>
-                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <div css={STYLES_SLATE_CARD}>
-                  <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/jason/mountains" target="_blank">
-                    <div css={STYLES_SLATE_CARD_TEXT}>
-                      <div css={STYLES_SLATE_CARD_TITLE}>Mountains</div>
-                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@jason</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div css={STYLES_SLATE_CARD_GROUP}>
-                <div css={STYLES_SLATE_CARD}>
-                  <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/tara/loom" target="_blank">
-                    <div css={STYLES_SLATE_CARD_TEXT}>
-                      <div css={STYLES_SLATE_CARD_TITLE}>Loom</div>
-                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tara</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <div css={STYLES_SLATE_CARD}>
-                  <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/slate/brand" target="_blank">
-                    <div css={STYLES_SLATE_CARD_TEXT}>
-                      <div css={STYLES_SLATE_CARD_TITLE}>Brand</div>
-                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <div css={STYLES_SLATE_CARD}>
-                  <a
-                    css={STYLES_SLATE_CARD_PARAGRAPH}
-                    href="https://slate.host/tcosta/montreal-underground"
-                    target="_blank"
-                  >
-                    <div css={STYLES_SLATE_CARD_TEXT}>
-                      <div css={STYLES_SLATE_CARD_TITLE}>Montreal underground</div>
-                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@tcosta</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div css={STYLES_SLATE_CARD_GROUP}>
-                <div css={STYLES_SLATE_CARD}>
-                  <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/slate/monet" target="_blank">
-                    <div css={STYLES_SLATE_CARD_TEXT}>
-                      <div css={STYLES_SLATE_CARD_TITLE}>Monet</div>
-                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <div css={STYLES_SLATE_CARD}>
-                  <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/haris/books" target="_blank">
-                    <div css={STYLES_SLATE_CARD_TEXT}>
-                      <div css={STYLES_SLATE_CARD_TITLE}>Books</div>
-                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@haris</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <div css={STYLES_SLATE_CARD}>
-                  <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/slate/papers" target="_blank">
-                    <div css={STYLES_SLATE_CARD_TEXT}>
-                      <div css={STYLES_SLATE_CARD_TITLE}>Papers</div>
-                      <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>@slate</div>
-                        <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </section>
+              <br /> <div id="example-slates" css={STYLES_SLATE_CARD_GROUP}></div>
+            </div>
           </div>
           <WebsitePrototypeFooter />
         </div>

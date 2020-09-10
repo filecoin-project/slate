@@ -5,8 +5,6 @@ import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
-import { Input } from "~/components/core/Input";
-import { Textarea } from "~/components/core/Textarea";
 
 const STYLES_GROUP = css`
   display: flex;
@@ -18,7 +16,7 @@ const STYLES_GROUP = css`
 `;
 
 const STYLES_LEFT = css`
-  padding: 12px 0 0 0;
+  padding: 4px 0 0 0;
   min-width: 10%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -26,8 +24,14 @@ const STYLES_LEFT = css`
 
 const STYLES_RIGHT = css`
   padding-left: 48px;
-  padding-top: 24px;
+  padding-top: 12px;
   flex-shrink: 0;
+`;
+
+const STYLES_HEADER = css`
+  font-family: ${Constants.font.semiBold};
+  font-size: 18px;
+  margin-top: 48px;
 `;
 
 export default class SidebarSingleSlateSettings extends React.Component {
@@ -116,24 +120,27 @@ export default class SidebarSingleSlateSettings extends React.Component {
           style={{
             fontFamily: Constants.font.semiBold,
             fontSize: Constants.typescale.lvl3,
+            marginBottom: 64,
           }}
         >
           Slate Settings
         </System.P>
 
-        <Input
-          containerStyle={{ marginTop: 48 }}
+        <System.P css={STYLES_HEADER}>Name</System.P>
+        <System.P
+          style={{
+            marginTop: 12,
+          }}
+        >
+          Changing the slatename will change your public slate URL. Your slate
+          URL is:{" "}
+          <a href={url} target="_blank">
+            https://slate.host{url}
+          </a>
+        </System.P>
+        <System.Input
+          placeholder="Slate name..."
           style={{ marginTop: 24 }}
-          label="Name"
-          description={
-            <React.Fragment>
-              Changing the slatename will change your public slate URL. Your
-              slate URL is:{" "}
-              <a href={url} target="_blank">
-                https://slate.host{url}
-              </a>
-            </React.Fragment>
-          }
           name="name"
           value={this.state.name}
           placeholder="Name"
@@ -143,15 +150,10 @@ export default class SidebarSingleSlateSettings extends React.Component {
           labelStyle={{ fontSize: "20px" }}
         />
 
-        <System.DescriptionGroup
-          label="Description"
-          style={{ marginTop: 48 }}
-          descriptionStyle={{ fontSize: Constants.system.lvl1 }}
-          labelStyle={{ fontSize: Constants.system.lvl2 }}
-        />
-        <Textarea
-          style={{ marginTop: 24 }}
-          label="Description"
+        <System.P css={STYLES_HEADER}>Description</System.P>
+
+        <System.Textarea
+          style={{ marginTop: 12 }}
           name="body"
           value={this.state.body}
           placeholder="A slate."
@@ -159,18 +161,14 @@ export default class SidebarSingleSlateSettings extends React.Component {
           onSubmit={this._handleSubmit}
         />
 
-        <div css={STYLES_GROUP} style={{ marginTop: 48 }}>
+        <System.P css={STYLES_HEADER} style={{ marginTop: 48 }}>
+          Privacy
+        </System.P>
+        <div css={STYLES_GROUP} styles={{ margin: 0 }}>
           <div css={STYLES_LEFT}>
-            <System.DescriptionGroup
-              label="Change privacy"
-              description={
-                this.state.public
-                  ? "This slate is public"
-                  : "This slate is private"
-              }
-              descriptionStyle={{ fontSize: Constants.system.lvl1 }}
-              labelStyle={{ fontSize: Constants.system.lvl2 }}
-            />
+            <System.P>
+              {this.state.public ? "Make slate private" : "Make slate public"}
+            </System.P>
           </div>
           <div css={STYLES_RIGHT}>
             <System.Toggle

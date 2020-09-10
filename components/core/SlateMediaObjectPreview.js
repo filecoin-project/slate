@@ -5,6 +5,7 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/react";
 
 const STYLES_IMAGE = css`
+  background-color: ${Constants.system.foreground};
   display: block;
   max-width: 100%;
   max-height: 100%;
@@ -53,7 +54,7 @@ export default class SlateMediaObjectPreview extends React.Component {
     let element = (
       <article css={STYLES_ENTITY} style={this.props.style}>
         <div>
-          <SVG.NoImage height="24px" />
+          <SVG.Document height="24px" />
         </div>
         {this.props.title && !this.props.small ? (
           <div css={STYLES_TITLE}>{title}</div>

@@ -61,23 +61,40 @@ export default class SidebarCreateSlate extends React.Component {
           style={{
             fontFamily: Constants.font.semiBold,
             fontSize: Constants.typescale.lvl3,
+            marginBottom: "64px",
           }}
         >
           Create Slate
         </System.P>
 
+        <System.P
+          style={{
+            fontFamily: Constants.font.semiBold,
+            fontSize: "1.1rem",
+          }}
+        >
+          Name
+        </System.P>
         <System.Input
-          containerStyle={{ marginTop: 24 }}
-          label="Slate name"
           name="name"
+          style={{ marginTop: 12 }}
+          placeholder="Slate name..."
           value={this.state.name}
           onChange={this._handleChange}
           onSubmit={this._handleSubmit}
         />
 
-        <System.P style={{ marginTop: 24 }}>
-          This will create a new slate address at https://slate.host/
-          {this.props.viewer.username}/{Strings.createSlug(this.state.name)}
+        <System.P style={{ marginTop: 12 }}>
+          Your slate URL will be:{" "}
+          <a
+            href={`${this.props.viewer.username}/${Strings.createSlug(
+              this.state.name
+            )}`}
+            target="_blank"
+          >
+            https://slate.host/
+            {this.props.viewer.username}/{Strings.createSlug(this.state.name)}
+          </a>
         </System.P>
 
         <System.ButtonPrimary

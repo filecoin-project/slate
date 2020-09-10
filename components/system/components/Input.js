@@ -53,14 +53,11 @@ const STYLES_INPUT = css`
   padding: 0 24px 0 24px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
-    inset 0 0 0 1px ${Constants.system.darkGray};
+  box-shadow: 0 0 0 1px inset ${Constants.system.border};
 
   :focus {
     outline: 0;
     border: 0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07),
-      inset 0 0 0 2px ${Constants.system.brand};
   }
 
   ::placeholder {

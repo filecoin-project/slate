@@ -43,40 +43,11 @@ const STYLES_FILE_STATUS = css`
   align-items: center;
 `;
 
-const STYLES_FOCUS = css`
-  font-size: ${Constants.typescale.lvl1};
-  font-family: ${Constants.font.medium};
-  overflow-wrap: break-word;
-  width: 100%;
-
-  strong {
-    font-family: ${Constants.font.semiBold};
-    font-weight: 400;
-  }
-`;
-
-const STYLES_SUBTEXT = css`
-  margin-top: 8px;
-  font-size: 12px;
-`;
-
-const STYLES_ITEM = css`
-  margin-top: 16px;
-`;
-
-const STYLES_IMAGE_PREVIEW = css`
-  display: block;
-  width: 100%;
+const STYLES_BAR_CONTAINER = css`
+  background: ${Constants.system.white};
+  border-radius: 4px;
+  padding: 16px;
   margin-top: 48px;
-`;
-
-const STYLES_STRONG = css`
-  display: block;
-  margin: 16px 0 4px 0;
-  font-weight: 400;
-  font-family: ${Constants.font.medium};
-  font-size: 0.8rem;
-  oveflow-wrap: break-word;
 `;
 
 const STYLES_PERFORMANCE = css`
@@ -92,9 +63,6 @@ const STYLES_ICONS = css`
   justify-content: center;
   margin: 64px 0;
 `;
-
-const reducerTotal = (total, curr) => total + curr.total;
-const reducerLoaded = (total, curr) => total + curr.loaded;
 
 export default class SidebarAddFileToBucket extends React.Component {
   _handleUpload = async (e) => {
@@ -197,7 +165,6 @@ export default class SidebarAddFileToBucket extends React.Component {
           id="file"
           onChange={this._handleUpload}
         />
-
         <div css={STYLES_ICONS}>
           <SVG.Sound height="24px" style={{ margin: "0 16px" }} />
           <SVG.Document height="24px" style={{ margin: "0 16px" }} />
@@ -205,7 +172,6 @@ export default class SidebarAddFileToBucket extends React.Component {
           <SVG.Book height="24px" style={{ margin: "0 16px" }} />
           <SVG.Video height="24px" style={{ margin: "0 16px" }} />
         </div>
-
         <System.P style={{ marginTop: 24 }}>
           Click below or drop a file anywhere on the page to upload a file
           {this.props.data &&
@@ -223,23 +189,19 @@ export default class SidebarAddFileToBucket extends React.Component {
           )}
           .
         </System.P>
-
         {/* //change this to allways allow uploads */}
-        {!this.props.fileLoading ? (
-          <System.ButtonPrimary
-            full
-            type="label"
-            htmlFor="file"
-            style={{ marginTop: 24 }}
-          >
-            Add file
-          </System.ButtonPrimary>
-        ) : null}
+        <System.ButtonPrimary
+          full
+          type="label"
+          htmlFor="file"
+          style={{ marginTop: 24 }}
+        >
+          Add file
+        </System.ButtonPrimary>
 
         <br />
-
         {this.props.fileLoading ? (
-          <React.Fragment>
+          <div css={STYLES_BAR_CONTAINER}>
             <strong css={STYLES_PERFORMANCE}>
               {Strings.bytesToSize(loaded)} / {Strings.bytesToSize(total)}
             </strong>
@@ -250,48 +212,29 @@ export default class SidebarAddFileToBucket extends React.Component {
               bytes={loaded}
               maximumBytes={total}
             />
-          </React.Fragment>
+          </div>
         ) : null}
-        {this.props.fileLoading ? (
-          Object.values(this.props.fileLoading).map((file) => (
-            <div css={STYLES_FILE_LINE}>
-              <div css={STYLES_FILE_NAME}>{file.name}</div>
-              <div css={STYLES_FILE_STATUS}>
-                {file.loaded === file.total ? (
-                  <SVG.CheckBox height="24px" />
-                ) : file.failed ? (
-                  <SVG.Dismiss height="24px" />
-                ) : (
-                  <div style={{ transform: "scale(0.8)" }}>
-                    <System.LoaderSpinner />
+        <div style={{ marginTop: 24 }}>
+          {this.props.fileLoading
+            ? Object.values(this.props.fileLoading).map((file) => (
+                <div css={STYLES_FILE_LINE}>
+                  <div css={STYLES_FILE_NAME}>{file.name}</div>
+                  <div css={STYLES_FILE_STATUS}>
+                    {file.loaded === file.total ? (
+                      <SVG.CheckBox height="24px" />
+                    ) : file.failed ? (
+                      <SVG.Dismiss height="24px" />
+                    ) : (
+                      <System.LoaderSpinner
+                        style={{ width: "20px", height: "20px", margin: "2px" }}
+                      />
+                    )}
+                    {/* maybe send an alert if fails here */}
                   </div>
-                )}
-                {/* maybe send an alert if fails here */}
-              </div>
-            </div>
-          ))
-        ) : (
-          <React.Fragment>
-            <div css={STYLES_FILE_LINE}>
-              <div css={STYLES_FILE_NAME}>
-                tokyodriftmp3sfjalsjflkjfasfijaiojmoawejfaokjwfjkhdk
-              </div>
-              <span css={STYLES_FILE_STATUS}>
-                <System.LoaderSpinner
-                  style={{ width: "20px", height: "20px", margin: "2px" }}
-                />
-              </span>
-            </div>
-            <div css={STYLES_FILE_LINE}>
-              <div css={STYLES_FILE_NAME}>
-                tokyodriftmp3sfjalsjflkjfasfijaiojmoawejfaokjwfjkhdk
-              </div>
-              <div css={STYLES_FILE_STATUS}>
-                <SVG.CheckBox height="24px" />
-              </div>
-            </div>
-          </React.Fragment>
-        )}
+                </div>
+              ))
+            : null}
+        </div>
       </React.Fragment>
     );
   }

@@ -135,6 +135,7 @@ const CodeTerminal = () => {
                   noPrompt
                   noCaret
                 />
+                HJello
               </p>
               <p>
                 <Line />

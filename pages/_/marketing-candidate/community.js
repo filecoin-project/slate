@@ -5,6 +5,9 @@ import * as System from "~/components/system";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
+import IssuesList from "~/components/core/IssuesList";
+import Issue from "~/components/core/Issue";
+
 import CodeTerminal from "~/components/core/CodeTerminal";
 import CodeBlock from "~/components/system/CodeBlock";
 
@@ -239,7 +242,23 @@ export const getServerSideProps = async context => {
 };
 
 export default class CommunityPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      issues: []
+    };
+  }
   async componentDidMount() {
+    fetch(`https://api.github.com/repos/filecoin-project/slate/issues`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          issues: data
+        });
+      })
+      .catch(err => console.log(err));
     this.addCoreTeam();
     this.addContributorTeam();
   }
@@ -495,25 +514,28 @@ export default class CommunityPage extends React.Component {
                 contributors from around the world. We’d love for you to join
                 us, get involved in the project and contribute.
               </h3>
-              <div css={STYLES_SECTION_CHILD_FULL}>
+              <div css={STYLES_SECTION_CHILD_SPLIT}>
                 <h3 css={STYLES_H3}>Contribute</h3>
-                <div css={STYLES_SECTION_CHILD_SPLIT}>
-                  <h3 css={STYLES_H3} style={{ opacity: 0.7 }}>
-                    Find something you want to work on and file an issue. If you
-                    see something you want to fix or change, submit a pull
-                    request.
-                  </h3>
-                  <br />
-                  <br />
-                  <button
-                    css={STYLES_BUTTON_PRIMARY}
-                    onClick={() =>
-                      window.open("https://github.com/filecoin-project/slate")
-                    }
-                  >
-                    Github
-                  </button>
-                </div>
+                <br />
+
+                <h3 css={STYLES_H3} style={{ opacity: 0.7 }}>
+                  Find something you want to work on and file an issue. If you
+                  see something you want to fix or change, submit a pull
+                  request.
+                </h3>
+                <br />
+                <br />
+                <button
+                  css={STYLES_BUTTON_PRIMARY}
+                  onClick={() =>
+                    window.open("https://github.com/filecoin-project/slate")
+                  }
+                >
+                  Github
+                </button>
+              </div>
+              <div css={STYLES_SECTION_CHILD_SPLIT}>
+                <IssuesList issues={this.state.issues} />
               </div>
               <div css={STYLES_SECTION_CHILD_FULL}>
                 <h3 css={STYLES_H3}>Contact</h3>
@@ -559,6 +581,12 @@ export default class CommunityPage extends React.Component {
                   </h3>
                   <br />
                   <br />
+                  <p>
+                    {" "}
+                    @will is working on determining why this codeblock is
+                    inviable. ⬇️
+                    (https://github.com/vercel/hyper-site/blob/main/components/terminal)
+                  </p>{" "}
                   <CodeTerminal />
                   <br />
                   <br />

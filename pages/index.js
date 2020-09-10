@@ -504,8 +504,8 @@ export default class IndexPage extends React.Component {
     },
     {
       id: 8,
-      slateName: "Book shelf",
-      slateUrl: "https://slate.host/haris/book-shelf",
+      slateName: "Books",
+      slateUrl: "https://slate.host/haris/books",
       slateUser: "haris",
       previewImageUrl: "https://bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri.ipfs.slate.textile.io/",
     },
@@ -513,7 +513,7 @@ export default class IndexPage extends React.Component {
       id: 9,
       slateName: "Papers",
       slateUrl: "https://slate.host/slate/papers",
-      slateUser: "@slate",
+      slateUser: "slate",
       previewImageUrl: "https://bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm.ipfs.slate.textile.io/",
     },
   ];
@@ -537,7 +537,7 @@ export default class IndexPage extends React.Component {
               }
             `}
           >
-            <a css={STYLES_SLATE_CARD_PARAGRAPH} href={c.slateURL} target="_blank">
+            <a css={STYLES_SLATE_CARD_PARAGRAPH} href={c.slateUrl} target="_blank">
               <div css={STYLES_SLATE_CARD_TEXT}>
                 <div css={STYLES_SLATE_CARD_TITLE}>{c.slateName}</div>
                 <div css={STYLES_SLATE_CARD_EXPLAINER}>

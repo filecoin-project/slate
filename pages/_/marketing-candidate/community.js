@@ -1,13 +1,14 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
+import CodeTerminal from "~/components/core/CodeTerminal";
 import CodeBlock from "~/components/system/CodeBlock";
 
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 import ReactDOM from "react-dom";
 
@@ -174,9 +175,10 @@ const STYLES_SECTION_CHILD_SPLIT = css`
 const STYLES_CARD_GROUP = css`
   display: flex;
   margin-top: 48px;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   @media (max-width: ${Constants.sizes.tablet}px) {
-    margin-top: 16px;
+    align-items: left;
+    4margin-top: 16px;
   }
 `;
 
@@ -435,6 +437,9 @@ export default class CommunityPage extends React.Component {
     const description =
       "Slate is designed and built by a growing community of hackers, artists, and creatives on the web.";
     const url = "https://slate.host/community";
+    const words = "npm install --save slate-react-system";
+    const letters = words.split("");
+    let count = 0;
 
     return (
       <WebsitePrototypeWrapper
@@ -554,7 +559,7 @@ export default class CommunityPage extends React.Component {
                   </h3>
                   <br />
                   <br />
-                  <CodeBlock>npm install --save slate-react-system</CodeBlock>
+                  <CodeTerminal />
                   <br />
                   <br />
                   <button

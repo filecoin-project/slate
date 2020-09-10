@@ -95,7 +95,7 @@ export default class SidebarAddFileToBucket extends React.Component {
 
     if (!files.length) {
       alert("We could not find any files to upload.");
-      return this.props.onRegisterFileLoading({ fileLoading: null });
+      // return this.props.onRegisterFileLoading({ fileLoading: null });
     }
 
     this.props.onRegisterFileLoading({ fileLoading });
@@ -146,7 +146,6 @@ export default class SidebarAddFileToBucket extends React.Component {
         return total + curr.total;
       }, 0);
     }
-    console.log(this.props.fileLoading);
     return (
       <React.Fragment>
         <System.P

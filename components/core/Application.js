@@ -124,6 +124,11 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleRegisterFileLoading = ({ fileLoading }) => {
+    if (this.state.fileLoading) {
+      return this.setState({
+        fileLoading: { ...this.state.fileLoading, ...fileLoading },
+      });
+    }
     return this.setState({
       fileLoading,
     });

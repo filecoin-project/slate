@@ -111,7 +111,7 @@ const STYLES_SIDEBAR_WEB = css`
   width: ${Constants.sizes.sidebar}px;
   padding: 0;
   flex-shrink: 0;
-  position: absolute;
+  position: fixed;
   background-color: rgba(247, 247, 247, 1);
   top: 0;
   right: 0;

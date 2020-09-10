@@ -19,6 +19,30 @@ const STYLES_FILE_HIDDEN = css`
   left: -1px;
 `;
 
+const STYLES_FILE_LINE = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px;
+`;
+
+const STYLES_FILE_NAME = css`
+  min-width: 10%;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.9rem;
+`;
+
+const STYLES_FILE_STATUS = css`
+  flex-shrink: 0;
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+`;
+
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
   font-family: ${Constants.font.medium};
@@ -68,6 +92,9 @@ const STYLES_ICONS = css`
   justify-content: center;
   margin: 64px 0;
 `;
+
+const reducerTotal = (total, curr) => total + curr.total;
+const reducerLoaded = (total, curr) => total + curr.loaded;
 
 export default class SidebarAddFileToBucket extends React.Component {
   _handleUpload = async (e) => {
@@ -141,6 +168,17 @@ export default class SidebarAddFileToBucket extends React.Component {
   };
 
   render() {
+    let loaded;
+    let total;
+    if (this.props.fileLoading) {
+      loaded = Object.values(this.props.fileLoading).reduce((total, curr) => {
+        return total + curr.loaded;
+      }, 0);
+      total = Object.values(this.props.fileLoading).reduce((total, curr) => {
+        return total + curr.total;
+      }, 0);
+    }
+    console.log(this.props.fileLoading);
     return (
       <React.Fragment>
         <System.P
@@ -186,6 +224,7 @@ export default class SidebarAddFileToBucket extends React.Component {
           .
         </System.P>
 
+        {/* //change this to allways allow uploads */}
         {!this.props.fileLoading ? (
           <System.ButtonPrimary
             full
@@ -199,28 +238,60 @@ export default class SidebarAddFileToBucket extends React.Component {
 
         <br />
 
-        {this.props.fileLoading
-          ? Object.keys(this.props.fileLoading).map((timestamp) => {
-              const p = this.props.fileLoading[timestamp];
-              return (
-                <React.Fragment key={timestamp}>
-                  <strong css={STYLES_STRONG}>{p.name}</strong>
-
-                  <strong css={STYLES_PERFORMANCE}>
-                    {Strings.bytesToSize(p.loaded)} /{" "}
-                    {Strings.bytesToSize(p.total)}
-                  </strong>
-                  <DataMeterBar
-                    failed={p.failed}
-                    leftLabel={p.failed ? "failed" : "uploaded"}
-                    rightLabel={p.failed ? null : "total"}
-                    bytes={p.loaded}
-                    maximumBytes={p.total}
-                  />
-                </React.Fragment>
-              );
-            })
-          : null}
+        {this.props.fileLoading ? (
+          <React.Fragment>
+            <strong css={STYLES_PERFORMANCE}>
+              {Strings.bytesToSize(loaded)} / {Strings.bytesToSize(total)}
+            </strong>
+            <DataMeterBar
+              failed={false}
+              leftLabel={"uploaded"}
+              rightLabel={"total"}
+              bytes={loaded}
+              maximumBytes={total}
+            />
+          </React.Fragment>
+        ) : null}
+        {this.props.fileLoading ? (
+          Object.values(this.props.fileLoading).map((file) => (
+            <div css={STYLES_FILE_LINE}>
+              <div css={STYLES_FILE_NAME}>{file.name}</div>
+              <div css={STYLES_FILE_STATUS}>
+                {file.loaded === file.total ? (
+                  <SVG.CheckBox height="24px" />
+                ) : file.failed ? (
+                  <SVG.Dismiss height="24px" />
+                ) : (
+                  <div style={{ transform: "scale(0.8)" }}>
+                    <System.LoaderSpinner />
+                  </div>
+                )}
+                {/* maybe send an alert if fails here */}
+              </div>
+            </div>
+          ))
+        ) : (
+          <React.Fragment>
+            <div css={STYLES_FILE_LINE}>
+              <div css={STYLES_FILE_NAME}>
+                tokyodriftmp3sfjalsjflkjfasfijaiojmoawejfaokjwfjkhdk
+              </div>
+              <span css={STYLES_FILE_STATUS}>
+                <System.LoaderSpinner
+                  style={{ width: "20px", height: "20px", margin: "2px" }}
+                />
+              </span>
+            </div>
+            <div css={STYLES_FILE_LINE}>
+              <div css={STYLES_FILE_NAME}>
+                tokyodriftmp3sfjalsjflkjfasfijaiojmoawejfaokjwfjkhdk
+              </div>
+              <div css={STYLES_FILE_STATUS}>
+                <SVG.CheckBox height="24px" />
+              </div>
+            </div>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }

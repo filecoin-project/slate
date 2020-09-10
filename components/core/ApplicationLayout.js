@@ -112,14 +112,21 @@ const STYLES_SIDEBAR_WEB = css`
   padding: 0;
   flex-shrink: 0;
   position: absolute;
-  background-color: rgba(247, 247, 247, 0.75);
-  -webkit-backdrop-filter: blur(75px);
-  backdrop-filter: blur(25px);
+  background-color: rgba(247, 247, 247, 1);
   top: 0;
   right: 0;
   ${STYLES_SCROLL}
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
+  }
+
+  @supports (
+    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
+  ) {
+    -webkit-backdrop-filter: blur(75px);
+    backdrop-filter: blur(25px);
+    background-color: rgba(247, 247, 247, 0.75);
   }
 `;
 

@@ -24,7 +24,12 @@ export default class SidebarAddPeer extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+        <System.P
+          style={{
+            fontFamily: Constants.font.semiBold,
+            fontSize: Constants.typescale.lvl3,
+          }}
+        >
           Add a peer
         </System.P>
       </React.Fragment>

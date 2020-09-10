@@ -16,7 +16,7 @@ const STYLES_GROUP = css`
 `;
 
 const STYLES_LEFT = css`
-  padding: 12px 0 0 0;
+  padding: 4px 0 0 0;
   min-width: 10%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -24,8 +24,14 @@ const STYLES_LEFT = css`
 
 const STYLES_RIGHT = css`
   padding-left: 48px;
-  padding-top: 24px;
+  padding-top: 12px;
   flex-shrink: 0;
+`;
+
+const STYLES_HEADER = css`
+  font-family: ${Constants.font.semiBold};
+  font-size: 18px;
+  margin-top: 48px;
 `;
 
 export default class SidebarSingleSlateSettings extends React.Component {
@@ -105,46 +111,49 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
   render() {
     console.log(this.props);
-    const { slatename } = this.state;
     const slug = Strings.createSlug(this.state.name);
     const url = `/${this.props.viewer.username}/${slug}`;
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+        <System.P
+          style={{
+            fontFamily: Constants.font.semiBold,
+            fontSize: Constants.typescale.lvl3,
+            marginBottom: 64,
+          }}
+        >
           Slate Settings
         </System.P>
-        <System.P style={{ marginTop: 24 }}>
-          Update settings for {this.props.current.slatename}.
-        </System.P>
 
+        <System.P css={STYLES_HEADER}>Name</System.P>
+        <System.P
+          style={{
+            marginTop: 12,
+          }}
+        >
+          Changing the slatename will change your public slate URL. Your slate
+          URL is:{" "}
+          <a href={url} target="_blank">
+            https://slate.host{url}
+          </a>
+        </System.P>
         <System.Input
-          containerStyle={{ marginTop: 48 }}
+          placeholder="Slate name..."
           style={{ marginTop: 24 }}
-          label="Slate name"
-          description={
-            <React.Fragment>
-              Changing the slatename will change your public slate URL. Your
-              slate URL is:{" "}
-              <a href={url} target="_blank">
-                https://slate.host{url}
-              </a>
-            </React.Fragment>
-          }
           name="name"
           value={this.state.name}
           placeholder="Name"
           onChange={this._handleChange}
           onSubmit={this._handleSubmit}
+          descriptionStyle={{ fontSize: "20px !important" }}
+          labelStyle={{ fontSize: "20px" }}
         />
 
-        <System.DescriptionGroup
-          label="Description"
-          style={{ marginTop: 48 }}
-        />
+        <System.P css={STYLES_HEADER}>Description</System.P>
+
         <System.Textarea
-          style={{ marginTop: 24 }}
-          label="Description"
+          style={{ marginTop: 12 }}
           name="body"
           value={this.state.body}
           placeholder="A slate."
@@ -152,12 +161,14 @@ export default class SidebarSingleSlateSettings extends React.Component {
           onSubmit={this._handleSubmit}
         />
 
-        <div css={STYLES_GROUP} style={{ marginTop: 48 }}>
+        <System.P css={STYLES_HEADER} style={{ marginTop: 48 }}>
+          Privacy
+        </System.P>
+        <div css={STYLES_GROUP} styles={{ margin: 0 }}>
           <div css={STYLES_LEFT}>
-            <System.DescriptionGroup
-              label="Change privacy"
-              description="If enabled, your slate will be visible to anyone in the world. If disabled, your slate will only be visible to you on this screen."
-            />
+            <System.P>
+              {this.state.public ? "Make slate private" : "Make slate public"}
+            </System.P>
           </div>
           <div css={STYLES_RIGHT}>
             <System.Toggle
@@ -179,7 +190,12 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
           {!this.state.loading ? (
             <System.ButtonSecondary
-              style={{ marginTop: 16 }}
+              style={{
+                marginTop: 16,
+                backgroundColor: "#e5e5e5",
+                color: Constants.system.red,
+                boxShadow: "none",
+              }}
               full
               onClick={this._handleCancel}
             >
@@ -189,21 +205,21 @@ export default class SidebarSingleSlateSettings extends React.Component {
         </div>
 
         {!this.state.loading ? (
-          <System.DescriptionGroup
-            style={{ marginTop: 48 }}
-            label="Delete this slate"
-            description="This action is irreversible."
-          />
-        ) : null}
-
-        {!this.state.loading ? (
-          <div style={{ marginTop: 32 }}>
+          <div style={{ marginTop: 48 }}>
             <System.ButtonSecondary
               full
               onClick={this._handleDelete}
               loading={this.state.loading}
+              style={{
+                backgroundColor: "#e5e5e5",
+                color: Constants.system.red,
+                boxShadow: "none",
+              }}
             >
-              Delete {this.props.current.slatename}
+              Delete{" "}
+              {this.props.current.data && this.props.current.data.name
+                ? this.props.current.data.name
+                : this.props.current.slatename}
             </System.ButtonSecondary>
           </div>
         ) : null}

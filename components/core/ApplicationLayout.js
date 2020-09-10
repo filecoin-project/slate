@@ -111,12 +111,12 @@ const STYLES_SIDEBAR_WEB = css`
   width: ${Constants.sizes.sidebar}px;
   padding: 0;
   flex-shrink: 0;
-  position: fixed;
-  background-color: ${Constants.system.foreground};
+  position: absolute;
+  background-color: rgba(247, 247, 247, 0.75);
+  -webkit-backdrop-filter: blur(75px);
+  backdrop-filter: blur(25px);
   top: 0;
   right: 0;
-  bottom: 0;
-  box-shadow: inset 1px 0 0 0 ${Constants.system.border};
   ${STYLES_SCROLL}
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -130,10 +130,11 @@ const STYLES_SIDEBAR_HEADER = css`
 `;
 
 const STYLES_SIDEBAR_CONTENT = css`
-  padding: 30px 24px 24px 24px;
+  padding: 8px 24px 24px 24px;
 `;
 
 const STYLES_BLOCK = css`
+  margin-top: 8px;
   height: 56px;
   width: 56px;
   display: inline-flex;
@@ -141,6 +142,7 @@ const STYLES_BLOCK = css`
   justify-content: center;
   transition: 200ms ease all;
   cursor: pointer;
+  color: rgba(0, 0, 0, 0.25);
 `;
 
 export default class ApplicationLayout extends React.Component {

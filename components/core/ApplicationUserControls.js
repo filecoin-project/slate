@@ -32,11 +32,9 @@ const STYLES_PROFILE = css`
   min-width: 10%;
   width: 204px;
 
-  font-family: ${Constants.font.semiBold};
   color: ${Constants.system.pitchBlack};
   background-color: ${Constants.system.white};
   font-size: 12px;
-  line-height: 12px;
   text-decoration: none;
   border-radius: 4px;
   min-height: 48px;
@@ -88,7 +86,7 @@ const STYLES_PROFILE_USERNAME = css`
   padding: 12px;
   user-select: none;
   font-family: ${Constants.font.medium};
-  font-size: 14px;
+  font-size: ${Constants.typescale.lvl1};
 `;
 
 const STYLES_ITEM_BOX_MOBILE = css`

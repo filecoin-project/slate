@@ -60,6 +60,7 @@ const STYLES_ACTION_BUTTON = css`
 `;
 
 const STYLES_PROFILE_IMAGE = css`
+  background-color: ${Constants.system.foreground};
   background-size: cover;
   background-position: 50% 50%;
   height: 24px;

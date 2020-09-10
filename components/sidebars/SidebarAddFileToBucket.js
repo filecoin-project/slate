@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
+import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 import { DataMeterBar } from "~/components/core/DataMeter";
@@ -59,6 +60,13 @@ const STYLES_PERFORMANCE = css`
   font-size: 12px;
   display: block;
   margin: 0 0 8px 0;
+`;
+
+const STYLES_ICONS = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 64px 0;
 `;
 
 export default class SidebarAddFileToBucket extends React.Component {
@@ -135,7 +143,13 @@ export default class SidebarAddFileToBucket extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+        <System.P
+          style={{
+            fontFamily: Constants.font.semiBold,
+            fontSize: Constants.typescale.lvl3,
+            marginBottom: "64px",
+          }}
+        >
           Upload Data
         </System.P>
         <input
@@ -146,12 +160,31 @@ export default class SidebarAddFileToBucket extends React.Component {
           onChange={this._handleUpload}
         />
 
-        {this.props.data && this.props.data.decorator === "SLATE" ? (
-          <System.P style={{ marginTop: 24 }}>
-            This will add data to your Slate named{" "}
-            <strong>{this.props.data.slatename}</strong>.
-          </System.P>
-        ) : null}
+        <div css={STYLES_ICONS}>
+          <SVG.Sound height="24px" style={{ margin: "0 16px" }} />
+          <SVG.Document height="24px" style={{ margin: "0 16px" }} />
+          <SVG.Image height="24px" style={{ margin: "0 16px" }} />
+          <SVG.Book height="24px" style={{ margin: "0 16px" }} />
+          <SVG.Video height="24px" style={{ margin: "0 16px" }} />
+        </div>
+
+        <System.P style={{ marginTop: 24 }}>
+          Click below or drop a file anywhere on the page to upload a file
+          {this.props.data &&
+          (this.props.data.slatename ||
+            (this.props.data.data && this.props.data.data.name)) ? (
+            <span>
+              {" "}
+              to{" "}
+              <strong>
+                {this.props.data.data.name || this.props.data.slatename}
+              </strong>
+            </span>
+          ) : (
+            ""
+          )}
+          .
+        </System.P>
 
         {!this.props.fileLoading ? (
           <System.ButtonPrimary

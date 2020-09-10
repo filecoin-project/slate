@@ -44,6 +44,7 @@ const STYLES_USER_ENTRY_CONTAINER = css`
 `;
 
 const STYLES_PROFILE_IMAGE = css`
+  background-color: ${Constants.system.foreground};
   background-size: cover;
   background-position: 50% 50%;
   height: 24px;

@@ -13,6 +13,7 @@ const STYLES_PROFILE = css`
 `;
 
 const STYLES_PROFILE_IMAGE = css`
+  background-color: ${Constants.system.foreground};
   background-size: cover;
   background-position: 50% 50%;
   width: 152px;

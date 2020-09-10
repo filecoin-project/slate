@@ -66,9 +66,7 @@ const STYLES_CHILDREN = css`
   overflow-wrap: break-word;
   padding: 11px 0px 14px 8px;
   font-family: ${Constants.font.medium};
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.225;
+  font-size: ${Constants.typescale.lvl1};
   position: relative;
   display: flex;
   align-items: flex-start;

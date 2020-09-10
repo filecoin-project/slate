@@ -101,7 +101,12 @@ export default class SidebarFileStorageDeal extends React.Component {
 
     return (
       <React.Fragment>
-        <System.P style={{ fontFamily: Constants.font.semiBold }}>
+        <System.P
+          style={{
+            fontFamily: Constants.font.semiBold,
+            fontSize: Constants.typescale.lvl3,
+          }}
+        >
           Make Filecoin storage deal
         </System.P>
 

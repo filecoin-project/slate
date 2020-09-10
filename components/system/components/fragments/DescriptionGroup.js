@@ -50,12 +50,15 @@ export const DescriptionGroup = (props) => {
   return (
     <div style={{ maxWidth: props.full ? "none" : "480px", ...props.style }}>
       {!Strings.isEmpty(props.label) ? (
-        <div css={STYLES_DESCRIPTION_GROUP_LABEL}>
+        <div css={STYLES_DESCRIPTION_GROUP_LABEL} style={props.labelStyle}>
           {props.label} {props.tooltip ? null : null}
         </div>
       ) : null}
       {!Strings.isEmpty(props.description) ? (
-        <div css={STYLES_DESCRIPTION_GROUP_DESCRIPTION}>
+        <div
+          css={STYLES_DESCRIPTION_GROUP_DESCRIPTION}
+          style={props.descriptionStyle}
+        >
           {props.description}
         </div>
       ) : null}

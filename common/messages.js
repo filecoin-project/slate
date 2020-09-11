@@ -11,11 +11,33 @@ export const error = {
     "Sorry, we couldn't find that Slate! Please try another",
   ADD_TO_SLATE_ERROR: "There was an error retriving this Slate",
 
+  //Slate Delete
+  DELETE_SLATE_BY_ID:
+    "Sorry, there was an error while trying to delete that slate. Please try again",
+  DELETE_SLATES_FOR_USER_ID:
+    "Sorry, we're having trouble deleting all your slates. Please try again later",
+
+  //Slate Get
+  GET_SLATE_BY_ID:
+    "We're having trouble retrieving information on that slate right now. Please try again later",
+  GET_SLATE_BY_NAME:
+    "We're having trouble retrieving information on that slate right now. Please try again later",
+  GET_SLATES_BY_USER_ID:
+    "We're having trouble retrieving that user's information. Please try again later",
+
+  //Slate Update
+  UPDATE_SLATE_BY_ID:
+    "We ran into an issue while saving your slate. Please try again",
+
   //Address Send
   SEND_FILECOIN: "That user doesn't seem to exist. Please try another",
   SEND_FILECOIN_USER_NOT_FOUND: "Sorry, we couldn't find that user!",
   SEND_FILECOIN_ACTION_FAILURE:
     "There was an error sending the transaction. We're looking into it",
+
+  //Address Create
+  CREATE_FILECOIN_ADDRESS:
+    "There was an error when creating the Filecoin address.",
 
   //Data Upload
   UPLOAD_PARSE_FAILURE:
@@ -40,19 +62,26 @@ export const error = {
   INVALID_USERNAME: "Invalid username. Please include only letters and numbers",
   INVALID_PASSWORD: "Password length must be more than 8 characters",
   USER_CREATE_USER_NOT_FOUND: "Sorry, we couldn't find that user!",
+  CREATE_USER: "Sorry we weren't able to create your account. Please try again",
 
   //Users Delete
   USER_DELETE: "That user doesn't seem to exist. Please try another",
   USER_DELETE_USER_NOT_FOUND: "Sorry, we couldn't find that user!",
+  DELETE_USER_BY_USERNAME:
+    "We're having trouble deleting your account right now",
 
   //Users Update
   USER_UPDATE: "That user doesn't seem to exist. Please try another",
   USER_UPDATE_USER_NOT_FOUND: "Sorry, we couldn't find that user!",
-  INVALID_PASSWORD:
-    "Short passwords are too easy to guess. Try one with more than 8 characters",
+  UPDATE_USER_BY_ID:
+    "We ran into an issue while updating your information. Please try again",
   USER_UPDATE_SETTINGS_CONFIG: "Error when updating user settings",
-  CREATE_FILECOIN_ADDRESS:
-    "There was an error when creating the Filecoin address.",
+
+  //Users Get
+  GET_USER_BY_ID:
+    "We weren't able to fetch information on that user. Please try again later",
+  GET_USER_BY_USERNAME:
+    "We weren't able to fetch information on that user. Please try again later",
 
   //Hydrate
   HYDRATE_FAILURE: "That user doesn't seem to exist. Please try another",
@@ -61,4 +90,58 @@ export const error = {
   SIGN_IN: "Your username/password can't be blank",
   SIGN_IN_USER_NOT_FOUND: "Sorry, that user doesn't exist!",
   SIGN_IN_AUTH: "Incorrect password",
+
+  //Activity
+  CREATE_ACTIVITY:
+    "We're having issues posting that right now. Please try again",
+  DELETE_ACTIVITY_BY_ID: "We weren't able to delete that. Please try again",
+  GET_ACTIVITY_BY_ID:
+    "We weren't able to fetch that information. Please try again",
+  GET_ACTIVITY_FOR_SLATE_ID:
+    "We weren't able to fetch that information. Please try again",
+  GET_ACTIVITY_FOR_USER_ID:
+    "We weren't able to fetch that user's information. Please try again",
+
+  //Subscription
+  CREATE_SUBSCRIPTION:
+    "We weren't able to subscribe you. Please try again later",
+  DELETE_SUBSCRIPTION_BY_ID:
+    "We weren't able to unsubscribe you. Please try again later",
+  GET_SUBSCRIBERS_BY_USER_ID:
+    "We weren't able to retrieve that information. Please try again later",
+  GET_SUBSCRIPTION_BY_ID:
+    "We weren't able to retrieve that subscription information. Please try again later",
+  GET_SUBSCRIPTIONS_BY_USER_ID:
+    "We weren't able to retrieve that information. Please try again later",
+  GET_SUBSCRIPTIONS_TO_SLATE_ID:
+    "We weren't able to retrieve that information. Please try again later",
+  GET_SUBSCRIPTIONS_TO_USER_ID:
+    "We weren't able to retrieve that information. Please try again later",
+
+  //Trusted
+  CREATE_TRUSTED_RELATIONSHIP:
+    "We weren't able to add this user as trusted. Please try again later",
+  DELETE_TRUSTED_RELATIONSHIP_BY_ID:
+    "We weren't able to remove this user from your trusted. Please try again later",
+  GET_TRUSTED_RELATIONSHIP_BY_ID:
+    "We're having trouble retrieving that information right now. Please try again later",
+  GET_TRUSTED_RELATIONSHIP_BY_IDS:
+    "We're having trouble retrieving that information right now. Please try again later",
+  GET_TRUSTED_RELATIONSHIPS_BY_USER_ID:
+    "We're having trouble retrieving that information right now. Please try again later",
+  UPDATE_TRUSTED_RELATIONSHIP_BY_ID:
+    "We ran into an issue while updating that information. Please try again later",
+
+  //API
+  CREATE_API_KEY_FOR_USER_ID:
+    "We're having trouble creating your API keys right now. Please try again",
+  DELETE_API_KEY_BY_ID:
+    "We're having trouble deleting that API key right now. Please try again later",
+  DELETE_API_KEYS_FOR_USER_ID:
+    "We're having trouble deleting your API keys right now. Please try again later",
+  GET_API_KEY_BY_KEY:
+    "We weren't able to fetch that API key. Please try again later",
+  GET_API_KEY: "We weren't able to fetch that API key. Please try again later",
+  GET_API_KEYS_BY_USER_ID:
+    "We're having trouble retrieving your API keys right now. Please try again",
 };

@@ -67,7 +67,8 @@ export class Alert extends React.Component {
       >
         {this.state.alert.message
           ? this.state.alert.message
-          : error[this.state.alert.decorator]}
+          : error[this.state.alert.decorator] ||
+            "Whoops something went wrong! Please try again."}
       </div>
     );
   }

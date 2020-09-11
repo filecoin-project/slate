@@ -14,7 +14,7 @@ export const sizes = {
 
 export const system = {
   white: "#ffffff",
-  foreground: "#f7f7f7",
+  foreground: "#f8f8f8",
   gray: "#e0e0e0",
   border: "#d8d8d8",
   darkGray: "#b2b2b2",
@@ -25,7 +25,7 @@ export const system = {
   link: "#2935ff",
   green: "#28a745",
   yellow: " #FFC940",
-  red: "#ff0000",
+  red: "#E05435",
   slate: "#27292e",
   moonstone: "#807d78",
   wall: "#cfced3",

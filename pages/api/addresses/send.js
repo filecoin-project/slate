@@ -7,7 +7,7 @@ export default async (req, res) => {
   if (!id) {
     return res
       .status(500)
-      .send({ decorator: "SERVER_SEND_FILECOIN", error: true });
+      .send({ decorator: "SERVER_SEND_FILECOIN_NO_ID", error: true });
   }
 
   const user = await Data.getUserById({

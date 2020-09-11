@@ -7,6 +7,7 @@ import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 import { Logo } from "~/common/logo";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
@@ -123,15 +124,25 @@ export default class SceneSignIn extends React.Component {
     await delay(100);
 
     if (!Validations.username(this.state.username)) {
-      alert(
-        "Your username was invalid, only characters and numbers are allowed."
-      );
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "Only characters and numbers are allowed in usernames",
+          },
+        },
+      });
       this.setState({ loading: false });
       return;
     }
 
     if (!Validations.password(this.state.password)) {
-      alert("Your password must be at least 8 characters.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "Your password must be at least 8 characters" },
+        },
+      });
       this.setState({ loading: false });
       return;
     }
@@ -141,8 +152,25 @@ export default class SceneSignIn extends React.Component {
       password: this.state.password,
     });
 
-    if (!response || response.error) {
-      alert("We could not sign you into your account, try again later.");
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We could not sign you into your account, try again later.",
+          },
+        },
+      });
+      this.setState({ loading: false });
+      return;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
       this.setState({ loading: false });
       return;
     }

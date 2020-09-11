@@ -182,12 +182,23 @@ export default class SceneSlate extends React.Component {
 
     if (!response) {
       this.setState({ loading: false, saving: "ERROR" });
-      alert("TODO: Server Error");
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
     }
 
     if (response.error) {
       this.setState({ loading: false, saving: "ERROR" });
-      alert(`TODO: ${response.decorator}`);
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
     }
 
     await this.props.onRehydrate();
@@ -297,7 +308,15 @@ export default class SceneSlate extends React.Component {
         name: "state-global-carousel-loading",
         detail: { loading: false },
       });
-      alert("TODO: Server Error");
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
     }
 
     if (response.error) {
@@ -305,7 +324,10 @@ export default class SceneSlate extends React.Component {
         name: "state-global-carousel-loading",
         detail: { loading: false },
       });
-      alert(`TODO: ${response.decorator}`);
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
     }
 
     this._handleUpdateCarousel({
@@ -358,13 +380,36 @@ export default class SceneSlate extends React.Component {
       deeplink: true,
     });
 
-    if (!response.data) {
-      alert("Could not find Slate.");
+    if (!response || !response.data) {
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble finding that slate right now. Please try again later",
+          },
+        },
+      });
       return;
     }
 
+    if (response.error) {
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+    }
+
     if (!response.data.slate) {
-      alert("Could not find Slate.");
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble finding that slate right now. Please try again later",
+          },
+        },
+      });
       return;
     }
 

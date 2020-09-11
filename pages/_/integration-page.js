@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_ITEM = css`
   font-size: 12px;
@@ -53,9 +54,24 @@ export default class IntegrationPage extends React.Component {
   _handleUpdate = async (e) => {
     const response = await Actions.hydrateAuthenticatedUser();
 
-    if (!response || response.error) {
-      alert("TODO: error fetching authenticated viewer");
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
       return null;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
     }
 
     const updates = {

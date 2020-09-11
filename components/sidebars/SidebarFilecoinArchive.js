@@ -6,6 +6,7 @@ import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 export default class SidebarFilecoinArchive extends React.Component {
   async componentDidMount() {}
@@ -13,7 +14,12 @@ export default class SidebarFilecoinArchive extends React.Component {
   _handleMakeDeal = async () => {
     const response = await Actions.archive();
     console.log(response);
-    alert("TODO: Still working on archiving issues.");
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "Deal archiving is still under development" },
+      },
+    });
   };
 
   _handleSubmit = async (e) => {

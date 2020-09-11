@@ -5,6 +5,8 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
+import { dispatchCustomEvent } from "~/common/custom-events";
+
 const addrsList = [
   {
     addr:
@@ -82,7 +84,11 @@ class Example extends React.Component {
 
 export default class SystemPageFilecoinSettings extends React.Component {
   _handleSave = async (storageConfig) => {
-    alert("Saved");
+    // TODO(jim): Send setings data to server.
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { message: "Saved!", status: "INFO" } },
+    });
   };
 
   render() {

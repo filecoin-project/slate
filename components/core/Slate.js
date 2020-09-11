@@ -6,6 +6,7 @@ import * as Actions from "~/common/actions";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
@@ -164,12 +165,35 @@ export default class Slate extends React.Component {
     });
 
     if (!response.data) {
-      alert("Could not find Slate.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now and could not locate that slate. Please try again later",
+          },
+        },
+      });
+      return;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
       return;
     }
 
     if (!response.data.slate) {
-      alert("Could not find Slate.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We could not locate that slate. Please try again later",
+          },
+        },
+      });
       return;
     }
 

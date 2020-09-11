@@ -9,6 +9,7 @@ import {
   ButtonPrimary,
   ButtonSecondary,
 } from "~/components/system/components/Buttons";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import ScenePage from "~/components/core/ScenePage";
 import Profile from "~/components/core/Profile";
@@ -75,8 +76,24 @@ export default class SceneProfile extends React.Component {
 
   _handleUpdate = async (e) => {
     let response = await this.props.onRehydrate();
-    if (!response || response.error) {
-      alert("TODO: error fetching authenticated viewer");
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return null;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
       return null;
     }
 

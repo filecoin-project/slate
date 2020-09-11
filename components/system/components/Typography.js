@@ -4,6 +4,7 @@ import * as Actions from "~/common/actions";
 import * as StringReplace from "~/vendor/react-string-replace";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 const LINK_STYLES = `
   font-family: ${Constants.font.text};
@@ -37,12 +38,38 @@ const onDeepLink = async (object) => {
     deeplink: true,
   });
 
-  if (!response.data) {
-    alert("TODO: Can not find deeplink");
+  if (!response) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message:
+            "We're having trouble connecting right now. Please try again later",
+        },
+      },
+    });
+    return;
   }
 
-  if (!response.data.slate) {
-    alert("TODO: Can not find deeplink");
+  if (response.error) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { decorator: response.decorator } },
+    });
+    return;
+  }
+
+  if (!response.data || !response.data.slate) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message:
+            "We encountered issues while locating that deeplink. Please try again later",
+        },
+      },
+    });
+    return;
   }
 
   return window.open(
@@ -64,7 +91,8 @@ export const ProcessedText = ({ text }) => {
       css={STYLES_LINK}
       key={match + i}
       target="_blank"
-      href={`/${match}`.toLowerCase()}>
+      href={`/${match}`.toLowerCase()}
+    >
       @{match}
     </a>
   ));
@@ -73,7 +101,8 @@ export const ProcessedText = ({ text }) => {
     <span
       css={STYLES_LINK}
       key={match + i}
-      onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}>
+      onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}
+    >
       #{match}
     </span>
   ));

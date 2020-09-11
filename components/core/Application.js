@@ -115,7 +115,17 @@ export default class ApplicationPage extends React.Component {
   }
 
   _handleOnlineStatus = async () => {
-    window.alert(navigator.onLine ? "online" : "offline");
+    if (navigator.onLine) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { message: "Back online!", status: "INFO" } },
+      });
+    } else {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { message: "Offline. Trying to reconnect" } },
+      });
+    }
     this.setState({ online: navigator.onLine });
   };
 
@@ -176,8 +186,7 @@ export default class ApplicationPage extends React.Component {
 
     this.setState({ fileLoading: true });
 
-    // TODO(jim):
-    // Refactor later
+    // TODO(jim): Refactor later
     const navigation = NavigationData.generate(this.state.viewer);
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
@@ -213,7 +222,14 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (!files.length) {
-      alert("TODO: Files not supported error");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "File type not supported. Please try a different file",
+          },
+        },
+      });
       this._handleRegisterFileLoading({ fileLoading: null });
       return;
     }
@@ -239,7 +255,14 @@ export default class ApplicationPage extends React.Component {
     const response = await Actions.hydrateAuthenticatedUser();
 
     if (!response || response.error) {
-      alert("TODO: error fetching authenticated viewer");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We encountered issues while refreshing. Please try again",
+          },
+        },
+      });
       return null;
     }
 
@@ -299,8 +322,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDeleteYourself = async () => {
-    // TODO(jim):
-    // Put this somewhere better for messages.
+    // TODO(jim): Put this somewhere better for messages.
     const message =
       "Do you really want to delete your account? It will be permanently removed";
     if (!window.confirm(message)) {
@@ -391,11 +413,17 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (options.type === "ACTION") {
-      return alert(JSON.stringify(options));
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { message: JSON.stringify(options), status: "INFO" } },
+      });
     }
 
     if (options.type === "DOWNLOAD") {
-      return alert(JSON.stringify(options));
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { message: JSON.stringify(options), status: "INFO" } },
+      });
     }
 
     if (options.type === "SIDEBAR") {
@@ -405,7 +433,7 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
-    return alert(JSON.stringify(options));
+    return alert(JSON.stringify(options)); //TODO(martina): convert to alert?
   };
 
   _handleNavigateTo = (next, data = null) => {

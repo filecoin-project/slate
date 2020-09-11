@@ -4,8 +4,17 @@ import * as System from "~/components/system";
 
 import { css, keyframes } from "@emotion/react";
 
-const sleepDuration = 500;
-const getTypingDuration = () => 80 + 80 * (Math.random() - 0.5);
+const blinkCursor = keyframes`
+0% {opacity: 0;}
+50% {opacity: 1;}
+100% {opacity: 0;}
+`;
+
+const typewriter = keyframes`
+  0%,100% {width: 0;}
+  20%, 80% {width: 10.2em;}
+
+`;
 
 const STYLES_ROOT = css`
   height: 300px;
@@ -19,129 +28,53 @@ const STYLES_ROOT = css`
     width: 300px;
   }
 `;
-
-const STYLES_INNER = css`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  border-radius: 5px;
-  border: 1px solid rgb(51, 51, 51);
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-mono);
-  line-height: 1.5;
+const STYLES_WINDOW = css`
+  box-sizing: border-box;
+  font-family: ${Constants.font.mono};
+  display: block;
+  border-radius: 4px;
+  width: 100%;
+  background: ${Constants.system.pitchBlack};
+  min-height: 288px;
+  padding: 24px;
+  color: ${Constants.system.white};
+  resize: none;
   font-size: 14px;
+  box-sizing: border-box;
+  outline: 0;
+  border: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  scrollbar-width: none;
   white-space: pre-wrap;
-  word-break: break-all;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-const STYLES_ICON = css`
-  border-radius: 50%;
+const STYLES_WINDOW_NAV = css`
+  border-bottom: 5px solid red;
+`;
+const STYLES_WINDOW_BODY = css`
+  overflow: hidden;
+  white-space: nowrap;
+
+  animation: ${typewriter};
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  position: relative;
+  animation-duration: 10s;
+  animation-timing-function: steps(45, end);
+  animation-iteration-count: infinite;
 `;
-
-const STYLES_HEADER = css`
-  height: 34px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  text-align: center @media (max-width: 600px) {
-    height: 28px;
-  }
-  @media (max-width: 320px) {
-    font-size: 11px;
-  }
-`;
-const STYLES_BODY = css`
-  padding: 12px 14px;
-  flex: 1;
-`;
-
-const Line = ({ text, noPrompt = false, noCaret = false }) => (
-  <>
-    {!noPrompt && <span>▲ ~ </span>}
-    {text}
-    {!noCaret && <span />}
-  </>
-);
 
 const CodeTerminal = () => {
-  const [lineCount, setLineCount] = useState(0);
-
-  const renderLine = text => {
-    const frames = [];
-
-    // starting frame
-    {
-      /*
-    frames.push(
-      <Frame duration={sleepDuration} key={`${text}-first`}>
-        <Line />
-      </Frame>
-    );
-
-
-    // typing out the line
-    for (let i = 0; i < text.length; i++) {
-      const isLastLetter = i === text.length - 1;
-      const duration = isLastLetter ? sleepDuration : getTypingDuration();
-
-      frames.push(
-        <Frame duration={duration} key={`${text}-${i}`}>
-          <Line text={text.slice(0, i + 1)} />
-        </Frame>
-      );
-    }
-
-    // ending frame
-    frames.push(
-      <Frame key={`${text}-last`}>
-        <Line text={text} noCaret />
-      </Frame>
-    );
-
-    return (
-      <Keyframes component="p" onEnd={() => setLineCount(c => c + 1)}>
-        {frames}
-      </Keyframes>
-    );
-    */
-    }
-  };
-
   return (
     <div css={STYLES_ROOT}>
-      <div>
-        <div css={STYLES_HEADER}>
-          <span css={STYLES_ICON} />
-          <span css={STYLES_ICON} />
-          <span css={STYLES_ICON} />
-        </div>
-        <div css={STYLES_BODY}>
-          {renderLine("# Hyper is an Electron-based terminal")}
-          {lineCount >= 1 && renderLine("# Built on HTML/CSS/JS")}
-          {lineCount >= 2 && renderLine("# Fully extensible")}
-          {lineCount >= 3 &&
-            renderLine("# Install themes and plugins from the command line")}
-          {lineCount >= 4 && renderLine("hyper i hyper-rose-pine")}
-          {lineCount >= 5 && (
-            <>
-              <p className={styles.green}>
-                <Line
-                  text="hyper-rose-pine installed successfully!"
-                  noPrompt
-                  noCaret
-                />
-                HJello
-              </p>
-              <p>
-                <Line />
-              </p>
-            </>
-          )}
+      <div css={STYLES_WINDOW}>
+        <div css={STYLES_WINDOW_NAV}>Cat</div>
+        <div css={STYLES_WINDOW_BODY}>
+          npm install --save slate-react-system
         </div>
       </div>
     </div>

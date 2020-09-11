@@ -250,7 +250,9 @@ export default class CommunityPage extends React.Component {
     };
   }
   async componentDidMount() {
-    fetch(`https://api.github.com/repos/filecoin-project/slate/issues`)
+    fetch(
+      `https://api.github.com/repos/filecoin-project/slate/issues?labels=For+the+public`
+    )
       .then(res => res.json())
       .then(data => {
         console.log(data);
@@ -525,6 +527,7 @@ export default class CommunityPage extends React.Component {
                 </h3>
                 <br />
                 <br />
+
                 <button
                   css={STYLES_BUTTON_PRIMARY}
                   onClick={() =>
@@ -581,12 +584,7 @@ export default class CommunityPage extends React.Component {
                   </h3>
                   <br />
                   <br />
-                  <p>
-                    {" "}
-                    @will is working on determining why this codeblock is
-                    inviable. ⬇️
-                    (https://github.com/vercel/hyper-site/blob/main/components/terminal)
-                  </p>{" "}
+
                   <CodeTerminal />
                   <br />
                   <br />

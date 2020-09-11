@@ -1,3 +1,5 @@
+import { dispatchCustomEvent } from "~/common/custom-events";
+
 export const upload = async ({ file, slate, context }) => {
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
@@ -93,9 +95,21 @@ export const upload = async ({ file, slate, context }) => {
       body: JSON.stringify({ slate, data: { title: file.name, ...json.data } }),
     });
 
-    if (!addResponse || addResponse.error) {
-      console.log(addResponse.error);
-      alert("TODO: Adding an image to Slate went wrong.");
+    if (!addResponse) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+    } else if (addResponse.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: addResponse.decorator } },
+      });
     }
   }
 

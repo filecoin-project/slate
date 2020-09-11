@@ -6,6 +6,7 @@ import {
 } from "~/components/system/components/Buttons";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};
@@ -53,7 +54,16 @@ const STYLES_ITEM = css`
 
 export class CreateFilecoinStorageDeal extends React.Component {
   static defaultProps = {
-    onSubmit: () => alert("onSubmit"),
+    onSubmit: () => {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "Filecoin storage deals are still under development",
+          },
+        },
+      });
+    },
   };
 
   state = { file: null };
@@ -63,7 +73,12 @@ export class CreateFilecoinStorageDeal extends React.Component {
     let file = e.target.files[0];
 
     if (!file) {
-      alert("Something went wrong");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "Something went wrong. Please try again" },
+        },
+      });
       return;
     }
 

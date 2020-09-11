@@ -235,8 +235,22 @@ export default class DataView extends React.Component {
       body: JSON.stringify({ slate, data: { title: data.name, ...data } }),
     });
 
-    if (!addResponse || addResponse.error) {
-      alert("We could not add this object to your slate.");
+    if (!addResponse) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return null;
+    } else if (addResponse.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: addResponse.decorator } },
+      });
       return null;
     }
 
@@ -279,7 +293,15 @@ export default class DataView extends React.Component {
         detail: { loading: false },
       });
 
-      alert("We failed to remove the object from your Slate.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now and weren't able to delete that. Please try again later",
+          },
+        },
+      });
       return null;
     }
 
@@ -289,7 +311,14 @@ export default class DataView extends React.Component {
         detail: { loading: false },
       });
 
-      alert("We failed to remove the object from your Slate.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
       return null;
     }
 
@@ -354,13 +383,24 @@ export default class DataView extends React.Component {
 
     if (!response) {
       this._handleLoading({ cid });
-      alert("TODO: Broken response error");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
       return null;
     }
 
     if (response.error) {
       this._handleLoading({ cid });
-      alert("TODO: Bucket delete error");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
       return null;
     }
 

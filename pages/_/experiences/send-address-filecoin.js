@@ -5,6 +5,8 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
+import { dispatchCustomEvent } from "~/common/custom-events";
+
 const EXAMPLE_CODE = `import * as React from "react";
 import { SendAddressFilecoin } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
@@ -31,7 +33,15 @@ class Example extends React.Component {
 
 export default class SystemPageSendAddressFilecoin extends React.Component {
   _handleSubmit = ({ source, target, amount }) => {
-    alert(JSON.stringify({ source, target, amount }));
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message: JSON.stringify({ source, target, amount }),
+          status: "INFO",
+        },
+      },
+    });
   };
 
   render() {

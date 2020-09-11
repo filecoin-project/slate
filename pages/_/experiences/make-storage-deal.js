@@ -5,6 +5,8 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
+import { dispatchCustomEvent } from "~/common/custom-events";
+
 const EXAMPLE_CODE = `import * as React from "react";
 import { CreateFilecoinStorageDeal } from "slate-react-system";
 import { createPow } from "@textile/powergate-client";
@@ -58,7 +60,12 @@ class Example extends React.Component {
 export default class SystemPageMakeStorageDeal extends React.Component {
   _handleSubmit = async ({ file }) => {
     // TODO(jim): Send file data to server.
-    alert(file);
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "Storage deals are still under development" },
+      },
+    });
   };
 
   render() {

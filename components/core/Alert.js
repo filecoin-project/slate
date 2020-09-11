@@ -73,3 +73,52 @@ export class Alert extends React.Component {
     );
   }
 }
+
+export class Confirm extends React.Component {
+  state = {
+    alert: null,
+  };
+
+  componentDidMount = () => {
+    window.addEventListener("create-alert", this._handleCreate);
+    window.addEventListener("click", this._handleDelete);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("create-alert", this._handleCreate);
+    window.removeEventListener("click", this._handleDelete);
+  };
+
+  _handleCreate = (e) => {
+    this.setState({ alert: e.detail.alert });
+  };
+
+  _handleDelete = (e) => {
+    if (this.state.alert) {
+      this.setState({ alert: null });
+    }
+  };
+
+  render() {
+    if (!this.state.alert) {
+      return null;
+    }
+    return (
+      <div
+        css={STYLES_ALERT}
+        style={
+          this.state.alert.status === "INFO"
+            ? { backgroundColor: Constants.system.brand }
+            : null
+        }
+      >
+        {this.state.alert.message
+          ? this.state.alert.message
+          : this.state.alert.decorator
+          ? error[this.state.alert.decorator] ||
+            "Whoops something went wrong! Please try again."
+          : "Whoops something went wrong! Please try again."}
+      </div>
+    );
+  }
+}

@@ -6,7 +6,7 @@ import * as Validations from "~/common/validations";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 
-const SLATE_LIMIT = 20;
+const SLATE_LIMIT = 50;
 
 export default class SidebarCreateSlate extends React.Component {
   state = {
@@ -88,8 +88,7 @@ export default class SidebarCreateSlate extends React.Component {
             fontFamily: Constants.font.semiBold,
             fontSize: Constants.typescale.lvl3,
             marginBottom: "64px",
-          }}
-        >
+          }}>
           Create Slate
         </System.P>
 
@@ -97,8 +96,7 @@ export default class SidebarCreateSlate extends React.Component {
           style={{
             fontFamily: Constants.font.semiBold,
             fontSize: "1.1rem",
-          }}
-        >
+          }}>
           Name
         </System.P>
         <System.Input
@@ -116,8 +114,7 @@ export default class SidebarCreateSlate extends React.Component {
             href={`${this.props.viewer.username}/${Strings.createSlug(
               this.state.name
             )}`}
-            target="_blank"
-          >
+            target="_blank">
             https://slate.host/
             {this.props.viewer.username}/{Strings.createSlug(this.state.name)}
           </a>
@@ -127,8 +124,7 @@ export default class SidebarCreateSlate extends React.Component {
           full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
-          loading={this.state.loading}
-        >
+          loading={this.state.loading}>
           Create {this.state.name}
         </System.ButtonPrimary>
       </div>

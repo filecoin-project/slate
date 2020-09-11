@@ -3,7 +3,7 @@ import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 import * as Social from "~/node_common/social";
 
-const SLATE_LIMIT = 20;
+const SLATE_LIMIT = 50;
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);

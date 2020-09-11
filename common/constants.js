@@ -25,7 +25,7 @@ export const system = {
   link: "#2935ff",
   green: "#28a745",
   yellow: " #FFC940",
-  red: "#ff0000",
+  red: "#E05435",
   slate: "#27292e",
   moonstone: "#807d78",
   wall: "#cfced3",

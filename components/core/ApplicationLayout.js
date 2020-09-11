@@ -5,6 +5,7 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/react";
 import { GlobalTooltip } from "~/components/system/components/fragments/GlobalTooltip";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
+import { Alert } from "~/components/core/Alert";
 
 const STYLES_SCROLL = css`
   overflow-y: scroll;
@@ -197,6 +198,7 @@ export default class ApplicationLayout extends React.Component {
 
         <div css={STYLES_CONTENT}>
           <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} />
+          <Alert />
           <div css={STYLES_HEADER}>{this.props.header}</div>
           <div
             css={STYLES_BODY_WEB}

@@ -32,13 +32,11 @@ export class Alert extends React.Component {
 
   componentDidMount = () => {
     window.addEventListener("create-alert", this._handleCreate);
-    window.addEventListener("delete-alert", this._handleDelete);
     window.addEventListener("click", this._handleDelete);
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("create-alert", this._handleCreate);
-    window.removeEventListener("delete-alert", this._handleDelete);
     window.removeEventListener("click", this._handleDelete);
   };
 
@@ -67,8 +65,10 @@ export class Alert extends React.Component {
       >
         {this.state.alert.message
           ? this.state.alert.message
-          : error[this.state.alert.decorator] ||
-            "Whoops something went wrong! Please try again."}
+          : this.state.alert.decorator
+          ? error[this.state.alert.decorator] ||
+            "Whoops something went wrong! Please try again."
+          : "Whoops something went wrong! Please try again."}
       </div>
     );
   }

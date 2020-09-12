@@ -597,7 +597,7 @@ export default class IndexPage extends React.Component {
 
               <div css={STYLES_ACTIONS_RIGHT}>
                 <div css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("/_")}>
-                  Use Slate
+                  Use slate
                 </div>
               </div>
             </div>

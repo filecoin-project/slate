@@ -14,7 +14,8 @@ const STYLES_SCROLL = css`
   -ms-overflow-style: -ms-autohiding-scrollbar;
 
   ::-webkit-scrollbar {
-    width: 4px;
+    ${"" /* width: 4px; */}
+    display: none;
   }
   ::-webkit-scrollbar-track {
     background: ${Constants.system.foreground};
@@ -106,6 +107,27 @@ const STYLES_NAVIGATION = css`
   }
 `;
 
+const STYLES_SIDEBAR_MOBILE = css`
+  z-index: ${Constants.zindex.sidebar};
+  height: 100vh;
+  width: 100%;
+  padding: 0;
+  flex-shrink: 0;
+  position: fixed;
+  background-color: rgba(247, 247, 247, 1);
+  top: 0;
+  right: 0;
+  ${STYLES_SCROLL}
+
+  @supports (
+    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
+  ) {
+    -webkit-backdrop-filter: blur(75px);
+    backdrop-filter: blur(25px);
+    background-color: rgba(247, 247, 247, 0.75);
+  }
+`;
+
 const STYLES_SIDEBAR_WEB = css`
   z-index: ${Constants.zindex.sidebar};
   height: 100vh;
@@ -138,7 +160,7 @@ const STYLES_SIDEBAR_HEADER = css`
 `;
 
 const STYLES_SIDEBAR_CONTENT = css`
-  padding: 8px 24px 24px 24px;
+  padding: 44px 24px 24px 24px;
 `;
 
 const STYLES_BLOCK = css`
@@ -182,23 +204,21 @@ export default class ApplicationLayout extends React.Component {
     }
     return (
       <React.Fragment>
-        <GlobalTooltip
-          elementRef={this._navigation}
-          allowedTypes={["navigation"]}
-        />
-
         <div
           css={STYLES_NAVIGATION}
           ref={(c) => {
             this._navigation = c;
           }}
         >
+          <GlobalTooltip
+            elementRef={this._navigation}
+            allowedTypes={["navigation"]}
+          />
           {this.props.navigation}
         </div>
 
         <div css={STYLES_CONTENT}>
           <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} />
-          <Alert />
           <div css={STYLES_HEADER}>{this.props.header}</div>
           <div
             css={STYLES_BODY_WEB}
@@ -207,10 +227,28 @@ export default class ApplicationLayout extends React.Component {
             }}
             id="slate-client-body"
           >
+            <Alert
+              style={{
+                paddingRight: this.props.sidebar
+                  ? `calc(${Constants.sizes.sidebar}px + 48px`
+                  : "auto",
+              }}
+            />
             {this.props.children}
           </div>
           <div css={STYLES_BODY_MOBILE}>
-            {this.props.sidebar ? sidebarElements : this.props.children}
+            <Alert
+              style={{
+                top: 0,
+                left: 0,
+                width: "100%",
+                zIndex: Constants.zindex.modal,
+              }}
+            />
+            {this.props.children}
+            {this.props.sidebar ? (
+              <div css={STYLES_SIDEBAR_MOBILE}>{sidebarElements}</div>
+            ) : null}
           </div>
         </div>
 

@@ -14,8 +14,8 @@ export default async ({ id, data }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "UPDATE_TRUSTED_RELATIONSHIP_BY_ID",
-        source: e,
+        error: true,
+        decorator: "UPDATE_TRUSTED_RELATIONSHIP_BY_ID",
       };
     },
   });

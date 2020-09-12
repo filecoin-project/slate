@@ -18,8 +18,8 @@ export default async ({ userId, key, level = 1 }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "CREATE_API_KEY_FOR_USER_ID",
-        source: e,
+        error: true,
+        decorator: "CREATE_API_KEY_FOR_USER_ID",
       };
     },
   });

@@ -224,7 +224,7 @@ export default class SceneEditAccount extends React.Component {
             htmlFor="file"
             loading={this.state.changingAvatar}
           >
-            Pick avatar
+            Pick Avatar
           </System.ButtonPrimary>
         </div>
 
@@ -251,7 +251,7 @@ export default class SceneEditAccount extends React.Component {
             onClick={this._handleSave}
             loading={this.state.changingUsername}
           >
-            Change username
+            Change Username
           </System.ButtonPrimary>
         </div>
 
@@ -280,7 +280,7 @@ export default class SceneEditAccount extends React.Component {
             onClick={this._handleSaveBio}
             loading={this.state.changingBio}
           >
-            Update information
+            Update Information
           </System.ButtonPrimary>
         </div>
 
@@ -315,7 +315,7 @@ export default class SceneEditAccount extends React.Component {
             onClick={this._handleChangePassword}
             loading={this.state.changingPassword}
           >
-            Change password
+            Change Password
           </System.ButtonPrimary>
         </div>
 
@@ -330,7 +330,7 @@ export default class SceneEditAccount extends React.Component {
             onClick={this._handleDelete}
             loading={this.state.deleting}
           >
-            Delete my account
+            Delete My Account
           </System.ButtonPrimary>
         </div>
       </ScenePage>

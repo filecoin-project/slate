@@ -16,8 +16,8 @@ export default async ({ slateId }) => {
     },
     errorFn: async (e) => {
       console.log({
-        error: "GET_SUBSCRIPTIONS_TO_SLATE_ID",
-        source: e,
+        error: true,
+        decorator: "GET_SUBSCRIPTIONS_TO_SLATE_ID",
       });
 
       return [];

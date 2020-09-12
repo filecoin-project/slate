@@ -31,8 +31,8 @@ export default async ({ subscriberUserId, slateId, userId }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "GET_SUBSCRIPTION_BY_ID",
-        source: e,
+        error: true,
+        decorator: "GET_SUBSCRIPTION_BY_ID",
       };
     },
   });

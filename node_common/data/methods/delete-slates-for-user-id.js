@@ -15,8 +15,8 @@ export default async ({ userId }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "DELETE_SLATES_FOR_USER_ID",
-        source: e,
+        error: true,
+        decorator: "DELETE_SLATES_FOR_USER_ID",
       };
     },
   });

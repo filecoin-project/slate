@@ -10,7 +10,7 @@ const STYLES_CONTAINER = css`
   font-size: 12px;
   width: 100%;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   padding: 16px 24px 16px 24px;
 
@@ -42,7 +42,7 @@ const STYLES_LEFT = css`
   flex-shrink: 0;
   padding: 0 8px 0 8px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   text-align: left;
 
@@ -55,6 +55,7 @@ const STYLES_RIGHT = css`
   min-width: 10%;
   width: 100%;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   text-align: left;
   padding: 0 8px 0 8px;

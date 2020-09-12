@@ -3,12 +3,11 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 
 import { error } from "~/common/messages";
-
 import { css } from "@emotion/react";
 
 const STYLES_ALERT = css`
   box-sizing: border-box;
-  z-index: ${Constants.zindex.modal};
+  z-index: ${Constants.zindex.alert};
   position: fixed;
   top: 56px;
   width: calc(100% - ${Constants.sizes.navigation}px);
@@ -19,105 +18,61 @@ const STYLES_ALERT = css`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: calc(100% - 60px);
-  }
 `;
 
 export class Alert extends React.Component {
   state = {
-    alert: null,
+    message: null,
+    status: null,
   };
 
   componentDidMount = () => {
     window.addEventListener("create-alert", this._handleCreate);
-    window.addEventListener("click", this._handleDelete);
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("create-alert", this._handleCreate);
-    window.removeEventListener("click", this._handleDelete);
   };
 
   _handleCreate = (e) => {
-    this.setState({ alert: e.detail.alert });
+    if (e.detail.alert) {
+      if (e.detail.alert.decorator && error[e.detail.alert.decorator]) {
+        this.setState({
+          message: error[e.detail.alert.decorator],
+          status: e.detail.alert.status || null,
+        });
+      } else {
+        this.setState({
+          message:
+            e.detail.alert.message ||
+            "Whoops something went wrong! Please try again.",
+          status: e.detail.alert.status || null,
+        });
+      }
+      window.setTimeout(this._handleDelete, 5000);
+    }
   };
 
   _handleDelete = (e) => {
-    if (this.state.alert) {
-      this.setState({ alert: null });
+    if (this.state.message) {
+      this.setState({ message: null, status: null });
     }
   };
 
   render() {
-    if (!this.state.alert) {
+    if (!this.state.message) {
       return null;
     }
     return (
       <div
         css={STYLES_ALERT}
-        style={
-          this.state.alert.status === "INFO"
-            ? { backgroundColor: Constants.system.brand }
-            : null
-        }
+        style={{
+          backgroundColor:
+            this.state.status === "INFO" ? Constants.system.brand : "auto",
+          ...this.props.style,
+        }}
       >
-        {this.state.alert.message
-          ? this.state.alert.message
-          : this.state.alert.decorator
-          ? error[this.state.alert.decorator] ||
-            "Whoops something went wrong! Please try again."
-          : "Whoops something went wrong! Please try again."}
-      </div>
-    );
-  }
-}
-
-export class Confirm extends React.Component {
-  state = {
-    alert: null,
-  };
-
-  componentDidMount = () => {
-    window.addEventListener("create-alert", this._handleCreate);
-    window.addEventListener("click", this._handleDelete);
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("create-alert", this._handleCreate);
-    window.removeEventListener("click", this._handleDelete);
-  };
-
-  _handleCreate = (e) => {
-    this.setState({ alert: e.detail.alert });
-  };
-
-  _handleDelete = (e) => {
-    if (this.state.alert) {
-      this.setState({ alert: null });
-    }
-  };
-
-  render() {
-    if (!this.state.alert) {
-      return null;
-    }
-    return (
-      <div
-        css={STYLES_ALERT}
-        style={
-          this.state.alert.status === "INFO"
-            ? { backgroundColor: Constants.system.brand }
-            : null
-        }
-      >
-        {this.state.alert.message
-          ? this.state.alert.message
-          : this.state.alert.decorator
-          ? error[this.state.alert.decorator] ||
-            "Whoops something went wrong! Please try again."
-          : "Whoops something went wrong! Please try again."}
+        {this.state.message}
       </div>
     );
   }

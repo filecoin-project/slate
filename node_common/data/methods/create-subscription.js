@@ -18,8 +18,8 @@ export default async ({ subscriberUserId, slateId, userId }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "CREATE_SUBSCRIPTION",
-        source: e,
+        error: true,
+        decorator: "CREATE_SUBSCRIPTION",
       };
     },
   });

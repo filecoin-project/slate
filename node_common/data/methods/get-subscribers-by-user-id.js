@@ -16,8 +16,8 @@ export default async ({ userId }) => {
     },
     errorFn: async (e) => {
       console.log({
-        error: "GET_SUBSCRIBERS_BY_USER_ID",
-        source: e,
+        error: true,
+        decorator: "GET_SUBSCRIBERS_BY_USER_ID",
       });
 
       return [];

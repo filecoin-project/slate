@@ -18,8 +18,8 @@ export default async ({ slateId, userId, data }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "CREATE_ACTIVITY",
-        source: e,
+        error: true,
+        decorator: "CREATE_ACTIVITY",
       };
     },
   });

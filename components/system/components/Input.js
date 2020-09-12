@@ -50,10 +50,11 @@ const STYLES_INPUT_CONTAINER_FULL = css`
 
 const STYLES_INPUT = css`
   ${INPUT_STYLES}
+
   padding: 0 24px 0 24px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  box-shadow: 0 0 0 1px inset ${Constants.system.border};
+  box-shadow: 0 0 0 1px ${Constants.system.border} inset;
 
   :focus {
     outline: 0;

@@ -112,7 +112,7 @@ export class CreateFilecoinStorageDeal extends React.Component {
           </div>
         ) : null}
         <ButtonSecondary full type="label" htmlFor="file">
-          Add file
+          Add File
         </ButtonSecondary>
         {this.state.file ? (
           <ButtonPrimary

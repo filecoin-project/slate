@@ -20,8 +20,8 @@ export default async ({ query }) => {
     },
     errorFn: async (e) => {
       console.log({
-        error: "QUERY_USERS",
-        source: e,
+        error: true,
+        decorator: "QUERY_USERS",
       });
 
       return [];

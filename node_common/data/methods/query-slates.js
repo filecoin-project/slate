@@ -22,8 +22,8 @@ export default async ({ query }) => {
     },
     errorFn: async (e) => {
       console.log({
-        error: "QUERY_SLATES",
-        source: e,
+        error: true,
+        decorator: "QUERY_SLATES",
       });
 
       return [];

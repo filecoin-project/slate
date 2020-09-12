@@ -19,8 +19,8 @@ export default async ({ password, username, salt, data = {} }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "CREATE_USER",
-        source: e,
+        error: true,
+        decorator: "CREATE_USER",
       };
     },
   });

@@ -21,8 +21,8 @@ export default async ({ ownerUserId, targetUserId }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "GET_TRUSTED_RELATIONSHIP_BY_IDS",
-        source: e,
+        error: true,
+        decorator: "GET_TRUSTED_RELATIONSHIP_BY_IDS",
       };
     },
   });

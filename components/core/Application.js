@@ -51,6 +51,7 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { Alert } from "~/components/core/Alert";
 
 const cookies = new Cookies();
 
@@ -357,9 +358,8 @@ export default class ApplicationPage extends React.Component {
     console.log("CREATE_USER", response);
 
     response = await Actions.signIn(state);
-    if (response.error) {
-      console.log("SIGN IN ERROR", response);
-      return null;
+    if (!response || response.error) {
+      return response;
     }
 
     if (response.token) {
@@ -441,7 +441,7 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
-    return alert(JSON.stringify(options)); //TODO(martina): convert to alert?
+    return alert(JSON.stringify(options));
   };
 
   _handleNavigateTo = (next, data = null) => {
@@ -527,6 +527,7 @@ export default class ApplicationPage extends React.Component {
           description="Sign in to your Slate account to manage your assets."
           url="https://slate.host/_"
         >
+          <Alert style={{ top: 0, width: "100%" }} />
           <SceneSignIn
             onAuthenticate={this._handleAuthenticate}
             onNavigateTo={this._handleNavigateTo}

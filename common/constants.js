@@ -33,10 +33,11 @@ export const system = {
 
 export const zindex = {
   navigation: 1,
-  sidebar: 4,
+  sidebar: 5,
+  alert: 4,
   header: 3,
-  modal: 5,
-  tooltip: 6,
+  modal: 6,
+  tooltip: 7,
 };
 
 export const font = {

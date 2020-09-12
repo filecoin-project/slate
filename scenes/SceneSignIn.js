@@ -159,7 +159,7 @@ export default class SceneSignIn extends React.Component {
         detail: {
           alert: {
             message:
-              "We could not sign you into your account, try again later.",
+              "We could not sign you into your account, please try again later.",
           },
         },
       });
@@ -181,9 +181,17 @@ export default class SceneSignIn extends React.Component {
 
   _handleCheckUsername = async () => {
     if (!Validations.username(this.state.username)) {
-      return alert(
-        "Your username was invalid, only characters and numbers are allowed."
-      );
+      console.log("invalid username");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "Your username was invalid, only characters and numbers are allowed. Usernames must between 1-48 characters",
+          },
+        },
+      });
+      return;
     }
 
     this.setState({ loading: true });
@@ -358,7 +366,7 @@ export default class SceneSignIn extends React.Component {
             onClick={!this.state.loading ? this._handleSubmit : () => {}}
             loading={this.state.loading}
           >
-            Sign in
+            Sign In
           </System.ButtonPrimary>
         </div>
         <div css={STYLES_LINKS}>

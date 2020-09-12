@@ -31,7 +31,7 @@ export default class SidebarCreateSlate extends React.Component {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
-          alert: { message: "Please provide a name under 48 characters." },
+          alert: { message: "Please provide a name between 1-48 characters." },
         },
       });
       this.setState({ loading: false });

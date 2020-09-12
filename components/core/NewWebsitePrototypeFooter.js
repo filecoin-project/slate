@@ -76,7 +76,7 @@ export const NewWebsitePrototypeFooter = (props) => {
         <img
           css={STYLES_TRADEMARK}
           width="20px"
-          src="https://bafkreigojwgoqkcpi4oyjoncmiuacg3zen7mlg75fkz27k5n32golvbkb4.ipfs.slate.textile.io/"
+          src="https://slate.textile.io/ipfs/bafkreigojwgoqkcpi4oyjoncmiuacg3zen7mlg75fkz27k5n32golvbkb4"
         />
       </div>
       <div>

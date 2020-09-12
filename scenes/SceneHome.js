@@ -157,11 +157,11 @@ export default class SceneHome extends React.Component {
               autoPlay
               loop
               muted
-              src="https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io"
+              src="https://slate.textile.io/ipfs/bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy"
               type="video/m4v"
               playsInline
               style={{
-                backgroundImage: `url('https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io')`,
+                backgroundImage: `url('https://slate.textile.io/ipfs/bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy')`,
                 borderRadius: `4px`,
                 width: `100%`,
                 boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,

@@ -239,7 +239,7 @@ export default class SceneSignIn extends React.Component {
             <Avatar
               size={112}
               url={
-                "https://bafkreibf3hoiyuk2ywjyoy24ywaaclo4k5rz53flesvr5h4qjlyzxamozm.ipfs.slate.textile.io/"
+                "https://slate.textile.io/ipfs/bafkreibf3hoiyuk2ywjyoy24ywaaclo4k5rz53flesvr5h4qjlyzxamozm"
               }
               style={{ margin: "48px auto 64px auto", display: "block" }}
             />

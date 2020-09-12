@@ -135,7 +135,7 @@ export default async (req, res) => {
   }
 
   const cid = updatedData.ipfs.replace("/ipfs/", "");
-  const url = `https://${cid}.${Constants.IPFS_GATEWAY_DOMAIN}`;
+  const url = `${Constants.IPFS_GATEWAY_URL}/${cid}`;
   const newSlateObjectEntity = {
     id: updatedData.id,
     name: updatedData.name,

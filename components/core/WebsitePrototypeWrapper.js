@@ -7,7 +7,7 @@ import { GoogleScript } from "~/common/analytics";
 export default class WebsitePrototypeWrapper extends React.Component {
   static defaultProps = {
     image:
-      "https://bafybeihtmqpx2lnlvaerfhq5imi2y3jzuf4jqspmmqbth3ebim4ebc2lqy.ipfs.slate.textile.io/",
+      "https://slate.textile.io/ipfs/bafybeihtmqpx2lnlvaerfhq5imi2y3jzuf4jqspmmqbth3ebim4ebc2lqy",
   };
 
   render() {

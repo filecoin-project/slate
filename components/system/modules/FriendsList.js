@@ -7,7 +7,7 @@ import { css } from "@emotion/react";
 import { Table } from "~/components/system/components/Table";
 import { StatUpload, StatDownload } from "~/components/system/components/Stat";
 
-let genericImg = `https://bafybeiblly23jomdjjiq7ilth667npcfm5llqb5xfstodbbfa5pxtoek7u.${Constants.gateways.ipfs}`;
+let genericImg = `${Constants.gateways.ipfs}/bafybeiblly23jomdjjiq7ilth667npcfm5llqb5xfstodbbfa5pxtoek7u`;
 
 const STYLES_BUTTON = `
   font-family: ${Constants.font.text};

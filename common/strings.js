@@ -53,7 +53,7 @@ export const zeroPad = (num, places) => {
 };
 
 export const getCIDGatewayURL = (cid) => {
-  return `https://${cid}.${Constants.gateways.ipfs}`;
+  return `${Constants.gateways.ipfs}/${cid}`;
 };
 
 // SOURCE(jim):

@@ -193,7 +193,7 @@ export default class IndexPage extends React.Component {
               </p>
               <img
                 css={STYLES_IMG}
-                src="https://bafybeibwppu23j5wgshqvm5qyqv3c6pmhp3y5irdwn3ivvnnrpexiguzbi.ipfs.slate.textile.io/"
+                src="https://slate.textile.io/ipfs/bafybeibwppu23j5wgshqvm5qyqv3c6pmhp3y5irdwn3ivvnnrpexiguzbi"
                 alt="Slate browser extension"
               />
             </div>

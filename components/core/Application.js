@@ -6,6 +6,7 @@ import * as Credentials from "~/common/credentials";
 import * as Validations from "~/common/validations";
 import * as FileUtilities from "~/common/file-utilities";
 import * as System from "~/components/system";
+import * as Window from "~/common/window";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -105,6 +106,12 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("drop", this._handleDrop);
     window.addEventListener("online", this._handleOnlineStatus);
     window.addEventListener("offline", this._handleOnlineStatus);
+
+    const id = Window.getQueryParameterByName("scene");
+
+    if (this.state.viewer) {
+      return this._handleNavigateTo({ id });
+    }
   }
 
   componentWillUnmount() {
@@ -437,10 +444,11 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleNavigateTo = (next, data = null) => {
+    window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
+
     let body = document.documentElement || document.body;
-    console.log(body.scrollTop);
-    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop; //window.scrollY => body.scrollTop (where body is the body of the ApplicationLayout)
-    this.state.history[this.state.currentIndex].data = this.state.data; //BUG FIX: was originally = data. So it was setting it equal to the data for the next one rather than the current one
+    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
+    this.state.history[this.state.currentIndex].data = this.state.data;
 
     if (this.state.currentIndex !== this.state.history.length - 1) {
       const adjustedArray = [...this.state.history];
@@ -470,11 +478,11 @@ export default class ApplicationPage extends React.Component {
 
   _handleBack = () => {
     let body = document.documentElement || document.body;
-    console.log(body.scrollTop);
     this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
-    this.state.history[this.state.currentIndex].data = this.state.data; //BUG FIX: if you go back, it doesn't save the data for that page. so if you go forward to it again, it breaks. changed data => this.state.data
+    this.state.history[this.state.currentIndex].data = this.state.data;
 
     const next = this.state.history[this.state.currentIndex - 1];
+    window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
 
     this.setState(
       {
@@ -491,10 +499,10 @@ export default class ApplicationPage extends React.Component {
 
   _handleForward = () => {
     let body = document.documentElement || document.body;
-    console.log(body.scrollTop);
     this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
-
     const next = this.state.history[this.state.currentIndex + 1];
+
+    window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
 
     this.setState(
       {

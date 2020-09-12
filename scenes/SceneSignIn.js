@@ -115,7 +115,8 @@ export default class SceneSignIn extends React.Component {
   };
 
   _handleUsernameChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value.toLowerCase() });
+    const value = Strings.createSlug(e.target.value, "");
+    this.setState({ [e.target.name]: value });
   };
 
   _handleSubmit = async () => {

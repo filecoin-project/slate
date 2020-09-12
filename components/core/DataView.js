@@ -424,10 +424,10 @@ export default class DataView extends React.Component {
               onClick={() => this._handleSelect(index)}
             >
               <SlateMediaObjectPreview
-                url={`https://${each.ipfs.replace(
+                url={`${Constants.gateways.ipfs}/${each.ipfs.replace(
                   "/ipfs/",
                   ""
-                )}.ipfs.slate.textile.io`}
+                )}`}
                 title={each.file || each.name}
                 type={each.type || each.icon}
               />
@@ -486,7 +486,7 @@ export default class DataView extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `https://${cid}.ipfs.slate.textile.io`
+                          `${Constants.gateways.ipfs}/${cid}`
                         ),
                     },
                     {

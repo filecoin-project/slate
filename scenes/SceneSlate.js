@@ -250,11 +250,15 @@ export default class SceneSlate extends React.Component {
           // This is a hack to catch this undefined case I don't want to track down yet.
           const url = each.url.replace("https://undefined", "https://");
 
-          // NOTE
-          // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
-          let cid = url.match(
-            /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i
-          )[1];
+          // NOTE(andrew)
+          const cid = url.includes('/ipfs/') ? 
+            // pull cid from a path format gateway
+            url.split('/ipfs/')[1] : 
+            // pull cid from a subdomain format gateway
+            url.match(
+              // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
+              /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i
+            )[1];
           const data = { ...each, cid, url };
 
           return {

@@ -76,5 +76,5 @@ export const theme = {
 };
 
 export const gateways = {
-  ipfs: "ipfs.slate.textile.io",
+  ipfs: "https://slate.textile.io/ipfs",
 };

@@ -6,47 +6,47 @@ import { css } from "@emotion/react";
 export const injectGlobalStyles = () => css`
   @font-face {
     font-family: 'mono';
-    src: url('https://bafkreialkhtjtpwocdadbmra3o7mii47bzgl3k2v2ossrpvhk3qqsbqtza.ipfs.slate.textile.io');
+    src: url('https://slate.textile.io/ipfs/bafkreialkhtjtpwocdadbmra3o7mii47bzgl3k2v2ossrpvhk3qqsbqtza');
   }
 
   @font-face {
     font-family: 'mono-bold';
-    src: url('https://bafkreigaktonxehwl5bzah5ze4iruw272qybj22wpy32pgrcka3y4jvhc4.ipfs.slate.textile.io');
+    src: url('https://slate.textile.io/ipfs/bafkreigaktonxehwl5bzah5ze4iruw272qybj22wpy32pgrcka3y4jvhc4');
   }
 
   @font-face {
     font-family: 'inter-regular';
-    src: url('https://bafkreic3hkcuwvrmf6trweqcjp62valsfjh3zvwacikoreynakgw67wrvy.ipfs.slate.textile.io');
+    src: url('https://slate.textile.io/ipfs/bafkreic3hkcuwvrmf6trweqcjp62valsfjh3zvwacikoreynakgw67wrvy');
   }
 
   @font-face {
     font-family: 'inter-semi-bold';
-    src: url('https://bafkreiaezvuz6wawoqyntfl4gbprol3e7majovgof3uxvhilvd2pgk4w54.ipfs.slate.textile.io');
+    src: url('https://slate.textile.io/ipfs/bafkreiaezvuz6wawoqyntfl4gbprol3e7majovgof3uxvhilvd2pgk4w54');
   }
 
   @font-face {
     font-family: 'inter-medium';
-    src: url('https://bafkreiapyxmqjwoowqpek2cjocouzxoalwlzwwbv3dscug3e5l2ok7xmqe.ipfs.slate.textile.io');
+    src: url('https://slate.textile.io/ipfs/bafkreiapyxmqjwoowqpek2cjocouzxoalwlzwwbv3dscug3e5l2ok7xmqe');
   }
 
   @font-face {
     font-family: 'fira-code-regular';
-    src: url('https://bafkreibtxh3xdwh6rp2k2uhtjssialbm25girhsck7qks2psycnzwvmtke.ipfs.slate.textile.io');
+    src: url('https://slate.textile.io/ipfs/bafkreibtxh3xdwh6rp2k2uhtjssialbm25girhsck7qks2psycnzwvmtke');
   }
 
   @font-face {
     font-family: 'fira-code-bold';
-    src: url('https://bafkreidyich64vyb4nqzvn6uvfcgsbegafe7dqd2ks4wjtcg5jwte6aetm.ipfs.slate.textile.io');
+    src: url('https://slate.textile.io/ipfs/bafkreidyich64vyb4nqzvn6uvfcgsbegafe7dqd2ks4wjtcg5jwte6aetm');
   }
 
   @font-face {
     font-family: 'jet-brains-regular';
-    src: url('https://bafkreiabqv4534pnjhohcc2aclsgbp2twugldrlzg6wqdehajerrcwgu7e.ipfs.slate.textile.io');
+    src: url('https://slate.textile.io/ipfs/bafkreiabqv4534pnjhohcc2aclsgbp2twugldrlzg6wqdehajerrcwgu7e');
   }
 
   @font-face {
     font-family: 'jet-brains-bold';
-    src: url('https://bafkreiejfxvbejf4a56x5tdo6w3n2kkrynwniv65rkkmrozxujroq6v4am.ipfs.slate.textile.io');
+    src: url('https://slate.textile.io/ipfs/bafkreiejfxvbejf4a56x5tdo6w3n2kkrynwniv65rkkmrozxujroq6v4am');
   }
 
   html, body, div, span, applet, object, iframe,

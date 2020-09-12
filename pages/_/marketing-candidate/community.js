@@ -247,7 +247,7 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_TEXT_BLOCK}>
               <img
                 css={STYLES_HEROIMG}
-                src="https://bafybeigtl3tjyozxxkabdvfdhopkep62ux4grgritlslwusgww6gdmm5da.ipfs.slate.textile.io/"
+                src="https://slate.textile.io/ipfs/bafybeigtl3tjyozxxkabdvfdhopkep62ux4grgritlslwusgww6gdmm5da"
                 alt="blocks evolving into different structures"
               />
               <h1 css={STYLES_H1}>Community</h1>
@@ -385,7 +385,7 @@ export default class CommunityPage extends React.Component {
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Pooja Shah"
-                        src="https://bafkreifqrmwuvlky7urkmkxyswksyjjpxvk62jwqgol35bfdfshgmcjmba.ipfs.slate.textile.io/"
+                        src="https://slate.textile.io/ipfs/bafkreifqrmwuvlky7urkmkxyswksyjjpxvk62jwqgol35bfdfshgmcjmba"
                       />
                       <div css={STYLES_CARD_TEXT}>
                         <p css={STYLES_CARD_NAME}>Pooja Shah</p>
@@ -402,7 +402,7 @@ export default class CommunityPage extends React.Component {
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Why"
-                        src="https://bafkreiczwqnp5c6msa42pihhobagcbq6r5lkxuucmm3rmccb5lh46x3h7u.ipfs.slate.textile.io"
+                        src="https://slate.textile.io/ipfs/bafkreiczwqnp5c6msa42pihhobagcbq6r5lkxuucmm3rmccb5lh46x3h7u"
                       />
                       <div css={STYLES_CARD_TEXT}>
                         <p css={STYLES_CARD_NAME}>Why</p>
@@ -419,7 +419,7 @@ export default class CommunityPage extends React.Component {
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Aaron Sutula"
-                        src="https://bafkreihl4pll4esqivugvam7d7j6oxbms4kz6c3azq77vf2ittwuon2dy4.ipfs.slate.textile.io"
+                        src="https://slate.textile.io/ipfs/bafkreihl4pll4esqivugvam7d7j6oxbms4kz6c3azq77vf2ittwuon2dy4"
                       />
                       <div css={STYLES_CARD_TEXT}>
                         <p css={STYLES_CARD_NAME}>Aaron Sutula</p>
@@ -436,7 +436,7 @@ export default class CommunityPage extends React.Component {
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Ignacio Hagopian"
-                        src="https://bafkreieqpfn4bpqv3yrdr22surdngc3xyn574miybm3awjosfu6fcmbd6a.ipfs.slate.textile.io"
+                        src="https://slate.textile.io/ipfs/bafkreieqpfn4bpqv3yrdr22surdngc3xyn574miybm3awjosfu6fcmbd6a"
                       />
                       <div css={STYLES_CARD_TEXT}>
                         <p css={STYLES_CARD_NAME}>Ignacio Hagopian</p>
@@ -453,7 +453,7 @@ export default class CommunityPage extends React.Component {
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Sander Pick"
-                        src="https://bafkreial7bum4chyd2rubvxkyufis4qczvb7xerrzis7eg6gyshbf7ltci.ipfs.slate.textile.io"
+                        src="https://slate.textile.io/ipfs/bafkreial7bum4chyd2rubvxkyufis4qczvb7xerrzis7eg6gyshbf7ltci"
                       />
                       <div css={STYLES_CARD_TEXT}>
                         <p css={STYLES_CARD_NAME}>Sander Pick</p>
@@ -470,7 +470,7 @@ export default class CommunityPage extends React.Component {
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Andrew Hill"
-                        src="https://bafkreighz4m7bqjmt7cidgbbocbzp65f4liuzebwq6d64t27slhpe2cigm.ipfs.slate.textile.io"
+                        src="https://slate.textile.io/ipfs/bafkreighz4m7bqjmt7cidgbbocbzp65f4liuzebwq6d64t27slhpe2cigm"
                       />
                       <div css={STYLES_CARD_TEXT}>
                         <p css={STYLES_CARD_NAME}>Andrew Hill</p>
@@ -489,7 +489,7 @@ export default class CommunityPage extends React.Component {
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Akuoko Daniel Jnr"
-                        src="https://bafkreibpqkmnm6vijyxlkbcjyayoo7b6tnf4tzelzsi4wk3z6o7enhpbrm.ipfs.slate.textile.io"
+                        src="https://slate.textile.io/ipfs/bafkreibpqkmnm6vijyxlkbcjyayoo7b6tnf4tzelzsi4wk3z6o7enhpbrm"
                       />
                       <div css={STYLES_CARD_TEXT}>
                         <p css={STYLES_CARD_NAME}>Akuoko Daniel Jnr</p>
@@ -507,7 +507,7 @@ export default class CommunityPage extends React.Component {
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Narative"
-                        src="https://bafkreihgmyxi2rzp4gtkoxwkrajiwivrbttixfjrdfb6qz5fhpdaofrhoi.ipfs.slate.textile.io"
+                        src="https://slate.textile.io/ipfs/bafkreihgmyxi2rzp4gtkoxwkrajiwivrbttixfjrdfb6qz5fhpdaofrhoi"
                       />
                       <div css={STYLES_CARD_TEXT}>
                         <p css={STYLES_CARD_NAME}>Narative</p>
@@ -524,7 +524,7 @@ export default class CommunityPage extends React.Component {
                       <img
                         css={STYLES_IMG}
                         alt="Github Profile Photo for Colin S. Mccaleb"
-                        src="https://bafkreigxhplpm7adi3p77eljj3g66lcnnzig7m6ihpervxwqeti3tbqudi.ipfs.slate.textile.io"
+                        src="https://slate.textile.io/ipfs/bafkreigxhplpm7adi3p77eljj3g66lcnnzig7m6ihpervxwqeti3tbqudi"
                       />
                       <div css={STYLES_CARD_TEXT}>
                         <p css={STYLES_CARD_NAME}>Colin S. McCaleb</p>

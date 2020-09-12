@@ -56,7 +56,7 @@ export default async (req, res) => {
     username: req.body.data.username.toLowerCase(),
     data: {
       photo:
-        "https://bafkreibf3hoiyuk2ywjyoy24ywaaclo4k5rz53flesvr5h4qjlyzxamozm.ipfs.slate.textile.io",
+        "https://slate.textile.io/ipfs/bafkreibf3hoiyuk2ywjyoy24ywaaclo4k5rz53flesvr5h4qjlyzxamozm",
       body: "A user of Slate.",
       settings_deals_auto_approve: false,
       tokens: { api },

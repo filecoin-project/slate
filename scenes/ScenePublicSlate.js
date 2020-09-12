@@ -11,20 +11,32 @@ export default class ScenePublicSlate extends React.Component {
     slate: null,
   };
 
-  componentDidMount = () => {
-    this.renderSlate();
+  componentDidMount = async () => {
+    await this.renderSlate();
   };
 
-  componentDidUpdate = (prevProps) => {
-    console.log(this.props);
-    console.log(prevProps);
-    if (this.props.data.id !== prevProps.data.id) {
-      this.renderSlate();
+  componentDidUpdate = async (prevProps) => {
+    if (!this.props.data) {
+      return null;
     }
+
+    if (this.props.data.id === prevProps.data.id) {
+      return null;
+    }
+
+    await this.renderSlate();
   };
 
   renderSlate = async () => {
     for (let slate of this.props.viewer.slates) {
+      if (!this.props.data) {
+        this.props.onAction({
+          type: "NAVIGATE",
+          value: slate.id,
+        });
+        return;
+      }
+
       if (slate.id === this.props.data.id) {
         this.props.onAction({
           type: "NAVIGATE",
@@ -33,8 +45,8 @@ export default class ScenePublicSlate extends React.Component {
         return;
       }
     }
+
     let slate = await Actions.getSerializedSlate({ id: this.props.data.id });
-    console.log(slate);
     this.setState({ slate: slate.data });
   };
 

@@ -567,7 +567,8 @@ const SlateCardElement = (props) => {
             background-color: ${Constants.system.pitchBlack};
             background-image: url("${props.preview}");
           }
-        `}>
+        `}
+      >
         <a css={STYLES_SLATE_CARD_PARAGRAPH} href={props.url} target="_blank">
           <div css={STYLES_SLATE_CARD_TEXT}>
             <div css={STYLES_SLATE_CARD_TITLE}>{props.name}</div>
@@ -604,7 +605,8 @@ export default class IndexPage extends React.Component {
       <WebsitePrototypeWrapper
         title={title}
         description={description}
-        url={url}>
+        url={url}
+      >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_HERO}>
@@ -617,7 +619,8 @@ export default class IndexPage extends React.Component {
               <div css={STYLES_ACTIONS_RIGHT}>
                 <div
                   css={STYLES_BUTTON_PRIMARY}
-                  onClick={() => window.open("/_")}>
+                  onClick={() => window.open("/_")}
+                >
                   Use Slate
                 </div>
               </div>
@@ -645,7 +648,8 @@ export default class IndexPage extends React.Component {
                   <a
                     css={STYLES_LINK}
                     href={"https://github.com/filecoin-project/slate"}
-                    target="_blank">
+                    target="_blank"
+                  >
                     fully open-source
                   </a>{" "}
                   file sharing network designed for research and collaboration.
@@ -667,14 +671,16 @@ export default class IndexPage extends React.Component {
                   <a
                     href="https://textile.io"
                     css={STYLES_LINK}
-                    target="_blank">
+                    target="_blank"
+                  >
                     Textile
                   </a>{" "}
                   <br />
                   <a
                     href="https://filecoin.io"
                     css={STYLES_LINK}
-                    target="_blank">
+                    target="_blank"
+                  >
                     Filecoin
                   </a>
                   <br />
@@ -716,7 +722,9 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('${ASSETS_SMALL[0].backgroundImage}')`,
+                      backgroundImage: `url('${
+                        ASSETS_SMALL[0].backgroundImage
+                      }')`,
                     }}
                   />
                 </div>
@@ -730,7 +738,9 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('${ASSETS_SMALL[1].backgroundImage}')`,
+                      backgroundImage: `url('${
+                        ASSETS_SMALL[1].backgroundImage
+                      }')`,
                     }}
                   />
                 </div>
@@ -746,7 +756,9 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('${ASSETS_SMALL[2].backgroundImage}')`,
+                      backgroundImage: `url('${
+                        ASSETS_SMALL[2].backgroundImage
+                      }')`,
                     }}
                   />
                 </div>
@@ -760,7 +772,9 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('${ASSETS_SMALL[3].backgroundImage}')`,
+                      backgroundImage: `url('${
+                        ASSETS_SMALL[3].backgroundImage
+                      }')`,
                     }}
                   />
                 </div>
@@ -802,7 +816,7 @@ export default class IndexPage extends React.Component {
 
               {ASSETS_MEDIUM.map((each) => {
                 return (
-                  <React.Fragment>
+                  <React.Fragment key={each.title}>
                     <h3 css={STYLES_H3}>
                       <span css={STYLES_HIGHLIGHT}>{each.title}</span>
                     </h3>
@@ -845,7 +859,9 @@ export default class IndexPage extends React.Component {
               type="video/mp4"
               playsInline
               style={{
-                backgroundImage: `url('${ASSET_HERO_COLLABORATE.backgroundImage}')`,
+                backgroundImage: `url('${
+                  ASSET_HERO_COLLABORATE.backgroundImage
+                }')`,
               }}
             />
           </div>
@@ -866,7 +882,8 @@ export default class IndexPage extends React.Component {
               <a
                 css={STYLES_LINK_WHITE}
                 href="https://filecoin.io"
-                target="_blank">
+                target="_blank"
+              >
                 Learn more about Filecoin -&gt;
               </a>
             </div>
@@ -881,7 +898,8 @@ export default class IndexPage extends React.Component {
               <a
                 css={STYLES_SLATE_CARD_PARAGRAPH}
                 href="https://slate.host/_"
-                target="_blank">
+                target="_blank"
+              >
                 <div css={STYLES_SLATE_CARD_TEXT}>
                   <h1 css={STYLES_SLATE_CARD_CTA_TITLE}>
                     Join us <br />

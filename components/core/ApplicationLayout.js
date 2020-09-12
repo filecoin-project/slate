@@ -107,28 +107,7 @@ const STYLES_NAVIGATION = css`
   }
 `;
 
-const STYLES_SIDEBAR_MOBILE = css`
-  z-index: ${Constants.zindex.sidebar};
-  height: 100vh;
-  width: 100%;
-  padding: 0;
-  flex-shrink: 0;
-  position: fixed;
-  background-color: rgba(247, 247, 247, 1);
-  top: 0;
-  right: 0;
-  ${STYLES_SCROLL}
-
-  @supports (
-    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
-  ) {
-    -webkit-backdrop-filter: blur(75px);
-    backdrop-filter: blur(25px);
-    background-color: rgba(247, 247, 247, 0.75);
-  }
-`;
-
-const STYLES_SIDEBAR_WEB = css`
+const STYLES_SIDEBAR = css`
   z-index: ${Constants.zindex.sidebar};
   height: 100vh;
   width: ${Constants.sizes.sidebar}px;
@@ -141,7 +120,7 @@ const STYLES_SIDEBAR_WEB = css`
   ${STYLES_SCROLL}
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
+    width: 100%;
   }
 
   @supports (
@@ -246,21 +225,25 @@ export default class ApplicationLayout extends React.Component {
               }}
             />
             {this.props.children}
-            {this.props.sidebar ? (
-              <div css={STYLES_SIDEBAR_MOBILE}>{sidebarElements}</div>
-            ) : null}
           </div>
         </div>
 
         {this.props.sidebar ? (
-          <div
-            css={STYLES_SIDEBAR_WEB}
-            ref={(c) => {
-              this._sidebar = c;
-            }}
+          <Boundary
+            captureResize={false}
+            captureScroll={false}
+            enabled
+            onOutsideRectEvent={this.props.onDismissSidebar}
           >
-            {sidebarElements}
-          </div>
+            <div
+              css={STYLES_SIDEBAR}
+              ref={(c) => {
+                this._sidebar = c;
+              }}
+            >
+              {sidebarElements}
+            </div>
+          </Boundary>
         ) : null}
       </React.Fragment>
     );

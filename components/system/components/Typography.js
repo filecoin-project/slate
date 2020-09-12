@@ -86,26 +86,34 @@ export const ProcessedText = ({ text }) => {
     </a>
   ));
 
-  replacedText = StringReplace(replacedText, /@(\w+)/g, (match, i) => (
-    <a
-      css={STYLES_LINK}
-      key={match + i}
-      target="_blank"
-      href={`/${match}`.toLowerCase()}
-    >
-      @{match}
-    </a>
-  ));
+  replacedText = StringReplace(
+    replacedText,
+    /@(\w*[0-9a-zA-Z]+\w*[0-9a-zA-Z])/g,
+    (match, i) => (
+      <a
+        css={STYLES_LINK}
+        key={match + i}
+        target="_blank"
+        href={`/${match}`.toLowerCase()}
+      >
+        @{match}
+      </a>
+    )
+  );
 
-  replacedText = StringReplace(replacedText, /#(\w+)/g, (match, i) => (
-    <span
-      css={STYLES_LINK}
-      key={match + i}
-      onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}
-    >
-      #{match}
-    </span>
-  ));
+  replacedText = StringReplace(
+    replacedText,
+    /#(\w*[0-9a-zA-Z]+\w*[0-9a-zA-Z])/g,
+    (match, i) => (
+      <span
+        css={STYLES_LINK}
+        key={match + i}
+        onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}
+      >
+        #{match}
+      </span>
+    )
+  );
 
   return <React.Fragment>{replacedText}</React.Fragment>;
 };

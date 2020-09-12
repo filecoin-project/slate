@@ -11,25 +11,42 @@ export default class ScenePublicProfile extends React.Component {
     profile: null,
   };
 
-  componentDidMount = () => {
-    this.renderProfile();
+  componentDidMount = async () => {
+    await this.renderProfile();
   };
 
-  componentDidUpdate = (prevProps) => {
-    if (this.props.data.id !== prevProps.data.id) {
-      this.renderProfile();
+  componentDidUpdate = async (prevProps) => {
+    if (!this.props.data) {
+      return null;
     }
+
+    if (this.props.data.id === prevProps.data.id) {
+      return null;
+    }
+
+    await this.renderProfile();
   };
 
   renderProfile = async () => {
-    if (this.props.data.id === this.props.viewer.id) {
+    let id;
+
+    if (this.props.data && this.props.data.id) {
+      id = this.props.data.id;
+    }
+
+    if (!id && this.props.viewer.id) {
+      id = this.props.viewer.id;
+    }
+
+    if (id === this.props.viewer.id) {
       this.setState({ profile: this.props.viewer });
       return;
     }
+
     let profile = await Actions.getSerializedProfile({
-      id: this.props.data.id,
+      id: id,
     });
-    console.log(profile.data);
+
     this.setState({ profile: profile.data });
   };
 
@@ -41,6 +58,7 @@ export default class ScenePublicProfile extends React.Component {
         </EmptyState>
       );
     }
+
     return <SceneProfile {...this.props} data={this.state.profile} />;
   }
 }

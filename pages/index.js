@@ -353,7 +353,7 @@ const STYLES_TEXT_BLOCK = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
-    max-width: 64vw;
+    max-width: 100vw;
   }
 `;
 

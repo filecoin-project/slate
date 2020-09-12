@@ -20,6 +20,10 @@ export default class ScenePublicProfile extends React.Component {
       return null;
     }
 
+    if (!prevProps.data) {
+      return null;
+    }
+
     if (this.props.data.id === prevProps.data.id) {
       return null;
     }

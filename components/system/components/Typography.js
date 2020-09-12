@@ -9,6 +9,7 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 const LINK_STYLES = `
   font-family: ${Constants.font.text};
   font-weight: 400;
+  text-decoration: none;
   color: ${Constants.system.moonstone};
   cursor: pointer;
   transition: 200ms ease color;
@@ -88,7 +89,7 @@ export const ProcessedText = ({ text }) => {
 
   replacedText = StringReplace(
     replacedText,
-    /@(\w*[0-9a-zA-Z]+\w*[0-9a-zA-Z])/g,
+    /@(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
     (match, i) => (
       <a
         css={STYLES_LINK}
@@ -103,7 +104,7 @@ export const ProcessedText = ({ text }) => {
 
   replacedText = StringReplace(
     replacedText,
-    /#(\w*[0-9a-zA-Z]+\w*[0-9a-zA-Z])/g,
+    /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
     (match, i) => (
       <span
         css={STYLES_LINK}

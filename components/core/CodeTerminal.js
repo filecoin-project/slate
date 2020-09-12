@@ -19,11 +19,13 @@ const typewriter = keyframes`
 const STYLES_ROOT = css`
   height: 300px;
   width: 500px;
-  @media (max-width: 600px) {
+  background-color: ${Constants.system.black};
+  border-radius: 5px;
+  @media (${Constants.sizes.tablet}px) {
     height: 230px;
     width: 345px;
   }
-  @media (max-width: 320px) {
+  @media (${Constants.sizes.mobile}px) {
     height: 200px;
     width: 300px;
   }
@@ -35,7 +37,7 @@ const STYLES_WINDOW = css`
   border-radius: 4px;
   width: 100%;
   background: ${Constants.system.pitchBlack};
-  min-height: 288px;
+  min-height: 150px;
   padding: 24px;
   color: ${Constants.system.white};
   resize: none;
@@ -53,13 +55,43 @@ const STYLES_WINDOW = css`
   }
 `;
 
-const STYLES_WINDOW_NAV = css`
-  border-bottom: 5px solid red;
+const STYLES_WINDOW_HEADER = css`
+  height: 34px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  @media (${Constants.sizes.mobile}px) {
+    height: 28px;
+  }
 `;
+
+const STYLES_ICON = css`
+  border-radius: 50%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+
+  :nth-of-type(1) {
+    background: rgb(255, 95, 86);
+    margin-left: 12px;
+  }
+
+  :nth-of-type(2) {
+    background: rgb(255, 189, 46);
+  }
+
+  :nth-of-type(3) {
+    background: rgb(39, 201, 63);
+  }
+`;
+
 const STYLES_WINDOW_BODY = css`
+  padding: 25px;
+
   overflow: hidden;
   white-space: nowrap;
-
+  color: ${Constants.system.white};
   animation: ${typewriter};
   display: inline-block;
   position: relative;
@@ -71,12 +103,12 @@ const STYLES_WINDOW_BODY = css`
 const CodeTerminal = () => {
   return (
     <div css={STYLES_ROOT}>
-      <div css={STYLES_WINDOW}>
-        <div css={STYLES_WINDOW_NAV}>Cat</div>
-        <div css={STYLES_WINDOW_BODY}>
-          npm install --save slate-react-system
-        </div>
+      <div css={STYLES_WINDOW_HEADER}>
+        <span css={STYLES_ICON} />
+        <span css={STYLES_ICON} />
+        <span css={STYLES_ICON} />
       </div>
+      <div css={STYLES_WINDOW_BODY}>npm install --save slate-react-system</div>
     </div>
   );
 };

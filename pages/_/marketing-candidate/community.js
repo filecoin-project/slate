@@ -235,10 +235,155 @@ const STYLES_SLATE_CARD_EFFECTS = css`
   :after {
   }
 `;
+const SLATE_CORE_TEAM = [
+  {
+    id: 1,
+    name: "Jason Leyser",
+    url: "https://github.com/jasonleyser",
+    username: "jasonleyser",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 2,
+    name: "Cake",
+    url: "https://github.com/jimmylee",
+    username: "jimmylee",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 3,
+    name: "Martina Long",
+    url: "https://github.com/martinalong",
+    username: "martinalong",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 4,
+    name: "Haris Butt",
+    url: "https://github.com/harisbutt",
+    username: "harisbutt",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 5,
+    name: "Tara Lin",
+    url: "https://github.com/tarafanlin",
+    username: "tarafanlin",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 6,
+    name: "William Felker",
+    url: "https://slate.host/gndclouds/urban-gardens",
+    username: "gndclouds",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  }
+];
+const SLATE_CONTRIBUTOR_TEAM = [
+  {
+    id: 1,
+    name: "Pooja Shah",
+    url: "https://github.com/pooja",
+    username: "pooja",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 2,
+    name: "Why",
+    url: "https://github.com/whyrusleeping",
+    username: "whyrusleeping",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 4,
+    name: "Aaron Stula",
+    url: "https://github.com/asutula",
+    username: "asutula",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 3,
+    name: "Ignacio Hagopian",
+    url: "https://github.com/jsign",
+    username: "jsign",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 5,
+    name: "Sander Pick",
+    url: "https://github.com/sanderpick",
+    username: "sanderpick",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 6,
+    name: "Andrew Hill",
+    url: "https://github.com/andrewxhill",
+    username: "andrewxhill",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 7,
+    name: "Akuoko Daniel Jnr",
+    url: "https://github.com/akuokojnr",
+    username: "akuokojnr",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 8,
+    name: "Narative",
+    url: "https://github.com/narative",
+    username: "Narative",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  },
+  {
+    id: 9,
+    name: "Colin S. McCaleb",
+    url: "https://github.com/uonai",
+    username: "uonai",
+    imageUrl:
+      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+  }
+];
 export const getServerSideProps = async context => {
   return {
     props: { ...context.query }
   };
+};
+const SlateTeamCards = props => {
+  return (
+    <div key={props.id} css={STYLES_CARD_WRAPPER}>
+      <a href={props.url}>
+        <System.HoverTile height={250} width={200} style={{ borderRadius: 4 }}>
+          <div css={STYLES_SLATE_CARD_EFFECTS}>
+            <img
+              css={STYLES_IMG}
+              alt={`Github Profile Photo for ${props.handle}`}
+              src={props.preview}
+            />
+            <div css={STYLES_CARD_TEXT}>
+              <p css={STYLES_CARD_NAME}>{props.name}</p>
+              <p css={STYLES_CARD_GITHUB}>{`@${props.handle}`}</p>
+            </div>
+          </div>
+        </System.HoverTile>
+      </a>
+    </div>
+  );
 };
 
 export default class CommunityPage extends React.Component {
@@ -249,209 +394,18 @@ export default class CommunityPage extends React.Component {
       issues: []
     };
   }
-  async componentDidMount() {
-    fetch(
-      `https://api.github.com/repos/filecoin-project/slate/issues?labels=For+the+public`
-    )
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          issues: data
-        });
-      })
-      .catch(err => console.log(err));
-    this.addCoreTeam();
-    this.addContributorTeam();
-  }
 
-  coreTeam = [
-    {
-      id: 1,
-      name: "Jason Leyser",
-      url: "https://github.com/jasonleyser",
-      handle: "jasonleyser",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 2,
-      name: "Cake",
-      url: "https://github.com/jimmylee",
-      handle: "jimmylee",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 3,
-      name: "Martina Long",
-      url: "https://github.com/martinalong",
-      handle: "martinalong",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 4,
-      name: "Haris Butt",
-      url: "https://github.com/harisbutt",
-      handle: "harisbutt",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 5,
-      name: "Tara Lin",
-      url: "https://github.com/tarafanlin",
-      handle: "tarafanlin",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 6,
-      name: "William Felker",
-      url: "https://slate.host/gndclouds/urban-gardens",
-      handle: "gndclouds",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    }
-  ];
-  contributorTeam = [
-    {
-      id: 1,
-      name: "Pooja Shah",
-      url: "https://github.com/pooja",
-      handle: "pooja",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 2,
-      name: "Why",
-      url: "https://github.com/whyrusleeping",
-      handle: "whyrusleeping",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 4,
-      name: "Aaron Stula",
-      url: "https://github.com/asutula",
-      handle: "asutula",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 3,
-      name: "Ignacio Hagopian",
-      url: "https://github.com/jsign",
-      handle: "jsign",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 5,
-      name: "Sander Pick",
-      url: "https://github.com/sanderpick",
-      handle: "sanderpick",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 6,
-      name: "Andrew Hill",
-      url: "https://github.com/andrewxhill",
-      handle: "andrewxhill",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 7,
-      name: "Akuoko Daniel Jnr",
-      url: "https://github.com/akuokojnr",
-      handle: "akuokojnr",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 8,
-      name: "Narative",
-      url: "https://github.com/narative",
-      handle: "Narative",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    },
-    {
-      id: 9,
-      name: "Colin S. McCaleb",
-      url: "https://github.com/uonai",
-      handle: "uonai",
-      imageUrl:
-        "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
-    }
-  ];
-  addCoreTeam = () => {
-    const allCoreTeam = [];
-    const team = this.coreTeam;
-    for (let c of team) {
-      allCoreTeam.push(
-        <div key={c.id} css={STYLES_CARD_WRAPPER}>
-          <a href={c.url}>
-            <System.HoverTile
-              height={250}
-              width={200}
-              style={{ borderRadius: 4 }}
-            >
-              <div css={STYLES_SLATE_CARD_EFFECTS}>
-                <img
-                  css={STYLES_IMG}
-                  alt={`Github Profile Photo for ${c.handle}`}
-                  src={c.imageUrl}
-                />
-                <div css={STYLES_CARD_TEXT}>
-                  <p css={STYLES_CARD_NAME}>{c.name}</p>
-                  <p css={STYLES_CARD_GITHUB}>{`@${c.handle}`}</p>
-                </div>
-              </div>
-            </System.HoverTile>
-          </a>
-        </div>
+  async componentDidMount() {
+    try {
+      const response = await fetch(
+        `https://api.github.com/repos/filecoin-project/slate/issues?labels=For+the+public`
       );
-    }
-    ReactDOM.render(allCoreTeam, document.getElementById("core-team"));
-  };
-  addContributorTeam = () => {
-    const allContributerTeam = [];
-    const team = this.contributorTeam;
-    for (let c of team) {
-      allContributerTeam.push(
-        <div key={c.id} css={STYLES_CARD_WRAPPER}>
-          <a href={c.url}>
-            <System.HoverTile
-              height={250}
-              width={200}
-              style={{ borderRadius: 4 }}
-            >
-              <div css={STYLES_SLATE_CARD_EFFECTS}>
-                <img
-                  css={STYLES_IMG}
-                  alt={`Github Profile Photo for ${c.handle}`}
-                  src={c.imageUrl}
-                />
-                <div css={STYLES_CARD_TEXT}>
-                  <p css={STYLES_CARD_NAME}>{c.name}</p>
-                  <p css={STYLES_CARD_GITHUB}>{`@${c.handle}`}</p>
-                </div>
-              </div>
-            </System.HoverTile>
-          </a>
-        </div>
-      );
-    }
-    ReactDOM.render(
-      allContributerTeam,
-      document.getElementById("contributer-team")
-    );
-  };
+      const issues = await response.json();
+      this.setState({
+        issues
+      });
+    } catch (e) {}
+  }
 
   render() {
     const title = `Slate`;
@@ -499,14 +453,34 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_TEXT_BLOCK}>
               <h2 css={STYLES_H2}>Core Team</h2>
             </div>
-            <div id="core-team" css={STYLES_CARD_GROUP}></div>
+            <div css={STYLES_CARD_GROUP}>
+              {SLATE_CORE_TEAM.map(each => (
+                <SlateTeamCards
+                  key={each.name}
+                  preview={each.imageUrl}
+                  url={each.url}
+                  name={each.name}
+                  username={each.username}
+                />
+              ))}
+            </div>
           </div>
 
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_TEXT_BLOCK}>
               <h2 css={STYLES_H2}>Contributors</h2>
             </div>
-            <div id="contributer-team" css={STYLES_CARD_GROUP}></div>
+            <div css={STYLES_CARD_GROUP}>
+              {SLATE_CONTRIBUTOR_TEAM.map(each => (
+                <SlateTeamCards
+                  key={each.name}
+                  preview={each.imageUrl}
+                  url={each.imageUrl}
+                  name={each.name}
+                  username={each.username}
+                />
+              ))}
+            </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_TEXT_BLOCK}>
@@ -537,45 +511,9 @@ export default class CommunityPage extends React.Component {
                   Github
                 </button>
               </div>
-              <div css={STYLES_SECTION_CHILD_SPLIT}>
-                <IssuesList issues={this.state.issues} />
-              </div>
-              <div css={STYLES_SECTION_CHILD_FULL}>
-                <h3 css={STYLES_H3}>Contact</h3>
-                <div css={STYLES_SECTION_CHILD_SPLIT}>
-                  <h3 css={STYLES_H3} style={{ opacity: 0.7 }}>
-                    {" "}
-                    Reach out to any of the core contributors, reach us on
-                    Twitter, or join our Slack.
-                  </h3>
-                  <br />
-                  <br />
-                  <button
-                    css={STYLES_BUTTON_PRIMARY}
-                    style={{ marginRight: 24 }}
-                    onClick={() => window.open("https://twitter.com/_slate")}
-                  >
-                    Twitter
-                  </button>
-                  <button
-                    css={STYLES_BUTTON_PRIMARY}
-                    onClick={() => window.open("https://filecoin.io/slack")}
-                  >
-                    Slack
-                  </button>
-                </div>
-              </div>
-              <div css={STYLES_SECTION_CHILD_FULL}>
-                <h3 css={STYLES_H3}>Integrate</h3>
-                <div css={STYLES_SECTION_CHILD_SPLIT}>
-                  <h3 css={STYLES_H3} style={{ opacity: 0.7 }}>
-                    Explore our API and SDK and build on top of Slate.
-                  </h3>
-                  <br />
-                  <br />
-                  <CodeBlock>npm install --save slate-react-system</CodeBlock>
-                </div>
-              </div>
+
+              <IssuesList issues={this.state.issues} />
+
               <div css={STYLES_SECTION_CHILD_FULL}>
                 <h3 css={STYLES_H3}>Design System</h3>
                 <div css={STYLES_SECTION_CHILD_SPLIT}>

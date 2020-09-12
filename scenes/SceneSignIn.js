@@ -195,6 +195,7 @@ export default class SceneSignIn extends React.Component {
     if (!response) {
       return this.setState({
         scene: "CREATE_ACCOUNT",
+        password: "",
         loading: false,
         user: null,
       });
@@ -203,6 +204,7 @@ export default class SceneSignIn extends React.Component {
     if (response.data) {
       return this.setState({
         scene: "SIGN_IN",
+        password: "",
         loading: false,
         user: response.data,
       });
@@ -210,6 +212,7 @@ export default class SceneSignIn extends React.Component {
 
     return this.setState({
       scene: "CREATE_ACCOUNT",
+      password: "",
       loading: false,
       user: null,
     });
@@ -234,6 +237,7 @@ export default class SceneSignIn extends React.Component {
             </System.P>
 
             <System.Input
+              autoFocus
               containerStyle={{ marginTop: 24 }}
               label="Username"
               name="username"
@@ -283,6 +287,7 @@ export default class SceneSignIn extends React.Component {
             </System.P>
 
             <System.Input
+              autoFocus
               containerStyle={{ marginTop: 24 }}
               label="Password"
               name="password"
@@ -337,6 +342,7 @@ export default class SceneSignIn extends React.Component {
           </System.P>
 
           <System.Input
+            autoFocus
             containerStyle={{ marginTop: 24 }}
             label="Password"
             name="password"

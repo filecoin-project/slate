@@ -105,6 +105,10 @@ export class Input extends React.Component {
     if (this.props.unit) {
       this._input.style.paddingRight = `${this._unit.offsetWidth + 48}px`;
     }
+
+    if (this.props.autoFocus) {
+      this._input.focus();
+    }
   };
 
   _handleCopy = (e) => {
@@ -166,6 +170,7 @@ export class Input extends React.Component {
               this._input = c;
             }}
             css={STYLES_INPUT}
+            autoFocus={this.props.autoFocus}
             value={this.props.value}
             name={this.props.name}
             type={this.props.type}

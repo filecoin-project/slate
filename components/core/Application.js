@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as NavigationData from "~/common/navigation-data";
 import * as Actions from "~/common/actions";
+import * as Strings from "~/common/strings";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
 import * as Validations from "~/common/validations";
@@ -109,7 +110,7 @@ export default class ApplicationPage extends React.Component {
 
     const id = Window.getQueryParameterByName("scene");
 
-    if (this.state.viewer) {
+    if (!Strings.isEmpty(id) && this.state.viewer) {
       return this._handleNavigateTo({ id });
     }
   }

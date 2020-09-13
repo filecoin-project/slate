@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import * as Constants from "~/common/constants";
 
-import Issue from "~/components/core/Issue";
-
 import { css, keyframes } from "@emotion/react";
+
+import Issue from "~/components/core/marketing/Issue";
 
 const STYLES_SLATE_CARD_GROUP = css`
   display: flex;

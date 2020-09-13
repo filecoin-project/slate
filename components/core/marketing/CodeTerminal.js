@@ -5,17 +5,24 @@ import * as System from "~/components/system";
 import { css, keyframes } from "@emotion/react";
 
 const blinkCursor = keyframes`
-0% {opacity: 0;}
-50% {opacity: 1;}
-100% {opacity: 0;}
+0% {
+  opacity: 0;
+}
+50% {
+  opacity: 1;
+}
+100% {
+  opacity: 0;
+}
 `;
-
 const typewriter = keyframes`
-  0%,100% {width: 0;}
-  20%, 80% {width: 10.2em;}
-
+  0%,100% {
+    width: 0;
+  }
+  20%, 80% {
+    width: 10.2em;
+  }
 `;
-
 const STYLES_ROOT = css`
   height: 300px;
   width: 500px;
@@ -30,6 +37,7 @@ const STYLES_ROOT = css`
     width: 300px;
   }
 `;
+
 const STYLES_WINDOW = css`
   box-sizing: border-box;
   font-family: ${Constants.font.mono};
@@ -49,7 +57,6 @@ const STYLES_WINDOW = css`
   scrollbar-width: none;
   white-space: pre-wrap;
   -ms-overflow-style: -ms-autohiding-scrollbar;
-
   ::-webkit-scrollbar {
     display: none;
   }
@@ -71,16 +78,13 @@ const STYLES_ICON = css`
   width: 12px;
   height: 12px;
   margin-left: 8px;
-
   :nth-of-type(1) {
     background: rgb(255, 95, 86);
     margin-left: 12px;
   }
-
   :nth-of-type(2) {
     background: rgb(255, 189, 46);
   }
-
   :nth-of-type(3) {
     background: rgb(39, 201, 63);
   }
@@ -88,7 +92,6 @@ const STYLES_ICON = css`
 
 const STYLES_WINDOW_BODY = css`
   padding: 25px;
-
   overflow: hidden;
   white-space: nowrap;
   color: ${Constants.system.white};

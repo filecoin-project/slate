@@ -5,15 +5,11 @@ import * as System from "~/components/system";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
-import IssuesList from "~/components/core/IssuesList";
-import Issue from "~/components/core/Issue";
+import IssuesList from "~/components/core/marketing/IssuesList";
 
-import CodeTerminal from "~/components/core/CodeTerminal";
-import CodeBlock from "~/components/system/CodeBlock";
+import CodeTerminal from "~/components/core/marketing/CodeTerminal";
 
 import { css, keyframes } from "@emotion/react";
-
-import ReactDOM from "react-dom";
 
 const STYLES_ROOT = css`
   display: flex;
@@ -242,15 +238,15 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/jasonleyser",
     username: "jasonleyser",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreidw22xqcr6fo6m7k25qe3yemby6w4dlawbsu6yxs7qjnpu5gyoiwm"
   },
   {
     id: 2,
     name: "Cake",
-    url: "https://github.com/jimmylee",
+    url: "https://github.com/STYLES_CARD_GROUPmylee",
     username: "jimmylee",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreigxoyf43vw3p2hbc4ycsyh2og36cgy3s47xkb2n4w3i7auv2a6cei"
   },
   {
     id: 3,
@@ -258,7 +254,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/martinalong",
     username: "martinalong",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreiasfgunf66fxncazlfzff3vp2btfe4j55jxgb2epcthrnvwkthwrq"
   },
   {
     id: 4,
@@ -266,7 +262,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/harisbutt",
     username: "harisbutt",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreih3tbsh6f4m3m2yv3uyc7cupriovl4b354rsyyxuh6l5sv7ftdgzq"
   },
   {
     id: 5,
@@ -274,7 +270,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/tarafanlin",
     username: "tarafanlin",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreieuxq4itewoes3wnpfxw2dfat6oi6rsy2snix7tvtgv7d7bgre64q"
   },
   {
     id: 6,
@@ -282,7 +278,7 @@ const SLATE_CORE_TEAM = [
     url: "https://slate.host/gndclouds/urban-gardens",
     username: "gndclouds",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://bafkreih2b33oaftlflmsg6njtu7i54f2nwws5gfhhf5w4qaezcejs6gjte.ipfs.slate.textile.io/"
   }
 ];
 const SLATE_CONTRIBUTOR_TEAM = [
@@ -292,7 +288,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
     url: "https://github.com/pooja",
     username: "pooja",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreier4xffhrpconlprzxvzslqsovykqet7xj6zhhptxgu4nm2qw5i3u"
   },
   {
     id: 2,
@@ -300,7 +296,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
     url: "https://github.com/whyrusleeping",
     username: "whyrusleeping",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreigvs53l22cuswtc4dtgndmc3aqns2unpc5xndnzx5gjdbw4yv6qhm"
   },
   {
     id: 4,
@@ -308,7 +304,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
     url: "https://github.com/asutula",
     username: "asutula",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreig3vnxyqqsxnrs24zpbbuc6jh5wvdsa7w6fx5gvi4j3t7rhoelhlm"
   },
   {
     id: 3,
@@ -316,7 +312,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
     url: "https://github.com/jsign",
     username: "jsign",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreicktewpelagb3uvgd6psacr4kra66ii7254ghqflklek7taahni2m"
   },
   {
     id: 5,
@@ -324,7 +320,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
     url: "https://github.com/sanderpick",
     username: "sanderpick",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreihptnrkusu7qnsm4qure7noknmsrhftyrx7zy6aaj4e2cxmtcey6q"
   },
   {
     id: 6,
@@ -332,7 +328,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
     url: "https://github.com/andrewxhill",
     username: "andrewxhill",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreicfbr2qpmineh2ezi2kjfbshbpizkikectbdurfskczwatjkdfcoa"
   },
   {
     id: 7,
@@ -340,7 +336,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
     url: "https://github.com/akuokojnr",
     username: "akuokojnr",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreiblpimmchcbvsv3xh5aimjzrjw6bmiz6yg2dtifssf2oencg5z54q"
   },
   {
     id: 8,
@@ -348,7 +344,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
     url: "https://github.com/narative",
     username: "Narative",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreihdkapriwuzfh42zkhs3kwj5qki43dvyu6mq5j3rug3uf6i7egs6y"
   },
   {
     id: 9,
@@ -356,7 +352,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
     url: "https://github.com/uonai",
     username: "uonai",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4"
+      "https://slate.textile.io/ipfs/bafkreigbjyxbmc2cirha3g4y2rmlrntau2l2gjy4ft3y6ii3kyh4ifw5li"
   }
 ];
 export const getServerSideProps = async context => {

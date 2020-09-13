@@ -37,7 +37,6 @@ const STYLES_ROOT = css`
     width: 300px;
   }
 `;
-
 const STYLES_WINDOW = css`
   box-sizing: border-box;
   font-family: ${Constants.font.mono};
@@ -61,7 +60,6 @@ const STYLES_WINDOW = css`
     display: none;
   }
 `;
-
 const STYLES_WINDOW_HEADER = css`
   height: 34px;
   display: flex;
@@ -71,7 +69,6 @@ const STYLES_WINDOW_HEADER = css`
     height: 28px;
   }
 `;
-
 const STYLES_ICON = css`
   border-radius: 50%;
   display: inline-block;
@@ -89,7 +86,6 @@ const STYLES_ICON = css`
     background: rgb(39, 201, 63);
   }
 `;
-
 const STYLES_WINDOW_BODY = css`
   padding: 25px;
   overflow: hidden;
@@ -102,7 +98,6 @@ const STYLES_WINDOW_BODY = css`
   animation-timing-function: steps(45, end);
   animation-iteration-count: infinite;
 `;
-
 const CodeTerminal = () => {
   return (
     <div css={STYLES_ROOT}>
@@ -115,5 +110,4 @@ const CodeTerminal = () => {
     </div>
   );
 };
-
 export default CodeTerminal;

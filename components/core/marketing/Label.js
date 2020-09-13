@@ -4,13 +4,9 @@ export default class Label extends Component {
   render() {
     const { labels } = this.props;
     return (
-      <div className="content">
+      <div>
         {labels.map(label => {
-          return (
-            <a key={label.id} className={"ui tag label"}>
-              {label.name}
-            </a>
-          );
+          return <a key={label.id}>{label.name}</a>;
         })}
       </div>
     );

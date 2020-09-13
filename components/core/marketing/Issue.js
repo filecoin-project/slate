@@ -3,8 +3,6 @@ import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 
-import Label from "~/components/core/marketing/Label";
-
 const STYLES_SLATE_CARD_GROUP = css`
   display: flex;
   flex-wrap: wrap;
@@ -109,7 +107,6 @@ export default class Issue extends Component {
         <a css={STYLES_SLATE_CARD_PARAGRAPH} href={url} target="_blank">
           <div css={STYLES_SLATE_CARD_TEXT}>
             <div css={STYLES_SLATE_CARD_TITLE}>{title}</div>
-            <Label key={id} labels={labels} />
             <div css={STYLES_SLATE_CARD_EXPLAINER}>
               <div>View Issue</div>
               <div>-&gt;</div>

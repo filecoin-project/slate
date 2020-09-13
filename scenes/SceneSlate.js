@@ -131,7 +131,29 @@ export default class SceneSlate extends React.Component {
         id: this.props.current.id,
       });
 
-      if (!response || response.error) {
+      if (!response) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message:
+                "We're having trouble connecting right now. Please try again later",
+            },
+          },
+        });
+        this._remoteLock = false;
+        return;
+      }
+
+      if (response.error) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              decorator: response.error,
+            },
+          },
+        });
         this._remoteLock = false;
         return;
       }
@@ -251,14 +273,14 @@ export default class SceneSlate extends React.Component {
           const url = each.url.replace("https://undefined", "https://");
 
           // NOTE(andrew)
-          const cid = url.includes('/ipfs/') ? 
-            // pull cid from a path format gateway
-            url.split('/ipfs/')[1] : 
-            // pull cid from a subdomain format gateway
-            url.match(
-              // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
-              /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i
-            )[1];
+          const cid = url.includes("/ipfs/")
+            ? // pull cid from a path format gateway
+              url.split("/ipfs/")[1]
+            : // pull cid from a subdomain format gateway
+              url.match(
+                // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
+                /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i
+              )[1];
           const data = { ...each, cid, url };
 
           return {
@@ -384,13 +406,25 @@ export default class SceneSlate extends React.Component {
       deeplink: true,
     });
 
-    if (!response || !response.data) {
-      System.dispatchCustomEvent({
+    if (!response) {
+      dispatchCustomEvent({
         name: "create-alert",
         detail: {
           alert: {
             message:
-              "We're having trouble finding that slate right now. Please try again later",
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return;
+    }
+
+    if (!response.data) {
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble locating that slate",
           },
         },
       });
@@ -409,8 +443,7 @@ export default class SceneSlate extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble finding that slate right now. Please try again later",
+            message: "We're having trouble locating that slate",
           },
         },
       });

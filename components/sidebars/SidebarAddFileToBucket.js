@@ -133,7 +133,7 @@ export default class SidebarAddFileToBucket extends React.Component {
           detail: {
             alert: {
               message:
-                "Something went wrong while saving your new file. Please refresh your browser.",
+                "We're having trouble connecting right now. Please try again later",
             },
           },
         });

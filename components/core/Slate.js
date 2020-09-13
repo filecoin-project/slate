@@ -164,7 +164,7 @@ export default class Slate extends React.Component {
       deeplink: true,
     });
 
-    if (!response.data) {
+    if (!response) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
@@ -185,7 +185,7 @@ export default class Slate extends React.Component {
       return;
     }
 
-    if (!response.data.slate) {
+    if (!response.data || !response.data.slate) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {

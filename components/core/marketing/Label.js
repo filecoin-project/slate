@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import * as React from "react";
 
-export default class Label extends Component {
+export default class Label extends React.Component {
   render() {
     const { labels } = this.props;
     return (

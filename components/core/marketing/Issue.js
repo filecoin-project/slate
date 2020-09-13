@@ -1,15 +1,18 @@
-import React, { Component } from "react";
+import * as React from "react";
+
 import * as Constants from "~/common/constants";
+import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
 
-const STYLES_SLATE_CARD_GROUP = css`
+const STYLES_ISSUE_CARD_GROUP = css`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   margin-top: 48px;
 `;
-const STYLES_SLATE_CARD = css`
+
+const STYLES_ISSUE_CARD = css`
   width: 33.33%;
   height: calc(100vh / 4);
   margin: -1px 0 0 -1px;
@@ -20,19 +23,8 @@ const STYLES_SLATE_CARD = css`
     box-shadow: 0px 10px 40px 20px rgba(0, 0, 0, 0.1);
   }
 `;
-const STYLES_SLATE_CARD_CTA = css`
-  width: 100%;
-  height: calc(100vh / 2);
-  margin-left: -1px;
-  box-shadow: 0px 4px 80px 4px rgba(0, 0, 0, 0.1);
-  text-decoration: none;
-  transition: 200ms ease all;
-  :hover {
-    box-shadow: 0px 4px 120px 4px rgba(0, 0, 0, 0.1);
-    transform: scale(1.01);
-  }
-`;
-const STYLES_SLATE_CARD_TEXT = css`
+
+const STYLES_ISSUE_CARD_TEXT = css`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -42,42 +34,31 @@ const STYLES_SLATE_CARD_TEXT = css`
   height: 100%;
   padding: 12px;
 `;
-const STYLES_SLATE_CARD_TITLE = css`
+
+const STYLES_ISSUE_CARD_TITLE = css`
   padding: 12px;
   font-size: ${Constants.typescale.lvl1};
   text-align: left;
   width: 100%;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 0px;
     font-size: 1rem;
   }
 `;
-const STYLES_SLATE_CARD_CTA_TITLE = css`
-  font-size: ${Constants.typescale.lvl5};
-  text-align: left;
-  line-height: 1.25;
-  padding: 12px;
-  overflow-wrap: break-word;
-  width: 100%;
-  color: ${Constants.system.darkGray};
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    font-size: ${Constants.typescale.lvl4};
-  }
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: ${Constants.typescale.lvl3};
-    padding: 0px 0px 8px 0px;
-  }
-`;
-const STYLES_SLATE_CARD_EXPLAINER = css`
+
+const STYLES_ISSUE_CARD_EXPLAINER = css`
   display: flex;
   justify-content: space-between;
   width: 100%;
   padding: 12px;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 0px;
   }
 `;
-const STYLES_SLATE_CARD_PARAGRAPH = css`
+
+const STYLES_ISSUE_CARD_PARAGRAPH = css`
   font-size: ${Constants.typescale.lvl0};
   text-align: left;
   text-decoration: none;
@@ -88,26 +69,21 @@ const STYLES_SLATE_CARD_PARAGRAPH = css`
     color: ${Constants.system.pitchBlack};
     background-color: transparent;
   }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 0.78rem;
   }
 `;
-const STYLES_SLATE_CARD_CTA_PARAGRAPH = css`
-  font-size: ${Constants.typescale.lvl2};
-  text-align: left;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 1rem;
-  }
-`;
-export default class Issue extends Component {
+
+export default class Issue extends React.Component {
   render() {
-    const { title, id, labels, userName, url } = this.props;
+    const { title, id, url } = this.props;
     return (
-      <div css={STYLES_SLATE_CARD}>
-        <a css={STYLES_SLATE_CARD_PARAGRAPH} href={url} target="_blank">
-          <div css={STYLES_SLATE_CARD_TEXT}>
-            <div css={STYLES_SLATE_CARD_TITLE}>{title}</div>
-            <div css={STYLES_SLATE_CARD_EXPLAINER}>
+      <div css={STYLES_ISSUE_CARD}>
+        <a css={STYLES_ISSUE_CARD_PARAGRAPH} href={url} target="_blank">
+          <div css={STYLES_ISSUE_CARD_TEXT}>
+            <div css={STYLES_ISSUE_CARD_TITLE}>{title}</div>
+            <div css={STYLES_ISSUE_CARD_EXPLAINER}>
               <div>View Issue</div>
               <div>-&gt;</div>
             </div>

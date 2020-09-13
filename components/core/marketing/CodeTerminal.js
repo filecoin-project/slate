@@ -1,42 +1,49 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
 import { css, keyframes } from "@emotion/react";
 
 const blinkCursor = keyframes`
-0% {
-  opacity: 0;
-}
-50% {
-  opacity: 1;
-}
-100% {
-  opacity: 0;
-}
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 `;
 const typewriter = keyframes`
-  0%,100% {
+  0% {
     width: 0;
   }
-  20%, 80% {
+  50% {
     width: 10.2em;
   }
+  100% {
+    width: 0;
+  }
 `;
+
 const STYLES_ROOT = css`
   height: 300px;
   width: 500px;
   background-color: ${Constants.system.black};
   border-radius: 5px;
+
   @media (${Constants.sizes.tablet}px) {
     height: 230px;
     width: 345px;
   }
+
   @media (${Constants.sizes.mobile}px) {
     height: 200px;
     width: 300px;
   }
 `;
+
 const STYLES_WINDOW = css`
   box-sizing: border-box;
   font-family: ${Constants.font.mono};
@@ -60,15 +67,18 @@ const STYLES_WINDOW = css`
     display: none;
   }
 `;
+
 const STYLES_WINDOW_HEADER = css`
   height: 34px;
   display: flex;
   align-items: center;
   text-align: center;
+
   @media (${Constants.sizes.mobile}px) {
     height: 28px;
   }
 `;
+
 const STYLES_ICON = css`
   border-radius: 50%;
   display: inline-block;
@@ -86,8 +96,9 @@ const STYLES_ICON = css`
     background: rgb(39, 201, 63);
   }
 `;
+
 const STYLES_WINDOW_BODY = css`
-  padding: 25px;
+  padding: 24px;
   overflow: hidden;
   white-space: nowrap;
   color: ${Constants.system.white};
@@ -98,6 +109,7 @@ const STYLES_WINDOW_BODY = css`
   animation-timing-function: steps(45, end);
   animation-iteration-count: infinite;
 `;
+
 const CodeTerminal = () => {
   return (
     <div css={STYLES_ROOT}>
@@ -110,4 +122,5 @@ const CodeTerminal = () => {
     </div>
   );
 };
+
 export default CodeTerminal;

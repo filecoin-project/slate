@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
@@ -6,7 +6,6 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 import IssuesList from "~/components/core/marketing/IssuesList";
-
 import CodeTerminal from "~/components/core/marketing/CodeTerminal";
 
 import { css, keyframes } from "@emotion/react";
@@ -26,10 +25,12 @@ const STYLES_H1 = css`
   line-height: 1.25;
   width: 100%;
   color: ${Constants.system.slate};
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     font-size: ${Constants.typescale.lvl6};
     padding: 0px 0px 16px 0px;
   }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl5};
     padding: 0px 0px 8px 0px;
@@ -42,10 +43,12 @@ const STYLES_H2 = css`
   padding: 16px 0px 0 0px;
   width: 100%;
   color: ${Constants.system.black};
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     font-size: ${Constants.typescale.lvl4};
     padding: 8px 0px 0px 0px;
   }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl3};
     padding: 8px 0px 0 0px;
@@ -58,10 +61,12 @@ const STYLES_H3 = css`
   line-height: 1.5;
   padding: 16px 0px 0px 0px;
   color: ${Constants.system.slate};
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     font-size: ${Constants.typescale.lvl2};
     padding: 8px 0px 0px 0px;
   }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl1};
     padding: 8px 0px 0px 0px;
@@ -74,6 +79,7 @@ const STYLES_SECTION_HERO = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 16vh 24px 48px 24px;
     display: block;
@@ -86,6 +92,7 @@ const STYLES_TEXT_BLOCK = css`
   justify-content: center;
   width: 56vw;
   align-self: center;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 88vw;
     right: 24px;
@@ -96,6 +103,7 @@ const STYLES_HEROIMG = css`
   width: 24vw;
   margin-left: auto;
   margin-right: auto;
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 32vw;
   }
@@ -148,6 +156,7 @@ const STYLES_SECTION_WRAPPER = css`
   flex-direction: column;
   padding: 88px;
   width: 100vw;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 88px 24px;
     display: block;
@@ -157,6 +166,7 @@ const STYLES_SECTION_CHILD_FULL = css`
   margin: 80px 0 0 0;
   display: flex;
   justify-content: space-between;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     flex-direction: column;
   }
@@ -164,6 +174,7 @@ const STYLES_SECTION_CHILD_FULL = css`
 const STYLES_SECTION_CHILD_SPLIT = css`
   width: 64%;
   height: 40vh;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     height: 24vh;
     width: 100%;
@@ -175,6 +186,7 @@ const STYLES_CARD_GROUP = css`
   display: flex;
   margin-top: 48px;
   flex-flow: row wrap;
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     align-items: left;
     4margin-top: 16px;
@@ -355,11 +367,13 @@ const SLATE_CONTRIBUTOR_TEAM = [
       "https://slate.textile.io/ipfs/bafkreigbjyxbmc2cirha3g4y2rmlrntau2l2gjy4ft3y6ii3kyh4ifw5li"
   }
 ];
+
 export const getServerSideProps = async context => {
   return {
     props: { ...context.query }
   };
 };
+
 const SlateTeamCards = props => {
   return (
     <div key={props.id} css={STYLES_CARD_WRAPPER}>

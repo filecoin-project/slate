@@ -218,6 +218,8 @@ export default class SceneSignIn extends React.Component {
           },
         },
       });
+      this.setState({ loading: false });
+      return;
     }
 
     if (response.error) {
@@ -229,6 +231,8 @@ export default class SceneSignIn extends React.Component {
           },
         },
       });
+      this.setState({ loading: false });
+      return;
     }
 
     if (response.data) {

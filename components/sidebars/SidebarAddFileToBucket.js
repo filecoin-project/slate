@@ -76,7 +76,7 @@ export default class SidebarAddFileToBucket extends React.Component {
         dispatchCustomEvent({
           name: "create-alert",
           detail: {
-            alert: { message: "We could not find any files to upload." },
+            alert: { message: "Some of your files could not be uploaded" },
           },
         });
         continue;
@@ -112,6 +112,7 @@ export default class SidebarAddFileToBucket extends React.Component {
           alert: { message: "We could not find any files to upload." },
         },
       });
+      return;
       // return this.props.onRegisterFileLoading({ fileLoading: null });
     }
 

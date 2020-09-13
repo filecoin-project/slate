@@ -340,9 +340,23 @@ export default class ApplicationPage extends React.Component {
     }
 
     let response = await Actions.deleteViewer();
-    console.log("DELETE_VIEWER", response);
+
+    if (!response || response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return response;
+    }
 
     await this._handleSignOut();
+
+    return response;
   };
 
   _handleAuthenticate = async (state) => {

@@ -182,18 +182,7 @@ export default class SceneEditAccount extends React.Component {
     await delay(100);
 
     const response = await this.props.onDeleteYourself();
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      this.setState({ deleting: false });
-    }
+    this.setState({ deleting: false });
   };
 
   _handleChange = (e) => {

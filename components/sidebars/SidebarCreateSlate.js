@@ -88,15 +88,17 @@ export default class SidebarCreateSlate extends React.Component {
             fontFamily: Constants.font.semiBold,
             fontSize: Constants.typescale.lvl3,
             marginBottom: "64px",
-          }}>
-          Create Slate
+          }}
+        >
+          Create slate
         </System.P>
 
         <System.P
           style={{
             fontFamily: Constants.font.semiBold,
             fontSize: "1.1rem",
-          }}>
+          }}
+        >
           Name
         </System.P>
         <System.Input
@@ -114,7 +116,8 @@ export default class SidebarCreateSlate extends React.Component {
             href={`${this.props.viewer.username}/${Strings.createSlug(
               this.state.name
             )}`}
-            target="_blank">
+            target="_blank"
+          >
             https://slate.host/
             {this.props.viewer.username}/{Strings.createSlug(this.state.name)}
           </a>
@@ -124,7 +127,8 @@ export default class SidebarCreateSlate extends React.Component {
           full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
-          loading={this.state.loading}>
+          loading={this.state.loading}
+        >
           Create {this.state.name}
         </System.ButtonPrimary>
       </div>

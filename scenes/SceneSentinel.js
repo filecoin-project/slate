@@ -24,7 +24,6 @@ export default class SceneSentinel extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <ScenePage>
         <ScenePageHeader title="Filecoin Network">

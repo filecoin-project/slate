@@ -83,31 +83,31 @@ class ExampleDisabled extends React.Component {
         <br />
         <System.P>Each of the button styles has a full width option.</System.P>
         <br />
-        <System.ButtonPrimary full>Primary Button Full</System.ButtonPrimary>
+        <System.ButtonPrimary full>Primary button full</System.ButtonPrimary>
         <br />
         <System.ButtonSecondary full>
-          Secondary Button Full
+          Secondary button full
         </System.ButtonSecondary>
         <br />
-        <System.ButtonDisabled full>Disabled Button Full</System.ButtonDisabled>
+        <System.ButtonDisabled full>Disabled button full</System.ButtonDisabled>
         <br />
         <br />
         <CodeBlock>
           {`class ExamplePrimaryFull extends React.Component {
   render() {
-    return <ButtonPrimary full>Primary Button Full</ButtonPrimary>;
+    return <ButtonPrimary full>Primary button full</ButtonPrimary>;
   }
 }
 
 class ExampleSecondaryFull extends React.Component {
   render() {
-    return <ButtonSecondary full>Secondary Button Full</ButtonSecondary>;
+    return <ButtonSecondary full>Secondary button full</ButtonSecondary>;
   }
 }
 
 class ExampleDisabledFull extends React.Component {
   render() {
-    return <ButtonDisabled full>Disabled Button Full</ButtonDisabled>;
+    return <ButtonDisabled full>Disabled button full</ButtonDisabled>;
   }
 }`}
         </CodeBlock>
@@ -123,15 +123,15 @@ class ExampleDisabledFull extends React.Component {
         </System.P>
         <br />
         <System.ButtonPrimary type="label">
-          Primary Label
+          Primary label
         </System.ButtonPrimary>{" "}
         &nbsp;
         <System.ButtonSecondary type="label">
-          Secondary Label
+          Secondary label
         </System.ButtonSecondary>{" "}
         &nbsp;
         <System.ButtonDisabled type="label">
-          Disabled Label
+          Disabled label
         </System.ButtonDisabled>
         <br />
         <br />

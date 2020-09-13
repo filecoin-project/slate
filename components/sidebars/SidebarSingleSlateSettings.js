@@ -146,7 +146,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
             marginBottom: 64,
           }}
         >
-          Slate Settings
+          Slate settings
         </System.P>
 
         <System.P css={STYLES_HEADER}>Name</System.P>

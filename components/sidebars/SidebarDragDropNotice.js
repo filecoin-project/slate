@@ -37,7 +37,7 @@ export default class SidebarDragDropNotice extends React.Component {
             fontSize: Constants.typescale.lvl3,
           }}
         >
-          Drag & Drop
+          Drag & drop
         </System.P>
         <div css={STYLES_ICONS}>
           <SVG.Sound height="24px" style={{ margin: "0 16px" }} />

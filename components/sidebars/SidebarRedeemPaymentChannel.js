@@ -30,7 +30,7 @@ export default class SidebarRedeemPaymentChannel extends React.Component {
             fontSize: Constants.typescale.lvl3,
           }}
         >
-          Redeem Payment Channel
+          Redeem payment channel
         </System.P>
       </React.Fragment>
     );

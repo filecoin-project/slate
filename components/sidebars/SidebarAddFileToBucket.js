@@ -88,7 +88,9 @@ export default class SidebarAddFileToBucket extends React.Component {
           name: "create-alert",
           detail: {
             alert: {
-              message: `We currently do not accept ${file.type} yet but may in the future!`,
+              message: `We currently do not accept ${
+                file.type
+              } yet but may in the future!`,
             },
           },
         });
@@ -177,7 +179,7 @@ export default class SidebarAddFileToBucket extends React.Component {
             marginBottom: "64px",
           }}
         >
-          Upload Data
+          Upload data
         </System.P>
         <input
           css={STYLES_FILE_HIDDEN}

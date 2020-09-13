@@ -201,7 +201,8 @@ export const error = {
   SERVER_SIGN_IN: "Your username/password can't be blank",
   SIGN_IN_USER_NOT_FOUND:
     "We're having trouble logging you in right now, please try again later",
-  SERVER_SIGN_IN_USER_NOT_FOUND: "Sorry, that user doesn't exist!",
+  SERVER_SIGN_IN_USER_NOT_FOUND:
+    "Sorry, we're having issues locating your account right now. Please try again later",
   SIGN_IN_AUTH: "Incorrect password",
   SERVER_SIGN_IN_AUTH: "Incorrect password",
 

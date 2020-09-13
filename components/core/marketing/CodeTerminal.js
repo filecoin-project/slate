@@ -15,6 +15,7 @@ const blinkCursor = keyframes`
     opacity: 0;
   }
 `;
+
 const typewriter = keyframes`
   0% {
     width: 0;

@@ -50,6 +50,7 @@ import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
 
+import { GlobalViewerCID } from "~/components/core/viewers/GlobalViewerCID";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { Alert } from "~/components/core/Alert";
 
@@ -624,6 +625,7 @@ export default class ApplicationPage extends React.Component {
           >
             {scene}
           </ApplicationLayout>
+          <GlobalViewerCID />
           <System.GlobalCarousel />
           <System.GlobalModal />
         </WebsitePrototypeWrapper>

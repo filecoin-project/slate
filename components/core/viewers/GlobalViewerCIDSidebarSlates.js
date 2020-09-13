@@ -22,7 +22,6 @@ const STYLES_CONTAINER = css`
 const STYLES_META = css`
   padding: 14px 24px 8px 24px;
   overflow-wrap: break-word;
-  border-bottom: 1px solid #222222;
 `;
 
 const STYLES_META_TITLE = css`
@@ -37,10 +36,9 @@ const STYLES_META_ITEM = css`
 `;
 
 const STYLES_META_DETAILS = css`
+  font-family: ${Constants.font.code};
   font-size: 12px;
   text-transform: uppercase;
-  font-family: ${Constants.font.code};
-  color: #777;
   margin-top: 24px;
 `;
 
@@ -48,43 +46,50 @@ const STYLES_ITEM = css`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  padding-left: 24px;
+  padding-bottom: 16px;
 `;
 
 const STYLES_LEFT = css`
+  color: ${Constants.system.white};
   flex-shrink: 0;
-  padding: 24px;
-  color: ${Constants.system.darkGray};
+  height: 36px;
+  width: 36px;
+  border-radius: 100%;
+  background-color: ${Constants.system.pitchBlack};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const STYLES_RIGHT = css`
   min-width: 10%;
   width: 100%;
-  padding: 24px 24px 0 0px;
+  padding: 0px 24px 0 16px;
   overflow-wrap: break-word;
 `;
 
 const STYLES_NAME = css`
-  color: ${Constants.system.darkGray};
+  color: ${Constants.system.black};
 `;
 
 const STYLES_DESCRIPTION = css`
   font-family: ${Constants.font.code};
-  color: ${Constants.system.darkGray};
+  color: ${Constants.system.black};
   font-size: 12px;
   text-transform: uppercase;
-  margin-top: 8px;
+  margin-top: 4px;
   display: inline-block;
 `;
 
 const STYLES_ACTION = css`
-  color: ${Constants.system.white};
   font-family: ${Constants.font.codeBold};
   cursor: pointer;
   margin-left: 24px;
   display: inline-block;
 
   :hover {
-    color: ${Constants.system.brand};
+    color: ${Constants.system.blue};
   }
 `;
 
@@ -94,7 +99,7 @@ const SlateItem = (props) => {
       <div
         css={STYLES_LEFT}
         style={{
-          color: props.member ? Constants.system.white : null,
+          backgroundColor: props.member ? null : Constants.system.gray,
         }}
       >
         {!props.loading ? (
@@ -107,7 +112,6 @@ const SlateItem = (props) => {
         <div
           css={STYLES_NAME}
           style={{
-            color: props.member ? Constants.system.white : null,
             fontFamily: props.member ? Constants.font.semiBold : null,
           }}
         >
@@ -150,7 +154,7 @@ const SlateItem = (props) => {
   );
 };
 
-export default class SlateMediaObjectSidebarDataManager extends React.Component {
+export default class GlobalViewerCIDSidebarSlates extends React.Component {
   render() {
     const { id, cid, file, type, size } = this.props.data;
 

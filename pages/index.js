@@ -138,7 +138,8 @@ const STYLES_LINK = css`
 
 const STYLES_H1 = css`
   font-size: ${Constants.typescale.lvl5};
-  font-weight: 700;
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
   line-height: 1.3;
   padding: 0px 0px 24px 0px;
   letter-spacing: -0.021rem;
@@ -157,7 +158,8 @@ const STYLES_H1 = css`
 
 const STYLES_H2 = css`
   font-size: ${Constants.typescale.lvl3};
-  font-weight: 500;
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
   line-height: 1.3;
   letter-spacing: -0.019rem;
   padding: 0 0 24px 0;
@@ -176,7 +178,8 @@ const STYLES_H2 = css`
 
 const STYLES_H3 = css`
   font-size: ${Constants.typescale.lvl2};
-  font-weight: 500;
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.014rem;
   padding: 0 0 8px 0;
@@ -480,7 +483,8 @@ const STYLES_SLATE_CARD_TITLE = css`
 
 const STYLES_SLATE_CARD_CTA_TITLE = css`
   font-size: ${Constants.typescale.lvl5};
-  font-weight: 700;
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
   text-align: left;
   line-height: 1.25;
   padding: 12px;

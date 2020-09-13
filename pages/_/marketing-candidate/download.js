@@ -16,7 +16,8 @@ const STYLES_ROOT = css`
 
 const STYLES_H1 = css`
   font-size: ${Constants.typescale.lvl5};
-  font-weight: 700;
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
   line-height: 1.3;
   padding: 0px 0px 24px 0px;
   letter-spacing: -0.021rem;
@@ -35,7 +36,8 @@ const STYLES_H1 = css`
 
 const STYLES_H3 = css`
   font-size: ${Constants.typescale.lvl2};
-  font-weight: 500;
+  font-family: ${Constants.font.text};
+  font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.014rem;
   padding: 0 0 8px 0;

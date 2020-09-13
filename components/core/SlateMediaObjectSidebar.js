@@ -281,7 +281,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
                 Author
               </div>
               <p css={STYLES_BODY}>
-                <ProcessedText text={this.props.data.source} />
+                <ProcessedText text={this.props.data.author} />
               </p>
             </div>
           );

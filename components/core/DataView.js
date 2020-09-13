@@ -102,17 +102,6 @@ const STYLES_IMAGE_BOX = css`
 
 const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
-/*
-  {this.state.loading || isOnNetwork ? null : (
-    <System.ButtonPrimary
-      loading={this.state.loading}
-      style={{ marginRight: 16 }}
-      onClick={() => this._handleMakeDeal(each)}>
-      Store on Filecoin
-    </System.ButtonPrimary>
-  )}
-*/
-
 let mounted = false;
 
 export default class DataView extends React.Component {
@@ -168,10 +157,9 @@ export default class DataView extends React.Component {
     await delay(200);
 
     System.dispatchCustomEvent({
-      name: "slate-global-create-carousel",
+      name: "cid-viewer-create",
       detail: {
         slides: this.props.items.map((each) => {
-          // TODO(jim): Shouldn't really be handled here.
           const cid = each.ipfs.replace("/ipfs/", "");
           const url = Strings.getCIDGatewayURL(cid);
           const data = { ...each, url, cid };
@@ -209,7 +197,7 @@ export default class DataView extends React.Component {
 
   _handleSelect = (index) => {
     System.dispatchCustomEvent({
-      name: "slate-global-open-carousel",
+      name: "cid-viewer-open",
       detail: { index },
     });
   };
@@ -222,7 +210,7 @@ export default class DataView extends React.Component {
     const { id, slate, data } = detail;
 
     System.dispatchCustomEvent({
-      name: "state-global-carousel-loading",
+      name: "cid-viewer-loading",
       detail: { loading: { id: slate.id } },
     });
 
@@ -235,8 +223,22 @@ export default class DataView extends React.Component {
       body: JSON.stringify({ slate, data: { title: data.name, ...data } }),
     });
 
-    if (!addResponse || addResponse.error) {
-      alert("We could not add this object to your slate.");
+    if (!addResponse) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return null;
+    } else if (addResponse.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: addResponse.decorator } },
+      });
       return null;
     }
 
@@ -244,7 +246,7 @@ export default class DataView extends React.Component {
     await this._handleUpdate();
 
     System.dispatchCustomEvent({
-      name: "state-global-carousel-loading",
+      name: "cid-viewer-loading",
       detail: { loading: false },
     });
   };
@@ -253,7 +255,7 @@ export default class DataView extends React.Component {
     const { id, slate } = detail;
 
     System.dispatchCustomEvent({
-      name: "state-global-carousel-loading",
+      name: "cid-viewer-loading",
       detail: { loading: { id: slate.id } },
     });
 
@@ -275,21 +277,36 @@ export default class DataView extends React.Component {
 
     if (!response) {
       System.dispatchCustomEvent({
-        name: "state-global-carousel-loading",
+        name: "cid-viewer-loading",
         detail: { loading: false },
       });
 
-      alert("We failed to remove the object from your Slate.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now and weren't able to delete that. Please try again later",
+          },
+        },
+      });
       return null;
     }
 
     if (response.error) {
       System.dispatchCustomEvent({
-        name: "state-global-carousel-loading",
+        name: "cid-viewer-loading",
         detail: { loading: false },
       });
 
-      alert("We failed to remove the object from your Slate.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
       return null;
     }
 
@@ -297,22 +314,15 @@ export default class DataView extends React.Component {
     await this._handleUpdate();
 
     System.dispatchCustomEvent({
-      name: "state-global-carousel-loading",
+      name: "cid-viewer-loading",
       detail: { loading: false },
     });
   };
 
-  // _handleMakeDeal = (data) => {
-  //   this.props.onAction({
-  //     type: "SIDEBAR",
-  //     value: "SIDEBAR_FILE_STORAGE_DEAL",
-  //     data,
-  //   });
-  // };
-
   _handleCopy = (e, value) => {
-    this._handleHide();
     e.stopPropagation();
+
+    this._handleHide();
     this.setState({ copyValue: value }, () => {
       this._ref.select();
       document.execCommand("copy");
@@ -329,7 +339,7 @@ export default class DataView extends React.Component {
 
   _handleLoading = ({ cid }) => {
     System.dispatchCustomEvent({
-      name: "state-global-carousel-loading",
+      name: "cid-viewer-loading",
       detail: { loading: !this.state.loading[cid] },
     });
 
@@ -354,13 +364,24 @@ export default class DataView extends React.Component {
 
     if (!response) {
       this._handleLoading({ cid });
-      alert("TODO: Broken response error");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
       return null;
     }
 
     if (response.error) {
       this._handleLoading({ cid });
-      alert("TODO: Bucket delete error");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
       return null;
     }
 
@@ -384,10 +405,10 @@ export default class DataView extends React.Component {
               onClick={() => this._handleSelect(index)}
             >
               <SlateMediaObjectPreview
-                url={`https://${each.ipfs.replace(
+                url={`${Constants.gateways.ipfs}/${each.ipfs.replace(
                   "/ipfs/",
                   ""
-                )}.ipfs.slate.textile.io`}
+                )}`}
                 title={each.file || each.name}
                 type={each.type || each.icon}
               />
@@ -396,6 +417,7 @@ export default class DataView extends React.Component {
         </div>
       );
     }
+
     const columns = COLUMNS_SCHEMA;
     const rows = this.props.items.map((each, index) => {
       const cid = each.ipfs.replace("/ipfs/", "");
@@ -442,11 +464,11 @@ export default class DataView extends React.Component {
                       onClick: (e) => this._handleCopy(e, cid),
                     },
                     {
-                      text: "Copy Link",
+                      text: "Copy link",
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `https://${cid}.ipfs.slate.textile.io`
+                          `${Constants.gateways.ipfs}/${cid}`
                         ),
                     },
                     {
@@ -475,23 +497,23 @@ export default class DataView extends React.Component {
     return (
       <div css={STYLES_TABLE_CONTAINER}>
         <System.Table
-          data={data}
-          noColor
           topRowStyle={{
             ...STYLES_TABLE_VALUE,
             backgroundColor: Constants.system.foreground,
             fontFamily: Constants.font.semiBold,
             padding: "12px 24px",
           }}
+          data={data}
+          noColor
           rowStyle={STYLES_TABLE_VALUE}
           onAction={this.props.onAction}
           onNavigateTo={this.props.onNavigateTo}
         />
         <input
-          readOnly
           ref={(c) => {
             this._ref = c;
           }}
+          readOnly
           value={this.state.copyValue}
           css={STYLES_COPY_INPUT}
         />

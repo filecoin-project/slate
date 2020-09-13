@@ -5,10 +5,16 @@ import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 export default class SidebarDeleteWalletAddress extends React.Component {
   _handleSubmit = () => {
-    alert("TODO: Delete wallet address");
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "Deleting wallet address...", status: "INFO" },
+      },
+    });
     this.props.onSubmit({});
   };
 

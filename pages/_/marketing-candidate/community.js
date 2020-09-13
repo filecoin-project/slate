@@ -438,7 +438,7 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_TEXT_BLOCK}>
               <img
                 css={STYLES_HEROIMG}
-                src="https://bafybeigtl3tjyozxxkabdvfdhopkep62ux4grgritlslwusgww6gdmm5da.ipfs.slate.textile.io/"
+                src="https://slate.textile.io/ipfs/bafybeigtl3tjyozxxkabdvfdhopkep62ux4grgritlslwusgww6gdmm5da"
                 alt="blocks evolving into different structures"
               />
               <h1 css={STYLES_H1}>Community</h1>

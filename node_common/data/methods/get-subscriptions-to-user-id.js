@@ -16,8 +16,8 @@ export default async ({ userId }) => {
     },
     errorFn: async (e) => {
       console.log({
-        error: "GET_SUBSCRIPTIONS_TO_USER_ID",
-        source: e,
+        error: true,
+        decorator: "GET_SUBSCRIPTIONS_TO_USER_ID",
       });
 
       return [];

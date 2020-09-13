@@ -131,7 +131,29 @@ export default class SceneSlate extends React.Component {
         id: this.props.current.id,
       });
 
-      if (!response || response.error) {
+      if (!response) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message:
+                "We're having trouble connecting right now. Please try again later",
+            },
+          },
+        });
+        this._remoteLock = false;
+        return;
+      }
+
+      if (response.error) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              decorator: response.error,
+            },
+          },
+        });
         this._remoteLock = false;
         return;
       }
@@ -182,12 +204,23 @@ export default class SceneSlate extends React.Component {
 
     if (!response) {
       this.setState({ loading: false, saving: "ERROR" });
-      alert("TODO: Server Error");
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
     }
 
     if (response.error) {
       this.setState({ loading: false, saving: "ERROR" });
-      alert(`TODO: ${response.decorator}`);
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
     }
 
     await this.props.onRehydrate();
@@ -239,11 +272,15 @@ export default class SceneSlate extends React.Component {
           // This is a hack to catch this undefined case I don't want to track down yet.
           const url = each.url.replace("https://undefined", "https://");
 
-          // NOTE
-          // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
-          let cid = url.match(
-            /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i
-          )[1];
+          // NOTE(andrew)
+          const cid = url.includes("/ipfs/")
+            ? // pull cid from a path format gateway
+              url.split("/ipfs/")[1]
+            : // pull cid from a subdomain format gateway
+              url.match(
+                // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
+                /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i
+              )[1];
           const data = { ...each, cid, url };
 
           return {
@@ -297,7 +334,15 @@ export default class SceneSlate extends React.Component {
         name: "state-global-carousel-loading",
         detail: { loading: false },
       });
-      alert("TODO: Server Error");
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
     }
 
     if (response.error) {
@@ -305,7 +350,10 @@ export default class SceneSlate extends React.Component {
         name: "state-global-carousel-loading",
         detail: { loading: false },
       });
-      alert(`TODO: ${response.decorator}`);
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
     }
 
     this._handleUpdateCarousel({
@@ -358,13 +406,47 @@ export default class SceneSlate extends React.Component {
       deeplink: true,
     });
 
-    if (!response.data) {
-      alert("Could not find Slate.");
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
       return;
     }
 
+    if (!response.data) {
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble locating that slate",
+          },
+        },
+      });
+      return;
+    }
+
+    if (response.error) {
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+    }
+
     if (!response.data.slate) {
-      alert("Could not find Slate.");
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble locating that slate",
+          },
+        },
+      });
       return;
     }
 

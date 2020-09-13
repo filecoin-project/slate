@@ -1,11 +1,13 @@
 import * as React from "react";
 import * as NavigationData from "~/common/navigation-data";
 import * as Actions from "~/common/actions";
+import * as Strings from "~/common/strings";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
 import * as Validations from "~/common/validations";
 import * as FileUtilities from "~/common/file-utilities";
 import * as System from "~/components/system";
+import * as Window from "~/common/window";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -48,7 +50,9 @@ import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
 
+import { GlobalViewerCID } from "~/components/core/viewers/GlobalViewerCID";
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { Alert } from "~/components/core/Alert";
 
 const cookies = new Cookies();
 
@@ -105,6 +109,12 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("drop", this._handleDrop);
     window.addEventListener("online", this._handleOnlineStatus);
     window.addEventListener("offline", this._handleOnlineStatus);
+
+    const id = Window.getQueryParameterByName("scene");
+
+    if (!Strings.isEmpty(id) && this.state.viewer) {
+      return this._handleNavigateTo({ id });
+    }
   }
 
   componentWillUnmount() {
@@ -115,7 +125,17 @@ export default class ApplicationPage extends React.Component {
   }
 
   _handleOnlineStatus = async () => {
-    window.alert(navigator.onLine ? "online" : "offline");
+    if (navigator.onLine) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { message: "Back online!", status: "INFO" } },
+      });
+    } else {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { message: "Offline. Trying to reconnect" } },
+      });
+    }
     this.setState({ online: navigator.onLine });
   };
 
@@ -176,8 +196,7 @@ export default class ApplicationPage extends React.Component {
 
     this.setState({ fileLoading: true });
 
-    // TODO(jim):
-    // Refactor later
+    // TODO(jim): Refactor later
     const navigation = NavigationData.generate(this.state.viewer);
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
@@ -213,7 +232,14 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (!files.length) {
-      alert("TODO: Files not supported error");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "File type not supported. Please try a different file",
+          },
+        },
+      });
       this._handleRegisterFileLoading({ fileLoading: null });
       return;
     }
@@ -239,7 +265,14 @@ export default class ApplicationPage extends React.Component {
     const response = await Actions.hydrateAuthenticatedUser();
 
     if (!response || response.error) {
-      alert("TODO: error fetching authenticated viewer");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We encountered issues while refreshing. Please try again",
+          },
+        },
+      });
       return null;
     }
 
@@ -299,8 +332,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDeleteYourself = async () => {
-    // TODO(jim):
-    // Put this somewhere better for messages.
+    // TODO(jim): Put this somewhere better for messages.
     const message =
       "Do you really want to delete your account? It will be permanently removed";
     if (!window.confirm(message)) {
@@ -308,9 +340,23 @@ export default class ApplicationPage extends React.Component {
     }
 
     let response = await Actions.deleteViewer();
-    console.log("DELETE_VIEWER", response);
+
+    if (!response || response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return response;
+    }
 
     await this._handleSignOut();
+
+    return response;
   };
 
   _handleAuthenticate = async (state) => {
@@ -327,9 +373,8 @@ export default class ApplicationPage extends React.Component {
     console.log("CREATE_USER", response);
 
     response = await Actions.signIn(state);
-    if (response.error) {
-      console.log("SIGN IN ERROR", response);
-      return null;
+    if (!response || response.error) {
+      return response;
     }
 
     if (response.token) {
@@ -391,11 +436,17 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (options.type === "ACTION") {
-      return alert(JSON.stringify(options));
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { message: JSON.stringify(options), status: "INFO" } },
+      });
     }
 
     if (options.type === "DOWNLOAD") {
-      return alert(JSON.stringify(options));
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { message: JSON.stringify(options), status: "INFO" } },
+      });
     }
 
     if (options.type === "SIDEBAR") {
@@ -409,10 +460,11 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleNavigateTo = (next, data = null) => {
+    window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
+
     let body = document.documentElement || document.body;
-    console.log(body.scrollTop);
-    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop; //window.scrollY => body.scrollTop (where body is the body of the ApplicationLayout)
-    this.state.history[this.state.currentIndex].data = this.state.data; //BUG FIX: was originally = data. So it was setting it equal to the data for the next one rather than the current one
+    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
+    this.state.history[this.state.currentIndex].data = this.state.data;
 
     if (this.state.currentIndex !== this.state.history.length - 1) {
       const adjustedArray = [...this.state.history];
@@ -442,11 +494,11 @@ export default class ApplicationPage extends React.Component {
 
   _handleBack = () => {
     let body = document.documentElement || document.body;
-    console.log(body.scrollTop);
     this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
-    this.state.history[this.state.currentIndex].data = this.state.data; //BUG FIX: if you go back, it doesn't save the data for that page. so if you go forward to it again, it breaks. changed data => this.state.data
+    this.state.history[this.state.currentIndex].data = this.state.data;
 
     const next = this.state.history[this.state.currentIndex - 1];
+    window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
 
     this.setState(
       {
@@ -463,10 +515,10 @@ export default class ApplicationPage extends React.Component {
 
   _handleForward = () => {
     let body = document.documentElement || document.body;
-    console.log(body.scrollTop);
     this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
-
     const next = this.state.history[this.state.currentIndex + 1];
+
+    window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
 
     this.setState(
       {
@@ -490,6 +542,7 @@ export default class ApplicationPage extends React.Component {
           description="Sign in to your Slate account to manage your assets."
           url="https://slate.host/_"
         >
+          <Alert style={{ top: 0, width: "100%" }} />
           <SceneSignIn
             onAuthenticate={this._handleAuthenticate}
             onNavigateTo={this._handleNavigateTo}
@@ -586,6 +639,7 @@ export default class ApplicationPage extends React.Component {
           >
             {scene}
           </ApplicationLayout>
+          <GlobalViewerCID />
           <System.GlobalCarousel />
           <System.GlobalModal />
         </WebsitePrototypeWrapper>

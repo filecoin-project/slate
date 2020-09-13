@@ -16,9 +16,7 @@ export default async ({ userId, publicOnly = false }) => {
           .where(hasUser(userId))
           .where(isPublic());
       } else {
-        query = await DB.select("*")
-          .from("slates")
-          .where(hasUser(userId));
+        query = await DB.select("*").from("slates").where(hasUser(userId));
       }
 
       if (!query || query.error) {
@@ -29,8 +27,8 @@ export default async ({ userId, publicOnly = false }) => {
     },
     errorFn: async (e) => {
       console.log({
-        error: "GET_SLATES_BY_USER_ID",
-        source: e,
+        error: true,
+        decorator: "GET_SLATES_BY_USER_ID",
       });
 
       return [];

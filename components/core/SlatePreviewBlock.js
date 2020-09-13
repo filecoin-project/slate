@@ -108,7 +108,7 @@ export function SlatePreviewRow(props) {
 }
 
 const STYLES_BLOCK = css`
-  box-shadow: inset 0 0 0 1px ${Constants.system.border};
+  box-shadow: 0 0 0 1px ${Constants.system.border} inset;
   border-radius: 8px;
   padding: 32px 40px;
   font-size: 12px;

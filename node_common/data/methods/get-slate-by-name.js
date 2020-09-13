@@ -21,8 +21,8 @@ export default async ({ slatename }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "GET_SLATE_BY_NAME",
-        source: e,
+        error: true,
+        decorator: "GET_SLATE_BY_NAME",
       };
     },
   });

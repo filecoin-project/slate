@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
+import { Alert } from "~/components/core/Alert";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
@@ -77,9 +78,7 @@ export default class SlatePage extends React.Component {
     });
 
   render() {
-    const title = `${this.props.creator.username}/${
-      this.props.slate.slatename
-    }`;
+    const title = `${this.props.creator.username}/${this.props.slate.slatename}`;
     const url = `https://slate.host/${this.props.creator.username}`;
     const description = this.props.slate.data.body;
 
@@ -95,9 +94,7 @@ export default class SlatePage extends React.Component {
       }
     }
 
-    const headerTitle = `${this.props.creator.username} / ${
-      this.props.slate.slatename
-    }`;
+    const headerTitle = `${this.props.creator.username} / ${this.props.slate.slatename}`;
 
     return (
       <WebsitePrototypeWrapper
@@ -110,6 +107,7 @@ export default class SlatePage extends React.Component {
           <WebsitePrototypeHeaderGeneric href={url} title={headerTitle}>
             <ProcessedText text={this.props.slate.data.body} />
           </WebsitePrototypeHeaderGeneric>
+          <Alert style={{ top: 0, width: "100%" }} />
           <div css={STYLES_SLATE}>
             <Slate
               editing={false}

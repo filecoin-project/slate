@@ -14,7 +14,7 @@ export const sizes = {
 
 export const system = {
   white: "#ffffff",
-  foreground: "#f7f7f7",
+  foreground: "#f8f8f8",
   gray: "#e0e0e0",
   border: "#d8d8d8",
   darkGray: "#b2b2b2",
@@ -25,7 +25,7 @@ export const system = {
   link: "#2935ff",
   green: "#28a745",
   yellow: " #FFC940",
-  red: "#ff0000",
+  red: "#E05435",
   slate: "#27292e",
   moonstone: "#807d78",
   wall: "#cfced3",
@@ -33,10 +33,11 @@ export const system = {
 
 export const zindex = {
   navigation: 1,
-  sidebar: 4,
+  sidebar: 5,
+  alert: 4,
   header: 3,
-  modal: 5,
-  tooltip: 6,
+  modal: 6,
+  tooltip: 7,
 };
 
 export const font = {
@@ -76,5 +77,5 @@ export const theme = {
 };
 
 export const gateways = {
-  ipfs: "ipfs.slate.textile.io",
+  ipfs: "https://slate.textile.io/ipfs",
 };

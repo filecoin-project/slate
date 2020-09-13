@@ -7,6 +7,7 @@ import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 import { Logo } from "~/common/logo";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
@@ -114,7 +115,8 @@ export default class SceneSignIn extends React.Component {
   };
 
   _handleUsernameChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value.toLowerCase() });
+    const value = Strings.createSlug(e.target.value, "");
+    this.setState({ [e.target.name]: value });
   };
 
   _handleSubmit = async () => {
@@ -123,15 +125,33 @@ export default class SceneSignIn extends React.Component {
     await delay(100);
 
     if (!Validations.username(this.state.username)) {
-      alert(
-        "Your username was invalid, only characters and numbers are allowed."
-      );
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              this.state.scene === "CREATE_ACCOUNT"
+                ? "Only characters and numbers are allowed in usernames"
+                : "Invalid username",
+          },
+        },
+      });
       this.setState({ loading: false });
       return;
     }
 
     if (!Validations.password(this.state.password)) {
-      alert("Your password must be at least 8 characters.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              this.state.scene === "CREATE_ACCOUNT"
+                ? "Your password must be at least 8 characters"
+                : "Incorrect password",
+          },
+        },
+      });
       this.setState({ loading: false });
       return;
     }
@@ -141,8 +161,25 @@ export default class SceneSignIn extends React.Component {
       password: this.state.password,
     });
 
-    if (!response || response.error) {
-      alert("We could not sign you into your account, try again later.");
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later.",
+          },
+        },
+      });
+      this.setState({ loading: false });
+      return;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
       this.setState({ loading: false });
       return;
     }
@@ -152,9 +189,17 @@ export default class SceneSignIn extends React.Component {
 
   _handleCheckUsername = async () => {
     if (!Validations.username(this.state.username)) {
-      return alert(
-        "Your username was invalid, only characters and numbers are allowed."
-      );
+      console.log("invalid username");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "Your username was invalid. Usernames must between 1-48 characters and consist of only characters and numbers",
+          },
+        },
+      });
+      return;
     }
 
     this.setState({ loading: true });
@@ -164,16 +209,36 @@ export default class SceneSignIn extends React.Component {
     });
 
     if (!response) {
-      return this.setState({
-        scene: "CREATE_ACCOUNT",
-        loading: false,
-        user: null,
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later.",
+          },
+        },
       });
+      this.setState({ loading: false });
+      return;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
+      this.setState({ loading: false });
+      return;
     }
 
     if (response.data) {
       return this.setState({
         scene: "SIGN_IN",
+        password: "",
         loading: false,
         user: response.data,
       });
@@ -181,6 +246,7 @@ export default class SceneSignIn extends React.Component {
 
     return this.setState({
       scene: "CREATE_ACCOUNT",
+      password: "",
       loading: false,
       user: null,
     });
@@ -205,6 +271,7 @@ export default class SceneSignIn extends React.Component {
             </System.P>
 
             <System.Input
+              autoFocus
               containerStyle={{ marginTop: 24 }}
               label="Username"
               name="username"
@@ -239,7 +306,7 @@ export default class SceneSignIn extends React.Component {
             <Avatar
               size={112}
               url={
-                "https://bafkreibf3hoiyuk2ywjyoy24ywaaclo4k5rz53flesvr5h4qjlyzxamozm.ipfs.slate.textile.io/"
+                "https://slate.textile.io/ipfs/bafkreibf3hoiyuk2ywjyoy24ywaaclo4k5rz53flesvr5h4qjlyzxamozm"
               }
               style={{ margin: "48px auto 64px auto", display: "block" }}
             />
@@ -254,6 +321,7 @@ export default class SceneSignIn extends React.Component {
             </System.P>
 
             <System.Input
+              autoFocus
               containerStyle={{ marginTop: 24 }}
               label="Password"
               name="password"
@@ -308,6 +376,7 @@ export default class SceneSignIn extends React.Component {
           </System.P>
 
           <System.Input
+            autoFocus
             containerStyle={{ marginTop: 24 }}
             label="Password"
             name="password"

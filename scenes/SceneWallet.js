@@ -5,6 +5,7 @@ import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
@@ -101,7 +102,10 @@ export default class SceneWallet extends React.Component {
 
   _handleCopy = (text) => {
     Strings.copyText(text);
-    alert(`${text} Added to clipboard.`);
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { message: "Copied to clipboard!", status: "INFO" } },
+    });
   };
 
   render() {

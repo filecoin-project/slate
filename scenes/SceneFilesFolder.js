@@ -141,7 +141,7 @@ export default class SceneFilesFolder extends React.Component {
                 });
               }}
             >
-              Upload Data
+              Upload data
             </ButtonPrimary>
           }
         />

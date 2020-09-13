@@ -5,6 +5,7 @@ import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_GROUP = css`
   display: flex;
@@ -56,12 +57,23 @@ export default class SidebarSingleSlateSettings extends React.Component {
     });
 
     if (!response) {
-      alert("TODO: Server Error");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
       return this.setState({ loading: false });
     }
 
     if (response.error) {
-      alert(`TODO: ${response.decorator}`);
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
       return this.setState({ loading: false });
     }
 
@@ -92,12 +104,23 @@ export default class SidebarSingleSlateSettings extends React.Component {
     });
 
     if (!response) {
-      alert("TODO: Server Error");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
       return this.setState({ loading: false });
     }
 
     if (response.error) {
-      alert(`TODO: ${response.decorator}`);
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
       return this.setState({ loading: false });
     }
 
@@ -123,7 +146,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
             marginBottom: 64,
           }}
         >
-          Slate Settings
+          Slate settings
         </System.P>
 
         <System.P css={STYLES_HEADER}>Name</System.P>

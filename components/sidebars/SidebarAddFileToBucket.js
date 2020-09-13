@@ -73,15 +73,25 @@ export default class SidebarAddFileToBucket extends React.Component {
       let file = e.target.files[i];
 
       if (!file) {
-        alert("We could not find any files to upload.");
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: { message: "Some of your files could not be uploaded" },
+          },
+        });
         continue;
       }
 
       const isAllowed = Validations.isFileTypeAllowed(file.type);
       if (!isAllowed) {
-        alert(
-          `We currently do not accept ${file.type} yet but may in the future.`
-        );
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message: `We currently do not accept ${file.type} yet but may in the future!`,
+            },
+          },
+        });
         continue;
       }
 
@@ -94,7 +104,13 @@ export default class SidebarAddFileToBucket extends React.Component {
     }
 
     if (!files.length) {
-      alert("We could not find any files to upload.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "We could not find any files to upload." },
+        },
+      });
+      return;
       // return this.props.onRegisterFileLoading({ fileLoading: null });
     }
 
@@ -113,16 +129,23 @@ export default class SidebarAddFileToBucket extends React.Component {
       });
 
       if (!response) {
-        alert(
-          "Something went wrong with saving your new file. Please refresh your browser."
-        );
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message:
+                "We're having trouble connecting right now. Please try again later",
+            },
+          },
+        });
         continue;
       }
 
       if (response.error) {
-        alert(
-          "Something went wrong with saving your new file. Please refresh your browser."
-        );
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: { alert: { decorator: response.decorator } },
+        });
         continue;
       }
     }
@@ -136,15 +159,15 @@ export default class SidebarAddFileToBucket extends React.Component {
   };
 
   render() {
-    let loaded;
-    let total;
+    let loaded = 0;
+    let total = 0;
     if (this.props.fileLoading) {
-      loaded = Object.values(this.props.fileLoading).reduce((total, curr) => {
-        return total + curr.loaded;
-      }, 0);
-      total = Object.values(this.props.fileLoading).reduce((total, curr) => {
-        return total + curr.total;
-      }, 0);
+      for (let file of Object.values(this.props.fileLoading)) {
+        if (typeof file.loaded === "number" && typeof file.total === "number") {
+          total += file.total;
+          loaded += file.loaded;
+        }
+      }
     }
     return (
       <React.Fragment>
@@ -155,7 +178,7 @@ export default class SidebarAddFileToBucket extends React.Component {
             marginBottom: "64px",
           }}
         >
-          Upload Data
+          Upload data
         </System.P>
         <input
           css={STYLES_FILE_HIDDEN}
@@ -188,7 +211,7 @@ export default class SidebarAddFileToBucket extends React.Component {
           )}
           .
         </System.P>
-        {/* //change this to allways allow uploads */}
+
         <System.ButtonPrimary
           full
           type="label"
@@ -228,7 +251,6 @@ export default class SidebarAddFileToBucket extends React.Component {
                         style={{ width: "20px", height: "20px", margin: "2px" }}
                       />
                     )}
-                    {/* maybe send an alert if fails here */}
                   </div>
                 </div>
               ))

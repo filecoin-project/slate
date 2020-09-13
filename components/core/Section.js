@@ -71,7 +71,7 @@ const STYLES_BUTTON = css`
   }
 
   :focus {
-    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3) inset;
     outline: 0;
     border: 0;
   }
@@ -89,7 +89,8 @@ export const Section = (props) => {
                 <span
                   key={b.name}
                   css={STYLES_BUTTON}
-                  onClick={() => props.onAction(b)}>
+                  onClick={() => props.onAction(b)}
+                >
                   {b.name}
                 </span>
               );

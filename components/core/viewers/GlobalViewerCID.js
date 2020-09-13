@@ -4,9 +4,12 @@ import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 
-import SlateMediaObjectSidebar from "~/components/core/SlateMediaObjectSidebar";
+import GlobalViewerCIDSidebar from "~/components/core/viewers/GlobalViewerCIDSidebar";
 
 const STYLES_ROOT = css`
+  background-color: ${Constants.system.white};
+  color: ${Constants.system.pitchBlack};
+  z-index: ${Constants.zindex.modal};
   position: fixed;
   left: 0;
   right: 0;
@@ -17,9 +20,41 @@ const STYLES_ROOT = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @keyframes global-data-fade-in {
+    from {
+      transform: translateX(8px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateX(0px);
+      opacity: 1;
+    }
+  }
+
+  animation: global-data-fade-in 400ms ease;
+`;
+
+const STYLES_BOX = css`
   background-color: ${Constants.system.pitchBlack};
   color: ${Constants.system.white};
   z-index: ${Constants.zindex.modal};
+  user-select: none;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: auto;
+  padding: 0;
+
+  :hover {
+    background-color: ${Constants.system.black};
+  }
 `;
 
 const STYLES_ROOT_CONTENT = css`
@@ -31,66 +66,31 @@ const STYLES_ROOT_CONTENT = css`
   justify-content: center;
 `;
 
-const STYLES_BOX = css`
-  user-select: none;
-  height: 32px;
-  width: 32px;
-  border-radius: 32px;
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  z-index: ${Constants.zindex.modal};
-  background: ${Constants.system.pitchBlack};
-  color: ${Constants.system.white};
-  cursor: pointer;
-  margin: auto;
-
-  :hover {
-    background-color: ${Constants.system.black};
-  }
-`;
-
-export class GlobalCarousel extends React.Component {
+export class GlobalViewerCID extends React.Component {
   state = {
+    index: 0,
     slides: null,
     visible: false,
-    index: 0,
     loading: false,
     saving: false,
   };
 
   componentDidMount = () => {
     window.addEventListener("keydown", this._handleKeyDown);
-    window.addEventListener("slate-global-create-carousel", this._handleCreate);
-    window.addEventListener("slate-global-delete-carousel", this._handleDelete);
-    window.addEventListener("slate-global-open-carousel", this._handleOpen);
-    window.addEventListener("slate-global-close-carousel", this._handleClose);
-    window.addEventListener(
-      "state-global-carousel-loading",
-      this._handleSetLoading
-    );
+    window.addEventListener("cid-viewer-create", this._handleCreate);
+    window.addEventListener("cid-viewer-delete", this._handleDelete);
+    window.addEventListener("cid-viewer-open", this._handleOpen);
+    window.addEventListener("cid-viewer-close", this._handleClose);
+    window.addEventListener("cid-viewer-loading", this._handleSetLoading);
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("keydown", this._handleKeyDown);
-    window.removeEventListener(
-      "slate-global-create-carousel",
-      this._handleCreate
-    );
-    window.removeEventListener(
-      "slate-global-delete-carousel",
-      this._handleDelete
-    );
-    window.removeEventListener("slate-global-open-carousel", this._handleOpen);
-    window.removeEventListener(
-      "slate-global-close-carousel",
-      this._handleClose
-    );
-    window.removeEventListener(
-      "state-global-carousel-loading",
-      this._handleSetLoading
-    );
+    window.removeEventListener("cid-viewer-create", this._handleCreate);
+    window.removeEventListener("cid-viewer-delete", this._handleDelete);
+    window.removeEventListener("cid-viewer-open", this._handleOpen);
+    window.removeEventListener("cid-viewer-close", this._handleClose);
+    window.removeEventListener("cid-viewer-loading", this._handleSetLoading);
   };
 
   _handleKeyDown = (e) => {
@@ -180,28 +180,24 @@ export class GlobalCarousel extends React.Component {
         <div css={STYLES_ROOT_CONTENT} style={this.props.style}>
           <span
             css={STYLES_BOX}
-            onClick={this._handleClose}
-            style={{ top: 8, right: 16 }}
-          >
-            <SVG.Dismiss height="20px" />
-          </span>
-          <span
-            css={STYLES_BOX}
-            onClick={this._handlePrevious}
+            onMouseUp={this._handlePrevious}
+            onTouchEnd={this._handlePrevious}
             style={{ top: 0, left: 16, bottom: 0 }}
           >
             <SVG.ChevronLeft height="20px" />
           </span>
           <span
             css={STYLES_BOX}
-            onClick={this._handleNext}
+            onMouseUp={this._handleNext}
+            onTouchEnd={this._handleNext}
             style={{ top: 0, right: 16, bottom: 0 }}
           >
             <SVG.ChevronRight height="20px" />
           </span>
           {current.component}
         </div>
-        <SlateMediaObjectSidebar
+        <GlobalViewerCIDSidebar
+          onClose={this._handleClose}
           key={current.id}
           saving={this.state.saving}
           loading={this.state.loading}

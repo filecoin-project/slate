@@ -4,10 +4,12 @@ import * as Actions from "~/common/actions";
 import * as StringReplace from "~/vendor/react-string-replace";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 const LINK_STYLES = `
   font-family: ${Constants.font.text};
   font-weight: 400;
+  text-decoration: none;
   color: ${Constants.system.moonstone};
   cursor: pointer;
   transition: 200ms ease color;
@@ -37,12 +39,38 @@ const onDeepLink = async (object) => {
     deeplink: true,
   });
 
-  if (!response.data) {
-    alert("TODO: Can not find deeplink");
+  if (!response) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message:
+            "We're having trouble connecting right now. Please try again later",
+        },
+      },
+    });
+    return;
   }
 
-  if (!response.data.slate) {
-    alert("TODO: Can not find deeplink");
+  if (response.error) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { decorator: response.decorator } },
+    });
+    return;
+  }
+
+  if (!response.data || !response.data.slate) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message:
+            "We encountered issues while locating that deeplink. Please try again later",
+        },
+      },
+    });
+    return;
   }
 
   return window.open(
@@ -59,24 +87,34 @@ export const ProcessedText = ({ text }) => {
     </a>
   ));
 
-  replacedText = StringReplace(replacedText, /@(\w+)/g, (match, i) => (
-    <a
-      css={STYLES_LINK}
-      key={match + i}
-      target="_blank"
-      href={`/${match}`.toLowerCase()}>
-      @{match}
-    </a>
-  ));
+  replacedText = StringReplace(
+    replacedText,
+    /@(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
+    (match, i) => (
+      <a
+        css={STYLES_LINK}
+        key={match + i}
+        target="_blank"
+        href={`/${match}`.toLowerCase()}
+      >
+        @{match}
+      </a>
+    )
+  );
 
-  replacedText = StringReplace(replacedText, /#(\w+)/g, (match, i) => (
-    <span
-      css={STYLES_LINK}
-      key={match + i}
-      onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}>
-      #{match}
-    </span>
-  ));
+  replacedText = StringReplace(
+    replacedText,
+    /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
+    (match, i) => (
+      <span
+        css={STYLES_LINK}
+        key={match + i}
+        onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}
+      >
+        #{match}
+      </span>
+    )
+  );
 
   return <React.Fragment>{replacedText}</React.Fragment>;
 };

@@ -18,8 +18,8 @@ export default async ({ ownerUserId, targetUserId }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "CREATE_TRUSTED_RELATIONSHIP",
-        source: e,
+        error: true,
+        decorator: "CREATE_TRUSTED_RELATIONSHIP",
       };
     },
   });

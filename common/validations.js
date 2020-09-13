@@ -76,7 +76,7 @@ export const username = (text) => {
     return false;
   }
 
-  if (text.length > 48) {
+  if (text.length > 48 || text.length < 1) {
     return false;
   }
 

@@ -17,8 +17,8 @@ export default async ({ slatename, data = {} }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "CREATE_SLATE",
-        source: e,
+        error: true,
+        decorator: "CREATE_SLATE",
       };
     },
   });

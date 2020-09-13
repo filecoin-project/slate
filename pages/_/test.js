@@ -73,7 +73,7 @@ export default class SlateReactSystemPage extends React.Component {
             type="label"
             htmlFor="file"
           >
-            Upload File To Network With API
+            Upload file To network with API
           </System.ButtonPrimary>
           <System.TooltipAnchor tooltip="Hello friends!!" />
         </div>

@@ -18,7 +18,7 @@ const STYLES_HEADER = css`
   display: block;
   position: relative;
   width: 100%;
-  padding: 64px 24px 40px 42px;
+  padding: 100px 24px 40px 42px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 68px 0 56px 16px;
@@ -167,20 +167,22 @@ export default class ApplicationUserControls extends React.Component {
               onOutsideRectEvent={this._handleHide}
               style={this.props.style}
             >
-              <PopoverNavigation
-                style={{ position: "relative", top: "8px" }}
-                navigation={[
-                  {
-                    text: "Account settings",
-                    onClick: () =>
-                      this._handleAction({
-                        type: "NAVIGATE",
-                        value: "V1_NAVIGATION_PROFILE_EDIT"
-                      })
-                  },
-                  { text: "Sign out", onClick: this._handleSignOut }
-                ]}
-              />
+              <div style={{ marginBottom: "8px" }}>
+                <PopoverNavigation
+                  navigation={[
+                    {
+                      text: "Account settings",
+                      onClick: () =>
+                        this._handleAction({
+                          type: "NAVIGATE",
+                          value: "V1_NAVIGATION_PROFILE_EDIT",
+                        }),
+                    },
+                    { text: "Sign out", onClick: this._handleSignOut },
+                  ]}
+                />
+              </div>
+
             </Boundary>
           }
         >

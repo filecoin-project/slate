@@ -413,7 +413,7 @@ const STYLES_SLATE_CARD_URBAN_GARDENS = css`
   border-radius: 4px;
   height: 100%;
   :hover {
-    background-image: url(https://bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu.ipfs.slate.textile.io/);
+    background-image: url(https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -424,7 +424,7 @@ const STYLES_SLATE_CARD_SHAPES_LETTERS = css`
   borderradius: 4px;
   height: 100%;
   :hover {
-    background-image: url(https://bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm.ipfs.slate.textile.io/);
+    background-image: url(https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -435,7 +435,7 @@ const STYLES_SLATE_CARD_MOUNTIANS = css`
   border-radius: 4px;
   height: 100%;
   :hover {
-    background-image: url(https://bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4.ipfs.slate.textile.io/);
+    background-image: url(https://slate.textile.io/ipfs/bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -446,7 +446,7 @@ const STYLES_SLATE_CARD_LOOM = css`
   border-radius: 4px;
   height: 100%;
   :hover {
-    background-image: url(https://bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna.ipfs.slate.textile.io/);
+    background-image: url(https://slate.textile.io/ipfs/bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -457,7 +457,7 @@ const STYLES_SLATE_CARD_BRAND = css`
   border-radius: 4px;
   height: 100%;
   :hover {
-    background-image: url(https://bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa.ipfs.slate.textile.io/);
+    background-image: url(https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -468,7 +468,7 @@ const STYLES_SLATE_CARD_UNDERGROUND = css`
   border-radius: 4px;
   height: 100%;
   :hover {
-    background-image: url(https://bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda.ipfs.slate.textile.io/);
+    background-image: url(https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -479,7 +479,7 @@ const STYLES_SLATE_CARD_MONET = css`
   border-radius: 4px;
   height: 100%;
   :hover {
-    background-image: url(https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/);
+    background-image: url(https://slate.textile.io/ipfs/bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -490,7 +490,7 @@ const STYLES_SLATE_CARD_BOOK_SHELF = css`
   border-radius: 4px;
   height: 100%;
   :hover {
-    background-image: url(https://bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri.ipfs.slate.textile.io/);
+    background-image: url(https://slate.textile.io/ipfs/bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -501,7 +501,7 @@ const STYLES_SLATE_CARD_PAPERS = css`
   border-radius: 4px;
   height: 100%;
   :hover {
-    background-image: url(https://bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm.ipfs.slate.textile.io/);
+    background-image: url(https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -557,11 +557,11 @@ export default class IndexPage extends React.Component {
               autoPlay
               loop
               muted
-              src="https://bafybeidfr2x5ftxzixjxtrgiqm6iuotzip25tlrpase226jog3tqenqd4a.ipfs.slate.textile.io/"
+              src="https://slate.textile.io/ipfs/bafybeidfr2x5ftxzixjxtrgiqm6iuotzip25tlrpase226jog3tqenqd4a"
               type="video/m4v"
               playsInline
               style={{
-                backgroundImage: `url('https://bafybeict43te7wcy7pdw3v45dwwedwxw7yjthbytdsja6dpsiqkgil7iey.ipfs.slate.textile.io/')`,
+                backgroundImage: `url('https://slate.textile.io/ipfs/bafybeict43te7wcy7pdw3v45dwwedwxw7yjthbytdsja6dpsiqkgil7iey')`,
                 borderRadius: `4px`,
                 width: `100%`,
                 boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -647,11 +647,11 @@ export default class IndexPage extends React.Component {
                     loop
                     muted
                     css={STYLES_VIDEO_SMALL}
-                    src="https://bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze.ipfs.slate.textile.io/"
+                    src="https://slate.textile.io/ipfs/bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze"
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('https://bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4.ipfs.slate.textile.io/')`,
+                      backgroundImage: `url('https://slate.textile.io/ipfs/bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
                       boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
@@ -664,11 +664,11 @@ export default class IndexPage extends React.Component {
                     loop
                     muted
                     css={STYLES_VIDEO_SMALL}
-                    src="https://bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q.ipfs.slate.textile.io/"
+                    src="https://slate.textile.io/ipfs/bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q"
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('https://bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou.ipfs.slate.textile.io/')`,
+                      backgroundImage: `url('https://slate.textile.io/ipfs/bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
                       boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
@@ -683,11 +683,11 @@ export default class IndexPage extends React.Component {
                     loop
                     muted
                     css={STYLES_VIDEO_SMALL}
-                    src="https://bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi.ipfs.slate.textile.io/"
+                    src="https://slate.textile.io/ipfs/bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi"
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('https://bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti.ipfs.slate.textile.io/')`,
+                      backgroundImage: `url('https://slate.textile.io/ipfs/bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
                       boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
@@ -700,11 +700,11 @@ export default class IndexPage extends React.Component {
                     loop
                     muted
                     css={STYLES_VIDEO_SMALL}
-                    src="https://bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga.ipfs.slate.textile.io/"
+                    src="https://slate.textile.io/ipfs/bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga"
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('https://bafkreihu7k46n6eixx6sxjv7aolou5bgvksvb7ryju3gbwie22t6r2dhli.ipfs.slate.textile.io/')`,
+                      backgroundImage: `url('https://slate.textile.io/ipfs/bafkreihu7k46n6eixx6sxjv7aolou5bgvksvb7ryju3gbwie22t6r2dhli')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
                       boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
@@ -730,7 +730,7 @@ export default class IndexPage extends React.Component {
             <div>
               <img
                 css={STYLES_MEDIA_LEFT}
-                src="https://bafybeig46uuyp3fkjpk2edeqlmt26r3rxdola52dy7kbgvjms6olyucjdu.ipfs.slate.textile.io/"
+                src="https://slate.textile.io/ipfs/bafybeig46uuyp3fkjpk2edeqlmt26r3rxdola52dy7kbgvjms6olyucjdu"
                 alt="Slate Web Clipper being used in chrome dropdown menu"
               />
             </div>
@@ -758,11 +758,11 @@ export default class IndexPage extends React.Component {
                 autoPlay
                 loop
                 muted
-                src="https://bafybeiagnzwfvdsqqxamlpru2fulmwzlgaqtg4ys4gs4wfnm5rq75c2cs4.ipfs.slate.textile.io/"
+                src="https://slate.textile.io/ipfs/bafybeiagnzwfvdsqqxamlpru2fulmwzlgaqtg4ys4gs4wfnm5rq75c2cs4"
                 type="video/mp4"
                 playsInline
                 style={{
-                  backgroundImage: `url('https://bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq.ipfs.slate.textile.io/')`,
+                  backgroundImage: `url('https://slate.textile.io/ipfs/bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
                   boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
@@ -776,11 +776,11 @@ export default class IndexPage extends React.Component {
                 autoPlay
                 loop
                 muted
-                src="https://bafybeigstyjfpzazdlmgkfuhw4yxrneux3opvbls7nmv6gq7dbnhmy6xwy.ipfs.slate.textile.io/"
+                src="https://slate.textile.io/ipfs/bafybeigstyjfpzazdlmgkfuhw4yxrneux3opvbls7nmv6gq7dbnhmy6xwy"
                 type="video/mp4"
                 playsInline
                 style={{
-                  backgroundImage: `url('https://bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi.ipfs.slate.textile.io/')`,
+                  backgroundImage: `url('https://slate.textile.io/ipfs/bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
                   boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
@@ -794,11 +794,11 @@ export default class IndexPage extends React.Component {
                 autoPlay
                 loop
                 muted
-                src="https://bafybeiampkmsxeihxnuz2hkgbhtzosgkwghslpwm7dsrxrzlqwa7tvzreq.ipfs.slate.textile.io/"
+                src="https://slate.textile.io/ipfs/bafybeiampkmsxeihxnuz2hkgbhtzosgkwghslpwm7dsrxrzlqwa7tvzreq"
                 type="video/mp4"
                 playsInline
                 style={{
-                  backgroundImage: `url('https://bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u.ipfs.slate.textile.io/')`,
+                  backgroundImage: `url('https://slate.textile.io/ipfs/bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
                   boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
@@ -828,11 +828,11 @@ export default class IndexPage extends React.Component {
                 autoPlay
                 loop
                 muted
-                src="https://bafybeih63zq5f7htbhkmrog447ybytyid2yi6fix4k6z3pbegxpcq2r2qa.ipfs.slate.textile.io/"
+                src="https://slate.textile.io/ipfs/bafybeih63zq5f7htbhkmrog447ybytyid2yi6fix4k6z3pbegxpcq2r2qa"
                 type="video/mp4"
                 playsInline
                 style={{
-                  backgroundImage: `url('https://bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4.ipfs.slate.textile.io/')`,
+                  backgroundImage: `url('https://slate.textile.io/ipfs/bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
                   boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
@@ -869,7 +869,7 @@ export default class IndexPage extends React.Component {
             <div>
               <img
                 css={STYLES_MEDIA_RIGHT_OVERLAP}
-                src="https://bafybeiaex6rorqtumulc4x3u4sbl5pdbn5sx45mvm6uvbebu4cxgk3okjy.ipfs.slate.textile.io/"
+                src="https://slate.textile.io/ipfs/bafybeiaex6rorqtumulc4x3u4sbl5pdbn5sx45mvm6uvbebu4cxgk3okjy"
                 alt="Slate logo in frosted cube"
               />
             </div>

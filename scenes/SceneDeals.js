@@ -39,7 +39,6 @@ export default class SceneDeals extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <ScenePage>
         <ScenePageHeader title="Deals [WIP]">

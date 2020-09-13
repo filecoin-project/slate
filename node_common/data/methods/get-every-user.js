@@ -17,8 +17,8 @@ export default async () => {
     },
     errorFn: async (e) => {
       console.log({
-        error: "GET_EVERY_USER",
-        source: e,
+        error: true,
+        decorator: "GET_EVERY_USER",
       });
 
       return [];

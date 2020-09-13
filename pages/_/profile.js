@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
+import { Alert } from "~/components/core/Alert";
 
 import Profile from "~/components/core/Profile";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
@@ -37,6 +38,7 @@ export default class ProfilePage extends React.Component {
       >
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
+          <Alert style={{ top: 0, width: "100%" }} />
           <div style={{ margin: "80px 24px 0px 24px" }}>
             <Profile {...this.props} />
           </div>

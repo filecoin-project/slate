@@ -68,9 +68,7 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `https://slate.host/${this.props.viewer.username}/${
-            each.slatename
-          }`,
+          url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
           name: each.data.name,
           public: each.data.public,
           objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
@@ -157,11 +155,11 @@ export default class SceneHome extends React.Component {
               autoPlay
               loop
               muted
-              src="https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io"
+              src="https://slate.textile.io/ipfs/bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy"
               type="video/m4v"
               playsInline
               style={{
-                backgroundImage: `url('https://bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy.ipfs.slate.textile.io')`,
+                backgroundImage: `url('https://slate.textile.io/ipfs/bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy')`,
                 borderRadius: `4px`,
                 width: `100%`,
                 boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
@@ -171,7 +169,7 @@ export default class SceneHome extends React.Component {
             <System.P>When you're ready, create a slate!</System.P>
             <br />
             <System.ButtonPrimary onClick={this._handleCreateSlate}>
-              Create a Slate
+              Create a slate
             </System.ButtonPrimary>
           </React.Fragment>
         )}

@@ -19,8 +19,8 @@ export default async () => {
     },
     errorFn: async (e) => {
       console.log({
-        error: "GET_EVERY_SLATE",
-        source: e,
+        error: true,
+        decorator: "GET_EVERY_SLATE",
       });
 
       return [];

@@ -50,10 +50,11 @@ const STYLES_INPUT_CONTAINER_FULL = css`
 
 const STYLES_INPUT = css`
   ${INPUT_STYLES}
+
   padding: 0 24px 0 24px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  box-shadow: 0 0 0 1px inset ${Constants.system.border};
+  box-shadow: 0 0 0 1px ${Constants.system.border} inset;
 
   :focus {
     outline: 0;
@@ -104,6 +105,10 @@ export class Input extends React.Component {
   componentDidMount = () => {
     if (this.props.unit) {
       this._input.style.paddingRight = `${this._unit.offsetWidth + 48}px`;
+    }
+
+    if (this.props.autoFocus) {
+      this._input.focus();
     }
   };
 
@@ -166,6 +171,7 @@ export class Input extends React.Component {
               this._input = c;
             }}
             css={STYLES_INPUT}
+            autoFocus={this.props.autoFocus}
             value={this.props.value}
             name={this.props.name}
             type={this.props.type}

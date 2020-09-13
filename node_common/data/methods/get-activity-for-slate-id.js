@@ -16,8 +16,8 @@ export default async ({ slateId }) => {
     },
     errorFn: async (e) => {
       console.log({
-        error: "GET_ACTIVITY_FOR_SLATE_ID",
-        source: e,
+        error: true,
+        decorator: "GET_ACTIVITY_FOR_SLATE_ID",
       });
 
       return [];

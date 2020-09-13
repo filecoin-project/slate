@@ -21,8 +21,8 @@ export default async ({ username }) => {
     },
     errorFn: async (e) => {
       return {
-        error: "GET_USER_BY_USERNAME",
-        source: e,
+        error: true,
+        decorator: "GET_USER_BY_USERNAME",
       };
     },
   });

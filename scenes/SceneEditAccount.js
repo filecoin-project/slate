@@ -7,6 +7,7 @@ import * as Validations from "~/common/validations";
 import * as FileUtilities from "~/common/file-utilities";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import ScenePage from "~/components/core/ScenePage";
 import Avatar from "~/components/core/Avatar";
@@ -48,20 +49,35 @@ export default class SceneEditAccount extends React.Component {
     let file = e.target.files[0];
 
     if (!file) {
-      alert("TODO: Something went wrong");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "Something went wrong with the upload. Please try again",
+          },
+        },
+      });
       return;
     }
 
     // NOTE(jim): Only allow images for account avatar.
     if (!file.type.startsWith("image/")) {
-      alert("TODO: Error message for not an image.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "Upload failed. Only images and gifs are allowed" },
+        },
+      });
       return;
     }
 
     const json = await FileUtilities.upload({ file });
 
     if (json.error) {
-      alert("TODO: Image already exists in bucket error message");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: json.decorator } },
+      });
       this.setState({ changingAvatar: false });
       return;
     }
@@ -100,7 +116,14 @@ export default class SceneEditAccount extends React.Component {
     this.setState({ changingUsername: true });
 
     if (!Validations.username(this.state.username)) {
-      alert("TODO: Not a valid username");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "Please include only letters and numbers in your username",
+          },
+        },
+      });
       this.setState({ changingUsername: false });
       return;
     }
@@ -126,13 +149,21 @@ export default class SceneEditAccount extends React.Component {
   _handleChangePassword = async (e) => {
     this.setState({ changingPassword: true });
     if (this.state.password !== this.state.confirm) {
-      alert("TODO: Error message for non-matching passwords");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { message: "Passwords did not match" } },
+      });
       this.setState({ changingPassword: false });
       return;
     }
 
     if (!Validations.password(this.state.password)) {
-      alert("TODO: Not a valid password");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "Password length must be more than 8 characters" },
+        },
+      });
       this.setState({ changingPassword: false });
       return;
     }
@@ -151,9 +182,7 @@ export default class SceneEditAccount extends React.Component {
     await delay(100);
 
     const response = await this.props.onDeleteYourself();
-    if (!response) {
-      this.setState({ deleting: false });
-    }
+    this.setState({ deleting: false });
   };
 
   _handleChange = (e) => {
@@ -166,7 +195,7 @@ export default class SceneEditAccount extends React.Component {
 
     return (
       <ScenePage>
-        <System.H1>Account Settings</System.H1>
+        <System.H1>Account settings</System.H1>
 
         <System.DescriptionGroup
           style={{ marginTop: 48 }}

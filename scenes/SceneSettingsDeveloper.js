@@ -5,6 +5,7 @@ import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -83,7 +84,8 @@ class Key extends React.Component {
             onClick={this._handleToggleVisible}
             style={{
               marginRight: 8,
-            }}>
+            }}
+          >
             <SVG.Privacy height="16px" />
           </span>
           <span
@@ -91,7 +93,8 @@ class Key extends React.Component {
             onClick={() => this._handleDelete(this.props.data.id)}
             style={{
               marginRight: 4,
-            }}>
+            }}
+          >
             <SVG.Dismiss height="16px" />
           </span>
         </div>
@@ -192,9 +195,24 @@ export default class SceneSettingsDeveloper extends React.Component {
     this.setState({ loading: true });
 
     const response = await Actions.generateAPIKey();
-    if (response && response.error) {
-      // TODO(jim): Proper error message.
-      alert(response.decorator);
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return this.setState({ loading: false });
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
       return this.setState({ loading: false });
     }
 
@@ -216,15 +234,26 @@ export default class SceneSettingsDeveloper extends React.Component {
     }
 
     const response = await Actions.deleteAPIKey({ id });
-    if (response && response.error) {
-      // TODO(jim): Proper error message.
-      alert(response.decorator);
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
       return this.setState({ loading: false });
     }
 
-    await this.props.onRehydrate();
-
-    this.setState({ loading: false });
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+      return this.setState({ loading: false });
+    }
   };
 
   async componentDidMount() {
@@ -278,7 +307,8 @@ export default class SceneSettingsDeveloper extends React.Component {
         <div style={{ marginTop: 24 }}>
           <System.ButtonPrimary
             onClick={this._handleSave}
-            loading={this.state.loading}>
+            loading={this.state.loading}
+          >
             Generate
           </System.ButtonPrimary>
         </div>

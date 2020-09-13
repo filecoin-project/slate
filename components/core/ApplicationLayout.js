@@ -5,6 +5,7 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/react";
 import { GlobalTooltip } from "~/components/system/components/fragments/GlobalTooltip";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
+import { Alert } from "~/components/core/Alert";
 
 const STYLES_SCROLL = css`
   overflow-y: scroll;
@@ -97,7 +98,6 @@ const STYLES_NAVIGATION = css`
   height: 100vh;
   z-index: ${Constants.zindex.navigation};
   width: ${Constants.sizes.navigation}px;
-  border-right: 1px solid ${Constants.system.border};
   background-color: ${Constants.system.foreground};
   ${STYLES_NO_VISIBLE_SCROLL}
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -105,7 +105,7 @@ const STYLES_NAVIGATION = css`
   }
 `;
 
-const STYLES_SIDEBAR_WEB = css`
+const STYLES_SIDEBAR = css`
   z-index: ${Constants.zindex.sidebar};
   height: 100vh;
   width: ${Constants.sizes.sidebar}px;
@@ -115,10 +115,10 @@ const STYLES_SIDEBAR_WEB = css`
   background-color: rgba(247, 247, 247, 1);
   top: 0;
   right: 0;
-  ${STYLES_SCROLL}
+  ${STYLES_NO_VISIBLE_SCROLL}
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
+    width: 100%;
   }
 
   @supports (
@@ -137,7 +137,7 @@ const STYLES_SIDEBAR_HEADER = css`
 `;
 
 const STYLES_SIDEBAR_CONTENT = css`
-  padding: 8px 24px 24px 24px;
+  padding: 44px 24px 24px 24px;
 `;
 
 const STYLES_BLOCK = css`
@@ -181,17 +181,16 @@ export default class ApplicationLayout extends React.Component {
     }
     return (
       <React.Fragment>
-        <GlobalTooltip
-          elementRef={this._navigation}
-          allowedTypes={["navigation"]}
-        />
-
         <div
           css={STYLES_NAVIGATION}
           ref={(c) => {
             this._navigation = c;
           }}
         >
+          <GlobalTooltip
+            elementRef={this._navigation}
+            allowedTypes={["navigation"]}
+          />
           {this.props.navigation}
         </div>
 
@@ -205,22 +204,44 @@ export default class ApplicationLayout extends React.Component {
             }}
             id="slate-client-body"
           >
+            <Alert
+              style={{
+                paddingRight: this.props.sidebar
+                  ? `calc(${Constants.sizes.sidebar}px + 48px`
+                  : "auto",
+              }}
+            />
             {this.props.children}
           </div>
           <div css={STYLES_BODY_MOBILE}>
-            {this.props.sidebar ? sidebarElements : this.props.children}
+            <Alert
+              style={{
+                top: 0,
+                left: 0,
+                width: "100%",
+                zIndex: Constants.zindex.modal,
+              }}
+            />
+            {this.props.children}
           </div>
         </div>
 
         {this.props.sidebar ? (
-          <div
-            css={STYLES_SIDEBAR_WEB}
-            ref={(c) => {
-              this._sidebar = c;
-            }}
+          <Boundary
+            captureResize={false}
+            captureScroll={false}
+            enabled
+            onOutsideRectEvent={this.props.onDismissSidebar}
           >
-            {sidebarElements}
-          </div>
+            <div
+              css={STYLES_SIDEBAR}
+              ref={(c) => {
+                this._sidebar = c;
+              }}
+            >
+              {sidebarElements}
+            </div>
+          </Boundary>
         ) : null}
       </React.Fragment>
     );

@@ -56,7 +56,7 @@ export default async (req, res) => {
 
   if (!deleted) {
     return res
-      .status(200)
+      .status(500)
       .send({ decorator: "SERVER_USER_DELETE", error: true });
   }
 

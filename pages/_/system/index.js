@@ -14,7 +14,7 @@ export default class SystemPageRoot extends React.Component {
         url="https://slate.host/_/system"
       >
         <img
-          src="https://bafybeidu5v3ytcy3ynghrmu7zftfinpt3s5pghqmpytrohmpk57ba4suye.ipfs.slate.textile.io/"
+          src="https://slate.textile.io/ipfs/bafybeidu5v3ytcy3ynghrmu7zftfinpt3s5pghqmpytrohmpk57ba4suye"
           style={{
             display: "inline-flex",
             width: "100%",
@@ -75,7 +75,7 @@ export default class SystemPageRoot extends React.Component {
           <CodeBlock>
             {`import { ButtonPrimary } from "slate-react-system";
 
-const Component = () => <ButtonPrimary>Hello World</ButtonPrimary>;`}
+const Component = () => <ButtonPrimary>Hello world</ButtonPrimary>;`}
           </CodeBlock>
           <br />
           <br />

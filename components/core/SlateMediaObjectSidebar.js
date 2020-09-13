@@ -8,7 +8,6 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { ProcessedText } from "~/components/system/components/Typography";
 
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
-import SlateMediaObjectSidebarDataManager from "~/components/core/SlateMediaObjectSidebarDataManager";
 
 const STYLES_SIDEBAR_INPUT = css`
   position: relative;
@@ -290,20 +289,6 @@ export default class SlateMediaObjectSidebar extends React.Component {
       }
     }
 
-    // NOTE(jim): Only on the data view.
-    if (this.props.renderDataControls) {
-      elements.push(
-        <SlateMediaObjectSidebarDataManager
-          key="sidebar-media-data-controls"
-          data={this.props.data}
-          slates={this.props.slates}
-          loading={this.props.loading}
-          onAddToSlate={this.props.onAddToSlate}
-          onRemoveFromSlate={this.props.onRemoveFromSlate}
-        />
-      );
-    }
-
     if (this.props.cid) {
       elements.push(
         <div
@@ -330,29 +315,6 @@ export default class SlateMediaObjectSidebar extends React.Component {
       );
     }
 
-    // NOTE(jim):
-    // Delete data object, and it the reference on every slate.
-    if (this.props.onDataDelete) {
-      elements.push(
-        <span
-          key="sidebar-media-object-delete"
-          css={STYLES_BUTTON}
-          onMouseUp={this.props.onDataDelete}
-          onTouchEnd={this.props.onDataDelete}
-        >
-          {this.props.loading ? (
-            <LoaderSpinner style={{ height: 16, width: 16 }} />
-          ) : (
-            <span>
-              Delete from all slates and data storage&nbsp;&nbsp;&nbsp;⭢
-            </span>
-          )}
-        </span>
-      );
-    }
-
-    // NOTE(jim):
-    // Delete slate media object, but not the data.
     if (this.props.onDelete && this.props.editing) {
       elements.push(
         <span

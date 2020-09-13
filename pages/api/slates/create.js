@@ -1,8 +1,9 @@
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
+import * as Social from "~/node_common/social";
 
-const SLATE_LIMIT = 20;
+const SLATE_LIMIT = 50;
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -69,6 +70,12 @@ export default async (req, res) => {
       .status(500)
       .send({ decorator: "SERVER_CREATE_SLATE", error: true });
   }
+
+  const userProfileURL = `https://slate.host/${user.username}`;
+  const userURL = `<${userProfileURL}|${user.username}>`;
+  Social.sendSlackMessage(
+    `*${userURL}* created a slate: https://slate.host/${user.username}/${slate.slatename}`
+  );
 
   return res.status(200).send({ decorator: "SERVER_CREATE_SLATE", slate });
 };

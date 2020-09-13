@@ -377,7 +377,7 @@ const STYLES_BUTTON_PRIMARY = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: ${Constants.typescale.lvl1};
   letter-spacing: 0.2px;
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
@@ -406,7 +406,7 @@ const STYLES_LINK_WHITE = css`
   color: ${Constants.system.darkGray};
   text-decoration: none;
   transition: 200ms ease color;
-  font-size: 1.25rem;
+  font-size: ${Constants.typescale.lvl2};
   padding: 24px 0 0 0;
 
   :visited {
@@ -418,7 +418,7 @@ const STYLES_LINK_WHITE = css`
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 0.78rem;
+    font-size: ${Constants.typescale.lvl0};
   }
 `;
 

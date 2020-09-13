@@ -12,6 +12,7 @@ const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 0 0 80px 0;
 `;
 
 const STYLES_H1 = css`
@@ -19,18 +20,28 @@ const STYLES_H1 = css`
   font-family: ${Constants.font.medium};
   font-weight: 400;
   line-height: 1.3;
-  padding: 0px 0px 24px 0px;
+  padding: 0px 0px 16px 0px;
   letter-spacing: -0.021rem;
   width: 100%;
   color: ${Constants.system.slate};
 
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    font-size: ${Constants.typescale.lvl5};
-    padding: 0px 0px 16px 0px;
-  }
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl3};
+  }
+`;
+
+const STYLES_H2 = css`
+  font-size: ${Constants.typescale.lvl3};
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.019rem;
+  padding: 0 0 16px 0;
+  width: 100%;
+  color: ${Constants.system.slate};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    font-size: ${Constants.typescale.lvl2};
   }
 `;
 
@@ -42,10 +53,6 @@ const STYLES_H3 = css`
   letter-spacing: -0.014rem;
   padding: 0 0 8px 0;
   color: ${Constants.system.slate};
-
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    font-size: ${Constants.typescale.lvl2};
-  }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl1};
@@ -68,13 +75,17 @@ const STYLES_BLOCK = css`
 `;
 
 const STYLES_IMG = css`
-  margin-top: 48px;
-  width: 100%;
+  margin: 0px auto 48px auto;
+  width: 40%;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 60%;
+  }
 `;
 
 const STYLES_ANNOTATION = css`
+  margin-top: 4px;
   font-size: ${Constants.typescale.lvl0};
-  color: #646464;
+  color: ${Constants.system.moonstone};
 `;
 
 const STYLES_BUTTON_PRIMARY = css`
@@ -94,8 +105,8 @@ const STYLES_BUTTON_PRIMARY = css`
   transition: 200ms ease all;
   user-select: none;
   cursor: pointer;
-  background-color: ${Constants.system.slate};
-  color: ${Constants.system.white};
+  background-color: ${Constants.system.wall};
+  color: ${Constants.system.slate};
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
 
   :hover {
@@ -130,7 +141,7 @@ const STYLES_LINK_WHITE = css`
 
 const STYLES_SECTION_HERO = css`
   width: 100vw;
-  padding: 16vh 88px 88px 88px;
+  padding: 0 88px 88px 88px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -145,16 +156,29 @@ const STYLES_SECTION_HERO = css`
 
 const STYLES_SECTION_WRAPPER = css`
   width: 100vw;
-  padding: 88px 88px 160px 88px;
+  padding: 32px 88px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: -88px 0px px 0px;
   background: ${Constants.system.foreground};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 64px 24px;
     display: block;
+  }
+`;
+
+const STYLES_LIST = css`
+  font-size: ${Constants.typescale.lvl2};
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.014rem;
+  padding: 0 0 16px 0;
+  color: ${Constants.system.slate};
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-left: 16px;
+    font-size: ${Constants.typescale.lvl1};
   }
 `;
 
@@ -165,17 +189,32 @@ const STYLES_TABLE = css`
   text-align: left;
 `;
 
-const STYLES_TABLE_ROW = css`
-  font-family: ${Constants.font.text};
-`;
-
-const STYLES_TABLE_TOP_ROW = css`
+const STYLES_TH = css`
   font-family: ${Constants.font.semiBold};
-`;
-
-const STYLES_TABLE_ITEM = css`
+  font-weight: 400;
   border: 1px solid rgba(229, 229, 229, 0.75);
   padding: 12px;
+`;
+
+const STYLES_TD = css`
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  border: 1px solid rgba(229, 229, 229, 0.75);
+  padding: 12px;
+`;
+
+const STYLES_LINK = css`
+  color: ${Constants.system.moonstone};
+  text-decoration: none;
+  transition: 200ms ease color;
+
+  :visited {
+    color: ${Constants.system.slate};
+  }
+
+  :hover {
+    color: ${Constants.system.slate};
+  }
 `;
 
 export const getServerSideProps = async (context) => {
@@ -204,55 +243,82 @@ export default class IndexPage extends React.Component {
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_HERO}>
             <div css={STYLES_BLOCK}>
+              <img
+                css={STYLES_IMG}
+                src="https://slate.textile.io/ipfs/bafkreidpydbatkl4rqf5bbim5qr3ottb2ibifazd2art4too5bmppp3rqm"
+                alt="Slate browser extension"
+              />
               <h1 css={STYLES_H1}>Slate Chrome Extensions</h1>
               <h3 css={STYLES_H3}>Take any image on the web and save it to Slate right from your browser tab.</h3>
-              <a src="/">
-                <button css={STYLES_BUTTON_PRIMARY}>Get Chrome extension</button>
+
+              <a
+                css={STYLES_LINK}
+                src="/"
+                href="/public/static/slate-for-chrome-V0.4.zip"
+                download="Slate Chrome extension V0.4"
+              >
+                <button css={STYLES_BUTTON_PRIMARY}>Get Slate extension</button>
               </a>
               <p css={STYLES_ANNOTATION}>
                 Currently avaible for{" "}
-                <a css={STYLES_LINK_WHITE} href="/">
+                <a css={STYLES_LINK_WHITE} href="https://www.google.com/chrome/">
                   Chrome
                 </a>
                 .
               </p>
             </div>
+          </div>
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_BLOCK}>
-              <img
-                css={STYLES_IMG}
-                src="https://slate.textile.io/ipfs/bafybeibwppu23j5wgshqvm5qyqv3c6pmhp3y5irdwn3ivvnnrpexiguzbi"
-                alt="Slate browser extension"
-              />
+              <h2 css={STYLES_H2}>How to use</h2>
+              <ol>
+                <li css={STYLES_LIST}>Download and extract the zip file.</li>
+                <li css={STYLES_LIST}>
+                  Open Chrome, go to Window {">"} Extensions. Click 'Load Unpacked' and load the unzipped folder. <br />
+                  <p css={STYLES_ANNOTATION}>
+                    At the top right of the extensions page, make sure 'Developer mode' is on.
+                  </p>
+                </li>
+                <li css={STYLES_LIST}>
+                  Find Slate extension on the top right bar of your browser window. Get your API key in Slate app and
+                  add it to the extension.
+                  <p css={STYLES_ANNOTATION}>
+                    If you can't find the extension, click on the little puzzle icon on the top right bar of your
+                    browser window. You will find Slate on the dropdown menu. You can pin it if you want.
+                  </p>
+                </li>
+                <li css={STYLES_LIST}>
+                  That's it! Now you can right click on any image on the Internet and upload it to your slates.
+                </li>
+              </ol>
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_BLOCK}>
-              <h1 css={STYLES_H1}>Releases</h1>
+              <h2 css={STYLES_H2}>Releases</h2>
               <h3 css={STYLES_H3}>Slate is built in public and all past releases are always avaible for download.</h3>
             </div>
             <div css={STYLES_BLOCK}>
               <table css={STYLES_TABLE}>
-                <tr css={STYLES_TABLE_TOP_ROW}>
-                  <th css={STYLES_TABLE_ITEM}>Version</th>
-                  <th css={STYLES_TABLE_ITEM}>Product</th>
-                  <th css={STYLES_TABLE_ITEM}>Date</th>
-                  <th css={STYLES_TABLE_ITEM}>Download</th>
+                <tr>
+                  <th css={STYLES_TH}>Version</th>
+                  <th css={STYLES_TH}>Product</th>
+                  <th css={STYLES_TH}>Date</th>
+                  <th css={STYLES_TH}>Download</th>
                 </tr>
-                <tr css={STYLES_TABLE_ROW}>
-                  <td css={STYLES_TABLE_ITEM}>0.1.0</td>
-                  <td css={STYLES_TABLE_ITEM}>Chrome Extension</td>
-                  <td css={STYLES_TABLE_ITEM}>2020-09-07</td>
-                  <td css={STYLES_TABLE_ITEM}>
-                    <a href="../public/static/favicon-96x96.png" download>
+                <tr>
+                  <td css={STYLES_TD}>0.4</td>
+                  <td css={STYLES_TD}>Slate Chrome extension</td>
+                  <td css={STYLES_TD}>2020-09-07</td>
+                  <td css={STYLES_TD}>
+                    <a
+                      css={STYLES_LINK}
+                      href="/public/static/slate-for-chrome-V0.4.zip"
+                      download="Slate Chrome extension V0.4"
+                    >
                       Download
                     </a>
                   </td>
-                </tr>
-                <tr css={STYLES_TABLE_ROW}>
-                  <td css={STYLES_TABLE_ITEM}>0.1.0</td>
-                  <td css={STYLES_TABLE_ITEM}>Design system</td>
-                  <td css={STYLES_TABLE_ITEM}>2020-09-07</td>
-                  <td css={STYLES_TABLE_ITEM}>Download</td>
                 </tr>
               </table>
             </div>

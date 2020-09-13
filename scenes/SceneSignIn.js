@@ -129,7 +129,10 @@ export default class SceneSignIn extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message: "Only characters and numbers are allowed in usernames",
+            message:
+              this.state.scene === "CREATE_ACCOUNT"
+                ? "Only characters and numbers are allowed in usernames"
+                : "Invalid username",
           },
         },
       });
@@ -141,7 +144,12 @@ export default class SceneSignIn extends React.Component {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
-          alert: { message: "Your password must be at least 8 characters" },
+          alert: {
+            message:
+              this.state.scene === "CREATE_ACCOUNT"
+                ? "Your password must be at least 8 characters"
+                : "Incorrect password",
+          },
         },
       });
       this.setState({ loading: false });
@@ -159,7 +167,7 @@ export default class SceneSignIn extends React.Component {
         detail: {
           alert: {
             message:
-              "We could not sign you into your account, please try again later.",
+              "We're having trouble connecting right now. Please try again later.",
           },
         },
       });
@@ -187,7 +195,7 @@ export default class SceneSignIn extends React.Component {
         detail: {
           alert: {
             message:
-              "Your username was invalid, only characters and numbers are allowed. Usernames must between 1-48 characters",
+              "Your username was invalid. Usernames must between 1-48 characters and consist of only characters and numbers",
           },
         },
       });
@@ -201,11 +209,14 @@ export default class SceneSignIn extends React.Component {
     });
 
     if (!response) {
-      return this.setState({
-        scene: "CREATE_ACCOUNT",
-        password: "",
-        loading: false,
-        user: null,
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later.",
+          },
+        },
       });
     }
 
@@ -366,7 +377,7 @@ export default class SceneSignIn extends React.Component {
             onClick={!this.state.loading ? this._handleSubmit : () => {}}
             loading={this.state.loading}
           >
-            Sign In
+            Sign in
           </System.ButtonPrimary>
         </div>
         <div css={STYLES_LINKS}>

@@ -70,11 +70,12 @@ const WebsitePrototypeHeader = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
-        <a css={STYLES_LINK} href="/" style={{ marginRight: 16 }}>
-          <SVGLogo.Symbol
-            height={`20px`}
-            style={{ transform: "translateY(-2px)" }}
-          />
+        <a
+          css={STYLES_LINK}
+          href="/"
+          style={{ marginRight: 16, position: "relative", top: "1px" }}
+        >
+          <SVGLogo.Symbol height={`20px`} />
         </a>
         <a
           css={STYLES_LINK}

@@ -14,8 +14,7 @@ const STYLES_SCROLL = css`
   -ms-overflow-style: -ms-autohiding-scrollbar;
 
   ::-webkit-scrollbar {
-    ${"" /* width: 4px; */}
-    display: none;
+    width: 4px;
   }
   ::-webkit-scrollbar-track {
     background: ${Constants.system.foreground};
@@ -99,7 +98,6 @@ const STYLES_NAVIGATION = css`
   height: 100vh;
   z-index: ${Constants.zindex.navigation};
   width: ${Constants.sizes.navigation}px;
-  border-right: 1px solid ${Constants.system.border};
   background-color: ${Constants.system.foreground};
   ${STYLES_NO_VISIBLE_SCROLL}
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -117,7 +115,7 @@ const STYLES_SIDEBAR = css`
   background-color: rgba(247, 247, 247, 1);
   top: 0;
   right: 0;
-  ${STYLES_SCROLL}
+  ${STYLES_NO_VISIBLE_SCROLL}
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;

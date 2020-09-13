@@ -217,7 +217,7 @@ export default class SidebarAddFileToBucket extends React.Component {
           htmlFor="file"
           style={{ marginTop: 24 }}
         >
-          Add File
+          Add file
         </System.ButtonPrimary>
 
         <br />

@@ -341,10 +341,8 @@ export const error = {
     "We're having trouble retrieving your API keys right now. Please try again",
 
   //Query
-  SERVER_DEEPLINK:
-    "We ran into issues while trying to retrieve that information. Please try again",
-  SERVER_DEEPLINK_ERROR:
-    "We ran into issues while trying to retrieve that information. Please try again",
+  SERVER_DEEPLINK: "This slate or profile does not exist",
+  SERVER_DEEPLINK_ERROR: "This slate or profile does not exist",
   SERVER_SEARCH_NO_QUERY:
     "No query was entered. Please enter a query and try again",
 

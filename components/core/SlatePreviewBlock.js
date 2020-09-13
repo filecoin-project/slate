@@ -258,7 +258,7 @@ export default class SlatePreviewBlock extends React.Component {
                         ),
                     },
                     {
-                      text: "Copy Slate ID",
+                      text: "Copy slate ID",
                       onClick: (e) => this._handleCopy(e, this.props.slate.id),
                     },
                   ]

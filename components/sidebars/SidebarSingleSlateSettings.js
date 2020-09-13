@@ -208,7 +208,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
             onClick={this._handleSubmit}
             loading={this.state.loading}
           >
-            Save Changes
+            Save changes
           </System.ButtonPrimary>
 
           {!this.state.loading ? (

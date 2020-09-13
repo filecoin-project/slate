@@ -68,9 +68,7 @@ export default class SceneHome extends React.Component {
       rows: this.props.viewer.slates.map((each) => {
         return {
           ...each,
-          url: `https://slate.host/${this.props.viewer.username}/${
-            each.slatename
-          }`,
+          url: `https://slate.host/${this.props.viewer.username}/${each.slatename}`,
           name: each.data.name,
           public: each.data.public,
           objects: <span css={STYLES_NUMBER}>{each.data.objects.length}</span>,
@@ -171,7 +169,7 @@ export default class SceneHome extends React.Component {
             <System.P>When you're ready, create a slate!</System.P>
             <br />
             <System.ButtonPrimary onClick={this._handleCreateSlate}>
-              Create a Slate
+              Create a slate
             </System.ButtonPrimary>
           </React.Fragment>
         )}

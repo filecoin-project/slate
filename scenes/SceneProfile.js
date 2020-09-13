@@ -15,10 +15,10 @@ import ScenePage from "~/components/core/ScenePage";
 import Profile from "~/components/core/Profile";
 
 const STATUS_BUTTON_MAP = {
-  trusted: "Remove Peer",
-  untrusted: "Add Peer",
-  sent: "Cancel Request",
-  received: "Accept Request",
+  trusted: "Remove peer",
+  untrusted: "Add peer",
+  sent: "Cancel request",
+  received: "Accept request",
 };
 
 export default class SceneProfile extends React.Component {

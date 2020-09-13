@@ -238,7 +238,7 @@ export default class SceneDirectory extends React.Component {
                   }}
                   navigation={[
                     {
-                      text: "Copy Profile URL",
+                      text: "Copy profile URL",
                       onClick: (e) =>
                         this._handleCopy(
                           e,
@@ -246,7 +246,7 @@ export default class SceneDirectory extends React.Component {
                         ),
                     },
                     {
-                      text: "Remove Peer",
+                      text: "Remove peer",
                       onClick: (e) => this._handleDelete(e, relation.id),
                     },
                   ]}
@@ -300,7 +300,7 @@ export default class SceneDirectory extends React.Component {
                     }}
                     navigation={[
                       {
-                        text: "Copy Profile URL",
+                        text: "Copy profile URL",
                         onClick: (e) =>
                           this._handleCopy(
                             e,
@@ -308,7 +308,7 @@ export default class SceneDirectory extends React.Component {
                           ),
                       },
                       {
-                        text: "Remove Peer",
+                        text: "Remove peer",
                         onClick: (e) => this._handleDelete(e, relation.id),
                       },
                     ]}
@@ -360,7 +360,7 @@ export default class SceneDirectory extends React.Component {
                   }}
                   navigation={[
                     {
-                      text: "Copy Profile URL",
+                      text: "Copy profile URL",
                       onClick: (e) =>
                         this._handleCopy(
                           e,
@@ -415,7 +415,7 @@ export default class SceneDirectory extends React.Component {
                 }}
                 navigation={[
                   {
-                    text: "Copy Profile URL",
+                    text: "Copy profile URL",
                     onClick: (e) =>
                       this._handleCopy(
                         e,

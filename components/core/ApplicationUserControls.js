@@ -168,20 +168,21 @@ export default class ApplicationUserControls extends React.Component {
               onOutsideRectEvent={this._handleHide}
               style={this.props.style}
             >
-              <PopoverNavigation
-                style={{ position: "relative", top: "8px" }}
-                navigation={[
-                  {
-                    text: "Account Settings",
-                    onClick: () =>
-                      this._handleAction({
-                        type: "NAVIGATE",
-                        value: "V1_NAVIGATION_PROFILE_EDIT",
-                      }),
-                  },
-                  { text: "Sign Out", onClick: this._handleSignOut },
-                ]}
-              />
+              <div style={{ marginBottom: "8px" }}>
+                <PopoverNavigation
+                  navigation={[
+                    {
+                      text: "Account settings",
+                      onClick: () =>
+                        this._handleAction({
+                          type: "NAVIGATE",
+                          value: "V1_NAVIGATION_PROFILE_EDIT",
+                        }),
+                    },
+                    { text: "Sign out", onClick: this._handleSignOut },
+                  ]}
+                />
+              </div>
             </Boundary>
           }
         >

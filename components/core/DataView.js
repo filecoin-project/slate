@@ -482,7 +482,7 @@ export default class DataView extends React.Component {
                       onClick: (e) => this._handleCopy(e, cid),
                     },
                     {
-                      text: "Copy Link",
+                      text: "Copy link",
                       onClick: (e) =>
                         this._handleCopy(
                           e,

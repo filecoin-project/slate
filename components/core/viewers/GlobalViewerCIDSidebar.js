@@ -80,66 +80,6 @@ const STYLES_BODY = css`
   white-space: pre-wrap;
 `;
 
-const STYLES_SIDEBAR_INPUT = css`
-  position: relative;
-`;
-
-const STYLES_SIDEBAR_TEXTAREA = css`
-  resize: none;
-  box-sizing: border-box;
-  line-height: 1.255;
-  font-size: 16px;
-  outline: 0;
-  border: 0;
-  background: transparent;
-  width: 100%;
-  white-space: pre-wrap;
-  padding: 48px 24px 24px 24px;
-  color: ${Constants.system.white};
-  font-family: ${Constants.font.text};
-  scrollbar-width: none;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const STYLES_SIDEBAR_INPUT_LABEL = css`
-  font-family: ${Constants.font.code};
-  letter-spacing: 0.1px;
-  color: #999;
-  font-size: 10px;
-  text-transform: uppercase;
-  width: 100%;
-  position: absolute;
-  padding: 16px 24px 0px 24px;
-`;
-
-class SidebarInput extends React.Component {
-  render() {
-    return (
-      <div css={STYLES_SIDEBAR_INPUT}>
-        <label
-          htmlFor={`sidebar-label-${this.props.name}`}
-          css={STYLES_SIDEBAR_INPUT_LABEL}
-        >
-          {this.props.name}
-        </label>
-        <TextareaAutoSize
-          value={this.props.value}
-          name={this.props.name}
-          onChange={this.props.onChange}
-          id={`sidebar-label-${this.props.name}`}
-          placeholder="..."
-          style={this.props.style}
-          css={STYLES_SIDEBAR_TEXTAREA}
-        />
-      </div>
-    );
-  }
-}
-
 export default class GlobalViewerCIDSidebar extends React.Component {
   render() {
     const elements = [];

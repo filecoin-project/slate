@@ -26,7 +26,18 @@ const STYLES_META = css`
 
 const STYLES_META_TITLE = css`
   font-family: ${Constants.font.code};
-  font-size: 14px;
+  color: ${Constants.system.pitchBlack};
+  font-size: 12px;
+  text-decoration: none;
+  transition: 200ms ease all;
+
+  :visited {
+    color: ${Constants.system.pitchBlack};
+  }
+
+  :hover {
+    color: ${Constants.system.blue};
+  }
 `;
 
 const STYLES_META_ITEM = css`
@@ -182,7 +193,13 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
     return (
       <div css={STYLES_CONTAINER}>
         <div css={STYLES_META}>
-          <div css={STYLES_META_TITLE}>{cid}</div>
+          <a
+            css={STYLES_META_TITLE}
+            target="_blank"
+            href={Strings.getCIDGatewayURL(cid)}
+          >
+            {Strings.getCIDGatewayURL(cid)}
+          </a>
           <div css={STYLES_META_DETAILS}>
             <span css={STYLES_META_ITEM}>{file}</span>{" "}
             <span css={STYLES_META_ITEM}>{type}</span>{" "}

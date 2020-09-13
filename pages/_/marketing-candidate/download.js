@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
-import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
 
@@ -17,11 +16,14 @@ const STYLES_ROOT = css`
 
 const STYLES_H1 = css`
   font-size: ${Constants.typescale.lvl5};
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
   line-height: 1.3;
   padding: 0px 0px 24px 0px;
   letter-spacing: -0.021rem;
   width: 100%;
   color: ${Constants.system.slate};
+
   @media (max-width: ${Constants.sizes.tablet}px) {
     font-size: ${Constants.typescale.lvl5};
     padding: 0px 0px 16px 0px;
@@ -34,9 +36,11 @@ const STYLES_H1 = css`
 
 const STYLES_H3 = css`
   font-size: ${Constants.typescale.lvl2};
+  font-family: ${Constants.font.text};
+  font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.014rem;
-  padding: 0 0 24px 0;
+  padding: 0 0 8px 0;
   color: ${Constants.system.slate};
 
   @media (max-width: ${Constants.sizes.tablet}px) {
@@ -48,17 +52,18 @@ const STYLES_H3 = css`
   }
 `;
 
-const STYLES_TEXT_BLOCK = css`
+const STYLES_BLOCK = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   max-width: 56vw;
   width: 100%;
   align-self: center;
+  margin-bottom: 16px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
-    right: 24px;
+    max-width: 100vw;
   }
 `;
 
@@ -125,7 +130,7 @@ const STYLES_LINK_WHITE = css`
 
 const STYLES_SECTION_HERO = css`
   width: 100vw;
-  padding: 30vh 88px 88px 88px;
+  padding: 16vh 88px 88px 88px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -153,6 +158,26 @@ const STYLES_SECTION_WRAPPER = css`
   }
 `;
 
+const STYLES_TABLE = css`
+  width: 100%;
+  font-size: ${Constants.typescale.lvl0};
+  border-collapse: collapse;
+  text-align: left;
+`;
+
+const STYLES_TABLE_ROW = css`
+  font-family: ${Constants.font.text};
+`;
+
+const STYLES_TABLE_TOP_ROW = css`
+  font-family: ${Constants.font.semiBold};
+`;
+
+const STYLES_TABLE_ITEM = css`
+  border: 1px solid rgba(229, 229, 229, 0.75);
+  padding: 12px;
+`;
+
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
@@ -178,11 +203,11 @@ export default class IndexPage extends React.Component {
         <WebsitePrototypeHeader color="dark" />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_HERO}>
-            <div css={STYLES_TEXT_BLOCK}>
+            <div css={STYLES_BLOCK}>
               <h1 css={STYLES_H1}>Slate Chrome Extensions</h1>
               <h3 css={STYLES_H3}>Take any image on the web and save it to Slate right from your browser tab.</h3>
               <a src="/">
-                <button css={STYLES_BUTTON_PRIMARY}>Get Chrome Extension</button>
+                <button css={STYLES_BUTTON_PRIMARY}>Get Chrome extension</button>
               </a>
               <p css={STYLES_ANNOTATION}>
                 Currently avaible for{" "}
@@ -191,6 +216,8 @@ export default class IndexPage extends React.Component {
                 </a>
                 .
               </p>
+            </div>
+            <div css={STYLES_BLOCK}>
               <img
                 css={STYLES_IMG}
                 src="https://slate.textile.io/ipfs/bafybeibwppu23j5wgshqvm5qyqv3c6pmhp3y5irdwn3ivvnnrpexiguzbi"
@@ -199,53 +226,35 @@ export default class IndexPage extends React.Component {
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_TEXT_BLOCK}>
+            <div css={STYLES_BLOCK}>
               <h1 css={STYLES_H1}>Releases</h1>
               <h3 css={STYLES_H3}>Slate is built in public and all past releases are always avaible for download.</h3>
-              <System.Table
-                data={{
-                  columns: [
-                    { key: "a", name: "Version", width: "15%" },
-
-                    { key: "b", name: "Product", width: "20%" },
-
-                    { key: "c", name: "Date", width: "20%" },
-
-                    {
-                      key: "d",
-                      name: "Download link",
-                      copyable: true,
-                      width: "45%",
-                    },
-                  ],
-
-                  rows: [
-                    {
-                      id: 1,
-
-                      a: "v1.0",
-
-                      b: "Chrome Extension",
-
-                      c: "2020-09-07",
-
-                      d: "Download",
-                    },
-
-                    {
-                      id: 2,
-
-                      a: "v1.0",
-
-                      b: "Design System",
-
-                      c: "2020-09-07",
-
-                      d: "Download",
-                    },
-                  ],
-                }}
-              />
+            </div>
+            <div css={STYLES_BLOCK}>
+              <table css={STYLES_TABLE}>
+                <tr css={STYLES_TABLE_TOP_ROW}>
+                  <th css={STYLES_TABLE_ITEM}>Version</th>
+                  <th css={STYLES_TABLE_ITEM}>Product</th>
+                  <th css={STYLES_TABLE_ITEM}>Date</th>
+                  <th css={STYLES_TABLE_ITEM}>Download</th>
+                </tr>
+                <tr css={STYLES_TABLE_ROW}>
+                  <td css={STYLES_TABLE_ITEM}>0.1.0</td>
+                  <td css={STYLES_TABLE_ITEM}>Chrome Extension</td>
+                  <td css={STYLES_TABLE_ITEM}>2020-09-07</td>
+                  <td css={STYLES_TABLE_ITEM}>
+                    <a href="../public/static/favicon-96x96.png" download>
+                      Download
+                    </a>
+                  </td>
+                </tr>
+                <tr css={STYLES_TABLE_ROW}>
+                  <td css={STYLES_TABLE_ITEM}>0.1.0</td>
+                  <td css={STYLES_TABLE_ITEM}>Design system</td>
+                  <td css={STYLES_TABLE_ITEM}>2020-09-07</td>
+                  <td css={STYLES_TABLE_ITEM}>Download</td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>

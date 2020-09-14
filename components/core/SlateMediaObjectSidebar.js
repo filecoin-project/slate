@@ -301,15 +301,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
             href={Strings.getCIDGatewayURL(this.props.cid)}
             target="_blank"
           >
-            Open file in new tab &nbsp;&nbsp;⭢
-          </a>
-          <a
-            css={STYLES_BUTTON}
-            href={Strings.getCIDGatewayURL(this.props.cid)}
-            target="_blank"
-            download={this.props.cid}
-          >
-            Download file &nbsp;&nbsp;⭢
+            Open original CID &nbsp;&nbsp;⭢
           </a>
         </div>
       );

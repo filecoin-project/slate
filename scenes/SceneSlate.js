@@ -3,6 +3,7 @@ import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as Strings from "~/common/strings";
 import * as Window from "~/common/window";
 
 import { css } from "@emotion/react";
@@ -271,16 +272,7 @@ export default class SceneSlate extends React.Component {
           // NOTE(jim):
           // This is a hack to catch this undefined case I don't want to track down yet.
           const url = each.url.replace("https://undefined", "https://");
-
-          // NOTE(andrew)
-          const cid = url.includes("/ipfs/")
-            ? // pull cid from a path format gateway
-              url.split("/ipfs/")[1]
-            : // pull cid from a subdomain format gateway
-              url.match(
-                // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
-                /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i
-              )[1];
+          const cid = Strings.getCIDFromIPFS(url);
           const data = { ...each, cid, url };
 
           return {

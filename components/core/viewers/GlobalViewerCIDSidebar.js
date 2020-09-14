@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 import * as SVG from "~/common/svg";
+import * as Window from "~/common/window";
 
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -81,6 +82,15 @@ const STYLES_BODY = css`
 `;
 
 export default class GlobalViewerCIDSidebar extends React.Component {
+  _handleDownload = () => {
+    // NOTE(jim): 2mb limit on this.
+    const extension = Strings.getFileExtension(this.props.data.file);
+    const download = `${this.props.cid}.${extension}`;
+    const uri = Strings.getCIDGatewayURL(this.props.cid);
+
+    Window.saveAs(uri, download);
+  };
+
   render() {
     const elements = [];
 
@@ -108,21 +118,6 @@ export default class GlobalViewerCIDSidebar extends React.Component {
           onAddToSlate={this.props.onAddToSlate}
           onRemoveFromSlate={this.props.onRemoveFromSlate}
         />
-      );
-    }
-
-    if (this.props.cid) {
-      elements.push(
-        <React.Fragment key="s-3">
-          <a
-            css={STYLES_BUTTON}
-            href={Strings.getCIDGatewayURL(this.props.cid)}
-            target="_blank"
-            download={this.props.cid}
-          >
-            Download file &nbsp;&nbsp;⭢
-          </a>
-        </React.Fragment>
       );
     }
 

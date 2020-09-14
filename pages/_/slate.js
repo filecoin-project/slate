@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
@@ -58,7 +59,13 @@ export default class SlatePage extends React.Component {
       name: "slate-global-create-carousel",
       detail: {
         slides: this.props.slate.data.objects.map((each) => {
+          // NOTE(jim):
+          // This is a hack to catch this undefined case I don't want to track down yet.
+          const url = each.url.replace("https://undefined", "https://");
+          const cid = Strings.getCIDFromIPFS(url);
+
           return {
+            cid,
             id: each.id,
             data: each,
             editing: false,
@@ -78,7 +85,9 @@ export default class SlatePage extends React.Component {
     });
 
   render() {
-    const title = `${this.props.creator.username}/${this.props.slate.slatename}`;
+    const title = `${this.props.creator.username}/${
+      this.props.slate.slatename
+    }`;
     const url = `https://slate.host/${this.props.creator.username}`;
     const description = this.props.slate.data.body;
 
@@ -94,7 +103,9 @@ export default class SlatePage extends React.Component {
       }
     }
 
-    const headerTitle = `${this.props.creator.username} / ${this.props.slate.slatename}`;
+    const headerTitle = `${this.props.creator.username} / ${
+      this.props.slate.slatename
+    }`;
 
     return (
       <WebsitePrototypeWrapper

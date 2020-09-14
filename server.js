@@ -136,6 +136,10 @@ app.prepare().then(async () => {
       return res.redirect("/404");
     }
 
+    if (slate.error) {
+      return res.redirect("/404");
+    }
+
     if (!slate.data.public) {
       return res.redirect("/403");
     }
@@ -167,6 +171,59 @@ app.prepare().then(async () => {
       viewer,
       creator: Serializers.user(creator),
       slate,
+    });
+  });
+
+  server.get("/:username/:slatename/cid::cid", async (req, res) => {
+    // TODO(jim): Temporary workaround
+    if (!Validations.userRoute(req.params.username)) {
+      return handler(req, res, req.url);
+    }
+
+    const slate = await Data.getSlateByName({
+      slatename: req.params.slatename,
+    });
+
+    if (!slate) {
+      return res.redirect("/404");
+    }
+
+    if (slate.error) {
+      return res.redirect("/404");
+    }
+
+    if (!slate.data.public) {
+      return res.redirect("/403");
+    }
+
+    const creator = await Data.getUserById({ id: slate.data.ownerId });
+
+    if (!creator) {
+      return res.redirect("/404");
+    }
+
+    if (creator.error) {
+      return res.redirect("/404");
+    }
+
+    if (req.params.username !== creator.username) {
+      return res.redirect("/403");
+    }
+
+    const id = Utilities.getIdFromCookie(req);
+
+    let viewer = null;
+    if (id) {
+      viewer = await ViewerManager.getById({
+        id,
+      });
+    }
+
+    return app.render(req, res, "/_/slate", {
+      viewer,
+      creator: Serializers.user(creator),
+      slate,
+      cid: req.params.cid,
     });
   });
 

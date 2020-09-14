@@ -289,6 +289,8 @@ export default class SceneSlate extends React.Component {
             id: data.id,
             cid,
             data,
+            username: this.props.viewer.username,
+            slatename: this.props.current.slatename,
             editing: this.state.editing,
             component: <SlateMediaObject key={each.id} data={data} />,
           };

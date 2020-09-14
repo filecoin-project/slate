@@ -309,6 +309,19 @@ export default class SlateMediaObjectSidebar extends React.Component {
 
     if (this.props.onDelete && this.props.editing) {
       elements.push(
+        <a
+          key="sidebar-media-object-preview"
+          css={STYLES_BUTTON}
+          target="_blank"
+          href={`/${this.props.username}/${this.props.slatename}/cid:${
+            this.props.cid
+          }`}
+        >
+          View slate object public URL&nbsp;&nbsp;&nbsp;⭢
+        </a>
+      );
+
+      elements.push(
         <span
           key="sidebar-media-object-delete"
           css={STYLES_BUTTON}

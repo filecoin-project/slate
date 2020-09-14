@@ -131,11 +131,26 @@ export class GlobalCarousel extends React.Component {
       index: e.detail.index || 0,
       loading: false,
       saving: false,
+      baseURL: e.detail.baseURL,
     });
+
+    if (this.state.slides && e.detail.baseURL) {
+      const current = this.state.slides[e.detail.index];
+      window.history.replaceState(
+        { index: e.detail.index },
+        "",
+        `/${e.detail.baseURL}/cid:${current.cid}`
+      );
+    }
   };
 
-  _handleClose = () =>
+  _handleClose = () => {
     this.setState({ visible: false, index: 0, loading: false, saving: false });
+
+    if (this.state.baseURL) {
+      window.history.replaceState({}, "", `/${this.state.baseURL}`);
+    }
+  };
 
   _handleCreate = (e) => {
     const shouldPersist =
@@ -150,11 +165,24 @@ export class GlobalCarousel extends React.Component {
 
   _handleDelete = (e) => {
     this.setState({ slides: null, visible: false, index: 0 });
+
+    if (this.state.baseURL) {
+      window.history.replaceState({}, "", `/${this.state.baseURL}`);
+    }
   };
 
   _handleNext = () => {
     const index = (this.state.index + 1) % this.state.slides.length;
     this.setState({ index, loading: false, saving: false });
+
+    if (this.state.baseURL) {
+      const current = this.state.slides[index];
+      window.history.replaceState(
+        { index },
+        "",
+        `/${this.state.baseURL}/cid:${current.cid}`
+      );
+    }
   };
 
   _handlePrevious = () => {
@@ -162,6 +190,15 @@ export class GlobalCarousel extends React.Component {
       (this.state.index + this.state.slides.length - 1) %
       this.state.slides.length;
     this.setState({ index, loading: false, saving: false });
+
+    if (this.state.baseURL) {
+      const current = this.state.slides[index];
+      window.history.replaceState(
+        { index },
+        "",
+        `/${this.state.baseURL}/cid:${current.cid}`
+      );
+    }
   };
 
   render() {

@@ -53,6 +53,7 @@ const STYLES_H3 = css`
   letter-spacing: -0.014rem;
   padding: 0 0 8px 0;
   color: ${Constants.system.slate};
+  opacity: 0.7;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl1};

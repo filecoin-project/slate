@@ -108,7 +108,10 @@ export default class SlatePage extends React.Component {
 
   render() {
     let title = `${this.props.creator.username}/${this.props.slate.slatename}`;
-    let url = `https://slate.host/${this.props.creator.username}`;
+    let url = `https://slate.host/${this.props.creator.username}/${
+      this.props.slate.slatename
+    }`;
+    let headerURL = `https://slate.host/${this.props.creator.username}`;
     let description = this.props.slate.data.body;
 
     const { objects } = this.props.slate.data;
@@ -152,7 +155,7 @@ export default class SlatePage extends React.Component {
         image={image}
       >
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric href={url} title={headerTitle}>
+          <WebsitePrototypeHeaderGeneric href={headerURL} title={headerTitle}>
             <ProcessedText text={this.props.slate.data.body} />
           </WebsitePrototypeHeaderGeneric>
           <Alert style={{ top: 0, width: "100%" }} />

@@ -42,6 +42,10 @@ app.prepare().then(async () => {
   server.all("/api/:a", async (r, s) => handler(r, s, r.url));
   server.all("/api/:a/:b", async (r, s) => handler(r, s, r.url));
 
+  server.get("/", async (req, res) => {
+    return app.render(req, res, "/", {});
+  });
+
   server.get("/_", async (req, res) => {
     const isBucketsAvailable = await Utilities.checkTextile();
 

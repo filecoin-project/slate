@@ -80,7 +80,7 @@ export default class SlatePage extends React.Component {
       },
     });
 
-    if (this.props.cid) {
+    if (!Strings.isEmpty(this.props.cid)) {
       const index = CIDMap[this.props.cid];
 
       if (index || index === 0) {
@@ -107,11 +107,9 @@ export default class SlatePage extends React.Component {
     });
 
   render() {
-    const title = `${this.props.creator.username}/${
-      this.props.slate.slatename
-    }`;
-    const url = `https://slate.host/${this.props.creator.username}`;
-    const description = this.props.slate.data.body;
+    let title = `${this.props.creator.username}/${this.props.slate.slatename}`;
+    let url = `https://slate.host/${this.props.creator.username}`;
+    let description = this.props.slate.data.body;
 
     const { objects } = this.props.slate.data;
 
@@ -122,6 +120,23 @@ export default class SlatePage extends React.Component {
       if (objects[i].type && objects[i].type.startsWith("image/")) {
         image = objects[i].url;
         break;
+      }
+    }
+
+    if (!Strings.isEmpty(this.props.cid)) {
+      let object = objects.find((each) => {
+        const url = each.url.replace("https://undefined", "https://");
+        const cid = Strings.getCIDFromIPFS(url);
+        return cid === this.props.cid;
+      });
+
+      if (object) {
+        title = !Strings.isEmpty(object.title) ? object.title : this.props.cid;
+        description = !Strings.isEmpty(object.body)
+          ? Strings.elide(object.body)
+          : `An object on ${url}`;
+        image = object.type.includes("image/") ? object.url : image;
+        url = `${url}/cid:${this.props.cid}`;
       }
     }
 

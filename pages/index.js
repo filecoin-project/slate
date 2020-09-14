@@ -15,77 +15,77 @@ const USER_SLATES = [
     url: "https://slate.host/gndclouds/urban-gardens",
     username: "gndclouds",
     preview:
-      "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu"
+      "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu",
   },
   {
     name: "Shapes and Letters",
     url: "https://slate.host/haris/shapes-and-letters",
     username: "haris",
     preview:
-      "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm"
+      "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
   },
   {
     name: "Mountains",
     url: "https://slate.host/jason/mountains",
     username: "jason",
     preview:
-      "https://slate.textile.io/ipfs/bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4"
+      "https://slate.textile.io/ipfs/bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4",
   },
   {
     name: "Loom",
     url: "https://slate.host/tara/loom",
     username: "tara",
     preview:
-      "https://slate.textile.io/ipfs/bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna"
+      "https://slate.textile.io/ipfs/bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna",
   },
   {
     name: "Brand",
     url: "https://slate.host/slate/brand",
     username: "slate",
     preview:
-      "https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa"
+      "https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa",
   },
   {
     name: "Montreal underground",
     url: "https://slate.host/tcosta/montreal-underground",
     username: "tcosta",
     preview:
-      "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda"
+      "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda",
   },
   {
     name: "Monet",
     url: "https://slate.host/slate/monet",
     username: "slate",
     preview:
-      "https://slate.textile.io/ipfs/bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli"
+      "https://slate.textile.io/ipfs/bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli",
   },
   {
     name: "Books",
     url: "https://slate.host/haris/books",
     username: "haris",
     preview:
-      "https://slate.textile.io/ipfs/bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri"
+      "https://slate.textile.io/ipfs/bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri",
   },
   {
     name: "Papers",
     url: "https://slate.host/slate/papers",
     username: "slate",
     preview:
-      "https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm"
-  }
+      "https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm",
+  },
 ];
 
 const ASSET_HERO = {
   src:
     "https://slate.textile.io/ipfs/bafybeidfr2x5ftxzixjxtrgiqm6iuotzip25tlrpase226jog3tqenqd4a",
-  backgroundImage: `https://slate.textile.io/ipfs/bafybeict43te7wcy7pdw3v45dwwedwxw7yjthbytdsja6dpsiqkgil7iey`
+  backgroundImage: `https://slate.textile.io/ipfs/bafybeict43te7wcy7pdw3v45dwwedwxw7yjthbytdsja6dpsiqkgil7iey`,
 };
 
 const ASSET_HERO_COLLABORATE = {
   src:
     "https://slate.textile.io/ipfs/bafybeih63zq5f7htbhkmrog447ybytyid2yi6fix4k6z3pbegxpcq2r2qa",
   backgroundImage:
-    "https://slate.textile.io/ipfs/bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4"
+    "https://slate.textile.io/ipfs/bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4",
 };
 
 const ASSETS_SMALL = [
@@ -93,26 +93,26 @@ const ASSETS_SMALL = [
     src:
       "https://slate.textile.io/ipfs/bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze",
     backgroundImage:
-      "https://slate.textile.io/ipfs/bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4"
+      "https://slate.textile.io/ipfs/bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4",
   },
   {
     src:
       "https://slate.textile.io/ipfs/bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q",
     backgroundImage:
-      "https://slate.textile.io/ipfs/bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou"
+      "https://slate.textile.io/ipfs/bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou",
   },
   {
     src:
       "https://slate.textile.io/ipfs/bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi",
     backgroundImage:
-      "https://slate.textile.io/ipfs/bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti"
+      "https://slate.textile.io/ipfs/bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti",
   },
   {
     src:
       "https://slate.textile.io/ipfs/bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga",
     backgroundImage:
-      "https://slate.textile.io/ipfs/bafkreiefuyyk6dcjhyk3hl2httqvdlnl3mo6wrfzgmponexrc75jop757y"
-  }
+      "https://slate.textile.io/ipfs/bafkreiefuyyk6dcjhyk3hl2httqvdlnl3mo6wrfzgmponexrc75jop757y",
+  },
 ];
 
 const ASSETS_MEDIUM = [
@@ -121,7 +121,7 @@ const ASSETS_MEDIUM = [
     src:
       "https://slate.textile.io/ipfs/bafybeib46kplzcylnzviaojgbogua52wyrzbvnj6uulvo4zwrxm4hnxeqe",
     backgroundImage:
-      "https://slate.textile.io/ipfs/bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq"
+      "https://slate.textile.io/ipfs/bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq",
   },
 
   {
@@ -129,7 +129,7 @@ const ASSETS_MEDIUM = [
     src:
       "https://slate.textile.io/ipfs/bafybeigstyjfpzazdlmgkfuhw4yxrneux3opvbls7nmv6gq7dbnhmy6xwy",
     backgroundImage:
-      "https://slate.textile.io/ipfs/bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi"
+      "https://slate.textile.io/ipfs/bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi",
   },
 
   {
@@ -137,8 +137,8 @@ const ASSETS_MEDIUM = [
     src:
       "https://slate.textile.io/ipfs/bafybeiampkmsxeihxnuz2hkgbhtzosgkwghslpwm7dsrxrzlqwa7tvzreq",
     backgroundImage:
-      "https://slate.textile.io/ipfs/bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u"
-  }
+      "https://slate.textile.io/ipfs/bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u",
+  },
 ];
 
 const ASSET_CHROME_EXTENSION =
@@ -567,7 +567,7 @@ const STYLES_SLATE_CARD_CTA_PARAGRAPH = css`
   }
 `;
 
-const SlateCardElement = props => {
+const SlateCardElement = (props) => {
   return (
     <div css={STYLES_SLATE_CARD}>
       <div
@@ -582,8 +582,7 @@ const SlateCardElement = props => {
             background-color: ${Constants.system.pitchBlack};
             background-image: url("${props.preview}");
           }
-        `}
-      >
+        `}>
         <a css={STYLES_SLATE_CARD_PARAGRAPH} href={props.url} target="_blank">
           <div css={STYLES_SLATE_CARD_TEXT}>
             <div css={STYLES_SLATE_CARD_TITLE}>{props.name}</div>
@@ -598,9 +597,9 @@ const SlateCardElement = props => {
   );
 };
 
-export const getServerSideProps = async context => {
+export const getServerSideProps = async (context) => {
   return {
-    props: { ...context.query }
+    props: { ...context.query },
   };
 };
 
@@ -620,8 +619,7 @@ export default class IndexPage extends React.Component {
       <WebsitePrototypeWrapper
         title={title}
         description={description}
-        url={url}
-      >
+        url={url}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_HERO}>
@@ -634,8 +632,7 @@ export default class IndexPage extends React.Component {
               <div css={STYLES_ACTIONS_RIGHT}>
                 <div
                   css={STYLES_BUTTON_PRIMARY}
-                  onClick={() => window.open("/_")}
-                >
+                  onClick={() => window.open("/_")}>
                   Use slate
                 </div>
               </div>
@@ -651,7 +648,7 @@ export default class IndexPage extends React.Component {
               type="video/m4v"
               playsInline
               style={{
-                backgroundImage: `url('${ASSET_HERO.backgroundImage}')`
+                backgroundImage: `url('${ASSET_HERO.backgroundImage}')`,
               }}
             />
 
@@ -663,8 +660,7 @@ export default class IndexPage extends React.Component {
                   <a
                     css={STYLES_LINK}
                     href={"https://github.com/filecoin-project/slate"}
-                    target="_blank"
-                  >
+                    target="_blank">
                     fully open-source
                   </a>{" "}
                   file sharing network designed for research and collaboration.
@@ -686,16 +682,14 @@ export default class IndexPage extends React.Component {
                   <a
                     href="https://textile.io"
                     css={STYLES_LINK}
-                    target="_blank"
-                  >
+                    target="_blank">
                     Textile
                   </a>{" "}
                   <br />
                   <a
                     href="https://filecoin.io"
                     css={STYLES_LINK}
-                    target="_blank"
-                  >
+                    target="_blank">
                     Filecoin
                   </a>
                   <br />
@@ -738,7 +732,7 @@ export default class IndexPage extends React.Component {
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('${ASSETS_SMALL[0].backgroundImage}')`
+                    backgroundImage: `url('${ASSETS_SMALL[0].backgroundImage}')`,
                   }}
                 />
               </div>
@@ -752,7 +746,7 @@ export default class IndexPage extends React.Component {
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('${ASSETS_SMALL[1].backgroundImage}')`
+                    backgroundImage: `url('${ASSETS_SMALL[1].backgroundImage}')`,
                   }}
                 />
               </div>
@@ -767,7 +761,7 @@ export default class IndexPage extends React.Component {
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('${ASSETS_SMALL[2].backgroundImage}')`
+                    backgroundImage: `url('${ASSETS_SMALL[2].backgroundImage}')`,
                   }}
                 />
               </div>
@@ -781,7 +775,7 @@ export default class IndexPage extends React.Component {
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('${ASSETS_SMALL[3].backgroundImage}')`
+                    backgroundImage: `url('${ASSETS_SMALL[3].backgroundImage}')`,
                   }}
                 />
               </div>
@@ -819,7 +813,7 @@ export default class IndexPage extends React.Component {
               </h3>
             </div>
 
-            {ASSETS_MEDIUM.map(each => {
+            {ASSETS_MEDIUM.map((each) => {
               return (
                 <React.Fragment key={each.title}>
                   <div css={STYLES_TEXT_BLOCK}>
@@ -836,7 +830,7 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('${each.backgroundImage}')`
+                      backgroundImage: `url('${each.backgroundImage}')`,
                     }}
                   />
                 </React.Fragment>
@@ -865,7 +859,7 @@ export default class IndexPage extends React.Component {
               type="video/mp4"
               playsInline
               style={{
-                backgroundImage: `url('${ASSET_HERO_COLLABORATE.backgroundImage}')`
+                backgroundImage: `url('${ASSET_HERO_COLLABORATE.backgroundImage}')`,
               }}
             />
           </div>
@@ -886,8 +880,7 @@ export default class IndexPage extends React.Component {
               <a
                 css={STYLES_LINK_WHITE}
                 href="https://filecoin.io"
-                target="_blank"
-              >
+                target="_blank">
                 Learn more about Filecoin -&gt;
               </a>
             </div>
@@ -902,8 +895,7 @@ export default class IndexPage extends React.Component {
               <a
                 css={STYLES_SLATE_CARD_PARAGRAPH}
                 href="https://slate.host/_"
-                target="_blank"
-              >
+                target="_blank">
                 <div css={STYLES_SLATE_CARD_TEXT}>
                   <h1 css={STYLES_SLATE_CARD_CTA_TITLE}>
                     Join us <br />
@@ -922,7 +914,7 @@ export default class IndexPage extends React.Component {
             </div>
 
             <div css={STYLES_SLATE_CARD_GROUP}>
-              {USER_SLATES.map(each => (
+              {USER_SLATES.map((each) => (
                 <SlateCardElement
                   key={each.name}
                   preview={each.preview}

@@ -8,6 +8,10 @@ import * as Window from "~/common/window";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+} from "~/components/system/components/Buttons";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -15,16 +19,6 @@ import Slate, { generateLayout } from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 import EmptyState from "~/components/core/EmptyState";
-
-const STYLES_BUTTON = css`
-  color: ${Constants.system.brand};
-  cursor: pointer;
-  padding: 4px 8px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const STYLES_ICONS = css`
   display: flex;
@@ -68,6 +62,7 @@ export default class SceneSlate extends React.Component {
     loading: false,
     saving: "IDLE",
     editing: this.props.current.data.ownerId === this.props.viewer.id,
+    followLoading: false,
   };
 
   // NOTE(jim):
@@ -172,12 +167,15 @@ export default class SceneSlate extends React.Component {
     }
   };
 
-  _handleFollow = async () => {
-    let response = await Actions.createSubscription({
-      slateId: this.props.current.id,
+  _handleFollow = () => {
+    this.setState({ followLoading: true }, async () => {
+      let response = await Actions.createSubscription({
+        slateId: this.props.current.id,
+      });
+      console.log(response);
+      await this.props.onRehydrate();
+      this.setState({ followLoading: false });
     });
-    console.log(response);
-    this.props.onRehydrate();
   };
 
   _handleChangeLayout = async (layout, layouts) => {
@@ -517,9 +515,19 @@ export default class SceneSlate extends React.Component {
             ) : (
               <div onClick={this._handleFollow}>
                 {following ? (
-                  <div css={STYLES_BUTTON}>Unfollow</div>
+                  <ButtonSecondary
+                    style={{ minWidth: 120 }}
+                    loading={this.state.followLoading}
+                  >
+                    Unfollow
+                  </ButtonSecondary>
                 ) : (
-                  <div css={STYLES_BUTTON}>Follow</div>
+                  <ButtonPrimary
+                    style={{ minWidth: 120 }}
+                    loading={this.state.followLoading}
+                  >
+                    Follow
+                  </ButtonPrimary>
                 )}
               </div>
             )

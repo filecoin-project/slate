@@ -353,7 +353,8 @@ export default class SlatePreviewBlock extends React.Component {
         ) : (
           <div style={{ height: "8px" }} />
         )}
-        {this.props.slate.data.objects.length ? (
+        {this.props.slate.data.objects &&
+        this.props.slate.data.objects.length ? (
           <SlatePreviewRow
             {...this.props}
             previewStyle={this.props.previewStyle}

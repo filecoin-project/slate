@@ -14,6 +14,12 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 import ScenePage from "~/components/core/ScenePage";
 import Profile from "~/components/core/Profile";
 
+const STYLES_BUTTONS = css`
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const STATUS_BUTTON_MAP = {
   trusted: "Remove peer",
   untrusted: "Add peer",
@@ -26,6 +32,8 @@ export default class SceneProfile extends React.Component {
     loading: false,
     trustStatus: "untrusted",
     followStatus: false,
+    followLoading: false,
+    trustLoading: false,
   };
 
   componentDidMount = () => {
@@ -39,7 +47,12 @@ export default class SceneProfile extends React.Component {
   }
 
   setStatus = (viewer) => {
-    let newState = { trustStatus: "untrusted", followStatus: false };
+    let newState = {
+      trustStatus: "untrusted",
+      followStatus: false,
+      followLoading: false,
+      trustLoading: false,
+    };
     let trust = viewer.trusted.filter((entry) => {
       return entry.target_user_id === this.props.data.id;
     });
@@ -102,52 +115,58 @@ export default class SceneProfile extends React.Component {
     this.setStatus(viewer);
   };
 
-  _handleTrust = async () => {
-    let response;
-    if (
-      this.state.trustStatus === "untrusted" ||
-      this.state.trustStatus === "sent"
-    ) {
-      response = await Actions.createTrustRelationship({
-        userId: this.props.data.id,
-      });
-      console.log(response);
-    } else if (this.state.trustStatus === "received") {
-      response = await Actions.updateTrustRelationship({
-        userId: this.props.data.id,
-      });
-      console.log(response);
-    } else {
-      response = await Actions.deleteTrustRelationship({
-        id: this.state.trustId,
-      });
-      console.log(response);
-    }
-    await this._handleUpdate();
+  _handleTrust = () => {
+    this.setState({ trustLoading: true }, async () => {
+      let response;
+      if (
+        this.state.trustStatus === "untrusted" ||
+        this.state.trustStatus === "sent"
+      ) {
+        response = await Actions.createTrustRelationship({
+          userId: this.props.data.id,
+        });
+        console.log(response);
+      } else if (this.state.trustStatus === "received") {
+        response = await Actions.updateTrustRelationship({
+          userId: this.props.data.id,
+        });
+        console.log(response);
+      } else {
+        response = await Actions.deleteTrustRelationship({
+          id: this.state.trustId,
+        });
+        console.log(response);
+      }
+      await this._handleUpdate();
+    });
   };
 
-  _handleFollow = async () => {
-    let response = await Actions.createSubscription({
-      userId: this.props.data.id,
+  _handleFollow = () => {
+    this.setState({ followLoading: true }, async () => {
+      let response = await Actions.createSubscription({
+        userId: this.props.data.id,
+      });
+      console.log(response);
+      await this._handleUpdate();
     });
-    console.log(response);
-    await this._handleUpdate();
   };
 
   render() {
     console.log(this.props.data);
     let buttons = (
-      <div>
+      <div css={STYLES_BUTTONS}>
         {this.state.followStatus ? (
           <ButtonSecondary
-            style={{ margin: "0px 8px" }}
+            loading={this.state.followLoading}
+            style={{ margin: "0px 8px", minWidth: 152 }}
             onClick={this._handleFollow}
           >
             Unfollow
           </ButtonSecondary>
         ) : (
           <ButtonPrimary
-            style={{ margin: "0px 8px" }}
+            loading={this.state.followLoading}
+            style={{ margin: "0px 8px", minWidth: 152 }}
             onClick={this._handleFollow}
           >
             Follow
@@ -156,14 +175,16 @@ export default class SceneProfile extends React.Component {
         {this.state.trustStatus === "untrusted" ||
         this.state.trustStatus === "received" ? (
           <ButtonPrimary
-            style={{ margin: "0px 8px" }}
+            loading={this.state.trustLoading}
+            style={{ margin: "0px 8px", minWidth: 152 }}
             onClick={this._handleTrust}
           >
             {STATUS_BUTTON_MAP[this.state.trustStatus]}
           </ButtonPrimary>
         ) : (
           <ButtonSecondary
-            style={{ margin: "0px 8px" }}
+            loading={this.state.trustLoading}
+            style={{ margin: "0px 8px", minWidth: 152 }}
             onClick={this._handleTrust}
           >
             {STATUS_BUTTON_MAP[this.state.trustStatus]}

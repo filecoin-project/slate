@@ -132,11 +132,7 @@ export class Table extends React.Component {
         {this.props.noLabel ? null : (
           <div css={STYLES_TABLE_TOP_ROW} style={this.props.topRowStyle}>
             {data.columns.map((c, cIndex) => {
-              const text = c.hideLabel
-                ? ""
-                : Strings.isEmpty(c.name)
-                ? c.key
-                : c.name;
+              const text = c.hideLabel ? "" : c.name ? c.name : c.key;
               let localWidth = c.width ? c.width : width;
               let flexShrink = c.width && c.width !== "100%" ? "0" : null;
               if (cIndex === 0 && !c.width) {

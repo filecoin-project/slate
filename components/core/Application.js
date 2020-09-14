@@ -298,6 +298,8 @@ export default class ApplicationPage extends React.Component {
     if (data.type === "CREATE_SLATE") {
       response = await Actions.createSlate({
         name: data.name,
+        public: data.public,
+        body: data.body,
       });
     }
 

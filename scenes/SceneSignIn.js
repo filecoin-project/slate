@@ -8,6 +8,7 @@ import * as Strings from "~/common/strings";
 import { css } from "@emotion/react";
 import { Logo } from "~/common/logo";
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { OnboardingModal } from "~/components/core/OnboardingModal";
 
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
@@ -184,7 +185,15 @@ export default class SceneSignIn extends React.Component {
       return;
     }
 
-    return this.props.onNavigateTo({ id: "V1_NAVIGATION_HOME" });
+    this.props.onNavigateTo({ id: "V1_NAVIGATION_HOME" });
+    if (this.state.scene === "CREATE_ACCOUNT") {
+      dispatchCustomEvent({
+        name: "create-modal",
+        detail: {
+          modal: <OnboardingModal />,
+        },
+      });
+    }
   };
 
   _handleCheckUsername = async () => {

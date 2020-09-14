@@ -15,37 +15,39 @@ const STYLES_KEY = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
   width: 100%;
   max-width: 416px;
-  background-color: ${Constants.system.gray};
+  background-color: ${Constants.system.foreground};
   color: ${Constants.system.pitchBlack};
-  border: 4px solid ${Constants.system.gray};
   border-radius: 4px;
+  height: 40px;
 `;
 
 const STYLES_KEY_LEFT = css`
   min-width: 10%;
   width: 100%;
   font-family: ${Constants.font.code};
-  padding: 12px 16px 12px 16px;
+  padding: 0 16px;
   font-size: 11px;
 `;
 
-const STYLES_KEY_RIGHT = css`
-  padding-left: 24px;
-  flex-shrink: 0;
+const STYLES_KEY_CONTAINER = css`
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 8px;
 `;
 
 const STYLES_CIRCLE_BUTTON = css`
-  height: 32px;
-  width: 32px;
+  height: 40px;
+  width: 40px;
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  background: ${Constants.system.white};
+  background: ${Constants.system.gray};
   color: ${Constants.system.black};
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
   cursor: pointer;
@@ -70,34 +72,34 @@ class Key extends React.Component {
 
   render() {
     return (
-      <div css={STYLES_KEY}>
-        {this.state.visible ? (
-          <div css={STYLES_KEY_LEFT}>{this.props.data.key}</div>
-        ) : (
-          <div css={STYLES_KEY_LEFT}>
-            XXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXX
-          </div>
-        )}
-        <div css={STYLES_KEY_RIGHT}>
-          <span
-            css={STYLES_CIRCLE_BUTTON}
-            onClick={this._handleToggleVisible}
-            style={{
-              marginRight: 8,
-            }}
-          >
-            <SVG.Privacy height="16px" />
-          </span>
-          <span
-            css={STYLES_CIRCLE_BUTTON}
-            onClick={() => this._handleDelete(this.props.data.id)}
-            style={{
-              marginRight: 4,
-            }}
-          >
-            <SVG.Dismiss height="16px" />
-          </span>
+      <div css={STYLES_KEY_CONTAINER}>
+        <div css={STYLES_KEY}>
+          {this.state.visible ? (
+            <div css={STYLES_KEY_LEFT}>{this.props.data.key}</div>
+          ) : (
+            <div css={STYLES_KEY_LEFT}>
+              XXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXX
+            </div>
+          )}
         </div>
+        <span
+          css={STYLES_CIRCLE_BUTTON}
+          onClick={this._handleToggleVisible}
+          style={{
+            marginLeft: 8,
+          }}
+        >
+          <SVG.Privacy height="16px" />
+        </span>
+        <span
+          css={STYLES_CIRCLE_BUTTON}
+          onClick={() => this._handleDelete(this.props.data.id)}
+          style={{
+            marginLeft: 8,
+          }}
+        >
+          <SVG.Dismiss height="16px" />
+        </span>
       </div>
     );
   }

@@ -2,9 +2,18 @@ import * as React from "react";
 import * as Actions from "~/common/actions";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
+import { css } from "@emotion/react";
 
 import EmptyState from "~/components/core/EmptyState";
 import SceneProfile from "~/scenes/SceneProfile";
+
+const STYLES_LOADER = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  width: 100%;
+`;
 
 export default class ScenePublicProfile extends React.Component {
   state = {
@@ -57,9 +66,9 @@ export default class ScenePublicProfile extends React.Component {
   render() {
     if (!this.state.profile) {
       return (
-        <EmptyState style={{ marginTop: "88px" }}>
+        <div css={STYLES_LOADER}>
           <LoaderSpinner />
-        </EmptyState>
+        </div>
       );
     }
 

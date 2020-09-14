@@ -44,18 +44,17 @@ const STYLES_BUTTON_FULL = `
 
 const STYLES_BUTTON_PRIMARY = css`
   ${STYLES_BUTTON}
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  background-color: ${Constants.system.slate};
+  background-color: ${Constants.system.brand};
   color: ${Constants.system.white};
 
   :hover {
-    background-color: #313540;
+    background-color: #065ca8;
   }
 
   :focus {
     box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: #313540;
+    background-color: #065ca8;
     outline: 0;
     border: 0;
   }
@@ -63,18 +62,17 @@ const STYLES_BUTTON_PRIMARY = css`
 
 const STYLES_BUTTON_PRIMARY_FULL = css`
   ${STYLES_BUTTON_FULL}
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  background-color: ${Constants.system.slate};
+  background-color: ${Constants.system.brand};
   color: ${Constants.system.white};
 
   :hover {
-    background-color: #313540;
+    background-color: #065ca8;
   }
 
   :focus {
     box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: #313540;
+    background-color: #065ca8;
     outline: 0;
     border: 0;
   }
@@ -85,7 +83,8 @@ export const ButtonPrimary = (props) => {
     return (
       <button
         css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
-        style={props.style}>
+        style={props.style}
+      >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
     );
@@ -122,18 +121,17 @@ export const ButtonPrimaryFull = (props) => {
 
 const STYLES_BUTTON_SECONDARY = css`
   ${STYLES_BUTTON}
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  background-color: ${Constants.system.black};
-  color: ${Constants.system.white};
+  background-color: ${Constants.system.white};
+  box-shadow: 0 0 0 1px ${Constants.system.border} inset;
+  color: ${Constants.system.brand};
 
   :hover {
-    background-color: ${Constants.system.pitchBlack};
+    ${"" /* box-shadow: 0 0 0 1px #065ca8 inset;
+    color: #065ca8; */}
   }
 
   :focus {
-    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: ${Constants.system.black};
     outline: 0;
     border: 0;
   }
@@ -141,18 +139,17 @@ const STYLES_BUTTON_SECONDARY = css`
 
 const STYLES_BUTTON_SECONDARY_FULL = css`
   ${STYLES_BUTTON_FULL}
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  background-color: ${Constants.system.black};
-  color: ${Constants.system.white};
+  background-color: ${Constants.system.white};
+  box-shadow: 0 0 0 1px ${Constants.system.border} inset;
+  color: ${Constants.system.brand};
 
   :hover {
-    background-color: ${Constants.system.pitchBlack};
+    ${"" /* box-shadow: 0 0 0 1px #065ca8 inset;
+    color: #065ca8; */}
   }
 
   :focus {
-    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: ${Constants.system.black};
     outline: 0;
     border: 0;
   }
@@ -165,7 +162,8 @@ export const ButtonSecondary = (props) => {
         css={
           props.full ? STYLES_BUTTON_SECONDARY_FULL : STYLES_BUTTON_SECONDARY
         }
-        style={props.style}>
+        style={props.style}
+      >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
     );
@@ -234,4 +232,74 @@ export const ButtonDisabled = (props) => {
 
 export const ButtonDisabledFull = (props) => {
   return <ButtonDisabled full {...props} />;
+};
+
+const STYLES_BUTTON_WARNING = css`
+  ${STYLES_BUTTON}
+  cursor: pointer;
+  background-color: #e0e0e0;
+  color: ${Constants.system.red};
+
+  :hover {
+    background-color: #d4d4d4;
+  }
+
+  :focus {
+    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
+    background-color: #d4d4d4;
+    outline: 0;
+    border: 0;
+  }
+`;
+
+const STYLES_BUTTON_WARNING_FULL = css`
+  ${STYLES_BUTTON_FULL}
+  cursor: pointer;
+  background-color: #e0e0e0;
+  color: ${Constants.system.red};
+
+  :hover {
+    background-color: #d4d4d4;
+  }
+
+  :focus {
+    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
+    background-color: #d4d4d4;
+    outline: 0;
+    border: 0;
+  }
+`;
+
+export const ButtonWarning = (props) => {
+  if (props.loading) {
+    return (
+      <button
+        css={props.full ? STYLES_BUTTON_WARNING_FULL : STYLES_BUTTON_WARNING}
+        style={props.style}
+      >
+        <LoaderSpinner style={{ height: 16, width: 16 }} />
+      </button>
+    );
+  }
+
+  if (props.type === "label") {
+    return (
+      <label
+        css={props.full ? STYLES_BUTTON_WARNING_FULL : STYLES_BUTTON_WARNING}
+        style={props.style}
+        onMouseUp={props.onClick}
+        onTouchEnd={props.onClick}
+        children={props.children}
+        type={props.label}
+        htmlFor={props.htmlFor}
+      />
+    );
+  }
+
+  return (
+    <button
+      css={props.full ? STYLES_BUTTON_WARNING_FULL : STYLES_BUTTON_WARNING}
+      {...props}
+    />
+  );
 };

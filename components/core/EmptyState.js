@@ -6,23 +6,23 @@ import * as System from "~/components/system";
 import { css } from "@emotion/react";
 
 const STYLES_EMPTY_STATE = css`
-  max-width: 420px;
-  text-align: center;
-  padding: 24px;
   width: 100%;
-  margin: 0 auto 0 auto;
+  height: 328px;
+  border: 1px solid ${Constants.system.border};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+  border-radius: 4px;
 `;
 
 export default class EmptyState extends React.Component {
   render() {
     return (
-      <article
-        css={STYLES_EMPTY_STATE}
-        onClick={this.props.onClick}
-        style={this.props.style}
-      >
-        <System.P>{this.props.children}</System.P>
-      </article>
+      <div css={STYLES_EMPTY_STATE} style={this.props.style}>
+        {this.props.children}
+      </div>
     );
   }
 }

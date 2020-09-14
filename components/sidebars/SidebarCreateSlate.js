@@ -5,12 +5,31 @@ import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { css } from "@emotion/react";
 
 const SLATE_LIMIT = 50;
+
+const STYLES_GROUP = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  margin-top: 8px;
+`;
+
+const STYLES_HEADER = css`
+  font-family: ${Constants.font.semiBold};
+  font-size: 18px;
+  margin-top: 48px;
+`;
 
 export default class SidebarCreateSlate extends React.Component {
   state = {
     name: "",
+    public: true,
+    body: "",
     loading: false,
   };
 
@@ -41,6 +60,8 @@ export default class SidebarCreateSlate extends React.Component {
     const response = await this.props.onSubmit({
       type: "CREATE_SLATE",
       name: this.state.name,
+      public: this.state.public,
+      body: this.state.body,
     });
 
     if (!response) {
@@ -122,6 +143,29 @@ export default class SidebarCreateSlate extends React.Component {
             {this.props.viewer.username}/{Strings.createSlug(this.state.name)}
           </a>
         </System.P>
+
+        <System.P css={STYLES_HEADER}>Description</System.P>
+
+        <System.Textarea
+          style={{ marginTop: 12 }}
+          name="body"
+          value={this.state.body}
+          placeholder="A slate."
+          onChange={this._handleChange}
+          onSubmit={this._handleSubmit}
+        />
+
+        <System.P css={STYLES_HEADER} style={{ marginTop: 48 }}>
+          Privacy
+        </System.P>
+        <div css={STYLES_GROUP}>
+          <System.P>{this.state.public ? "Public" : "Private"}</System.P>
+          <System.Toggle
+            name="public"
+            onChange={this._handleChange}
+            active={this.state.public}
+          />
+        </div>
 
         <System.ButtonPrimary
           full

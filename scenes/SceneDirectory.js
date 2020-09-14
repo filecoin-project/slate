@@ -469,9 +469,9 @@ export default class SceneDirectory extends React.Component {
           requests.length ? (
             requests
           ) : (
-            <EmptyState style={{ marginTop: 88 }}>
-              No requests at the moment! <br />
-              Once someone sends you a trust request it will appear here.
+            <EmptyState>
+              <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+              Trust requests that you receive will appear here.
             </EmptyState>
           )
         ) : null}
@@ -479,10 +479,9 @@ export default class SceneDirectory extends React.Component {
           trusted.length ? (
             trusted
           ) : (
-            <EmptyState style={{ marginTop: 88 }}>
-              You have no peers yet. <br />
-              Get started by searching for your friends and sending them a peer
-              request!
+            <EmptyState>
+              <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+              Trusted is for your close friends.
             </EmptyState>
           )
         ) : null}
@@ -490,9 +489,10 @@ export default class SceneDirectory extends React.Component {
           following.length ? (
             following
           ) : (
-            <EmptyState style={{ marginTop: 88 }}>
-              You are not following anybody. <br />
-              Get started by searching for your friends and clicking follow!
+            <EmptyState>
+              <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+              You can follow any user on the network to be updated on their new
+              uploads and slates.
             </EmptyState>
           )
         ) : null}
@@ -500,7 +500,8 @@ export default class SceneDirectory extends React.Component {
           followers.length ? (
             followers
           ) : (
-            <EmptyState style={{ marginTop: 88 }}>
+            <EmptyState>
+              <SVG.Users height="24px" style={{ marginBottom: 24 }} />
               You don't have any followers yet.
             </EmptyState>
           )

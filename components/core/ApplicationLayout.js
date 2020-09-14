@@ -124,7 +124,7 @@ const STYLES_SIDEBAR = css`
   @supports (
     (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
   ) {
-    -webkit-backdrop-filter: blur(75px);
+    -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
     background-color: rgba(247, 247, 247, 0.75);
   }

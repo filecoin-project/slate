@@ -17,16 +17,19 @@ const STYLES_BACKGROUND = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(223, 223, 223, 0.3);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
   z-index: ${Constants.zindex.modal};
 `;
 
 const STYLES_MODAL = css`
   box-sizing: border-box;
   position: relative;
-  max-width: 680px;
+  max-width: 800px;
   width: 100%;
-  border-radius: 16px;
+  border-radius: 4px;
   background-color: ${Constants.system.white};
 `;
 
@@ -91,9 +94,7 @@ export class GlobalModal extends React.Component {
           onOutsideRectEvent={this._handleDelete}
           isDataMenuCaptured={true}
         >
-          <div css={STYLES_MODAL} style={this.props.style}>
-            {this.state.modal}
-          </div>
+          {this.state.modal}
         </Boundary>
       </div>
     );

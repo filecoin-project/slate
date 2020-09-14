@@ -5,6 +5,9 @@ import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 import { TabGroup } from "~/components/core/TabGroup";
+import { ButtonSecondary } from "~/components/system/components/Buttons";
+import { SearchModal } from "~/components/core/SearchModal";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -12,6 +15,12 @@ import Section from "~/components/core/Section";
 import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 import EmptyState from "~/components/core/EmptyState";
+
+const STYLES_ICONS = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
 
 // TODO(jim): Slates design.
 export default class SceneSlates extends React.Component {
@@ -26,6 +35,13 @@ export default class SceneSlates extends React.Component {
       value: "SIDEBAR_CREATE_SLATE",
     });
     this.props.onRehydrate();
+  };
+
+  _handleSearch = () => {
+    dispatchCustomEvent({
+      name: "create-modal",
+      detail: { modal: <SearchModal onAction={this.props.onAction} /> },
+    });
   };
 
   render() {
@@ -91,10 +107,24 @@ export default class SceneSlates extends React.Component {
               </div>
             ))
           ) : (
-            <EmptyState style={{ marginTop: 88 }}>
-              You have no slates yet!
-              <br />
-              Create a new slate by clicking the plus button.
+            <EmptyState>
+              <div css={STYLES_ICONS}>
+                <SVG.Sound height="24px" style={{ margin: "0 16px" }} />
+                <SVG.Document height="24px" style={{ margin: "0 16px" }} />
+                <SVG.Image height="24px" style={{ margin: "0 16px" }} />
+                <SVG.Book height="24px" style={{ margin: "0 16px" }} />
+                <SVG.Video height="24px" style={{ margin: "0 16px" }} />
+              </div>
+              <div style={{ marginTop: 24 }}>
+                Use slates to create mood boards, share files, and organize
+                research.
+              </div>
+              <ButtonSecondary
+                onClick={this._handleAdd}
+                style={{ marginTop: 32 }}
+              >
+                Create slate
+              </ButtonSecondary>
             </EmptyState>
           )
         ) : null}
@@ -103,10 +133,14 @@ export default class SceneSlates extends React.Component {
           subscriptions.length ? (
             subscriptions
           ) : (
-            <EmptyState style={{ marginTop: 88 }}>
-              You aren't following any slates yet! <br />
-              Get started by following any slates you encounter that you want to
-              be updated on.
+            <EmptyState>
+              You can follow any public slates on the network.
+              <ButtonSecondary
+                onClick={this._handleSearch}
+                style={{ marginTop: 32 }}
+              >
+                Browse slates
+              </ButtonSecondary>
             </EmptyState>
           )
         ) : null}

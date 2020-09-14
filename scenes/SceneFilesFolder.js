@@ -12,6 +12,7 @@ import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
 import DataMeter from "~/components/core/DataMeter";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
+import EmptyState from "~/components/core/EmptyState";
 
 const VIEW_LIMIT = 20;
 
@@ -56,6 +57,12 @@ const STYLES_ICON_ELEMENT = css`
     transform: rotate(0deg);
     transition: 200ms ease transform;
   }
+`;
+
+const STYLES_ICONS = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 const POLLING_INTERVAL = 10000;
@@ -150,81 +157,98 @@ export default class SceneFilesFolder extends React.Component {
           stats={this.props.viewer.stats}
           style={{ margin: "48px 0 48px 0" }}
         />
-        <div css={STYLES_HEADER_LINE}>
-          <TabGroup disabled tabs={["Uploads"]} style={{ margin: 0 }} />
+        {this.props.viewer.library[0].children.length ? (
           <React.Fragment>
-            <div
-              css={STYLES_ICON_BOX}
-              onClick={() => {
-                this.setState({ view: "list" });
-              }}
-            >
-              <SVG.ListView
-                style={{
-                  color:
-                    this.state.view === "list"
-                      ? Constants.system.black
-                      : "rgba(0,0,0,0.25)",
-                }}
-                height="24px"
-              />
+            <div css={STYLES_HEADER_LINE}>
+              <TabGroup disabled tabs={["Uploads"]} style={{ margin: 0 }} />
+              <React.Fragment>
+                <div
+                  css={STYLES_ICON_BOX}
+                  onClick={() => {
+                    this.setState({ view: "list" });
+                  }}
+                >
+                  <SVG.ListView
+                    style={{
+                      color:
+                        this.state.view === "list"
+                          ? Constants.system.black
+                          : "rgba(0,0,0,0.25)",
+                    }}
+                    height="24px"
+                  />
+                </div>
+                <div
+                  css={STYLES_ICON_BOX}
+                  onClick={() => {
+                    this.setState({ view: "grid" });
+                  }}
+                >
+                  <SVG.GridView
+                    style={{
+                      color:
+                        this.state.view === "grid"
+                          ? Constants.system.black
+                          : "rgba(0,0,0,0.25)",
+                    }}
+                    height="24px"
+                  />
+                </div>
+              </React.Fragment>
             </div>
-            <div
-              css={STYLES_ICON_BOX}
-              onClick={() => {
-                this.setState({ view: "grid" });
-              }}
-            >
-              <SVG.GridView
-                style={{
-                  color:
-                    this.state.view === "grid"
-                      ? Constants.system.black
-                      : "rgba(0,0,0,0.25)",
-                }}
-                height="24px"
-              />
+            <DataView
+              view={this.state.view}
+              viewer={this.props.viewer}
+              items={this.props.viewer.library[0].children.slice(
+                this.state.startIndex,
+                this.state.startIndex + VIEW_LIMIT
+              )}
+              onAction={this.props.onAction}
+              onRehydrate={this.props.onRehydrate}
+            />
+            <div css={STYLES_ARROWS}>
+              <span
+                css={STYLES_ICON_ELEMENT}
+                style={
+                  this.state.startIndex - VIEW_LIMIT >= 0
+                    ? null
+                    : { cursor: "not-allowed", color: Constants.system.border }
+                }
+                onClick={() => this._increment(-1)}
+              >
+                <SVG.NavigationArrow
+                  height="24px"
+                  style={{ transform: `rotate(180deg)` }}
+                />
+              </span>
+              <span
+                css={STYLES_ICON_ELEMENT}
+                style={
+                  this.state.startIndex + VIEW_LIMIT <
+                  this.props.viewer.library[0].children.length
+                    ? null
+                    : { cursor: "not-allowed", color: Constants.system.border }
+                }
+                onClick={() => this._increment(1)}
+              >
+                <SVG.NavigationArrow height="24px" />
+              </span>
             </div>
           </React.Fragment>
-        </div>
-        <DataView
-          view={this.state.view}
-          viewer={this.props.viewer}
-          items={this.props.viewer.library[0].children.slice(
-            this.state.startIndex,
-            this.state.startIndex + VIEW_LIMIT
-          )}
-          onAction={this.props.onAction}
-          onRehydrate={this.props.onRehydrate}
-        />
-        <div css={STYLES_ARROWS}>
-          <span
-            css={STYLES_ICON_ELEMENT}
-            style={
-              this.state.startIndex - VIEW_LIMIT >= 0
-                ? null
-                : { cursor: "not-allowed", color: Constants.system.border }
-            }
-            onClick={() => this._increment(-1)}
-          >
-            <SVG.NavigationArrow
-              height="24px"
-              style={{ transform: `rotate(180deg)` }}
-            />
-          </span>
-          <span
-            css={STYLES_ICON_ELEMENT}
-            style={
-              this.state.startIndex + VIEW_LIMIT <
-              this.props.viewer.library[0].children.length
-                ? null
-                : { cursor: "not-allowed", color: Constants.system.border }
-            }
-            onClick={() => this._increment(1)}
-          >
-            <SVG.NavigationArrow height="24px" />
-          </span>
-        </div>
+        ) : (
+          <EmptyState>
+            <div css={STYLES_ICONS}>
+              <SVG.Sound height="24px" style={{ margin: "0 16px" }} />
+              <SVG.Document height="24px" style={{ margin: "0 16px" }} />
+              <SVG.Image height="24px" style={{ margin: "0 16px" }} />
+              <SVG.Book height="24px" style={{ margin: "0 16px" }} />
+              <SVG.Video height="24px" style={{ margin: "0 16px" }} />
+            </div>
+            <div style={{ marginTop: 24 }}>
+              Drag and drop files into Slate to upload
+            </div>
+          </EmptyState>
+        )}
       </ScenePage>
     );
   }

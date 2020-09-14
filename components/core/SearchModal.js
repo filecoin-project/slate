@@ -23,11 +23,16 @@ const STYLES_ICON_CIRCLE = css`
 `;
 
 const STYLES_MODAL = css`
+  position: relative;
   width: 95vw;
-  max-width: 600px;
+  max-width: 680px;
+  box-sizing: border-box;
   height: 60vh;
   max-height: 500px;
   padding: 24px;
+  border-radius: 4px;
+  background-color: ${Constants.system.white};
+  box-shadow: 0 0 60px 8px rgba(0, 0, 0, 0.03);
 `;
 
 const STYLES_SEARCH_DROPDOWN = {

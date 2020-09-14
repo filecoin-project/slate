@@ -281,7 +281,7 @@ export default class Slate extends React.Component {
               onTouchEnd={this._handleSaveLayout}
               style={{
                 backgroundColor:
-                  this.props.saving === "IDLE" ? Constants.system.green : null,
+                  this.props.saving === "IDLE" ? Constants.system.brand : null,
               }}
             >
               {this.props.saving === "SAVING" ? (

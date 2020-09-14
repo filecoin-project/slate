@@ -14,111 +14,138 @@ const USER_SLATES = [
     name: "Urban gardens",
     url: "https://slate.host/gndclouds/urban-gardens",
     username: "gndclouds",
-    preview: "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu"
   },
   {
     name: "Shapes and Letters",
     url: "https://slate.host/haris/shapes-and-letters",
     username: "haris",
-    preview: "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm"
   },
   {
     name: "Mountains",
     url: "https://slate.host/jason/mountains",
     username: "jason",
-    preview: "https://slate.textile.io/ipfs/bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4",
+    preview:
+      "https://slate.textile.io/ipfs/bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4"
   },
   {
     name: "Loom",
     url: "https://slate.host/tara/loom",
     username: "tara",
-    preview: "https://slate.textile.io/ipfs/bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna"
   },
   {
     name: "Brand",
     url: "https://slate.host/slate/brand",
     username: "slate",
-    preview: "https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa"
   },
   {
     name: "Montreal underground",
     url: "https://slate.host/tcosta/montreal-underground",
     username: "tcosta",
-    preview: "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda"
   },
   {
     name: "Monet",
     url: "https://slate.host/slate/monet",
     username: "slate",
-    preview: "https://slate.textile.io/ipfs/bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli",
+    preview:
+      "https://slate.textile.io/ipfs/bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli"
   },
   {
     name: "Books",
     url: "https://slate.host/haris/books",
     username: "haris",
-    preview: "https://slate.textile.io/ipfs/bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri",
+    preview:
+      "https://slate.textile.io/ipfs/bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri"
   },
   {
     name: "Papers",
     url: "https://slate.host/slate/papers",
     username: "slate",
-    preview: "https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm",
-  },
+    preview:
+      "https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm"
+  }
 ];
 
 const ASSET_HERO = {
-  src: "https://slate.textile.io/ipfs/bafybeidfr2x5ftxzixjxtrgiqm6iuotzip25tlrpase226jog3tqenqd4a",
-  backgroundImage: `https://slate.textile.io/ipfs/bafybeict43te7wcy7pdw3v45dwwedwxw7yjthbytdsja6dpsiqkgil7iey`,
+  src:
+    "https://slate.textile.io/ipfs/bafybeidfr2x5ftxzixjxtrgiqm6iuotzip25tlrpase226jog3tqenqd4a",
+  backgroundImage: `https://slate.textile.io/ipfs/bafybeict43te7wcy7pdw3v45dwwedwxw7yjthbytdsja6dpsiqkgil7iey`
 };
 
 const ASSET_HERO_COLLABORATE = {
-  src: "https://slate.textile.io/ipfs/bafybeih63zq5f7htbhkmrog447ybytyid2yi6fix4k6z3pbegxpcq2r2qa",
-  backgroundImage: "https://slate.textile.io/ipfs/bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4",
+  src:
+    "https://slate.textile.io/ipfs/bafybeih63zq5f7htbhkmrog447ybytyid2yi6fix4k6z3pbegxpcq2r2qa",
+  backgroundImage:
+    "https://slate.textile.io/ipfs/bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4"
 };
 
 const ASSETS_SMALL = [
   {
-    src: "https://slate.textile.io/ipfs/bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze",
-    backgroundImage: "https://slate.textile.io/ipfs/bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4",
+    src:
+      "https://slate.textile.io/ipfs/bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4"
   },
   {
-    src: "https://slate.textile.io/ipfs/bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q",
-    backgroundImage: "https://slate.textile.io/ipfs/bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou",
+    src:
+      "https://slate.textile.io/ipfs/bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou"
   },
   {
-    src: "https://slate.textile.io/ipfs/bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi",
-    backgroundImage: "https://slate.textile.io/ipfs/bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti",
+    src:
+      "https://slate.textile.io/ipfs/bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti"
   },
   {
-    src: "https://slate.textile.io/ipfs/bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga",
-    backgroundImage: "https://slate.textile.io/ipfs/bafkreiefuyyk6dcjhyk3hl2httqvdlnl3mo6wrfzgmponexrc75jop757y",
-  },
+    src:
+      "https://slate.textile.io/ipfs/bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafkreiefuyyk6dcjhyk3hl2httqvdlnl3mo6wrfzgmponexrc75jop757y"
+  }
 ];
 
 const ASSETS_MEDIUM = [
   {
     title: "Create moodboards",
-    src: "https://slate.textile.io/ipfs/bafybeib46kplzcylnzviaojgbogua52wyrzbvnj6uulvo4zwrxm4hnxeqe",
-    backgroundImage: "https://slate.textile.io/ipfs/bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq",
+    src:
+      "https://slate.textile.io/ipfs/bafybeib46kplzcylnzviaojgbogua52wyrzbvnj6uulvo4zwrxm4hnxeqe",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq"
   },
 
   {
     title: "Organize research",
-    src: "https://slate.textile.io/ipfs/bafybeigstyjfpzazdlmgkfuhw4yxrneux3opvbls7nmv6gq7dbnhmy6xwy",
-    backgroundImage: "https://slate.textile.io/ipfs/bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi",
+    src:
+      "https://slate.textile.io/ipfs/bafybeigstyjfpzazdlmgkfuhw4yxrneux3opvbls7nmv6gq7dbnhmy6xwy",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi"
   },
 
   {
     title: "Share presentations",
-    src: "https://slate.textile.io/ipfs/bafybeiampkmsxeihxnuz2hkgbhtzosgkwghslpwm7dsrxrzlqwa7tvzreq",
-    backgroundImage: "https://slate.textile.io/ipfs/bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u",
-  },
+    src:
+      "https://slate.textile.io/ipfs/bafybeiampkmsxeihxnuz2hkgbhtzosgkwghslpwm7dsrxrzlqwa7tvzreq",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u"
+  }
 ];
 
 const ASSET_CHROME_EXTENSION =
   "https://slate.textile.io/ipfs/bafybeibwppu23j5wgshqvm5qyqv3c6pmhp3y5irdwn3ivvnnrpexiguzbi";
 
-const ASSET_SLATE_CUBE = "https://slate.textile.io/ipfs/bafybeiaex6rorqtumulc4x3u4sbl5pdbn5sx45mvm6uvbebu4cxgk3okjy";
+const ASSET_SLATE_CUBE =
+  "https://slate.textile.io/ipfs/bafybeiaex6rorqtumulc4x3u4sbl5pdbn5sx45mvm6uvbebu4cxgk3okjy";
 
 const STYLES_ROOT = css`
   display: flex;
@@ -540,7 +567,7 @@ const STYLES_SLATE_CARD_CTA_PARAGRAPH = css`
   }
 `;
 
-const SlateCardElement = (props) => {
+const SlateCardElement = props => {
   return (
     <div css={STYLES_SLATE_CARD}>
       <div
@@ -571,9 +598,9 @@ const SlateCardElement = (props) => {
   );
 };
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async context => {
   return {
-    props: { ...context.query },
+    props: { ...context.query }
   };
 };
 
@@ -581,117 +608,20 @@ export default class IndexPage extends React.Component {
   async componentDidMount() {
     const response = await Actions.health();
     console.log("HEALTH_CHECK", response);
-    this.addExampleSlates();
   }
-
-  coolSlates = [
-    {
-      id: 1,
-      slateName: "Urban gardens",
-      slateUrl: "https://slate.host/gndclouds/urban-gardens",
-      slateUser: "gndclouds",
-      previewImageUrl: "https://bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu.ipfs.slate.textile.io/",
-    },
-    {
-      id: 2,
-      slateName: "Shapes and Letters",
-      slateUrl: "https://slate.host/haris/shapes-and-letters",
-      slateUser: "haris",
-      previewImageUrl: "https://bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm.ipfs.slate.textile.io/",
-    },
-    {
-      id: 3,
-      slateName: "Mountains",
-      slateUrl: "https://slate.host/jason/mountains",
-      slateUser: "jason",
-      previewImageUrl: "https://bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4.ipfs.slate.textile.io/",
-    },
-    {
-      id: 4,
-      slateName: "Loom",
-      slateUrl: "https://slate.host/tara/loom",
-      slateUser: "tara",
-      previewImageUrl: "https://bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna.ipfs.slate.textile.io/",
-    },
-    {
-      id: 5,
-      slateName: "Brand",
-      slateUrl: "https://slate.host/slate/brand",
-      slateUser: "slate",
-      previewImageUrl: "https://bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa.ipfs.slate.textile.io/",
-    },
-    {
-      id: 6,
-      slateName: "Montreal underground",
-      slateUrl: "https://slate.host/tcosta/montreal-underground",
-      slateUser: "tcosta",
-      previewImageUrl: "https://bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda.ipfs.slate.textile.io/",
-    },
-    {
-      id: 7,
-      slateName: "Monet",
-      slateUrl: "https://slate.host/slate/monet",
-      slateUser: "slate",
-      previewImageUrl: "https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/",
-    },
-    {
-      id: 8,
-      slateName: "Books",
-      slateUrl: "https://slate.host/haris/books",
-      slateUser: "haris",
-      previewImageUrl: "https://bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri.ipfs.slate.textile.io/",
-    },
-    {
-      id: 9,
-      slateName: "Papers",
-      slateUrl: "https://slate.host/slate/papers",
-      slateUser: "slate",
-      previewImageUrl: "https://bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm.ipfs.slate.textile.io/",
-    },
-  ];
-  addExampleSlates = () => {
-    const allExampleSlates = [];
-    const slates = this.coolSlates;
-    for (let c of slates) {
-      allExampleSlates.push(
-        <div key={c.id} css={STYLES_SLATE_CARD}>
-          <div
-            css={css`
-              height: 100%;
-              :hover {
-                background: url(${c.previewImageUrl});
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                opacity: 1;
-                height: 100%;
-              }
-            `}
-          >
-            <a css={STYLES_SLATE_CARD_PARAGRAPH} href={c.slateUrl} target="_blank">
-              <div css={STYLES_SLATE_CARD_TEXT}>
-                <div css={STYLES_SLATE_CARD_TITLE}>{c.slateName}</div>
-                <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                  <div css={STYLES_SLATE_CARD_PARAGRAPH}>{`@${c.slateUser}`}</div>
-                  <div css={STYLES_SLATE_CARD_PARAGRAPH}>-&gt;</div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      );
-    }
-    ReactDOM.render(allExampleSlates, document.getElementById("example-slates"));
-  };
-
 
   render() {
     const title = `Slate`;
-    const description = "Welcome to the future of file sharing. Powered by Textile, Filecoin, and IPFS.";
+    const description =
+      "Welcome to the future of file sharing. Powered by Textile, Filecoin, and IPFS.";
     const url = "https://slate.host";
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+      >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_HERO}>
@@ -702,7 +632,10 @@ export default class IndexPage extends React.Component {
               </h1>
 
               <div css={STYLES_ACTIONS_RIGHT}>
-                <div css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("/_")}>
+                <div
+                  css={STYLES_BUTTON_PRIMARY}
+                  onClick={() => window.open("/_")}
+                >
                   Use slate
                 </div>
               </div>
@@ -718,7 +651,7 @@ export default class IndexPage extends React.Component {
               type="video/m4v"
               playsInline
               style={{
-                backgroundImage: `url('${ASSET_HERO.backgroundImage}')`,
+                backgroundImage: `url('${ASSET_HERO.backgroundImage}')`
               }}
             />
 
@@ -727,7 +660,11 @@ export default class IndexPage extends React.Component {
                 Slate{" "}
                 <span css={STYLES_HIGHLIGHT}>
                   is a{" "}
-                  <a css={STYLES_LINK} href={"https://github.com/filecoin-project/slate"} target="_blank">
+                  <a
+                    css={STYLES_LINK}
+                    href={"https://github.com/filecoin-project/slate"}
+                    target="_blank"
+                  >
                     fully open-source
                   </a>{" "}
                   file sharing network designed for research and collaboration.
@@ -736,19 +673,29 @@ export default class IndexPage extends React.Component {
                 <br />
                 <span css={STYLES_HIGHLIGHT}>Store</span> your data,
                 <br />
-                <span css={STYLES_HIGHLIGHT}>organize</span> it any way you like, <br />
-                <span css={STYLES_HIGHLIGHT}>and share</span> it with the world securely.
+                <span css={STYLES_HIGHLIGHT}>organize</span> it any way you
+                like, <br />
+                <span css={STYLES_HIGHLIGHT}>and share</span> it with the world
+                securely.
                 <br />
                 <br />
               </h2>
               <h3 css={STYLES_H3}>Powered by</h3>
               <h2 css={STYLES_H2}>
                 <span css={STYLES_HIGHLIGHT}>
-                  <a href="https://textile.io" css={STYLES_LINK} target="_blank">
+                  <a
+                    href="https://textile.io"
+                    css={STYLES_LINK}
+                    target="_blank"
+                  >
                     Textile
                   </a>{" "}
                   <br />
-                  <a href="https://filecoin.io" css={STYLES_LINK} target="_blank">
+                  <a
+                    href="https://filecoin.io"
+                    css={STYLES_LINK}
+                    target="_blank"
+                  >
                     Filecoin
                   </a>
                   <br />
@@ -775,7 +722,8 @@ export default class IndexPage extends React.Component {
                 </span>
               </h1>
               <h3 css={STYLES_H3} style={{ marginBottom: 48 }}>
-                <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of media file to your storage system.
+                <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of
+                media file to your storage system.
                 <br />
               </h3>
             </div>
@@ -790,7 +738,7 @@ export default class IndexPage extends React.Component {
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('${ASSETS_SMALL[0].backgroundImage}')`,
+                    backgroundImage: `url('${ASSETS_SMALL[0].backgroundImage}')`
                   }}
                 />
               </div>
@@ -804,7 +752,7 @@ export default class IndexPage extends React.Component {
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('${ASSETS_SMALL[1].backgroundImage}')`,
+                    backgroundImage: `url('${ASSETS_SMALL[1].backgroundImage}')`
                   }}
                 />
               </div>
@@ -819,7 +767,7 @@ export default class IndexPage extends React.Component {
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('${ASSETS_SMALL[2].backgroundImage}')`,
+                    backgroundImage: `url('${ASSETS_SMALL[2].backgroundImage}')`
                   }}
                 />
               </div>
@@ -833,7 +781,7 @@ export default class IndexPage extends React.Component {
                   type="video/mp4"
                   playsInline
                   style={{
-                    backgroundImage: `url('${ASSETS_SMALL[3].backgroundImage}')`,
+                    backgroundImage: `url('${ASSETS_SMALL[3].backgroundImage}')`
                   }}
                 />
               </div>
@@ -846,8 +794,9 @@ export default class IndexPage extends React.Component {
                 Upload from <span css={STYLES_HIGHLIGHT}>anywhere</span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>The Slate Chrome extension</span> lets you seamlessly upload files to your
-                slates from anywhere on the web.
+                <span css={STYLES_HIGHLIGHT}>The Slate Chrome extension</span>{" "}
+                lets you seamlessly upload files to your slates from anywhere on
+                the web.
               </h3>
             </div>
             <div>
@@ -865,11 +814,12 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>Organize and publish</span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your files, giving you complete flexibility.
+                <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your
+                files, giving you complete flexibility.
               </h3>
             </div>
 
-            {ASSETS_MEDIUM.map((each) => {
+            {ASSETS_MEDIUM.map(each => {
               return (
                 <React.Fragment key={each.title}>
                   <div css={STYLES_TEXT_BLOCK}>
@@ -886,7 +836,7 @@ export default class IndexPage extends React.Component {
                     type="video/mp4"
                     playsInline
                     style={{
-                      backgroundImage: `url('${each.backgroundImage}')`,
+                      backgroundImage: `url('${each.backgroundImage}')`
                     }}
                   />
                 </React.Fragment>
@@ -900,8 +850,9 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>Collaborate and connect</span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built on top of a storage system making it
-                possible to connect with other people on the Filecoin network.
+                <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built
+                on top of a storage system making it possible to connect with
+                other people on the Filecoin network.
               </h3>
             </div>
 
@@ -914,7 +865,7 @@ export default class IndexPage extends React.Component {
               type="video/mp4"
               playsInline
               style={{
-                backgroundImage: `url('${ASSET_HERO_COLLABORATE.backgroundImage}')`,
+                backgroundImage: `url('${ASSET_HERO_COLLABORATE.backgroundImage}')`
               }}
             />
           </div>
@@ -922,13 +873,21 @@ export default class IndexPage extends React.Component {
           <div css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
-                Built on <span css={STYLES_HIGHLIGHT}>trust, privacy, and security</span>
+                Built on{" "}
+                <span css={STYLES_HIGHLIGHT}>trust, privacy, and security</span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>Slate is built on Filecoin and IPFS</span> — technologies built around
-                ownership and transparency for the future of the web.
+                <span css={STYLES_HIGHLIGHT}>
+                  Slate is built on Filecoin and IPFS
+                </span>{" "}
+                — technologies built around ownership and transparency for the
+                future of the web.
               </h3>
-              <a css={STYLES_LINK_WHITE} href="https://filecoin.io" target="_blank">
+              <a
+                css={STYLES_LINK_WHITE}
+                href="https://filecoin.io"
+                target="_blank"
+              >
                 Learn more about Filecoin -&gt;
               </a>
             </div>
@@ -940,14 +899,22 @@ export default class IndexPage extends React.Component {
 
           <div css={STYLES_SECTION_SLATE_WALL}>
             <div css={STYLES_SLATE_CARD_CTA}>
-              <a css={STYLES_SLATE_CARD_PARAGRAPH} href="https://slate.host/_" target="_blank">
+              <a
+                css={STYLES_SLATE_CARD_PARAGRAPH}
+                href="https://slate.host/_"
+                target="_blank"
+              >
                 <div css={STYLES_SLATE_CARD_TEXT}>
                   <h1 css={STYLES_SLATE_CARD_CTA_TITLE}>
                     Join us <br />
-                    <span css={STYLES_HIGHLIGHT_BLACK}>in our open & secure network</span>
+                    <span css={STYLES_HIGHLIGHT_BLACK}>
+                      in our open & secure network
+                    </span>
                   </h1>
                   <div css={STYLES_SLATE_CARD_EXPLAINER}>
-                    <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>Create your first slate</div>
+                    <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>
+                      Create your first slate
+                    </div>
                     <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>-&gt;</div>
                   </div>
                 </div>
@@ -955,7 +922,7 @@ export default class IndexPage extends React.Component {
             </div>
 
             <div css={STYLES_SLATE_CARD_GROUP}>
-              {USER_SLATES.map((each) => (
+              {USER_SLATES.map(each => (
                 <SlateCardElement
                   key={each.name}
                   preview={each.preview}

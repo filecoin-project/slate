@@ -77,7 +77,7 @@ export default class Issue extends React.Component {
           target="_blank"
         >
           <div css={STYLES_ISSUE_CARD_TEXT}>
-            <div css={STYLES_ISSUE_CARD_TITLE}>{this.props / title}</div>
+            <div css={STYLES_ISSUE_CARD_TITLE}>{this.props.title}</div>
             <div css={STYLES_ISSUE_CARD_EXPLAINER}>
               <div>View Issue</div>
               <div>-&gt;</div>

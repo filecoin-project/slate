@@ -1,16 +1,8 @@
 import * as React from "react";
-
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
-
-const STYLES_ISSUE_CARD_GROUP = css`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  margin-top: 48px;
-`;
 
 const STYLES_ISSUE_CARD = css`
   width: 33.33%;
@@ -77,12 +69,15 @@ const STYLES_ISSUE_CARD_PARAGRAPH = css`
 
 export default class Issue extends React.Component {
   render() {
-    const { title, id, url } = this.props;
     return (
       <div css={STYLES_ISSUE_CARD}>
-        <a css={STYLES_ISSUE_CARD_PARAGRAPH} href={url} target="_blank">
+        <a
+          css={STYLES_ISSUE_CARD_PARAGRAPH}
+          href={this.props.url}
+          target="_blank"
+        >
           <div css={STYLES_ISSUE_CARD_TEXT}>
-            <div css={STYLES_ISSUE_CARD_TITLE}>{title}</div>
+            <div css={STYLES_ISSUE_CARD_TITLE}>{this.props / title}</div>
             <div css={STYLES_ISSUE_CARD_EXPLAINER}>
               <div>View Issue</div>
               <div>-&gt;</div>

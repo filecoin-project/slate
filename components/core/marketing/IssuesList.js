@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import * as Constants from "~/common/constants";
 
 import { css, keyframes } from "@emotion/react";

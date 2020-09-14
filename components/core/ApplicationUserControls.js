@@ -175,14 +175,13 @@ export default class ApplicationUserControls extends React.Component {
                       onClick: () =>
                         this._handleAction({
                           type: "NAVIGATE",
-                          value: "V1_NAVIGATION_PROFILE_EDIT",
-                        }),
+                          value: "V1_NAVIGATION_PROFILE_EDIT"
+                        })
                     },
-                    { text: "Sign out", onClick: this._handleSignOut },
+                    { text: "Sign out", onClick: this._handleSignOut }
                   ]}
                 />
               </div>
-
             </Boundary>
           }
         >

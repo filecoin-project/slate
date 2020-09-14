@@ -527,7 +527,7 @@ export default class SceneSlate extends React.Component {
         >
           <ProcessedText text={body} />
         </ScenePageHeader>
-        {objects.length ? (
+        {objects && objects.length ? (
           layouts ? (
             <Slate
               editing={this.state.editing}

@@ -111,6 +111,10 @@ export default class SceneSignIn extends React.Component {
     loading: false,
   };
 
+  componentDidMount() {
+    window.history.replaceState({ id: null }, "Slate", `/_`);
+  }
+
   _handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };

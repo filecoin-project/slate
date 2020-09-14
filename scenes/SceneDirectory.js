@@ -466,7 +466,7 @@ export default class SceneDirectory extends React.Component {
           onChange={(value) => this.setState({ tab: value })}
         />
         {this.state.tab === 0 ? (
-          requests.length ? (
+          requests && requests.length ? (
             requests
           ) : (
             <EmptyState>
@@ -476,7 +476,7 @@ export default class SceneDirectory extends React.Component {
           )
         ) : null}
         {this.state.tab === 1 ? (
-          trusted.length ? (
+          trusted && trusted.length ? (
             trusted
           ) : (
             <EmptyState>
@@ -486,7 +486,7 @@ export default class SceneDirectory extends React.Component {
           )
         ) : null}
         {this.state.tab === 2 ? (
-          following.length ? (
+          following && following.length ? (
             following
           ) : (
             <EmptyState>
@@ -497,7 +497,7 @@ export default class SceneDirectory extends React.Component {
           )
         ) : null}
         {this.state.tab === 3 ? (
-          followers.length ? (
+          followers && followers.length ? (
             followers
           ) : (
             <EmptyState>

@@ -15,6 +15,7 @@ const STYLES_EMPTY_STATE = css`
   flex-direction: column;
   padding: 24px;
   border-radius: 4px;
+  text-align: center;
 `;
 
 export default class EmptyState extends React.Component {

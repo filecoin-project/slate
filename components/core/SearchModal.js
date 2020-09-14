@@ -106,7 +106,7 @@ const SlateEntry = ({ item }) => {
           <div css={STYLES_TITLE}>@{item.owner.username}</div>
         ) : null}
       </div>
-      {item.data.objects.length ? (
+      {item.data.objects && item.data.objects.length ? (
         <div css={STYLES_SLATE_IMAGES_CONTAINER}>
           <SlatePreviewRow numItems={4} slate={item} small />
         </div>

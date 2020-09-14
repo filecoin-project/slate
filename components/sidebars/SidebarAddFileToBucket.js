@@ -239,7 +239,7 @@ export default class SidebarAddFileToBucket extends React.Component {
         <div style={{ marginTop: 24 }}>
           {this.props.fileLoading
             ? Object.values(this.props.fileLoading).map((file) => (
-                <div css={STYLES_FILE_LINE}>
+                <div css={STYLES_FILE_LINE} key={file.name}>
                   <div css={STYLES_FILE_NAME}>{file.name}</div>
                   <div css={STYLES_FILE_STATUS}>
                     {file.loaded === file.total ? (

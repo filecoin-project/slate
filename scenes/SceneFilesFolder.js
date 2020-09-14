@@ -157,7 +157,8 @@ export default class SceneFilesFolder extends React.Component {
           stats={this.props.viewer.stats}
           style={{ margin: "48px 0 48px 0" }}
         />
-        {this.props.viewer.library[0].children.length ? (
+        {this.props.viewer.library[0].children &&
+        this.props.viewer.library[0].children.length ? (
           <React.Fragment>
             <div css={STYLES_HEADER_LINE}>
               <TabGroup disabled tabs={["Uploads"]} style={{ margin: 0 }} />

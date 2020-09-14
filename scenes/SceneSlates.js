@@ -130,7 +130,7 @@ export default class SceneSlates extends React.Component {
         ) : null}
 
         {this.state.tab === 1 ? (
-          subscriptions.length ? (
+          subscriptions && subscriptions.length ? (
             subscriptions
           ) : (
             <EmptyState>

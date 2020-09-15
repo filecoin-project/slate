@@ -15,7 +15,7 @@ export default async (req, res) => {
 
   if (req.body.data.deeplink) {
     if (slates.length) {
-      const slate = { ...slates[0] };
+      const slate = slates.filter((item) => item.slatename === query)[0];
       const user = await Data.getUserById({ id: slate.data.ownerId });
       slate.user = Serializers.user(user);
 

@@ -6,7 +6,7 @@ import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
-import { Logo } from "~/common/logo";
+import { Logo, Symbol } from "~/common/logo";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { OnboardingModal } from "~/components/core/OnboardingModal";
 
@@ -26,9 +26,15 @@ const STYLES_ROOT = css`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  min-height: 100vh;
   text-align: center;
   font-size: 1rem;
+
+  min-height: 100vh;
+  width: 100vw;
+  position: absolute;
+  overflow: hidden;
+  background-size: cover;
+  background-position: 50% 50%:
 `;
 
 const STYLES_MIDDLE = css`
@@ -44,12 +50,17 @@ const STYLES_MIDDLE = css`
 `;
 
 const STYLES_POPOVER = css`
-  padding: 32px;
+  height: 424px;
+  padding: 32px 36px;
   border-radius: 4px;
   max-width: 376px;
-  width: 100%;
+  width: 95vw;
+  display: flex;
+  flex-direction: column;
   background: ${Constants.system.white};
   color: ${Constants.system.black};
+  ${"" /* box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25); */}
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.05);
 
   @keyframes authentication-popover-fade-in {
     from {
@@ -109,6 +120,7 @@ export default class SceneSignIn extends React.Component {
     username: "",
     password: "",
     loading: false,
+    usernameTaken: false,
   };
 
   componentDidMount() {
@@ -121,7 +133,7 @@ export default class SceneSignIn extends React.Component {
 
   _handleUsernameChange = (e) => {
     const value = Strings.createSlug(e.target.value, "");
-    this.setState({ [e.target.name]: value });
+    this.setState({ [e.target.name]: value, usernameTaken: false });
   };
 
   _handleSubmit = async () => {
@@ -136,7 +148,7 @@ export default class SceneSignIn extends React.Component {
           alert: {
             message:
               this.state.scene === "CREATE_ACCOUNT"
-                ? "Only characters and numbers are allowed in usernames"
+                ? "Usernames must between 1-48 characters and consist of only characters and numbers"
                 : "Invalid username",
           },
         },
@@ -161,10 +173,19 @@ export default class SceneSignIn extends React.Component {
       return;
     }
 
-    const response = await this.props.onAuthenticate({
-      username: this.state.username.toLowerCase(),
-      password: this.state.password,
-    });
+    let response = null;
+
+    if (this.state.scene === "CREATE_ACCOUNT") {
+      response = await this.props.onCreateUser({
+        username: this.state.username.toLowerCase(),
+        password: this.state.password,
+      });
+    } else {
+      response = await this.props.onAuthenticate({
+        username: this.state.username.toLowerCase(),
+        password: this.state.password,
+      });
+    }
 
     if (!response) {
       dispatchCustomEvent({
@@ -201,21 +222,21 @@ export default class SceneSignIn extends React.Component {
   };
 
   _handleCheckUsername = async () => {
+    if (!this.state.username || !this.state.username.length) {
+      return;
+    }
     if (!Validations.username(this.state.username)) {
-      console.log("invalid username");
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
           alert: {
             message:
-              "Your username was invalid. Usernames must between 1-48 characters and consist of only characters and numbers",
+              "Usernames must between 1-48 characters and consist of only characters and numbers",
           },
         },
       });
       return;
     }
-
-    this.setState({ loading: true });
 
     const response = await Actions.checkUsername({
       username: this.state.username.toLowerCase(),
@@ -231,7 +252,6 @@ export default class SceneSignIn extends React.Component {
           },
         },
       });
-      this.setState({ loading: false });
       return;
     }
 
@@ -244,24 +264,26 @@ export default class SceneSignIn extends React.Component {
           },
         },
       });
-      this.setState({ loading: false });
       return;
     }
 
     if (response.data) {
-      return this.setState({
-        scene: "SIGN_IN",
-        password: "",
-        loading: false,
-        user: response.data,
+      //NOTE(martina): username taken
+      this.setState({ usernameTaken: true });
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "That username is taken",
+          },
+        },
       });
+      return;
     }
 
+    //NOTE(martina): username not taken
     return this.setState({
-      scene: "CREATE_ACCOUNT",
-      password: "",
-      loading: false,
-      user: null,
+      usernameTaken: false,
     });
   };
 
@@ -272,36 +294,30 @@ export default class SceneSignIn extends React.Component {
           <div css={STYLES_POPOVER} key={this.state.scene}>
             <Logo
               height="36px"
-              style={{ display: "block", margin: "48px auto 64px auto" }}
+              style={{ display: "block", margin: "56px auto 0px auto" }}
             />
 
-            <System.H3 style={{ fontWeight: 700, textAlign: "center" }}>
-              Welcome
-            </System.H3>
-            <System.P style={{ marginTop: 16, textAlign: "center" }}>
-              Enter your username to create a new account or sign into an
-              existing one.
+            <System.P style={{ margin: "56px 0", textAlign: "center" }}>
+              An open-source file sharing network for research and collaboration
             </System.P>
-
-            <System.Input
-              autoFocus
-              containerStyle={{ marginTop: 24 }}
-              label="Username"
-              name="username"
-              type="text"
-              value={this.state.username}
-              onChange={this._handleUsernameChange}
-              onSubmit={this._handleCheckUsername}
-            />
 
             <System.ButtonPrimary
               full
               style={{ marginTop: 24 }}
+              onClick={() => this.setState({ scene: "CREATE_ACCOUNT" })}
               loading={this.state.loading}
-              onClick={this._handleCheckUsername}
             >
-              Continue
+              Sign up
             </System.ButtonPrimary>
+
+            <System.ButtonSecondary
+              full
+              style={{ marginTop: 16 }}
+              onClick={() => this.setState({ scene: "SIGN_IN" })}
+              loading={this.state.loading}
+            >
+              Log in
+            </System.ButtonSecondary>
           </div>
           <div css={STYLES_LINKS}>
             <a css={STYLES_LINK_ITEM} href="/privacy" target="_blank">
@@ -316,27 +332,41 @@ export default class SceneSignIn extends React.Component {
       return (
         <React.Fragment>
           <div css={STYLES_POPOVER} key={this.state.scene}>
-            <Avatar
-              size={112}
-              url={
-                "https://slate.textile.io/ipfs/bafkreibf3hoiyuk2ywjyoy24ywaaclo4k5rz53flesvr5h4qjlyzxamozm"
-              }
-              style={{ margin: "48px auto 64px auto", display: "block" }}
-            />
-
-            <System.H3 style={{ fontWeight: 700, textAlign: "center" }}>
-              {this.state.username} is available!
-            </System.H3>
-            <System.P
-              style={{ marginTop: 16, marginBottom: 24, textAlign: "center" }}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                paddingTop: 56,
+              }}
             >
-              Enter a password to create an account.
+              <Symbol height="36px" />
+            </div>
+
+            <System.P
+              style={{
+                marginTop: 56,
+                textAlign: "center",
+                fontFamily: Constants.font.medium,
+              }}
+            >
+              Create your account
             </System.P>
 
             <System.Input
               autoFocus
-              containerStyle={{ marginTop: 24 }}
-              label="Password"
+              containerStyle={{ marginTop: 32 }}
+              placeholder="Username"
+              name="username"
+              type="text"
+              value={this.state.username}
+              onChange={this._handleUsernameChange}
+              onBlur={this._handleCheckUsername}
+              onSubmit={this._handleSubmit}
+            />
+
+            <System.Input
+              containerStyle={{ marginTop: 16 }}
+              placeholder="Password"
               name="password"
               type="password"
               value={this.state.password}
@@ -350,14 +380,14 @@ export default class SceneSignIn extends React.Component {
               onClick={!this.state.loading ? this._handleSubmit : () => {}}
               loading={this.state.loading}
             >
-              Create account
+              Sign up
             </System.ButtonPrimary>
           </div>
           <div css={STYLES_LINKS}>
             <div
               css={STYLES_LINK_ITEM}
               onClick={() => {
-                this.setState({ scene: "WELCOME", loading: false });
+                this.setState({ scene: "SIGN_IN", loading: false });
               }}
             >
               ⭢ Already have an account?
@@ -370,28 +400,40 @@ export default class SceneSignIn extends React.Component {
     return (
       <React.Fragment>
         <div css={STYLES_POPOVER} key={this.state.scene}>
-          <Avatar
-            size={112}
-            url={this.state.user.data.photo}
-            style={{ margin: "48px auto 64px auto", display: "block" }}
-          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: 56,
+            }}
+          >
+            <Symbol height="36px" />
+          </div>
 
-          <System.H3
-            style={{ fontWeight: 700, textAlign: "center", display: "block" }}
-          >
-            Welcome back {Strings.getPresentationName(this.state.user)}!
-          </System.H3>
           <System.P
-            style={{ marginTop: 16, marginBottom: 24, textAlign: "center" }}
+            style={{
+              marginTop: 56,
+              textAlign: "center",
+              fontFamily: Constants.font.medium,
+            }}
           >
-            Enter your password to access your account, slates, and the
-            developer API.
+            Welcome back
           </System.P>
 
           <System.Input
             autoFocus
-            containerStyle={{ marginTop: 24 }}
-            label="Password"
+            containerStyle={{ marginTop: 32 }}
+            placeholder="Username"
+            name="username"
+            type="text"
+            value={this.state.username}
+            onChange={this._handleUsernameChange}
+            onSubmit={this._handleSubmit}
+          />
+
+          <System.Input
+            containerStyle={{ marginTop: 16 }}
+            placeholder="Password"
             name="password"
             type="password"
             value={this.state.password}
@@ -401,22 +443,21 @@ export default class SceneSignIn extends React.Component {
 
           <System.ButtonPrimary
             full
-            style={{ marginTop: 32 }}
+            style={{ marginTop: 24 }}
             onClick={!this.state.loading ? this._handleSubmit : () => {}}
             loading={this.state.loading}
           >
-            Sign in
+            Log in
           </System.ButtonPrimary>
         </div>
         <div css={STYLES_LINKS}>
           <div
             css={STYLES_LINK_ITEM}
             onClick={() => {
-              this.setState({ scene: "WELCOME", loading: false });
+              this.setState({ scene: "CREATE_ACCOUNT", loading: false });
             }}
           >
-            ⭢ Not {Strings.getPresentationName(this.state.user)}? Sign in as
-            someone else.
+            ⭢ Not registered? Sign up instead
           </div>
         </div>
       </React.Fragment>
@@ -427,7 +468,12 @@ export default class SceneSignIn extends React.Component {
     const popover = this._getPopoverComponent();
 
     return (
-      <div css={STYLES_ROOT}>
+      <div
+        css={STYLES_ROOT}
+        // style={{
+        //   backgroundImage: `url(${"https://slate.textile.io/ipfs/bafybeigrydo6q24ra4hnqpv6dpoosuar2rwbx6fslug2e2xdlcshayis2q"})`,
+        // }}
+      >
         <WebsitePrototypeHeader />
         <div css={STYLES_MIDDLE}>{popover}</div>
         <WebsitePrototypeFooter />

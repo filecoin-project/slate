@@ -361,6 +361,19 @@ export default class ApplicationPage extends React.Component {
     return response;
   };
 
+  _handleCreateUser = async (state) => {
+    // NOTE(jim): Acts as our existing username exists check.
+    // If the user exists, move on the sign in anyways.
+    let response = await Actions.createUser(state);
+    console.log("CREATE_USER", response);
+
+    if (!response || response.error) {
+      return response;
+    }
+
+    return this._handleAuthenticate(state);
+  };
+
   _handleAuthenticate = async (state) => {
     // NOTE(jim): Kills existing session cookie if there is one.
     const jwt = cookies.get(Credentials.session.key);
@@ -369,12 +382,7 @@ export default class ApplicationPage extends React.Component {
       cookies.remove(Credentials.session.key);
     }
 
-    // NOTE(jim): Acts as our existing username exists check.
-    // If the user exists, move on the sign in anyways.
-    let response = await Actions.createUser(state);
-    console.log("CREATE_USER", response);
-
-    response = await Actions.signIn(state);
+    let response = await Actions.signIn(state);
     if (!response || response.error) {
       return response;
     }
@@ -393,7 +401,8 @@ export default class ApplicationPage extends React.Component {
 
     await Actions.generateAPIKey();
 
-    return await this.rehydrate();
+    await this.rehydrate();
+    return response;
   };
 
   _handleSignOut = () => {
@@ -546,6 +555,7 @@ export default class ApplicationPage extends React.Component {
         >
           <Alert style={{ top: 0, width: "100%" }} />
           <SceneSignIn
+            onCreateUser={this._handleCreateUser}
             onAuthenticate={this._handleAuthenticate}
             onNavigateTo={this._handleNavigateTo}
           />

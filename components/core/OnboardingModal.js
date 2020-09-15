@@ -11,6 +11,7 @@ const STYLES_MODAL = css`
   box-sizing: border-box;
   max-width: 680px;
   width: 95vw;
+  min-height: 630px;
   border-radius: 4px;
   background-color: ${Constants.system.white};
   overflow: hidden;

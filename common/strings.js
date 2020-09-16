@@ -129,7 +129,7 @@ export const bytesToSize = (bytes, decimals = 2) => {
 
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return `${(bytes / Math.pow(k, i)).toFixed(dm)}  ${sizes[i]}`;
+  return `${(bytes / Math.pow(k, i)).toFixed(dm)} ${sizes[i]}`;
 };
 
 export const getRemainingTime = (seconds) => {
@@ -200,10 +200,7 @@ export const createSlug = (text, base = "untitled") => {
     return base;
   }
 
-  text = text
-    .toString()
-    .toLowerCase()
-    .trim();
+  text = text.toString().toLowerCase().trim();
 
   const sets = [
     { to: "a", from: "[ÀÁÂÃÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶ]" },

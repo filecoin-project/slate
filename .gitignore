@@ -11,6 +11,7 @@ package-lock.json
 yarn.lock
 node_modules
 dist
+analytics.txt
 
 200MB_BUCKET_TEST.txt
 500MB_BUCKET_TEST.txt

@@ -144,8 +144,6 @@ export const setupWithThread = async ({ buckets }) => {
     const res = await client.getThread("buckets");
 
     buckets.withThread(res.id.toString());
-
-    console.log(`[ buckets ] getThread success`);
   } catch (error) {
     if (error.message !== "Thread not found") {
       throw new Error(error.message);
@@ -156,19 +154,13 @@ export const setupWithThread = async ({ buckets }) => {
     const threadID = newId.toString();
 
     buckets.withThread(threadID);
-
-    console.log(`[ buckets ] newDB success`);
   }
 
   return buckets;
 };
 
 // NOTE(jim): Requires @textile/hub
-export const getBucketAPIFromUserToken = async ({
-  user,
-  bucketName,
-  encrypted = false,
-}) => {
+export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = false }) => {
   const token = user.data.tokens.api;
   const name = Strings.isEmpty(bucketName) ? BUCKET_NAME : bucketName;
   const identity = await PrivateKey.fromString(token);

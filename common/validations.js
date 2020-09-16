@@ -2,7 +2,7 @@ import * as Strings from "~/common/strings";
 
 const USERNAME_REGEX = new RegExp("^[a-zA-Z0-9_]{0,}[a-zA-Z]+[0-9]*$");
 const MIN_PASSWORD_LENGTH = 8;
-const EMAIL_REGEX = new RegExp("^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$");
+const EMAIL_REGEX = /^[\w-]+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,50}$/;
 
 // TODO(jim): Regex should cover some of this.
 const REJECT_LIST = [

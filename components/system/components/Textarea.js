@@ -24,7 +24,7 @@ const STYLES_TEXTAREA = css`
   border: 0;
   transition: 200ms ease all;
   padding: 16px 24px 16px 24px;
-  box-shadow: 0 0 0 1px inset ${Constants.system.border};
+  box-shadow: 0 0 0 1px ${Constants.system.border} inset;
 
   ::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */

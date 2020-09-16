@@ -331,10 +331,6 @@ export default class ApplicationPage extends React.Component {
     return response;
   };
 
-  _handleCancel = () => {
-    this._handleDismissSidebar();
-  };
-
   _handleDeleteYourself = async () => {
     // TODO(jim): Put this somewhere better for messages.
     const message =
@@ -625,7 +621,7 @@ export default class ApplicationPage extends React.Component {
         sidebarLoading: this.state.sidebarLoading,
         onSelectedChange: this._handleSelectedChange,
         onSubmit: this._handleSubmit,
-        onCancel: this._handleCancel,
+        onCancel: this._handleDismissSidebar,
         onRegisterFileLoading: this._handleRegisterFileLoading,
         onUploadFile: this._handleUploadFile,
         onSidebarLoading: this._handleSidebarLoading,

@@ -219,3 +219,10 @@ export const getSerializedProfile = async (data) => {
     body: JSON.stringify({ data }),
   });
 };
+
+export const createSupportMessage = async (data) => {
+  return await returnJSON(`/api/support-message`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};

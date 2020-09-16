@@ -3,6 +3,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
+import * as Actions from "~/common/actions";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/react";
@@ -63,40 +64,51 @@ export default class SidebarCreateSlate extends React.Component {
       return;
     }
 
-    // const response = await this.props.onSubmit({
-    //   type: "CREATE_SLATE",
-    //   name: this.state.name,
-    //   public: this.state.public,
-    //   body: this.state.body,
-    // });
+    const response = await Actions.createSupportMessage({
+      username: this.props.viewer.username,
+      name: this.state.name,
+      email: this.state.email,
+      message: this.state.message,
+      stored: Strings.bytesToSize(this.props.viewer.stats.bytes),
+    });
 
-    // if (!response) {
-    //   dispatchCustomEvent({
-    //     name: "create-alert",
-    //     detail: {
-    //       alert: {
-    //         message:
-    //           "We're having trouble sending your message right now. Please try again",
-    //       },
-    //     },
-    //   });
-    //   return;
-    // }
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble sending out your message right now. Please try again",
+          },
+        },
+      });
+      this.setState({ loading: false });
+      return;
+    }
 
-    // if (response.error) {
-    //   dispatchCustomEvent({
-    //     name: "create-alert",
-    //     detail: { alert: { decorator: response.decorator } },
-    //   });
-    //   return;
-    // }
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          decorator: response.decorator,
+        },
+      });
+      this.setState({ loading: false });
+      return;
+    }
 
-    // this.setState({ loading: false });
-    // this.props.onAction({
-    //   type: "NAVIGATE",
-    //   value: response.slate.id,
-    //   data: response.slate,
-    // });
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message: "Message sent. You'll hear from us shortly",
+          status: "INFO",
+        },
+      },
+    });
+    this.setState({ loading: false });
+    this.props.onCancel();
+    return;
   };
 
   _handleChange = (e) => {

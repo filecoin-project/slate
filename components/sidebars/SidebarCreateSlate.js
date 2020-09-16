@@ -22,7 +22,7 @@ const STYLES_GROUP = css`
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
   font-size: 18px;
-  margin-top: 48px;
+  margin-top: 32px;
 `;
 
 export default class SidebarCreateSlate extends React.Component {
@@ -114,14 +114,7 @@ export default class SidebarCreateSlate extends React.Component {
           Create slate
         </System.P>
 
-        <System.P
-          style={{
-            fontFamily: Constants.font.semiBold,
-            fontSize: "1.1rem",
-          }}
-        >
-          Name
-        </System.P>
+        <System.P css={STYLES_HEADER}>Name</System.P>
         <System.Input
           name="name"
           style={{ marginTop: 12 }}

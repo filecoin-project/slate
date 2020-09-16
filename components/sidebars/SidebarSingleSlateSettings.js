@@ -21,7 +21,7 @@ const STYLES_GROUP = css`
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
   font-size: 18px;
-  margin-top: 48px;
+  margin-top: 32px;
 `;
 
 export default class SidebarSingleSlateSettings extends React.Component {
@@ -168,7 +168,6 @@ export default class SidebarSingleSlateSettings extends React.Component {
           style={{ marginTop: 12 }}
           name="body"
           value={this.state.body}
-          placeholder="A slate."
           onChange={this._handleChange}
           onSubmit={this._handleSubmit}
         />

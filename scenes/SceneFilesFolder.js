@@ -71,7 +71,7 @@ export default class SceneFilesFolder extends React.Component {
   _interval;
 
   state = {
-    view: "list",
+    view: "grid",
     startIndex: 0,
   };
 

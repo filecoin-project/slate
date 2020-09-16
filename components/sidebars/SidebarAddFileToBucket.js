@@ -24,7 +24,9 @@ const STYLES_FILE_LINE = css`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 8px;
+  padding: 12px 16px;
+  background-color: ${Constants.system.white};
+  margin-bottom: 1px;
 `;
 
 const STYLES_FILE_NAME = css`
@@ -34,11 +36,12 @@ const STYLES_FILE_NAME = css`
   overflow: hidden;
   white-space: nowrap;
   font-size: 0.9rem;
+  font-family: ${Constants.font.medium};
 `;
 
 const STYLES_FILE_STATUS = css`
   flex-shrink: 0;
-  margin-left: 16px;
+  margin-right: 16px;
   display: flex;
   align-items: center;
 `;
@@ -227,30 +230,32 @@ export default class SidebarAddFileToBucket extends React.Component {
             <strong css={STYLES_PERFORMANCE}>
               {Strings.bytesToSize(loaded)} / {Strings.bytesToSize(total)}
             </strong>
-            <DataMeterBar
-              failed={false}
-              leftLabel={"uploaded"}
-              rightLabel={"total"}
-              bytes={loaded}
-              maximumBytes={total}
-            />
+            <DataMeterBar bytes={loaded} maximumBytes={total} />
           </div>
         ) : null}
         <div style={{ marginTop: 24 }}>
           {this.props.fileLoading
             ? Object.values(this.props.fileLoading).map((file) => (
                 <div css={STYLES_FILE_LINE} key={file.name}>
-                  <div css={STYLES_FILE_NAME}>{file.name}</div>
                   <div css={STYLES_FILE_STATUS}>
                     {file.loaded === file.total ? (
                       <SVG.CheckBox height="24px" />
                     ) : file.failed ? (
-                      <SVG.Dismiss height="24px" />
+                      <SVG.Alert
+                        height="24px"
+                        style={{ color: Constants.system.red }}
+                      />
                     ) : (
                       <System.LoaderSpinner
                         style={{ width: "20px", height: "20px", margin: "2px" }}
                       />
                     )}
+                  </div>
+                  <div
+                    css={STYLES_FILE_NAME}
+                    style={file.failed ? { color: Constants.system.red } : null}
+                  >
+                    {file.name}
                   </div>
                 </div>
               ))

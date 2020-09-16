@@ -41,6 +41,7 @@ import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket
 import SidebarDragDropNotice from "~/components/sidebars/SidebarDragDropNotice";
 import SidebarSingleSlateSettings from "~/components/sidebars/SidebarSingleSlateSettings";
 import SidebarFilecoinArchive from "~/components/sidebars/SidebarFilecoinArchive";
+import SidebarHelp from "~/components/sidebars/SidebarHelp";
 
 // NOTE(jim):
 // Core components to the application structure.
@@ -65,6 +66,7 @@ const SIDEBARS = {
   SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
   SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
   SIDEBAR_SINGLE_SLATE_SETTINGS: <SidebarSingleSlateSettings />,
+  SIDEBAR_HELP: <SidebarHelp />,
 };
 
 const SCENES = {

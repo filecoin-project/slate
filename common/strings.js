@@ -200,10 +200,7 @@ export const createSlug = (text, base = "untitled") => {
     return base;
   }
 
-  text = text
-    .toString()
-    .toLowerCase()
-    .trim();
+  text = text.toString().toLowerCase().trim();
 
   const sets = [
     { to: "a", from: "[ÀÁÂÃÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶ]" },

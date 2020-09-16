@@ -25,6 +25,22 @@ const STYLES_TEXTAREA = css`
   transition: 200ms ease all;
   padding: 16px 24px 16px 24px;
   box-shadow: 0 0 0 1px inset ${Constants.system.border};
+
+  ::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: ${Constants.system.darkGray};
+    opacity: 1; /* Firefox */
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: ${Constants.system.darkGray};
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: ${Constants.system.darkGray};
+  }
 `;
 
 export class Textarea extends React.Component {
@@ -34,6 +50,7 @@ export class Textarea extends React.Component {
         css={STYLES_TEXTAREA}
         style={this.props.style}
         onChange={this.props.onChange}
+        placeholder={this.props.placeholder}
         name={this.props.name}
         value={this.props.value}
         readOnly={this.props.readOnly}

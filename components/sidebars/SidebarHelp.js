@@ -21,6 +21,7 @@ export default class SidebarCreateSlate extends React.Component {
         ? this.props.viewer.data.name
         : "",
     email: "",
+    twitter: "",
     message: "",
     loading: false,
   };
@@ -68,6 +69,7 @@ export default class SidebarCreateSlate extends React.Component {
       username: this.props.viewer.username,
       name: this.state.name,
       email: this.state.email,
+      twitter: this.state.twitter,
       message: this.state.message,
       stored: Strings.bytesToSize(this.props.viewer.stats.bytes),
     });
@@ -144,6 +146,16 @@ export default class SidebarCreateSlate extends React.Component {
           style={{ marginTop: 16 }}
           placeholder="Email"
           value={this.state.email}
+          onChange={this._handleChange}
+          onSubmit={this._handleSubmit}
+        />
+
+        <System.P css={STYLES_HEADER}>Twitter</System.P>
+        <System.Input
+          name="twitter"
+          style={{ marginTop: 16 }}
+          placeholder="Twitter (optional)"
+          value={this.state.twitter}
           onChange={this._handleChange}
           onSubmit={this._handleSubmit}
         />

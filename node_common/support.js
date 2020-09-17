@@ -10,6 +10,7 @@ export const sendSlackMessage = ({
   username,
   name,
   email,
+  twitter,
   message,
   stored,
 }) => {
@@ -19,10 +20,14 @@ export const sendSlackMessage = ({
 
   const userProfileURL = `https://slate.host/${username}`;
   const userURL = `<${userProfileURL}|${username}>`;
-
+  let twitterURL = "";
+  if (twitter) {
+    const twitterProfileURL = `https://twitter.com/${twitter.replace("@", "")}`;
+    twitterURL = `<${twitterProfileURL}|${twitter}>`;
+  }
   try {
     webhook.send({
-      text: `\n*Username:* ${userURL} (${stored} stored)\n*Name:* ${name}\n*Email:* ${email}\n*Message:* ${message}`,
+      text: `\n*Username:* ${userURL} (${stored} stored)\n*Name:* ${name}\n*Email:* ${email}\n*Twitter:* ${twitterURL}\n*Message:* ${message}`,
     });
     return true;
   } catch (e) {

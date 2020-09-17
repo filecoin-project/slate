@@ -68,8 +68,13 @@ export const getCIDFromIPFS = (url) => {
   return cid;
 };
 
+export const formatAsFilecoinConversion = (number) => {
+  number = number / Math.pow(10, 18);
+  return `${formatAsFilecoin(number)}`;
+};
+
 export const formatAsFilecoin = (number) => {
-  return `${number} FIL`;
+  return `${formatNumber(number)} FIL`;
 };
 
 export const pluralize = (text, count) => {
@@ -200,7 +205,10 @@ export const createSlug = (text, base = "untitled") => {
     return base;
   }
 
-  text = text.toString().toLowerCase().trim();
+  text = text
+    .toString()
+    .toLowerCase()
+    .trim();
 
   const sets = [
     { to: "a", from: "[ÀÁÂÃÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶ]" },

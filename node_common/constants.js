@@ -6,4 +6,4 @@ export const GITHUB_URL = "https://github.com/filecoin-project/slate";
 export const ANALYTICS_URL = "https://slate-stats-dev.azurewebsites.net/";
 
 // NOTE(jim): 1 GB from Ignacio
-export const TEXTILE_ACCOUNT_BYTE_LIMIT = 1073741824;
+export const TEXTILE_ACCOUNT_BYTE_LIMIT = 1073741824 * 50;

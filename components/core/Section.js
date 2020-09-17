@@ -11,6 +11,7 @@ const STYLES_SECTION = css`
   border-radius: 4px;
   font-weight: 400;
   margin-top: 24px;
+  white-space: pre-wrap;
 
   :first-child {
     margin-top: 0px;

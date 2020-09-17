@@ -34,16 +34,20 @@ export default async (req, res) => {
     bucketRoot,
   } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
 
-  console.log(bucketRoot.root);
-
   // bucketRoot.root.key
   // bucketRoot.root.path
 
-  const response = await buckets.archive(bucketRoot.root.key);
-  console.log(response);
+  let response = {};
+  let error = {};
+  try {
+    response = await buckets.archive(bucketRoot.root.key);
+  } catch (e) {
+    error.message = e.message;
+    error.code = e.code;
+  }
 
   return res.status(200).send({
     decorator: "SERVER_BUCKET_ARCHIVE_DEAL",
-    data: {},
+    data: { response, error },
   });
 };

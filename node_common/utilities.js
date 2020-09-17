@@ -5,7 +5,7 @@ import * as Constants from "~/node_common/constants";
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
-import { Buckets, PrivateKey } from "@textile/hub";
+import { Buckets, PrivateKey, Pow } from "@textile/hub";
 
 const BUCKET_NAME = "data";
 
@@ -77,6 +77,21 @@ export const parseAuthHeader = (value) => {
 
   var matches = value.match(/(\S+)\s+(\S+)/);
   return matches && { scheme: matches[1], value: matches[2] };
+};
+
+// NOTE(jim): Requires @textile/hub
+export const getPowergateAPIFromUserToken = async (token) => {
+  const identity = await PrivateKey.fromString(token);
+  const power = await Pow.withKeyInfo(TEXTILE_KEY_INFO);
+  await power.getToken(identity);
+  const { info } = await power.info();
+  const health = await power.health();
+
+  return {
+    power,
+    powerHealth: health,
+    powerInfo: info,
+  };
 };
 
 // NOTE(jim): Requires @textile/hub

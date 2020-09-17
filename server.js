@@ -49,11 +49,9 @@ app.prepare().then(async () => {
   server.get("/_", async (req, res) => {
     const isBucketsAvailable = await Utilities.checkTextile();
 
-    // TODO(jim): Do something more robust here.
-    if (!isBucketsAvailable) {
-      return res.redirect("/maintenance");
-    }
+    return res.redirect("/maintenance");
 
+    /*
     const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;
@@ -68,6 +66,7 @@ app.prepare().then(async () => {
       viewer,
       analytics,
     });
+    */
   });
 
   server.get("/_/integration-page", async (req, res) => {

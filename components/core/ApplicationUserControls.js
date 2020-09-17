@@ -5,7 +5,7 @@ import * as SVG from "~/common/svg";
 import {
   TooltipWrapper,
   dispatchCustomEvent,
-  PopoverNavigation
+  PopoverNavigation,
 } from "~/components/system";
 import { css } from "@emotion/react";
 
@@ -117,7 +117,7 @@ const STYLES_ITEM_BOX = css`
 export default class ApplicationUserControls extends React.Component {
   state = { visible: false };
 
-  _handleClick = e => {
+  _handleClick = (e) => {
     e.stopPropagation();
     if (this.state.visible) {
       this._handleHide();
@@ -127,8 +127,8 @@ export default class ApplicationUserControls extends React.Component {
     dispatchCustomEvent({
       name: "show-tooltip",
       detail: {
-        id: APPLICATION_CONTROL_MENU_ID
-      }
+        id: APPLICATION_CONTROL_MENU_ID,
+      },
     });
   };
 
@@ -137,17 +137,17 @@ export default class ApplicationUserControls extends React.Component {
     return dispatchCustomEvent({
       name: "hide-tooltip",
       detail: {
-        id: APPLICATION_CONTROL_MENU_ID
-      }
+        id: APPLICATION_CONTROL_MENU_ID,
+      },
     });
   };
 
-  _handleAction = data => {
+  _handleAction = (data) => {
     this._handleHide();
     return this.props.onAction(data);
   };
 
-  _handleSignOut = data => {
+  _handleSignOut = (data) => {
     this._handleHide();
     return this.props.onSignOut(data);
   };
@@ -164,7 +164,7 @@ export default class ApplicationUserControls extends React.Component {
             <Boundary
               captureResize={true}
               captureScroll={false}
-              enabled
+              enabled={this.state.visible}
               onOutsideRectEvent={this._handleHide}
               style={this.props.style}
             >
@@ -176,10 +176,10 @@ export default class ApplicationUserControls extends React.Component {
                       onClick: () =>
                         this._handleAction({
                           type: "NAVIGATE",
-                          value: "V1_NAVIGATION_PROFILE_EDIT"
-                        })
+                          value: "V1_NAVIGATION_PROFILE_EDIT",
+                        }),
                     },
-                    { text: "Sign out", onClick: this._handleSignOut }
+                    { text: "Sign out", onClick: this._handleSignOut },
                   ]}
                 />
               </div>
@@ -192,14 +192,14 @@ export default class ApplicationUserControls extends React.Component {
               this.props.onAction({
                 type: "NAVIGATE",
                 value: "V1_NAVIGATION_PROFILE",
-                data: this.props.viewer
+                data: this.props.viewer,
               })
             }
           >
             <span
               css={STYLES_PROFILE_IMAGE}
               style={{
-                backgroundImage: `url('${this.props.viewer.data.photo}')`
+                backgroundImage: `url('${this.props.viewer.data.photo}')`,
               }}
             />
             <span css={STYLES_PROFILE_USERNAME}>

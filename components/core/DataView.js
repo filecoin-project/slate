@@ -401,6 +401,7 @@ export default class DataView extends React.Component {
         <div css={STYLES_IMAGE_GRID}>
           {this.props.items.map((each, index) => (
             <div
+              key={each.id}
               css={STYLES_IMAGE_BOX}
               onClick={() => this._handleSelect(index)}
             >

@@ -99,7 +99,7 @@ export const getBucketAPIFromUserToken = async (token) => {
   const identity = await PrivateKey.fromString(token);
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await buckets.getToken(identity);
-  const target = await buckets.getOrInit(BUCKET_NAME);
+  const target = await buckets.getOrCreate(BUCKET_NAME);
 
   return {
     buckets,

@@ -41,7 +41,7 @@ export default async (req, res) => {
   const i = await PrivateKey.fromString(user.data.tokens.api);
   const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   const tokenResponse = await b.getToken(i);
-  const openResponse = await b.getOrInit("data");
+  const openResponse = await b.getOrCreate("data");
 
   try {
     const response = await b.remove(openResponse.root.key);

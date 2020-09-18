@@ -43,7 +43,6 @@ const STYLES_P = css`
 
 const STYLES_SECTION_WRAPPER = css`
   width: 100%;
-  height: 90vh;
   padding: 88px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -53,14 +52,59 @@ const STYLES_SECTION_WRAPPER = css`
 
 const STYLES_DINNER_TABLE = css`
   width: 50%;
-  margin: 10vh auto;
   padding: 48px 64px;
   background: ${Constants.system.wall};
+  display: inline-block;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
-    margin: 20vh 0;
     padding: 24px 32px;
+  }
+`;
+
+const STYLES_TABLE_ROW = css`
+  width: 100%;
+`;
+
+const STYLES_FIGURES_GROUP = css`
+  width: 50%;
+  margin: 0 auto;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    margin: 10vh 0 0 0;
+  }
+`;
+
+const STYLES_FIGURE = css`
+  width: 50%;
+`;
+
+const STYLES_FIGURES_BOTTOM = css`
+  width: 50%;
+  margin: 0 auto;
+  transform: rotate(180deg);
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+  }
+`;
+
+const STYLES_FIGURE_RIGHT = css`
+  width: 25%;
+  transform: rotate(90deg);
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_FIGURE_LEFT = css`
+  width: 25%;
+  transform: rotate(-90deg);
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
   }
 `;
 
@@ -111,21 +155,46 @@ export default class CommunityPage extends React.Component {
     const url = "https://slate.host/community";
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <section css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
-            <div css={STYLES_DINNER_TABLE}>
-              <h1 css={STYLES_H1}>An open invitation to everyone</h1>
-              <p css={STYLES_P}>
-                Slate is designed and built by a growing community of hackers,
-                artists, and creatives on the web.
-              </p>
-              <button css={STYLES_BUTTON}>Join our community </button>
+          <section css={STYLES_SECTION_WRAPPER}>
+            <div css={STYLES_FIGURES_GROUP}>
+              <img
+                css={STYLES_FIGURE}
+                src="https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
+              />
+              <img
+                css={STYLES_FIGURE}
+                src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
+              />
+            </div>
+            <div css={STYLES_TABLE_ROW}>
+              <img
+                css={STYLES_FIGURE_LEFT}
+                src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
+              />
+              <div css={STYLES_DINNER_TABLE}>
+                <h1 css={STYLES_H1}>An open invitation to everyone</h1>
+                <p css={STYLES_P}>
+                  Slate is designed and built by a growing community of hackers, artists, and creatives on the web.
+                </p>
+                <button css={STYLES_BUTTON}>Join our community </button>
+              </div>
+              <img
+                css={STYLES_FIGURE_RIGHT}
+                src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
+              />
+            </div>
+            <div css={STYLES_FIGURES_BOTTOM}>
+              <img
+                css={STYLES_FIGURE}
+                src="https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
+              />
+              <img
+                css={STYLES_FIGURE}
+                src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
+              />
             </div>
           </section>
         </div>

@@ -9,14 +9,14 @@ import { css } from "@emotion/react";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 export default class SidebarFilecoinArchive extends React.Component {
-  state = { response: "" };
+  state = { response: null };
 
   async componentDidMount() {}
 
   _handleMakeDeal = async () => {
     const response = await Actions.archive();
 
-    this.setState({ response });
+    alert("A new Filecoin deal is being processed.");
   };
 
   _handleSubmit = async (e) => {
@@ -63,9 +63,11 @@ export default class SidebarFilecoinArchive extends React.Component {
           Make storage deal
         </System.ButtonPrimary>
 
-        <div style={{ whiteSpace: "pre-wrap", marginTop: 48 }}>
-          {JSON.stringify(this.state.response, null, 2)}
-        </div>
+        {this.state.response ? (
+          <div style={{ whiteSpace: "pre-wrap", marginTop: 48 }}>
+            {JSON.stringify(this.state.response, null, 2)}
+          </div>
+        ) : null}
       </React.Fragment>
     );
   }

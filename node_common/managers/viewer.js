@@ -152,8 +152,6 @@ export const getTextileById = async ({ id }) => {
     errors.push({ decorator: "STATUS", message: e.message, code: e.code });
   }
 
-  console.log(jobs);
-
   return {
     type: "VIEWER_FILECOIN",
     settings: {

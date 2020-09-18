@@ -1,3 +1,6 @@
+import React from "react";
+import * as SVG from "~/common/svg";
+
 export const values = {
   version: "1.0.0",
   sds: "0.1.0",
@@ -79,3 +82,27 @@ export const theme = {
 export const gateways = {
   ipfs: "https://slate.textile.io/ipfs",
 };
+
+export function FileTypeIcon(props) {
+  if (props.type && props.type.startsWith("image/")) {
+    return <SVG.Image {...props} />;
+  }
+
+  if (props.type && props.type.startsWith("video/")) {
+    return <SVG.Video {...props} />;
+  }
+
+  if (props.type && props.type.startsWith("audio/")) {
+    return <SVG.Sound {...props} />;
+  }
+
+  if (props.type && props.type.startsWith("application/epub")) {
+    return <SVG.Book {...props} />;
+  }
+
+  if (props.type && props.type.startsWith("application/pdf")) {
+    return <SVG.Document {...props} />;
+  }
+
+  return <SVG.Document {...props} />;
+}

@@ -11,29 +11,22 @@ import { PopoverNavigation } from "~/components/system/components/PopoverNavigat
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { generateLayout } from "~/components/core/Slate";
+import { CheckBox } from "~/components/system/components/CheckBox";
+import { Table } from "~/components/core/Table";
 
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
-const COLUMNS_SCHEMA = [
-  {
-    key: "name",
-    name: <span style={{ fontSize: "0.9rem" }}>Name</span>,
-    width: "100%",
-  },
-  {
-    key: "size",
-    name: <span style={{ fontSize: "0.9rem" }}>Size</span>,
-    width: "104px",
-  },
-  {
-    key: "more",
-    name: <div />,
-    width: "64px",
-  },
-];
+const STYLES_CONTAINER_HOVER = css`
+  display: flex;
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
+`;
 
 const STYLES_LINK = css`
+  display: inline;
   cursor: pointer;
   transition: 200ms ease all;
   font-size: 0.9rem;
@@ -41,10 +34,6 @@ const STYLES_LINK = css`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
 `;
 
 const STYLES_VALUE = css`
@@ -55,18 +44,8 @@ const STYLES_VALUE = css`
   white-space: nowrap;
 `;
 
-const STYLES_TABLE_VALUE = {
-  fontFamily: Constants.font.medium,
-  padding: "0px 24px",
-};
-
-const STYLES_TABLE_CONTAINER = css`
-  border: 1px solid rgba(229, 229, 229, 0.75);
-`;
-
 const STYLES_ICON_BOX = css`
-  display: flex;
-  justify-content: flex-end;
+  display: inline-flex;
   align-items: center;
   padding: 8px;
   cursor: pointer;
@@ -85,6 +64,7 @@ const STYLES_COPY_INPUT = css`
 const STYLES_IMAGE_GRID = css`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   flex-wrap: wrap;
   margin: 0 -27px;
 `;
@@ -109,6 +89,7 @@ export default class DataView extends React.Component {
 
   state = {
     menu: null,
+    checked: {},
     loading: {},
   };
 
@@ -385,6 +366,13 @@ export default class DataView extends React.Component {
       return null;
     }
 
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "File successfully deleted!", status: "INFO" },
+      },
+    });
+
     await this.props.onRehydrate();
     await this._handleUpdate();
     this._handleLoading({ cid });
@@ -419,16 +407,73 @@ export default class DataView extends React.Component {
       );
     }
 
-    const columns = COLUMNS_SCHEMA;
+    const columns = [
+      {
+        key: "checkbox",
+        name: <span />,
+        width: "24px",
+      },
+      {
+        key: "name",
+        name: <div style={{ fontSize: "0.9rem", padding: "18px 0" }}>Name</div>,
+        width: "100%",
+      },
+      {
+        key: "size",
+        name: <div style={{ fontSize: "0.9rem", padding: "18px 0" }}>Size</div>,
+        width: "104px",
+      },
+      {
+        key: "more",
+        name: <span />,
+        width: "48px",
+      },
+    ];
     const rows = this.props.items.map((each, index) => {
       const cid = each.ipfs.replace("/ipfs/", "");
       const isOnNetwork = each.networks && each.networks.includes("FILECOIN");
 
       return {
         ...each,
+        checkbox: this.props.onCheckBox ? (
+          <div
+            style={{
+              margin: "12px 0",
+              opacity:
+                Object.keys(this.props.checked).length > 0
+                  ? 1
+                  : this.state.hover === index
+                  ? 1
+                  : 0,
+            }}
+          >
+            <CheckBox
+              name={`checkbox-${this.props.startIndex + index}`}
+              value={
+                !!this.props.checked[
+                  `checkbox-${this.props.startIndex + index}`
+                ]
+              }
+              onChange={this.props.onCheckBox}
+              boxStyle={{ height: 16, width: 16 }}
+              style={{ position: "relative", right: 3 }}
+            />
+          </div>
+        ) : (
+          <div />
+        ),
         name: (
-          <div css={STYLES_LINK} onClick={() => this._handleSelect(index)}>
-            {each.file || each.name}
+          <div
+            css={STYLES_CONTAINER_HOVER}
+            onClick={() => this._handleSelect(index)}
+          >
+            <div
+              css={STYLES_ICON_BOX}
+              style={{ paddingLeft: 0, paddingRight: 18 }}
+            >
+              <Constants.FileTypeIcon type={each.type} height="24px" />
+            </div>
+            <div css={STYLES_LINK}>{each.file || each.name}</div>
           </div>
         ),
         size: <div css={STYLES_VALUE}>{Strings.bytesToSize(each.size)}</div>,
@@ -496,19 +541,13 @@ export default class DataView extends React.Component {
     };
 
     return (
-      <div css={STYLES_TABLE_CONTAINER}>
-        <System.Table
-          topRowStyle={{
-            ...STYLES_TABLE_VALUE,
-            backgroundColor: Constants.system.foreground,
-            fontFamily: Constants.font.semiBold,
-            padding: "12px 24px",
-          }}
+      <React.Fragment>
+        <Table
           data={data}
-          noColor
-          rowStyle={STYLES_TABLE_VALUE}
-          onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
+          rowStyle={{ padding: "10px 16px" }}
+          topRowStyle={{ padding: "0px 16px" }}
+          onMouseEnter={(i) => this.setState({ hover: i })}
+          onMouseLeave={() => this.setState({ hover: null })}
         />
         <input
           ref={(c) => {
@@ -518,7 +557,7 @@ export default class DataView extends React.Component {
           value={this.state.copyValue}
           css={STYLES_COPY_INPUT}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

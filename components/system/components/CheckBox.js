@@ -25,8 +25,8 @@ const STYLES_CHECKBOX_FIGURE = css`
   justify-content: center;
   pointer-events: none;
   flex-shrink: 0;
-  height: 32px;
-  width: 32px;
+  height: 24px;
+  width: 24px;
   margin: 0;
   padding: 0;
 `;
@@ -74,7 +74,7 @@ export class CheckBox extends React.Component {
   render() {
     return (
       <label css={STYLES_CHECKBOX} style={this.props.style}>
-        <figure css={STYLES_CHECKBOX_FIGURE}>
+        <figure css={STYLES_CHECKBOX_FIGURE} style={this.props.boxStyle}>
           {this.props.value ? <SVG.CheckBox height="20px" /> : null}
         </figure>
         <input

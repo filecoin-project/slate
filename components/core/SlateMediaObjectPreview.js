@@ -51,75 +51,21 @@ export default class SlateMediaObjectPreview extends React.Component {
         ? this.props.title.substring(0, this.props.charCap) + "..."
         : this.props.title;
 
+    if (this.props.type && this.props.type.startsWith("image/")) {
+      return <img css={STYLES_IMAGE} style={this.props.imageStyle} src={url} />;
+    }
+
     let element = (
+      <Constants.FileTypeIcon type={this.props.type} height="24px" />
+    );
+
+    return (
       <article css={STYLES_ENTITY} style={this.props.style}>
-        <div>
-          <SVG.Document height="24px" />
-        </div>
+        <div>{element}</div>
         {this.props.title && !this.props.small ? (
           <div css={STYLES_TITLE}>{title}</div>
         ) : null}
       </article>
     );
-
-    if (this.props.type && this.props.type.startsWith("video/")) {
-      element = (
-        <article css={STYLES_ENTITY} style={this.props.style}>
-          <div>
-            <SVG.Video height="24px" />
-          </div>
-          {this.props.title && !this.props.small ? (
-            <div css={STYLES_TITLE}>{title}</div>
-          ) : null}
-        </article>
-      );
-    }
-
-    if (this.props.type && this.props.type.startsWith("audio/")) {
-      element = (
-        <article css={STYLES_ENTITY} style={this.props.style}>
-          <div>
-            <SVG.Sound height="24px" />
-          </div>
-          {this.props.title && !this.props.small ? (
-            <div css={STYLES_TITLE}>{title}</div>
-          ) : null}
-        </article>
-      );
-    }
-
-    if (this.props.type && this.props.type.startsWith("application/epub")) {
-      element = (
-        <article css={STYLES_ENTITY} style={this.props.style}>
-          <div>
-            <SVG.Book height="24px" />
-          </div>
-          {this.props.title && !this.props.small ? (
-            <div css={STYLES_TITLE}>{title}</div>
-          ) : null}
-        </article>
-      );
-    }
-
-    if (this.props.type && this.props.type.startsWith("application/pdf")) {
-      element = (
-        <article css={STYLES_ENTITY} style={this.props.style}>
-          <div>
-            <SVG.Document height="24px" />
-          </div>
-          {this.props.title && !this.props.small ? (
-            <div css={STYLES_TITLE}>{title}</div>
-          ) : null}
-        </article>
-      );
-    }
-
-    if (this.props.type && this.props.type.startsWith("image/")) {
-      element = (
-        <img css={STYLES_IMAGE} style={this.props.imageStyle} src={url} />
-      );
-    }
-
-    return element;
   }
 }

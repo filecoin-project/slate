@@ -55,9 +55,9 @@ export default async (req, res) => {
   const items = await buckets.listIpfsPath(r[0].path);
 
   let entity;
-  for (let i = 0; i < items.itemsList.length; i++) {
-    if (items.itemsList[i].cid === req.body.data.cid) {
-      entity = items.itemsList[i];
+  for (let i = 0; i < items.items.length; i++) {
+    if (items.items[i].cid === req.body.data.cid) {
+      entity = items.items[i];
       break;
     }
   }
@@ -131,6 +131,6 @@ export default async (req, res) => {
   return res.status(200).send({
     decorator: "SERVER_REMOVE_DATA",
     success: true,
-    bucketItems: items.itemsList,
+    bucketItems: items.items,
   });
 };

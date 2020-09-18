@@ -13,6 +13,7 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 import { generateLayout } from "~/components/core/Slate";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { Table } from "~/components/core/Table";
+import { FileTypeIcon } from "~/components/core/FileTypeIcon";
 
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
@@ -471,7 +472,7 @@ export default class DataView extends React.Component {
               css={STYLES_ICON_BOX}
               style={{ paddingLeft: 0, paddingRight: 18 }}
             >
-              <Constants.FileTypeIcon type={each.type} height="24px" />
+              <FileTypeIcon type={each.type} height="24px" />
             </div>
             <div css={STYLES_LINK}>{each.file || each.name}</div>
           </div>

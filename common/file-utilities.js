@@ -65,10 +65,10 @@ export const upload = async ({ file, slate, context }) => {
           });
         }
       };
-      XHR.send(formData);
+      XHR.send(formData); //at this line
     });
 
-  const json = await _privateUploadMethod(`/api/data/${file.name}`);
+  const json = await _privateUploadMethod(`/api/data/${file.name}`); //errors inside this call
   if (!json || json.error || !json.data) {
     if (context) {
       context.setState({
@@ -86,6 +86,7 @@ export const upload = async ({ file, slate, context }) => {
   }
 
   if (slate) {
+    console.log("slate");
     const addResponse = await fetch(`/api/slates/add-url`, {
       method: "POST",
       headers: {

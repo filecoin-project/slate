@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
+import { FileTypeIcon } from "~/components/core/FileTypeIcon";
 
 const STYLES_IMAGE = css`
   background-color: ${Constants.system.foreground};
@@ -55,9 +56,7 @@ export default class SlateMediaObjectPreview extends React.Component {
       return <img css={STYLES_IMAGE} style={this.props.imageStyle} src={url} />;
     }
 
-    let element = (
-      <Constants.FileTypeIcon type={this.props.type} height="24px" />
-    );
+    let element = <FileTypeIcon type={this.props.type} height="24px" />;
 
     return (
       <article css={STYLES_ENTITY} style={this.props.style}>

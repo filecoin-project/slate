@@ -75,6 +75,7 @@ export default async (req, res) => {
     // We use name instead of path because the second argument is for
     // a subpath, not the full path.
     bucketRemoval = await buckets.removePath(bucketKey, entity.name);
+    console.log(bucketRemoval);
   } catch (e) {
     console.log(e);
     return res

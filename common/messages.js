@@ -66,6 +66,8 @@ export const error = {
   SERVER_UPDATE_SLATE_MUST_PROVIDE_NAME: "Please provide a slate name",
   SERVER_UPDATE_SLATE:
     "We're having trouble updating that slate right now. Please try again later",
+  SERVER_UPDATE_SLATE_NAME_TAKEN:
+    "It looks like that slatename is taken. Please choose another",
   V1_SERVER_UPLOAD_SLATE_NOT_FOUND:
     "We're having trouble locating that slate right now. Please try again later",
   V1_SERVER_API_KEY_NOT_FOUND:

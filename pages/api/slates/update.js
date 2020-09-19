@@ -56,6 +56,16 @@ export default async (req, res) => {
     });
   }
 
+  const existingSlate = await Data.getSlateByName({
+    slatename: req.body.data.data.name,
+  });
+  if (existingSlate) {
+    return res.status(500).send({
+      decorator: "SERVER_UPDATE_SLATE_NAME_TAKEN",
+      error: true,
+    });
+  }
+
   const slate = await Data.updateSlateById({
     id: response.id,
     slatename: Strings.createSlug(req.body.data.data.name),

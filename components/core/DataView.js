@@ -559,7 +559,10 @@ export default class DataView extends React.Component {
               style={{ width: 160 }}
               onClick={this._handleDeleteFiles}
               loading={
-                this.state.loading && Object.keys(this.state.loading).length
+                this.state.loading &&
+                Object.values(this.state.loading).some((elem) => {
+                  return !!elem;
+                })
               }
             >
               Delete {Object.keys(this.state.checked).length} file

@@ -25,9 +25,26 @@ const STYLES_H1 = css`
   line-height: 1.3;
   color: ${Constants.system.slate};
   margin-bottom: 1rem;
+  width: 45%;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl4};
+  }
+`;
+
+const STYLES_H2 = css`
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl3};
+  letter-spacing: -0.022rem;
+  line-height: 1.3;
+  color: ${Constants.system.slate};
+  margin-bottom: 1rem;
+  width: 45%;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    font-size: ${Constants.typescale.lvl2};
   }
 `;
 
@@ -36,10 +53,32 @@ const STYLES_P = css`
   font-weight: 400;
   font-size: ${Constants.typescale.lvl1};
   letter-spacing: -0.011rem;
-  line-height: 1.3;
+  line-height: 1.5;
+  margin: 4px 0 0 0;
+  width: 50%;
   color: ${Constants.system.slate};
   opacity: 0.7;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+  }
 `;
+
+const STYLES_TEXT_BLOCK = css`
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  width: 70%;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+    width: 100%;
+  }
+`;
+
+const STYLES_HERO_TEXT = {
+  width: `100%`,
+};
 
 const STYLES_SECTION_WRAPPER = css`
   width: 100%;
@@ -175,8 +214,10 @@ export default class CommunityPage extends React.Component {
                 src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
               />
               <div css={STYLES_DINNER_TABLE}>
-                <h1 css={STYLES_H1}>An open invitation to everyone</h1>
-                <p css={STYLES_P}>
+                <h1 css={STYLES_H1} style={STYLES_HERO_TEXT}>
+                  An open invitation to everyone
+                </h1>
+                <p css={STYLES_P} style={STYLES_HERO_TEXT}>
                   Slate is designed and built by a growing community of hackers, artists, and creatives on the web.
                 </p>
                 <button css={STYLES_BUTTON}>Join our community </button>
@@ -195,6 +236,23 @@ export default class CommunityPage extends React.Component {
                 css={STYLES_FIGURE}
                 src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
               />
+            </div>
+          </section>
+          <section css={STYLES_SECTION_WRAPPER}>
+            <div css={STYLES_TEXT_BLOCK}>
+              <h2 css={STYLES_H2}>What features are your most excited about?</h2>
+              <p css={STYLES_P}>
+                Slate has infinite possibilities. Upvote your favorite ideas or expand our imaginations.
+              </p>
+            </div>
+          </section>
+          <section css={STYLES_SECTION_WRAPPER}>
+            <div css={STYLES_TEXT_BLOCK}>
+              <h2 css={STYLES_H2}>We couldn’t build Slate without our community of contributors</h2>
+              <p css={STYLES_P}>
+                Here features some great work from our contributors. We define contribution beyond code. And we believe
+                that everyone has something to bring to the table. 🍰
+              </p>
             </div>
           </section>
         </div>

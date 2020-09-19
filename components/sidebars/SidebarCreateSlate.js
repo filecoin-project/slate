@@ -38,7 +38,9 @@ export default class SidebarCreateSlate extends React.Component {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
-          alert: { message: "You have reached the limit of 20 Slates!" },
+          alert: {
+            message: `You have reached the limit of ${SLATE_LIMIT} Slates!`,
+          },
         },
       });
       return;

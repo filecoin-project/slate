@@ -65,10 +65,10 @@ export const upload = async ({ file, slate, context }) => {
           });
         }
       };
-      XHR.send(formData); //at this line
+      XHR.send(formData);
     });
 
-  const json = await _privateUploadMethod(`/api/data/${file.name}`); //errors inside this call
+  const json = await _privateUploadMethod(`/api/data/${file.name}`);
   if (!json || json.error || !json.data) {
     if (context) {
       context.setState({

@@ -56,10 +56,10 @@ export default async (req, res) => {
   const items = await buckets.listIpfsPath(r[0].path);
 
   let entities = [];
-  for (let i = 0; i < items.itemsList.length; i++) {
-    if (req.body.data.cids.includes(items.itemsList[i].cid)) {
-      entities.push(items.itemsList[i]);
-      if (entities.length === items.itemsList.length) break;
+  for (let i = 0; i < items.items.length; i++) {
+    if (req.body.data.cids.includes(items.items[i].cid)) {
+      entities.push(items.items[i]);
+      if (entities.length === items.items.length) break;
     }
   }
 

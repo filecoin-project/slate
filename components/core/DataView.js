@@ -14,9 +14,13 @@ import { generateLayout } from "~/components/core/Slate";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { Table } from "~/components/core/Table";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
+import { ButtonWarning } from "~/components/system/components/Buttons";
+import { TabGroup } from "~/components/core/TabGroup";
 
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
+
+const VIEW_LIMIT = 20;
 
 const STYLES_CONTAINER_HOVER = css`
   display: flex;
@@ -24,6 +28,23 @@ const STYLES_CONTAINER_HOVER = css`
   :hover {
     color: ${Constants.system.brand};
   }
+`;
+
+const STYLES_ICON_BOX = css`
+  height: 32px;
+  width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 16px;
+`;
+
+const STYLES_HEADER_LINE = css`
+  display: flex;
+  align-items: center;
+  margin-top: 80px;
+  margin-bottom: 42px;
 `;
 
 const STYLES_LINK = css`
@@ -45,7 +66,7 @@ const STYLES_VALUE = css`
   white-space: nowrap;
 `;
 
-const STYLES_ICON_BOX = css`
+const STYLES_ICON_BOX_HOVER = css`
   display: inline-flex;
   align-items: center;
   padding: 8px;
@@ -53,6 +74,42 @@ const STYLES_ICON_BOX = css`
 
   :hover {
     color: ${Constants.system.brand};
+  }
+`;
+
+const STYLES_ACTION_ROW = css`
+  display: flex;
+  align-items: center;
+`;
+
+const STYLES_LEFT = css`
+  width: 100%;
+  min-width: 10%;
+`;
+
+const STYLES_RIGHT = css`
+  flex-shrink: 0;
+`;
+
+const STYLES_ICON_ELEMENT = css`
+  height: 40px;
+  width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #565151;
+  user-select: none;
+  cursor: pointer;
+  pointer-events: auto;
+  margin: 16px 8px;
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
+
+  svg {
+    transform: rotate(0deg);
+    transition: 200ms ease transform;
   }
 `;
 
@@ -90,8 +147,10 @@ export default class DataView extends React.Component {
 
   state = {
     menu: null,
-    checked: {},
     loading: {},
+    startIndex: 0,
+    checked: {},
+    view: "grid",
   };
 
   async componentDidMount() {
@@ -128,10 +187,127 @@ export default class DataView extends React.Component {
     );
   }
 
-  componentDidUpdate = (prevProps) => {
-    if (prevProps.items !== this.props.items) {
-      this._handleUpdate();
+  _increment = (direction) => {
+    if (
+      direction > 0 &&
+      this.state.startIndex + VIEW_LIMIT <
+        this.props.viewer.library[0].children.length
+    ) {
+      this.setState({ startIndex: this.state.startIndex + VIEW_LIMIT });
+    } else if (direction < 0 && this.state.startIndex - VIEW_LIMIT >= 0) {
+      this.setState({ startIndex: this.state.startIndex - VIEW_LIMIT });
     }
+  };
+
+  _handleCheckBox = (e) => {
+    let checked = this.state.checked;
+    if (e.target.value === false) {
+      delete checked[e.target.name];
+      this.setState({ checked });
+      return;
+    }
+    this.setState({
+      checked: { ...this.state.checked, [e.target.name]: true },
+    });
+  };
+
+  _handleDeleteFiles = async (e) => {
+    const message = `Are you sure you want to delete these ${
+      Object.keys(this.state.checked).length
+    } files? They will be deleted from your slates as well`;
+    if (!window.confirm(message)) {
+      return;
+    }
+    console.log(this.state.checked);
+    let cids = Object.keys(this.state.checked).map((id) => {
+      let index = parseInt(id.replace("checkbox-", ""));
+      return this.props.viewer.library[0].children[index].ipfs.replace(
+        "/ipfs/",
+        ""
+      );
+    });
+    this._handleLoading({ cids });
+
+    const response = await Actions.deleteBucketItems({ cids });
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      this._handleLoading({ cids });
+      return;
+    }
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+      this._handleLoading({ cids });
+      return;
+    }
+    await this.props.onRehydrate();
+    await this._handleUpdate();
+    this._handleLoading({ cids });
+    this.setState({ checked: {} });
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "Files successfully deleted!", status: "INFO" },
+      },
+    });
+  };
+
+  _handleDelete = async (cid) => {
+    this._handleLoading({ cids: [cid] });
+
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this? It will be removed from your Slates too."
+      )
+    ) {
+      this._handleLoading({ cids: [cid] });
+      return;
+    }
+
+    const response = await Actions.deleteBucketItem({ cid });
+
+    if (!response) {
+      this._handleLoading({ cids: [cid] });
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return;
+    }
+
+    if (response.error) {
+      this._handleLoading({ cids: [cid] });
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+      return;
+    }
+
+    await this.props.onRehydrate();
+    await this._handleUpdate();
+    this._handleLoading({ cids: [cid] });
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "File successfully deleted!", status: "INFO" },
+      },
+    });
   };
 
   _handleUpdate = async () => {
@@ -319,65 +495,16 @@ export default class DataView extends React.Component {
     await this._handleDelete(e.detail.cid);
   };
 
-  _handleLoading = ({ cid }) => {
-    System.dispatchCustomEvent({
-      name: "cid-viewer-loading",
-      detail: { loading: !this.state.loading[cid] },
-    });
-
-    this.setState({
-      loading: { ...this.state.loading, [cid]: !this.state.loading[cid] },
-    });
-  };
-
-  _handleDelete = async (cid) => {
-    this._handleLoading({ cid });
-
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this? It will be removed from your Slates too."
-      )
-    ) {
-      this._handleLoading({ cid });
-      return null;
-    }
-
-    const response = await Actions.deleteBucketItem({ cid });
-
-    if (!response) {
-      this._handleLoading({ cid });
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
-          },
-        },
+  _handleLoading = ({ cids }) => {
+    let loading = this.state.loading;
+    for (let cid of cids) {
+      System.dispatchCustomEvent({
+        name: "cid-viewer-loading",
+        detail: { loading: !this.state.loading[cid] },
       });
-      return null;
+      loading[cid] = !this.state.loading[cid];
     }
-
-    if (response.error) {
-      this._handleLoading({ cid });
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return null;
-    }
-
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "File successfully deleted!", status: "INFO" },
-      },
-    });
-
-    await this.props.onRehydrate();
-    await this._handleUpdate();
-    this._handleLoading({ cid });
-    return null;
+    this.setState({ loading });
   };
 
   _handleClick = (e) => {
@@ -385,26 +512,70 @@ export default class DataView extends React.Component {
   };
 
   render() {
-    if (this.props.view === "grid") {
+    const header = (
+      <div css={STYLES_HEADER_LINE}>
+        <TabGroup disabled tabs={["Uploads"]} style={{ margin: 0 }} />
+        <React.Fragment>
+          <div
+            css={STYLES_ICON_BOX}
+            onClick={() => {
+              this.setState({ view: "grid" });
+            }}
+          >
+            <SVG.GridView
+              style={{
+                color:
+                  this.state.view === "grid"
+                    ? Constants.system.black
+                    : "rgba(0,0,0,0.25)",
+              }}
+              height="24px"
+            />
+          </div>
+          <div
+            css={STYLES_ICON_BOX}
+            onClick={() => {
+              this.setState({ view: "list" });
+            }}
+          >
+            <SVG.ListView
+              style={{
+                color:
+                  this.state.view === "list"
+                    ? Constants.system.black
+                    : "rgba(0,0,0,0.25)",
+              }}
+              height="24px"
+            />
+          </div>
+        </React.Fragment>
+      </div>
+    );
+    if (this.state.view === "grid") {
       return (
-        <div css={STYLES_IMAGE_GRID}>
-          {this.props.items.map((each, index) => (
-            <div
-              key={each.id}
-              css={STYLES_IMAGE_BOX}
-              onClick={() => this._handleSelect(index)}
-            >
-              <SlateMediaObjectPreview
-                url={`${Constants.gateways.ipfs}/${each.ipfs.replace(
-                  "/ipfs/",
-                  ""
-                )}`}
-                title={each.file || each.name}
-                type={each.type || each.icon}
-              />
-            </div>
-          ))}
-        </div>
+        <React.Fragment>
+          {header}
+          <div css={STYLES_IMAGE_GRID}>
+            {this.props.items
+              .slice(this.state.startIndex, this.state.startIndex + VIEW_LIMIT)
+              .map((each, index) => (
+                <div
+                  key={each.id}
+                  css={STYLES_IMAGE_BOX}
+                  onClick={() => this._handleSelect(index)}
+                >
+                  <SlateMediaObjectPreview
+                    url={`${Constants.gateways.ipfs}/${each.ipfs.replace(
+                      "/ipfs/",
+                      ""
+                    )}`}
+                    title={each.file || each.name}
+                    type={each.type || each.icon}
+                  />
+                </div>
+              ))}
+          </div>
+        </React.Fragment>
       );
     }
 
@@ -430,111 +601,113 @@ export default class DataView extends React.Component {
         width: "48px",
       },
     ];
-    const rows = this.props.items.map((each, index) => {
-      const cid = each.ipfs.replace("/ipfs/", "");
-      const isOnNetwork = each.networks && each.networks.includes("FILECOIN");
+    const rows = this.props.items
+      .slice(this.state.startIndex, this.state.startIndex + VIEW_LIMIT)
+      .map((each, index) => {
+        const cid = each.ipfs.replace("/ipfs/", "");
+        const isOnNetwork = each.networks && each.networks.includes("FILECOIN");
 
-      return {
-        ...each,
-        checkbox: this.props.onCheckBox ? (
-          <div
-            style={{
-              margin: "12px 0",
-              opacity:
-                Object.keys(this.props.checked).length > 0
-                  ? 1
-                  : this.state.hover === index
-                  ? 1
-                  : 0,
-            }}
-          >
-            <CheckBox
-              name={`checkbox-${this.props.startIndex + index}`}
-              value={
-                !!this.props.checked[
-                  `checkbox-${this.props.startIndex + index}`
-                ]
-              }
-              onChange={this.props.onCheckBox}
-              boxStyle={{ height: 16, width: 16 }}
-              style={{ position: "relative", right: 3 }}
-            />
-          </div>
-        ) : (
-          <div />
-        ),
-        name: (
-          <div
-            css={STYLES_CONTAINER_HOVER}
-            onClick={() => this._handleSelect(index)}
-          >
+        return {
+          ...each,
+          checkbox: this._handleCheckBox ? (
             <div
-              css={STYLES_ICON_BOX}
-              style={{ paddingLeft: 0, paddingRight: 18 }}
+              style={{
+                margin: "12px 0",
+                opacity:
+                  Object.keys(this.state.checked).length > 0
+                    ? 1
+                    : this.state.hover === index
+                    ? 1
+                    : 0,
+              }}
             >
-              <FileTypeIcon type={each.type} height="24px" />
+              <CheckBox
+                name={`checkbox-${this.state.startIndex + index}`}
+                value={
+                  !!this.state.checked[
+                    `checkbox-${this.state.startIndex + index}`
+                  ]
+                }
+                onChange={this._handleCheckBox}
+                boxStyle={{ height: 16, width: 16 }}
+                style={{ position: "relative", right: 3 }}
+              />
             </div>
-            <div css={STYLES_LINK}>{each.file || each.name}</div>
-          </div>
-        ),
-        size: <div css={STYLES_VALUE}>{Strings.bytesToSize(each.size)}</div>,
-        more: (
-          <div
-            css={STYLES_ICON_BOX}
-            onClick={
-              this.state.loading[cid]
-                ? () => {}
-                : () => this.setState({ menu: each.id })
-            }
-          >
-            {this.state.loading[cid] ? (
-              <LoaderSpinner style={{ height: 24, width: 24 }} />
-            ) : (
-              <SVG.MoreHorizontal height="24px" />
-            )}
-
-            {this.state.menu === each.id ? (
-              <Boundary
-                captureResize={true}
-                captureScroll={false}
-                enabled
-                onOutsideRectEvent={this._handleHide}
+          ) : (
+            <div />
+          ),
+          name: (
+            <div
+              css={STYLES_CONTAINER_HOVER}
+              onClick={() => this._handleSelect(index)}
+            >
+              <div
+                css={STYLES_ICON_BOX_HOVER}
+                style={{ paddingLeft: 0, paddingRight: 18 }}
               >
-                <PopoverNavigation
-                  style={{
-                    top: "48px",
-                    right: "40px",
-                  }}
-                  navigation={[
-                    {
-                      text: "Copy CID",
-                      onClick: (e) => this._handleCopy(e, cid),
-                    },
-                    {
-                      text: "Copy link",
-                      onClick: (e) =>
-                        this._handleCopy(
-                          e,
-                          `${Constants.gateways.ipfs}/${cid}`
-                        ),
-                    },
-                    {
-                      text: "Delete",
-                      onClick: (e) => {
-                        e.stopPropagation();
-                        this.setState({ menu: null }, () =>
-                          this._handleDelete(cid)
-                        );
+                <FileTypeIcon type={each.type} height="24px" />
+              </div>
+              <div css={STYLES_LINK}>{each.file || each.name}</div>
+            </div>
+          ),
+          size: <div css={STYLES_VALUE}>{Strings.bytesToSize(each.size)}</div>,
+          more: (
+            <div
+              css={STYLES_ICON_BOX_HOVER}
+              onClick={
+                this.state.loading[cid]
+                  ? () => {}
+                  : () => this.setState({ menu: each.id })
+              }
+            >
+              {this.state.loading[cid] ? (
+                <LoaderSpinner style={{ height: 24, width: 24 }} />
+              ) : (
+                <SVG.MoreHorizontal height="24px" />
+              )}
+
+              {this.state.menu === each.id ? (
+                <Boundary
+                  captureResize={true}
+                  captureScroll={false}
+                  enabled
+                  onOutsideRectEvent={this._handleHide}
+                >
+                  <PopoverNavigation
+                    style={{
+                      top: "48px",
+                      right: "40px",
+                    }}
+                    navigation={[
+                      {
+                        text: "Copy CID",
+                        onClick: (e) => this._handleCopy(e, cid),
                       },
-                    },
-                  ]}
-                />
-              </Boundary>
-            ) : null}
-          </div>
-        ),
-      };
-    });
+                      {
+                        text: "Copy link",
+                        onClick: (e) =>
+                          this._handleCopy(
+                            e,
+                            `${Constants.gateways.ipfs}/${cid}`
+                          ),
+                      },
+                      {
+                        text: "Delete",
+                        onClick: (e) => {
+                          e.stopPropagation();
+                          this.setState({ menu: null }, () =>
+                            this._handleDelete(cid)
+                          );
+                        },
+                      },
+                    ]}
+                  />
+                </Boundary>
+              ) : null}
+            </div>
+          ),
+        };
+      });
 
     const data = {
       columns,
@@ -543,6 +716,7 @@ export default class DataView extends React.Component {
 
     return (
       <React.Fragment>
+        {header}
         <Table
           data={data}
           rowStyle={{ padding: "10px 16px" }}
@@ -550,6 +724,56 @@ export default class DataView extends React.Component {
           onMouseEnter={(i) => this.setState({ hover: i })}
           onMouseLeave={() => this.setState({ hover: null })}
         />
+        <div css={STYLES_ACTION_ROW}>
+          <div css={STYLES_LEFT}>
+            {Object.keys(this.state.checked).length ? (
+              <ButtonWarning
+                style={{ width: 160 }}
+                onClick={this._handleDeleteFiles}
+                loading={
+                  this.state.loading && Object.keys(this.state.loading).length
+                }
+              >
+                Delete {Object.keys(this.state.checked).length} file
+                {Object.keys(this.state.checked).length > 1 ? "s" : ""}
+              </ButtonWarning>
+            ) : null}
+          </div>
+          <div css={STYLES_RIGHT}>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={
+                this.state.startIndex - VIEW_LIMIT >= 0
+                  ? null
+                  : {
+                      cursor: "not-allowed",
+                      color: Constants.system.border,
+                    }
+              }
+              onClick={() => this._increment(-1)}
+            >
+              <SVG.NavigationArrow
+                height="24px"
+                style={{ transform: `rotate(180deg)` }}
+              />
+            </span>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={
+                this.state.startIndex + VIEW_LIMIT <
+                this.props.viewer.library[0].children.length
+                  ? null
+                  : {
+                      cursor: "not-allowed",
+                      color: Constants.system.border,
+                    }
+              }
+              onClick={() => this._increment(1)}
+            >
+              <SVG.NavigationArrow height="24px" />
+            </span>
+          </div>
+        </div>
         <input
           ref={(c) => {
             this._ref = c;

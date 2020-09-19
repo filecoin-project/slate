@@ -5,7 +5,8 @@ import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
 
-const MAX_IN_BYTES = 10737418240 * 50;
+// NOTE(jim): Consolidate if used elsewhere on the client (Not node_common)
+const MAX_IN_BYTES = 10737418240 * 4;
 
 const STYLES_CONTAINER = css`
   border-radius: 4px;

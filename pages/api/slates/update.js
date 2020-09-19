@@ -59,7 +59,7 @@ export default async (req, res) => {
   const existingSlate = await Data.getSlateByName({
     slatename: req.body.data.data.name,
   });
-  if (existingSlate) {
+  if (existingSlate && existingSlate.id !== req.body.data.id) {
     return res.status(500).send({
       decorator: "SERVER_UPDATE_SLATE_NAME_TAKEN",
       error: true,

@@ -551,6 +551,58 @@ export default class DataView extends React.Component {
         </React.Fragment>
       </div>
     );
+    const footer = (
+      <div css={STYLES_ACTION_ROW}>
+        <div css={STYLES_LEFT}>
+          {Object.keys(this.state.checked).length ? (
+            <ButtonWarning
+              style={{ width: 160 }}
+              onClick={this._handleDeleteFiles}
+              loading={
+                this.state.loading && Object.keys(this.state.loading).length
+              }
+            >
+              Delete {Object.keys(this.state.checked).length} file
+              {Object.keys(this.state.checked).length > 1 ? "s" : ""}
+            </ButtonWarning>
+          ) : null}
+        </div>
+        <div css={STYLES_RIGHT}>
+          <span
+            css={STYLES_ICON_ELEMENT}
+            style={
+              this.state.startIndex - VIEW_LIMIT >= 0
+                ? null
+                : {
+                    cursor: "not-allowed",
+                    color: Constants.system.border,
+                  }
+            }
+            onClick={() => this._increment(-1)}
+          >
+            <SVG.NavigationArrow
+              height="24px"
+              style={{ transform: `rotate(180deg)` }}
+            />
+          </span>
+          <span
+            css={STYLES_ICON_ELEMENT}
+            style={
+              this.state.startIndex + VIEW_LIMIT <
+              this.props.viewer.library[0].children.length
+                ? null
+                : {
+                    cursor: "not-allowed",
+                    color: Constants.system.border,
+                  }
+            }
+            onClick={() => this._increment(1)}
+          >
+            <SVG.NavigationArrow height="24px" />
+          </span>
+        </div>
+      </div>
+    );
     if (this.state.view === "grid") {
       return (
         <React.Fragment>
@@ -575,6 +627,7 @@ export default class DataView extends React.Component {
                 </div>
               ))}
           </div>
+          {footer}
         </React.Fragment>
       );
     }
@@ -724,56 +777,7 @@ export default class DataView extends React.Component {
           onMouseEnter={(i) => this.setState({ hover: i })}
           onMouseLeave={() => this.setState({ hover: null })}
         />
-        <div css={STYLES_ACTION_ROW}>
-          <div css={STYLES_LEFT}>
-            {Object.keys(this.state.checked).length ? (
-              <ButtonWarning
-                style={{ width: 160 }}
-                onClick={this._handleDeleteFiles}
-                loading={
-                  this.state.loading && Object.keys(this.state.loading).length
-                }
-              >
-                Delete {Object.keys(this.state.checked).length} file
-                {Object.keys(this.state.checked).length > 1 ? "s" : ""}
-              </ButtonWarning>
-            ) : null}
-          </div>
-          <div css={STYLES_RIGHT}>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={
-                this.state.startIndex - VIEW_LIMIT >= 0
-                  ? null
-                  : {
-                      cursor: "not-allowed",
-                      color: Constants.system.border,
-                    }
-              }
-              onClick={() => this._increment(-1)}
-            >
-              <SVG.NavigationArrow
-                height="24px"
-                style={{ transform: `rotate(180deg)` }}
-              />
-            </span>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={
-                this.state.startIndex + VIEW_LIMIT <
-                this.props.viewer.library[0].children.length
-                  ? null
-                  : {
-                      cursor: "not-allowed",
-                      color: Constants.system.border,
-                    }
-              }
-              onClick={() => this._increment(1)}
-            >
-              <SVG.NavigationArrow height="24px" />
-            </span>
-          </div>
-        </div>
+        {footer}
         <input
           ref={(c) => {
             this._ref = c;

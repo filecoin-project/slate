@@ -79,7 +79,6 @@ export default class SidebarAddFileToBucket extends React.Component {
   };
 
   render() {
-    console.log(this.props.data);
     let loaded = 0;
     let total = 0;
     if (this.props.fileLoading) {

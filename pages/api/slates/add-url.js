@@ -68,19 +68,20 @@ export default async (req, res) => {
       error: true,
     });
   }
-
-  const cid = req.body.data.ipfs.replace("/ipfs/", "");
-  const objects = [
-    ...slate.data.objects,
-    {
-      id: req.body.data.id,
+  //data takes an array rather than a single one now
+  let addlObjects = req.body.data.map((each) => {
+    let cid = each.ipfs.replace("/ipfs/", "");
+    return {
+      id: each.id,
       ownerId: user.id,
-      name: req.body.data.name,
-      title: req.body.data.title,
-      type: req.body.data.type,
+      name: each.name,
+      title: each.title,
+      type: each.type,
       url: `${Constants.IPFS_GATEWAY_URL}/${cid}`,
-    },
-  ];
+    };
+  });
+
+  const objects = [...slate.data.objects, ...addlObjects];
 
   // TODO(jim): Preserve layouts when adding.
   let layouts = { lg: generateLayout(objects) };

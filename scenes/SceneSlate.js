@@ -161,7 +161,6 @@ export default class SceneSlate extends React.Component {
       this.setState({ layouts: null, objects: null });
 
       const { slate } = response;
-      console.log(slate);
 
       await this._handleSave(null, slate.data.objects, slate.data.layouts);
       this._remoteLock = false;

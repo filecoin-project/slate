@@ -1,7 +1,6 @@
 import { dispatchCustomEvent } from "~/common/custom-events";
 
-export const upload = async ({ file, slate, context }) => {
-  console.log(`start uploading: ${file.name}`);
+export const upload = async ({ file, context }) => {
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 
@@ -82,40 +81,49 @@ export const upload = async ({ file, slate, context }) => {
         },
       });
     }
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "Some of your files could not be uploaded" },
+      },
+    });
 
     return !json ? { error: "NO_RESPONSE" } : json;
   }
 
-  console.log(slate);
-  if (slate) {
-    const addResponse = await fetch(`/api/slates/add-url`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ slate, data: { title: file.name, ...json.data } }),
-    });
+  return { file, json };
+};
 
-    if (!addResponse) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
-          },
+export const uploadToSlate = async ({ responses, slate }) => {
+  const addResponse = await fetch(`/api/slates/add-url`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      slate,
+      data: responses.map((res) => {
+        return { title: res.file.name, ...res.json.data };
+      }),
+    }),
+  });
+
+  if (!addResponse) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message:
+            "We're having trouble connecting right now. Please try again later",
         },
-      });
-    } else if (addResponse.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: addResponse.decorator } },
-      });
-    }
-    console.log(`added to slate: ${file.name}`);
+      },
+    });
+  } else if (addResponse.error) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { decorator: addResponse.decorator } },
+    });
   }
-  console.log(`finish uploading: ${file.name}`);
-  return json;
 };

@@ -197,45 +197,39 @@ export default class ApplicationPage extends React.Component {
       return false;
     }
 
+    if (someFailed) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "Some of your files could not be uploaded" },
+        },
+      });
+    }
+
     this._handleRegisterFileLoading({ fileLoading });
 
-    Promise.allSettled(toUpload.map((file) => this._handleUploadFile({ file, slate })))
-      .then((promises) => {
-        console.log(promises);
-        this.rehydrate({ resetFiles: true });
-        dispatchCustomEvent({
-          name: "remote-update-slate-screen",
-          detail: {},
-        });
-        if (
-          someFailed ||
-          !promises.every((prom) => {
-            return !!prom;
+    Promise.allSettled(
+      toUpload.map((file) => FileUtilities.upload({ file, context: this }))
+    )
+      .then((responses) => {
+        console.log(responses);
+        let succeeded = responses
+          .filter((res) => {
+            return res.status === "fulfilled";
           })
-        ) {
-          dispatchCustomEvent({
-            name: "create-alert",
-            detail: {
-              alert: { message: "Some of your files could not be uploaded" },
-            },
-          });
+          .map((res) => res.value);
+        console.log(succeeded);
+        if (succeeded && succeeded.length) {
+          return FileUtilities.uploadToSlate({ responses: succeeded, slate });
         }
-        await this.rehydrate({ resetFiles: true });
+      })
+      .then(() => {
+        this.rehydrate({ resetFiles: true });
 
         dispatchCustomEvent({
           name: "remote-update-slate-screen",
           detail: {},
         });
-        return true;
-      })
-      .catch(() => {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: { message: "Upload failed" },
-          },
-        });
-        return false;
       });
   };
 
@@ -318,7 +312,7 @@ export default class ApplicationPage extends React.Component {
             });
             sidebarOpen = true;
           }
-          
+
           files.push(file);
           fileLoading[`${file.lastModified}-${file.name}`] = {
             name: file.name,
@@ -344,43 +338,28 @@ export default class ApplicationPage extends React.Component {
     // NOTE(jim): Stages each file.
     this._handleRegisterFileLoading({ fileLoading });
 
-    Promise.allSettled(files.map((file) => this._handleUploadFile({ file, slate })))
-      .then((promises) => {
-        console.log(promises);
-        this.rehydrate({ resetFiles: true });
-        dispatchCustomEvent({
-          name: "remote-update-slate-screen",
-          detail: {},
-        });
-        if (
-          someFailed ||
-          !promises.every((prom) => {
-            return !!prom;
+    Promise.allSettled(
+      toUpload.map((file) => FileUtilities.upload({ file, context: this }))
+    )
+      .then((responses) => {
+        console.log(responses);
+        let succeeded = responses
+          .filter((res) => {
+            return res.status === "fulfilled";
           })
-        ) {
-          dispatchCustomEvent({
-            name: "create-alert",
-            detail: {
-              alert: { message: "Some of your files could not be uploaded" },
-            },
-          });
+          .map((res) => res.value);
+        console.log(succeeded);
+        if (succeeded && succeeded.length) {
+          return FileUtilities.uploadToSlate({ responses: succeeded, slate });
         }
-        await this.rehydrate({ resetFiles: true });
+      })
+      .then(() => {
+        this.rehydrate({ resetFiles: true });
 
         dispatchCustomEvent({
           name: "remote-update-slate-screen",
           detail: {},
         });
-        return true;
-      })
-      .catch(() => {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: { message: "Upload failed" },
-          },
-        });
-        return false;
       });
   };
 

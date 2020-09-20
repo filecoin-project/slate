@@ -375,7 +375,19 @@ export default class CommunityPage extends React.Component {
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
-            Have an idea for how to make Slate better?
+            <div>Message Cards</div>
+            <div>
+              <h1>Have an idea for how to make Slate better?</h1>
+              <p>
+                You can create an issue on github or send us an email with your
+                recommendation.{" "}
+              </p>
+              <div>
+                {" "}
+                <button css={STYLES_BUTTON}>Create an issue</button>
+                <button css={STYLES_BUTTON}>Email us feedback</button>
+              </div>
+            </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
             Add Slate to your next project with our storage API.

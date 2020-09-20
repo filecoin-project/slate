@@ -14,9 +14,13 @@ export default async ({ userId, publicOnly = false }) => {
         query = await DB.select("*")
           .from("slates")
           .where(hasUser(userId))
-          .where(isPublic());
+          .where(isPublic())
+          .orderBy("updated_at", "desc");
       } else {
-        query = await DB.select("*").from("slates").where(hasUser(userId));
+        query = await DB.select("*")
+          .from("slates")
+          .where(hasUser(userId))
+          .orderBy("updated_at", "desc");
       }
 
       if (!query || query.error) {

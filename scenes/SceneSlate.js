@@ -12,6 +12,7 @@ import {
   ButtonPrimary,
   ButtonSecondary,
 } from "~/components/system/components/Buttons";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -136,7 +137,7 @@ export default class SceneSlate extends React.Component {
           detail: {
             alert: {
               message:
-                "We're having trouble connecting right now. Please try again later",
+                "We're having trouble refreshing right now. Please try again later",
             },
           },
         });
@@ -462,7 +463,7 @@ export default class SceneSlate extends React.Component {
     return (
       <ScenePage
         style={{ paddingLeft: "24px", paddingRight: "24px" }}
-        contentStyle={{ maxWidth: "1660px" }}
+        contentstyle={{ maxWidth: "1660px" }}
       >
         <ScenePageHeader
           style={{ padding: `0 24px 0 24px` }}

@@ -115,7 +115,7 @@ export class Table extends React.Component {
                     style={{
                       width: localWidth,
                       flexShrink,
-                      ...this.props.contentStyle,
+                      ...this.props.contentstyle,
                     }}
                   >
                     {content}

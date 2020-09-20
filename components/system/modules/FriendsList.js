@@ -125,13 +125,13 @@ export class FriendsList extends React.Component {
                 key: "accept",
                 width: "92px",
                 style: STYLES_CENTER_RIGHT,
-                contentStyle: { padding: "0px" },
+                contentstyle: { padding: "0px" },
               },
               {
                 key: "reject",
                 width: "92px",
                 style: STYLES_CENTER_RIGHT,
-                contentStyle: { padding: "0px" },
+                contentstyle: { padding: "0px" },
               },
             ],
             rows: this.props.data.requests.map((each) => {

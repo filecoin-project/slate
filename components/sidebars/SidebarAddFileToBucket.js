@@ -69,99 +69,17 @@ const STYLES_ICONS = css`
 
 export default class SidebarAddFileToBucket extends React.Component {
   _handleUpload = async (e) => {
-    e.persist();
-    let files = [];
-    let fileLoading = {};
-    for (let i = 0; i < e.target.files.length; i++) {
-      let file = e.target.files[i];
-
-      if (!file) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: { message: "Some of your files could not be uploaded" },
-          },
-        });
-        continue;
-      }
-
-      const isAllowed = Validations.isFileTypeAllowed(file.type);
-      if (!isAllowed) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message: `We currently do not accept ${file.type} yet but may in the future!`,
-            },
-          },
-        });
-        continue;
-      }
-
-      files.push(file);
-      fileLoading[`${file.lastModified}-${file.name}`] = {
-        name: file.name,
-        loaded: 0,
-        total: file.size,
-      };
-    }
-
-    if (!files.length) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "We could not find any files to upload." },
-        },
-      });
-      return;
-      // return this.props.onRegisterFileLoading({ fileLoading: null });
-    }
-
-    this.props.onRegisterFileLoading({ fileLoading });
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const slate =
+    await this.props.onUpload({
+      files: e.target.files,
+      slate:
         this.props.data && this.props.data.id
           ? { id: this.props.data.id }
-          : null;
-
-      const response = await this.props.onUploadFile({
-        file,
-        slate,
-      });
-
-      if (!response) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message:
-                "We're having trouble connecting right now. Please try again later",
-            },
-          },
-        });
-        continue;
-      }
-
-      if (response.error) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: { alert: { decorator: response.decorator } },
-        });
-        continue;
-      }
-    }
-
-    await this.props.onRehydrate({ resetFiles: true });
-
-    dispatchCustomEvent({
-      name: "remote-update-slate-screen",
-      detail: {},
+          : null,
     });
   };
 
   render() {
+    console.log(this.props.data);
     let loaded = 0;
     let total = 0;
     if (this.props.fileLoading) {
@@ -238,13 +156,13 @@ export default class SidebarAddFileToBucket extends React.Component {
             ? Object.values(this.props.fileLoading).map((file) => (
                 <div css={STYLES_FILE_LINE} key={file.name}>
                   <div css={STYLES_FILE_STATUS}>
-                    {file.loaded === file.total ? (
-                      <SVG.CheckBox height="24px" />
-                    ) : file.failed ? (
+                    {file.failed ? (
                       <SVG.Alert
                         height="24px"
                         style={{ color: Constants.system.red }}
                       />
+                    ) : file.loaded === file.total ? (
+                      <SVG.CheckBox height="24px" />
                     ) : (
                       <System.LoaderSpinner
                         style={{ width: "20px", height: "20px", margin: "2px" }}

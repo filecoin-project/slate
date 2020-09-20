@@ -189,7 +189,7 @@ export class Table extends React.Component {
                           : field.color,
                         flexShrink,
                       }}
-                      contentStyle={field.contentStyle}
+                      contentstyle={field.contentstyle}
                       copyable={field.copyable}
                     >
                       <div style={field.style}>

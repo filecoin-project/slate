@@ -10,23 +10,23 @@ import { css } from "@emotion/react";
 import Avatar from "~/components/core/Avatar";
 
 const STORAGE_DEAL_STATES = {
-  "0": "Local file only.",
-  "1": "Searching for miners.",
-  "2": "Proposing storage deal.",
-  "3": "Accepted by miners.",
-  "4": "Data transfer in progress.",
-  "5": "Data transfer complete.",
-  "6": "Stored on network.",
+  0: "Local file only.",
+  1: "Searching for miners.",
+  2: "Proposing storage deal.",
+  3: "Accepted by miners.",
+  4: "Data transfer in progress.",
+  5: "Data transfer complete.",
+  6: "Stored on network.",
 };
 
 const RETRIEVAL_DEAL_STATES = {
-  "0": "Local file",
-  "1": "Available on network",
-  "2": "Retrieval deal proposed.",
-  "3": "Retrieval deal accepted.",
-  "4": "Data transfer in progress.",
-  "5": "Data transfer completed.",
-  "6": "Retrieved from network.",
+  0: "Local file",
+  1: "Available on network",
+  2: "Retrieval deal proposed.",
+  3: "Retrieval deal accepted.",
+  4: "Data transfer in progress.",
+  5: "Data transfer completed.",
+  6: "Retrieved from network.",
 };
 
 const COMPONENTS_ICON = {
@@ -57,21 +57,21 @@ const Tag = (props) => {
 };
 
 const COMPONENTS_DEAL_DIRECTION = {
-  "1": <Tag style={{ background: Constants.system.green }}>storage</Tag>,
-  "2": <Tag>retrieval</Tag>,
+  1: <Tag style={{ background: Constants.system.green }}>storage</Tag>,
+  2: <Tag>retrieval</Tag>,
 };
 
 const COMPONENTS_TRANSACTION_DIRECTION = {
-  "1": <Tag style={{ background: Constants.system.green }}>+ incoming</Tag>,
-  "2": <Tag>- outgoing</Tag>,
+  1: <Tag style={{ background: Constants.system.green }}>+ incoming</Tag>,
+  2: <Tag>- outgoing</Tag>,
 };
 
 const COMPONENTS_TRANSACTION_STATUS = {
-  "0": <Tag>Qualified</Tag>,
-  "1": (
+  0: <Tag>Qualified</Tag>,
+  1: (
     <Tag style={{ background: Constants.system.green }}>Sealed On Filecoin</Tag>
   ),
-  "2": <LoaderSpinner style={{ width: 20, height: 20 }} />,
+  2: <LoaderSpinner style={{ width: 20, height: 20 }} />,
 };
 
 const COMPONENTS_OBJECT_TYPE = (text) => {
@@ -170,7 +170,7 @@ export const TableColumn = (props) => {
       css={props.top ? STYLES_TOP_COLUMN : STYLES_COLUMN}
       style={props.style}
     >
-      <span css={STYLES_CONTENT} style={props.contentStyle}>
+      <span css={STYLES_CONTENT} style={props.contentstyle}>
         {props.children}
       </span>
       {tooltipElement}

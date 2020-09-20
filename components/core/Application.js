@@ -142,7 +142,101 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleUploadFile = async ({ file, slate }) => {
-    return await FileUtilities.upload({ file, slate, context: this });
+    let response = await FileUtilities.upload({ file, slate, context: this });
+
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return false;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+      return false;
+    }
+    return true;
+  };
+
+  _handleUpload = async ({ files, slate }) => {
+    let toUpload = [];
+    let fileLoading = {};
+    let someFailed = false;
+    for (let i = 0; i < files.length; i++) {
+      let file = files[i];
+
+      if (!file) {
+        someFailed = true;
+        continue;
+      }
+
+      toUpload.push(file);
+      fileLoading[`${file.lastModified}-${file.name}`] = {
+        name: file.name,
+        loaded: 0,
+        total: file.size,
+      };
+    }
+
+    if (!toUpload.length) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "We could not find any files to upload." },
+        },
+      });
+      return false;
+    }
+
+    this._handleRegisterFileLoading({ fileLoading });
+
+    Promise.allSettled(toUpload.map((file) => this._handleUploadFile({ file, slate })))
+      .then((promises) => {
+        console.log(promises);
+        this.rehydrate({ resetFiles: true });
+        dispatchCustomEvent({
+          name: "remote-update-slate-screen",
+          detail: {},
+        });
+        if (
+          someFailed ||
+          !promises.every((prom) => {
+            return !!prom;
+          })
+        ) {
+          dispatchCustomEvent({
+            name: "create-alert",
+            detail: {
+              alert: { message: "Some of your files could not be uploaded" },
+            },
+          });
+        }
+        await this.rehydrate({ resetFiles: true });
+
+        dispatchCustomEvent({
+          name: "remote-update-slate-screen",
+          detail: {},
+        });
+        return true;
+      })
+      .catch(() => {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: { message: "Upload failed" },
+          },
+        });
+        return false;
+      });
   };
 
   _handleRegisterFileLoading = ({ fileLoading }) => {
@@ -210,25 +304,27 @@ export default class ApplicationPage extends React.Component {
 
     const files = [];
     let fileLoading = {};
+    let sidebarOpen = false;
     if (e.dataTransfer.items && e.dataTransfer.items.length) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
 
-          if (Validations.isFileTypeAllowed(file.type)) {
+          if (!sidebarOpen) {
             this._handleAction({
               type: "SIDEBAR",
               value: "SIDEBAR_ADD_FILE_TO_BUCKET",
               data: slate,
             });
-
-            files.push(file);
-            fileLoading[`${file.lastModified}-${file.name}`] = {
-              name: file.name,
-              loaded: 0,
-              total: file.size,
-            };
+            sidebarOpen = true;
           }
+          
+          files.push(file);
+          fileLoading[`${file.lastModified}-${file.name}`] = {
+            name: file.name,
+            loaded: 0,
+            total: file.size,
+          };
         }
       }
     }
@@ -242,25 +338,50 @@ export default class ApplicationPage extends React.Component {
           },
         },
       });
-      this._handleRegisterFileLoading({ fileLoading: null });
       return;
     }
 
     // NOTE(jim): Stages each file.
     this._handleRegisterFileLoading({ fileLoading });
 
-    // NOTE(jim): Uploads each file.
-    for (let i = 0; i < files.length; i++) {
-      await this._handleUploadFile({ file: files[i], slate });
-    }
+    Promise.allSettled(files.map((file) => this._handleUploadFile({ file, slate })))
+      .then((promises) => {
+        console.log(promises);
+        this.rehydrate({ resetFiles: true });
+        dispatchCustomEvent({
+          name: "remote-update-slate-screen",
+          detail: {},
+        });
+        if (
+          someFailed ||
+          !promises.every((prom) => {
+            return !!prom;
+          })
+        ) {
+          dispatchCustomEvent({
+            name: "create-alert",
+            detail: {
+              alert: { message: "Some of your files could not be uploaded" },
+            },
+          });
+        }
+        await this.rehydrate({ resetFiles: true });
 
-    // NOTE(jim): Rehydrates user.
-    await this.rehydrate({ resetFiles: true });
-
-    dispatchCustomEvent({
-      name: "remote-update-slate-screen",
-      detail: {},
-    });
+        dispatchCustomEvent({
+          name: "remote-update-slate-screen",
+          detail: {},
+        });
+        return true;
+      })
+      .catch(() => {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: { message: "Upload failed" },
+          },
+        });
+        return false;
+      });
   };
 
   rehydrate = async (options) => {
@@ -623,7 +744,7 @@ export default class ApplicationPage extends React.Component {
         onSubmit: this._handleSubmit,
         onCancel: this._handleDismissSidebar,
         onRegisterFileLoading: this._handleRegisterFileLoading,
-        onUploadFile: this._handleUploadFile,
+        onUpload: this._handleUpload,
         onSidebarLoading: this._handleSidebarLoading,
         onAction: this._handleAction,
         onRehydrate: this.rehydrate,

@@ -1,6 +1,7 @@
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 export const upload = async ({ file, slate, context }) => {
+  console.log(`start uploading: ${file.name}`);
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 
@@ -85,14 +86,15 @@ export const upload = async ({ file, slate, context }) => {
     return !json ? { error: "NO_RESPONSE" } : json;
   }
 
+  console.log(slate);
   if (slate) {
-    console.log("slate");
     const addResponse = await fetch(`/api/slates/add-url`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({ slate, data: { title: file.name, ...json.data } }),
     });
 
@@ -112,7 +114,8 @@ export const upload = async ({ file, slate, context }) => {
         detail: { alert: { decorator: addResponse.decorator } },
       });
     }
+    console.log(`added to slate: ${file.name}`);
   }
-
+  console.log(`finish uploading: ${file.name}`);
   return json;
 };

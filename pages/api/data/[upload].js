@@ -11,6 +11,7 @@ export const config = {
 };
 
 export default async (req, res) => {
+  console.log("[upload] called");
   const id = Utilities.getIdFromCookie(req);
   const user = await Data.getUserById({
     id,

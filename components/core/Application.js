@@ -141,33 +141,73 @@ export default class ApplicationPage extends React.Component {
     this.setState({ online: navigator.onLine });
   };
 
-  _handleUploadFile = async ({ file, slate }) => {
-    let response = await FileUtilities.upload({ file, slate, context: this });
+  _handleDrop = async (e) => {
+    // NOTE(jim): If this is true, then drag and drop came from a slate object.
+    const data = e.dataTransfer.getData("slate-object-drag-data");
+    if (data) {
+      return;
+    }
 
-    if (!response) {
+    e.preventDefault();
+
+    this.setState({ fileLoading: true });
+
+    // TODO(jim): Refactor later
+    const navigation = NavigationData.generate(this.state.viewer);
+    const next = this.state.history[this.state.currentIndex];
+    const current = NavigationData.getCurrentById(navigation, next.id);
+
+    let slate = null;
+    if (current.target && current.target.slateId) {
+      slate = { id: current.target.slateId };
+    }
+
+    const files = [];
+    let fileLoading = {};
+    let sidebarOpen = false;
+    if (e.dataTransfer.items && e.dataTransfer.items.length) {
+      for (var i = 0; i < e.dataTransfer.items.length; i++) {
+        if (e.dataTransfer.items[i].kind === "file") {
+          var file = e.dataTransfer.items[i].getAsFile();
+
+          if (!sidebarOpen) {
+            this._handleAction({
+              type: "SIDEBAR",
+              value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+              data: slate,
+            });
+            sidebarOpen = true;
+          }
+
+          files.push(file);
+          fileLoading[`${file.lastModified}-${file.name}`] = {
+            name: file.name,
+            loaded: 0,
+            total: file.size,
+          };
+        }
+      }
+    }
+
+    if (!files.length) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "File type not supported. Please try a different file",
           },
         },
       });
-      return false;
+      return;
     }
 
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return false;
-    }
-    return true;
+    // NOTE(jim): Stages each file.
+    this._handleRegisterFileLoading({ fileLoading });
+
+    this._handleUpload({ files, slate });
   };
 
-  _handleUpload = async ({ files, slate }) => {
+  _handleUploadFiles = async ({ files, slate }) => {
     let toUpload = [];
     let fileLoading = {};
     let someFailed = false;
@@ -208,18 +248,20 @@ export default class ApplicationPage extends React.Component {
 
     this._handleRegisterFileLoading({ fileLoading });
 
+    this._handleUpload({ files: toUpload, slate });
+  };
+
+  _handleUpload = ({ files, slate }) => {
     Promise.allSettled(
-      toUpload.map((file) => FileUtilities.upload({ file, context: this }))
+      files.map((file) => FileUtilities.upload({ file, context: this }))
     )
       .then((responses) => {
-        console.log(responses);
         let succeeded = responses
           .filter((res) => {
             return res.status === "fulfilled";
           })
           .map((res) => res.value);
-        console.log(succeeded);
-        if (succeeded && succeeded.length) {
+        if (slate && slate.id && succeeded && succeeded.length) {
           return FileUtilities.uploadToSlate({ responses: succeeded, slate });
         }
       })
@@ -274,94 +316,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleSidebarLoading = (sidebarLoading) => this.setState({ sidebarLoading });
-
-  _handleDrop = async (e) => {
-    // NOTE(jim): If this is true, then drag and drop came from a slate object.
-    const data = e.dataTransfer.getData("slate-object-drag-data");
-    if (data) {
-      return;
-    }
-
-    e.preventDefault();
-
-    this.setState({ fileLoading: true });
-
-    // TODO(jim): Refactor later
-    const navigation = NavigationData.generate(this.state.viewer);
-    const next = this.state.history[this.state.currentIndex];
-    const current = NavigationData.getCurrentById(navigation, next.id);
-
-    let slate;
-    if (current.target && current.target.slatename) {
-      slate = { ...current.target, id: current.target.slateId };
-    }
-
-    const files = [];
-    let fileLoading = {};
-    let sidebarOpen = false;
-    if (e.dataTransfer.items && e.dataTransfer.items.length) {
-      for (var i = 0; i < e.dataTransfer.items.length; i++) {
-        if (e.dataTransfer.items[i].kind === "file") {
-          var file = e.dataTransfer.items[i].getAsFile();
-
-          if (!sidebarOpen) {
-            this._handleAction({
-              type: "SIDEBAR",
-              value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-              data: slate,
-            });
-            sidebarOpen = true;
-          }
-
-          files.push(file);
-          fileLoading[`${file.lastModified}-${file.name}`] = {
-            name: file.name,
-            loaded: 0,
-            total: file.size,
-          };
-        }
-      }
-    }
-
-    if (!files.length) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "File type not supported. Please try a different file",
-          },
-        },
-      });
-      return;
-    }
-
-    // NOTE(jim): Stages each file.
-    this._handleRegisterFileLoading({ fileLoading });
-
-    Promise.allSettled(
-      toUpload.map((file) => FileUtilities.upload({ file, context: this }))
-    )
-      .then((responses) => {
-        console.log(responses);
-        let succeeded = responses
-          .filter((res) => {
-            return res.status === "fulfilled";
-          })
-          .map((res) => res.value);
-        console.log(succeeded);
-        if (succeeded && succeeded.length) {
-          return FileUtilities.uploadToSlate({ responses: succeeded, slate });
-        }
-      })
-      .then(() => {
-        this.rehydrate({ resetFiles: true });
-
-        dispatchCustomEvent({
-          name: "remote-update-slate-screen",
-          detail: {},
-        });
-      });
-  };
 
   rehydrate = async (options) => {
     const response = await Actions.hydrateAuthenticatedUser();
@@ -529,7 +483,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleAction = (options) => {
-    console.log({ options });
     if (options.type === "NAVIGATE") {
       // NOTE(martina): The `scene` property is only necessary when you need to display a component different from the one corresponding to the tab it appears in
       // + e.g. to display <SceneProfile/> while on the Home tab
@@ -723,7 +676,7 @@ export default class ApplicationPage extends React.Component {
         onSubmit: this._handleSubmit,
         onCancel: this._handleDismissSidebar,
         onRegisterFileLoading: this._handleRegisterFileLoading,
-        onUpload: this._handleUpload,
+        onUpload: this._handleUploadFiles,
         onSidebarLoading: this._handleSidebarLoading,
         onAction: this._handleAction,
         onRehydrate: this.rehydrate,

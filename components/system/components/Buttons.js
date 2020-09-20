@@ -287,11 +287,11 @@ export const ButtonWarning = (props) => {
       <label
         css={props.full ? STYLES_BUTTON_WARNING_FULL : STYLES_BUTTON_WARNING}
         style={props.style}
-        onMouseUp={props.onClick}
-        onTouchEnd={props.onClick}
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}
+        onMouseUp={props.onClick}
+        onTouchEnd={props.onClick}
       />
     );
   }
@@ -299,7 +299,10 @@ export const ButtonWarning = (props) => {
   return (
     <button
       css={props.full ? STYLES_BUTTON_WARNING_FULL : STYLES_BUTTON_WARNING}
-      {...props}
+      style={props.style}
+      onMouseUp={props.onClick}
+      onTouchEnd={props.onClick}
+      children={props.children}
     />
   );
 };

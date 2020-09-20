@@ -122,7 +122,6 @@ export default class SidebarSingleSlateSettings extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const slug = Strings.createSlug(this.state.name);
     const url = `/${this.props.viewer.username}/${slug}`;
 
@@ -194,31 +193,30 @@ export default class SidebarSingleSlateSettings extends React.Component {
           </System.ButtonPrimary>
 
           {!this.state.loading ? (
-            <ButtonWarning
+            <System.ButtonWarning
+              full
               style={{
                 marginTop: 16,
               }}
-              full
               onClick={this._handleCancel}
             >
               Cancel
-            </ButtonWarning>
+            </System.ButtonWarning>
           ) : null}
         </div>
 
         {!this.state.loading ? (
           <div style={{ marginTop: 48 }}>
-            <ButtonWarning
+            <System.ButtonWarning
               full
               onClick={this._handleDelete}
-              loading={this.state.loading}
               style={{ overflow: "hidden" }}
             >
               Delete{" "}
               {this.props.current.data && this.props.current.data.name
                 ? this.props.current.data.name
                 : this.props.current.slatename}
-            </ButtonWarning>
+            </System.ButtonWarning>
           </div>
         ) : null}
       </React.Fragment>

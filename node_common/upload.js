@@ -6,6 +6,7 @@ import B from "busboy";
 const HIGH_WATER_MARK = 1024 * 1024 * 3;
 
 export const formMultipart = async (req, res, { user }) => {
+  console.log("form multipart called");
   let data = null;
 
   const upload = () =>
@@ -15,7 +16,13 @@ export const formMultipart = async (req, res, { user }) => {
         highWaterMark: HIGH_WATER_MARK,
       });
 
-      form.on("file", async function (fieldname, stream, filename, encoding, mime) {
+      form.on("file", async function (
+        fieldname,
+        stream,
+        filename,
+        encoding,
+        mime
+      ) {
         data = LibraryManager.createLocalDataIncomplete({
           name: filename,
           type: mime,
@@ -24,7 +31,10 @@ export const formMultipart = async (req, res, { user }) => {
         let push;
         try {
           const token = user.data.tokens.api;
-          const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(token);
+          const {
+            buckets,
+            bucketKey,
+          } = await Utilities.getBucketAPIFromUserToken(token);
           push = await buckets.pushPath(bucketKey, data.id, stream);
         } catch (e) {
           return reject({
@@ -34,7 +44,10 @@ export const formMultipart = async (req, res, { user }) => {
           });
         }
 
-        return resolve({ decorator: "SERVER_BUCKET_STREAM_SUCCESS", data: push.path.path });
+        return resolve({
+          decorator: "SERVER_BUCKET_STREAM_SUCCESS",
+          data: push.path.path,
+        });
       });
 
       form.on("error", (e) => {

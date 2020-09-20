@@ -42,12 +42,12 @@ const STYLES_ITEM_BOX = css`
     color: ${Constants.system.brand};
   }
 
-  :last-child {
-    margin-right: 0px;
+  :first-of-type {
+    margin-left: 0px;
   }
 
-  :first-child {
-    margin-left: 0px;
+  :last-of-type {
+    margin-right: 0px;
   }
 `;
 
@@ -68,11 +68,11 @@ const STYLES_ITEM_BOX_SMALL = css`
   justify-content: center;
   box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
 
-  :first-child {
+  :first-of-type {
     margin-left: 0px;
   }
 
-  :last-child {
+  :last-of-type {
     margin-right: 0px;
   }
 `;

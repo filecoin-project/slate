@@ -13,21 +13,23 @@ const blinkCursor = keyframes`
 const typewriter = keyframes`
   0%,100% {width: 0;}
   20%, 80% {width: 10.2em;}
-
 `;
 
 const STYLES_ROOT = css`
   height: 300px;
   width: 500px;
+
   @media (max-width: 600px) {
     height: 230px;
     width: 345px;
   }
+
   @media (max-width: 320px) {
     height: 200px;
     width: 300px;
   }
 `;
+
 const STYLES_WINDOW = css`
   box-sizing: border-box;
   font-family: ${Constants.font.mono};
@@ -47,7 +49,6 @@ const STYLES_WINDOW = css`
   scrollbar-width: none;
   white-space: pre-wrap;
   -ms-overflow-style: -ms-autohiding-scrollbar;
-
   ::-webkit-scrollbar {
     display: none;
   }
@@ -56,10 +57,10 @@ const STYLES_WINDOW = css`
 const STYLES_WINDOW_NAV = css`
   border-bottom: 5px solid red;
 `;
+
 const STYLES_WINDOW_BODY = css`
   overflow: hidden;
   white-space: nowrap;
-
   animation: ${typewriter};
   display: inline-block;
   position: relative;

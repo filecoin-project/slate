@@ -20,10 +20,13 @@ export const LOCAL_PASSWORD_ROUNDS = process.env.LOCAL_PASSWORD_ROUNDS;
 // TODO(jim):
 // Brittle, don't let people know the number of times something is salted.
 // Not a big deal for testing at the moment.
-export const LOCAL_PASSWORD_SECRET = `$2b$${LOCAL_PASSWORD_ROUNDS}$${process.env.LOCAL_PASSWORD_SECRET}`;
+export const LOCAL_PASSWORD_SECRET = `$2b$${LOCAL_PASSWORD_ROUNDS}$${
+  process.env.LOCAL_PASSWORD_SECRET
+}`;
 
 export const TEXTILE_HUB_KEY = process.env.TEXTILE_HUB_KEY;
 export const TEXTILE_HUB_SECRET = process.env.TEXTILE_HUB_SECRET;
 export const TEXTILE_HUB_STAGING_HOST = process.env.TEXTILE_HUB_STAGING_HOST;
 
 export const SOCIAL_SLACK_WEBHOOK_KEY = process.env.SOCIAL_SLACK_WEBHOOK_KEY;
+export const SUPPORT_SLACK_WEBHOOK_KEY = process.env.SUPPORT_SLACK_WEBHOOK_KEY;

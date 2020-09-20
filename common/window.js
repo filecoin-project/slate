@@ -39,6 +39,20 @@ export const getViewportSize = () => {
   };
 };
 
+// NOTE(jim): This has a 2mb limit and is pointless :(
+export const saveAs = (uri, filename) => {
+  var link = document.createElement("a");
+  if (typeof link.download === "string") {
+    document.body.appendChild(link);
+    link.download = filename;
+    link.href = `data:,${uri}`;
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    location.replace(uri);
+  }
+};
+
 export const getQueryParameterByName = (name) => {
   let url = window.location.href;
   name = name.replace(/[\[\]]/g, "\\$&");

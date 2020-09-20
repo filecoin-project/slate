@@ -33,15 +33,7 @@ const constructFilesTreeForNavigation = (library) => {
   return {
     ...library[0],
     name: `Data`,
-    children: [
-      {
-        id: "V1_NAVIGATION_ARCHIVE",
-        decorator: "ARCHIVE",
-        name: "Archive",
-        pageTitle: "Archive on Filecoin",
-        children: null,
-      },
-    ],
+    children: [],
   };
 };
 
@@ -53,6 +45,7 @@ const constructSlatesTreeForNavigation = (slates) => {
       name: s.data.name || s.slatename,
       pageTitle: `Viewing ${s.slatename}`,
       decorator: "SLATE",
+      ignore: true,
     };
   });
 };
@@ -77,7 +70,7 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SLATES",
     name: "Slates",
     pageTitle: "Slates",
-    children: constructSlatesTreeForNavigation(slates),
+    children: null,
   },
   {
     id: "V1_NAVIGATION_SLATE",
@@ -87,6 +80,7 @@ export const generate = ({ library = [], slates = [] }) => [
     children: null,
     ignore: true,
   },
+  ...constructSlatesTreeForNavigation(slates),
   constructFilesTreeForNavigation(library),
   /*
   {
@@ -124,12 +118,33 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SETTINGS_DEVELOPER",
     name: "API",
     pageTitle: "Developer API",
+    children: [],
+  },
+  {
+    id: "V1_NAVIGATION_ARCHIVE",
+    decorator: "FILECOIN",
+    name: "Filecoin Testnet",
+    pageTitle: "Archive on Filecoin",
     children: [
       {
         id: "V1_NAVIGATION_NETWORK",
         decorator: "NETWORK",
-        name: "Filecoin Network",
+        name: "Network API",
         pageTitle: "The Filecoin Network",
+        children: null,
+      },
+      {
+        id: "V1_NAVIGATION_WALLET",
+        decorator: "WALLET",
+        name: "Wallet",
+        pageTitle: "Your wallet and addresses",
+        children: [],
+      },
+      {
+        id: "V1_NAVIGATION_FILECOIN_SETTINGS",
+        decorator: "SETTINGS",
+        name: "Deal settings",
+        pageTitle: "Deal Settings.",
         children: null,
       },
     ],

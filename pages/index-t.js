@@ -6,7 +6,6 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 
-import TextLoop from "react-text-loop";
 import { css } from "@emotion/react";
 
 const STYLES_ROOT = css`
@@ -509,9 +508,9 @@ const STYLES_SLATE_CARD_PAPERS = css`
   }
 `;
 
-export const getServerSideProps = async context => {
+export const getServerSideProps = async (context) => {
   return {
-    props: { ...context.query }
+    props: { ...context.query },
   };
 };
 
@@ -565,7 +564,7 @@ export default class IndexPage extends React.Component {
                 borderRadius: `4px`,
                 width: `100%`,
                 boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
-                backgroundSize: `cover`
+                backgroundSize: `cover`,
               }}
             />
             <div css={STYLES_TEXT_BLOCK}>
@@ -625,14 +624,7 @@ export default class IndexPage extends React.Component {
                 A new home
                 <br />{" "}
                 <span css={STYLES_HIGHLIGHT}>
-                  for your{" "}
-                  <TextLoop interval={1200}>
-                    <span>images</span>
-                    <span>videos</span>
-                    <span>audios</span>
-                    <span>ePUBs</span>
-                    <span>PDFs</span>
-                  </TextLoop>
+                  for your images, videos, audio, ePUBs, and PDFs{" "}
                 </span>
               </h1>
               <h3 css={STYLES_H3} style={{ marginBottom: 48 }}>
@@ -654,7 +646,7 @@ export default class IndexPage extends React.Component {
                       backgroundImage: `url('https://slate.textile.io/ipfs/bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
-                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                     }}
                   />
                 </div>
@@ -671,7 +663,7 @@ export default class IndexPage extends React.Component {
                       backgroundImage: `url('https://slate.textile.io/ipfs/bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
-                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                     }}
                   />
                 </div>
@@ -690,7 +682,7 @@ export default class IndexPage extends React.Component {
                       backgroundImage: `url('https://slate.textile.io/ipfs/bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
-                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                     }}
                   />
                 </div>
@@ -707,7 +699,7 @@ export default class IndexPage extends React.Component {
                       backgroundImage: `url('https://slate.textile.io/ipfs/bafkreihu7k46n6eixx6sxjv7aolou5bgvksvb7ryju3gbwie22t6r2dhli')`,
                       backgroundSize: `cover`,
                       borderRadius: `4px`,
-                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                      boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                     }}
                   />
                 </div>
@@ -765,7 +757,7 @@ export default class IndexPage extends React.Component {
                   backgroundImage: `url('https://slate.textile.io/ipfs/bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
-                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                 }}
               />
 
@@ -783,7 +775,7 @@ export default class IndexPage extends React.Component {
                   backgroundImage: `url('https://slate.textile.io/ipfs/bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
-                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                 }}
               />
 
@@ -801,7 +793,7 @@ export default class IndexPage extends React.Component {
                   backgroundImage: `url('https://slate.textile.io/ipfs/bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
-                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                 }}
               />
             </div>
@@ -835,7 +827,7 @@ export default class IndexPage extends React.Component {
                   backgroundImage: `url('https://slate.textile.io/ipfs/bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4')`,
                   backgroundSize: `cover`,
                   borderRadius: `4px`,
-                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`
+                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
                 }}
               />
             </div>

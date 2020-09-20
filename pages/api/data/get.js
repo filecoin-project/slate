@@ -30,6 +30,6 @@ export default async (req, res) => {
 
   return res.status(200).send({
     decorator: "SERVER_GET",
-    data: items.itemsList,
+    data: items.items,
   });
 };

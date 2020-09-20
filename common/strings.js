@@ -54,8 +54,27 @@ export const getFileExtension = (name) => {
   return name.slice(((name.lastIndexOf(".") - 1) >>> 0) + 2);
 };
 
+export const getCIDFromIPFS = (url) => {
+  // NOTE(andrew)
+  const cid = url.includes("/ipfs/")
+    ? // pull cid from a path format gateway
+      url.split("/ipfs/")[1]
+    : // pull cid from a subdomain format gateway
+      url.match(
+        // regex here performs https://{cid}.ipfs.slate.textile.io => [https://{cid}, {cid}]
+        /(?:http[s]*\:\/\/)*(.*?)\.(?=[^\/]*\..{2,5})/i
+      )[1];
+
+  return cid;
+};
+
+export const formatAsFilecoinConversion = (number) => {
+  number = number / Math.pow(10, 18);
+  return `${formatAsFilecoin(number)}`;
+};
+
 export const formatAsFilecoin = (number) => {
-  return `${number} FIL`;
+  return `${formatNumber(number)} FIL`;
 };
 
 export const pluralize = (text, count) => {
@@ -115,7 +134,7 @@ export const bytesToSize = (bytes, decimals = 2) => {
 
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return `${(bytes / Math.pow(k, i)).toFixed(dm)}  ${sizes[i]}`;
+  return `${(bytes / Math.pow(k, i)).toFixed(dm)} ${sizes[i]}`;
 };
 
 export const getRemainingTime = (seconds) => {

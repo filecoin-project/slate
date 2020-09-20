@@ -41,6 +41,7 @@ import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket
 import SidebarDragDropNotice from "~/components/sidebars/SidebarDragDropNotice";
 import SidebarSingleSlateSettings from "~/components/sidebars/SidebarSingleSlateSettings";
 import SidebarFilecoinArchive from "~/components/sidebars/SidebarFilecoinArchive";
+import SidebarHelp from "~/components/sidebars/SidebarHelp";
 
 // NOTE(jim):
 // Core components to the application structure.
@@ -65,6 +66,7 @@ const SIDEBARS = {
   SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
   SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
   SIDEBAR_SINGLE_SLATE_SETTINGS: <SidebarSingleSlateSettings />,
+  SIDEBAR_HELP: <SidebarHelp />,
 };
 
 const SCENES = {
@@ -85,7 +87,7 @@ const SCENES = {
   LOCAL_DATA: <SceneLocalData />,
   NETWORK: <SceneSentinel />,
   DIRECTORY: <SceneDirectory />,
-  ARCHIVE: <SceneArchive />,
+  FILECOIN: <SceneArchive />,
 };
 
 export default class ApplicationPage extends React.Component {
@@ -298,6 +300,8 @@ export default class ApplicationPage extends React.Component {
     if (data.type === "CREATE_SLATE") {
       response = await Actions.createSlate({
         name: data.name,
+        public: data.public,
+        body: data.body,
       });
     }
 
@@ -325,10 +329,6 @@ export default class ApplicationPage extends React.Component {
     this._handleDismissSidebar();
 
     return response;
-  };
-
-  _handleCancel = () => {
-    this._handleDismissSidebar();
   };
 
   _handleDeleteYourself = async () => {
@@ -359,6 +359,19 @@ export default class ApplicationPage extends React.Component {
     return response;
   };
 
+  _handleCreateUser = async (state) => {
+    // NOTE(jim): Acts as our existing username exists check.
+    // If the user exists, move on the sign in anyways.
+    let response = await Actions.createUser(state);
+    console.log("CREATE_USER", response);
+
+    if (!response || response.error) {
+      return response;
+    }
+
+    return this._handleAuthenticate(state);
+  };
+
   _handleAuthenticate = async (state) => {
     // NOTE(jim): Kills existing session cookie if there is one.
     const jwt = cookies.get(Credentials.session.key);
@@ -367,12 +380,7 @@ export default class ApplicationPage extends React.Component {
       cookies.remove(Credentials.session.key);
     }
 
-    // NOTE(jim): Acts as our existing username exists check.
-    // If the user exists, move on the sign in anyways.
-    let response = await Actions.createUser(state);
-    console.log("CREATE_USER", response);
-
-    response = await Actions.signIn(state);
+    let response = await Actions.signIn(state);
     if (!response || response.error) {
       return response;
     }
@@ -391,7 +399,8 @@ export default class ApplicationPage extends React.Component {
 
     await Actions.generateAPIKey();
 
-    return await this.rehydrate();
+    await this.rehydrate();
+    return response;
   };
 
   _handleSignOut = () => {
@@ -544,6 +553,7 @@ export default class ApplicationPage extends React.Component {
         >
           <Alert style={{ top: 0, width: "100%" }} />
           <SceneSignIn
+            onCreateUser={this._handleCreateUser}
             onAuthenticate={this._handleAuthenticate}
             onNavigateTo={this._handleNavigateTo}
           />
@@ -611,7 +621,7 @@ export default class ApplicationPage extends React.Component {
         sidebarLoading: this.state.sidebarLoading,
         onSelectedChange: this._handleSelectedChange,
         onSubmit: this._handleSubmit,
-        onCancel: this._handleCancel,
+        onCancel: this._handleDismissSidebar,
         onRegisterFileLoading: this._handleRegisterFileLoading,
         onUploadFile: this._handleUploadFile,
         onSidebarLoading: this._handleSidebarLoading,

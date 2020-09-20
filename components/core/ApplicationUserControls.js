@@ -60,6 +60,7 @@ const STYLES_PROFILE_MOBILE = css`
 `;
 
 const STYLES_PROFILE_IMAGE = css`
+  background-color: ${Constants.system.foreground};
   background-size: cover;
   background-position: 50% 50%;
   flex-shrink: 0;
@@ -123,7 +124,6 @@ export default class ApplicationUserControls extends React.Component {
       return;
     }
     this.setState({ visible: true });
-
     dispatchCustomEvent({
       name: "show-tooltip",
       detail: {
@@ -164,7 +164,7 @@ export default class ApplicationUserControls extends React.Component {
             <Boundary
               captureResize={true}
               captureScroll={false}
-              enabled
+              enabled={this.state.visible}
               onOutsideRectEvent={this._handleHide}
               style={this.props.style}
             >

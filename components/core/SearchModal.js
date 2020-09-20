@@ -22,17 +22,27 @@ const STYLES_ICON_CIRCLE = css`
   justify-content: center;
 `;
 
+const STYLES_CONTAINER = css`
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: ${Constants.system.white};
+  box-shadow: 0 0 60px 8px rgba(0, 0, 0, 0.03);
+`;
+
 const STYLES_MODAL = css`
+  position: relative;
   width: 95vw;
-  max-width: 600px;
+  max-width: 640px;
+  box-sizing: border-box;
   height: 60vh;
-  max-height: 500px;
-  padding: 24px;
+  max-height: 480px;
 `;
 
 const STYLES_SEARCH_DROPDOWN = {
-  height: "calc(100% - 80px)",
-  width: "calc(100% - 48px)",
+  height: "calc(100% - 16px)",
   overflowY: "scroll",
 };
 
@@ -101,7 +111,7 @@ const SlateEntry = ({ item }) => {
           <div css={STYLES_TITLE}>@{item.owner.username}</div>
         ) : null}
       </div>
-      {item.data.objects.length ? (
+      {item.data.objects && item.data.objects.length ? (
         <div css={STYLES_SLATE_IMAGES_CONTAINER}>
           <SlatePreviewRow numItems={4} slate={item} small />
         </div>
@@ -306,16 +316,18 @@ export class SearchModal extends React.Component {
       }
     }
     return (
-      <div css={STYLES_MODAL}>
-        <SearchDropdown
-          disabled={this.state.loading}
-          placeholder="Search..."
-          results={results}
-          onSelect={this._handleSelect}
-          onChange={this._handleChange}
-          inputValue={this.state.inputValue}
-          style={STYLES_SEARCH_DROPDOWN}
-        />
+      <div css={STYLES_CONTAINER}>
+        <div css={STYLES_MODAL}>
+          <SearchDropdown
+            disabled={this.state.loading}
+            placeholder="Search..."
+            results={results}
+            onSelect={this._handleSelect}
+            onChange={this._handleChange}
+            inputValue={this.state.inputValue}
+            style={STYLES_SEARCH_DROPDOWN}
+          />
+        </div>
       </div>
     );
   }

@@ -66,6 +66,8 @@ export const error = {
   SERVER_UPDATE_SLATE_MUST_PROVIDE_NAME: "Please provide a slate name",
   SERVER_UPDATE_SLATE:
     "We're having trouble updating that slate right now. Please try again later",
+  SERVER_UPDATE_SLATE_NAME_TAKEN:
+    "It looks like that slatename is taken. Please choose another",
   V1_SERVER_UPLOAD_SLATE_NOT_FOUND:
     "We're having trouble locating that slate right now. Please try again later",
   V1_SERVER_API_KEY_NOT_FOUND:
@@ -147,9 +149,8 @@ export const error = {
 
   //Users Create
   SERVER_EXISTING_USER_ALREADY:
-    "This username is already taken! Please try another one",
-  EXISTING_USER_ALREADY:
-    "This username is already taken! Please try another one",
+    "That username is taken. Please try another one",
+  EXISTING_USER_ALREADY: "That username is taken. Please try another one",
   INVALID_USERNAME: "Invalid username. Please include only letters and numbers",
   SERVER_INVALID_USERNAME:
     "Invalid username. Please include only letters and numbers",
@@ -169,7 +170,7 @@ export const error = {
   DELETE_USER_BY_USERNAME:
     "We're having trouble deleting your account right now",
   SERVER_USER_DELETE: "We're having trouble deleting your account right now",
-  USER_NOT_FOUND: "We weren't able to locate that user",
+  USER_NOT_FOUND: "We're having trouble connecting right now",
   SLATES_NOT_FOUND: "We weren't able to locate the slates for that user",
 
   //Users Update
@@ -201,10 +202,9 @@ export const error = {
   SERVER_SIGN_IN: "Your username/password can't be blank",
   SIGN_IN_USER_NOT_FOUND:
     "We're having trouble logging you in right now, please try again later",
-  SERVER_SIGN_IN_USER_NOT_FOUND:
-    "Sorry, we're having issues locating your account right now. Please try again later",
-  SIGN_IN_AUTH: "Incorrect password",
-  SERVER_SIGN_IN_AUTH: "Incorrect password",
+  SERVER_SIGN_IN_USER_NOT_FOUND: "That username and password do not match", //no user with that username
+  SIGN_IN_AUTH: "That username and password do not match", //incorrect password
+  SERVER_SIGN_IN_AUTH: "That username and password do not match",
 
   //Activity
   CREATE_ACTIVITY:

@@ -21,8 +21,7 @@ const STYLES_BUTTON = css`
   box-shadow: 0 0 1px 4px rgba(0, 0, 0, 0.007);
 
   :hover {
-    background-color: ${Constants.system.brand};
-    color: ${Constants.system.white};
+    background-color: #d4d4d4;
   }
 `;
 

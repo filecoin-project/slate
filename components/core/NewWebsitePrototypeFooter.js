@@ -105,7 +105,11 @@ export const NewWebsitePrototypeFooter = (props) => {
       <div css={STYLES_RIGHT}>
         <div style={{ marginRight: 88 }}>
           <p css={STYLES_P}>Reach out</p>
-          <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
+          <a
+            css={STYLES_LINK}
+            href="https://twitter.com/_slate"
+            target="_blank"
+          >
             Twitter
           </a>
           <br />
@@ -113,7 +117,11 @@ export const NewWebsitePrototypeFooter = (props) => {
             Slack
           </a>
           <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
+          <a
+            css={STYLES_LINK}
+            href="https://github.com/filecoin-project/slate"
+            target="_blank"
+          >
             Github
           </a>
         </div>
@@ -125,11 +133,19 @@ export const NewWebsitePrototypeFooter = (props) => {
             Design system
           </a>
           <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
+          <a
+            css={STYLES_LINK}
+            href="https://github.com/filecoin-project/slate"
+            target="_blank"
+          >
             View source
           </a>
           <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues" target="_blank">
+          <a
+            css={STYLES_LINK}
+            href="https://github.com/filecoin-project/slate/issues/126"
+            target="_blank"
+          >
             Community
           </a>
           <br />

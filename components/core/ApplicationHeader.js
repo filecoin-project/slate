@@ -44,7 +44,7 @@ const STYLES_APPLICATION_HEADER = css`
 
 const STYLES_LEFT = css`
   flex-shrink: 0;
-  width: 352px;
+  ${"" /* width: 352px; */}
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -57,11 +57,12 @@ const STYLES_MIDDLE = css`
 `;
 
 const STYLES_RIGHT = css`
-  flex-shrink: 0;
+  min-width: 10%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 16px;
+  padding-right: 264px;
 `;
 
 const rotate = keyframes`
@@ -154,8 +155,17 @@ export default class ApplicationHeader extends React.Component {
             <SVG.Search height="20px" />
           </span>
         </div>
-        <div css={STYLES_MIDDLE} />
-        <div css={STYLES_RIGHT} />
+        {/* <div css={STYLES_MIDDLE} /> */}
+        <div css={STYLES_RIGHT}>
+          <span
+            css={STYLES_ICON_ELEMENT}
+            onClick={() =>
+              this.props.onAction({ type: "SIDEBAR", value: "SIDEBAR_HELP" })
+            }
+          >
+            <SVG.Help height="24px" />
+          </span>
+        </div>
       </header>
     );
   }

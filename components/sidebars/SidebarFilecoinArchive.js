@@ -9,17 +9,14 @@ import { css } from "@emotion/react";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 export default class SidebarFilecoinArchive extends React.Component {
+  state = { response: null };
+
   async componentDidMount() {}
 
   _handleMakeDeal = async () => {
     const response = await Actions.archive();
-    console.log(response);
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "Deal archiving is still under development" },
-      },
-    });
+
+    alert("A new Filecoin deal is being processed.");
   };
 
   _handleSubmit = async (e) => {
@@ -29,7 +26,8 @@ export default class SidebarFilecoinArchive extends React.Component {
 
     this.props.onSidebarLoading(true);
     await this._handleMakeDeal();
-    await this.props.onSubmit({});
+    await this.props.onRehydrate();
+    this.props.onSidebarLoading(false);
   };
 
   _handleCancel = () => {
@@ -41,8 +39,6 @@ export default class SidebarFilecoinArchive extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-
     return (
       <React.Fragment>
         <System.P
@@ -66,6 +62,12 @@ export default class SidebarFilecoinArchive extends React.Component {
         >
           Make storage deal
         </System.ButtonPrimary>
+
+        {this.state.response ? (
+          <div style={{ whiteSpace: "pre-wrap", marginTop: 48 }}>
+            {JSON.stringify(this.state.response, null, 2)}
+          </div>
+        ) : null}
       </React.Fragment>
     );
   }

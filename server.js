@@ -42,10 +42,13 @@ app.prepare().then(async () => {
   server.all("/api/:a", async (r, s) => handler(r, s, r.url));
   server.all("/api/:a/:b", async (r, s) => handler(r, s, r.url));
 
+  server.get("/", async (req, res) => {
+    return app.render(req, res, "/", {});
+  });
+
   server.get("/_", async (req, res) => {
     const isBucketsAvailable = await Utilities.checkTextile();
 
-    // TODO(jim): Do something more robust here.
     if (!isBucketsAvailable) {
       return res.redirect("/maintenance");
     }
@@ -136,6 +139,10 @@ app.prepare().then(async () => {
       return res.redirect("/404");
     }
 
+    if (slate.error) {
+      return res.redirect("/404");
+    }
+
     if (!slate.data.public) {
       return res.redirect("/403");
     }
@@ -167,6 +174,59 @@ app.prepare().then(async () => {
       viewer,
       creator: Serializers.user(creator),
       slate,
+    });
+  });
+
+  server.get("/:username/:slatename/cid::cid", async (req, res) => {
+    // TODO(jim): Temporary workaround
+    if (!Validations.userRoute(req.params.username)) {
+      return handler(req, res, req.url);
+    }
+
+    const slate = await Data.getSlateByName({
+      slatename: req.params.slatename,
+    });
+
+    if (!slate) {
+      return res.redirect("/404");
+    }
+
+    if (slate.error) {
+      return res.redirect("/404");
+    }
+
+    if (!slate.data.public) {
+      return res.redirect("/403");
+    }
+
+    const creator = await Data.getUserById({ id: slate.data.ownerId });
+
+    if (!creator) {
+      return res.redirect("/404");
+    }
+
+    if (creator.error) {
+      return res.redirect("/404");
+    }
+
+    if (req.params.username !== creator.username) {
+      return res.redirect("/403");
+    }
+
+    const id = Utilities.getIdFromCookie(req);
+
+    let viewer = null;
+    if (id) {
+      viewer = await ViewerManager.getById({
+        id,
+      });
+    }
+
+    return app.render(req, res, "/_/slate", {
+      viewer,
+      creator: Serializers.user(creator),
+      slate,
+      cid: req.params.cid,
     });
   });
 

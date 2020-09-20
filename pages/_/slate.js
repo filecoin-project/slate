@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as Strings from "~/common/strings";
+import * as Window from "~/common/window";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
@@ -54,11 +56,19 @@ export default class SlatePage extends React.Component {
       return null;
     }
 
+    let CIDMap = {};
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: {
-        slides: this.props.slate.data.objects.map((each) => {
+        slides: this.props.slate.data.objects.map((each, index) => {
+          // NOTE(jim):
+          // This is a hack to catch this undefined case I don't want to track down yet.
+          const url = each.url.replace("https://undefined", "https://");
+          const cid = Strings.getCIDFromIPFS(url);
+          CIDMap[cid] = index;
+
           return {
+            cid,
             id: each.id,
             data: each,
             editing: false,
@@ -69,18 +79,40 @@ export default class SlatePage extends React.Component {
         }),
       },
     });
+
+    if (!Strings.isEmpty(this.props.cid)) {
+      const index = CIDMap[this.props.cid];
+
+      if (index || index === 0) {
+        System.dispatchCustomEvent({
+          name: "slate-global-open-carousel",
+          detail: {
+            index,
+            baseURL: `${this.props.creator.username}/${
+              this.props.slate.slatename
+            }`,
+          },
+        });
+      }
+    }
   }
 
   _handleSelect = (index) =>
     System.dispatchCustomEvent({
       name: "slate-global-open-carousel",
-      detail: { index },
+      detail: {
+        index,
+        baseURL: `${this.props.creator.username}/${this.props.slate.slatename}`,
+      },
     });
 
   render() {
-    const title = `${this.props.creator.username}/${this.props.slate.slatename}`;
-    const url = `https://slate.host/${this.props.creator.username}`;
-    const description = this.props.slate.data.body;
+    let title = `${this.props.creator.username}/${this.props.slate.slatename}`;
+    let url = `https://slate.host/${this.props.creator.username}/${
+      this.props.slate.slatename
+    }`;
+    let headerURL = `https://slate.host/${this.props.creator.username}`;
+    let description = this.props.slate.data.body;
 
     const { objects } = this.props.slate.data;
 
@@ -94,7 +126,26 @@ export default class SlatePage extends React.Component {
       }
     }
 
-    const headerTitle = `${this.props.creator.username} / ${this.props.slate.slatename}`;
+    if (!Strings.isEmpty(this.props.cid)) {
+      let object = objects.find((each) => {
+        const url = each.url.replace("https://undefined", "https://");
+        const cid = Strings.getCIDFromIPFS(url);
+        return cid === this.props.cid;
+      });
+
+      if (object) {
+        title = !Strings.isEmpty(object.title) ? object.title : this.props.cid;
+        description = !Strings.isEmpty(object.body)
+          ? Strings.elide(object.body)
+          : `An object on ${url}`;
+        image = object.type.includes("image/") ? object.url : image;
+        url = `${url}/cid:${this.props.cid}`;
+      }
+    }
+
+    const headerTitle = `${this.props.creator.username} / ${
+      this.props.slate.slatename
+    }`;
 
     return (
       <WebsitePrototypeWrapper
@@ -104,7 +155,7 @@ export default class SlatePage extends React.Component {
         image={image}
       >
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric href={url} title={headerTitle}>
+          <WebsitePrototypeHeaderGeneric href={headerURL} title={headerTitle}>
             <ProcessedText text={this.props.slate.data.body} />
           </WebsitePrototypeHeaderGeneric>
           <Alert style={{ top: 0, width: "100%" }} />

@@ -5,7 +5,6 @@ import * as Actions from "~/common/actions";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
-import TextLoop from "react-text-loop";
 
 import { css } from "@emotion/react";
 
@@ -579,8 +578,32 @@ export const getServerSideProps = async (context) => {
 
 export default class IndexPage extends React.Component {
   async componentDidMount() {
-    const response = await Actions.health();
-    console.log("HEALTH_CHECK", response);
+    const videos = document.querySelectorAll("[data-src]");
+    const config = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver(function (entries, self) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          preloadVideo(entry.target);
+          self.unobserve(entry.target);
+        }
+      });
+    }, config);
+    videos.forEach((video) => {
+      observer.observe(video);
+    });
+
+    function preloadVideo(video) {
+      const src = video.getAttribute("data-src");
+      if (!src) {
+        return;
+      }
+      video.src = src;
+    }
   }
 
   render() {
@@ -609,7 +632,7 @@ export default class IndexPage extends React.Component {
 
             <video
               css={STYLES_VIDEO_BIG}
-              src={ASSET_HERO.src}
+              data-src={ASSET_HERO.src}
               autoPlay
               loop
               muted
@@ -660,17 +683,7 @@ export default class IndexPage extends React.Component {
           <div css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
-                A new home{" "}
-                <span css={STYLES_HIGHLIGHT}>
-                  for your{" "}
-                  <TextLoop interval={1200}>
-                    <span>images</span>
-                    <span>videos</span>
-                    <span>audios</span>
-                    <span>ePUBs</span>
-                    <span>PDFs</span>
-                  </TextLoop>
-                </span>
+                A new home <span css={STYLES_HIGHLIGHT}>for your images, video, audio, ePUBs, and PDFs</span>
               </h1>
               <h3 css={STYLES_H3} style={{ marginBottom: 48 }}>
                 <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of media file to your storage system.
@@ -680,8 +693,9 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_FILETYPE}>
               <div css={STYLES_FILETYPE_GRID_ITEM}>
                 <video
+                  preload="none"
                   css={STYLES_VIDEO_SMALL}
-                  src={ASSETS_SMALL[0].src}
+                  data-src={ASSETS_SMALL[0].src}
                   autoPlay
                   loop
                   muted
@@ -695,7 +709,7 @@ export default class IndexPage extends React.Component {
               <div css={STYLES_FILETYPE_GRID_ITEM}>
                 <video
                   css={STYLES_VIDEO_SMALL}
-                  src={ASSETS_SMALL[1].src}
+                  data-src={ASSETS_SMALL[1].src}
                   autoPlay
                   loop
                   muted
@@ -710,7 +724,7 @@ export default class IndexPage extends React.Component {
               <div css={STYLES_FILETYPE_GRID_ITEM}>
                 <video
                   css={STYLES_VIDEO_SMALL}
-                  src={ASSETS_SMALL[2].src}
+                  data-src={ASSETS_SMALL[2].src}
                   autoPlay
                   loop
                   muted
@@ -724,7 +738,7 @@ export default class IndexPage extends React.Component {
               <div css={STYLES_FILETYPE_GRID_ITEM}>
                 <video
                   css={STYLES_VIDEO_SMALL}
-                  src={ASSETS_SMALL[3].src}
+                  data-src={ASSETS_SMALL[3].src}
                   autoPlay
                   loop
                   muted
@@ -780,7 +794,7 @@ export default class IndexPage extends React.Component {
                     autoPlay
                     loop
                     muted
-                    src={each.src}
+                    data-src={each.src}
                     type="video/mp4"
                     playsInline
                     style={{
@@ -805,7 +819,7 @@ export default class IndexPage extends React.Component {
 
             <video
               css={STYLES_VIDEO_BIG}
-              src={ASSET_HERO_COLLABORATE.src}
+              data-src={ASSET_HERO_COLLABORATE.src}
               autoPlay
               loop
               muted

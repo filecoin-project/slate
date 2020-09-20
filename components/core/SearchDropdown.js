@@ -8,6 +8,7 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 const STYLES_DROPDOWN_CONTAINER = css`
   box-sizing: border-box;
   z-index: ${Constants.zindex.modal};
+  height: 100%;
 `;
 
 const STYLES_DROPDOWN = css`
@@ -30,7 +31,7 @@ const STYLES_DROPDOWN_ITEM = css`
   box-sizing: border-box;
   padding: 8px;
   font-size: 0.8em;
-  border-radius: 16px;
+  border-radius: 4px;
   border: 1px solid transparent;
   cursor: pointer;
   margin-bottom: -1px;
@@ -58,7 +59,7 @@ const STYLES_INPUT = css`
   padding: 0 24px 0 48px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border-radius: 12px;
+  border-radius: 4px;
   margin-bottom: 16px;
   ::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -76,7 +77,10 @@ const STYLES_INPUT = css`
 `;
 
 const STYLES_LOADER = css`
+  width: 100%;
+  height: 100%;
   display: flex;
+  align-items: center;
   justify-content: center;
 `;
 
@@ -167,49 +171,52 @@ export class SearchDropdown extends React.Component {
             <LoaderSpinner />
           </div>
         ) : (
-          <div style={{ position: "relative" }}>
-            <input
-              disabled={this.props.disabled}
-              css={STYLES_INPUT}
-              value={this.props.inputValue}
-              placeholder={this.props.placeholder}
-              style={this.props.inputStyle}
-              onChange={this._handleChange}
-              ref={(c) => {
-                this._input = c;
-              }}
-            />
-            <SVG.Search
-              height="20px"
-              style={{ position: "absolute", left: "12px", top: "10px" }}
-            />
-          </div>
-        )}
-        <div
-          data-menu
-          ref={(c) => {
-            this._optionRoot = c;
-          }}
-          css={STYLES_DROPDOWN}
-          style={this.props.style}
-        >
-          {this.props.results.map((each, i) => (
-            <div
-              key={each.value.data.id}
-              css={STYLES_DROPDOWN_ITEM}
-              style={{
-                borderColor:
-                  this.state.selectedIndex === i
-                    ? Constants.system.border
-                    : "transparent",
-                ...this.props.itemStyle,
-              }}
-              onClick={() => this.props.onSelect(each.value)}
-            >
-              {each.component}
+          <React.Fragment>
+            <div style={{ position: "relative" }}>
+              <input
+                disabled={this.props.disabled}
+                css={STYLES_INPUT}
+                value={this.props.inputValue}
+                placeholder={this.props.placeholder}
+                style={this.props.inputStyle}
+                onChange={this._handleChange}
+                ref={(c) => {
+                  this._input = c;
+                }}
+              />
+              <SVG.Search
+                height="20px"
+                style={{ position: "absolute", left: "12px", top: "10px" }}
+              />
             </div>
-          ))}
-        </div>
+
+            <div
+              data-menu
+              ref={(c) => {
+                this._optionRoot = c;
+              }}
+              css={STYLES_DROPDOWN}
+              style={this.props.style}
+            >
+              {this.props.results.map((each, i) => (
+                <div
+                  key={each.value.data.id}
+                  css={STYLES_DROPDOWN_ITEM}
+                  style={{
+                    borderColor:
+                      this.state.selectedIndex === i
+                        ? Constants.system.border
+                        : "transparent",
+                    ...this.props.itemStyle,
+                  }}
+                  onClick={() => this.props.onSelect(each.value)}
+                >
+                  {each.component}
+                </div>
+              ))}
+            </div>
+          </React.Fragment>
+        )}
       </div>
     );
   }

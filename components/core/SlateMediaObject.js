@@ -48,6 +48,10 @@ const STYLES_IMAGE = css`
   max-height: 100%;
 `;
 
+const typeMap = {
+  "video/quicktime": "video/mp4",
+};
+
 export default class SlateMediaObject extends React.Component {
   render() {
     const name = `${this.props.data.name}`;
@@ -55,45 +59,40 @@ export default class SlateMediaObject extends React.Component {
     // This is a hack to catch this undefined case I don't want to track down yet.
     const url = this.props.data.url.replace("https://undefined", "https://");
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
+    const playType = typeMap[type] ? typeMap[type] : type;
 
     let element = <div css={STYLES_FAILURE}>No Preview</div>;
 
     if (type.startsWith("application/pdf")) {
-      element = <object css={STYLES_OBJECT} data={url} type={type} />;
+      return <object css={STYLES_OBJECT} data={url} type={type} />;
     }
 
     if (type.startsWith("video/")) {
-      let videoType = type;
-      if (videoType === "video/quicktime") {
-        videoType = "video/mp4";
-      }
-
-      element = (
+      return (
         <video
           autoPlay
           playsInline
           controls
           name="media"
-          type={videoType}
-          css={STYLES_OBJECT}
-        >
-          <source src={url} type={videoType} />
+          type={playType}
+          css={STYLES_OBJECT}>
+          <source src={url} type={playType} />
         </video>
       );
     }
 
     if (type.startsWith("audio/")) {
-      element = (
+      return (
         <div css={STYLES_ASSET}>
           <audio autoPlay controls name="media">
-            <source src={url} type={type} />
+            <source src={url} type={playType} />
           </audio>
         </div>
       );
     }
 
     if (type.startsWith("image/")) {
-      element = (
+      return (
         <div css={STYLES_ASSET}>
           <img css={STYLES_IMAGE} src={url} />
         </div>

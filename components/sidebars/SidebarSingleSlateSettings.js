@@ -6,6 +6,7 @@ import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { ButtonWarning } from "~/components/system/components/Buttons";
 
 const STYLES_GROUP = css`
   display: flex;
@@ -14,25 +15,13 @@ const STYLES_GROUP = css`
   width: 100%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-`;
-
-const STYLES_LEFT = css`
-  padding: 4px 0 0 0;
-  min-width: 10%;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-`;
-
-const STYLES_RIGHT = css`
-  padding-left: 48px;
-  padding-top: 12px;
-  flex-shrink: 0;
+  margin-top: 8px;
 `;
 
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
   font-size: 18px;
-  margin-top: 48px;
+  margin-top: 32px;
 `;
 
 export default class SidebarSingleSlateSettings extends React.Component {
@@ -179,7 +168,6 @@ export default class SidebarSingleSlateSettings extends React.Component {
           style={{ marginTop: 12 }}
           name="body"
           value={this.state.body}
-          placeholder="A slate."
           onChange={this._handleChange}
           onSubmit={this._handleSubmit}
         />
@@ -187,22 +175,16 @@ export default class SidebarSingleSlateSettings extends React.Component {
         <System.P css={STYLES_HEADER} style={{ marginTop: 48 }}>
           Privacy
         </System.P>
-        <div css={STYLES_GROUP} styles={{ margin: 0 }}>
-          <div css={STYLES_LEFT}>
-            <System.P>
-              {this.state.public ? "Make slate private" : "Make slate public"}
-            </System.P>
-          </div>
-          <div css={STYLES_RIGHT}>
-            <System.Toggle
-              name="public"
-              onChange={this._handleChange}
-              active={this.state.public}
-            />
-          </div>
+        <div css={STYLES_GROUP}>
+          <System.P>{this.state.public ? "Public" : "Private"}</System.P>
+          <System.Toggle
+            name="public"
+            onChange={this._handleChange}
+            active={this.state.public}
+          />
         </div>
 
-        <div style={{ marginTop: 32 }}>
+        <div style={{ marginTop: 40 }}>
           <System.ButtonPrimary
             full
             onClick={this._handleSubmit}
@@ -212,38 +194,31 @@ export default class SidebarSingleSlateSettings extends React.Component {
           </System.ButtonPrimary>
 
           {!this.state.loading ? (
-            <System.ButtonSecondary
+            <ButtonWarning
               style={{
                 marginTop: 16,
-                backgroundColor: "#e5e5e5",
-                color: Constants.system.red,
-                boxShadow: "none",
               }}
               full
               onClick={this._handleCancel}
             >
               Cancel
-            </System.ButtonSecondary>
+            </ButtonWarning>
           ) : null}
         </div>
 
         {!this.state.loading ? (
           <div style={{ marginTop: 48 }}>
-            <System.ButtonSecondary
+            <ButtonWarning
               full
               onClick={this._handleDelete}
               loading={this.state.loading}
-              style={{
-                backgroundColor: "#e5e5e5",
-                color: Constants.system.red,
-                boxShadow: "none",
-              }}
+              style={{ overflow: "hidden" }}
             >
               Delete{" "}
               {this.props.current.data && this.props.current.data.name
                 ? this.props.current.data.name
                 : this.props.current.slatename}
-            </System.ButtonSecondary>
+            </ButtonWarning>
           </div>
         ) : null}
       </React.Fragment>

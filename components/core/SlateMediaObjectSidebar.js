@@ -301,21 +301,26 @@ export default class SlateMediaObjectSidebar extends React.Component {
             href={Strings.getCIDGatewayURL(this.props.cid)}
             target="_blank"
           >
-            Open file in new tab &nbsp;&nbsp;⭢
-          </a>
-          <a
-            css={STYLES_BUTTON}
-            href={Strings.getCIDGatewayURL(this.props.cid)}
-            target="_blank"
-            download={this.props.cid}
-          >
-            Download file &nbsp;&nbsp;⭢
+            Open original CID &nbsp;&nbsp;⭢
           </a>
         </div>
       );
     }
 
     if (this.props.onDelete && this.props.editing) {
+      elements.push(
+        <a
+          key="sidebar-media-object-preview"
+          css={STYLES_BUTTON}
+          target="_blank"
+          href={`/${this.props.username}/${this.props.slatename}/cid:${
+            this.props.cid
+          }`}
+        >
+          View slate object public URL&nbsp;&nbsp;&nbsp;⭢
+        </a>
+      );
+
       elements.push(
         <span
           key="sidebar-media-object-delete"

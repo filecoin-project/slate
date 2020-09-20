@@ -12,15 +12,16 @@ const IconMap = {
   NETWORK: <SVG.Activity height="20px" />,
   DIRECTORY: <SVG.Directory height="20px" />,
   FOLDER: <SVG.Folder height="20px" />,
-  WALLET: <SVG.Wallet height="20px" />,
+  WALLET: <SVG.OldWallet height="20px" />,
   DEALS: <SVG.Deals height="20px" />,
   SLATES: <SVG.Layers height="20px" />,
   SLATE: <SVG.Slate height="20px" />,
   LOCAL_DATA: <SVG.HardDrive height="20px" />,
   PROFILE_PAGE: <SVG.ProfileUser height="20px" />,
   SETTINGS_DEVELOPER: <SVG.Tool height="20px" />,
+  SETTINGS: <SVG.Layers height="20px" />,
   DIRECTORY: <SVG.Directory height="20px" />,
-  ARCHIVE: <SVG.Layers height="20px" />,
+  FILECOIN: <SVG.Wallet height="20px" />,
 };
 
 const STYLES_NAVIGATION = css`

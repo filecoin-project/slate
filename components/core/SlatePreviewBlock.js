@@ -16,6 +16,7 @@ const STYLES_IMAGE_ROW = css`
   flex-direction: row;
   flex-wrap: wrap;
   height: 160px;
+  justify-content: space-between;
   overflow: hidden;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -26,7 +27,7 @@ const STYLES_IMAGE_ROW = css`
 const STYLES_ITEM_BOX = css`
   width: 160px;
   height: 160px;
-  margin: 0px 18px;
+  margin: 0px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -353,7 +354,8 @@ export default class SlatePreviewBlock extends React.Component {
         ) : (
           <div style={{ height: "8px" }} />
         )}
-        {this.props.slate.data.objects.length ? (
+        {this.props.slate.data.objects &&
+        this.props.slate.data.objects.length ? (
           <SlatePreviewRow
             {...this.props}
             previewStyle={this.props.previewStyle}

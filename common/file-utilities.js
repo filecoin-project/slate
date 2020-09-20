@@ -86,6 +86,7 @@ export const upload = async ({ file, slate, context }) => {
   }
 
   if (slate) {
+    console.log("slate");
     const addResponse = await fetch(`/api/slates/add-url`, {
       method: "POST",
       headers: {

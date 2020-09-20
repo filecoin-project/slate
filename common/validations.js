@@ -2,6 +2,7 @@ import * as Strings from "~/common/strings";
 
 const USERNAME_REGEX = new RegExp("^[a-zA-Z0-9_]{0,}[a-zA-Z]+[0-9]*$");
 const MIN_PASSWORD_LENGTH = 8;
+const EMAIL_REGEX = /^[\w-]+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,50}$/;
 
 // TODO(jim): Regex should cover some of this.
 const REJECT_LIST = [
@@ -71,6 +72,16 @@ export const slatename = (text) => {
   return true;
 };
 
+export const email = (text) => {
+  if (!text || !text.length) {
+    return false;
+  }
+  if (!EMAIL_REGEX.test(text)) {
+    return false;
+  }
+  return true;
+};
+
 export const username = (text) => {
   if (Strings.isEmpty(text)) {
     return false;
@@ -100,19 +111,21 @@ export const password = (text) => {
 };
 
 export const isFileTypeAllowed = (type = "") => {
+  console.log({ type });
+
   if (type.startsWith("text/")) {
     return true;
   }
 
-  if (type.startsWith("application/font-woff")) {
+  if (type.startsWith("model/")) {
     return true;
   }
 
-  if (type.startsWith("application/pdf")) {
+  if (type.startsWith("font/")) {
     return true;
   }
 
-  if (type.startsWith("application/epub")) {
+  if (type.startsWith("application/")) {
     return true;
   }
 

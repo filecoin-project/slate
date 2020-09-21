@@ -41,21 +41,22 @@ export function CopyEmail() {
   );
 }
 
-export default class PrivacyPage extends React.Component {
+export default class GuidelinesPage extends React.Component {
   render() {
-    const title = `Slate: Guidelines and Terms of Service`;
+    const title = `Slate: Community Guidelines`;
     const description =
       "We believe that our mission is best served in an environment that is friendly, safe, and accepting.";
-    const url = "https://slate.host/privacy";
+    const url = "https://slate.host/guidelines";
 
     return (
       <WebsitePrototypeWrapper
         title={title}
         description={description}
-        url={url}>
+        url={url}
+      >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <System.H1>Slate Guidelines and Terms of Service</System.H1>
+          <System.H1>Community Guidelines</System.H1>
           <br />
           <System.P>
             We believe that our mission is best served in an environment that is
@@ -233,8 +234,9 @@ export default class PrivacyPage extends React.Component {
             This is a living document and may be updated from time to time.
             Please refer to the{" "}
             <a
-              href="https://github.com/filecoin-project/slate/commits/main"
-              alt="GitHub Changelog">
+              href="https://github.com/filecoin-project/slate/blob/main/pages/guidelines.js"
+              alt="GitHub Changelog"
+            >
               git history
             </a>{" "}
             for this document to view the changes.

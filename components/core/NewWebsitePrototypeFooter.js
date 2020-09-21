@@ -149,8 +149,8 @@ export const NewWebsitePrototypeFooter = (props) => {
             Community
           </a>
           <br />
-          <a css={STYLES_LINK} href="/privacy" target="_blank">
-            Privacy
+          <a css={STYLES_LINK} href="/guidelines" target="_blank">
+            Guidelines
           </a>
         </div>
       </div>

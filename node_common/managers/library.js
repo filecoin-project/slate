@@ -51,7 +51,7 @@ export const updateDataIPFS = (d, { ipfs }) => {
     d.networks.push("IPFS");
   }
 
-  return { ...d, ipfs: ipfs.replace("/ipfs/", "") };
+  return { ...d, cid: ipfs.replace("/ipfs/", ""), ipfs };
 };
 
 export const updateDataFilecoin = (d, { job, storage, retrieval }) => {

@@ -12,7 +12,6 @@ export default async ({ data, owner_user_id }) => {
         .returning("*");
 
       const index = query ? query.pop() : null;
-      index.type = "SLATE";
       return index;
     },
     errorFn: async (e) => {

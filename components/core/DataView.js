@@ -617,7 +617,9 @@ export default class DataView extends React.Component {
                 <div
                   key={each.id}
                   css={STYLES_IMAGE_BOX}
-                  onClick={() => this._handleSelect(index)}
+                  onClick={() =>
+                    this._handleSelect(index + this.state.startIndex)
+                  }
                 >
                   <SlateMediaObjectPreview
                     url={`${Constants.gateways.ipfs}/${each.ipfs.replace(

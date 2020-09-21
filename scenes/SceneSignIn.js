@@ -388,6 +388,10 @@ export default class SceneSignIn extends React.Component {
             </System.ButtonPrimary>
           </div>
           <div css={STYLES_LINKS}>
+            <a css={STYLES_LINK_ITEM} href="/terms" target="_blank">
+              ⭢ You are agreeing to our terms of service.
+            </a>
+
             <div
               css={STYLES_LINK_ITEM}
               onClick={() => {

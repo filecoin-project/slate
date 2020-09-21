@@ -6,7 +6,6 @@ import B from "busboy";
 const HIGH_WATER_MARK = 1024 * 1024 * 3;
 
 export const formMultipart = async (req, res, { user }) => {
-  console.log("form multipart called");
   let data = null;
 
   const upload = () =>
@@ -27,7 +26,6 @@ export const formMultipart = async (req, res, { user }) => {
           name: filename,
           type: mime,
         });
-
         let push;
         try {
           const token = user.data.tokens.api;

@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { getFileExtension } from "../../common/strings";
 
 // NOTE(jim):
 // There is some Navigation specific data here for folders.
@@ -17,7 +18,9 @@ export const createBucket = ({ id, name }) => {
 
 // NOTE(jim):
 // Every root level user gets a bucket.
-export const init = ({ bucketName, readableName }) => [createBucket({ id: bucketName, name: readableName })];
+export const init = ({ bucketName, readableName }) => [
+  createBucket({ id: bucketName, name: readableName }),
+];
 
 export const createLocalDataIncomplete = ({ type, size, name }, id = null) => {
   return {
@@ -48,7 +51,7 @@ export const updateDataIPFS = (d, { ipfs }) => {
     d.networks.push("IPFS");
   }
 
-  return { ...d, ipfs };
+  return { ...d, ipfs: ipfs.replace("/ipfs/", "") };
 };
 
 export const updateDataFilecoin = (d, { job, storage, retrieval }) => {
@@ -96,15 +99,41 @@ export const getDataByIPFS = (user, ipfs) => {
   return null;
 };
 
-export const addData = ({ user, data }) => {
+export const addData = ({ user, files }) => {
   const { library } = user.data;
+  console.log("starting length");
+  console.log(library[0].children.length);
 
   // TODO(jim): Since we don't support bucket organization... yet.
   // Add just pushes to the first set. But we can change this easily later.
+  console.log("files");
+  console.log(files);
+  let noRepeats = [...files];
   for (let i = 0; i < library.length; i++) {
-    library[i].children = [data, ...library[i].children];
+    let cids = library[i].children.map((file) => file.ipfs);
+    for (let j = 0; j < files.length; j++) {
+      if (
+        cids.includes(`/ipfs/${files[j].ipfs}`) ||
+        cids.includes(files[j].ipfs)
+      ) {
+        noRepeats[j] = null;
+      }
+    }
+  }
+
+  noRepeats = noRepeats.filter((file) => {
+    return !!file;
+  });
+  for (let i = 0; i < library.length; i++) {
+    library[i].children = [...noRepeats, ...library[i].children];
     break;
   }
 
-  return { ...user.data, library };
+  console.log("ending length");
+  console.log(library[0].children.length);
+  return {
+    updatedUserDataFields: { ...user.data, library },
+    added: noRepeats.length,
+    skipped: files.length - noRepeats.length,
+  };
 };

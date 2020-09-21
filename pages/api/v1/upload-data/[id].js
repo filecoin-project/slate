@@ -108,9 +108,9 @@ export default async (req, res) => {
     ipfs,
   });
 
-  const updatedUserDataFields = LibraryManager.addData({
+  const { updatedUserDataFields } = LibraryManager.addData({
     user,
-    data: updatedData,
+    files: [updatedData],
   });
 
   await Data.updateUserById({
@@ -134,7 +134,7 @@ export default async (req, res) => {
     });
   }
 
-  const cid = updatedData.ipfs.replace("/ipfs/", "");
+  const cid = updatedData.ipfs;
   const url = `${Constants.IPFS_GATEWAY_URL}/${cid}`;
   const newSlateObjectEntity = {
     id: updatedData.id,

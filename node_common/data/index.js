@@ -6,6 +6,12 @@ import deleteUserByUsername from "~/node_common/data/methods/delete-user-by-user
 import getUserByUsername from "~/node_common/data/methods/get-user-by-username";
 import getUserById from "~/node_common/data/methods/get-user-by-id";
 
+//NOTE(martina):
+// Pending user upload queries
+import getPendingDataForUserId from "~/node_common/data/methods/get-pending-data-for-user-id";
+import removePendingDataForUserId from "~/node_common/data/methods/remove-pending-data-for-user-id";
+import createPendingData from "~/node_common/data/methods/create-pending-data";
+
 // NOTE(jim):
 // Slate postgres queries
 import createSlate from "~/node_common/data/methods/create-slate";
@@ -67,6 +73,10 @@ export {
   deleteUserByUsername,
   getUserByUsername,
   getUserById,
+  // NOTE(martina): Pending user upload operations
+  getPendingDataForUserId,
+  removePendingDataForUserId,
+  createPendingData,
   // NOTE(jim): Slate operations.
   createSlate,
   getSlateByName,

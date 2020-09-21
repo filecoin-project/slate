@@ -11,12 +11,10 @@ export const config = {
 };
 
 export default async (req, res) => {
-  console.log("[upload] called");
   const id = Utilities.getIdFromCookie(req);
   const user = await Data.getUserById({
     id,
   });
-
   const response = await Upload.formMultipart(req, res, {
     user,
   });
@@ -41,15 +39,7 @@ export default async (req, res) => {
     ipfs,
   });
 
-  const updatedUserDataFields = LibraryManager.addData({
-    user,
-    data: finalData,
-  });
-
-  await Data.updateUserById({
-    id: user.id,
-    data: updatedUserDataFields,
-  });
+  await Data.createPendingData({ data: finalData, owner_user_id: user.id });
 
   return res.status(200).send({
     decorator: "SERVER_UPLOAD",

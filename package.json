@@ -18,7 +18,8 @@
     "scripts": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts",
     "www-setup-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts setup-database",
     "www-seed-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts seed-database",
-    "www-drop-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts drop-database"
+    "www-drop-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts drop-database",
+    "www-adjust-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts adjust"
   },
   "build": {
     "appId": "com.slate",

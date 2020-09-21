@@ -111,7 +111,7 @@ export default class SceneSlate extends React.Component {
     isMounted = false;
 
     window.removeEventListener(
-      "update-current-slate",
+      "remote-update-slate-screen",
       this._handleRemoteUpdate
     );
     window.removeEventListener(

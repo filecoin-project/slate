@@ -126,4 +126,5 @@ export const uploadToSlate = async ({ responses, slate }) => {
       detail: { alert: { decorator: addResponse.decorator } },
     });
   }
+  console.log("finished upload to slate");
 };

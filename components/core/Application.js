@@ -252,17 +252,64 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleUpload = ({ files, slate }) => {
+    console.log(files);
     Promise.allSettled(
       files.map((file) => FileUtilities.upload({ file, context: this }))
     )
       .then((responses) => {
         let succeeded = responses
           .filter((res) => {
-            return res.status === "fulfilled";
+            return res.status === "fulfilled" && res.value && !res.value.error;
           })
           .map((res) => res.value);
+        console.log(succeeded);
         if (slate && slate.id && succeeded && succeeded.length) {
-          return FileUtilities.uploadToSlate({ responses: succeeded, slate });
+          FileUtilities.uploadToSlate({ responses: succeeded, slate });
+        }
+        console.log("past upload to slate");
+      })
+      .then(async () => {
+        console.log("starting process pending files");
+        let response = await Actions.processPendingFiles();
+        if (!response) {
+          dispatchCustomEvent({
+            name: "create-alert",
+            detail: {
+              alert: {
+                message:
+                  "We encountered issues updating your uploaded files. Please try again",
+              },
+            },
+          });
+          return;
+        }
+        if (response.error) {
+          dispatchCustomEvent({
+            name: "create-alert",
+            detail: {
+              alert: {
+                decorator: response.decorator,
+              },
+            },
+          });
+          return;
+        }
+        const { added, skipped } = response;
+        if (added && added > 0) {
+          let message = `${added || 0} file${
+            added !== 1 ? "s" : ""
+          } were successfully uploaded.`;
+          if (skipped) {
+            message += ` ${skipped || 0} duplicate / existing file${
+              added !== 1 ? "s were" : " was"
+            } skipped.`;
+          }
+          dispatchCustomEvent({
+            name: "create-alert",
+            detail: {
+              alert: { message, status: "INFO" },
+            },
+          });
         }
       })
       .then(() => {

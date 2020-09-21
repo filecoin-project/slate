@@ -118,6 +118,13 @@ export const search = async (data) => {
   });
 };
 
+export const processPendingFiles = async (data) => {
+  return await returnJSON(`/api/data/process-pending`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify(data),
+  });
+};
+
 export const updateViewer = async (data) => {
   return await returnJSON(`/api/users/update`, {
     ...DEFAULT_OPTIONS,

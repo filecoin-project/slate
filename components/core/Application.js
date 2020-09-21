@@ -252,7 +252,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleUpload = ({ files, slate }) => {
-    console.log(files);
     Promise.allSettled(
       files.map((file) => FileUtilities.upload({ file, context: this }))
     )
@@ -262,15 +261,14 @@ export default class ApplicationPage extends React.Component {
             return res.status === "fulfilled" && res.value && !res.value.error;
           })
           .map((res) => res.value);
-        console.log(succeeded);
         if (slate && slate.id && succeeded && succeeded.length) {
           FileUtilities.uploadToSlate({ responses: succeeded, slate });
         }
-        console.log("past upload to slate");
       })
       .then(async () => {
-        console.log("starting process pending files");
-        let response = await Actions.processPendingFiles();
+        return await Actions.processPendingFiles();
+      })
+      .then(async (response) => {
         if (!response) {
           dispatchCustomEvent({
             name: "create-alert",
@@ -294,16 +292,26 @@ export default class ApplicationPage extends React.Component {
           });
           return;
         }
-        const { added, skipped } = response;
-        if (added && added > 0) {
-          let message = `${added || 0} file${
-            added !== 1 ? "s" : ""
-          } were successfully uploaded.`;
-          if (skipped) {
-            message += ` ${skipped || 0} duplicate / existing file${
-              added !== 1 ? "s were" : " was"
-            } skipped.`;
-          }
+
+        await this.rehydrate({ resetFiles: true });
+
+        dispatchCustomEvent({
+          name: "remote-update-slate-screen",
+          detail: {},
+        });
+
+        const { added, skipped } = response.data;
+        if (!added && !skipped) return;
+        let message = "";
+        if (added) {
+          message += `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
+        }
+        if (skipped) {
+          message += `${skipped || 0} duplicate / existing file${
+            added !== 1 ? "s were" : " was"
+          } skipped.`;
+        }
+        if (message) {
           dispatchCustomEvent({
             name: "create-alert",
             detail: {
@@ -311,14 +319,6 @@ export default class ApplicationPage extends React.Component {
             },
           });
         }
-      })
-      .then(() => {
-        this.rehydrate({ resetFiles: true });
-
-        dispatchCustomEvent({
-          name: "remote-update-slate-screen",
-          detail: {},
-        });
       });
   };
 

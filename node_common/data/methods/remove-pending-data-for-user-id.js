@@ -29,7 +29,7 @@ export default async ({ owner_user_id }) => {
 
       await Data.updateUserById({
         id: user.id,
-        updatedUserDataFields,
+        data: updatedUserDataFields,
       });
 
       return { added, skipped };

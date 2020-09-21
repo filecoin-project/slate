@@ -101,13 +101,9 @@ export const getDataByIPFS = (user, ipfs) => {
 
 export const addData = ({ user, files }) => {
   const { library } = user.data;
-  console.log("starting length");
-  console.log(library[0].children.length);
 
   // TODO(jim): Since we don't support bucket organization... yet.
   // Add just pushes to the first set. But we can change this easily later.
-  console.log("files");
-  console.log(files);
   let noRepeats = [...files];
   for (let i = 0; i < library.length; i++) {
     let cids = library[i].children.map((file) => file.ipfs);
@@ -129,8 +125,6 @@ export const addData = ({ user, files }) => {
     break;
   }
 
-  console.log("ending length");
-  console.log(library[0].children.length);
   return {
     updatedUserDataFields: { ...user.data, library },
     added: noRepeats.length,

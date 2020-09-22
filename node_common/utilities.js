@@ -168,7 +168,6 @@ export const getBucketAPIFromUserToken = async (token, user) => {
       buckets,
       bucketKey: root.key,
       bucketRoot: root,
-      bucketName: BUCKET_NAME,
     };
   }
   console.log(`[buckets] getOrCreate succes!`);

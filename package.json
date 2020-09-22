@@ -45,6 +45,7 @@
     "@emotion/react": "11.0.0-next.12",
     "@emotion/server": "11.0.0-next.12",
     "@improbable-eng/grpc-web": "^0.13.0",
+    "@openworklabs/filecoin-number": "0.0.10",
     "@react-hook/window-size": "^3.0.7",
     "@slack/webhook": "^5.0.3",
     "@textile/grpc-transport": "0.0.3",

@@ -14,6 +14,7 @@ const IconMap = {
   FOLDER: <SVG.Folder height="20px" />,
   WALLET: <SVG.OldWallet height="20px" />,
   DEALS: <SVG.Deals height="20px" />,
+  MAKE_DEAL: <SVG.Deals height="20px" />,
   SLATES: <SVG.Layers height="20px" />,
   SLATE: <SVG.Slate height="20px" />,
   LOCAL_DATA: <SVG.HardDrive height="20px" />,

@@ -1,5 +1,7 @@
 import * as Constants from "~/common/constants";
 
+import { FilecoinNumber, Converter } from "@openworklabs/filecoin-number";
+
 const MINUTE = 60;
 const HOUR = MINUTE * 60;
 const DAY = HOUR * 24;
@@ -69,8 +71,10 @@ export const getCIDFromIPFS = (url) => {
 };
 
 export const formatAsFilecoinConversion = (number) => {
-  number = number / Math.pow(10, 18);
-  return `${formatAsFilecoin(number)}`;
+  const filecoinNumber = new FilecoinNumber(`${number}`, "attofil");
+  //const inAttoFil = filecoinNumber.toAttoFil();
+  const inFil = filecoinNumber.toFil();
+  return `${formatAsFilecoin(inFil)}`;
 };
 
 export const formatAsFilecoin = (number) => {

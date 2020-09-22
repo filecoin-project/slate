@@ -39,7 +39,7 @@ const STYLES_RIGHT = css`
   flex-shrink: 0;
 `;
 
-const createState = (config) => {
+export const createState = (config) => {
   return {
     settings_hot_enabled: config.hot.enabled,
     settings_hot_allow_unfreeze: config.hot.allowUnfreeze,

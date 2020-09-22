@@ -6,7 +6,7 @@ import * as Social from "~/node_common/social";
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
-import { Buckets, PrivateKey, Pow } from "@textile/hub";
+import { Buckets, PrivateKey, Pow, Client } from "@textile/hub";
 
 const BUCKET_NAME = "data";
 
@@ -128,11 +128,34 @@ export const getBucketAPIFromUserToken = async (token, user) => {
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await buckets.getToken(identity);
 
+<<<<<<< HEAD
   // TODO(jim): Put this call into a file for all Textile related calls.
   let target;
   console.log(`[buckets] getOrCreate`);
   try {
-    target = await buckets.getOrCreate(BUCKET_NAME);
+
+    // Create a threads client
+    const client = new Client(buckets.context)
+    try {
+      // Get a default thread to store our buckets
+      const res = await client.getThread('buckets')
+      buckets.withThread(res.id.toString())
+    } catch (error) {
+      if (error.message !== 'Thread not found') {
+        throw new Error(error.message)
+      }
+      const newId = ThreadID.fromRandom()
+      await client.newDB(newId, 'buckets')
+      threadID = newId.toString()
+      buckets.withThread(threadID)
+    }
+
+    const roots = await buckets.list()
+    let root = roots.find((bucket) => bucket.name === BUCKET_NAME)
+    if (!root) {
+      const created = await this.create(BUCKET_NAME)
+      root = created.root
+    }
   } catch (e) {
     Social.sendTextileSlackMessage({
       file: "/node_common/utilities.js",
@@ -142,16 +165,14 @@ export const getBucketAPIFromUserToken = async (token, user) => {
       functionName: `buckets.getOrCreate`,
     });
 
-    return { buckets: null, bucketKey: null, bucketRoot: null };
+    return {
+      buckets,
+      bucketKey: root.key,
+      bucketRoot: root,
+      bucketName: BUCKET_NAME,
+    };
   }
   console.log(`[buckets] getOrCreate succes!`);
-
-  return {
-    buckets,
-    bucketKey: target.root.key,
-    bucketRoot: target,
-    bucketName: BUCKET_NAME,
-  };
 };
 
 export const getFileName = (s) => {

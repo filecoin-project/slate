@@ -5,13 +5,13 @@ import * as System from "~/components/system";
 import { css, keyframes } from "@emotion/react";
 
 const blinkCursor = keyframes`
-0% {opacity: 0;}
-50% {opacity: 1;}
-100% {opacity: 0;}
+  0% {opacity: 0;}
+  50% {opacity: 1;}
+  100% {opacity: 0;}
 `;
 
 const typewriter = keyframes`
-  0%,100% {width: 0;}
+  0%, 100% {width: 0;}
   20%, 80% {width: 10.2em;}
 `;
 

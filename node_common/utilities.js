@@ -128,7 +128,6 @@ export const getBucketAPIFromUserToken = async (token, user) => {
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await buckets.getToken(identity);
 
-<<<<<<< HEAD
   // TODO(jim): Put this call into a file for all Textile related calls.
   let target;
   console.log(`[buckets] getOrCreate`);

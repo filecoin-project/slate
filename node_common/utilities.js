@@ -127,6 +127,7 @@ export const getBucketAPIFromUserToken = async (token, user) => {
   const identity = await PrivateKey.fromString(token);
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await buckets.getToken(identity);
+  let root
 
   // TODO(jim): Put this call into a file for all Textile related calls.
   console.log(`[buckets] getOrCreate`);
@@ -151,7 +152,7 @@ export const getBucketAPIFromUserToken = async (token, user) => {
     }
 
     const roots = await buckets.list()
-    let root = roots.find((bucket) => bucket.name === BUCKET_NAME)
+    roots.find((bucket) => bucket.name === BUCKET_NAME)
     if (!root) {
       const created = await buckets.create(BUCKET_NAME)
       root = created.root

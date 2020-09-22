@@ -1,6 +1,7 @@
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Strings from "~/common/strings";
+import * as Social from "~/node_common/social";
 
 const generateLayout = (items) => {
   if (!items) {

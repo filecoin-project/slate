@@ -76,7 +76,7 @@ const STYLES_TEXT_BLOCK = css`
   }
 `;
 
-const STYLES_HERO_TEXT = {
+const stylesHeroText = {
   width: `100%`,
 };
 
@@ -92,7 +92,7 @@ const STYLES_SECTION_WRAPPER = css`
 const STYLES_DINNER_TABLE = css`
   width: 50%;
   padding: 48px 64px;
-  background: ${Constants.system.wall};
+  background-color: #e7e7e9;
   display: inline-block;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -107,11 +107,11 @@ const STYLES_TABLE_ROW = css`
 
 const STYLES_FIGURES_GROUP = css`
   width: 50%;
-  margin: 0 auto;
+  margin: -4px auto;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
-    margin: 10vh 0 0 0;
+    margin: 10vh 0 -4px 0;
   }
 `;
 
@@ -121,7 +121,7 @@ const STYLES_FIGURE = css`
 
 const STYLES_FIGURES_BOTTOM = css`
   width: 50%;
-  margin: 0 auto;
+  margin: -4px auto;
   transform: rotate(180deg);
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -131,7 +131,7 @@ const STYLES_FIGURES_BOTTOM = css`
 
 const STYLES_FIGURE_RIGHT = css`
   width: 25%;
-  transform: rotate(90deg);
+  transform: rotate(90deg) translateY(39%);
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -140,7 +140,7 @@ const STYLES_FIGURE_RIGHT = css`
 
 const STYLES_FIGURE_LEFT = css`
   width: 25%;
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) translateY(39%);
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -158,19 +158,19 @@ const STYLES_BUTTON = css`
   align-items: center;
   justify-content: center;
   user-select: none;
-  background: ${Constants.system.slate};
+  background-color: ${Constants.system.slate};
   color: ${Constants.system.white};
   font-family: ${Constants.font.semiBold};
   font-weight: 400;
   font-size: ${Constants.typescale.lvl1};
   letter-spacing: -0.011rem;
 
-  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px -4px 10px #ffffff, 4px 4px 10px #b2b4b3;
   transition: 200ms ease all;
   cursor: pointer;
 
   :hover {
-    background: ${Constants.system.white};
+    background: #e7e7e9;
     color: ${Constants.system.slate};
   }
 `;
@@ -214,17 +214,17 @@ export default class CommunityPage extends React.Component {
                 src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
               />
               <div css={STYLES_DINNER_TABLE}>
-                <h1 css={STYLES_H1} style={STYLES_HERO_TEXT}>
+                <h1 css={STYLES_H1} style={stylesHeroText}>
                   An open invitation to everyone
                 </h1>
-                <p css={STYLES_P} style={STYLES_HERO_TEXT}>
+                <p css={STYLES_P} style={stylesHeroText}>
                   Slate is designed and built by a growing community of hackers, artists, and creatives on the web.
                 </p>
                 <button css={STYLES_BUTTON}>Join our community </button>
               </div>
               <img
                 css={STYLES_FIGURE_RIGHT}
-                src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
+                src="https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
               />
             </div>
             <div css={STYLES_FIGURES_BOTTOM}>

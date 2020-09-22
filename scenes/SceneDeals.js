@@ -30,10 +30,6 @@ const NestedTable = (data) => {
 export default class SceneDeals extends React.Component {
   state = {};
 
-  async componentDidMount() {
-    await this.props.onRehydrate();
-  }
-
   _handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };

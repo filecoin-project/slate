@@ -6,7 +6,7 @@ import * as Social from "~/node_common/social";
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
-import { Buckets, PrivateKey, Pow, Client } from "@textile/hub";
+import { Buckets, PrivateKey, Pow, Client, ThreadID } from "@textile/hub";
 
 const BUCKET_NAME = "data";
 

@@ -175,7 +175,6 @@ let data = new FormData();
 data.append("data", file);
 
 const response = await fetch(url, {
-  method: 'POST',
   headers: {
     // NOTE: your API key
     Authorization: 'Basic ${key}',

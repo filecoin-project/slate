@@ -59,6 +59,14 @@ export const formMultipart = async (req, res, { user }) => {
       });
 
       form.on("error", (e) => {
+        Social.sendTextileSlackMessage({
+          file: "/node_common/upload.js",
+          user,
+          message: e.message,
+          code: e.code,
+          functionName: `form`,
+        });
+
         return reject({
           decorator: "SERVER_BUCKET_STREAM_FAILURE",
           error: true,
@@ -71,7 +79,7 @@ export const formMultipart = async (req, res, { user }) => {
 
   const response = await upload();
 
-  if (response.error) {
+  if (response && response.error) {
     return response;
   }
 

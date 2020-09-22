@@ -1,6 +1,7 @@
 import * as Environment from "~/node_common/environment";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/node_common/constants";
+import * as Social from "~/node_common/social";
 
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
@@ -80,12 +81,39 @@ export const parseAuthHeader = (value) => {
 };
 
 // NOTE(jim): Requires @textile/hub
-export const getPowergateAPIFromUserToken = async (token) => {
+export const getPowergateAPIFromUserToken = async (token, user) => {
   const identity = await PrivateKey.fromString(token);
   const power = await Pow.withKeyInfo(TEXTILE_KEY_INFO);
   await power.getToken(identity);
-  const { info } = await power.info();
-  const health = await power.health();
+
+  // TODO(jim): Put this call into a file for all Textile related calls.
+  let info = {};
+  try {
+    const powerInfoResponse = await power.info();
+    info = powerInfoResponse.info;
+  } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/utilities.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `power.info`,
+    });
+  }
+
+  // TODO(jim): Put this call into a file for all Textile related calls.
+  let health = {};
+  try {
+    health = await power.health();
+  } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/utilities.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `power.health`,
+    });
+  }
 
   return {
     power,
@@ -95,11 +123,26 @@ export const getPowergateAPIFromUserToken = async (token) => {
 };
 
 // NOTE(jim): Requires @textile/hub
-export const getBucketAPIFromUserToken = async (token) => {
+export const getBucketAPIFromUserToken = async (token, user) => {
   const identity = await PrivateKey.fromString(token);
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await buckets.getToken(identity);
-  const target = await buckets.getOrCreate(BUCKET_NAME);
+
+  // TODO(jim): Put this call into a file for all Textile related calls.
+  let target;
+  try {
+    target = await buckets.getOrCreate(BUCKET_NAME);
+  } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/utilities.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.getOrCreate`,
+    });
+
+    return null;
+  }
 
   return {
     buckets,

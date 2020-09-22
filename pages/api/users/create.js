@@ -44,16 +44,20 @@ export default async (req, res) => {
 
   // TODO(jim):
   // Don't do this once you refactor.
+  const newUsername = req.body.data.username.toLowerCase();
+
   const {
     buckets,
     bucketKey,
     bucketName,
-  } = await Utilities.getBucketAPIFromUserToken(api);
+  } = await Utilities.getBucketAPIFromUserToken(api, {
+    username: newUsername,
+  });
 
   const user = await Data.createUser({
     password: hash,
     salt,
-    username: req.body.data.username.toLowerCase(),
+    username: newUsername,
     data: {
       photo:
         "https://slate.textile.io/ipfs/bafkreibf3hoiyuk2ywjyoy24ywaaclo4k5rz53flesvr5h4qjlyzxamozm",

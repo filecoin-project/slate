@@ -1,5 +1,6 @@
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Utilities from "~/node_common/utilities";
+import * as Social from "~/node_common/social";
 
 import B from "busboy";
 
@@ -15,7 +16,7 @@ export const formMultipart = async (req, res, { user }) => {
         highWaterMark: HIGH_WATER_MARK,
       });
 
-      form.on("file", async function (
+      form.on("file", async function(
         fieldname,
         stream,
         filename,
@@ -26,15 +27,24 @@ export const formMultipart = async (req, res, { user }) => {
           name: filename,
           type: mime,
         });
+
         let push;
         try {
           const token = user.data.tokens.api;
           const {
             buckets,
             bucketKey,
-          } = await Utilities.getBucketAPIFromUserToken(token);
+          } = await Utilities.getBucketAPIFromUserToken(token, user);
           push = await buckets.pushPath(bucketKey, data.id, stream);
         } catch (e) {
+          Social.sendTextileSlackMessage({
+            file: "/node_common/upload.js",
+            user,
+            message: e.message,
+            code: e.code,
+            functionName: `buckets.pushPath`,
+          });
+
           return reject({
             decorator: "SERVER_BUCKETS_PUSH_ISSUE",
             error: true,
@@ -65,12 +75,21 @@ export const formMultipart = async (req, res, { user }) => {
     return response;
   }
 
+  // TODO(jim): Put this call into a file for all Textile related calls.
   try {
     const token = user.data.tokens.api;
-    const { buckets } = await Utilities.getBucketAPIFromUserToken(token);
+    const { buckets } = await Utilities.getBucketAPIFromUserToken(token, user);
     const newUpload = await buckets.listIpfsPath(response.data);
     data.size = newUpload.size;
   } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/upload.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.listIpfsPath`,
+    });
+
     return {
       decorator: "SERVER_BUCKETS_VERIFY_ISSUE",
       error: true,

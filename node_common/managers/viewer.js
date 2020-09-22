@@ -8,6 +8,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Constants from "~/node_common/constants";
 import * as Serializers from "~/node_common/serializers";
+import * as Social from "~/node_common/social";
 
 // TODO(jim): Work on better serialization when adoption starts occuring.
 export const getById = async ({ id }) => {
@@ -119,14 +120,15 @@ export const getTextileById = async ({ id }) => {
     bucketKey,
     bucketName,
     bucketRoot,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
 
   const {
     power,
     powerInfo,
     powerHealth,
-  } = await Utilities.getPowergateAPIFromUserToken(user.data.tokens.api);
+  } = await Utilities.getPowergateAPIFromUserToken(user.data.tokens.api, user);
 
+  // TODO(jim): Put this call into a file for all Textile related calls.
   try {
     buckets.archiveWatch(bucketRoot.root.key, (job) => {
       if (!job) {
@@ -137,18 +139,44 @@ export const getTextileById = async ({ id }) => {
       jobs.push(job);
     });
   } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/managers/viewer.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.archiveWatch`,
+    });
+
     errors.push({ decorator: "JOB", message: e.message, code: e.code });
   }
 
+  // TODO(jim): Put this call into a file for all Textile related calls.
   try {
     info = await buckets.archiveInfo(bucketRoot.root.key);
   } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/managers/viewer.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.archiveInfo`,
+    });
+
     errors.push({ decorator: "INFO", message: e.message, code: e.code });
   }
 
+  // TODO(jim): Put this call into a file for all Textile related calls.
   try {
     status = await buckets.archiveStatus(bucketRoot.root.key);
   } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/managers/viewer.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.archiveStatus`,
+    });
+
     errors.push({ decorator: "STATUS", message: e.message, code: e.code });
   }
 

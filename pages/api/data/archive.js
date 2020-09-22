@@ -1,5 +1,6 @@
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
+import * as Social from "~/node_common/social";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -32,7 +33,7 @@ export default async (req, res) => {
     bucketKey,
     bucketName,
     bucketRoot,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
 
   // bucketRoot.root.key
   // bucketRoot.root.path
@@ -44,6 +45,13 @@ export default async (req, res) => {
   } catch (e) {
     error.message = e.message;
     error.code = e.code;
+    Social.sendTextileSlackMessage({
+      file: "/pages/api/data/archive.js",
+      user: user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.archive`,
+    });
   }
 
   return res.status(200).send({

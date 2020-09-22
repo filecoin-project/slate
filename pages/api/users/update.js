@@ -2,6 +2,7 @@ import * as Environment from "~/node_common/environment";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Validations from "~/common/validations";
+import * as Social from "~/node_common/social";
 
 import BCrypt from "bcrypt";
 
@@ -56,13 +57,24 @@ export default async (req, res) => {
       power,
       powerInfo,
       powerHealth,
-    } = await Utilities.getPowergateAPIFromUserToken(user.data.tokens.api);
+    } = await Utilities.getPowergateAPIFromUserToken(
+      user.data.tokens.api,
+      user
+    );
 
+    // TODO(jim): Put this call into a file for all Textile related calls.
     let data;
     try {
       data = await power.ffs.setDefaultStorageConfig(req.body.config);
     } catch (e) {
-      console.log(e);
+      Social.sendTextileSlackMessage({
+        file: "/pages/api/users/update.js",
+        user: user,
+        message: e.message,
+        code: e.code,
+        functionName: `power.ffs.setDefaultStorageConfig`,
+      });
+
       return res
         .status(500)
         .send({ decorator: "SERVER_USER_UPDATE_SETTINGS_CONFIG", error: true });

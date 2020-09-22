@@ -49,10 +49,47 @@ export default async (req, res) => {
     buckets,
     bucketKey,
     bucketName,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
 
-  const r = await buckets.list();
-  const items = await buckets.listIpfsPath(r[0].path);
+  // TODO(jim): Put this call into a file for all Textile related calls.
+  let r = null;
+  try {
+    r = await buckets.list();
+  } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/pages/api/data/remove.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.list`,
+    });
+  }
+
+  if (!r) {
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_REMOVE_DATA_NO_TEXTILE", error: true });
+  }
+
+  // TODO(jim): Put this call into a file for all Textile related calls.
+  let items = null;
+  try {
+    items = await buckets.listIpfsPath(r[0].path);
+  } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/pages/api/data/remove.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.listIpfsPath`,
+    });
+  }
+
+  if (!items) {
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_REMOVE_DATA_NO_TEXTILE", error: true });
+  }
 
   let entity;
   for (let i = 0; i < items.items.length; i++) {

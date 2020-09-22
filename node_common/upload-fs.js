@@ -20,7 +20,7 @@ export const formMultipart = (req, res, { user }) =>
     let target = null;
     let tempPath = null;
 
-    form.on("file", function (fieldname, file, filename, encoding, mime) {
+    form.on("file", function(fieldname, file, filename, encoding, mime) {
       target = {
         type: mime,
         name: filename,
@@ -28,7 +28,10 @@ export const formMultipart = (req, res, { user }) =>
 
       // TODO(jim):
       // Construct a stream instead.
-      tempPath = path.join(Constants.FILE_STORAGE_URL, path.basename(`temp-${uuid()}`));
+      tempPath = path.join(
+        Constants.FILE_STORAGE_URL,
+        path.basename(`temp-${uuid()}`)
+      );
       let outStream = FS.createWriteStream(tempPath);
       return file.pipe(outStream);
     });
@@ -45,12 +48,21 @@ export const formMultipart = (req, res, { user }) =>
     form.on("finish", async () => {
       // NOTE(jim):
       // FS.createReadStream works the most consistently.
-      const readStream = FS.createReadStream(tempPath, { highWaterMark: HIGH_WATER_MARK });
+      const readStream = FS.createReadStream(tempPath, {
+        highWaterMark: HIGH_WATER_MARK,
+      });
       const data = LibraryManager.createLocalDataIncomplete(target);
 
+      // TODO(jim): Put this call into a file for all Textile related calls.
       let push;
       try {
-        const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+        const {
+          buckets,
+          bucketKey,
+        } = await Utilities.getBucketAPIFromUserToken(
+          user.data.tokens.api,
+          user
+        );
         push = await buckets.pushPath(bucketKey, data.name, readStream);
       } catch (e) {
         await FS.unlinkSync(tempPath);
@@ -67,9 +79,16 @@ export const formMultipart = (req, res, { user }) =>
 
       // NOTE(jim)
       // Get remote file size from bucket.
+      // TODO(jim): Put this call into a file for all Textile related calls.
       let ipfs = push.path.path;
       try {
-        const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api);
+        const {
+          buckets,
+          bucketKey,
+        } = await Utilities.getBucketAPIFromUserToken(
+          user.data.tokens.api,
+          user
+        );
         const newUpload = await buckets.listIpfsPath(ipfs);
         data.size = newUpload.size;
       } catch (e) {

@@ -23,6 +23,8 @@ const REJECT_LIST = [
   "admin",
   "administrator",
   "webmaster",
+  "download",
+  "downloads",
   "403",
   "404",
   "500",

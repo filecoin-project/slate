@@ -145,7 +145,7 @@ export const getBucketAPIFromUserToken = async (token, user) => {
       }
       const newId = ThreadID.fromRandom()
       await client.newDB(newId, 'buckets')
-      threadID = newId.toString()
+      const threadID = newId.toString()
       buckets.withThread(threadID)
       console.log(`[buckets] newDB success ${newId.toString()}`);
     }

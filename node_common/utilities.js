@@ -130,6 +130,7 @@ export const getBucketAPIFromUserToken = async (token, user) => {
 
   // TODO(jim): Put this call into a file for all Textile related calls.
   let target;
+  console.log(`[buckets] getOrCreate`);
   try {
     target = await buckets.getOrCreate(BUCKET_NAME);
   } catch (e) {
@@ -141,8 +142,9 @@ export const getBucketAPIFromUserToken = async (token, user) => {
       functionName: `buckets.getOrCreate`,
     });
 
-    return null;
+    return { buckets: null, bucketKey: null, bucketRoot: null };
   }
+  console.log(`[buckets] getOrCreate succes!`);
 
   return {
     buckets,

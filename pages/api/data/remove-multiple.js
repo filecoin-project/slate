@@ -54,6 +54,13 @@ export default async (req, res) => {
     bucketName,
   } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
 
+  if (!buckets) {
+    return res.status(500).send({
+      decorator: "SERVER_BUCKET_INIT_FAILURE",
+      error: true,
+    });
+  }
+
   // TODO(jim): Put this call into a file for all Textile related calls.
   let r = null;
   try {

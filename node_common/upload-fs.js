@@ -54,15 +54,20 @@ export const formMultipart = (req, res, { user }) =>
       const data = LibraryManager.createLocalDataIncomplete(target);
 
       // TODO(jim): Put this call into a file for all Textile related calls.
+      let { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(
+        user.data.tokens.api,
+        user
+      );
+
+      if (!buckets) {
+        return reject({
+          decorator: "SERVER_BUCKETS_INIT_ISSUE",
+          error: true,
+        });
+      }
+
       let push;
       try {
-        const {
-          buckets,
-          bucketKey,
-        } = await Utilities.getBucketAPIFromUserToken(
-          user.data.tokens.api,
-          user
-        );
         push = await buckets.pushPath(bucketKey, data.name, readStream);
       } catch (e) {
         await FS.unlinkSync(tempPath);
@@ -77,18 +82,23 @@ export const formMultipart = (req, res, { user }) =>
       // Delete temporary local file,
       await FS.unlinkSync(tempPath);
 
+      let { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(
+        user.data.tokens.api,
+        user
+      );
+
+      if (!buckets) {
+        return reject({
+          decorator: "SERVER_BUCKETS_INIT_ISSUE",
+          error: true,
+        });
+      }
+
       // NOTE(jim)
       // Get remote file size from bucket.
       // TODO(jim): Put this call into a file for all Textile related calls.
       let ipfs = push.path.path;
       try {
-        const {
-          buckets,
-          bucketKey,
-        } = await Utilities.getBucketAPIFromUserToken(
-          user.data.tokens.api,
-          user
-        );
         const newUpload = await buckets.listIpfsPath(ipfs);
         data.size = newUpload.size;
       } catch (e) {

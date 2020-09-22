@@ -28,14 +28,24 @@ export const formMultipart = async (req, res, { user }) => {
           type: mime,
         });
 
+        const token = user.data.tokens.api;
+        const {
+          buckets,
+          bucketKey,
+        } = await Utilities.getBucketAPIFromUserToken(token, user);
+
+        if (!buckets) {
+          return reject({
+            decorator: "SERVER_BUCKET_INIT_FAILURE",
+            error: true,
+          });
+        }
+
         let push;
         try {
-          const token = user.data.tokens.api;
-          const {
-            buckets,
-            bucketKey,
-          } = await Utilities.getBucketAPIFromUserToken(token, user);
+          console.log("[upload] pushing to textile");
           push = await buckets.pushPath(bucketKey, data.id, stream);
+          console.log("[upload] finished pushing to textile");
         } catch (e) {
           Social.sendTextileSlackMessage({
             file: "/node_common/upload.js",
@@ -84,9 +94,17 @@ export const formMultipart = async (req, res, { user }) => {
   }
 
   // TODO(jim): Put this call into a file for all Textile related calls.
+  const token = user.data.tokens.api;
+  const { buckets } = await Utilities.getBucketAPIFromUserToken(token, user);
+
+  if (!buckets) {
+    return {
+      decorator: "SERVER_BUCKET_INIT_FAILURE",
+      error: true,
+    };
+  }
+
   try {
-    const token = user.data.tokens.api;
-    const { buckets } = await Utilities.getBucketAPIFromUserToken(token, user);
     const newUpload = await buckets.listIpfsPath(response.data);
     data.size = newUpload.size;
   } catch (e) {

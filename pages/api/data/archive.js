@@ -35,6 +35,13 @@ export default async (req, res) => {
     bucketRoot,
   } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
 
+  if (!buckets) {
+    return res.status(500).send({
+      decorator: "SERVER_BUCKET_INIT_FAILURE",
+      error: true,
+    });
+  }
+
   // bucketRoot.root.key
   // bucketRoot.root.path
 

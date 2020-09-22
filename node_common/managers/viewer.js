@@ -122,6 +122,10 @@ export const getTextileById = async ({ id }) => {
     bucketRoot,
   } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
 
+  if (!buckets) {
+    return null;
+  }
+
   const {
     power,
     powerInfo,

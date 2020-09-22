@@ -54,6 +54,12 @@ export default async (req, res) => {
     username: newUsername,
   });
 
+  if (!buckets) {
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_BUCKET_INIT_FAILURE", error: true });
+  }
+
   const user = await Data.createUser({
     password: hash,
     salt,

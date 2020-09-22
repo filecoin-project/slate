@@ -498,8 +498,6 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
-    await Actions.generateAPIKey();
-
     await this.rehydrate();
     return response;
   };

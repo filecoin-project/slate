@@ -378,7 +378,7 @@ export default class DataView extends React.Component {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ slate, data: { title: data.name, ...data } }),
+      body: JSON.stringify({ slate, data: [{ title: data.name, ...data }] }),
     });
 
     if (!addResponse) {

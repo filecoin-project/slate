@@ -824,6 +824,19 @@ export default class IndexPage extends React.Component {
                 lets you seamlessly upload files to your slates from anywhere on
                 the web.
               </h3>
+              <div css={STYLES_ACTIONS_RIGHT}>
+                <div
+                  css={STYLES_BUTTON_PRIMARY}
+                  style={{ marginTop: 16 }}
+                  onClick={() =>
+                    window.open(
+                      "https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc?hl=en"
+                    )
+                  }
+                >
+                  Add Slate to Chrome
+                </div>
+              </div>
             </div>
             <div>
               <img

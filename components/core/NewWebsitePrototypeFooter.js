@@ -105,11 +105,7 @@ export const NewWebsitePrototypeFooter = (props) => {
       <div css={STYLES_RIGHT}>
         <div style={{ marginRight: 88 }}>
           <p css={STYLES_P}>Reach out</p>
-          <a
-            css={STYLES_LINK}
-            href="https://twitter.com/_slate"
-            target="_blank"
-          >
+          <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
             Twitter
           </a>
           <br />
@@ -117,11 +113,7 @@ export const NewWebsitePrototypeFooter = (props) => {
             Slack
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate"
-            target="_blank"
-          >
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
             Github
           </a>
         </div>
@@ -129,28 +121,29 @@ export const NewWebsitePrototypeFooter = (props) => {
         <br />
         <div>
           <p css={STYLES_P}>Resources</p>
-          <a css={STYLES_LINK} href="/_/system" target="_blank">
+          <a css={STYLES_LINK} href="/_/system">
             Design system
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate"
-            target="_blank"
-          >
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
             View source
           </a>
           <br />
-          <a
-            css={STYLES_LINK}
-            href="https://github.com/filecoin-project/slate/issues/126"
-            target="_blank"
-          >
+          <a css={STYLES_LINK} href="/download">
+            Download
+          </a>
+          <br />
+          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues/126" target="_blank">
             Community
           </a>
           <br />
-          <a css={STYLES_LINK} href="/guidelines" target="_blank">
-            Guidelines
+          <a css={STYLES_LINK} href="/privacy">
+            Privacy
+          </a>
+
+          <br />
+          <a css={STYLES_LINK} href="/terms">
+            Terms
           </a>
         </div>
       </div>

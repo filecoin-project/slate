@@ -177,7 +177,7 @@ class NodeReference extends React.Component {
           children={this.props.children}
         />
 
-        {this.state.showTreeChildren
+        {this.state.showTreeChildren && this.props.treeChildren
           ? this.props.treeChildren.map((child) => {
               if (!child || child.ignore) {
                 return null;

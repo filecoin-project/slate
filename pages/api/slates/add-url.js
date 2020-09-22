@@ -68,8 +68,17 @@ export default async (req, res) => {
       error: true,
     });
   }
+
+  let newObjects = [];
+  const isArray = req.body.data && req.body.data.length;
+  if (isArray) {
+    newObjects = [...req.body.data];
+  } else {
+    newObjects = [req.body.data];
+  }
+
   //data takes an array rather than a single one now
-  let addlObjects = req.body.data.map((each) => {
+  let addlObjects = newObjects.map((each) => {
     let cid = each.ipfs.replace("/ipfs/", "");
     return {
       id: each.id,

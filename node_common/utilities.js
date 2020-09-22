@@ -129,7 +129,6 @@ export const getBucketAPIFromUserToken = async (token, user) => {
   await buckets.getToken(identity);
 
   // TODO(jim): Put this call into a file for all Textile related calls.
-  let target;
   console.log(`[buckets] getOrCreate`);
   try {
 
@@ -139,6 +138,7 @@ export const getBucketAPIFromUserToken = async (token, user) => {
       // Get a default thread to store our buckets
       const res = await client.getThread('buckets')
       buckets.withThread(res.id.toString())
+      console.log(`[buckets] getThread success ${res.id.toString()}`);
     } catch (error) {
       if (error.message !== 'Thread not found') {
         throw new Error(error.message)
@@ -147,6 +147,7 @@ export const getBucketAPIFromUserToken = async (token, user) => {
       await client.newDB(newId, 'buckets')
       threadID = newId.toString()
       buckets.withThread(threadID)
+      console.log(`[buckets] newDB success ${newId.toString()}`);
     }
 
     const roots = await buckets.list()

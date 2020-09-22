@@ -46,7 +46,7 @@ export const sendTextileSlackMessage = ({
 
   try {
     textileWebhook.send({
-      text: `*File -* ${slackFileURL} \n*Exception —* ${source} _${functionName}_\n*User —* ${userURL}\n\n> ${message}\n\n*Textile error code —* ${code}`,
+      text: `*Source code —* ${slackFileURL} \n*Source client —* ${source} \n*Callsite —* \`${functionName}\`\n*User —* ${userURL}\n\n> ${message}\n\n*Textile error code —* ${code}`,
     });
   } catch (e) {
     console.log({ decorator: "SLACK_MESSAGE_FAILURE", message });

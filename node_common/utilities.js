@@ -164,13 +164,16 @@ export const getBucketAPIFromUserToken = async (token, user) => {
       functionName: `buckets.getOrCreate`,
     });
 
-    return {
-      buckets,
-      bucketKey: root.key,
-      bucketRoot: root,
-    };
+    return { buckets: null, bucketKey: null, bucketRoot: null };
+
   }
   console.log(`[buckets] getOrCreate succes!`);
+  return {
+    buckets,
+    bucketKey: root.key,
+    bucketRoot: root,
+    bucketName: BUCKET_NAME,
+  };
 };
 
 export const getFileName = (s) => {

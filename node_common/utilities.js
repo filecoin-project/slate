@@ -153,7 +153,7 @@ export const getBucketAPIFromUserToken = async (token, user) => {
     const roots = await buckets.list()
     let root = roots.find((bucket) => bucket.name === BUCKET_NAME)
     if (!root) {
-      const created = await this.create(BUCKET_NAME)
+      const created = await buckets.create(BUCKET_NAME)
       root = created.root
     }
   } catch (e) {

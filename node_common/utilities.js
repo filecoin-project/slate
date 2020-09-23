@@ -6,7 +6,7 @@ import * as Social from "~/node_common/social";
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
-import { Buckets, PrivateKey, Pow } from "@textile/hub";
+import { Buckets, PrivateKey, Pow, Client, ThreadID } from "@textile/hub";
 
 const BUCKET_NAME = "data";
 
@@ -27,8 +27,22 @@ export const checkTextile = async () => {
     if (response.status === 204) {
       return true;
     }
+
+    Social.sendTextileSlackMessage({
+      file: "/node_common/utilities.js",
+      user: { username: "UNDEFINED" },
+      message: "https://slate.textile.io/health is down",
+      code: "N/A",
+      functionName: `checkTextile`,
+    });
   } catch (e) {
-    console.log(e);
+    Social.sendTextileSlackMessage({
+      file: "/node_common/utilities.js",
+      user: { username: "UNDEFINED" },
+      message: e.message,
+      code: e.code,
+      functionName: `checkTextile`,
+    });
   }
 
   return false;
@@ -127,12 +141,37 @@ export const getBucketAPIFromUserToken = async (token, user) => {
   const identity = await PrivateKey.fromString(token);
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await buckets.getToken(identity);
+  let root;
 
   // TODO(jim): Put this call into a file for all Textile related calls.
-  let target;
   console.log(`[buckets] getOrCreate`);
   try {
-    target = await buckets.getOrCreate(BUCKET_NAME);
+    // Create a threads client
+    const client = new Client(buckets.context);
+    try {
+      // Get a default thread to store our buckets
+      const res = await client.getThread("buckets");
+      buckets.withThread(res.id.toString());
+
+      console.log(`[buckets] getThread success`);
+    } catch (error) {
+      if (error.message !== "Thread not found") {
+        throw new Error(error.message);
+      }
+      const newId = ThreadID.fromRandom();
+      await client.newDB(newId, "buckets");
+      const threadID = newId.toString();
+
+      buckets.withThread(threadID);
+      console.log(`[buckets] newDB success`);
+    }
+
+    const roots = await buckets.list();
+    root = roots.find((bucket) => bucket.name === BUCKET_NAME);
+    if (!root) {
+      const created = await buckets.create(BUCKET_NAME);
+      root = created.root;
+    }
   } catch (e) {
     Social.sendTextileSlackMessage({
       file: "/node_common/utilities.js",
@@ -144,12 +183,12 @@ export const getBucketAPIFromUserToken = async (token, user) => {
 
     return { buckets: null, bucketKey: null, bucketRoot: null };
   }
-  console.log(`[buckets] getOrCreate succes!`);
 
+  console.log(`[buckets] getOrCreate success!`);
   return {
     buckets,
-    bucketKey: target.root.key,
-    bucketRoot: target,
+    bucketKey: root.key,
+    bucketRoot: root,
     bucketName: BUCKET_NAME,
   };
 };

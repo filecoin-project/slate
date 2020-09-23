@@ -26,7 +26,7 @@ export default class SceneSentinel extends React.Component {
   render() {
     return (
       <ScenePage>
-        <ScenePageHeader title="Filecoin Testnet API">
+        <ScenePageHeader title="Network API">
           Slate provides access to live data on the Filecoin Testnet Network
           through Sentinel. Each of these API endpoints can be used
           programatically.

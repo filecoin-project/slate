@@ -122,7 +122,7 @@ export const getTextileById = async ({ id }) => {
     bucketRoot,
   } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
 
-  if (!buckets) {
+  if (!buckets || !bucketRoot) {
     return null;
   }
 
@@ -134,7 +134,7 @@ export const getTextileById = async ({ id }) => {
 
   // TODO(jim): Put this call into a file for all Textile related calls.
   try {
-    buckets.archiveWatch(bucketRoot.root.key, (job) => {
+    buckets.archiveWatch(bucketRoot.key, (job) => {
       if (!job) {
         return;
       }
@@ -156,7 +156,7 @@ export const getTextileById = async ({ id }) => {
 
   // TODO(jim): Put this call into a file for all Textile related calls.
   try {
-    info = await buckets.archiveInfo(bucketRoot.root.key);
+    info = await buckets.archiveInfo(bucketRoot.key);
   } catch (e) {
     Social.sendTextileSlackMessage({
       file: "/node_common/managers/viewer.js",
@@ -171,7 +171,7 @@ export const getTextileById = async ({ id }) => {
 
   // TODO(jim): Put this call into a file for all Textile related calls.
   try {
-    status = await buckets.archiveStatus(bucketRoot.root.key);
+    status = await buckets.archiveStatus(bucketRoot.key);
   } catch (e) {
     Social.sendTextileSlackMessage({
       file: "/node_common/managers/viewer.js",

@@ -8,6 +8,7 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
+import TestnetBanner from "~/components/core/TestnetBanner";
 
 const STYLES_LABEL = css`
   font-family: ${Constants.font.semiBold};
@@ -32,18 +33,28 @@ export default class SceneArchive extends React.Component {
   }
 
   render() {
+    console.log(this.state.networkViewer);
     return (
       <ScenePage>
-        <ScenePageHeader title="Filecoin Testnet">
-          Filecoin is currently in Testnet phase. You can use this tab to test
-          and verify Filecoin deals with Testnet FIL.
+        <TestnetBanner />
+        <ScenePageHeader title="Archive your data on Filecoin">
+          Use this section to archive all of your data on to Filecoin through a
+          storage deal.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (
           <React.Fragment>
             <Section
-              title="Filecoin Testnet trusted miners"
-              style={{ marginTop: 48 }}
+              title="Trusted miners"
+              style={{ minWidth: "auto", marginTop: 48 }}
+              onAction={this.props.onAction}
+              buttons={[
+                {
+                  name: "Make storage deal",
+                  type: "SIDEBAR",
+                  value: "SIDEBAR_FILECOIN_ARCHIVE",
+                },
+              ]}
             >
               <System.Table
                 data={{
@@ -66,41 +77,18 @@ export default class SceneArchive extends React.Component {
             </Section>
 
             <Section
-              title="Filecoin Testnet archive deals"
-              onAction={this.props.onAction}
-              buttons={[
-                {
-                  name: "Make Filecoin Testnet deal",
-                  type: "SIDEBAR",
-                  value: "SIDEBAR_FILECOIN_ARCHIVE",
-                },
-              ]}
+              title="Storage deal status [WIP]"
+              style={{ minWidth: "auto", marginTop: 48 }}
             >
               <div style={{ padding: 24 }}>
-                <div css={STYLES_LABEL}>Info</div>
-                {JSON.stringify(this.state.networkViewer.archive.info, null, 2)}
-
-                <div css={STYLES_LABEL} style={{ marginTop: 24 }}>
-                  Status
-                </div>
-                {JSON.stringify(
-                  this.state.networkViewer.archive.status,
-                  null,
-                  2
-                )}
-
-                <div css={STYLES_LABEL} style={{ marginTop: 24 }}>
-                  Errors
-                </div>
-                {JSON.stringify(
-                  this.state.networkViewer.archive.errors,
-                  null,
-                  2
-                )}
+                Successful deals will appear here.
               </div>
             </Section>
 
-            <Section title="Job history" style={{ marginTop: 48 }}>
+            <Section
+              title="Storage deal logs"
+              style={{ minWidth: "auto", marginTop: 48 }}
+            >
               <System.Table
                 data={{
                   columns: [

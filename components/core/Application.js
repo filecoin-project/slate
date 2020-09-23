@@ -30,6 +30,7 @@ import SceneSentinel from "~/scenes/SceneSentinel";
 import ScenePublicProfile from "~/scenes/ScenePublicProfile";
 import ScenePublicSlate from "~/scenes/ScenePublicSlate";
 import SceneArchive from "~/scenes/SceneArchive";
+import SceneMakeFilecoinDeal from "~/scenes/SceneMakeFilecoinDeal";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -88,6 +89,7 @@ const SCENES = {
   NETWORK: <SceneSentinel />,
   DIRECTORY: <SceneDirectory />,
   FILECOIN: <SceneArchive />,
+  MAKE_DEAL: <SceneMakeFilecoinDeal />,
 };
 
 export default class ApplicationPage extends React.Component {

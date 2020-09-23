@@ -46,9 +46,10 @@ const STYLES_P = css`
 `;
 
 const STYLES_SECTION_WRAPPER = css`
-  width: 100%;
-  padding: 88px;
+  padding: 44px;
   margin: 12px;
+  display: flex;
+  align-items: center;
   background-color: ${Constants.system.white};
   border-radius: 16px;
 
@@ -98,12 +99,16 @@ const STYLES_CARD_WRAPPER = css`
   }
 `;
 
-const STYLES_FULL = css`
+const STYLES_FULL_WIDTH = css`
   width: 100%;
 `;
 
-const STYLES_SPLIT = css`
+const STYLES_SPLIT_WIDTH = css`
   width: 50%;
+  align-items: center;
+  :nth-child(2) {
+    padding-left: 18px;
+  }
 
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
@@ -186,6 +191,7 @@ const STYLES_CHAT = css`
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 `;
+
 const STYLES_WINDOW = css`
   box-sizing: border-box;
   font-family: ${Constants.font.mono};
@@ -199,12 +205,6 @@ const STYLES_WINDOW = css`
   font-size: 14px;
   box-sizing: border-box;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-  scrollbar-width: none;
-  white-space: pre-wrap;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 const STYLES_WINDOW_NAV = css`
@@ -214,21 +214,25 @@ const STYLES_WINDOW_NAV = css`
 
 const STYLES_WINDOW_BODY = css`
   color: ${Constants.system.white};
+  font-family: ${Constants.system.mono};
   font-size: 14px;
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
   position: relative;
 `;
+
 const STYLES_WINDOW_NAV_DOTS = css`
   display: flex;
 `;
+
 const STYLES_WINDOW_NAV_RED = css`
   width: 16px;
   height: 16px;
   margin-right: 8px;
   background: #cc2a42;
   border-radius: 50px;
+
   :hover {
   }
 `;
@@ -239,6 +243,7 @@ const STYLES_WINDOW_NAV_YELLOW = css`
   margin-right: 8px;
   background: #fabb2a;
   border-radius: 50px;
+
   :hover {
   }
 `;
@@ -248,6 +253,7 @@ const STYLES_WINDOW_NAV_GREEN = css`
   height: 16px;
   background: #19774b;
   border-radius: 50px;
+
   :hover {
   }
 `;
@@ -434,9 +440,12 @@ export default class CommunityPage extends React.Component {
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
-            <div>
+            <div css={STYLES_FULL_WIDTH}>
               <h1>Core Team</h1>
-              <p>We work on the core product 24/7/365</p>
+              <p>
+                We work on the core product 24/7/365, and you can reachout to us
+                for product helo
+              </p>
               <div css={STYLES_CARD_GROUP}>
                 {SLATE_CORE_TEAM.map((each) => (
                   <SlateTeamCards
@@ -449,9 +458,9 @@ export default class CommunityPage extends React.Component {
                 ))}
               </div>
             </div>
-            <br />
-            <br />
-            <div>
+          </div>
+          <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
+            <div css={STYLES_FULL_WIDTH}>
               <h1>Contributors</h1>
               <p>
                 We couldn’t make Slate without the input and continures from the
@@ -471,7 +480,7 @@ export default class CommunityPage extends React.Component {
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
-            <div css={STYLES_SPLIT}>
+            <div css={STYLES_SPLIT_WIDTH}>
               <div css={STYLES_CHAT}>
                 <p>
                   {" "}
@@ -491,7 +500,7 @@ export default class CommunityPage extends React.Component {
                 <img src="" />
               </div>
             </div>
-            <div css={STYLES_SPLIT}>
+            <div css={STYLES_SPLIT_WIDTH}>
               <h1>
                 <span css={STYLES_HIGLIGHT_TEXT_GREEN}>Have an idea</span> for
                 how to make Slate better?
@@ -519,7 +528,7 @@ export default class CommunityPage extends React.Component {
                 Checkout the examples below to see how quickly you can get up
                 and running wtih Slate’s API.
               </p>
-              <button css={STYLES_BUTTON}>Email us feedback</button>
+              <button css={STYLES_BUTTON}>Checkout our API</button>
             </div>
             <div css={STYLES_WINDOW}>
               <div css={STYLES_WINDOW_NAV}>

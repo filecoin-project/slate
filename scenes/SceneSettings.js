@@ -139,7 +139,7 @@ export default class SceneSettings extends React.Component {
         <TestnetBanner />
         <ScenePageHeader title="Filecoin settings (read-only)">
           You can use this page to configure the default deal settings.
-          Currently all settings are read-only while develop test the Filecoin
+          Currently all settings are read-only while we test the Filecoin
           network.
         </ScenePageHeader>
 

@@ -111,8 +111,6 @@ const STYLES_BUTTON_PRIMARY = css`
   box-shadow: -4px -4px 10px #ffffff, 4px 4px 10px #d4d4d4;
 
   :hover {
-    background-color: ${Constants.system.brand};
-    box-shadow: -4px -4px 10px #ffffff, 4px 4px 10px #d4d4d4;
     color: ${Constants.system.foreground};
   }
 
@@ -148,8 +146,6 @@ const STYLES_BUTTON_SECONDARY = css`
 
   :hover {
     background-color: ${Constants.system.white};
-    box-shadow: -4px -4px 10px #ffffff, 4px 4px 10px #d4d4d4;
-    color: ${Constants.system.brand};
   }
 
   :focus {

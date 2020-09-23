@@ -149,13 +149,12 @@ export const generate = ({ library = [], slates = [] }) => [
       },
     ],
   },
-  /*
   {
     id: "V1_NAVIGATION_FILECOIN_STORAGE_DEAL",
     decorator: "MAKE_DEAL",
     name: "Storage deal",
     pageTitle: "Make a one-off Filecoin storage deal",
-  }, */
+  },
   {
     id: "V1_NAVIGATION_PROFILE_EDIT",
     decorator: "EDIT_ACCOUNT",

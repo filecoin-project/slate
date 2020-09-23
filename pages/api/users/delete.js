@@ -1,6 +1,7 @@
 import * as Environment from "~/node_common/environment";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
+import * as Social from "~/node_common/social";
 
 import { Buckets, PrivateKey } from "@textile/hub";
 
@@ -40,14 +41,28 @@ export default async (req, res) => {
 
   const i = await PrivateKey.fromString(user.data.tokens.api);
   const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
-  const tokenResponse = await b.getToken(i);
-  const openResponse = await b.getOrCreate("data");
+  const defaultData = await Utilities.getBucketAPIFromUserToken({ user });
 
   try {
-    const response = await b.remove(openResponse.root.key);
-    console.log({ response });
+    const roots = await defaultData.buckets.list();
+    console.log(roots);
+    for (let i = 0; i < roots.length; i++) {
+      console.log(roots[i]);
+      await defaultData.buckets.remove(roots[i].key);
+    }
   } catch (e) {
     console.log(e);
+    Social.sendTextileSlackMessage({
+      file: "/pages/api/users/delete.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `b.remove`,
+    });
+
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_BUCKET_DELETION_FAILED", error: true });
   }
 
   const deleted = await Data.deleteUserByUsername({

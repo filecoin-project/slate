@@ -50,8 +50,11 @@ export default async (req, res) => {
     buckets,
     bucketKey,
     bucketName,
-  } = await Utilities.getBucketAPIFromUserToken(api, {
-    username: newUsername,
+  } = await Utilities.getBucketAPIFromUserToken({
+    user: {
+      username: newUsername,
+      data: { tokens: { api } },
+    },
   });
 
   if (!buckets) {

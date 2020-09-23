@@ -9,10 +9,18 @@ import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 
+let mounted = false;
+
 export default class SceneSentinel extends React.Component {
   state = { routes: [] };
 
   async componentDidMount() {
+    if (mounted) {
+      return null;
+    }
+
+    mounted = true;
+
     let routes;
     try {
       const response = await fetch("https://sentinel.slate.host/api");
@@ -21,6 +29,10 @@ export default class SceneSentinel extends React.Component {
     } catch (e) {}
 
     this.setState({ routes });
+  }
+
+  componentWillUnmount() {
+    mounted = false;
   }
 
   render() {
@@ -32,7 +44,10 @@ export default class SceneSentinel extends React.Component {
           programatically.
         </ScenePageHeader>
 
-        <Section title="Filecoin Testnet API routes">
+        <Section
+          title="Filecoin Testnet API routes"
+          style={{ maxWidth: 688, minWidth: "auto" }}
+        >
           <System.Table
             data={{
               columns: [

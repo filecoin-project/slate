@@ -50,7 +50,7 @@ export default async (req, res) => {
     buckets,
     bucketKey,
     bucketName,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
+  } = await Utilities.getBucketAPIFromUserToken({ user });
 
   if (!buckets) {
     return res.status(500).send({

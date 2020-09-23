@@ -32,7 +32,7 @@ export const formMultipart = async (req, res, { user }) => {
         const {
           buckets,
           bucketKey,
-        } = await Utilities.getBucketAPIFromUserToken(token, user);
+        } = await Utilities.getBucketAPIFromUserToken({ user });
 
         if (!buckets) {
           return reject({
@@ -95,7 +95,7 @@ export const formMultipart = async (req, res, { user }) => {
 
   // TODO(jim): Put this call into a file for all Textile related calls.
   const token = user.data.tokens.api;
-  const { buckets } = await Utilities.getBucketAPIFromUserToken(token, user);
+  const { buckets } = await Utilities.getBucketAPIFromUserToken({ user });
 
   if (!buckets) {
     return {

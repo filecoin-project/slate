@@ -143,7 +143,7 @@ export const generate = ({ library = [], slates = [] }) => [
       {
         id: "V1_NAVIGATION_FILECOIN_SETTINGS",
         decorator: "SETTINGS",
-        name: "Deal settings",
+        name: "Deal Settings",
         pageTitle: "Deal Settings.",
         children: null,
       },
@@ -152,8 +152,8 @@ export const generate = ({ library = [], slates = [] }) => [
   {
     id: "V1_NAVIGATION_FILECOIN_STORAGE_DEAL",
     decorator: "MAKE_DEAL",
-    name: "Storage deal",
-    pageTitle: "Make a one-off Filecoin storage deal",
+    name: "Storage Deal",
+    pageTitle: "Make an one-off Filecoin storage deal",
   },
   {
     id: "V1_NAVIGATION_PROFILE_EDIT",

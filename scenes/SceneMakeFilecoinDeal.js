@@ -25,10 +25,17 @@ const STYLES_SECTION_UPLOAD = css`
   font-family: ${Constants.font.semiBold};
 `;
 
-export default class SceneDeals extends React.Component {
+let mounted = false;
+
+export default class SceneMakeFilecoinDeal extends React.Component {
   state = {};
 
   async componentDidMount() {
+    if (mounted) {
+      return;
+    }
+
+    mounted = true;
     let networkViewer;
     try {
       const response = await fetch("/api/network");
@@ -47,6 +54,10 @@ export default class SceneDeals extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  componentWillUnmount() {
+    mounted = false;
+  }
+
   render() {
     let inFil = 0;
     if (this.state.networkViewer) {
@@ -61,21 +72,31 @@ export default class SceneDeals extends React.Component {
     return (
       <ScenePage>
         <TestnetBanner />
-        <ScenePageHeader title="Make a one-off Flecoin Storage Deal">
+        <ScenePageHeader title="Make an one-off Flecoin Storage Deal">
           This is a simple tool to upload data and make one-off storage deals in
           the Filecoin network.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (
           <React.Fragment>
-            <div css={STYLES_SECTION_UPLOAD}>
-              Drag and drop a file here or&nbsp;<a href="#">click</a>&nbsp;to
-              upload.
-            </div>
+            <Section
+              title="Files"
+              style={{ marginTop: 48, maxWidth: 688, minWidth: "auto" }}
+              onAction={this.props.onAction}
+              buttons={[
+                {
+                  name: "Add file",
+                },
+              ]}
+            >
+              <div style={{ padding: 24 }}>No files added, yet</div>
+            </Section>
 
             <System.Input
-              containerStyle={{ marginTop: 24 }}
-              label="Filecoin address (Read only)"
+              containerStyle={{ marginTop: 48, maxWidth: 688 }}
+              descriptionStyle={{ maxWidth: 688 }}
+              readOnly
+              label="Filecoin address (read only)"
               description="This is the Filecoin address your funds will come from."
               name="settings_cold_default_duration"
               readOnly
@@ -85,8 +106,10 @@ export default class SceneDeals extends React.Component {
             />
 
             <System.Input
-              containerStyle={{ marginTop: 24 }}
-              label="Default Filecoin replication and availability factor"
+              containerStyle={{ marginTop: 24, maxWidth: 688 }}
+              descriptionStyle={{ maxWidth: 688 }}
+              readOnly
+              label="Default Filecoin replication and availability factor (read only)"
               description="How many times should we replicate this deal across your selected miners?"
               name="settings_cold_default_replication_factor"
               type="number"
@@ -96,19 +119,25 @@ export default class SceneDeals extends React.Component {
             />
 
             <System.Input
-              containerStyle={{ marginTop: 24 }}
-              label="Default Filecoin deal duration"
-              description="Current deal duration is in epochs."
+              containerStyle={{ marginTop: 24, maxWidth: 688 }}
+              descriptionStyle={{ maxWidth: 688 }}
+              readOnly
+              label="Default Filecoin deal duration (read only)"
+              description="The minimum deal time for a Filecoin deal is 6 months."
               name="settings_cold_default_duration"
               type="number"
+              unit="epochs"
               value={this.state.settings_cold_default_duration}
               placeholder="Type in epochs (~25 seconds)"
               onChange={this._handleChange}
             />
 
             <System.Input
-              containerStyle={{ marginTop: 24 }}
-              label="Max Filecoin price (attoFIL)"
+              containerStyle={{ marginTop: 24, maxWidth: 688 }}
+              descriptionStyle={{ maxWidth: 688 }}
+              readOnly
+              label="Max Filecoin price (read only)"
+              unit="attoFIL"
               type="number"
               description={`Set the maximum Filecoin price you're willing to pay. The current price you have set is equivalent to ${inFil} FIL`}
               name="settings_cold_default_max_price"
@@ -118,14 +147,9 @@ export default class SceneDeals extends React.Component {
             />
 
             <Section
-              title="Targeted miners"
+              title="Targeted miners (read only)"
               style={{ marginTop: 48, maxWidth: 688, minWidth: "auto" }}
               onAction={this.props.onAction}
-              buttons={[
-                {
-                  name: "Add miner",
-                },
-              ]}
             >
               <System.Table
                 data={{

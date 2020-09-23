@@ -95,7 +95,8 @@ export const parseAuthHeader = (value) => {
 };
 
 // NOTE(jim): Requires @textile/hub
-export const getPowergateAPIFromUserToken = async (token, user) => {
+export const getPowergateAPIFromUserToken = async ({ user }) => {
+  const token = user.data.tokens.api;
   const identity = await PrivateKey.fromString(token);
   const power = await Pow.withKeyInfo(TEXTILE_KEY_INFO);
   await power.getToken(identity);
@@ -137,39 +138,41 @@ export const getPowergateAPIFromUserToken = async (token, user) => {
 };
 
 // NOTE(jim): Requires @textile/hub
-export const getBucketAPIFromUserToken = async (token, user) => {
+export const getBucketAPIFromUserToken = async ({ user, bucketName }) => {
+  const token = user.data.tokens.api;
+  const name = Strings.isEmpty(bucketName) ? BUCKET_NAME : bucketName;
   const identity = await PrivateKey.fromString(token);
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
-  await buckets.getToken(identity);
-  let root = null;
 
-  // TODO(jim): Put this call into a file for all Textile related calls.
-  console.log(`[buckets] getOrCreate`);
+  await buckets.getToken(identity);
+
+  let root = null;
+  console.log(`[ buckets ] getOrCreate init ${name}`);
   try {
-    // Create a threads client
     const client = new Client(buckets.context);
     try {
-      // Get a default thread to store our buckets
       const res = await client.getThread("buckets");
-      buckets.withThread(res.id.toString());
 
-      console.log(`[buckets] getThread success`);
+      buckets.withThread(res.id.toString());
+      console.log(`[ buckets ] getThread success`);
     } catch (error) {
       if (error.message !== "Thread not found") {
         throw new Error(error.message);
       }
+
       const newId = ThreadID.fromRandom();
       await client.newDB(newId, "buckets");
       const threadID = newId.toString();
 
       buckets.withThread(threadID);
-      console.log(`[buckets] newDB success`);
+      console.log(`[ buckets ] newDB success`);
     }
 
     const roots = await buckets.list();
-    root = roots.find((bucket) => bucket.name === BUCKET_NAME);
+    root = roots.find((bucket) => bucket.name === name);
     if (!root) {
-      const created = await buckets.create(BUCKET_NAME);
+      console.log(`[ buckets ] creating new bucket ${name}`);
+      const created = await buckets.create(name);
       root = created.root;
     }
   } catch (e) {
@@ -184,12 +187,12 @@ export const getBucketAPIFromUserToken = async (token, user) => {
     return { buckets: null, bucketKey: null, bucketRoot: null };
   }
 
-  console.log(`[buckets] getOrCreate success!`);
+  console.log(`[ buckets ] getOrCreate success for ${name}`);
   return {
     buckets,
     bucketKey: root.key,
     bucketRoot: root,
-    bucketName: BUCKET_NAME,
+    bucketName: name,
   };
 };
 

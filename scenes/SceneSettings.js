@@ -60,10 +60,17 @@ export const createState = (config) => {
   };
 };
 
+let mounted = false;
+
 export default class SceneSettings extends React.Component {
   state = {};
 
   async componentDidMount() {
+    if (mounted) {
+      return null;
+    }
+
+    mounted = true;
     let networkViewer;
     try {
       const response = await fetch("/api/network");
@@ -75,6 +82,10 @@ export default class SceneSettings extends React.Component {
       networkViewer,
       ...createState(networkViewer.powerInfo.defaultStorageConfig),
     });
+  }
+
+  componentWillUnmount() {
+    mounted = false;
   }
 
   _deferredSave = null;
@@ -134,7 +145,10 @@ export default class SceneSettings extends React.Component {
 
         {this.state.networkViewer ? (
           <React.Fragment>
-            <Section title="Trusted miners" style={{ marginTop: 48 }}>
+            <Section
+              title="Trusted miners"
+              style={{ marginTop: 48, maxWidth: 688, minWidth: "auto" }}
+            >
               <System.Table
                 data={{
                   columns: [

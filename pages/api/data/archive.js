@@ -42,13 +42,10 @@ export default async (req, res) => {
     });
   }
 
-  // bucketRoot.root.key
-  // bucketRoot.root.path
-
   let response = {};
   let error = {};
   try {
-    response = await buckets.archive(bucketRoot.root.key);
+    response = await buckets.archive(bucketRoot.key);
   } catch (e) {
     error.message = e.message;
     error.code = e.code;

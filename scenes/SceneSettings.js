@@ -8,6 +8,7 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
+import TestnetBanner from "~/components/core/TestnetBanner";
 
 const STYLES_GROUP = css`
   display: flex;
@@ -124,10 +125,11 @@ export default class SceneSettings extends React.Component {
   render() {
     return (
       <ScenePage>
-        <ScenePageHeader title="Filecoin Testnet settings (read-only)">
-          Filecoin is currently in Testnet phase. You can use this page to view
-          the default settings. Once your deal settings can be configured, you
-          can edit your settings whenever you like.
+        <TestnetBanner />
+        <ScenePageHeader title="Filecoin settings (read-only)">
+          You can use this page to configure the default deal settings.
+          Currently all settings are read-only while develop test the Filecoin
+          network.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (

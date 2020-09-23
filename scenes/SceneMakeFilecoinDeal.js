@@ -11,6 +11,7 @@ import { FilecoinNumber, Converter } from "@openworklabs/filecoin-number";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
+import TestnetBanner from "~/components/core/TestnetBanner";
 
 const STYLES_SECTION_UPLOAD = css`
   background: white;
@@ -59,6 +60,7 @@ export default class SceneDeals extends React.Component {
 
     return (
       <ScenePage>
+        <TestnetBanner />
         <ScenePageHeader title="Make a one-off Flecoin Storage Deal">
           This is a simple tool to upload data and make one-off storage deals in
           the Filecoin network.

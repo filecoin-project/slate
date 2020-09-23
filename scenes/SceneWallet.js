@@ -11,6 +11,7 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
+import TestnetBanner from "~/components/core/TestnetBanner";
 
 const STYLES_GROUP = css`
   padding: 24px;
@@ -151,9 +152,10 @@ export default class SceneWallet extends React.Component {
 
     return (
       <ScenePage>
-        <ScenePageHeader title="Filecoin Testnet wallet">
-          This is your testnet wallet address. It is prefilled by Textile to
-          help test the Filecoin Testnet.
+        <TestnetBanner />
+        <ScenePageHeader title="Filecoin wallet">
+          This is your wallet address. It is prefilled by Textile to help test
+          the Filecoin Testnet.
         </ScenePageHeader>
 
         {networkViewer ? (
@@ -161,7 +163,7 @@ export default class SceneWallet extends React.Component {
             onAction={this.props.onAction}
             onNavigateTo={this.props.onNavigateTo}
             title="Your Filecoin Testnet address"
-            style={{ maxWidth: `568px`, minWidth: "auto" }}
+            style={{ maxWidth: `688px`, minWidth: "auto" }}
             buttons={
               [
                 /*

@@ -21,7 +21,6 @@ const STYLES_GROUP = css`
 `;
 
 const STYLES_SUBGROUP = css`
-  padding-left: 24px;
   width: 100%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -169,7 +168,7 @@ export default class SceneSettings extends React.Component {
               />
             </Section>
 
-            <div css={STYLES_GROUP} style={{ marginTop: 48 }}>
+            {/*<div css={STYLES_GROUP} style={{ marginTop: 48 }}>
               <div css={STYLES_LEFT}>
                 <System.DescriptionGroup
                   label="Enable cold storage"
@@ -184,12 +183,12 @@ export default class SceneSettings extends React.Component {
                   active={this.state.settings_cold_enabled}
                 />
               </div>
-            </div>
+            </div>*/}
 
             {this.state.settings_cold_enabled ? (
               <div css={STYLES_SUBGROUP}>
                 <System.Input
-                  containerStyle={{ marginTop: 24 }}
+                  containerStyle={{ marginTop: 48 }}
                   label="Default Filecoin address (Read only)"
                   name="settings_cold_default_duration"
                   readOnly
@@ -255,7 +254,7 @@ export default class SceneSettings extends React.Component {
               </System.ButtonPrimary>
             </div> */}
 
-            <div css={STYLES_GROUP} style={{ marginTop: 32 }}>
+            {/*<div css={STYLES_GROUP} style={{ marginTop: 32 }}>
               <div css={STYLES_LEFT}>
                 <System.DescriptionGroup
                   label="Enable hot storage"
@@ -269,7 +268,7 @@ export default class SceneSettings extends React.Component {
                   active={this.state.settings_hot_enabled}
                 />
               </div>
-            </div>
+            </div> */}
 
             {this.state.settings_hot_enabled ? (
               <div css={STYLES_SUBGROUP}>

@@ -209,7 +209,7 @@ export default class ApplicationPage extends React.Component {
     this._handleUpload({ files, slate });
   };
 
-  _handleUploadFiles = async ({ files, slate }) => {
+  _handleUploadFiles = async ({ files, slate, bucketName }) => {
     let toUpload = [];
     let fileLoading = {};
     let someFailed = false;
@@ -250,10 +250,15 @@ export default class ApplicationPage extends React.Component {
 
     this._handleRegisterFileLoading({ fileLoading });
 
-    this._handleUpload({ files: toUpload, slate });
+    if (bucketName === "deal") {
+      await this._handleUpload({ files: toUpload, slate, bucketName });
+      return;
+    }
+
+    this._handleUpload({ files: toUpload, slate, bucketName });
   };
 
-  _handleUpload = async ({ files, slate }) => {
+  _handleUpload = async ({ files, slate, bucketName }) => {
     if (!files || !files.length) {
       return null;
     }
@@ -265,9 +270,15 @@ export default class ApplicationPage extends React.Component {
       const response = await FileUtilities.upload({
         file: files[i],
         context: this,
+        bucketName,
       });
 
       resolvedFiles.push(response);
+    }
+
+    // NOTE(jim): Custom buckets don't follow the same rules.
+    if (bucketName === "deal") {
+      return null;
     }
 
     Promise.allSettled(resolvedFiles)
@@ -717,6 +728,7 @@ export default class ApplicationPage extends React.Component {
         onViewerChange: this._handleViewerChange,
         onDeleteYourself: this._handleDeleteYourself,
         onAction: this._handleAction,
+        onUpload: this._handleUploadFiles,
         onBack: this._handleBack,
         onForward: this._handleForward,
         onRehydrate: this.rehydrate,

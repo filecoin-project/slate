@@ -57,10 +57,7 @@ export default async (req, res) => {
       power,
       powerInfo,
       powerHealth,
-    } = await Utilities.getPowergateAPIFromUserToken(
-      user.data.tokens.api,
-      user
-    );
+    } = await Utilities.getPowergateAPIFromUserToken({ user });
 
     // TODO(jim): Put this call into a file for all Textile related calls.
     let data;

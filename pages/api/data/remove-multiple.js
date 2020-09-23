@@ -48,11 +48,9 @@ export default async (req, res) => {
     id,
   });
 
-  const {
-    buckets,
-    bucketKey,
-    bucketName,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
+  const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken({
+    user,
+  });
 
   if (!buckets) {
     return res.status(500).send({

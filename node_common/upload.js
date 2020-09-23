@@ -6,7 +6,7 @@ import B from "busboy";
 
 const HIGH_WATER_MARK = 1024 * 1024 * 3;
 
-export const formMultipart = async (req, res, { user }) => {
+export const formMultipart = async (req, res, { user, bucketName }) => {
   let data = null;
 
   const upload = () =>
@@ -28,11 +28,13 @@ export const formMultipart = async (req, res, { user }) => {
           type: mime,
         });
 
-        const token = user.data.tokens.api;
         const {
           buckets,
           bucketKey,
-        } = await Utilities.getBucketAPIFromUserToken(token, user);
+        } = await Utilities.getBucketAPIFromUserToken({
+          user,
+          bucketName,
+        });
 
         if (!buckets) {
           return reject({
@@ -93,9 +95,10 @@ export const formMultipart = async (req, res, { user }) => {
     return response;
   }
 
-  // TODO(jim): Put this call into a file for all Textile related calls.
-  const token = user.data.tokens.api;
-  const { buckets } = await Utilities.getBucketAPIFromUserToken(token, user);
+  const { buckets } = await Utilities.getBucketAPIFromUserToken({
+    user,
+    bucketName,
+  });
 
   if (!buckets) {
     return {

@@ -115,14 +115,8 @@ export const getTextileById = async ({ id }) => {
   let errors = [];
   let jobs = [];
 
-  const {
-    buckets,
-    bucketKey,
-    bucketName,
-    bucketRoot,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
-
-  if (!buckets || !bucketRoot) {
+  const defaultData = await Utilities.getBucketAPIFromUserToken({ user });
+  if (!defaultData || !defaultData.buckets || !defaultData.bucketRoot) {
     return null;
   }
 
@@ -130,11 +124,11 @@ export const getTextileById = async ({ id }) => {
     power,
     powerInfo,
     powerHealth,
-  } = await Utilities.getPowergateAPIFromUserToken(user.data.tokens.api, user);
+  } = await Utilities.getPowergateAPIFromUserToken({ user });
 
   // TODO(jim): Put this call into a file for all Textile related calls.
   try {
-    buckets.archiveWatch(bucketRoot.key, (job) => {
+    defaultData.buckets.archiveWatch(defaultData.bucketRoot.key, (job) => {
       if (!job) {
         return;
       }
@@ -155,6 +149,7 @@ export const getTextileById = async ({ id }) => {
   }
 
   // TODO(jim): Put this call into a file for all Textile related calls.
+  /*
   try {
     info = await buckets.archiveInfo(bucketRoot.key);
   } catch (e) {
@@ -168,8 +163,10 @@ export const getTextileById = async ({ id }) => {
 
     errors.push({ decorator: "INFO", message: e.message, code: e.code });
   }
+  */
 
   // TODO(jim): Put this call into a file for all Textile related calls.
+  /*
   try {
     status = await buckets.archiveStatus(bucketRoot.key);
   } catch (e) {
@@ -182,6 +179,38 @@ export const getTextileById = async ({ id }) => {
     });
 
     errors.push({ decorator: "STATUS", message: e.message, code: e.code });
+  }
+  */
+
+  const stagingData = await Utilities.getBucketAPIFromUserToken({
+    user,
+    bucketName: "deal",
+  });
+
+  let r = null;
+  try {
+    r = await stagingData.buckets.list();
+  } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/managers/viewer.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.list`,
+    });
+  }
+
+  let items = null;
+  try {
+    items = await stagingData.buckets.listIpfsPath(r[0].path);
+  } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/managers/viewer.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.listIpfsPath`,
+    });
   }
 
   return {
@@ -197,5 +226,6 @@ export const getTextileById = async ({ id }) => {
       errors,
       jobs,
     },
+    deal: items ? items.items.filter((f) => f.name !== ".textileseed") : [],
   };
 };

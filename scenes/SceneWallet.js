@@ -86,21 +86,31 @@ const STYLES_ITEM_GROUP = css`
   justify-content: flex-start;
 `;
 
+let mounted = false;
+
 export default class SceneWallet extends React.Component {
   state = {};
 
   async componentDidMount() {
+    if (mounted) {
+      return null;
+    }
+
+    mounted = true;
     let networkViewer;
     try {
       const response = await fetch("/api/network");
       const json = await response.json();
       networkViewer = json.data;
     } catch (e) {}
-    console.log(networkViewer);
 
     this.setState({
       networkViewer,
     });
+  }
+
+  componentWillUnmount() {
+    mounted = false;
   }
 
   state = { table_transaction: null, visible: false };

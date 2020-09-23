@@ -28,12 +28,16 @@ export default async (req, res) => {
     });
   }
 
+  let bucketName;
+  if (req.body.data && req.body.data.bucketName) {
+    bucketName = req.body.data.bucketName;
+  }
+
   const {
     buckets,
     bucketKey,
-    bucketName,
     bucketRoot,
-  } = await Utilities.getBucketAPIFromUserToken(user.data.tokens.api, user);
+  } = await Utilities.getBucketAPIFromUserToken({ user, bucketName });
 
   if (!buckets) {
     return res.status(500).send({

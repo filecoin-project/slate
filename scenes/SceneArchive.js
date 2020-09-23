@@ -16,10 +16,17 @@ const STYLES_LABEL = css`
   margin-bottom: 16px;
 `;
 
+let mounted = false;
+
 export default class SceneArchive extends React.Component {
   state = {};
 
   async componentDidMount() {
+    if (mounted) {
+      return null;
+    }
+
+    mounted = true;
     let networkViewer;
     try {
       const response = await fetch("/api/network");
@@ -30,6 +37,10 @@ export default class SceneArchive extends React.Component {
     this.setState({
       networkViewer,
     });
+  }
+
+  componentWillUnmount() {
+    mounted = false;
   }
 
   render() {

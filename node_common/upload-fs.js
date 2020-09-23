@@ -54,10 +54,9 @@ export const formMultipart = (req, res, { user }) =>
       const data = LibraryManager.createLocalDataIncomplete(target);
 
       // TODO(jim): Put this call into a file for all Textile related calls.
-      let { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(
-        user.data.tokens.api,
-        user
-      );
+      let { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken({
+        user,
+      });
 
       if (!buckets) {
         return reject({
@@ -82,10 +81,9 @@ export const formMultipart = (req, res, { user }) =>
       // Delete temporary local file,
       await FS.unlinkSync(tempPath);
 
-      let { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken(
-        user.data.tokens.api,
-        user
-      );
+      let { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken({
+        user,
+      });
 
       if (!buckets) {
         return reject({

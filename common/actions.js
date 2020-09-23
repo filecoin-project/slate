@@ -53,9 +53,17 @@ export const checkUsername = async (data) => {
   });
 };
 
-export const archive = async () => {
+export const archive = async (data) => {
   return await returnJSON(`/api/data/archive`, {
     ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
+export const removeFromBucket = async (data) => {
+  return await returnJSON(`/api/data/bucket-remove`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
   });
 };
 

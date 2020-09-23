@@ -5,9 +5,13 @@ import * as Actions from "~/common/actions";
 import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 import * as Window from "~/common/window";
+import * as Messages from "~/common/messages";
 
 import { css } from "@emotion/react";
 import { dispatchCustomEvent } from "~/common/custom-events";
+
+const DEFAULT_ERROR_MESSAGE =
+  "We could not make your deal. Please try again later.";
 
 export default class SidebarFilecoinArchive extends React.Component {
   state = { response: null };
@@ -15,7 +19,7 @@ export default class SidebarFilecoinArchive extends React.Component {
   async componentDidMount() {}
 
   _handleMakeDeal = async () => {
-    const response = await Actions.archive();
+    return await Actions.archive();
   };
 
   _handleSubmit = async (e) => {
@@ -24,10 +28,47 @@ export default class SidebarFilecoinArchive extends React.Component {
     }
 
     this.props.onSidebarLoading(true);
-    await this._handleMakeDeal();
-    await this.props.onRehydrate();
+    const response = await this._handleMakeDeal();
+
+    if (!response) {
+      this.props.onSidebarLoading(false);
+      return dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: DEFAULT_ERROR_MESSAGE,
+          },
+        },
+      });
+    }
+
+    if (response.error) {
+      this.props.onSidebarLoading(false);
+      if (response.message) {
+        return dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message: `From Textile: ${response.message}`,
+            },
+          },
+        });
+      }
+
+      return dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: Messages.error[response.decorator]
+              ? Messages.error[response.decorator]
+              : DEFAULT_ERROR_MESSAGE,
+          },
+        },
+      });
+    }
+
     await Window.delay(5000);
-    alert("A new Filecoin deal is being processed.");
+    alert("The archiving storage deal was made!");
     window.location.reload();
   };
 

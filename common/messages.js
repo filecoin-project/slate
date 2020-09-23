@@ -352,5 +352,13 @@ export const error = {
   SERVER_SEARCH_NO_QUERY:
     "No query was entered. Please enter a query and try again",
 
+  // Storage Deals
+  SERVER_BUCKET_INIT_FAILURE:
+    "Something went wrong with our infrastructure. Check in later.",
+  STORAGE_DEAL_MAKING_NO_BUCKET:
+    "Something went wrong with our infrastructure. Check in later.",
+  STORAGE_DEAL_MAKING_NO_FILES:
+    "You must provide files before you make a deal.",
+
   //Add url
 };

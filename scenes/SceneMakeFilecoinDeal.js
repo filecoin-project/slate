@@ -4,11 +4,14 @@ import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
+import * as Window from "~/common/window";
+import * as Messages from "~/common/messages";
 
 import { css } from "@emotion/react";
 import { createState } from "~/scenes/SceneSettings";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { FilecoinNumber, Converter } from "@openworklabs/filecoin-number";
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
@@ -56,10 +59,32 @@ const STYLES_RIGHT = css`
   }
 `;
 
+const DEFAULT_ERROR_MESSAGE =
+  "We could not make your deal. Please try again later.";
 let mounted = false;
 
 export default class SceneMakeFilecoinDeal extends React.Component {
   state = {};
+
+  async componentDidMount() {
+    if (mounted) {
+      return;
+    }
+
+    mounted = true;
+    let networkViewer;
+    try {
+      const response = await fetch("/api/network");
+      const json = await response.json();
+      networkViewer = json.data;
+    } catch (e) {}
+
+    this.setState({
+      networkViewer,
+      ...createState(networkViewer.powerInfo.defaultStorageConfig),
+      settings_cold_default_max_price: 1000000000000000,
+    });
+  }
 
   _handleUpload = async (e) => {
     this.setState({ loading: true });
@@ -86,19 +111,48 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     this.setState({ archiving: true });
     const response = await Actions.archive({ bucketName: "deal" });
 
-    let networkViewer;
-    try {
-      const response = await fetch("/api/network");
-      const json = await response.json();
-      networkViewer = json.data;
-    } catch (e) {}
+    if (!response) {
+      this.setState({ archiving: false });
+      return dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: DEFAULT_ERROR_MESSAGE,
+          },
+        },
+      });
+    }
 
-    alert("The storage deal was made. Deals in progress page coming soon.");
+    if (response.error) {
+      this.setState({ archiving: false });
 
-    this.setState({
-      networkViewer,
-      archiving: false,
-    });
+      if (response.message) {
+        return dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message: `From Textile: ${response.message}`,
+            },
+          },
+        });
+      }
+
+      return dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: Messages.error[response.decorator]
+              ? Messages.error[response.decorator]
+              : DEFAULT_ERROR_MESSAGE,
+          },
+        },
+      });
+    }
+
+    await Window.delay(5000);
+    alert("The storage deal was made!");
+
+    this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_ARCHIVE" });
   };
 
   _handleRemove = async (cid) => {
@@ -119,26 +173,6 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     });
   };
 
-  async componentDidMount() {
-    if (mounted) {
-      return;
-    }
-
-    mounted = true;
-    let networkViewer;
-    try {
-      const response = await fetch("/api/network");
-      const json = await response.json();
-      networkViewer = json.data;
-    } catch (e) {}
-
-    this.setState({
-      networkViewer,
-      ...createState(networkViewer.powerInfo.defaultStorageConfig),
-      settings_cold_default_max_price: 1000000000000000,
-    });
-  }
-
   _handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -148,8 +182,32 @@ export default class SceneMakeFilecoinDeal extends React.Component {
   }
 
   render() {
+    const { networkViewer } = this.state;
+    const addressMap = {};
+    const addresses = [];
+    let selected = null;
+    let balance = 0;
+
+    if (networkViewer) {
+      networkViewer.powerInfo.balancesList.forEach((a) => {
+        addressMap[a.addr.addr] = { ...a.addr, balance: a.balance };
+        addresses.push({ ...a.addr, balance: a.balance });
+      });
+
+      if (addresses.length) {
+        selected = addresses[0];
+      }
+
+      let transactions = [];
+      if (selected.transactions) {
+        transactions = [...selected.transactions];
+      }
+
+      balance = Strings.formatAsFilecoinConversion(selected.balance);
+    }
+
     let inFil = 0;
-    if (this.state.networkViewer) {
+    if (networkViewer) {
       const filecoinNumber = new FilecoinNumber(
         `${this.state.settings_cold_default_max_price}`,
         "attofil"
@@ -167,7 +225,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
           id="file"
           onChange={this._handleUpload}
         />
-        <TestnetBanner />
+        <TestnetBanner balance={balance} />
         <ScenePageHeader title="Make an one-off Filecoin Storage Deal">
           This is a simple tool to upload data and make one-off storage deals in
           the Filecoin network.
@@ -265,12 +323,17 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               descriptionStyle={{ maxWidth: 688 }}
               readOnly
               label="Default Filecoin deal duration (read only)"
-              description="The minimum deal time for a Filecoin deal is 6 months."
+              description={`Your deal is set for ${this.state
+                .settings_cold_default_duration /
+                30 /
+                2 /
+                60 /
+                24} days.`}
               name="settings_cold_default_duration"
               type="number"
               unit="epochs"
               value={this.state.settings_cold_default_duration}
-              placeholder="Type in epochs (~25 seconds)"
+              placeholder="Type in epochs (1 epoch = ~30 seconds)"
               onChange={this._handleChange}
             />
 

@@ -191,7 +191,6 @@ export default class SceneSettings extends React.Component {
                 <System.Input
                   containerStyle={{ marginTop: 24 }}
                   label="Default Filecoin address (Read only)"
-                  description="Default Filecoin address."
                   name="settings_cold_default_duration"
                   readOnly
                   type="text"
@@ -202,7 +201,6 @@ export default class SceneSettings extends React.Component {
                 <System.Input
                   containerStyle={{ marginTop: 24 }}
                   label="Default Filecoin deal duration"
-                  description="Current deal duration is in epochs but should change to months/weeks/days."
                   name="settings_cold_default_duration"
                   type="number"
                   value={this.state.settings_cold_default_duration}
@@ -213,7 +211,6 @@ export default class SceneSettings extends React.Component {
                 <System.Input
                   containerStyle={{ marginTop: 24 }}
                   label="Default Filecoin replication factor"
-                  description=""
                   name="settings_cold_default_replication_factor"
                   value={this.state.settings_cold_default_replication_factor}
                   placeholder="Type in amount of miners"
@@ -242,7 +239,6 @@ export default class SceneSettings extends React.Component {
                 <System.Input
                   containerStyle={{ marginTop: 24 }}
                   label="Max Filecoin deal auto renew price."
-                  description="Set the maximum Filecoin price you're willing to pay for auto renew."
                   name="settings_cold_default_auto_renew_max_price"
                   value={this.state.settings_cold_default_auto_renew_max_price}
                   placeholder="Type in amount of Filecoin"
@@ -289,7 +285,6 @@ export default class SceneSettings extends React.Component {
                 <System.Input
                   containerStyle={{ marginTop: 24 }}
                   label="Add timeout"
-                  description="Add IPFS timeout setting description."
                   name="settings_hot_ipfs_add_timeout"
                   value={this.state.settings_hot_ipfs_add_timeout}
                   placeholder="Type in seconds"

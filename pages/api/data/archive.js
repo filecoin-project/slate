@@ -46,6 +46,33 @@ export default async (req, res) => {
     });
   }
 
+  let items = null;
+  try {
+    items = await buckets.listIpfsPath(bucketRoot.path);
+  } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/pages/api/data/archive.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.archive`,
+    });
+  }
+
+  if (!items) {
+    return res.status(500).send({
+      decorator: "STORAGE_DEAL_MAKING_NO_BUCKET",
+      error: true,
+    });
+  }
+
+  if (items.items.length < 2) {
+    return res.status(500).send({
+      decorator: "STORAGE_DEAL_MAKING_NO_FILES",
+      error: true,
+    });
+  }
+
   let response = {};
   let error = {};
   try {
@@ -59,6 +86,12 @@ export default async (req, res) => {
       message: e.message,
       code: e.code,
       functionName: `buckets.archive`,
+    });
+
+    return res.status(500).send({
+      decorator: "STORAGE_DEAL_MAKING_TEXTILE_ERROR",
+      error: true,
+      message: e.message,
     });
   }
 

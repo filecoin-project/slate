@@ -71,9 +71,20 @@ export default class SceneEditAccount extends React.Component {
       return;
     }
 
-    const json = await FileUtilities.upload({ file });
+    const response = await FileUtilities.upload({ file });
 
-    if (json.error) {
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "We're having trouble connecting right now" },
+        },
+      });
+      this.setState({ changingAvatar: false });
+      return;
+    }
+
+    if (response.error) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: { alert: { decorator: json.decorator } },
@@ -81,6 +92,8 @@ export default class SceneEditAccount extends React.Component {
       this.setState({ changingAvatar: false });
       return;
     }
+
+    const { json } = response;
 
     const cid = json.data.ipfs.replace("/ipfs/", "");
     const url = Strings.getCIDGatewayURL(cid);

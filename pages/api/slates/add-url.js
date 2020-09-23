@@ -70,6 +70,11 @@ export default async (req, res) => {
   }
 
   let newObjects = [];
+  if (Array.isArray(req.body.data)) {
+    newObjects = [...req.body.data];
+  } else {
+    newObjects = [req.body.data];
+  }
   const isArray = req.body.data && req.body.data.length;
   if (isArray) {
     newObjects = [...req.body.data];

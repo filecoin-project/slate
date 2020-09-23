@@ -50,6 +50,7 @@ export default class SceneFilesFolder extends React.Component {
         {this.props.viewer.library[0].children &&
         this.props.viewer.library[0].children.length ? (
           <DataView
+            onAction={this.props.onAction}
             viewer={this.props.viewer}
             items={this.props.viewer.library[0].children}
             onRehydrate={this.props.onRehydrate}

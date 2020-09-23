@@ -11,6 +11,22 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
+const STYLES_CREATE_NEW = css`
+  color: ${Constants.system.darkGray};
+  box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+  margin: 0px 12px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 0 8px;
+  }
+`;
+
 const STYLES_IMAGE_ROW = css`
   display: flex;
   flex-direction: row;
@@ -18,9 +34,11 @@ const STYLES_IMAGE_ROW = css`
   height: 160px;
   justify-content: space-between;
   overflow: hidden;
+  margin: 0 -12px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     justify-content: center;
+    margin: 0 -8px;
   }
 `;
 
@@ -35,19 +53,21 @@ const STYLES_ITEM_BOX = css`
   cursor: pointer;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 auto;
+    margin: 0 8px;
   }
 
   :hover {
     color: ${Constants.system.brand};
   }
+`;
 
-  :first-of-type {
-    margin-left: 0px;
-  }
+const STYLES_EMPTY_BOX = css`
+  width: 160px;
+  height: 160px;
+  margin: 0px 12px;
 
-  :last-of-type {
-    margin-right: 0px;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 0 8px;
   }
 `;
 
@@ -57,6 +77,7 @@ const STYLES_IMAGE_ROW_SMALL = css`
   flex-wrap: wrap;
   height: 56px;
   overflow: hidden;
+  margin: 0 -8px;
 `;
 
 const STYLES_ITEM_BOX_SMALL = css`
@@ -67,49 +88,72 @@ const STYLES_ITEM_BOX_SMALL = css`
   align-items: center;
   justify-content: center;
   box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
+`;
 
-  :first-of-type {
-    margin-left: 0px;
-  }
-
-  :last-of-type {
-    margin-right: 0px;
-  }
+const STYLES_EMPTY_BOX_SMALL = css`
+  width: 56px;
+  height: 56px;
+  margin: 0px 8px;
 `;
 
 export function SlatePreviewRow(props) {
   let numItems = props.numItems || 5;
-  let objects =
-    props.slate.data.objects.length > numItems
-      ? props.slate.data.objects.slice(0, numItems)
-      : props.slate.data.objects;
+  let objects;
+  if (props.slate.data.objects.length === 0) {
+    objects = [
+      <div css={STYLES_CREATE_NEW} key="add-files">
+        <SVG.Plus height="24px" />
+        <div>Add Files</div>
+      </div>,
+    ];
+  } else {
+    let trimmed =
+      props.slate.data.objects.length > numItems
+        ? props.slate.data.objects.slice(0, numItems)
+        : props.slate.data.objects;
+    objects = trimmed.map((each) => (
+      <div
+        key={each.id}
+        css={props.small ? STYLES_ITEM_BOX_SMALL : STYLES_ITEM_BOX}
+        style={props.style}
+      >
+        <SlateMediaObjectPreview
+          charCap={30}
+          type={each.type}
+          url={each.url}
+          style={{ border: "none", ...props.previewStyle }}
+          title={each.title || each.name}
+          small={props.small}
+        />
+      </div>
+    ));
+  }
+  let numExtra = props.numItems
+    ? props.numItems - objects.length
+    : 5 - objects.length;
+  let extra = [];
+  for (let i = 0; i < numExtra; i++) {
+    extra.push(
+      <div
+        key={`extra-${i}`}
+        css={props.small ? STYLES_EMPTY_BOX_SMALL : STYLES_EMPTY_BOX}
+      />
+    );
+  }
   return (
     <div
       css={props.small ? STYLES_IMAGE_ROW_SMALL : STYLES_IMAGE_ROW}
       style={props.containerStyle}
     >
-      {objects.map((each) => (
-        <div
-          key={each.id}
-          css={props.small ? STYLES_ITEM_BOX_SMALL : STYLES_ITEM_BOX}
-          style={props.style}
-        >
-          <SlateMediaObjectPreview
-            charCap={30}
-            type={each.type}
-            url={each.url}
-            style={{ border: "none", ...props.previewStyle }}
-            title={each.title || each.name}
-            small={props.small}
-          />
-        </div>
-      ))}
+      {objects}
+      {extra}
     </div>
   );
 }
 
 const STYLES_BLOCK = css`
-  box-shadow: 0 0 0 1px ${Constants.system.border} inset;
+  box-shadow: 0 0 0 1px rgba(229, 229, 229, 0.75) inset,
+    0 0 40px 0 ${Constants.system.shadow};
   border-radius: 8px;
   padding: 32px 40px;
   font-size: 12px;
@@ -151,17 +195,6 @@ const STYLES_BODY = css`
   line-height: 20px;
   white-space: pre-wrap;
   word-wrap: break-word;
-`;
-
-const STYLES_CREATE_NEW = css`
-  color: ${Constants.system.darkGray};
-  box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 160px;
-  height: 160px;
 `;
 
 const STYLES_ICON_BOX = css`
@@ -354,20 +387,10 @@ export default class SlatePreviewBlock extends React.Component {
         ) : (
           <div style={{ height: "8px" }} />
         )}
-        {this.props.slate.data.objects &&
-        this.props.slate.data.objects.length ? (
-          <SlatePreviewRow
-            {...this.props}
-            previewStyle={this.props.previewStyle}
-          />
-        ) : (
-          <div css={STYLES_IMAGE_ROW}>
-            <div css={STYLES_CREATE_NEW}>
-              <SVG.Plus height="24px" />
-              <div>Add Files</div>
-            </div>
-          </div>
-        )}
+        <SlatePreviewRow
+          {...this.props}
+          previewStyle={this.props.previewStyle}
+        />
       </div>
     );
   }

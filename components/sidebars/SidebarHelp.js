@@ -28,7 +28,7 @@ export default class SidebarCreateSlate extends React.Component {
 
   _handleSubmit = async () => {
     this.setState({ loading: true });
-    if (!this.state.email || !this.state.email.length) {
+    if (Strings.isEmpty(this.state.email)) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
@@ -48,17 +48,6 @@ export default class SidebarCreateSlate extends React.Component {
           alert: {
             message: "Please provide a message",
           },
-        },
-      });
-      this.setState({ loading: false });
-      return;
-    }
-
-    if (!Validations.email(this.state.email)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "Please check that your email address is valid" },
         },
       });
       this.setState({ loading: false });

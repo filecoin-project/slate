@@ -133,6 +133,13 @@ export const processPendingFiles = async (data) => {
   });
 };
 
+export const addFileToSlate = async (data) => {
+  return await returnJSON(`/api/slates/add-url`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify(data),
+  });
+};
+
 export const updateViewer = async (data) => {
   return await returnJSON(`/api/users/update`, {
     ...DEFAULT_OPTIONS,

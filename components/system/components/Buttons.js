@@ -11,32 +11,13 @@ const STYLES_BUTTON = `
   outline: 0;
   border: 0;
   min-height: 40px;
-  padding: 6px 24px 6px 24px;
+  padding: 4px 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.2px;
-  font-family: ${Constants.font.semiBold};
-  transition: 200ms ease all;
-  overflow-wrap: break-word;
-  user-select: none;
-`;
-
-const STYLES_BUTTON_FULL = `
-  box-sizing: border-box;
-  border-radius: 4px;
-  outline: 0;
-  border: 0;
-  min-height: 40px;
-  padding: 6px 24px 6px 24px;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  letter-spacing: 0.2px;
-  font-family: ${Constants.font.semiBold};
+  font-family: ${Constants.font.medium};
   transition: 200ms ease all;
   overflow-wrap: break-word;
   user-select: none;
@@ -60,30 +41,25 @@ const STYLES_BUTTON_PRIMARY = css`
   }
 `;
 
-const STYLES_BUTTON_PRIMARY_FULL = css`
-  ${STYLES_BUTTON_FULL}
+const STYLES_BUTTON_PRIMARY_TRANSPARENT = css`
+  ${STYLES_BUTTON}
+  ${"" /* font-size: 16px;
+  font-family: ${Constants.font.medium}; */}
   cursor: pointer;
-  background-color: ${Constants.system.brand};
-  color: ${Constants.system.white};
-
-  :hover {
-    background-color: #065ca8;
-  }
-
-  :focus {
-    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: #065ca8;
-    outline: 0;
-    border: 0;
-  }
+  background-color: transparent;
+  color: ${Constants.system.brand};
 `;
 
 export const ButtonPrimary = (props) => {
   if (props.loading) {
     return (
       <button
-        css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
-        style={props.style}
+        css={
+          props.transparent
+            ? STYLES_BUTTON_PRIMARY_TRANSPARENT
+            : STYLES_BUTTON_PRIMARY
+        }
+        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
@@ -93,8 +69,12 @@ export const ButtonPrimary = (props) => {
   if (props.type === "label") {
     return (
       <label
-        css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
-        style={props.style}
+        css={
+          props.transparent
+            ? STYLES_BUTTON_PRIMARY_TRANSPARENT
+            : STYLES_BUTTON_PRIMARY
+        }
+        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}
@@ -106,8 +86,12 @@ export const ButtonPrimary = (props) => {
 
   return (
     <button
-      css={props.full ? STYLES_BUTTON_PRIMARY_FULL : STYLES_BUTTON_PRIMARY}
-      style={props.style}
+      css={
+        props.transparent
+          ? STYLES_BUTTON_PRIMARY_TRANSPARENT
+          : STYLES_BUTTON_PRIMARY
+      }
+      style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       onMouseUp={props.onClick}
       onTouchEnd={props.onClick}
       children={props.children}
@@ -137,22 +121,11 @@ const STYLES_BUTTON_SECONDARY = css`
   }
 `;
 
-const STYLES_BUTTON_SECONDARY_FULL = css`
-  ${STYLES_BUTTON_FULL}
+const STYLES_BUTTON_SECONDARY_TRANSPARENT = css`
+  ${STYLES_BUTTON}
   cursor: pointer;
-  background-color: ${Constants.system.white};
-  box-shadow: 0 0 0 1px ${Constants.system.border} inset;
-  color: ${Constants.system.brand};
-
-  :hover {
-    ${"" /* box-shadow: 0 0 0 1px #065ca8 inset;
-    color: #065ca8; */}
-  }
-
-  :focus {
-    outline: 0;
-    border: 0;
-  }
+  background-color: transparent;
+  color: ${Constants.system.darkGray};
 `;
 
 export const ButtonSecondary = (props) => {
@@ -160,9 +133,11 @@ export const ButtonSecondary = (props) => {
     return (
       <button
         css={
-          props.full ? STYLES_BUTTON_SECONDARY_FULL : STYLES_BUTTON_SECONDARY
+          props.transparent
+            ? STYLES_BUTTON_SECONDARY_TRANSPARENT
+            : STYLES_BUTTON_SECONDARY
         }
-        style={props.style}
+        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
@@ -173,9 +148,11 @@ export const ButtonSecondary = (props) => {
     return (
       <label
         css={
-          props.full ? STYLES_BUTTON_SECONDARY_FULL : STYLES_BUTTON_SECONDARY
+          props.transparent
+            ? STYLES_BUTTON_SECONDARY_TRANSPARENT
+            : STYLES_BUTTON_SECONDARY
         }
-        style={props.style}
+        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
         onMouseUp={props.onClick}
         onTouchEnd={props.onClick}
         children={props.children}
@@ -187,8 +164,13 @@ export const ButtonSecondary = (props) => {
 
   return (
     <button
-      css={props.full ? STYLES_BUTTON_SECONDARY_FULL : STYLES_BUTTON_SECONDARY}
+      css={
+        props.transparent
+          ? STYLES_BUTTON_SECONDARY_TRANSPARENT
+          : STYLES_BUTTON_SECONDARY
+      }
       {...props}
+      style={{ ...props.style, width: props.full ? "100%" : "auto" }}
     />
   );
 };
@@ -209,23 +191,23 @@ const STYLES_BUTTON_DISABLED = css`
   }
 `;
 
-const STYLES_BUTTON_DISABLED_FULL = css`
-  ${STYLES_BUTTON_FULL}
+const STYLES_BUTTON_DISABLED_TRANSPARENT = css`
+  ${STYLES_BUTTON}
   cursor: not-allowed;
-  background-color: ${Constants.system.gray};
-  color: ${Constants.system.darkGray};
-
-  :focus {
-    outline: 0;
-    border: 0;
-  }
+  background-color: transparent;
+  color: ${Constants.system.gray};
 `;
 
 export const ButtonDisabled = (props) => {
   return (
     <button
-      css={props.full ? STYLES_BUTTON_DISABLED_FULL : STYLES_BUTTON_DISABLED}
+      css={
+        props.transparent
+          ? STYLES_BUTTON_DISABLED_TRANSPARENT
+          : STYLES_BUTTON_DISABLED
+      }
       {...props}
+      style={{ ...props.style, width: props.full ? "100%" : "auto" }}
     />
   );
 };
@@ -252,30 +234,23 @@ const STYLES_BUTTON_WARNING = css`
   }
 `;
 
-const STYLES_BUTTON_WARNING_FULL = css`
-  ${STYLES_BUTTON_FULL}
+const STYLES_BUTTON_WARNING_TRANSPARENT = css`
+  ${STYLES_BUTTON}
   cursor: pointer;
-  background-color: #e0e0e0;
+  background-color: transparent;
   color: ${Constants.system.red};
-
-  :hover {
-    background-color: #d4d4d4;
-  }
-
-  :focus {
-    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: #d4d4d4;
-    outline: 0;
-    border: 0;
-  }
 `;
 
 export const ButtonWarning = (props) => {
   if (props.loading) {
     return (
       <button
-        css={props.full ? STYLES_BUTTON_WARNING_FULL : STYLES_BUTTON_WARNING}
-        style={props.style}
+        css={
+          props.transparent
+            ? STYLES_BUTTON_WARNING_TRANSPARENT
+            : STYLES_BUTTON_WARNING
+        }
+        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
@@ -285,8 +260,12 @@ export const ButtonWarning = (props) => {
   if (props.type === "label") {
     return (
       <label
-        css={props.full ? STYLES_BUTTON_WARNING_FULL : STYLES_BUTTON_WARNING}
-        style={props.style}
+        css={
+          props.transparent
+            ? STYLES_BUTTON_WARNING_TRANSPARENT
+            : STYLES_BUTTON_WARNING
+        }
+        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}
@@ -298,8 +277,12 @@ export const ButtonWarning = (props) => {
 
   return (
     <button
-      css={props.full ? STYLES_BUTTON_WARNING_FULL : STYLES_BUTTON_WARNING}
-      style={props.style}
+      css={
+        props.transparent
+          ? STYLES_BUTTON_WARNING_TRANSPARENT
+          : STYLES_BUTTON_WARNING
+      }
+      style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       onMouseUp={props.onClick}
       onTouchEnd={props.onClick}
       children={props.children}

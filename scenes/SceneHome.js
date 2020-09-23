@@ -54,18 +54,6 @@ export default class SceneHome extends React.Component {
         {hasChildren ? (
           <div style={{ marginTop: "48px" }}>
             <DataView
-              buttons={[
-                {
-                  name: "View files",
-                  type: "NAVIGATE",
-                  value: this.props.viewer.library[0].id,
-                },
-                {
-                  name: "Upload data",
-                  type: "SIDEBAR",
-                  value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-                },
-              ]}
               viewer={this.props.viewer}
               items={this.props.viewer.library[0].children}
               onAction={this.props.onAction}

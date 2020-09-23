@@ -8,6 +8,10 @@ import { css } from "@emotion/react";
 import { TabGroup } from "~/components/core/TabGroup";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+} from "~/components/system/components/Buttons";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -178,21 +182,22 @@ export default class SceneDirectory extends React.Component {
       .map((relation) => {
         let button = (
           <div css={STYLES_BUTTONS}>
-            <div
-              css={STYLES_ACTION_BUTTON}
+            <ButtonPrimary
+              transparent
+              style={{ fontSize: 16 }}
               onClick={(e) => this._handleAccept(e, relation.owner.id)}
             >
               Accept
-            </div>
-            <div
-              css={STYLES_ACTION_BUTTON}
-              style={{ color: Constants.system.darkGray, marginLeft: "16px" }}
+            </ButtonPrimary>
+            <ButtonSecondary
+              transparent
+              style={{ fontSize: 16 }}
               onClick={(e) => {
                 this._handleDelete(e, relation.id);
               }}
             >
               Decline
-            </div>
+            </ButtonSecondary>
           </div>
         );
         return (

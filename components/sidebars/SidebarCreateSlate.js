@@ -3,6 +3,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
+import * as Actions from "~/common/actions";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/react";
@@ -85,6 +86,48 @@ export default class SidebarCreateSlate extends React.Component {
         detail: { alert: { decorator: response.decorator } },
       });
       return;
+    }
+
+    if (
+      this.props.sidebarData &&
+      this.props.sidebarData.files &&
+      this.props.sidebarData.files[0].decorator === "FILE"
+    ) {
+      let data = this.props.sidebarData.files.map((file) => {
+        return { title: file.name, ...file };
+      });
+      const addResponse = await Actions.addFileToSlate({
+        slate: response.slate,
+        data,
+      });
+
+      if (!addResponse) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message:
+                "We're having trouble connecting right now. Please try again later",
+            },
+          },
+        });
+        return;
+      }
+
+      if (addResponse.error) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: { alert: { decorator: response.decorator } },
+        });
+        return;
+      }
+
+      await this.props.onRehydrate();
+
+      dispatchCustomEvent({
+        name: "remote-update-carousel",
+        detail: null,
+      });
     }
 
     this.setState({ loading: false });

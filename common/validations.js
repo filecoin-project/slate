@@ -75,16 +75,6 @@ export const slatename = (text) => {
   return true;
 };
 
-export const email = (text) => {
-  if (!text || !text.length) {
-    return false;
-  }
-  if (!EMAIL_REGEX.test(text)) {
-    return false;
-  }
-  return true;
-};
-
 export const username = (text) => {
   if (Strings.isEmpty(text)) {
     return false;

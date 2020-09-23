@@ -37,7 +37,7 @@ const STYLES_DROPDOWN_ITEM = css`
   margin-bottom: -1px;
 
   :hover {
-    border-color: ${Constants.system.border} !important;
+    border-color: rgba(229, 229, 229, 0.75) !important;
   }
 `;
 
@@ -205,7 +205,7 @@ export class SearchDropdown extends React.Component {
                   style={{
                     borderColor:
                       this.state.selectedIndex === i
-                        ? Constants.system.border
+                        ? "rgba(229, 229, 229, 0.75)"
                         : "transparent",
                     ...this.props.itemStyle,
                   }}

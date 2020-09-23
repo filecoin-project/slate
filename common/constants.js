@@ -29,6 +29,7 @@ export const system = {
   slate: "#27292e",
   moonstone: "#807d78",
   wall: "#cfced3",
+  shadow: "rgba(15, 14, 18, 0.03)",
 };
 
 export const zindex = {

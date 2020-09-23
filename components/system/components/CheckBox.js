@@ -74,8 +74,27 @@ export class CheckBox extends React.Component {
   render() {
     return (
       <label css={STYLES_CHECKBOX} style={this.props.style}>
-        <figure css={STYLES_CHECKBOX_FIGURE} style={this.props.boxStyle}>
-          {this.props.value ? <SVG.CheckBox height="20px" /> : null}
+        <figure
+          css={STYLES_CHECKBOX_FIGURE}
+          style={
+            this.props.value
+              ? {
+                  backgroundColor: Constants.system.brand,
+                  boxShadow: `0 0 0 1px ${Constants.system.brand}`,
+                  ...this.props.boxStyle,
+                }
+              : {
+                  backgroundColor: Constants.system.white,
+                  ...this.props.boxStyle,
+                }
+          }
+        >
+          {this.props.value ? (
+            <SVG.CheckBox
+              height="14px"
+              style={{ color: Constants.system.white }}
+            />
+          ) : null}
         </figure>
         <input
           css={STYLES_CHECKBOX_INPUT}

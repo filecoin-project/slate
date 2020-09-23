@@ -39,6 +39,7 @@ import SidebarCreateWalletAddress from "~/components/sidebars/SidebarCreateWalle
 import SidebarWalletSendFunds from "~/components/sidebars/SidebarWalletSendFunds";
 import SidebarFileStorageDeal from "~/components/sidebars/SidebarFileStorageDeal";
 import SidebarAddFileToBucket from "~/components/sidebars/SidebarAddFileToBucket";
+import SidebarAddFileToSlate from "~/components/sidebars/SidebarAddFileToSlate";
 import SidebarDragDropNotice from "~/components/sidebars/SidebarDragDropNotice";
 import SidebarSingleSlateSettings from "~/components/sidebars/SidebarSingleSlateSettings";
 import SidebarFilecoinArchive from "~/components/sidebars/SidebarFilecoinArchive";
@@ -64,6 +65,7 @@ const SIDEBARS = {
   SIDEBAR_WALLET_SEND_FUNDS: <SidebarWalletSendFunds />,
   SIDEBAR_CREATE_WALLET_ADDRESS: <SidebarCreateWalletAddress />,
   SIDEBAR_ADD_FILE_TO_BUCKET: <SidebarAddFileToBucket />,
+  SIDEBAR_ADD_FILE_TO_SLATE: <SidebarAddFileToSlate />,
   SIDEBAR_CREATE_SLATE: <SidebarCreateSlate />,
   SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
   SIDEBAR_SINGLE_SLATE_SETTINGS: <SidebarSingleSlateSettings />,
@@ -104,6 +106,7 @@ export default class ApplicationPage extends React.Component {
     sidebar: null,
     sidebarLoading: false,
     online: null,
+    sidebar: <SidebarAddFileToSlate />, //remove this
   };
 
   async componentDidMount() {
@@ -743,6 +746,7 @@ export default class ApplicationPage extends React.Component {
         selected: this.state.selected,
         viewer: this.state.viewer,
         data: this.state.data,
+        sidebarData: this.state.sidebarData,
         fileLoading: this.state.fileLoading,
         sidebarLoading: this.state.sidebarLoading,
         onSelectedChange: this._handleSelectedChange,

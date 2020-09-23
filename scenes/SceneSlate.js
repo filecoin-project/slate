@@ -516,6 +516,7 @@ export default class SceneSlate extends React.Component {
               <div onClick={this._handleFollow}>
                 {following ? (
                   <ButtonSecondary
+                    transparent
                     style={{ minWidth: 120 }}
                     loading={this.state.followLoading}
                   >
@@ -523,6 +524,7 @@ export default class SceneSlate extends React.Component {
                   </ButtonSecondary>
                 ) : (
                   <ButtonPrimary
+                    transparent
                     style={{ minWidth: 120 }}
                     loading={this.state.followLoading}
                   >

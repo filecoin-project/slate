@@ -164,7 +164,7 @@ export default class ApplicationUserControls extends React.Component {
             <Boundary
               captureResize={true}
               captureScroll={false}
-              enabled={this.state.visible}
+              enabled
               onOutsideRectEvent={this._handleHide}
               style={this.props.style}
             >

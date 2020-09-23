@@ -20,6 +20,7 @@ const TABLE_COLUMN_WIDTH_DEFAULTS = {
 
 const STYLES_CONTAINER = css`
   border: 1px solid rgba(229, 229, 229, 0.75);
+  box-shadow: 0 0 40px 0 ${Constants.system.shadow};
 `;
 
 const STYLES_TABLE_ROW = css`

@@ -10,7 +10,8 @@ const MAX_IN_BYTES = 10737418240 * 4;
 
 const STYLES_CONTAINER = css`
   border-radius: 4px;
-  border: 1px solid ${Constants.system.border};
+  box-shadow: 0 0 0 1px rgba(229, 229, 229, 0.75) inset,
+    0 0 40px 0 ${Constants.system.shadow};
   padding: 32px;
   max-width: 100%;
   width: 100%;

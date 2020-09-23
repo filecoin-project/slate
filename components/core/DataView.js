@@ -14,7 +14,10 @@ import { generateLayout } from "~/components/core/Slate";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { Table } from "~/components/core/Table";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
-import { ButtonWarning } from "~/components/system/components/Buttons";
+import {
+  ButtonPrimary,
+  ButtonWarning,
+} from "~/components/system/components/Buttons";
 import { TabGroup } from "~/components/core/TabGroup";
 
 import SlateMediaObject from "~/components/core/SlateMediaObject";
@@ -40,11 +43,22 @@ const STYLES_ICON_BOX = css`
   margin-left: 16px;
 `;
 
+const STYLES_CANCEL_BOX = css`
+  height: 16px;
+  width: 16px;
+  background-color: ${Constants.system.brand};
+  border-radius: 3px;
+  position: relative;
+  right: 3px;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px ${Constants.system.brand};
+`;
+
 const STYLES_HEADER_LINE = css`
   display: flex;
   align-items: center;
   margin-top: 80px;
-  margin-bottom: 42px;
+  margin-bottom: 30px;
 `;
 
 const STYLES_LINK = css`
@@ -77,7 +91,25 @@ const STYLES_ICON_BOX_HOVER = css`
   }
 `;
 
-const STYLES_ACTION_ROW = css`
+const STYLES_ARROWS = css`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const STYLES_ACTION_BAR = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 0 1px rgba(229, 229, 229, 0.75) inset,
+    0 0 40px 0 ${Constants.system.shadow};
+  border-radius: 4px;
+  padding: 12px 32px;
+  background-color: rgba(248, 248, 248, 0.75);
+`;
+
+const STYLES_RIGHT = css`
+  flex-shrink: 0;
   display: flex;
   align-items: center;
 `;
@@ -87,8 +119,8 @@ const STYLES_LEFT = css`
   min-width: 10%;
 `;
 
-const STYLES_RIGHT = css`
-  flex-shrink: 0;
+const STYLES_FILES_SELECTED = css`
+  font-family: ${Constants.font.semiBold};
 `;
 
 const STYLES_ICON_ELEMENT = css`
@@ -120,10 +152,8 @@ const STYLES_COPY_INPUT = css`
 `;
 
 const STYLES_IMAGE_GRID = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(214px, 1fr));
   margin: 0 -27px;
 `;
 
@@ -134,7 +164,8 @@ const STYLES_IMAGE_BOX = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
+  box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.75) inset,
+    0 0 40px 0 ${Constants.system.shadow};
   cursor: pointer;
 `;
 
@@ -165,6 +196,7 @@ export default class DataView extends React.Component {
         "remote-slate-object-add",
         this._handleRemoteSlateObjectAdd
       );
+      window.addEventListener("remote-update-carousel", this._handleUpdate);
     }
 
     await this._handleUpdate();
@@ -185,6 +217,7 @@ export default class DataView extends React.Component {
       "remote-slate-object-add",
       this._handleRemoteSlateObjectAdd
     );
+    window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }
 
   _increment = (direction) => {
@@ -218,9 +251,8 @@ export default class DataView extends React.Component {
     if (!window.confirm(message)) {
       return;
     }
-    console.log(this.state.checked);
     let cids = Object.keys(this.state.checked).map((id) => {
-      let index = parseInt(id.replace("checkbox-", ""));
+      let index = parseInt(id);
       return this.props.viewer.library[0].children[index].ipfs.replace(
         "/ipfs/",
         ""
@@ -372,13 +404,9 @@ export default class DataView extends React.Component {
       detail: { loading: { id: slate.id } },
     });
 
-    const addResponse = await fetch(`/api/slates/add-url`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ slate, data: [{ title: data.name, ...data }] }),
+    const addResponse = await Actions.addFileToSlate({
+      slate,
+      data: [{ title: data.name, ...data }],
     });
 
     if (!addResponse) {
@@ -491,10 +519,6 @@ export default class DataView extends React.Component {
     this.setState({ menu: null });
   };
 
-  _handleRemoteDeletion = async (e) => {
-    await this._handleDelete(e.detail.cid);
-  };
-
   _handleLoading = ({ cids }) => {
     let loading = this.state.loading;
     for (let cid of cids) {
@@ -509,6 +533,23 @@ export default class DataView extends React.Component {
 
   _handleClick = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  _handleAddToSlate = (e) => {
+    let userFiles = this.props.viewer.library[0].children;
+    let files = Object.keys(this.state.checked).map(
+      (index) => userFiles[index]
+    );
+    this.props.onAction({
+      type: "SIDEBAR",
+      value: "SIDEBAR_ADD_FILE_TO_SLATE",
+      data: { files },
+    });
+    this._handleUncheckAll();
+  };
+
+  _handleUncheckAll = () => {
+    this.setState({ checked: {} });
   };
 
   render() {
@@ -552,25 +593,8 @@ export default class DataView extends React.Component {
       </div>
     );
     const footer = (
-      <div css={STYLES_ACTION_ROW}>
-        <div css={STYLES_LEFT}>
-          {Object.keys(this.state.checked).length ? (
-            <ButtonWarning
-              style={{ width: 160 }}
-              onClick={this._handleDeleteFiles}
-              loading={
-                this.state.loading &&
-                Object.values(this.state.loading).some((elem) => {
-                  return !!elem;
-                })
-              }
-            >
-              Delete {Object.keys(this.state.checked).length} file
-              {Object.keys(this.state.checked).length > 1 ? "s" : ""}
-            </ButtonWarning>
-          ) : null}
-        </div>
-        <div css={STYLES_RIGHT}>
+      <React.Fragment>
+        <div css={STYLES_ARROWS}>
           <span
             css={STYLES_ICON_ELEMENT}
             style={
@@ -604,7 +628,33 @@ export default class DataView extends React.Component {
             <SVG.NavigationArrow height="24px" />
           </span>
         </div>
-      </div>
+        {Object.keys(this.state.checked).length ? (
+          <div css={STYLES_ACTION_BAR}>
+            <div css={STYLES_LEFT}>
+              <span css={STYLES_FILES_SELECTED}>
+                {Object.keys(this.state.checked).length} files selected
+              </span>
+            </div>
+            <div css={STYLES_RIGHT}>
+              <ButtonPrimary transparent onClick={this._handleAddToSlate}>
+                Add to slate
+              </ButtonPrimary>
+              <ButtonWarning
+                transparent
+                onClick={this._handleDeleteFiles}
+                loading={
+                  this.state.loading &&
+                  Object.values(this.state.loading).some((elem) => {
+                    return !!elem;
+                  })
+                }
+              >
+                Delete files
+              </ButtonWarning>
+            </div>
+          </div>
+        ) : null}
+      </React.Fragment>
     );
     if (this.state.view === "grid") {
       return (
@@ -640,7 +690,19 @@ export default class DataView extends React.Component {
     const columns = [
       {
         key: "checkbox",
-        name: <span />,
+        name: Object.keys(this.state.checked).length ? (
+          <div
+            css={STYLES_CANCEL_BOX}
+            onClick={() => this.setState({ checked: {} })}
+          >
+            <SVG.Minus
+              height="16px"
+              style={{ color: Constants.system.white }}
+            />
+          </div>
+        ) : (
+          <span />
+        ),
         width: "24px",
       },
       {
@@ -667,7 +729,7 @@ export default class DataView extends React.Component {
 
         return {
           ...each,
-          checkbox: this._handleCheckBox ? (
+          checkbox: (
             <div
               style={{
                 margin: "12px 0",
@@ -680,19 +742,13 @@ export default class DataView extends React.Component {
               }}
             >
               <CheckBox
-                name={`checkbox-${this.state.startIndex + index}`}
-                value={
-                  !!this.state.checked[
-                    `checkbox-${this.state.startIndex + index}`
-                  ]
-                }
+                name={this.state.startIndex + index}
+                value={!!this.state.checked[this.state.startIndex + index]}
                 onChange={this._handleCheckBox}
                 boxStyle={{ height: 16, width: 16 }}
                 style={{ position: "relative", right: 3 }}
               />
             </div>
-          ) : (
-            <div />
           ),
           name: (
             <div

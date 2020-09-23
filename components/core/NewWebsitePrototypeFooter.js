@@ -130,7 +130,7 @@ export const NewWebsitePrototypeFooter = (props) => {
           </a>
           <br />
           <a css={STYLES_LINK} href="/download">
-            Download
+            Slate for Chrome
           </a>
           <br />
           <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues/126" target="_blank">

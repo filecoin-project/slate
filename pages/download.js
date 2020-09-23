@@ -106,14 +106,46 @@ const STYLES_BUTTON_PRIMARY = css`
   transition: 200ms ease all;
   user-select: none;
   cursor: pointer;
-  background-color: ${Constants.system.wall};
-  color: ${Constants.system.slate};
-  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+  background-color: ${Constants.system.brand};
+  color: ${Constants.system.white};
+  box-shadow: -4px -4px 10px #ffffff, 4px 4px 10px #d4d4d4;
+
+  :hover {
+    color: ${Constants.system.foreground};
+  }
+
+  :focus {
+    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
+    background-color: ${Constants.system.pitchBlack};
+    color: ${Constants.system.wall};
+    outline: 0;
+    border: 0;
+  }
+`;
+
+const STYLES_BUTTON_SECONDARY = css`
+  box-sizing: border-box;
+  border-radius: 2px;
+  outline: 0;
+  border: 0;
+  min-height: 48px;
+  padding: 0px 24px 0px 24px;
+  margin: 24px 0 16px 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  font-family: ${Constants.font.semiBold};
+  transition: 200ms ease all;
+  user-select: none;
+  cursor: pointer;
+  background-color: ${Constants.system.foreground};
+  color: ${Constants.system.brand};
+  box-shadow: -4px -4px 10px #ffffff, 4px 4px 10px #d4d4d4;
 
   :hover {
     background-color: ${Constants.system.white};
-    box-shadow: 0px 10px 90px 20px rgba(207, 206, 211, 0.3);
-    color: ${Constants.system.slate};
   }
 
   :focus {
@@ -166,20 +198,6 @@ const STYLES_SECTION_WRAPPER = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 64px 24px;
     display: block;
-  }
-`;
-
-const STYLES_LIST = css`
-  font-size: ${Constants.typescale.lvl2};
-  font-family: ${Constants.font.text};
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: -0.014rem;
-  padding: 0 0 16px 0;
-  color: ${Constants.system.slate};
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin-left: 16px;
-    font-size: ${Constants.typescale.lvl1};
   }
 `;
 
@@ -249,20 +267,21 @@ export default class IndexPage extends React.Component {
                 src="https://slate.textile.io/ipfs/bafkreidpydbatkl4rqf5bbim5qr3ottb2ibifazd2art4too5bmppp3rqm"
                 alt="Slate browser extension"
               />
-              <h1 css={STYLES_H1}>Slate Chrome Extensions</h1>
+              <h1 css={STYLES_H1}>Slate for Chrome</h1>
               <h3 css={STYLES_H3}>Take any image on the web and save it to Slate right from your browser tab.</h3>
-
-              <a
-                css={STYLES_LINK}
-                src="/"
-                href="/public/static/slate-for-chrome-V0.4.zip"
-                download="Slate Chrome extension V0.4"
-              >
-                <button css={STYLES_BUTTON_PRIMARY}>Get Slate extension</button>
-              </a>
+              <div>
+                <button
+                  css={STYLES_BUTTON_PRIMARY}
+                  onClick={() =>
+                    window.open("https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc")
+                  }
+                >
+                  Get Slate Chrome extension
+                </button>
+              </div>
               <p css={STYLES_ANNOTATION}>
                 Currently avaible for{" "}
-                <a css={STYLES_LINK_WHITE} href="https://www.google.com/chrome/">
+                <a css={STYLES_LINK_WHITE} href="https://www.google.com/chrome/" target="_blank">
                   Chrome
                 </a>
                 .
@@ -271,27 +290,20 @@ export default class IndexPage extends React.Component {
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_BLOCK}>
-              <h2 css={STYLES_H2}>How to use</h2>
-              <ol>
-                <li css={STYLES_LIST}>Download and extract the zip file.</li>
-                <li css={STYLES_LIST}>
-                  Open Chrome, go to Window {">"} Extensions. Click 'Load Unpacked' and load the unzipped folder. <br />
-                  <p css={STYLES_ANNOTATION}>
-                    At the top right of the extensions page, make sure 'Developer mode' is on.
-                  </p>
-                </li>
-                <li css={STYLES_LIST}>
-                  Find Slate extension on the top right bar of your browser window. Get your API key in Slate app and
-                  add it to the extension.
-                  <p css={STYLES_ANNOTATION}>
-                    If you can't find the extension, click on the little puzzle icon on the top right bar of your
-                    browser window. You will find Slate on the dropdown menu. You can pin it if you want.
-                  </p>
-                </li>
-                <li css={STYLES_LIST}>
-                  That's it! Now you can right click on any image on the Internet and upload it to your slates.
-                </li>
-              </ol>
+              <h2 css={STYLES_H2}>Contribute</h2>
+              <h3 css={STYLES_H3}>
+                We would love for you to join us. You're welcomed to file an issue or submit a pull request on Github.
+              </h3>
+              <div>
+                <button
+                  css={STYLES_BUTTON_SECONDARY}
+                  onClick={() =>
+                    window.open("https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc")
+                  }
+                >
+                  View Github
+                </button>
+              </div>
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>

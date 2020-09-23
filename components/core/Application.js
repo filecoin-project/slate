@@ -251,10 +251,24 @@ export default class ApplicationPage extends React.Component {
     this._handleUpload({ files: toUpload, slate });
   };
 
-  _handleUpload = ({ files, slate }) => {
-    Promise.allSettled(
-      files.map((file) => FileUtilities.upload({ file, context: this }))
-    )
+  _handleUpload = async ({ files, slate }) => {
+    if (!files || !files.length) {
+      return null;
+    }
+
+    // TODO(jim+carson+martina): temporary workaround before we are ready
+    // to allow parallel downloads again.
+    const resolvedFiles = [];
+    for (let i = 0; i < files.length; i++) {
+      const response = await FileUtilities.upload({
+        file: files[i],
+        context: this,
+      });
+
+      resolvedFiles.push(response);
+    }
+
+    Promise.allSettled(resolvedFiles)
       .then((responses) => {
         let succeeded = responses
           .filter((res) => {

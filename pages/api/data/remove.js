@@ -113,16 +113,18 @@ export default async (req, res) => {
       .send({ decorator: "SERVER_REMOVE_DATA_NO_CID", error: true });
   }
 
-  // remove from your bucket
   let bucketRemoval;
   try {
-    // NOTE(jim):
-    // We use name instead of path because the second argument is for
-    // a subpath, not the full path.
     bucketRemoval = await buckets.removePath(bucketKey, entity.name);
-    console.log(bucketRemoval);
   } catch (e) {
-    console.log(e);
+    Social.sendTextileSlackMessage({
+      file: "/pages/api/data/remove.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `buckets.removePath`,
+    });
+
     return res
       .status(500)
       .send({ decorator: "SERVER_REMOVE_DATA_NO_LINK", error: true });

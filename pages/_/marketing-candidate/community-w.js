@@ -46,9 +46,10 @@ const STYLES_P = css`
 `;
 
 const STYLES_SECTION_WRAPPER = css`
-  width: 100%;
-  padding: 88px;
+  padding: 44px;
   margin: 12px;
+  display: flex;
+  align-items: center;
   background-color: ${Constants.system.white};
   border-radius: 16px;
 
@@ -95,6 +96,22 @@ const STYLES_CARD_WRAPPER = css`
   }
 
   @media (max-width: ${Constants.sizes.tablet}px) {
+  }
+`;
+
+const STYLES_FULL_WIDTH = css`
+  width: 100%;
+`;
+
+const STYLES_SPLIT_WIDTH = css`
+  width: 50%;
+  align-items: center;
+  :nth-child(2) {
+    padding-left: 18px;
+  }
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
   }
 `;
 
@@ -164,6 +181,91 @@ const STYLES_IMG = css`
   display: block;
 `;
 
+const STYLES_CHAT = css`
+  background: #ffffff;
+  opacity: 0.5;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  margin: 50px 0px;
+  padding: 30px;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+`;
+
+const STYLES_WINDOW = css`
+  box-sizing: border-box;
+  font-family: ${Constants.font.mono};
+  display: block;
+  border-radius: 4px;
+  width: 100%;
+  background: ${Constants.system.pitchBlack};
+  min-height: 288px;
+  padding: 8px 24px;
+  color: ${Constants.system.white};
+  font-size: 14px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+`;
+
+const STYLES_WINDOW_NAV = css`
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+`;
+
+const STYLES_WINDOW_BODY = css`
+  color: ${Constants.system.white};
+  font-family: ${Constants.system.mono};
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  position: relative;
+`;
+
+const STYLES_WINDOW_NAV_DOTS = css`
+  display: flex;
+`;
+
+const STYLES_WINDOW_NAV_RED = css`
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  background: #cc2a42;
+  border-radius: 50px;
+
+  :hover {
+  }
+`;
+
+const STYLES_WINDOW_NAV_YELLOW = css`
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  background: #fabb2a;
+  border-radius: 50px;
+
+  :hover {
+  }
+`;
+
+const STYLES_WINDOW_NAV_GREEN = css`
+  width: 16px;
+  height: 16px;
+  background: #19774b;
+  border-radius: 50px;
+
+  :hover {
+  }
+`;
+
+const STYLES_HIGLIGHT_TEXT_GREEN = css`
+  color: #63b182;
+`;
+
+const STYLES_HIGLIGHT_TEXT_YELLOW = css`
+  color: #fbc67a;
+`;
+
 const SLATE_CORE_TEAM = [
   {
     id: 1,
@@ -171,7 +273,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/jasonleyser",
     username: "jasonleyser",
     imageUrl:
-      "https://avatars3.githubusercontent.com/u/60402678?s=400&u=b7d840718b781d4266fff7fb59e688d369ec1e6b&v=4",
+      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
   },
   {
     id: 2,
@@ -187,7 +289,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/martinalong",
     username: "martinalong",
     imageUrl:
-      "https://avatars2.githubusercontent.com/u/33686587?s=400&u=d1841da2872f30f7f8cb80e67cdc9b385d0f50e1&v=4",
+      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
   },
   {
     id: 4,
@@ -195,7 +297,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/harisbutt",
     username: "harisbutt",
     imageUrl:
-      "https://avatars2.githubusercontent.com/u/13544493?s=400&u=264f4b9241b2520ba13e4eb4d71042b05adc5f74&v=4",
+      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
   },
   {
     id: 5,
@@ -203,7 +305,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/tarafanlin",
     username: "tarafanlin",
     imageUrl:
-      "https://avatars2.githubusercontent.com/u/35607644?s=400&u=48483bdf251e5293fefb30ae993bfa04d06601a6&v=4",
+      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
   },
   {
     id: 6,
@@ -211,7 +313,7 @@ const SLATE_CORE_TEAM = [
     url: "https://slate.host/gndclouds/urban-gardens",
     username: "gndclouds",
     imageUrl:
-      "https://bafkreih2b33oaftlflmsg6njtu7i54f2nwws5gfhhf5w4qaezcejs6gjte.ipfs.slate.textile.io/",
+      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
   },
 ];
 
@@ -338,9 +440,12 @@ export default class CommunityPage extends React.Component {
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
-            <div>
+            <div css={STYLES_FULL_WIDTH}>
               <h1>Core Team</h1>
-              <p>We work on the core product 24/7/365</p>
+              <p>
+                We work on the core product 24/7/365, and you can reachout to us
+                for product helo
+              </p>
               <div css={STYLES_CARD_GROUP}>
                 {SLATE_CORE_TEAM.map((each) => (
                   <SlateTeamCards
@@ -353,9 +458,9 @@ export default class CommunityPage extends React.Component {
                 ))}
               </div>
             </div>
-            <br />
-            <br />
-            <div>
+          </div>
+          <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
+            <div css={STYLES_FULL_WIDTH}>
               <h1>Contributors</h1>
               <p>
                 We couldn’t make Slate without the input and continures from the
@@ -368,29 +473,75 @@ export default class CommunityPage extends React.Component {
                     preview={each.imageUrl}
                     url={each.url}
                     name={each.name}
-                    username={each.username}
+                    username={each.handle}
                   />
                 ))}
               </div>
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
-            <div>Message Cards</div>
-            <div>
-              <h1>Have an idea for how to make Slate better?</h1>
+            <div css={STYLES_SPLIT_WIDTH}>
+              <div css={STYLES_CHAT}>
+                <p>
+                  {" "}
+                  Hey Slate Team,
+                  <br />
+                  <br /> Have you thought about adding a confetti 🎉 effect to
+                  the download button?
+                  <br />
+                  <br />
+                  Best, <br />
+                  🦄
+                </p>
+                <img src="" />
+              </div>
+              <div css={STYLES_CHAT}>
+                <p>That would be so fun, will work in it! - J</p>
+                <img src="" />
+              </div>
+            </div>
+            <div css={STYLES_SPLIT_WIDTH}>
+              <h1>
+                <span css={STYLES_HIGLIGHT_TEXT_GREEN}>Have an idea</span> for
+                how to make Slate better?
+              </h1>
               <p>
                 You can create an issue on github or send us an email with your
                 recommendation.{" "}
               </p>
               <div>
-                {" "}
                 <button css={STYLES_BUTTON}>Create an issue</button>
                 <button css={STYLES_BUTTON}>Email us feedback</button>
               </div>
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
-            Add Slate to your next project with our storage API.
+            <div>
+              <h1>
+                <span css={STYLES_HIGLIGHT_TEXT_YELLOW}>
+                  Add Slate to your next project
+                </span>{" "}
+                with our storage API.
+              </h1>
+              <br />
+              <p>
+                Checkout the examples below to see how quickly you can get up
+                and running wtih Slate’s API.
+              </p>
+              <button css={STYLES_BUTTON}>Checkout our API</button>
+            </div>
+            <div css={STYLES_WINDOW}>
+              <div css={STYLES_WINDOW_NAV}>
+                {" "}
+                <div css={STYLES_WINDOW_NAV_DOTS}>
+                  <div css={STYLES_WINDOW_NAV_RED}></div>
+                  <div css={STYLES_WINDOW_NAV_YELLOW}></div>
+                  <div css={STYLES_WINDOW_NAV_GREEN}></div>
+                </div>{" "}
+              </div>
+
+              <div css={STYLES_WINDOW_BODY}>CODE GPOES HERE</div>
+            </div>
           </div>
         </div>
         <WebsitePrototypeFooter />

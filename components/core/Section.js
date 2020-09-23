@@ -87,13 +87,14 @@ export const Section = (props) => {
           <div css={STYLES_RIGHT}>
             {props.buttons.map((b) => {
               return (
-                <span
+                <label
                   key={b.name}
+                  htmlFor={b.type}
                   css={STYLES_BUTTON}
-                  onClick={() => props.onAction(b)}
+                  onClick={b.type !== "file" ? () => props.onAction(b) : null}
                 >
                   {b.name}
-                </span>
+                </label>
               );
             })}
           </div>

@@ -6,22 +6,25 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/react";
 
 const STYLES_BANNER = css`
-  padding: 24px;
+  padding: 12px 24px 12px 12px;
+  font-size: 12px;
+  font-family: ${Constants.font.semiBold};
   border-radius: 8px;
-  display: flex;
   align-items: center;
   justify-content: flex-start;
-  border: 1px solid #ececec;
+  background: #0047ff;
+  color: ${Constants.system.white};
   margin-bottom: 32px;
+  margin-top: 4px;
+  display: inline-flex;
 `;
 
 export default class TestnetBanner extends React.Component {
   render() {
     return (
       <div css={STYLES_BANNER} style={this.props.style}>
-        <SVG.FilecoinLogo height="40px" style={{ marginRight: 24 }} /> You are
-        on the Filecoin Testnet. Any storage deal you make may not remain on the
-        network when the Mainnet launches.
+        <SVG.FilecoinLogo height="24px" style={{ marginRight: 16 }} /> You are
+        on the Filecoin Testnet.
       </div>
     );
   }

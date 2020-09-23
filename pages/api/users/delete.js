@@ -43,15 +43,14 @@ export default async (req, res) => {
   const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   const defaultData = await Utilities.getBucketAPIFromUserToken({ user });
 
+  // NOTE(jim): Just assume they all delete even if exception is thrown, it seems like they do.
   try {
     const roots = await defaultData.buckets.list();
-    console.log(roots);
+
     for (let i = 0; i < roots.length; i++) {
-      console.log(roots[i]);
       await defaultData.buckets.remove(roots[i].key);
     }
   } catch (e) {
-    console.log(e);
     Social.sendTextileSlackMessage({
       file: "/pages/api/users/delete.js",
       user,
@@ -59,10 +58,6 @@ export default async (req, res) => {
       code: e.code,
       functionName: `b.remove`,
     });
-
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_BUCKET_DELETION_FAILED", error: true });
   }
 
   const deleted = await Data.deleteUserByUsername({

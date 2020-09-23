@@ -103,7 +103,6 @@ export default class SceneWallet extends React.Component {
       const json = await response.json();
       networkViewer = json.data;
     } catch (e) {}
-    console.log(networkViewer);
 
     this.setState({
       networkViewer,

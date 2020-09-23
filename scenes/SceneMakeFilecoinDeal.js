@@ -1,7 +1,9 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
+import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 import { createState } from "~/scenes/SceneSettings";
@@ -13,22 +15,109 @@ import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import TestnetBanner from "~/components/core/TestnetBanner";
 
-const STYLES_SECTION_UPLOAD = css`
-  background: white;
+const STYLES_FILE_HIDDEN = css`
+  height: 1px;
+  width: 1px;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: -1px;
+  left: -1px;
+`;
+
+const STYLES_ROW = css`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 88px 48px 88px 48px;
-  border: 1px solid #ececec;
-  margin-top: 48px;
-  max-width: 688px;
-  font-family: ${Constants.font.semiBold};
+  align-items: flex-start;
+  justify-content: space-between;
+`;
+
+const STYLES_LEFT = css`
+  color: ${Constants.system.black};
+  transition: 200ms ease all;
+  min-width: 10%;
+  width: 100%;
+
+  :visited {
+    color: ${Constants.system.black};
+  }
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
+`;
+
+const STYLES_RIGHT = css`
+  flex-shrink: 0;
+  transition: 200ms ease all;
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
 `;
 
 let mounted = false;
 
 export default class SceneMakeFilecoinDeal extends React.Component {
   state = {};
+
+  _handleUpload = async (e) => {
+    this.setState({ loading: true });
+
+    await this.props.onUpload({
+      files: e.target.files,
+      bucketName: "deal",
+    });
+
+    let networkViewer;
+    try {
+      const response = await fetch("/api/network");
+      const json = await response.json();
+      networkViewer = json.data;
+    } catch (e) {}
+
+    this.setState({
+      networkViewer,
+      loading: false,
+    });
+  };
+
+  _handleArchive = async (e) => {
+    this.setState({ archiving: true });
+    const response = await Actions.archive({ bucketName: "deal" });
+
+    let networkViewer;
+    try {
+      const response = await fetch("/api/network");
+      const json = await response.json();
+      networkViewer = json.data;
+    } catch (e) {}
+
+    alert("The storage deal was made. Deals in progress page coming soon.");
+
+    this.setState({
+      networkViewer,
+      archiving: false,
+    });
+  };
+
+  _handleRemove = async (cid) => {
+    this.setState({ loading: true });
+
+    await Actions.removeFromBucket({ bucketName: "deal", cid });
+
+    let networkViewer;
+    try {
+      const response = await fetch("/api/network");
+      const json = await response.json();
+      networkViewer = json.data;
+    } catch (e) {}
+
+    this.setState({
+      networkViewer,
+      loading: false,
+    });
+  };
 
   async componentDidMount() {
     if (mounted) {
@@ -71,8 +160,15 @@ export default class SceneMakeFilecoinDeal extends React.Component {
 
     return (
       <ScenePage>
+        <input
+          css={STYLES_FILE_HIDDEN}
+          multiple
+          type="file"
+          id="file"
+          onChange={this._handleUpload}
+        />
         <TestnetBanner />
-        <ScenePageHeader title="Make an one-off Flecoin Storage Deal">
+        <ScenePageHeader title="Make an one-off Filecoin Storage Deal">
           This is a simple tool to upload data and make one-off storage deals in
           the Filecoin network.
         </ScenePageHeader>
@@ -86,10 +182,56 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               buttons={[
                 {
                   name: "Add file",
+                  multiple: true,
+                  type: "file",
+                  id: "file",
                 },
               ]}
             >
-              <div style={{ padding: 24 }}>No files added, yet</div>
+              {this.state.loading ? (
+                <div style={{ padding: 24 }}>
+                  <LoaderSpinner style={{ height: 32, width: 32 }} />
+                </div>
+              ) : (
+                <React.Fragment>
+                  {this.state.networkViewer.deal.length ? (
+                    <System.Table
+                      data={{
+                        columns: [
+                          {
+                            key: "cid",
+                            name: "CID",
+                            width: "100%",
+                          },
+                        ],
+                        rows: this.state.networkViewer.deal.map((file) => {
+                          return {
+                            cid: (
+                              <div css={STYLES_ROW}>
+                                <a
+                                  css={STYLES_LEFT}
+                                  href={Strings.getCIDGatewayURL(file.cid)}
+                                  target="_blank"
+                                >
+                                  {file.cid}
+                                </a>
+                                <span
+                                  css={STYLES_RIGHT}
+                                  onClick={() => this._handleRemove(file.cid)}
+                                >
+                                  <SVG.Dismiss height="16px" />
+                                </span>
+                              </div>
+                            ),
+                          };
+                        }),
+                      }}
+                    />
+                  ) : (
+                    <div style={{ padding: 24 }}>No files have been added.</div>
+                  )}
+                </React.Fragment>
+              )}
             </Section>
 
             <System.Input
@@ -171,7 +313,11 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               />
             </Section>
 
-            <System.ButtonPrimary style={{ marginTop: 48 }}>
+            <System.ButtonPrimary
+              style={{ marginTop: 48 }}
+              onClick={this._handleArchive}
+              loading={this.state.archiving}
+            >
               Make storage deal
             </System.ButtonPrimary>
           </React.Fragment>

@@ -1,6 +1,8 @@
 import { dispatchCustomEvent } from "~/common/custom-events";
 
-export const upload = async ({ file, context }) => {
+export const upload = async ({ file, context, bucketName }) => {
+  console.log({ bucketName });
+
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 
@@ -68,7 +70,13 @@ export const upload = async ({ file, context }) => {
       XHR.send(formData);
     });
 
-  const json = await _privateUploadMethod(`/api/data/${file.name}`);
+  let json;
+  if (bucketName && bucketName === "deal") {
+    json = await _privateUploadMethod(`/api/data/deal/${file.name}`);
+  } else {
+    json = await _privateUploadMethod(`/api/data/${file.name}`);
+  }
+
   if (!json || json.error || !json.data) {
     if (context) {
       context.setState({

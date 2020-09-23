@@ -184,7 +184,7 @@ export const getTextileById = async ({ id }) => {
 
   const stagingData = await Utilities.getBucketAPIFromUserToken({
     user,
-    bucketName: "staging",
+    bucketName: "deal",
   });
 
   let r = null;
@@ -226,6 +226,6 @@ export const getTextileById = async ({ id }) => {
       errors,
       jobs,
     },
-    staging: items,
+    deal: items ? items.items.filter((f) => f.name !== ".textileseed") : [],
   };
 };

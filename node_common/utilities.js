@@ -64,7 +64,7 @@ export const getIdFromCookie = (req) => {
       const decoded = JWT.verify(token, Environment.JWT_SECRET);
       id = decoded.id;
     } catch (e) {
-      console.log(e);
+      console.log(e.message);
     }
   }
 
@@ -141,7 +141,7 @@ export const getBucketAPIFromUserToken = async (token, user) => {
   const identity = await PrivateKey.fromString(token);
   const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   await buckets.getToken(identity);
-  let root;
+  let root = null;
 
   // TODO(jim): Put this call into a file for all Textile related calls.
   console.log(`[buckets] getOrCreate`);

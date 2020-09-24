@@ -188,8 +188,9 @@ export const getTextileById = async ({ id }) => {
   }
 
   let items = null;
+  const dealBucket = r.find((bucket) => bucket.name === "deal");
   try {
-    items = await stagingData.buckets.listIpfsPath(r[0].path);
+    items = await stagingData.buckets.listIpfsPath(dealBucket.path);
   } catch (e) {
     Social.sendTextileSlackMessage({
       file: "/node_common/managers/viewer.js",

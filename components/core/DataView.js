@@ -435,13 +435,29 @@ export default class DataView extends React.Component {
         },
       });
       return null;
-    } else if (addResponse.error) {
+    }
+
+    if (addResponse.error) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: { alert: { decorator: addResponse.decorator } },
       });
       return null;
     }
+
+    const { added, skipped } = addResponse;
+    let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
+    if (skipped) {
+      message += `${skipped || 0} duplicate / existing file${
+        added !== 1 ? "s were" : " was"
+      } skipped.`;
+    }
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message, status: !added ? null : "INFO" },
+      },
+    });
 
     await this.props.onRehydrate();
     await this._handleUpdate();
@@ -670,14 +686,12 @@ export default class DataView extends React.Component {
               </ButtonWarning>
               <div
                 css={STYLES_ICON_BOX}
-                style={{
-                  marginLeft: 8,
-                  position: "relative",
-                  left: 10,
-                }}
                 onClick={() => this.setState({ checked: {} })}
               >
-                <SVG.Dismiss height="20px" />
+                <SVG.Dismiss
+                  height="20px"
+                  style={{ color: Constants.system.darkGray }}
+                />
               </div>
             </div>
           </div>

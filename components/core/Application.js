@@ -332,23 +332,18 @@ export default class ApplicationPage extends React.Component {
 
         const { added, skipped } = response.data;
         if (!added && !skipped) return;
-        let message = "";
-        if (added) {
-          message += `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
-        }
+        let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
         if (skipped) {
           message += `${skipped || 0} duplicate / existing file${
             added !== 1 ? "s were" : " was"
           } skipped.`;
         }
-        if (message) {
-          dispatchCustomEvent({
-            name: "create-alert",
-            detail: {
-              alert: { message, status: "INFO" },
-            },
-          });
-        }
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: { message, status: !added ? null : "INFO" },
+          },
+        });
       });
   };
 

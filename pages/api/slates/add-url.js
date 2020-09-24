@@ -75,25 +75,28 @@ export default async (req, res) => {
   } else {
     newObjects = [req.body.data];
   }
-  const isArray = req.body.data && req.body.data.length;
-  if (isArray) {
-    newObjects = [...req.body.data];
-  } else {
-    newObjects = [req.body.data];
-  }
 
-  //data takes an array rather than a single one now
-  let addlObjects = newObjects.map((each) => {
-    let cid = each.ipfs.replace("/ipfs/", "");
-    return {
-      id: each.id,
-      ownerId: user.id,
-      name: each.name,
-      title: each.title,
-      type: each.type,
-      url: `${Constants.IPFS_GATEWAY_URL}/${cid}`,
-    };
-  });
+  let slateIDs = slate.data.objects.map((file) => file.id);
+  let newIDs = [];
+  let addlObjects = newObjects
+    .filter((each) => {
+      if (slateIDs.includes(each.id) || newIDs.includes(each.id)) {
+        return false;
+      }
+      newIDs.push(each.id);
+      return true;
+    })
+    .map((each) => {
+      let cid = each.ipfs.replace("/ipfs/", "");
+      return {
+        id: each.id,
+        ownerId: user.id,
+        name: each.name,
+        title: each.title,
+        type: each.type,
+        url: `${Constants.IPFS_GATEWAY_URL}/${cid}`,
+      };
+    });
 
   const objects = [...slate.data.objects, ...addlObjects];
 
@@ -124,7 +127,10 @@ export default async (req, res) => {
     });
   }
 
-  return res
-    .status(200)
-    .send({ decorator: "SERVER_SLATE_ADD_TO_SLATE", slate });
+  return res.status(200).send({
+    decorator: "SERVER_SLATE_ADD_TO_SLATE",
+    slate,
+    added: addlObjects.length,
+    skipped: newObjects.length - addlObjects.length,
+  });
 };

@@ -8,7 +8,10 @@ import * as Actions from "~/common/actions";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/react";
-import { ButtonPrimary } from "~/components/system/components/Buttons";
+import {
+  ButtonPrimary,
+  ButtonDisabled,
+} from "~/components/system/components/Buttons";
 
 const STYLES_SLATE_NAME = css`
   overflow: hidden;
@@ -95,13 +98,29 @@ export default class SidebarAddFileToSlate extends React.Component {
           },
         });
         return;
-      } else if (addResponse.error) {
+      }
+
+      if (addResponse.error) {
         dispatchCustomEvent({
           name: "create-alert",
           detail: { alert: { decorator: addResponse.decorator } },
         });
         return;
       }
+
+      const { added, skipped } = addResponse;
+      let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
+      if (skipped) {
+        message += `${skipped || 0} duplicate / existing file${
+          added !== 1 ? "s were" : " was"
+        } skipped.`;
+      }
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message, status: !added ? null : "INFO" },
+        },
+      });
     }
     await this.props.onRehydrate();
     dispatchCustomEvent({
@@ -121,7 +140,8 @@ export default class SidebarAddFileToSlate extends React.Component {
             marginBottom: "64px",
           }}
         >
-          Add files to slate
+          Add {this.props.sidebarData.files.length || 0} file
+          {this.props.sidebarData.files.length === 1 ? "" : "s"} to slate
         </System.P>
 
         <System.P css={STYLES_HEADER}>Slates</System.P>
@@ -132,7 +152,11 @@ export default class SidebarAddFileToSlate extends React.Component {
         >
           <SVG.Plus
             height="24px"
-            style={{ color: Constants.system.brand, marginRight: 8 }}
+            style={{
+              color: Constants.system.brand,
+              marginRight: 8,
+              pointerEvents: "none",
+            }}
           />
           <div
             css={STYLES_SLATE_NAME}
@@ -146,11 +170,18 @@ export default class SidebarAddFileToSlate extends React.Component {
             <div css={STYLES_SLATE_LINE} onClick={() => this._handleAdd(slate)}>
               <div css={STYLES_ICON_BOX}>
                 {this.state.selected[slate.id] ? (
-                  <SVG.Slate height="24px" style={{ marginRight: 8 }} />
+                  <SVG.Slate
+                    height="24px"
+                    style={{ marginRight: 8, pointerEvents: "none" }}
+                  />
                 ) : (
                   <SVG.PlusCircle
                     height="24px"
-                    style={{ color: Constants.system.darkGray, marginRight: 8 }}
+                    style={{
+                      color: Constants.system.darkGray,
+                      marginRight: 8,
+                      pointerEvents: "none",
+                    }}
                   />
                 )}
               </div>
@@ -167,13 +198,19 @@ export default class SidebarAddFileToSlate extends React.Component {
             </div>
           ))}
         </div>
-        <ButtonPrimary
-          full
-          onClick={this._handleSubmit}
-          style={{ marginTop: 32 }}
-        >
-          Add to slates
-        </ButtonPrimary>
+        {Object.keys(this.state.selected).length ? (
+          <ButtonPrimary
+            full
+            onClick={this._handleSubmit}
+            style={{ marginTop: 32 }}
+          >
+            Add to slates
+          </ButtonPrimary>
+        ) : (
+          <ButtonDisabled full style={{ marginTop: 32 }}>
+            Add to slates
+          </ButtonDisabled>
+        )}
       </div>
     );
   }

@@ -29,58 +29,23 @@ const FEATURES = [
   },
 ];
 
-const STYLES_FEATURE_CARD_GROUP = css`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  margin-top: 48px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-  }
-`;
-
-const STYLES_FEATURE_CARD = css`
-  width: 32%;
-  margin: 0 16px 0 0;
-  padding: 16px;
-  border-radius: 8px;
-  background-color: #f2f4f8;
-  box-shadow: -6px -6px 10px #ffffff, 4px 4px 10px #d4d4d4;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    margin-bottom: 32px;
-  }
-`;
-
-const STYLES_CARD_TEXT = css`
-  font-family: ${Constants.font.text};
-  font-weight: 400;
-  font-size: ${Constants.typescale.lvl1};
-  letter-spacing: -0.011rem;
-  line-height: 1.5;
-  margin: 8px 0 0 0;
-  color: ${Constants.system.slate};
-`;
-
-const STYLES_CARD_IMG = css`
-  width: 100%;
-  border-radius: 4px;
-  margin-bottom: 8px;
-`;
-
-const FeatureCard = (props) => {
-  return (
-    <div css={STYLES_FEATURE_CARD}>
-      <img css={STYLES_CARD_IMG} src={props.illustration} />
-      <div css={STYLES_CARD_TEXT}>{props.title}</div>
-      <div css={STYLES_CARD_TEXT} style={{ opacity: 0.7 }}>
-        {props.description}
-      </div>
-    </div>
-  );
-};
+const CONTRIBUTIONS = [
+  {
+    contribution: "An open source brandbook for Slate.",
+    contributor: "Narrative",
+    illustration: "https://slate.textile.io/ipfs/bafkreiamnbqik6542ydqowdicdqji7jljbtvebee7vaciyozklgn6uycim",
+  },
+  {
+    contribution: "A portrait of Slate",
+    contributor: "Jason Yuan",
+    illustration: "https://slate.textile.io/ipfs/bafkreidtgwdyqwqwk2apprnu3rwxkzv5lewktquou6k6crckpouxpq5ugm",
+  },
+  {
+    contribution: "A playful hover tile",
+    contributor: "Someone",
+    illustration: "https://slate.textile.io/ipfs/bafkreiaz2hmjkzau3kkcah55rxdkwzum33n35icqbse2ik5e7vqcsb73kq",
+  },
+];
 
 const STYLES_ROOT = css`
   display: flex;
@@ -122,6 +87,22 @@ const STYLES_H2 = css`
   }
 `;
 
+const STYLES_H3 = css`
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl3};
+  letter-spacing: -0.022rem;
+  line-height: 1.3;
+  color: ${Constants.system.slate};
+  margin-bottom: 1rem;
+  width: 45%;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    font-size: ${Constants.typescale.lvl2};
+  }
+`;
+
 const STYLES_P = css`
   font-family: ${Constants.font.text};
   font-weight: 400;
@@ -156,10 +137,10 @@ const stylesFullWidthText = {
 
 const STYLES_SECTION_WRAPPER = css`
   width: 100%;
-  padding: 88px;
+  padding: 120px 88px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 24px;
+    padding: 48px;
   }
 `;
 
@@ -250,7 +231,7 @@ const STYLES_BUTTON = css`
 `;
 
 const STYLES_CENTER_BLOCK = css`
-  width: 33%;
+  width: 50%;
   margin: 96px auto;
   text-align: center;
 
@@ -261,8 +242,113 @@ const STYLES_CENTER_BLOCK = css`
 `;
 
 const STYLES_IMG = css`
-  width: 20%;
+  width: 15%;
+  margin-bottom: 24px;
 `;
+
+const STYLES_CARD_GROUP = css`
+  display: flex;
+  width: 100%;
+  margin-top: 48px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+  }
+`;
+
+const STYLES_FEATURE_CARD = css`
+  width: 33.3%;
+  margin: 0 16px 0 0;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f2f4f8;
+  box-shadow: -6px -6px 10px #ffffff, 4px 4px 10px #d4d4d4;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    margin-bottom: 32px;
+  }
+`;
+
+const STYLES_CONTRIBUTION_CARD = css`
+  margin-left: 33.3%;
+  width: 66.6%;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  border: 1px solid ${Constants.system.gray};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 0;
+    width: 100%;
+  }
+`;
+
+const STYLES_FEATURE_TEXT = css`
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl1};
+  letter-spacing: -0.011rem;
+  line-height: 1.5;
+  margin: 8px 0 0 0;
+  color: ${Constants.system.slate};
+`;
+
+const STYLES_CONTRIBUTION_TEXT = css`
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl1};
+  letter-spacing: -0.011rem;
+  line-height: 1.5;
+  margin: 8px 0 0 0;
+  color: ${Constants.system.slate};
+`;
+
+const STYLES_DOT = css`
+  height: 12px;
+  width: 12px;
+  margin-right: 8px;
+  background-color: ${Constants.system.darkGray};
+  border-radius: 50%;
+  display: inline-block;
+`;
+
+const STYLES_CONTRIBUTION_IMG = css`
+  width: 40%;
+  box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const STYLES_FEATURE_IMG = css`
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 8px;
+`;
+
+const FeatureCard = (props) => {
+  return (
+    <div css={STYLES_FEATURE_CARD}>
+      <img css={STYLES_FEATURE_IMG} src={props.illustration} />
+      <div css={STYLES_FEATURE_TEXT}>{props.title}</div>
+      <div css={STYLES_FEATURE_TEXT} style={{ opacity: 0.7 }}>
+        {props.description}
+      </div>
+    </div>
+  );
+};
+
+const ContributionCard = (props) => {
+  return (
+    <div css={STYLES_CONTRIBUTION_CARD}>
+      <div css={STYLES_CONTRIBUTION_TEXT} style={{ marginRight: 8 }}>
+        <span css={STYLES_DOT} />
+        {props.contributor}
+        <br />
+        {props.contribution}
+      </div>
+      <img css={STYLES_CONTRIBUTION_IMG} src={props.illustration} />
+    </div>
+  );
+};
 
 export const getServerSideProps = async (context) => {
   return {
@@ -334,7 +420,7 @@ export default class CommunityPage extends React.Component {
               <h2 css={STYLES_H2}>Further down the road</h2>
               <p css={STYLES_P}>Slate has infinite possibilities. Here are some of them that we’re excited about.</p>
             </div>
-            <div css={STYLES_FEATURE_CARD_GROUP}>
+            <div css={STYLES_CARD_GROUP}>
               {FEATURES.map((each) => (
                 <FeatureCard illustration={each.illustration} title={each.title} description={each.description} />
               ))}
@@ -342,13 +428,13 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_CENTER_BLOCK}>
               <img
                 css={STYLES_IMG}
-                src="https://slate.textile.io/ipfs/bafkreibq5lv5jfpjrk6obisfrsdl4rnijqbb23fcrehufh4w4vx5zsszfa"
+                src="https://slate.textile.io/ipfs/bafkreicq4yjwe47vu66u3qt5qqvznrq5vb4tfunmbrjjt3w6rg5p7pdcwy"
               />
-              <h2 css={STYLES_H2} style={stylesFullWidthText}>
+              <h3 css={STYLES_H3} style={stylesFullWidthText}>
                 Have an idea?
                 <br />
                 Expand our imaginations.
-              </h2>
+              </h3>
               <button
                 css={STYLES_BUTTON}
                 onClick={() => window.open("https://github.com/filecoin-project/slate/issues")}
@@ -364,6 +450,34 @@ export default class CommunityPage extends React.Component {
                 Here features some great work from our contributors. We define contribution beyond code. And we believe
                 that everyone has something to bring to the table. 🍰
               </p>
+            </div>
+            <br />
+            <br />
+            <div>
+              {CONTRIBUTIONS.map((each) => (
+                <ContributionCard
+                  contribution={each.contribution}
+                  contributor={each.contributor}
+                  illustration={each.illustration}
+                />
+              ))}
+            </div>
+            <div css={STYLES_CENTER_BLOCK}>
+              <img
+                css={STYLES_IMG}
+                src="https://slate.textile.io/ipfs/bafkreiav4ursjyxypvx5nvils6wyskpdua64pnzukmun3xmilndiuv3vp4"
+              />
+              <h3 css={STYLES_H3} style={stylesFullWidthText}>
+                Have some 🍰 to bring to the table?
+                <br />
+                Let’s chat about how we can support you.
+              </h3>
+              <button
+                css={STYLES_BUTTON}
+                onClick={() => window.open("https://github.com/filecoin-project/slate/issues")}
+              >
+                Join Slack channel
+              </button>
             </div>
           </section>
         </div>

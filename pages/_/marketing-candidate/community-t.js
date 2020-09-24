@@ -34,14 +34,24 @@ const STYLES_FEATURE_CARD_GROUP = css`
   flex-wrap: wrap;
   width: 100%;
   margin-top: 48px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+  }
 `;
 
 const STYLES_FEATURE_CARD = css`
   width: 32%;
   margin: 0 16px 0 0;
+  padding: 16px;
   border-radius: 8px;
   background-color: #f2f4f8;
   box-shadow: -6px -6px 10px #ffffff, 4px 4px 10px #d4d4d4;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    margin-bottom: 32px;
+  }
 `;
 
 const STYLES_CARD_TEXT = css`
@@ -50,13 +60,14 @@ const STYLES_CARD_TEXT = css`
   font-size: ${Constants.typescale.lvl1};
   letter-spacing: -0.011rem;
   line-height: 1.5;
-  margin: 4px 16px;
+  margin: 8px 0 0 0;
   color: ${Constants.system.slate};
 `;
 
 const STYLES_CARD_IMG = css`
   width: 100%;
-  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 8px;
 `;
 
 const FeatureCard = (props) => {
@@ -64,7 +75,7 @@ const FeatureCard = (props) => {
     <div css={STYLES_FEATURE_CARD}>
       <img css={STYLES_CARD_IMG} src={props.illustration} />
       <div css={STYLES_CARD_TEXT}>{props.title}</div>
-      <div css={STYLES_CARD_TEXT} style={{ opacity: 0.7, marginBottom: 16 }}>
+      <div css={STYLES_CARD_TEXT} style={{ opacity: 0.7 }}>
         {props.description}
       </div>
     </div>
@@ -107,7 +118,7 @@ const STYLES_H2 = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
-    font-size: ${Constants.typescale.lvl2};
+    font-size: ${Constants.typescale.lvl3};
   }
 `;
 
@@ -240,8 +251,13 @@ const STYLES_BUTTON = css`
 
 const STYLES_CENTER_BLOCK = css`
   width: 33%;
-  margin: 48px auto;
+  margin: 96px auto;
   text-align: center;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 0 auto 48px autp;
+    width: 100%;
+  }
 `;
 
 const STYLES_IMG = css`
@@ -323,10 +339,6 @@ export default class CommunityPage extends React.Component {
                 <FeatureCard illustration={each.illustration} title={each.title} description={each.description} />
               ))}
             </div>
-            <br />
-            <br />
-            <br />
-            <br />
             <div css={STYLES_CENTER_BLOCK}>
               <img
                 css={STYLES_IMG}

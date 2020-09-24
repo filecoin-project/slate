@@ -430,7 +430,7 @@ const STYLES_SLATE_CARD_GROUP = css`
 
 const STYLES_SLATE_CARD = css`
   width: 33.33%;
-  height: calc(100vh / 4);
+  height: 25vh;
   margin: -1px 0 0 -1px;
   transition: 200ms ease box-shadow;
   border: 1px solid ${Constants.system.darkGray};

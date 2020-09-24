@@ -169,7 +169,9 @@ export const ButtonSecondary = (props) => {
           ? STYLES_BUTTON_SECONDARY_TRANSPARENT
           : STYLES_BUTTON_SECONDARY
       }
-      {...props}
+      onMouseUp={props.onClick}
+      onTouchEnd={props.onClick}
+      children={props.children}
       style={{ ...props.style, width: props.full ? "100%" : "auto" }}
     />
   );
@@ -206,7 +208,11 @@ export const ButtonDisabled = (props) => {
           ? STYLES_BUTTON_DISABLED_TRANSPARENT
           : STYLES_BUTTON_DISABLED
       }
-      {...props}
+      onMouseUp={props.onClick}
+      onTouchEnd={props.onClick}
+      children={props.children}
+      type={props.label}
+      htmlFor={props.htmlFor}
       style={{ ...props.style, width: props.full ? "100%" : "auto" }}
     />
   );

@@ -360,5 +360,16 @@ export const error = {
   STORAGE_DEAL_MAKING_NO_FILES:
     "You must provide files before you make a deal.",
 
-  //Add url
+  //Support
+  SERVER_SUPPORT:
+    "You must be logged in to send a support message. Please try logging in again",
+  SERVER_SUPPORT_USER_NOT_FOUND:
+    "We're having difficulty locating your information right now",
+  SERVER_SUPPORT_NO_DATA_PROVIDED:
+    "We're having trouble transmitting your message right now",
+  SERVER_SUPPORT_MUST_PROVIDE_EMAIL:
+    "Please provide an email where we can contact you",
+  SERVER_SUPPORT_MUST_PROVIDE_MESSAGE: "Please provide a message to send",
+  SERVER_SUPPORT:
+    "We're having trouble sending your support message to the team right now",
 };

@@ -138,7 +138,11 @@ export const getPowergateAPIFromUserToken = async ({ user }) => {
 };
 
 // NOTE(jim): Requires @textile/hub
-export const getBucketAPIFromUserToken = async ({ user, bucketName }) => {
+export const getBucketAPIFromUserToken = async ({
+  user,
+  bucketName,
+  encrypted = false,
+}) => {
   const token = user.data.tokens.api;
   const name = Strings.isEmpty(bucketName) ? BUCKET_NAME : bucketName;
   const identity = await PrivateKey.fromString(token);
@@ -148,6 +152,7 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName }) => {
 
   let root = null;
   console.log(`[ buckets ] getOrCreate init ${name}`);
+
   try {
     const client = new Client(buckets.context);
     try {
@@ -172,7 +177,12 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName }) => {
     root = roots.find((bucket) => bucket.name === name);
     if (!root) {
       console.log(`[ buckets ] creating new bucket ${name}`);
-      const created = await buckets.create(name);
+
+      if (encrypted) {
+        console.log("[ buckets ] this bucket will be encrypted");
+      }
+
+      const created = await buckets.create(name, encrypted);
       root = created.root;
     }
   } catch (e) {
@@ -188,6 +198,7 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName }) => {
   }
 
   console.log(`[ buckets ] getOrCreate success for ${name}`);
+
   return {
     buckets,
     bucketKey: root.key,

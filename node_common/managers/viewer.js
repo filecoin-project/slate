@@ -151,6 +151,7 @@ export const getTextileById = async ({ id }) => {
   const stagingData = await Utilities.getBucketAPIFromUserToken({
     user,
     bucketName: "deal",
+    encrypted: false,
   });
 
   try {

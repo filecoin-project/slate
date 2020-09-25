@@ -213,7 +213,7 @@ export default class ApplicationPage extends React.Component {
     this._handleUpload({ files, slate, keys: Object.keys(fileLoading) });
   };
 
-  _handleUploadFiles = async ({ files, slate, bucketName }) => {
+  _handleUploadFiles = async ({ files, slate }) => {
     let toUpload = [];
     let fileLoading = {};
     let someFailed = false;
@@ -253,21 +253,14 @@ export default class ApplicationPage extends React.Component {
     }
 
     this._handleRegisterFileLoading({ fileLoading });
-
-    if (bucketName === "deal") {
-      await this._handleUpload({ files: toUpload, slate, bucketName });
-      return;
-    }
-
     this._handleUpload({
       files: toUpload,
       slate,
-      bucketName,
       keys: Object.keys(fileLoading),
     });
   };
 
-  _handleUpload = async ({ files, slate, bucketName, keys }) => {
+  _handleUpload = async ({ files, slate, keys }) => {
     if (!files || !files.length) {
       return null;
     }
@@ -279,18 +272,13 @@ export default class ApplicationPage extends React.Component {
       const response = await FileUtilities.upload({
         file: files[i],
         context: this,
-        bucketName,
       });
 
       resolvedFiles.push(response);
     }
 
-    // NOTE(jim): Custom buckets don't follow the same rules.
-    if (bucketName === "deal") {
-      return null;
-    }
-
     let responses = await Promise.allSettled(resolvedFiles);
+
     let succeeded = responses
       .filter((res) => {
         return res.status === "fulfilled" && res.value && !res.value.error;
@@ -299,6 +287,7 @@ export default class ApplicationPage extends React.Component {
     if (slate && slate.id && succeeded && succeeded.length) {
       await FileUtilities.uploadToSlate({ responses: succeeded, slate });
     }
+
     let processResponse = await Actions.processPendingFiles();
     if (!processResponse) {
       dispatchCustomEvent({
@@ -312,6 +301,7 @@ export default class ApplicationPage extends React.Component {
       });
       return;
     }
+
     if (processResponse.error) {
       dispatchCustomEvent({
         name: "create-alert",
@@ -323,6 +313,7 @@ export default class ApplicationPage extends React.Component {
       });
       return;
     }
+
     await this.rehydrate({ resetFiles: true });
 
     //NOTE(martina): to update the carousel to include the new file if you're on the data view page
@@ -353,7 +344,10 @@ export default class ApplicationPage extends React.Component {
         },
       });
     }
+
     this._handleRegisterLoadingFinished({ keys });
+
+    return null;
   };
 
   _handleRegisterFileLoading = ({ fileLoading }) => {

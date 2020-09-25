@@ -6,6 +6,7 @@ import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
 import * as Messages from "~/common/messages";
+import * as FileUtilities from "~/common/file-utilities";
 
 import { css } from "@emotion/react";
 import { createState } from "~/scenes/SceneSettings";
@@ -87,12 +88,26 @@ export default class SceneMakeFilecoinDeal extends React.Component {
   }
 
   _handleUpload = async (e) => {
+    e.persist();
+
+    if (!e.target.files) {
+      return null;
+    }
+
+    if (!e.target.files.length) {
+      return null;
+    }
+
     this.setState({ loading: true });
 
-    await this.props.onUpload({
-      files: e.target.files,
-      bucketName: "deal",
-    });
+    for (let i = 0; i < e.target.files.length; i++) {
+      const file = e.target.files[i];
+
+      const response = await FileUtilities.upload({
+        bucketName: "deal",
+        file,
+      });
+    }
 
     let networkViewer;
     try {
@@ -266,13 +281,9 @@ export default class SceneMakeFilecoinDeal extends React.Component {
                           return {
                             cid: (
                               <div css={STYLES_ROW}>
-                                <a
-                                  css={STYLES_LEFT}
-                                  href={Strings.getCIDGatewayURL(file.cid)}
-                                  target="_blank"
-                                >
+                                <span css={STYLES_LEFT} target="_blank">
                                   {file.cid}
-                                </a>
+                                </span>
                                 <span
                                   css={STYLES_RIGHT}
                                   onClick={() => this._handleRemove(file.cid)}

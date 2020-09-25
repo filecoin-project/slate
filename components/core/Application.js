@@ -55,7 +55,7 @@ import Cookies from "universal-cookie";
 
 import { GlobalViewerCID } from "~/components/core/viewers/GlobalViewerCID";
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { Alert } from "~/components/core/Alert";
+import { Alert, UploadingAlert } from "~/components/core/Alert";
 
 const cookies = new Cookies();
 
@@ -147,6 +147,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDrop = async (e) => {
+    this._handleDismissSidebar();
     // NOTE(jim): If this is true, then drag and drop came from a slate object.
     const data = e.dataTransfer.getData("slate-object-drag-data");
     if (data) {
@@ -154,8 +155,6 @@ export default class ApplicationPage extends React.Component {
     }
 
     e.preventDefault();
-
-    this.setState({ fileLoading: true });
 
     // TODO(jim): Refactor later
     const navigation = NavigationData.generate(this.state.viewer);
@@ -169,20 +168,20 @@ export default class ApplicationPage extends React.Component {
 
     const files = [];
     let fileLoading = {};
-    let sidebarOpen = false;
+    // let sidebarOpen = false;
     if (e.dataTransfer.items && e.dataTransfer.items.length) {
       for (var i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === "file") {
           var file = e.dataTransfer.items[i].getAsFile();
 
-          if (!sidebarOpen) {
-            this._handleAction({
-              type: "SIDEBAR",
-              value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-              data: slate,
-            });
-            sidebarOpen = true;
-          }
+          // if (!sidebarOpen) {
+          //   this._handleAction({
+          //     type: "SIDEBAR",
+          //     value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+          //     data: slate,
+          //   });
+          //   sidebarOpen = true;
+          // }
 
           files.push(file);
           fileLoading[`${file.lastModified}-${file.name}`] = {
@@ -209,7 +208,7 @@ export default class ApplicationPage extends React.Component {
     // NOTE(jim): Stages each file.
     this._handleRegisterFileLoading({ fileLoading });
 
-    this._handleUpload({ files, slate });
+    this._handleUpload({ files, slate, keys: Object.keys(fileLoading) });
   };
 
   _handleUploadFiles = async ({ files, slate, bucketName }) => {
@@ -258,10 +257,15 @@ export default class ApplicationPage extends React.Component {
       return;
     }
 
-    this._handleUpload({ files: toUpload, slate, bucketName });
+    this._handleUpload({
+      files: toUpload,
+      slate,
+      bucketName,
+      keys: Object.keys(fileLoading),
+    });
   };
 
-  _handleUpload = async ({ files, slate, bucketName }) => {
+  _handleUpload = async ({ files, slate, bucketName, keys }) => {
     if (!files || !files.length) {
       return null;
     }
@@ -284,67 +288,70 @@ export default class ApplicationPage extends React.Component {
       return null;
     }
 
-    Promise.allSettled(resolvedFiles)
-      .then((responses) => {
-        let succeeded = responses
-          .filter((res) => {
-            return res.status === "fulfilled" && res.value && !res.value.error;
-          })
-          .map((res) => res.value);
-        if (slate && slate.id && succeeded && succeeded.length) {
-          FileUtilities.uploadToSlate({ responses: succeeded, slate });
-        }
+    let responses = await Promise.allSettled(resolvedFiles);
+    let succeeded = responses
+      .filter((res) => {
+        return res.status === "fulfilled" && res.value && !res.value.error;
       })
-      .then(async () => {
-        return await Actions.processPendingFiles();
-      })
-      .then(async (response) => {
-        if (!response) {
-          dispatchCustomEvent({
-            name: "create-alert",
-            detail: {
-              alert: {
-                message:
-                  "We encountered issues updating your uploaded files. Please try again",
-              },
-            },
-          });
-          return;
-        }
-        if (response.error) {
-          dispatchCustomEvent({
-            name: "create-alert",
-            detail: {
-              alert: {
-                decorator: response.decorator,
-              },
-            },
-          });
-          return;
-        }
-
-        await this.rehydrate({ resetFiles: true });
-
-        dispatchCustomEvent({
-          name: "remote-update-slate-screen",
-          detail: {},
-        });
-
-        const { added, skipped } = response.data;
-        if (!added && !skipped) return;
-        let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
-        if (skipped) {
-          message += `${skipped || 0} duplicate / existing file${
-            added !== 1 ? "s were" : " was"
-          } skipped.`;
-        }
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: { message, status: !added ? null : "INFO" },
+      .map((res) => res.value);
+    if (slate && slate.id && succeeded && succeeded.length) {
+      await FileUtilities.uploadToSlate({ responses: succeeded, slate });
+    }
+    let processResponse = await Actions.processPendingFiles();
+    if (!processResponse) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We encountered issues updating your uploaded files. Please try again",
           },
-        });
+        },
       });
+      return;
+    }
+    if (processResponse.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: processResponse.decorator,
+          },
+        },
+      });
+      return;
+    }
+    await this.rehydrate({ resetFiles: true });
+
+    //NOTE(martina): to update the carousel to include the new file if you're on the data view page
+    dispatchCustomEvent({
+      name: "remote-update-carousel",
+      detail: {},
+    });
+
+    //NOTE(martina): to update the slate to include the new file if you're on a slate page
+    dispatchCustomEvent({
+      name: "remote-update-slate-screen",
+      detail: {},
+    });
+
+    if (!slate) {
+      const { added, skipped } = processResponse.data;
+      if (!added && !skipped) return;
+      let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
+      if (skipped) {
+        message += `${skipped || 0} duplicate / existing file${
+          added !== 1 ? "s were" : " was"
+        } skipped.`;
+      }
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message, status: !added ? null : "INFO" },
+        },
+      });
+    }
+    this._handleRegisterLoadingFinished({ keys });
   };
 
   _handleRegisterFileLoading = ({ fileLoading }) => {
@@ -356,6 +363,14 @@ export default class ApplicationPage extends React.Component {
     return this.setState({
       fileLoading,
     });
+  };
+
+  _handleRegisterLoadingFinished = ({ keys }) => {
+    let fileLoading = this.state.fileLoading;
+    for (let key of keys) {
+      delete fileLoading[key];
+    }
+    this.setState({ fileLoading });
   };
 
   _handleDragEnter = (e) => {
@@ -411,7 +426,6 @@ export default class ApplicationPage extends React.Component {
     };
 
     if (options && options.resetFiles) {
-      updates.fileLoading = null;
       updates.sidebar = null;
     }
 
@@ -767,10 +781,12 @@ export default class ApplicationPage extends React.Component {
           url={url}
         >
           <ApplicationLayout
+            onAction={this._handleAction}
             header={headerElement}
             navigation={navigationElement}
             sidebar={sidebarElement}
             onDismissSidebar={this._handleDismissSidebar}
+            fileLoading={this.state.fileLoading}
           >
             {scene}
           </ApplicationLayout>

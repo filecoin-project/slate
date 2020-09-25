@@ -68,14 +68,15 @@ const STYLES_ICONS = css`
 `;
 
 export default class SidebarAddFileToBucket extends React.Component {
-  _handleUpload = async (e) => {
-    await this.props.onUpload({
+  _handleUpload = (e) => {
+    this.props.onUpload({
       files: e.target.files,
       slate:
         this.props.current && this.props.current.slateId
           ? { id: this.props.current.slateId }
           : null,
     });
+    this.props.onCancel();
   };
 
   render() {
@@ -142,7 +143,8 @@ export default class SidebarAddFileToBucket extends React.Component {
         </System.ButtonPrimary>
 
         <br />
-        {this.props.fileLoading ? (
+        {this.props.fileLoading &&
+        Object.keys(this.props.fileLoading).length ? (
           <div css={STYLES_BAR_CONTAINER}>
             <strong css={STYLES_PERFORMANCE}>
               {Strings.bytesToSize(loaded)} / {Strings.bytesToSize(total)}

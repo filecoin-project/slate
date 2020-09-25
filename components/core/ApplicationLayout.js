@@ -205,6 +205,8 @@ export default class ApplicationLayout extends React.Component {
             id="slate-client-body"
           >
             <Alert
+              fileLoading={this.props.fileLoading}
+              onAction={this.props.onAction}
               style={{
                 paddingRight: this.props.sidebar
                   ? `calc(${Constants.sizes.sidebar}px + 48px`
@@ -215,6 +217,8 @@ export default class ApplicationLayout extends React.Component {
           </div>
           <div css={STYLES_BODY_MOBILE}>
             <Alert
+              fileLoading={this.props.fileLoading}
+              onAction={this.props.onAction}
               style={{
                 top: 0,
                 left: 0,

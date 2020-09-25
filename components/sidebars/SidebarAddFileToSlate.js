@@ -51,6 +51,12 @@ export default class SidebarAddFileToSlate extends React.Component {
     selected: {},
   };
 
+  componentDidMount = () => {
+    if (!this.props.sidebarData || !this.props.sidebarData.files) {
+      this.props.onCancel();
+    }
+  };
+
   _handleCreateSlate = async () => {
     if (
       Object.values(this.state.selected).some((value) => {
@@ -140,8 +146,7 @@ export default class SidebarAddFileToSlate extends React.Component {
             marginBottom: "64px",
           }}
         >
-          Add {this.props.sidebarData.files.length || 0} file
-          {this.props.sidebarData.files.length === 1 ? "" : "s"} to slate
+          Add files to slate
         </System.P>
 
         <System.P css={STYLES_HEADER}>Slates</System.P>

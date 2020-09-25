@@ -1,8 +1,6 @@
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 export const upload = async ({ file, context, bucketName }) => {
-  console.log({ bucketName });
-
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 

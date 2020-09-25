@@ -51,6 +51,7 @@ export default async (req, res) => {
   // Would be nice to be nice to get `entity.encrypted` on the bucket property.
   let items = null;
   if (bucketName === "encrypted-deal") {
+    console.log("[ encrypted ] archiving encrypted bucket");
     try {
       const path = await buckets.listPath(bucketRoot.key, "/");
       items = path.item;

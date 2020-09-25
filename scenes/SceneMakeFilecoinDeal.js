@@ -44,10 +44,6 @@ const STYLES_LEFT = css`
   :visited {
     color: ${Constants.system.black};
   }
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
 `;
 
 const STYLES_RIGHT = css`
@@ -240,7 +236,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
           id="file"
           onChange={this._handleUpload}
         />
-        <TestnetBanner balance={balance} />
+
         <ScenePageHeader title="Make an one-off Filecoin Storage Deal">
           This is a simple tool to upload data and make one-off storage deals in
           the Filecoin network.

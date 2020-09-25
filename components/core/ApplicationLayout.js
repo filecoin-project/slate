@@ -138,8 +138,7 @@ const STYLES_SIDEBAR_HEADER = css`
 `;
 
 const STYLES_SIDEBAR_CONTENT = css`
-  padding: 44px 24px 24px 24px;
-  padding-top: 60px; /* TODO(martina): remove this once the alert banner is gone */
+  padding: 72px 24px 24px 24px;
 `;
 
 const STYLES_BLOCK = css`
@@ -209,6 +208,7 @@ export default class ApplicationLayout extends React.Component {
             <Alert
               fileLoading={this.props.fileLoading}
               onAction={this.props.onAction}
+              filecoin={this.props.filecoin}
               style={{
                 paddingRight: this.props.sidebar
                   ? `calc(${Constants.sizes.sidebar}px + 48px`

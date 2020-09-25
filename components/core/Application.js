@@ -783,6 +783,7 @@ export default class ApplicationPage extends React.Component {
             sidebar={sidebarElement}
             onDismissSidebar={this._handleDismissSidebar}
             fileLoading={this.state.fileLoading}
+            filecoin={current.target.filecoin}
           >
             {scene}
           </ApplicationLayout>

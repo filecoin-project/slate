@@ -71,15 +71,17 @@ export default class SceneArchive extends React.Component {
 
     return (
       <ScenePage>
-        <TestnetBanner balance={balance} />
         <ScenePageHeader title="Filecoin: archiving and logs">
           Use this section to archive all of your data on to Filecoin through a
           storage deal. Once you make a storage deal, you can view the logs
-          here.
+          here. <br />
+          <br />
+          Your storage deal is not encrypted so becareful with sensitive data.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (
           <React.Fragment>
+            <br />
             <System.ButtonPrimary
               onClick={() =>
                 this.props.onAction({

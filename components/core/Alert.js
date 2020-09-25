@@ -123,20 +123,22 @@ export class Alert extends React.Component {
         if (this.props.noWarning) {
           return null;
         }
+
+        // NOTE(jim): Replaces the filecoin banner on some navigation pages.
+        if (this.props.filecoin) {
+          return (
+            <div css={STYLES_MESSAGE}>
+              <div css={STYLES_MESSAGE_BOX} style={{ fontSize: 14 }}>
+                You are on the Filecoin Testnet. Test FIL may take a moment to
+                reach your wallet.
+              </div>
+            </div>
+          );
+        }
+
         return (
-          <div
-            css={STYLES_MESSAGE}
-            onClick={() =>
-              this.props.onAction({
-                type: "SIDEBAR",
-                value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-              })
-            }
-          >
-            <div css={STYLES_MESSAGE_BOX}>
-              <span>
-                <SVG.InfoCircle height="20px" style={{ marginRight: 16 }} />
-              </span>
+          <div css={STYLES_MESSAGE}>
+            <div css={STYLES_MESSAGE_BOX} style={{ fontSize: 14 }}>
               Please don't upload sensitive information to Slate yet. Private
               storage is coming soon.
             </div>

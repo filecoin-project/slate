@@ -133,6 +133,7 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "FILECOIN",
     name: "Filecoin",
     pageTitle: "Archive on Filecoin",
+    filecoin: true,
     children: [
       {
         id: "V1_NAVIGATION_NETWORK",
@@ -140,6 +141,7 @@ export const generate = ({ library = [], slates = [] }) => [
         name: "Network API",
         pageTitle: "The Filecoin Network",
         children: null,
+        filecoin: true,
       },
       {
         id: "V1_NAVIGATION_WALLET",
@@ -147,12 +149,14 @@ export const generate = ({ library = [], slates = [] }) => [
         name: "Wallet",
         pageTitle: "Your wallet and addresses",
         children: [],
+        filecoin: true,
       },
       {
         id: "V1_NAVIGATION_FILECOIN_SETTINGS",
         decorator: "SETTINGS",
         name: "Deal Settings",
         pageTitle: "Deal Settings.",
+        filecoin: true,
         children: null,
       },
     ],
@@ -161,6 +165,7 @@ export const generate = ({ library = [], slates = [] }) => [
     id: "V1_NAVIGATION_FILECOIN_STORAGE_DEAL",
     decorator: "MAKE_DEAL",
     name: "Storage Deal",
+    filecoin: true,
     pageTitle: "Make an one-off Filecoin storage deal",
   },
   {
@@ -168,14 +173,6 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "EDIT_ACCOUNT",
     name: "Profile & Account Settings",
     pageTitle: "Your Profile & Account Settings",
-    children: null,
-    ignore: true,
-  },
-  {
-    id: "V1_NAVIGATION_FILECOIN_SETTINGS",
-    decorator: "SETTINGS",
-    name: "Filecoin Settings",
-    pageTitle: "Filecoin Settings.",
     children: null,
     ignore: true,
   },

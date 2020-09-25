@@ -65,7 +65,7 @@ const STYLES_CONTENT = css`
   padding-left: ${Constants.sizes.navigation}px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding-left: 60px;
+    padding-left: 76px;
   }
 `;
 

@@ -33,7 +33,15 @@ const constructFilesTreeForNavigation = (library) => {
   return {
     ...library[0],
     name: `Data`,
-    children: [],
+    children: [
+      {
+        id: "V1_NAVIGATION_ENCRYPTED_DATA",
+        decorator: "ENCRYPTED",
+        name: "Encrypted Data",
+        pageTitle: "Encrypted data",
+        children: null,
+      },
+    ],
   };
 };
 

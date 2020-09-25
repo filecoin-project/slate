@@ -9,6 +9,7 @@ import ApplicationUserControls from "~/components/core/ApplicationUserControls";
 
 const IconMap = {
   HOME: <SVG.Home height="20px" />,
+  ENCRYPTED: <SVG.SecurityLock height="20px" />,
   NETWORK: <SVG.Activity height="20px" />,
   DIRECTORY: <SVG.Directory height="20px" />,
   FOLDER: <SVG.Folder height="20px" />,

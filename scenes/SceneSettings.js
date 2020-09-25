@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -200,6 +201,9 @@ export default class SceneSettings extends React.Component {
                 <System.Input
                   containerStyle={{ marginTop: 24 }}
                   label="Default Filecoin deal duration"
+                  description={`${Strings.getDaysFromEpoch(
+                    this.state.settings_cold_default_duration
+                  )}`}
                   name="settings_cold_default_duration"
                   type="number"
                   value={this.state.settings_cold_default_duration}
@@ -226,14 +230,14 @@ export default class SceneSettings extends React.Component {
                   onChange={this._handleChange}
                 />
 
-                <System.CheckBox
+                {/* <System.CheckBox
                   style={{ marginTop: 48 }}
                   name="settings_cold_default_auto_renew"
                   value={this.state.settings_cold_default_auto_renew}
                   onChange={this._handleChange}
                 >
                   Enable auto renew for Filecoin Network deals.
-                </System.CheckBox>
+                </System.CheckBox> */}
 
                 <System.Input
                   containerStyle={{ marginTop: 24 }}
@@ -272,14 +276,14 @@ export default class SceneSettings extends React.Component {
 
             {this.state.settings_hot_enabled ? (
               <div css={STYLES_SUBGROUP}>
-                <System.CheckBox
+                {/* <System.CheckBox
                   style={{ marginTop: 48 }}
                   name="settings_hot_allow_unfreeze"
                   value={this.state.settings_hot_allow_unfreeze}
                   onChange={this._handleChange}
                 >
                   IPFS allow unfreeze setting description.
-                </System.CheckBox>
+                </System.CheckBox> */}
 
                 <System.Input
                   containerStyle={{ marginTop: 24 }}

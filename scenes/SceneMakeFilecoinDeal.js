@@ -323,12 +323,9 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               descriptionStyle={{ maxWidth: 688 }}
               readOnly
               label="Default Filecoin deal duration (read only)"
-              description={`Your deal is set for ${this.state
-                .settings_cold_default_duration /
-                30 /
-                2 /
-                60 /
-                24} days.`}
+              description={`Your deal is set for ${Strings.getDaysFromEpoch(
+                this.state.settings_cold_default_duration
+              )}.`}
               name="settings_cold_default_duration"
               type="number"
               unit="epochs"

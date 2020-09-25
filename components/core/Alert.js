@@ -59,6 +59,7 @@ const STYLES_INFO = css`
 const STYLES_MESSAGE = css`
   ${STYLES_ALERT}
   background-color: ${Constants.system.foreground};
+  color: #666666;
 
   @supports (
     (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))

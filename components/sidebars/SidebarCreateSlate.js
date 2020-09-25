@@ -213,7 +213,11 @@ export default class SidebarCreateSlate extends React.Component {
           Privacy
         </System.P>
         <div css={STYLES_GROUP}>
-          <System.P>{this.state.public ? "Public" : "Private"}</System.P>
+          <System.P style={{ marginRight: 16 }}>
+            {this.state.public
+              ? "Public. Anyone can search for and view this slate."
+              : "Private. Only you can view this slate."}
+          </System.P>
           <System.Toggle
             name="public"
             onChange={this._handleChange}

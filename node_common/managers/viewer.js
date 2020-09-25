@@ -150,8 +150,8 @@ export const getTextileById = async ({ id }) => {
 
   const stagingData = await Utilities.getBucketAPIFromUserToken({
     user,
-    bucketName: "deal",
-    encrypted: false,
+    bucketName: "encrypted-deal",
+    encrypted: true,
   });
 
   try {
@@ -189,16 +189,35 @@ export const getTextileById = async ({ id }) => {
   }
 
   let items = null;
-  const dealBucket = r.find((bucket) => bucket.name === "deal");
+  // TODO(jim): There is no indicator on dealBucket that it is encrypted?
+  const dealBucket = r.find((bucket) => bucket.name === "encrypted-deal");
+
+  /*
+    TODO(sander): Would be nice if this existed in the response.
+    {
+      key: ...
+      name: ...,
+      path: ...,
+      createdAt: ...,
+      updatedAt: ...,
+      thread: ...,
+      encrypted: true/false
+    }
+  */
+
   try {
-    items = await stagingData.buckets.listIpfsPath(dealBucket.path);
+    // NOTE(jim): Doesn't get it for encrypted buckets.
+    // items = await stagingData.buckets.listIpfsPath(dealBucket.path);
+
+    const path = await stagingData.buckets.listPath(dealBucket.key, "/");
+    items = path.item.items;
   } catch (e) {
     Social.sendTextileSlackMessage({
       file: "/node_common/managers/viewer.js",
       user,
       message: e.message,
       code: e.code,
-      functionName: `buckets.listIpfsPath`,
+      functionName: `buckets.listPath`,
     });
   }
 
@@ -215,7 +234,7 @@ export const getTextileById = async ({ id }) => {
       errors,
       jobs,
     },
-    deal: items ? items.items.filter((f) => f.name !== ".textileseed") : [],
+    deal: items ? items.filter((f) => f.name !== ".textileseed") : [],
     dealJobs,
   };
 };

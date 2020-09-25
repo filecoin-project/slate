@@ -25,7 +25,7 @@ export default async (req, res) => {
 
   const response = await Upload.formMultipart(req, res, {
     user,
-    bucketName: "deal",
+    bucketName: "encrypted-deal",
   });
 
   if (!response) {

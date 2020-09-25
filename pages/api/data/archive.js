@@ -46,17 +46,35 @@ export default async (req, res) => {
     });
   }
 
+  // TODO(sander+jim):
+  // See line: 196 on https://github.com/filecoin-project/slate/blob/main/node_common/managers/viewer.js
+  // Would be nice to be nice to get `entity.encrypted` on the bucket property.
   let items = null;
-  try {
-    items = await buckets.listIpfsPath(bucketRoot.path);
-  } catch (e) {
-    Social.sendTextileSlackMessage({
-      file: "/pages/api/data/archive.js",
-      user,
-      message: e.message,
-      code: e.code,
-      functionName: `buckets.archive`,
-    });
+  if (bucketName === "encrypted-deal") {
+    try {
+      const path = await buckets.listPath(bucketRoot.key, "/");
+      items = path.item;
+    } catch (e) {
+      Social.sendTextileSlackMessage({
+        file: "/node_common/managers/viewer.js",
+        user,
+        message: e.message,
+        code: e.code,
+        functionName: `buckets.listPath`,
+      });
+    }
+  } else {
+    try {
+      items = await buckets.listIpfsPath(bucketRoot.path);
+    } catch (e) {
+      Social.sendTextileSlackMessage({
+        file: "/pages/api/data/archive.js",
+        user,
+        message: e.message,
+        code: e.code,
+        functionName: `buckets.listIpfsPath`,
+      });
+    }
   }
 
   if (!items) {

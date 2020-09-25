@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
+import * as SVG from "~/common/svg";
 
 import { error } from "~/common/messages";
 import { css } from "@emotion/react";
@@ -18,6 +19,12 @@ const STYLES_ALERT = `
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: calc(100% - 60px);
+    padding: 12px;
+    top: 0px;
+  }
 `;
 
 const STYLES_WARNING = css`
@@ -36,6 +43,8 @@ const STYLES_WARNING = css`
 
 const STYLES_INFO = css`
   ${STYLES_ALERT}
+  background-color: ${Constants.system.brand};
+
   @supports (
     (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
   ) {
@@ -43,6 +52,20 @@ const STYLES_INFO = css`
     backdrop-filter: blur(25px);
     background-color: rgba(212, 233, 250, 0.75);
     color: ${Constants.system.brand};
+  }
+`;
+
+const STYLES_MESSAGE = css`
+  ${STYLES_ALERT}
+  background-color: ${Constants.system.foreground};
+
+  @supports (
+    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
+  ) {
+    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
+    background-color: rgba(244, 244, 244, 0.75);
+    color: #666666;
   }
 `;
 
@@ -96,7 +119,28 @@ export class Alert extends React.Component {
         !this.props.fileLoading ||
         !Object.keys(this.props.fileLoading).length
       ) {
-        return null;
+        if (this.props.noWarning) {
+          return null;
+        }
+        return (
+          <div
+            css={STYLES_MESSAGE}
+            onClick={() =>
+              this.props.onAction({
+                type: "SIDEBAR",
+                value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+              })
+            }
+          >
+            <div css={STYLES_MESSAGE_BOX}>
+              <span>
+                <SVG.InfoCircle height="20px" style={{ marginRight: 16 }} />
+              </span>
+              Please don't upload sensitive information to Slate yet. Private
+              storage is coming soon.
+            </div>
+          </div>
+        );
       }
       return (
         <div

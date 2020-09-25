@@ -27,6 +27,7 @@ const IconMap = {
 };
 
 const STYLES_NAVIGATION = css`
+  margin-top: 16px; /* TODO(martina): remove this once the alert banner is gone */
   width: 100%;
   display: block;
   padding: 24px 0 0 0;

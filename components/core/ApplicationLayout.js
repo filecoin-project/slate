@@ -63,6 +63,7 @@ const STYLES_CONTENT = css`
   min-height: 100vh;
   position: relative;
   padding-left: ${Constants.sizes.navigation}px;
+  margin-top: 16px; /* TODO(martina): remove this once the alert banner is gone */
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding-left: 76px;
@@ -138,6 +139,7 @@ const STYLES_SIDEBAR_HEADER = css`
 
 const STYLES_SIDEBAR_CONTENT = css`
   padding: 44px 24px 24px 24px;
+  padding-top: 60px; /* TODO(martina): remove this once the alert banner is gone */
 `;
 
 const STYLES_BLOCK = css`

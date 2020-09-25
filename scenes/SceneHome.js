@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
+import { WarningMessage } from "~/components/core/WarningMessage";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
@@ -50,33 +51,6 @@ export default class SceneHome extends React.Component {
             ? "Welcome back! Here is your data."
             : "Welcome to Slate! You can share files with anyone in the world. Here is how it works:"}
         </ScenePageHeader>
-
-        <div
-          style={{
-            backgroundColor: Constants.system.foreground,
-            borderRadius: 4,
-            padding: "36px",
-            marginTop: 36,
-          }}
-        >
-          <div
-            style={{
-              color: Constants.system.red,
-              fontFamily: Constants.font.semiBold,
-              fontSize: "1.15rem",
-            }}
-          >
-            Privacy features are coming soon
-          </div>
-          <div style={{ marginTop: 24, color: Constants.system.red }}>
-            Until then, please don't store sensitive personal information on
-            Slate. Currently all files on Slate are{" "}
-            <span style={{ fontFamily: Constants.font.semiBold }}>
-              visible to anyone with the link
-            </span>
-            .
-          </div>
-        </div>
 
         {hasChildren ? (
           <div style={{ marginTop: "48px" }}>

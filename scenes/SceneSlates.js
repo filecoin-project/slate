@@ -8,6 +8,7 @@ import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonSecondary } from "~/components/system/components/Buttons";
 import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { WarningMessage } from "~/components/core/WarningMessage";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -80,33 +81,6 @@ export default class SceneSlates extends React.Component {
             ) : null
           }
         />
-
-        <div
-          style={{
-            backgroundColor: Constants.system.foreground,
-            borderRadius: 4,
-            padding: "36px",
-            marginTop: 36,
-          }}
-        >
-          <div
-            style={{
-              color: Constants.system.red,
-              fontFamily: Constants.font.semiBold,
-              fontSize: "1.15rem",
-            }}
-          >
-            Privacy features are coming soon
-          </div>
-          <div style={{ marginTop: 24, color: Constants.system.red }}>
-            Until then, please don't store sensitive personal information on
-            Slate. Currently all files on Slate are{" "}
-            <span style={{ fontFamily: Constants.font.semiBold }}>
-              visible to anyone with the link
-            </span>
-            .
-          </div>
-        </div>
 
         <TabGroup
           tabs={["My Slates", "Following"]}

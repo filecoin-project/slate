@@ -183,6 +183,32 @@ export default class SidebarSingleSlateSettings extends React.Component {
           />
         </div>
 
+        <div
+          style={{
+            backgroundColor: Constants.system.white,
+            borderRadius: 4,
+            padding: "16px",
+            marginTop: 36,
+          }}
+        >
+          <div
+            style={{
+              color: Constants.system.red,
+              fontFamily: Constants.font.semiBold,
+            }}
+          >
+            Privacy features are coming soon
+          </div>
+          <div style={{ marginTop: 24, color: Constants.system.red }}>
+            Until then, please don't store sensitive personal information on
+            Slate. Currently all files on Slate are{" "}
+            <span style={{ fontFamily: Constants.font.semiBold }}>
+              visible to anyone with the link
+            </span>
+            .
+          </div>
+        </div>
+
         <div style={{ marginTop: 40 }}>
           <System.ButtonPrimary
             full

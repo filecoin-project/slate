@@ -14,11 +14,11 @@ export default class SceneEncryptedData extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Encrypted data">
-          All data on Slate is accessible on an IPFS gateway if you have the
-          CID. <br />
+          All data on Slate is accessible by the public if they have the URL.{" "}
+          <br />
           <br />
           In the future you will be allowed to add encrypted data that is secure
-          and not accessible on an IPFS gateway.
+          and not accessible via URL. This data will only be accessible by you.
           <br />
           <br />
           This feature will be enabled soon.

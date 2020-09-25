@@ -326,7 +326,6 @@ const STYLES_FULL_WIDTH = css`
 
 const STYLES_SPLIT_WIDTH = css`
   padding: 24px 0;
-
   width: 50%;
   :nth-child(2) {
     padding-left: 18px;
@@ -381,10 +380,6 @@ const STYLES_FIGURE_LEFT = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
-`;
-
-const STYLES_TABLE_ROW = css`
-  width: 100%;
 `;
 
 const STYLES_DINNER_TABLE = css`
@@ -545,6 +540,7 @@ const STYLES_CONTRIBUTION_TEXT = css`
 
 const STYLES_CONTRIBUTION_IMG = css`
   width: 40%;
+  height: 40%;
   box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
 `;
 
@@ -582,6 +578,7 @@ const STYLES_CHAT_CARD_IMAGE_RIGHT = css`
   margin-left: 29.5vw;
   border-radius: 8px;
 `;
+
 const STYLES_CHAT_CARD_IMAGE_LEFT = css`
   width: 50px;
   margin-bottom: -57px;
@@ -757,7 +754,7 @@ export default class CommunityPage extends React.Component {
                 src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
               />
             </div>
-            <div css={STYLES_TABLE_ROW}>
+            <div css={STYLES_FULL_WIDTH}>
               <img
                 css={STYLES_FIGURE_LEFT}
                 src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
@@ -831,8 +828,7 @@ export default class CommunityPage extends React.Component {
               </div>
             </div>
           </div>
-
-          <section css={STYLES_SECTION_WRAPPER}>
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_TEXT_BLOCK}>
               <h2 css={STYLES_H2}>
                 We couldn’t build Slate without our community of contributors
@@ -875,12 +871,11 @@ export default class CommunityPage extends React.Component {
                 Join Slack channel
               </button>
             </div>
-          </section>
+          </div>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
             <div css={STYLES_SPLIT_WIDTH}>
               <div css={STYLES_CHAT}>
                 <p>
-                  {" "}
                   Hey Slate Team,
                   <br />
                   <br /> Have you thought about adding a confetti 🎉 effect to
@@ -912,7 +907,7 @@ export default class CommunityPage extends React.Component {
               </h1>
               <p>
                 You can create an issue on github or send us an email with your
-                recommendation.{" "}
+                recommendation.
               </p>
               <div>
                 <button
@@ -1026,7 +1021,7 @@ export default class CommunityPage extends React.Component {
               <h1>
                 <span css={STYLES_HIGLIGHT_TEXT_YELLOW}>
                   Explore our API and SDK
-                </span>{" "}
+                </span>
                 and build on top of Slate.
               </h1>
               <br />

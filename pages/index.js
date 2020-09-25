@@ -659,7 +659,7 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>Store</span> your data,
                 <br />
                 <span css={STYLES_HIGHLIGHT}>organize</span> it any way you like, <br />
-                <span css={STYLES_HIGHLIGHT}>and share</span> it with the world securely.
+                <span css={STYLES_HIGHLIGHT}>and share</span> it with the world.
                 <br />
                 <br />
               </h2>
@@ -848,7 +848,7 @@ export default class IndexPage extends React.Component {
           <div css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
-                Built on <span css={STYLES_HIGHLIGHT}>trust, privacy, and security</span>
+                Built on <span css={STYLES_HIGHLIGHT}>trust and privacy</span>
               </h1>
               <h3 css={STYLES_H3}>
                 <span css={STYLES_HIGHLIGHT}>Slate is built on Filecoin and IPFS</span> — technologies built around
@@ -870,7 +870,7 @@ export default class IndexPage extends React.Component {
                 <div css={STYLES_SLATE_CARD_TEXT}>
                   <h1 css={STYLES_SLATE_CARD_CTA_TITLE}>
                     Join us <br />
-                    <span css={STYLES_HIGHLIGHT_BLACK}>in our open & secure network</span>
+                    <span css={STYLES_HIGHLIGHT_BLACK}>in our open network</span>
                   </h1>
                   <div css={STYLES_SLATE_CARD_EXPLAINER}>
                     <div css={STYLES_SLATE_CARD_CTA_PARAGRAPH}>Create your first slate</div>

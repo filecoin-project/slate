@@ -62,18 +62,36 @@ export default async (req, res) => {
       .send({ decorator: "SERVER_BUCKET_NOT_FOUND", error: true });
   }
 
-  // TODO(jim): Put this call into a file for all Textile related calls.
+  // TODO(sander+jim):
+  // See line: 196 on https://github.com/filecoin-project/slate/blob/main/node_common/managers/viewer.js
+  // Would be nice to be nice to get `entity.encrypted` on the bucket property.
   let items = null;
-  try {
-    items = await buckets.listIpfsPath(targetBucket.path);
-  } catch (e) {
-    Social.sendTextileSlackMessage({
-      file: "/pages/api/data/bucket-remove.js",
-      user,
-      message: e.message,
-      code: e.code,
-      functionName: `buckets.listIpfsPath`,
-    });
+  if (targetBucket.name === "encrypted-deal") {
+    console.log("[ encrypted ] removing from encrypted bucket");
+    try {
+      const path = await buckets.listPath(targetBucket.key, "/");
+      items = path.item;
+    } catch (e) {
+      Social.sendTextileSlackMessage({
+        file: "/pages/api/data/bucket-remove.js",
+        user,
+        message: e.message,
+        code: e.code,
+        functionName: `buckets.listPath`,
+      });
+    }
+  } else {
+    try {
+      items = await buckets.listIpfsPath(targetBucket.path);
+    } catch (e) {
+      Social.sendTextileSlackMessage({
+        file: "/pages/api/data/bucket-remove.js",
+        user,
+        message: e.message,
+        code: e.code,
+        functionName: `buckets.listIpfsPath`,
+      });
+    }
   }
 
   if (!items) {

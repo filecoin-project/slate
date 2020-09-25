@@ -1,8 +1,6 @@
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 export const upload = async ({ file, context, bucketName }) => {
-  console.log({ bucketName });
-
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 
@@ -71,7 +69,8 @@ export const upload = async ({ file, context, bucketName }) => {
     });
 
   let json;
-  if (bucketName && bucketName === "deal") {
+  // TODO(jim): Make this smarter.
+  if (bucketName && bucketName === "encrypted-deal") {
     json = await _privateUploadMethod(`/api/data/deal/${file.name}`);
   } else {
     json = await _privateUploadMethod(`/api/data/${file.name}`);

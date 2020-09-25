@@ -100,7 +100,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
       const file = e.target.files[i];
 
       const response = await FileUtilities.upload({
-        bucketName: "deal",
+        bucketName: "encrypted-deal",
         file,
       });
     }
@@ -120,7 +120,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
 
   _handleArchive = async (e) => {
     this.setState({ archiving: true });
-    const response = await Actions.archive({ bucketName: "deal" });
+    const response = await Actions.archive({ bucketName: "encrypted-deal" });
 
     if (!response) {
       this.setState({ archiving: false });
@@ -169,7 +169,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
   _handleRemove = async (cid) => {
     this.setState({ loading: true });
 
-    await Actions.removeFromBucket({ bucketName: "deal", cid });
+    await Actions.removeFromBucket({ bucketName: "encrypted-deal", cid });
 
     let networkViewer;
     try {
@@ -239,7 +239,8 @@ export default class SceneMakeFilecoinDeal extends React.Component {
 
         <ScenePageHeader title="Make an one-off Filecoin Storage Deal">
           This is a simple tool to upload data and make one-off storage deals in
-          the Filecoin network.
+          the Filecoin network. This deal is encrypted and you will need a key
+          to view the contents.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (

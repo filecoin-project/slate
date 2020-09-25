@@ -24,6 +24,7 @@ const STYLES_ALERT = `
     width: calc(100% - 60px);
     padding: 12px;
     top: 0px;
+    left: 60px;
   }
 `;
 

@@ -158,7 +158,6 @@ export default class SlatePage extends React.Component {
           <WebsitePrototypeHeaderGeneric href={headerURL} title={headerTitle}>
             <ProcessedText text={this.props.slate.data.body} />
           </WebsitePrototypeHeaderGeneric>
-          <Alert style={{ top: 0, width: "100%" }} />
           <div css={STYLES_SLATE}>
             <Slate
               editing={false}

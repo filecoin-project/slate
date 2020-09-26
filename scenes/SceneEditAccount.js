@@ -38,9 +38,14 @@ export default class SceneEditAccount extends React.Component {
     photo: this.props.viewer.data.photo,
     name: this.props.viewer.data.name,
     deleting: false,
+    allow_automatic_data_storage: this.props.viewer
+      .allow_automatic_data_storage,
+    allow_encrypted_data_storage: this.props.viewer
+      .allow_encrypted_data_storage,
     changingPassword: false,
     changingUsername: false,
     changingAvatar: false,
+    changingFilecoin: false,
   };
 
   _handleUpload = async (e) => {
@@ -125,6 +130,23 @@ export default class SceneEditAccount extends React.Component {
     this.setState({ changingBio: false });
   };
 
+  _handleSaveFilecoin = async (e) => {
+    this.setState({ changingFilecoin: true });
+
+    await Actions.updateViewer({
+      data: {
+        photo: this.state.photo,
+        body: this.state.body,
+        name: this.state.name,
+        allow_automatic_data_storage: this.state.allow_automatic_data_storage,
+        allow_encrypted_data_storage: this.state.allow_encrypted_data_storage,
+      },
+    });
+
+    await this.props.onRehydrate();
+    this.setState({ changingFilecoin: false });
+  };
+
   _handleSave = async (e) => {
     this.setState({ changingUsername: true });
 
@@ -203,8 +225,13 @@ export default class SceneEditAccount extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  _handleCheckboxChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
     const profileURL = `https://slate.host/${this.state.username}`;
+    console.log(this.props.viewer);
 
     return (
       <ScenePage>
@@ -239,8 +266,43 @@ export default class SceneEditAccount extends React.Component {
           </System.ButtonPrimary>
         </div>
 
+        <System.DescriptionGroup
+          style={{ marginTop: 48 }}
+          label="Allow Slate to make Filecoin archive storage deals on your behalf"
+          description="If this box is checked, then we will make Filecoin archive storage deals on your behalf. By default these storage deals are not encrypted and anyone can retrieve them from the Filecoin Network."
+        />
+
+        <System.CheckBox
+          style={{ marginTop: 48 }}
+          name="allow_automatic_data_storage"
+          value={this.state.allow_automatic_data_storage}
+          onChange={this._handleCheckboxChange}
+        >
+          Allow Slate to make archive storage deals on your behalf to the
+          Filecoin Network. You will get a receipt in the Filecoin section.
+        </System.CheckBox>
+
+        <System.CheckBox
+          style={{ marginTop: 24 }}
+          name="allow_encrypted_data_storage"
+          value={this.state.allow_encrypted_data_storage}
+          onChange={this._handleCheckboxChange}
+        >
+          Force encryption on archive storage deals (only you can see retrieved
+          data from the Filecoin network).
+        </System.CheckBox>
+
+        <div style={{ marginTop: 24 }}>
+          <System.ButtonPrimary
+            onClick={this._handleSaveFilecoin}
+            loading={this.state.changingFilecoin}
+          >
+            Save archiving settings
+          </System.ButtonPrimary>
+        </div>
+
         <System.Input
-          containerStyle={{ marginTop: 48 }}
+          containerStyle={{ marginTop: 64 }}
           label="Username"
           description={
             <React.Fragment>

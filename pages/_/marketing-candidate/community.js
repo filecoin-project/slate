@@ -230,7 +230,6 @@ const STYLES_H3 = css`
   line-height: 1.3;
   color: ${Constants.system.slate};
   margin-bottom: 1rem;
-  width: 45%;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
@@ -491,8 +490,10 @@ const STYLES_SLATE_CARD_EFFECTS = css`
 `;
 
 const STYLES_FEATURE_CARD = css`
-  width: 33.3%;
-  margin: 0 16px 0 0;
+  width: 30%;
+  height: 350px;
+  justify-content: space-between;
+  margin: auto;
   padding: 16px;
   border-radius: 8px;
   background-color: #f2f4f8;
@@ -559,6 +560,11 @@ const STYLES_CARD_GROUP = css`
 const STYLES_IMG = css`
   width: 100%;
   display: block;
+`;
+
+const STYLES_IMG_ICON = css`
+  width: 15%;
+  margin-bottom: 24px;
 `;
 
 const STYLES_CHAT = css`
@@ -788,7 +794,7 @@ export default class CommunityPage extends React.Component {
               />
             </div>
           </div>
-          <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_FULL_WIDTH}>
               <h1>Core Team</h1>
               <p>
@@ -852,7 +858,7 @@ export default class CommunityPage extends React.Component {
             </div>
             <div css={STYLES_CENTER_BLOCK}>
               <img
-                css={STYLES_IMG}
+                css={STYLES_IMG_ICON}
                 src="https://slate.textile.io/ipfs/bafkreiav4ursjyxypvx5nvils6wyskpdua64pnzukmun3xmilndiuv3vp4"
               />
               <h3 css={STYLES_H3}>
@@ -933,7 +939,7 @@ export default class CommunityPage extends React.Component {
               </div>
             </div>
           </div>
-          <section css={STYLES_SECTION_WRAPPER}>
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_TEXT_BLOCK}>
               <h2 css={STYLES_H2}>Further down the road</h2>
               <p css={STYLES_P}>
@@ -950,9 +956,9 @@ export default class CommunityPage extends React.Component {
                 />
               ))}
             </div>
-            <div>
+            <div css={STYLES_CENTER_BLOCK}>
               <img
-                css={STYLES_IMG}
+                css={STYLES_IMG_ICON}
                 src="https://slate.textile.io/ipfs/bafkreicq4yjwe47vu66u3qt5qqvznrq5vb4tfunmbrjjt3w6rg5p7pdcwy"
               />
               <h3 css={STYLES_H3}>
@@ -971,56 +977,12 @@ export default class CommunityPage extends React.Component {
                 Submit a feature request
               </button>
             </div>
-          </section>
-          <section css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_TEXT_BLOCK}>
-              <h2 css={STYLES_H2}>
-                We couldn’t build Slate without our community of contributors
-              </h2>
-              <p css={STYLES_P}>
-                Here features some great work from our contributors. We define
-                contribution beyond code. And we believe that everyone has
-                something to bring to the table. 🍰
-              </p>
-            </div>
-            <br />
-            <br />
-            <div>
-              {CONTRIBUTIONS.map((each) => (
-                <ContributionCard
-                  contribution={each.contribution}
-                  contributor={each.contributor}
-                  illustration={each.illustration}
-                />
-              ))}
-            </div>
-            <div css={STYLES_CENTER_BLOCK}>
-              <img
-                css={STYLES_IMG}
-                src="https://slate.textile.io/ipfs/bafkreiav4ursjyxypvx5nvils6wyskpdua64pnzukmun3xmilndiuv3vp4"
-              />
-              <h3 css={STYLES_H3}>
-                Have some 🍰 to bring to the table?
-                <br />
-                Let’s chat about how we can support you.
-              </h3>
-              <button
-                css={STYLES_BUTTON}
-                onClick={() =>
-                  window.open(
-                    "https://github.com/filecoin-project/slate/issues"
-                  )
-                }
-              >
-                Join Slack channel
-              </button>
-            </div>
-          </section>
+          </div>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h1>
                 <span css={STYLES_HIGLIGHT_TEXT_YELLOW}>
-                  Explore our API and SDK
+                  Explore our API and SDK{" "}
                 </span>
                 and build on top of Slate.
               </h1>

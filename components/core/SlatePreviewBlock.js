@@ -152,7 +152,7 @@ export function SlatePreviewRow(props) {
 }
 
 const STYLES_BLOCK = css`
-  box-shadow: 0 0 0 1px rgba(229, 229, 229, 0.75) inset,
+  box-shadow: 0 0 0 1px ${Constants.system.lightBorder} inset,
     0 0 40px 0 ${Constants.system.shadow};
   border-radius: 8px;
   padding: 32px 40px;

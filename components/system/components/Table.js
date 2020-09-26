@@ -54,7 +54,7 @@ const STYLES_TABLE_ROW = css`
   position: relative;
   box-sizing: border-box;
   padding: 0 8px 0 8px;
-  border-bottom: 1px solid rgba(229, 229, 229, 0.75);
+  border-bottom: 1px solid ${Constants.system.lightBorder};
   display: flex;
   align-items: flex-start;
   width: 100%;
@@ -69,14 +69,14 @@ const STYLES_TABLE_SELECTED_ROW = css`
   background-color: ${Constants.system.foreground};
   box-sizing: border-box;
   display: block;
-  border-bottom: 1px solid rgba(229, 229, 229, 0.75);
+  border-bottom: 1px solid ${Constants.system.lightBorder};
 `;
 
 const STYLES_TABLE_TOP_ROW = css`
   box-sizing: border-box;
   font-family: ${Constants.font.semiBold};
   padding: 0 8px 0 8px;
-  border-bottom: 1px solid rgba(229, 229, 229, 0.75);
+  border-bottom: 1px solid ${Constants.system.lightBorder};
   display: flex;
   width: 100%;
   align-items: flex-start;

@@ -76,14 +76,19 @@ export default async (req, res) => {
     newObjects = [req.body.data];
   }
 
-  let slateIDs = slate.data.objects.map((file) => file.id);
-  let newIDs = [];
+  let slateURLs = slate.data.objects.map((file) => file.url);
+  let newIPFSs = [];
   let addlObjects = newObjects
     .filter((each) => {
-      if (slateIDs.includes(each.id) || newIDs.includes(each.id)) {
+      if (
+        slateURLs.includes(
+          `${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`
+        ) ||
+        newIPFSs.includes(each.ipfs)
+      ) {
         return false;
       }
-      newIDs.push(each.id);
+      newIPFSs.push(each.ipfs);
       return true;
     })
     .map((each) => {
@@ -129,8 +134,8 @@ export default async (req, res) => {
 
   return res.status(200).send({
     decorator: "SERVER_SLATE_ADD_TO_SLATE",
-    slate,
     added: addlObjects.length,
     skipped: newObjects.length - addlObjects.length,
+    slate,
   });
 };

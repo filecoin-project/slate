@@ -13,7 +13,7 @@ const STYLES_POPOVER = css`
   position: absolute;
   background-color: ${Constants.system.white};
   color: ${Constants.system.pitchBlack};
-  border: 1px solid rgba(229, 229, 229, 0.75);
+  border: 1px solid ${Constants.system.lightBorder};
   box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.05);
   padding: 8px 0px;
 `;
@@ -46,7 +46,8 @@ export class PopoverNavigation extends React.Component {
             key={each.text}
             css={STYLES_POPOVER_ITEM}
             style={this.props.itemStyle}
-            onClick={each.onClick}>
+            onClick={each.onClick}
+          >
             {each.text}
           </div>
         ))}

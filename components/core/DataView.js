@@ -115,7 +115,7 @@ const STYLES_ACTION_BAR = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 0 0 1px rgba(229, 229, 229, 0.75) inset,
+  box-shadow: 0 0 0 1px ${Constants.system.lightBorder} inset,
     0 0 40px 0 ${Constants.system.shadow};
   border-radius: 4px;
   padding: 12px 32px;
@@ -180,7 +180,7 @@ const STYLES_IMAGE_BOX = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.75) inset,
+  box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset,
     0 0 40px 0 ${Constants.system.shadow};
   cursor: pointer;
   position: relative;

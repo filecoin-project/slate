@@ -211,14 +211,14 @@ const STYLES_TABLE = css`
 const STYLES_TH = css`
   font-family: ${Constants.font.semiBold};
   font-weight: 400;
-  border: 1px solid rgba(229, 229, 229, 0.75);
+  border: 1px solid ${Constants.system.lightBorder};
   padding: 12px;
 `;
 
 const STYLES_TD = css`
   font-family: ${Constants.font.text};
   font-weight: 400;
-  border: 1px solid rgba(229, 229, 229, 0.75);
+  border: 1px solid ${Constants.system.lightBorder};
   padding: 12px;
 `;
 
@@ -257,7 +257,11 @@ export default class IndexPage extends React.Component {
     const url = "https://slate.host/download";
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper
+        title={title}
+        description={description}
+        url={url}
+      >
         <WebsitePrototypeHeader color="dark" />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_HERO}>
@@ -268,12 +272,17 @@ export default class IndexPage extends React.Component {
                 alt="Slate browser extension"
               />
               <h1 css={STYLES_H1}>Slate for Chrome</h1>
-              <h3 css={STYLES_H3}>Take any image on the web and save it to Slate right from your browser tab.</h3>
+              <h3 css={STYLES_H3}>
+                Take any image on the web and save it to Slate right from your
+                browser tab.
+              </h3>
               <div>
                 <button
                   css={STYLES_BUTTON_PRIMARY}
                   onClick={() =>
-                    window.open("https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc")
+                    window.open(
+                      "https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc"
+                    )
                   }
                 >
                   Get Slate Chrome extension
@@ -281,7 +290,11 @@ export default class IndexPage extends React.Component {
               </div>
               <p css={STYLES_ANNOTATION}>
                 Currently avaible for{" "}
-                <a css={STYLES_LINK_WHITE} href="https://www.google.com/chrome/" target="_blank">
+                <a
+                  css={STYLES_LINK_WHITE}
+                  href="https://www.google.com/chrome/"
+                  target="_blank"
+                >
                   Chrome
                 </a>
                 .
@@ -292,13 +305,16 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_BLOCK}>
               <h2 css={STYLES_H2}>Contribute</h2>
               <h3 css={STYLES_H3}>
-                We would love for you to join us. You're welcomed to file an issue or submit a pull request on Github.
+                We would love for you to join us. You're welcomed to file an
+                issue or submit a pull request on Github.
               </h3>
               <div>
                 <button
                   css={STYLES_BUTTON_SECONDARY}
                   onClick={() =>
-                    window.open("https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc")
+                    window.open(
+                      "https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc"
+                    )
                   }
                 >
                   View Github
@@ -309,7 +325,10 @@ export default class IndexPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_BLOCK}>
               <h2 css={STYLES_H2}>Releases</h2>
-              <h3 css={STYLES_H3}>Slate is built in public and all past releases are always avaible for download.</h3>
+              <h3 css={STYLES_H3}>
+                Slate is built in public and all past releases are always
+                avaible for download.
+              </h3>
             </div>
             <div css={STYLES_BLOCK}>
               <table css={STYLES_TABLE}>

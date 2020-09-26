@@ -33,7 +33,7 @@ export default async (req, res) => {
   if (user.error) {
     return res
       .status(500)
-      .send({ decorator: "SERVER_SIGN_IN_USER_NOT_FOUND", error: true });
+      .send({ decorator: "SERVER_SIGN_IN_ERROR", error: true });
   }
 
   const hash = await Utilities.encryptPassword(

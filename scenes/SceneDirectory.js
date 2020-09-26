@@ -23,7 +23,7 @@ const STYLES_USER_ENTRY = css`
   align-items: center;
   font-size: ${Constants.typescale.lvl1};
   cursor: pointer;
-  border: 1px solid rgba(229, 229, 229, 0.75);
+  border: 1px solid ${Constants.system.lightBorder};
   border-radius: 4px;
   margin-bottom: 8px;
 `;

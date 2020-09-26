@@ -39,7 +39,7 @@ const STYLES_PROFILE = css`
   border-radius: 4px;
   min-height: 48px;
   cursor: pointer;
-  border: 1px solid rgba(229, 229, 229, 0.25);
+  border: 1px solid rgba(229, 229, 229, 0.5);
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.03);
 
   @media (max-width: ${Constants.sizes.mobile}px) {

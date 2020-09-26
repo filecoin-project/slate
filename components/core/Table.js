@@ -19,14 +19,14 @@ const TABLE_COLUMN_WIDTH_DEFAULTS = {
 };
 
 const STYLES_CONTAINER = css`
-  border: 1px solid rgba(229, 229, 229, 0.75);
+  border: 1px solid ${Constants.system.lightBorder};
   box-shadow: 0 0 40px 0 ${Constants.system.shadow};
 `;
 
 const STYLES_TABLE_ROW = css`
   position: relative;
   box-sizing: border-box;
-  border-bottom: 1px solid rgba(229, 229, 229, 0.75);
+  border-bottom: 1px solid ${Constants.system.lightBorder};
   display: flex;
   align-items: center;
   width: 100%;
@@ -40,7 +40,7 @@ const STYLES_TABLE_ROW = css`
 const STYLES_TABLE_TOP_ROW = css`
   box-sizing: border-box;
   font-family: ${Constants.font.semiBold};
-  border-bottom: 1px solid rgba(229, 229, 229, 0.75);
+  border-bottom: 1px solid ${Constants.system.lightBorder};
   display: flex;
   width: 100%;
   align-items: center;

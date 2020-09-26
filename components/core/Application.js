@@ -108,7 +108,7 @@ export default class ApplicationPage extends React.Component {
     sidebar: null,
     sidebarLoading: false,
     online: null,
-    sidebar: <SidebarAddFileToSlate />, //remove this
+    sidebar: null,
   };
 
   async componentDidMount() {
@@ -284,7 +284,7 @@ export default class ApplicationPage extends React.Component {
         return res.status === "fulfilled" && res.value && !res.value.error;
       })
       .map((res) => res.value);
-    if (slate && slate.id && succeeded && succeeded.length) {
+    if (slate && slate.id) {
       await FileUtilities.uploadToSlate({ responses: succeeded, slate });
     }
 
@@ -323,14 +323,24 @@ export default class ApplicationPage extends React.Component {
     });
 
     //NOTE(martina): to update the slate to include the new file if you're on a slate page
-    dispatchCustomEvent({
-      name: "remote-update-slate-screen",
-      detail: {},
-    });
+    const navigation = NavigationData.generate(this.state.viewer);
+    const next = this.state.history[this.state.currentIndex];
+    const current = NavigationData.getCurrentById(navigation, next.id);
+    if (
+      current.target &&
+      current.target.slateId &&
+      this.state.viewer.slates
+        .map((slate) => slate.id)
+        .includes(current.target.slateId)
+    ) {
+      dispatchCustomEvent({
+        name: "remote-update-slate-screen",
+        detail: {},
+      });
+    }
 
     if (!slate) {
       const { added, skipped } = processResponse.data;
-      if (!added && !skipped) return;
       let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
       if (skipped) {
         message += `${skipped || 0} duplicate / existing file${

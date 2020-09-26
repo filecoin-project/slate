@@ -71,6 +71,16 @@ const STYLES_MESSAGE = css`
   }
 `;
 
+const STYLES_TEXT = css`
+  border-bottom: 1px solid ${Constants.system.white};
+
+  @supports (
+    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
+  ) {
+    border-bottom: 1px solid ${Constants.system.brand};
+  }
+`;
+
 const STYLES_MESSAGE_BOX = css`
   display: flex;
   align-items: center;
@@ -146,6 +156,11 @@ export class Alert extends React.Component {
           </div>
         );
       }
+      let total = Object.keys(this.props.fileLoading).length;
+      let uploaded =
+        Object.values(this.props.fileLoading).filter((upload) => {
+          return upload.loaded === upload.total;
+        }).length || 0;
       return (
         <div
           css={STYLES_INFO}
@@ -159,9 +174,10 @@ export class Alert extends React.Component {
         >
           <div css={STYLES_MESSAGE_BOX}>
             <LoaderSpinner style={{ height: 16, width: 16, marginRight: 16 }} />
-            {Object.keys(this.props.fileLoading).length} file
-            {Object.keys(this.props.fileLoading).length === 1 ? "" : "s"}{" "}
-            uploading
+            <span css={STYLES_TEXT}>
+              {uploaded} / {total} file
+              {total === 1 ? "" : "s"} uploading{" "}
+            </span>
           </div>
         </div>
       );

@@ -206,9 +206,10 @@ export const error = {
   SERVER_SIGN_IN: "Your username/password can't be blank",
   SIGN_IN_USER_NOT_FOUND:
     "We're having trouble logging you in right now, please try again later",
-  SERVER_SIGN_IN_USER_NOT_FOUND: "That username and password do not match", //no user with that username
-  SIGN_IN_AUTH: "That username and password do not match", //incorrect password
-  SERVER_SIGN_IN_AUTH: "That username and password do not match",
+  SERVER_SIGN_IN_USER_NOT_FOUND: "That username and password do not match", //no one with that username
+  SERVER_SIGN_IN_ERROR:
+    "We're having trouble connecting right now. Please try again later",
+  SERVER_SIGN_IN_AUTH: "That username and password do not match", //incorrect password
 
   //Activity
   CREATE_ACTIVITY:

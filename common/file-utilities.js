@@ -1,4 +1,5 @@
 import { dispatchCustomEvent } from "~/common/custom-events";
+import * as Actions from "~/common/actions";
 
 export const upload = async ({ file, context, bucketName }) => {
   let formData = new FormData();
@@ -102,35 +103,50 @@ export const upload = async ({ file, context, bucketName }) => {
 };
 
 export const uploadToSlate = async ({ responses, slate }) => {
-  const addResponse = await fetch(`/api/slates/add-url`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
+  let added;
+  let skipped;
+  if (responses && responses.length) {
+    const addResponse = await Actions.addFileToSlate({
       slate,
       data: responses.map((res) => {
         return { title: res.file.name, ...res.json.data };
       }),
-    }),
-  });
+    });
 
-  if (!addResponse) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message:
-            "We're having trouble connecting right now. Please try again later",
+    if (!addResponse) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
         },
-      },
-    });
-  } else if (addResponse.error) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: { alert: { decorator: addResponse.decorator } },
-    });
+      });
+      return;
+    } else if (addResponse.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: addResponse.decorator } },
+      });
+      return;
+    } else {
+      added = addResponse.added;
+      skipped = addResponse.skipped;
+    }
   }
+  let message = `${added || 0} file${
+    added !== 1 ? "s" : ""
+  } uploaded to slate. `;
+  if (skipped) {
+    message += `${skipped || 0} duplicate / existing file${
+      added !== 1 ? "s were" : " was"
+    } skipped.`;
+  }
+  dispatchCustomEvent({
+    name: "create-alert",
+    detail: {
+      alert: { message, status: !added ? null : "INFO" },
+    },
+  });
 };

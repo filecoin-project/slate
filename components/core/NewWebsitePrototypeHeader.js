@@ -10,7 +10,7 @@ const STYLES_CONTAINER = css`
   width: 100vw;
   display: flex;
   justify-content: space-between;
-  padding: 16px 88px;
+  padding: 16px 88px 16px 64px;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -26,11 +26,11 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.darkGray};
+  color: ${Constants.system.gray};
   text-decoration: none;
   transition: 200ms ease color;
   :visited {
-    color: ${Constants.system.darkGray};
+    color: ${Constants.system.gray};
   }
 
   :hover {
@@ -94,7 +94,7 @@ const STYLES_BURGER_BUN = css`
 `;
 
 const openBurgerBun = {
-  transform: `rotate(45deg)`
+  transform: `rotate(45deg)`,
 };
 
 const STYLES_BURGER_MEAT = css`
@@ -109,7 +109,7 @@ const STYLES_BURGER_MEAT = css`
 `;
 
 const openBurgerMeat = {
-  opacity: `0`
+  opacity: `0`,
 };
 
 const STYLES_BURGER_BUN2 = css`
@@ -124,7 +124,7 @@ const STYLES_BURGER_BUN2 = css`
 `;
 
 const openBurgerBun2 = {
-  transform: `rotate(-45deg)`
+  transform: `rotate(-45deg)`,
 };
 
 const STYLES_MENU = css`
@@ -168,14 +168,14 @@ const STYLES_NAVLINK = css`
 
 const openMenu = {
   display: `flex`,
-  transform: `translateX(0)`
+  transform: `translateX(0)`,
 };
 
 const openNavLink = {
-  display: `flex`
+  display: `flex`,
 };
 
-const NewWebsitePrototypeHeader = props => {
+const NewWebsitePrototypeHeader = (props) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

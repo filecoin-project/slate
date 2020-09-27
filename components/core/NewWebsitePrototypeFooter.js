@@ -4,109 +4,108 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_P = css`
-  font-size: 1rem;
-  line-height: 1.618;
-  padding: 0px 0px 8px 0px;
-  color: ${Constants.system.gray};
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl0};
+  letter-spacing: -0.011rem;
+  line-height: 1.5;
+  margin: 4px 0 0 0;
+  color: ${Constants.system.slate};
 `;
+
 const STYLES_CONTAINER = css`
   max-width: 1440px;
   margin: 0 auto;
   width: 100%;
-  display: flex;
-  background-color: ${Constants.system.pitchBlack};
+  background-color: ${Constants.system.wall};
   align-items: top;
-  justify-content: top;
   padding: 96px 88px 96px 88px;
   z-index: ${Constants.zindex.navigation};
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     position: absolute;
     flex-shrink: 0;
     display: block;
     justify-content: left;
-    height: 640px;
     padding: 64px 24px;
   }
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.darkGray};
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl0};
+  letter-spacing: -0.011rem;
+  line-height: 1.5;
+  margin: 4px 0 0 0;
+  color: ${Constants.system.slate};
+  opacity: 0.7;
   text-decoration: none;
   transition: 200ms ease color;
-  font-size: 1rem;
-  line-height: 1.618;
 
   :hover {
-    color: ${Constants.system.brand};
+    color: ${Constants.system.newBlue};
+    opacity: 1;
   }
 `;
 
-const STYLES_SLATE = css`
-  flex-shrink: 0;
-  padding: 0px 0px 16px 0px;
-  font-size: 1rem;
-  line-height: 1.618;
-  color: ${Constants.system.gray};
-`;
-
-const STYLES_TRADEMARK = css`
-  margin: 2px 12px 8px 0;
-`;
-
-const STYLES_RIGHT = css`
+const STYLES_FLEX = css`
   min-width: 10%;
-  width: 50%;
   display: flex;
-  align-items: top;
-  justify-content: flex-end;
-  position: absolute;
-  right: 88px;
-
   color: ${Constants.system.gray};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    position: absolute;
-    left: 24px;
     display: block;
   }
 `;
+
+const STYLES_CONTENT_BLOCK = css`
+  width: 16.67%;
+
+  @media {
+    max-width: ${Constants.sizes.tablet}px;
+  }
+   {
+    width: 50%;
+  }
+`;
+
+const STYLES_HR = css`
+  background-color: ${Constants.system.darkGray};
+  width: 100%;
+  height: 1px;
+  margin-bottom: 16px;
+`;
+
+const styleFlexFull = {
+  justifyContent: `space-between`,
+};
 
 export const NewWebsitePrototypeFooter = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div>
-        <img
-          css={STYLES_TRADEMARK}
-          width="20px"
-          src="https://slate.textile.io/ipfs/bafkreigojwgoqkcpi4oyjoncmiuacg3zen7mlg75fkz27k5n32golvbkb4"
-        />
+        <p css={STYLES_P}>
+          <span style={{ fontFamily: `${Constants.font.semiBold}`, marginRight: `16px` }}>Slate </span> Public file
+          sharing network. Powered by{" "}
+          <a css={STYLES_LINK} href="https://textile.io" target="_blank">
+            Textile
+          </a>{" "}
+          and{" "}
+          <a css={STYLES_LINK} href="https://filecoin.io" target="_blank">
+            Filecoin
+          </a>
+          .
+          <br />
+        </p>
       </div>
-      <div>
-        <div>
-          <p css={STYLES_SLATE}>
-            Slate is the gateway to Filecoin –
-            <br />A new network design we trust.
+      <br />
+      <br />
+      <div css={STYLES_FLEX}>
+        <div css={STYLES_CONTENT_BLOCK}>
+          <p css={STYLES_P} style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}>
+            Contact & Support
           </p>
-          <p css={STYLES_P}>
-            Powered by{" "}
-            <a css={STYLES_LINK} href="https://textile.io" target="_blank">
-              Textile
-            </a>{" "}
-            and{" "}
-            <a css={STYLES_LINK} href="https://filecoin.io" target="_blank">
-              Filecoin
-            </a>
-            <br />
-            MIT License
-            <br />
-            <br />
-            <br />
-          </p>
-        </div>
-      </div>
-      <div css={STYLES_RIGHT}>
-        <div style={{ marginRight: 88 }}>
-          <p css={STYLES_P}>Reach out</p>
           <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
             Twitter
           </a>
@@ -121,17 +120,15 @@ export const NewWebsitePrototypeFooter = (props) => {
         </div>
         <br />
         <br />
-        <div>
-          <p css={STYLES_P}>Resources</p>
-          <a css={STYLES_LINK} href="/_/system">
-            Design system
-          </a>
-          <br />
+        <div css={STYLES_CONTENT_BLOCK}>
+          <p css={STYLES_P} style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}>
+            Resources
+          </p>
           <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
-            View source
+            Source code
           </a>
           <br />
-          <a css={STYLES_LINK} href="/download">
+          <a css={STYLES_LINK} href="/slate-for-chrome">
             Slate for Chrome
           </a>
           <br />
@@ -139,12 +136,22 @@ export const NewWebsitePrototypeFooter = (props) => {
             Community
           </a>
           <br />
-          <a css={STYLES_LINK} href="/guidelines">
-            Guidelines
+          <a css={STYLES_LINK} href="/_/system">
+            Design system
           </a>
-          <br />
-          <a css={STYLES_LINK} href="/terms">
-            Terms
+        </div>
+      </div>
+      <br />
+      <br />
+      <div css={STYLES_HR} />
+      <div css={STYLES_FLEX} style={styleFlexFull}>
+        <p css={STYLES_P}>MIT License</p>
+        <div>
+          <a css={STYLES_LINK} style={{ marginRight: `32px` }} href="/terms">
+            Terms of service
+          </a>
+          <a css={STYLES_LINK} href="/guidelines">
+            Community guidelines
           </a>
         </div>
       </div>

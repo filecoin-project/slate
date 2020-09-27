@@ -195,7 +195,7 @@ export default class IndexPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_TEXT_BLOCK} style={styleCenterBlock}>
               <h1 css={STYLES_H1}>
-                <span css={STYLES_BLUE}>Upload images to Slate</span> right from your browser window
+                <span css={STYLES_BLUE}>Upload images to Slate</span> from anywhere on the web
               </h1>
               <button
                 css={STYLES_BUTTON_PRIMARY}

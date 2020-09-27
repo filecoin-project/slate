@@ -83,8 +83,12 @@ export const getById = async ({ id }) => {
     library: user.data.library,
 
     // TODO(jim): Move this elsewhere.
-    allow_automatic_data_storage: user.data.allow_automatic_data_storage,
-    allow_encrypted_data_storage: user.data.allow_encrypted_data_storage,
+    allow_automatic_data_storage: user.data.allow_automatic_data_storage
+      ? user.data.allow_automatic_data_storage
+      : null,
+    allow_encrypted_data_storage: user.data.allow_encrypted_data_storage
+      ? user.data.allow_encrypted_data_storage
+      : null,
 
     // NOTE(jim): Remaining data.
     stats: {

@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
+import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
@@ -20,7 +21,11 @@ const STYLES_LABEL = css`
 let mounted = false;
 
 export default class SceneArchive extends React.Component {
-  state = { networkViewer: null };
+  state = {
+    networkViewer: null,
+    allow_encrypted_data_storage: this.props.viewer
+      .allow_encrypted_data_storage,
+  };
 
   async componentDidMount() {
     if (mounted) {
@@ -39,6 +44,24 @@ export default class SceneArchive extends React.Component {
       networkViewer,
     });
   }
+
+  _handleCheckboxChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  _handleSaveFilecoin = async (e) => {
+    this.setState({ changingFilecoin: true });
+
+    await Actions.updateViewer({
+      data: {
+        allow_encrypted_data_storage: this.state.allow_encrypted_data_storage,
+      },
+    });
+
+    await this.props.onRehydrate();
+
+    this.setState({ changingFilecoin: false });
+  };
 
   componentWillUnmount() {
     mounted = false;
@@ -75,8 +98,6 @@ export default class SceneArchive extends React.Component {
           Use this section to archive all of your data on to Filecoin through a
           storage deal. Once you make a storage deal, you can view the logs
           here. <br />
-          <br />
-          Your storage deal is not encrypted so becareful with sensitive data.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (
@@ -92,6 +113,31 @@ export default class SceneArchive extends React.Component {
             >
               Make storage deal
             </System.ButtonPrimary>
+
+            <System.DescriptionGroup
+              style={{ marginTop: 64 }}
+              label="Encryption settings"
+              description="You may not want others to be able to read your data on the network."
+            />
+
+            <System.CheckBox
+              style={{ marginTop: 24 }}
+              name="allow_encrypted_data_storage"
+              value={this.state.allow_encrypted_data_storage}
+              onChange={this._handleCheckboxChange}
+            >
+              Force encryption on archive storage deals (only you can see
+              retrieved data from the Filecoin network).
+            </System.CheckBox>
+
+            <div style={{ marginTop: 24 }}>
+              <System.ButtonSecondary
+                onClick={this._handleSaveFilecoin}
+                loading={this.state.changingFilecoin}
+              >
+                Save archiving settings
+              </System.ButtonSecondary>
+            </div>
 
             <Section
               title="Trusted miners"

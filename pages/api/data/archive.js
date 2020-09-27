@@ -2,6 +2,8 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Social from "~/node_common/social";
 
+import { v4 as uuid } from "uuid";
+
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
@@ -92,10 +94,47 @@ export default async (req, res) => {
     });
   }
 
+  let key = bucketRoot.key;
+  if (
+    bucketName !== "encrypted-deal" &&
+    user.data.allow_encrypted_data_storage
+  ) {
+    const encryptedBucketName = `encrypted-data-${uuid()}`;
+    console.log(
+      `[ encrypted ] making an ${encryptedBucketName} for this archive deal.`
+    );
+    try {
+      const newBucket = await buckets.create(
+        encryptedBucketName,
+        true,
+        items.cid
+      );
+
+      key = newBucket.root.key;
+    } catch (e) {
+      Social.sendTextileSlackMessage({
+        file: "/pages/api/data/archive.js",
+        user: user,
+        message: e.message,
+        code: e.code,
+        functionName: `buckets.create (encrypted)`,
+      });
+
+      return res.status(500).send({
+        decorator: "FORCED_ENCRYPTION_FAILED_FOR_DATA",
+        error: true,
+      });
+    }
+
+    console.log(`[ encrypted ] ${encryptedBucketName}`);
+    console.log(`[ encrypted ] ${key}`);
+  }
+
   let response = {};
   let error = {};
   try {
-    response = await buckets.archive(bucketRoot.key);
+    console.log(`[ deal-maker ] deal being made for ${key}`);
+    response = await buckets.archive(key);
   } catch (e) {
     error.message = e.message;
     error.code = e.code;

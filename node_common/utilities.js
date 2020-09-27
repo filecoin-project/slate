@@ -137,6 +137,32 @@ export const getPowergateAPIFromUserToken = async ({ user }) => {
   };
 };
 
+export const setupWithThread = async ({ buckets }) => {
+  const client = new Client(buckets.context);
+
+  try {
+    const res = await client.getThread("buckets");
+
+    buckets.withThread(res.id.toString());
+
+    console.log(`[ buckets ] getThread success`);
+  } catch (error) {
+    if (error.message !== "Thread not found") {
+      throw new Error(error.message);
+    }
+
+    const newId = ThreadID.fromRandom();
+    await client.newDB(newId, "buckets");
+    const threadID = newId.toString();
+
+    buckets.withThread(threadID);
+
+    console.log(`[ buckets ] newDB success`);
+  }
+
+  return buckets;
+};
+
 // NOTE(jim): Requires @textile/hub
 export const getBucketAPIFromUserToken = async ({
   user,
@@ -151,28 +177,20 @@ export const getBucketAPIFromUserToken = async ({
   await buckets.getToken(identity);
 
   let root = null;
+
   console.log(`[ buckets ] getOrCreate init ${name}`);
 
+  // NOTE(jim): captures `withThread` cases.
   try {
-    const client = new Client(buckets.context);
-    try {
-      const res = await client.getThread("buckets");
+    buckets = await setupWithThread({ buckets });
+  } catch (e) {
+    console.log(`[ textile ] warning: ${e.message}`);
+  }
 
-      buckets.withThread(res.id.toString());
-      console.log(`[ buckets ] getThread success`);
-    } catch (error) {
-      if (error.message !== "Thread not found") {
-        throw new Error(error.message);
-      }
+  console.log(`[ buckets ] getOrCreate thread found for ${name}`);
 
-      const newId = ThreadID.fromRandom();
-      await client.newDB(newId, "buckets");
-      const threadID = newId.toString();
-
-      buckets.withThread(threadID);
-      console.log(`[ buckets ] newDB success`);
-    }
-
+  // NOTE(jim): captures finding your bucket and or creating a new one.
+  try {
     const roots = await buckets.list();
     root = roots.find((bucket) => bucket.name === name);
     if (!root) {

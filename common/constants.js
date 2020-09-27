@@ -75,8 +75,6 @@ export const typescale = {
   lvl11: `9.313rem`,
 };
 
-export const code = {};
-
 export const theme = {
   foreground: system.white,
   ctaBackground: system.brand,

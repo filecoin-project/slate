@@ -52,7 +52,7 @@ export default class SceneMiners extends React.Component {
         <ScenePageHeader title="Trusted miners">
           Whenever you make a deal against the Filecoin Network, Slate works
           with Textile's infrastructure to find the best possible miner to store
-          your data. Here is the list of miners.
+          your data.
         </ScenePageHeader>
 
         <Section title="Miners" style={{ maxWidth: 688, minWidth: "auto" }}>

@@ -262,7 +262,7 @@ export default class DataView extends React.Component {
   };
 
   _handleDeleteFiles = async (e) => {
-    const message = `Are you sure you want to delete these ${numChecked} files? They will be deleted from your slates as well`;
+    const message = `Are you sure you want to delete these files? They will be deleted from your slates as well`;
     if (!window.confirm(message)) {
       return;
     }

@@ -54,21 +54,6 @@ export const updateDataIPFS = (d, { ipfs }) => {
   return { ...d, cid: ipfs.replace("/ipfs/", ""), ipfs };
 };
 
-export const updateDataFilecoin = (d, { job, storage, retrieval }) => {
-  // TODO(jim): DELETE_THIS_GUARD_CODE
-  if (!d.networks) {
-    d.networks = ["IPFS"];
-    delete d.network;
-  }
-
-  // TODO(jim): FILECOIN
-  if (!d.networks.includes("FILECOIN")) {
-    d.networks.push("FILECOIN");
-  }
-
-  return { ...d, job, storage, retrieval };
-};
-
 export const updateDataById = ({ user, id, data }) => {
   const { library } = user.data;
 

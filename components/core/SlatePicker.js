@@ -92,7 +92,7 @@ export class SlatePicker extends React.Component {
                 style={{
                   color: this.props.selected[slate.id]
                     ? Constants.system.black
-                    : Constants.system.darkGray,
+                    : "inherit",
                 }}
               >
                 {slate.data.name || slate.slatename}

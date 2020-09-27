@@ -45,8 +45,8 @@ const STYLES_ROOT = css`
 `;
 
 const STYLES_BOX = css`
-  background-color: ${Constants.system.pitchBlack};
-  color: ${Constants.system.white};
+  background-color: rgba(248, 248, 248, 0.75);
+  color: ${Constants.system.grayBlack};
   z-index: ${Constants.zindex.modal};
   user-select: none;
   height: 32px;

@@ -27,11 +27,15 @@ export const system = {
   blue: "#0061BB",
   link: "#2935ff",
   green: "#28a745",
-  yellow: " #FFC940",
+  yellow: "#FFC940",
   red: "#E05435",
   slate: "#27292e",
   moonstone: "#807d78",
   wall: "#cfced3",
+  wallLight: "#F1F0F2",
+  newBlue: "#043D96",
+  newGreen: "#377749",
+  newYellow: "#F2B256",
   shadow: "rgba(15, 14, 18, 0.03)",
 };
 

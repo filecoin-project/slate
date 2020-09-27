@@ -24,6 +24,7 @@ const IconMap = {
   SETTINGS: <SVG.Settings height="20px" />,
   DIRECTORY: <SVG.Directory height="20px" />,
   FILECOIN: <SVG.Wallet height="20px" />,
+  MINERS: <SVG.Miners height="20px" />,
 };
 
 const STYLES_NAVIGATION = css`

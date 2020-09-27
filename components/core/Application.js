@@ -32,6 +32,7 @@ import ScenePublicSlate from "~/scenes/ScenePublicSlate";
 import SceneArchive from "~/scenes/SceneArchive";
 import SceneMakeFilecoinDeal from "~/scenes/SceneMakeFilecoinDeal";
 import SceneEncryptedData from "~/scenes/SceneEncryptedData";
+import SceneMiners from "~/scenes/SceneMiners";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -94,6 +95,7 @@ const SCENES = {
   FILECOIN: <SceneArchive />,
   MAKE_DEAL: <SceneMakeFilecoinDeal />,
   ENCRYPTED: <SceneEncryptedData />,
+  MINERS: <SceneMiners />,
 };
 
 export default class ApplicationPage extends React.Component {

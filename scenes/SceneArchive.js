@@ -23,6 +23,8 @@ let mounted = false;
 export default class SceneArchive extends React.Component {
   state = {
     networkViewer: null,
+    allow_automatic_data_storage: this.props.viewer
+      .allow_automatic_data_storage,
     allow_encrypted_data_storage: this.props.viewer
       .allow_encrypted_data_storage,
   };
@@ -54,6 +56,7 @@ export default class SceneArchive extends React.Component {
 
     await Actions.updateViewer({
       data: {
+        allow_automatic_data_storage: this.state.allow_automatic_data_storage,
         allow_encrypted_data_storage: this.state.allow_encrypted_data_storage,
       },
     });
@@ -94,7 +97,7 @@ export default class SceneArchive extends React.Component {
 
     return (
       <ScenePage>
-        <ScenePageHeader title="Filecoin: archiving and logs">
+        <ScenePageHeader title="Filecoin">
           Use this section to archive all of your data on to Filecoin through a
           storage deal. Once you make a storage deal, you can view the logs
           here. <br />
@@ -111,7 +114,7 @@ export default class SceneArchive extends React.Component {
                 })
               }
             >
-              Make storage deal
+              Archive your data
             </System.ButtonPrimary>
 
             <System.DescriptionGroup
@@ -119,6 +122,16 @@ export default class SceneArchive extends React.Component {
               label="Encryption settings"
               description="You may not want others to be able to read your data on the network."
             />
+
+            <System.CheckBox
+              style={{ marginTop: 24 }}
+              name="allow_automatic_data_storage"
+              value={this.state.allow_automatic_data_storage}
+              onChange={this._handleCheckboxChange}
+            >
+              Allow Slate to make archive storage deals on your behalf to the
+              Filecoin Network. You will get a receipt in the Filecoin section.
+            </System.CheckBox>
 
             <System.CheckBox
               style={{ marginTop: 24 }}
@@ -138,31 +151,6 @@ export default class SceneArchive extends React.Component {
                 Save archiving settings
               </System.ButtonSecondary>
             </div>
-
-            <Section
-              title="Trusted miners"
-              style={{ minWidth: "auto", marginTop: 48 }}
-              onAction={this.props.onAction}
-            >
-              <System.Table
-                data={{
-                  columns: [
-                    {
-                      key: "miner",
-                      name: "Miner ID",
-                      width: "100%",
-                    },
-                  ],
-                  rows: this.state.networkViewer.powerInfo.defaultStorageConfig.cold.filecoin.trustedMinersList.map(
-                    (miner) => {
-                      return {
-                        miner,
-                      };
-                    }
-                  ),
-                }}
-              />
-            </Section>
 
             <Section
               title="Archive deal logs"

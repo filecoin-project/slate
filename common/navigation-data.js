@@ -159,6 +159,14 @@ export const generate = ({ library = [], slates = [] }) => [
         filecoin: true,
         children: null,
       },
+      {
+        id: "V1_NAVIGATION_MINERS",
+        decorator: "MINERS",
+        name: "Trusted miners",
+        pageTitle: "Trusted miners",
+        filecoin: true,
+        children: null,
+      },
     ],
   },
   {

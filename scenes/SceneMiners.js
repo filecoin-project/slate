@@ -7,82 +7,76 @@ import { css } from "@emotion/react";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
+import ScenePageHeader from "~/components/core/ScenePageHeader";
+
+let mounted = false;
 
 export default class SceneMiners extends React.Component {
-  state = {};
+  state = { miners: [] };
 
-  _handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  async componentDidMount() {
+    if (mounted) {
+      return null;
+    }
+
+    mounted = true;
+
+    let miners = [];
+    try {
+      const response = await fetch(
+        "https://sentinel.slate.host/api/static-global-miners"
+      );
+      const json = await response.json();
+      const sources = json.data.buckets;
+
+      sources.forEach((group) => {
+        miners = [
+          ...group.minerAddresses.map((name) => {
+            return { location: group.name, name };
+          }),
+          ...miners,
+        ];
+      });
+    } catch (e) {}
+
+    this.setState({ miners });
+  }
+
+  componentWillUnmount() {
+    mounted = false;
+  }
 
   render() {
     return (
       <ScenePage>
-        <System.H1>Miners</System.H1>
-        <Section
-          onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
-          title="Recent"
-          buttons={[
-            {
-              name: "Add miner",
-              type: "ACTION",
-              value: "ACTION_ADD_MINERS",
-            },
-            {
-              name: "Export",
-              type: "DOWNLOAD",
-              value: "CSV_ALL_MINERS",
-            },
-          ]}>
+        <ScenePageHeader title="Trusted miners">
+          Whenever you make a deal against the Filecoin Network, Slate works
+          with Textile's infrastructure to find the best possible miner to store
+          your data. Here is the list of miners.
+        </ScenePageHeader>
+
+        <Section title="Miners" style={{ maxWidth: 688, minWidth: "auto" }}>
           <System.Table
             data={{
               columns: [
                 {
-                  key: "availability",
-                  name: "Availability",
-                  width: "100px",
-                  type: "MINER_AVAILABILITY",
-                },
-                { key: "miner", name: "Miner", width: "100%" },
-                { key: "miner-id", name: "Miner ID" },
-                { key: "location", name: "Location", type: "LOCATION" },
-                {
-                  key: "reputation-score",
-                  name: "Reputation score",
-                  tooltip: "Reputation score explainer",
-                  width: "144px",
+                  key: "miner",
+                  name: "Miner",
+                  width: "100%",
                 },
                 {
-                  key: "storage-available",
-                  name: "Availble storage",
-                  width: "120px",
-                },
-                {
-                  key: "storage-proven",
-                  name: "Proven storage",
-                  tooltip: "Proven storage explainer",
-                  width: "144px",
+                  key: "location",
+                  name: "Location",
+                  width: "188px",
                 },
               ],
-              rows: [
-                {
-                  id: 1,
-                  availability: 1,
-                  miner: "Example Miner A",
-                  "miner-id": "t44444",
-                  location: 1,
-                  "reputation-score": 80,
-                  "storage-available": Strings.bytesToSize(244000),
-                  "storage-proven": Strings.bytesToSize(22000),
-                },
-              ],
+              rows: this.state.miners.map((miner) => {
+                return {
+                  miner: miner.name,
+                  location: miner.location,
+                };
+              }),
             }}
-            selectedRowId={this.state.table_miners}
-            onNavigateTo={this.props.onNavigateTo}
-            onAction={this.props.onAction}
-            onChange={this._handleChange}
-            name="table_miners"
           />
         </Section>
       </ScenePage>

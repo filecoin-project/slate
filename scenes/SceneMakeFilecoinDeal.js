@@ -356,31 +356,6 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               onChange={this._handleChange}
             />
 
-            <Section
-              title="Targeted miners (read only)"
-              style={{ marginTop: 48, maxWidth: 688, minWidth: "auto" }}
-              onAction={this.props.onAction}
-            >
-              <System.Table
-                data={{
-                  columns: [
-                    {
-                      key: "miner",
-                      name: "Miner ID",
-                      width: "100%",
-                    },
-                  ],
-                  rows: this.state.settings_cold_default_trusted_miners.map(
-                    (miner) => {
-                      return {
-                        miner,
-                      };
-                    }
-                  ),
-                }}
-              />
-            </Section>
-
             <System.ButtonPrimary
               style={{ marginTop: 48 }}
               onClick={this._handleArchive}

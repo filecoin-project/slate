@@ -144,30 +144,6 @@ export default class SceneSettings extends React.Component {
 
         {this.state.networkViewer ? (
           <React.Fragment>
-            <Section
-              title="Trusted miners"
-              style={{ marginTop: 48, maxWidth: 688, minWidth: "auto" }}
-            >
-              <System.Table
-                data={{
-                  columns: [
-                    {
-                      key: "miner",
-                      name: "Miner ID",
-                      width: "100%",
-                    },
-                  ],
-                  rows: this.state.settings_cold_default_trusted_miners.map(
-                    (miner) => {
-                      return {
-                        miner,
-                      };
-                    }
-                  ),
-                }}
-              />
-            </Section>
-
             {/*<div css={STYLES_GROUP} style={{ marginTop: 48 }}>
               <div css={STYLES_LEFT}>
                 <System.DescriptionGroup

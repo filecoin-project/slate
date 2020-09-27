@@ -89,7 +89,7 @@ export default class SidebarFilecoinArchive extends React.Component {
             fontSize: Constants.typescale.lvl3,
           }}
         >
-          Make storage deal
+          Archive your data
         </System.P>
 
         <System.P style={{ marginTop: 24 }}>

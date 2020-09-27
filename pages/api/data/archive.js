@@ -4,6 +4,8 @@ import * as Social from "~/node_common/social";
 
 import { v4 as uuid } from "uuid";
 
+const MAX_BUCKET_COUNT = 10;
+
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
@@ -103,6 +105,37 @@ export default async (req, res) => {
     console.log(
       `[ encrypted ] making an ${encryptedBucketName} for this archive deal.`
     );
+
+    let userBuckets = [];
+    try {
+      userBuckets = await buckets.list();
+    } catch (e) {
+      Social.sendTextileSlackMessage({
+        file: "/pages/api/data/archive.js",
+        user: user,
+        message: e.message,
+        code: e.code,
+        functionName: `buckets.list (encrypted)`,
+      });
+
+      return res.status(500).send({
+        decorator: "BUCKET_SPAWN_VERIFICATION_FAILED_FOR_BUCKET_COUNT",
+        error: true,
+      });
+    }
+
+    console.log(
+      `[ encrypted ] user has ${
+        userBuckets.length
+      } out of ${MAX_BUCKET_COUNT} used.`
+    );
+    if (userBuckets.length >= MAX_BUCKET_COUNT) {
+      return res.status(500).send({
+        decorator: "TOO_MANY_BUCKETS",
+        error: true,
+      });
+    }
+
     try {
       const newBucket = await buckets.create(
         encryptedBucketName,

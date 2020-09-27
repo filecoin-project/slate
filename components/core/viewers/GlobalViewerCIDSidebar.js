@@ -14,13 +14,21 @@ import GlobalViewerCIDSidebarSlates from "~/components/core/viewers/GlobalViewer
 
 const STYLES_SIDEBAR = css`
   width: 420px;
-  padding-left: 24px;
+  padding: 48px 24px;
   flex-shrink: 0;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+
+  @supports (
+    (-webkit-backdrop-filter: blur(75px)) or (backdrop-filter: blur(75px))
+  ) {
+    -webkit-backdrop-filter: blur(75px);
+    backdrop-filter: blur(75px);
+    background-color: rgba(248, 248, 248, 0.5);
+  }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -32,7 +40,7 @@ const STYLES_BUTTON = css`
   color: ${Constants.system.pitchBlack};
   flex-shrink: 0;
   width: 100%;
-  padding: 16px 24px 16px 24px;
+  padding: 16px 24px;
   min-height: 56px;
   font-size: 14px;
   transition: 200ms ease all;
@@ -43,6 +51,18 @@ const STYLES_BUTTON = css`
 
   :hover {
     color: ${Constants.system.blue};
+  }
+`;
+
+const STYLES_DISMISS_BOX = css`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: ${Constants.system.darkGray};
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.black};
   }
 `;
 
@@ -96,15 +116,14 @@ export default class GlobalViewerCIDSidebar extends React.Component {
 
     if (this.props.onClose) {
       elements.push(
-        <span
+        <div
           key="s-1"
-          css={STYLES_BUTTON}
-          style={{ textAlign: "right" }}
+          css={STYLES_DISMISS_BOX}
           onMouseUp={this.props.onClose}
           onTouchEnd={this.props.onClose}
         >
-          <SVG.Dismiss height="20px" />
-        </span>
+          <SVG.Dismiss height="24px" />
+        </div>
       );
     }
 
@@ -117,31 +136,40 @@ export default class GlobalViewerCIDSidebar extends React.Component {
           loading={this.props.loading}
           onAddToSlate={this.props.onAddToSlate}
           onRemoveFromSlate={this.props.onRemoveFromSlate}
+          onDownload={this._handleDownload}
+          onDataDelete={this.props.onDataDelete}
+          onClose={this.props.onClose}
+          onRehydrate={this.props.onRehydrate}
+          onAction={this.props.onAction}
         />
       );
     }
 
-    if (this.props.onDataDelete) {
-      elements.push(
-        <span
-          key="s-4"
-          css={STYLES_BUTTON}
-          onMouseUp={this.props.onDataDelete}
-          onTouchEnd={this.props.onDataDelete}
-        >
-          {this.props.loading ? (
-            <LoaderSpinner style={{ height: 16, width: 16 }} />
-          ) : (
-            <span>Delete CID and from all slates &nbsp;&nbsp;⭢</span>
-          )}
-        </span>
-      );
-    }
+    // if (this.props.onDataDelete) {
+    //   elements.push(
+    //     <span
+    //       key="s-4"
+    //       css={STYLES_BUTTON}
+    //       onMouseUp={this.props.onDataDelete}
+    //       onTouchEnd={this.props.onDataDelete}
+    //     >
+    //       {this.props.loading ? (
+    //         <LoaderSpinner style={{ height: 16, width: 16 }} />
+    //       ) : (
+    //         <span>Delete CID and from all slates &nbsp;&nbsp;⭢</span>
+    //       )}
+    //     </span>
+    //   );
+    // }
 
     if (!elements.length) {
       return null;
     }
 
-    return <div css={STYLES_SIDEBAR}>{elements}</div>;
+    return (
+      <div css={STYLES_SIDEBAR} style={{ display: this.props.display }}>
+        {elements}
+      </div>
+    );
   }
 }

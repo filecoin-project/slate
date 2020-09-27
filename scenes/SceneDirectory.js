@@ -111,7 +111,6 @@ function UserEntry({ user, button, onClick, message }) {
 const STYLES_COPY_INPUT = css`
   pointer-events: none;
   position: absolute;
-  tabindex: -1;
   opacity: 0;
 `;
 
@@ -517,6 +516,7 @@ export default class SceneDirectory extends React.Component {
             this._ref = c;
           }}
           value={this.state.copyValue}
+          tabIndex="-1"
           css={STYLES_COPY_INPUT}
         />
       </ScenePage>

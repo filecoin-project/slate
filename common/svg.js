@@ -654,6 +654,24 @@ export const Trash = (props) => (
   </svg>
 );
 
+export const Download = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height={props.height}
+    style={props.style}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" />
+    <path d="M8 12L12 16L16 12" />
+    <path d="M12 8V16" />
+  </svg>
+);
+
 export const Folder = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -957,6 +975,42 @@ export const InfoCircle = (props) => (
   </svg>
 );
 
+export const Minimize = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M4 14H10V20" />
+    <path d="M20 10H14V4" />
+    <path d="M14 10L21 3" />
+    <path d="M3 21L10 14" />
+  </svg>
+);
+
+export const Maximize = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M15 3H21V9" />
+    <path d="M9 21H3V15" />
+    <path d="M21 3L14 10" />
+    <path d="M3 21L10 14" />
+  </svg>
+);
+
 export const Plus = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -1062,6 +1116,7 @@ export const CopyAndPaste = (props) => {
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
+      strokeWidth="2"
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"

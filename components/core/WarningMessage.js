@@ -14,7 +14,7 @@ const STYLES_BOX = css`
 
 const STYLES_MESSAGE = css`
   line-height: 1.5;
-  color: #666666;
+  color: ${Constants.system.grayBlack};
 `;
 
 export class WarningMessage extends React.Component {

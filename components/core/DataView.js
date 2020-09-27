@@ -584,7 +584,7 @@ export default class DataView extends React.Component {
   };
 
   render() {
-    let numChecked = Object.keys(this.state.checked).length;
+    let numChecked = Object.keys(this.state.checked).length || 0;
     const header = (
       <div css={STYLES_HEADER_LINE}>
         <TabGroup disabled tabs={["Uploads"]} style={{ margin: 0 }} />
@@ -901,7 +901,7 @@ export default class DataView extends React.Component {
           name: (
             <div
               css={STYLES_CONTAINER_HOVER}
-              onClick={() => this._handleSelect(index)}
+              onClick={() => this._handleSelect(this.state.startIndex + index)}
             >
               <div
                 css={STYLES_ICON_BOX_HOVER}

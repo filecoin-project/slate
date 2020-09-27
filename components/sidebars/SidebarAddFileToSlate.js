@@ -12,6 +12,7 @@ import {
   ButtonPrimary,
   ButtonDisabled,
 } from "~/components/system/components/Buttons";
+import { SlatePicker } from "~/components/core/SlatePicker";
 
 const STYLES_SLATE_NAME = css`
   overflow: hidden;
@@ -150,59 +151,14 @@ export default class SidebarAddFileToSlate extends React.Component {
         </System.P>
 
         <System.P css={STYLES_HEADER}>Slates</System.P>
-        <div
-          css={STYLES_SLATE_LINE}
-          style={{ marginBottom: 32 }}
-          onClick={this._handleCreateSlate}
-        >
-          <SVG.Plus
-            height="24px"
-            style={{
-              color: Constants.system.brand,
-              marginRight: 8,
-              pointerEvents: "none",
-            }}
-          />
-          <div
-            css={STYLES_SLATE_NAME}
-            style={{ color: Constants.system.brand }}
-          >
-            Create new slate
-          </div>
-        </div>
-        <div css={STYLES_SLATE_LIST}>
-          {this.props.viewer.slates.map((slate) => (
-            <div css={STYLES_SLATE_LINE} onClick={() => this._handleAdd(slate)}>
-              <div css={STYLES_ICON_BOX}>
-                {this.state.selected[slate.id] ? (
-                  <SVG.Slate
-                    height="24px"
-                    style={{ marginRight: 8, pointerEvents: "none" }}
-                  />
-                ) : (
-                  <SVG.PlusCircle
-                    height="24px"
-                    style={{
-                      color: Constants.system.darkGray,
-                      marginRight: 8,
-                      pointerEvents: "none",
-                    }}
-                  />
-                )}
-              </div>
-              <div
-                css={STYLES_SLATE_NAME}
-                style={
-                  this.state.selected[slate.id]
-                    ? null
-                    : { color: Constants.system.darkGray }
-                }
-              >
-                {slate.data.name || slate.slatename}
-              </div>
-            </div>
-          ))}
-        </div>
+
+        <SlatePicker
+          slates={this.props.viewer.slates}
+          selected={this.state.selected}
+          onAdd={this._handleAdd}
+          onCreateSlate={this._handleCreateSlate}
+        />
+
         {Object.keys(this.state.selected).length ? (
           <ButtonPrimary
             full

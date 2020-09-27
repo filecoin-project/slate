@@ -21,6 +21,14 @@ const STYLES_ROOT = css`
   align-items: center;
   justify-content: space-between;
 
+  @supports (
+    (-webkit-backdrop-filter: blur(15px)) or (backdrop-filter: blur(15px))
+  ) {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
   @keyframes global-data-fade-in {
     from {
       transform: translateX(8px);
@@ -66,6 +74,19 @@ const STYLES_ROOT_CONTENT = css`
   justify-content: center;
 `;
 
+const STYLES_EXPANDER = css`
+  color: ${Constants.system.darkGray};
+  position: absolute;
+  padding: 4px;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.black};
+  }
+`;
+
 export class GlobalViewerCID extends React.Component {
   state = {
     index: 0,
@@ -73,6 +94,7 @@ export class GlobalViewerCID extends React.Component {
     visible: false,
     loading: false,
     saving: false,
+    showSidebar: true,
   };
 
   componentDidMount = () => {
@@ -195,12 +217,27 @@ export class GlobalViewerCID extends React.Component {
             <SVG.ChevronRight height="20px" />
           </span>
           {current.component}
+          <div
+            css={STYLES_EXPANDER}
+            onClick={() =>
+              this.setState({ showSidebar: !this.state.showSidebar })
+            }
+          >
+            {this.state.showSidebar ? (
+              <SVG.Maximize height="24px" />
+            ) : (
+              <SVG.Minimize height="24px" />
+            )}
+          </div>
         </div>
         <GlobalViewerCIDSidebar
+          display={this.state.showSidebar ? "block" : "none"}
           onClose={this._handleClose}
           key={current.id}
           saving={this.state.saving}
           loading={this.state.loading}
+          onRehydrate={this.props.onRehydrate}
+          onAction={this.props.onAction}
           {...current}
         />
       </div>

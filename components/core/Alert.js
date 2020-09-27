@@ -59,7 +59,7 @@ const STYLES_INFO = css`
 const STYLES_MESSAGE = css`
   ${STYLES_ALERT}
   background-color: ${Constants.system.foreground};
-  color: #666666;
+  color: ${Constants.system.grayBlack};
 
   @supports (
     (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
@@ -67,7 +67,7 @@ const STYLES_MESSAGE = css`
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
     background-color: rgba(244, 244, 244, 0.75);
-    color: #666666;
+    color: ${Constants.system.grayBlack};
   }
 `;
 

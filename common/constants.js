@@ -19,6 +19,7 @@ export const system = {
   lightBorder: "#ececec",
   border: "#d8d8d8",
   darkGray: "#b2b2b2",
+  grayBlack: "#666666",
   black: "#1b1f23",
   pitchBlack: "#0c0c0c",
   brand: "#0666bb",

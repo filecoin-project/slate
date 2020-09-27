@@ -797,7 +797,10 @@ export default class ApplicationPage extends React.Component {
           >
             {scene}
           </ApplicationLayout>
-          <GlobalViewerCID />
+          <GlobalViewerCID
+            onRehydrate={this.rehydrate}
+            onAction={this._handleAction}
+          />
           <System.GlobalCarousel />
           <System.GlobalModal />
         </WebsitePrototypeWrapper>

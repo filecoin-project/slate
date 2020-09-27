@@ -69,7 +69,7 @@ export default async (req, res) => {
     username: newUsername,
     data: {
       photo:
-        "https://slate.textile.io/ipfs/bafybeigikguhsveutglope36u6nyenmzcw4p2fpb4w577zrtwnjsyukux4",
+        "https://slate.textile.io/ipfs/bafkreiexygfz4e5resu66xfviokddariztq4onuai5wii5mdd7syshftca",
       body: "A user of Slate.",
       settings_deals_auto_approve: false,
       tokens: { api },

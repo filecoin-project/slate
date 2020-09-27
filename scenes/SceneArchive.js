@@ -119,8 +119,8 @@ export default class SceneArchive extends React.Component {
 
             <System.DescriptionGroup
               style={{ marginTop: 64 }}
-              label="Encryption settings"
-              description="You may not want others to be able to read your data on the network."
+              label="Archive automation settings"
+              description="Configure the automation settings for your archive storage deals."
             />
 
             <System.CheckBox

@@ -51,8 +51,8 @@ export default class SceneMiners extends React.Component {
       <ScenePage>
         <ScenePageHeader title="Trusted miners">
           Whenever you make a deal against the Filecoin Network, Slate works
-          with Textile's infrastructure to find the best possible miner to store
-          your data.
+          with Textile's infrastructure to find the best possible miner to make
+          a storage deal with.
         </ScenePageHeader>
 
         <Section title="Miners" style={{ maxWidth: 688, minWidth: "auto" }}>

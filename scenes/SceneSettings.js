@@ -136,10 +136,9 @@ export default class SceneSettings extends React.Component {
   render() {
     return (
       <ScenePage>
-        <ScenePageHeader title="Filecoin settings (read-only)">
-          You can use this page to configure the default deal settings.
-          Currently all settings are read-only while we test the Filecoin
-          network.
+        <ScenePageHeader title="Deal settings (read-only)">
+          We do not allow changes to your deal settings at the moment. This is
+          to ensure that your storage deals have the maximum chance of success.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (

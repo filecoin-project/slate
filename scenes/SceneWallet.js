@@ -162,9 +162,9 @@ export default class SceneWallet extends React.Component {
 
     return (
       <ScenePage>
-        <ScenePageHeader title="Filecoin wallet">
-          This is your wallet address. It is prefilled by Textile to help test
-          the Filecoin Testnet.
+        <ScenePageHeader title="Wallet">
+          This is your receive only wallet address. You can deposit Filecoin to
+          your address here.
         </ScenePageHeader>
 
         {networkViewer ? (

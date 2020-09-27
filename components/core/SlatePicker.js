@@ -92,7 +92,7 @@ export class SlatePicker extends React.Component {
                 style={{
                   color: this.props.selected[slate.id]
                     ? Constants.system.black
-                    : "auto",
+                    : Constants.system.darkGray,
                 }}
               >
                 {slate.data.name || slate.slatename}

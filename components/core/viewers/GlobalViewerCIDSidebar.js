@@ -145,23 +145,6 @@ export default class GlobalViewerCIDSidebar extends React.Component {
       );
     }
 
-    // if (this.props.onDataDelete) {
-    //   elements.push(
-    //     <span
-    //       key="s-4"
-    //       css={STYLES_BUTTON}
-    //       onMouseUp={this.props.onDataDelete}
-    //       onTouchEnd={this.props.onDataDelete}
-    //     >
-    //       {this.props.loading ? (
-    //         <LoaderSpinner style={{ height: 16, width: 16 }} />
-    //       ) : (
-    //         <span>Delete CID and from all slates &nbsp;&nbsp;⭢</span>
-    //       )}
-    //     </span>
-    //   );
-    // }
-
     if (!elements.length) {
       return null;
     }

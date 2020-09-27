@@ -172,7 +172,6 @@ export default class SceneSlate extends React.Component {
       let response = await Actions.createSubscription({
         slateId: this.props.current.id,
       });
-      console.log(response);
       await this.props.onRehydrate();
       this.setState({ followLoading: false });
     });
@@ -454,6 +453,7 @@ export default class SceneSlate extends React.Component {
     const { user, data, slatename } = this.props.current;
     const { body = "A slate." } = data;
     const { objects, layouts } = this.state;
+    const isPublic = data.public;
 
     let following = !!this.props.viewer.subscriptions.filter((subscription) => {
       return subscription.target_slate_id === this.props.current.id;
@@ -498,13 +498,15 @@ export default class SceneSlate extends React.Component {
                 >
                   <SVG.Plus height="16px" />
                 </CircleButtonGray>
-                <CircleButtonGray
-                  onMouseUp={() => this._handleSlateLink(slatename)}
-                  onTouchEnd={() => this._handleSlateLink(slatename)}
-                  style={{ marginRight: 16 }}
-                >
-                  <SVG.DeepLink height="16px" />
-                </CircleButtonGray>
+                {isPublic ? (
+                  <CircleButtonGray
+                    onMouseUp={() => this._handleSlateLink(slatename)}
+                    onTouchEnd={() => this._handleSlateLink(slatename)}
+                    style={{ marginRight: 16 }}
+                  >
+                    <SVG.DeepLink height="16px" />
+                  </CircleButtonGray>
+                ) : null}
                 <CircleButtonGray
                   onMouseUp={this._handleShowSettings}
                   onTouchEnd={this._handleShowSettings}

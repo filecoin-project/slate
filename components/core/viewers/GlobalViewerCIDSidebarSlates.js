@@ -198,28 +198,6 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
 
   render() {
     const { cid, file, type, size, url } = this.props.data;
-    console.log(this.props.data);
-
-    // const slateElements = this.props.slates.map((s) => {
-    //   const hasElement = s.data.objects.some((o) => o.id === id);
-    //   const loading =
-    //     this.props.loading &&
-    //     this.props.loading.id &&
-    //     this.props.loading.id === s.id;
-
-    //   return (
-    //     <SlateItem
-    //       key={s.id}
-    //       id={id}
-    //       data={this.props.data}
-    //       slate={s}
-    //       member={hasElement}
-    //       loading={loading}
-    //       onAddToSlate={loading ? () => {} : this.props.onAddToSlate}
-    //       onRemoveFromSlate={loading ? () => {} : this.props.onRemoveFromSlate}
-    //     />
-    //   );
-    // });
 
     return (
       <div css={STYLES_CONTAINER}>
@@ -263,6 +241,14 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
           loading={this.props.loading}
           style={{ maxHeight: "300px" }}
         />
+        <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+          Privacy
+        </div>
+        <div style={{ color: Constants.system.grayBlack, lineHeight: "1.5" }}>
+          {this.state.isPublic
+            ? "Public. This file is currently visible to others and searchable within Slate through public slates."
+            : "Private. This file is currently not visible to others unless they have the link."}
+        </div>
         <input
           css={STYLES_HIDDEN}
           ref={(c) => {

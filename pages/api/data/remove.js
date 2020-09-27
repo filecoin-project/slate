@@ -34,7 +34,6 @@ export default async (req, res) => {
       .status(500)
       .send({ decorator: "SERVER_REMOVE_DATA_NO_CID", error: true });
   }
-  console.log(req.body.data.cid);
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
@@ -47,13 +46,9 @@ export default async (req, res) => {
     id,
   });
 
-  console.log("got here 1");
-
   const { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken({
     user,
   });
-
-  console.log("got here 2");
 
   if (!buckets) {
     return res.status(500).send({
@@ -81,8 +76,6 @@ export default async (req, res) => {
       .status(500)
       .send({ decorator: "SERVER_REMOVE_DATA_NO_TEXTILE", error: true });
   }
-
-  console.log("got here 3");
 
   // TODO(jim): Put this call into a file for all Textile related calls.
   let items = null;
@@ -112,8 +105,6 @@ export default async (req, res) => {
     }
   }
 
-  console.log("got here 4");
-
   if (!entity) {
     return res
       .status(500)
@@ -136,8 +127,6 @@ export default async (req, res) => {
       .status(500)
       .send({ decorator: "SERVER_REMOVE_DATA_NO_LINK", error: true });
   }
-
-  console.log("got here 5");
 
   // NOTE(jim):
   // Goes through all of your slates and removes all data references.
@@ -167,8 +156,6 @@ export default async (req, res) => {
       });
     }
   }
-
-  console.log("got here 6");
 
   // NOTE(jim):
   // Removes the file reference from your library

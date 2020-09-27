@@ -10,6 +10,8 @@ const STYLES_P = css`
   color: ${Constants.system.gray};
 `;
 const STYLES_CONTAINER = css`
+  max-width: 1440px;
+  margin: 0 auto;
   width: 100%;
   display: flex;
   background-color: ${Constants.system.pitchBlack};

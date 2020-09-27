@@ -125,7 +125,7 @@ export default class SidebarAddFileToBucket extends React.Component {
               {" "}
               to{" "}
               <strong>
-                {this.props.current.data.name || this.props.current.slatename}
+                {Strings.getPresentationSlateName(this.props.current)}
               </strong>
             </span>
           ) : (

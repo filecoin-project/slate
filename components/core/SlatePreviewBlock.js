@@ -49,7 +49,7 @@ const STYLES_ITEM_BOX = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
+  box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset;
   cursor: pointer;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -87,7 +87,7 @@ const STYLES_ITEM_BOX_SMALL = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
+  box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset;
 `;
 
 const STYLES_EMPTY_BOX_SMALL = css`
@@ -159,7 +159,7 @@ const STYLES_BLOCK = css`
   font-size: 12px;
   text-align: left;
   margin: 24px auto 48px auto;
-  max-width: 1024px;
+  max-width: ${Constants.sizes.desktop}px;
   cursor: pointer;
 `;
 
@@ -346,8 +346,8 @@ export default class SlatePreviewBlock extends React.Component {
               <div
                 css={STYLES_TAG}
                 style={{
-                  color: "rgba(0,0,0,0.25)",
-                  borderColor: "rgba(0,0,0,0.25)",
+                  color: Constants.system.darkGray,
+                  borderColor: Constants.system.darkGray,
                 }}
               >
                 Private

@@ -17,7 +17,7 @@ const STYLES_IMAGE = css`
 const STYLES_ENTITY = css`
   height: 100%;
   width: 100%;
-  border: 1px solid ${Constants.system.border};
+  border: 1px solid ${Constants.system.lightBorder};
   font-size: 24px;
   display: flex;
   flex-direction: column;

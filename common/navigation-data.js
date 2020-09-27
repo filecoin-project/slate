@@ -50,7 +50,7 @@ const constructSlatesTreeForNavigation = (slates) => {
     return {
       ...s,
       slateId: s.id,
-      name: s.data.name || s.slatename,
+      name: Strings.getPresentationSlateName(s),
       pageTitle: `Viewing ${s.slatename}`,
       decorator: "SLATE",
       ignore: true,

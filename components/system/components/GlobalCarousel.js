@@ -172,6 +172,7 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handleNext = () => {
+    if (!this.state.slides) return;
     const index = (this.state.index + 1) % this.state.slides.length;
     this.setState({ index, loading: false, saving: false });
 
@@ -186,6 +187,7 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handlePrevious = () => {
+    if (!this.state.slides) return;
     const index =
       (this.state.index + this.state.slides.length - 1) %
       this.state.slides.length;

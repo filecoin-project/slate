@@ -61,7 +61,7 @@ const STYLES_BOX = css`
   padding: 0;
 
   :hover {
-    background-color: ${Constants.system.black};
+    background-color: ${Constants.system.gray};
   }
 `;
 

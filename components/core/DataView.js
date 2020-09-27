@@ -116,10 +116,19 @@ const STYLES_ACTION_BAR = css`
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 0 0 1px ${Constants.system.lightBorder} inset,
-    0 0 40px 0 ${Constants.system.shadow};
+    0 0 4px 2px ${Constants.system.shadow};
   border-radius: 4px;
   padding: 12px 32px;
-  background-color: rgba(248, 248, 248, 0.75);
+  box-sizing: border-box;
+  background-color: ${Constants.system.foreground};
+  position: fixed;
+  bottom: 12px;
+  width: calc(100vw - ${Constants.sizes.sidebar}px + 32px);
+  max-width: ${Constants.sizes.desktop}px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: calc(100vw - ${Constants.sizes.mobileSidebar}px - 64px);
+  }
 `;
 
 const STYLES_RIGHT = css`
@@ -137,6 +146,10 @@ const STYLES_LEFT = css`
 
 const STYLES_FILES_SELECTED = css`
   font-family: ${Constants.font.semiBold};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
 `;
 
 const STYLES_ICON_ELEMENT = css`
@@ -883,20 +896,19 @@ export default class DataView extends React.Component {
         return {
           ...each,
           checkbox: (
-            <div
+            <CheckBox
+              name={this.state.startIndex + index}
+              value={!!this.state.checked[this.state.startIndex + index]}
+              onChange={this._handleCheckBox}
+              boxStyle={{ height: 16, width: 16 }}
               style={{
+                position: "relative",
+                right: 3,
                 margin: "12px 0",
-                opacity: numChecked > 0 || this.state.hover === index ? 1 : 0,
+                opacity:
+                  numChecked > 0 || this.state.hover === index ? "100%" : "0%",
               }}
-            >
-              <CheckBox
-                name={this.state.startIndex + index}
-                value={!!this.state.checked[this.state.startIndex + index]}
-                onChange={this._handleCheckBox}
-                boxStyle={{ height: 16, width: 16 }}
-                style={{ position: "relative", right: 3 }}
-              />
-            </div>
+            />
           ),
           name: (
             <div

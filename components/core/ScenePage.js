@@ -15,7 +15,7 @@ const STYLES_SCENE = css`
 `;
 
 const STYLES_CONTENT = css`
-  max-width: 1024px;
+  max-width: ${Constants.sizes.desktop}px;
   margin: 0 auto;
 `;
 

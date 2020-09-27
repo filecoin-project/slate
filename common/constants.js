@@ -7,9 +7,10 @@ export const sizes = {
   mobile: 768,
   navigation: 288,
   sidebar: 416,
+  mobileSidebar: 60,
   header: 72,
   tablet: 960,
-  desktop: 1440,
+  desktop: 1024,
 };
 
 export const system = {

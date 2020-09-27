@@ -5,7 +5,10 @@ import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/react";
-import { LoaderSpinner } from "~/components/system/components/Loaders";
+import {
+  LoaderSpinner,
+  LoaderCircles,
+} from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
@@ -58,7 +61,7 @@ const STYLES_META_DETAILS = css`
 `;
 
 const STYLES_ACTIONS = css`
-  color: ${Constants.system.darkGray};
+  color: ${Constants.system.grayBlack};
   border: 1px solid ${Constants.system.gray};
   border-radius: 4px;
   background-color: ${Constants.system.white};
@@ -148,24 +151,28 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
     }
   };
 
-  _handleCopy = (copyValue) => {
-    this.setState({ copyValue }, () => {
+  _handleCopy = (copyValue, loading) => {
+    this.setState({ copyValue, loading }, () => {
       this._ref.select();
       document.execCommand("copy");
     });
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 10000);
   };
 
   _handleDelete = async (cid) => {
+    this.setState({ loading: "deleting" });
     if (
       !window.confirm(
         "Are you sure you want to delete this? It will be removed from your Slates too."
       )
     ) {
+      this.setState({ loading: false });
       return;
     }
 
     const response = await Actions.deleteBucketItem({ cid });
-    console.log(response);
     if (!response) {
       dispatchCustomEvent({
         name: "create-alert",
@@ -176,6 +183,7 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
           },
         },
       });
+      this.setState({ loading: false });
       return;
     }
     if (response.error) {
@@ -183,13 +191,11 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
         name: "create-alert",
         detail: { alert: { decorator: response.decorator } },
       });
+      this.setState({ loading: false });
       return;
     }
-
-    this.props.onClose();
-
     await this.props.onRehydrate();
-
+    this.setState({ loading: false });
     dispatchCustomEvent({
       name: "remote-update-carousel",
       detail: {},
@@ -215,13 +221,25 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
           </div>
         </div>
         <div css={STYLES_ACTIONS}>
-          <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid)}>
+          <div
+            css={STYLES_ACTION}
+            onClick={() => this._handleCopy(cid, "cidCopying")}
+          >
             <SVG.CopyAndPaste height="24px" />
-            <span style={{ marginLeft: 16 }}>Copy file CID</span>
+            <span style={{ marginLeft: 16 }}>
+              {this.state.loading === "cidCopying"
+                ? "Copied!"
+                : "Copy file CID"}
+            </span>
           </div>
-          <div css={STYLES_ACTION} onClick={() => this._handleCopy(url)}>
+          <div
+            css={STYLES_ACTION}
+            onClick={() => this._handleCopy(url, "urlCopying")}
+          >
             <SVG.DeepLink height="24px" />
-            <span style={{ marginLeft: 16 }}>Copy link</span>
+            <span style={{ marginLeft: 16 }}>
+              {this.state.loading === "urlCopying" ? "Copied!" : "Copy link"}
+            </span>
           </div>
           {/* <div css={STYLES_ACTION} onClick={this.props.onDownload}>
             <SVG.Download height="24px" />
@@ -229,7 +247,13 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
           </div> */}
           <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
             <SVG.Trash height="24px" />
-            <span style={{ marginLeft: 16 }}>Delete</span>
+            {this.state.loading === "deleting" ? (
+              <LoaderSpinner
+                style={{ height: 20, width: 20, marginLeft: 16 }}
+              />
+            ) : (
+              <span style={{ marginLeft: 16 }}>Delete</span>
+            )}
           </div>
         </div>
         <div css={STYLES_SECTION_HEADER}>Connected Slates</div>

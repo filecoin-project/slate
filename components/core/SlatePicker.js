@@ -28,7 +28,7 @@ const STYLES_SLATE_LINE = css`
   color: ${Constants.system.darkGray};
 
   :hover {
-    color: ${Constants.system.black} !important;
+    color: ${Constants.system.grayBlack};
   }
 `;
 
@@ -58,6 +58,7 @@ export class SlatePicker extends React.Component {
         <div css={STYLES_SLATE_LIST} style={this.props.style}>
           {this.props.slates.map((slate) => (
             <div
+              key={slate.id}
               css={STYLES_SLATE_LINE}
               onClick={() => this.props.onAdd(slate)}
             >
@@ -95,7 +96,7 @@ export class SlatePicker extends React.Component {
                     : "inherit",
                 }}
               >
-                {slate.data.name || slate.slatename}
+                {Strings.getPresentationSlateName(slate)}
               </div>
             </div>
           ))}

@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
@@ -58,7 +59,7 @@ export default class Profile extends React.Component {
           style={{ backgroundImage: `url('${data.data.photo}')` }}
         />
         <br />
-        <div css={STYLES_NAME}>{data.data.name || data.username}</div>
+        <div css={STYLES_NAME}>{Strings.getPresentationName(data)}</div>
         <br />
         {data.data.body ? (
           <React.Fragment>

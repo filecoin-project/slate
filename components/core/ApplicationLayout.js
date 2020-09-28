@@ -63,8 +63,7 @@ const STYLES_CONTENT = css`
   min-height: 100vh;
   position: relative;
   padding-left: ${Constants.sizes.navigation}px;
-  margin-top: 16px; /* TODO(martina): remove this once the alert banner is gone */
-
+  margin-top: ${Constants.sizes.topOffset}px;
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding-left: 76px;
   }
@@ -100,7 +99,7 @@ const STYLES_NAVIGATION = css`
   z-index: ${Constants.zindex.navigation};
   width: ${Constants.sizes.navigation}px;
   background-color: ${Constants.system.foreground};
-  ${STYLES_NO_VISIBLE_SCROLL}
+  ${"" /* ${STYLES_NO_VISIBLE_SCROLL} NOTE(martina): removed for now b/c unnecessary (now that there's no slates dropdown) and b/c caused user menu to be cut off on mobile*/}
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: auto;
   }
@@ -138,7 +137,8 @@ const STYLES_SIDEBAR_HEADER = css`
 `;
 
 const STYLES_SIDEBAR_CONTENT = css`
-  padding: 72px 24px 24px 24px;
+  padding: 56px 24px 24px 24px;
+  padding-top: calc(56px + ${Constants.sizes.topOffset}px);
 `;
 
 const STYLES_BLOCK = css`

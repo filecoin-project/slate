@@ -19,6 +19,8 @@ import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import TestnetBanner from "~/components/core/TestnetBanner";
 
+const STAGING_DEAL_BUCKET = "stage-deal";
+
 const STYLES_FILE_HIDDEN = css`
   height: 1px;
   width: 1px;
@@ -61,7 +63,7 @@ const DEFAULT_ERROR_MESSAGE =
 let mounted = false;
 
 export default class SceneMakeFilecoinDeal extends React.Component {
-  state = {};
+  state = { encryption: false };
 
   async componentDidMount() {
     if (mounted) {
@@ -80,6 +82,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
       networkViewer,
       ...createState(networkViewer.powerInfo.defaultStorageConfig),
       settings_cold_default_max_price: 1000000000000000,
+      encryption: false,
     });
   }
 
@@ -100,7 +103,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
       const file = e.target.files[i];
 
       const response = await FileUtilities.upload({
-        bucketName: "encrypted-deal",
+        bucketName: STAGING_DEAL_BUCKET,
         file,
       });
     }
@@ -120,7 +123,10 @@ export default class SceneMakeFilecoinDeal extends React.Component {
 
   _handleArchive = async (e) => {
     this.setState({ archiving: true });
-    const response = await Actions.archive({ bucketName: "encrypted-deal" });
+    const response = await Actions.archive({
+      bucketName: STAGING_DEAL_BUCKET,
+      forceEncryption: this.state.encryption,
+    });
 
     if (!response) {
       this.setState({ archiving: false });
@@ -169,7 +175,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
   _handleRemove = async (cid) => {
     this.setState({ loading: true });
 
-    await Actions.removeFromBucket({ bucketName: "encrypted-deal", cid });
+    await Actions.removeFromBucket({ bucketName: STAGING_DEAL_BUCKET, cid });
 
     let networkViewer;
     try {
@@ -300,8 +306,18 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               )}
             </Section>
 
+            <System.CheckBox
+              style={{ marginTop: 48 }}
+              name="encryption"
+              value={this.state.encryption}
+              onChange={this._handleChange}
+            >
+              Encrypt this storage deal, only your libp2p token can decrypt the
+              contents of this deal.
+            </System.CheckBox>
+
             <System.Input
-              containerStyle={{ marginTop: 48, maxWidth: 688 }}
+              containerStyle={{ marginTop: 24, maxWidth: 688 }}
               descriptionStyle={{ maxWidth: 688 }}
               readOnly
               label="Filecoin address (read only)"

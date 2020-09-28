@@ -10,6 +10,8 @@ import * as Constants from "~/node_common/constants";
 import * as Serializers from "~/node_common/serializers";
 import * as Social from "~/node_common/social";
 
+const STAGING_DEAL_BUCKET = "stage-deal";
+
 // TODO(jim): Work on better serialization when adoption starts occuring.
 export const getById = async ({ id }) => {
   const user = await Data.getUserById({
@@ -156,10 +158,11 @@ export const getTextileById = async ({ id }) => {
     errors.push({ decorator: "JOB", message: e.message, code: e.code });
   }
 
+  // NOTE(jim): This bucket is purely for staging data for other deals.
   const stagingData = await Utilities.getBucketAPIFromUserToken({
     user,
-    bucketName: "encrypted-deal",
-    encrypted: true,
+    bucketName: STAGING_DEAL_BUCKET,
+    encrypted: false,
   });
 
   try {
@@ -197,26 +200,8 @@ export const getTextileById = async ({ id }) => {
   }
 
   let items = null;
-  // TODO(jim): There is no indicator on dealBucket that it is encrypted?
-  const dealBucket = r.find((bucket) => bucket.name === "encrypted-deal");
-
-  /*
-    TODO(sander): Would be nice if this existed in the response.
-    {
-      key: ...
-      name: ...,
-      path: ...,
-      createdAt: ...,
-      updatedAt: ...,
-      thread: ...,
-      encrypted: true/false
-    }
-  */
-
+  const dealBucket = r.find((bucket) => bucket.name === STAGING_DEAL_BUCKET);
   try {
-    // NOTE(jim): Doesn't get it for encrypted buckets.
-    // items = await stagingData.buckets.listIpfsPath(dealBucket.path);
-
     const path = await stagingData.buckets.listPath(dealBucket.key, "/");
     items = path.item.items;
   } catch (e) {

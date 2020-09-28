@@ -72,6 +72,8 @@ export default async (req, res) => {
         "https://slate.textile.io/ipfs/bafkreiexygfz4e5resu66xfviokddariztq4onuai5wii5mdd7syshftca",
       body: "A user of Slate.",
       settings_deals_auto_approve: false,
+      allow_automatic_data_storage: true,
+      allow_encrypted_data_storage: true,
       tokens: { api },
       library: LibraryManager.init({ bucketName, readableName: "Data" }),
     },

@@ -4,6 +4,8 @@ import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
 
 // NOTE(jim): To support multipart request.
+const STAGING_DEAL_BUCKET = "stage-deal";
+
 export const config = {
   api: {
     bodyParser: false,
@@ -25,7 +27,7 @@ export default async (req, res) => {
 
   const response = await Upload.formMultipart(req, res, {
     user,
-    bucketName: "encrypted-deal",
+    bucketName: STAGING_DEAL_BUCKET,
   });
 
   if (!response) {

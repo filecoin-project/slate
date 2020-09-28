@@ -19,7 +19,7 @@ export default class SidebarFilecoinArchive extends React.Component {
   async componentDidMount() {}
 
   _handleMakeDeal = async () => {
-    return await Actions.archive();
+    return await Actions.archive({});
   };
 
   _handleSubmit = async (e) => {

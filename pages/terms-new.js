@@ -104,31 +104,7 @@ const STYLES_LINK = css`
   }
 `;
 
-const STYLES_COPY_EMAIL = css`
-  display: inline;
-`;
-
-export const getServerSideProps = async (context) => {
-  return {
-    props: { ...context.query },
-  };
-};
-export function CopyEmail() {
-  const [copySuccess, setCopySuccess] = useState("");
-
-  function copyToClipboard() {
-    navigator.clipboard.writeText("abuse@filecoin.io");
-    setCopySuccess("Copied!");
-  }
-  return (
-    <div css={STYLES_COPY_EMAIL}>
-      <a onClick={copyToClipboard}>abuse@filecoin.io</a>
-      {copySuccess}
-    </div>
-  );
-}
-
-export default class GuidelinesPage extends React.Component {
+export default class TermsPage extends React.Component {
   render() {
     const title = `Slate: Terms of Service`;
     const description = "You must agree to our terms of service to use Slate.";

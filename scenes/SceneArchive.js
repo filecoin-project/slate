@@ -23,6 +23,8 @@ let mounted = false;
 export default class SceneArchive extends React.Component {
   state = {
     networkViewer: null,
+    allow_filecoin_directory_listing: this.props.viewer
+      .allow_filecoin_directory_listing,
     allow_automatic_data_storage: this.props.viewer
       .allow_automatic_data_storage,
     allow_encrypted_data_storage: this.props.viewer
@@ -56,6 +58,8 @@ export default class SceneArchive extends React.Component {
 
     await Actions.updateViewer({
       data: {
+        allow_filecoin_directory_listing: this.state
+          .allow_filecoin_directory_listing,
         allow_automatic_data_storage: this.state.allow_automatic_data_storage,
         allow_encrypted_data_storage: this.state.allow_encrypted_data_storage,
       },
@@ -122,6 +126,16 @@ export default class SceneArchive extends React.Component {
               label="Archive automation settings"
               description="Configure the automation settings for your archive storage deals."
             />
+
+            <System.CheckBox
+              style={{ marginTop: 24 }}
+              name="allow_filecoin_directory_listing"
+              value={this.state.allow_filecoin_directory_listing}
+              onChange={this._handleCheckboxChange}
+            >
+              Show your successful deals on a directory page where others can
+              retrieve them.
+            </System.CheckBox>
 
             <System.CheckBox
               style={{ marginTop: 24 }}

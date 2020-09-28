@@ -85,6 +85,9 @@ export const getById = async ({ id }) => {
     library: user.data.library,
 
     // TODO(jim): Move this elsewhere.
+    allow_filecoin_directory_listing: user.data.allow_filecoin_directory_listing
+      ? user.data.allow_filecoin_directory_listing
+      : null,
     allow_automatic_data_storage: user.data.allow_automatic_data_storage
       ? user.data.allow_automatic_data_storage
       : null,

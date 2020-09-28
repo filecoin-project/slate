@@ -5,6 +5,8 @@ import { css } from "@emotion/react";
 import { Logo } from "~/common/logo.js";
 
 const STYLES_CONTAINER = css`
+  max-width: 1440px;
+  margin: 0 auto;
   font-family: ${Constants.font.text};
   font-size: 1rem;
   width: 100vw;

@@ -61,7 +61,7 @@ const STYLES_META_DETAILS = css`
 `;
 
 const STYLES_ACTIONS = css`
-  color: ${Constants.system.grayBlack};
+  color: ${Constants.system.black};
   border: 1px solid ${Constants.system.gray};
   border-radius: 4px;
   background-color: ${Constants.system.white};

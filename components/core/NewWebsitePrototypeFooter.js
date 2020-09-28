@@ -23,8 +23,6 @@ const STYLES_CONTAINER = css`
   z-index: ${Constants.zindex.navigation};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    position: absolute;
-    flex-shrink: 0;
     display: block;
     justify-content: left;
     padding: 64px 24px;
@@ -50,9 +48,7 @@ const STYLES_LINK = css`
 `;
 
 const STYLES_FLEX = css`
-  min-width: 10%;
   display: flex;
-  color: ${Constants.system.gray};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
@@ -62,10 +58,7 @@ const STYLES_FLEX = css`
 const STYLES_CONTENT_BLOCK = css`
   width: 16.67%;
 
-  @media {
-    max-width: ${Constants.sizes.tablet}px;
-  }
-   {
+  @media (max-width: ${Constants.sizes.tablet}px) {
     width: 50%;
   }
 `;

@@ -101,11 +101,11 @@ const STYLES_BUTTON_PRIMARY = css`
   user-select: none;
   background-color: ${Constants.system.newBlue};
   color: ${Constants.system.white};
+  text-decoration: none;
   font-family: ${Constants.font.semiBold};
   font-weight: 400;
   font-size: ${Constants.typescale.lvl1};
   letter-spacing: -0.011rem;
-
   transition: 200ms ease all;
   cursor: pointer;
 
@@ -127,11 +127,11 @@ const STYLES_BUTTON_SECONDARY = css`
   user-select: none;
   background-color: ${Constants.system.wallLight};
   color: ${Constants.system.newBlue};
+  text-decoration: none;
   font-family: ${Constants.font.semiBold};
   font-weight: 400;
   font-size: ${Constants.typescale.lvl1};
   letter-spacing: -0.011rem;
-
   transition: 200ms ease all;
   cursor: pointer;
 
@@ -176,12 +176,6 @@ const STYLES_VR = css`
   margin: 0 auto;
 `;
 
-export const getServerSideProps = async (context) => {
-  return {
-    props: { ...context.query },
-  };
-};
-
 export default class IndexPage extends React.Component {
   render() {
     const title = `Slate for Chrome`;
@@ -197,14 +191,13 @@ export default class IndexPage extends React.Component {
               <h1 css={STYLES_H1}>
                 <span css={STYLES_BLUE}>Upload images to Slate</span> from anywhere on the web
               </h1>
-              <button
+              <a
                 css={STYLES_BUTTON_PRIMARY}
-                onClick={() =>
-                  window.open("https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc")
-                }
+                href="https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc"
+                target="_blank"
               >
                 Add Slate to Chrome
-              </button>
+              </a>
               <div css={STYLES_VR} />
             </div>
             <img
@@ -219,22 +212,20 @@ export default class IndexPage extends React.Component {
                 We would love for you to join us. You're welcomed to file an issue or submit a pull request (PR) on
                 Github.
               </p>
-              <button
-                css={STYLES_BUTTON_PRIMARY}
-                onClick={() => window.open("https://github.com/jasonleyser/slate-for-chrome")}
-              >
+              <a css={STYLES_BUTTON_PRIMARY} href="https://github.com/jasonleyser/slate-for-chrome" target="_blank">
                 View Github
-              </button>
+              </a>
             </div>
             <div css={STYLES_HALFBLOCK}>
               <h2 css={STYLES_H2}>Release</h2>
               <p css={STYLES_P}>Slate is built in public and all past releases are always avaible for download.</p>
-              <button
+              <a
                 css={STYLES_BUTTON_SECONDARY}
-                onClick={() => window.open("https://github.com/jasonleyser/slate-for-chrome")}
+                href="/public/static/slate-for-chrome-V0.4.zip"
+                download="Slate Chrome extension V0.4"
               >
                 Download Slate for Chrome 0.4
-              </button>
+              </a>
             </div>
           </div>
         </div>

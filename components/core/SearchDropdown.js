@@ -98,6 +98,12 @@ export class SearchDropdown extends React.Component {
 
   componentDidMount = () => {
     window.addEventListener("keydown", this._handleDocumentKeydown);
+    this.debounceInstance = this.debounce(() => {
+      if (this.state.selectedIndex !== -1) {
+        this.setState({ selectedIndex: -1 });
+      }
+      this.props.onSearch();
+    }, 500);
   };
 
   componentWillUnmount = () => {
@@ -110,11 +116,18 @@ export class SearchDropdown extends React.Component {
     }
   };
 
+  debounce = (fn, time) => {
+    let timer;
+
+    return () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => fn(), time);
+    };
+  };
+
   _handleChange = (e) => {
-    if (this.state.selectedIndex !== -1) {
-      this.setState({ selectedIndex: -1 });
-    }
     this.props.onChange(e);
+    this.debounceInstance(e);
   };
 
   _handleSelect = (index) => {

@@ -204,53 +204,25 @@ export class SearchModal extends React.Component {
   };
 
   _handleChange = (e) => {
+    this.setState({ inputValue: e.target.value });
+  };
+
+  _handleSearch = () => {
     if (!this.state.loading) {
-      this.setState({ inputValue: e.target.value }, () => {
-        let searchResults = this.miniSearch.search(this.state.inputValue);
-        let ids = new Set();
-        for (let result of searchResults) {
+      let searchResults = this.miniSearch.search(this.state.inputValue);
+      let ids = new Set();
+      for (let result of searchResults) {
+        ids.add(result.id);
+      }
+      let autofill = this.miniSearch.autoSuggest(this.state.inputValue);
+      for (let i = 0; i < autofill.length; i++) {
+        let result = this.miniSearch.search(autofill[i].suggestion)[0];
+        if (!ids.has(result.id)) {
           ids.add(result.id);
+          searchResults.push(result);
         }
-        let autofill = this.miniSearch.autoSuggest(this.state.inputValue);
-        for (let i = 0; i < autofill.length; i++) {
-          // console.log(this.miniSearch.search(autofill[i].suggestion)[0]);
-          let result = this.miniSearch.search(autofill[i].suggestion)[0];
-          if (!ids.has(result.id)) {
-            ids.add(result.id);
-            searchResults.push(result);
-          }
-        }
-        this.setState({ results: searchResults });
-        // let results = [];
-        // for (let item of searchResults) {
-        //   if (item.type === "USER") {
-        //     results.push({
-        //       value: {
-        //         type: "USER",
-        //         data: item,
-        //       },
-        //       component: <UserEntry item={item} />,
-        //     });
-        //   } else if (item.type === "SLATE") {
-        //     results.push({
-        //       value: {
-        //         type: "SLATE",
-        //         data: item,
-        //       },
-        //       component: <SlateEntry item={item} />,
-        //     });
-        //   } else if (item.type === "FILE") {
-        //     results.push({
-        //       value: {
-        //         type: "FILE",
-        //         data: item,
-        //       },
-        //       component: <FileEntry item={item} />,
-        //     });
-        //   }
-        //   this.setState({ results });
-        // }
-      });
+      }
+      this.setState({ results: searchResults });
     }
   };
 
@@ -324,6 +296,7 @@ export class SearchModal extends React.Component {
             results={results}
             onSelect={this._handleSelect}
             onChange={this._handleChange}
+            onSearch={this._handleSearch}
             inputValue={this.state.inputValue}
             style={STYLES_SEARCH_DROPDOWN}
           />

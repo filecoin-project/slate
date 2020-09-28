@@ -222,9 +222,9 @@ export default class IndexPage extends React.Component {
               <a
                 css={STYLES_BUTTON_SECONDARY}
                 href="/public/static/slate-for-chrome-V0.4.zip"
-                download="Slate Chrome extension V0.4"
+                download="Slate Chrome extension.zip"
               >
-                Download Slate for Chrome 0.4
+                Download Slate for Chrome
               </a>
             </div>
           </div>

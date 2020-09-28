@@ -58,6 +58,7 @@ export default async (req, res) => {
 
   const existingSlate = await Data.getSlateByName({
     slatename: req.body.data.data.name,
+    ownerId: user.id,
   });
   if (existingSlate && existingSlate.id !== req.body.data.id) {
     return res.status(500).send({

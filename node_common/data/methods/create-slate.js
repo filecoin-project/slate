@@ -16,6 +16,7 @@ export default async ({ slatename, data = {} }) => {
       return index;
     },
     errorFn: async (e) => {
+      console.log(e);
       return {
         error: true,
         decorator: "CREATE_SLATE",

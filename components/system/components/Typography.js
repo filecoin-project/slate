@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
+import * as Strings from "~/common/strings";
 import * as StringReplace from "~/vendor/react-string-replace";
 
 import { css } from "@emotion/react";
@@ -34,48 +35,15 @@ const ANCHOR = `
 `;
 
 const onDeepLink = async (object) => {
-  const response = await Actions.getSlateBySlatename({
-    query: object.deeplink,
-    deeplink: true,
-  });
-
-  if (!response) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message:
-            "We're having trouble connecting right now. Please try again later",
-        },
-      },
-    });
-    return;
+  let slug = object.deeplink
+    .split("/")
+    .map((string) => Strings.createSlug(string, ""))
+    .join("/");
+  //TODO(martina): moved this cleanup here rather than when entering the info b/c it doesn't allow you to enter "-"'s if used during input. Switch to a dropdown / search later
+  if (!object.deeplink.startsWith("/")) {
+    slug = "/" + slug;
   }
-
-  if (response.error) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: { alert: { decorator: response.decorator } },
-    });
-    return;
-  }
-
-  if (!response.data || !response.data.slate) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message:
-            "We encountered issues while locating that deeplink. Please try again later",
-        },
-      },
-    });
-    return;
-  }
-
-  return window.open(
-    `/${response.data.slate.user.username}/${response.data.slate.slatename}`
-  );
+  return window.open(slug);
 };
 
 export const ProcessedText = ({ text }) => {
@@ -102,18 +70,22 @@ export const ProcessedText = ({ text }) => {
     )
   );
 
+  //NOTE(martina): previous regex: /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])\/(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
   replacedText = StringReplace(
     replacedText,
-    /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
-    (match, i) => (
-      <span
-        css={STYLES_LINK}
-        key={match + i}
-        onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}
-      >
-        #{match}
-      </span>
-    )
+    /#(\w*[0-9a-zA-Z-_]+\/\w*[0-9a-zA-Z-_]+)/g,
+    (match, i) => {
+      let displayString = match.split("/")[1];
+      return (
+        <span
+          css={STYLES_LINK}
+          key={match + i}
+          onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}
+        >
+          #{displayString}
+        </span>
+      );
+    }
   );
 
   return <React.Fragment>{replacedText}</React.Fragment>;

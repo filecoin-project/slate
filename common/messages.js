@@ -3,7 +3,7 @@ export const error = {
   SERVER_FIND_USER_CREATE_SLATE: "There seems to be an issue with your account",
   SERVER_FIND_USER_CREATE_SLATE_USER_NOT_FOUND: "Login to create a Slate!",
   SERVER_EXISTING_SLATE:
-    "A Slate with that name already exists. Please try another",
+    "You already have a slate with that name. Please choose another",
   SERVER_CREATE_SLATE: "There was an error when creating the Slate",
   FIND_USER_CREATE_SLATE: "There seems to be an issue with your account",
   FIND_USER_CREATE_SLATE_USER_NOT_FOUND: "Login to create a Slate!",
@@ -67,7 +67,7 @@ export const error = {
   SERVER_UPDATE_SLATE:
     "We're having trouble updating that slate right now. Please try again later",
   SERVER_UPDATE_SLATE_NAME_TAKEN:
-    "It looks like that slatename is taken. Please choose another",
+    "You already have a slate with that name. Please choose another",
   V1_SERVER_UPLOAD_SLATE_NOT_FOUND:
     "We're having trouble locating that slate right now. Please try again later",
   V1_SERVER_API_KEY_NOT_FOUND:
@@ -125,7 +125,8 @@ export const error = {
     "We ran into an issue fetching that data. Please try again later",
 
   //Data Remove
-  SERVER_REMOVE_DATA_NO_CID: "We could not locate a file that matches that CID",
+  SERVER_REMOVE_DATA_NO_CID:
+    "Slate is having trouble deleting some files right now. We're working on fixing this soon!",
   SERVER_REMOVE_DATA_NOT_ALLOWED: "You aren't authorized to remove that file",
   SERVER_REMOVE_DATA_NO_LINK:
     "We couldn't remove that data. Please try again later",

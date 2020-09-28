@@ -9,7 +9,11 @@ const db = knex(envConfig);
 
 console.log(`RUNNING:  adjust.js`);
 
-Promise.all([]);
+const dropSlatenameUnique = db.schema.table("slates", function (table) {
+  table.dropUnique("slatename");
+});
+
+Promise.all([dropSlatenameUnique]);
 
 console.log(`FINISHED: seed-database.js`);
 console.log(`          CTRL +C to return to terminal.`);

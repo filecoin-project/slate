@@ -73,7 +73,7 @@ export const getNetworkDirectory = async () => {
   });
 };
 
-export const getSlateBySlatename = async (data) => {
+export const searchSlates = async (data) => {
   return await returnJSON(`/api/search/slates/${data.query}`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),

@@ -13,6 +13,7 @@ export default async (req, res) => {
   const { query } = req.query;
   const slates = await Data.querySlates({ query });
 
+  //NOTE(martina): this way of deeplinking no longer works now that slates can have same names (however it is currently unused so I've left it here)
   if (req.body.data.deeplink) {
     if (slates.length) {
       const slate = slates.filter((item) => item.slatename === query)[0];

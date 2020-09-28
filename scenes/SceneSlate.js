@@ -394,64 +394,21 @@ export default class SceneSlate extends React.Component {
     });
   };
 
-  _handleSlateLink = async (slatename) => {
-    const response = await Actions.getSlateBySlatename({
-      query: slatename,
-      deeplink: true,
-    });
-
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return;
-    }
-
-    if (!response.data) {
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble locating that slate",
-          },
-        },
-      });
-      return;
-    }
-
-    if (response.error) {
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-    }
-
-    if (!response.data.slate) {
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble locating that slate",
-          },
-        },
-      });
-      return;
-    }
+  _handleSlateLink = async () => {
+    //NOTE(martina): not needed if links only happen on your own slate (know your own username already)
+    // const response = await Actions.getUsername({
+    //   id: this.props.current.data.ownerId,
+    // });
+    // const username = response.data;
 
     return window.open(
-      `/${response.data.slate.user.username}/${response.data.slate.slatename}`
+      `/${this.props.viewer.username}/${this.props.current.slatename}`
     );
   };
 
   render() {
-    const { user, data, slatename } = this.props.current;
-    const { body = "A slate." } = data;
+    const { id, user, data, slatename } = this.props.current;
+    const { body = "" } = data;
     const { objects, layouts } = this.state;
     const isPublic = data.public;
 
@@ -500,8 +457,8 @@ export default class SceneSlate extends React.Component {
                 </CircleButtonGray>
                 {isPublic ? (
                   <CircleButtonGray
-                    onMouseUp={() => this._handleSlateLink(slatename)}
-                    onTouchEnd={() => this._handleSlateLink(slatename)}
+                    onMouseUp={() => this._handleSlateLink()}
+                    onTouchEnd={() => this._handleSlateLink()}
                     style={{ marginRight: 16 }}
                   >
                     <SVG.DeepLink height="16px" />

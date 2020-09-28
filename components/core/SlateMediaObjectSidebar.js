@@ -153,7 +153,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
   };
 
   _handleChangeDeepLink = (e) => {
-    this.setState({ [e.target.name]: Strings.createSlug(e.target.value, "") });
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
@@ -313,9 +313,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
           key="sidebar-media-object-preview"
           css={STYLES_BUTTON}
           target="_blank"
-          href={`/${this.props.username}/${this.props.slatename}/cid:${
-            this.props.cid
-          }`}
+          href={`/${this.props.username}/${this.props.slatename}/cid:${this.props.cid}`}
         >
           View slate object public URL&nbsp;&nbsp;&nbsp;⭢
         </a>

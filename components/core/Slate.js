@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -158,48 +159,15 @@ export default class Slate extends React.Component {
     // TODO(jim): Test this again in React 17
     e.preventDefault();
     e.stopPropagation();
-
-    const response = await Actions.getSlateBySlatename({
-      query: object.deeplink,
-      deeplink: true,
-    });
-
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "We're having trouble connecting right now and could not locate that slate. Please try again later",
-          },
-        },
-      });
-      return;
+    let slug = object.deeplink
+      .split("/")
+      .map((string) => Strings.createSlug(string, ""))
+      .join("/");
+    //TODO(martina): moved this cleanup here rather than when entering the info b/c it doesn't allow you to enter "-"'s if used during input. Switch to a dropdown / search later
+    if (!object.deeplink.startsWith("/")) {
+      slug = "/" + slug;
     }
-
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return;
-    }
-
-    if (!response.data || !response.data.slate) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We could not locate that slate. Please try again later",
-          },
-        },
-      });
-      return;
-    }
-
-    return window.open(
-      `/${response.data.slate.user.username}/${response.data.slate.slatename}`
-    );
+    return window.open(slug);
   };
 
   generateDOM = () => {

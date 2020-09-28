@@ -33,7 +33,10 @@ export default async (req, res) => {
 
   const slatename = Strings.createSlug(req.body.data.name);
 
-  const found = await Data.getSlateByName({ slatename });
+  const found = await Data.getSlateByName({
+    slatename,
+    ownerId: user.id,
+  });
 
   if (found) {
     return res

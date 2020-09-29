@@ -23,7 +23,6 @@ export default class ScenePeers extends React.Component {
         <GLRenderer width={1200} height={480} />
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Peers"
           buttons={[
             {
@@ -35,7 +34,6 @@ export default class ScenePeers extends React.Component {
         >
           <System.Table
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             data={{
               columns: [
                 {

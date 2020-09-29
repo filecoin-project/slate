@@ -83,12 +83,14 @@ export default class SceneStorageMarket extends React.Component {
         <System.H1>2,534 FIL</System.H1>
         <System.P>
           Last Storage Order / GB / Month{" "}
-          <strong style={{ color: Constants.system.green, fontWeight: 400 }}>+143.24 (6.08)%</strong>
+          <strong style={{ color: Constants.system.green, fontWeight: 400 }}>
+            +143.24 (6.08)%
+          </strong>
         </System.P>
 
         <div css={STYLES_CHART_SECTION}>
           <div css={STYLES_LEFT}>
-            <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="Storage market">
+            <Section onAction={this.props.onAction} title="Storage market">
               <div css={STYLES_OPTIONS}>
                 <span css={STYLES_OPTION}>1 Day</span>
                 <span css={STYLES_OPTION}>1 Week</span>
@@ -99,7 +101,7 @@ export default class SceneStorageMarket extends React.Component {
             </Section>
           </div>
           <div css={STYLES_RIGHT}>
-            <Section onAction={this.props.onAction} onNavigateTo={this.props.onNavigateTo} title="Statistics">
+            <Section onAction={this.props.onAction} title="Statistics">
               <div css={STYLES_ITEM}>
                 <div css={STYLES_FOCUS}>8,422 FIL/GB/Month</div>
                 <div css={STYLES_SUBTEXT}>Market Storage Price</div>
@@ -140,7 +142,6 @@ export default class SceneStorageMarket extends React.Component {
 
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Transactions"
           buttons={[
             {
@@ -153,7 +154,8 @@ export default class SceneStorageMarket extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STORAGE_DEALS",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             data={{
               columns: [
@@ -173,7 +175,6 @@ export default class SceneStorageMarket extends React.Component {
             }}
             selectedRowId={this.state.table_storage_market}
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             onChange={this._handleChange}
             name="table_storage_market"
           />

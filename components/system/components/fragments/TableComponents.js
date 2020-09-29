@@ -182,14 +182,7 @@ export const TableColumn = (props) => {
 // TODO(jim): We probably won't use this Table component for long.
 // Once we have components for all the necessary flows. We will probably
 // make bespoke components for each experience.
-export const TableContent = ({
-  type,
-  text,
-  action,
-  data = {},
-  onNavigateTo,
-  onAction,
-}) => {
+export const TableContent = ({ type, text, action, data = {}, onAction }) => {
   const { status, online } = data;
 
   if (text === null || text === undefined) {
@@ -301,7 +294,11 @@ export const TableContent = ({
       }
 
       return (
-        <Link onClick={() => onNavigateTo({ id: data.id }, data)}>{text}</Link>
+        <Link
+          onClick={() => onAction({ type: "NAVIGATE", value: data.id, data })}
+        >
+          {text}
+        </Link>
       );
     case "FILE_LINK":
       if (!data) {
@@ -309,7 +306,11 @@ export const TableContent = ({
       }
 
       return (
-        <Link onClick={() => onNavigateTo({ id: "V1_NAVIGATION_FILE" }, data)}>
+        <Link
+          onClick={() =>
+            onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_FILE", data })
+          }
+        >
           {text}
         </Link>
       );

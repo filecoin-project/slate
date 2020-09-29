@@ -27,11 +27,27 @@ const IconMap = {
   MINERS: <SVG.Miners height="20px" />,
 };
 
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
 const STYLES_NAVIGATION = css`
   margin-top: ${Constants.sizes.topOffset}px;
   width: 100%;
   display: block;
   padding: 24px 0 0 0;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 0;
+    padding: 0;
+    height: 100%;
+    align-items: center;
+  }
 `;
 
 const STYLES_NAVIGATION_ITEM = css`
@@ -96,7 +112,7 @@ const STYLES_ICON_ELEMENT = css`
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 8px 0 12px;
+    margin: 0px;
   }
 `;
 
@@ -127,8 +143,20 @@ const Item = (props) => {
       </span>
       <span
         css={STYLES_ICON}
-        onMouseUp={() => props.onNavigateTo({ id: props.id }, props.data)}
-        onTouchEnd={() => props.onNavigateTo({ id: props.id }, props.data)}
+        onMouseUp={() =>
+          props.onAction({
+            type: "NAVIGATE",
+            value: props.id,
+            data: props.data,
+          })
+        }
+        onTouchEnd={() =>
+          props.onAction({
+            type: "NAVIGATE",
+            value: props.id,
+            data: props.data,
+          })
+        }
       >
         <span
           css={STYLES_ICON_ELEMENT}
@@ -141,8 +169,20 @@ const Item = (props) => {
       <span
         css={STYLES_CHILDREN}
         children={props.children}
-        onMouseUp={() => props.onNavigateTo({ id: props.id }, props.data)}
-        onTouchEnd={() => props.onNavigateTo({ id: props.id }, props.data)}
+        onMouseUp={() =>
+          props.onAction({
+            type: "NAVIGATE",
+            value: props.id,
+            data: props.data,
+          })
+        }
+        onTouchEnd={() =>
+          props.onAction({
+            type: "NAVIGATE",
+            value: props.id,
+            data: props.data,
+          })
+        }
         style={{
           color: props.activeIds[props.id] ? Constants.system.brand : null,
         }}
@@ -174,7 +214,7 @@ class NodeReference extends React.Component {
           activeIds={this.props.activeIds}
           level={this.props.level}
           treeChildren={this.props.treeChildren}
-          onNavigateTo={this.props.onNavigateTo}
+          onAction={this.props.onAction}
           decorator={this.props.decorator}
           onToggleShow={this._handleToggleShow}
           expanded={this.state.showTreeChildren}
@@ -194,7 +234,7 @@ class NodeReference extends React.Component {
                   id={child.id}
                   activeId={this.props.activeId}
                   activeIds={this.props.activeIds}
-                  onNavigateTo={this.props.onNavigateTo}
+                  onAction={this.props.onAction}
                   level={this.props.level + 1}
                   treeChildren={child.children}
                   decorator={child.decorator}
@@ -212,31 +252,41 @@ export default class ApplicationNavigation extends React.Component {
   render() {
     return (
       <nav css={STYLES_NAVIGATION}>
-        <ApplicationUserControls
-          viewer={this.props.viewer}
-          onNavigateTo={this.props.onNavigateTo}
-          onAction={this.props.onAction}
-          onSignOut={this.props.onSignOut}
-        />
+        <div css={STYLES_MOBILE_HIDDEN}>
+          <ApplicationUserControls
+            viewer={this.props.viewer}
+            onAction={this.props.onAction}
+            onSignOut={this.props.onSignOut}
+          />
+        </div>
 
-        {this.props.navigation.map((each) => {
+        {this.props.navigation.map((each, i) => {
           if (!each || each.ignore) {
             return null;
           }
 
           return (
-            <NodeReference
-              data={each}
-              id={each.id}
-              acitveId={this.props.activeId}
-              activeIds={this.props.activeIds}
-              key={each.id}
-              level={0}
-              treeChildren={each.children}
-              decorator={each.decorator}
-              children={each.name}
-              onNavigateTo={this.props.onNavigateTo}
-            />
+            <div
+              css={
+                each.id === "V1_NAVIGATION_ARCHIVE" ||
+                each.id === "V1_NAVIGATION_API"
+                  ? STYLES_MOBILE_HIDDEN
+                  : null
+              }
+            >
+              <NodeReference
+                data={each}
+                id={each.id}
+                acitveId={this.props.activeId}
+                activeIds={this.props.activeIds}
+                key={each.id}
+                level={0}
+                treeChildren={each.children}
+                decorator={each.decorator}
+                children={each.name}
+                onAction={this.props.onAction}
+              />
+            </div>
           );
         })}
       </nav>

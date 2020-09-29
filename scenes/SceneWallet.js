@@ -170,7 +170,6 @@ export default class SceneWallet extends React.Component {
         {networkViewer ? (
           <Section
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             title="Your Filecoin Testnet address"
             style={{ maxWidth: `688px`, minWidth: "auto" }}
             buttons={

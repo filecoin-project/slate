@@ -34,7 +34,6 @@ export default class ScenePaymentChannels extends React.Component {
         {this.state.sub_navigation === "1" ? (
           <Section
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             title="Active payment channels"
             buttons={[
               {
@@ -51,7 +50,6 @@ export default class ScenePaymentChannels extends React.Component {
           >
             <System.Table
               onAction={this.props.onAction}
-              onNavigateTo={this.props.onNavigateTo}
               data={{
                 columns: [
                   {
@@ -91,7 +89,6 @@ export default class ScenePaymentChannels extends React.Component {
         {this.state.sub_navigation === "2" ? (
           <Section
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             title="Redeemed payment channels"
             buttons={[
               {
@@ -103,7 +100,6 @@ export default class ScenePaymentChannels extends React.Component {
           >
             <System.Table
               onAction={this.props.onAction}
-              onNavigateTo={this.props.onNavigateTo}
               data={{
                 columns: [
                   {

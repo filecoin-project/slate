@@ -52,7 +52,7 @@ const STYLES_HEADER = css`
   right: 0;
   top: 0;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
+    left: 0;
   }
 `;
 
@@ -65,7 +65,7 @@ const STYLES_CONTENT = css`
   padding-left: ${Constants.sizes.navigation}px;
   margin-top: ${Constants.sizes.topOffset}px;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding-left: 76px;
+    padding-left: 0px;
   }
 `;
 
@@ -101,7 +101,12 @@ const STYLES_NAVIGATION = css`
   background-color: ${Constants.system.foreground};
   ${"" /* ${STYLES_NO_VISIBLE_SCROLL} NOTE(martina): removed for now b/c unnecessary (now that there's no slates dropdown) and b/c caused user menu to be cut off on mobile*/}
   @media (max-width: ${Constants.sizes.mobile}px) {
-    width: auto;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 56px;
   }
 `;
 

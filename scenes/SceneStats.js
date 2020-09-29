@@ -137,7 +137,6 @@ export default class SceneStats extends React.Component {
 
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Wallet"
           buttons={[
             {
@@ -150,7 +149,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STATS_WALLET",
             },
-          ]}>
+          ]}
+        >
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Total FIL Balance</div>
             <div css={STYLES_RIGHT}>Value (FIL/ATTOFIL)</div>
@@ -174,7 +174,15 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Total wallet addresses{" "}
-              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: "V1_NAVIGATION_SLATES" })}>
+              <strong
+                css={STYLES_TEXT_CTA}
+                onClick={() =>
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: "V1_NAVIGATION_SLATES",
+                  })
+                }
+              >
                 (view)
               </strong>
             </div>
@@ -183,7 +191,15 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Total payment channels{" "}
-              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: "V1_NAVIGATION_SLATES" })}>
+              <strong
+                css={STYLES_TEXT_CTA}
+                onClick={() =>
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: "V1_NAVIGATION_SLATES",
+                  })
+                }
+              >
                 (view)
               </strong>
             </div>
@@ -192,7 +208,15 @@ export default class SceneStats extends React.Component {
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>
               Total FIL in payment channels{" "}
-              <strong css={STYLES_TEXT_CTA} onClick={() => this.props.onNavigateTo({ id: "V1_NAVIGATION_SLATES" })}>
+              <strong
+                css={STYLES_TEXT_CTA}
+                onClick={() =>
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: "V1_NAVIGATION_SLATES",
+                  })
+                }
+              >
                 (view)
               </strong>
             </div>
@@ -202,7 +226,6 @@ export default class SceneStats extends React.Component {
 
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Node"
           buttons={[
             {
@@ -215,7 +238,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STATS_NODE",
             },
-          ]}>
+          ]}
+        >
           <div css={STYLES_GRAPH_ROW}>
             <div css={STYLES_GRAPH_ROW_LEFT}>
               <div css={STYLES_GRAPH_OBJECT}>
@@ -281,7 +305,6 @@ export default class SceneStats extends React.Component {
 
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Data"
           buttons={[
             {
@@ -294,7 +317,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_STATS_DATA",
             },
-          ]}>
+          ]}
+        >
           <div css={STYLES_GRAPH_ROW}>
             <div css={STYLES_GRAPH_ROW_LEFT}>
               <div css={STYLES_GRAPH_OBJECT}>
@@ -369,7 +393,6 @@ export default class SceneStats extends React.Component {
 
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Most commonly retrieved CIDs"
           buttons={[
             {
@@ -377,7 +400,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_MOST_COMMON_CIDS",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             data={{
               columns: [
@@ -426,14 +450,12 @@ export default class SceneStats extends React.Component {
             }}
             selectedRowId={this.state.table_stats_common}
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             onChange={this._handleChange}
             name="table_stats_common"
           />
         </Section>
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Top storage deals by GB"
           buttons={[
             {
@@ -441,7 +463,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_TOP_STORAGE_DEALS_GB",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             data={{
               columns: [
@@ -452,7 +475,8 @@ export default class SceneStats extends React.Component {
                   key: "date",
                   name: "Date uploaded",
                   width: "168px",
-                  tooltip: "This date represents when the file was first uploaded to the network.",
+                  tooltip:
+                    "This date represents when the file was first uploaded to the network.",
                 },
               ],
               rows: [],
@@ -460,13 +484,11 @@ export default class SceneStats extends React.Component {
             selectedRowId={this.state.table_storage_deals_gb}
             onChange={this._handleChange}
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             name="table_storage_deals_db"
           />
         </Section>
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Top storage deals by FIL"
           buttons={[
             {
@@ -474,7 +496,8 @@ export default class SceneStats extends React.Component {
               type: "DOWNLOAD",
               value: "CSV_TOP_STORAGE_DEALS_FIL",
             },
-          ]}>
+          ]}
+        >
           <System.Table
             data={{
               columns: [
@@ -485,7 +508,8 @@ export default class SceneStats extends React.Component {
                   key: "date",
                   name: "Date uploaded",
                   width: "168px",
-                  tooltip: "This date represents when the file was first uploaded to the network.",
+                  tooltip:
+                    "This date represents when the file was first uploaded to the network.",
                 },
               ],
               rows: [],
@@ -493,7 +517,6 @@ export default class SceneStats extends React.Component {
             selectedRowId={this.state.table_storage_deals_fil}
             onChange={this._handleChange}
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             name="table_storage_deals_fil"
           />
         </Section>

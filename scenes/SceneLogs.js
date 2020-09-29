@@ -123,7 +123,6 @@ export default class SceneLogs extends React.Component {
         {this.state.sub_navigation === "1" ? (
           <Section
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             title={
               <React.Fragment>
                 All logs{" "}
@@ -216,7 +215,6 @@ export default class SceneLogs extends React.Component {
         {this.state.sub_navigation === "2" ? (
           <Section
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             title={
               <React.Fragment>
                 Node logs{" "}
@@ -309,7 +307,6 @@ export default class SceneLogs extends React.Component {
         {this.state.sub_navigation === "3" ? (
           <Section
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             title={
               <React.Fragment>
                 Sealing logs{" "}
@@ -402,7 +399,6 @@ export default class SceneLogs extends React.Component {
         {this.state.sub_navigation === "4" ? (
           <Section
             onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
             title={
               <React.Fragment>
                 Mining logs{" "}

@@ -28,11 +28,7 @@ export default class SceneDataTransfer extends React.Component {
         />
 
         {this.state.sub_navigation === "2" ? (
-          <Section
-            title="Past transfers"
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
-          >
+          <Section title="Past transfers" onAction={this.props.onAction}>
             <System.Table
               data={{
                 columns: [
@@ -66,7 +62,6 @@ export default class SceneDataTransfer extends React.Component {
               }}
               selectedRowId={this.state.table_past_transfer}
               onChange={this._handleChange}
-              onNavigateTo={this.props.onNavigateTo}
               onAction={this.props.onAction}
               name="table_past_transfer"
             />
@@ -74,11 +69,7 @@ export default class SceneDataTransfer extends React.Component {
         ) : null}
 
         {this.state.sub_navigation === "1" ? (
-          <Section
-            onAction={this.props.onAction}
-            onNavigateTo={this.props.onNavigateTo}
-            title="Current transfers"
-          >
+          <Section onAction={this.props.onAction} title="Current transfers">
             <System.P style={{ padding: 24 }}>There are no transfers</System.P>
           </Section>
         ) : null}

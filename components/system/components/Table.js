@@ -84,7 +84,6 @@ const STYLES_TABLE_TOP_ROW = css`
 
 export class Table extends React.Component {
   static defaultProps = {
-    onNavigateTo: () => console.log("No navigation function set"),
     onAction: () => console.log("No action function set"),
     onChange: () => {},
   };
@@ -198,7 +197,6 @@ export class Table extends React.Component {
                           text={text}
                           type={field.type}
                           action={field.action}
-                          onNavigateTo={this.props.onNavigateTo}
                           onAction={this.props.onAction}
                         />
                       </div>

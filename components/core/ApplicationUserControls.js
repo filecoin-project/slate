@@ -18,14 +18,16 @@ const STYLES_HEADER = css`
   display: block;
   position: relative;
   width: 100%;
-  padding: 100px 24px 40px 42px;
+  padding: 84px 24px 40px 42px;
+  padding-top: calc(84px + ${Constants.sizes.topOffset}px);
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 68px 0 56px 16px;
+    padding: 0px;
   }
 `;
 
 const STYLES_PROFILE = css`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -114,32 +116,51 @@ const STYLES_ITEM_BOX = css`
   }
 `;
 
+const STYLES_MENU = css`
+  position: absolute;
+  top: 48px;
+  left: 0px;
+`;
+
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_MOBILE_ONLY = css`
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
 export default class ApplicationUserControls extends React.Component {
   state = { visible: false };
 
   _handleClick = (e) => {
+    console.log("click");
     e.stopPropagation();
     if (this.state.visible) {
       this._handleHide();
       return;
     }
     this.setState({ visible: true });
-    dispatchCustomEvent({
-      name: "show-tooltip",
-      detail: {
-        id: APPLICATION_CONTROL_MENU_ID,
-      },
-    });
+    // dispatchCustomEvent({
+    //   name: "show-tooltip",
+    //   detail: {
+    //     id: APPLICATION_CONTROL_MENU_ID,
+    //   },
+    // });
   };
 
   _handleHide = () => {
     this.setState({ visible: false });
-    return dispatchCustomEvent({
-      name: "hide-tooltip",
-      detail: {
-        id: APPLICATION_CONTROL_MENU_ID,
-      },
-    });
+    // return dispatchCustomEvent({
+    //   name: "hide-tooltip",
+    //   detail: {
+    //     id: APPLICATION_CONTROL_MENU_ID,
+    //   },
+    // });
   };
 
   _handleAction = (data) => {
@@ -153,68 +174,104 @@ export default class ApplicationUserControls extends React.Component {
   };
 
   render() {
+    let tooltip = (
+      <div css={STYLES_MENU}>
+        <Boundary
+          captureResize={true}
+          captureScroll={false}
+          enabled
+          onOutsideRectEvent={this._handleHide}
+          style={this.props.style}
+        >
+          <div css={STYLES_MOBILE_ONLY}>
+            <PopoverNavigation
+              navigation={[
+                {
+                  text: "My profile",
+                  onClick: () =>
+                    this._handleAction({
+                      type: "NAVIGATE",
+                      value: "V1_NAVIGATION_PROFILE",
+                      data: this.props.viewer,
+                    }),
+                },
+                {
+                  text: "Account settings",
+                  onClick: () =>
+                    this._handleAction({
+                      type: "NAVIGATE",
+                      value: "V1_NAVIGATION_PROFILE_EDIT",
+                    }),
+                },
+                {
+                  text: "Help",
+                  onClick: () =>
+                    this._handleAction({
+                      type: "SIDEBAR",
+                      value: "SIDEBAR_HELP",
+                    }),
+                },
+                { text: "Sign out", onClick: this._handleSignOut },
+              ]}
+            />
+          </div>
+          <div css={STYLES_MOBILE_HIDDEN} style={{ marginBottom: "8px" }}>
+            <PopoverNavigation
+              navigation={[
+                {
+                  text: "Account settings",
+                  onClick: () =>
+                    this._handleAction({
+                      type: "NAVIGATE",
+                      value: "V1_NAVIGATION_PROFILE_EDIT",
+                    }),
+                },
+                { text: "Sign out", onClick: this._handleSignOut },
+              ]}
+            />
+          </div>
+        </Boundary>
+      </div>
+    );
     return (
       <div css={STYLES_HEADER}>
-        <TooltipWrapper
-          id={APPLICATION_CONTROL_MENU_ID}
-          type="navigation"
-          horizontal="right"
-          vertical="below"
-          content={
-            <Boundary
-              captureResize={true}
-              captureScroll={false}
-              enabled
-              onOutsideRectEvent={this._handleHide}
-              style={this.props.style}
-            >
-              <div style={{ marginBottom: "8px" }}>
-                <PopoverNavigation
-                  navigation={[
-                    {
-                      text: "Account settings",
-                      onClick: () =>
-                        this._handleAction({
-                          type: "NAVIGATE",
-                          value: "V1_NAVIGATION_PROFILE_EDIT",
-                        }),
-                    },
-                    { text: "Sign out", onClick: this._handleSignOut },
-                  ]}
-                />
-              </div>
-            </Boundary>
+        <div
+          css={STYLES_PROFILE}
+          onClick={() =>
+            this.props.onAction({
+              type: "NAVIGATE",
+              value: "V1_NAVIGATION_PROFILE",
+              data: this.props.viewer,
+            })
           }
         >
-          <div
-            css={STYLES_PROFILE}
-            onClick={() =>
-              this.props.onAction({
-                type: "NAVIGATE",
-                value: "V1_NAVIGATION_PROFILE",
-                data: this.props.viewer,
-              })
-            }
-          >
-            <span
-              css={STYLES_PROFILE_IMAGE}
-              style={{
-                backgroundImage: `url('${this.props.viewer.data.photo}')`,
-              }}
-            />
-            <span css={STYLES_PROFILE_USERNAME}>
-              {this.props.viewer.username}
-            </span>
-            <div onClick={this._handleClick} css={STYLES_ITEM_BOX}>
-              <SVG.ChevronDown height="20px" />
-            </div>
+          <span
+            css={STYLES_PROFILE_IMAGE}
+            style={{
+              backgroundImage: `url('${this.props.viewer.data.photo}')`,
+            }}
+          />
+          <span css={STYLES_PROFILE_USERNAME}>
+            {this.props.viewer.username}
+          </span>
+          <div onClick={this._handleClick} css={STYLES_ITEM_BOX}>
+            <SVG.ChevronDown height="20px" />
           </div>
-          <div css={STYLES_PROFILE_MOBILE}>
-            <div onClick={this._handleClick} css={STYLES_ITEM_BOX_MOBILE}>
-              <SVG.ChevronDown height="20px" />
-            </div>
-          </div>
-        </TooltipWrapper>
+          {this.state.visible ? tooltip : null}
+        </div>
+        <div css={STYLES_PROFILE_MOBILE}>
+          <span
+            css={STYLES_PROFILE_IMAGE}
+            onClick={this._handleClick}
+            style={{
+              backgroundImage: `url('${this.props.viewer.data.photo}')`,
+            }}
+          />
+          {/* <div onClick={this._handleClick} css={STYLES_ITEM_BOX_MOBILE}>
+            <SVG.ChevronDown height="20px" />
+          </div> */}
+          {this.state.visible ? tooltip : null}
+        </div>
       </div>
     );
   }

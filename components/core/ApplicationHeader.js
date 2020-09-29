@@ -2,6 +2,8 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
+import ApplicationUserControls from "~/components/core/ApplicationUserControls";
+
 import { css, keyframes } from "@emotion/react";
 import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
@@ -31,7 +33,7 @@ const STYLES_APPLICATION_HEADER = css`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  width: 100%;
+  width: calc(100% - ${Constants.sizes.navigation}px);
   height: 56px;
   padding: 12px 48px 0 36px;
   pointer-events: none;
@@ -47,6 +49,7 @@ const STYLES_APPLICATION_HEADER = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 12px 24px 0 12px;
+    width: 100%;
   }
 `;
 
@@ -64,13 +67,24 @@ const STYLES_MIDDLE = css`
   padding: 0 24px 0 48px;
 `;
 
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_MOBILE_ONLY = css`
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
 const STYLES_RIGHT = css`
   min-width: 10%;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 264px;
 `;
 
 const rotate = keyframes`
@@ -120,6 +134,13 @@ export default class ApplicationHeader extends React.Component {
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
+          <span css={STYLES_MOBILE_ONLY}>
+            <ApplicationUserControls
+              viewer={this.props.viewer}
+              onAction={this.props.onAction}
+              onSignOut={this.props.onSignOut}
+            />
+          </span>
           <span
             css={STYLES_ICON_ELEMENT}
             style={
@@ -146,12 +167,14 @@ export default class ApplicationHeader extends React.Component {
             <SVG.NavigationArrow height="24px" />
           </span>
 
-          <span
-            css={this.state.isRefreshing ? STYLES_ROTATION : STYLES_STATIC}
-            style={{ marginLeft: 24 }}
-          >
-            <span css={STYLES_ICON_ELEMENT} onClick={this._handleRehydrate}>
-              <SVG.Refresh height="20px" />
+          <span css={STYLES_MOBILE_HIDDEN}>
+            <span
+              css={this.state.isRefreshing ? STYLES_ROTATION : STYLES_STATIC}
+              style={{ marginLeft: 24 }}
+            >
+              <span css={STYLES_ICON_ELEMENT} onClick={this._handleRehydrate}>
+                <SVG.Refresh height="20px" />
+              </span>
             </span>
           </span>
 
@@ -160,7 +183,7 @@ export default class ApplicationHeader extends React.Component {
             style={{ marginLeft: 24 }}
             onClick={this._handleCreateSearch}
           >
-            <SVG.Search height="20px" />
+            <SVG.Search height="24px" />
           </span>
         </div>
         {/* <div css={STYLES_MIDDLE} /> */}

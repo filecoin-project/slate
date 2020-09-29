@@ -700,7 +700,6 @@ export default class ApplicationPage extends React.Component {
           <SceneSignIn
             onCreateUser={this._handleCreateUser}
             onAuthenticate={this._handleAuthenticate}
-            onNavigateTo={this._handleNavigateTo}
           />
         </WebsitePrototypeWrapper>
       );
@@ -717,7 +716,6 @@ export default class ApplicationPage extends React.Component {
         activeId={current.target.id}
         activeIds={current.activeIds}
         navigation={navigation}
-        onNavigateTo={this._handleNavigateTo}
         onAction={this._handleAction}
         onSignOut={this._handleSignOut}
       />
@@ -733,6 +731,7 @@ export default class ApplicationPage extends React.Component {
         onRehydrate={this.rehydrate}
         onBack={this._handleBack}
         onForward={this._handleForward}
+        onSignOut={this._handleSignOut}
       />
     );
 
@@ -743,7 +742,6 @@ export default class ApplicationPage extends React.Component {
         data: this.state.data,
         viewer: this.state.viewer,
         selected: this.state.selected,
-        onNavigateTo: this._handleNavigateTo,
         onSelectedChange: this._handleSelectedChange,
         onViewerChange: this._handleViewerChange,
         onDeleteYourself: this._handleDeleteYourself,

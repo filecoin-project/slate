@@ -210,7 +210,7 @@ export default class SceneSignIn extends React.Component {
       return;
     }
 
-    this.props.onNavigateTo({ id: "V1_NAVIGATION_HOME" });
+    this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
     if (this.state.scene === "CREATE_ACCOUNT") {
       dispatchCustomEvent({
         name: "create-modal",

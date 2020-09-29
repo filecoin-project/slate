@@ -21,10 +21,11 @@ const STYLES_ALERT = `
   align-items: center;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    width: calc(100% - 60px);
+    width: 100%;
     padding: 12px;
-    top: 0px;
-    left: 60px;
+    top: 56px;
+    left: 0px;
+    right: 0px;
   }
 `;
 

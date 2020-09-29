@@ -57,11 +57,7 @@ export default class SceneStatus extends React.Component {
       <ScenePage>
         <System.H1>Status</System.H1>
 
-        <Section
-          title="Node"
-          onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
-        >
+        <Section title="Node" onAction={this.props.onAction}>
           <div css={STYLES_ROW}>
             <div css={STYLES_LEFT}>Peer ID</div>
             <div css={STYLES_RIGHT}>
@@ -99,7 +95,6 @@ export default class SceneStatus extends React.Component {
 
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Network connection"
           buttons={[
             {
@@ -130,7 +125,6 @@ export default class SceneStatus extends React.Component {
 
         <Section
           onAction={this.props.onAction}
-          onNavigateTo={this.props.onNavigateTo}
           title="Chain sync"
           buttons={[
             {

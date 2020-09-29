@@ -44,8 +44,8 @@ export const system = {
 export const zindex = {
   navigation: 1,
   sidebar: 5,
-  alert: 4,
-  header: 3,
+  alert: 3,
+  header: 4,
   modal: 6,
   tooltip: 7,
 };

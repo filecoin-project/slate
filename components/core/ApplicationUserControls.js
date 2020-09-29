@@ -23,6 +23,7 @@ const STYLES_HEADER = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 0px;
+    width: auto;
   }
 `;
 
@@ -51,9 +52,7 @@ const STYLES_PROFILE = css`
 
 const STYLES_PROFILE_MOBILE = css`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
   width: 100%;
 
   @media (min-width: ${Constants.sizes.mobile}px) {
@@ -76,7 +75,6 @@ const STYLES_PROFILE_IMAGE = css`
     height: 24px;
     width: 24px;
     margin-left: 0px;
-    margin-bottom: 4px;
   }
 `;
 
@@ -265,6 +263,8 @@ export default class ApplicationUserControls extends React.Component {
             onClick={this._handleClick}
             style={{
               backgroundImage: `url('${this.props.viewer.data.photo}')`,
+              height: 28,
+              width: 28,
             }}
           />
           {/* <div onClick={this._handleClick} css={STYLES_ITEM_BOX_MOBILE}>

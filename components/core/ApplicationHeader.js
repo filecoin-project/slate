@@ -31,11 +31,11 @@ const STYLES_ICON_ELEMENT = css`
 
 const STYLES_APPLICATION_HEADER = css`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   width: calc(100% - ${Constants.sizes.navigation}px);
   height: 56px;
-  padding: 12px 48px 0 36px;
+  padding: 0 48px 0 36px;
   pointer-events: none;
   background-color: ${Constants.system.white};
 
@@ -48,7 +48,7 @@ const STYLES_APPLICATION_HEADER = css`
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 12px 24px 0 12px;
+    padding: 0px 12px;
     width: 100%;
   }
 `;
@@ -134,40 +134,44 @@ export default class ApplicationHeader extends React.Component {
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
-          <span css={STYLES_MOBILE_ONLY}>
+          <span
+            css={STYLES_MOBILE_ONLY}
+            style={{ pointerEvents: "auto", marginLeft: 8, marginRight: 16 }}
+          >
             <ApplicationUserControls
               viewer={this.props.viewer}
               onAction={this.props.onAction}
               onSignOut={this.props.onSignOut}
             />
           </span>
-          <span
-            css={STYLES_ICON_ELEMENT}
-            style={
-              isBackDisabled
-                ? { cursor: "not-allowed", color: Constants.system.border }
-                : null
-            }
-            onClick={isBackDisabled ? () => {} : this.props.onBack}
-          >
-            <SVG.NavigationArrow
-              height="24px"
-              style={{ transform: `rotate(180deg)` }}
-            />
-          </span>
-          <span
-            css={STYLES_ICON_ELEMENT}
-            style={
-              isForwardDisabled
-                ? { cursor: "not-allowed", color: Constants.system.border }
-                : null
-            }
-            onClick={isForwardDisabled ? () => {} : this.props.onForward}
-          >
-            <SVG.NavigationArrow height="24px" />
-          </span>
 
           <span css={STYLES_MOBILE_HIDDEN}>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={
+                isBackDisabled
+                  ? { cursor: "not-allowed", color: Constants.system.border }
+                  : null
+              }
+              onClick={isBackDisabled ? () => {} : this.props.onBack}
+            >
+              <SVG.NavigationArrow
+                height="24px"
+                style={{ transform: `rotate(180deg)` }}
+              />
+            </span>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={
+                isForwardDisabled
+                  ? { cursor: "not-allowed", color: Constants.system.border }
+                  : null
+              }
+              onClick={isForwardDisabled ? () => {} : this.props.onForward}
+            >
+              <SVG.NavigationArrow height="24px" />
+            </span>
+
             <span
               css={this.state.isRefreshing ? STYLES_ROTATION : STYLES_STATIC}
               style={{ marginLeft: 24 }}
@@ -176,25 +180,64 @@ export default class ApplicationHeader extends React.Component {
                 <SVG.Refresh height="20px" />
               </span>
             </span>
-          </span>
 
-          <span
-            css={STYLES_ICON_ELEMENT}
-            style={{ marginLeft: 24 }}
-            onClick={this._handleCreateSearch}
-          >
-            <SVG.Search height="24px" />
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={{ marginLeft: 24 }}
+              onClick={this._handleCreateSearch}
+            >
+              <SVG.Search height="24px" />
+            </span>
           </span>
         </div>
         {/* <div css={STYLES_MIDDLE} /> */}
         <div css={STYLES_RIGHT}>
-          <span
-            css={STYLES_ICON_ELEMENT}
-            onClick={() =>
-              this.props.onAction({ type: "SIDEBAR", value: "SIDEBAR_HELP" })
-            }
-          >
-            <SVG.Help height="24px" />
+          <span css={STYLES_MOBILE_HIDDEN}>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              onClick={() =>
+                this.props.onAction({
+                  type: "SIDEBAR",
+                  value: "SIDEBAR_HELP",
+                })
+              }
+            >
+              <SVG.Help height="24px" />
+            </span>
+          </span>
+          <span css={STYLES_MOBILE_ONLY}>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={
+                isBackDisabled
+                  ? { cursor: "not-allowed", color: Constants.system.border }
+                  : null
+              }
+              onClick={isBackDisabled ? () => {} : this.props.onBack}
+            >
+              <SVG.NavigationArrow
+                height="24px"
+                style={{ transform: `rotate(180deg)` }}
+              />
+            </span>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={
+                isForwardDisabled
+                  ? { cursor: "not-allowed", color: Constants.system.border }
+                  : null
+              }
+              onClick={isForwardDisabled ? () => {} : this.props.onForward}
+            >
+              <SVG.NavigationArrow height="24px" />
+            </span>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={{ marginLeft: 12 }}
+              onClick={this._handleCreateSearch}
+            >
+              <SVG.Search height="24px" />
+            </span>
           </span>
         </div>
       </header>

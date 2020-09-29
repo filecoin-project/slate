@@ -66,6 +66,7 @@ const STYLES_CONTENT = css`
   margin-top: ${Constants.sizes.topOffset}px;
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding-left: 0px;
+    margin-top: calc(${Constants.sizes.topOffset}px + 36px);
   }
 `;
 
@@ -144,6 +145,10 @@ const STYLES_SIDEBAR_HEADER = css`
 const STYLES_SIDEBAR_CONTENT = css`
   padding: 56px 24px 24px 24px;
   padding-top: calc(56px + ${Constants.sizes.topOffset}px);
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding-top: 8px;
+  }
 `;
 
 const STYLES_BLOCK = css`
@@ -163,6 +168,12 @@ export default class ApplicationLayout extends React.Component {
   _navigation;
   _body;
 
+  _handleDismiss = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    this.props.onDismissSidebar();
+  };
+
   render() {
     let sidebarElements = null;
     if (this.props.sidebar) {
@@ -175,8 +186,8 @@ export default class ApplicationLayout extends React.Component {
           <div css={STYLES_SIDEBAR_HEADER}>
             <div
               css={STYLES_BLOCK}
-              onMouseUp={this.props.onDismissSidebar}
-              onTouchEnd={this.props.onDismissSidebar}
+              onMouseUp={this._handleDismiss}
+              onTouchEnd={this._handleDismiss}
             >
               <SVG.Dismiss height="24px" />
             </div>
@@ -242,7 +253,7 @@ export default class ApplicationLayout extends React.Component {
             captureResize={false}
             captureScroll={false}
             enabled
-            onOutsideRectEvent={this.props.onDismissSidebar}
+            onOutsideRectEvent={this._handleDismiss}
           >
             <div
               css={STYLES_SIDEBAR}

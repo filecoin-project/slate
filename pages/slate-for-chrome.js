@@ -8,9 +8,20 @@ import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter"
 import { css } from "@emotion/react";
 
 const STYLES_ROOT = css`
-  max-width: 1440px;
+  width: 100%;
   margin: -88px auto 0 auto;
+  padding: 0 88px 128px 88px;
   background-color: ${Constants.system.wallLight};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 128px 24px;
+  }
+`;
+
+const STYLES_CONTAINER = css`
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
 `;
 
 const STYLES_H1 = css`
@@ -61,10 +72,10 @@ const STYLES_P = css`
 const STYLES_SECTION_WRAPPER = css`
   width: 100%;
   height: 100%;
-  padding: 120px 88px;
+  padding: 120px 0;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 120px 24px 48px 24px;
+    padding: 120px 0 48px 0;
   }
 `;
 
@@ -72,11 +83,11 @@ const STYLES_SECTION_FLEXWRAPPER = css`
   display: flex;
   width: 100%;
   height: 100%;
-  padding: 0 88px 88px 88px;
+  padding: 0 0 88px 0;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
-    padding: 0 24px 80px 24px;
+    padding: 0 0 80px 0;
   }
 `;
 
@@ -176,7 +187,7 @@ const STYLES_VR = css`
   margin: 0 auto;
 `;
 
-export default class IndexPage extends React.Component {
+export default class SlateForChromePage extends React.Component {
   render() {
     const title = `Slate for Chrome`;
     const description = "Upload images to Slate right from your browser window";
@@ -186,46 +197,48 @@ export default class IndexPage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_TEXT_BLOCK} style={styleCenterBlock}>
-              <h1 css={STYLES_H1}>
-                <span css={STYLES_BLUE}>Upload images to Slate</span> from anywhere on the web
-              </h1>
-              <a
-                css={STYLES_BUTTON_PRIMARY}
-                href="https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc"
-                target="_blank"
-              >
-                Add Slate to Chrome
-              </a>
-              <div css={STYLES_VR} />
+          <div css={STYLES_CONTAINER}>
+            <div css={STYLES_SECTION_WRAPPER}>
+              <div css={STYLES_TEXT_BLOCK} style={styleCenterBlock}>
+                <h1 css={STYLES_H1}>
+                  <span css={STYLES_BLUE}>Upload images to Slate</span> from anywhere on the web
+                </h1>
+                <a
+                  css={STYLES_BUTTON_PRIMARY}
+                  href="https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc"
+                  target="_blank"
+                >
+                  Add Slate to Chrome
+                </a>
+                <div css={STYLES_VR} />
+              </div>
+              <img
+                css={STYLES_IMG}
+                src="https://slate.textile.io/ipfs/bafybeiesv6mdrrwb3hfnmcys46laht6klvhgijodxx6vwitmo5zv4ybvvu"
+              />
             </div>
-            <img
-              css={STYLES_IMG}
-              src="https://slate.textile.io/ipfs/bafybeiesv6mdrrwb3hfnmcys46laht6klvhgijodxx6vwitmo5zv4ybvvu"
-            />
-          </div>
-          <div css={STYLES_SECTION_FLEXWRAPPER}>
-            <div css={STYLES_HALFBLOCK}>
-              <h2 css={STYLES_H2}>Contribute</h2>
-              <p css={STYLES_P}>
-                We would love for you to join us. You're welcomed to file an issue or submit a pull request (PR) on
-                Github.
-              </p>
-              <a css={STYLES_BUTTON_PRIMARY} href="https://github.com/jasonleyser/slate-for-chrome" target="_blank">
-                View Github
-              </a>
-            </div>
-            <div css={STYLES_HALFBLOCK}>
-              <h2 css={STYLES_H2}>Release</h2>
-              <p css={STYLES_P}>Slate is built in public and all past releases are always avaible for download.</p>
-              <a
-                css={STYLES_BUTTON_SECONDARY}
-                href="/public/static/slate-for-chrome-V0.4.zip"
-                download="Slate Chrome extension.zip"
-              >
-                Download Slate for Chrome
-              </a>
+            <div css={STYLES_SECTION_FLEXWRAPPER}>
+              <div css={STYLES_HALFBLOCK}>
+                <h2 css={STYLES_H2}>Contribute</h2>
+                <p css={STYLES_P}>
+                  We would love for you to join us. You're welcomed to file an issue or submit a pull request (PR) on
+                  Github.
+                </p>
+                <a css={STYLES_BUTTON_PRIMARY} href="https://github.com/jasonleyser/slate-for-chrome" target="_blank">
+                  View Github
+                </a>
+              </div>
+              <div css={STYLES_HALFBLOCK}>
+                <h2 css={STYLES_H2}>Release</h2>
+                <p css={STYLES_P}>Slate is built in public and all past releases are always avaible for download.</p>
+                <a
+                  css={STYLES_BUTTON_SECONDARY}
+                  href="/public/static/slate-for-chrome-V0.4.zip"
+                  download="Slate Chrome extension.zip"
+                >
+                  Download Slate for Chrome
+                </a>
+              </div>
             </div>
           </div>
         </div>

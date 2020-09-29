@@ -11,25 +11,25 @@ const USER_SLATES = [
   {
     name: "Urban gardens",
     url: "https://slate.host/gndclouds/urban-gardens",
-    username: "gndclouds",
+    username: "@gndclouds",
     preview: "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu",
   },
   {
     name: "Shapes and Letters",
     url: "https://slate.host/haris/shapes-and-letters",
-    username: "haris",
+    username: "@haris",
     preview: "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
   },
   {
     name: "Loom",
     url: "https://slate.host/tara/loom",
-    username: "tara",
+    username: "@tara",
     preview: "https://slate.textile.io/ipfs/bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna",
   },
   {
     name: "Brand",
     url: "https://slate.host/slate/brand",
-    username: "slate",
+    username: "@slate",
     preview: "https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa",
   },
   {
@@ -42,33 +42,44 @@ const USER_SLATES = [
   {
     name: "Montreal underground",
     url: "https://slate.host/tcosta/montreal-underground",
-    username: "tcosta",
+    username: "@tcosta",
     preview: "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda",
   },
   {
     name: "Monet",
     url: "https://slate.host/slate/monet",
-    username: "slate",
+    username: "@slate",
     preview: "https://slate.textile.io/ipfs/bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli",
   },
   {
     name: "Books",
     url: "https://slate.host/haris/books",
-    username: "haris",
+    username: "@haris",
     preview: "https://slate.textile.io/ipfs/bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri",
   },
   {
     name: "Papers",
     url: "https://slate.host/slate/papers",
-    username: "slate",
+    username: "@slate",
     preview: "https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm",
   },
 ];
 
 const STYLES_ROOT = css`
-  max-width: 1440px;
+  padding: 0 88px 128px 88px;
   margin: -88px auto 0 auto;
+  width: 100%;
   background-color: ${Constants.system.wallLight};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 128px 24px;
+  }
+`;
+
+const STYLES_CONTAINER = css`
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
 `;
 
 const STYLES_H1 = css`
@@ -122,9 +133,10 @@ const STYLES_TEXT_BLOCK_CENTER = css`
 `;
 
 const STYLES_SECTION_WRAPPER = css`
+  max-width: 1440px;
   width: 100%;
   height: 100%;
-  padding: 120px 88px;
+  padding: 120px 0;
   display: flex;
   align-items: flex-start;
 
@@ -133,7 +145,7 @@ const STYLES_SECTION_WRAPPER = css`
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 48px 24px;
+    padding: 48px 0;
     display: block;
   }
 `;
@@ -250,7 +262,6 @@ const STYLES_CLEAN_SLATE = css`
   margin: 0 auto;
   height: 20vh;
   transition: 200ms ease box-shadow;
-  border: 1px solid ${Constants.system.darkGray};
   background-color: ${Constants.system.newBlue};
 
   :hover {
@@ -330,145 +341,146 @@ export default class IndexPage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-            <div css={STYLES_TEXT_BLOCK_CENTER}>
-              <h1 css={STYLES_H1}>
-                Take <span css={STYLES_HIGHLIGHT_BLUE}>the blue pill</span>
-              </h1>
-              <p css={STYLES_P} style={{ width: `100%` }}>
-                for a new file-sharing experience that makes it possible for people to collect, organize, and link files
-                together.
-              </p>
-              <br />
+          <div css={STYLES_CONTAINER}>
+            <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
+              <div css={STYLES_TEXT_BLOCK}>
+                <h1 css={STYLES_H1}>
+                  Take <span css={STYLES_HIGHLIGHT_BLUE}>the blue pill</span>
+                </h1>
+                <p css={STYLES_P}>
+                  for a new file-sharing experience that makes it possible for people to collect, organize, and link
+                  files together.
+                </p>
+              </div>
+              <div css={STYLES_SLATE_CARD_GROUP}>
+                {USER_SLATES.map((each) => (
+                  <SlateCard
+                    key={each.name}
+                    preview={each.preview}
+                    url={each.url}
+                    name={each.name}
+                    username={each.username}
+                    style={each.style}
+                  />
+                ))}
+              </div>
             </div>
-            <div css={STYLES_SLATE_CARD_GROUP}>
-              {USER_SLATES.map((each) => (
-                <SlateCard
-                  key={each.name}
-                  preview={each.preview}
-                  url={each.url}
-                  name={each.name}
-                  username={each.username}
-                  style={each.style}
-                />
-              ))}
-            </div>
-          </div>
 
-          <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-            <p css={STYLES_P} style={{ fontFamily: `${Constants.font.medium}` }}>
-              Get all the space you need for your valuable information
-            </p>
-            <br />
-            <img
-              style={{ width: `100%` }}
-              src="https://slate.textile.io/ipfs/bafkreig5365lqtjs5p3yrwh5p4a66wv372c5eesc2fhbmw3l5btourjo2a"
-            />
-            <br />
-            <a css={STYLES_LINK} href="/_">
-              50GB free storage for early sign up ->
-            </a>
-          </div>
-
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_TEXT_BLOCK}>
-              <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_GREEN}>Store, annotate, cite, link</span> <br />
-                your files
-              </h1>
-              <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                Slate is the new home for information that matters to you.
+            <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
+              <p css={STYLES_P} style={{ fontFamily: `${Constants.font.medium}` }}>
+                Get all the space you need for your valuable information
               </p>
               <br />
-              <hr css={STYLES_HR_GREEN} />
-              <ul css={STYLES_LIST}>
-                <li>Books</li>
-                <li>White papers</li>
-                <li>Writing notes</li>
-                <li>Films</li>
-                <li>Videos</li>
-                <li>Photographs</li>
-                <li>Illustrations</li>
-                <li>Data graphs</li>
-                <li>Maps</li>
-                <li>Designs</li>
-                <li>Music albums</li>
-                <li>Podcasts</li>
-                <li>Games</li>
-                <li>Code</li>
-                <li>
-                  <a css={STYLES_LINK} href="/_">
-                    + more
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <img
-              css={STYLES_IMG}
-              src="https://slate.textile.io/ipfs/bafybeidagkcnwti4ndspssvfzquuqfdib5ak2yq4kghdfcsybahm2v64me"
-            />
-          </div>
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_TEXT_BLOCK}>
-              <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_YELLOW}>Curate, present, share</span> <br />
-                your slates
-              </h1>
-              <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                A modular interface for your files, giving you complete flexibility.
-              </p>
+              <img
+                style={{ width: `100%` }}
+                src="https://slate.textile.io/ipfs/bafkreig5365lqtjs5p3yrwh5p4a66wv372c5eesc2fhbmw3l5btourjo2a"
+              />
               <br />
-              <hr css={STYLES_HR_YELLOW} />
-              <ul css={STYLES_LIST}>
-                <li>Arrange moodboard</li>
-                <li>Organize research</li>
-                <li>Share presentation</li>
-                <li>
-                  <a css={STYLES_LINK} href="/_">
-                    + more
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <img
-              css={STYLES_IMG}
-              style={{ boxShadow: `0px 4px 100px 10px rgba(0, 0, 0, 0.1)` }}
-              src="https://slate.textile.io/ipfs/bafybeihihnvl4gzh6vysjwwhzo2i4f5ed7qrh4e4iwaz7y6b3ua3hb5upm"
-            />
-          </div>
-          <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-            <h1 css={STYLES_H1}>
-              <span css={STYLES_HIGHLIGHT_RED}>Connect to think, learn and disucss </span> <br />
-              with others
-            </h1>
-            <div css={STYLES_TEXT_BLOCK}>
-              <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                Information is only meaningful when it's shared. Slate is fundamentally a file sharing network built on
-                top of a storage system, making it possible to connect with other people.
-              </p>
-            </div>
-            <img
-              css={STYLES_IMG}
-              style={{ margin: `48px auto`, boxShadow: `none` }}
-              src="https://slate.textile.io/ipfs/bafkreihen4fii4jmtbpslpjofujdrgrbmnzr3pittluinvmdvszkhtsw2a"
-            />
-          </div>
-          <div css={STYLES_SECTIONCTA_WRAPPER}>
-            <div css={STYLES_TEXT_BLOCK_CENTER}>
-              <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_BLUE}>Take a slate</span> <br />
-                to experience the file sharing network
-              </h1>
-              <br />
-            </div>
-            <div css={STYLES_CLEAN_SLATE}>
-              <a css={STYLES_SLATE_CARD_LINK} href="/_">
-                <div css={STYLES_SLATE_CARD_TEXT}>
-                  <p css={STYLES_CARDP} style={{ color: `${Constants.system.white}` }}>
-                    Start the journey
-                  </p>
-                </div>
+              <a css={STYLES_LINK} href="/_">
+                50GB free storage for early sign up ->
               </a>
+            </div>
+
+            <div css={STYLES_SECTION_WRAPPER}>
+              <div css={STYLES_TEXT_BLOCK}>
+                <h1 css={STYLES_H1}>
+                  <span css={STYLES_HIGHLIGHT_GREEN}>Store, annotate, cite, link</span> <br />
+                  your files
+                </h1>
+                <p css={STYLES_P} style={{ opacity: 0.7 }}>
+                  Slate is the new home for information that matters to you.
+                </p>
+                <br />
+                <hr css={STYLES_HR_GREEN} />
+                <ul css={STYLES_LIST}>
+                  <li>Books</li>
+                  <li>White papers</li>
+                  <li>Writing notes</li>
+                  <li>Films</li>
+                  <li>Videos</li>
+                  <li>Photographs</li>
+                  <li>Illustrations</li>
+                  <li>Data graphs</li>
+                  <li>Maps</li>
+                  <li>Designs</li>
+                  <li>Music albums</li>
+                  <li>Podcasts</li>
+                  <li>Games</li>
+                  <li>Code</li>
+                  <li>
+                    <a css={STYLES_LINK} href="/_">
+                      + more
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <img
+                css={STYLES_IMG}
+                src="https://slate.textile.io/ipfs/bafybeidagkcnwti4ndspssvfzquuqfdib5ak2yq4kghdfcsybahm2v64me"
+              />
+            </div>
+            <div css={STYLES_SECTION_WRAPPER}>
+              <div css={STYLES_TEXT_BLOCK}>
+                <h1 css={STYLES_H1}>
+                  <span css={STYLES_HIGHLIGHT_YELLOW}>Curate, present, share</span> <br />
+                  your slates
+                </h1>
+                <p css={STYLES_P} style={{ opacity: 0.7 }}>
+                  A modular interface for your files, giving you complete flexibility.
+                </p>
+                <br />
+                <hr css={STYLES_HR_YELLOW} />
+                <ul css={STYLES_LIST}>
+                  <li>Arrange moodboard</li>
+                  <li>Organize research</li>
+                  <li>Share presentation</li>
+                  <li>
+                    <a css={STYLES_LINK} href="/_">
+                      + more
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <img
+                css={STYLES_IMG}
+                style={{ boxShadow: `0px 4px 100px 10px rgba(0, 0, 0, 0.1)` }}
+                src="https://slate.textile.io/ipfs/bafybeihihnvl4gzh6vysjwwhzo2i4f5ed7qrh4e4iwaz7y6b3ua3hb5upm"
+              />
+            </div>
+            <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
+              <h1 css={STYLES_H1}>
+                <span css={STYLES_HIGHLIGHT_RED}>Connect to think, learn and disucss </span> <br />
+                with others
+              </h1>
+              <div css={STYLES_TEXT_BLOCK}>
+                <p css={STYLES_P} style={{ opacity: 0.7 }}>
+                  Information is only meaningful when it's shared. Slate is fundamentally a file sharing network built
+                  on top of a storage system, making it possible to connect with other people.
+                </p>
+              </div>
+              <img
+                css={STYLES_IMG}
+                style={{ margin: `48px auto`, boxShadow: `none` }}
+                src="https://slate.textile.io/ipfs/bafkreihen4fii4jmtbpslpjofujdrgrbmnzr3pittluinvmdvszkhtsw2a"
+              />
+            </div>
+            <div css={STYLES_SECTIONCTA_WRAPPER}>
+              <div css={STYLES_TEXT_BLOCK_CENTER}>
+                <h1 css={STYLES_H1}>
+                  <span css={STYLES_HIGHLIGHT_BLUE}>Take a slate</span> <br />
+                  to experience the file sharing network
+                </h1>
+                <br />
+              </div>
+              <div css={STYLES_CLEAN_SLATE}>
+                <a css={STYLES_SLATE_CARD_LINK} href="/_">
+                  <div css={STYLES_SLATE_CARD_TEXT}>
+                    <p css={STYLES_CARDP} style={{ color: `${Constants.system.white}` }}>
+                      Start the journey
+                    </p>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
         </div>

@@ -4,38 +4,43 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 import { Logo } from "~/common/logo.js";
 
+const STYLES_ROOT = css`
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 16px 88px 16px 64px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  mix-blend-mode: difference;
+  z-index: ${Constants.zindex.header};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 16px 24px;
+    mix-blend-mode: normal;
+  }
+`;
 const STYLES_CONTAINER = css`
   max-width: 1440px;
   margin: 0 auto;
   font-family: ${Constants.font.text};
   font-size: 1rem;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 16px 88px 16px 64px;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: ${Constants.zindex.header};
-  height: 88px;
-  mix-blend-mode: difference;
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: flex;
     justify-content: space-between;
-    padding: 16px 24px;
   }
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.gray};
+  color: ${Constants.system.slate};
   text-decoration: none;
   transition: 200ms ease color;
-  :visited {
-    color: ${Constants.system.gray};
-  }
 
   :hover {
-    color: ${Constants.system.brand};
+    color: ${Constants.system.newBlue};
   }
 `;
 
@@ -66,6 +71,7 @@ const STYLES_MOBILENAV = css`
 const STYLES_BURGER = css`
   display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
+    z-index: ${Constants.zindex.modal};
     position: absolute;
     top: 24px;
     right: 24px;
@@ -74,22 +80,20 @@ const STYLES_BURGER = css`
     justify-content: space-around;
     width: 24px;
     height: 24px;
-    z-index: ${Constants.zindex.header};
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
-    color: ${Constants.system.darkGray};
   }
 `;
 
 const STYLES_BURGER_BUN = css`
-  width: 24px;
+  width: 20px;
   height: 2px;
-  background: ${Constants.system.darkGray};
+  background: ${Constants.system.slate};
   transition: all 0.2s linear;
   position: relative;
-  transform-origin: 1px;
+  transform-origin: 1.5px;
   transform: rotate(0);
   transistion-property: transform;
 `;
@@ -98,28 +102,13 @@ const openBurgerBun = {
   transform: `rotate(45deg)`,
 };
 
-const STYLES_BURGER_MEAT = css`
-  width: 24px;
-  height: 2px;
-  background: ${Constants.system.darkGray};
-  transition: all 0.2s linear;
-  position: relative;
-  transform-origin: 1px;
-  opacity: 1;
-  transistion-property: transform;
-`;
-
-const openBurgerMeat = {
-  opacity: `0`,
-};
-
 const STYLES_BURGER_BUN2 = css`
-  width: 24px;
+  width: 20px;
   height: 2px;
-  background: ${Constants.system.darkGray};
+  background: ${Constants.system.slate};
   transition: all 0.2s linear;
   position: relative;
-  transform-origin: 1px;
+  transform-origin: 1.5px;
   transform: rotate(0);
   transistion-property: transform;
 `;
@@ -131,11 +120,10 @@ const openBurgerBun2 = {
 const STYLES_MENU = css`
   display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    z-index: ${Constants.zindex.header}
     display: none;
     flex-direction: column;
     justify-content: center;
-    background: ${Constants.system.pitchBlack};
+    background: ${Constants.system.wall};
     height: 100vh;
     width: 100vw;
     text-align: left;
@@ -152,9 +140,8 @@ const STYLES_MENU = css`
 const STYLES_NAVLINK = css`
   display: none;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    z-index: ${Constants.zindex.header};
     padding: 8px 0;
-    color: ${Constants.system.white};
+    color: ${Constants.system.slate};
     text-decoration: none;
     transition: color 0.3s linear;
     transition-property: transform;
@@ -190,38 +177,38 @@ const NewWebsitePrototypeHeader = (props) => {
   const signInURL = "/_";
   const styleMenu = open ? openMenu : null;
   const styleBurgerBun = open ? openBurgerBun : null;
-  const styleBurgerMeat = open ? openBurgerMeat : null;
   const styleBurgerBun2 = open ? openBurgerBun2 : null;
   const styleNavLink = open ? openNavLink : null;
 
   return (
-    <div css={STYLES_CONTAINER} style={props.style}>
-      <div css={STYLES_LEFT}>
-        <a css={STYLES_LINK} href="/" style={{ marginRight: 24 }}>
-          <Logo style={{ width: 64 }} />
-        </a>
-      </div>
-      <div css={STYLES_RIGHT}>
-        <a css={STYLES_LINK} style={{ marginRight: 24 }} href={communityURL}>
-          Get involved
-        </a>
-        <a css={STYLES_LINK} href={signInURL}>
-          Sign in
-        </a>
-      </div>
-      <div css={STYLES_MOBILENAV}>
-        <div onClick={() => setOpen(!open)} css={STYLES_BURGER}>
-          <div css={STYLES_BURGER_BUN} style={styleBurgerBun} />
-          <div css={STYLES_BURGER_MEAT} style={styleBurgerMeat} />
-          <div css={STYLES_BURGER_BUN2} style={styleBurgerBun2} />
+    <div css={STYLES_ROOT}>
+      <div css={STYLES_CONTAINER} style={props.style}>
+        <div css={STYLES_LEFT}>
+          <a css={STYLES_LINK} href="/" style={{ marginRight: 24 }}>
+            <Logo style={{ width: 64 }} />
+          </a>
         </div>
-        <div css={STYLES_MENU} style={styleMenu}>
-          <a css={STYLES_NAVLINK} style={styleNavLink} href={communityURL}>
+        <div css={STYLES_RIGHT}>
+          <a css={STYLES_LINK} style={{ marginRight: 24 }} href={communityURL}>
             Get involved
           </a>
-          <a css={STYLES_NAVLINK} style={styleNavLink} href={signInURL}>
+          <a css={STYLES_LINK} href={signInURL}>
             Sign in
           </a>
+        </div>
+        <div css={STYLES_MOBILENAV}>
+          <div onClick={() => setOpen(!open)} css={STYLES_BURGER}>
+            <div css={STYLES_BURGER_BUN} style={styleBurgerBun} />
+            <div css={STYLES_BURGER_BUN2} style={styleBurgerBun2} />
+          </div>
+          <div css={STYLES_MENU} style={styleMenu}>
+            <a css={STYLES_NAVLINK} style={styleNavLink} href={communityURL}>
+              Get involved
+            </a>
+            <a css={STYLES_NAVLINK} style={styleNavLink} href={signInURL}>
+              Sign in
+            </a>
+          </div>
         </div>
       </div>
     </div>

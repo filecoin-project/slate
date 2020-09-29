@@ -320,12 +320,6 @@ const SlateCard = (props) => {
   );
 };
 
-export const getServerSideProps = async (context) => {
-  return {
-    props: { ...context.query },
-  };
-};
-
 export default class IndexPage extends React.Component {
   render() {
     const title = `Slate`;

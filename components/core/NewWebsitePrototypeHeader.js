@@ -35,7 +35,7 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.slate};
+  color: ${Constants.system.darkGray};
   text-decoration: none;
   transition: 200ms ease color;
 
@@ -83,14 +83,13 @@ const STYLES_BURGER = css`
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 0;
   }
 `;
 
 const STYLES_BURGER_BUN = css`
   width: 20px;
   height: 2px;
-  background: ${Constants.system.slate};
+  background: ${Constants.system.darkGray};
   transition: all 0.2s linear;
   position: relative;
   transform-origin: 1.5px;
@@ -100,12 +99,13 @@ const STYLES_BURGER_BUN = css`
 
 const openBurgerBun = {
   transform: `rotate(45deg)`,
+  background: `${Constants.system.slate}`,
 };
 
 const STYLES_BURGER_BUN2 = css`
   width: 20px;
   height: 2px;
-  background: ${Constants.system.slate};
+  background: ${Constants.system.darkGray};
   transition: all 0.2s linear;
   position: relative;
   transform-origin: 1.5px;
@@ -115,6 +115,7 @@ const STYLES_BURGER_BUN2 = css`
 
 const openBurgerBun2 = {
   transform: `rotate(-45deg)`,
+  background: `${Constants.system.slate}`,
 };
 
 const STYLES_MENU = css`
@@ -145,7 +146,11 @@ const STYLES_NAVLINK = css`
     text-decoration: none;
     transition: color 0.3s linear;
     transition-property: transform;
-    font-size: 1.563rem;
+    font-family: ${Constants.font.medium};
+    font-weight: 400;
+    font-size: ${Constants.typescale.lvl2};
+    letter-spacing: -0.017rem;
+    line-height: 1.3;
     text-align: left;
 
     &:hover {

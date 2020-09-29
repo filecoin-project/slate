@@ -187,8 +187,6 @@ const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-width: 1440px;
-  margin: -88px 0 0 0;
   background-color: ${Constants.system.foreground};
 `;
 
@@ -491,7 +489,7 @@ const STYLES_SLATE_CARD_EFFECTS = css`
 
 const STYLES_FEATURE_CARD = css`
   width: 30%;
-  height: 350px;
+  height: 450px;
   justify-content: space-between;
   margin: auto;
   padding: 16px;
@@ -891,19 +889,15 @@ export default class CommunityPage extends React.Component {
                   Best, <br />
                   🦄
                 </p>
-                <img
-                  css={STYLES_CHAT_CARD_IMAGE_RIGHT}
-                  src="https://slate.textile.io/ipfs/bafkreigxoyf43vw3p2hbc4ycsyh2og36cgy3s47xkb2n4w3i7auv2a6cei"
-                />
               </div>
               <div css={STYLES_CHAT}>
                 <p>
-                  That would be so fun, will work in it! <br /> - J
+                  Hey 🦄, <br />
+                  <br />
+                  That would be so fun, will work in it! <br />
+                  <br /> best, <br />
+                  🐳
                 </p>
-                <img
-                  css={STYLES_CHAT_CARD_IMAGE_LEFT}
-                  src="https://slate.textile.io/ipfs/bafkreigxoyf43vw3p2hbc4ycsyh2og36cgy3s47xkb2n4w3i7auv2a6cei"
-                />
               </div>
             </div>
             <div css={STYLES_SPLIT_WIDTH}>

@@ -186,6 +186,7 @@ const SLATE_CONTRIBUTOR_TEAM = [
 const STYLES_ROOT = css`
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
   justify-content: space-between;
   background-color: ${Constants.system.foreground};
 `;

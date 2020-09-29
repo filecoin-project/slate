@@ -37,6 +37,7 @@ export const system = {
   newBlue: "#043D96",
   newGreen: "#377749",
   newYellow: "#F2B256",
+  newRed: "#BE5234",
   shadow: "rgba(15, 14, 18, 0.03)",
 };
 

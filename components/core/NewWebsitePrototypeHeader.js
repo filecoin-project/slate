@@ -23,7 +23,6 @@ const STYLES_CONTAINER = css`
     display: flex;
     justify-content: space-between;
     padding: 16px 24px;
-    mix-blend-mode: normal;
   }
 `;
 

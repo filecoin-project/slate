@@ -21,12 +21,6 @@ const USER_SLATES = [
     preview: "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
   },
   {
-    name: "Mountains",
-    url: "https://slate.host/jason/mountains",
-    username: "jason",
-    preview: "https://slate.textile.io/ipfs/bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4",
-  },
-  {
     name: "Loom",
     url: "https://slate.host/tara/loom",
     username: "tara",
@@ -37,6 +31,13 @@ const USER_SLATES = [
     url: "https://slate.host/slate/brand",
     username: "slate",
     preview: "https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa",
+  },
+  {
+    name: "Start your first slate",
+    url: "/_",
+    username: "",
+    preview: "",
+    style: { backgroundColor: Constants.system.newBlue, color: Constants.system.white },
   },
   {
     name: "Montreal underground",
@@ -77,10 +78,9 @@ const STYLES_H1 = css`
   letter-spacing: -0.022rem;
   line-height: 1.3;
   color: ${Constants.system.slate};
-  margin-bottom: 1rem;
-  width: 95%;
+  margin-bottom: 16px;
 
-  @media (max-width: ${Constants.sizes.mobile}px) {
+  @media (max-width: ${Constants.sizes.tablet}px) {
     font-size: ${Constants.typescale.lvl3};
   }
 `;
@@ -93,18 +93,30 @@ const STYLES_P = css`
   line-height: 1.5;
   margin: 4px 0 0 0;
   color: ${Constants.system.slate};
-  width: 90%;
+  width: 64%;
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+  }
+`;
+
+const STYLES_TEXT_BLOCK = css`
+  display: block;
+  width: 50%;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
   }
 `;
 
-const STYLES_TEXT_BLOCK = css`
-  width: 33.3%;
+const STYLES_TEXT_BLOCK_CENTER = css`
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  text-align: center;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
+    margin-top: 48px;
     width: 100%;
   }
 `;
@@ -113,66 +125,35 @@ const STYLES_SECTION_WRAPPER = css`
   width: 100%;
   height: 100%;
   padding: 120px 88px;
+  display: flex;
+  align-items: flex-start;
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    padding: 88px;
+  }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 48px;
+    padding: 48px 24px;
+    display: block;
   }
 `;
 
-const STYLES_BUTTON_PRIMARY = css`
-  margin: 32px 0 16px 0;
-  min-height: 48px;
-  box-sizing: border-box;
-  border: 0;
-  border-radius: 4px;
-  padding: 0 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  background-color: ${Constants.system.newBlue};
-  color: ${Constants.system.white};
-  font-family: ${Constants.font.semiBold};
-  font-weight: 400;
-  font-size: ${Constants.typescale.lvl1};
-  letter-spacing: -0.011rem;
+const STYLES_SECTIONCTA_WRAPPER = css`
+  padding: 88px 88px 240px 88px;
+  width: 100%;
+  height: 100%;
 
-  transition: 200ms ease all;
-  cursor: pointer;
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    padding: 48px 24px 160px 24px;
+  }
 
-  :hover {
-    opacity: 0.9;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 0 24px 88px 24px;
   }
 `;
 
-const STYLES_BUTTON_SECONDARY = css`
-  margin: 32px 0 16px 0;
-  min-height: 48px;
-  box-sizing: border-box;
-  border: 0;
-  border-radius: 4px;
-  padding: 0 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  background-color: ${Constants.system.white};
+const STYLES_LINK = css`
   color: ${Constants.system.newBlue};
-  font-family: ${Constants.font.semiBold};
-  font-weight: 400;
-  font-size: ${Constants.typescale.lvl1};
-  letter-spacing: -0.011rem;
-
-  transition: 200ms ease all;
-  cursor: pointer;
-
-  :hover {
-    opacity: 0.9;
-  }
-`;
-
-const STYLES_LINK_WHITE = css`
-  color: ${Constants.system.white};
   text-decoration: none;
   transition: 200ms ease none;
   font-family: ${Constants.font.medium};
@@ -209,87 +190,52 @@ const STYLES_HIGHLIGHT_YELLOW = css`
 
 const STYLES_HIGHLIGHT_BLUE = css`
   color: ${Constants.system.newBlue};
-  font-family: ${Constants.font.medium};
-  font-weight: 400;
+`;
+
+const STYLES_HIGHLIGHT_RED = css`
+  color: ${Constants.system.newRed};
 `;
 
 const STYLES_HR_GREEN = css`
   border: 0;
   border-top: 1px solid ${Constants.system.newGreen};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-left: 0;
+    width: 10%;
+    border-top: 2px solid ${Constants.system.newGreen};
+  }
 `;
 
-const STYLES_HR_BLUE = css`
+const STYLES_HR_YELLOW = css`
   border: 0;
-  border-top: 1px solid ${Constants.system.newBlue};
-`;
+  border-top: 1px solid ${Constants.system.newYellow};
 
-const STYLES_VR = css`
-  width: 0.5px;
-  height: 50px;
-  opacity: 0.5;
-  margin: 0 auto;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-left: 0;
+    width: 10%;
+    border-top: 2px solid ${Constants.system.newYellow};
+  }
 `;
 
 const STYLES_IMG = css`
-  width: 66.6%;
-  height: auto;
+  width: 100%;
   margin: 48px -88px 0 0;
+  overflow: hidden;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
 `;
-
-const styleWhite = {
-  color: `${Constants.system.white}`,
-};
-
-const stylePWhite = {
-  color: `${Constants.system.white}`,
-  opacity: `0.7`,
-};
-
-const styleWall = {
-  backgroundColor: `${Constants.system.wall}`,
-  boxShadow: `-6px -6px 10px #ffffff, 4px 4px 10px #d4d4d4`,
-  display: `flex`,
-};
-
-const styleWallVert = {
-  backgroundColor: `${Constants.system.wall}`,
-  boxShadow: `-6px -6px 10px #ffffff, 4px 4px 10px #d4d4d4`,
-};
-
-const styleSlate = {
-  backgroundColor: `${Constants.system.slate}`,
-  boxShadow: `-6px -6px 10px #ffffff, 4px 4px 10px #d4d4d4`,
-  display: `flex`,
-};
-
-const styleCenter = {
-  width: `33.3%`,
-  margin: `auto`,
-};
-
-const styleCenterAlign = {
-  width: `33.3%`,
-  margin: `auto`,
-  textAlign: `center`,
-};
 
 const STYLES_SLATE_CARD_GROUP = css`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin-top: 48px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-  }
 `;
 
 const STYLES_SLATE_CARD = css`
-  width: calc(33.33% - 16px);
-  height: 25vh;
-  margin: 16px 16px 0 0;
-  border-radius: 4px;
+  width: calc(33.33% - 1px);
+  height: 20vh;
+  margin: -1px -1px 0 0;
   transition: 200ms ease box-shadow;
   border: 1px solid ${Constants.system.darkGray};
 
@@ -297,25 +243,19 @@ const STYLES_SLATE_CARD = css`
     transition: 200ms ease box-shadow;
     box-shadow: 0px 10px 40px 20px rgba(0, 0, 0, 0.1);
   }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    margin-bottom: 16px;
-  }
 `;
 
 const STYLES_CLEAN_SLATE = css`
-  width: 100%;
-  height: 25vh;
-  margin: 16px 16px 0 0;
-  border-radius: 4px;
+  width: calc(33.33% - 1px);
+  margin: 0 auto;
+  height: 20vh;
   transition: 200ms ease box-shadow;
   border: 1px solid ${Constants.system.darkGray};
-  opacity: 0.5;
+  background-color: ${Constants.system.newBlue};
 
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    margin-bottom: 16px;
+  :hover {
+    transition: 200ms ease box-shadow;
+    box-shadow: 0px 10px 40px 20px rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -327,6 +267,13 @@ const STYLES_SLATE_CARD_TEXT = css`
   display: flex;
   justify-content: space-between;
   padding: 8px 16px;
+  width: 100%;
+  height: 100%;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    flex-direction: column;
+    justify-content: space-between;
+  }
 `;
 
 const STYLES_CARDP = css`
@@ -338,14 +285,14 @@ const STYLES_CARDP = css`
   margin: 4px 0 0 0;
   color: ${Constants.system.slate};
 
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    font-size: ${Constants.typescale.lvl0};
   }
 `;
 
 const SlateCard = (props) => {
   return (
-    <div css={STYLES_SLATE_CARD}>
+    <div css={STYLES_SLATE_CARD} style={props.style}>
       <a css={STYLES_SLATE_CARD_LINK} href={props.url} target="_blank">
         <div
           css={css`
@@ -354,30 +301,23 @@ const SlateCard = (props) => {
             background-color: transparent;
             background-position: 50% 50%;
             background-size: cover;
-            border-radius: 4px;
 
             :hover {
-              background-color: ${Constants.system.pitchBlack};
               background-image: url("${props.preview}");
+              opacity: 0.9;
             }
           `}
         >
           <div css={STYLES_SLATE_CARD_TEXT}>
-            <p css={STYLES_CARDP}>{props.name}</p>
-            <p css={STYLES_CARDP} style={{ opacity: 0.7 }}>
-              {`@${props.username}`}
+            <p css={STYLES_CARDP} style={props.style}>
+              {props.name}
             </p>
+            <p css={STYLES_CARDP} style={{ opacity: 0.7 }}>{`${props.username}`}</p>
           </div>
         </div>
       </a>
     </div>
   );
-};
-
-export const getServerSideProps = async (context) => {
-  return {
-    props: { ...context.query },
-  };
 };
 
 export default class IndexPage extends React.Component {
@@ -390,39 +330,54 @@ export default class IndexPage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SECTION_WRAPPER}>
-            <img
-              style={{ width: `100%`, marginBottom: -64 }}
-              src="https://slate.textile.io/ipfs/bafkreigowyoo25djd5qrbemkyelm5g2ptc5rc2vzyynwzgxfy4kmhbaumy"
-            />
-            <div css={STYLES_TEXT_BLOCK} style={styleCenter}>
+          <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
+            <div css={STYLES_TEXT_BLOCK_CENTER}>
               <h1 css={STYLES_H1}>
-                Public file sharing network <span style={{ opacity: 0.7 }}>for you, your files, and your friends.</span>
+                Take <span css={STYLES_HIGHLIGHT_BLUE}>the blue pill</span>
               </h1>
-              <button css={STYLES_BUTTON_PRIMARY} onClick={() => window.open("/_")}>
-                Use Slate
-              </button>
-              <p css={STYLES_P}>
-                <span css={STYLES_HIGHLIGHT_BLUE}>Enjoy 50GB free storage with early sign up.</span>
+              <p css={STYLES_P} style={{ width: `100%` }}>
+                for a new file-sharing experience that makes it possible for people to collect, organize, and link files
+                together.
               </p>
               <br />
-              <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                Slate is a fully open-source file sharing network designed for research and collaboration. <br />
-                Store your data, <br />
-                organize it any way you like, <br />
-                and share it publicly with the world.
-              </p>
-              <br />
-              <p css={STYLES_P}>Powered by Textile, Filecoin and IPFS.</p>
+            </div>
+            <div css={STYLES_SLATE_CARD_GROUP}>
+              {USER_SLATES.map((each) => (
+                <SlateCard
+                  key={each.name}
+                  preview={each.preview}
+                  url={each.url}
+                  name={each.name}
+                  username={each.username}
+                  style={each.style}
+                />
+              ))}
             </div>
           </div>
-          <div css={STYLES_SECTION_WRAPPER} style={styleWall}>
+
+          <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
+            <p css={STYLES_P} style={{ fontFamily: `${Constants.font.medium}` }}>
+              Get all the space you need for your valuable information
+            </p>
+            <br />
+            <img
+              style={{ width: `100%` }}
+              src="https://slate.textile.io/ipfs/bafkreig5365lqtjs5p3yrwh5p4a66wv372c5eesc2fhbmw3l5btourjo2a"
+            />
+            <br />
+            <a css={STYLES_LINK} href="/_">
+              50GB free storage for early sign up ->
+            </a>
+          </div>
+
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_GREEN}>Store, annotate, cite, link</span> your files
+                <span css={STYLES_HIGHLIGHT_GREEN}>Store, annotate, cite, link</span> <br />
+                your files
               </h1>
               <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                Slate is the new home for your valuable information.
+                Slate is the new home for information that matters to you.
               </p>
               <br />
               <hr css={STYLES_HR_GREEN} />
@@ -441,7 +396,11 @@ export default class IndexPage extends React.Component {
                 <li>Podcasts</li>
                 <li>Games</li>
                 <li>Code</li>
-                <li style={{ opacity: 0.7 }}>And more</li>
+                <li>
+                  <a css={STYLES_LINK} href="/_">
+                    + more
+                  </a>
+                </li>
               </ul>
             </div>
             <img
@@ -449,127 +408,67 @@ export default class IndexPage extends React.Component {
               src="https://slate.textile.io/ipfs/bafybeidagkcnwti4ndspssvfzquuqfdib5ak2yq4kghdfcsybahm2v64me"
             />
           </div>
-
-          <div css={STYLES_SECTION_WRAPPER} style={styleSlate}>
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_YELLOW}>Upload images</span>{" "}
-                <span style={styleWhite}>
-                  <br />
-                  from anywhere
-                </span>
-              </h1>
-              <p css={STYLES_P} style={stylePWhite}>
-                The Slate Chrome extension lets you seamlessly upload files to your slates from anywhere on the web.
-              </p>
-              <button
-                css={STYLES_BUTTON_SECONDARY}
-                onClick={() =>
-                  window.open("https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc")
-                }
-              >
-                Add Slate to Chrome
-              </button>
-            </div>
-            <img
-              css={STYLES_IMG}
-              style={{ boxShadow: `none` }}
-              src="https://slate.textile.io/ipfs/bafybeidlg6opyuq6hjli5glyfczrfxaqoftidcllhsd65vofyrbv5k56c4"
-            />
-          </div>
-          <div css={STYLES_SECTION_WRAPPER} style={{ display: `flex` }}>
-            <div css={STYLES_TEXT_BLOCK}>
-              <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_BLUE}>Organize your mind</span> <br />
-                with drag and drop
+                <span css={STYLES_HIGHLIGHT_YELLOW}>Curate, present, share</span> <br />
+                your slates
               </h1>
               <p css={STYLES_P} style={{ opacity: 0.7 }}>
                 A modular interface for your files, giving you complete flexibility.
               </p>
               <br />
-              <hr css={STYLES_HR_BLUE} />
+              <hr css={STYLES_HR_YELLOW} />
               <ul css={STYLES_LIST}>
                 <li>Arrange moodboard</li>
                 <li>Organize research</li>
                 <li>Share presentation</li>
-                <li style={{ opacity: 0.7 }}>And more</li>
+                <li>
+                  <a css={STYLES_LINK} href="/_">
+                    + more
+                  </a>
+                </li>
               </ul>
             </div>
             <img
               css={STYLES_IMG}
               style={{ boxShadow: `0px 4px 100px 10px rgba(0, 0, 0, 0.1)` }}
-              src="https://slate.textile.io/ipfs/bafybeih5ndej2zhjxqewbqxqtf34su57lhdlxbeetv2xaokpvmo35exjry"
+              src="https://slate.textile.io/ipfs/bafybeihihnvl4gzh6vysjwwhzo2i4f5ed7qrh4e4iwaz7y6b3ua3hb5upm"
             />
           </div>
-          <div css={STYLES_SECTION_WRAPPER} style={styleWallVert}>
+          <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
+            <h1 css={STYLES_H1}>
+              <span css={STYLES_HIGHLIGHT_RED}>Connect to think, learn and disucss </span> <br />
+              with others
+            </h1>
             <div css={STYLES_TEXT_BLOCK}>
-              <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_GREEN}>Connect with people</span> <br />
-                to learn, think, and discuss
-              </h1>
               <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                A file sharing network built on top of a storage system making it possible to connect with other people.
+                Information is only meaningful when it's shared. Slate is fundamentally a file sharing network built on
+                top of a storage system, making it possible to connect with other people.
               </p>
             </div>
             <img
               css={STYLES_IMG}
-              style={{ width: `100%`, boxShadow: `none` }}
-              src="https://slate.textile.io/ipfs/bafybeigscozubtk6szip7yeaukqnzbxqhladxu5fyu5mghi32sdpzyzlxm"
+              style={{ margin: `48px auto`, boxShadow: `none` }}
+              src="https://slate.textile.io/ipfs/bafkreihen4fii4jmtbpslpjofujdrgrbmnzr3pittluinvmdvszkhtsw2a"
             />
           </div>
-          <div css={STYLES_SECTION_WRAPPER} style={styleSlate}>
-            <div css={STYLES_TEXT_BLOCK}>
+          <div css={STYLES_SECTIONCTA_WRAPPER}>
+            <div css={STYLES_TEXT_BLOCK_CENTER}>
               <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_YELLOW}>Privacy feature</span>{" "}
-                <span style={styleWhite}>
-                  {" "}
-                  <br />
-                  coming soon
-                </span>
+                <span css={STYLES_HIGHLIGHT_BLUE}>Take a slate</span> <br />
+                to experience the file sharing network
               </h1>
-              <p css={STYLES_P} style={stylePWhite}>
-                Building on top of Filecoin, Textile and IPFS — technologies built around ownership and transparency for
-                the future of the web, Slate will soon support people who want to provide key-only-access to data. This
-                will allow you to send data privately to people you trust.
-              </p>
               <br />
-              <a css={STYLES_LINK_WHITE} href="https://filecoin.io" target="_blank">
-                Learn more about Filecoin -&gt;
-              </a>
             </div>
-            <img
-              css={STYLES_IMG}
-              style={{ boxShadow: `none` }}
-              src="https://slate.textile.io/ipfs/bafybeigp65g7y5pdor5gkvm3f43m35n4dr2rq62hdltfe7iwbiltdoj7yy"
-            />
-          </div>
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_TEXT_BLOCK} style={styleCenterAlign}>
-              <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_BLUE}>Join us</span> <br />
-                in the file sharing network
-              </h1>
-              <br />
-              <div css={STYLES_CLEAN_SLATE}>
+            <div css={STYLES_CLEAN_SLATE}>
+              <a css={STYLES_SLATE_CARD_LINK} href="/_">
                 <div css={STYLES_SLATE_CARD_TEXT}>
-                  <p css={STYLES_CARDP}>A clean slate</p>
+                  <p css={STYLES_CARDP} style={{ color: `${Constants.system.white}` }}>
+                    Start the journey
+                  </p>
                 </div>
-              </div>
-              <hr css={STYLES_VR} />
-              <button css={STYLES_BUTTON_PRIMARY} style={{ margin: 0 }} onClick={() => window.open("/_")}>
-                Use Slate
-              </button>
-            </div>
-            <div css={STYLES_SLATE_CARD_GROUP}>
-              {USER_SLATES.map((each) => (
-                <SlateCard
-                  key={each.name}
-                  preview={each.preview}
-                  url={each.url}
-                  name={each.name}
-                  username={each.username}
-                />
-              ))}
+              </a>
             </div>
           </div>
         </div>

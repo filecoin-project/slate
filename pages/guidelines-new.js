@@ -105,6 +105,26 @@ const STYLES_LINK = css`
   }
 `;
 
+const STYLES_COPY_EMAIL = css`
+  display: inline;
+  color: ${Constants.system.newGreen};
+`;
+
+export function CopyEmail() {
+  const [copySuccess, setCopySuccess] = useState("");
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText("abuse@filecoin.io");
+    setCopySuccess("  copied!");
+  }
+  return (
+    <div css={STYLES_COPY_EMAIL}>
+      <a onClick={copyToClipboard}>abuse@filecoin.io</a>
+      {copySuccess}
+    </div>
+  );
+}
+
 export default class GuidelinesPage extends React.Component {
   render() {
     const title = `Slate: Terms of Service`;

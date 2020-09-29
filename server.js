@@ -133,6 +133,7 @@ app.prepare().then(async () => {
 
     const slate = await Data.getSlateByName({
       slatename: req.params.slatename,
+      username: req.params.username,
     });
 
     if (!slate) {
@@ -185,6 +186,7 @@ app.prepare().then(async () => {
 
     const slate = await Data.getSlateByName({
       slatename: req.params.slatename,
+      username: req.params.username,
     });
 
     if (!slate) {

@@ -1,9 +1,23 @@
 import { runQuery } from "~/node_common/data/utilities";
 
-export default async ({ slatename, ownerId }) => {
+export default async ({ slatename, ownerId, username }) => {
   return await runQuery({
     label: "GET_SLATE_BY_NAME",
     queryFn: async (DB) => {
+      let id = ownerId;
+      if (username && !ownerId) {
+        const user = await DB.select("*")
+          .from("users")
+          .where({ username })
+          .first();
+
+        if (!user || user.error) {
+          return null;
+        }
+
+        id = user.id;
+      }
+
       const query = await DB.select("*").from("slates").where({ slatename });
 
       if (!query || query.error) {
@@ -12,7 +26,7 @@ export default async ({ slatename, ownerId }) => {
 
       let foundSlate;
       for (let slate of query) {
-        if (slate.data.ownerId && slate.data.ownerId === ownerId) {
+        if (slate.data.ownerId && slate.data.ownerId === id) {
           foundSlate = slate;
         }
       }

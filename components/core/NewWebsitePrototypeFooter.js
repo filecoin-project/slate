@@ -3,6 +3,26 @@ import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
 
+const STYLES_ROOT = css`
+  padding: 96px 88px 96px 88px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: ${Constants.system.wall};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+    justify-content: left;
+    padding: 64px 24px;
+  }
+`;
+const STYLES_CONTAINER = css`
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  align-items: top;
+  z-index: ${Constants.zindex.navigation};
+`;
+
 const STYLES_P = css`
   font-family: ${Constants.font.text};
   font-weight: 400;
@@ -11,22 +31,6 @@ const STYLES_P = css`
   line-height: 1.5;
   margin: 4px 0 0 0;
   color: ${Constants.system.slate};
-`;
-
-const STYLES_CONTAINER = css`
-  max-width: 1440px;
-  margin: 0 auto;
-  width: 100%;
-  background-color: ${Constants.system.wall};
-  align-items: top;
-  padding: 96px 88px 96px 88px;
-  z-index: ${Constants.zindex.navigation};
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-    justify-content: left;
-    padding: 64px 24px;
-  }
 `;
 
 const STYLES_LINK = css`
@@ -76,76 +80,78 @@ const styleFlexFull = {
 
 export const NewWebsitePrototypeFooter = (props) => {
   return (
-    <div css={STYLES_CONTAINER} style={props.style}>
-      <div>
-        <p css={STYLES_P}>
-          <span style={{ fontFamily: `${Constants.font.semiBold}`, marginRight: `16px` }}>Slate </span> Public file
-          sharing network. Powered by{" "}
-          <a css={STYLES_LINK} href="https://textile.io" target="_blank">
-            Textile
-          </a>{" "}
-          and{" "}
-          <a css={STYLES_LINK} href="https://filecoin.io" target="_blank">
-            Filecoin
-          </a>
-          .
-          <br />
-        </p>
-      </div>
-      <br />
-      <br />
-      <div css={STYLES_FLEX}>
-        <div css={STYLES_CONTENT_BLOCK}>
-          <p css={STYLES_P} style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}>
-            Contact & Support
-          </p>
-          <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
-            Twitter
-          </a>
-          <br />
-          <a css={STYLES_LINK} href="https://filecoin.io/slack" target="_blank">
-            Slack
-          </a>
-          <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
-            Github
-          </a>
-        </div>
-        <br />
-        <br />
-        <div css={STYLES_CONTENT_BLOCK}>
-          <p css={STYLES_P} style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}>
-            Resources
-          </p>
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
-            Source code
-          </a>
-          <br />
-          <a css={STYLES_LINK} href="/slate-for-chrome">
-            Slate for Chrome
-          </a>
-          <br />
-          <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues/126" target="_blank">
-            Community
-          </a>
-          <br />
-          <a css={STYLES_LINK} href="/_/system">
-            Design system
-          </a>
-        </div>
-      </div>
-      <br />
-      <br />
-      <div css={STYLES_HR} />
-      <div css={STYLES_FLEX} style={styleFlexFull}>
-        <p css={STYLES_P}>MIT License</p>
+    <div css={STYLES_ROOT}>
+      <div css={STYLES_CONTAINER} style={props.style}>
         <div>
-          <a css={STYLES_LINK} style={{ marginRight: `32px` }} href="/terms">
-            Terms of service
-          </a>
-          <a css={STYLES_LINK} href="/guidelines">
-            Community guidelines
-          </a>
+          <p css={STYLES_P}>
+            <span style={{ fontFamily: `${Constants.font.semiBold}`, marginRight: `16px` }}>Slate </span> Public file
+            sharing network. Powered by{" "}
+            <a css={STYLES_LINK} href="https://textile.io" target="_blank">
+              Textile
+            </a>{" "}
+            and{" "}
+            <a css={STYLES_LINK} href="https://filecoin.io" target="_blank">
+              Filecoin
+            </a>
+            .
+            <br />
+          </p>
+        </div>
+        <br />
+        <br />
+        <div css={STYLES_FLEX}>
+          <div css={STYLES_CONTENT_BLOCK}>
+            <p css={STYLES_P} style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}>
+              Contact & Support
+            </p>
+            <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
+              Twitter
+            </a>
+            <br />
+            <a css={STYLES_LINK} href="https://filecoin.io/slack" target="_blank">
+              Slack
+            </a>
+            <br />
+            <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
+              Github
+            </a>
+          </div>
+          <br />
+          <br />
+          <div css={STYLES_CONTENT_BLOCK}>
+            <p css={STYLES_P} style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}>
+              Resources
+            </p>
+            <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
+              Source code
+            </a>
+            <br />
+            <a css={STYLES_LINK} href="/slate-for-chrome">
+              Slate for Chrome
+            </a>
+            <br />
+            <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues/126" target="_blank">
+              Community
+            </a>
+            <br />
+            <a css={STYLES_LINK} href="/_/system">
+              Design system
+            </a>
+          </div>
+        </div>
+        <br />
+        <br />
+        <div css={STYLES_HR} />
+        <div css={STYLES_FLEX} style={styleFlexFull}>
+          <p css={STYLES_P}>MIT License</p>
+          <div>
+            <a css={STYLES_LINK} style={{ marginRight: `32px` }} href="/terms">
+              Terms of service
+            </a>
+            <a css={STYLES_LINK} href="/guidelines">
+              Community guidelines
+            </a>
+          </div>
         </div>
       </div>
     </div>

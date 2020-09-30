@@ -343,11 +343,11 @@ export default class IndexPage extends React.Component {
         <div css={STYLES_ROOT}>
           <div css={STYLES_CONTAINER}>
             <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-              <div css={STYLES_TEXT_BLOCK}>
-                <h1 css={STYLES_H1}>
+              <div css={STYLES_TEXT_BLOCK_CENTER}>
+                <h1 css={STYLES_H1} style={{ width: `100%` }}>
                   Take <span css={STYLES_HIGHLIGHT_BLUE}>the blue pill</span>
                 </h1>
-                <p css={STYLES_P}>
+                <p css={STYLES_P} style={{ width: `100%` }}>
                   for a new file-sharing experience that makes it possible for people to collect, organize, and link
                   files together.
                 </p>
@@ -367,8 +367,9 @@ export default class IndexPage extends React.Component {
             </div>
 
             <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-              <p css={STYLES_P} style={{ fontFamily: `${Constants.font.medium}` }}>
-                Get all the space you need for your valuable information
+              <p css={STYLES_H1} style={{ fontFamily: `${Constants.font.medium}` }}>
+                <span css={STYLES_HIGHLIGHT_BLUE}>Get all the space you need</span> <br />
+                for your valuable information
               </p>
               <br />
               <img

@@ -31,7 +31,7 @@ const STYLES_H1 = css`
   font-family: ${Constants.font.medium};
   font-weight: 400;
   line-height: 1.3;
-  padding: 0px 0px 16px 0px;
+  padding: 0px gutterpx 16px gutterpx;
   letter-spacing: -0.021rem;
   width: 100%;
   color: ${Constants.system.slate};
@@ -74,7 +74,7 @@ const STYLES_CONTENT_BLOCK1 = css`
 `;
 
 const STYLES_CONTENT_BLOCK2 = css`
-  margin: -200px 0 0 auto;
+  margin: -160px 0 0 auto;
   width: 50%;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -126,7 +126,7 @@ export default class TermsPage extends React.Component {
               <h1 css={STYLES_H1}>📑</h1>
               <h1 css={STYLES_H1}>Terms of Service</h1>
               <br />
-              <System.P>In this page</System.P>
+              <System.P style={{ marginLeft: 1 }}>In this page</System.P>
               <ul css={STYLES_LIST}>
                 <li>
                   <a css={STYLES_LINK} href="#Storage Deals to the Filecoin Network">

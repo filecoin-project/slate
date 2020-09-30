@@ -21,16 +21,16 @@ const USER_SLATES = [
     preview: "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
   },
   {
-    name: "Loom",
-    url: "https://slate.host/tara/loom",
-    username: "@tara",
-    preview: "https://slate.textile.io/ipfs/bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna",
+    name: "Cartography",
+    url: "https://slate.host/atlas/cartography",
+    username: "@atlas",
+    preview: "https://slate.textile.io/ipfs/bafybeihfrqvfcetmeimpfbacf2tntlgg3xbvgxekoti4tdz2ketczlqp2a",
   },
   {
-    name: "Brand",
-    url: "https://slate.host/slate/brand",
-    username: "@slate",
-    preview: "https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa",
+    name: "September",
+    url: "https://slate.host/bitgraves/september",
+    username: "@bitgraves",
+    preview: "https://slate.textile.io/ipfs/bafybeiclkru6hwzw2ghvsyrbnaf67taxxhq2hbpcia2oqj5ufdggwhcbti",
   },
   {
     name: "Start your first slate",
@@ -46,16 +46,16 @@ const USER_SLATES = [
     preview: "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda",
   },
   {
-    name: "Monet",
-    url: "https://slate.host/slate/monet",
-    username: "@slate",
-    preview: "https://slate.textile.io/ipfs/bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli",
+    name: "American currency",
+    url: "https://slate.host/harvardmuseum/american-currency",
+    username: "@harvardmuseum",
+    preview: "https://slate.textile.io/ipfs/bafybeifmf4ibwik5fepgjodfzalzfdgjgvgevmn5av3xbwhoj64kvnu5te",
   },
   {
-    name: "Books",
-    url: "https://slate.host/haris/books",
-    username: "@haris",
-    preview: "https://slate.textile.io/ipfs/bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri",
+    name: "Andrew Garrett's Fish of the South Seas 1909-1910",
+    url: "https://slate.host/biodivlibrary/andrew-garrett-s-fische-der-suedsee-bd-3",
+    username: "@biodiversity",
+    preview: "https://slate.textile.io/ipfs/bafybeicckw3yjfidmihhzkzmwyqcjius54rt2swtala24taizwznqnx3mu",
   },
   {
     name: "Papers",
@@ -66,13 +66,13 @@ const USER_SLATES = [
 ];
 
 const STYLES_ROOT = css`
-  padding: 0 88px 128px 88px;
+  padding: 0 88px;
   margin: -88px auto 0 auto;
   width: 100%;
   background-color: ${Constants.system.wallLight};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 128px 24px;
+    padding: 128px 24px 0 24px;
   }
 `;
 
@@ -367,9 +367,12 @@ export default class IndexPage extends React.Component {
             </div>
 
             <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-              <p css={STYLES_H1} style={{ fontFamily: `${Constants.font.medium}` }}>
+              <h1 css={STYLES_H1}>
                 <span css={STYLES_HIGHLIGHT_BLUE}>Get all the space you need</span> <br />
                 for your valuable information
+              </h1>
+              <p css={STYLES_P} style={{ opacity: 0.7 }}>
+                Powered by Textile, Filecoin, IPFS.
               </p>
               <br />
               <img

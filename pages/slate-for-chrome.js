@@ -14,7 +14,7 @@ const STYLES_ROOT = css`
   background-color: ${Constants.system.wallLight};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 128px 24px;
+    padding: 48px 24px;
   }
 `;
 
@@ -83,11 +83,9 @@ const STYLES_SECTION_FLEXWRAPPER = css`
   display: flex;
   width: 100%;
   height: 100%;
-  padding: 0 0 88px 0;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
-    padding: 0 0 80px 0;
   }
 `;
 
@@ -173,6 +171,7 @@ const STYLES_IMG = css`
   width: 70%;
   margin: 0 auto;
   display: block;
+  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
 
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
@@ -182,9 +181,20 @@ const STYLES_IMG = css`
 const STYLES_VR = css`
   width: 1px;
   height: 48px;
-  opacity: 0.5;
   background-color: ${Constants.system.darkGray};
   margin: 0 auto;
+`;
+
+const STYLES_IMG_OVERLAY = css`
+  width: 24%;
+  margin: -30% 0 0 70%;
+  display: block;
+  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    margin: -30% 0 0 60%;
+    width: 30%;
+  }
 `;
 
 export default class SlateForChromePage extends React.Component {
@@ -201,7 +211,8 @@ export default class SlateForChromePage extends React.Component {
             <div css={STYLES_SECTION_WRAPPER}>
               <div css={STYLES_TEXT_BLOCK} style={styleCenterBlock}>
                 <h1 css={STYLES_H1}>
-                  <span css={STYLES_BLUE}>Upload images to Slate</span> from anywhere on the web
+                  <span css={STYLES_BLUE}>Upload images to Slate</span> <br />
+                  from anywhere on the web
                 </h1>
                 <a
                   css={STYLES_BUTTON_PRIMARY}
@@ -214,7 +225,11 @@ export default class SlateForChromePage extends React.Component {
               </div>
               <img
                 css={STYLES_IMG}
-                src="https://slate.textile.io/ipfs/bafybeiesv6mdrrwb3hfnmcys46laht6klvhgijodxx6vwitmo5zv4ybvvu"
+                src="https://slate.textile.io/ipfs/bafybeibnjueud4iezqw6kxjpjfwbb4s3mw2kwcw7mrpccjzyxzd73k3lx4"
+              />
+              <img
+                css={STYLES_IMG_OVERLAY}
+                src="https://slate.textile.io/ipfs/bafkreibgds7gena4fjhe57ozk45iy23wzh5klux4zsrlzbh2xo5ku2t6rm"
               />
             </div>
             <div css={STYLES_SECTION_FLEXWRAPPER}>

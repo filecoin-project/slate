@@ -244,6 +244,22 @@ const STYLES_P = css`
   }
 `;
 
+const STYLES_P_FULL_WIDTH = css`
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl1};
+  letter-spacing: -0.011rem;
+  line-height: 1.5;
+  margin: 4px 0 0 0;
+  width: 100%;
+  color: ${Constants.system.slate};
+  opacity: 0.7;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+  }
+`;
+
 const STYLES_TEXT_BLOCK = css`
   display: flex;
   flex: 1 1 auto;
@@ -757,7 +773,7 @@ export default class CommunityPage extends React.Component {
               />
               <div css={STYLES_DINNER_TABLE}>
                 <h1 css={STYLES_H1}>An open invitation to everyone</h1>
-                <p css={STYLES_P}>
+                <p css={STYLES_P_FULL_WIDTH}>
                   Slate is designed and built by a growing community of hackers,
                   artists, and creatives on the web.
                 </p>
@@ -814,7 +830,7 @@ export default class CommunityPage extends React.Component {
               <h1>Contributors</h1>
               <br />
               <p css={STYLES_P}>
-                Some of our amazing community members helping us make Slate.
+                Our amazing community members helping us make Slate.
               </p>
               <div css={STYLES_CARD_GROUP}>
                 {SLATE_CONTRIBUTOR_TEAM.map((each) => (
@@ -831,35 +847,32 @@ export default class CommunityPage extends React.Component {
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_TEXT_BLOCK}>
-              <h2 css={STYLES_H2}>
-                We couldn’t build Slate without our community of contributors
-              </h2>
+              <h2 css={STYLES_H2}>Further down the road</h2>
               <p css={STYLES_P}>
-                Here features some great work from our contributors. We define
-                contribution beyond code. And we believe that everyone has
-                something to bring to the table. 🍰
+                Slate has infinite possibilities. Here are some of them that
+                we’re excited about.
               </p>
             </div>
             <br />
             <br />
-            <div>
-              {CONTRIBUTIONS.map((each) => (
-                <ContributionCard
-                  contribution={each.contribution}
-                  contributor={each.contributor}
+            <div css={STYLES_CARD_GROUP}>
+              {FEATURES.map((each) => (
+                <FeatureCard
                   illustration={each.illustration}
+                  title={each.title}
+                  description={each.description}
                 />
               ))}
             </div>
             <div css={STYLES_CENTER_BLOCK}>
               <img
                 css={STYLES_IMG_ICON}
-                src="https://slate.textile.io/ipfs/bafkreiav4ursjyxypvx5nvils6wyskpdua64pnzukmun3xmilndiuv3vp4"
+                src="https://slate.textile.io/ipfs/bafkreicq4yjwe47vu66u3qt5qqvznrq5vb4tfunmbrjjt3w6rg5p7pdcwy"
               />
               <h3 css={STYLES_H3}>
-                Have some 🍰 to bring to the table?
+                Have an idea?
                 <br />
-                Let’s chat about how we can support you.
+                Expand our imaginations.
               </h3>
               <button
                 css={STYLES_BUTTON}
@@ -869,7 +882,7 @@ export default class CommunityPage extends React.Component {
                   )
                 }
               >
-                Join Slack channel
+                Submit a feature request
               </button>
             </div>
           </div>
@@ -924,47 +937,6 @@ export default class CommunityPage extends React.Component {
                   Email us feedback
                 </button>
               </div>
-            </div>
-          </div>
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_TEXT_BLOCK}>
-              <h2 css={STYLES_H2}>Further down the road</h2>
-              <p css={STYLES_P}>
-                Slate has infinite possibilities. Here are some of them that
-                we’re excited about.
-              </p>
-            </div>
-            <br />
-            <br />
-            <div css={STYLES_CARD_GROUP}>
-              {FEATURES.map((each) => (
-                <FeatureCard
-                  illustration={each.illustration}
-                  title={each.title}
-                  description={each.description}
-                />
-              ))}
-            </div>
-            <div css={STYLES_CENTER_BLOCK}>
-              <img
-                css={STYLES_IMG_ICON}
-                src="https://slate.textile.io/ipfs/bafkreicq4yjwe47vu66u3qt5qqvznrq5vb4tfunmbrjjt3w6rg5p7pdcwy"
-              />
-              <h3 css={STYLES_H3}>
-                Have an idea?
-                <br />
-                Expand our imaginations.
-              </h3>
-              <button
-                css={STYLES_BUTTON}
-                onClick={() =>
-                  window.open(
-                    "https://github.com/filecoin-project/slate/issues"
-                  )
-                }
-              >
-                Submit a feature request
-              </button>
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>

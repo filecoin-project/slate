@@ -42,6 +42,10 @@ const STYLES_LINK = css`
   :hover {
     color: ${Constants.system.newBlue};
   }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    color: ${Constants.system.slate};
+  }
 `;
 
 const STYLES_LEFT = css`
@@ -95,11 +99,14 @@ const STYLES_BURGER_BUN = css`
   transform-origin: 1.5px;
   transform: rotate(0);
   transistion-property: transform;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    background: ${Constants.system.slate};
+  }
 `;
 
 const openBurgerBun = {
   transform: `rotate(45deg)`,
-  background: `${Constants.system.slate}`,
 };
 
 const STYLES_BURGER_BUN2 = css`
@@ -111,11 +118,14 @@ const STYLES_BURGER_BUN2 = css`
   transform-origin: 1.5px;
   transform: rotate(0);
   transistion-property: transform;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    background: ${Constants.system.slate};
+  }
 `;
 
 const openBurgerBun2 = {
   transform: `rotate(-45deg)`,
-  background: `${Constants.system.slate}`,
 };
 
 const STYLES_MENU = css`

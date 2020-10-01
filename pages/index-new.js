@@ -72,7 +72,7 @@ const STYLES_ROOT = css`
   background-color: ${Constants.system.wallLight};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 128px 24px 0 24px;
+    padding: 48px 24px 0 24px;
   }
 `;
 
@@ -141,7 +141,7 @@ const STYLES_SECTION_WRAPPER = css`
   align-items: flex-start;
 
   @media (max-width: ${Constants.sizes.tablet}px) {
-    padding: 88px;
+    padding: 88px 0;
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -151,16 +151,16 @@ const STYLES_SECTION_WRAPPER = css`
 `;
 
 const STYLES_SECTIONCTA_WRAPPER = css`
-  padding: 88px 88px 240px 88px;
+  padding: 88px 0 240px 0;
   width: 100%;
   height: 100%;
 
   @media (max-width: ${Constants.sizes.tablet}px) {
-    padding: 48px 24px 160px 24px;
+    padding: 48px 0 160px 0;
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 0 24px 88px 24px;
+    padding: 0 0px 88px 0px;
   }
 `;
 
@@ -255,6 +255,11 @@ const STYLES_SLATE_CARD = css`
     transition: 200ms ease box-shadow;
     box-shadow: 0px 10px 40px 20px rgba(0, 0, 0, 0.1);
   }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    height: 10vh;
+  }
 `;
 
 const STYLES_CLEAN_SLATE = css`
@@ -268,6 +273,11 @@ const STYLES_CLEAN_SLATE = css`
     transition: 200ms ease box-shadow;
     box-shadow: 0px 10px 40px 20px rgba(0, 0, 0, 0.1);
   }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    height: 10vh;
+  }
 `;
 
 const STYLES_SLATE_CARD_LINK = css`
@@ -280,11 +290,6 @@ const STYLES_SLATE_CARD_TEXT = css`
   padding: 8px 16px;
   width: 100%;
   height: 100%;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    flex-direction: column;
-    justify-content: space-between;
-  }
 `;
 
 const STYLES_CARDP = css`

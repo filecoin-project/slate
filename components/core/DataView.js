@@ -636,6 +636,8 @@ export default class DataView extends React.Component {
               height="24px"
             />
           </div>
+        </span>
+        <span css={STYLES_MOBILE_HIDDEN}>
           <div
             css={STYLES_ICON_BOX}
             onClick={() => {

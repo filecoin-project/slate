@@ -185,8 +185,10 @@ export class GlobalViewerCID extends React.Component {
   };
 
   _handleClose = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     this.setState({ visible: false, index: 0, loading: false, saving: false });
   };
 

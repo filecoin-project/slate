@@ -12,15 +12,35 @@ import { ProcessedText } from "~/components/system/components/Typography";
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 import GlobalViewerCIDSidebarSlates from "~/components/core/viewers/GlobalViewerCIDSidebarSlates";
 
+const STYLES_NO_VISIBLE_SCROLL = css`
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+  }
+  ::-webkit-scrollbar-track {
+    background: ${Constants.system.foreground};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${Constants.system.darkGray};
+  }
+`;
+
 const STYLES_SIDEBAR = css`
   width: 420px;
   padding: 48px 24px;
   flex-shrink: 0;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+  position: relative;
+  ${STYLES_NO_VISIBLE_SCROLL}
 
   @supports (
     (-webkit-backdrop-filter: blur(75px)) or (backdrop-filter: blur(75px))
@@ -115,11 +135,14 @@ export default class GlobalViewerCIDSidebar extends React.Component {
     const elements = [];
 
     if (this.props.onClose) {
+      console.log("dismiss added");
       elements.push(
         <div key="s-1" css={STYLES_DISMISS_BOX} onClick={this.props.onClose}>
           <SVG.Dismiss height="24px" />
         </div>
       );
+    } else {
+      console.log("dismiss not added");
     }
 
     if (this.props.renderDataControls) {

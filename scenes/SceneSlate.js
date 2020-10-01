@@ -503,7 +503,7 @@ export default class SceneSlate extends React.Component {
               data.name
             )
           }
-          actions={<span css={STYLES_MOBILE_HIDDEN}>actions</span>}
+          actions={<span css={STYLES_MOBILE_HIDDEN}>{actions}</span>}
         >
           <ProcessedText text={body} />
         </ScenePageHeader>

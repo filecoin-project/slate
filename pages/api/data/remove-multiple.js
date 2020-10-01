@@ -113,6 +113,7 @@ export default async (req, res) => {
       .send({ decorator: "SERVER_REMOVE_DATA_NO_CID", error: true });
   }
 
+  let bucketRemoval;
   // remove from your bucket
   for (let entity of entities) {
     try {

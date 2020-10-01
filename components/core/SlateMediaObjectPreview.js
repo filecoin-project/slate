@@ -5,6 +5,14 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/react";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
 
+const STYLES_IMAGE_CONTAINER = css`
+  background-color: ${Constants.system.foreground};
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: 50% 50%;
+`;
+
 const STYLES_IMAGE = css`
   background-color: ${Constants.system.foreground};
   display: block;
@@ -53,6 +61,14 @@ export default class SlateMediaObjectPreview extends React.Component {
         : this.props.title;
 
     if (this.props.type && this.props.type.startsWith("image/")) {
+      if (this.props.centeredImage) {
+        return (
+          <div
+            css={STYLES_IMAGE_CONTAINER}
+            style={{ backgroundImage: `url(${url})`, ...this.props.imageStyle }}
+          />
+        );
+      }
       return <img css={STYLES_IMAGE} style={this.props.imageStyle} src={url} />;
     }
 

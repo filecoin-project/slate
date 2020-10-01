@@ -45,10 +45,7 @@ export default class SceneFilesFolder extends React.Component {
         />
 
         <TabGroup disabled tabs={["Usage"]} />
-        <DataMeter
-          stats={this.props.viewer.stats}
-          style={{ margin: "48px 0 48px 0" }}
-        />
+        <DataMeter stats={this.props.viewer.stats} />
         {this.props.viewer.library[0].children &&
         this.props.viewer.library[0].children.length ? (
           <DataView

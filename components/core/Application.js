@@ -700,6 +700,7 @@ export default class ApplicationPage extends React.Component {
           <SceneSignIn
             onCreateUser={this._handleCreateUser}
             onAuthenticate={this._handleAuthenticate}
+            onAction={this._handleAction}
           />
         </WebsitePrototypeWrapper>
       );

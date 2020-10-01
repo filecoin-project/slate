@@ -124,8 +124,7 @@ const Item = (props) => {
     >
       <span
         css={STYLES_EXPANDER}
-        onMouseUp={props.onToggleShow ? props.onToggleShow : null}
-        onTouchEnd={props.onToggleShow ? props.onToggleShow : null}
+        onClick={props.onToggleShow ? props.onToggleShow : null}
       >
         <span
           css={STYLES_ICON_ELEMENT}
@@ -143,14 +142,7 @@ const Item = (props) => {
       </span>
       <span
         css={STYLES_ICON}
-        onMouseUp={() =>
-          props.onAction({
-            type: "NAVIGATE",
-            value: props.id,
-            data: props.data,
-          })
-        }
-        onTouchEnd={() =>
+        onClick={() =>
           props.onAction({
             type: "NAVIGATE",
             value: props.id,
@@ -169,14 +161,7 @@ const Item = (props) => {
       <span
         css={STYLES_CHILDREN}
         children={props.children}
-        onMouseUp={() =>
-          props.onAction({
-            type: "NAVIGATE",
-            value: props.id,
-            data: props.data,
-          })
-        }
-        onTouchEnd={() =>
+        onClick={() =>
           props.onAction({
             type: "NAVIGATE",
             value: props.id,
@@ -267,6 +252,7 @@ export default class ApplicationNavigation extends React.Component {
 
           return (
             <div
+              key={each.id}
               css={
                 each.id === "V1_NAVIGATION_ARCHIVE" ||
                 each.id === "V1_NAVIGATION_API"

@@ -36,6 +36,10 @@ const STYLES_HEADER = css`
   max-width: 688px;
   white-space: pre-wrap;
   overflow-wrap: break-word;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    font-size: ${Constants.typescale.lvl3};
+  }
 `;
 
 const STYLES_DESCRIPTION = css`

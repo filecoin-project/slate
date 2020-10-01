@@ -36,6 +36,10 @@ const STYLES_USER = css`
   color: ${Constants.system.brand};
   font-family: ${Constants.font.medium};
   font-size: ${Constants.typescale.lvl1};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 12px 16px;
+  }
 `;
 
 const STYLES_BUTTONS = css`
@@ -43,6 +47,11 @@ const STYLES_BUTTONS = css`
   display: flex;
   flex-direction: row;
   margin-right: 48px;
+  justify-content: flex-end;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-right: 8px;
+  }
 `;
 
 const STYLES_ITEM_BOX = css`
@@ -54,6 +63,10 @@ const STYLES_ITEM_BOX = css`
   padding: 8px;
   margin-right: 48px;
   color: ${Constants.system.darkGray};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-right: 8px;
+  }
 `;
 
 const STYLES_ACTION_BUTTON = css`
@@ -112,6 +125,18 @@ const STYLES_COPY_INPUT = css`
   pointer-events: none;
   position: absolute;
   opacity: 0;
+`;
+
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_MOBILE_ONLY = css`
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
 `;
 
 export default class SceneDirectory extends React.Component {
@@ -180,24 +205,53 @@ export default class SceneDirectory extends React.Component {
       })
       .map((relation) => {
         let button = (
-          <div css={STYLES_BUTTONS}>
-            <ButtonPrimary
-              transparent
-              style={{ fontSize: 16 }}
-              onClick={(e) => this._handleAccept(e, relation.owner.id)}
-            >
-              Accept
-            </ButtonPrimary>
-            <ButtonSecondary
-              transparent
-              style={{ fontSize: 16 }}
-              onClick={(e) => {
-                this._handleDelete(e, relation.id);
-              }}
-            >
-              Decline
-            </ButtonSecondary>
-          </div>
+          <React.Fragment>
+            <span css={STYLES_MOBILE_ONLY}>
+              <div css={STYLES_BUTTONS}>
+                <div
+                  css={STYLES_ITEM_BOX}
+                  onClick={(e) => this._handleAccept(e, relation.owner.id)}
+                >
+                  <SVG.CheckBox
+                    height="24px"
+                    style={{ color: Constants.system.brand }}
+                  />
+                </div>
+                <div
+                  css={STYLES_ITEM_BOX}
+                  style={{ marginRight: 0 }}
+                  onClick={(e) => {
+                    this._handleDelete(e, relation.id);
+                  }}
+                >
+                  <SVG.Dismiss
+                    height="24px"
+                    style={{ color: Constants.system.gray }}
+                  />
+                </div>
+              </div>
+            </span>
+            <span css={STYLES_MOBILE_HIDDEN}>
+              <div css={STYLES_BUTTONS}>
+                <ButtonPrimary
+                  transparent
+                  style={{ fontSize: 16 }}
+                  onClick={(e) => this._handleAccept(e, relation.owner.id)}
+                >
+                  Accept
+                </ButtonPrimary>
+                <ButtonSecondary
+                  transparent
+                  style={{ fontSize: 16 }}
+                  onClick={(e) => {
+                    this._handleDelete(e, relation.id);
+                  }}
+                >
+                  Decline
+                </ButtonSecondary>
+              </div>
+            </span>
+          </React.Fragment>
         );
         return (
           <UserEntry

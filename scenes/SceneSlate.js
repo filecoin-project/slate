@@ -2,6 +2,7 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
+import * as Validations from "~/common/validations";
 import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 import * as Window from "~/common/window";
@@ -27,11 +28,29 @@ const STYLES_ICONS = css`
   justify-content: center;
 `;
 
+const STYLES_ACTIONS = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding-left: 24px;
+  }
+`;
+
 const STYLES_USERNAME = css`
   cursor: pointer;
 
   :hover {
     color: ${Constants.system.brand};
+  }
+`;
+
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_MOBILE_ONLY = css`
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
   }
 `;
 
@@ -416,6 +435,45 @@ export default class SceneSlate extends React.Component {
       return subscription.target_slate_id === this.props.current.id;
     }).length;
 
+    let onMobile = Validations.onMobile();
+    let actions = this.state.editing ? (
+      <span css={STYLES_ACTIONS}>
+        <CircleButtonGray onClick={this._handleAdd} style={{ marginRight: 16 }}>
+          <SVG.Plus height="16px" />
+        </CircleButtonGray>
+        {isPublic ? (
+          <CircleButtonGray
+            onClick={() => this._handleSlateLink()}
+            style={{ marginRight: 16 }}
+          >
+            <SVG.DeepLink height="16px" />
+          </CircleButtonGray>
+        ) : null}
+        <CircleButtonGray onClick={this._handleShowSettings}>
+          <SVG.Settings height="16px" />
+        </CircleButtonGray>
+      </span>
+    ) : (
+      <div onClick={this._handleFollow}>
+        {following ? (
+          <ButtonSecondary
+            transparent
+            style={{ minWidth: 120, paddingLeft: 0 }}
+            loading={this.state.followLoading}
+          >
+            Unfollow
+          </ButtonSecondary>
+        ) : (
+          <ButtonPrimary
+            transparent
+            style={{ minWidth: 120, paddingLeft: 0 }}
+            loading={this.state.followLoading}
+          >
+            Follow
+          </ButtonPrimary>
+        )}
+      </div>
+    );
     return (
       <ScenePage
         style={{ paddingLeft: "24px", paddingRight: "24px" }}
@@ -445,61 +503,15 @@ export default class SceneSlate extends React.Component {
               data.name
             )
           }
-          actions={
-            this.state.editing ? (
-              <React.Fragment>
-                <CircleButtonGray
-                  onMouseUp={this._handleAdd}
-                  onTouchEnd={this._handleAdd}
-                  style={{ marginRight: 16 }}
-                >
-                  <SVG.Plus height="16px" />
-                </CircleButtonGray>
-                {isPublic ? (
-                  <CircleButtonGray
-                    onMouseUp={() => this._handleSlateLink()}
-                    onTouchEnd={() => this._handleSlateLink()}
-                    style={{ marginRight: 16 }}
-                  >
-                    <SVG.DeepLink height="16px" />
-                  </CircleButtonGray>
-                ) : null}
-                <CircleButtonGray
-                  onMouseUp={this._handleShowSettings}
-                  onTouchEnd={this._handleShowSettings}
-                >
-                  <SVG.Settings height="16px" />
-                </CircleButtonGray>
-              </React.Fragment>
-            ) : (
-              <div onClick={this._handleFollow}>
-                {following ? (
-                  <ButtonSecondary
-                    transparent
-                    style={{ minWidth: 120 }}
-                    loading={this.state.followLoading}
-                  >
-                    Unfollow
-                  </ButtonSecondary>
-                ) : (
-                  <ButtonPrimary
-                    transparent
-                    style={{ minWidth: 120 }}
-                    loading={this.state.followLoading}
-                  >
-                    Follow
-                  </ButtonPrimary>
-                )}
-              </div>
-            )
-          }
+          actions={<span css={STYLES_MOBILE_HIDDEN}>actions</span>}
         >
           <ProcessedText text={body} />
         </ScenePageHeader>
+        <span css={STYLES_MOBILE_ONLY}>{actions}</span>
         {objects && objects.length ? (
           layouts ? (
             <Slate
-              editing={this.state.editing}
+              editing={onMobile ? false : this.state.editing}
               saving={this.state.saving}
               items={objects}
               layouts={layouts}

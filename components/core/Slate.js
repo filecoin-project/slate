@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
+import * as Validations from "~/common/validations";
 import * as Actions from "~/common/actions";
 
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -85,6 +86,12 @@ const STYLES_ACTION_BUTTON = css`
 
   :hover {
     background-color: ${Constants.system.black};
+  }
+`;
+
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
   }
 `;
 
@@ -178,32 +185,42 @@ export default class Slate extends React.Component {
       }
 
       return (
-        <div key={index} css={STYLES_ITEM}>
+        <div
+          key={index}
+          css={STYLES_ITEM}
+          onClick={
+            Validations.onMobile()
+              ? (e) => this._handleSelect(e, index)
+              : () => {}
+          }
+        >
           <SlateMediaObjectPreview
             charCap={70}
             type={data.type}
             url={data.url}
             title={data.title || data.name}
           />
-          <figure css={STYLES_BUTTON}>
-            <CircleButtonGray
-              style={{ margin: 8 }}
-              onMouseUp={(e) => this._handleSelect(e, index)}
-              onTouchEnd={(e) => this._handleSelect(e, index)}
-            >
-              <SVG.Eye height="16px" />
-            </CircleButtonGray>
-
-            {data.deeplink ? (
+          <span css={STYLES_MOBILE_HIDDEN}>
+            <figure css={STYLES_BUTTON}>
               <CircleButtonGray
-                style={{ margin: 8 }}
-                onMouseUp={(e) => this._handleDeepLink(e, data)}
-                onTouchEnd={(e) => this._handleDeepLink(e, data)}
+                style={{ margin: 8, cursor: "pointer" }}
+                onMouseUp={(e) => this._handleSelect(e, index)}
+                onTouchEnd={(e) => this._handleSelect(e, index)}
               >
-                <SVG.DeepLink height="16px" />
+                <SVG.Eye height="16px" />
               </CircleButtonGray>
-            ) : null}
-          </figure>
+
+              {data.deeplink ? (
+                <CircleButtonGray
+                  style={{ margin: 8 }}
+                  onMouseUp={(e) => this._handleDeepLink(e, data)}
+                  onTouchEnd={(e) => this._handleDeepLink(e, data)}
+                >
+                  <SVG.DeepLink height="16px" />
+                </CircleButtonGray>
+              ) : null}
+            </figure>
+          </span>
         </div>
       );
     });
@@ -245,8 +262,7 @@ export default class Slate extends React.Component {
             </span>
             <span
               css={STYLES_ACTION_BUTTON}
-              onMouseUp={this._handleSaveLayout}
-              onTouchEnd={this._handleSaveLayout}
+              onClick={this._handleSaveLayout}
               style={{
                 backgroundColor:
                   this.props.saving === "IDLE" ? Constants.system.brand : null,

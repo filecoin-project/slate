@@ -323,8 +323,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
         <span
           key="sidebar-media-object-delete"
           css={STYLES_BUTTON}
-          onMouseUp={() => this.props.onDelete(this.props.id)}
-          onTouchEnd={() => this.props.onDelete(this.props.id)}
+          onClick={() => this.props.onDelete(this.props.id)}
         >
           {this.props.loading ? (
             <LoaderSpinner style={{ height: 16, width: 16 }} />

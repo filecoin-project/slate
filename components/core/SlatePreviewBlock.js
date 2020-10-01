@@ -11,6 +11,18 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_MOBILE_ONLY = css`
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
 const STYLES_CREATE_NEW = css`
   color: ${Constants.system.darkGray};
   box-shadow: 0px 0px 0px 1px rgba(229, 229, 229, 0.5) inset;
@@ -23,7 +35,10 @@ const STYLES_CREATE_NEW = css`
   margin: 0px 12px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 8px;
+    margin: 0;
+    border-radius: 8;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -161,6 +176,11 @@ const STYLES_BLOCK = css`
   margin: 24px auto 48px auto;
   max-width: ${Constants.sizes.desktop}px;
   cursor: pointer;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 16px;
+    margin: 24px auto;
+  }
 `;
 
 const STYLES_TITLE_LINE = css`
@@ -170,6 +190,10 @@ const STYLES_TITLE_LINE = css`
   font-size: ${Constants.typescale.lvl1};
   margin-bottom: 16px;
   overflow-wrap: break-word;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
 `;
 
 const STYLES_COPY_INPUT = css`
@@ -195,6 +219,10 @@ const STYLES_BODY = css`
   line-height: 20px;
   white-space: pre-wrap;
   word-wrap: break-word;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
 `;
 
 const STYLES_ICON_BOX = css`
@@ -227,6 +255,20 @@ export default class SlatePreviewBlock extends React.Component {
   state = {
     showMenu: false,
     copyValue: "",
+    windowWidth: 360,
+  };
+
+  componentDidMount = () => {
+    this.calculateWidth();
+    window.addEventListener("resize", this.calculateWidth);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.calculateWidth);
+  };
+
+  calculateWidth = () => {
+    this.setState({ windowWidth: window.innerWidth });
   };
 
   _handleCopy = (e, value) => {
@@ -267,6 +309,9 @@ export default class SlatePreviewBlock extends React.Component {
     if (!this.props.editing && !this.props.slate.data.objects.length) {
       return null;
     }
+    let first = this.props.slate.data.objects
+      ? this.props.slate.data.objects[0]
+      : null;
     let contextMenu = (
       <React.Fragment>
         <Boundary
@@ -387,10 +432,47 @@ export default class SlatePreviewBlock extends React.Component {
         ) : (
           <div style={{ height: "8px" }} />
         )}
-        <SlatePreviewRow
-          {...this.props}
-          previewStyle={this.props.previewStyle}
-        />
+        <span css={STYLES_MOBILE_ONLY}>
+          <div
+            css={STYLES_TITLE}
+            style={{ marginBottom: 8, fontSize: Constants.typescale.lvl1 }}
+          >
+            {this.props.slate.data.name}
+          </div>
+          <div style={{ marginBottom: 16, fontSize: 12 }}>
+            {this.props.slate.data.objects.length} Object
+            {this.props.slate.data.objects.length === 1 ? "" : "s"}
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: `${this.state.windowWidth - 80}px`,
+            }}
+          >
+            {first ? (
+              <SlateMediaObjectPreview
+                centeredImage
+                charCap={30}
+                type={first.type}
+                url={first.url}
+                style={{ borderRadius: 8 }}
+                imageStyle={{ borderRadius: 8 }}
+                title={first.title || first.name}
+              />
+            ) : (
+              <div css={STYLES_CREATE_NEW} key="add-files">
+                <SVG.Plus height="24px" />
+                <div>Add Files</div>
+              </div>
+            )}
+          </div>
+        </span>
+        <span css={STYLES_MOBILE_HIDDEN}>
+          <SlatePreviewRow
+            {...this.props}
+            previewStyle={this.props.previewStyle}
+          />
+        </span>
       </div>
     );
   }

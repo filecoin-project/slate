@@ -11,6 +11,11 @@ const STYLES_TAB_GROUP = css`
   flex-direction: row;
   box-sizing: border-box;
   width: 100%;
+  flex-wrap: wrap;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 24px 0px 24px 0px;
+  }
 `;
 
 const STYLES_TAB = css`
@@ -23,6 +28,7 @@ const STYLES_TAB = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin-right: 12px;
+    font-size: ${Constants.typescale.lvl1};
   }
 `;
 

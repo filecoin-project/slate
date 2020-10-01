@@ -72,8 +72,7 @@ export default class SceneSlates extends React.Component {
           actions={
             this.state.tab === 0 ? (
               <CircleButtonGray
-                onMouseUp={this._handleAdd}
-                onTouchEnd={this._handleAdd}
+                onClick={this._handleAdd}
                 style={{ marginLeft: 12 }}
               >
                 <SVG.Plus height="16px" />

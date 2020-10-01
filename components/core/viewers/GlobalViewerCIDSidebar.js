@@ -116,12 +116,7 @@ export default class GlobalViewerCIDSidebar extends React.Component {
 
     if (this.props.onClose) {
       elements.push(
-        <div
-          key="s-1"
-          css={STYLES_DISMISS_BOX}
-          onMouseUp={this.props.onClose}
-          onTouchEnd={this.props.onClose}
-        >
+        <div key="s-1" css={STYLES_DISMISS_BOX} onClick={this.props.onClose}>
           <SVG.Dismiss height="24px" />
         </div>
       );

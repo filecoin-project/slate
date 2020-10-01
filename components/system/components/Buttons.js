@@ -78,8 +78,7 @@ export const ButtonPrimary = (props) => {
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}
-        onMouseUp={props.onClick}
-        onTouchEnd={props.onClick}
+        onClick={props.onClick}
       />
     );
   }
@@ -92,8 +91,7 @@ export const ButtonPrimary = (props) => {
           : STYLES_BUTTON_PRIMARY
       }
       style={{ ...props.style, width: props.full ? "100%" : "auto" }}
-      onMouseUp={props.onClick}
-      onTouchEnd={props.onClick}
+      onClick={props.onClick}
       children={props.children}
     />
   );
@@ -153,8 +151,7 @@ export const ButtonSecondary = (props) => {
             : STYLES_BUTTON_SECONDARY
         }
         style={{ ...props.style, width: props.full ? "100%" : "auto" }}
-        onMouseUp={props.onClick}
-        onTouchEnd={props.onClick}
+        onClick={props.onClick}
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}
@@ -169,8 +166,7 @@ export const ButtonSecondary = (props) => {
           ? STYLES_BUTTON_SECONDARY_TRANSPARENT
           : STYLES_BUTTON_SECONDARY
       }
-      onMouseUp={props.onClick}
-      onTouchEnd={props.onClick}
+      onClick={props.onClick}
       children={props.children}
       style={{ ...props.style, width: props.full ? "100%" : "auto" }}
     />
@@ -208,8 +204,7 @@ export const ButtonDisabled = (props) => {
           ? STYLES_BUTTON_DISABLED_TRANSPARENT
           : STYLES_BUTTON_DISABLED
       }
-      onMouseUp={props.onClick}
-      onTouchEnd={props.onClick}
+      onClick={props.onClick}
       children={props.children}
       type={props.label}
       htmlFor={props.htmlFor}
@@ -275,8 +270,7 @@ export const ButtonWarning = (props) => {
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}
-        onMouseUp={props.onClick}
-        onTouchEnd={props.onClick}
+        onClick={props.onClick}
       />
     );
   }
@@ -289,8 +283,7 @@ export const ButtonWarning = (props) => {
           : STYLES_BUTTON_WARNING
       }
       style={{ ...props.style, width: props.full ? "100%" : "auto" }}
-      onMouseUp={props.onClick}
-      onTouchEnd={props.onClick}
+      onClick={props.onClick}
       children={props.children}
     />
   );

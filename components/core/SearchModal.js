@@ -30,6 +30,11 @@ const STYLES_CONTAINER = css`
   border-radius: 4px;
   background-color: ${Constants.system.white};
   box-shadow: 0 0 60px 8px rgba(0, 0, 0, 0.03);
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    max-width: 95vw;
+    padding: 20px;
+  }
 `;
 
 const STYLES_MODAL = css`
@@ -42,8 +47,8 @@ const STYLES_MODAL = css`
 `;
 
 const STYLES_SEARCH_DROPDOWN = {
-  height: "calc(100% - 16px)",
-  overflowY: "scroll",
+  // height: "calc(100% - 16px)",
+  // overflowY: "scroll",
 };
 
 const STYLES_USER_ENTRY_CONTAINER = css`

@@ -19,13 +19,14 @@ const STYLES_ALERT = `
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  transition: top 0.25s;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
     padding: 12px;
-    top: 56px;
     left: 0px;
     right: 0px;
+    width: 100%;
   }
 `;
 
@@ -139,7 +140,7 @@ export class Alert extends React.Component {
         // NOTE(jim): Replaces the filecoin banner on some navigation pages.
         if (this.props.filecoin) {
           return (
-            <div css={STYLES_MESSAGE}>
+            <div css={STYLES_MESSAGE} style={this.props.style}>
               <div css={STYLES_MESSAGE_BOX} style={{ fontSize: 14 }}>
                 You are on the Filecoin Testnet. Test FIL may take a moment to
                 reach your wallet.
@@ -149,7 +150,7 @@ export class Alert extends React.Component {
         }
 
         return (
-          <div css={STYLES_MESSAGE}>
+          <div css={STYLES_MESSAGE} style={this.props.style}>
             <div css={STYLES_MESSAGE_BOX} style={{ fontSize: 14 }}>
               Please don't upload sensitive information to Slate yet. Private
               storage is coming soon.
@@ -165,7 +166,7 @@ export class Alert extends React.Component {
       return (
         <div
           css={STYLES_INFO}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", ...this.props.style }}
           onClick={() =>
             this.props.onAction({
               type: "SIDEBAR",

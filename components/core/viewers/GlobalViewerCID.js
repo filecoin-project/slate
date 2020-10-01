@@ -87,6 +87,34 @@ const STYLES_EXPANDER = css`
   }
 `;
 
+const STYLES_DISMISS_BOX = css`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: ${Constants.system.darkGray};
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.black};
+  }
+
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_MOBILE_ONLY = css`
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
 export class GlobalViewerCID extends React.Component {
   state = {
     index: 0,
@@ -156,8 +184,11 @@ export class GlobalViewerCID extends React.Component {
     });
   };
 
-  _handleClose = () =>
+  _handleClose = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
     this.setState({ visible: false, index: 0, loading: false, saving: false });
+  };
 
   _handleCreate = (e) => {
     const shouldPersist =
@@ -202,44 +233,49 @@ export class GlobalViewerCID extends React.Component {
         <div css={STYLES_ROOT_CONTENT} style={this.props.style}>
           <span
             css={STYLES_BOX}
-            onMouseUp={this._handlePrevious}
-            onTouchEnd={this._handlePrevious}
+            onClick={this._handlePrevious}
             style={{ top: 0, left: 16, bottom: 0 }}
           >
             <SVG.ChevronLeft height="20px" />
           </span>
           <span
             css={STYLES_BOX}
-            onMouseUp={this._handleNext}
-            onTouchEnd={this._handleNext}
+            onClick={this._handleNext}
             style={{ top: 0, right: 16, bottom: 0 }}
           >
             <SVG.ChevronRight height="20px" />
           </span>
           {current.component}
-          <div
-            css={STYLES_EXPANDER}
-            onClick={() =>
-              this.setState({ showSidebar: !this.state.showSidebar })
-            }
-          >
-            {this.state.showSidebar ? (
-              <SVG.Maximize height="24px" />
-            ) : (
-              <SVG.Minimize height="24px" />
-            )}
+          <span css={STYLES_MOBILE_HIDDEN}>
+            <div
+              css={STYLES_EXPANDER}
+              onClick={() =>
+                this.setState({ showSidebar: !this.state.showSidebar })
+              }
+            >
+              {this.state.showSidebar ? (
+                <SVG.Maximize height="24px" />
+              ) : (
+                <SVG.Minimize height="24px" />
+              )}
+            </div>
+          </span>
+          <div css={STYLES_DISMISS_BOX} onClick={this._handleClose}>
+            <SVG.Dismiss height="24px" />
           </div>
         </div>
-        <GlobalViewerCIDSidebar
-          display={this.state.showSidebar ? "block" : "none"}
-          onClose={this._handleClose}
-          key={current.id}
-          saving={this.state.saving}
-          loading={this.state.loading}
-          onRehydrate={this.props.onRehydrate}
-          onAction={this.props.onAction}
-          {...current}
-        />
+        <span css={STYLES_MOBILE_HIDDEN}>
+          <GlobalViewerCIDSidebar
+            display={this.state.showSidebar ? "block" : "none"}
+            onClose={this._handleClose}
+            key={current.id}
+            saving={this.state.saving}
+            loading={this.state.loading}
+            onRehydrate={this.props.onRehydrate}
+            onAction={this.props.onAction}
+            {...current}
+          />
+        </span>
       </div>
     );
   }

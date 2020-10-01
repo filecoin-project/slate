@@ -160,6 +160,8 @@ export default class ApplicationHeader extends React.Component {
                 style={{ transform: `rotate(180deg)` }}
               />
             </span>
+          </span>
+          <span css={STYLES_MOBILE_HIDDEN}>
             <span
               css={STYLES_ICON_ELEMENT}
               style={
@@ -171,7 +173,8 @@ export default class ApplicationHeader extends React.Component {
             >
               <SVG.NavigationArrow height="24px" />
             </span>
-
+          </span>
+          <span css={STYLES_MOBILE_HIDDEN}>
             <span
               css={this.state.isRefreshing ? STYLES_ROTATION : STYLES_STATIC}
               style={{ marginLeft: 24 }}
@@ -180,7 +183,8 @@ export default class ApplicationHeader extends React.Component {
                 <SVG.Refresh height="20px" />
               </span>
             </span>
-
+          </span>
+          <span css={STYLES_MOBILE_HIDDEN}>
             <span
               css={STYLES_ICON_ELEMENT}
               style={{ marginLeft: 24 }}

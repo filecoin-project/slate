@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/react";
 import { GlobalTooltip } from "~/components/system/components/fragments/GlobalTooltip";
@@ -51,6 +52,7 @@ const STYLES_HEADER = css`
   left: ${Constants.sizes.navigation}px;
   right: 0;
   top: 0;
+  transition: top 0.25s;
   @media (max-width: ${Constants.sizes.mobile}px) {
     left: 0;
   }
@@ -163,10 +165,58 @@ const STYLES_BLOCK = css`
   color: rgba(0, 0, 0, 0.25);
 `;
 
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_MOBILE_ONLY = css`
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
 export default class ApplicationLayout extends React.Component {
   _sidebar;
   _navigation;
   _body;
+
+  state = {
+    alertTop: 56,
+  };
+
+  componentDidMount = () => {
+    this.prevScrollPos = window.pageYOffset;
+    if (Validations.onMobile()) {
+      window.addEventListener("scroll", this._handleScroll);
+    }
+  };
+
+  componentWillUnmount = () => {
+    if (Validations.onMobile()) {
+      window.removeEventListener("scroll", this._handleScroll);
+    }
+  };
+
+  _handleScroll = () => {
+    console.log(document.getElementById("slate-mobile-alert"));
+    let currentScrollPos = window.pageYOffset;
+    if (this.prevScrollPos > currentScrollPos) {
+      if (document.getElementById("slate-mobile-header")) {
+        document.getElementById("slate-mobile-header").style.top = "0px";
+      }
+      this.setState({ alertTop: 56 });
+    } else {
+      if (currentScrollPos > 56) {
+        if (document.getElementById("slate-mobile-header")) {
+          document.getElementById("slate-mobile-header").style.top = "-56px";
+        }
+        this.setState({ alertTop: 0 });
+      }
+    }
+    this.prevScrollPos = currentScrollPos;
+  };
 
   _handleDismiss = (e) => {
     e.stopPropagation();
@@ -184,11 +234,7 @@ export default class ApplicationLayout extends React.Component {
             allowedTypes={["sidebar"]}
           />
           <div css={STYLES_SIDEBAR_HEADER}>
-            <div
-              css={STYLES_BLOCK}
-              onMouseUp={this._handleDismiss}
-              onTouchEnd={this._handleDismiss}
-            >
+            <div css={STYLES_BLOCK} onClick={this._handleDismiss}>
               <SVG.Dismiss height="24px" />
             </div>
           </div>
@@ -212,8 +258,16 @@ export default class ApplicationLayout extends React.Component {
         </div>
 
         <div css={STYLES_CONTENT}>
-          <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} />
-          <div css={STYLES_HEADER}>{this.props.header}</div>
+          {/* <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} /> */}
+          <GlobalTooltip allowedTypes={["body"]} />
+          <span css={STYLES_MOBILE_HIDDEN}>
+            <div css={STYLES_HEADER}>{this.props.header}</div>
+          </span>
+          <span css={STYLES_MOBILE_ONLY}>
+            <div css={STYLES_HEADER} id="slate-mobile-header">
+              {this.props.header}
+            </div>
+          </span>
           <div
             css={STYLES_BODY_WEB}
             ref={(c) => {
@@ -235,14 +289,10 @@ export default class ApplicationLayout extends React.Component {
           </div>
           <div css={STYLES_BODY_MOBILE}>
             <Alert
+              id="slate-mobile-alert"
               fileLoading={this.props.fileLoading}
               onAction={this.props.onAction}
-              style={{
-                top: 0,
-                left: 0,
-                width: "100%",
-                zIndex: Constants.zindex.modal,
-              }}
+              style={{ top: this.state.alertTop }}
             />
             {this.props.children}
           </div>

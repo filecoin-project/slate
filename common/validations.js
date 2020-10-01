@@ -51,6 +51,12 @@ const REJECT_LIST = [
   "data",
 ];
 
+export const onMobile = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+};
+
 export const userRoute = (text) => {
   if (!USERNAME_REGEX.test(text)) {
     return false;

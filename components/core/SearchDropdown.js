@@ -8,7 +8,6 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 const STYLES_DROPDOWN_CONTAINER = css`
   box-sizing: border-box;
   z-index: ${Constants.zindex.modal};
-  height: 100%;
 `;
 
 const STYLES_DROPDOWN = css`
@@ -21,9 +20,15 @@ const STYLES_DROPDOWN = css`
   width: 100%;
   scrollbar-width: none;
   padding-bottom: 24px;
+  height: calc(100% - 16px);
+  overflow-y: scroll;
 
   ::-webkit-scrollbar {
     display: none;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    height: calc(100% - 36px);
   }
 `;
 

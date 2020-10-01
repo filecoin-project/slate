@@ -101,7 +101,7 @@ const SLATE_CORE_TEAM = [
   {
     id: 6,
     name: "William Felker",
-    url: "https://slate.host/gndclouds/urban-gardens",
+    url: "https://github.com/gndclouds",
     username: "gndclouds",
     imageUrl:
       "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
@@ -481,9 +481,9 @@ const STYLES_SLATE_CARD_EFFECTS = css`
 
 const STYLES_FEATURE_CARD = css`
   width: 30%;
-  height: 450px;
+  height: 350px;
   justify-content: space-between;
-  margin: auto;
+  margin: 24px auto;
   padding: 16px;
   border-radius: 8px;
   background-color: #f2f4f8;
@@ -763,7 +763,11 @@ export default class CommunityPage extends React.Component {
                 </p>
                 <button
                   css={STYLES_BUTTON}
-                  onClick={() => window.open("https://filecoin.io/slack")}
+                  onClick={() =>
+                    window.open(
+                      "https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
+                    )
+                  }
                 >
                   Join our community{" "}
                 </button>
@@ -907,7 +911,7 @@ export default class CommunityPage extends React.Component {
                   css={STYLES_BUTTON}
                   onClick={() =>
                     window.open(
-                      "https://github.com/filecoin-project/slate/issues/new/choose"
+                      "https://github.com/filecoin-project/slate/issues"
                     )
                   }
                 >
@@ -915,11 +919,7 @@ export default class CommunityPage extends React.Component {
                 </button>
                 <button
                   css={STYLES_BUTTON}
-                  onClick={() =>
-                    window.open(
-                      "https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc"
-                    )
-                  }
+                  onClick={() => window.open("mailto:feedback@slate.host")}
                 >
                   Email us feedback
                 </button>

@@ -9,7 +9,6 @@ import { SceneUtils } from "three";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
-import IssuesList from "~/components/core/marketing/IssuesList";
 import CodeBlock from "~/components/system/CodeBlock";
 
 const FEATURES = [
@@ -36,27 +35,6 @@ const FEATURES = [
   },
 ];
 
-const CONTRIBUTIONS = [
-  {
-    contribution: "An open source brandbook for Slate.",
-    contributor: "Narrative",
-    illustration:
-      "https://slate.textile.io/ipfs/bafkreiamnbqik6542ydqowdicdqji7jljbtvebee7vaciyozklgn6uycim",
-  },
-  {
-    contribution: "A portrait of Slate",
-    contributor: "Jason Yuan",
-    illustration:
-      "https://slate.textile.io/ipfs/bafkreidtgwdyqwqwk2apprnu3rwxkzv5lewktquou6k6crckpouxpq5ugm",
-  },
-  {
-    contribution: "A playful hover tile",
-    contributor: "Someone",
-    illustration:
-      "https://slate.textile.io/ipfs/bafkreiaz2hmjkzau3kkcah55rxdkwzum33n35icqbse2ik5e7vqcsb73kq",
-  },
-];
-
 const SLATE_CORE_TEAM = [
   {
     id: 1,
@@ -64,7 +42,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/jasonleyser",
     username: "jasonleyser",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://slate.textile.io/ipfs/bafkreidw22xqcr6fo6m7k25qe3yemby6w4dlawbsu6yxs7qjnpu5gyoiwm",
   },
   {
     id: 2,
@@ -72,7 +50,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/jimmylee",
     username: "jimmylee",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://slate.textile.io/ipfs/bafkreigxoyf43vw3p2hbc4ycsyh2og36cgy3s47xkb2n4w3i7auv2a6cei",
   },
   {
     id: 3,
@@ -80,7 +58,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/martinalong",
     username: "martinalong",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://slate.textile.io/ipfs/bafkreiasfgunf66fxncazlfzff3vp2btfe4j55jxgb2epcthrnvwkthwrq",
   },
   {
     id: 4,
@@ -96,7 +74,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/tarafanlin",
     username: "tarafanlin",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://slate.textile.io/ipfs/bafkreieuxq4itewoes3wnpfxw2dfat6oi6rsy2snix7tvtgv7d7bgre64q",
   },
   {
     id: 6,
@@ -104,7 +82,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/gndclouds",
     username: "gndclouds",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://bafkreih2b33oaftlflmsg6njtu7i54f2nwws5gfhhf5w4qaezcejs6gjte.ipfs.slate.textile.io/",
   },
 ];
 
@@ -283,6 +261,18 @@ const STYLES_SECTION_WRAPPER = css`
     padding: 24px;
   }
 `;
+const STYLES_SECTION_WRAPPER_BOX = css`
+  padding: 44px;
+  margin: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background: white;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 24px;
+  }
+`;
 
 const STYLES_BUTTON = css`
   margin-top: 48px;
@@ -338,10 +328,16 @@ const STYLES_SPLIT_WIDTH = css`
 
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
+    :nth-child(2) {
+      padding-left: 0;
+    }
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
+    :nth-child(2) {
+      padding-left: 0;
+    }
   }
 `;
 
@@ -505,8 +501,15 @@ const STYLES_FEATURE_CARD = css`
   background-color: #f2f4f8;
   box-shadow: -6px -6px 10px #ffffff, 4px 4px 10px #d4d4d4;
 
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
+    height: auto;
     margin-bottom: 32px;
   }
 `;
@@ -574,7 +577,6 @@ const STYLES_IMG_ICON = css`
 `;
 
 const STYLES_CHAT = css`
-  width: 350px;
   background: #ffffff;
   border: 1px solid #000000;
   box-sizing: border-box;
@@ -864,6 +866,8 @@ export default class CommunityPage extends React.Component {
                 />
               ))}
             </div>
+          </div>
+          <div css={STYLES_SECTION_WRAPPER_BOX}>
             <div css={STYLES_CENTER_BLOCK}>
               <img
                 css={STYLES_IMG_ICON}
@@ -886,30 +890,7 @@ export default class CommunityPage extends React.Component {
               </button>
             </div>
           </div>
-          <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
-            <div css={STYLES_SPLIT_WIDTH}>
-              <div css={STYLES_CHAT}>
-                <p>
-                  Hey Slate Team,
-                  <br />
-                  <br /> Have you thought about adding a confetti 🎉 effect to
-                  the download button?
-                  <br />
-                  <br />
-                  Best, <br />
-                  🦄
-                </p>
-              </div>
-              <div css={STYLES_CHAT}>
-                <p>
-                  Hey 🦄, <br />
-                  <br />
-                  That would be so fun, will work in it! <br />
-                  <br /> Best, <br />
-                  🐳
-                </p>
-              </div>
-            </div>
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h1>
                 <span css={STYLES_HIGLIGHT_TEXT_GREEN}>Have an idea</span> for
@@ -932,10 +913,33 @@ export default class CommunityPage extends React.Component {
                 </button>
                 <button
                   css={STYLES_BUTTON}
-                  onClick={() => window.open("mailto:feedback@slate.host")}
+                  onClick={() => window.open("https://twitter.com/_slate")}
                 >
-                  Email us feedback
+                  Tweet us
                 </button>
+              </div>
+            </div>
+            <div css={STYLES_SPLIT_WIDTH}>
+              <div css={STYLES_CHAT}>
+                <p>
+                  Hey Slate Team,
+                  <br />
+                  <br /> Have you thought about adding a confetti 🎉 effect to
+                  the download button?
+                  <br />
+                  <br />
+                  Best, <br />
+                  🦄
+                </p>
+              </div>
+              <div css={STYLES_CHAT}>
+                <p>
+                  Hey 🦄, <br />
+                  <br />
+                  That would be so fun, will work in it! <br />
+                  <br /> Best, <br />
+                  🐳
+                </p>
               </div>
             </div>
           </div>

@@ -183,7 +183,7 @@ export default class ApplicationLayout extends React.Component {
   _body;
 
   state = {
-    alertTop: 56,
+    headerTop: 56,
   };
 
   componentDidMount = () => {
@@ -200,19 +200,12 @@ export default class ApplicationLayout extends React.Component {
   };
 
   _handleScroll = () => {
-    console.log(document.getElementById("slate-mobile-alert"));
     let currentScrollPos = window.pageYOffset;
     if (this.prevScrollPos > currentScrollPos) {
-      if (document.getElementById("slate-mobile-header")) {
-        document.getElementById("slate-mobile-header").style.top = "0px";
-      }
-      this.setState({ alertTop: 56 });
+      this.setState({ headerTop: 0 });
     } else {
       if (currentScrollPos > 56) {
-        if (document.getElementById("slate-mobile-header")) {
-          document.getElementById("slate-mobile-header").style.top = "-56px";
-        }
-        this.setState({ alertTop: 0 });
+        this.setState({ headerTop: -56 });
       }
     }
     this.prevScrollPos = currentScrollPos;
@@ -264,7 +257,7 @@ export default class ApplicationLayout extends React.Component {
             <div css={STYLES_HEADER}>{this.props.header}</div>
           </span>
           <span css={STYLES_MOBILE_ONLY}>
-            <div css={STYLES_HEADER} id="slate-mobile-header">
+            <div css={STYLES_HEADER} style={{ top: this.state.headerTop }}>
               {this.props.header}
             </div>
           </span>
@@ -292,7 +285,7 @@ export default class ApplicationLayout extends React.Component {
               id="slate-mobile-alert"
               fileLoading={this.props.fileLoading}
               onAction={this.props.onAction}
-              style={{ top: this.state.alertTop }}
+              style={{ top: this.state.headerTop + 56 }}
             />
             {this.props.children}
           </div>

@@ -262,15 +262,18 @@ const STYLES_SECTION_WRAPPER = css`
   }
 `;
 const STYLES_SECTION_WRAPPER_BOX = css`
+  width: 750px;
   padding: 44px;
-  margin: 12px;
+  margin: 12px auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   background: white;
+  border-radius: 8px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px;
+    margin: 36px;
   }
 `;
 
@@ -491,10 +494,28 @@ const STYLES_SLATE_CARD_EFFECTS = css`
   }
 `;
 
+const STYLES_FEATURE_CARD_WRAPPER = css`
+  width: 33%;
+  height: auto;
+  padding-right: 24px;
+  :nth-last-child() {
+    padding-right: 0px;
+  }
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+`;
+
 const STYLES_FEATURE_CARD = css`
-  width: 30%;
-  height: 350px;
-  justify-content: space-between;
   margin: 24px auto;
   padding: 16px;
   border-radius: 8px;
@@ -612,9 +633,7 @@ const STYLES_CONSOLE = css`
   font-size: 14px;
   box-sizing: border-box;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-
-  :hover {
-  }
+  border-radius: 8px;
 `;
 
 const STYLES_CONSOLE_BODY = css`
@@ -714,11 +733,13 @@ const SlateTeamCards = (props) => {
 
 const FeatureCard = (props) => {
   return (
-    <div css={STYLES_FEATURE_CARD}>
-      <img css={STYLES_FEATURE_IMG} src={props.illustration} />
-      <div css={STYLES_FEATURE_TEXT}>{props.title}</div>
-      <div css={STYLES_FEATURE_TEXT} style={{ opacity: 0.7 }}>
-        {props.description}
+    <div css={STYLES_FEATURE_CARD_WRAPPER}>
+      <div css={STYLES_FEATURE_CARD}>
+        <img css={STYLES_FEATURE_IMG} src={props.illustration} />
+        <div css={STYLES_FEATURE_TEXT}>{props.title}</div>
+        <div css={STYLES_FEATURE_TEXT} style={{ opacity: 0.7 }}>
+          {props.description}
+        </div>
       </div>
     </div>
   );
@@ -981,12 +1002,6 @@ method: 'POST',
   const json = await response.json();
   console.log(json);`}
               </CodeWindow>
-              {/*<div css={STYLES_CONSOLE}>
-                <div css={STYLES_CONSOLE_BODY}>
-                  <code>{`
-                `}</code>
-                </div>
-              </div>*/}
             </div>
           </div>
         </div>

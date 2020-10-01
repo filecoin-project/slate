@@ -1,4 +1,5 @@
 .next
+.nova
 .env
 .env-custom-development
 .env-development

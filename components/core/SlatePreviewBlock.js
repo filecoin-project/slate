@@ -11,6 +11,9 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
+const MARGIN = 12;
+const MIN_WIDTH = 144;
+
 const STYLES_MOBILE_HIDDEN = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -32,7 +35,7 @@ const STYLES_CREATE_NEW = css`
   justify-content: center;
   width: 160px;
   height: 160px;
-  margin: 0px 12px;
+  margin: 0px ${MARGIN}px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 0;
@@ -47,9 +50,9 @@ const STYLES_IMAGE_ROW = css`
   flex-direction: row;
   flex-wrap: wrap;
   height: 160px;
-  justify-content: space-between;
+  ${"" /* justify-content: space-between; */}
   overflow: hidden;
-  margin: 0 -12px;
+  margin: 0 -${MARGIN}px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     justify-content: center;
@@ -60,7 +63,7 @@ const STYLES_IMAGE_ROW = css`
 const STYLES_ITEM_BOX = css`
   width: 160px;
   height: 160px;
-  margin: 0px 12px;
+  margin: 0px ${MARGIN}px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +82,7 @@ const STYLES_ITEM_BOX = css`
 const STYLES_EMPTY_BOX = css`
   width: 160px;
   height: 160px;
-  margin: 0px 12px;
+  margin: 0px ${MARGIN}px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 0 8px;
@@ -111,59 +114,65 @@ const STYLES_EMPTY_BOX_SMALL = css`
   margin: 0px 8px;
 `;
 
-export function SlatePreviewRow(props) {
-  let numItems = props.numItems || 5;
-  let objects;
-  if (props.slate.data.objects.length === 0) {
-    objects = [
-      <div css={STYLES_CREATE_NEW} key="add-files">
-        <SVG.Plus height="24px" />
-        <div>Add Files</div>
-      </div>,
-    ];
-  } else {
-    let trimmed =
-      props.slate.data.objects.length > numItems
-        ? props.slate.data.objects.slice(0, numItems)
-        : props.slate.data.objects;
-    objects = trimmed.map((each) => (
+export class SlatePreviewRow extends React.Component {
+  render() {
+    let numItems = this.props.numItems || 5;
+    let objects;
+    if (this.props.slate.data.objects.length === 0) {
+      objects = [
+        <div css={STYLES_CREATE_NEW} key="add-files">
+          <SVG.Plus height="24px" />
+          <div>Add Files</div>
+        </div>,
+      ];
+    } else {
+      let trimmed =
+        this.props.slate.data.objects.length > numItems
+          ? this.props.slate.data.objects.slice(0, numItems)
+          : this.props.slate.data.objects;
+      objects = trimmed.map((each) => (
+        <div
+          key={each.id}
+          css={this.props.small ? STYLES_ITEM_BOX_SMALL : STYLES_ITEM_BOX}
+          style={{
+            height: this.props.imageSize,
+            width: this.props.imageSize,
+            ...this.props.style,
+          }}
+        >
+          <SlateMediaObjectPreview
+            charCap={30}
+            type={each.type}
+            url={each.url}
+            style={{ border: "none", ...this.props.previewStyle }}
+            title={each.title || each.name}
+            small={this.props.small}
+          />
+        </div>
+      ));
+    }
+    // let numExtra = this.props.numItems
+    //   ? this.props.numItems - objects.length
+    //   : 5 - objects.length;
+    // let extra = [];
+    // for (let i = 0; i < numExtra; i++) {
+    //   extra.push(
+    //     <div
+    //       key={`extra-${i}`}
+    //       css={this.props.small ? STYLES_EMPTY_BOX_SMALL : STYLES_EMPTY_BOX}
+    //     />
+    //   );
+    // }
+    return (
       <div
-        key={each.id}
-        css={props.small ? STYLES_ITEM_BOX_SMALL : STYLES_ITEM_BOX}
-        style={props.style}
+        css={this.props.small ? STYLES_IMAGE_ROW_SMALL : STYLES_IMAGE_ROW}
+        style={{ height: this.props.imageSize, ...this.props.containerStyle }}
       >
-        <SlateMediaObjectPreview
-          charCap={30}
-          type={each.type}
-          url={each.url}
-          style={{ border: "none", ...props.previewStyle }}
-          title={each.title || each.name}
-          small={props.small}
-        />
+        {objects}
+        {/* {extra} */}
       </div>
-    ));
-  }
-  let numExtra = props.numItems
-    ? props.numItems - objects.length
-    : 5 - objects.length;
-  let extra = [];
-  for (let i = 0; i < numExtra; i++) {
-    extra.push(
-      <div
-        key={`extra-${i}`}
-        css={props.small ? STYLES_EMPTY_BOX_SMALL : STYLES_EMPTY_BOX}
-      />
     );
   }
-  return (
-    <div
-      css={props.small ? STYLES_IMAGE_ROW_SMALL : STYLES_IMAGE_ROW}
-      style={props.containerStyle}
-    >
-      {objects}
-      {extra}
-    </div>
-  );
 }
 
 const STYLES_BLOCK = css`
@@ -248,7 +257,7 @@ const STYLES_TITLE = css`
   margin-right: 16px;
 `;
 
-export default class SlatePreviewBlock extends React.Component {
+export class SlatePreviewBlock extends React.Component {
   _ref;
   _test;
 
@@ -470,10 +479,97 @@ export default class SlatePreviewBlock extends React.Component {
         <span css={STYLES_MOBILE_HIDDEN}>
           <SlatePreviewRow
             {...this.props}
+            imageSize={this.props.imageSize}
             previewStyle={this.props.previewStyle}
           />
         </span>
       </div>
     );
+  }
+}
+
+const STYLES_LINK = css`
+  color: ${Constants.system.black};
+  text-decoration: none;
+`;
+
+export default class SlatePreviewBlocks extends React.Component {
+  state = {
+    imageSize: 56,
+  };
+
+  componentDidMount = () => {
+    this.calculateWidth();
+    this.debounceInstance = this.debounce(this.calculateWidth, 350);
+    window.addEventListener("resize", this.debounceInstance);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.debounceInstance);
+  };
+
+  debounce = (fn, time) => {
+    let timer;
+
+    return () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(fn, time);
+    };
+  };
+
+  calculateWidth = () => {
+    let windowWidth = window.innerWidth;
+    if (windowWidth > Constants.sizes.mobile) {
+      windowWidth -= Constants.sizes.navigation + 96;
+      windowWidth = Math.min(windowWidth, Constants.sizes.desktop);
+      windowWidth -= 80; //NOTE(martina): 48px padding on scene page, 40px padding on block
+      for (let i = this.props.numItems || 5; i > 0; i--) {
+        let width = (windowWidth - MARGIN * 2 * (i - 1)) / i;
+        if (width < MIN_WIDTH) {
+          continue;
+        }
+        this.setState({ imageSize: width });
+        return;
+      }
+    }
+    this.setState({ imageSize: windowWidth - 48 - 32 }); //NOTE(martina): 24px padding on scene page, 16px padding on block on mobile
+  };
+
+  render() {
+    if (this.props.external) {
+      return this.props.slates.map((slate) => (
+        <a
+          key={slate.id}
+          href={`/${this.props.username}/${slate.slatename}`}
+          css={STYLES_LINK}
+        >
+          <SlatePreviewBlock
+            external
+            imageSize={this.state.imageSize}
+            username={username}
+            slate={slate}
+          />
+        </a>
+      ));
+    }
+    return this.props.slates.map((slate) => (
+      <div
+        key={slate.id}
+        onClick={() =>
+          this.props.onAction({
+            type: "NAVIGATE",
+            value: "V1_NAVIGATION_SLATE",
+            data: { decorator: "SLATE", ...slate },
+          })
+        }
+      >
+        <SlatePreviewBlock
+          ediitng={this.props.editing}
+          username={this.props.username}
+          imageSize={this.state.imageSize}
+          slate={slate}
+        />
+      </div>
+    ));
   }
 }

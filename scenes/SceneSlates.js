@@ -13,7 +13,7 @@ import { WarningMessage } from "~/components/core/WarningMessage";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import Section from "~/components/core/Section";
-import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
+import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 import EmptyState from "~/components/core/EmptyState";
 
@@ -50,20 +50,21 @@ export default class SceneSlates extends React.Component {
       .filter((each) => {
         return !!each.target_slate_id;
       })
-      .map((relation) => (
-        <div
-          key={relation.slate.id}
-          onClick={() =>
-            this.props.onAction({
-              type: "NAVIGATE",
-              value: "V1_NAVIGATION_SLATE",
-              data: relation.slate,
-            })
-          }
-        >
-          <SlatePreviewBlock username={null} slate={relation.slate} />
-        </div>
-      ));
+      .map((relation) => relation.slate);
+    // .map((relation) => (
+    //   <div
+    //     key={relation.slate.id}
+    //     onClick={() =>
+    //       this.props.onAction({
+    //         type: "NAVIGATE",
+    //         value: "V1_NAVIGATION_SLATE",
+    //         data: relation.slate,
+    //       })
+    //     }
+    //   >
+    //     <SlatePreviewBlock username={null} slate={relation.slate} />
+    //   </div>
+    // ));
 
     return (
       <ScenePage>
@@ -89,24 +90,12 @@ export default class SceneSlates extends React.Component {
 
         {this.state.tab === 0 ? (
           this.props.viewer.slates && this.props.viewer.slates.length ? (
-            this.props.viewer.slates.map((slate) => (
-              <div
-                key={slate.id}
-                onClick={() =>
-                  this.props.onAction({
-                    type: "NAVIGATE",
-                    value: slate.id,
-                    data: { decorator: "SLATE", ...slate },
-                  })
-                }
-              >
-                <SlatePreviewBlock
-                  slate={slate}
-                  username={this.props.viewer.username}
-                  editing
-                />
-              </div>
-            ))
+            <SlatePreviewBlocks
+              editing
+              slates={this.props.viewer.slates}
+              username={this.props.viewer.username}
+              onAction={this.props.onAction}
+            />
           ) : (
             <EmptyState>
               <div css={STYLES_ICONS}>
@@ -129,10 +118,31 @@ export default class SceneSlates extends React.Component {
             </EmptyState>
           )
         ) : null}
-
+        {/* this.props.viewer.slates.map((slate) => (
+              <div
+                key={slate.id}
+                onClick={() =>
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: slate.id,
+                    data: { decorator: "SLATE", ...slate },
+                  })
+                }
+              >
+                <SlatePreviewBlock
+                  slate={slate}
+                  username={this.props.viewer.username}
+                  editing
+                />
+              </div>
+            )) */}
         {this.state.tab === 1 ? (
           subscriptions && subscriptions.length ? (
-            subscriptions
+            <SlatePreviewBlocks
+              slates={subscriptions}
+              username={null}
+              onAction={this.props.onAction}
+            />
           ) : (
             <EmptyState>
               You can follow any public slates on the network.

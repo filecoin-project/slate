@@ -54,6 +54,7 @@ export default class ScenePublicSlate extends React.Component {
         this.props.onAction({
           type: "NAVIGATE",
           value: this.props.data.id,
+          redirect: true,
         });
         return;
       }

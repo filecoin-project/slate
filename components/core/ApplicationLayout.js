@@ -184,7 +184,7 @@ export default class ApplicationLayout extends React.Component {
   _body;
 
   state = {
-    headerTop: 56,
+    headerTop: 0,
   };
 
   componentDidMount = () => {

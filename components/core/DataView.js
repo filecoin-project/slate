@@ -127,7 +127,7 @@ const STYLES_ACTION_BAR = css`
   max-width: ${Constants.sizes.desktop}px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    width: calc(100vw - ${Constants.sizes.mobileSidebar}px - 64px);
+    width: calc(100vw - 48px);
   }
 `;
 

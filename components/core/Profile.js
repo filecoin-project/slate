@@ -5,7 +5,7 @@ import * as Strings from "~/common/strings";
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
 
-import SlatePreviewBlock from "~/components/core/SlatePreviewBlock";
+import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 
 const STYLES_PROFILE = css`
   text-align: center;
@@ -73,7 +73,14 @@ export default class Profile extends React.Component {
         {this.props.buttons}
         <br />
         {data.slates && data.slates.length ? (
-          <div>
+          <SlatePreviewBlocks
+            external={this.props.onAction ? false : true}
+            slates={data.slates}
+            username={data.username}
+            onAction={this.props.onAction}
+          />
+        ) : null}
+        {/* <div>
             {data.slates.map((slate) => {
               if (this.props.onAction) {
                 return (
@@ -106,8 +113,7 @@ export default class Profile extends React.Component {
                 </a>
               );
             })}
-          </div>
-        ) : null}
+          </div> */}
       </div>
     );
   }

@@ -161,7 +161,9 @@ export default class ApplicationUserControls extends React.Component {
     // });
   };
 
-  _handleAction = (data) => {
+  _handleAction = (e, data) => {
+    e.preventDefault();
+    e.stopPropagation();
     this._handleHide();
     return this.props.onAction(data);
   };
@@ -186,8 +188,8 @@ export default class ApplicationUserControls extends React.Component {
               navigation={[
                 {
                   text: "My profile",
-                  onClick: () =>
-                    this._handleAction({
+                  onClick: (e) =>
+                    this._handleAction(e, {
                       type: "NAVIGATE",
                       value: "V1_NAVIGATION_PROFILE",
                       data: this.props.viewer,
@@ -195,16 +197,16 @@ export default class ApplicationUserControls extends React.Component {
                 },
                 {
                   text: "Account settings",
-                  onClick: () =>
-                    this._handleAction({
+                  onClick: (e) =>
+                    this._handleAction(e, {
                       type: "NAVIGATE",
                       value: "V1_NAVIGATION_PROFILE_EDIT",
                     }),
                 },
                 {
                   text: "Help",
-                  onClick: () =>
-                    this._handleAction({
+                  onClick: (e) =>
+                    this._handleAction(e, {
                       type: "SIDEBAR",
                       value: "SIDEBAR_HELP",
                     }),
@@ -218,8 +220,8 @@ export default class ApplicationUserControls extends React.Component {
               navigation={[
                 {
                   text: "Account settings",
-                  onClick: () =>
-                    this._handleAction({
+                  onClick: (e) =>
+                    this._handleAction(e, {
                       type: "NAVIGATE",
                       value: "V1_NAVIGATION_PROFILE_EDIT",
                     }),

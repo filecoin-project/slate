@@ -581,7 +581,8 @@ export default class ApplicationPage extends React.Component {
       // + `scene` should be the decorator of the component you want displayed
       return this._handleNavigateTo(
         { id: options.value, scene: options.scene },
-        options.data
+        options.data,
+        options.redirect
       );
     }
 
@@ -613,8 +614,17 @@ export default class ApplicationPage extends React.Component {
     return alert(JSON.stringify(options));
   };
 
-  _handleNavigateTo = (next, data = null) => {
+  _handleNavigateTo = (next, data = null, redirect = false) => {
     window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
+    if (redirect) {
+      const adjustedArray = [...this.state.history];
+      adjustedArray.length = this.state.currentIndex;
+      return this.setState({
+        history: [...adjustedArray, next],
+        data,
+        sidebar: null,
+      });
+    }
 
     let body = document.documentElement || document.body;
     this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;

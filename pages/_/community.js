@@ -9,7 +9,6 @@ import { SceneUtils } from "three";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
-import IssuesList from "~/components/core/marketing/IssuesList";
 import CodeBlock from "~/components/system/CodeBlock";
 
 const FEATURES = [
@@ -36,27 +35,6 @@ const FEATURES = [
   },
 ];
 
-const CONTRIBUTIONS = [
-  {
-    contribution: "An open source brandbook for Slate.",
-    contributor: "Narrative",
-    illustration:
-      "https://slate.textile.io/ipfs/bafkreiamnbqik6542ydqowdicdqji7jljbtvebee7vaciyozklgn6uycim",
-  },
-  {
-    contribution: "A portrait of Slate",
-    contributor: "Jason Yuan",
-    illustration:
-      "https://slate.textile.io/ipfs/bafkreidtgwdyqwqwk2apprnu3rwxkzv5lewktquou6k6crckpouxpq5ugm",
-  },
-  {
-    contribution: "A playful hover tile",
-    contributor: "Someone",
-    illustration:
-      "https://slate.textile.io/ipfs/bafkreiaz2hmjkzau3kkcah55rxdkwzum33n35icqbse2ik5e7vqcsb73kq",
-  },
-];
-
 const SLATE_CORE_TEAM = [
   {
     id: 1,
@@ -64,7 +42,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/jasonleyser",
     username: "jasonleyser",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://slate.textile.io/ipfs/bafkreidw22xqcr6fo6m7k25qe3yemby6w4dlawbsu6yxs7qjnpu5gyoiwm",
   },
   {
     id: 2,
@@ -72,7 +50,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/jimmylee",
     username: "jimmylee",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://slate.textile.io/ipfs/bafkreigxoyf43vw3p2hbc4ycsyh2og36cgy3s47xkb2n4w3i7auv2a6cei",
   },
   {
     id: 3,
@@ -80,7 +58,7 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/martinalong",
     username: "martinalong",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://slate.textile.io/ipfs/bafkreiasfgunf66fxncazlfzff3vp2btfe4j55jxgb2epcthrnvwkthwrq",
   },
   {
     id: 4,
@@ -96,15 +74,15 @@ const SLATE_CORE_TEAM = [
     url: "https://github.com/tarafanlin",
     username: "tarafanlin",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://slate.textile.io/ipfs/bafkreieuxq4itewoes3wnpfxw2dfat6oi6rsy2snix7tvtgv7d7bgre64q",
   },
   {
     id: 6,
     name: "William Felker",
-    url: "https://slate.host/gndclouds/urban-gardens",
+    url: "https://github.com/gndclouds",
     username: "gndclouds",
     imageUrl:
-      "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
+      "https://bafkreih2b33oaftlflmsg6njtu7i54f2nwws5gfhhf5w4qaezcejs6gjte.ipfs.slate.textile.io/",
   },
 ];
 
@@ -172,14 +150,6 @@ const SLATE_CONTRIBUTOR_TEAM = [
     username: "Narative",
     imageUrl:
       "https://slate.textile.io/ipfs/bafkreihdkapriwuzfh42zkhs3kwj5qki43dvyu6mq5j3rug3uf6i7egs6y",
-  },
-  {
-    id: 9,
-    name: "Colin S. McCaleb",
-    url: "https://github.com/uonai",
-    username: "uonai",
-    imageUrl:
-      "https://slate.textile.io/ipfs/bafkreigbjyxbmc2cirha3g4y2rmlrntau2l2gjy4ft3y6ii3kyh4ifw5li",
   },
 ];
 
@@ -252,6 +222,22 @@ const STYLES_P = css`
   }
 `;
 
+const STYLES_P_FULL_WIDTH = css`
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl1};
+  letter-spacing: -0.011rem;
+  line-height: 1.5;
+  margin: 4px 0 0 0;
+  width: 100%;
+  color: ${Constants.system.slate};
+  opacity: 0.7;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+  }
+`;
+
 const STYLES_TEXT_BLOCK = css`
   display: flex;
   flex: 1 1 auto;
@@ -270,17 +256,31 @@ const STYLES_SECTION_WRAPPER = css`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  background-color: ${Constants.system.white};
-  border-radius: 16px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px;
+  }
+`;
+const STYLES_SECTION_WRAPPER_BOX = css`
+  width: 750px;
+  padding: 44px;
+  margin: 12px auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background: white;
+  border-radius: 8px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 24px;
+    margin: 36px;
   }
 `;
 
 const STYLES_BUTTON = css`
   margin-top: 48px;
   min-height: 48px;
+  margin-right: 12px;
   box-sizing: border-box;
   border: 0;
   border-radius: 4px;
@@ -331,10 +331,16 @@ const STYLES_SPLIT_WIDTH = css`
 
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
+    :nth-child(2) {
+      padding-left: 0;
+    }
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
+    :nth-child(2) {
+      padding-left: 0;
+    }
   }
 `;
 
@@ -488,18 +494,43 @@ const STYLES_SLATE_CARD_EFFECTS = css`
   }
 `;
 
+const STYLES_FEATURE_CARD_WRAPPER = css`
+  width: 33%;
+  height: auto;
+  padding-right: 24px;
+  :nth-last-child() {
+    padding-right: 0px;
+  }
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+`;
+
 const STYLES_FEATURE_CARD = css`
-  width: 30%;
-  height: 450px;
-  justify-content: space-between;
-  margin: auto;
+  margin: 24px auto;
   padding: 16px;
   border-radius: 8px;
   background-color: #f2f4f8;
   box-shadow: -6px -6px 10px #ffffff, 4px 4px 10px #d4d4d4;
 
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
+    height: auto;
     margin-bottom: 32px;
   }
 `;
@@ -567,7 +598,6 @@ const STYLES_IMG_ICON = css`
 `;
 
 const STYLES_CHAT = css`
-  width: 350px;
   background: #ffffff;
   border: 1px solid #000000;
   box-sizing: border-box;
@@ -603,9 +633,7 @@ const STYLES_CONSOLE = css`
   font-size: 14px;
   box-sizing: border-box;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-
-  :hover {
-  }
+  border-radius: 8px;
 `;
 
 const STYLES_CONSOLE_BODY = css`
@@ -705,11 +733,13 @@ const SlateTeamCards = (props) => {
 
 const FeatureCard = (props) => {
   return (
-    <div css={STYLES_FEATURE_CARD}>
-      <img css={STYLES_FEATURE_IMG} src={props.illustration} />
-      <div css={STYLES_FEATURE_TEXT}>{props.title}</div>
-      <div css={STYLES_FEATURE_TEXT} style={{ opacity: 0.7 }}>
-        {props.description}
+    <div css={STYLES_FEATURE_CARD_WRAPPER}>
+      <div css={STYLES_FEATURE_CARD}>
+        <img css={STYLES_FEATURE_IMG} src={props.illustration} />
+        <div css={STYLES_FEATURE_TEXT}>{props.title}</div>
+        <div css={STYLES_FEATURE_TEXT} style={{ opacity: 0.7 }}>
+          {props.description}
+        </div>
       </div>
     </div>
   );
@@ -766,13 +796,17 @@ export default class CommunityPage extends React.Component {
               />
               <div css={STYLES_DINNER_TABLE}>
                 <h1 css={STYLES_H1}>An open invitation to everyone</h1>
-                <p css={STYLES_P}>
+                <p css={STYLES_P_FULL_WIDTH}>
                   Slate is designed and built by a growing community of hackers,
                   artists, and creatives on the web.
                 </p>
                 <button
                   css={STYLES_BUTTON}
-                  onClick={() => window.open("https://filecoin.io/slack")}
+                  onClick={() =>
+                    window.open(
+                      "https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
+                    )
+                  }
                 >
                   Join our community{" "}
                 </button>
@@ -796,9 +830,10 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_FULL_WIDTH}>
               <h1>Core Team</h1>
-              <p>
-                We work on the core product of Slate, and you can reachout to us
-                about for anything you might need to know about Slate.
+              <br />
+              <p css={STYLES_P}>
+                We work on Slate, and you can reachout to us about for anything
+                you might need to know.
               </p>
               <div css={STYLES_CARD_GROUP}>
                 {SLATE_CORE_TEAM.map((each) => (
@@ -816,9 +851,9 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
             <div css={STYLES_FULL_WIDTH}>
               <h1>Contributors</h1>
-              <p>
-                We couldn’t make Slate without the input and continures from the
-                out community.
+              <br />
+              <p css={STYLES_P}>
+                Our amazing community members helping us make Slate.
               </p>
               <div css={STYLES_CARD_GROUP}>
                 {SLATE_CONTRIBUTOR_TEAM.map((each) => (
@@ -835,113 +870,14 @@ export default class CommunityPage extends React.Component {
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_TEXT_BLOCK}>
-              <h2 css={STYLES_H2}>
-                We couldn’t build Slate without our community of contributors
-              </h2>
-              <p css={STYLES_P}>
-                Here features some great work from our contributors. We define
-                contribution beyond code. And we believe that everyone has
-                something to bring to the table. 🍰
-              </p>
-            </div>
-            <br />
-            <br />
-            <div>
-              {CONTRIBUTIONS.map((each) => (
-                <ContributionCard
-                  contribution={each.contribution}
-                  contributor={each.contributor}
-                  illustration={each.illustration}
-                />
-              ))}
-            </div>
-            <div css={STYLES_CENTER_BLOCK}>
-              <img
-                css={STYLES_IMG_ICON}
-                src="https://slate.textile.io/ipfs/bafkreiav4ursjyxypvx5nvils6wyskpdua64pnzukmun3xmilndiuv3vp4"
-              />
-              <h3 css={STYLES_H3}>
-                Have some 🍰 to bring to the table?
-                <br />
-                Let’s chat about how we can support you.
-              </h3>
-              <button
-                css={STYLES_BUTTON}
-                onClick={() =>
-                  window.open(
-                    "https://github.com/filecoin-project/slate/issues"
-                  )
-                }
-              >
-                Join Slack channel
-              </button>
-            </div>
-          </div>
-          <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
-            <div css={STYLES_SPLIT_WIDTH}>
-              <div css={STYLES_CHAT}>
-                <p>
-                  Hey Slate Team,
-                  <br />
-                  <br /> Have you thought about adding a confetti 🎉 effect to
-                  the download button?
-                  <br />
-                  <br />
-                  Best, <br />
-                  🦄
-                </p>
-              </div>
-              <div css={STYLES_CHAT}>
-                <p>
-                  Hey 🦄, <br />
-                  <br />
-                  That would be so fun, will work in it! <br />
-                  <br /> best, <br />
-                  🐳
-                </p>
-              </div>
-            </div>
-            <div css={STYLES_SPLIT_WIDTH}>
-              <h1>
-                <span css={STYLES_HIGLIGHT_TEXT_GREEN}>Have an idea</span> for
-                how to make Slate better?
-              </h1>
-              <p>
-                You can create an issue on github or send us an email with your
-                recommendation.
-              </p>
-              <div>
-                <button
-                  css={STYLES_BUTTON}
-                  onClick={() =>
-                    window.open(
-                      "https://github.com/filecoin-project/slate/issues/new/choose"
-                    )
-                  }
-                >
-                  Create an issue
-                </button>
-                <button
-                  css={STYLES_BUTTON}
-                  onClick={() =>
-                    window.open(
-                      "https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc"
-                    )
-                  }
-                >
-                  Email us feedback
-                </button>
-              </div>
-            </div>
-          </div>
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_TEXT_BLOCK}>
               <h2 css={STYLES_H2}>Further down the road</h2>
               <p css={STYLES_P}>
                 Slate has infinite possibilities. Here are some of them that
                 we’re excited about.
               </p>
             </div>
+            <br />
+            <br />
             <div css={STYLES_CARD_GROUP}>
               {FEATURES.map((each) => (
                 <FeatureCard
@@ -951,6 +887,8 @@ export default class CommunityPage extends React.Component {
                 />
               ))}
             </div>
+          </div>
+          <div css={STYLES_SECTION_WRAPPER_BOX}>
             <div css={STYLES_CENTER_BLOCK}>
               <img
                 css={STYLES_IMG_ICON}
@@ -973,6 +911,59 @@ export default class CommunityPage extends React.Component {
               </button>
             </div>
           </div>
+          <div css={STYLES_SECTION_WRAPPER}>
+            <div css={STYLES_SPLIT_WIDTH}>
+              <h1>
+                <span css={STYLES_HIGLIGHT_TEXT_GREEN}>Have an idea</span> for
+                how to make Slate better?
+              </h1>
+              <p>
+                You can create an issue on github or send us an email with your
+                recommendation.
+              </p>
+              <div>
+                <button
+                  css={STYLES_BUTTON}
+                  onClick={() =>
+                    window.open(
+                      "https://github.com/filecoin-project/slate/issues"
+                    )
+                  }
+                >
+                  Create an issue
+                </button>
+                <button
+                  css={STYLES_BUTTON}
+                  onClick={() => window.open("https://twitter.com/_slate")}
+                >
+                  Tweet us
+                </button>
+              </div>
+            </div>
+            <div css={STYLES_SPLIT_WIDTH}>
+              <div css={STYLES_CHAT}>
+                <p>
+                  Hey Slate Team,
+                  <br />
+                  <br /> Have you thought about adding a confetti 🎉 effect to
+                  the download button?
+                  <br />
+                  <br />
+                  Best, <br />
+                  🦄
+                </p>
+              </div>
+              <div css={STYLES_CHAT}>
+                <p>
+                  Hey 🦄, <br />
+                  <br />
+                  That would be so fun, will work in it! <br />
+                  <br /> Best, <br />
+                  🐳
+                </p>
+              </div>
+            </div>
+          </div>
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h1>
@@ -984,7 +975,7 @@ export default class CommunityPage extends React.Component {
               <br />
               <p>
                 Checkout the examples below to see how quickly you can get up
-                and running wtih Slate’s API.
+                and running with Slate’s API.
               </p>
               <button
                 css={STYLES_BUTTON}
@@ -996,27 +987,21 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_SPLIT_WIDTH}>
               <CodeWindow>
                 {`const response = await fetch('https://slate.host/api/v1/get', {
-                      method: 'POST',
-                      headers: {
-                      'Content-Type': 'application/json',
-                      // NOTE: your API key
-                      Authorization: 'Basic SLA234abe41-c235-464f-9f4a-9effbbd3530dTE',
-                      },
-                      body: JSON.stringify({ data: {
-                      // NOTE: optional, if you want your private slates too.
-                      private: false
-                      }})
-                    });
-                    
-                    const json = await response.json();
-                    console.log(json);`}
+method: 'POST',
+    headers: {
+    'Content-Type': 'application/json',
+    // NOTE: your API key
+    Authorization: 'Basic SLA234abe41-c235-464f-9f4a-9effbbd3530dTE',
+    },
+    body: JSON.stringify({ data: {
+    // NOTE: optional, if you want your private slates too.
+    private: false
+    }})
+  });
+  
+  const json = await response.json();
+  console.log(json);`}
               </CodeWindow>
-              {/*<div css={STYLES_CONSOLE}>
-                <div css={STYLES_CONSOLE_BODY}>
-                  <code>{`
-                `}</code>
-                </div>
-              </div>*/}
             </div>
           </div>
         </div>

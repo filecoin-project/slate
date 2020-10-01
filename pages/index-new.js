@@ -33,7 +33,7 @@ const USER_SLATES = [
     preview: "https://slate.textile.io/ipfs/bafybeiclkru6hwzw2ghvsyrbnaf67taxxhq2hbpcia2oqj5ufdggwhcbti",
   },
   {
-    name: "Start your first slate",
+    name: "Get started with Slate",
     url: "/_",
     username: "",
     preview: "",
@@ -353,7 +353,7 @@ export default class IndexPage extends React.Component {
                   Take <span css={STYLES_HIGHLIGHT_BLUE}>the blue pill</span>
                 </h1>
                 <p css={STYLES_P} style={{ width: `100%` }}>
-                  for a new file-sharing experience that makes it possible for people to collect, organize, and link
+                  Slate is a new file-sharing network that makes it possible for people to collect, organize, and link
                   files together.
                 </p>
               </div>
@@ -458,7 +458,7 @@ export default class IndexPage extends React.Component {
             </div>
             <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
               <h1 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_RED}>Connect to think, learn and disucss </span> <br />
+                <span css={STYLES_HIGHLIGHT_RED}>Connect to think, learn and discuss </span> <br />
                 with others
               </h1>
               <div css={STYLES_TEXT_BLOCK}>
@@ -485,7 +485,7 @@ export default class IndexPage extends React.Component {
                 <a css={STYLES_SLATE_CARD_LINK} href="/_">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <p css={STYLES_CARDP} style={{ color: `${Constants.system.white}` }}>
-                      Start the journey
+                      Create your first slate
                     </p>
                   </div>
                 </a>

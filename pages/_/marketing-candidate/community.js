@@ -173,14 +173,6 @@ const SLATE_CONTRIBUTOR_TEAM = [
     imageUrl:
       "https://slate.textile.io/ipfs/bafkreihdkapriwuzfh42zkhs3kwj5qki43dvyu6mq5j3rug3uf6i7egs6y",
   },
-  {
-    id: 9,
-    name: "Colin S. McCaleb",
-    url: "https://github.com/uonai",
-    username: "uonai",
-    imageUrl:
-      "https://slate.textile.io/ipfs/bafkreigbjyxbmc2cirha3g4y2rmlrntau2l2gjy4ft3y6ii3kyh4ifw5li",
-  },
 ];
 
 const STYLES_ROOT = css`
@@ -270,8 +262,6 @@ const STYLES_SECTION_WRAPPER = css`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  background-color: ${Constants.system.white};
-  border-radius: 16px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px;
@@ -796,6 +786,7 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_FULL_WIDTH}>
               <h1>Core Team</h1>
+              <br />
               <p>
                 We work on the core product of Slate, and you can reachout to us
                 about for anything you might need to know about Slate.
@@ -816,6 +807,7 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
             <div css={STYLES_FULL_WIDTH}>
               <h1>Contributors</h1>
+              <br />
               <p>
                 We couldn’t make Slate without the input and continures from the
                 out community.
@@ -996,20 +988,20 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_SPLIT_WIDTH}>
               <CodeWindow>
                 {`const response = await fetch('https://slate.host/api/v1/get', {
-                      method: 'POST',
-                      headers: {
-                      'Content-Type': 'application/json',
-                      // NOTE: your API key
-                      Authorization: 'Basic SLA234abe41-c235-464f-9f4a-9effbbd3530dTE',
-                      },
-                      body: JSON.stringify({ data: {
-                      // NOTE: optional, if you want your private slates too.
-                      private: false
-                      }})
-                    });
-                    
-                    const json = await response.json();
-                    console.log(json);`}
+method: 'POST',
+    headers: {
+    'Content-Type': 'application/json',
+    // NOTE: your API key
+    Authorization: 'Basic SLA234abe41-c235-464f-9f4a-9effbbd3530dTE',
+    },
+    body: JSON.stringify({ data: {
+    // NOTE: optional, if you want your private slates too.
+    private: false
+    }})
+  });
+  
+  const json = await response.json();
+  console.log(json);`}
               </CodeWindow>
               {/*<div css={STYLES_CONSOLE}>
                 <div css={STYLES_CONSOLE_BODY}>

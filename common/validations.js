@@ -51,7 +51,12 @@ const REJECT_LIST = [
   "data",
 ];
 
-export const onMobile = () => {
+// TODO(martina): Make sure you catch cases where this isn't passed in to be safe.
+export const onMobile = (navigator) => {
+  if (!navigator) {
+    return null;
+  }
+
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
   );

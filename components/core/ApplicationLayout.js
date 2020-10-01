@@ -150,6 +150,7 @@ const STYLES_SIDEBAR_CONTENT = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding-top: 8px;
+    margin-bottom: 48px;
   }
 `;
 

@@ -271,6 +271,7 @@ const STYLES_SECTION_WRAPPER = css`
 const STYLES_BUTTON = css`
   margin-top: 48px;
   min-height: 48px;
+  margin-right: 12px;
   box-sizing: border-box;
   border: 0;
   border-radius: 4px;
@@ -787,9 +788,9 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_FULL_WIDTH}>
               <h1>Core Team</h1>
               <br />
-              <p>
-                We work on the core product of Slate, and you can reachout to us
-                about for anything you might need to know about Slate.
+              <p css={STYLES_P}>
+                We work on Slate, and you can reachout to us about for anything
+                you might need to know.
               </p>
               <div css={STYLES_CARD_GROUP}>
                 {SLATE_CORE_TEAM.map((each) => (
@@ -808,9 +809,8 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_FULL_WIDTH}>
               <h1>Contributors</h1>
               <br />
-              <p>
-                We couldn’t make Slate without the input and continures from the
-                out community.
+              <p css={STYLES_P}>
+                Some of our amazing community members helping us make Slate.
               </p>
               <div css={STYLES_CARD_GROUP}>
                 {SLATE_CONTRIBUTOR_TEAM.map((each) => (
@@ -888,7 +888,7 @@ export default class CommunityPage extends React.Component {
                   Hey 🦄, <br />
                   <br />
                   That would be so fun, will work in it! <br />
-                  <br /> best, <br />
+                  <br /> Best, <br />
                   🐳
                 </p>
               </div>
@@ -934,6 +934,8 @@ export default class CommunityPage extends React.Component {
                 we’re excited about.
               </p>
             </div>
+            <br />
+            <br />
             <div css={STYLES_CARD_GROUP}>
               {FEATURES.map((each) => (
                 <FeatureCard
@@ -976,7 +978,7 @@ export default class CommunityPage extends React.Component {
               <br />
               <p>
                 Checkout the examples below to see how quickly you can get up
-                and running wtih Slate’s API.
+                and running with Slate’s API.
               </p>
               <button
                 css={STYLES_BUTTON}

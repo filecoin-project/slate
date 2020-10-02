@@ -520,7 +520,11 @@ export default class SlatePreviewBlocks extends React.Component {
   calculateWidth = () => {
     let windowWidth = window.innerWidth;
     if (windowWidth > Constants.sizes.mobile) {
-      windowWidth -= Constants.sizes.navigation + 96;
+      if (this.props.external) {
+        windowWidth -= 48;
+      } else {
+        windowWidth -= Constants.sizes.navigation + 96;
+      }
       windowWidth = Math.min(windowWidth, Constants.sizes.desktop);
       windowWidth -= 80; //NOTE(martina): 48px padding on scene page, 40px padding on block
       for (let i = this.props.numItems || 5; i > 0; i--) {

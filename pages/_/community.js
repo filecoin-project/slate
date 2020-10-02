@@ -198,21 +198,6 @@ const STYLES_H2 = css`
   }
 `;
 
-const STYLES_H3 = css`
-  font-family: ${Constants.font.medium};
-  font-weight: 400;
-  font-size: ${Constants.typescale.lvl3};
-  letter-spacing: -0.022rem;
-  line-height: 1.3;
-  color: ${Constants.system.slate};
-  margin-bottom: 1rem;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    font-size: ${Constants.typescale.lvl2};
-  }
-`;
-
 const STYLES_P = css`
   font-family: ${Constants.font.text};
   font-weight: 400;
@@ -239,24 +224,6 @@ const STYLES_SECTION_WRAPPER = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px;
-  }
-`;
-const STYLES_SECTION_WRAPPER_BOX = css`
-  max-width: 1440px;
-  width: 350px;
-  display: flex;
-  margin: 0 auto;
-  flex-wrap: wrap;
-  align-items: center;
-  background: white;
-  border-radius: 8px;
-
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    padding: 24px;
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 12px;
   }
 `;
 
@@ -575,11 +542,6 @@ const STYLES_IMG = css`
   display: block;
 `;
 
-const STYLES_IMG_ICON = css`
-  width: 15%;
-  margin-bottom: 24px;
-`;
-
 const STYLES_CHAT = css`
   background: #ffffff;
   border: 1px solid #000000;
@@ -590,59 +552,12 @@ const STYLES_CHAT = css`
   border-radius: 8px;
 `;
 
-const STYLES_CHAT_CARD_IMAGE_RIGHT = css`
-  width: 50px;
-  margin-bottom: -57px;
-  margin-left: 29.5vw;
-  border-radius: 8px;
-`;
-
-const STYLES_CHAT_CARD_IMAGE_LEFT = css`
-  width: 50px;
-  margin-bottom: -57px;
-  margin-left: -5.5vw;
-  border-radius: 8px;
-`;
-
-const STYLES_CONSOLE = css`
-  box-sizing: border-box;
-  font-family: ${Constants.font.code};
-  display: block;
-  border-radius: 4px;
-  width: 100%;
-  background: ${Constants.system.red};
-  padding: 8px 24px;
-  color: ${Constants.system.white};
-  font-size: 14px;
-  box-sizing: border-box;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-`;
-
-const STYLES_CONSOLE_BODY = css`
-  background-color: pink;
-  color: ${Constants.system.white};
-  font-family: ${Constants.system.code};
-  font-size: 14px;
-  display: inline-block;
-`;
-
 const STYLES_HIGLIGHT_TEXT_GREEN = css`
   color: #63b182;
 `;
 
 const STYLES_HIGLIGHT_TEXT_YELLOW = css`
   color: #fbc67a;
-`;
-
-const STYLES_CENTER_BLOCK = css`
-  width: 100%;
-  margin: 96px auto;
-  text-align: center;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 auto 48px auto;
-  }
 `;
 
 const STYLES_DOT = css`
@@ -872,29 +787,6 @@ export default class CommunityPage extends React.Component {
               ))}
             </div>
           </div>
-          <div css={STYLES_SECTION_WRAPPER_BOX}>
-            <div css={STYLES_CENTER_BLOCK}>
-              <img
-                css={STYLES_IMG_ICON}
-                src="https://slate.textile.io/ipfs/bafkreicq4yjwe47vu66u3qt5qqvznrq5vb4tfunmbrjjt3w6rg5p7pdcwy"
-              />
-              <h3 css={STYLES_H3}>
-                Have an idea?
-                <br />
-                Expand our imaginations.
-              </h3>
-              <button
-                css={STYLES_BUTTON}
-                onClick={() =>
-                  window.open(
-                    "https://github.com/filecoin-project/slate/issues"
-                  )
-                }
-              >
-                Submit a feature request
-              </button>
-            </div>
-          </div>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h2 css={STYLES_H2}>
@@ -948,7 +840,7 @@ export default class CommunityPage extends React.Component {
               </div>
             </div>
           </div>
-          <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h2 css={STYLES_H2}>
                 <span css={STYLES_HIGLIGHT_TEXT_YELLOW}>

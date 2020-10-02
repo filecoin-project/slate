@@ -1,5 +1,7 @@
-import { dispatchCustomEvent } from "~/common/custom-events";
 import * as Actions from "~/common/actions";
+import * as Store from "~/common/store";
+
+import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
@@ -18,16 +20,26 @@ export const upload = async ({ file, context, bucketName }) => {
       blob: file,
       toType: "image/png",
       quality: 1,
-    });
+    }); //TODO(martina): figure out how to cancel an await if upload has been cancelled
 
     formData.append("data", converted);
   } else {
     formData.append("data", file);
   }
 
-  const _privateUploadMethod = (path) =>
+  if (Store.checkCancelled(`${file.lastModified}-${file.name}`)) {
+    return;
+  }
+
+  const _privateUploadMethod = (path, file) =>
     new Promise((resolve, reject) => {
       const XHR = new XMLHttpRequest();
+      window.addEventListener(
+        `cancel-${file.lastModified}-${file.name}`,
+        () => {
+          XHR.abort();
+        }
+      );
       XHR.open("post", path, true);
       XHR.onerror = (event) => {
         console.log(event);
@@ -58,6 +70,11 @@ export const upload = async ({ file, context, bucketName }) => {
         false
       );
 
+      window.removeEventListener(
+        `cancel-${file.lastModified}-${file.name}`,
+        () => XHR.abort()
+      );
+
       XHR.onloadend = (event) => {
         console.log("FILE UPLOAD END", event);
         try {
@@ -74,9 +91,9 @@ export const upload = async ({ file, context, bucketName }) => {
   let json;
   // TODO(jim): Make this smarter.
   if (bucketName && bucketName === STAGING_DEAL_BUCKET) {
-    json = await _privateUploadMethod(`/api/data/deal/${file.name}`);
+    json = await _privateUploadMethod(`/api/data/deal/${file.name}`, file);
   } else {
-    json = await _privateUploadMethod(`/api/data/${file.name}`);
+    json = await _privateUploadMethod(`/api/data/${file.name}`, file);
   }
 
   if (!json || json.error || !json.data) {

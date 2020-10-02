@@ -135,14 +135,11 @@ export default class GlobalViewerCIDSidebar extends React.Component {
     const elements = [];
 
     if (this.props.onClose) {
-      console.log("dismiss added");
       elements.push(
         <div key="s-1" css={STYLES_DISMISS_BOX} onClick={this.props.onClose}>
           <SVG.Dismiss height="24px" />
         </div>
       );
-    } else {
-      console.log("dismiss not added");
     }
 
     if (this.props.renderDataControls) {

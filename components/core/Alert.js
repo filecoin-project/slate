@@ -158,7 +158,9 @@ export class Alert extends React.Component {
           </div>
         );
       }
-      let total = Object.keys(this.props.fileLoading).length;
+      let total = Object.values(this.props.fileLoading).filter((upload) => {
+        return !upload.cancelled;
+      }).length;
       let uploaded =
         Object.values(this.props.fileLoading).filter((upload) => {
           return upload.loaded === upload.total;

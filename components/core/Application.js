@@ -8,6 +8,7 @@ import * as Validations from "~/common/validations";
 import * as FileUtilities from "~/common/file-utilities";
 import * as System from "~/components/system";
 import * as Window from "~/common/window";
+import * as Store from "~/common/store";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -271,12 +272,17 @@ export default class ApplicationPage extends React.Component {
     // to allow parallel downloads again.
     const resolvedFiles = [];
     for (let i = 0; i < files.length; i++) {
+      if (Store.checkCancelled(`${files[i].lastModified}-${files[i].name}`)) {
+        continue;
+      }
       const response = await FileUtilities.upload({
         file: files[i],
         context: this,
       });
 
-      resolvedFiles.push(response);
+      if (response) {
+        resolvedFiles.push(response);
+      }
     }
 
     let responses = await Promise.allSettled(resolvedFiles);
@@ -371,6 +377,12 @@ export default class ApplicationPage extends React.Component {
     return this.setState({
       fileLoading,
     });
+  };
+
+  _handleRegisterFileCancelled = ({ key }) => {
+    let fileLoading = this.state.fileLoading;
+    fileLoading[key].cancelled = true;
+    this.setState({ fileLoading });
   };
 
   _handleRegisterLoadingFinished = ({ keys }) => {
@@ -609,6 +621,10 @@ export default class ApplicationPage extends React.Component {
         sidebar: SIDEBARS[options.value],
         sidebarData: options.data,
       });
+    }
+
+    if (options.type === "REGISTER_FILE_CANCELLED") {
+      return this._handleRegisterFileCancelled({ key: options.value });
     }
 
     return alert(JSON.stringify(options));

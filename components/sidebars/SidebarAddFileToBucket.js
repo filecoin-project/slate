@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
+import * as Store from "~/common/store";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
@@ -38,6 +39,19 @@ const STYLES_FILE_NAME = css`
   white-space: nowrap;
   font-size: 0.9rem;
   font-family: ${Constants.font.medium};
+`;
+
+const STYLES_LEFT = css`
+  width: 100%;
+  min-width: 10%;
+  display: flex;
+  align-items: center;
+`;
+
+const STYLES_RIGHT = css`
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 `;
 
 const STYLES_FILE_STATUS = css`
@@ -78,6 +92,14 @@ export default class SidebarAddFileToBucket extends React.Component {
           : null,
     });
     this.props.onCancel();
+  };
+
+  _handleCancel = (e, key) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatchCustomEvent({ name: `cancel-${key}` }); //NOTE(martina): so that will cancel if is in the middle of uploading
+    Store.setCancelled(key); //NOTE(martina): so that will cancel if hasn't started uploading yet
+    this.props.onAction({ type: "REGISTER_FILE_CANCELLED", value: key }); //NOTE(martina): so that fileLoading registers it
   };
 
   render() {
@@ -157,30 +179,81 @@ export default class SidebarAddFileToBucket extends React.Component {
         ) : null}
         <div style={{ marginTop: 24 }}>
           {this.props.fileLoading
-            ? Object.values(this.props.fileLoading).map((file) => (
-                <div css={STYLES_FILE_LINE} key={file.name}>
-                  <div css={STYLES_FILE_STATUS}>
-                    {file.failed ? (
-                      <SVG.Alert
-                        height="24px"
-                        style={{ color: Constants.system.red }}
+            ? Object.entries(this.props.fileLoading).map((entry) => {
+                let file = entry[1];
+                return (
+                  <div css={STYLES_FILE_LINE} key={file.name}>
+                    <span css={STYLES_LEFT}>
+                      <div css={STYLES_FILE_STATUS}>
+                        {file.failed ? (
+                          <SVG.Alert
+                            height="24px"
+                            style={{
+                              color: Constants.system.red,
+                              pointerEvents: "none",
+                            }}
+                          />
+                        ) : file.cancelled ? (
+                          <SVG.Dismiss
+                            height="24px"
+                            style={{
+                              color: Constants.system.gray,
+                              pointerEvents: "none",
+                            }}
+                          />
+                        ) : file.loaded === file.total ? (
+                          <SVG.CheckBox height="24px" />
+                        ) : (
+                          <System.LoaderSpinner
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              margin: "2px",
+                            }}
+                          />
+                        )}
+                      </div>
+                      <div
+                        css={STYLES_FILE_NAME}
+                        style={
+                          file.failed
+                            ? { color: Constants.system.red }
+                            : file.cancelled
+                            ? { color: Constants.system.gray }
+                            : null
+                        }
+                      >
+                        {file.name}
+                      </div>
+                    </span>
+                    {file.loaded === file.total ||
+                    file.failed ||
+                    file.cancelled ? (
+                      <div
+                        css={STYLES_RIGHT}
+                        style={{ height: 24, width: 24 }}
                       />
-                    ) : file.loaded === file.total ? (
-                      <SVG.CheckBox height="24px" />
                     ) : (
-                      <System.LoaderSpinner
-                        style={{ width: "20px", height: "20px", margin: "2px" }}
-                      />
+                      <span
+                        css={STYLES_RIGHT}
+                        style={{
+                          cursor: "pointer",
+                        }}
+                        onClick={(e) => this._handleCancel(e, entry[0])}
+                      >
+                        <SVG.Dismiss
+                          height="24px"
+                          className="boundary-ignore"
+                          style={{
+                            color: Constants.system.gray,
+                            pointerEvents: "none",
+                          }}
+                        />
+                      </span>
                     )}
                   </div>
-                  <div
-                    css={STYLES_FILE_NAME}
-                    style={file.failed ? { color: Constants.system.red } : null}
-                  >
-                    {file.name}
-                  </div>
-                </div>
-              ))
+                );
+              })
             : null}
         </div>
       </React.Fragment>

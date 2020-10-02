@@ -152,7 +152,6 @@ export default class SceneProfile extends React.Component {
   };
 
   render() {
-    console.log(this.props.data);
     let buttons = (
       <div css={STYLES_BUTTONS}>
         {this.state.followStatus ? (

@@ -200,7 +200,7 @@ const STYLES_IMG_OVERLAY = css`
 export default class SlateForChromePage extends React.Component {
   render() {
     const title = `Slate for Chrome`;
-    const description = "Upload images to Slate right from your browser window";
+    const description = "Upload images to Slate from anywhere on the web";
     const url = "https://slate.host/slate-for-chrome";
 
     return (

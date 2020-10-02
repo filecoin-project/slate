@@ -374,7 +374,7 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
               <h1 css={STYLES_H1}>
                 <span css={STYLES_HIGHLIGHT_BLUE}>Get all the space you need</span> <br />
-                for your valuable information
+                for all of your valuable data
               </h1>
               <p css={STYLES_P} style={{ opacity: 0.7 }}>
                 Powered by Textile, Filecoin, IPFS.

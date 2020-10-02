@@ -28,13 +28,13 @@ export class HoverTileColorful extends React.Component {
     super(props);
 
     this.state = {
-      tileStyle: {}
+      tileStyle: {},
     };
 
     this.containerRef = React.createRef();
   }
 
-  handleMovement = e => {
+  handleMovement = (e) => {
     const { offsetLeft, offsetTop } = this.containerRef.current;
     const width = this.props.width ? this.props.width : 300;
     const height = this.props.height ? this.props.height : 300;
@@ -63,12 +63,13 @@ export class HoverTileColorful extends React.Component {
     this.setState({
       tileStyle: {
         transform: `scale(.97) rotateY(${x}deg) rotateX(${y * -1}deg)`,
-        background: `linear-gradient(${x}deg, rgba(${x *
-          -5},238,238,1) 0%, rgba(148,${x * -20},233,1) 100%)`,
-        boxShadow: `${x * -1 * 0.75}px ${y *
-          -1 *
-          1.2}px 25px rgba(0, 0, 0, .15)`
-      }
+        background: `linear-gradient(${x}deg, rgba(${
+          x * -5
+        },238,238,1) 0%, rgba(148,${x * -20},233,1) 100%)`,
+        boxShadow: `${x * -1 * 0.75}px ${
+          y * -1 * 1.2
+        }px 25px rgba(0, 0, 0, .15)`,
+      },
     });
   };
 

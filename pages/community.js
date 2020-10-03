@@ -4,12 +4,10 @@ import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 
 import { css, keyframes } from "@emotion/react";
-import { SceneUtils } from "three";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
-import CodeBlock from "~/components/system/CodeBlock";
 
 const SLATE_CORE_TEAM = [
   {
@@ -378,47 +376,6 @@ const STYLES_SLATE_CARD_EFFECTS = css`
   }
 `;
 
-const STYLES_FEATURE_CARD_WRAPPER = css`
-  width: 33%;
-  height: auto;
-  padding-right: 24px;
-  :nth-last-child() {
-    padding-right: 0px;
-  }
-
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    width: 100%;
-    height: auto;
-    margin-bottom: 32px;
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    height: auto;
-    margin-bottom: 32px;
-  }
-`;
-
-const STYLES_FEATURE_CARD = css`
-  margin: 24px auto;
-  padding: 16px;
-  border-radius: 8px;
-  background-color: #f2f4f8;
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.1);
-
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    width: 100%;
-    height: auto;
-    margin-bottom: 32px;
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    height: auto;
-    margin-bottom: 32px;
-  }
-`;
-
 const STYLES_CONTRIBUTION_CARD = css`
   margin-left: 33.3%;
   width: 66.6%;
@@ -431,16 +388,6 @@ const STYLES_CONTRIBUTION_CARD = css`
     margin: 0;
     width: 100%;
   }
-`;
-
-const STYLES_FEATURE_TEXT = css`
-  font-family: ${Constants.font.text};
-  font-weight: 400;
-  font-size: ${Constants.typescale.lvl1};
-  letter-spacing: -0.011rem;
-  line-height: 1.5;
-  margin: 8px 0 0 0;
-  color: ${Constants.system.slate};
 `;
 
 const STYLES_CONTRIBUTION_TEXT = css`

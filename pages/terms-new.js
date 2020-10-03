@@ -64,7 +64,7 @@ const STYLES_CONTENT_BLOCK1 = css`
   width: 40%;
   position: -webkit-sticky;
   position: sticky;
-  top: 80px;
+  top: 120px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     position: relative;
@@ -74,7 +74,7 @@ const STYLES_CONTENT_BLOCK1 = css`
 `;
 
 const STYLES_CONTENT_BLOCK2 = css`
-  margin: -160px 0 0 auto;
+  margin: -120px 0 0 auto;
   width: 50%;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -123,7 +123,6 @@ export default class TermsPage extends React.Component {
         <div css={STYLES_ROOT}>
           <div css={STYLES_CONTAINER}>
             <div css={STYLES_CONTENT_BLOCK1}>
-              <h1 css={STYLES_H1}>📑</h1>
               <h1 css={STYLES_H1}>Terms of Service</h1>
               <br />
               <System.P style={{ marginLeft: 1 }}>In this page</System.P>

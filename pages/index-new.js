@@ -377,7 +377,7 @@ export default class IndexPage extends React.Component {
                 for all of your valuable data
               </h1>
               <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                Powered by Textile, Filecoin, IPFS.
+                Powered by Textile, Filecoin, IPFS*.
               </p>
               <br />
               <img
@@ -416,11 +416,6 @@ export default class IndexPage extends React.Component {
                   <li>Podcasts</li>
                   <li>Games</li>
                   <li>Code</li>
-                  <li>
-                    <a css={STYLES_LINK} href="/_">
-                      + more
-                    </a>
-                  </li>
                 </ul>
               </div>
               <img
@@ -443,11 +438,6 @@ export default class IndexPage extends React.Component {
                   <li>Arrange moodboard</li>
                   <li>Organize research</li>
                   <li>Share presentation</li>
-                  <li>
-                    <a css={STYLES_LINK} href="/_">
-                      + more
-                    </a>
-                  </li>
                 </ul>
               </div>
               <img
@@ -463,8 +453,7 @@ export default class IndexPage extends React.Component {
               </h1>
               <div css={STYLES_TEXT_BLOCK}>
                 <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                  Information is only meaningful when it's shared. Slate is fundamentally a file sharing network built
-                  on top of a storage system, making it possible to connect with other people.
+                  Connect with trusted peers and use slate as a space to think together.
                 </p>
               </div>
               <img

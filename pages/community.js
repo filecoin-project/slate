@@ -4,10 +4,12 @@ import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 
 import { css, keyframes } from "@emotion/react";
+import { SceneUtils } from "three";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
+import CodeBlock from "~/components/system/CodeBlock";
 
 const SLATE_CORE_TEAM = [
   {
@@ -269,11 +271,14 @@ const STYLES_SPLIT_WIDTH = css`
 `;
 
 const STYLES_DINNER_TABLE = css`
-  width: 50%;
-  padding: 48px 64px;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  padding: 24px;
+  position: relative;
   background-color: #e7e7e9;
-  display: inline-block;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
@@ -300,6 +305,32 @@ const STYLES_CODE_BLOCK = css`
       width: 0;
       height: 0;
     }
+  }
+`;
+
+const STYLES_SECTION_HERO = css`
+  max-width: 1440px;
+  padding: 100px;
+  overflow: hidden;
+  background-image: url("https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 150px 250px;
+  margin: 88px auto 0 auto;
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    padding: 24px;
+    margin: 44px auto 88px auto;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 24px;
+    margin: 44px auto 88px auto;
   }
 `;
 
@@ -376,6 +407,47 @@ const STYLES_SLATE_CARD_EFFECTS = css`
   }
 `;
 
+const STYLES_FEATURE_CARD_WRAPPER = css`
+  width: 33%;
+  height: auto;
+  padding-right: 24px;
+  :nth-last-child() {
+    padding-right: 0px;
+  }
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+`;
+
+const STYLES_FEATURE_CARD = css`
+  margin: 24px auto;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f2f4f8;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+`;
+
 const STYLES_CONTRIBUTION_CARD = css`
   margin-left: 33.3%;
   width: 66.6%;
@@ -388,6 +460,16 @@ const STYLES_CONTRIBUTION_CARD = css`
     margin: 0;
     width: 100%;
   }
+`;
+
+const STYLES_FEATURE_TEXT = css`
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl1};
+  letter-spacing: -0.011rem;
+  line-height: 1.5;
+  margin: 8px 0 0 0;
+  color: ${Constants.system.slate};
 `;
 
 const STYLES_CONTRIBUTION_TEXT = css`
@@ -406,12 +488,6 @@ const STYLES_CONTRIBUTION_IMG = css`
   box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
 `;
 
-const STYLES_FEATURE_IMG = css`
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 8px;
-`;
-
 const STYLES_CARD_GROUP = css`
   display: flex;
   flex-wrap: wrap;
@@ -426,7 +502,7 @@ const STYLES_IMG = css`
 
 const STYLES_CHAT = css`
   background: #ffffff;
-  border: 1px solid #000000;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   margin: 50px 0px;
   padding: 30px;
@@ -547,7 +623,7 @@ export default class CommunityPage extends React.Component {
       >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SECTION_WRAPPER}>
+          <div css={STYLES_SECTION_HERO}>
             <div css={STYLES_DINNER_TABLE}>
               <h1 css={STYLES_H1}>An open invitation to everyone</h1>
               <p css={STYLES_P}>
@@ -644,16 +720,16 @@ export default class CommunityPage extends React.Component {
                   <br />
                   <br />
                   Best, <br />
-                  the
+                  Will
                 </p>
               </div>
               <div css={STYLES_CHAT}>
                 <p>
-                  Hey 🦄, <br />
+                  Hey Will, <br />
                   <br />
                   That would be so fun, will work in it! <br />
                   <br /> Best, <br />
-                  🐳
+                  John
                 </p>
               </div>
             </div>
@@ -684,7 +760,7 @@ method: 'POST',
     headers: {
     'Content-Type': 'application/json',
     // NOTE: your API key
-    Authorization: 'Basic SLA234abe41-c235-464f-9f4a-9effbbd3530dTE',
+    Authorization: 'Basic SLATE-API-KEY-FROM-ACCOUNT-SETTINGS',
     },
     body: JSON.stringify({ data: {
     // NOTE: optional, if you want your private slates too.

@@ -24,6 +24,7 @@ export const slate = (entity) => {
       name: entity.data.name ? entity.data.name : "",
       body: entity.data.body ? entity.data.body : "",
       objects: entity.data.objects,
+      layouts: entity.data.layouts,
     },
   };
 };

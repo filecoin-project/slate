@@ -3,31 +3,6 @@ import * as Utilities from "~/node_common/utilities";
 import * as Strings from "~/common/strings";
 import * as Social from "~/node_common/social";
 
-const generateLayout = (items) => {
-  if (!items) {
-    return [];
-  }
-
-  if (!items.length) {
-    return [];
-  }
-
-  return items.map((item, i) => {
-    var y = Math.ceil(Math.random() * 4) + 1;
-
-    return {
-      x: (i * 2) % 10,
-      y: 0,
-      w: 2,
-      h: 2,
-      minW: 2,
-      minH: 2,
-      // NOTE(jim): Library quirk thats required.
-      i: i.toString(),
-    };
-  });
-};
-
 export default async (req, res) => {
   if (Strings.isEmpty(req.body.data.cid)) {
     return res
@@ -151,7 +126,6 @@ export default async (req, res) => {
         data: {
           ...slate.data,
           objects,
-          layouts: { lg: generateLayout(objects) },
         },
       });
     }

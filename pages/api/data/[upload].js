@@ -54,14 +54,12 @@ export default async (req, res) => {
 
   const slateId = req.params ? req.params.b : null;
 
-  await Data.createPendingData({
-    data: finalData,
-    owner_user_id: user.id,
-    slate_id: slateId,
-  });
-
   return res.status(200).send({
     decorator: "SERVER_UPLOAD",
-    data: finalData,
+    data: {
+      data: finalData,
+      owner_user_id: user.id,
+      slate_id: slateId,
+    },
   });
 };

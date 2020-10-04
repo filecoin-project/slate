@@ -110,6 +110,7 @@ const STYLES_NAVIGATION = css`
     right: 0;
     width: 100%;
     height: 56px;
+    z-index: ${Constants.zindex.header};
   }
 `;
 
@@ -223,10 +224,10 @@ export default class ApplicationLayout extends React.Component {
     if (this.props.sidebar) {
       sidebarElements = (
         <React.Fragment>
-          <GlobalTooltip
+          {/* <GlobalTooltip
             elementRef={this._sidebar}
             allowedTypes={["sidebar"]}
-          />
+          /> */}
           <div css={STYLES_SIDEBAR_HEADER}>
             <div css={STYLES_BLOCK} onClick={this._handleDismiss}>
               <SVG.Dismiss height="24px" />
@@ -244,16 +245,16 @@ export default class ApplicationLayout extends React.Component {
             this._navigation = c;
           }}
         >
-          <GlobalTooltip
+          {/* <GlobalTooltip
             elementRef={this._navigation}
             allowedTypes={["navigation"]}
-          />
+          /> */}
           {this.props.navigation}
         </div>
 
         <div css={STYLES_CONTENT}>
           {/* <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} /> */}
-          <GlobalTooltip allowedTypes={["body"]} />
+          <GlobalTooltip />
           <span css={STYLES_MOBILE_HIDDEN}>
             <div css={STYLES_HEADER}>{this.props.header}</div>
           </span>

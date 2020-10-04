@@ -7,6 +7,7 @@ import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
 import { Buckets, PrivateKey, Pow, Client, ThreadID } from "@textile/hub";
+import { CompressedPixelFormat } from "three";
 
 const BUCKET_NAME = "data";
 
@@ -157,6 +158,15 @@ export const setupWithThread = async ({ buckets }) => {
   }
 
   return buckets;
+};
+
+export const addExistingCIDToData = async ({ buckets, key, path, cid }) => {
+  try {
+    await buckets.setPath(key, path || "/", cid);
+    return true;
+  } catch (e) {
+    return false;
+  }
 };
 
 // NOTE(jim): Requires @textile/hub

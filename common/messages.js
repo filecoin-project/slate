@@ -114,6 +114,8 @@ export const error = {
     "We can't seem to find your API key right now. Please try again later",
   CREATE_PENDING_DATA:
     "We ran into issues while uploading your data, please try again later",
+  CREATE_PENDING_ERROR:
+    "We ran into issues while uploading your data, please try again later",
   PROCESS_PENDING_ERROR:
     "We ran into an error while updating your uploaded data. Please try again later",
 

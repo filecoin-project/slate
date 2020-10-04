@@ -16,7 +16,7 @@ export const sizes = {
 export const system = {
   white: "#ffffff",
   foreground: "#f8f8f8",
-  gray: "#e0e0e0",
+  gray: "#e5e5e5",
   lightBorder: "#ececec",
   border: "#d8d8d8",
   darkGray: "#b2b2b2",
@@ -42,6 +42,7 @@ export const system = {
 
 export const zindex = {
   navigation: 1,
+  body: 2,
   sidebar: 5,
   alert: 3,
   header: 4,

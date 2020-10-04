@@ -4,6 +4,7 @@ import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 import * as State from "~/common/state";
 import * as Credentials from "~/common/credentials";
+import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 import * as FileUtilities from "~/common/file-utilities";
 import * as System from "~/components/system";
@@ -316,6 +317,7 @@ export default class ApplicationPage extends React.Component {
         return res.status === "fulfilled" && res.value && !res.value.error;
       })
       .map((res) => res.value);
+    console.log(succeeded);
     if (slate && slate.id) {
       await FileUtilities.uploadToSlate({ responses: succeeded, slate });
     }
@@ -764,6 +766,7 @@ export default class ApplicationPage extends React.Component {
         navigation={navigation}
         onAction={this._handleAction}
         onSignOut={this._handleSignOut}
+        mobile={this.props.mobile}
       />
     );
 
@@ -778,6 +781,7 @@ export default class ApplicationPage extends React.Component {
         onBack={this._handleBack}
         onForward={this._handleForward}
         onSignOut={this._handleSignOut}
+        mobile={this.props.mobile}
       />
     );
 
@@ -795,6 +799,7 @@ export default class ApplicationPage extends React.Component {
       onForward: this._handleForward,
       onRehydrate: this.rehydrate,
       sceneId: current.target.id,
+      mobile: this.props.mobile,
     });
 
     let sidebarElement;
@@ -833,11 +838,16 @@ export default class ApplicationPage extends React.Component {
             onDismissSidebar={this._handleDismissSidebar}
             fileLoading={this.state.fileLoading}
             filecoin={current.target.filecoin}
+            mobile={this.props.mobile}
           >
             {scene}
           </ApplicationLayout>
-          <GlobalViewerCID onRehydrate={this.rehydrate} onAction={this._handleAction} />
-          <System.GlobalCarousel />
+          <GlobalViewerCID
+            onRehydrate={this.rehydrate}
+            onAction={this._handleAction}
+            mobile={this.props.mobile}
+          />
+          <System.GlobalCarousel mobile={this.props.mobile} />
           <System.GlobalModal />
         </WebsitePrototypeWrapper>
       </React.Fragment>

@@ -80,8 +80,24 @@ export const getById = async ({ id }) => {
   });
 
   let bytes = 0;
+  let imageBytes = 0;
+  let videoBytes = 0;
+  let audioBytes = 0;
+  let epubBytes = 0;
+  let pdfBytes = 0;
   user.data.library[0].children.forEach((each) => {
-    bytes = each.size + bytes;
+    if (each.type && each.type.startsWith("image/")) {
+      imageBytes += each.size;
+    } else if (each.type && each.type.startsWith("video/")) {
+      videoBytes += each.size;
+    } else if (each.type && each.type.startsWith("audio/")) {
+      audioBytes += each.size;
+    } else if (each.type && each.type.startsWith("application/epub")) {
+      epubBytes += each.size;
+    } else if (each.type && each.type.startsWith("application/pdf")) {
+      pdfBytes += each.size;
+    }
+    bytes += each.size;
   });
 
   return {
@@ -104,6 +120,11 @@ export const getById = async ({ id }) => {
     stats: {
       bytes,
       maximumBytes: Constants.TEXTILE_ACCOUNT_BYTE_LIMIT,
+      imageBytes,
+      videoBytes,
+      audioBytes,
+      epubBytes,
+      pdfBytes,
     },
     keys,
     activity,

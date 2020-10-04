@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
-import * as Window from "~/common/window";
+import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
@@ -11,8 +11,11 @@ import { Alert } from "~/components/core/Alert";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
-import Slate, { generateLayout } from "~/components/core/Slate";
+import { SlateLayout } from "~/components/core/SlateLayout";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
+
+const SIZE_LIMIT = 1000000; //NOTE(martina): 1mb limit for twitter preview images
+const DEFAULT_IMAGE = "";
 
 const STYLES_ROOT = css`
   display: flex;
@@ -29,7 +32,7 @@ const STYLES_SLATE = css`
   max-width: 1660px;
   display: block;
   width: 100%;
-  margin: 0 auto 0 auto;
+  margin: 48px auto 0 auto;
   min-height: 10%;
   height: 100%;
 
@@ -45,12 +48,6 @@ export const getServerSideProps = async (context) => {
 };
 
 export default class SlatePage extends React.Component {
-  state = {
-    layouts: this.props.slate.data.layouts
-      ? this.props.slate.data.layouts
-      : { lg: generateLayout(this.props.slate.data.objects) },
-  };
-
   componentDidMount() {
     if (!this.props.slate) {
       return null;
@@ -71,7 +68,7 @@ export default class SlatePage extends React.Component {
             cid,
             id: each.id,
             data: each,
-            editing: false,
+            isOwner: false,
             component: (
               <SlateMediaObject key={each.id} useImageFallback data={each} />
             ),
@@ -88,9 +85,7 @@ export default class SlatePage extends React.Component {
           name: "slate-global-open-carousel",
           detail: {
             index,
-            baseURL: `${this.props.creator.username}/${
-              this.props.slate.slatename
-            }`,
+            baseURL: `${this.props.creator.username}/${this.props.slate.slatename}`,
           },
         });
       }
@@ -106,24 +101,36 @@ export default class SlatePage extends React.Component {
       },
     });
 
+  _handleSave = async (layouts) => {
+    await Actions.updateSlate({
+      id: this.props.slate.id,
+      layoutOnly: true,
+      data: { layouts },
+    });
+  };
+
   render() {
     let title = `${this.props.creator.username}/${this.props.slate.slatename}`;
-    let url = `https://slate.host/${this.props.creator.username}/${
-      this.props.slate.slatename
-    }`;
+    let url = `https://slate.host/${this.props.creator.username}/${this.props.slate.slatename}`;
     let headerURL = `https://slate.host/${this.props.creator.username}`;
-    let description = this.props.slate.data.body;
 
-    const { objects } = this.props.slate.data;
+    let { objects, layouts, body, preview } = this.props.slate.data;
 
-    // TODO(jim): Takes the first image found
-    // but we want this to be a user choice.
-    let image;
-    for (let i = 0; i < objects.length; i++) {
-      if (objects[i].type && objects[i].type.startsWith("image/")) {
-        image = objects[i].url;
-        break;
+    let image = preview;
+    if (!image) {
+      for (let i = 0; i < objects.length; i++) {
+        if (
+          objects[i].type &&
+          objects[i].type.startsWith("image/") &&
+          (!objects[i].size || objects[i].size < SIZE_LIMIT)
+        ) {
+          image = objects[i].url.replace("https://undefined", "https://");
+          break;
+        }
       }
+    }
+    if (!image) {
+      image = DEFAULT_IMAGE;
     }
 
     if (!Strings.isEmpty(this.props.cid)) {
@@ -135,7 +142,7 @@ export default class SlatePage extends React.Component {
 
       if (object) {
         title = !Strings.isEmpty(object.title) ? object.title : this.props.cid;
-        description = !Strings.isEmpty(object.body)
+        body = !Strings.isEmpty(object.body)
           ? Strings.elide(object.body)
           : `An object on ${url}`;
         image = object.type.includes("image/") ? object.url : image;
@@ -143,14 +150,12 @@ export default class SlatePage extends React.Component {
       }
     }
 
-    const headerTitle = `${this.props.creator.username} / ${
-      this.props.slate.slatename
-    }`;
+    const headerTitle = `${this.props.creator.username} / ${this.props.slate.slatename}`;
 
     return (
       <WebsitePrototypeWrapper
         title={title}
-        description={description}
+        description={body}
         url={url}
         image={image}
       >
@@ -159,16 +164,26 @@ export default class SlatePage extends React.Component {
             <ProcessedText text={this.props.slate.data.body} />
           </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
-            <Slate
-              editing={false}
-              layouts={this.state.layouts}
+            <SlateLayout
+              external
+              slateId={this.props.slate.id}
+              layout={layouts && layouts.ver === "2.0" ? layouts.layout : null}
+              onSaveLayout={this._handleSave}
+              isOwner={false}
+              fileNames={
+                layouts && layouts.ver === "2.0" ? layouts.fileNames : false
+              }
               items={objects}
               onSelect={this._handleSelect}
+              defaultLayout={
+                layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true
+              }
             />
           </div>
           <WebsitePrototypeFooter style={{ marginTop: 88 }} />
         </div>
         <System.GlobalCarousel />
+        <System.GlobalModal />
       </WebsitePrototypeWrapper>
     );
   }

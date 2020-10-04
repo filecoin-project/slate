@@ -5,31 +5,6 @@ import * as Social from "~/node_common/social";
 
 import { read } from "fs";
 
-const generateLayout = (items) => {
-  if (!items) {
-    return [];
-  }
-
-  if (!items.length) {
-    return [];
-  }
-
-  return items.map((item, i) => {
-    var y = Math.ceil(Math.random() * 4) + 1;
-
-    return {
-      x: (i * 2) % 10,
-      y: 0,
-      w: 2,
-      h: 2,
-      minW: 2,
-      minH: 2,
-      // NOTE(jim): Library quirk thats required.
-      i: i.toString(),
-    };
-  });
-};
-
 export default async (req, res) => {
   if (!req.body.data || !req.body.data.cids || !req.body.data.cids.length) {
     return res
@@ -158,7 +133,6 @@ export default async (req, res) => {
         data: {
           ...slate.data,
           objects,
-          layouts: { lg: generateLayout(objects) },
         },
       });
     }

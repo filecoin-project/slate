@@ -175,6 +175,15 @@ export const getRemainingTime = (seconds) => {
   return `${value} ${unit} remaining`;
 };
 
+export const urlToCid = (url) => {
+  return url
+    .replace(`${Constants.gateways.ipfs}/`, "")
+    .replace("https://undefined", "")
+    .replace("https://", "")
+    .replace(".ipfs.slate.textile.io", "")
+    .replace("hub.textile.io/ipfs/", "");
+};
+
 export const hexToRGBA = (hex, alpha = 1) => {
   hex = hex.replace("#", "");
   var r = parseInt(hex.length == 3 ? hex.slice(0, 1).repeat(2) : hex.slice(0, 2), 16);

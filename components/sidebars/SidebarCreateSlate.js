@@ -22,7 +22,6 @@ const STYLES_GROUP = css`
 
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
-  font-size: 18px;
   margin-top: 32px;
 `;
 
@@ -88,17 +87,14 @@ export default class SidebarCreateSlate extends React.Component {
       return;
     }
 
-    if (
-      this.props.sidebarData &&
-      this.props.sidebarData.files &&
-      this.props.sidebarData.files[0].decorator === "FILE"
-    ) {
+    if (this.props.sidebarData && this.props.sidebarData.files) {
       let data = this.props.sidebarData.files.map((file) => {
         return { title: file.name, ...file };
       });
       const addResponse = await Actions.addFileToSlate({
         slate: response.slate,
         data,
+        repost: this.props.sidebarData.repost,
       });
 
       if (!addResponse) {
@@ -204,7 +200,7 @@ export default class SidebarCreateSlate extends React.Component {
           style={{ marginTop: 12 }}
           name="body"
           value={this.state.body}
-          placeholder="A slate."
+          placeholder="Slate description..."
           onChange={this._handleChange}
           onSubmit={this._handleSubmit}
         />

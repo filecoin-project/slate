@@ -239,9 +239,6 @@ const STYLES_CARD_WRAPPER = css`
   :hover {
     transform: scale(1.1);
   }
-
-  @media (max-width: ${Constants.sizes.tablet}px) {
-  }
 `;
 
 const STYLES_FULL_WIDTH = css`
@@ -251,12 +248,14 @@ const STYLES_FULL_WIDTH = css`
 const STYLES_SPLIT_WIDTH = css`
   padding: 24px 0;
   width: 50%;
+
   :nth-child(2) {
     padding-left: 18px;
   }
 
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
+
     :nth-child(2) {
       padding-left: 0;
     }
@@ -264,6 +263,7 @@ const STYLES_SPLIT_WIDTH = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
+
     :nth-child(2) {
       padding-left: 0;
     }
@@ -313,9 +313,9 @@ const STYLES_SECTION_HERO = css`
   padding: 100px;
   overflow: hidden;
   background-image: url("https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/");
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-wrap: wrap;
@@ -411,6 +411,7 @@ const STYLES_FEATURE_CARD_WRAPPER = css`
   width: 33%;
   height: auto;
   padding-right: 24px;
+
   :nth-last-child() {
     padding-right: 0px;
   }

@@ -11,30 +11,6 @@ import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader"
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 import CodeBlock from "~/components/system/CodeBlock";
 
-const FEATURES = [
-  {
-    illustration:
-      "https://slate.textile.io/ipfs/bafkreih4hmgltk3mboh5to6lwzcmcptzsiuzlodpdxztynsl2xij6q4deq",
-    title: "Multiplayer slate",
-    description:
-      "Slate as social space. Co-create slates with family and friends. Share design, code, research, dinner plans with others and discuss your ideas.",
-  },
-  {
-    illustration:
-      "https://slate.textile.io/ipfs/bafybeiebglllfwpqk7v57erslgmsjq2vkfav7zmcgjb7dcq3rhca26iwli",
-    title: "Unity game engine",
-    description:
-      "Slate as playground. Upload your favorite unity game to the file-sharing network. Invite your friends to play together.",
-  },
-  {
-    illustration:
-      "https://slate.textile.io/ipfs/bafkreigwlh7kmqnay2qs5lrcyl34mq7rhlcwfwld4vwstmnhhxyrqdyhaq",
-    title: "Flexible content arrangement",
-    description:
-      "Slate as digital garden. Organized information with gallery view, list view, a node-link diagram, a timeline, a discussion thread and more.",
-  },
-];
-
 const SLATE_CORE_TEAM = [
   {
     id: 1,
@@ -263,9 +239,6 @@ const STYLES_CARD_WRAPPER = css`
   :hover {
     transform: scale(1.1);
   }
-
-  @media (max-width: ${Constants.sizes.tablet}px) {
-  }
 `;
 
 const STYLES_FULL_WIDTH = css`
@@ -275,12 +248,14 @@ const STYLES_FULL_WIDTH = css`
 const STYLES_SPLIT_WIDTH = css`
   padding: 24px 0;
   width: 50%;
+
   :nth-child(2) {
     padding-left: 18px;
   }
 
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
+
     :nth-child(2) {
       padding-left: 0;
     }
@@ -288,60 +263,22 @@ const STYLES_SPLIT_WIDTH = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
+
     :nth-child(2) {
       padding-left: 0;
     }
-  }
-`;
-
-const STYLES_FIGURES_GROUP = css`
-  width: 50%;
-  margin: -4px auto;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    margin: 10vh 0 -4px 0;
-  }
-`;
-
-const STYLES_FIGURE = css`
-  width: 50%;
-`;
-
-const STYLES_FIGURES_BOTTOM = css`
-  width: 50%;
-  margin: -4px auto;
-  transform: rotate(180deg);
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-  }
-`;
-
-const STYLES_FIGURE_RIGHT = css`
-  width: 25%;
-  transform: rotate(90deg) translateY(39%);
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
-`;
-
-const STYLES_FIGURE_LEFT = css`
-  width: 25%;
-  transform: rotate(-90deg) translateY(39%);
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
   }
 `;
 
 const STYLES_DINNER_TABLE = css`
-  width: 50%;
-  padding: 48px 64px;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  padding: 24px;
+  position: relative;
   background-color: #e7e7e9;
-  display: inline-block;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
@@ -357,7 +294,7 @@ const STYLES_CODE_BLOCK = css`
   border-color: ${Constants.system.yellow};
   font-size: 12px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 24px;
 
   * {
@@ -368,6 +305,32 @@ const STYLES_CODE_BLOCK = css`
       width: 0;
       height: 0;
     }
+  }
+`;
+
+const STYLES_SECTION_HERO = css`
+  max-width: 1440px;
+  padding: 100px;
+  overflow: hidden;
+  background-image: url("https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 150px 250px;
+  margin: 88px auto 0 auto;
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    padding: 24px;
+    margin: 44px auto 88px auto;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 24px;
+    margin: 44px auto 88px auto;
   }
 `;
 
@@ -423,7 +386,7 @@ const STYLES_CARD_TEXT = css`
 const STYLES_SLATE_CARD_EFFECTS = css`
   display: flex;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 8px;
   height: 100%;
   cursor: default;
   border: 1px solid ${Constants.system.black};
@@ -448,6 +411,7 @@ const STYLES_FEATURE_CARD_WRAPPER = css`
   width: 33%;
   height: auto;
   padding-right: 24px;
+
   :nth-last-child() {
     padding-right: 0px;
   }
@@ -525,12 +489,6 @@ const STYLES_CONTRIBUTION_IMG = css`
   box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
 `;
 
-const STYLES_FEATURE_IMG = css`
-  width: 100%;
-  border-radius: 4px;
-  margin-bottom: 8px;
-`;
-
 const STYLES_CARD_GROUP = css`
   display: flex;
   flex-wrap: wrap;
@@ -539,12 +497,13 @@ const STYLES_CARD_GROUP = css`
 
 const STYLES_IMG = css`
   width: 100%;
+  border-radius: 8px 8px 0px 0px;
   display: block;
 `;
 
 const STYLES_CHAT = css`
   background: #ffffff;
-  border: 1px solid #000000;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   margin: 50px 0px;
   padding: 30px;
@@ -611,8 +570,8 @@ const SlateTeamCards = (props) => {
     <div key={props.id} css={STYLES_CARD_WRAPPER}>
       <a href={props.url}>
         <System.HoverTileColorful
-          height={250}
-          width={200}
+          height={350}
+          width={300}
           style={{ borderRadius: 4 }}
         >
           <div css={STYLES_SLATE_CARD_EFFECTS}>
@@ -628,20 +587,6 @@ const SlateTeamCards = (props) => {
           </div>
         </System.HoverTileColorful>
       </a>
-    </div>
-  );
-};
-
-const FeatureCard = (props) => {
-  return (
-    <div css={STYLES_FEATURE_CARD_WRAPPER}>
-      <div css={STYLES_FEATURE_CARD}>
-        <img css={STYLES_FEATURE_IMG} src={props.illustration} />
-        <div css={STYLES_FEATURE_TEXT}>{props.title}</div>
-        <div css={STYLES_FEATURE_TEXT} style={{ opacity: 0.7 }}>
-          {props.description}
-        </div>
-      </div>
     </div>
   );
 };
@@ -679,53 +624,23 @@ export default class CommunityPage extends React.Component {
       >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_FIGURES_GROUP}>
-              <img
-                css={STYLES_FIGURE}
-                src="https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
-              />
-              <img
-                css={STYLES_FIGURE}
-                src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
-              />
-            </div>
-            <div css={STYLES_FULL_WIDTH}>
-              <img
-                css={STYLES_FIGURE_LEFT}
-                src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
-              />
-              <div css={STYLES_DINNER_TABLE}>
-                <h1 css={STYLES_H1}>An open invitation to everyone</h1>
-                <p css={STYLES_P}>
-                  Slate is designed and built by a growing community of hackers,
-                  artists, and creatives on the web.
-                </p>
-                <button
-                  css={STYLES_BUTTON}
-                  onClick={() =>
-                    window.open(
-                      "https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
-                    )
-                  }
-                >
-                  Join our community{" "}
-                </button>
-              </div>
-              <img
-                css={STYLES_FIGURE_RIGHT}
-                src="https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
-              />
-            </div>
-            <div css={STYLES_FIGURES_BOTTOM}>
-              <img
-                css={STYLES_FIGURE}
-                src="https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
-              />
-              <img
-                css={STYLES_FIGURE}
-                src="https://slate.textile.io/ipfs/bafybeiehufugq7vujsclzdpkdhff5kop6c4uw6emjuswwp3jhpznaou2se"
-              />
+          <div css={STYLES_SECTION_HERO}>
+            <div css={STYLES_DINNER_TABLE}>
+              <h1 css={STYLES_H1}>An open invitation to everyone</h1>
+              <p css={STYLES_P}>
+                Slate is designed and built by a growing community of hackers,
+                artists, and creatives on the web.
+              </p>
+              <button
+                css={STYLES_BUTTON}
+                onClick={() =>
+                  window.open(
+                    "https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
+                  )
+                }
+              >
+                Join our community{" "}
+              </button>
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
@@ -768,26 +683,6 @@ export default class CommunityPage extends React.Component {
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
-            <div css={STYLES_FULL_WIDTH}>
-              <h2 css={STYLES_H2}>Further down the road</h2>
-              <p css={STYLES_P}>
-                Slate has infinite possibilities. Here are some of them that
-                we’re excited about.
-              </p>
-            </div>
-            <br />
-            <br />
-            <div css={STYLES_CARD_GROUP}>
-              {FEATURES.map((each) => (
-                <FeatureCard
-                  illustration={each.illustration}
-                  title={each.title}
-                  description={each.description}
-                />
-              ))}
-            </div>
-          </div>
-          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h2 css={STYLES_H2}>
                 <span css={STYLES_HIGLIGHT_TEXT_GREEN}>Have an idea</span> for
@@ -821,21 +716,21 @@ export default class CommunityPage extends React.Component {
                 <p>
                   Hey Slate Team,
                   <br />
-                  <br /> Have you thought about adding a confetti 🎉 effect to
-                  the download button?
+                  <br /> Have you thought about adding a confetti effect to the
+                  download button?
                   <br />
                   <br />
                   Best, <br />
-                  🦄
+                  Will
                 </p>
               </div>
               <div css={STYLES_CHAT}>
                 <p>
-                  Hey 🦄, <br />
+                  Hey Will, <br />
                   <br />
                   That would be so fun, will work in it! <br />
                   <br /> Best, <br />
-                  🐳
+                  John
                 </p>
               </div>
             </div>
@@ -866,7 +761,7 @@ method: 'POST',
     headers: {
     'Content-Type': 'application/json',
     // NOTE: your API key
-    Authorization: 'Basic SLA234abe41-c235-464f-9f4a-9effbbd3530dTE',
+    Authorization: 'Basic SLATE-API-KEY-FROM-ACCOUNT-SETTINGS',
     },
     body: JSON.stringify({ data: {
     // NOTE: optional, if you want your private slates too.

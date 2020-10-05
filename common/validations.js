@@ -49,6 +49,8 @@ const REJECT_LIST = [
   "dashboard",
   "analytics",
   "data",
+  "timeout",
+  "please-dont-use-timeout",
 ];
 
 // TODO(martina): Make sure you catch cases where this isn't passed in to be safe.

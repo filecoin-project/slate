@@ -18,6 +18,12 @@ const app = next({
   quiet: false,
 });
 
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 const handler = app.getRequestHandler();
 
 app.prepare().then(async () => {
@@ -33,6 +39,17 @@ app.prepare().then(async () => {
   server.headersTimeout = 16 * 60 * 1000;
 
   server.use("/public", express.static("public"));
+
+  server.get("/please-dont-use-timeout", async (r, s) => {
+    console.log("[ forbidden ] someone is using your testing timeout");
+
+    await sleep(15 * 60 * 1000);
+
+    return res
+      .status(200)
+      .send({ decorator: "15_MINUTE_TEST", data: { success: true } });
+  });
+
   server.get("/system", async (r, s) => s.redirect("/_/system"));
   server.get("/experiences", async (r, s) => s.redirect("/_/system"));
   server.get("/_/experiences", async (r, s) => s.redirect("/_/system"));

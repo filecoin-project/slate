@@ -229,7 +229,7 @@ export default class SlateForChromePage extends React.Component {
               />
               <img
                 css={STYLES_IMG_OVERLAY}
-                src="https://slate.textile.io/ipfs/bafkreibgds7gena4fjhe57ozk45iy23wzh5klux4zsrlzbh2xo5ku2t6rm"
+                src="https://slate.textile.io/ipfs/bafkreig2ynqlvfynv3zvft73fh2igyyks5bgmthugtq7azeed6rehd3s5u"
               />
             </div>
             <div css={STYLES_SECTION_FLEXWRAPPER}>

@@ -33,7 +33,7 @@ const USER_SLATES = [
     preview: "https://slate.textile.io/ipfs/bafybeiclkru6hwzw2ghvsyrbnaf67taxxhq2hbpcia2oqj5ufdggwhcbti",
   },
   {
-    name: "Get started with Slate",
+    name: "Get started with Slate ->",
     url: "/_",
     username: "",
     preview: "",
@@ -386,7 +386,7 @@ export default class IndexPage extends React.Component {
               />
               <br />
               <a css={STYLES_LINK} href="/_">
-                50GB free storage for early sign up ->
+                Get 50GB free storage as an early member ->
               </a>
             </div>
 
@@ -459,7 +459,7 @@ export default class IndexPage extends React.Component {
               <img
                 css={STYLES_IMG}
                 style={{ margin: `48px auto`, boxShadow: `none` }}
-                src="https://slate.textile.io/ipfs/bafkreihen4fii4jmtbpslpjofujdrgrbmnzr3pittluinvmdvszkhtsw2a"
+                src="https://slate.textile.io/ipfs/bafybeib2tdk7qvw754ho6ru3nj3wc24hf3lzppuce4lafx32qhkhjkehmy"
               />
             </div>
             <div css={STYLES_SECTIONCTA_WRAPPER}>

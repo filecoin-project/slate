@@ -29,6 +29,9 @@ app.prepare().then(async () => {
     server.use(compression());
   }
 
+  server.keepAliveTimeout = 440 * 1000;
+  server.headersTimeout = 450 * 1000;
+
   server.use("/public", express.static("public"));
   server.get("/system", async (r, s) => s.redirect("/_/system"));
   server.get("/experiences", async (r, s) => s.redirect("/_/system"));

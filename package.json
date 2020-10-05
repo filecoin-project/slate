@@ -8,8 +8,8 @@
     "node": "14.7.0"
   },
   "scripts": {
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 node . --unhandled-rejections=strict",
-    "start": "NODE_ENV=production node . --unhandled-rejections=strict",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 node . --unhandled-rejections=strict --keepAliveTimeout 900000",
+    "start": "NODE_ENV=production node . --unhandled-rejections=strict --keepAliveTimeout 900000",
     "build-delete": "rm -rf .next && rm -rf dist/mac",
     "build": "NODE_ENV=production next build",
     "build-system": "rollup -c",

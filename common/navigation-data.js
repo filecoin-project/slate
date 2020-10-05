@@ -128,7 +128,6 @@ export const generate = ({ library = [], slates = [] }) => [
     pageTitle: "Developer API",
     children: [],
   },
-  /*
   {
     id: "V1_NAVIGATION_ARCHIVE",
     decorator: "FILECOIN",
@@ -170,8 +169,6 @@ export const generate = ({ library = [], slates = [] }) => [
       },
     ],
   },
-  */
-  /*
   {
     id: "V1_NAVIGATION_FILECOIN_STORAGE_DEAL",
     decorator: "MAKE_DEAL",
@@ -179,7 +176,6 @@ export const generate = ({ library = [], slates = [] }) => [
     filecoin: true,
     pageTitle: "Make an one-off Filecoin storage deal",
   },
-  */
   {
     id: "V1_NAVIGATION_PROFILE_EDIT",
     decorator: "EDIT_ACCOUNT",

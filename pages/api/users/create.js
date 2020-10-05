@@ -16,15 +16,21 @@ export default async (req, res) => {
   });
 
   if (existing) {
-    return res.status(403).send({ decorator: "SERVER_EXISTING_USER_ALREADY", error: true });
+    return res
+      .status(403)
+      .send({ decorator: "SERVER_EXISTING_USER_ALREADY", error: true });
   }
 
   if (!Validations.username(req.body.data.username)) {
-    return res.status(500).send({ decorator: "SERVER_INVALID_USERNAME", error: true });
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_INVALID_USERNAME", error: true });
   }
 
   if (!Validations.password(req.body.data.password)) {
-    return res.status(500).send({ decorator: "SERVER_INVALID_PASSWORD", error: true });
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_INVALID_PASSWORD", error: true });
   }
 
   const rounds = Number(Environment.LOCAL_PASSWORD_ROUNDS);
@@ -41,7 +47,11 @@ export default async (req, res) => {
   // Don't do this once you refactor.
   const newUsername = req.body.data.username.toLowerCase();
 
-  const { buckets, bucketKey, bucketName } = await Utilities.getBucketAPIFromUserToken({
+  const {
+    buckets,
+    bucketKey,
+    bucketName,
+  } = await Utilities.getBucketAPIFromUserToken({
     user: {
       username: newUsername,
       data: { tokens: { api } },
@@ -49,19 +59,23 @@ export default async (req, res) => {
   });
 
   if (!buckets) {
-    return res.status(500).send({ decorator: "SERVER_BUCKET_INIT_FAILURE", error: true });
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_BUCKET_INIT_FAILURE", error: true });
   }
+
+  const photo = await SlateManager.getRandomSlateElementURL({
+    id: Environment.AVATAR_SLATE_ID,
+    fallback:
+      "https://slate.textile.io/ipfs/bafkreick3nscgixwfpq736forz7kzxvvhuej6kszevpsgmcubyhsx2pf7i",
+  });
 
   const user = await Data.createUser({
     password: hash,
     salt,
     username: newUsername,
     data: {
-      photo: SlateManager.getRandomSlateElementURL({
-        id: Environment.AVATAR_SLATE_ID,
-        fallback:
-          "https://slate.textile.io/ipfs/bafkreick3nscgixwfpq736forz7kzxvvhuej6kszevpsgmcubyhsx2pf7i",
-      }),
+      photo,
       body: "A user of Slate.",
       settings_deals_auto_approve: false,
       allow_filecoin_directory_listing: false,
@@ -73,11 +87,15 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res.status(404).send({ decorator: "SERVER_USER_CREATE_USER_NOT_FOUND", error: true });
+    return res
+      .status(404)
+      .send({ decorator: "SERVER_USER_CREATE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
-    return res.status(500).send({ decorator: "SERVER_USER_CREATE_USER_NOT_FOUND", error: true });
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_USER_CREATE_USER_NOT_FOUND", error: true });
   }
 
   const userProfileURL = `https://slate.host/${user.username}`;

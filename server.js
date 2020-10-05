@@ -35,9 +35,6 @@ app.prepare().then(async () => {
     server.use(compression());
   }
 
-  server.keepAliveTimeout = 15 * 60 * 1000;
-  server.headersTimeout = 16 * 60 * 1000;
-
   server.use("/public", express.static("public"));
 
   server.get("/please-dont-use-timeout", async (r, s) => {
@@ -60,27 +57,9 @@ app.prepare().then(async () => {
     s.redirect(`/_/experiences/${r.params.m}`)
   );
   server.all("/api/:a", async (r, s, next) => {
-    r.setTimeout(15 * 60 * 1000, function() {
-      console.log("REQUEST TIMED OUT");
-    });
-
-    s.setTimeout(15 * 60 * 1000, function() {
-      console.log("RESPONSE TIMED OUT");
-      s.send(408);
-    });
-
     return handler(r, s, r.url);
   });
   server.all("/api/:a/:b", async (r, s, next) => {
-    r.setTimeout(15 * 60 * 1000, function() {
-      console.log("REQUEST TIMED OUT");
-    });
-
-    s.setTimeout(15 * 60 * 1000, function() {
-      console.log("RESPONSE TIMED OUT");
-      s.send(408);
-    });
-
     return handler(r, s, r.url);
   });
 
@@ -276,7 +255,7 @@ app.prepare().then(async () => {
 
   server.all("*", async (r, s) => handler(r, s, r.url));
 
-  const listenServer = server.listen(Environment.PORT, async (e) => {
+  const listenServer = server.listen(Environment.PORT, (e) => {
     if (e) throw e;
 
     console.log(`[ slate ] client: http://localhost:${Environment.PORT}`);

@@ -14,6 +14,7 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
       let form = new B({
         headers: req.headers,
         highWaterMark: HIGH_WATER_MARK,
+        fileHwm: HIGH_WATER_MARK,
       });
 
       form.on("file", async function(

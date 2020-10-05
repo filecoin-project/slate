@@ -8,8 +8,8 @@
     "node": "14.7.0"
   },
   "scripts": {
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 node . --unhandled-rejections=strict --keepAliveTimeout 900000",
-    "start": "NODE_ENV=production node . --unhandled-rejections=strict --keepAliveTimeout 900000",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 node . --unhandled-rejections=strict --keepAliveTimeout 900000 --max-old-space-size=2048",
+    "start": "NODE_ENV=production node . --unhandled-rejections=strict --keepAliveTimeout 900000 --max-old-space-size=2048",
     "build-delete": "rm -rf .next && rm -rf dist/mac",
     "build": "NODE_ENV=production next build",
     "build-system": "rollup -c",

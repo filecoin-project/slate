@@ -43,11 +43,11 @@ app.prepare().then(async () => {
   server.get("/please-dont-use-timeout", async (r, s) => {
     console.log("[ forbidden ] someone is using your testing timeout");
 
-    await sleep(15 * 60 * 1000);
+    await sleep(5 * 60 * 1000);
 
     return s
       .status(200)
-      .send({ decorator: "15_MINUTE_TEST", data: { success: true } });
+      .json({ decorator: "SERVER_TIMEOUT_TEST", timeout: 5 * 60 * 1000 });
   });
 
   server.get("/system", async (r, s) => s.redirect("/_/system"));

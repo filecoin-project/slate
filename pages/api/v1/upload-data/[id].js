@@ -83,11 +83,6 @@ export default async (req, res) => {
     id: key.owner_id,
   });
 
-  console.log("[upload] establishing timeouts");
-  req.setTimeout(480000);
-  res.setTimeout(480000);
-  console.log("[upload] timeouts set");
-
   const uploadResponse = await Upload.formMultipart(req, res, {
     user,
   });

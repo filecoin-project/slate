@@ -23,9 +23,6 @@ export default async (req, res) => {
       .send({ decorator: "UPLOAD_NOT_ALLOWED", error: true });
   }
 
-  req.setTimeout(480000);
-  res.setTimeout(480000);
-
   console.log(`[upload] upload for ${user.username} started`);
   const response = await Upload.formMultipart(req, res, {
     user,

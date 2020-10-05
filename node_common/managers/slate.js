@@ -17,7 +17,6 @@ export const getRandomSlateElementURL = async ({ id, fallback = "" }) => {
     return fallback;
   }
 
-  return query.data.objects[
-    Math.floor(Numbers.getRandomInt(0, query.data.objects.length - 1))
-  ].url;
+  const index = Numbers.getRandomInt(0, query.data.objects.length - 1);
+  return query.data.objects[index].url;
 };

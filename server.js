@@ -45,7 +45,7 @@ app.prepare().then(async () => {
 
     await sleep(15 * 60 * 1000);
 
-    return res
+    return s
       .status(200)
       .send({ decorator: "15_MINUTE_TEST", data: { success: true } });
   });

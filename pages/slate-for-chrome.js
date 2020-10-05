@@ -202,9 +202,10 @@ export default class SlateForChromePage extends React.Component {
     const title = `Slate for Chrome`;
     const description = "Upload images to Slate from anywhere on the web";
     const url = "https://slate.host/slate-for-chrome";
+    const image = "https://slate.textile.io/ipfs/bafybeidi6z774yoge5uowzwkdrrnrzi5bzqgzrwfizw4dg4xdjxfjoa5ei";
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <div css={STYLES_CONTAINER}>

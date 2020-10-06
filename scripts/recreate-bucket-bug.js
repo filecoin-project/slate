@@ -147,7 +147,11 @@ const run = async () => {
       reportError(e.message);
     }
 
-    reportTask(`there are ${items.length} items, including .textileseed`);
+    if (items) {
+      reportTask(`there are ${items.length} items, including .textileseed`);
+    } else {
+      reportError(`listPath failed so there are no items to work with`);
+    }
   }
 
   // NOTE(jim): Remove each file
@@ -156,10 +160,10 @@ const run = async () => {
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
 
-    reportTask(`attempting to remove ${item.name}.`);
+    reportTask(`attempting to remove ${item.name}`);
     try {
       await buckets.removePath(bucketKey, item.name);
-      reportTask(`${item.name} has been removed.`);
+      reportTask(`${item.name} has been removed`);
     } catch (e) {
       reportError(e.message);
     }
@@ -176,7 +180,7 @@ const run = async () => {
     reportError(e.message);
   }
 
-  reportTask(`there are ${items.length} items.`);
+  reportTask(`there are ${items.length} items`);
 
   // NOTE(jim): Try to upload each file again.
   //            This helps us check whether or not the bucket can handle
@@ -215,11 +219,17 @@ const run = async () => {
       reportError(e.message);
     }
 
-    reportTask(
-      `\x1b[1m[ second upload phase ]\x1b[0m there are ${
-        items.length
-      } items, including .textileseed`
-    );
+    if (!items) {
+      reportError(
+        `\x1b[1m[ second upload phase ]\x1b[0m can't report because listPath failed`
+      );
+    } else {
+      reportTask(
+        `\x1b[1m[ second upload phase ]\x1b[0m there are ${
+          items.length
+        } items, including .textileseed`
+      );
+    }
   }
 
   // NOTE(jim): Remove the bucket from Textile.
@@ -247,4 +257,4 @@ const run = async () => {
 run();
 
 console.log(`FINISHED: recreate-bucket-bug.js`);
-console.log(`          CTRL +C to return to terminal.`);
+console.log(`          CTRL +C to return to terminal`);

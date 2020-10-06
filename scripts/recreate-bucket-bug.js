@@ -6,7 +6,7 @@ import configs from "~/knexfile";
 import knex from "knex";
 
 import { PrivateKey } from "@textile/hub";
-import { exec } from "child_process";
+import { execSync } from "child_process";
 
 const envConfig = configs["development"];
 const db = knex(envConfig);
@@ -55,6 +55,31 @@ const run = async () => {
       code: e.code,
       functionName: `buckets.list`,
     });
+  }
+
+  // NOTE(jim): Create 200MB File
+  //            Create 500MB File
+  //            Create 1GB File
+  //            Create 2GB File
+  //            Create 4GB File
+  try {
+    await execSync(
+      "dd if=/dev/random of=200MB_BUCKET_TEST.txt bs=1 count=0 seek=200m"
+    );
+    await execSync(
+      "dd if=/dev/random of=500MB_BUCKET_TEST.txt bs=1 count=0 seek=500m"
+    );
+    await execSync(
+      "dd if=/dev/random of=1GB_BUCKET_TEST.txt bs=1 count=0 seek=1g"
+    );
+    await execSync(
+      "dd if=/dev/random of=2GB_BUCKET_TEST.txt bs=1 count=0 seek=2g"
+    );
+    await execSync(
+      "dd if=/dev/random of=4GB_BUCKET_TEST.txt bs=1 count=0 seek=4g"
+    );
+  } catch (e) {
+    console.log(e.message);
   }
 
   // NOTE(jim): Remove the bucket from Textile.

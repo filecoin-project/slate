@@ -12,6 +12,12 @@ yarn.lock
 node_modules
 dist
 
+200MB_BUCKET_TEST.txt
+500MB_BUCKET_TEST.txt
+1GB_BUCKET_TEST.txt
+2GB_BUCKET_TEST.txt
+4GB_BUCKET_TEST.txt
+
 /**/*/package-lock.json
 /**/*/.DS_STORE
 /**/*/node_modules

@@ -172,7 +172,7 @@ export const getBucketAPIFromUserToken = async ({
   const token = user.data.tokens.api;
   const name = Strings.isEmpty(bucketName) ? BUCKET_NAME : bucketName;
   const identity = await PrivateKey.fromString(token);
-  const buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
+  let buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
 
   await buckets.getToken(identity);
 

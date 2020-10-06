@@ -109,12 +109,10 @@ const run = async () => {
     //            Resolve first.
     // ----------------------------------------------------------------
 
-    /*
     await execSync(
       "dd if=/dev/random of=4GB_BUCKET_TEST.txt bs=1 count=0 seek=4g"
     );
     files.push("4GB_BUCKET_TEST.txt");
-    */
   } catch (e) {
     reportError(e.message);
   }
@@ -135,11 +133,10 @@ const run = async () => {
 
     try {
       await buckets.pushPath(bucketKey, file, readStream);
+      reportTask(`successfully added ${file}`);
     } catch (e) {
       reportError(e.message);
     }
-
-    reportTask(`successfully added ${file}`);
 
     items = null;
     try {
@@ -198,13 +195,12 @@ const run = async () => {
 
     try {
       await buckets.pushPath(bucketKey, file, readStream);
+      reportTask(
+        `\x1b[1m[ second upload phase ]\x1b[0m successfully added ${file}`
+      );
     } catch (e) {
       reportError(e.message);
     }
-
-    reportTask(
-      `\x1b[1m[ second upload phase ]\x1b[0m successfully added ${file}`
-    );
 
     items = null;
     try {

@@ -49,7 +49,7 @@ const run = async () => {
   };
 
   reportTask(
-    `initializing bucket with .env variables for your Slate environment`
+    `initializing bucket with .env variables from your Slate environment`
   );
 
   console.log({ api });

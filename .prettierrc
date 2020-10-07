@@ -11,7 +11,7 @@
    "requirePragma":false,
    "insertPragma":false,
    "proseWrap":"preserve",
-   "parser":"babel"
+   "parser":"babel",
    "overrides": [
     {
       "files": "*.js",

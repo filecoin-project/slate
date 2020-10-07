@@ -12,28 +12,32 @@ const USER_SLATES = [
     name: "Urban gardens",
     url: "https://slate.host/gndclouds/urban-gardens",
     username: "@gndclouds",
-    preview: "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu",
   },
   {
     name: "Shapes and Letters",
     url: "https://slate.host/haris/shapes-and-letters",
     username: "@haris",
-    preview: "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
   },
   {
     name: "Cartography",
     url: "https://slate.host/atlas/cartography",
     username: "@atlas",
-    preview: "https://slate.textile.io/ipfs/bafybeihfrqvfcetmeimpfbacf2tntlgg3xbvgxekoti4tdz2ketczlqp2a",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeihfrqvfcetmeimpfbacf2tntlgg3xbvgxekoti4tdz2ketczlqp2a",
   },
   {
     name: "September",
     url: "https://slate.host/bitgraves/september",
     username: "@bitgraves",
-    preview: "https://slate.textile.io/ipfs/bafybeiclkru6hwzw2ghvsyrbnaf67taxxhq2hbpcia2oqj5ufdggwhcbti",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeiclkru6hwzw2ghvsyrbnaf67taxxhq2hbpcia2oqj5ufdggwhcbti",
   },
   {
-    name: "Get started with Slate ->",
+    name: "Get started with Slate →",
     url: "/_",
     username: "",
     preview: "",
@@ -43,25 +47,29 @@ const USER_SLATES = [
     name: "Montreal underground",
     url: "https://slate.host/tcosta/montreal-underground",
     username: "@tcosta",
-    preview: "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda",
   },
   {
     name: "American currency",
     url: "https://slate.host/harvardmuseum/american-currency",
     username: "@harvardmuseum",
-    preview: "https://slate.textile.io/ipfs/bafybeifmf4ibwik5fepgjodfzalzfdgjgvgevmn5av3xbwhoj64kvnu5te",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeifmf4ibwik5fepgjodfzalzfdgjgvgevmn5av3xbwhoj64kvnu5te",
   },
   {
     name: "Andrew Garrett's Fish of the South Seas 1909-1910",
     url: "https://slate.host/biodivlibrary/andrew-garrett-s-fische-der-suedsee-bd-3",
     username: "@biodiversity",
-    preview: "https://slate.textile.io/ipfs/bafybeicckw3yjfidmihhzkzmwyqcjius54rt2swtala24taizwznqnx3mu",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeicckw3yjfidmihhzkzmwyqcjius54rt2swtala24taizwznqnx3mu",
   },
   {
     name: "Papers",
     url: "https://slate.host/slate/papers",
     username: "@slate",
-    preview: "https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm",
+    preview:
+      "https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm",
   },
 ];
 
@@ -339,11 +347,14 @@ const SlateCard = (props) => {
 export default class IndexPage extends React.Component {
   render() {
     const title = `Slate`;
-    const description = "Welcome to the future of file sharing. Powered by Textile, Filecoin, and IPFS.";
+    const description =
+      "Welcome to the future of file sharing. Powered by Textile, Filecoin, and IPFS.";
     const url = "https://slate.host";
+    const image =
+      "https://slate.textile.io/ipfs/bafkreiddhzzwu5l6i7cikmydvumgnqwoml4rsurzftkopcvgcnwhndo7fa";
 
     return (
-      <WebsitePrototypeWrapper title={title} description={description} url={url}>
+      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <div css={STYLES_CONTAINER}>
@@ -353,8 +364,8 @@ export default class IndexPage extends React.Component {
                   Take <span css={STYLES_HIGHLIGHT_BLUE}>the blue pill</span>
                 </h1>
                 <p css={STYLES_P} style={{ width: `100%` }}>
-                  Slate is a new file-sharing network that makes it possible for people to collect, organize, and link
-                  files together.
+                  Slate is a new file-sharing network that makes it possible for people to collect,
+                  organize, and link files together.
                 </p>
               </div>
               <div css={STYLES_SLATE_CARD_GROUP}>
@@ -377,7 +388,7 @@ export default class IndexPage extends React.Component {
                 for all of your valuable data
               </h1>
               <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                Powered by Textile, Filecoin, IPFS*.
+                Powered by Textile, Filecoin, IPFS.
               </p>
               <br />
               <img
@@ -386,14 +397,14 @@ export default class IndexPage extends React.Component {
               />
               <br />
               <a css={STYLES_LINK} href="/_">
-                Get 50GB free storage as an early member ->
+                Get 50GB free storage as an early member →
               </a>
             </div>
 
             <div css={STYLES_SECTION_WRAPPER}>
               <div css={STYLES_TEXT_BLOCK}>
                 <h1 css={STYLES_H1}>
-                  <span css={STYLES_HIGHLIGHT_GREEN}>Store, annotate, cite, link</span> <br />
+                  <span css={STYLES_HIGHLIGHT_GREEN}>Store, annotate, cite, and link</span> <br />
                   your files
                 </h1>
                 <p css={STYLES_P} style={{ opacity: 0.7 }}>
@@ -426,7 +437,7 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_SECTION_WRAPPER}>
               <div css={STYLES_TEXT_BLOCK}>
                 <h1 css={STYLES_H1}>
-                  <span css={STYLES_HIGHLIGHT_YELLOW}>Curate, present, share</span> <br />
+                  <span css={STYLES_HIGHLIGHT_YELLOW}>Curate, present, and share</span> <br />
                   your slates
                 </h1>
                 <p css={STYLES_P} style={{ opacity: 0.7 }}>
@@ -474,7 +485,7 @@ export default class IndexPage extends React.Component {
                 <a css={STYLES_SLATE_CARD_LINK} href="/_">
                   <div css={STYLES_SLATE_CARD_TEXT}>
                     <p css={STYLES_CARDP} style={{ color: `${Constants.system.white}` }}>
-                      Create your first slate
+                      Create your first slate →
                     </p>
                   </div>
                 </a>

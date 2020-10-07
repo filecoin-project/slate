@@ -361,7 +361,7 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
               <div css={STYLES_TEXT_BLOCK_CENTER}>
                 <h1 css={STYLES_H1} style={{ width: `100%` }}>
-                  Take <span css={STYLES_HIGHLIGHT_BLUE}>the blue pill</span>
+                  Use <span css={STYLES_HIGHLIGHT_BLUE}>decentralized storage</span>
                 </h1>
                 <p css={STYLES_P} style={{ width: `100%` }}>
                   Slate is a new file-sharing network that makes it possible for people to collect,

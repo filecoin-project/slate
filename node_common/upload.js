@@ -59,9 +59,9 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
           });
 
           return reject({
-            decorator: "SERVER_BUCKETS_PUSH_ISSUE",
+            decorator: "SERVER_UPLOAD_ERROR",
             error: true,
-            message: e,
+            message: e.message,
           });
         }
 
@@ -81,9 +81,9 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
         });
 
         return reject({
-          decorator: "SERVER_BUCKET_STREAM_FAILURE",
+          decorator: "SERVER_UPLOAD_ERROR",
           error: true,
-          message: e,
+          message: e.message,
         });
       });
 
@@ -121,9 +121,9 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
     });
 
     return {
-      decorator: "SERVER_BUCKETS_VERIFY_ISSUE",
+      decorator: "SERVER_UPLOAD_ERROR",
       error: true,
-      message: e,
+      message: e.message,
     };
   }
 

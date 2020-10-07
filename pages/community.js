@@ -215,6 +215,7 @@ const STYLES_BUTTON = css`
   align-items: center;
   justify-content: center;
   user-select: none;
+  cursor: pointer;
   background: ${Constants.system.slate};
   color: ${Constants.system.white};
   font-family: ${Constants.font.semiBold};
@@ -497,12 +498,8 @@ const STYLES_CARD_GROUP = css`
 
 const STYLES_IMG = css`
   width: 100%;
-  border-radius: 8px 8px 0px 0px;
+  border-radius: px 4px 0px 0px;
   display: block;
-
-  :hover {
-    border-radius: 8px 8px 0px 0px;
-  }
 `;
 
 const STYLES_CHAT = css`
@@ -573,11 +570,7 @@ const SlateTeamCards = (props) => {
   return (
     <div key={props.id} css={STYLES_CARD_WRAPPER}>
       <a href={props.url}>
-        <System.HoverTileColorful
-          height={350}
-          width={300}
-          style={{ borderRadius: 8 }}
-        >
+        <System.HoverTileColorful height={350} width={300}>
           <div css={STYLES_SLATE_CARD_EFFECTS}>
             <img
               css={STYLES_IMG}

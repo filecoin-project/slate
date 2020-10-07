@@ -278,7 +278,7 @@ const STYLES_DINNER_TABLE = css`
   position: relative;
   background-color: #e7e7e9;
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 7px;
+  border-radius: 8px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
@@ -499,6 +499,10 @@ const STYLES_IMG = css`
   width: 100%;
   border-radius: 8px 8px 0px 0px;
   display: block;
+
+  :hover {
+    border-radius: 8px 8px 0px 0px;
+  }
 `;
 
 const STYLES_CHAT = css`
@@ -572,7 +576,7 @@ const SlateTeamCards = (props) => {
         <System.HoverTileColorful
           height={350}
           width={300}
-          style={{ borderRadius: 4 }}
+          style={{ borderRadius: 8 }}
         >
           <div css={STYLES_SLATE_CARD_EFFECTS}>
             <img

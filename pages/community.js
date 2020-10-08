@@ -192,10 +192,6 @@ const STYLES_SECTION_WRAPPER = css`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 24px;
-  }
 `;
 
 const STYLES_BUTTON = css`
@@ -297,6 +293,18 @@ const STYLES_SECTION_HERO_IMG = css`
 const STYLES_SECTION_HERO = css`
   max-width: 1440px;
   margin: 0px auto 88px auto;
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
+  }
 `;
 
 const STYLES_LINE = css`

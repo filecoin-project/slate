@@ -116,17 +116,12 @@ const SLATE_CONTRIBUTOR_TEAM = [
 ];
 
 const STYLES_ROOT = css`
-  padding: 0 88px 128px 88px;
-  margin: -88px auto 0 auto;
+  padding: 0 88px;
+  margin: 88px auto 0 auto;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: ${Constants.system.foreground};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-    padding: 128px 24px;
+    padding: 48px 24px 0 24px;
   }
 `;
 
@@ -183,10 +178,6 @@ const STYLES_SECTION_WRAPPER = css`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 24px;
-  }
 `;
 
 const STYLES_BUTTON = css`
@@ -201,6 +192,7 @@ const STYLES_BUTTON = css`
   align-items: center;
   justify-content: center;
   user-select: none;
+  cursor: pointer;
   background: ${Constants.system.slate};
   color: ${Constants.system.white};
   font-family: ${Constants.font.semiBold};
@@ -256,22 +248,6 @@ const STYLES_SPLIT_WIDTH = css`
   }
 `;
 
-const STYLES_DINNER_TABLE = css`
-  width: auto;
-  height: auto;
-  margin: 0 auto;
-  padding: 24px;
-  position: relative;
-  background-color: #e7e7e9;
-  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 7px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    padding: 24px 32px;
-  }
-`;
-
 const STYLES_CODE_BLOCK = css`
   box-sizing: border-box;
   font-family: ${Constants.font.code};
@@ -280,7 +256,6 @@ const STYLES_CODE_BLOCK = css`
   border-color: ${Constants.system.yellow};
   font-size: 12px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
   padding: 24px;
 
   * {
@@ -294,29 +269,27 @@ const STYLES_CODE_BLOCK = css`
   }
 `;
 
+const STYLES_SECTION_HERO_IMG = css`
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 16px;
+  border-radius: 0px;
+`;
+
 const STYLES_SECTION_HERO = css`
   max-width: 1440px;
-  padding: 100px;
-  overflow: hidden;
-  background-image: url("https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  padding: 150px 250px;
-  margin: 88px auto 0 auto;
+  margin: 0px auto 88px auto;
 
   @media (max-width: ${Constants.sizes.tablet}px) {
-    padding: 24px;
-    margin: 44px auto 88px auto;
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 24px;
-    margin: 44px auto 88px auto;
+    width: 100%;
+    height: auto;
+    margin-bottom: 32px;
   }
 `;
 
@@ -372,7 +345,6 @@ const STYLES_CARD_TEXT = css`
 const STYLES_SLATE_CARD_EFFECTS = css`
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
   height: 100%;
   cursor: default;
   border: 1px solid ${Constants.system.black};
@@ -380,6 +352,8 @@ const STYLES_SLATE_CARD_EFFECTS = css`
   background-position: center;
   mix-blend-mode: luminosity;
   z-index: 2;
+  border-radius: 8px;
+  color: ${Constants.system.black};
 
   :hover {
     background-position: center;
@@ -418,7 +392,6 @@ const STYLES_FEATURE_CARD_WRAPPER = css`
 const STYLES_FEATURE_CARD = css`
   margin: 24px auto;
   padding: 16px;
-  border-radius: 8px;
   background-color: #f2f4f8;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.1);
 
@@ -483,26 +456,30 @@ const STYLES_CARD_GROUP = css`
 
 const STYLES_IMG = css`
   width: 100%;
-  border-radius: 8px 8px 0px 0px;
   display: block;
+  border-radius: 6px 6px 0px 0px;
 `;
 
 const STYLES_CHAT = css`
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
   margin: 50px 0px;
   padding: 30px;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
 `;
 
-const STYLES_HIGLIGHT_TEXT_GREEN = css`
-  color: #63b182;
+const STYLES_HIGHLIGHT_GREEN = css`
+  color: ${Constants.system.newGreen};
+`;
+const STYLES_HIGHLIGHT_GRAY = css`
+  color: ${Constants.system.gray};
 `;
 
-const STYLES_HIGLIGHT_TEXT_YELLOW = css`
-  color: #fbc67a;
+const STYLES_HIGHLIGHT_YELLOW = css`
+  color: ${Constants.system.newYellow};
+`;
+
+const STYLES_HIGHLIGHT_BLUE = css`
+  color: ${Constants.system.newBlue};
 `;
 
 const STYLES_DOT = css`
@@ -551,7 +528,7 @@ const SlateTeamCards = (props) => {
   return (
     <div key={props.id} css={STYLES_CARD_WRAPPER}>
       <a href={props.url}>
-        <System.HoverTileColorful height={350} width={300} style={{ borderRadius: 4 }}>
+        <System.HoverTileColorful height={350} width={300}>
           <div css={STYLES_SLATE_CARD_EFFECTS}>
             <img css={STYLES_IMG} alt={`Github Profile Photo for ${props.handle}`} src={props.preview} />
             <div css={STYLES_CARD_TEXT}>
@@ -595,8 +572,17 @@ export default class CommunityPage extends React.Component {
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_HERO}>
-            <div css={STYLES_DINNER_TABLE}>
-              <h1 css={STYLES_H1}>An open invitation to everyone</h1>
+            <div css={STYLES_FULL_WIDTH}>
+              <img
+                css={STYLES_SECTION_HERO_IMG}
+                src="https://slate.textile.io/ipfs/bafkreidwavbkg4kigouxvtvb6wjr2zgqxr62mkdltnujbbbq6t3ciyw6wy"
+              />
+              <br />
+              <h1 css={STYLES_H1}>
+                <span css={STYLES_HIGHLIGHT_BLUE}>An open invitation</span>
+                <br />
+                to everyone
+              </h1>
               <p css={STYLES_P}>
                 Slate is designed and built by a growing community of hackers, artists, and creatives on the web.
               </p>
@@ -608,13 +594,13 @@ export default class CommunityPage extends React.Component {
                   )
                 }
               >
-                Join our community{" "}
+                Contribute to Slate
               </button>
             </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_FULL_WIDTH}>
-              <h1>Core Team</h1>
+              <h2 css={STYLES_H2}>Core Team</h2>
               <p css={STYLES_P}>
                 We work on Slate, and you can reachout to us about for anything you might need to know.
               </p>
@@ -631,7 +617,7 @@ export default class CommunityPage extends React.Component {
               </div>
             </div>
           </div>
-          <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_FULL_WIDTH}>
               <h2 css={STYLES_H2}>Contributors</h2>
               <p css={STYLES_P}>Our amazing community members helping us make Slate.</p>
@@ -651,7 +637,8 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h2 css={STYLES_H2}>
-                <span css={STYLES_HIGLIGHT_TEXT_GREEN}>Have an idea</span> for how to make Slate better?
+                <span css={STYLES_HIGHLIGHT_GREEN}>Have an idea</span> for how
+                to make Slate better?
               </h2>
               <p css={STYLES_P}>You can create an issue on github or send us an email with your recommendation.</p>
               <div>
@@ -669,22 +656,29 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_SPLIT_WIDTH}>
               <div css={STYLES_CHAT}>
                 <p>
-                  Hey Slate Team,
+                  Hey Bucky,
                   <br />
                   <br /> Have you thought about adding a confetti effect to the download button?
                   <br />
                   <br />
                   Best, <br />
-                  Will
+                  Susan Weil
+                  <p css={STYLES_P}>
+                    Three-dimensional Painter <br /> Black Mountain College
+                  </p>
                 </p>
               </div>
               <div css={STYLES_CHAT}>
                 <p>
-                  Hey Will, <br />
+                  Hey Susan
+                  <br />
                   <br />
                   That would be so fun, will work in it! <br />
                   <br /> Best, <br />
-                  John
+                  Buckminster Fuller
+                  <p css={STYLES_P}>
+                    Designer, Author, Inventor <br /> Black Mountain College
+                  </p>
                 </p>
               </div>
             </div>
@@ -692,7 +686,9 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h2 css={STYLES_H2}>
-                <span css={STYLES_HIGLIGHT_TEXT_YELLOW}>Explore our API and SDK </span>
+                <span css={STYLES_HIGHLIGHT_YELLOW}>
+                  Explore our API and SDK{" "}
+                </span>
                 and build on top of Slate.
               </h2>
               <p css={STYLES_P}>

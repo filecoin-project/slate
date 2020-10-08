@@ -157,15 +157,6 @@ const run = async () => {
       Logs.error(e.message);
     }
 
-    if (balance === 0) {
-      Logs.error(`OUT OF FUNDS: ${user.username}`);
-      continue;
-    }
-
-    if (address) {
-      slateAddresses.push(address);
-    }
-
     printData.address = address;
     printData.balanceAttoFil = balance;
 
@@ -177,6 +168,16 @@ const run = async () => {
     );
 
     console.log(storageDeals);
+
+    // NOTE(jim): Skip users that are out of funds.
+    if (balance === 0) {
+      Logs.error(`OUT OF FUNDS: ${user.username}`);
+      continue;
+    }
+
+    if (address) {
+      slateAddresses.push(address);
+    }
 
     // NOTE(jim): tracks all buckets.
     printData.buckets = [];

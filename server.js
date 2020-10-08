@@ -11,6 +11,7 @@ import express from "express";
 import next from "next";
 import compression from "compression";
 import cors from "cors";
+import morgan from "morgan";
 
 const app = next({
   dev: !Environment.IS_PRODUCTION,
@@ -30,6 +31,9 @@ app.prepare().then(async () => {
   const server = express();
 
   server.use(cors());
+  server.use(
+    morgan(":method :url :status :res[content-length] - :response-time ms")
+  );
 
   if (Environment.IS_PRODUCTION) {
     server.use(compression());

@@ -568,7 +568,7 @@ export default class SlatePreviewBlocks extends React.Component {
         }
       >
         <SlatePreviewBlock
-          ediitng={this.props.editing}
+          editing={this.props.editing}
           username={this.props.username}
           imageSize={this.state.imageSize}
           slate={slate}

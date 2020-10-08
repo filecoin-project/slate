@@ -1,6 +1,7 @@
 import * as Environment from "~/node_common/environment";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
+import * as SlateManager from "~/node_common/managers/slate";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Social from "~/node_common/social";
 import * as Validations from "~/common/validations";
@@ -63,13 +64,18 @@ export default async (req, res) => {
       .send({ decorator: "SERVER_BUCKET_INIT_FAILURE", error: true });
   }
 
+  const photo = await SlateManager.getRandomSlateElementURL({
+    id: Environment.AVATAR_SLATE_ID,
+    fallback:
+      "https://slate.textile.io/ipfs/bafkreick3nscgixwfpq736forz7kzxvvhuej6kszevpsgmcubyhsx2pf7i",
+  });
+
   const user = await Data.createUser({
     password: hash,
     salt,
     username: newUsername,
     data: {
-      photo:
-        "https://slate.textile.io/ipfs/bafkreiexygfz4e5resu66xfviokddariztq4onuai5wii5mdd7syshftca",
+      photo,
       body: "A user of Slate.",
       settings_deals_auto_approve: false,
       allow_filecoin_directory_listing: false,

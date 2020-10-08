@@ -8,8 +8,8 @@
     "node": "14.7.0"
   },
   "scripts": {
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 node . --unhandled-rejections=strict",
-    "start": "NODE_ENV=production node . --unhandled-rejections=strict",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 node . --unhandled-rejections=strict --max-old-space-size=2048",
+    "start": "NODE_ENV=production node . --unhandled-rejections=strict --max-old-space-size=2048",
     "build-delete": "rm -rf .next && rm -rf dist/mac",
     "build": "NODE_ENV=production next build",
     "build-system": "rollup -c",
@@ -67,6 +67,7 @@
     "knex": "^0.21.5",
     "minisearch": "^2.5.1",
     "moment": "^2.27.0",
+    "morgan": "^1.10.0",
     "next": "^9.5.2",
     "pg": "^8.3.3",
     "prismjs": "^1.20.0",

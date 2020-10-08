@@ -11,6 +11,7 @@ import express from "express";
 import next from "next";
 import compression from "compression";
 import cors from "cors";
+import morgan from "morgan";
 
 const app = next({
   dev: !Environment.IS_PRODUCTION,
@@ -18,18 +19,38 @@ const app = next({
   quiet: false,
 });
 
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 const handler = app.getRequestHandler();
 
 app.prepare().then(async () => {
   const server = express();
 
   server.use(cors());
+  server.use(
+    morgan(":method :url :status :res[content-length] - :response-time ms")
+  );
 
   if (Environment.IS_PRODUCTION) {
     server.use(compression());
   }
 
   server.use("/public", express.static("public"));
+
+  server.get("/please-dont-use-timeout", async (r, s) => {
+    console.log("[ forbidden ] someone is using your testing timeout");
+
+    await sleep(5 * 60 * 1000);
+
+    return s
+      .status(200)
+      .json({ decorator: "SERVER_TIMEOUT_TEST", timeout: 5 * 60 * 1000 });
+  });
+
   server.get("/system", async (r, s) => s.redirect("/_/system"));
   server.get("/experiences", async (r, s) => s.redirect("/_/system"));
   server.get("/_/experiences", async (r, s) => s.redirect("/_/system"));
@@ -39,8 +60,12 @@ app.prepare().then(async () => {
   server.get("/experiences/:m", async (r, s) =>
     s.redirect(`/_/experiences/${r.params.m}`)
   );
-  server.all("/api/:a", async (r, s) => handler(r, s, r.url));
-  server.all("/api/:a/:b", async (r, s) => handler(r, s, r.url));
+  server.all("/api/:a", async (r, s, next) => {
+    return handler(r, s, r.url);
+  });
+  server.all("/api/:a/:b", async (r, s, next) => {
+    return handler(r, s, r.url);
+  });
 
   server.get("/", async (req, res) => {
     return app.render(req, res, "/", {});
@@ -234,9 +259,11 @@ app.prepare().then(async () => {
 
   server.all("*", async (r, s) => handler(r, s, r.url));
 
-  server.listen(Environment.PORT, async (e) => {
+  const listenServer = server.listen(Environment.PORT, (e) => {
     if (e) throw e;
 
     console.log(`[ slate ] client: http://localhost:${Environment.PORT}`);
   });
+
+  listenServer.setTimeout(15 * 60 * 1000);
 });

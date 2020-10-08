@@ -130,17 +130,13 @@ const SLATE_CONTRIBUTOR_TEAM = [
 ];
 
 const STYLES_ROOT = css`
-  padding: 0 88px 128px 88px;
+  padding: 0 88px;
   margin: -88px auto 0 auto;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: ${Constants.system.foreground};
+  background-color: ${Constants.system.wallLight};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-    padding: 128px 24px;
+    padding: 48px 24px 0 24px;
   }
 `;
 
@@ -271,22 +267,6 @@ const STYLES_SPLIT_WIDTH = css`
   }
 `;
 
-const STYLES_DINNER_TABLE = css`
-  width: auto;
-  height: auto;
-  margin: 0 auto;
-  padding: 24px;
-  position: relative;
-  background-color: #e7e7e9;
-  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    padding: 24px 32px;
-  }
-`;
-
 const STYLES_CODE_BLOCK = css`
   box-sizing: border-box;
   font-family: ${Constants.font.code};
@@ -309,30 +289,16 @@ const STYLES_CODE_BLOCK = css`
   }
 `;
 
-const STYLES_SECTION_HERO = css`
-  max-width: 1440px;
-  padding: 100px;
-  overflow: hidden;
-  background-image: url("https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/");
+const STYLES_SECTION_HERO_IMG = css`
+  width: 100%;
+  padding: 0 -88px -128px -88px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  padding: 150px 250px;
-  margin: 88px auto 0 auto;
+`;
 
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    padding: 24px;
-    margin: 44px auto 88px auto;
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 24px;
-    margin: 44px auto 88px auto;
-  }
+const STYLES_SECTION_HERO = css`
+  max-width: 1440px;
 `;
 
 const STYLES_LINE = css`
@@ -498,7 +464,7 @@ const STYLES_CARD_GROUP = css`
 
 const STYLES_IMG = css`
   width: 100%;
-  border-radius: px 4px 0px 0px;
+  border-radius: 8px 8px 0px 0px;
   display: block;
 `;
 
@@ -512,12 +478,16 @@ const STYLES_CHAT = css`
   border-radius: 8px;
 `;
 
-const STYLES_HIGLIGHT_TEXT_GREEN = css`
-  color: #63b182;
+const STYLES_HIGHLIGHT_GREEN = css`
+  color: ${Constants.system.newGreen};
 `;
 
-const STYLES_HIGLIGHT_TEXT_YELLOW = css`
-  color: #fbc67a;
+const STYLES_HIGHLIGHT_YELLOW = css`
+  color: ${Constants.system.newYellow};
+`;
+
+const STYLES_HIGHLIGHT_BLUE = css`
+  color: ${Constants.system.newBlue};
 `;
 
 const STYLES_DOT = css`
@@ -621,28 +591,34 @@ export default class CommunityPage extends React.Component {
       >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
+          <div css={STYLES_SECTION_HERO_IMG}>
+            <img src="https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/" />
+          </div>
+
           <div css={STYLES_SECTION_HERO}>
-            <div css={STYLES_DINNER_TABLE}>
-              <h1 css={STYLES_H1}>An open invitation to everyone</h1>
-              <p css={STYLES_P}>
-                Slate is designed and built by a growing community of hackers,
-                artists, and creatives on the web.
-              </p>
-              <button
-                css={STYLES_BUTTON}
-                onClick={() =>
-                  window.open(
-                    "https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
-                  )
-                }
-              >
-                Join our community{" "}
-              </button>
-            </div>
+            <h1 css={STYLES_H1}>
+              <span css={STYLES_HIGHLIGHT_BLUE}>An open invitation</span>
+              <br />
+              to everyone
+            </h1>
+            <p css={STYLES_P}>
+              Slate is designed and built by a growing community of hackers,
+              artists, and creatives on the web.
+            </p>
+            <button
+              css={STYLES_BUTTON}
+              onClick={() =>
+                window.open(
+                  "https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
+                )
+              }
+            >
+              Contribute tio Slate
+            </button>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_FULL_WIDTH}>
-              <h1>Core Team</h1>
+              <h2 css={STYLES_H2}>Core Team</h2>
               <p css={STYLES_P}>
                 We work on Slate, and you can reachout to us about for anything
                 you might need to know.
@@ -682,8 +658,8 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h2 css={STYLES_H2}>
-                <span css={STYLES_HIGLIGHT_TEXT_GREEN}>Have an idea</span> for
-                how to make Slate better?
+                <span css={STYLES_HIGHLIGHT_GREEN}>Have an idea</span> for how
+                to make Slate better?
               </h2>
               <p css={STYLES_P}>
                 You can create an issue on github or send us an email with your
@@ -735,7 +711,7 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h2 css={STYLES_H2}>
-                <span css={STYLES_HIGLIGHT_TEXT_YELLOW}>
+                <span css={STYLES_HIGHLIGHT_YELLOW}>
                   Explore our API and SDK{" "}
                 </span>
                 and build on top of Slate.

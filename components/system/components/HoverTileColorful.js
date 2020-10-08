@@ -11,8 +11,7 @@ const STYLES_TILE = css`
   transition: transform 0.6s, box-shadow 0.65s ease;
   transform-style: preserve-3d;
   z-index: -1;
-  border-radius: 10px;
-  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+  border-radius: 8px;
 `;
 
 const STYLES_TILE_CONTAINER = css`

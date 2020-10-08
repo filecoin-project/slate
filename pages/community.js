@@ -131,9 +131,8 @@ const SLATE_CONTRIBUTOR_TEAM = [
 
 const STYLES_ROOT = css`
   padding: 0 88px;
-  margin: -88px auto 0 auto;
+  margin: 88px auto 0 auto;
   width: 100%;
-  background-color: ${Constants.system.wallLight};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 48px 24px 0 24px;
@@ -275,7 +274,6 @@ const STYLES_CODE_BLOCK = css`
   border-color: ${Constants.system.yellow};
   font-size: 12px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
   padding: 24px;
 
   * {
@@ -291,14 +289,14 @@ const STYLES_CODE_BLOCK = css`
 
 const STYLES_SECTION_HERO_IMG = css`
   width: 100%;
-  padding: 0 -88px -128px -88px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 16px;
+  border-radius: 0px;
 `;
 
 const STYLES_SECTION_HERO = css`
   max-width: 1440px;
+  margin: 0px auto 88px auto;
 `;
 
 const STYLES_LINE = css`
@@ -353,7 +351,6 @@ const STYLES_CARD_TEXT = css`
 const STYLES_SLATE_CARD_EFFECTS = css`
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
   height: 100%;
   cursor: default;
   border: 1px solid ${Constants.system.black};
@@ -361,6 +358,8 @@ const STYLES_SLATE_CARD_EFFECTS = css`
   background-position: center;
   mix-blend-mode: luminosity;
   z-index: 2;
+  border-radius: 8px;
+  color: ${Constants.system.black};
 
   :hover {
     background-position: center;
@@ -399,7 +398,6 @@ const STYLES_FEATURE_CARD_WRAPPER = css`
 const STYLES_FEATURE_CARD = css`
   margin: 24px auto;
   padding: 16px;
-  border-radius: 8px;
   background-color: #f2f4f8;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.1);
 
@@ -464,22 +462,22 @@ const STYLES_CARD_GROUP = css`
 
 const STYLES_IMG = css`
   width: 100%;
-  border-radius: 8px 8px 0px 0px;
   display: block;
+  border-radius: 6px 6px 0px 0px;
 `;
 
 const STYLES_CHAT = css`
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
   margin: 50px 0px;
   padding: 30px;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
 `;
 
 const STYLES_HIGHLIGHT_GREEN = css`
   color: ${Constants.system.newGreen};
+`;
+const STYLES_HIGHLIGHT_GRAY = css`
+  color: ${Constants.system.gray};
 `;
 
 const STYLES_HIGHLIGHT_YELLOW = css`
@@ -591,30 +589,33 @@ export default class CommunityPage extends React.Component {
       >
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SECTION_HERO_IMG}>
-            <img src="https://bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli.ipfs.slate.textile.io/" />
-          </div>
-
           <div css={STYLES_SECTION_HERO}>
-            <h1 css={STYLES_H1}>
-              <span css={STYLES_HIGHLIGHT_BLUE}>An open invitation</span>
+            <div css={STYLES_FULL_WIDTH}>
+              <img
+                css={STYLES_SECTION_HERO_IMG}
+                src="https://slate.textile.io/ipfs/bafkreidwavbkg4kigouxvtvb6wjr2zgqxr62mkdltnujbbbq6t3ciyw6wy"
+              />
               <br />
-              to everyone
-            </h1>
-            <p css={STYLES_P}>
-              Slate is designed and built by a growing community of hackers,
-              artists, and creatives on the web.
-            </p>
-            <button
-              css={STYLES_BUTTON}
-              onClick={() =>
-                window.open(
-                  "https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
-                )
-              }
-            >
-              Contribute tio Slate
-            </button>
+              <h1 css={STYLES_H1}>
+                <span css={STYLES_HIGHLIGHT_BLUE}>An open invitation</span>
+                <br />
+                to everyone
+              </h1>
+              <p css={STYLES_P}>
+                Slate is designed and built by a growing community of hackers,
+                artists, and creatives on the web.
+              </p>
+              <button
+                css={STYLES_BUTTON}
+                onClick={() =>
+                  window.open(
+                    "https://slate.textile.io/ipfs/bafybeiekksvkiaa2vwyzaitjb44adb5mfbqaqkagizwuw5odmgcwdmmiha"
+                  )
+                }
+              >
+                Contribute to Slate
+              </button>
+            </div>
           </div>
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_FULL_WIDTH}>
@@ -636,7 +637,7 @@ export default class CommunityPage extends React.Component {
               </div>
             </div>
           </div>
-          <div css={STYLES_SECTION_WRAPPER} style={{ marginTop: 80 }}>
+          <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_FULL_WIDTH}>
               <h2 css={STYLES_H2}>Contributors</h2>
               <p css={STYLES_P}>
@@ -687,23 +688,30 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_SPLIT_WIDTH}>
               <div css={STYLES_CHAT}>
                 <p>
-                  Hey Slate Team,
+                  Hey Bucky,
                   <br />
                   <br /> Have you thought about adding a confetti effect to the
                   download button?
                   <br />
                   <br />
                   Best, <br />
-                  Will
+                  Susan Weil
+                  <p css={STYLES_P}>
+                    Three-dimensional Painter <br /> Black Mountain College
+                  </p>
                 </p>
               </div>
               <div css={STYLES_CHAT}>
                 <p>
-                  Hey Will, <br />
+                  Hey Susan
+                  <br />
                   <br />
                   That would be so fun, will work in it! <br />
                   <br /> Best, <br />
-                  John
+                  Buckminster Fuller
+                  <p css={STYLES_P}>
+                    Designer, Author, Inventor <br /> Black Mountain College
+                  </p>
                 </p>
               </div>
             </div>

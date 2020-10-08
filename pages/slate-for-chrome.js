@@ -238,7 +238,7 @@ export default class SlateForChromePage extends React.Component {
               <div css={STYLES_HALFBLOCK}>
                 <h2 css={STYLES_H2}>Contribute</h2>
                 <p css={STYLES_P}>
-                  We would love for you to join us. You are welcomed to file an issue or submit a
+                  We would love for you to join us. You are welcome to file an issue or submit a
                   pull request on Github.
                 </p>
                 <a

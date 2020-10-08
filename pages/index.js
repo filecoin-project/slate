@@ -489,12 +489,12 @@ export default class IndexPage extends React.Component {
               <img
                 css={STYLES_IMG_WEB}
                 style={{ boxShadow: `none` }}
-                src="https://slate.textile.io/ipfs/bafybeib2tdk7qvw754ho6ru3nj3wc24hf3lzppuce4lafx32qhkhjkehmy"
+                src="https://slate.textile.io/ipfs/bafkreigygwwhu35cynyg7b53l3e6qkp3qxu7yytr46uldnpjgs23ml3bli"
               />
               <img
                 css={STYLES_IMG_MOBILE}
                 style={{ boxShadow: `none` }}
-                src="https://slate.textile.io/ipfs/bafybeidodgrbu5qbgkprjhs3bwxqnn44zvtpjevd6a5suabh22nz7xhkpq"
+                src="https://slate.textile.io/ipfs/bafybeid6li7wgf42dls6m355k3362qrbp3omwisisawfg3u7uggpcqyhk4"
               />
             </div>
             <div css={STYLES_SECTIONCTA_WRAPPER}>

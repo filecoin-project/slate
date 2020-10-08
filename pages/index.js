@@ -245,6 +245,25 @@ const STYLES_IMG = css`
   box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.2);
 `;
 
+const STYLES_IMG_WEB = css`
+  ${STYLES_IMG}
+  margin: 48px auto;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_IMG_MOBILE = css`
+  ${STYLES_IMG}
+  margin: 48px auto;
+  display: none;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+  }
+`;
+
 const STYLES_SLATE_CARD_GROUP = css`
   width: 100%;
   display: flex;
@@ -383,12 +402,12 @@ export default class IndexPage extends React.Component {
             </div>
 
             <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-              <h1 css={STYLES_H1}>
+              <h2 css={STYLES_H1}>
                 <span css={STYLES_HIGHLIGHT_BLUE}>Get all the space you need</span> <br />
                 for all of your valuable data
-              </h1>
+              </h2>
               <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                Powered by Textile, Filecoin, IPFS.
+                Powered by Textile, Filecoin, and IPFS.
               </p>
               <br />
               <img
@@ -403,10 +422,10 @@ export default class IndexPage extends React.Component {
 
             <div css={STYLES_SECTION_WRAPPER}>
               <div css={STYLES_TEXT_BLOCK}>
-                <h1 css={STYLES_H1}>
+                <h2 css={STYLES_H1}>
                   <span css={STYLES_HIGHLIGHT_GREEN}>Store, annotate, cite, and link</span> <br />
                   your files
-                </h1>
+                </h2>
                 <p css={STYLES_P} style={{ opacity: 0.7 }}>
                   Slate is the new home for information that matters to you.
                 </p>
@@ -436,19 +455,19 @@ export default class IndexPage extends React.Component {
             </div>
             <div css={STYLES_SECTION_WRAPPER}>
               <div css={STYLES_TEXT_BLOCK}>
-                <h1 css={STYLES_H1}>
-                  <span css={STYLES_HIGHLIGHT_YELLOW}>Curate, present, and share</span> <br />
+                <h2 css={STYLES_H1}>
+                  <span css={STYLES_HIGHLIGHT_YELLOW}>Collect, organize and share</span> <br />
                   your slates
-                </h1>
+                </h2>
                 <p css={STYLES_P} style={{ opacity: 0.7 }}>
                   A modular interface for your files, giving you complete flexibility.
                 </p>
                 <br />
                 <hr css={STYLES_HR_YELLOW} />
                 <ul css={STYLES_LIST}>
-                  <li>Arrange moodboard</li>
+                  <li>Arrange moodboards</li>
                   <li>Organize research</li>
-                  <li>Share presentation</li>
+                  <li>Share presentations</li>
                 </ul>
               </div>
               <img
@@ -458,27 +477,32 @@ export default class IndexPage extends React.Component {
               />
             </div>
             <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-              <h1 css={STYLES_H1}>
+              <h2 css={STYLES_H1}>
                 <span css={STYLES_HIGHLIGHT_RED}>Connect to think, learn and discuss </span> <br />
                 with others
-              </h1>
+              </h2>
               <div css={STYLES_TEXT_BLOCK}>
                 <p css={STYLES_P} style={{ opacity: 0.7 }}>
                   Connect with trusted peers and use slate as a space to think together.
                 </p>
               </div>
               <img
-                css={STYLES_IMG}
-                style={{ margin: `48px auto`, boxShadow: `none` }}
-                src="https://slate.textile.io/ipfs/bafybeib2tdk7qvw754ho6ru3nj3wc24hf3lzppuce4lafx32qhkhjkehmy"
+                css={STYLES_IMG_WEB}
+                style={{ boxShadow: `none` }}
+                src="https://slate.textile.io/ipfs/bafkreigygwwhu35cynyg7b53l3e6qkp3qxu7yytr46uldnpjgs23ml3bli"
+              />
+              <img
+                css={STYLES_IMG_MOBILE}
+                style={{ boxShadow: `none` }}
+                src="https://slate.textile.io/ipfs/bafybeid6li7wgf42dls6m355k3362qrbp3omwisisawfg3u7uggpcqyhk4"
               />
             </div>
             <div css={STYLES_SECTIONCTA_WRAPPER}>
               <div css={STYLES_TEXT_BLOCK_CENTER}>
-                <h1 css={STYLES_H1}>
-                  <span css={STYLES_HIGHLIGHT_BLUE}>Take a slate</span> <br />
+                <h2 css={STYLES_H1}>
+                  <span css={STYLES_HIGHLIGHT_BLUE}>Get started with Slate</span> <br />
                   to experience the file sharing network
-                </h1>
+                </h2>
                 <br />
               </div>
               <div css={STYLES_CLEAN_SLATE}>

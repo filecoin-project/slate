@@ -84,8 +84,10 @@ export const NewWebsitePrototypeFooter = (props) => {
       <div css={STYLES_CONTAINER} style={props.style}>
         <div>
           <p css={STYLES_P}>
-            <span style={{ fontFamily: `${Constants.font.semiBold}`, marginRight: `16px` }}>Slate </span> Public file
-            sharing network. Powered by{" "}
+            <span style={{ fontFamily: `${Constants.font.semiBold}`, marginRight: `16px` }}>
+              Slate{" "}
+            </span>{" "}
+            Decentralized file sharing network. Powered by{" "}
             <a css={STYLES_LINK} href="https://textile.io" target="_blank">
               Textile
             </a>{" "}
@@ -101,7 +103,10 @@ export const NewWebsitePrototypeFooter = (props) => {
         <br />
         <div css={STYLES_FLEX}>
           <div css={STYLES_CONTENT_BLOCK}>
-            <p css={STYLES_P} style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}>
+            <p
+              css={STYLES_P}
+              style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}
+            >
               Contact & Support
             </p>
             <a css={STYLES_LINK} href="https://twitter.com/_slate" target="_blank">
@@ -119,18 +124,21 @@ export const NewWebsitePrototypeFooter = (props) => {
           <br />
           <br />
           <div css={STYLES_CONTENT_BLOCK}>
-            <p css={STYLES_P} style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}>
+            <p
+              css={STYLES_P}
+              style={{ fontFamily: `${Constants.font.semiBold}`, marginBottom: `4px` }}
+            >
               Resources
             </p>
-            <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate" target="_blank">
-              Source code
-            </a>
-            <br />
             <a css={STYLES_LINK} href="/slate-for-chrome">
               Slate for Chrome
             </a>
             <br />
-            <a css={STYLES_LINK} href="https://github.com/filecoin-project/slate/issues/126" target="_blank">
+            <a
+              css={STYLES_LINK}
+              href="https://github.com/filecoin-project/slate/issues/126"
+              target="_blank"
+            >
               Community
             </a>
             <br />

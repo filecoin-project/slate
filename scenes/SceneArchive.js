@@ -165,50 +165,6 @@ export default class SceneArchive extends React.Component {
                 Save archiving settings
               </System.ButtonSecondary>
             </div>
-
-            <Section
-              title="Archive deal logs"
-              style={{ minWidth: "auto", marginTop: 48 }}
-            >
-              <System.Table
-                data={{
-                  columns: [
-                    {
-                      key: "job",
-                      name: "Job Message",
-                      width: "100%",
-                    },
-                  ],
-                  rows: this.state.networkViewer.archive.jobs.map((job) => {
-                    return {
-                      job: job.msg,
-                    };
-                  }),
-                }}
-              />
-            </Section>
-
-            <Section
-              title="(one-off) Storage deal logs"
-              style={{ minWidth: "auto", marginTop: 48 }}
-            >
-              <System.Table
-                data={{
-                  columns: [
-                    {
-                      key: "job",
-                      name: "Job Message",
-                      width: "100%",
-                    },
-                  ],
-                  rows: this.state.networkViewer.dealJobs.map((job) => {
-                    return {
-                      job: job.msg,
-                    };
-                  }),
-                }}
-              />
-            </Section>
           </React.Fragment>
         ) : (
           <LoaderSpinner style={{ marginTop: 48, height: 32, width: 32 }} />

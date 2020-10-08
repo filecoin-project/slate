@@ -352,7 +352,7 @@ const SlateCard = (props) => {
           `}
         >
           <div css={STYLES_SLATE_CARD_TEXT}>
-            <p css={STYLES_CARDP} style={props.style}>
+            <p css={STYLES_CARDP} style={{ ...props.style, paddingRight: 16 }}>
               {props.name}
             </p>
             <p css={STYLES_CARDP} style={{ opacity: 0.7 }}>{`${props.username}`}</p>
@@ -427,7 +427,7 @@ export default class IndexPage extends React.Component {
                   your files
                 </h2>
                 <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                  Slate is the new home for information that matters to you.
+                  Slate is a new home for information that matters to you.
                 </p>
                 <br />
                 <hr css={STYLES_HR_GREEN} />
@@ -460,7 +460,8 @@ export default class IndexPage extends React.Component {
                   your slates
                 </h2>
                 <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                  A modular interface for your files, giving you complete flexibility.
+                  A modular interface for your files, an interface that gives you complete
+                  flexibility.
                 </p>
                 <br />
                 <hr css={STYLES_HR_YELLOW} />
@@ -483,7 +484,7 @@ export default class IndexPage extends React.Component {
               </h2>
               <div css={STYLES_TEXT_BLOCK}>
                 <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                  Connect with trusted peers and use slate as a space to think together.
+                  Connect with trusted peers and use Slate as a space to think together.
                 </p>
               </div>
               <img

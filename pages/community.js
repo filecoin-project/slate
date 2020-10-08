@@ -17,42 +17,48 @@ const SLATE_CORE_TEAM = [
     name: "Jason Leyser",
     url: "https://github.com/jasonleyser",
     username: "jasonleyser",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreidw22xqcr6fo6m7k25qe3yemby6w4dlawbsu6yxs7qjnpu5gyoiwm",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreidw22xqcr6fo6m7k25qe3yemby6w4dlawbsu6yxs7qjnpu5gyoiwm",
   },
   {
     id: 2,
     name: "Cake",
     url: "https://github.com/jimmylee",
     username: "jimmylee",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreigxoyf43vw3p2hbc4ycsyh2og36cgy3s47xkb2n4w3i7auv2a6cei",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreigxoyf43vw3p2hbc4ycsyh2og36cgy3s47xkb2n4w3i7auv2a6cei",
   },
   {
     id: 3,
     name: "Martina Long",
     url: "https://github.com/martinalong",
     username: "martinalong",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreiasfgunf66fxncazlfzff3vp2btfe4j55jxgb2epcthrnvwkthwrq",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreiasfgunf66fxncazlfzff3vp2btfe4j55jxgb2epcthrnvwkthwrq",
   },
   {
     id: 4,
     name: "Haris Butt",
     url: "https://github.com/harisbutt",
     username: "harisbutt",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreih3tbsh6f4m3m2yv3uyc7cupriovl4b354rsyyxuh6l5sv7ftdgzq",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreih3tbsh6f4m3m2yv3uyc7cupriovl4b354rsyyxuh6l5sv7ftdgzq",
   },
   {
     id: 5,
     name: "Tara Lin",
     url: "https://github.com/tarafanlin",
     username: "tarafanlin",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreih4jc7scjz7ni24enb6ur32mn7eel5nax562zohrhcq2xkcegukj4",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreih4jc7scjz7ni24enb6ur32mn7eel5nax562zohrhcq2xkcegukj4",
   },
   {
     id: 6,
     name: "William Felker",
     url: "https://github.com/gndclouds",
     username: "gndclouds",
-    imageUrl: "https://bafkreih2b33oaftlflmsg6njtu7i54f2nwws5gfhhf5w4qaezcejs6gjte.ipfs.slate.textile.io/",
+    imageUrl:
+      "https://bafkreih2b33oaftlflmsg6njtu7i54f2nwws5gfhhf5w4qaezcejs6gjte.ipfs.slate.textile.io/",
   },
 ];
 
@@ -62,56 +68,72 @@ const SLATE_CONTRIBUTOR_TEAM = [
     name: "Pooja Shah",
     url: "https://github.com/pooja",
     username: "pooja",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreier4xffhrpconlprzxvzslqsovykqet7xj6zhhptxgu4nm2qw5i3u",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreier4xffhrpconlprzxvzslqsovykqet7xj6zhhptxgu4nm2qw5i3u",
   },
   {
     id: 2,
     name: "Why",
     url: "https://github.com/whyrusleeping",
     username: "whyrusleeping",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreigvs53l22cuswtc4dtgndmc3aqns2unpc5xndnzx5gjdbw4yv6qhm",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreigvs53l22cuswtc4dtgndmc3aqns2unpc5xndnzx5gjdbw4yv6qhm",
+  },
+  {
+    id: 9,
+    name: "Carson Farmer",
+    url: "https://github.com/carsonfarmer",
+    username: "carsonfarmer",
+    imageUrl:
+      "https://avatars0.githubusercontent.com/u/1220613?s=460&u=8048272c1509d02cdeabb6ae561bf1c697869a33&v=4",
   },
   {
     id: 4,
     name: "Aaron Stula",
     url: "https://github.com/asutula",
     username: "asutula",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreig3vnxyqqsxnrs24zpbbuc6jh5wvdsa7w6fx5gvi4j3t7rhoelhlm",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreig3vnxyqqsxnrs24zpbbuc6jh5wvdsa7w6fx5gvi4j3t7rhoelhlm",
   },
   {
     id: 3,
     name: "Ignacio Hagopian",
     url: "https://github.com/jsign",
     username: "jsign",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreicktewpelagb3uvgd6psacr4kra66ii7254ghqflklek7taahni2m",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreicktewpelagb3uvgd6psacr4kra66ii7254ghqflklek7taahni2m",
   },
   {
     id: 5,
     name: "Sander Pick",
     url: "https://github.com/sanderpick",
     username: "sanderpick",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreihptnrkusu7qnsm4qure7noknmsrhftyrx7zy6aaj4e2cxmtcey6q",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreihptnrkusu7qnsm4qure7noknmsrhftyrx7zy6aaj4e2cxmtcey6q",
   },
   {
     id: 6,
     name: "Andrew Hill",
     url: "https://github.com/andrewxhill",
     username: "andrewxhill",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreicfbr2qpmineh2ezi2kjfbshbpizkikectbdurfskczwatjkdfcoa",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreicfbr2qpmineh2ezi2kjfbshbpizkikectbdurfskczwatjkdfcoa",
   },
   {
     id: 7,
     name: "Akuoko Daniel Jnr",
     url: "https://github.com/akuokojnr",
     username: "akuokojnr",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreiblpimmchcbvsv3xh5aimjzrjw6bmiz6yg2dtifssf2oencg5z54q",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreiblpimmchcbvsv3xh5aimjzrjw6bmiz6yg2dtifssf2oencg5z54q",
   },
   {
     id: 8,
     name: "Narative",
     url: "https://github.com/narative",
     username: "Narative",
-    imageUrl: "https://slate.textile.io/ipfs/bafkreihdkapriwuzfh42zkhs3kwj5qki43dvyu6mq5j3rug3uf6i7egs6y",
+    imageUrl:
+      "https://slate.textile.io/ipfs/bafkreihdkapriwuzfh42zkhs3kwj5qki43dvyu6mq5j3rug3uf6i7egs6y",
   },
 ];
 
@@ -273,7 +295,6 @@ const STYLES_SECTION_HERO_IMG = css`
   width: 100%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   margin-bottom: 16px;
-  border-radius: 0px;
 `;
 
 const STYLES_SECTION_HERO = css`
@@ -330,12 +351,19 @@ const STYLES_CARD_GITHUB = css`
 `;
 
 const STYLES_CARD_TEXT = css`
-  padding: 8px 4px;
+  padding: 16px 8px 16px 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   justify-content: center;
+  background-color: ${Constants.system.white};
+  color: ${Constants.system.black};
+  border-radius: 0 0 8px 8px;
+
+  :visted {
+    color: ${Constants.system.black};
+  }
 
   :hover {
     color: ${Constants.system.black};
@@ -347,24 +375,9 @@ const STYLES_SLATE_CARD_EFFECTS = css`
   flex-direction: column;
   height: 100%;
   cursor: default;
-  border: 1px solid ${Constants.system.black};
-  background-color: ${Constants.system.foreground};
-  background-position: center;
   mix-blend-mode: luminosity;
   z-index: 2;
-  border-radius: 8px;
   color: ${Constants.system.black};
-
-  :hover {
-    background-position: center;
-    background-size: 100%;
-    border: 2px solid ${Constants.system.black};
-    mix-blend-mode: normal;
-    color: ${Constants.system.black};
-    transition: background-image 2s ease-in-out 2s;
-    opacity: 1;
-    z-index: 2;
-  }
 `;
 
 const STYLES_FEATURE_CARD_WRAPPER = css`
@@ -462,8 +475,9 @@ const STYLES_IMG = css`
 
 const STYLES_CHAT = css`
   background: #ffffff;
-  margin: 50px 0px;
-  padding: 30px;
+  margin: 48px 0px;
+  padding: 32px;
+  line-height: 1.5;
   box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.1);
 `;
 
@@ -528,15 +542,17 @@ const SlateTeamCards = (props) => {
   return (
     <div key={props.id} css={STYLES_CARD_WRAPPER}>
       <a href={props.url}>
-        <System.HoverTileColorful height={350} width={300}>
-          <div css={STYLES_SLATE_CARD_EFFECTS}>
-            <img css={STYLES_IMG} alt={`Github Profile Photo for ${props.handle}`} src={props.preview} />
-            <div css={STYLES_CARD_TEXT}>
-              <p css={STYLES_CARD_NAME}>{props.name}</p>
-              <p css={STYLES_CARD_GITHUB}>{`@${props.username}`}</p>
-            </div>
+        <System.HoverTile height={368} width={300}>
+          <img
+            css={STYLES_IMG}
+            alt={`Github Profile Photo for ${props.handle}`}
+            src={props.preview}
+          />
+          <div css={STYLES_CARD_TEXT}>
+            <p css={STYLES_CARD_NAME}>{props.name}</p>
+            <p css={STYLES_CARD_GITHUB}>{`@${props.username}`}</p>
           </div>
-        </System.HoverTileColorful>
+        </System.HoverTile>
       </a>
     </div>
   );
@@ -584,7 +600,8 @@ export default class CommunityPage extends React.Component {
                 to everyone
               </h1>
               <p css={STYLES_P}>
-                Slate is designed and built by a growing community of hackers, artists, and creatives on the web.
+                Slate is designed and built by a growing community of hackers, artists, and
+                creatives on the web.
               </p>
               <button
                 css={STYLES_BUTTON}
@@ -602,7 +619,8 @@ export default class CommunityPage extends React.Component {
             <div css={STYLES_FULL_WIDTH}>
               <h2 css={STYLES_H2}>Core Team</h2>
               <p css={STYLES_P}>
-                We work on Slate, and you can reachout to us about for anything you might need to know.
+                We work on Slate, and you can reach out to us about for anything you might need to
+                know.
               </p>
               <div css={STYLES_CARD_GROUP}>
                 {SLATE_CORE_TEAM.map((each) => (
@@ -637,10 +655,11 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h2 css={STYLES_H2}>
-                <span css={STYLES_HIGHLIGHT_GREEN}>Have an idea</span> for how
-                to make Slate better?
+                <span css={STYLES_HIGHLIGHT_GREEN}>Have an idea</span> for how to make Slate better?
               </h2>
-              <p css={STYLES_P}>You can create an issue on github or send us an email with your recommendation.</p>
+              <p css={STYLES_P}>
+                You can create an issue on Github or send us an email with your recommendation.
+              </p>
               <div>
                 <button
                   css={STYLES_BUTTON}
@@ -648,7 +667,10 @@ export default class CommunityPage extends React.Component {
                 >
                   Create an issue
                 </button>
-                <button css={STYLES_BUTTON} onClick={() => window.open("https://twitter.com/_slate")}>
+                <button
+                  css={STYLES_BUTTON}
+                  onClick={() => window.open("https://twitter.com/_slate")}
+                >
                   Tweet us
                 </button>
               </div>
@@ -686,13 +708,12 @@ export default class CommunityPage extends React.Component {
           <div css={STYLES_SECTION_WRAPPER}>
             <div css={STYLES_SPLIT_WIDTH}>
               <h2 css={STYLES_H2}>
-                <span css={STYLES_HIGHLIGHT_YELLOW}>
-                  Explore our API and SDK{" "}
-                </span>
+                <span css={STYLES_HIGHLIGHT_YELLOW}>Explore our API and SDK </span>
                 and build on top of Slate.
               </h2>
               <p css={STYLES_P}>
-                Checkout the examples below to see how quickly you can get up and running with Slate’s API.
+                Checkout the examples below to see how quickly you can get up and running with
+                Slate’s API.
               </p>
               <button css={STYLES_BUTTON} onClick={() => window.open("https://slate.host/system")}>
                 Use Slate API

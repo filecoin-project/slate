@@ -75,6 +75,7 @@ const STYLES_TITLE = css`
 `;
 
 const STYLES_NOTE = css`
+  margin-top: 8px;
   font-family: ${Constants.font.text};
   font-size: ${Constants.typescale.lvl0};
   color: ${Constants.system.darkGray};
@@ -114,9 +115,8 @@ export const DataMeter = (props) => {
         {Strings.bytesToSize(props.stats.bytes)} of {Strings.bytesToSize(props.stats.maximumBytes)}{" "}
         used
       </div>
-      <div css={STYLES_NOTE}>50GB coming soon with email verification</div>
-
       <DataMeterBar bytes={props.stats.bytes} maximumBytes={props.stats.maximumBytes} />
+      <div css={STYLES_NOTE}>50GB coming soon with email verification</div>
     </div>
   );
 };

@@ -2,8 +2,6 @@ import Head from "next/head";
 
 import * as React from "react";
 
-import { GoogleScript } from "~/common/analytics";
-
 export default class WebsitePrototypeWrapper extends React.Component {
   static defaultProps = {
     image:
@@ -53,7 +51,15 @@ export default class WebsitePrototypeWrapper extends React.Component {
           />
 
           <link rel="shortcut icon" href="/static/favicon.ico" />
-          <GoogleScript id="UA-52930282-7" />
+          <script>
+            {`(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-52930282-7', 'auto');
+ga('send', 'pageview');`}
+          </script>
         </Head>
         {this.props.children}
       </React.Fragment>

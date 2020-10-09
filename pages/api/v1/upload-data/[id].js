@@ -83,17 +83,9 @@ export default async (req, res) => {
     id: key.owner_id,
   });
 
-  console.log(
-    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
-  );
-
   const uploadResponse = await Upload.formMultipart(req, res, {
     user,
   });
-
-  console.log(
-    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
-  );
 
   if (!uploadResponse) {
     return res

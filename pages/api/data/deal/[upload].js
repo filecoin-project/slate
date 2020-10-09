@@ -27,18 +27,10 @@ export default async (req, res) => {
       .send({ decorator: "UPLOAD_NOT_ALLOWED", error: true });
   }
 
-  console.log(
-    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
-  );
-
   const response = await Upload.formMultipart(req, res, {
     user,
     bucketName: STAGING_DEAL_BUCKET,
   });
-
-  console.log(
-    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
-  );
 
   if (!response) {
     return res

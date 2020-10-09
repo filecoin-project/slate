@@ -14,6 +14,16 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
 
   const upload = () =>
     new Promise(async (resolve, reject) => {
+      signal.onabort = () => {
+        req.unpipe();
+        return reject({
+          decorator: "SERVER_SIGNAL_ABORT",
+          error: true,
+          message:
+            "We triggered an abort from a Textile writable stream failure.",
+        });
+      };
+
       let form = new B({
         headers: req.headers,
         highWaterMark: HIGH_WATER_MARK,
@@ -42,7 +52,6 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
         });
 
         if (!buckets) {
-          controller.abort();
           return reject({
             decorator: "SERVER_BUCKET_INIT_FAILURE",
             error: true,
@@ -51,14 +60,13 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
 
         let push;
         try {
-          console.log("[upload] pushing to textile");
+          console.log("[upload] PUSHING FILE");
           push = await buckets.pushPath(bucketKey, data.id, stream, {
             root: bucketRoot,
             signal,
           });
-          console.log("[upload] finished pushing to textile");
+          console.log("[upload] SUCCESSFUL PUSH");
         } catch (e) {
-          controller.abort();
           Social.sendTextileSlackMessage({
             file: "/node_common/upload.js",
             user,
@@ -67,11 +75,7 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
             functionName: `buckets.pushPath (aborting)`,
           });
 
-          return reject({
-            decorator: "SERVER_UPLOAD_ERROR",
-            error: true,
-            message: e.message,
-          });
+          return controller.abort();
         }
 
         return resolve({
@@ -90,11 +94,6 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
         });
 
         controller.abort();
-        return reject({
-          decorator: "SERVER_UPLOAD_ERROR",
-          error: true,
-          message: e.message,
-        });
       });
 
       req.pipe(form);
@@ -102,7 +101,9 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
 
   const response = await upload();
 
+  console.log("[ upload ]", response);
   if (response && response.error) {
+    console.log("[ upload ] ending due to errors.");
     return response;
   }
 

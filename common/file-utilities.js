@@ -43,6 +43,7 @@ export const upload = async ({ file, context, bucketName }) => {
       XHR.open("post", path, true);
       XHR.onerror = (event) => {
         console.log(event);
+        XHR.abort();
       };
 
       // NOTE(jim): UPLOADS ONLY.

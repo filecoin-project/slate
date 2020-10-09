@@ -3,7 +3,6 @@ import * as Constants from "~/node_common/constants";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Strings from "~/common/strings";
 import * as Upload from "~/node_common/upload";
-import * as Strings from "~/common/strings";
 
 const generateLayout = (items) => {
   if (!items) {

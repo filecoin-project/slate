@@ -15,7 +15,7 @@ const db = knex(envConfig);
 // NOTE(jim):
 // This script will reproduce the bucket bricking bug
 // We will trigger it by trying to upload a file thats too big.
-console.log(`RUNNING:  recreate-bucket-bug.js`);
+console.log(`RUNNING:  recreate-bucket-bug-render.js`);
 
 const HIGH_WATER_MARK = 1024 * 1024 * 3;
 
@@ -95,35 +95,11 @@ const run = async () => {
 
   const files = [];
   try {
-    // NOTE(jim): For Textile
-    //            Uncommenting this block will trigger a bug we should
-    //            Resolve first.
-    // ----------------------------------------------------------------
-
-    await execSync(
-      "dd if=/dev/random of=4GB_BUCKET_TEST.txt bs=1 count=0 seek=4g"
-    );
-    files.push("4GB_BUCKET_TEST.txt");
-
-    await execSync(
-      "dd if=/dev/random of=200MB_BUCKET_TEST.txt bs=1 count=0 seek=200m"
-    );
-    files.push("200MB_BUCKET_TEST.txt");
-
-    await execSync(
-      "dd if=/dev/random of=500MB_BUCKET_TEST.txt bs=1 count=0 seek=500m"
-    );
-    files.push("500MB_BUCKET_TEST.txt");
-
-    await execSync(
-      "dd if=/dev/random of=1GB_BUCKET_TEST.txt bs=1 count=0 seek=1g"
-    );
-    files.push("1GB_BUCKET_TEST.txt");
-
-    await execSync(
-      "dd if=/dev/random of=2GB_BUCKET_TEST.txt bs=1 count=0 seek=2g"
-    );
+    await execSync("fallocate -l 2G 2GB_BUCKET_TEST.txt");
     files.push("2GB_BUCKET_TEST.txt");
+
+    await execSync("fallocate -l 1G 1GB_BUCKET_TEST.txt");
+    files.push("1GB_BUCKET_TEST.txt");
   } catch (e) {
     reportError(e.message);
   }
@@ -149,35 +125,14 @@ const run = async () => {
     });
     reportTask(`attempting ${file} push to bucket`);
 
-    if (firstTry) {
-      firstTry = false;
-
-      try {
-        buckets.pushPath(bucketKey, file, readStream, {
-          root: bucketRoot,
-          signal,
-        });
-
-        await sleep(5000);
-
-        controller.abort();
-
-        reportTask(`aborted the first file: ${file}`);
-
-        await sleep(5000);
-      } catch (e) {
-        reportError(e.message);
-      }
-    } else {
-      try {
-        await buckets.pushPath(bucketKey, file, readStream, {
-          root: bucketRoot,
-          signal,
-        });
-        reportTask(`successfully added ${file}`);
-      } catch (e) {
-        reportError(e.message);
-      }
+    try {
+      await buckets.pushPath(bucketKey, file, readStream, {
+        root: bucketRoot,
+        signal,
+      });
+      reportTask(`successfully added ${file}`);
+    } catch (e) {
+      reportError(e.message);
     }
 
     items = null;
@@ -303,5 +258,5 @@ const run = async () => {
 
 run();
 
-console.log(`FINISHED: recreate-bucket-bug.js`);
+console.log(`FINISHED: recreate-bucket-bug-render.js`);
 console.log(`          CTRL +C to return to terminal`);

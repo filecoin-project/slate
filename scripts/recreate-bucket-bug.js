@@ -4,6 +4,7 @@ import * as Utilities from "~/node_common/utilities";
 import configs from "~/knexfile";
 import knex from "knex";
 import FS from "fs";
+import AbortController from "abort-controller";
 
 import { PrivateKey } from "@textile/hub";
 import { execSync } from "child_process";
@@ -17,6 +18,12 @@ const db = knex(envConfig);
 console.log(`RUNNING:  recreate-bucket-bug.js`);
 
 const HIGH_WATER_MARK = 1024 * 1024 * 3;
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 const TEXTILE_KEY_INFO = {
   key: Environment.TEXTILE_HUB_KEY,
@@ -54,7 +61,11 @@ const run = async () => {
 
   console.log({ api });
 
-  let { buckets, bucketKey } = await Utilities.getBucketAPIFromUserToken({
+  let {
+    buckets,
+    bucketKey,
+    bucketRoot,
+  } = await Utilities.getBucketAPIFromUserToken({
     user,
     bucketName: "delete-this-bucket",
   });
@@ -84,6 +95,16 @@ const run = async () => {
 
   const files = [];
   try {
+    // NOTE(jim): For Textile
+    //            Uncommenting this block will trigger a bug we should
+    //            Resolve first.
+    // ----------------------------------------------------------------
+
+    await execSync(
+      "dd if=/dev/random of=4GB_BUCKET_TEST.txt bs=1 count=0 seek=4g"
+    );
+    files.push("4GB_BUCKET_TEST.txt");
+
     await execSync(
       "dd if=/dev/random of=200MB_BUCKET_TEST.txt bs=1 count=0 seek=200m"
     );
@@ -103,16 +124,6 @@ const run = async () => {
       "dd if=/dev/random of=2GB_BUCKET_TEST.txt bs=1 count=0 seek=2g"
     );
     files.push("2GB_BUCKET_TEST.txt");
-
-    // NOTE(jim): For Textile
-    //            Uncommenting this block will trigger a bug we should
-    //            Resolve first.
-    // ----------------------------------------------------------------
-
-    await execSync(
-      "dd if=/dev/random of=4GB_BUCKET_TEST.txt bs=1 count=0 seek=4g"
-    );
-    files.push("4GB_BUCKET_TEST.txt");
   } catch (e) {
     reportError(e.message);
   }
@@ -121,21 +132,47 @@ const run = async () => {
 
   // NOTE(jim): Try to upload each file the first time.
   // ----------------------------------------------------------------
+  let firstTry = true;
+
   let items;
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
-
+    let controller = new AbortController();
+    let { signal } = controller;
     const readStream = FS.createReadStream(`${file}`, {
       highWaterMark: HIGH_WATER_MARK,
     });
-
     reportTask(`attempting ${file} push to bucket`);
 
-    try {
-      await buckets.pushPath(bucketKey, file, readStream);
-      reportTask(`successfully added ${file}`);
-    } catch (e) {
-      reportError(e.message);
+    if (firstTry) {
+      firstTry = false;
+
+      try {
+        buckets.pushPath(bucketKey, file, readStream, {
+          root: bucketRoot,
+          signal,
+        });
+
+        await sleep(5000);
+
+        controller.abort();
+
+        reportTask(`aborted the first file: ${file}`);
+
+        await sleep(5000);
+      } catch (e) {
+        reportError(e.message);
+      }
+    } else {
+      try {
+        await buckets.pushPath(bucketKey, file, readStream, {
+          root: bucketRoot,
+          signal,
+        });
+        reportTask(`successfully added ${file}`);
+      } catch (e) {
+        reportError(e.message);
+      }
     }
 
     items = null;

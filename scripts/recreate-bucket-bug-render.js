@@ -95,6 +95,9 @@ const run = async () => {
 
   const files = [];
   try {
+    await execSync("fallocate -l 200M 200MB_BUCKET_TEST.txt");
+    files.push("200MB_BUCKET_TEST.txt");
+
     await execSync("fallocate -l 2G 2GB_BUCKET_TEST.txt");
     files.push("2GB_BUCKET_TEST.txt");
 

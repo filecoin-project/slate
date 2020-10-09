@@ -29,7 +29,6 @@ const generateLayout = (items) => {
   });
 };
 
-// NOTE(jim): To support multipart request.
 export const config = {
   api: {
     bodyParser: false,

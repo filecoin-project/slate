@@ -3,7 +3,6 @@ import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
 
-// NOTE(jim): To support multipart request.
 export const config = {
   api: {
     bodyParser: false,

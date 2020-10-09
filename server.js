@@ -35,20 +35,16 @@ app.prepare().then(async () => {
     morgan(":method :url :status :res[content-length] - :response-time ms")
   );
 
-  if (Environment.IS_PRODUCTION) {
-    server.use(compression());
-  }
-
   server.use("/public", express.static("public"));
 
   server.get("/please-dont-use-timeout", async (r, s) => {
     console.log("[ forbidden ] someone is using your testing timeout");
 
-    await sleep(5 * 60 * 1000);
+    await sleep(2 * 60 * 1000);
 
     return s
       .status(200)
-      .json({ decorator: "SERVER_TIMEOUT_TEST", timeout: 5 * 60 * 1000 });
+      .json({ decorator: "SERVER_TIMEOUT_TEST", timeout: 2 * 60 * 1000 });
   });
 
   server.get("/system", async (r, s) => s.redirect("/_/system"));

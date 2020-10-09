@@ -36,29 +36,37 @@ app.prepare().then(async () => {
   );
 
   server.use("/public", express.static("public"));
-
-  server.get("/please-dont-use-timeout", async (r, s) => {
-    console.log("[ forbidden ] someone is using your testing timeout");
-
-    await sleep(2 * 60 * 1000);
-
-    return s
-      .status(200)
-      .json({ decorator: "SERVER_TIMEOUT_TEST", timeout: 2 * 60 * 1000 });
-  });
-
   server.get("/system", async (r, s) => s.redirect("/_/system"));
   server.get("/experiences", async (r, s) => s.redirect("/_/system"));
   server.get("/_/experiences", async (r, s) => s.redirect("/_/system"));
   server.get("/system/:c", async (r, s) =>
     s.redirect(`/_/system/${r.params.c}`)
   );
+
   server.get("/experiences/:m", async (r, s) =>
     s.redirect(`/_/experiences/${r.params.m}`)
   );
+
   server.all("/api/:a", async (r, s, next) => {
     return handler(r, s, r.url);
   });
+
+  // NOTE(jim): Upload data
+  server.post("/api/data/:b", async (req, res) => {
+    // NOTE(jim): Let this request take as long as it needs to.
+    req.setTimeout(0);
+
+    return await handler(req, res, req.url);
+  });
+
+  // NOTE(jim): Upload data for deal
+  server.post("/api/data/deal/:b", async (req, res) => {
+    // NOTE(jim): Let this request take as long as it needs to.
+    req.setTimeout(0);
+
+    return await handler(req, res, req.url);
+  });
+
   server.all("/api/:a/:b", async (r, s, next) => {
     return handler(r, s, r.url);
   });
@@ -260,6 +268,4 @@ app.prepare().then(async () => {
 
     console.log(`[ slate ] client: http://localhost:${Environment.PORT}`);
   });
-
-  listenServer.setTimeout(15 * 60 * 1000);
 });

@@ -34,12 +34,14 @@ export const upload = async ({ file, context, bucketName }) => {
   const _privateUploadMethod = (path, file) =>
     new Promise((resolve, reject) => {
       const XHR = new XMLHttpRequest();
+
       window.addEventListener(
         `cancel-${file.lastModified}-${file.name}`,
         () => {
           XHR.abort();
         }
       );
+
       XHR.open("post", path, true);
       XHR.onerror = (event) => {
         console.log(event);

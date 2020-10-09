@@ -2,10 +2,12 @@ import * as Upload from "~/node_common/upload";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
+import * as Strings from "~/common/strings";
 
 export const config = {
   api: {
     bodyParser: false,
+    externalResolver: true,
   },
 };
 
@@ -22,29 +24,29 @@ export default async (req, res) => {
       .send({ decorator: "UPLOAD_NOT_ALLOWED", error: true });
   }
 
-  console.log(`[upload] upload for ${user.username} started`);
+  console.log(
+    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
+  );
+
   const response = await Upload.formMultipart(req, res, {
     user,
   });
-  console.log(`[upload] upload for ${user.username} responded`);
+
+  console.log(
+    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
+  );
 
   if (!response) {
-    console.log(`[upload] upload for ${user.username} unsuccessful`);
     return res
       .status(404)
       .send({ decorator: "SERVER_UPLOAD_ERROR", error: true });
   }
 
   if (response.error) {
-    // NOTE(jim): To debug potential textile issues with matching CIDs.
-    console.log(`[upload] upload for ${user.username} unsuccessful`);
-    console.log({ message: response.message });
     return res
       .status(500)
       .send({ decorator: response.decorator, error: response.error });
   }
-
-  console.log(`[upload] upload for ${user.username} successful`);
 
   const { data, ipfs } = response;
 

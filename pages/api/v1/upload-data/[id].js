@@ -3,6 +3,7 @@ import * as Constants from "~/node_common/constants";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Strings from "~/common/strings";
 import * as Upload from "~/node_common/upload";
+import * as Strings from "~/common/strings";
 
 const generateLayout = (items) => {
   if (!items) {
@@ -32,6 +33,7 @@ const generateLayout = (items) => {
 export const config = {
   api: {
     bodyParser: false,
+    externalResolver: true,
   },
 };
 
@@ -82,9 +84,17 @@ export default async (req, res) => {
     id: key.owner_id,
   });
 
+  console.log(
+    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
+  );
+
   const uploadResponse = await Upload.formMultipart(req, res, {
     user,
   });
+
+  console.log(
+    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
+  );
 
   if (!uploadResponse) {
     return res

@@ -2,6 +2,7 @@ import * as Upload from "~/node_common/upload";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
+import * as Strings from "~/common/strings";
 
 // NOTE(jim): To support multipart request.
 const STAGING_DEAL_BUCKET = "stage-deal";
@@ -9,6 +10,7 @@ const STAGING_DEAL_BUCKET = "stage-deal";
 export const config = {
   api: {
     bodyParser: false,
+    externalResolver: true,
   },
 };
 
@@ -25,10 +27,18 @@ export default async (req, res) => {
       .send({ decorator: "UPLOAD_NOT_ALLOWED", error: true });
   }
 
+  console.log(
+    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
+  );
+
   const response = await Upload.formMultipart(req, res, {
     user,
     bucketName: STAGING_DEAL_BUCKET,
   });
+
+  console.log(
+    `[ memory usage ] ${Strings.bytesToSize(process.memoryUsage().heapUsed)}`
+  );
 
   if (!response) {
     return res

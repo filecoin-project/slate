@@ -10,6 +10,11 @@ export const getServerSideProps = async ({ query }) => {
 
 export default class ApplicationPage extends React.Component {
   render() {
-    return <Application viewer={this.props.viewer} analytics={this.props.analytics} />;
+    return (
+      <Application
+        viewer={this.props.viewer}
+        analytics={this.props.analytics}
+      />
+    );
   }
 }

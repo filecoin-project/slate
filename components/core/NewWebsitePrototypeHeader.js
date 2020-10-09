@@ -163,7 +163,7 @@ const STYLES_NAVLINK = css`
     line-height: 1.3;
     text-align: left;
 
-    &:hover {
+    :hover {
       color: ${Constants.system.darkGray};
     }
   }

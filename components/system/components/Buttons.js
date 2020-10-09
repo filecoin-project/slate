@@ -43,8 +43,6 @@ const STYLES_BUTTON_PRIMARY = css`
 
 const STYLES_BUTTON_PRIMARY_TRANSPARENT = css`
   ${STYLES_BUTTON}
-  ${"" /* font-size: 16px;
-  font-family: ${Constants.font.medium}; */}
   cursor: pointer;
   background-color: transparent;
   color: ${Constants.system.brand};
@@ -107,11 +105,6 @@ const STYLES_BUTTON_SECONDARY = css`
   background-color: ${Constants.system.white};
   box-shadow: 0 0 0 1px ${Constants.system.border} inset;
   color: ${Constants.system.brand};
-
-  :hover {
-    ${"" /* box-shadow: 0 0 0 1px #065ca8 inset;
-    color: #065ca8; */}
-  }
 
   :focus {
     outline: 0;

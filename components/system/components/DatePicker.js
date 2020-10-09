@@ -9,15 +9,9 @@ import { Input } from "~/components/system/components/Input";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 
-const weekdays = [
-  "Sun",
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat",
-].map((day, i) => <div key={i}>{day}</div>);
+const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+  (day, i) => <div key={i}>{day}</div>
+);
 
 const expand = keyframes`
   0% {
@@ -105,7 +99,7 @@ const STYLES_CHOSEN_DAY = css`
     color: ${Constants.system.brand} !important;
   }
 
-  &:after {
+  :after {
     position: absolute;
     top: calc(50% - 15px);
     left: calc(50% - 15px);

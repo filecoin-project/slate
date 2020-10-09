@@ -2,12 +2,15 @@ import * as LibraryManager from "~/node_common/managers/library";
 import * as Utilities from "~/node_common/utilities";
 import * as Social from "~/node_common/social";
 
+import AbortController from "abort-controller";
 import B from "busboy";
 
 const HIGH_WATER_MARK = 1024 * 1024 * 3;
 
 export const formMultipart = async (req, res, { user, bucketName }) => {
   let data = null;
+  const controller = new AbortController();
+  const { signal } = controller;
 
   const upload = () =>
     new Promise(async (resolve, reject) => {
@@ -32,12 +35,14 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
         const {
           buckets,
           bucketKey,
+          bucketRoot,
         } = await Utilities.getBucketAPIFromUserToken({
           user,
           bucketName,
         });
 
         if (!buckets) {
+          controller.abort();
           return reject({
             decorator: "SERVER_BUCKET_INIT_FAILURE",
             error: true,
@@ -47,15 +52,19 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
         let push;
         try {
           console.log("[upload] pushing to textile");
-          push = await buckets.pushPath(bucketKey, data.id, stream);
+          push = await buckets.pushPath(bucketKey, data.id, stream, {
+            root: bucketRoot,
+            signal,
+          });
           console.log("[upload] finished pushing to textile");
         } catch (e) {
+          controller.abort();
           Social.sendTextileSlackMessage({
             file: "/node_common/upload.js",
             user,
             message: e.message,
             code: e.code,
-            functionName: `buckets.pushPath`,
+            functionName: `buckets.pushPath (aborting)`,
           });
 
           return reject({
@@ -77,9 +86,10 @@ export const formMultipart = async (req, res, { user, bucketName }) => {
           user,
           message: e.message,
           code: e.code,
-          functionName: `form`,
+          functionName: `form (aborting)`,
         });
 
+        controller.abort();
         return reject({
           decorator: "SERVER_UPLOAD_ERROR",
           error: true,

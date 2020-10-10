@@ -3,6 +3,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Social from "~/node_common/social";
 import * as Strings from "~/common/strings";
 import * as Logs from "~/node_common/script-logging";
+import * as NodeConstants from "~/node_common/constants";
 
 import Throttle from "~/node_common/vendor/throttle";
 import AbortController from "abort-controller";
@@ -17,7 +18,8 @@ export async function formMultipart(req, res, { user, bucketName }) {
 
   const singleConcurrencyQueue = new Queue({ concurrency: 1 });
   const controller = new AbortController();
-  const heapUsed = Strings.bytesToSize(process.memoryUsage().heapUsed);
+  const heapSize = Strings.bytesToSize(process.memoryUsage().heapUsed);
+  const uploadSizeBytes = req.headers["content-length"];
   const timeoutMap = {};
 
   const { signal } = controller;
@@ -26,7 +28,15 @@ export async function formMultipart(req, res, { user, bucketName }) {
   let dataPath = null;
 
   Logs.taskTimeless(`${user.username} is pushing ${req.params.b}`, WORKER_NAME);
-  Logs.taskTimeless(`heap size is ${heapUsed}`, WORKER_NAME);
+  Logs.note(`heap size : ${heapSize}`);
+  Logs.note(`upload size  : ${Strings.bytesToSize(uploadSizeBytes)}`);
+
+  if (uploadSizeBytes > NodeConstants.TEXTILE_BUCKET_LIMIT) {
+    return {
+      decorator: "UPLOAD_SIZE_TOO_LARGE",
+      error: true,
+    };
+  }
 
   let {
     buckets,
@@ -43,6 +53,28 @@ export async function formMultipart(req, res, { user, bucketName }) {
       decorator: "UPLOAD_NO_BUCKETS",
       error: true,
       message: `No buckets for ${user.username}.`,
+    };
+  }
+
+  let bucketSizeBytes = null;
+  try {
+    const path = await buckets.listPath(bucketKey, "/");
+    bucketSizeBytes = path.item.size;
+  } catch (e) {
+    return {
+      decorator: "UPLOAD_BUCKET_CHECK_FAILED",
+      error: true,
+    };
+  }
+
+  let remainingSizeBytes = NodeConstants.TEXTILE_BUCKET_LIMIT - bucketSizeBytes;
+  Logs.note(`bucket size bytes : ${bucketSizeBytes}`);
+  Logs.note(`remaining size bytes : ${remainingSizeBytes}`);
+
+  if (uploadSizeBytes > remainingSizeBytes) {
+    return {
+      decorator: "UPLOAD_NOT_ENOUGH_SPACE_REMAINS",
+      error: true,
     };
   }
 

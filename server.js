@@ -268,4 +268,8 @@ app.prepare().then(async () => {
 
     console.log(`[ slate ] client: http://localhost:${Environment.PORT}`);
   });
+
+  // NOTE(jim): Node 14 quirk where you have to set this 0, you can't actually
+  //            Have a long timeout, If you set it to 0 you just disable it.
+  listenServer.headersTimeout = 0;
 });

@@ -89,14 +89,14 @@ export default async (req, res) => {
 
   if (!uploadResponse) {
     return res
-      .status(404)
+      .status(413)
       .send({ decorator: "V1_SERVER_API_UPLOAD_ERROR", error: true });
   }
 
   if (uploadResponse.error) {
     // NOTE(jim): Just to debug potential textile issues with matching CIDs.
     console.log({ message: uploadResponse.message });
-    return res.status(500).send({
+    return res.status(413).send({
       decorator: uploadResponse.decorator,
       error: uploadResponse.error,
     });

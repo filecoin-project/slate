@@ -30,13 +30,13 @@ export default async (req, res) => {
 
   if (!response) {
     return res
-      .status(404)
+      .status(413)
       .send({ decorator: "SERVER_UPLOAD_ERROR", error: true });
   }
 
   if (response.error) {
     return res
-      .status(500)
+      .status(413)
       .send({ decorator: response.decorator, error: response.error });
   }
 

@@ -83,9 +83,15 @@ export default async (req, res) => {
     id: key.owner_id,
   });
 
-  const uploadResponse = await Upload.formMultipart(req, res, {
-    user,
-  });
+  let uploadResponse = null;
+  try {
+    uploadResponse = await Upload.formMultipart(req, res, {
+      user,
+    });
+  } catch (e) {
+    console.log("exiting !!!");
+    console.log(e);
+  }
 
   if (!uploadResponse) {
     return res

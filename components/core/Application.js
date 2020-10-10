@@ -268,24 +268,46 @@ export default class ApplicationPage extends React.Component {
       return null;
     }
 
-    // TODO(jim+carson+martina): temporary workaround before we are ready
-    // to allow parallel downloads again.
     const resolvedFiles = [];
     for (let i = 0; i < files.length; i++) {
       if (Store.checkCancelled(`${files[i].lastModified}-${files[i].name}`)) {
         continue;
       }
-      const response = await FileUtilities.upload({
-        file: files[i],
-        context: this,
-      });
+
+      // NOTE(jim): With so many failures, probably good to wait a few seconds.
+      await Window.delay(3000);
+
+      // NOTE(jim): Sends XHR request.
+      let response = null;
+      try {
+        response = await FileUtilities.upload({
+          file: files[i],
+          context: this,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+
+      // NOTE(jim): We probably don't want to keep the responses for failed attempt.
+      if (!response || response.error) {
+        console.log("error response", response);
+        continue;
+      }
 
       if (response) {
         resolvedFiles.push(response);
       }
     }
 
+    if (!resolvedFiles.length) {
+      console.log("aborted");
+      this.setState({ fileLoading: {} });
+      return null;
+    }
+
     let responses = await Promise.allSettled(resolvedFiles);
+
+    console.log(responses);
 
     let succeeded = responses
       .filter((res) => {

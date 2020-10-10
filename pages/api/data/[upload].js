@@ -24,9 +24,15 @@ export default async (req, res) => {
       .send({ decorator: "UPLOAD_NOT_ALLOWED", error: true });
   }
 
-  const response = await Upload.formMultipart(req, res, {
-    user,
-  });
+  let response = null;
+  try {
+    response = await Upload.formMultipart(req, res, {
+      user,
+    });
+  } catch (e) {
+    console.log("exiting !!!");
+    console.log(e);
+  }
 
   if (!response) {
     return res

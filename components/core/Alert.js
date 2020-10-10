@@ -12,7 +12,7 @@ const STYLES_ALERT = `
   z-index: ${Constants.zindex.alert};
   position: fixed;
   top: 56px;
-  width: calc(100% - ${Constants.sizes.navigation}px);
+  width: 100%;
   color: ${Constants.system.white};
   min-height: 48px;
   padding: 12px 48px;
@@ -23,7 +23,7 @@ const STYLES_ALERT = `
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
-    padding: 12px;
+    padding: 12px 24px 12px 24px;
     left: 0px;
     right: 0px;
     width: 100%;
@@ -75,6 +75,8 @@ const STYLES_MESSAGE = css`
 
 const STYLES_TEXT = css`
   border-bottom: 1px solid ${Constants.system.white};
+  max-width: ${Constants.sizes.mobile}px;
+  width: 100%;
 
   @supports (
     (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))

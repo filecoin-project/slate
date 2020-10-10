@@ -123,16 +123,7 @@ export const getTextileById = async ({ id }) => {
     return null;
   }
 
-  let info = {};
-  let status = {};
-  let errors = [];
-  let jobs = [];
   let dealJobs = [];
-
-  const defaultData = await Utilities.getBucketAPIFromUserToken({ user });
-  if (!defaultData || !defaultData.buckets || !defaultData.bucketRoot) {
-    return null;
-  }
 
   const {
     power,
@@ -140,54 +131,12 @@ export const getTextileById = async ({ id }) => {
     powerHealth,
   } = await Utilities.getPowergateAPIFromUserToken({ user });
 
-  try {
-    defaultData.buckets.archiveWatch(defaultData.bucketRoot.key, (job) => {
-      if (!job) {
-        return;
-      }
-
-      job.id = job.id ? job.id : "UNDEFINED";
-      jobs.push(job);
-    });
-  } catch (e) {
-    Social.sendTextileSlackMessage({
-      file: "/node_common/managers/viewer.js",
-      user,
-      message: e.message,
-      code: e.code,
-      functionName: `buckets.archiveWatch`,
-    });
-
-    errors.push({ decorator: "JOB", message: e.message, code: e.code });
-  }
-
   // NOTE(jim): This bucket is purely for staging data for other deals.
   const stagingData = await Utilities.getBucketAPIFromUserToken({
     user,
     bucketName: STAGING_DEAL_BUCKET,
     encrypted: false,
   });
-
-  try {
-    stagingData.buckets.archiveWatch(stagingData.bucketRoot.key, (job) => {
-      if (!job) {
-        return;
-      }
-
-      job.id = job.id ? job.id : "UNDEFINED";
-      dealJobs.push(job);
-    });
-  } catch (e) {
-    Social.sendTextileSlackMessage({
-      file: "/node_common/managers/viewer.js",
-      user,
-      message: e.message,
-      code: e.code,
-      functionName: `buckets.archiveWatch`,
-    });
-
-    errors.push({ decorator: "JOB", message: e.message, code: e.code });
-  }
 
   let r = null;
   try {
@@ -224,13 +173,6 @@ export const getTextileById = async ({ id }) => {
     },
     powerInfo,
     powerHealth,
-    archive: {
-      info,
-      status,
-      errors,
-      jobs,
-    },
     deal: items ? items.filter((f) => f.name !== ".textileseed") : [],
-    dealJobs,
   };
 };

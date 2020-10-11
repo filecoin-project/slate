@@ -67,6 +67,10 @@ const STYLES_BUTTON = css`
   color: ${Constants.system.black};
   margin-left: 16px;
 
+  :first-child {
+    margin-left: 0px;
+  }
+
   :hover {
     background-color: #f2f4f8;
   }
@@ -82,10 +86,18 @@ export const Section = (props) => {
   return (
     <div css={STYLES_SECTION} style={props.style}>
       <header css={STYLES_HEADER}>
-        <div css={STYLES_LEFT}>{props.title}</div>
+        {props.title ? <div css={STYLES_LEFT}>{props.title}</div> : null}
         {props.buttons ? (
           <div css={STYLES_RIGHT}>
             {props.buttons.map((b) => {
+              if (b.onClick) {
+                return (
+                  <label key={b.name} css={STYLES_BUTTON} onClick={b.onClick}>
+                    {b.name}
+                  </label>
+                );
+              }
+
               return (
                 <label
                   key={b.name}

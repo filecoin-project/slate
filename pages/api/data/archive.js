@@ -208,10 +208,17 @@ export default async (req, res) => {
   let error = {};
   try {
     console.log(`[ deal-maker ] deal being made for ${key}`);
-    response = await buckets.archive(key);
+    if (req.body.data && req.body.data.settings) {
+      console.log(req.body.data.settings);
+      response = await buckets.archive(key, req.body.data.settings);
+    } else {
+      response = await buckets.archive(key);
+    }
+    console.log(response);
   } catch (e) {
     error.message = e.message;
     error.code = e.code;
+    console.log(e.message);
 
     Social.sendTextileSlackMessage({
       file: "/pages/api/data/archive.js",

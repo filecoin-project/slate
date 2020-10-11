@@ -123,9 +123,72 @@ export default class SceneMakeFilecoinDeal extends React.Component {
 
   _handleArchive = async (e) => {
     this.setState({ archiving: true });
+
     const response = await Actions.archive({
       bucketName: STAGING_DEAL_BUCKET,
       forceEncryption: this.state.encryption,
+      settings: {
+        /**
+         * RepFactor indicates the desired amount of active deals
+         * with different miners to store the data. While making deals
+         * the other attributes of FilConfig are considered for miner selection.
+         */
+        repFactor: Number(this.state.settings_cold_default_replication_factor),
+
+        /**
+         * DealMinDuration indicates the duration to be used when making new deals.
+         */
+        dealMinDuration: this.state.settings_cold_default_duration,
+
+        /**
+         * ExcludedMiners is a set of miner addresses won't be ever be selected
+         *when making new deals, even if they comply to other filters.
+         */
+        excludedMiners: this.state.settings_cold_default_excluded_miners,
+
+        /**
+         * TrustedMiners is a set of miner addresses which will be forcibly used
+         * when making new deals. An empty/nil list disables this feature.
+         */
+        trustedMiners: this.state.settings_cold_default_trusted_miners,
+
+        /**
+         * Renew indicates deal-renewal configuration.
+         */
+        renew: {
+          enabled: this.state.settings_cold_default_auto_renew,
+          threshold: this.state.settings_cold_default_auto_renew_max_price,
+        },
+
+        /**
+         * CountryCodes indicates that new deals should select miners on specific countries.
+         */
+        countryCodes: [],
+
+        /**
+         * Addr is the wallet address used to store the data in filecoin
+         */
+        addr: this.state.settings_cold_default_address,
+
+        /**
+         * MaxPrice is the maximum price that will be spent to store the data, 0 is no max
+         */
+        maxPrice: this.state.settings_cold_default_max_price,
+
+        /**
+         *
+         * FastRetrieval indicates that created deals should enable the
+         * fast retrieval feature.
+         */
+        // fastRetrieval: boolean
+        /**
+         * DealStartOffset indicates how many epochs in the future impose a
+         * deadline to new deals being active on-chain. This value might influence
+         * if miners accept deals, since they should seal fast enough to satisfy
+         * this constraint.
+         */
+        // dealStartOffset: number
+      },
     });
 
     if (!response) {
@@ -190,6 +253,88 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     });
   };
 
+  _handleAddTrustedMiner = () => {
+    const miner = prompt("Enter the Miner ID to trust.");
+
+    if (Strings.isEmpty(miner)) {
+      return dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "You must provide a miner ID.",
+          },
+        },
+      });
+    }
+
+    if (this.state.settings_cold_default_trusted_miners.includes(miner)) {
+      return dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: `${miner} is already on your list of miners to try.`,
+          },
+        },
+      });
+    }
+
+    this.setState({
+      settings_cold_default_trusted_miners: [
+        miner,
+        ...this.state.settings_cold_default_trusted_miners,
+      ],
+    });
+  };
+
+  _handleAddExcludedMiner = () => {
+    const miner = prompt("Enter the Miner ID to exclude.");
+
+    if (Strings.isEmpty(miner)) {
+      return dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "You must provide a miner ID.",
+          },
+        },
+      });
+    }
+
+    if (this.state.settings_cold_default_excluded_miners.includes(miner)) {
+      return dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: `${miner} is already on your list of miners to exclude.`,
+          },
+        },
+      });
+    }
+
+    this.setState({
+      settings_cold_default_excluded_miners: [
+        miner,
+        ...this.state.settings_cold_default_excluded_miners,
+      ],
+    });
+  };
+
+  _handleRemoveTrustedMiner = (minerId) => {
+    this.setState({
+      settings_cold_default_trusted_miners: this.state.settings_cold_default_excluded_miners.filter(
+        (m) => m !== minerId
+      ),
+    });
+  };
+
+  _handleRemoveExcludedMiner = (minerId) => {
+    this.setState({
+      settings_cold_default_excluded_miners: this.state.settings_cold_default_excluded_miners.filter(
+        (m) => m !== minerId
+      ),
+    });
+  };
+
   _handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -233,6 +378,8 @@ export default class SceneMakeFilecoinDeal extends React.Component {
       inFil = filecoinNumber.toFil();
     }
 
+    console.log(this.state);
+
     return (
       <ScenePage>
         <input
@@ -244,16 +391,20 @@ export default class SceneMakeFilecoinDeal extends React.Component {
         />
 
         <ScenePageHeader title="Make an one-off Filecoin Storage Deal">
-          This is a simple tool to upload data and make one-off storage deals in
-          the Filecoin network. This deal is encrypted and you will need a key
-          to view the contents.
+          Upload data and make one-off storage deals in the Filecoin network
+          here.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (
           <React.Fragment>
+            <System.DescriptionGroup
+              style={{ marginTop: 48, maxWidth: 688 }}
+              label="Storage deal files"
+              description="You can add up to 4GB of files."
+            />
+
             <Section
-              title="Files"
-              style={{ marginTop: 48, maxWidth: 688, minWidth: "auto" }}
+              style={{ marginTop: 24, maxWidth: 688, minWidth: "auto" }}
               onAction={this.props.onAction}
               buttons={[
                 {
@@ -269,71 +420,141 @@ export default class SceneMakeFilecoinDeal extends React.Component {
                   <LoaderSpinner style={{ height: 32, width: 32 }} />
                 </div>
               ) : (
-                <React.Fragment>
-                  {this.state.networkViewer.deal.length ? (
-                    <System.Table
-                      data={{
-                        columns: [
-                          {
-                            key: "cid",
-                            name: "CID",
-                            width: "100%",
-                          },
-                        ],
-                        rows: this.state.networkViewer.deal.map((file) => {
-                          return {
-                            cid: (
-                              <div css={STYLES_ROW}>
-                                <span css={STYLES_LEFT} target="_blank">
-                                  {file.cid}
-                                </span>
-                                <span
-                                  css={STYLES_RIGHT}
-                                  onClick={() => this._handleRemove(file.cid)}
-                                >
-                                  <SVG.Dismiss height="16px" />
-                                </span>
-                              </div>
-                            ),
-                          };
-                        }),
-                      }}
-                    />
-                  ) : (
-                    <div style={{ padding: 24 }}>No files have been added.</div>
-                  )}
-                </React.Fragment>
+                <System.Table
+                  data={{
+                    columns: [
+                      {
+                        key: "cid",
+                        name: "CID",
+                        width: "100%",
+                      },
+                    ],
+                    rows: this.state.networkViewer.deal.map((file) => {
+                      return {
+                        cid: (
+                          <div css={STYLES_ROW}>
+                            <span css={STYLES_LEFT} target="_blank">
+                              {file.cid}
+                            </span>
+                            <span
+                              css={STYLES_RIGHT}
+                              onClick={() => this._handleRemove(file.cid)}
+                            >
+                              <SVG.Dismiss height="16px" />
+                            </span>
+                          </div>
+                        ),
+                      };
+                    }),
+                  }}
+                />
               )}
             </Section>
 
-            <System.CheckBox
-              style={{ marginTop: 48 }}
-              name="encryption"
-              value={this.state.encryption}
-              onChange={this._handleChange}
-            >
-              Encrypt this storage deal, only your libp2p token can decrypt the
-              contents of this deal.
-            </System.CheckBox>
+            <System.DescriptionGroup
+              style={{ marginTop: 64, maxWidth: 688 }}
+              label="Miners"
+              description="Specify miners for our deal maker to try first, and specify miners for our deal maker to ignore."
+            />
 
-            <System.Input
-              containerStyle={{ marginTop: 24, maxWidth: 688 }}
-              descriptionStyle={{ maxWidth: 688 }}
-              readOnly
-              label="Filecoin address (read only)"
-              description="This is the Filecoin address your funds will come from."
-              name="settings_cold_default_duration"
-              readOnly
-              type="text"
-              value={this.state.settings_cold_default_address}
-              onChange={this._handleChange}
+            <Section
+              style={{ marginTop: 24, maxWidth: 688, minWidth: "auto" }}
+              buttons={[
+                {
+                  name: "Add miner",
+                  onClick: this._handleAddTrustedMiner,
+                },
+              ]}
+            >
+              <System.Table
+                data={{
+                  columns: [
+                    {
+                      key: "miner",
+                      name: "Miner",
+                      width: "100%",
+                    },
+                  ],
+                  rows: this.state.settings_cold_default_trusted_miners.map(
+                    (miner) => {
+                      return {
+                        miner: (
+                          <div css={STYLES_ROW} key={miner}>
+                            <span css={STYLES_LEFT} target="_blank">
+                              {miner}
+                            </span>
+                            <span
+                              css={STYLES_RIGHT}
+                              onClick={() =>
+                                this._handleRemoveTrustedMiner(miner)
+                              }
+                            >
+                              <SVG.Dismiss height="16px" />
+                            </span>
+                          </div>
+                        ),
+                      };
+                    }
+                  ),
+                }}
+              />
+            </Section>
+
+            <Section
+              style={{ maxWidth: 688, minWidth: "auto" }}
+              buttons={[
+                {
+                  name: "Exclude miner",
+                  onClick: this._handleAddExcludedMiner,
+                },
+              ]}
+            >
+              <System.Table
+                data={{
+                  columns: [
+                    {
+                      key: "miner",
+                      name: "Miner",
+                      width: "100%",
+                    },
+                  ],
+                  rows: this.state.settings_cold_default_excluded_miners.map(
+                    (miner) => {
+                      return {
+                        miner: (
+                          <div css={STYLES_ROW} key={miner}>
+                            <span css={STYLES_LEFT} target="_blank">
+                              Excluding: {miner}
+                            </span>
+                            <span
+                              css={STYLES_RIGHT}
+                              onClick={() =>
+                                this._handleRemoveExcludedMiner(miner)
+                              }
+                            >
+                              <SVG.Dismiss height="16px" />
+                            </span>
+                          </div>
+                        ),
+                      };
+                    }
+                  ),
+                }}
+              />
+            </Section>
+
+            <System.DescriptionGroup
+              style={{ marginTop: 64, maxWidth: 688 }}
+              label="Configure your deal"
+              description={`Your deal will come out of your wallet address: ${
+                this.state.settings_cold_default_address
+              }`}
             />
 
             <System.Input
-              containerStyle={{ marginTop: 24, maxWidth: 688 }}
+              containerStyle={{ marginTop: 48, maxWidth: 688 }}
               descriptionStyle={{ maxWidth: 688 }}
-              readOnly
-              label="Default Filecoin replication and availability factor (read only)"
+              label="Default Filecoin replication and availability factor"
               description="How many times should we replicate this deal across your selected miners?"
               name="settings_cold_default_replication_factor"
               type="number"
@@ -345,8 +566,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
             <System.Input
               containerStyle={{ marginTop: 24, maxWidth: 688 }}
               descriptionStyle={{ maxWidth: 688 }}
-              readOnly
-              label="Default Filecoin deal duration (read only)"
+              label="Default Filecoin deal duration"
               description={`Your deal is set for ${Strings.getDaysFromEpoch(
                 this.state.settings_cold_default_duration
               )}.`}
@@ -361,8 +581,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
             <System.Input
               containerStyle={{ marginTop: 24, maxWidth: 688 }}
               descriptionStyle={{ maxWidth: 688 }}
-              readOnly
-              label="Max Filecoin price (read only)"
+              label="Max Filecoin price"
               unit="attoFIL"
               type="number"
               description={`Set the maximum Filecoin price you're willing to pay. The current price you have set is equivalent to ${inFil} FIL`}
@@ -371,6 +590,16 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               placeholder="Type in amount of Filecoin (attoFIL)"
               onChange={this._handleChange}
             />
+
+            <System.CheckBox
+              style={{ marginTop: 48 }}
+              name="encryption"
+              value={this.state.encryption}
+              onChange={this._handleChange}
+            >
+              Encrypt this storage deal. Accessing the contents will require
+              decryption.
+            </System.CheckBox>
 
             <System.ButtonPrimary
               style={{ marginTop: 48 }}

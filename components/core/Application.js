@@ -873,7 +873,11 @@ export default class ApplicationPage extends React.Component {
             onAction={this._handleAction}
             mobile={this.state.mobile}
           />
-          <System.GlobalCarousel mobile={this.state.mobile} />
+          <System.GlobalCarousel
+            slates={this.state.viewer.slates}
+            onAction={this._handleAction}
+            mobile={this.props.mobile}
+          />
           <System.GlobalModal />
         </WebsitePrototypeWrapper>
       </React.Fragment>

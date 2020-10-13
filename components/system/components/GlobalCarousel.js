@@ -17,9 +17,25 @@ const STYLES_ROOT = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${Constants.system.pitchBlack};
   color: ${Constants.system.white};
   z-index: ${Constants.zindex.modal};
+
+  @supports ((-webkit-backdrop-filter: bluur(15px)) or (backdrop-filter: blur(15px))) {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  @keyframes global-slat-object-fade-in {
+    from {
+      transform: translate(8px);
+      opacity: 0;
+    }
+    to {
+      transform: trannslateX(0px);
+      opacity: 1;
+    }
+  }
 `;
 
 const STYLES_ROOT_CONTENT = css`
@@ -66,31 +82,16 @@ export class GlobalCarousel extends React.Component {
     window.addEventListener("slate-global-delete-carousel", this._handleDelete);
     window.addEventListener("slate-global-open-carousel", this._handleOpen);
     window.addEventListener("slate-global-close-carousel", this._handleClose);
-    window.addEventListener(
-      "state-global-carousel-loading",
-      this._handleSetLoading
-    );
+    window.addEventListener("state-global-carousel-loading", this._handleSetLoading);
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("keydown", this._handleKeyDown);
-    window.removeEventListener(
-      "slate-global-create-carousel",
-      this._handleCreate
-    );
-    window.removeEventListener(
-      "slate-global-delete-carousel",
-      this._handleDelete
-    );
+    window.removeEventListener("slate-global-create-carousel", this._handleCreate);
+    window.removeEventListener("slate-global-delete-carousel", this._handleDelete);
     window.removeEventListener("slate-global-open-carousel", this._handleOpen);
-    window.removeEventListener(
-      "slate-global-close-carousel",
-      this._handleClose
-    );
-    window.removeEventListener(
-      "state-global-carousel-loading",
-      this._handleSetLoading
-    );
+    window.removeEventListener("slate-global-close-carousel", this._handleClose);
+    window.removeEventListener("state-global-carousel-loading", this._handleSetLoading);
   };
 
   _handleKeyDown = (e) => {
@@ -153,8 +154,7 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handleCreate = (e) => {
-    const shouldPersist =
-      this.state.visible && this.state.index < e.detail.slides.length;
+    const shouldPersist = this.state.visible && this.state.index < e.detail.slides.length;
 
     this.setState({
       slides: [...e.detail.slides],
@@ -178,33 +178,24 @@ export class GlobalCarousel extends React.Component {
 
     if (this.state.baseURL) {
       const current = this.state.slides[index];
-      window.history.replaceState(
-        { index },
-        "",
-        `/${this.state.baseURL}/cid:${current.cid}`
-      );
+      window.history.replaceState({ index }, "", `/${this.state.baseURL}/cid:${current.cid}`);
     }
   };
 
   _handlePrevious = () => {
     if (!this.state.slides) return;
-    const index =
-      (this.state.index + this.state.slides.length - 1) %
-      this.state.slides.length;
+    const index = (this.state.index + this.state.slides.length - 1) % this.state.slides.length;
     this.setState({ index, loading: false, saving: false });
 
     if (this.state.baseURL) {
       const current = this.state.slides[index];
-      window.history.replaceState(
-        { index },
-        "",
-        `/${this.state.baseURL}/cid:${current.cid}`
-      );
+      window.history.replaceState({ index }, "", `/${this.state.baseURL}/cid:${current.cid}`);
     }
   };
 
   render() {
     const isVisible = this.state.visible && this.state.slides;
+    console.log(this.props);
     if (!isVisible) {
       return null;
     }
@@ -217,11 +208,7 @@ export class GlobalCarousel extends React.Component {
     return (
       <div css={STYLES_ROOT}>
         <div css={STYLES_ROOT_CONTENT} style={this.props.style}>
-          <span
-            css={STYLES_BOX}
-            onClick={this._handleClose}
-            style={{ top: 8, right: 16 }}
-          >
+          <span css={STYLES_BOX} onClick={this._handleClose} style={{ top: 8, right: 16 }}>
             <SVG.Dismiss height="20px" />
           </span>
           <span
@@ -244,6 +231,10 @@ export class GlobalCarousel extends React.Component {
           key={current.id}
           saving={this.state.saving}
           loading={this.state.loading}
+          slates={this.props.slates}
+          onClose={this._handleClose}
+          onRehydrate={this.props.onRehydrate}
+          onAction={this.props.onAction}
           {...current}
         />
       </div>

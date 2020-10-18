@@ -4,116 +4,107 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
+import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 
-const STYLES_NESTED_TABLE = css`
-  display: grid;
-  grid-template-columns: 160px 1fr;
-`;
-
-let iterator = 0;
-const NestedTable = (data) => {
-  let values = [];
-  for (let entries of Object.entries(data)) {
-    if (entries[0] !== "rootCid") {
-      iterator += 1;
-      values.push(<div key={iterator}>{entries[0]}</div>);
-      values.push(<div key={iterator}>{entries[1]}</div>);
-    }
-  }
-  return <div css={STYLES_NESTED_TABLE}>{values}</div>;
-};
+let mounted = false;
 
 export default class SceneDeals extends React.Component {
-  state = {};
+  state = { deals: [], loaded: false };
 
-  _handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  async componentDidMount() {
+    if (mounted) {
+      return null;
+    }
+
+    mounted = true;
+    let deals = [];
+    try {
+      const response = await fetch("/api/network-deals");
+      const json = await response.json();
+      deals = json.data.deals;
+    } catch (e) {}
+
+    if (!deals || !deals.length) {
+      this.setState({ loaded: true });
+      return null;
+    }
+
+    this.setState({ deals, loaded: true });
+  }
+
+  componentWillUnmount() {
+    mounted = false;
+  }
 
   render() {
+    let addressSentence = "Your deals are made from your default address.";
+
     return (
       <ScenePage>
-        <ScenePageHeader title="Deals [WIP]">
-          This scene is currently a work in progress.
+        <ScenePageHeader title="Storage deal history">
+          View all of your storage deals that are in progress or successful. {addressSentence}
         </ScenePageHeader>
 
-        <Section title="Filecoin storage deal history">
-          <System.Table
-            data={{
-              columns: [
-                {
-                  key: "address",
-                  name: "Address",
-                  width: "248px",
-                },
-                {
-                  key: "rootCid",
-                  name: "Root CID",
-                  width: "100%",
-                },
-                {
-                  key: "time",
-                  name: "Time",
-                },
-                {
-                  key: "status",
-                  name: "Status",
-                },
-              ],
-              rows: this.props.viewer.storageList.map((each) => {
-                return {
-                  id: each.rootCid,
-                  address: each.addr,
-                  rootCid: each.rootCid,
-                  status: each.pending ? "2" : "1",
-                  time: each.time,
-                  children: NestedTable(each.dealInfo),
-                };
-              }),
-            }}
-            selectedRowId={this.state.selectedRowId}
-            onClick={this._handleClick}
-          />
-        </Section>
-
-        <Section title="Filecoin retrieval deal history">
-          <System.Table
-            data={{
-              columns: [
-                {
-                  key: "address",
-                  name: "Address",
-                  width: "248px",
-                },
-                {
-                  key: "rootCid",
-                  name: "Root CID",
-                  width: "100%",
-                },
-                {
-                  key: "time",
-                  name: "Time",
-                },
-              ],
-              rows: this.props.viewer.retrievalList.map((each) => {
-                return {
-                  id: each.dealInfo.rootCid,
-                  address: each.addr,
-                  rootCid: each.dealInfo.rootCid,
-                  time: each.time,
-                  children: NestedTable(each.dealInfo),
-                };
-              }),
-            }}
-            selectedRowId={this.state.selectedRowId}
-            onClick={this._handleClick}
-            name={this.props.name}
-          />
-        </Section>
+        {this.state.loaded ? (
+          <Section title={"History"} style={{ maxWidth: 960, minWidth: "auto" }}>
+            <System.Table
+              data={{
+                columns: [
+                  {
+                    key: "dealId",
+                    name: "Deal ID",
+                    width: "72px",
+                  },
+                  {
+                    key: "rootCid",
+                    name: "Root CID",
+                    width: "100%",
+                  },
+                  {
+                    key: "miner",
+                    name: "Miner ID",
+                    width: "72px",
+                  },
+                  {
+                    key: "createdAt",
+                    name: "Creation date",
+                    width: "112px",
+                  },
+                  {
+                    key: "totalSpeculatedCost",
+                    name: "Cost",
+                    width: "128px",
+                  },
+                  {
+                    key: "formattedSize",
+                    name: "Size",
+                    width: "72px",
+                  },
+                  {
+                    key: "formattedDuration",
+                    name: "Duration",
+                    width: "96px",
+                  },
+                  {
+                    key: "pending",
+                    name: "Retrievable",
+                    width: "112px",
+                    type: "RETRIEVABLE",
+                  },
+                ],
+                rows: this.state.deals,
+              }}
+            />
+          </Section>
+        ) : (
+          <div style={{ padding: "32px 0 0 0" }}>
+            <LoaderSpinner style={{ height: 32, width: 32 }} />
+          </div>
+        )}
       </ScenePage>
     );
   }

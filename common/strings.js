@@ -44,7 +44,13 @@ export const getCIDGatewayURL = (cid) => {
 
 // NOTE(jsign): Each epoch is 30s, then divide by 60 for getting mins, by 60 to get hours, then by 24 to get days
 export const getDaysFromEpoch = (epoch) => {
-  return `${(epoch * 30) / DAY} days`;
+  const number = (epoch * 30) / DAY;
+  const formatted = number.toFixed(2);
+  return `${formatted} days`;
+};
+
+export const toDateSinceEpoch = (epoch) => {
+  return toDate(new Date().getTime() - epoch);
 };
 
 export const getCIDGatewayURLWithExtension = (cid, name) => {

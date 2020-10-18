@@ -68,9 +68,7 @@ const COMPONENTS_TRANSACTION_DIRECTION = {
 
 const COMPONENTS_TRANSACTION_STATUS = {
   0: <Tag>Qualified</Tag>,
-  1: (
-    <Tag style={{ background: Constants.system.green }}>Sealed On Filecoin</Tag>
-  ),
+  1: <Tag style={{ background: Constants.system.green }}>Sealed On Filecoin</Tag>,
   2: <LoaderSpinner style={{ width: 20, height: 20 }} />,
 };
 
@@ -166,10 +164,7 @@ export const TableColumn = (props) => {
   ) : null;
 
   return (
-    <span
-      css={props.top ? STYLES_TOP_COLUMN : STYLES_COLUMN}
-      style={props.style}
-    >
+    <span css={props.top ? STYLES_TOP_COLUMN : STYLES_COLUMN} style={props.style}>
       <span css={STYLES_CONTENT} style={props.contentstyle}>
         {props.children}
       </span>
@@ -191,23 +186,13 @@ export const TableContent = ({ type, text, action, data = {}, onAction }) => {
 
   switch (type) {
     case "DEAL_CATEGORY":
-      return (
-        <React.Fragment>{text == 1 ? "Storage" : "Retrieval"}</React.Fragment>
-      );
+      return <React.Fragment>{text == 1 ? "Storage" : "Retrieval"}</React.Fragment>;
     case "BUTTON":
-      return (
-        <Link
-          onClick={() => onAction({ type: "SIDEBAR", value: action, data })}
-        >
-          {text}
-        </Link>
-      );
+      return <Link onClick={() => onAction({ type: "SIDEBAR", value: action, data })}>{text}</Link>;
     case "TRANSACTION_DIRECTION":
       return COMPONENTS_TRANSACTION_DIRECTION[text];
     case "TRANSACTION_STATUS":
-      return (
-        <React.Fragment>{COMPONENTS_TRANSACTION_STATUS[text]} </React.Fragment>
-      );
+      return <React.Fragment>{COMPONENTS_TRANSACTION_STATUS[text]} </React.Fragment>;
     case "OBJECT_TYPE":
       return COMPONENTS_OBJECT_TYPE(text);
     case "ICON":
@@ -228,11 +213,15 @@ export const TableContent = ({ type, text, action, data = {}, onAction }) => {
         <React.Fragment>
           {COMPONENTS_TRANSACTION_STATUS[`${text}`]}
           {data.error ? (
-            <Tag style={{ background: Constants.system.red }}>
-              Previously Failed
-            </Tag>
+            <Tag style={{ background: Constants.system.red }}>Previously Failed</Tag>
           ) : null}
         </React.Fragment>
+      );
+    case "RETRIEVABLE":
+      return data.pending ? (
+        <Tag>Pending</Tag>
+      ) : (
+        <Tag style={{ background: Constants.system.green }}>Retrievable</Tag>
       );
     case "BANDWIDTH_UPLOAD":
       return (
@@ -249,9 +238,7 @@ export const TableContent = ({ type, text, action, data = {}, onAction }) => {
         </React.Fragment>
       );
     case "MINER_AVAILABILITY":
-      return text == 1 ? (
-        <Tag style={{ background: Constants.system.green }}>Online</Tag>
-      ) : null;
+      return text == 1 ? <Tag style={{ background: Constants.system.green }}>Online</Tag> : null;
     case "DEAL_AUTO_RENEW":
       return text == 1 ? (
         <Tag style={{ background: Constants.system.brand }}>True</Tag>
@@ -294,11 +281,7 @@ export const TableContent = ({ type, text, action, data = {}, onAction }) => {
       }
 
       return (
-        <Link
-          onClick={() => onAction({ type: "NAVIGATE", value: data.id, data })}
-        >
-          {text}
-        </Link>
+        <Link onClick={() => onAction({ type: "NAVIGATE", value: data.id, data })}>{text}</Link>
       );
     case "FILE_LINK":
       if (!data) {
@@ -306,11 +289,7 @@ export const TableContent = ({ type, text, action, data = {}, onAction }) => {
       }
 
       return (
-        <Link
-          onClick={() =>
-            onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_FILE", data })
-          }
-        >
+        <Link onClick={() => onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_FILE", data })}>
           {text}
         </Link>
       );

@@ -39,15 +39,11 @@ export default class SceneSentinel extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Network API">
-          Slate provides access to live data on the Filecoin Testnet Network
-          through Sentinel. Each of these API endpoints can be used
-          programatically.
+          Slate provides access to live data on the Filecoin Testnet Network through Sentinel. Each
+          of these API endpoints can be used programatically.
         </ScenePageHeader>
 
-        <Section
-          title="Filecoin Testnet API routes"
-          style={{ maxWidth: 688, minWidth: "auto" }}
-        >
+        <Section title="Filecoin Testnet API routes" style={{ maxWidth: 960, minWidth: "auto" }}>
           <System.Table
             data={{
               columns: [

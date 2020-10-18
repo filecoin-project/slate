@@ -23,9 +23,7 @@ export default class SceneMiners extends React.Component {
 
     let miners = [];
     try {
-      const response = await fetch(
-        "https://sentinel.slate.host/api/static-global-miners"
-      );
+      const response = await fetch("https://sentinel.slate.host/api/static-global-miners");
       const json = await response.json();
       const sources = json.data.buckets;
 
@@ -50,12 +48,11 @@ export default class SceneMiners extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Trusted miners">
-          Whenever you make a deal against the Filecoin Network, Slate works
-          with Textile's infrastructure to find the best possible miner to make
-          a storage deal with.
+          Whenever you make a deal against the Filecoin Network, Slate works with Textile's
+          infrastructure to find the best possible miner to make a storage deal with.
         </ScenePageHeader>
 
-        <Section title="Miners" style={{ maxWidth: 688, minWidth: "auto" }}>
+        <Section title="Miners" style={{ maxWidth: 960, minWidth: "auto" }}>
           <System.Table
             data={{
               columns: [

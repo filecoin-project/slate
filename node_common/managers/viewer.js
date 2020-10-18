@@ -9,8 +9,13 @@ import * as Data from "~/node_common/data";
 import * as Constants from "~/node_common/constants";
 import * as Serializers from "~/node_common/serializers";
 import * as Social from "~/node_common/social";
+import * as Strings from "~/common/strings";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
+
+const delay = async (waitMs) => {
+  return await new Promise((resolve) => setTimeout(resolve, waitMs));
+};
 
 // TODO(jim): Work on better serialization when adoption starts occuring.
 export const getById = async ({ id }) => {
@@ -110,6 +115,75 @@ export const getById = async ({ id }) => {
   };
 };
 
+export const getDealHistory = async ({ id }) => {
+  const user = await Data.getUserById({
+    id,
+  });
+
+  if (!user) {
+    return null;
+  }
+
+  if (user.error) {
+    return null;
+  }
+
+  let deals = [];
+
+  try {
+    const PowergateSingleton = await Utilities.getPowergateAPIFromUserToken({
+      user,
+    });
+    const { power } = PowergateSingleton;
+
+    const result = await power.listStorageDealRecords({
+      ascending: false,
+      includePending: true,
+      includeFinal: true,
+    });
+
+    for (let i = 0; i < result.recordsList.length; i++) {
+      const o = result.recordsList[i];
+
+      deals.push({
+        dealId: o.dealInfo.dealId,
+        rootCid: o.rootCid,
+        proposalCid: o.dealInfo.proposalCid,
+        pieceCid: o.dealInfo.pieceCid,
+        addr: o.addr,
+        miner: o.dealInfo.miner,
+        size: o.dealInfo.size,
+        // NOTE(jim): formatted size.
+        formattedSize: Strings.bytesToSize(o.dealInfo.size),
+        pricePerEpoch: o.dealInfo.pricePerEpoch,
+        startEpoch: o.dealInfo.startEpoch,
+        // NOTE(jim): just for point of reference on the total cost.
+        totalSpeculatedCost: Strings.formatAsFilecoinConversion(
+          o.dealInfo.pricePerEpoch * o.dealInfo.duration
+        ),
+        duration: o.dealInfo.duration,
+        formattedDuration: Strings.getDaysFromEpoch(o.dealInfo.duration),
+        activationEpoch: o.dealInfo.activationEpoch,
+        time: o.time,
+        createdAt: Strings.toDateSinceEpoch(o.time),
+        pending: o.pending,
+        user: Serializers.user(user),
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    Social.sendTextileSlackMessage({
+      file: "/node_common/managers/viewer.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `power.listStorageDealRecords`,
+    });
+  }
+
+  return { type: "VIEWER_FILECOIN_DEALS", deals };
+};
+
 export const getTextileById = async ({ id }) => {
   const user = await Data.getUserById({
     id,
@@ -125,11 +199,7 @@ export const getTextileById = async ({ id }) => {
 
   let dealJobs = [];
 
-  const {
-    power,
-    powerInfo,
-    powerHealth,
-  } = await Utilities.getPowergateAPIFromUserToken({ user });
+  const { power, powerInfo, powerHealth } = await Utilities.getPowergateAPIFromUserToken({ user });
 
   // NOTE(jim): This bucket is purely for staging data for other deals.
   const stagingData = await Utilities.getBucketAPIFromUserToken({

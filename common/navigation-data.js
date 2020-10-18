@@ -105,12 +105,6 @@ export const generate = ({ library = [], slates = [] }) => [
     name: "Wallet",
     pageTitle: "Your wallet and addresses",
     children: [
-      {
-        id: "V1_NAVIGATION_DEAL_HISTORY",
-        decorator: "DEALS",
-        name: "Deal history",
-        pageTitle: "Your deal history",
-      },
     ],
   }, 
   {
@@ -144,20 +138,27 @@ export const generate = ({ library = [], slates = [] }) => [
         filecoin: true,
       },
       {
-        id: "V1_NAVIGATION_WALLET",
-        decorator: "WALLET",
-        name: "Wallet",
-        pageTitle: "Your wallet and addresses",
-        children: [],
-        filecoin: true,
-      },
-      {
         id: "V1_NAVIGATION_FILECOIN_SETTINGS",
         decorator: "SETTINGS",
         name: "Deal Settings",
         pageTitle: "Deal Settings.",
         filecoin: true,
         children: null,
+      },
+      {
+        id: "V1_NAVIGATION_DEAL_HISTORY",
+        decorator: "DEALS",
+        name: "Deal History",
+        pageTitle: "Storage Deal History",
+        filecoin: true,
+      },
+      {
+        id: "V1_NAVIGATION_WALLET",
+        decorator: "WALLET",
+        name: "Wallet",
+        pageTitle: "Your wallet and addresses",
+        children: [],
+        filecoin: true,
       },
       {
         id: "V1_NAVIGATION_MINERS",

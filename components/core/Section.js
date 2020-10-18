@@ -35,6 +35,8 @@ const STYLES_HEADER = css`
 const STYLES_LEFT = css`
   min-width: 5%;
   width: 100%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `;
 
 const STYLES_RIGHT = css`
@@ -60,8 +62,7 @@ const STYLES_BUTTON = css`
   letter-spacing: 0.2px;
   font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
-  box-shadow: 0 0 0 1px ${Constants.system.border},
-    0 1px 4px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 0 0 1px ${Constants.system.border}, 0 1px 4px rgba(0, 0, 0, 0.07);
   cursor: pointer;
   background-color: ${Constants.system.white};
   color: ${Constants.system.black};

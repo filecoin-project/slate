@@ -17,7 +17,6 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import TestnetBanner from "~/components/core/TestnetBanner";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
@@ -58,8 +57,7 @@ const STYLES_RIGHT = css`
   }
 `;
 
-const DEFAULT_ERROR_MESSAGE =
-  "We could not make your deal. Please try again later.";
+const DEFAULT_ERROR_MESSAGE = "We could not make your deal. Please try again later.";
 let mounted = false;
 
 export default class SceneMakeFilecoinDeal extends React.Component {
@@ -391,8 +389,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
         />
 
         <ScenePageHeader title="Make an one-off Filecoin Storage Deal">
-          Upload data and make one-off storage deals in the Filecoin network
-          here.
+          Upload data and make one-off storage deals in the Filecoin network here.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (
@@ -436,10 +433,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
                             <span css={STYLES_LEFT} target="_blank">
                               {file.cid}
                             </span>
-                            <span
-                              css={STYLES_RIGHT}
-                              onClick={() => this._handleRemove(file.cid)}
-                            >
+                            <span css={STYLES_RIGHT} onClick={() => this._handleRemove(file.cid)}>
                               <SVG.Dismiss height="16px" />
                             </span>
                           </div>
@@ -475,27 +469,23 @@ export default class SceneMakeFilecoinDeal extends React.Component {
                       width: "100%",
                     },
                   ],
-                  rows: this.state.settings_cold_default_trusted_miners.map(
-                    (miner) => {
-                      return {
-                        miner: (
-                          <div css={STYLES_ROW} key={miner}>
-                            <span css={STYLES_LEFT} target="_blank">
-                              {miner}
-                            </span>
-                            <span
-                              css={STYLES_RIGHT}
-                              onClick={() =>
-                                this._handleRemoveTrustedMiner(miner)
-                              }
-                            >
-                              <SVG.Dismiss height="16px" />
-                            </span>
-                          </div>
-                        ),
-                      };
-                    }
-                  ),
+                  rows: this.state.settings_cold_default_trusted_miners.map((miner) => {
+                    return {
+                      miner: (
+                        <div css={STYLES_ROW} key={miner}>
+                          <span css={STYLES_LEFT} target="_blank">
+                            {miner}
+                          </span>
+                          <span
+                            css={STYLES_RIGHT}
+                            onClick={() => this._handleRemoveTrustedMiner(miner)}
+                          >
+                            <SVG.Dismiss height="16px" />
+                          </span>
+                        </div>
+                      ),
+                    };
+                  }),
                 }}
               />
             </Section>
@@ -518,27 +508,23 @@ export default class SceneMakeFilecoinDeal extends React.Component {
                       width: "100%",
                     },
                   ],
-                  rows: this.state.settings_cold_default_excluded_miners.map(
-                    (miner) => {
-                      return {
-                        miner: (
-                          <div css={STYLES_ROW} key={miner}>
-                            <span css={STYLES_LEFT} target="_blank">
-                              Excluding: {miner}
-                            </span>
-                            <span
-                              css={STYLES_RIGHT}
-                              onClick={() =>
-                                this._handleRemoveExcludedMiner(miner)
-                              }
-                            >
-                              <SVG.Dismiss height="16px" />
-                            </span>
-                          </div>
-                        ),
-                      };
-                    }
-                  ),
+                  rows: this.state.settings_cold_default_excluded_miners.map((miner) => {
+                    return {
+                      miner: (
+                        <div css={STYLES_ROW} key={miner}>
+                          <span css={STYLES_LEFT} target="_blank">
+                            Excluding: {miner}
+                          </span>
+                          <span
+                            css={STYLES_RIGHT}
+                            onClick={() => this._handleRemoveExcludedMiner(miner)}
+                          >
+                            <SVG.Dismiss height="16px" />
+                          </span>
+                        </div>
+                      ),
+                    };
+                  }),
                 }}
               />
             </Section>
@@ -546,9 +532,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
             <System.DescriptionGroup
               style={{ marginTop: 64, maxWidth: 688 }}
               label="Configure your deal"
-              description={`Your deal will come out of your wallet address: ${
-                this.state.settings_cold_default_address
-              }`}
+              description={`Your deal will come out of your wallet address: ${this.state.settings_cold_default_address}`}
             />
 
             <System.Input
@@ -597,8 +581,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               value={this.state.encryption}
               onChange={this._handleChange}
             >
-              Encrypt this storage deal. Accessing the contents will require
-              decryption.
+              Encrypt this storage deal. Accessing the contents will require decryption.
             </System.CheckBox>
 
             <System.ButtonPrimary

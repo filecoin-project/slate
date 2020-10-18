@@ -34,9 +34,7 @@ const STYLES_WARNING = css`
   ${STYLES_ALERT}
   background-color: ${Constants.system.red};
 
-  @supports (
-    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
-  ) {
+  @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
     background-color: rgba(255, 212, 201, 0.75);
@@ -48,9 +46,7 @@ const STYLES_INFO = css`
   ${STYLES_ALERT}
   background-color: ${Constants.system.brand};
 
-  @supports (
-    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
-  ) {
+  @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
     background-color: rgba(212, 233, 250, 0.75);
@@ -63,9 +59,7 @@ const STYLES_MESSAGE = css`
   background-color: ${Constants.system.foreground};
   color: ${Constants.system.grayBlack};
 
-  @supports (
-    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
-  ) {
+  @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
     background-color: rgba(244, 244, 244, 0.75);
@@ -78,9 +72,7 @@ const STYLES_TEXT = css`
   max-width: ${Constants.sizes.mobile}px;
   width: 100%;
 
-  @supports (
-    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
-  ) {
+  @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     border-bottom: 1px solid ${Constants.system.brand};
   }
 `;
@@ -113,9 +105,7 @@ export class Alert extends React.Component {
         });
       } else {
         this.setState({
-          message:
-            e.detail.alert.message ||
-            "Whoops something went wrong! Please try again.",
+          message: e.detail.alert.message || "Whoops something went wrong! Please try again.",
           status: e.detail.alert.status || null,
         });
       }
@@ -131,31 +121,16 @@ export class Alert extends React.Component {
 
   render() {
     if (!this.state.message) {
-      if (
-        !this.props.fileLoading ||
-        !Object.keys(this.props.fileLoading).length
-      ) {
+      if (!this.props.fileLoading || !Object.keys(this.props.fileLoading).length) {
         if (this.props.noWarning) {
           return null;
-        }
-
-        // NOTE(jim): Replaces the filecoin banner on some navigation pages.
-        if (this.props.filecoin) {
-          return (
-            <div css={STYLES_MESSAGE} style={this.props.style}>
-              <div css={STYLES_MESSAGE_BOX} style={{ fontSize: 14 }}>
-                You are on the Filecoin Testnet. Test FIL may take a moment to
-                reach your wallet.
-              </div>
-            </div>
-          );
         }
 
         return (
           <div css={STYLES_MESSAGE} style={this.props.style}>
             <div css={STYLES_MESSAGE_BOX} style={{ fontSize: 14 }}>
-              Please don't upload sensitive information to Slate yet. Private
-              storage is coming soon.
+              Please don't upload sensitive information to Slate yet. Private storage is coming
+              soon.
             </div>
           </div>
         );

@@ -11,7 +11,6 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import TestnetBanner from "~/components/core/TestnetBanner";
 
 const STYLES_GROUP = css`
   padding: 24px;
@@ -163,14 +162,13 @@ export default class SceneWallet extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Wallet">
-          This is your receive only wallet address. You can deposit Filecoin to
-          your address here.
+          This is your receive only wallet address. You can deposit Filecoin to your address here.
         </ScenePageHeader>
 
         {networkViewer ? (
           <Section
             onAction={this.props.onAction}
-            title="Your Filecoin Testnet address"
+            title="Your Filecoin address"
             style={{ maxWidth: `688px`, minWidth: "auto" }}
             buttons={
               [
@@ -211,8 +209,7 @@ export default class SceneWallet extends React.Component {
                 <div style={{ marginTop: 24 }}>
                   <div css={STYLES_FOCUS}>
                     {selected.name}{" "}
-                    {networkViewer.settings_cold_default_address ===
-                    selected.addr ? (
+                    {networkViewer.settings_cold_default_address === selected.addr ? (
                       <strong css={STYLES_FOCUS_EMPAHSIS}>(Primary)</strong>
                     ) : null}
                   </div>
@@ -239,17 +236,12 @@ export default class SceneWallet extends React.Component {
                   onClick={this._handleMakeAddressVisible}
                   style={{
                     marginRight: 16,
-                    backgroundColor: this.state.visible
-                      ? null
-                      : Constants.system.brand,
+                    backgroundColor: this.state.visible ? null : Constants.system.brand,
                   }}
                 >
                   <SVG.Privacy height="16px" />
                 </span>
-                <span
-                  css={STYLES_CIRCLE_BUTTON}
-                  onClick={() => this._handleCopy(selected.address)}
-                >
+                <span css={STYLES_CIRCLE_BUTTON} onClick={() => this._handleCopy(selected.address)}>
                   <SVG.CopyAndPaste height="16px" />
                 </span>
               </div>

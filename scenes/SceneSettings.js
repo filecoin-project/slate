@@ -6,10 +6,8 @@ import * as Strings from "~/common/strings";
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
-import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import TestnetBanner from "~/components/core/TestnetBanner";
 
 const STYLES_GROUP = css`
   display: flex;
@@ -49,14 +47,11 @@ export const createState = (config) => {
     settings_cold_default_address: config.cold.filecoin.addr,
     settings_cold_default_duration: config.cold.filecoin.dealMinDuration,
     settings_cold_default_replication_factor: config.cold.filecoin.repFactor,
-    settings_cold_default_excluded_miners:
-      config.cold.filecoin.excludedMinersList,
-    settings_cold_default_trusted_miners:
-      config.cold.filecoin.trustedMinersList,
+    settings_cold_default_excluded_miners: config.cold.filecoin.excludedMinersList,
+    settings_cold_default_trusted_miners: config.cold.filecoin.trustedMinersList,
     settings_cold_default_max_price: config.cold.filecoin.maxPrice,
     settings_cold_default_auto_renew: config.cold.filecoin.renew.enabled,
-    settings_cold_default_auto_renew_max_price:
-      config.cold.filecoin.renew.threshold,
+    settings_cold_default_auto_renew_max_price: config.cold.filecoin.renew.threshold,
   };
 };
 
@@ -111,8 +106,7 @@ export default class SceneSettings extends React.Component {
             addr: this.state.settings_cold_default_address,
             dealMinDuration: this.state.settings_cold_default_duration,
             repFactor: this.state.settings_cold_default_replication_factor,
-            excludedMinersList: this.state
-              .settings_cold_default_excluded_miners,
+            excludedMinersList: this.state.settings_cold_default_excluded_miners,
             trustedMinersList: this.state.settings_cold_default_trusted_miners,
             maxPrice: this.state.settings_cold_default_max_price,
             renew: {
@@ -137,8 +131,8 @@ export default class SceneSettings extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Deal settings (read-only)">
-          We do not allow changes to your deal settings at the moment. This is
-          to ensure that your storage deals have the maximum chance of success.
+          We do not allow changes to your deal settings at the moment. This is to ensure that your
+          storage deals have the maximum chance of success.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (

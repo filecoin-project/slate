@@ -7,10 +7,8 @@ import * as Strings from "~/common/strings";
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
-import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import TestnetBanner from "~/components/core/TestnetBanner";
 
 const STYLES_LABEL = css`
   font-family: ${Constants.font.semiBold};
@@ -23,12 +21,9 @@ let mounted = false;
 export default class SceneArchive extends React.Component {
   state = {
     networkViewer: null,
-    allow_filecoin_directory_listing: this.props.viewer
-      .allow_filecoin_directory_listing,
-    allow_automatic_data_storage: this.props.viewer
-      .allow_automatic_data_storage,
-    allow_encrypted_data_storage: this.props.viewer
-      .allow_encrypted_data_storage,
+    allow_filecoin_directory_listing: this.props.viewer.allow_filecoin_directory_listing,
+    allow_automatic_data_storage: this.props.viewer.allow_automatic_data_storage,
+    allow_encrypted_data_storage: this.props.viewer.allow_encrypted_data_storage,
   };
 
   async componentDidMount() {
@@ -58,8 +53,7 @@ export default class SceneArchive extends React.Component {
 
     await Actions.updateViewer({
       data: {
-        allow_filecoin_directory_listing: this.state
-          .allow_filecoin_directory_listing,
+        allow_filecoin_directory_listing: this.state.allow_filecoin_directory_listing,
         allow_automatic_data_storage: this.state.allow_automatic_data_storage,
         allow_encrypted_data_storage: this.state.allow_encrypted_data_storage,
       },
@@ -102,9 +96,8 @@ export default class SceneArchive extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Filecoin">
-          Use this section to archive all of your data on to Filecoin through a
-          storage deal. Once you make a storage deal, you can view the logs
-          here. <br />
+          Use this section to archive all of your data on to Filecoin through a storage deal. Once
+          you make a storage deal, you can view the logs here. <br />
         </ScenePageHeader>
 
         {this.state.networkViewer ? (
@@ -133,8 +126,7 @@ export default class SceneArchive extends React.Component {
               value={this.state.allow_filecoin_directory_listing}
               onChange={this._handleCheckboxChange}
             >
-              Show your successful deals on a directory page where others can
-              retrieve them.
+              Show your successful deals on a directory page where others can retrieve them.
             </System.CheckBox>
 
             <System.CheckBox
@@ -143,8 +135,8 @@ export default class SceneArchive extends React.Component {
               value={this.state.allow_automatic_data_storage}
               onChange={this._handleCheckboxChange}
             >
-              Allow Slate to make archive storage deals on your behalf to the
-              Filecoin Network. You will get a receipt in the Filecoin section.
+              Allow Slate to make archive storage deals on your behalf to the Filecoin Network. You
+              will get a receipt in the Filecoin section.
             </System.CheckBox>
 
             <System.CheckBox
@@ -153,8 +145,8 @@ export default class SceneArchive extends React.Component {
               value={this.state.allow_encrypted_data_storage}
               onChange={this._handleCheckboxChange}
             >
-              Force encryption on archive storage deals (only you can see
-              retrieved data from the Filecoin network).
+              Force encryption on archive storage deals (only you can see retrieved data from the
+              Filecoin network).
             </System.CheckBox>
 
             <div style={{ marginTop: 24 }}>

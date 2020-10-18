@@ -11,7 +11,7 @@ import * as FileUtilities from "~/common/file-utilities";
 import { css } from "@emotion/react";
 import { createState } from "~/scenes/SceneSettings";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { FilecoinNumber, Converter } from "@openworklabs/filecoin-number";
+import { FilecoinNumber, Converter } from "@glif/filecoin-number";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 import Section from "~/components/core/Section";

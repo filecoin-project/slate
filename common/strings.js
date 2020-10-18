@@ -1,6 +1,6 @@
 import * as Constants from "~/common/constants";
 
-import { FilecoinNumber, Converter } from "@openworklabs/filecoin-number";
+import { FilecoinNumber, Converter } from "@glif/filecoin-number";
 
 const MINUTE = 60;
 const HOUR = MINUTE * 60;

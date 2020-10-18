@@ -14,6 +14,7 @@ const MINIMUM_BYTES_FOR_STORAGE = 52428800;
 const STORAGE_BOT_NAME = "STORAGE WORKER";
 const PRACTICE_RUN = false;
 const SKIP_NEW_BUCKET_CREATION = true;
+const STORE_MEANINGFUL_ADDRESS_ONLY_AND_PERFORM_NO_ACTIONS = false;
 
 const TEXTILE_KEY_INFO = {
   key: Environment.TEXTILE_HUB_KEY,
@@ -21,6 +22,10 @@ const TEXTILE_KEY_INFO = {
 };
 
 console.log(`RUNNING:  worker-heavy-stones.js`);
+
+const delay = async (waitMs) => {
+  return await new Promise((resolve) => setTimeout(resolve, waitMs));
+};
 
 const run = async () => {
   const response = await Data.getEveryUser(false);
@@ -57,6 +62,8 @@ const run = async () => {
       isForcingEncryption: user.data.allow_encrypted_data_storage,
     };
     let buckets;
+
+    await delay(5000);
 
     try {
       const token = user.data.tokens.api;
@@ -109,6 +116,8 @@ const run = async () => {
     let balance = 0;
     let address = null;
 
+    await delay(5000);
+
     try {
       if (powerInfo) {
         powerInfo.balancesList.forEach((a) => {
@@ -120,6 +129,16 @@ const run = async () => {
       }
     } catch (e) {
       Logs.error(e.message);
+    }
+
+    if (address) {
+      slateAddresses.push(address);
+    }
+
+    // NOTE(jim): Exit early for analytics purposes.
+    if (STORE_MEANINGFUL_ADDRESS_ONLY_AND_PERFORM_NO_ACTIONS) {
+      Logs.taskTimeless(`Adding address for: ${user.username}`);
+      continue;
     }
 
     let storageDeals = [];
@@ -173,10 +192,6 @@ const run = async () => {
     if (balance === 0) {
       Logs.error(`OUT OF FUNDS: ${user.username}`);
       continue;
-    }
-
-    if (address) {
-      slateAddresses.push(address);
     }
 
     // NOTE(jim): tracks all buckets.
@@ -234,6 +249,8 @@ const run = async () => {
       }
 
       if (key) {
+        await delay(5000);
+
         try {
           if (!PRACTICE_RUN) {
             await buckets.archive(key);
@@ -303,7 +320,7 @@ const run = async () => {
     }
   );
 
-  console.log(`${consoleName(STORAGE_BOT_NAME)} finished. \n\n`);
+  console.log(`${STORAGE_BOT_NAME} finished. \n\n`);
   console.log(`FINISHED: worker-heavy-stones.js`);
   console.log(`          CTRL +C to return to terminal.`);
 };

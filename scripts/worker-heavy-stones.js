@@ -1,20 +1,28 @@
+import configs from "~/knexfile";
+import knex from "knex";
 import fs from "fs-extra";
+import "isomorphic-fetch";
 
 import * as Environment from "~/node_common/environment";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Strings from "~/common/strings";
 import * as Logs from "~/node_common/script-logging";
+import * as Serializers from "~/node_common/serializers";
 
 import { Buckets, PrivateKey } from "@textile/hub";
 import { v4 as uuid } from "uuid";
+
+const envConfig = configs["development"];
+const db = knex(envConfig);
 
 // 50 MB minimum
 const MINIMUM_BYTES_FOR_STORAGE = 52428800;
 const STORAGE_BOT_NAME = "STORAGE WORKER";
 const PRACTICE_RUN = false;
-const SKIP_NEW_BUCKET_CREATION = true;
+const SKIP_NEW_BUCKET_CREATION = false;
 const STORE_MEANINGFUL_ADDRESS_ONLY_AND_PERFORM_NO_ACTIONS = false;
+const WRITE_TO_SLATE_STORAGE_DEAL_INDEX = true;
 
 const TEXTILE_KEY_INFO = {
   key: Environment.TEXTILE_HUB_KEY,
@@ -27,7 +35,22 @@ const delay = async (waitMs) => {
   return await new Promise((resolve) => setTimeout(resolve, waitMs));
 };
 
+const minerMap = {};
+
 const run = async () => {
+  Logs.taskTimeless(`Fetching every miner ...`);
+
+  const minerData = await fetch("https://sentinel.slate.host/api/mapped-static-global-miners");
+  const jsonData = await minerData.json();
+
+  jsonData.data.forEach((group) => {
+    group.minerAddresses.forEach((entity) => {
+      minerMap[entity.miner] = entity;
+      minerMap[entity.miner.replace("t", "f")] = entity;
+    });
+  });
+
+  Logs.taskTimeless(`Fetching every user ...`);
   const response = await Data.getEveryUser(false);
 
   const storageUsers = [];
@@ -63,7 +86,7 @@ const run = async () => {
     };
     let buckets;
 
-    await delay(5000);
+    await delay(500);
 
     try {
       const token = user.data.tokens.api;
@@ -116,7 +139,7 @@ const run = async () => {
     let balance = 0;
     let address = null;
 
-    await delay(5000);
+    await delay(500);
 
     try {
       if (powerInfo) {
@@ -156,7 +179,6 @@ const run = async () => {
           proposalCid: o.dealInfo.proposalCid,
           pieceCid: o.dealInfo.pieceCid,
           addr: o.addr,
-          miner: o.dealInfo.miner,
           size: o.dealInfo.size,
           // NOTE(jim): formatted size.
           formattedSize: Strings.bytesToSize(o.dealInfo.size),
@@ -167,9 +189,20 @@ const run = async () => {
             o.dealInfo.pricePerEpoch * o.dealInfo.duration
           ),
           duration: o.dealInfo.duration,
+          formattedDuration: Strings.getDaysFromEpoch(o.dealInfo.duration),
           activationEpoch: o.dealInfo.activationEpoch,
           time: o.time,
           pending: o.pending,
+          minerId: o.dealInfo.miner,
+          miner: minerMap[o.dealInfo.miner],
+          createdAt: Strings.toDateSinceEpoch(o.time),
+          userEncryptsDeals: user.data.allow_encrypted_data_storage,
+          user: {
+            id: user.id,
+            username: user.username,
+            photo: user.data.photo,
+            Name: user.data.name,
+          },
         });
       });
     } catch (e) {
@@ -186,7 +219,29 @@ const run = async () => {
       `\x1b[36m\x1b[1m${Strings.formatAsFilecoinConversion(balance)} remaining\x1b[0m`
     );
 
-    console.log(storageDeals);
+    // NOTE(jim): Anyone can get a list for storage deals from Slate.
+    if (WRITE_TO_SLATE_STORAGE_DEAL_INDEX) {
+      const hasDealId = (id) => db.raw(`?? @> ?::jsonb`, ["data", JSON.stringify({ dealId: id })]);
+
+      for (let d = 0; d < storageDeals.length; d++) {
+        const dealToSave = storageDeals[d];
+        Logs.note(`Saving ${dealToSave.dealId} ...`);
+
+        console.log(dealToSave);
+
+        const existing = await db.select("*").from("deals").where(hasDealId(dealToSave.dealId));
+        console.log(existing);
+
+        if (existing && !existing.error && existing.length) {
+          Logs.error(`${dealToSave.dealId} is already saved.`);
+          continue;
+        }
+
+        Logs.note(`Inserting ${dealToSave.dealId} ...`);
+        await db.insert({ data: dealToSave, owner_user_id: user.id }).into("deals").returning("*");
+        Logs.task(`Inserted ${dealToSave.dealId} !!!`);
+      }
+    }
 
     // NOTE(jim): Skip users that are out of funds.
     if (balance === 0) {
@@ -249,7 +304,7 @@ const run = async () => {
       }
 
       if (key) {
-        await delay(5000);
+        await delay(500);
 
         try {
           if (!PRACTICE_RUN) {

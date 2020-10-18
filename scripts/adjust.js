@@ -9,11 +9,15 @@ const db = knex(envConfig);
 
 console.log(`RUNNING:  adjust.js`);
 
-const dropSlatenameUnique = db.schema.table("slates", function(table) {
-  table.dropUnique("slatename");
+const createDealsTable = db.schema.createTable("deals", function (table) {
+  table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
+  table.string("owner_user_id").nullable();
+  table.jsonb("data").nullable();
+  table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
+  table.timestamp("updated_at").notNullable().defaultTo(db.raw("now()"));
 });
 
-Promise.all([dropSlatenameUnique]);
+Promise.all([createDealsTable]);
 
 console.log(`FINISHED: adjust.js`);
 console.log(`          CTRL +C to return to terminal.`);

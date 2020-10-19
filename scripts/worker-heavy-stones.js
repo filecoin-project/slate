@@ -16,8 +16,8 @@ import { v4 as uuid } from "uuid";
 const envConfig = configs["development"];
 const db = knex(envConfig);
 
-// 50 MB minimum
-const MINIMUM_BYTES_FOR_STORAGE = 52428800;
+// 100 MB minimum
+const MINIMUM_BYTES_FOR_STORAGE = 104857600;
 const STORAGE_BOT_NAME = "STORAGE WORKER";
 const PRACTICE_RUN = false;
 const SKIP_NEW_BUCKET_CREATION = false;
@@ -185,23 +185,24 @@ const run = async () => {
           pricePerEpoch: o.dealInfo.pricePerEpoch,
           startEpoch: o.dealInfo.startEpoch,
           // NOTE(jim): just for point of reference on the total cost.
-          totalSpeculatedCost: Strings.formatAsFilecoinConversion(
+          totalCostFIL: Strings.formatAsFilecoinConversion(
             o.dealInfo.pricePerEpoch * o.dealInfo.duration
           ),
+          totalCostAttoFIL: o.dealInfo.pricePerEpoch * o.dealInfo.duration,
           duration: o.dealInfo.duration,
           formattedDuration: Strings.getDaysFromEpoch(o.dealInfo.duration),
           activationEpoch: o.dealInfo.activationEpoch,
           time: o.time,
           pending: o.pending,
           minerId: o.dealInfo.miner,
-          miner: minerMap[o.dealInfo.miner],
+          miner: { ...minerMap[o.dealInfo.miner], id: o.dealInfo.miner },
           createdAt: Strings.toDateSinceEpoch(o.time),
-          userEncryptsDeals: user.data.allow_encrypted_data_storage,
+          userEncryptsDeals: !!user.data.allow_encrypted_data_storage,
           user: {
             id: user.id,
             username: user.username,
             photo: user.data.photo,
-            Name: user.data.name,
+            name: user.data.name,
           },
         });
       });
@@ -228,7 +229,6 @@ const run = async () => {
         Logs.note(`Saving ${dealToSave.dealId} ...`);
 
         console.log(dealToSave);
-
         const existing = await db.select("*").from("deals").where(hasDealId(dealToSave.dealId));
         console.log(existing);
 
@@ -238,6 +238,7 @@ const run = async () => {
         }
 
         Logs.note(`Inserting ${dealToSave.dealId} ...`);
+        await delay(1000);
         await db.insert({ data: dealToSave, owner_user_id: user.id }).into("deals").returning("*");
         Logs.task(`Inserted ${dealToSave.dealId} !!!`);
       }
@@ -259,12 +260,62 @@ const run = async () => {
 
       if (keyBucket.name.startsWith("open-")) {
         Logs.note(`bucket found: open-data ${keyBucket.key}`);
-        key = keyBucket.key;
+        Logs.note(`checking size ...`);
+
+        let bucketSizeBytes = null;
+        try {
+          const path = await buckets.listPath(keyBucket.key, "/");
+          bucketSizeBytes = path.item.size;
+        } catch (e) {
+          Logs.error(e.message);
+          continue;
+        }
+
+        if (bucketSizeBytes && bucketSizeBytes < MINIMUM_BYTES_FOR_STORAGE) {
+          try {
+            Logs.error(`we must kill this bucket ...`);
+            await buckets.remove(keyBucket.key);
+            Logs.note(`bucket removed ...`);
+          } catch (e) {
+            Logs.error(e.message);
+            continue;
+          }
+        }
+
+        if (bucketSizeBytes && bucketSizeBytes >= MINIMUM_BYTES_FOR_STORAGE) {
+          Logs.task(`bucket is okay !!!`);
+          key = keyBucket.key;
+        }
       }
 
       if (keyBucket.name.startsWith("encrypted-data-")) {
         Logs.note(`bucket found: encrypted-data ${keyBucket.key}`);
-        key = keyBucket.key;
+        Logs.note(`checking size ...`);
+
+        let bucketSizeBytes = null;
+        try {
+          const path = await buckets.listPath(keyBucket.key, "/");
+          bucketSizeBytes = path.item.size;
+        } catch (e) {
+          Logs.error(e.message);
+          continue;
+        }
+
+        if (bucketSizeBytes && bucketSizeBytes < MINIMUM_BYTES_FOR_STORAGE) {
+          try {
+            Logs.error(`we must kill this bucket ...`);
+            await buckets.remove(keyBucket.key);
+            Logs.note(`bucket removed ...`);
+          } catch (e) {
+            Logs.error(e.message);
+            continue;
+          }
+        }
+
+        if (bucketSizeBytes && bucketSizeBytes >= MINIMUM_BYTES_FOR_STORAGE) {
+          Logs.task(`bucket is okay !!!`);
+          key = keyBucket.key;
+        }
       }
 
       if (keyBucket.name === "data" && !SKIP_NEW_BUCKET_CREATION) {
@@ -275,13 +326,22 @@ const run = async () => {
         const newBucketName = encrypt ? `encrypted-data-${uuid()}` : `open-data-${uuid()}`;
 
         // NOTE(jim): Get the root key of the bucket
+        let bucketSizeBytes = null;
         let items;
         try {
           const path = await buckets.listPath(keyBucket.key, "/");
           items = path.item;
+          bucketSizeBytes = path.item.size;
         } catch (e) {
           Logs.error(e.message);
         }
+
+        if (bucketSizeBytes && bucketSizeBytes < MINIMUM_BYTES_FOR_STORAGE) {
+          Logs.error(`Root 'data' bucket does not fit size requirements. Skipping.`);
+          continue;
+        }
+
+        await delay(1000);
 
         Logs.task(`creating new bucket: ${newBucketName}.`);
 
@@ -301,6 +361,8 @@ const run = async () => {
         } catch (e) {
           Logs.error(e.message);
         }
+
+        await delay(5000);
       }
 
       if (key) {

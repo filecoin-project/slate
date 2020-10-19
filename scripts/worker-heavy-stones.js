@@ -19,6 +19,9 @@ const db = knex(envConfig);
 // 100 MB minimum
 const MINIMUM_BYTES_FOR_STORAGE = 104857600;
 const STORAGE_BOT_NAME = "STORAGE WORKER";
+
+// We don't make new buckets if they have more than 10.
+const BUCKET_LIMIT = 10;
 const PRACTICE_RUN = false;
 const SKIP_NEW_BUCKET_CREATION = false;
 const STORE_MEANINGFUL_ADDRESS_ONLY_AND_PERFORM_NO_ACTIONS = false;
@@ -318,7 +321,12 @@ const run = async () => {
         }
       }
 
-      if (keyBucket.name === "data" && !SKIP_NEW_BUCKET_CREATION) {
+      // NOTE(jim): Temporarily prevent more buckets from being created for legacy accounts.
+      if (
+        keyBucket.name === "data" &&
+        !SKIP_NEW_BUCKET_CREATION &&
+        userBuckets.length < BUCKET_LIMIT
+      ) {
         key = null;
         encrypt = !!user.data.allow_encrypted_data_storage;
 
@@ -347,16 +355,19 @@ const run = async () => {
 
         // NOTE(jim): Create a new bucket
         try {
-          Logs.note(`attempting ...`);
+          Logs.note(`attempting ... `);
 
           if (!PRACTICE_RUN) {
+            Logs.note(`name: ${newBucketName} ...`);
+            Logs.note(`cid: ${items.cid} ...`);
             let newBucket = await buckets.create(newBucketName, encrypt, items.cid);
 
             key = newBucket.root.key;
 
-            Logs.task(`created ${newBucketName} successfully.`);
+            Logs.task(`created ${newBucketName} successfully with new key ${key}.`);
           } else {
             Logs.note(`practice skipping ...`);
+            continue;
           }
         } catch (e) {
           Logs.error(e.message);

@@ -13,15 +13,15 @@ export default async (req, res) => {
   };
 
   let slingshot = {
-    root: "",
+    root: "t3xhj6odc2cjj3z6kmxqugjjai2unacme65gnwigse4xx6jcpmfmi6jg6miqintibacluxi4ydlmolfpruznba",
     total: 0,
     addresses: [],
   };
 
   response.forEach((each) => {
-    total.deals += 1;
-    total.size += each.data.size;
-    total.cost += each.data.totalCostAttoFIL;
+    totals.deals += 1;
+    totals.size += each.data.size;
+    totals.cost += each.data.totalCostAttoFIL;
 
     if (!slingshot.addresses.includes(each.data.addr)) {
       slingshot.total += 1;
@@ -29,8 +29,8 @@ export default async (req, res) => {
     }
   });
 
-  totals.costFormatted = Strings.formatAsFilecoinConversion(total.cost);
-  totals.sizeFormatted = Strings.bytesToSize(each.data.size);
+  totals.costFormatted = Strings.formatAsFilecoinConversion(totals.cost);
+  totals.sizeFormatted = Strings.bytesToSize(totals.size);
 
   if (!response) {
     return res.status(500).send({

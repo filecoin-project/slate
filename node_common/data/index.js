@@ -66,7 +66,12 @@ import queryUsers from "~/node_common/data/methods/query-users";
 import getEverySlate from "~/node_common/data/methods/get-every-slate";
 import getEveryUser from "~/node_common/data/methods/get-every-user";
 
+// NOTE(jim):
+// Deals
+import getAllDeals from "~/node_common/data/methods/get-all-deals";
+
 export {
+  getAllDeals,
   // NOTE(jim): User operations.
   createUser,
   updateUserById,

@@ -20,5 +20,7 @@ export default async (req, res) => {
     });
   }
 
-  return res.status(200).send({ decorator: "V1_GET_ALL_DEALS", deals: response });
+  return res
+    .status(200)
+    .send(JSON.stringify({ decorator: "V1_GET_ALL_DEALS", deals: response }, null, 4));
 };

@@ -1,18 +1,17 @@
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Social from "~/node_common/social";
+import * as Strings from "~/common/strings";
 
 import { v4 as uuid } from "uuid";
-import { MAX_BUCKET_COUNT } from "~/node_common/constants";
+import { MAX_BUCKET_COUNT, MIN_ARCHIVE_SIZE_BYTES } from "~/node_common/constants";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(403)
-      .send({ decorator: "SERVER_REMOVE_DATA_NOT_ALLOWED", error: true });
+    return res.status(403).send({ decorator: "SERVER_REMOVE_DATA_NOT_ALLOWED", error: true });
   }
 
   const user = await Data.getUserById({
@@ -38,11 +37,10 @@ export default async (req, res) => {
     bucketName = req.body.data.bucketName;
   }
 
-  const {
-    buckets,
-    bucketKey,
-    bucketRoot,
-  } = await Utilities.getBucketAPIFromUserToken({ user, bucketName });
+  const { buckets, bucketKey, bucketRoot } = await Utilities.getBucketAPIFromUserToken({
+    user,
+    bucketName,
+  });
 
   if (!buckets) {
     return res.status(500).send({
@@ -56,9 +54,11 @@ export default async (req, res) => {
   // Getting the appropriate bucket key
 
   let items = null;
+  let bucketSizeBytes = 0;
   try {
     const path = await buckets.listPath(bucketRoot.key, "/");
     items = path.item;
+    bucketSizeBytes = path.item.size;
   } catch (e) {
     Social.sendTextileSlackMessage({
       file: "/node_common/managers/viewer.js",
@@ -81,6 +81,17 @@ export default async (req, res) => {
   if (items.items.length < 2) {
     return res.status(500).send({
       decorator: "STORAGE_DEAL_MAKING_NO_FILES",
+      error: true,
+    });
+  }
+
+  console.log(`[ deal ] deal size: ${Strings.bytesToSize(bucketSizeBytes)}`);
+  if (bucketSizeBytes < MIN_ARCHIVE_SIZE_BYTES) {
+    return res.status(500).send({
+      decorator: "STORAGE_BUCKET_TOO_SMALL",
+      message: `Your deal size of ${Strings.bytesToSize(
+        bucketSizeBytes
+      )} is too small. You must provide at least 100MB.`,
       error: true,
     });
   }
@@ -108,9 +119,7 @@ export default async (req, res) => {
   }
 
   console.log(
-    `[ encrypted ] user has ${
-      userBuckets.length
-    } out of ${MAX_BUCKET_COUNT} buckets used.`
+    `[ encrypted ] user has ${userBuckets.length} out of ${MAX_BUCKET_COUNT} buckets used.`
   );
   if (userBuckets.length >= MAX_BUCKET_COUNT) {
     return res.status(500).send({
@@ -124,10 +133,7 @@ export default async (req, res) => {
   // Either encrypt the bucket or don't encrypt the bucket.
 
   let encryptThisDeal = false;
-  if (
-    bucketName !== STAGING_DEAL_BUCKET &&
-    user.data.allow_encrypted_data_storage
-  ) {
+  if (bucketName !== STAGING_DEAL_BUCKET && user.data.allow_encrypted_data_storage) {
     encryptThisDeal = true;
   }
 
@@ -141,16 +147,10 @@ export default async (req, res) => {
       ? `encrypted-deal-${uuid()}`
       : `encrypted-data-${uuid()}`;
 
-    console.log(
-      `[ encrypted ] making an ${encryptedBucketName} for this storage deal.`
-    );
+    console.log(`[ encrypted ] making an ${encryptedBucketName} for this storage deal.`);
 
     try {
-      const newBucket = await buckets.create(
-        encryptedBucketName,
-        true,
-        items.cid
-      );
+      const newBucket = await buckets.create(encryptedBucketName, true, items.cid);
 
       key = newBucket.root.key;
     } catch (e) {
@@ -174,11 +174,7 @@ export default async (req, res) => {
     const newDealBucketName = `open-deal-${uuid()}`;
 
     try {
-      const newBucket = await buckets.create(
-        newDealBucketName,
-        false,
-        items.cid
-      );
+      const newBucket = await buckets.create(newDealBucketName, false, items.cid);
 
       key = newBucket.root.key;
     } catch (e) {

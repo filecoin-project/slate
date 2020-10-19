@@ -96,8 +96,8 @@ export default class SceneArchive extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Filecoin">
-          Use this section to archive all of your data on to Filecoin through a storage deal. Once
-          you make a storage deal, you can view the logs here. <br />
+          Use this section to archive all of your data on to Filecoin through a storage deal. You
+          must have at last 100MB stored to make an archive storage deal. <br />
         </ScenePageHeader>
 
         {this.state.networkViewer ? (

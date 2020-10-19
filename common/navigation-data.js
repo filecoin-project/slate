@@ -88,6 +88,14 @@ export const generate = ({ library = [], slates = [] }) => [
     children: null,
     ignore: true,
   },
+  {
+    id: "V1_NAVIGATION_TARA",
+    decorator: "TARA",
+    name: "Tara",
+    pageTitle: "Tara Sandbox",
+    children: null,
+    ignore: true,
+  },
   ...constructSlatesTreeForNavigation(slates),
   constructFilesTreeForNavigation(library),
   /*

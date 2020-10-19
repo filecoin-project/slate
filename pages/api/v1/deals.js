@@ -31,6 +31,15 @@ export default async (req, res) => {
 
   totals.costFormatted = Strings.formatAsFilecoinConversion(totals.cost);
   totals.sizeFormatted = Strings.bytesToSize(totals.size);
+  totals.averages = {
+    costPerDealFIL: Strings.formatAsFilecoinConversion(totals.cost / totals.deals),
+    costPerDealAttoFIL: totals.cost / totals.deals,
+    sizePerDealBytes: totals.size / totals.deals,
+    sizePerDealBytesFormatted: Strings.bytesToSize(totals.size / totals.deals),
+    costPerByteAttoFIL: totals.cost / totals.size,
+    costPerByteFIL: Strings.formatAsFilecoinConversion(totals.cost / totals.size),
+    costPerGBFIL: Strings.formatAsFilecoinConversion((totals.cost / totals.size) * 1073741824),
+  };
 
   if (!response) {
     return res.status(500).send({

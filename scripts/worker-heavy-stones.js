@@ -56,7 +56,7 @@ const run = async () => {
   Logs.taskTimeless(`Fetching every user ...`);
   const response = await Data.getEveryUser(false);
 
-  const storageUsers = [];
+  let storageUsers = [];
   const writable = [];
   const slateAddresses = [];
   let bytes = 0;
@@ -69,7 +69,7 @@ const run = async () => {
     const user = response[i];
 
     if (user.data.allow_automatic_data_storage) {
-      storageUsers.push(user);
+      storageUsers.unshift(user);
       dealUsers = dealUsers + 1;
     }
 

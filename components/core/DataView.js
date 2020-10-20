@@ -19,8 +19,6 @@ import { TabGroup } from "~/components/core/TabGroup";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import FilePreviewBubble from "~/components/core/FilePreviewBubble";
 
-const VIEW_LIMIT = 5;
-
 const STYLES_CONTAINER_HOVER = css`
   display: flex;
 
@@ -106,12 +104,6 @@ const STYLES_ICON_BOX_BACKGROUND = css`
   right: 8px;
 `;
 
-const STYLES_ARROWS = css`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`;
-
 const STYLES_ACTION_BAR = css`
   display: flex;
   align-items: center;
@@ -150,28 +142,6 @@ const STYLES_FILES_SELECTED = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
-  }
-`;
-
-const STYLES_ICON_ELEMENT = css`
-  height: 40px;
-  width: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #565151;
-  user-select: none;
-  cursor: pointer;
-  pointer-events: auto;
-  margin: 16px 8px;
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-
-  svg {
-    transform: rotate(0deg);
-    transition: 200ms ease transform;
   }
 `;
 
@@ -231,7 +201,7 @@ export default class DataView extends React.Component {
     startIndex: 0,
     checked: {},
     view: "grid",
-    viewLimit: 3,
+    viewLimit: 20,
   };
 
   async componentDidMount() {
@@ -284,11 +254,11 @@ export default class DataView extends React.Component {
   _increment = (direction) => {
     if (
       direction > 0 &&
-      this.state.startIndex + VIEW_LIMIT < this.props.viewer.library[0].children.length
+      this.state.startIndex + this.state.viewLimit < this.props.viewer.library[0].children.length
     ) {
-      this.setState({ startIndex: this.state.startIndex + VIEW_LIMIT });
-    } else if (direction < 0 && this.state.startIndex - VIEW_LIMIT >= 0) {
-      this.setState({ startIndex: this.state.startIndex - VIEW_LIMIT });
+      this.setState({ startIndex: this.state.startIndex + this.state.viewLimit });
+    } else if (direction < 0 && this.state.startIndex - this.state.viewLimit >= 0) {
+      this.setState({ startIndex: this.state.startIndex - this.state.viewLimit });
     }
   };
 
@@ -594,7 +564,7 @@ export default class DataView extends React.Component {
           {header}
           <div css={STYLES_IMAGE_GRID}>
             {this.props.items
-              .slice(this.state.startIndex, this.state.startIndex + VIEW_LIMIT)
+              .slice(this.state.startIndex, this.state.startIndex + this.state.viewLimit)
               .map((each, i) => {
                 const cid = each.ipfs.replace("/ipfs/", "");
                 return (
@@ -749,7 +719,7 @@ export default class DataView extends React.Component {
       },
     ];
     const rows = this.props.items
-      .slice(this.state.startIndex, this.state.startIndex + VIEW_LIMIT)
+      .slice(this.state.startIndex, this.state.startIndex + this.state.viewLimit)
       .map((each, index) => {
         const cid = each.ipfs.replace("/ipfs/", "");
         const isOnNetwork = each.networks && each.networks.includes("FILECOIN");

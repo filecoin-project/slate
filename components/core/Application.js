@@ -34,6 +34,7 @@ import SceneArchive from "~/scenes/SceneArchive";
 import SceneMakeFilecoinDeal from "~/scenes/SceneMakeFilecoinDeal";
 import SceneEncryptedData from "~/scenes/SceneEncryptedData";
 import SceneMiners from "~/scenes/SceneMiners";
+import SceneTara from "~/scenes/SceneTara";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -97,6 +98,7 @@ const SCENES = {
   MAKE_DEAL: <SceneMakeFilecoinDeal />,
   ENCRYPTED: <SceneEncryptedData />,
   MINERS: <SceneMiners />,
+  TARA: <SceneTara />,
 };
 
 export default class ApplicationPage extends React.Component {
@@ -324,8 +326,7 @@ export default class ApplicationPage extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We encountered issues updating your uploaded files. Please try again",
+            message: "We encountered issues updating your uploaded files. Please try again",
           },
         },
       });
@@ -359,9 +360,7 @@ export default class ApplicationPage extends React.Component {
     if (
       current.target &&
       current.target.slateId &&
-      this.state.viewer.slates
-        .map((slate) => slate.id)
-        .includes(current.target.slateId)
+      this.state.viewer.slates.map((slate) => slate.id).includes(current.target.slateId)
     ) {
       dispatchCustomEvent({
         name: "remote-update-slate-screen",
@@ -515,8 +514,7 @@ export default class ApplicationPage extends React.Component {
 
   _handleDeleteYourself = async () => {
     // TODO(jim): Put this somewhere better for messages.
-    const message =
-      "Do you really want to delete your account? It will be permanently removed";
+    const message = "Do you really want to delete your account? It will be permanently removed";
     if (!window.confirm(message)) {
       return false;
     }
@@ -528,8 +526,7 @@ export default class ApplicationPage extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -784,24 +781,21 @@ export default class ApplicationPage extends React.Component {
       />
     );
 
-    const scene = React.cloneElement(
-      SCENES[next.scene || current.target.decorator],
-      {
-        current: current.target,
-        data: this.state.data,
-        viewer: this.state.viewer,
-        selected: this.state.selected,
-        onSelectedChange: this._handleSelectedChange,
-        onViewerChange: this._handleViewerChange,
-        onDeleteYourself: this._handleDeleteYourself,
-        onAction: this._handleAction,
-        onUpload: this._handleUploadFiles,
-        onBack: this._handleBack,
-        onForward: this._handleForward,
-        onRehydrate: this.rehydrate,
-        sceneId: current.target.id,
-      }
-    );
+    const scene = React.cloneElement(SCENES[next.scene || current.target.decorator], {
+      current: current.target,
+      data: this.state.data,
+      viewer: this.state.viewer,
+      selected: this.state.selected,
+      onSelectedChange: this._handleSelectedChange,
+      onViewerChange: this._handleViewerChange,
+      onDeleteYourself: this._handleDeleteYourself,
+      onAction: this._handleAction,
+      onUpload: this._handleUploadFiles,
+      onBack: this._handleBack,
+      onForward: this._handleForward,
+      onRehydrate: this.rehydrate,
+      sceneId: current.target.id,
+    });
 
     let sidebarElement;
     if (this.state.sidebar) {
@@ -830,11 +824,7 @@ export default class ApplicationPage extends React.Component {
 
     return (
       <React.Fragment>
-        <WebsitePrototypeWrapper
-          description={description}
-          title={title}
-          url={url}
-        >
+        <WebsitePrototypeWrapper description={description} title={title} url={url}>
           <ApplicationLayout
             onAction={this._handleAction}
             header={headerElement}
@@ -846,10 +836,7 @@ export default class ApplicationPage extends React.Component {
           >
             {scene}
           </ApplicationLayout>
-          <GlobalViewerCID
-            onRehydrate={this.rehydrate}
-            onAction={this._handleAction}
-          />
+          <GlobalViewerCID onRehydrate={this.rehydrate} onAction={this._handleAction} />
           <System.GlobalCarousel />
           <System.GlobalModal />
         </WebsitePrototypeWrapper>

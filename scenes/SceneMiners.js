@@ -28,12 +28,7 @@ export default class SceneMiners extends React.Component {
       const sources = json.data;
 
       sources.forEach((group) => {
-        miners = [
-          ...group.minerAddresses.map((entity) => {
-            return { location: group.name, ...entity };
-          }),
-          ...miners,
-        ];
+        miners = [...group.minerAddresses, ...miners];
       });
     } catch (e) {}
 
@@ -57,7 +52,7 @@ export default class SceneMiners extends React.Component {
             data={{
               columns: [
                 {
-                  key: "miner",
+                  key: "id",
                   name: "Miner",
                   width: "96px",
                 },
@@ -82,7 +77,12 @@ export default class SceneMiners extends React.Component {
                   width: "100%",
                 },
               ],
-              rows: this.state.miners,
+              rows: this.state.miners.map((each) => {
+                return {
+                  ...each,
+                  ...each.storageAsk,
+                };
+              }),
             }}
           />
         </Section>

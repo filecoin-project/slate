@@ -14,14 +14,12 @@ import { generateLayout } from "~/components/core/Slate";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { Table } from "~/components/core/Table";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
-import {
-  ButtonPrimary,
-  ButtonWarning,
-} from "~/components/system/components/Buttons";
+import { ButtonPrimary, ButtonWarning } from "~/components/system/components/Buttons";
 import { TabGroup } from "~/components/core/TabGroup";
 
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
+import FilePreviewBubble from "~/components/core/FilePreviewBubble";
 
 const VIEW_LIMIT = 20;
 
@@ -236,14 +234,8 @@ export default class DataView extends React.Component {
     if (!mounted) {
       mounted = true;
       window.addEventListener("remote-data-deletion", this._handleDataDeletion);
-      window.addEventListener(
-        "remote-slate-object-remove",
-        this._handleRemoteSlateObjectRemove
-      );
-      window.addEventListener(
-        "remote-slate-object-add",
-        this._handleRemoteSlateObjectAdd
-      );
+      window.addEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
+      window.addEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
       window.addEventListener("remote-update-carousel", this._handleUpdate);
     }
 
@@ -253,26 +245,16 @@ export default class DataView extends React.Component {
   componentWillUnmount() {
     mounted = false;
 
-    window.removeEventListener(
-      "remote-data-deletion",
-      this._handleDataDeletion
-    );
-    window.removeEventListener(
-      "remote-slate-object-remove",
-      this._handleRemoteSlateObjectRemove
-    );
-    window.removeEventListener(
-      "remote-slate-object-add",
-      this._handleRemoteSlateObjectAdd
-    );
+    window.removeEventListener("remote-data-deletion", this._handleDataDeletion);
+    window.removeEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
+    window.removeEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
     window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }
 
   _increment = (direction) => {
     if (
       direction > 0 &&
-      this.state.startIndex + VIEW_LIMIT <
-        this.props.viewer.library[0].children.length
+      this.state.startIndex + VIEW_LIMIT < this.props.viewer.library[0].children.length
     ) {
       this.setState({ startIndex: this.state.startIndex + VIEW_LIMIT });
     } else if (direction < 0 && this.state.startIndex - VIEW_LIMIT >= 0) {
@@ -299,10 +281,7 @@ export default class DataView extends React.Component {
     }
     let cids = Object.keys(this.state.checked).map((id) => {
       let index = parseInt(id);
-      return this.props.viewer.library[0].children[index].ipfs.replace(
-        "/ipfs/",
-        ""
-      );
+      return this.props.viewer.library[0].children[index].ipfs.replace("/ipfs/", "");
     });
     this._handleLoading({ cids });
 
@@ -312,8 +291,7 @@ export default class DataView extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -360,8 +338,7 @@ export default class DataView extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -460,8 +437,7 @@ export default class DataView extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -599,9 +575,7 @@ export default class DataView extends React.Component {
 
   _handleAddToSlate = (e) => {
     let userFiles = this.props.viewer.library[0].children;
-    let files = Object.keys(this.state.checked).map(
-      (index) => userFiles[index]
-    );
+    let files = Object.keys(this.state.checked).map((index) => userFiles[index]);
     this.props.onAction({
       type: "SIDEBAR",
       value: "SIDEBAR_ADD_FILE_TO_SLATE",
@@ -628,10 +602,7 @@ export default class DataView extends React.Component {
           >
             <SVG.GridView
               style={{
-                color:
-                  this.state.view === "grid"
-                    ? Constants.system.black
-                    : "rgba(0,0,0,0.25)",
+                color: this.state.view === "grid" ? Constants.system.black : "rgba(0,0,0,0.25)",
               }}
               height="24px"
             />
@@ -646,10 +617,7 @@ export default class DataView extends React.Component {
           >
             <SVG.ListView
               style={{
-                color:
-                  this.state.view === "list"
-                    ? Constants.system.black
-                    : "rgba(0,0,0,0.25)",
+                color: this.state.view === "list" ? Constants.system.black : "rgba(0,0,0,0.25)",
               }}
               height="24px"
             />
@@ -672,16 +640,12 @@ export default class DataView extends React.Component {
             }
             onClick={() => this._increment(-1)}
           >
-            <SVG.NavigationArrow
-              height="24px"
-              style={{ transform: `rotate(180deg)` }}
-            />
+            <SVG.NavigationArrow height="24px" style={{ transform: `rotate(180deg)` }} />
           </span>
           <span
             css={STYLES_ICON_ELEMENT}
             style={
-              this.state.startIndex + VIEW_LIMIT <
-              this.props.viewer.library[0].children.length
+              this.state.startIndex + VIEW_LIMIT < this.props.viewer.library[0].children.length
                 ? null
                 : {
                     cursor: "not-allowed",
@@ -717,14 +681,8 @@ export default class DataView extends React.Component {
               >
                 Delete files
               </ButtonWarning>
-              <div
-                css={STYLES_ICON_BOX}
-                onClick={() => this.setState({ checked: {} })}
-              >
-                <SVG.Dismiss
-                  height="20px"
-                  style={{ color: Constants.system.darkGray }}
-                />
+              <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
+                <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
               </div>
             </div>
           </div>
@@ -744,24 +702,17 @@ export default class DataView extends React.Component {
                   <div
                     key={each.id}
                     css={STYLES_IMAGE_BOX}
-                    onClick={() =>
-                      this._handleSelect(i + this.state.startIndex)
-                    }
+                    onClick={() => this._handleSelect(i + this.state.startIndex)}
                     onMouseEnter={() => this.setState({ hover: i })}
                     onMouseLeave={() => this.setState({ hover: null })}
                   >
                     <SlateMediaObjectPreview
-                      url={`${Constants.gateways.ipfs}/${each.ipfs.replace(
-                        "/ipfs/",
-                        ""
-                      )}`}
+                      url={`${Constants.gateways.ipfs}/${each.ipfs.replace("/ipfs/", "")}`}
                       title={each.file || each.name}
                       type={each.type || each.icon}
                     />
                     <span css={STYLES_MOBILE_HIDDEN}>
-                      {numChecked ||
-                      this.state.hover === i ||
-                      this.state.menu === each.id ? (
+                      {numChecked || this.state.hover === i || this.state.menu === each.id ? (
                         <React.Fragment>
                           <div
                             css={STYLES_ICON_BOX_BACKGROUND}
@@ -771,18 +722,13 @@ export default class DataView extends React.Component {
                                 : (e) => {
                                     e.stopPropagation();
                                     this.setState({
-                                      menu:
-                                        this.state.menu === each.id
-                                          ? null
-                                          : each.id,
+                                      menu: this.state.menu === each.id ? null : each.id,
                                     });
                                   }
                             }
                           >
                             {this.state.loading[cid] ? (
-                              <LoaderSpinner
-                                style={{ height: 24, width: 24 }}
-                              />
+                              <LoaderSpinner style={{ height: 24, width: 24 }} />
                             ) : (
                               <SVG.MoreHorizontal height="24px" />
                             )}
@@ -807,10 +753,7 @@ export default class DataView extends React.Component {
                                     {
                                       text: "Copy link",
                                       onClick: (e) =>
-                                        this._handleCopy(
-                                          e,
-                                          `${Constants.gateways.ipfs}/${cid}`
-                                        ),
+                                        this._handleCopy(e, `${Constants.gateways.ipfs}/${cid}`),
                                     },
                                     {
                                       text: "Delete",
@@ -841,16 +784,12 @@ export default class DataView extends React.Component {
                           >
                             <CheckBox
                               name={this.state.startIndex + i}
-                              value={
-                                !!this.state.checked[this.state.startIndex + i]
-                              }
+                              value={!!this.state.checked[this.state.startIndex + i]}
                               onChange={this._handleCheckBox}
                               boxStyle={{
                                 height: 24,
                                 width: 24,
-                                backgroundColor: this.state.checked[
-                                  this.state.startIndex + i
-                                ]
+                                backgroundColor: this.state.checked[this.state.startIndex + i]
                                   ? Constants.system.brand
                                   : "rgba(255, 255, 255, 0.75)",
                               }}
@@ -885,14 +824,8 @@ export default class DataView extends React.Component {
       {
         key: "checkbox",
         name: numChecked ? (
-          <div
-            css={STYLES_CANCEL_BOX}
-            onClick={() => this.setState({ checked: {} })}
-          >
-            <SVG.Minus
-              height="16px"
-              style={{ color: Constants.system.white }}
-            />
+          <div css={STYLES_CANCEL_BOX} onClick={() => this.setState({ checked: {} })}>
+            <SVG.Minus height="16px" style={{ color: Constants.system.white }} />
           </div>
         ) : (
           <span />
@@ -933,24 +866,22 @@ export default class DataView extends React.Component {
                 position: "relative",
                 right: 3,
                 margin: "12px 0",
-                opacity:
-                  numChecked > 0 || this.state.hover === index ? "100%" : "0%",
+                opacity: numChecked > 0 || this.state.hover === index ? "100%" : "0%",
               }}
             />
           ),
           name: (
-            <div
-              css={STYLES_CONTAINER_HOVER}
-              onClick={() => this._handleSelect(this.state.startIndex + index)}
-            >
+            <FilePreviewBubble url={cid} type={each.type}>
               <div
-                css={STYLES_ICON_BOX_HOVER}
-                style={{ paddingLeft: 0, paddingRight: 18 }}
+                css={STYLES_CONTAINER_HOVER}
+                onClick={() => this._handleSelect(this.state.startIndex + index)}
               >
-                <FileTypeIcon type={each.type} height="24px" />
+                <div css={STYLES_ICON_BOX_HOVER} style={{ paddingLeft: 0, paddingRight: 18 }}>
+                  <FileTypeIcon type={each.type} height="24px" />
+                </div>
+                <div css={STYLES_LINK}>{each.file || each.name}</div>
               </div>
-              <div css={STYLES_LINK}>{each.file || each.name}</div>
-            </div>
+            </FilePreviewBubble>
           ),
           size: <div css={STYLES_VALUE}>{Strings.bytesToSize(each.size)}</div>,
           more: (
@@ -990,19 +921,13 @@ export default class DataView extends React.Component {
                       },
                       {
                         text: "Copy link",
-                        onClick: (e) =>
-                          this._handleCopy(
-                            e,
-                            `${Constants.gateways.ipfs}/${cid}`
-                          ),
+                        onClick: (e) => this._handleCopy(e, `${Constants.gateways.ipfs}/${cid}`),
                       },
                       {
                         text: "Delete",
                         onClick: (e) => {
                           e.stopPropagation();
-                          this.setState({ menu: null }, () =>
-                            this._handleDelete(cid)
-                          );
+                          this.setState({ menu: null }, () => this._handleDelete(cid));
                         },
                       },
                     ]}

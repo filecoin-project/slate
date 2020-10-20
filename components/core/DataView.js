@@ -245,17 +245,6 @@ export default class DataView extends React.Component {
     }
   };
 
-  _increment = (direction) => {
-    if (
-      direction > 0 &&
-      this.state.startIndex + this.state.viewLimit < this.props.viewer.library[0].children.length
-    ) {
-      this.setState({ startIndex: this.state.startIndex + this.state.viewLimit });
-    } else if (direction < 0 && this.state.startIndex - this.state.viewLimit >= 0) {
-      this.setState({ startIndex: this.state.startIndex - this.state.viewLimit });
-    }
-  };
-
   _handleCheckBox = (e) => {
     let checked = this.state.checked;
     if (e.target.value === false) {

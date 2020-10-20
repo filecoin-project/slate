@@ -8,11 +8,9 @@ import { css } from "@emotion/react";
 import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { WarningMessage } from "~/components/core/WarningMessage";
 
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
-import DataMeter from "~/components/core/DataMeter";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import EmptyState from "~/components/core/EmptyState";
 
@@ -22,9 +20,7 @@ const STYLES_ICONS = css`
   justify-content: center;
 `;
 
-const POLLING_INTERVAL = 10000;
-
-export default class SceneFilesFolder extends React.Component {
+export default class SceneTara extends React.Component {
   render() {
     return (
       <ScenePage>
@@ -44,8 +40,6 @@ export default class SceneFilesFolder extends React.Component {
           }
         />
 
-        {/* <TabGroup disabled tabs={["Usage"]} />
-        <DataMeter stats={this.props.viewer.stats} /> */}
         {this.props.viewer.library[0].children && this.props.viewer.library[0].children.length ? (
           <DataView
             onAction={this.props.onAction}

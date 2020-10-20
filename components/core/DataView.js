@@ -222,7 +222,6 @@ export default class DataView extends React.Component {
     window.removeEventListener("remote-data-deletion", this._handleDataDeletion);
     window.removeEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
     window.removeEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
-
     window.removeEventListener("scroll", this._handleScroll);
     window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }

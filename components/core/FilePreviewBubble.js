@@ -3,10 +3,8 @@ import * as Constants from "~/common/constants";
 
 import { css, keyframes } from "@emotion/react";
 import { useState } from "react";
-import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
-import SlateMediaObject from "~/components/core/SlateMediaObject";
 
-const fadein = keyframes`
+const fadeIn = keyframes`
   0%{
     opacity: 0;
   }
@@ -20,28 +18,28 @@ const STYLES_FILE_PREVIEW_BUBBLE = css`
   padding: 8px;
   border-radius: 4px;
   background-color: ${Constants.system.black};
-  animation: ${fadein} 200ms ease-out 1;
+  animation: ${fadeIn} 200ms ease-out 1;
   width: 200px;
   position: absolute;
 `;
 
 const STYLES_FILE_PREVIEW = css`
+  display: block;
   width: 100%;
   height: 100%;
 `;
 
 const STYLES_BUBBLE_ANCHOR = css`
-  box-sizing: border-box;
   display: inline-flex;
   align-item: center;
   justify-content: center;
   cursor: pointer;
 `;
 
+//Jim: the parent of this element needs to be position: relative or this bubble will fly off its position
 export const FilePreviewBubble = (props) => {
   const [onHover, setHover] = useState(false);
-  const type = props.type && props.type.startsWith("image/") && onHover;
-  console.log(type);
+  const showPreview = props.type && props.type.startsWith("image/") && onHover;
 
   return (
     <React.Fragment>
@@ -52,7 +50,7 @@ export const FilePreviewBubble = (props) => {
       >
         {props.children}
       </div>
-      {type && (
+      {showPreview && (
         <div css={STYLES_FILE_PREVIEW_BUBBLE}>
           <img css={STYLES_FILE_PREVIEW} src={`${Constants.gateways.ipfs}/${props.url}`} />
         </div>

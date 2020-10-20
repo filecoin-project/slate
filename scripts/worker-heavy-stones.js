@@ -16,6 +16,8 @@ import { v4 as uuid } from "uuid";
 const envConfig = configs["development"];
 const db = knex(envConfig);
 
+// 64 MB minimum
+const MINIMUM_BYTES_CONSIDERATION = 67108864;
 // 100 MB minimum
 const MINIMUM_BYTES_FOR_STORAGE = 104857600;
 const STORAGE_BOT_NAME = "STORAGE WORKER";
@@ -48,8 +50,8 @@ const run = async () => {
 
   jsonData.data.forEach((group) => {
     group.minerAddresses.forEach((entity) => {
-      minerMap[entity.miner] = entity;
-      minerMap[entity.miner.replace("t", "f")] = entity;
+      minerMap[entity.id] = entity;
+      minerMap[entity.id.replace("t", "f")] = entity;
     });
   });
 
@@ -57,8 +59,6 @@ const run = async () => {
   const response = await Data.getEveryUser(false);
 
   let storageUsers = [];
-  const writable = [];
-  const slateAddresses = [];
   let bytes = 0;
   let dealUsers = 0;
   let totalUsers = 0;
@@ -127,13 +127,13 @@ const run = async () => {
       }
     }
 
-    printData.bytes = userBytes;
-
     // NOTE(jim): Skip people.
-    if (userBytes < MINIMUM_BYTES_FOR_STORAGE) {
-      Logs.note(`SKIP: ${user.username}`);
+    if (userBytes < MINIMUM_BYTES_CONSIDERATION) {
+      Logs.note(`SKIP: ${user.username}, they only have ${Strings.bytesToSize(userBytes)}`);
       continue;
     }
+
+    printData.bytes = userBytes;
 
     const PowergateSingleton = await Utilities.getPowergateAPIFromUserToken({
       user,
@@ -155,16 +155,6 @@ const run = async () => {
       }
     } catch (e) {
       Logs.error(e.message);
-    }
-
-    if (address) {
-      slateAddresses.push(address);
-    }
-
-    // NOTE(jim): Exit early for analytics purposes.
-    if (STORE_MEANINGFUL_ADDRESS_ONLY_AND_PERFORM_NO_ACTIONS) {
-      Logs.taskTimeless(`Adding address for: ${user.username}`);
-      continue;
     }
 
     let storageDeals = [];
@@ -197,10 +187,9 @@ const run = async () => {
           activationEpoch: o.dealInfo.activationEpoch,
           time: o.time,
           pending: o.pending,
-          minerId: o.dealInfo.miner,
-          miner: { ...minerMap[o.dealInfo.miner], id: o.dealInfo.miner },
           createdAt: Strings.toDateSinceEpoch(o.time),
           userEncryptsDeals: !!user.data.allow_encrypted_data_storage,
+          miner: minerMap[o.dealInfo.miner] ? minerMap[o.dealInfo.miner] : { id: o.dealInfo.miner },
           user: {
             id: user.id,
             username: user.username,
@@ -245,6 +234,12 @@ const run = async () => {
         await db.insert({ data: dealToSave, owner_user_id: user.id }).into("deals").returning("*");
         Logs.task(`Inserted ${dealToSave.dealId} !!!`);
       }
+    }
+
+    // NOTE(jim): Exit early for analytics purposes.
+    if (STORE_MEANINGFUL_ADDRESS_ONLY_AND_PERFORM_NO_ACTIONS) {
+      Logs.taskTimeless(`Adding address for: ${user.username}`);
+      continue;
     }
 
     // NOTE(jim): Skip users that are out of funds.
@@ -409,8 +404,6 @@ const run = async () => {
       }
     }
 
-    writable.push(printData);
-
     for (let k = 0; k < printData.buckets.length; k++) {
       let targetBucket = printData.buckets[k];
 
@@ -431,22 +424,6 @@ const run = async () => {
   Logs.task(`total storage per run: ${Strings.bytesToSize(bytes)}`);
   Logs.task(`total storage per run (with replication x5): ${Strings.bytesToSize(bytes * 5)}`);
   Logs.task(`creating slate-storage-addresses.json`);
-
-  fs.writeFile(
-    "slate-storage-addresses.json",
-    JSON.stringify(
-      {
-        rootAddress:
-          "t3xhj6odc2cjj3z6kmxqugjjai2unacme65gnwigse4xx6jcpmfmi6jg6miqintibacluxi4ydlmolfpruznba",
-        addresses: slateAddresses,
-      },
-      null,
-      2
-    ),
-    function (e) {
-      if (e) return Logs.error(e.message);
-    }
-  );
 
   console.log(`${STORAGE_BOT_NAME} finished. \n\n`);
   console.log(`FINISHED: worker-heavy-stones.js`);

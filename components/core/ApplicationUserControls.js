@@ -98,6 +98,7 @@ const STYLES_ITEM_BOX_MOBILE = css`
   background-color: ${Constants.system.white};
   cursor: pointer;
   border-radius: 4px;
+  border-left: 2px solid ${Constants.system.foreground};
 `;
 
 const STYLES_ITEM_BOX = css`
@@ -106,8 +107,10 @@ const STYLES_ITEM_BOX = css`
   justify-content: center;
   height: 100%;
   padding: 8px;
-  padding-right: 12px;
+  padding-right: 9px;
   transition: 200ms ease all;
+  border-left: 2px solid ${Constants.system.foreground};
+
 
   :hover {
     color: ${Constants.system.brand};

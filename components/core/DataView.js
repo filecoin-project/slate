@@ -19,7 +19,7 @@ import { TabGroup } from "~/components/core/TabGroup";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import FilePreviewBubble from "~/components/core/FilePreviewBubble";
 
-const VIEW_LIMIT = 20;
+const VIEW_LIMIT = 5;
 
 const STYLES_CONTAINER_HOVER = css`
   display: flex;
@@ -231,6 +231,7 @@ export default class DataView extends React.Component {
     startIndex: 0,
     checked: {},
     view: "grid",
+    viewLimit: 3,
   };
 
   async componentDidMount() {
@@ -240,6 +241,10 @@ export default class DataView extends React.Component {
       window.addEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
       window.addEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
     }
+
+    window.addEventListener("scroll", this._handleScroll);
+
+    await this._handleUpdate();
   }
 
   componentWillUnmount() {
@@ -247,7 +252,34 @@ export default class DataView extends React.Component {
     window.removeEventListener("remote-data-deletion", this._handleDataDeletion);
     window.removeEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
     window.removeEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
+
+    window.removeEventListener("scroll", this._handleScroll);
+    window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }
+
+  _handleScroll = (e) => {
+    const windowHeight =
+      "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const docHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+    const windowBottom = windowHeight + window.pageYOffset;
+    if (windowBottom >= docHeight) {
+      console.log("END");
+      this.setState({ viewLimit: this.state.viewLimit + 5 });
+      console.log("New View Limit:" + this.state.viewLimit);
+    } else {
+      console.log("scrolling");
+    }
+    console.log("Window H: " + windowHeight);
+    console.log("Window H: " + windowHeight);
+  };
 
   _increment = (direction) => {
     if (
@@ -524,36 +556,6 @@ export default class DataView extends React.Component {
     );
     const footer = (
       <React.Fragment>
-        <div css={STYLES_ARROWS}>
-          <span
-            css={STYLES_ICON_ELEMENT}
-            style={
-              this.state.startIndex - VIEW_LIMIT >= 0
-                ? null
-                : {
-                    cursor: "not-allowed",
-                    color: Constants.system.border,
-                  }
-            }
-            onClick={() => this._increment(-1)}
-          >
-            <SVG.NavigationArrow height="24px" style={{ transform: `rotate(180deg)` }} />
-          </span>
-          <span
-            css={STYLES_ICON_ELEMENT}
-            style={
-              this.state.startIndex + VIEW_LIMIT < this.props.viewer.library[0].children.length
-                ? null
-                : {
-                    cursor: "not-allowed",
-                    color: Constants.system.border,
-                  }
-            }
-            onClick={() => this._increment(1)}
-          >
-            <SVG.NavigationArrow height="24px" />
-          </span>
-        </div>
         {numChecked ? (
           <div css={STYLES_ACTION_BAR}>
             <div css={STYLES_LEFT}>

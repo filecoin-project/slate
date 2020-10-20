@@ -241,14 +241,8 @@ export default class DataView extends React.Component {
     );
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
-      console.log("END");
       this.setState({ viewLimit: this.state.viewLimit + 5 });
-      console.log("New View Limit:" + this.state.viewLimit);
-    } else {
-      console.log("scrolling");
     }
-    console.log("Window H: " + windowHeight);
-    console.log("Window H: " + windowHeight);
   };
 
   _increment = (direction) => {

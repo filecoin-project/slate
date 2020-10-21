@@ -118,8 +118,7 @@ const STYLES_CONTAINER = css`
 const STYLES_CONTAINER_EDITING = css`
   ${STYLES_CONTAINER}
   background-image: radial-gradient(
-    ${Constants.system
-    .border} 10%,
+    ${Constants.system.border} 10%,
     transparent 0
   );
   background-size: 30px 30px;
@@ -191,9 +190,11 @@ const STYLES_FILE_TYPE = css`
 `;
 
 const STYLES_HANDLE_BOX = css`
-  padding: 2px;
-  cursor: nesw-resize;
+  cursor: nwse-resize;
   position: absolute;
+  height: 24px;
+  width: 24px;
+  color: rgba(195, 195, 196, 0.75);
 `;
 
 const STYLES_ACTION_BAR = css`
@@ -303,11 +304,9 @@ export class SlateLayout extends React.Component {
   //add flag for following defaultLayout for last element or not. so know where to put next one. "unchanged since last add" flag. if something deleted, messes this up as well
 
   componentDidMount = async () => {
-    window.addEventListener("resize", this.calculateUnit);
-    window.addEventListener(
-      "remote-object-update",
-      this._handleRemoteEditObject
-    );
+    this.debounceInstance = this.debounce(this._recalculate, 250);
+    window.addEventListener("resize", this.debounceInstance);
+    window.addEventListener("remote-object-update", this._handleRemoteEditObject);
     await this.calculateUnit();
     if (this.props.layout) {
       let layout = await this.repairLayout(this.state.items);
@@ -342,11 +341,8 @@ export class SlateLayout extends React.Component {
   };
 
   componentWillUnmount = () => {
-    window.removeEventListener("resize", this._calculateUnit);
-    window.removeEventListener(
-      "remote-object-update",
-      this._handleRemoteEditObject
-    );
+    window.removeEventListener("resize", this.debounceInstance);
+    window.removeEventListener("remote-object-update", this._handleRemoteEditObject);
     if (this.state.editing) {
       window.removeEventListener("keydown", this._handleKeyDown);
       window.removeEventListener("keyup", this._handleKeyUp);
@@ -397,10 +393,7 @@ export class SlateLayout extends React.Component {
         items: this.props.items,
         layout,
         prevLayouts: [],
-        zIndexMax:
-          layout && layout.length
-            ? Math.max(...layout.map((pos) => pos.z)) + 1
-            : 1,
+        zIndexMax: layout && layout.length ? Math.max(...layout.map((pos) => pos.z)) + 1 : 1,
         fileNames,
         defaultLayout,
         editing: false,
@@ -443,6 +436,21 @@ export class SlateLayout extends React.Component {
     this.setState({ items });
   };
 
+  debounce = (func, ms) => {
+    let timer;
+
+    return () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(func, ms);
+    };
+  };
+
+  _recalculate = async () => {
+    let prevUnit = this.state.unit;
+    await this.calculateUnit();
+    this.setState({ containerHeight: this.state.containerHeight * (this.state.unit / prevUnit) });
+  };
+
   calculateUnit = () => {
     let ref = this._ref;
     if (!ref) {
@@ -464,13 +472,9 @@ export class SlateLayout extends React.Component {
   };
 
   repairLayout = async (items, layouts) => {
-    let defaultLayout = layouts
-      ? layouts.defaultLayout
-      : this.state.defaultLayout;
+    let defaultLayout = layouts ? layouts.defaultLayout : this.state.defaultLayout;
     let fileNames = layouts ? layouts.fileNames : this.state.fileNames;
-    let layout = layouts
-      ? this.cloneLayout(layouts.layout)
-      : this.cloneLayout(this.state.layout);
+    let layout = layouts ? this.cloneLayout(layouts.layout) : this.cloneLayout(this.state.layout);
     let layoutIds = layout.map((pos) => pos.id);
     let repairNeeded = false;
     if (items.length === layout.length) {
@@ -482,7 +486,6 @@ export class SlateLayout extends React.Component {
         }
       }
       if (!repairNeeded) {
-        console.log("no repair needed");
         return;
       }
     }
@@ -525,9 +528,7 @@ export class SlateLayout extends React.Component {
         let itemAbove = h - 5 < 0 ? null : newLayout[i - 5];
         let height = heights[h];
         newLayout[i] = {
-          x: defaultLayout
-            ? (i % 5) * (SIZE + MARGIN)
-            : (h % 5) * (SIZE + MARGIN),
+          x: defaultLayout ? (i % 5) * (SIZE + MARGIN) : (h % 5) * (SIZE + MARGIN),
           y: defaultLayout
             ? 0
             : itemAbove
@@ -554,7 +555,6 @@ export class SlateLayout extends React.Component {
           : 0;
       }
     }
-    console.log("repaired layout");
     return newLayout;
   };
 
@@ -573,8 +573,7 @@ export class SlateLayout extends React.Component {
             : itemAbove.y + itemAbove.h + MARGIN
           : 0,
         w: SIZE,
-        h:
-          oldLayout && oldLayout.length > i ? oldLayout[i].h || height : height,
+        h: oldLayout && oldLayout.length > i ? oldLayout[i].h || height : height,
         z: 0,
         id: this.state.items[i].id,
       };
@@ -583,9 +582,7 @@ export class SlateLayout extends React.Component {
   };
 
   calculateHeights = async () => {
-    let results = await Promise.allSettled(
-      this.state.items.map((item, i) => preload(item, i))
-    );
+    let results = await Promise.allSettled(this.state.items.map((item, i) => preload(item, i)));
     let heights = results.map((result) => {
       if (result.status === "fulfilled") {
         return result.value;
@@ -609,10 +606,7 @@ export class SlateLayout extends React.Component {
       window.removeEventListener("keydown", this._handleKeyDown);
       window.removeEventListener("keyup", this._handleKeyUp);
       if (discardChanges) {
-        let layout = await this.repairLayout(
-          this.state.items,
-          this.state.savedProperties
-        );
+        let layout = await this.repairLayout(this.state.items, this.state.savedProperties);
         let { fileNames, defaultLayout } = this.state.savedProperties;
         if (
           layout ||
@@ -878,9 +872,7 @@ export class SlateLayout extends React.Component {
 
   _handleResetLayout = async () => {
     if (
-      !window.confirm(
-        "Are you sure you want to reset your layout to the default column layout?"
-      )
+      !window.confirm("Are you sure you want to reset your layout to the default column layout?")
     ) {
       return;
     }
@@ -978,18 +970,14 @@ export class SlateLayout extends React.Component {
       items = [
         {
           ownerId: this.state.items[i].ownerId,
-          cid:
-            this.state.items[i].cid ||
-            Strings.urlToCid(this.state.items[i].url),
+          cid: this.state.items[i].cid || Strings.urlToCid(this.state.items[i].url),
         },
       ];
     } else {
       for (let i of Object.keys(this.state.checked)) {
         items.push({
           ownerId: this.state.items[i].ownerId,
-          cid:
-            this.state.items[i].cid ||
-            Strings.urlToCid(this.state.items[i].url),
+          cid: this.state.items[i].cid || Strings.urlToCid(this.state.items[i].url),
         });
       }
     }
@@ -1068,14 +1056,8 @@ export class SlateLayout extends React.Component {
               css={STYLES_BUTTONS_ROW}
               style={{ marginBottom: 16, justifyContent: "space-between" }}
             >
-              <div
-                css={STYLES_BUTTONS_ROW}
-                style={{ width: "100%", minWidth: "10%" }}
-              >
-                <div
-                  css={STYLES_TOGGLE_BOX}
-                  style={{ marginRight: 16, paddingLeft: 24 }}
-                >
+              <div css={STYLES_BUTTONS_ROW} style={{ width: "100%", minWidth: "10%" }}>
+                <div css={STYLES_TOGGLE_BOX} style={{ marginRight: 16, paddingLeft: 24 }}>
                   <span
                     style={{
                       fontFamily: Constants.font.semiBold,
@@ -1091,10 +1073,7 @@ export class SlateLayout extends React.Component {
                       marginLeft: 8,
                     }}
                   >
-                    <Toggle
-                      active={this.state.fileNames}
-                      onChange={this._toggleFileNames}
-                    />
+                    <Toggle active={this.state.fileNames} onChange={this._toggleFileNames} />
                   </div>
                 </div>
                 {this.state.defaultLayout ? (
@@ -1107,18 +1086,12 @@ export class SlateLayout extends React.Component {
                     Reset layout
                   </ButtonDisabled>
                 ) : (
-                  <ButtonSecondary
-                    onClick={this._handleResetLayout}
-                    style={{ marginRight: 16 }}
-                  >
+                  <ButtonSecondary onClick={this._handleResetLayout} style={{ marginRight: 16 }}>
                     Reset layout
                   </ButtonSecondary>
                 )}
                 {this.state.prevLayouts.length ? (
-                  <ButtonSecondary
-                    style={{ marginRight: 16 }}
-                    onClick={this._handleUndo}
-                  >
+                  <ButtonSecondary style={{ marginRight: 16 }} onClick={this._handleUndo}>
                     Undo
                   </ButtonSecondary>
                 ) : (
@@ -1148,10 +1121,7 @@ export class SlateLayout extends React.Component {
               </div>
             </div>
           ) : (
-            <div
-              css={STYLES_BUTTONS_ROW}
-              style={{ justifyContent: "flex-end", marginBottom: 16 }}
-            >
+            <div css={STYLES_BUTTONS_ROW} style={{ justifyContent: "flex-end", marginBottom: 16 }}>
               <ButtonSecondary
                 onClick={this._toggleEditing}
                 style={{ cursor: "pointer", marginLeft: 16 }}
@@ -1186,9 +1156,7 @@ export class SlateLayout extends React.Component {
           style={{ opacity: this.state.show ? 1 : 0 }}
         >
           <div
-            css={
-              this.state.editing ? STYLES_CONTAINER_EDITING : STYLES_CONTAINER
-            }
+            css={this.state.editing ? STYLES_CONTAINER_EDITING : STYLES_CONTAINER}
             style={{
               height: this.state.editing
                 ? `calc(100vh + ${this.state.containerHeight}px)`
@@ -1196,9 +1164,9 @@ export class SlateLayout extends React.Component {
               backgroundSize: `${(CONTAINER_SIZE / 108) * this.state.unit}px ${
                 10 * this.state.unit
               }px`,
-              backgroundPosition: `-${
+              backgroundPosition: `-${(CONTAINER_SIZE / 220) * this.state.unit}px -${
                 (CONTAINER_SIZE / 220) * this.state.unit
-              }px -${(CONTAINER_SIZE / 220) * this.state.unit}px`,
+              }px`,
             }}
             ref={(c) => {
               this._ref = c;
@@ -1212,26 +1180,15 @@ export class SlateLayout extends React.Component {
                   name={i}
                   onMouseEnter={() => this.setState({ hover: i })}
                   onMouseLeave={() => this.setState({ hover: null })}
-                  onMouseDown={
-                    this.state.editing
-                      ? (e) => this._handleMouseDown(e, i)
-                      : () => {}
-                  }
-                  onClick={
-                    this.state.editing ? () => {} : () => this.props.onSelect(i)
-                  }
+                  onMouseDown={this.state.editing ? (e) => this._handleMouseDown(e, i) : () => {}}
+                  onClick={this.state.editing ? () => {} : () => this.props.onSelect(i)}
                   style={{
                     top: pos.y * unit,
                     left: pos.x * unit,
                     width: pos.w * unit,
-                    height: this.state.fileNames
-                      ? (pos.h + TAG_HEIGHT) * unit
-                      : pos.h * unit,
+                    height: this.state.fileNames ? (pos.h + TAG_HEIGHT) * unit : pos.h * unit,
                     zIndex: pos.z,
-                    boxShadow:
-                      this.state.dragIndex === i
-                        ? `0 0 44px 0 rgba(0, 0, 0, 0.25)`
-                        : null,
+                    boxShadow: this.state.dragIndex === i ? `0 0 44px 0 rgba(0, 0, 0, 0.25)` : null,
                     backgroundColor: Constants.system.foreground,
                   }}
                 >
@@ -1242,9 +1199,7 @@ export class SlateLayout extends React.Component {
                       charCap={70}
                       type={this.state.items[i].type}
                       url={this.state.items[i].url}
-                      title={
-                        this.state.items[i].title || this.state.items[i].name
-                      }
+                      title={this.state.items[i].title || this.state.items[i].name}
                       height={pos.h * unit}
                       width={pos.w * unit}
                       style={{
@@ -1299,8 +1254,7 @@ export class SlateLayout extends React.Component {
                         )}
                         {this.state.editing ? (
                           <React.Fragment>
-                            {this.state.tooltip &&
-                            this.state.tooltip.startsWith(`${i}-`) ? (
+                            {this.state.tooltip && this.state.tooltip.startsWith(`${i}-`) ? (
                               <Tooltip
                                 light
                                 style={
@@ -1342,12 +1296,8 @@ export class SlateLayout extends React.Component {
                             <div
                               onMouseDown={this._stopProp}
                               onMouseUp={this._stopProp}
-                              onMouseEnter={() =>
-                                this.setState({ tooltip: `${i}-remove` })
-                              }
-                              onMouseLeave={() =>
-                                this.setState({ tooltip: null })
-                              }
+                              onMouseEnter={() => this.setState({ tooltip: `${i}-remove` })}
+                              onMouseLeave={() => this.setState({ tooltip: null })}
                               onClick={(e) => {
                                 this._handleRemoveFromSlate(e, i);
                               }}
@@ -1374,12 +1324,8 @@ export class SlateLayout extends React.Component {
                                 css={STYLES_ICON_CIRCLE}
                                 onMouseDown={this._stopProp}
                                 onMouseUp={this._stopProp}
-                                onMouseEnter={() =>
-                                  this.setState({ tooltip: `${i}-view` })
-                                }
-                                onMouseLeave={() =>
-                                  this.setState({ tooltip: null })
-                                }
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-view` })}
+                                onMouseLeave={() => this.setState({ tooltip: null })}
                                 onClick={(e) => {
                                   this._stopProp(e);
                                   this.props.onSelect(i);
@@ -1391,12 +1337,8 @@ export class SlateLayout extends React.Component {
                                 css={STYLES_ICON_CIRCLE}
                                 onMouseDown={this._stopProp}
                                 onMouseUp={this._stopProp}
-                                onMouseEnter={() =>
-                                  this.setState({ tooltip: `${i}-download` })
-                                }
-                                onMouseLeave={() =>
-                                  this.setState({ tooltip: null })
-                                }
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-download` })}
+                                onMouseLeave={() => this.setState({ tooltip: null })}
                                 onClick={(e) => {
                                   this._handleDownload(e, i);
                                 }}
@@ -1407,27 +1349,37 @@ export class SlateLayout extends React.Component {
                                 css={STYLES_ICON_CIRCLE}
                                 onMouseDown={this._stopProp}
                                 onMouseUp={this._stopProp}
-                                onMouseEnter={() =>
-                                  this.setState({ tooltip: `${i}-delete` })
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-delete` })}
+                                onMouseLeave={() => this.setState({ tooltip: null })}
+                                onClick={
+                                  this.state.items[i].ownerId === this.props.viewer.id
+                                    ? (e) => {
+                                        this._handleDeleteFiles(e, i);
+                                      }
+                                    : () => {}
                                 }
-                                onMouseLeave={() =>
-                                  this.setState({ tooltip: null })
-                                }
-                                onClick={(e) => {
-                                  this._handleDeleteFiles(e, i);
+                                style={{
+                                  cursor:
+                                    this.state.items[i].ownerId === this.props.viewer.id
+                                      ? "pointer"
+                                      : "not-allowed",
                                 }}
                               >
                                 <SVG.Trash
                                   height="16px"
-                                  style={{ color: Constants.system.red }}
+                                  style={{
+                                    color:
+                                      this.state.items[i].ownerId === this.props.viewer.id
+                                        ? Constants.system.red
+                                        : "#999999",
+                                  }}
                                 />
                               </div>
                             </div>
                           </React.Fragment>
                         ) : (
                           <React.Fragment>
-                            {this.state.tooltip &&
-                            this.state.tooltip.startsWith(`${i}-`) ? (
+                            {this.state.tooltip && this.state.tooltip.startsWith(`${i}-`) ? (
                               <Tooltip
                                 light
                                 style={
@@ -1470,12 +1422,8 @@ export class SlateLayout extends React.Component {
                             <div
                               onMouseDown={this._stopProp}
                               onMouseUp={this._stopProp}
-                              onMouseEnter={() =>
-                                this.setState({ tooltip: `${i}-add` })
-                              }
-                              onMouseLeave={() =>
-                                this.setState({ tooltip: null })
-                              }
+                              onMouseEnter={() => this.setState({ tooltip: `${i}-add` })}
+                              onMouseLeave={() => this.setState({ tooltip: null })}
                               onClick={
                                 this.props.external
                                   ? this._handleLoginModal
@@ -1517,17 +1465,10 @@ export class SlateLayout extends React.Component {
                                 }}
                                 onMouseDown={this._stopProp}
                                 onMouseUp={this._stopProp}
-                                onMouseEnter={() =>
-                                  this.setState({ tooltip: `${i}-copy` })
-                                }
-                                onMouseLeave={() =>
-                                  this.setState({ tooltip: null })
-                                }
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-copy` })}
+                                onMouseLeave={() => this.setState({ tooltip: null })}
                                 successState={
-                                  <SVG.CheckBox
-                                    height="16px"
-                                    style={{ color: "#4b4a4d" }}
-                                  />
+                                  <SVG.CheckBox height="16px" style={{ color: "#4b4a4d" }} />
                                 }
                                 style={{
                                   height: 24,
@@ -1544,21 +1485,14 @@ export class SlateLayout extends React.Component {
                                   backdropFilter: "blur(25px)",
                                 }}
                               >
-                                <SVG.DeepLink
-                                  height="16px"
-                                  style={{ color: "#4b4a4d" }}
-                                />
+                                <SVG.DeepLink height="16px" style={{ color: "#4b4a4d" }} />
                               </DynamicIcon>
                               <div
                                 css={STYLES_ICON_CIRCLE}
                                 onMouseDown={this._stopProp}
                                 onMouseUp={this._stopProp}
-                                onMouseEnter={() =>
-                                  this.setState({ tooltip: `${i}-download` })
-                                }
-                                onMouseLeave={() =>
-                                  this.setState({ tooltip: null })
-                                }
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-download` })}
+                                onMouseLeave={() => this.setState({ tooltip: null })}
                                 onClick={
                                   this.props.external
                                     ? this._handleLoginModal
@@ -1574,19 +1508,13 @@ export class SlateLayout extends React.Component {
                                   css={STYLES_ICON_CIRCLE}
                                   onMouseDown={this._stopProp}
                                   onMouseUp={this._stopProp}
-                                  onMouseEnter={() =>
-                                    this.setState({ tooltip: `${i}-preview` })
-                                  }
-                                  onMouseLeave={() =>
-                                    this.setState({ tooltip: null })
-                                  }
+                                  onMouseEnter={() => this.setState({ tooltip: `${i}-preview` })}
+                                  onMouseLeave={() => this.setState({ tooltip: null })}
                                   onClick={
                                     this.props.external
                                       ? this._handleLoginModal
                                       : this.state.items[i].type &&
-                                        this.state.items[i].type.startsWith(
-                                          "image/"
-                                        ) &&
+                                        this.state.items[i].type.startsWith("image/") &&
                                         this.state.items[i].size &&
                                         this.state.items[i].size < SIZE_LIMIT
                                       ? (e) => this._handleSetPreview(e, i)
@@ -1594,18 +1522,12 @@ export class SlateLayout extends React.Component {
                                   }
                                   style={
                                     this.props.preview ===
-                                    this.state.items[i].url.replace(
-                                      "https://undefined",
-                                      "https://"
-                                    )
+                                    this.state.items[i].url.replace("https://undefined", "https://")
                                       ? {
-                                          backgroundColor:
-                                            "rgba(0, 97, 187, 0.75)",
+                                          backgroundColor: "rgba(0, 97, 187, 0.75)",
                                         }
                                       : this.state.items[i].type &&
-                                        this.state.items[i].type.startsWith(
-                                          "image/"
-                                        ) &&
+                                        this.state.items[i].type.startsWith("image/") &&
                                         this.state.items[i].size &&
                                         this.state.items[i].size < SIZE_LIMIT
                                       ? {}
@@ -1635,12 +1557,8 @@ export class SlateLayout extends React.Component {
                                   css={STYLES_ICON_CIRCLE}
                                   onMouseDown={this._stopProp}
                                   onMouseUp={this._stopProp}
-                                  onMouseEnter={() =>
-                                    this.setState({ tooltip: `${i}-save` })
-                                  }
-                                  onMouseLeave={() =>
-                                    this.setState({ tooltip: null })
-                                  }
+                                  onMouseEnter={() => this.setState({ tooltip: `${i}-save` })}
+                                  onMouseLeave={() => this.setState({ tooltip: null })}
                                   onClick={
                                     this.props.external
                                       ? this._handleLoginModal
@@ -1681,15 +1599,10 @@ export class SlateLayout extends React.Component {
                       css={STYLES_HANDLE_BOX}
                       onMouseDown={(e) => this._handleMouseDownResize(e, i)}
                       style={{
-                        bottom: this.state.fileNames
-                          ? `calc(4px + ${TAG_HEIGHT}px)`
-                          : 4,
+                        bottom: this.state.fileNames ? `calc(0px + ${TAG_HEIGHT}px)` : 0,
                         right: 0,
-                        opacity:
-                          this.state.hover === i || this.state.dragIndex === i
-                            ? "1"
-                            : "0",
-                        cursor: "nwse-resize",
+                        display:
+                          this.state.hover === i || this.state.dragIndex === i ? "block" : "none",
                       }}
                     >
                       <SVG.DragHandle height="24px" />
@@ -1745,14 +1658,8 @@ export class SlateLayout extends React.Component {
                 >
                   Delete files
                 </ButtonWarning>
-                <div
-                  css={STYLES_ICON_BOX}
-                  onClick={() => this.setState({ checked: {} })}
-                >
-                  <SVG.Dismiss
-                    height="20px"
-                    style={{ color: Constants.system.darkGray }}
-                  />
+                <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
+                  <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
                 </div>
               </div>
             ) : (
@@ -1766,14 +1673,8 @@ export class SlateLayout extends React.Component {
                 <ButtonPrimary transparent onClick={this._handleDownload}>
                   Download
                 </ButtonPrimary>
-                <div
-                  css={STYLES_ICON_BOX}
-                  onClick={() => this.setState({ checked: {} })}
-                >
-                  <SVG.Dismiss
-                    height="20px"
-                    style={{ color: Constants.system.darkGray }}
-                  />
+                <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
+                  <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
                 </div>
               </div>
             )}

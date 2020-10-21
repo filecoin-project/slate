@@ -2,18 +2,12 @@ import { runQuery } from "~/node_common/data/utilities";
 
 export default async ({ cid, ownerId }) => {
   return await runQuery({
-    label: "DELETE_SLATES_FOR_USER_ID", //chngae this
+    label: "DELETE_SLATES_FOR_USER_ID", //change this
     queryFn: async (DB) => {
-      const hasCid = (cid) =>
-        DB.raw(`(?? -> ??) @> ?::jsonb`, [
-          "data",
-          "objects",
-          JSON.stringify({ cid: cid }),
-        ]);
-
-      const slates = await DB.select("slatename")
-        .from("slates")
-        .where(hasCid(cid));
+      const hasCid = (cidValue) =>
+        DB.raw(`(?? -> ??) @> ?::jsonb`, ["data", "objects", JSON.stringify({ cid: cidValue })]);
+      //NOTE(martina): this is WIP. Do not use yet
+      const slates = await DB.select("*").from("slates").where(hasCid(cid));
 
       console.log(slates);
       return true;

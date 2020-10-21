@@ -29,7 +29,7 @@ const STYLES_ROOT = css`
 
 const STYLES_SLATE = css`
   padding: 0 88px 0 88px;
-  max-width: 1660px;
+  ${"" /* max-width: 1660px; */}
   display: block;
   width: 100%;
   margin: 48px auto 0 auto;
@@ -69,9 +69,7 @@ export default class SlatePage extends React.Component {
             id: each.id,
             data: each,
             isOwner: false,
-            component: (
-              <SlateMediaObject key={each.id} useImageFallback data={each} />
-            ),
+            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
           };
         }),
       },
@@ -142,9 +140,7 @@ export default class SlatePage extends React.Component {
 
       if (object) {
         title = !Strings.isEmpty(object.title) ? object.title : this.props.cid;
-        body = !Strings.isEmpty(object.body)
-          ? Strings.elide(object.body)
-          : `An object on ${url}`;
+        body = !Strings.isEmpty(object.body) ? Strings.elide(object.body) : `An object on ${url}`;
         image = object.type.includes("image/") ? object.url : image;
         url = `${url}/cid:${this.props.cid}`;
       }
@@ -153,12 +149,7 @@ export default class SlatePage extends React.Component {
     const headerTitle = `${this.props.creator.username} / ${this.props.slate.slatename}`;
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={body}
-        url={url}
-        image={image}
-      >
+      <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeaderGeneric href={headerURL} title={headerTitle}>
             <ProcessedText text={this.props.slate.data.body} />
@@ -170,14 +161,10 @@ export default class SlatePage extends React.Component {
               layout={layouts && layouts.ver === "2.0" ? layouts.layout : null}
               onSaveLayout={this._handleSave}
               isOwner={false}
-              fileNames={
-                layouts && layouts.ver === "2.0" ? layouts.fileNames : false
-              }
+              fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
               items={objects}
               onSelect={this._handleSelect}
-              defaultLayout={
-                layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true
-              }
+              defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
             />
           </div>
           <WebsitePrototypeFooter style={{ marginTop: 88 }} />

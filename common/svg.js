@@ -225,12 +225,7 @@ export const SettingsDeveloper = (props) => {
       height={props.height}
       style={props.style}
     >
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
         <path d="m18.25 2.251c-1.061 1.061-3.04.96-4.75-.75l-1.5 1.499 8 8 3.5-3.5z" />
         <path d="m11.939 9.94-3.793-3.792.00000007-.00000015c.910118-2.01295.0160937-4.38257-1.99686-5.29269-1.04732-.473526-2.24773-.473639-3.29514-.00031106l2.146 2.145v2h-2l-2.146-2.145.00000008-.00000019c-.910118 2.01295-.0160941 4.38257 1.99686 5.29269 1.04732.473526 2.24773.47364 3.29514.00031136l3.793 3.792" />
         <path d="m12.061 14.062 3.793 3.793.00000008-.00000019c-.910118 2.01295-.0160941 4.38257 1.99686 5.29269 1.04732.473526 2.24773.47364 3.29514.00031136l-2.146-2.148v-2h2l2.146 2.147.00000007-.00000015c.910118-2.01295.0160937-4.38257-1.99686-5.29269-1.04732-.473526-2.24773-.473639-3.29514-.00031106l-3.793-3.793" />
@@ -266,12 +261,7 @@ export const ProfileUser = (props) => {
       height={props.height}
       style={props.style}
     >
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
         <path d="m1.9 17.5h10.12" />
         <path d="m2.51 5.5h18.99" />
         <path d="m12 11.5h-11.49" />
@@ -292,12 +282,7 @@ export const Slates = (props) => (
     height={props.height}
     style={props.style}
   >
-    <g
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
       <path d="m17.42 17.27-2.787-8.02-3.42 6-2.138-3-2.476 5.048" />
       <path d="m10.7071 8.29289c.390524.390524.390524 1.02369 0 1.41421-.390524.390524-1.02369.390524-1.41421 0-.390524-.390524-.390524-1.02369 0-1.41421.390524-.390524 1.02369-.390524 1.41421 0" />
       <path d="m1.5 6.5h-.00000004c-.552285-.00000002-1-.447715-1-1v-1 .00000015c-.00000008-.552285.447715-1 1-1h2v-2 .00000015c-.00000008-.552285.447715-1 1-1h1-.00000004c.552285-.00000002 1 .447715 1 1v2h13-.00000004c.552285-.00000002 1 .447715 1 1v13h2-.00000004c.552285-.00000002 1 .447715 1 1v1c0 .552285-.447715 1-1 1h-2v2c0 .552285-.447715 1-1 1h-1-.00000004c-.552285-.00000002-1-.447715-1-1v-2h-13-.00000004c-.552285-.00000002-1-.447715-1-1v-13z" />
@@ -470,12 +455,7 @@ export const Home = (props) => (
 
 export const Channels = (props) => (
   <svg viewBox="0 0 24 24" height={props.height} style={props.style}>
-    <g
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="16.004" cy="8" r="7.5" />
       <path d="m8.53 8.526a7.5 7.5 0 1 0 6.948 6.948" />
       <path d="m7.504 13.5v-1" />
@@ -490,12 +470,7 @@ export const Channels = (props) => (
 
 export const Peers = (props) => (
   <svg viewBox="0 0 24 24" height={props.height} style={props.style}>
-    <g
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
       <path d="m17 7.02 3.11-3.09" />
       <path d="m22.9142 1.08579c.781049.781049.781049 2.04738 0 2.82843-.781049.781049-2.04738.781049-2.82843 0-.781049-.781049-.781049-2.04738 0-2.82843.781049-.781049 2.04738-.781049 2.82843 0" />
       <path d="m17.96 17.98 2.12 2.13" />
@@ -535,12 +510,7 @@ export const Deals = (props) => (
 
 export const DataTransfer = (props) => (
   <svg viewBox="0 0 24 24" height={props.height} style={props.style}>
-    <g
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
       <path d="m20.5 14.406a4.311 4.311 0 0 0 2.5-4.049 4.711 4.711 0 0 0 -4.954-4.635 6.706 6.706 0 0 0 -6.046-3.722 6.605 6.605 0 0 0 -6.675 6.109 3.561 3.561 0 0 0 -4.325 3.409 3.186 3.186 0 0 0 2.5 3.282" />
       <path d="m6 19 3 3 3-3" />
       <path d="m9 22v-9" />
@@ -564,12 +534,7 @@ export const Stats = (props) => (
 
 export const Logs = (props) => (
   <svg viewBox="0 0 24 24" height={props.height} style={props.style}>
-    <g
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
       <path d="m8.5 20.5h-7a1 1 0 0 1 -1-1v-16a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v5" />
       <path d="m4.5 4.5v-4" />
       <path d="m8.5 4.5v-4" />
@@ -583,12 +548,7 @@ export const Logs = (props) => (
 
 export const Status = (props) => (
   <svg viewBox="0 0 24 24" height={props.height} style={props.style}>
-    <g
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
       <path d="m14.061 5.243a1.5 1.5 0 0 1 0 2.121" />
       <path d="m16.182 3.121a4.5 4.5 0 0 1 0 6.364" />
       <path d="m16.182 3.121a4.5 4.5 0 0 1 0 6.364" />
@@ -627,12 +587,7 @@ export const Miners = (props) => (
 
 export const StorageMarket = (props) => (
   <svg viewBox="0 0 24 24" height={props.height} style={props.style}>
-    <g
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
       <path d="m23.5 22h-22.5a.5.5 0 0 1 -.5-.5v-19.5" />
       <path d="m12.872 15.523c.182 1 .458 3.477 3.128 3.477" />
       <path d="m3 19a3 3 0 0 0 2.947-2.46l1.2-6.571a2.4 2.4 0 0 1 3.8-1.487" />
@@ -994,12 +949,7 @@ export const FileImage = (props) => (
     style={props.style}
     {...props}
   >
-    <g
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
       <path d="m21.207 4.5-.00000002-.00000002c.187549.187493.292943.441805.293.707v17.293c0 .552285-.447715 1-1 1h-17-.00000004c-.552285-.00000002-1-.447715-1-1v-21 .00000015c-.00000008-.552285.447715-1 1-1h13.293.00000001c.265195.00005664.519507.105451.707.293z" />
       <path d="m12.826 12.366-2.8-3.74.00000001.00000002c-.165798-.22083-.479221-.265442-.700051-.0996437-.0578698.0434484-.105619.0989405-.139949.162644l-3.276 6.074.00000001-.00000002c-.130892.24315-.0398879.546371.203262.677262.0727636.0391698.154101.0596942.236738.0597376h4.181" />
       <path d="m17.3284 13.1716c1.5621 1.5621 1.5621 4.09476 0 5.65685-1.5621 1.5621-4.09476 1.5621-5.65685 0-1.5621-1.5621-1.5621-4.09476 0-5.65685 1.5621-1.5621 4.09476-1.5621 5.65685 0" />
@@ -1491,10 +1441,7 @@ export const FileNotFound = (props) => (
   >
     <path d="M13 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V9L13 2Z" />
     <path d="M13 2V9H20" />
-    <path
-      d="M14 16C14 16 13.25 15 12 15C10.75 15 10 16 10 16"
-      strokeWidth="1"
-    />
+    <path d="M14 16C14 16 13.25 15 12 15C10.75 15 10 16 10 16" strokeWidth="1" />
     <path d="M10.5 12.5H10.505" strokeWidth="1" />
     <path d="M13.5 12.5H13.505" strokeWidth="1" />
   </svg>

@@ -172,7 +172,7 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
       return;
     }
 
-    const response = await Actions.deleteBucketItem({ cid });
+    const response = await Actions.deleteBucketItems({ cids: [cid] });
     if (!response) {
       dispatchCustomEvent({
         name: "create-alert",

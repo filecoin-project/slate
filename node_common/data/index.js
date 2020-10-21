@@ -9,7 +9,7 @@ import getUserById from "~/node_common/data/methods/get-user-by-id";
 //NOTE(martina):
 // Pending user upload queries
 import getPendingDataForUserId from "~/node_common/data/methods/get-pending-data-for-user-id";
-import removePendingDataForUserId from "~/node_common/data/methods/remove-pending-data-for-user-id";
+import deletePendingDataByUserId from "~/node_common/data/methods/delete-pending-data-by-user-id";
 import createPendingData from "~/node_common/data/methods/create-pending-data";
 
 // NOTE(jim):
@@ -21,6 +21,7 @@ import getSlatesByUserId from "~/node_common/data/methods/get-slates-by-user-id"
 import updateSlateById from "~/node_common/data/methods/update-slate-by-id";
 import deleteSlatesForUserId from "~/node_common/data/methods/delete-slates-for-user-id";
 import deleteSlateById from "~/node_common/data/methods/delete-slate-by-id";
+import deleteRepostsByCid from "~/node_common/data/methods/delete-reposts-by-cid";
 
 // NOTE(jim):
 // API postgres queries
@@ -80,7 +81,7 @@ export {
   getUserById,
   // NOTE(martina): Pending user upload operations
   getPendingDataForUserId,
-  removePendingDataForUserId,
+  deletePendingDataByUserId,
   createPendingData,
   // NOTE(jim): Slate operations.
   createSlate,
@@ -90,6 +91,7 @@ export {
   updateSlateById,
   deleteSlatesForUserId,
   deleteSlateById,
+  deleteRepostsByCid,
   // NOTE(jim): API key operations,
   createAPIKeyForUserId,
   deleteAPIKeyById,

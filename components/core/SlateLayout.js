@@ -1593,12 +1593,21 @@ export class SlateLayout extends React.Component {
                                       : () => {}
                                   }
                                   style={
-                                    this.state.items[i].type &&
-                                    this.state.items[i].type.startsWith(
-                                      "image/"
-                                    ) &&
-                                    this.state.items[i].size &&
-                                    this.state.items[i].size < SIZE_LIMIT
+                                    this.props.preview ===
+                                    this.state.items[i].url.replace(
+                                      "https://undefined",
+                                      "https://"
+                                    )
+                                      ? {
+                                          backgroundColor:
+                                            "rgba(0, 97, 187, 0.75)",
+                                        }
+                                      : this.state.items[i].type &&
+                                        this.state.items[i].type.startsWith(
+                                          "image/"
+                                        ) &&
+                                        this.state.items[i].size &&
+                                        this.state.items[i].size < SIZE_LIMIT
                                       ? {}
                                       : {
                                           color: "#999999",
@@ -1611,7 +1620,12 @@ export class SlateLayout extends React.Component {
                                     "https://undefined",
                                     "https://"
                                   ) ? (
-                                    <SVG.DesktopEye height="16px" />
+                                    <SVG.DesktopEye
+                                      height="16px"
+                                      style={{
+                                        color: Constants.system.white,
+                                      }}
+                                    />
                                   ) : (
                                     <SVG.Desktop height="16px" />
                                   )}

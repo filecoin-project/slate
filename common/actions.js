@@ -235,15 +235,8 @@ export const addCIDToData = async (data) => {
   });
 };
 
-export const deleteBucketItem = async (data) => {
-  return await returnJSON(`/api/data/remove`, {
-    ...DEFAULT_OPTIONS,
-    body: JSON.stringify({ data }),
-  });
-};
-
 export const deleteBucketItems = async (data) => {
-  return await returnJSON(`/api/data/remove-multiple`, {
+  return await returnJSON(`/api/data/remove`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });

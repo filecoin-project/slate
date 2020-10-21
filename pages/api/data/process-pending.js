@@ -11,7 +11,7 @@ export default async (req, res) => {
       .send({ decorator: "PROCESS_PENDING_ERROR", error: true });
   }
 
-  const response = await Data.removePendingDataForUserId({ owner_user_id: id });
+  const response = await Data.deletePendingDataByUserId({ owner_user_id: id });
 
   if (!response) {
     return res

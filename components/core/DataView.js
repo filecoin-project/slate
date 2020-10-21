@@ -202,6 +202,7 @@ export default class DataView extends React.Component {
     checked: {},
     view: "grid",
     viewLimit: 20,
+    scrollDebounce: false,
   };
 
   async componentDidMount() {
@@ -213,7 +214,6 @@ export default class DataView extends React.Component {
     }
 
     window.addEventListener("scroll", this._handleScroll);
-
     await this._handleUpdate();
   }
 
@@ -226,7 +226,22 @@ export default class DataView extends React.Component {
     window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }
 
+  _debounce = (func, wait) => {
+    let timeout;
+
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  };
+
   _handleScroll = (e) => {
+    var timer;
     const windowHeight =
       "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
     const body = document.body;
@@ -240,7 +255,8 @@ export default class DataView extends React.Component {
     );
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
-      this.setState({ viewLimit: this.state.viewLimit + 5 });
+      this.setState({ viewLimit: this.state.viewLimit + 10 });
+    }
   };
 
   _handleCheckBox = (e) => {
@@ -425,7 +441,6 @@ export default class DataView extends React.Component {
 
   _handleCopy = (e, value) => {
     e.stopPropagation();
-
     this._handleHide();
     this.setState({ copyValue: value }, () => {
       this._ref.select();

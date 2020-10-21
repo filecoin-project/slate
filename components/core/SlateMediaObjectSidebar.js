@@ -160,7 +160,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
     const elements = [];
 
     if (this.props.data) {
-      if (this.props.editing) {
+      if (this.props.isOwner) {
         elements.push(
           <React.Fragment key="sidebar-media-object-info">
             <div css={STYLES_SIDEBAR_SECTION}>
@@ -307,7 +307,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
       );
     }
 
-    if (this.props.onDelete && this.props.editing) {
+    if (this.props.onDelete && this.props.isOwner) {
       elements.push(
         <a
           key="sidebar-media-object-preview"

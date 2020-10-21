@@ -126,6 +126,13 @@ export const search = async (data) => {
   });
 };
 
+export const createPendingFiles = async (data) => {
+  return await returnJSON(`/api/data/create-pending`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify(data),
+  });
+};
+
 export const processPendingFiles = async (data) => {
   return await returnJSON(`/api/data/process-pending`, {
     ...DEFAULT_OPTIONS,
@@ -221,15 +228,15 @@ export const deleteAPIKey = async (data) => {
   });
 };
 
-export const deleteBucketItem = async (data) => {
-  return await returnJSON(`/api/data/remove`, {
+export const addCIDToData = async (data) => {
+  return await returnJSON(`/api/data/add`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });
 };
 
 export const deleteBucketItems = async (data) => {
-  return await returnJSON(`/api/data/remove-multiple`, {
+  return await returnJSON(`/api/data/remove`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });

@@ -1,31 +1,7 @@
 import * as Constants from "~/node_common/constants";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
-
-const generateLayout = (items) => {
-  if (!items) {
-    return [];
-  }
-
-  if (!items.length) {
-    return [];
-  }
-
-  return items.map((item, i) => {
-    var y = Math.ceil(Math.random() * 4) + 1;
-
-    return {
-      x: (i * 2) % 10,
-      y: 0,
-      w: 2,
-      h: 2,
-      minW: 2,
-      minH: 2,
-      // NOTE(jim): Library quirk thats required.
-      i: i.toString(),
-    };
-  });
-};
+import * as Strings from "~/common/strings";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -77,9 +53,20 @@ export default async (req, res) => {
   }
 
   let slateURLs = slate.data.objects.map((file) => file.url);
-  let newIPFSs = [];
-  let addlObjects = newObjects
-    .filter((each) => {
+
+  let addlObjects;
+  if (req.body.fromSlate) {
+    let newURLs = [];
+    addlObjects = newObjects.filter((each) => {
+      if (slateURLs.includes(each.url) || newURLs.includes(each.url)) {
+        return false;
+      }
+      newURLs.push(each.url);
+      return true;
+    });
+  } else {
+    let newIPFSs = [];
+    addlObjects = newObjects.filter((each) => {
       if (
         slateURLs.includes(
           `${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`
@@ -90,30 +77,37 @@ export default async (req, res) => {
       }
       newIPFSs.push(each.ipfs);
       return true;
-    })
-    .map((each) => {
-      let cid = each.ipfs.replace("/ipfs/", "");
-      return {
-        id: each.id,
-        ownerId: user.id,
-        name: each.name,
-        title: each.title,
-        type: each.type,
-        url: `${Constants.IPFS_GATEWAY_URL}/${cid}`,
-      };
     });
+  }
+  addlObjects = addlObjects.map((each) => {
+    let url = each.url
+      ? each.url
+      : `${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`;
+    let cid = each.cid
+      ? each.cid
+      : each.ipfs
+      ? each.ipfs.replace("/ipfs/", "")
+      : Strings.urlToCid(each.url);
+    return {
+      blurhash: each.blurhash,
+      cid: cid,
+      size: each.size,
+      id: each.id,
+      ownerId: req.body.fromSlate ? each.ownerId : user.id,
+      name: each.name,
+      title: each.title,
+      type: each.type,
+      url,
+    };
+  });
 
   const objects = [...slate.data.objects, ...addlObjects];
-
-  // TODO(jim): Preserve layouts when adding.
-  let layouts = { lg: generateLayout(objects) };
 
   const update = await Data.updateSlateById({
     id: slate.id,
     updated_at: new Date(),
     data: {
       ...slate.data,
-      layouts,
       objects,
     },
   });

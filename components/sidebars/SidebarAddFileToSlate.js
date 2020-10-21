@@ -22,7 +22,6 @@ const STYLES_SLATE_NAME = css`
 
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
-  font-size: 18px;
   margin-top: 32px;
   margin-bottom: 16px;
 `;
@@ -92,7 +91,11 @@ export default class SidebarAddFileToSlate extends React.Component {
     });
     for (let slate of Object.values(this.state.selected)) {
       if (!slate) continue;
-      const addResponse = await Actions.addFileToSlate({ slate, data });
+      const addResponse = await Actions.addFileToSlate({
+        slate,
+        data,
+        fromSlate: this.props.sidebarData.fromSlate,
+      });
 
       if (!addResponse) {
         dispatchCustomEvent({

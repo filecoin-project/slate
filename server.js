@@ -76,6 +76,8 @@ app.prepare().then(async () => {
   });
 
   server.get("/_", async (req, res) => {
+    let mobile = Validations.onMobile(req.headers["user-agent"]);
+
     const isBucketsAvailable = await Utilities.checkTextile();
 
     if (!isBucketsAvailable) {
@@ -95,6 +97,7 @@ app.prepare().then(async () => {
     return app.render(req, res, "/_", {
       viewer,
       analytics,
+      mobile,
     });
   });
 
@@ -117,9 +120,11 @@ app.prepare().then(async () => {
   server.all("/_/:a/:b", async (r, s) => handler(r, s, r.url));
 
   server.get("/:username", async (req, res) => {
+    let mobile = Validations.onMobile(req.headers["user-agent"]);
+
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
-      return handler(req, res, req.url);
+      return handler(req, res, req.url, { mobile });
     }
 
     const id = Utilities.getIdFromCookie(req);
@@ -151,13 +156,15 @@ app.prepare().then(async () => {
     return app.render(req, res, "/_/profile", {
       viewer,
       creator: Serializers.user({ ...creator, slates }),
+      mobile,
     });
   });
 
   server.get("/:username/:slatename", async (req, res) => {
+    let mobile = Validations.onMobile(req.headers["user-agent"]);
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
-      return handler(req, res, req.url);
+      return handler(req, res, req.url, { mobile });
     }
 
     const slate = await Data.getSlateByName({
@@ -204,6 +211,7 @@ app.prepare().then(async () => {
       viewer,
       creator: Serializers.user(creator),
       slate,
+      mobile,
     });
   });
 

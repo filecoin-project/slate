@@ -10,7 +10,6 @@ import { css } from "@emotion/react";
 
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
-  font-size: 18px;
   margin-top: 32px;
 `;
 

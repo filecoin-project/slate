@@ -19,7 +19,7 @@ const STYLES_CHECKBOX_FIGURE = css`
   box-sizing: border-box;
   box-shadow: 0 0 0 1px ${Constants.system.darkGray};
   background-color: ${Constants.system.white};
-  border-radius: 3px;
+  border-radius: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -91,7 +91,8 @@ export class CheckBox extends React.Component {
         >
           {this.props.value ? (
             <SVG.CheckBox
-              height="14px"
+              height="12px"
+              strokeWidth="4"
               style={{ color: Constants.system.white }}
             />
           ) : null}

@@ -90,13 +90,11 @@ export const addData = ({ user, files }) => {
   // TODO(jim): Since we don't support bucket organization... yet.
   // Add just pushes to the first set. But we can change this easily later.
   let noRepeats = [...files];
+
   for (let i = 0; i < library.length; i++) {
     let cids = library[i].children.map((file) => file.ipfs);
     for (let j = 0; j < files.length; j++) {
-      if (
-        cids.includes(`/ipfs/${files[j].ipfs}`) ||
-        cids.includes(files[j].ipfs)
-      ) {
+      if (cids.includes(files[j].ipfs)) {
         noRepeats[j] = null;
       }
     }

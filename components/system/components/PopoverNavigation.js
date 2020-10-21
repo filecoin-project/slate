@@ -41,9 +41,9 @@ export class PopoverNavigation extends React.Component {
   render() {
     return (
       <div css={STYLES_POPOVER} style={this.props.style}>
-        {this.props.navigation.map((each) => (
+        {this.props.navigation.map((each, i) => (
           <div
-            key={each.text}
+            key={i}
             css={STYLES_POPOVER_ITEM}
             style={this.props.itemStyle}
             onClick={each.onClick}

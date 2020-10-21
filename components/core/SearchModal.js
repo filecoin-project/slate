@@ -5,7 +5,6 @@ import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 
 import MiniSearch from "minisearch";
-import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
 import { css } from "@emotion/react";
 import { SearchDropdown } from "~/components/core/SearchDropdown";

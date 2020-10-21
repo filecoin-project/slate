@@ -1,9 +1,35 @@
 import * as Actions from "~/common/actions";
 import * as Store from "~/common/store";
+import * as Constants from "~/common/constants";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { encode } from "blurhash";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
+
+const loadImage = async (src) =>
+  new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = (...args) => reject(args);
+    img.src = src;
+  });
+
+const getImageData = (image) => {
+  const canvas = document.createElement("canvas");
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const context = canvas.getContext("2d");
+  context.drawImage(image, 0, 0);
+  return context.getImageData(0, 0, image.width, image.height);
+};
+
+const encodeImageToBlurhash = async (imageUrl) => {
+  const image = await loadImage(imageUrl);
+  const imageData = getImageData(image);
+  return encode(imageData.data, imageData.width, imageData.height, 4, 4);
+};
 
 export const upload = async ({ file, context, bucketName }) => {
   let formData = new FormData();
@@ -91,15 +117,15 @@ export const upload = async ({ file, context, bucketName }) => {
       XHR.send(formData);
     });
 
-  let json;
+  let res;
   // TODO(jim): Make this smarter.
   if (bucketName && bucketName === STAGING_DEAL_BUCKET) {
-    json = await _privateUploadMethod(`/api/data/deal/${file.name}`, file);
+    res = await _privateUploadMethod(`/api/data/deal/${file.name}`, file);
   } else {
-    json = await _privateUploadMethod(`/api/data/${file.name}`, file);
+    res = await _privateUploadMethod(`/api/data/${file.name}`, file);
   }
 
-  if (!json || json.error || !json.data) {
+  if (!res || res.error || !res.data) {
     if (context) {
       context.setState({
         fileLoading: {
@@ -118,10 +144,20 @@ export const upload = async ({ file, context, bucketName }) => {
       },
     });
 
-    return !json ? { error: "NO_RESPONSE" } : json;
+    return !res ? { error: "NO_RESPONSE" } : res;
   }
 
-  return { file, json };
+  if (res.data.data.type.startsWith("image/")) {
+    let url = `${Constants.gateways.ipfs}/${res.data.data.cid}`;
+    let blurhash = await encodeImageToBlurhash(url);
+    res.data.data.blurhash = blurhash;
+  }
+
+  await Actions.createPendingFiles({ data: res.data });
+
+  res.data = res.data.data;
+
+  return { file, json: res };
 };
 
 export const uploadToSlate = async ({ responses, slate }) => {

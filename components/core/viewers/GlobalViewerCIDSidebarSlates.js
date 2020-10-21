@@ -172,7 +172,7 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
       return;
     }
 
-    const response = await Actions.deleteBucketItem({ cid });
+    const response = await Actions.deleteBucketItems({ cids: [cid] });
     if (!response) {
       dispatchCustomEvent({
         name: "create-alert",
@@ -242,7 +242,7 @@ export default class GlobalViewerCIDSidebarSlates extends React.Component {
             </span>
           </div>
           {/* <div css={STYLES_ACTION} onClick={this.props.onDownload}>
-            <SVG.Download height="24px" />
+            <SVG.DownloadCircle height="24px" />
             <span style={{ marginLeft: 16 }}>Download</span>
           </div> */}
           <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>

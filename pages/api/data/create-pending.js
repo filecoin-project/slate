@@ -8,15 +8,15 @@ export default async (req, res) => {
   if (!id) {
     return res
       .status(500)
-      .send({ decorator: "PROCESS_PENDING_ERROR", error: true });
+      .send({ decorator: "CREATE_PENDING_ERROR", error: true });
   }
 
-  const response = await Data.deletePendingDataByUserId({ owner_user_id: id });
+  const response = await Data.createPendingData(req.body.data);
 
   if (!response) {
     return res
       .status(404)
-      .send({ decorator: "PROCESS_PENDING_ERROR", error: true });
+      .send({ decorator: "CREATE_PENDING_ERROR", error: true });
   }
 
   if (response.error) {
@@ -26,7 +26,7 @@ export default async (req, res) => {
   }
 
   return res.status(200).send({
-    decorator: "PROCESS_PENDING_DATA",
+    decorator: "CREATE_PENDING_DATA",
     data: response,
   });
 };

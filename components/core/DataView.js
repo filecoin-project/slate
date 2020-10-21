@@ -10,7 +10,6 @@ import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { generateLayout } from "~/components/core/Slate";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { Table } from "~/components/core/Table";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
@@ -274,15 +273,20 @@ export default class DataView extends React.Component {
     });
   };
 
-  _handleDeleteFiles = async (e) => {
+  _handleDelete = async (cid) => {
     const message = `Are you sure you want to delete these files? They will be deleted from your slates as well`;
     if (!window.confirm(message)) {
       return;
     }
-    let cids = Object.keys(this.state.checked).map((id) => {
-      let index = parseInt(id);
-      return this.props.viewer.library[0].children[index].ipfs.replace("/ipfs/", "");
-    });
+    let cids;
+    if (cid) {
+      cids = [cid];
+    } else {
+      cids = Object.keys(this.state.checked).map((id) => {
+        let index = parseInt(id);
+        return this.props.viewer.library[0].children[index].ipfs.replace("/ipfs/", "");
+      });
+    }
     this._handleLoading({ cids });
 
     const response = await Actions.deleteBucketItems({ cids });
@@ -314,53 +318,6 @@ export default class DataView extends React.Component {
       name: "create-alert",
       detail: {
         alert: { message: "Files successfully deleted!", status: "INFO" },
-      },
-    });
-  };
-
-  _handleDelete = async (cid) => {
-    this._handleLoading({ cids: [cid] });
-
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this? It will be removed from your Slates too."
-      )
-    ) {
-      this._handleLoading({ cids: [cid] });
-      return;
-    }
-
-    const response = await Actions.deleteBucketItem({ cid });
-
-    if (!response) {
-      this._handleLoading({ cids: [cid] });
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return;
-    }
-
-    if (response.error) {
-      this._handleLoading({ cids: [cid] });
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return;
-    }
-
-    await this.props.onRehydrate();
-    await this._handleUpdate();
-    this._handleLoading({ cids: [cid] });
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "File successfully deleted!", status: "INFO" },
       },
     });
   };
@@ -487,15 +444,10 @@ export default class DataView extends React.Component {
       return o.id !== id;
     });
 
-    // TODO(jim): This is a brute force way to handle this.
-    const layouts = { lg: generateLayout(objects) };
-
     const response = await Actions.updateSlate({
       id: slate.id,
       data: {
-        name: slate.data.name,
         objects,
-        layouts,
       },
     });
 
@@ -615,7 +567,7 @@ export default class DataView extends React.Component {
               this.setState({ view: "list", menu: null });
             }}
           >
-            <SVG.ListView
+            <SVG.TableView
               style={{
                 color: this.state.view === "list" ? Constants.system.black : "rgba(0,0,0,0.25)",
               }}
@@ -671,7 +623,7 @@ export default class DataView extends React.Component {
               <ButtonWarning
                 transparent
                 style={{ marginLeft: 8 }}
-                onClick={this._handleDeleteFiles}
+                onClick={() => this._handleDelete()}
                 loading={
                   this.state.loading &&
                   Object.values(this.state.loading).some((elem) => {
@@ -707,6 +659,7 @@ export default class DataView extends React.Component {
                     onMouseLeave={() => this.setState({ hover: null })}
                   >
                     <SlateMediaObjectPreview
+                      blurhash={each.blurhash}
                       url={`${Constants.gateways.ipfs}/${each.ipfs.replace("/ipfs/", "")}`}
                       title={each.file || each.name}
                       type={each.type || each.icon}

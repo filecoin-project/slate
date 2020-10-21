@@ -139,29 +139,17 @@ export default class ApplicationUserControls extends React.Component {
   state = { visible: false };
 
   _handleClick = (e) => {
-    console.log("click");
     e.stopPropagation();
+    e.preventDefault();
     if (this.state.visible) {
       this._handleHide();
       return;
     }
     this.setState({ visible: true });
-    // dispatchCustomEvent({
-    //   name: "show-tooltip",
-    //   detail: {
-    //     id: APPLICATION_CONTROL_MENU_ID,
-    //   },
-    // });
   };
 
   _handleHide = () => {
     this.setState({ visible: false });
-    // return dispatchCustomEvent({
-    //   name: "hide-tooltip",
-    //   detail: {
-    //     id: APPLICATION_CONTROL_MENU_ID,
-    //   },
-    // });
   };
 
   _handleAction = (e, data) => {
@@ -214,7 +202,14 @@ export default class ApplicationUserControls extends React.Component {
                       value: "SIDEBAR_HELP",
                     }),
                 },
-                { text: "Sign out", onClick: this._handleSignOut },
+                {
+                  text: "Sign out",
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this._handleSignOut(e);
+                  },
+                },
               ]}
             />
           </div>
@@ -229,7 +224,14 @@ export default class ApplicationUserControls extends React.Component {
                       value: "V1_NAVIGATION_PROFILE_EDIT",
                     }),
                 },
-                { text: "Sign out", onClick: this._handleSignOut },
+                {
+                  text: "Sign out",
+                  onClick: (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this._handleSignOut(e);
+                  },
+                },
               ]}
             />
           </div>

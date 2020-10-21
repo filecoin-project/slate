@@ -26,7 +26,7 @@ const STYLES_DIAL = css`
   border-radius: 24px;
   margin-top: 4px;
   margin-left: 4px;
-  background: ${Constants.system.white};
+  background: ${Constants.system.foreground};
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
   transition: transform 200ms ease;
 `;

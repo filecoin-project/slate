@@ -11,13 +11,13 @@ const STYLES_BUTTON = `
   outline: 0;
   border: 0;
   min-height: 40px;
-  padding: 4px 16px;
+  padding: 4px 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   letter-spacing: 0.2px;
-  font-family: ${Constants.font.medium};
+  font-family: ${Constants.font.semiBold};
   transition: 200ms ease all;
   overflow-wrap: break-word;
   user-select: none;
@@ -104,7 +104,7 @@ const STYLES_BUTTON_SECONDARY = css`
   cursor: pointer;
   background-color: ${Constants.system.white};
   box-shadow: 0 0 0 1px ${Constants.system.border} inset;
-  color: ${Constants.system.brand};
+  color: ${Constants.system.black};
 
   :focus {
     outline: 0;
@@ -175,6 +175,7 @@ const STYLES_BUTTON_DISABLED = css`
   cursor: not-allowed;
   background-color: ${Constants.system.gray};
   color: ${Constants.system.darkGray};
+  box-shadow: 0 0 0 1px ${Constants.system.gray} inset;
 
   :focus {
     outline: 0;

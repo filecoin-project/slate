@@ -14,10 +14,11 @@ import {
   ButtonSecondary,
 } from "~/components/system/components/Buttons";
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { SlateLayout } from "~/components/core/SlateLayout";
+import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import Slate, { generateLayout } from "~/components/core/Slate";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 import EmptyState from "~/components/core/EmptyState";
@@ -26,12 +27,6 @@ const STYLES_ICONS = css`
   display: flex;
   flex-direction: row;
   justify-content: center;
-`;
-
-const STYLES_ACTIONS = css`
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding-left: 24px;
-  }
 `;
 
 const STYLES_USERNAME = css`
@@ -54,23 +49,6 @@ const STYLES_MOBILE_ONLY = css`
   }
 `;
 
-const moveIndex = (set, fromIndex, toIndex) => {
-  const element = set[fromIndex];
-  set.splice(fromIndex, 1);
-  set.splice(toIndex, 0, element);
-
-  return set;
-};
-
-const setStateData = (source) => {
-  return {
-    objects: source.data.objects,
-    layouts: source.data.layouts
-      ? source.data.layouts
-      : { lg: generateLayout(source.data.objects) },
-  };
-};
-
 let isMounted = false;
 
 export default class SceneSlate extends React.Component {
@@ -78,29 +56,29 @@ export default class SceneSlate extends React.Component {
   _remoteLock = false;
 
   state = {
-    ...setStateData(this.props.current, this.props.viewer),
+    ...(this.props.current, this.props.viewer),
     loading: false,
     saving: "IDLE",
-    editing: this.props.current.data.ownerId === this.props.viewer.id,
+    isOwner: this.props.current.data.ownerId === this.props.viewer.id,
+    editing: false,
     followLoading: false,
   };
 
   // NOTE(jim):
   // The purpose of this is to update the Scene appropriately when
   // it changes but isn't mounted.
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     if (prevProps.current.id !== this.props.current.id) {
-      this.setState({
-        ...setStateData(this.props.current, this.props.viewer),
+      await this.setState({
         loading: false,
         saving: "IDLE",
-        editing: this.props.current.data.ownerId === this.props.viewer.id,
+        isOwner: this.props.current.data.ownerId === this.props.viewer.id,
       });
 
-      this._handleUpdateCarousel({
-        objects: this.props.current.data.objects,
-        editing: this.state.editing,
-      });
+      this._handleUpdateCarousel(
+        this.props.current.data.objects,
+        this.state.isOwner
+      );
     }
   }
 
@@ -108,13 +86,13 @@ export default class SceneSlate extends React.Component {
     if (isMounted) {
       return false;
     }
-
     isMounted = true;
 
-    this._handleUpdateCarousel(this.state);
+    this._handleUpdateCarousel();
+
     window.addEventListener(
       "remote-update-slate-screen",
-      this._handleRemoteUpdate
+      this._handleRemoteAddObject
     );
     window.addEventListener(
       "remote-delete-object",
@@ -122,8 +100,27 @@ export default class SceneSlate extends React.Component {
     );
     window.addEventListener(
       "remote-object-update",
-      this._handleRemoteSaveObject
+      this._handleRemoteEditObject
     );
+
+    if (this.state.isOwner) {
+      let changed = false;
+      let objects = [...this.props.current.data.objects];
+      for (let obj of objects) {
+        if (!obj.size) {
+          let matches = this.props.viewer.library[0].children.filter((file) => {
+            return file.id === obj.id;
+          });
+          if (matches.length) {
+            obj.size = matches[0].size;
+            changed = true;
+          }
+        }
+      }
+      if (changed) {
+        this._handleSave(null, objects, null, true);
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -131,7 +128,7 @@ export default class SceneSlate extends React.Component {
 
     window.removeEventListener(
       "remote-update-slate-screen",
-      this._handleRemoteUpdate
+      this._handleRemoteAddObject
     );
     window.removeEventListener(
       "remote-delete-object",
@@ -139,51 +136,12 @@ export default class SceneSlate extends React.Component {
     );
     window.removeEventListener(
       "remote-object-update",
-      this._handleRemoteSaveObject
+      this._handleRemoteEditObject
     );
   }
 
-  _handleRemoteUpdate = async ({ detail }) => {
-    if (!this._remoteLock) {
-      this._remoteLock = true;
-      const response = await Actions.getSlateById({
-        id: this.props.current.id,
-      });
-
-      if (!response) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message:
-                "We're having trouble refreshing right now. Please try again later",
-            },
-          },
-        });
-        this._remoteLock = false;
-        return;
-      }
-
-      if (response.error) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              decorator: response.error,
-            },
-          },
-        });
-        this._remoteLock = false;
-        return;
-      }
-
-      this.setState({ layouts: null, objects: null });
-
-      const { slate } = response;
-
-      await this._handleSave(null, slate.data.objects, slate.data.layouts);
-      this._remoteLock = false;
-    }
+  _handleRemoteAddObject = () => {
+    this._handleUpdateCarousel();
   };
 
   _handleFollow = () => {
@@ -196,76 +154,81 @@ export default class SceneSlate extends React.Component {
     });
   };
 
-  _handleChangeLayout = async (layout, layouts) => {
-    this.setState({ layouts, saving: "IDLE" });
+  _handleSaveLayout = async (layouts, autoSave) => {
+    await this._handleSave(null, null, layouts, autoSave);
   };
 
-  _handleSaveLayout = async () => {
-    await this._handleSave(null, null, this.state.layouts);
-  };
-
-  _handleMoveIndex = async (from, to) => {
-    const objects = moveIndex(this.state.objects, from.index, to.index);
-    this.setState({ objects });
-    await this._handleSave(null, objects);
-  };
-
-  _handleSave = async (e, objects, layouts) => {
+  _handleSave = async (e, objects, layouts, autoSave = false, preview) => {
     this.setState({ loading: true, saving: "SAVING" });
 
+    let layoutOnly = layouts && !objects;
+
+    let data = {};
+    if (objects) {
+      data.objects = objects;
+    }
+    if (layouts) {
+      data.layouts = layouts;
+    }
+    if (preview) {
+      data.preview = preview;
+    }
     const response = await Actions.updateSlate({
       id: this.props.current.id,
-      data: {
-        name: this.props.current.data.name,
-        objects: objects ? objects : this.state.objects,
-        layouts: layouts ? layouts : this.state.layouts,
-      },
+      layoutOnly,
+      autoSave,
+      data,
     });
 
-    if (!response) {
-      this.setState({ loading: false, saving: "ERROR" });
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+    if (!autoSave) {
+      if (!response) {
+        this.setState({ loading: false, saving: "ERROR" });
+        System.dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message:
+                "We're having trouble connecting right now. Please try again later",
+            },
           },
-        },
-      });
+        });
+      }
+
+      if (response.error) {
+        this.setState({ loading: false, saving: "ERROR" });
+        System.dispatchCustomEvent({
+          name: "create-alert",
+          detail: { alert: { decorator: response.decorator } },
+        });
+      }
     }
 
-    if (response.error) {
-      this.setState({ loading: false, saving: "ERROR" });
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
+    if (this.state.isOwner) {
+      await this.props.onRehydrate();
     }
-
-    await this.props.onRehydrate();
 
     this.setState({
       saving: "SAVED",
-      layouts: layouts ? layouts : this.state.layouts,
-      objects: objects ? objects : this.state.objects,
     });
 
-    this._handleUpdateCarousel({
-      objects: objects ? objects : this.state.objects,
-      editing: this.state.editing,
-    });
+    if (!layoutOnly) {
+      this._handleUpdateCarousel(
+        objects ? objects : this.props.current.data.objects,
+        this.state.isOwner
+      );
+    }
   };
 
-  _handleRemoteSaveObject = async ({ detail }) => {
+  _handleRemoteEditObject = async ({ detail }) => {
     const { object } = detail;
+    console.log(object);
 
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",
       detail: { saving: true },
     });
 
-    const objects = [...this.state.objects];
+    const objects = [...this.props.current.data.objects];
     for (let i = 0; i < objects.length; i++) {
       if (objects[i].id === object.id) {
         objects[i] = object;
@@ -281,9 +244,10 @@ export default class SceneSlate extends React.Component {
     });
   };
 
-  _handleUpdateCarousel = (state) => {
-    const objects = [...state.objects];
-
+  _handleUpdateCarousel = (newObjects, isOwner) => {
+    let objects = newObjects
+      ? newObjects
+      : [...this.props.current.data.objects];
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: {
@@ -298,7 +262,7 @@ export default class SceneSlate extends React.Component {
             onDelete: () =>
               System.dispatchCustomEvent({
                 name: "remote-delete-object",
-                detail: { id: data.id },
+                detail: { ids: [data.id] },
               }),
             onObjectSave: (object) =>
               System.dispatchCustomEvent({
@@ -310,7 +274,7 @@ export default class SceneSlate extends React.Component {
             data,
             username: this.props.viewer.username,
             slatename: this.props.current.slatename,
-            editing: this.state.editing,
+            isOwner: isOwner ? isOwner : this.state.isOwner,
             component: <SlateMediaObject key={each.id} data={data} />,
           };
         }),
@@ -318,27 +282,56 @@ export default class SceneSlate extends React.Component {
     });
   };
 
-  _handleRemoteDeleteObject = async ({ detail }) => {
-    const { id } = detail;
+  _handleDeleteFiles = async (cids) => {
+    const message = `Are you sure you want to delete these files? They will be deleted from your slates as well`;
+    if (!window.confirm(message)) {
+      return;
+    }
 
+    const response = await Actions.deleteBucketItems({ cids });
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return;
+    }
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+      return;
+    }
+    await this.props.onRehydrate();
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "Files successfully deleted!", status: "INFO" },
+      },
+    });
+  };
+
+  _handleRemoteDeleteObject = async ({ detail }) => {
+    console.log(detail.ids);
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",
       detail: { loading: true },
     });
 
-    const objects = this.state.objects.filter((o, i) => {
-      return o.id !== id;
+    let objects = this.props.current.data.objects.filter((obj) => {
+      return !detail.ids.includes(obj.id);
     });
-
-    // TODO(jim): This is a brute force way to handle this.
-    const layouts = { lg: generateLayout(objects) };
 
     const response = await Actions.updateSlate({
       id: this.props.current.id,
       data: {
-        name: this.props.current.data.name,
         objects,
-        layouts,
       },
     });
 
@@ -356,8 +349,8 @@ export default class SceneSlate extends React.Component {
           },
         },
       });
+      return;
     }
-
     if (response.error) {
       System.dispatchCustomEvent({
         name: "state-global-carousel-loading",
@@ -367,17 +360,10 @@ export default class SceneSlate extends React.Component {
         name: "create-alert",
         detail: { alert: { decorator: response.decorator } },
       });
+      return;
     }
 
-    this._handleUpdateCarousel({
-      objects: response.slate.data.objects,
-      editing: this.state.editing,
-    });
-
-    this.setState({
-      objects: response.slate.data.objects,
-      layouts: response.slate.data.layouts,
-    });
+    this._handleUpdateCarousel(response.slate.data.objects);
 
     await this.props.onRehydrate();
 
@@ -399,10 +385,35 @@ export default class SceneSlate extends React.Component {
       value: "SIDEBAR_ADD_FILE_TO_BUCKET",
       data: this.props.current,
     });
-    this._handleUpdateCarousel({
-      objects: this.props.current.data.objects,
-      editing: this.state.editing,
-    });
+  };
+
+  _handleSaveCopy = async (items) => {
+    this.setState({ loading: true });
+    let response = await Actions.addCIDToData({ items });
+
+    if (!response) {
+      this.setState({ loading: false, saving: "ERROR" });
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return;
+    }
+    if (response.error) {
+      this.setState({ loading: false, saving: "ERROR" });
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+      return;
+    }
+    this.setState({ loading: false, saving: "SAVED" });
+    this.props.onRehydrate();
   };
 
   _handleShowSettings = () => {
@@ -413,41 +424,37 @@ export default class SceneSlate extends React.Component {
     });
   };
 
-  _handleSlateLink = async () => {
-    //NOTE(martina): not needed if links only happen on your own slate (know your own username already)
-    // const response = await Actions.getUsername({
-    //   id: this.props.current.data.ownerId,
-    // });
-    // const username = response.data;
-
-    return window.open(
-      `/${this.props.viewer.username}/${this.props.current.slatename}`
-    );
-  };
-
   render() {
-    const { id, user, data, slatename } = this.props.current;
-    const { body = "" } = data;
-    const { objects, layouts } = this.state;
+    const { user, data } = this.props.current;
+    const { body = "", preview } = data;
+    let objects = this.props.current.data.objects;
+    let layouts = this.props.current.data.layouts;
     const isPublic = data.public;
 
     let following = !!this.props.viewer.subscriptions.filter((subscription) => {
       return subscription.target_slate_id === this.props.current.id;
     }).length;
 
-    let onMobile = Validations.onMobile();
-    let actions = this.state.editing ? (
-      <span css={STYLES_ACTIONS}>
+    let actions = this.state.isOwner ? (
+      <span>
         <CircleButtonGray onClick={this._handleAdd} style={{ marginRight: 16 }}>
           <SVG.Plus height="16px" />
         </CircleButtonGray>
         {isPublic ? (
-          <CircleButtonGray
-            onClick={() => this._handleSlateLink()}
-            style={{ marginRight: 16 }}
+          <a
+            href={
+              user
+                ? `/${user.username}/${this.props.current.slatename}`
+                : this.state.isOwner
+                ? `/${this.props.viewer.username}/${this.props.current.slatename}`
+                : ""
+            }
+            target="_blank"
           >
-            <SVG.DeepLink height="16px" />
-          </CircleButtonGray>
+            <CircleButtonGray style={{ marginRight: 16 }}>
+              <SVG.Upload height="16px" />
+            </CircleButtonGray>
+          </a>
         ) : null}
         <CircleButtonGray onClick={this._handleShowSettings}>
           <SVG.Settings height="16px" />
@@ -475,12 +482,9 @@ export default class SceneSlate extends React.Component {
       </div>
     );
     return (
-      <ScenePage
-        style={{ paddingLeft: "24px", paddingRight: "24px" }}
-        contentstyle={{ maxWidth: "1660px" }}
-      >
+      <ScenePage contentstyle={{ maxWidth: "1660px" }}>
         <ScenePageHeader
-          style={{ padding: `0 24px 0 24px` }}
+          wide
           title={
             user ? (
               <span>
@@ -505,23 +509,71 @@ export default class SceneSlate extends React.Component {
           }
           actions={<span css={STYLES_MOBILE_HIDDEN}>{actions}</span>}
         >
-          <ProcessedText text={body} />
+          <span
+            style={{
+              color: Constants.system.darkGray,
+              fontFamily: Constants.font.medium,
+            }}
+          >
+            <ProcessedText text={body} />
+          </span>
         </ScenePageHeader>
         <span css={STYLES_MOBILE_ONLY}>{actions}</span>
         {objects && objects.length ? (
-          layouts ? (
-            <Slate
-              editing={onMobile ? false : this.state.editing}
-              saving={this.state.saving}
+          this.props.mobile ? (
+            <SlateLayoutMobile
+              isOwner={this.state.isOwner}
               items={objects}
-              layouts={layouts}
-              onLayoutChange={this._handleChangeLayout}
-              onLayoutSave={this._handleSaveLayout}
-              onMoveIndex={this._handleMoveIndex}
+              fileNames={
+                layouts && layouts.ver === "2.0" ? layouts.fileNames : false
+              }
               onSelect={this._handleSelect}
             />
-          ) : null
-        ) : this.state.editing ? (
+          ) : (
+            <div style={{ marginTop: this.state.isOwner ? 24 : 48 }}>
+              <SlateLayout
+                link={
+                  user
+                    ? `${window.location.hostname}${
+                        window.location.port ? ":" + window.location.port : ""
+                      }/${user.username}/${this.props.current.slatename}`
+                    : this.state.isOwner
+                    ? `${window.location.hostname}${
+                        window.location.port ? ":" + window.location.port : ""
+                      }/${this.props.viewer.username}/${
+                        this.props.current.slatename
+                      }`
+                    : ""
+                }
+                viewer={this.props.viewer}
+                slateId={this.props.current.id}
+                layout={
+                  layouts && layouts.ver === "2.0" ? layouts.layout || [] : null
+                }
+                onSaveLayout={this._handleSaveLayout}
+                isOwner={this.state.isOwner}
+                fileNames={
+                  layouts && layouts.ver === "2.0" ? layouts.fileNames : false
+                }
+                preview={preview}
+                onSavePreview={(preview) =>
+                  this._handleSave(null, null, null, false, preview)
+                }
+                items={objects}
+                onSelect={this._handleSelect}
+                defaultLayout={
+                  layouts && layouts.ver === "2.0"
+                    ? layouts.defaultLayout
+                    : true
+                }
+                onAction={this.props.onAction}
+                onRemoveFromSlate={this._handleRemoteDeleteObject}
+                onDeleteFiles={this._handleDeleteFiles}
+                onSaveCopy={this._handleSaveCopy}
+              />
+            </div>
+          )
+        ) : this.state.isOwner ? (
           <div style={{ padding: "24px" }}>
             <EmptyState>
               <div css={STYLES_ICONS}>
@@ -536,7 +588,11 @@ export default class SceneSlate extends React.Component {
               </div>
             </EmptyState>
           </div>
-        ) : null}
+        ) : (
+          <div style={{ padding: "24px" }}>
+            <EmptyState>There's nothing here :)</EmptyState>
+          </div>
+        )}
       </ScenePage>
     );
   }

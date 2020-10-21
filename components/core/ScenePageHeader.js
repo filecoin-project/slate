@@ -33,7 +33,7 @@ const STYLES_HEADER = css`
   margin-bottom: 8px;
   display: block;
   width: 100%;
-  max-width: 688px;
+  max-width: 800px;
   white-space: pre-wrap;
   overflow-wrap: break-word;
 
@@ -50,7 +50,7 @@ const STYLES_DESCRIPTION = css`
   line-height: 1.5;
   display: block;
   width: 100%;
-  max-width: 688px;
+  max-width: 800px;
   white-space: pre-wrap;
   overflow-wrap: break-word;
 `;

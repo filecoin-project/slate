@@ -74,6 +74,7 @@ export default class Profile extends React.Component {
         <br />
         {data.slates && data.slates.length ? (
           <SlatePreviewBlocks
+            isOwner={this.props.isOwner}
             external={this.props.onAction ? false : true}
             slates={data.slates}
             username={data.username}
@@ -98,7 +99,7 @@ export default class Profile extends React.Component {
                     <SlatePreviewBlock
                       slate={slate}
                       username={data.username}
-                      editing={this.props.editing}
+                      isOwner={this.props.isOwner}
                     />
                   </div>
                 );

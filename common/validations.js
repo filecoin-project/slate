@@ -53,12 +53,10 @@ const REJECT_LIST = [
   "please-dont-use-timeout",
 ];
 
-// TODO(martina): Make sure you catch cases where this isn't passed in to be safe.
-export const onMobile = () => {
-  return false; //TODO(martina): make a function that works
-  if (!navigator) return;
+export const onMobile = (userAgent) => {
+  if (!userAgent) return;
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
+    userAgent
   );
 };
 

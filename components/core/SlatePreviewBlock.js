@@ -141,12 +141,13 @@ export class SlatePreviewRow extends React.Component {
           }}
         >
           <SlateMediaObjectPreview
+            blurhash={each.blurhash}
             charCap={30}
             type={each.type}
             url={each.url}
-            style={{ border: "none", ...this.props.previewStyle }}
+            style={this.props.previewStyle}
             title={each.title || each.name}
-            small={this.props.small}
+            iconOnly={this.props.small}
           />
         </div>
       ));
@@ -176,8 +177,7 @@ export class SlatePreviewRow extends React.Component {
 }
 
 const STYLES_BLOCK = css`
-  box-shadow: 0 0 0 1px ${Constants.system.lightBorder} inset,
-    0 0 40px 0 ${Constants.system.shadow};
+  box-shadow: 0 0 0 1px ${Constants.system.lightBorder} inset, 0 0 40px 0 ${Constants.system.shadow};
   border-radius: 8px;
   padding: 32px 40px;
   font-size: 12px;
@@ -315,12 +315,10 @@ export class SlatePreviewBlock extends React.Component {
   };
 
   render() {
-    if (!this.props.editing && !this.props.slate.data.objects.length) {
+    if (!this.props.isOwner && !this.props.slate.data.objects.length) {
       return null;
     }
-    let first = this.props.slate.data.objects
-      ? this.props.slate.data.objects[0]
-      : null;
+    let first = this.props.slate.data.objects ? this.props.slate.data.objects[0] : null;
     let contextMenu = (
       <React.Fragment>
         <Boundary
@@ -335,14 +333,14 @@ export class SlatePreviewBlock extends React.Component {
               right: "-12px",
             }}
             navigation={
-              this.props.editing
+              this.props.isOwner
                 ? [
                     {
                       text: "Copy URL",
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `https://slate.host/${this.props.username}/${this.props.slate.slatename}`
+                          `${window.location.hostname}/${this.props.username}/${this.props.slate.slatename}`
                         ),
                     },
                     {
@@ -356,7 +354,7 @@ export class SlatePreviewBlock extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `https://slate.host/${this.props.username}/${this.props.slate.slatename}`
+                          `${window.location.hostname}/${this.props.username}/${this.props.slate.slatename}`
                         ),
                     },
                   ]
@@ -378,14 +376,12 @@ export class SlatePreviewBlock extends React.Component {
       <div
         css={STYLES_BLOCK}
         style={
-          this.props.external
-            ? { backgroundColor: Constants.system.white, boxShadow: "none" }
-            : {}
+          this.props.external ? { backgroundColor: Constants.system.white, boxShadow: "none" } : {}
         }
       >
         <div css={STYLES_TITLE_LINE}>
           <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
-          {this.props.editing ? (
+          {this.props.isOwner ? (
             this.props.slate.data.public ? (
               <div
                 css={STYLES_TAG}
@@ -426,9 +422,7 @@ export class SlatePreviewBlock extends React.Component {
               > */}
               <div css={STYLES_ICON_BOX} onClick={this._handleClick}>
                 <SVG.MoreHorizontal height="24px" />
-                {this.state.showMenu ? (
-                  <div css={STYLES_CONTEXT_MENU}>{contextMenu}</div>
-                ) : null}
+                {this.state.showMenu ? <div css={STYLES_CONTEXT_MENU}>{contextMenu}</div> : null}
               </div>
               {/* </TooltipWrapper> */}
             </div>
@@ -442,10 +436,7 @@ export class SlatePreviewBlock extends React.Component {
           <div style={{ height: "8px" }} />
         )}
         <span css={STYLES_MOBILE_ONLY}>
-          <div
-            css={STYLES_TITLE}
-            style={{ marginBottom: 8, fontSize: Constants.typescale.lvl1 }}
-          >
+          <div css={STYLES_TITLE} style={{ marginBottom: 8, fontSize: Constants.typescale.lvl1 }}>
             {this.props.slate.data.name}
           </div>
           <div style={{ marginBottom: 16, fontSize: 12 }}>
@@ -460,6 +451,7 @@ export class SlatePreviewBlock extends React.Component {
           >
             {first ? (
               <SlateMediaObjectPreview
+                blurhash={first.blurhash}
                 centeredImage
                 charCap={30}
                 type={first.type}
@@ -542,11 +534,7 @@ export default class SlatePreviewBlocks extends React.Component {
   render() {
     if (this.props.external) {
       return this.props.slates.map((slate) => (
-        <a
-          key={slate.id}
-          href={`/${this.props.username}/${slate.slatename}`}
-          css={STYLES_LINK}
-        >
+        <a key={slate.id} href={`/${this.props.username}/${slate.slatename}`} css={STYLES_LINK}>
           <SlatePreviewBlock
             external
             imageSize={this.state.imageSize}
@@ -568,7 +556,7 @@ export default class SlatePreviewBlocks extends React.Component {
         }
       >
         <SlatePreviewBlock
-          editing={this.props.editing}
+          isOwner={this.props.isOwner}
           username={this.props.username}
           imageSize={this.state.imageSize}
           slate={slate}

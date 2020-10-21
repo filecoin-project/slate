@@ -91,7 +91,7 @@ export default class SceneSlates extends React.Component {
         {this.state.tab === 0 ? (
           this.props.viewer.slates && this.props.viewer.slates.length ? (
             <SlatePreviewBlocks
-              editing
+              isOwner
               slates={this.props.viewer.slates}
               username={this.props.viewer.username}
               onAction={this.props.onAction}
@@ -132,7 +132,7 @@ export default class SceneSlates extends React.Component {
                 <SlatePreviewBlock
                   slate={slate}
                   username={this.props.viewer.username}
-                  editing
+                  isOwner
                 />
               </div>
             )) */}

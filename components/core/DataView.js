@@ -222,11 +222,11 @@ export default class DataView extends React.Component {
     window.removeEventListener("remote-data-deletion", this._handleDataDeletion);
     window.removeEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
     window.removeEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
-    window.removeEventListener("scroll", this._handleScroll);
+    window.removeEventListener("scroll", this._handleCheckScroll);
     window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }
 
-  _debounce = (func, wait) => {
+  _handleDebounce = (func, wait) => {
     let timeout;
 
     return function executedFunction(...args) {
@@ -241,7 +241,6 @@ export default class DataView extends React.Component {
   };
 
   _handleScroll = (e) => {
-    var timer;
     const windowHeight =
       "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
     const body = document.body;
@@ -258,6 +257,8 @@ export default class DataView extends React.Component {
       this.setState({ viewLimit: this.state.viewLimit + 10 });
     }
   };
+
+  _handleCheckScroll = this._handleDebounce(this._handleScroll, 250);
 
   _handleCheckBox = (e) => {
     let checked = this.state.checked;

@@ -241,7 +241,6 @@ export default class DataView extends React.Component {
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
       this.setState({ viewLimit: this.state.viewLimit + 5 });
-    }
   };
 
   _handleCheckBox = (e) => {

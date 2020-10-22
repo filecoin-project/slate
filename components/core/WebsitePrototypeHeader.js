@@ -10,7 +10,6 @@ const STYLES_ROOT = css`
   top: 0;
   padding: 24px 88px 24px 64px;
   width: 100%;
-  height: 100%;
   margin: 0 auto;
   z-index: ${Constants.zindex.header};
 

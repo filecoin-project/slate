@@ -7,7 +7,6 @@ import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
 
 import { Buckets, PrivateKey, Pow, Client, ThreadID } from "@textile/hub";
-import { CompressedPixelFormat } from "three";
 
 const BUCKET_NAME = "data";
 

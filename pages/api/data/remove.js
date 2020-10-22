@@ -3,20 +3,14 @@ import * as Utilities from "~/node_common/utilities";
 import * as Strings from "~/common/strings";
 import * as Social from "~/node_common/social";
 
-import { read } from "fs";
-
 export default async (req, res) => {
   if (!req.body.data || !req.body.data.cids || !req.body.data.cids.length) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_REMOVE_DATA_NO_CID", error: true });
+    return res.status(500).send({ decorator: "SERVER_REMOVE_DATA_NO_CID", error: true });
   }
 
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(403)
-      .send({ decorator: "SERVER_REMOVE_DATA_NOT_ALLOWED", error: true });
+    return res.status(403).send({ decorator: "SERVER_REMOVE_DATA_NOT_ALLOWED", error: true });
   }
 
   const user = await Data.getUserById({
@@ -49,9 +43,7 @@ export default async (req, res) => {
   }
 
   if (!r) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_REMOVE_MULTIPLE_NO_TEXTILE", error: true });
+    return res.status(500).send({ decorator: "SERVER_REMOVE_MULTIPLE_NO_TEXTILE", error: true });
   }
 
   // TODO(jim): Put this call into a file for all Textile related calls.
@@ -69,9 +61,7 @@ export default async (req, res) => {
   }
 
   if (!items) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_REMOVE_MULTIPLE_NO_TEXTILE", error: true });
+    return res.status(500).send({ decorator: "SERVER_REMOVE_MULTIPLE_NO_TEXTILE", error: true });
   }
 
   let entities = [];
@@ -83,9 +73,7 @@ export default async (req, res) => {
   }
 
   if (!entities.length) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_REMOVE_DATA_NO_CID", error: true });
+    return res.status(500).send({ decorator: "SERVER_REMOVE_DATA_NO_CID", error: true });
   }
 
   let bucketRemoval;

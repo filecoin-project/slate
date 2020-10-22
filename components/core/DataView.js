@@ -67,6 +67,11 @@ const STYLES_LINK = css`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 320px;
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    max-width: 120px;
+  }
 `;
 
 const STYLES_VALUE = css`

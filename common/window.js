@@ -1,7 +1,5 @@
 const getNavigatorAgent = (userAgent) => {
-  return userAgent
-    ? userAgent
-    : navigator.userAgent || navigator.vendor || window.opera;
+  return userAgent ? userAgent : navigator.userAgent || navigator.vendor || window.opera;
 };
 
 export const delay = async (waitMs) => {
@@ -10,8 +8,7 @@ export const delay = async (waitMs) => {
 
 export const checkIfElementIsVisible = (el) => {
   const rect = el.getBoundingClientRect();
-  const windowHeight =
-    window.innerHeight || document.documentElement.clientHeight;
+  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
   const windowWidth = window.innerWidth || document.documentElement.clientWidth;
 
   const isVisible =
@@ -75,11 +72,7 @@ export const isDescendant = (parent, child) => {
 };
 
 export const getScrollDistance = () => {
-  return (
-    window.pageYOffset ||
-    document.documentElement.scrollTop ||
-    document.body.scrollTop
-  );
+  return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 };
 
 export const isAndroid = (userAgent) => {

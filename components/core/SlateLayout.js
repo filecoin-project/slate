@@ -80,20 +80,6 @@ const STYLES_COPY_INPUT = css`
   opacity: 0;
 `;
 
-const STYLES_ICON_BOX_BACKGROUND = css`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 25px;
-  width: 25px;
-  cursor: pointer;
-  background-color: rgba(248, 248, 248, 0.6);
-  border-radius: 3px;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-`;
-
 const STYLES_LOADER = css`
   display: flex;
   align-items: center;
@@ -113,12 +99,13 @@ const STYLES_CONTAINER = css`
   position: relative;
   height: 100vh;
   z-index: ${Constants.zindex.body};
+  overflow: hidden;
 `;
 
 const STYLES_CONTAINER_EDITING = css`
   ${STYLES_CONTAINER}
   background-image: radial-gradient(
-    ${Constants.system.border} 10%,
+    ${Constants.system.darkGray} 10%,
     transparent 0
   );
   background-size: 30px 30px;
@@ -162,13 +149,13 @@ const STYLES_ITEM_EDITING = css`
 `;
 
 const STYLES_FILE_TAG = css`
-  font-family: ${Constants.font.medium};
+  font-family: ${Constants.font.text};
+  color: ${Constants.system.grayBlack};
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   width: 100%;
+  padding: 0 4px;
   background: ${Constants.system.white};
-  ${"" /* border: 1px solid ${Constants.system.lightBorder};
-  border-top: none; */}
 `;
 
 const STYLES_FILE_NAME = css`
@@ -182,7 +169,7 @@ const STYLES_FILE_NAME = css`
 `;
 
 const STYLES_FILE_TYPE = css`
-  color: ${Constants.system.grayBlack};
+  color: ${Constants.system.darkGray};
   text-transform: uppercase;
   flex-shrink: 0;
   margin-left: 16px;

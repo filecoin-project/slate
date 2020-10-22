@@ -53,13 +53,6 @@ const REJECT_LIST = [
   "please-dont-use-timeout",
 ];
 
-export const onMobile = (userAgent) => {
-  if (!userAgent) return;
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    userAgent
-  );
-};
-
 export const userRoute = (text) => {
   if (!USERNAME_REGEX.test(text)) {
     return false;

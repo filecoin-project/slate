@@ -130,9 +130,7 @@ const STYLES_SIDEBAR = css`
     width: 100%;
   }
 
-  @supports (
-    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
-  ) {
+  @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
     background-color: rgba(247, 247, 247, 0.75);
@@ -190,13 +188,13 @@ export default class ApplicationLayout extends React.Component {
 
   componentDidMount = () => {
     this.prevScrollPos = window.pageYOffset;
-    if (Validations.onMobile()) {
+    if (this.props.mobile) {
       window.addEventListener("scroll", this._handleScroll);
     }
   };
 
   componentWillUnmount = () => {
-    if (Validations.onMobile()) {
+    if (this.props.mobile) {
       window.removeEventListener("scroll", this._handleScroll);
     }
   };

@@ -3,6 +3,7 @@ import * as Validations from "~/common/validations";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
+import * as Window from "~/common/window";
 
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as AnalyticsManager from "~/node_common/managers/analytics";
@@ -31,21 +32,15 @@ app.prepare().then(async () => {
   const server = express();
 
   server.use(cors());
-  server.use(
-    morgan(":method :url :status :res[content-length] - :response-time ms")
-  );
+  server.use(morgan(":method :url :status :res[content-length] - :response-time ms"));
 
   server.use("/public", express.static("public"));
   server.get("/system", async (r, s) => s.redirect("/_/system"));
   server.get("/experiences", async (r, s) => s.redirect("/_/system"));
   server.get("/_/experiences", async (r, s) => s.redirect("/_/system"));
-  server.get("/system/:c", async (r, s) =>
-    s.redirect(`/_/system/${r.params.c}`)
-  );
+  server.get("/system/:c", async (r, s) => s.redirect(`/_/system/${r.params.c}`));
 
-  server.get("/experiences/:m", async (r, s) =>
-    s.redirect(`/_/experiences/${r.params.m}`)
-  );
+  server.get("/experiences/:m", async (r, s) => s.redirect(`/_/experiences/${r.params.m}`));
 
   server.all("/api/:a", async (r, s, next) => {
     return handler(r, s, r.url);
@@ -76,7 +71,7 @@ app.prepare().then(async () => {
   });
 
   server.get("/_", async (req, res) => {
-    let mobile = Validations.onMobile(req.headers["user-agent"]);
+    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
 
     const isBucketsAvailable = await Utilities.checkTextile();
 
@@ -120,7 +115,7 @@ app.prepare().then(async () => {
   server.all("/_/:a/:b", async (r, s) => handler(r, s, r.url));
 
   server.get("/:username", async (req, res) => {
-    let mobile = Validations.onMobile(req.headers["user-agent"]);
+    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -161,7 +156,7 @@ app.prepare().then(async () => {
   });
 
   server.get("/:username/:slatename", async (req, res) => {
-    let mobile = Validations.onMobile(req.headers["user-agent"]);
+    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
       return handler(req, res, req.url, { mobile });

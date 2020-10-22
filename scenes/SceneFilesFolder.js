@@ -44,10 +44,8 @@ export default class SceneFilesFolder extends React.Component {
           }
         />
 
-        <TabGroup disabled tabs={["Usage"]} />
-        <DataMeter stats={this.props.viewer.stats} />
-        {this.props.viewer.library[0].children &&
-        this.props.viewer.library[0].children.length ? (
+        <DataMeter stats={this.props.viewer.stats} style={{ marginTop: 40 }} />
+        {this.props.viewer.library[0].children && this.props.viewer.library[0].children.length ? (
           <DataView
             onAction={this.props.onAction}
             viewer={this.props.viewer}
@@ -63,9 +61,7 @@ export default class SceneFilesFolder extends React.Component {
               <SVG.Book height="24px" style={{ margin: "0 16px" }} />
               <SVG.Video height="24px" style={{ margin: "0 16px" }} />
             </div>
-            <div style={{ marginTop: 24 }}>
-              Drag and drop files into Slate to upload
-            </div>
+            <div style={{ marginTop: 24 }}>Drag and drop files into Slate to upload</div>
           </EmptyState>
         )}
       </ScenePage>

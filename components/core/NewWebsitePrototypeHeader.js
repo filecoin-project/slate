@@ -8,7 +8,7 @@ const STYLES_ROOT = css`
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  padding: 16px 88px 16px 64px;
+  padding: 24px 88px 24px 64px;
   width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -50,7 +50,6 @@ const STYLES_LINK = css`
 
 const STYLES_LEFT = css`
   flex-shrink: 0;
-  padding: 12px 0;
   height: 24px;
 `;
 
@@ -58,7 +57,6 @@ const STYLES_RIGHT = css`
   min-width: 10%;
   width: 100%;
   display: flex;
-  padding: 12px 0;
   justify-content: flex-end;
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -200,7 +198,7 @@ const NewWebsitePrototypeHeader = (props) => {
       <div css={STYLES_CONTAINER} style={props.style}>
         <div css={STYLES_LEFT}>
           <a css={STYLES_LINK} href="/" style={{ marginRight: 24 }}>
-            <Logo style={{ width: 64 }} />
+            <Logo style={{ height: 20 }} />
           </a>
         </div>
         <div css={STYLES_RIGHT}>

@@ -167,7 +167,7 @@ export default class SlatePage extends React.Component {
               defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
             />
           </div>
-          <WebsitePrototypeFooter style={{ marginTop: 88 }} />
+          <WebsitePrototypeFooter />
         </div>
         <System.GlobalCarousel />
         <System.GlobalModal />

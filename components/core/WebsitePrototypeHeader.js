@@ -71,8 +71,11 @@ const WebsitePrototypeHeader = (props) => {
           </a>
         </div>
         <div css={STYLES_RIGHT}>
+          <a css={STYLES_LINK} href="/_" style={{ marginRight: 24 }}>
+            Sign up
+          </a>
           <a css={STYLES_LINK} href="/_">
-            Sign up⼁Log in
+            Sign in
           </a>
         </div>
       </div>

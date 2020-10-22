@@ -74,16 +74,16 @@ export const WebsitePrototypeFooter = (props) => {
           </a>
         </p>
         <div css={STYLES_RIGHT}>
-          <a css={STYLES_LINK} href="https://twitter.com/_slate" style={{ marginRight: 12 }}>
+          <a css={STYLES_LINK} href="https://twitter.com/_slate" style={{ marginRight: 24 }}>
             Twitter
           </a>
-          <a css={STYLES_LINK} href="https://filecoin.io/slack" style={{ marginRight: 12 }}>
+          <a css={STYLES_LINK} href="https://filecoin.io/slack" style={{ marginRight: 24 }}>
             Slack
           </a>
           <a
             css={STYLES_LINK}
             href="https://github.com/filecoin-project/slate/issues"
-            style={{ marginRight: 12 }}
+            style={{ marginRight: 24 }}
           >
             Contribute
           </a>

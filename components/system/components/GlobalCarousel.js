@@ -208,9 +208,9 @@ export class GlobalCarousel extends React.Component {
     return (
       <div css={STYLES_ROOT}>
         <div css={STYLES_ROOT_CONTENT} style={this.props.style}>
-          <span css={STYLES_BOX} onClick={this._handleClose} style={{ top: 8, right: 16 }}>
-            <SVG.Dismiss height="20px" />
-          </span>
+          <div style={{ cursor: "pointer", padding: 4, position: "absolute", top: 12, right: 20 }}>
+            <SVG.Maximize height="20px" />
+          </div>
           <span
             css={STYLES_BOX}
             onClick={this._handlePrevious}

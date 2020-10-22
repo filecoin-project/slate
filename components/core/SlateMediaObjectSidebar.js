@@ -8,14 +8,26 @@ import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { SlatePicker } from "~/components/core/SlatePicker";
+import { Input } from "~/components/system/components/Input";
+import { Textarea } from "~/components/system/components/Textarea";
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
 const STYLES_SIDEBAR_INPUT = css`
+  ${STYLES_NO_VISIBLE_SCROLL}
   position: relative;
   padding: 12px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+  }
 `;
 
 const STYLES_SIDEBAR_TEXTAREA = css`
+  ${STYLES_NO_VISIBLE_SCROLL}
   resize: none;
   box-sizing: border-box;
   line-height: 1.255;
@@ -38,17 +50,15 @@ const STYLES_SIDEBAR_TEXTAREA = css`
 class SidebarInput extends React.Component {
   render() {
     return (
-      <div css={STYLES_SIDEBAR_INPUT}>
-        <TextareaAutoSize
-          value={this.props.value}
-          name={this.props.name}
-          onChange={this.props.onChange}
-          id={`sidebar-label-${this.props.name}`}
-          placeholder={this.props.placeholder}
-          style={this.props.style}
-          css={STYLES_SIDEBAR_TEXTAREA}
-        />
-      </div>
+      <Input
+        full
+        value={this.props.value}
+        name={this.props.name}
+        onChange={this.props.onChange}
+        id={`sidebar-label-${this.props.name}`}
+        placeholder={this.props.placeholder}
+        style={this.props.style}
+      />
     );
   }
 }
@@ -73,13 +83,12 @@ const STYLES_NO_VISIBLE_SCROLL = css`
 
 const STYLES_SIDEBAR = css`
   width: 420px;
-  padding: 48px 24px;
+  padding: 80px 24px 64px 24px;
   flex-shrink: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
   position: relative;
   ${STYLES_NO_VISIBLE_SCROLL}
 
@@ -119,12 +128,12 @@ const STYLES_SIDEBAR_SECTION = css`
   flex-shrink: 0;
   width: 100%;
   margin-bottom: 16px;
-  border: 1px solid rgba(60, 60, 60, 1);
-  border-radius: 4px;
-  height: 48px;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
+  ${"" /* border: 1px solid rgba(60, 60, 60, 1); */}
+  ${"" /* border-radius: 4px; */}
+  ${"" /* height: 48px; */}
+  ${"" /* overflow-y: scroll;
+  scrollbar-width: none; */}
+  ${"" /* -ms-overflow-style: -ms-autohiding-scrollbar; */}
 `;
 
 const STYLES_SIDEBAR_CONTENT = css`
@@ -163,7 +172,9 @@ const STYLES_BODY = css`
 const STYLES_SECTION_HEADER = css`
   font-family: ${Constants.font.semiBold};
   font-size: 1.1rem;
-  margin-bottom: 32px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
 `;
 
 const STYLES_ACTIONS = css`
@@ -197,6 +208,14 @@ const STYLES_HIDDEN = css`
   pointer-events: none;
 `;
 
+const STYLES_INPUT = {
+  marginBottom: 16,
+  backgroundColor: "transparent",
+  boxShadow: "0 0 0 1px #3c3c3c inset",
+  color: Constants.system.white,
+  height: 48,
+};
+
 export default class SlateMediaObjectSidebar extends React.Component {
   _ref = null;
 
@@ -208,6 +227,8 @@ export default class SlateMediaObjectSidebar extends React.Component {
     selected: {},
     isPublic: false,
     copyValue: "",
+    showConnected: false,
+    showFile: false,
   };
 
   componentDidMount = () => {
@@ -267,7 +288,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
     });
     setTimeout(() => {
       this.setState({ loading: false });
-    }, 10000);
+    }, 1000);
   };
 
   _handleDelete = async (cid) => {
@@ -281,7 +302,7 @@ export default class SlateMediaObjectSidebar extends React.Component {
       return;
     }
 
-    const response = await Actions.deleteBucketItem({ cid });
+    const response = await Actions.deleteBucketItems({ cids: [cid] });
     if (!response) {
       dispatchCustomEvent({
         name: "create-alert",
@@ -310,6 +331,10 @@ export default class SlateMediaObjectSidebar extends React.Component {
     });
   };
 
+  _toggleAccordion = (tab) => {
+    this.setState({ [tab]: !this.state[tab] });
+  };
+
   render() {
     const elements = [];
     const { cid, url } = this.props.data;
@@ -319,38 +344,42 @@ export default class SlateMediaObjectSidebar extends React.Component {
       if (this.props.isOwner) {
         elements.push(
           <React.Fragment key="sidebar-media-object-info">
-            <div css={STYLES_SIDEBAR_SECTION}>
-              <SidebarInput
-                name="title"
-                value={this.state.title}
-                onChange={this._handleChange}
-                style={{ fontFamily: Constants.font.medium, fontSize: 16 }}
-              />
-            </div>
-            <div css={STYLES_SIDEBAR_CONTENT}>
-              <SidebarInput
-                name="body"
-                placeholder="Add notes or a description..."
-                value={this.state.body}
-                onChange={this._handleChange}
-              />
-            </div>
-            <div css={STYLES_SIDEBAR_SECTION}>
-              <SidebarInput
-                name="source"
-                placeholder="Source"
-                value={this.state.source}
-                onChange={this._handleChange}
-              />
-            </div>
-            <div css={STYLES_SIDEBAR_SECTION}>
-              <SidebarInput
-                name="author"
-                placeholder="Author"
-                value={this.state.author}
-                onChange={this._handleChange}
-              />
-            </div>
+            <Input
+              full
+              value={this.state.title}
+              name="title"
+              onChange={this._handleChange}
+              id={`sidebar-label-title`}
+              style={{
+                fontSize: Constants.typescale.lvl1,
+                ...STYLES_INPUT,
+              }}
+            />
+            <Textarea
+              name="body"
+              placeholder="Add notes or a description..."
+              value={this.state.body}
+              onChange={this._handleChange}
+              style={STYLES_INPUT}
+            />
+            <Input
+              full
+              value={this.state.source}
+              name="source"
+              placeholder="Source"
+              onChange={this._handleChange}
+              id={`sidebar-label-source`}
+              style={STYLES_INPUT}
+            />
+            <Input
+              full
+              value={this.state.author}
+              name="author"
+              placeholder="Author"
+              onChange={this._handleChange}
+              id={`sidebar-label-author`}
+              style={{ ...STYLES_INPUT, marginBottom: 24 }}
+            />
           </React.Fragment>
         );
       } else {
@@ -413,64 +442,103 @@ export default class SlateMediaObjectSidebar extends React.Component {
 
     return (
       <div css={STYLES_SIDEBAR}>
+        <div
+          style={{ position: "absolute", top: 20, right: 24, cursor: "pointer" }}
+          onClick={this.props.onClose}
+        >
+          <SVG.Dismiss height="24px" />
+        </div>
         {elements}
-        <br />
-        <div css={STYLES_SECTION_HEADER}>Connected Slates</div>
-        <div css={STYLES_ACTIONS} style={{ border: `none` }}>
-          <SlatePicker
-            slates={this.props.slates}
-            selected={this.state.selected}
-            onAdd={this._handleAdd}
-            onCreateSlate={this._handleCreateSlate}
-            loading={this.props.loading}
-            dark={true}
-            selectedColor={Constants.system.white}
-          />
-        </div>
-        <div css={STYLES_SECTION_HEADER}>File</div>
-        <div css={STYLES_ACTIONS}>
-          <div
-            css={STYLES_ACTION}
-            onClick={() => this.props.onObjectSave({ ...this.props.data, ...this.state })}
-          >
-            <SVG.HardDrive height="24px" />
-            <span style={{ marginLeft: 16 }}>
-              {this.props.saving ? (
-                <LoaderSpinner style={{ height: 16, width: 16 }} />
-              ) : (
-                <span>Save</span>
-              )}
-            </span>
-          </div>
-          <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
-            <SVG.CopyAndPaste height="24px" />
-            <span style={{ marginLeft: 16 }}>
-              {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
-            </span>
-          </div>
-          <input
-            css={STYLES_HIDDEN}
-            ref={(c) => {
-              this._ref = c;
+        <div
+          css={STYLES_SECTION_HEADER}
+          style={{ cursor: "pointer" }}
+          onClick={() => this._toggleAccordion("showConnected")}
+        >
+          <span
+            style={{
+              marginRight: 8,
+              transform: this.state.showConnected ? "none" : "rotate(-90deg)",
+              transition: "100ms ease transform",
             }}
-            readOnly
-            value={this.state.copyValue}
-          />
-          <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "urlCopying")}>
-            <SVG.DeepLink height="24px" />
-            <span style={{ marginLeft: 16 }}>
-              {this.state.loading === "urlCopying" ? "Copied!" : "Copy link"}
-            </span>
-          </div>
-          <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
-            <SVG.Trash height="24px" />
-            {this.state.loading === "deleting" ? (
-              <LoaderSpinner style={{ height: 20, width: 20, marginLeft: 16 }} />
-            ) : (
-              <span style={{ marginLeft: 16 }}>Delete</span>
-            )}
-          </div>
+          >
+            <SVG.ChevronDown height="24px" display="block" />
+          </span>
+          <span>Connected Slates</span>
         </div>
+        {this.state.showConnected ? (
+          <div style={{ width: "100%", margin: "24px 0" }}>
+            <SlatePicker
+              slates={this.props.slates}
+              selected={this.state.selected}
+              onAdd={this._handleAdd}
+              onCreateSlate={this._handleCreateSlate}
+              loading={this.props.loading}
+              dark={true}
+              selectedColor={Constants.system.white}
+            />
+          </div>
+        ) : null}
+        <div
+          css={STYLES_SECTION_HEADER}
+          style={{ cursor: "pointer" }}
+          onClick={() => this._toggleAccordion("showFile")}
+        >
+          <span
+            style={{
+              marginRight: 8,
+              transform: this.state.showFile ? "none" : "rotate(-90deg)",
+              transition: "100ms ease transform",
+            }}
+          >
+            <SVG.ChevronDown height="24px" display="block" />
+          </span>
+          <span>File</span>
+        </div>
+        {this.state.showFile ? (
+          <div css={STYLES_ACTIONS} style={{ marginTop: 24 }}>
+            <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
+              <SVG.CopyAndPaste height="24px" />
+              <span style={{ marginLeft: 16 }}>
+                {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
+              </span>
+            </div>
+            <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "urlCopying")}>
+              <SVG.DeepLink height="24px" />
+              <span style={{ marginLeft: 16 }}>
+                {this.state.loading === "urlCopying" ? "Copied!" : "Copy link"}
+              </span>
+            </div>
+            <div
+              css={STYLES_ACTION}
+              // onClick={() => this.props.onObjectSave({ ...this.props.data, ...this.state })}
+            >
+              <SVG.Download height="24px" />
+              <span style={{ marginLeft: 16 }}>
+                {this.props.saving ? (
+                  <LoaderSpinner style={{ height: 16, width: 16 }} />
+                ) : (
+                  <span>Download</span>
+                )}
+              </span>
+            </div>
+            <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
+              <SVG.Trash height="24px" />
+              {this.state.loading === "deleting" ? (
+                <LoaderSpinner style={{ height: 20, width: 20, marginLeft: 16 }} />
+              ) : (
+                <span style={{ marginLeft: 16 }}>Delete</span>
+              )}
+            </div>
+          </div>
+        ) : null}
+        <input
+          css={STYLES_HIDDEN}
+          ref={(c) => {
+            this._ref = c;
+          }}
+          readOnly
+          value={this.state.copyValue}
+        />
       </div>
     );
   }

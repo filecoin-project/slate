@@ -20,16 +20,27 @@ const STYLES_SLATE_NAME_DARK = css`
   color: ${Constants.system.white};
 `;
 
-const STYLES_SLATE_LIST = css`
-  max-height: 400px;
+const STYLES_NO_VISIBLE_SCROLL = css`
   overflow-y: scroll;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+  }
+  ::-webkit-scrollbar-track {
+    background: ${Constants.system.foreground};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${Constants.system.darkGray};
+  }
 `;
 
-const STYLES_SLATE_LIST_DARK = css`
-  max-height: 400px;
-  overflow-y: scroll;
-  border: 1px solid rgba(60, 60, 60, 1);
-  border-radius: 4px;
+const STYLES_SLATE_LIST = css`
+  ${STYLES_NO_VISIBLE_SCROLL}
+  max-height: 316px;
 `;
 
 const STYLES_SLATE_LINE = css`
@@ -48,14 +59,9 @@ const STYLES_SLATE_LINE = css`
 `;
 
 const STYLES_SLATE_LINE_DARK = css`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 12px 16px;
+  ${STYLES_SLATE_LINE}
   background-color: transparent;
-  cursor: pointer;
-  color: ${Constants.system.darkGray};
-  border-bottom: 1px solid rgba(60, 60, 60, 1);
+  border-bottom: 1px solid #3c3c3c;
 
   :hover {
     color: ${Constants.system.brand};
@@ -66,33 +72,27 @@ const STYLES_SLATE_LINE_DARK = css`
   }
 `;
 
-const STYLES_SLATE_CREATE_DARK = css`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 12px 16px;
-  background-color: transparent;
-  cursor: pointer;
-  color: ${Constants.system.darkGray};
-  border: 1px solid rgba(60, 60, 60, 1);
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-`;
-
 const STYLES_SLATE_CREATE = css`
   display: flex;
   align-items: center;
   width: 100%;
   padding: 12px 16px;
   background-color: ${Constants.system.white};
-  margin-bottom: 1px;
   cursor: pointer;
   color: ${Constants.system.darkGray};
 
   :hover {
     color: ${Constants.system.grayBlack};
+  }
+`;
+
+const STYLES_SLATE_CREATE_DARK = css`
+  ${STYLES_SLATE_CREATE}
+  background-color: transparent;
+  border: 1px solid #3c3c3c;
+
+  :hover {
+    color: ${Constants.system.brand};
   }
 `;
 
@@ -107,7 +107,6 @@ export class SlatePicker extends React.Component {
       <React.Fragment>
         <div
           css={this.props.dark ? STYLES_SLATE_CREATE_DARK : STYLES_SLATE_CREATE}
-          style={{ marginBottom: 32 }}
           onClick={this.props.onCreateSlate}
         >
           <SVG.Plus
@@ -120,7 +119,10 @@ export class SlatePicker extends React.Component {
           <div>Create new slate</div>
         </div>
         <br />
-        <div css={this.props.dark ? STYLES_SLATE_LIST_DARK : STYLES_SLATE_LIST}>
+        <div
+          css={STYLES_SLATE_LIST}
+          style={{ border: this.props.dark ? "1px solid #3c3c3c" : "none" }}
+        >
           {this.props.slates.map((slate) => (
             <div
               key={slate.id}

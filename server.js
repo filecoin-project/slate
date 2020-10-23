@@ -93,6 +93,10 @@ app.prepare().then(async () => {
       viewer,
       analytics,
       mobile,
+      resources: {
+        storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
+        upload: Environment.RESOURCE_URI_UPLOAD,
+      },
     });
   });
 
@@ -119,7 +123,13 @@ app.prepare().then(async () => {
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
-      return handler(req, res, req.url, { mobile });
+      return handler(req, res, req.url, {
+        mobile,
+        resources: {
+          storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
+          upload: Environment.RESOURCE_URI_UPLOAD,
+        },
+      });
     }
 
     const id = Utilities.getIdFromCookie(req);
@@ -152,6 +162,10 @@ app.prepare().then(async () => {
       viewer,
       creator: Serializers.user({ ...creator, slates }),
       mobile,
+      resources: {
+        storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
+        upload: Environment.RESOURCE_URI_UPLOAD,
+      },
     });
   });
 
@@ -160,7 +174,13 @@ app.prepare().then(async () => {
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
-      return handler(req, res, req.url, { mobile });
+      return handler(req, res, req.url, {
+        mobile,
+        resources: {
+          storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
+          upload: Environment.RESOURCE_URI_UPLOAD,
+        },
+      });
     }
 
     const slate = await Data.getSlateByName({
@@ -208,6 +228,10 @@ app.prepare().then(async () => {
       creator: Serializers.user(creator),
       slate,
       mobile,
+      resources: {
+        storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
+        upload: Environment.RESOURCE_URI_UPLOAD,
+      },
     });
   });
 

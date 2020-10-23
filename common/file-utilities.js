@@ -1,6 +1,7 @@
 import * as Actions from "~/common/actions";
 import * as Store from "~/common/store";
 import * as Constants from "~/common/constants";
+import * as Credentials from "~/common/credentials";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { encode } from "blurhash";
@@ -31,7 +32,13 @@ const encodeImageToBlurhash = async (imageUrl) => {
   return encode(imageData.data, imageData.width, imageData.height, 4, 4);
 };
 
-export const upload = async ({ file, context, bucketName }) => {
+// NOTE(jim): We're speaking to a different server now.
+const getCookie = (name) => {
+  var match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  if (match) return match[2];
+};
+
+export const upload = async ({ file, context, bucketName, routes }) => {
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 
@@ -61,14 +68,13 @@ export const upload = async ({ file, context, bucketName }) => {
     new Promise((resolve, reject) => {
       const XHR = new XMLHttpRequest();
 
-      window.addEventListener(
-        `cancel-${file.lastModified}-${file.name}`,
-        () => {
-          XHR.abort();
-        }
-      );
+      window.addEventListener(`cancel-${file.lastModified}-${file.name}`, () => {
+        XHR.abort();
+      });
 
       XHR.open("post", path, true);
+
+      XHR.setRequestHeader("authorization", getCookie(Credentials.session.key));
       XHR.onerror = (event) => {
         console.log(event);
         XHR.abort();
@@ -99,10 +105,7 @@ export const upload = async ({ file, context, bucketName }) => {
         false
       );
 
-      window.removeEventListener(
-        `cancel-${file.lastModified}-${file.name}`,
-        () => XHR.abort()
-      );
+      window.removeEventListener(`cancel-${file.lastModified}-${file.name}`, () => XHR.abort());
 
       XHR.onloadend = (event) => {
         console.log("FILE UPLOAD END", event);
@@ -119,10 +122,15 @@ export const upload = async ({ file, context, bucketName }) => {
 
   let res;
   // TODO(jim): Make this smarter.
+
+  const storageDealRoute =
+    routes && routes.storageDealUpload ? routes.storageDealUpload : `/api/data/deal/`;
+  const generalRoute = routes && routes.upload ? routes.upload : "/api/data/";
+
   if (bucketName && bucketName === STAGING_DEAL_BUCKET) {
-    res = await _privateUploadMethod(`/api/data/deal/${file.name}`, file);
+    res = await _privateUploadMethod(`${storageDealRoute}${file.name}`, file);
   } else {
-    res = await _privateUploadMethod(`/api/data/${file.name}`, file);
+    res = await _privateUploadMethod(`${generalRoute}${file.name}`, file);
   }
 
   if (!res || res.error || !res.data) {
@@ -176,8 +184,7 @@ export const uploadToSlate = async ({ responses, slate }) => {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -193,9 +200,7 @@ export const uploadToSlate = async ({ responses, slate }) => {
       skipped = addResponse.skipped;
     }
   }
-  let message = `${added || 0} file${
-    added !== 1 ? "s" : ""
-  } uploaded to slate. `;
+  let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded to slate. `;
   if (skipped) {
     message += `${skipped || 0} duplicate / existing file${
       added !== 1 ? "s were" : " was"

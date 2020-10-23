@@ -303,6 +303,7 @@ export default class ApplicationPage extends React.Component {
         response = await FileUtilities.upload({
           file: files[i],
           context: this,
+          routes: this.props.resources,
         });
       } catch (e) {
         console.log(e);
@@ -817,6 +818,7 @@ export default class ApplicationPage extends React.Component {
       onRehydrate: this.rehydrate,
       sceneId: current.target.id,
       mobile: this.state.mobile,
+      resources: this.props.resources,
     });
 
     let sidebarElement;
@@ -837,6 +839,7 @@ export default class ApplicationPage extends React.Component {
         onSidebarLoading: this._handleSidebarLoading,
         onAction: this._handleAction,
         onRehydrate: this.rehydrate,
+        resources: this.props.resources,
       });
     }
 

@@ -19,32 +19,20 @@ export const init = (middleware) => {
 };
 
 export const CORS = async (req, res, next) => {
-  /*
   res.header("Access-Control-Allow-Origin", "*");
-
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, Accept, Content-Type, Authorization"
-  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, Accept, Content-Type, Authorization");
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
-  */
 
   next();
 };
 
 export const RequireCookieAuthentication = async (req, res, next) => {
   if (Strings.isEmpty(req.headers.cookie)) {
-    return res
-      .status(403)
-      .json({ decorator: "SERVER_AUTH_USER_NO_TOKEN", error: true });
+    return res.status(403).json({ decorator: "SERVER_AUTH_USER_NO_TOKEN", error: true });
   }
 
   const token = req.headers.cookie.replace(
@@ -60,15 +48,11 @@ export const RequireCookieAuthentication = async (req, res, next) => {
     });
 
     if (!user || user.error) {
-      return res
-        .status(403)
-        .json({ decorator: "SERVER_AUTH_USER_NOT_FOUND", error: true });
+      return res.status(403).json({ decorator: "SERVER_AUTH_USER_NOT_FOUND", error: true });
     }
   } catch (err) {
     console.log(err);
-    return res
-      .status(403)
-      .json({ decorator: "SERVER_AUTH_USER_ERROR", error: true });
+    return res.status(403).json({ decorator: "SERVER_AUTH_USER_ERROR", error: true });
   }
 
   next();

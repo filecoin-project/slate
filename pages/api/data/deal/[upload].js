@@ -22,9 +22,7 @@ export default async (req, res) => {
   });
 
   if (!user || user.error) {
-    return res
-      .status(403)
-      .send({ decorator: "UPLOAD_NOT_ALLOWED", error: true });
+    return res.status(403).send({ decorator: "UPLOAD_NOT_ALLOWED", error: true });
   }
 
   let response = null;
@@ -39,15 +37,11 @@ export default async (req, res) => {
   }
 
   if (!response) {
-    return res
-      .status(413)
-      .send({ decorator: "SERVER_UPLOAD_ERROR", error: true });
+    return res.status(413).send({ decorator: "SERVER_UPLOAD_ERROR", error: true });
   }
 
   if (response.error) {
-    return res
-      .status(413)
-      .send({ decorator: response.decorator, error: response.error });
+    return res.status(413).send({ decorator: response.decorator, error: response.error });
   }
 
   return res.status(200).send({

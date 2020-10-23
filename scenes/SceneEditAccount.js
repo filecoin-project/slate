@@ -38,12 +38,9 @@ export default class SceneEditAccount extends React.Component {
     photo: this.props.viewer.data.photo,
     name: this.props.viewer.data.name,
     deleting: false,
-    allow_filecoin_directory_listing: this.props.viewer
-      .allow_filecoin_directory_listing,
-    allow_automatic_data_storage: this.props.viewer
-      .allow_automatic_data_storage,
-    allow_encrypted_data_storage: this.props.viewer
-      .allow_encrypted_data_storage,
+    allow_filecoin_directory_listing: this.props.viewer.allow_filecoin_directory_listing,
+    allow_automatic_data_storage: this.props.viewer.allow_automatic_data_storage,
+    allow_encrypted_data_storage: this.props.viewer.allow_encrypted_data_storage,
     changingPassword: false,
     changingUsername: false,
     changingAvatar: false,
@@ -78,7 +75,7 @@ export default class SceneEditAccount extends React.Component {
       return;
     }
 
-    const response = await FileUtilities.upload({ file });
+    const response = await FileUtilities.upload({ file, routes: this.props.resources });
 
     if (!response) {
       dispatchCustomEvent({
@@ -140,8 +137,7 @@ export default class SceneEditAccount extends React.Component {
         photo: this.state.photo,
         body: this.state.body,
         name: this.state.name,
-        allow_filecoin_directory_listing: this.state
-          .allow_filecoin_directory_listing,
+        allow_filecoin_directory_listing: this.state.allow_filecoin_directory_listing,
         allow_automatic_data_storage: this.state.allow_automatic_data_storage,
         allow_encrypted_data_storage: this.state.allow_encrypted_data_storage,
       },
@@ -247,19 +243,10 @@ export default class SceneEditAccount extends React.Component {
           description="This image will appear in various lists."
         />
 
-        <Avatar
-          style={{ marginTop: 24 }}
-          size={256}
-          url={this.props.viewer.data.photo}
-        />
+        <Avatar style={{ marginTop: 24 }} size={256} url={this.props.viewer.data.photo} />
 
         <div style={{ marginTop: 24 }}>
-          <input
-            css={STYLES_FILE_HIDDEN}
-            type="file"
-            id="file"
-            onChange={this._handleUpload}
-          />
+          <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
           <System.ButtonPrimary
             style={{ margin: "0 16px 16px 0" }}
             type="label"
@@ -282,8 +269,7 @@ export default class SceneEditAccount extends React.Component {
           value={this.state.allow_filecoin_directory_listing}
           onChange={this._handleCheckboxChange}
         >
-          Show your successful deals on a directory page where others can
-          retrieve them.
+          Show your successful deals on a directory page where others can retrieve them.
         </System.CheckBox>
 
         <System.CheckBox
@@ -292,8 +278,8 @@ export default class SceneEditAccount extends React.Component {
           value={this.state.allow_automatic_data_storage}
           onChange={this._handleCheckboxChange}
         >
-          Allow Slate to make archive storage deals on your behalf to the
-          Filecoin Network. You will get a receipt in the Filecoin section.
+          Allow Slate to make archive storage deals on your behalf to the Filecoin Network. You will
+          get a receipt in the Filecoin section.
         </System.CheckBox>
 
         <System.CheckBox
@@ -302,8 +288,8 @@ export default class SceneEditAccount extends React.Component {
           value={this.state.allow_encrypted_data_storage}
           onChange={this._handleCheckboxChange}
         >
-          Force encryption on archive storage deals (only you can see retrieved
-          data from the Filecoin network).
+          Force encryption on archive storage deals (only you can see retrieved data from the
+          Filecoin network).
         </System.CheckBox>
 
         <div style={{ marginTop: 24 }}>
@@ -320,8 +306,7 @@ export default class SceneEditAccount extends React.Component {
           label="Username"
           description={
             <React.Fragment>
-              This is your username on Slate. Your username is unique and used
-              for your profile URL{" "}
+              This is your username on Slate. Your username is unique and used for your profile URL{" "}
               <a href={profileURL} target="_blank">
                 {profileURL}
               </a>
@@ -334,10 +319,7 @@ export default class SceneEditAccount extends React.Component {
         />
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary
-            onClick={this._handleSave}
-            loading={this.state.changingUsername}
-          >
+          <System.ButtonPrimary onClick={this._handleSave} loading={this.state.changingUsername}>
             Change username
           </System.ButtonPrimary>
         </div>
@@ -363,10 +345,7 @@ export default class SceneEditAccount extends React.Component {
         />
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary
-            onClick={this._handleSaveBio}
-            loading={this.state.changingBio}
-          >
+          <System.ButtonPrimary onClick={this._handleSaveBio} loading={this.state.changingBio}>
             Update information
           </System.ButtonPrimary>
         </div>
@@ -413,10 +392,7 @@ export default class SceneEditAccount extends React.Component {
         />
 
         <div style={{ marginTop: 24 }}>
-          <System.ButtonPrimary
-            onClick={this._handleDelete}
-            loading={this.state.deleting}
-          >
+          <System.ButtonPrimary onClick={this._handleDelete} loading={this.state.deleting}>
             Delete my account
           </System.ButtonPrimary>
         </div>

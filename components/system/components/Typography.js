@@ -15,10 +15,6 @@ const LINK_STYLES = `
   cursor: pointer;
   transition: 200ms ease color;
 
-  :visited {
-    color: ${Constants.system.moonstone};
-  }
-
   :hover {
     color: ${Constants.system.slate};
   }
@@ -26,6 +22,14 @@ const LINK_STYLES = `
 
 const STYLES_LINK = css`
   ${LINK_STYLES}
+`;
+
+const STYLES_LINK_DARK = css`
+  color: ${Constants.system.darkGray};
+
+  :hover {
+    color: ${Constants.system.white};
+  }
 `;
 
 const ANCHOR = `
@@ -46,11 +50,11 @@ const onDeepLink = async (object) => {
   return window.open(slug);
 };
 
-export const ProcessedText = ({ text }) => {
+export const ProcessedText = ({ text, dark }) => {
   let replacedText;
 
   replacedText = StringReplace(text, /(https?:\/\/\S+)/g, (match, i) => (
-    <a css={STYLES_LINK} key={match + i} href={match} target="_blank">
+    <a css={dark ? STYLES_LINK_DARK : STYLES_LINK} key={match + i} href={match} target="_blank">
       {match}
     </a>
   ));
@@ -60,7 +64,7 @@ export const ProcessedText = ({ text }) => {
     /@(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
     (match, i) => (
       <a
-        css={STYLES_LINK}
+        css={dark ? STYLES_LINK_DARK : STYLES_LINK}
         key={match + i}
         target="_blank"
         href={`/${match}`.toLowerCase()}
@@ -78,7 +82,7 @@ export const ProcessedText = ({ text }) => {
       let displayString = match.split("/")[1];
       return (
         <span
-          css={STYLES_LINK}
+          css={dark ? STYLES_LINK_DARK : STYLES_LINK}
           key={match + i}
           onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}
         >

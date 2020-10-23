@@ -332,8 +332,9 @@ export default class DataView extends React.Component {
     await delay(200);
 
     System.dispatchCustomEvent({
-      name: "cid-viewer-create",
+      name: "slate-global-create-carousel",
       detail: {
+        carouselType: "data",
         slides: this.props.items.map((each) => {
           const cid = each.ipfs.replace("/ipfs/", "");
           const url = Strings.getCIDGatewayURL(cid);
@@ -372,7 +373,7 @@ export default class DataView extends React.Component {
 
   _handleSelect = (index) => {
     System.dispatchCustomEvent({
-      name: "cid-viewer-open",
+      name: "slate-global-open-carousel",
       detail: { index },
     });
   };
@@ -385,7 +386,7 @@ export default class DataView extends React.Component {
     const { id, slate, data } = detail;
 
     System.dispatchCustomEvent({
-      name: "cid-viewer-loading",
+      name: "state-global-carousel-loading",
       detail: { loading: { id: slate.id } },
     });
 
@@ -432,7 +433,7 @@ export default class DataView extends React.Component {
     await this._handleUpdate();
 
     System.dispatchCustomEvent({
-      name: "cid-viewer-loading",
+      name: "state-global-carousel-loading",
       detail: { loading: false },
     });
   };
@@ -441,7 +442,7 @@ export default class DataView extends React.Component {
     const { id, slate } = detail;
 
     System.dispatchCustomEvent({
-      name: "cid-viewer-loading",
+      name: "state-global-carousel-loading",
       detail: { loading: { id: slate.id } },
     });
 
@@ -458,7 +459,7 @@ export default class DataView extends React.Component {
 
     if (!response) {
       System.dispatchCustomEvent({
-        name: "cid-viewer-loading",
+        name: "state-global-carousel-loading",
         detail: { loading: false },
       });
 
@@ -476,7 +477,7 @@ export default class DataView extends React.Component {
 
     if (response.error) {
       System.dispatchCustomEvent({
-        name: "cid-viewer-loading",
+        name: "state-global-carousel-loading",
         detail: { loading: false },
       });
 
@@ -495,7 +496,7 @@ export default class DataView extends React.Component {
     await this._handleUpdate();
 
     System.dispatchCustomEvent({
-      name: "cid-viewer-loading",
+      name: "state-global-carousel-loading",
       detail: { loading: false },
     });
   };
@@ -518,7 +519,7 @@ export default class DataView extends React.Component {
     let loading = this.state.loading;
     for (let cid of cids) {
       System.dispatchCustomEvent({
-        name: "cid-viewer-loading",
+        name: "state-global-carousel-loading",
         detail: { loading: !this.state.loading[cid] },
       });
       loading[cid] = !this.state.loading[cid];

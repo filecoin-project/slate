@@ -30,56 +30,40 @@ const STYLES_NO_VISIBLE_SCROLL = css`
   }
 `;
 
-const STYLES_SIDEBAR_INPUT = css`
-  ${STYLES_NO_VISIBLE_SCROLL}
-  position: relative;
-  padding: 12px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
+// const STYLES_SIDEBAR_INPUT = css`
+//   ${STYLES_NO_VISIBLE_SCROLL}
+//   position: relative;
+//   padding: 12px;
+//   scrollbar-width: none;
+//   -webkit-overflow-scrolling: touch;
+//   -ms-overflow-style: -ms-autohiding-scrollbar;
 
-  ::-webkit-scrollbar {
-    width: 0px;
-    display: none;
-  }
-`;
-
-const STYLES_SIDEBAR_TEXTAREA = css`
-  ${STYLES_NO_VISIBLE_SCROLL}
-  resize: none;
-  box-sizing: border-box;
-  line-height: 1.255;
-  font-size: 16px;
-  outline: 0;
-  border: 0;
-  background: transparent;
-  width: 100%;
-  white-space: pre-wrap;
-  color: ${Constants.system.white};
-  font-family: ${Constants.font.text};
-  scrollbar-width: none;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-// class SidebarInput extends React.Component {
-//   render() {
-//     return (
-//       <Input
-//         full
-//         value={this.props.value}
-//         name={this.props.name}
-//         onChange={this.props.onChange}
-//         id={`sidebar-label-${this.props.name}`}
-//         placeholder={this.props.placeholder}
-//         style={this.props.style}
-//       />
-//     );
+//   ::-webkit-scrollbar {
+//     width: 0px;
+//     display: none;
 //   }
-// }
+// `;
+
+// const STYLES_SIDEBAR_TEXTAREA = css`
+//   ${STYLES_NO_VISIBLE_SCROLL}
+//   resize: none;
+//   box-sizing: border-box;
+//   line-height: 1.255;
+//   font-size: 16px;
+//   outline: 0;
+//   border: 0;
+//   background: transparent;
+//   width: 100%;
+//   white-space: pre-wrap;
+//   color: ${Constants.system.white};
+//   font-family: ${Constants.font.text};
+//   scrollbar-width: none;
+//   -ms-overflow-style: -ms-autohiding-scrollbar;
+
+//   ::-webkit-scrollbar {
+//     display: none;
+//   }
+// `;
 
 const STYLES_SIDEBAR = css`
   width: 420px;
@@ -105,35 +89,10 @@ const STYLES_SIDEBAR = css`
   }
 `;
 
-// const STYLES_BUTTON = css`
-//   border-top: 1px solid #222222;
-//   flex-shrink: 0;
-//   color: ${Constants.system.white};
-//   width: 100%;
-//   padding: 16px 24px 16px 24px;
-//   min-height: 56px;
-//   font-size: 14px;
-//   font-family: ${Constants.font.semiBold};
-//   transition: 200ms ease all;
-//   cursor: pointer;
-//   overflow-wrap: break-word;
-//   text-decoration: none;
-
-//   :hover {
-//     background-color: ${Constants.system.brand};
-//   }
-// `;
-
 const STYLES_SIDEBAR_SECTION = css`
   flex-shrink: 0;
   width: 100%;
   margin-bottom: 16px;
-  ${"" /* border: 1px solid rgba(60, 60, 60, 1); */}
-  ${"" /* border-radius: 4px; */}
-  ${"" /* height: 48px; */}
-  ${"" /* overflow-y: scroll;
-  scrollbar-width: none; */}
-  ${"" /* -ms-overflow-style: -ms-autohiding-scrollbar; */}
 `;
 
 const STYLES_SIDEBAR_CONTENT = css`
@@ -152,21 +111,27 @@ const STYLES_SIDEBAR_CONTENT = css`
 `;
 
 const STYLES_HEADING = css`
-  font-family: ${Constants.font.medium};
-  font-size: 16px;
-  line-height: 1.225;
+  font-family: ${Constants.font.semiBold};
+  font-size: 20px;
   font-weight: 400;
-  padding: 16px 24px 24px 24px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+  margin-bottom: 32px;
 `;
 
 const STYLES_BODY = css`
   font-size: 16px;
   line-height: 1.225;
-  padding: 24px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+  margin-bottom: 32px;
+`;
+
+const STYLES_SIDEBAR_INPUT_LABEL = css`
+  font-size: 16px;
+  font-family: ${Constants.font.semiBold};
+  color: ${Constants.system.darkGray};
+  margin-bottom: 8px;
 `;
 
 const STYLES_SECTION_HEADER = css`
@@ -180,7 +145,7 @@ const STYLES_SECTION_HEADER = css`
 const STYLES_ACTIONS = css`
   color: ${Constants.system.white};
   width: 100%;
-  border: 1px solid rgba(60, 60, 60, 1);
+  border: 1px solid #3c3c3c;
   border-radius: 4px;
   background-color: transparent;
   margin-bottom: 48px;
@@ -189,7 +154,7 @@ const STYLES_ACTIONS = css`
 const STYLES_ACTION = css`
   cursor: pointer;
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(60, 60, 60, 1);
+  border-bottom: 1px solid #3c3c3c;
   display: flex;
   align-items: center;
 
@@ -216,7 +181,19 @@ const STYLES_INPUT = {
   height: 48,
 };
 
-export default class SlateMediaObjectSidebar extends React.Component {
+const STYLES_DISMISS_BOX = css`
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  color: ${Constants.system.darkGray};
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.white};
+  }
+`;
+
+export default class CarouselSidebarSlate extends React.Component {
   _ref = null;
 
   state = {
@@ -383,26 +360,29 @@ export default class SlateMediaObjectSidebar extends React.Component {
           </React.Fragment>
         );
       } else {
-        const hasTitle = !Strings.isEmpty(this.props.data.title);
-        const hasBody = !Strings.isEmpty(this.props.data.body);
-        const hasSource = !Strings.isEmpty(this.props.data.source);
-        const hasAuthor = !Strings.isEmpty(this.props.data.author);
+        const hasTitle = "Title.jpg"; //!Strings.isEmpty(this.props.data.title || this.props.data.name);
+        const hasBody =
+          "This is the body of a value. It's a pretty short description of the object"; //!Strings.isEmpty(this.props.data.body);
+        const hasSource = "https://abcdinamo.com/news/2020-launch-press-release"; //!Strings.isEmpty(this.props.data.source);
+        const hasAuthor = "ABC Dinamo"; //!Strings.isEmpty(this.props.data.author);
 
         if (hasTitle) {
           elements.push(
             <div key="sidebar-media-info-title" css={STYLES_SIDEBAR_SECTION}>
               <h1 css={STYLES_HEADING}>
-                <ProcessedText text={this.props.data.title} />
+                {/* <ProcessedText dark text={this.props.data.title} /> */}
+                <ProcessedText dark text={hasTitle} />
               </h1>
             </div>
           );
         }
 
-        if (hasBody || hasTitle || hasSource || hasAuthor) {
+        if (hasBody) {
           elements.push(
-            <div key="sidebar-media-info-body" css={STYLES_SIDEBAR_CONTENT}>
+            <div key="sidebar-media-info-body" css={STYLES_SIDEBAR_SECTION}>
               <p css={STYLES_BODY}>
-                <ProcessedText text={this.props.data.body} />
+                {/* <ProcessedText dark text={this.props.data.body} /> */}
+                <ProcessedText dark text={hasBody} />
               </p>
             </div>
           );
@@ -412,10 +392,11 @@ export default class SlateMediaObjectSidebar extends React.Component {
           elements.push(
             <div key="sidebar-media-info-source" css={STYLES_SIDEBAR_SECTION}>
               <div css={STYLES_SIDEBAR_INPUT_LABEL} style={{ position: "relative" }}>
-                Source
+                Source:
               </div>
-              <p css={STYLES_BODY}>
-                <ProcessedText text={this.props.data.source} />
+              <p css={STYLES_BODY} style={{ color: Constants.system.darkGray }}>
+                {/* <ProcessedText dark text={this.props.data.source} /> */}
+                <ProcessedText dark text={hasSource} />
               </p>
             </div>
           );
@@ -425,10 +406,11 @@ export default class SlateMediaObjectSidebar extends React.Component {
           elements.push(
             <div key="sidebar-media-info-author" css={STYLES_SIDEBAR_SECTION}>
               <div css={STYLES_SIDEBAR_INPUT_LABEL} style={{ position: "relative" }}>
-                Author
+                Author:
               </div>
-              <p css={STYLES_BODY}>
-                <ProcessedText text={this.props.data.author} />
+              <p css={STYLES_BODY} style={{ color: Constants.system.darkGray }}>
+                {/* <ProcessedText dark text={this.props.data.author} /> */}
+                <ProcessedText dark text={hasAuthor} />
               </p>
             </div>
           );
@@ -441,17 +423,14 @@ export default class SlateMediaObjectSidebar extends React.Component {
     }
 
     return (
-      <div css={STYLES_SIDEBAR}>
-        <div
-          style={{ position: "absolute", top: 20, right: 24, cursor: "pointer" }}
-          onClick={this.props.onClose}
-        >
+      <div css={STYLES_SIDEBAR} style={{ display: this.props.display }}>
+        <div css={STYLES_DISMISS_BOX} onClick={this.props.onClose}>
           <SVG.Dismiss height="24px" />
         </div>
         {elements}
         <div
           css={STYLES_SECTION_HEADER}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", marginTop: 44 }}
           onClick={() => this._toggleAccordion("showConnected")}
         >
           <span
@@ -463,17 +442,17 @@ export default class SlateMediaObjectSidebar extends React.Component {
           >
             <SVG.ChevronDown height="24px" display="block" />
           </span>
-          <span>Connected Slates</span>
+          <span>{this.props.isOwner ? "Connected slates" : "My slates"}</span>
         </div>
         {this.state.showConnected ? (
-          <div style={{ width: "100%", margin: "24px 0" }}>
+          <div style={{ width: "100%", margin: "24px 0 44px 0" }}>
             <SlatePicker
               slates={this.props.slates}
               selected={this.state.selected}
               onAdd={this._handleAdd}
               onCreateSlate={this._handleCreateSlate}
               loading={this.props.loading}
-              dark={true}
+              dark
               selectedColor={Constants.system.white}
             />
           </div>
@@ -496,12 +475,14 @@ export default class SlateMediaObjectSidebar extends React.Component {
         </div>
         {this.state.showFile ? (
           <div css={STYLES_ACTIONS} style={{ marginTop: 24 }}>
-            <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
-              <SVG.CopyAndPaste height="24px" />
-              <span style={{ marginLeft: 16 }}>
-                {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
-              </span>
-            </div>
+            {this.props.isOwner ? (
+              <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
+                <SVG.CopyAndPaste height="24px" />
+                <span style={{ marginLeft: 16 }}>
+                  {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
+                </span>
+              </div>
+            ) : null}
             <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "urlCopying")}>
               <SVG.DeepLink height="24px" />
               <span style={{ marginLeft: 16 }}>
@@ -521,14 +502,16 @@ export default class SlateMediaObjectSidebar extends React.Component {
                 )}
               </span>
             </div>
-            <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
-              <SVG.Trash height="24px" />
-              {this.state.loading === "deleting" ? (
-                <LoaderSpinner style={{ height: 20, width: 20, marginLeft: 16 }} />
-              ) : (
-                <span style={{ marginLeft: 16 }}>Delete</span>
-              )}
-            </div>
+            {this.props.isOwner ? (
+              <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
+                <SVG.Trash height="24px" />
+                {this.state.loading === "deleting" ? (
+                  <LoaderSpinner style={{ height: 20, width: 20, marginLeft: 16 }} />
+                ) : (
+                  <span style={{ marginLeft: 16 }}>Delete</span>
+                )}
+              </div>
+            ) : null}
           </div>
         ) : null}
         <input

@@ -59,6 +59,7 @@ export default class SlatePage extends React.Component {
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: {
+        carouselType: "slate",
         slides: this.props.slate.data.objects.map((each, index) => {
           // NOTE(jim):
           // This is a hack to catch this undefined case I don't want to track down yet.

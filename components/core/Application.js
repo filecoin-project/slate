@@ -58,9 +58,8 @@ import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
 
-import { GlobalViewerCID } from "~/components/core/viewers/GlobalViewerCID";
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { Alert, UploadingAlert } from "~/components/core/Alert";
+import { Alert } from "~/components/core/Alert";
 
 const cookies = new Cookies();
 
@@ -874,6 +873,7 @@ export default class ApplicationPage extends React.Component {
             mobile={this.state.mobile}
           />
           <System.GlobalCarousel
+            onRehydrate={this.rehydrate}
             slates={this.state.viewer.slates}
             onAction={this._handleAction}
             mobile={this.props.mobile}

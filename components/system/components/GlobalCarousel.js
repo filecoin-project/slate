@@ -4,7 +4,8 @@ import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 
-import SlateMediaObjectSidebar from "~/components/core/SlateMediaObjectSidebar";
+import CarouselSidebarSlate from "~/components/core/CarouselSidebarSlate";
+import CarouselSidebarData from "~/components/core/CarouselSidebarData";
 
 const STYLES_ROOT = css`
   position: fixed;
@@ -20,13 +21,13 @@ const STYLES_ROOT = css`
   color: ${Constants.system.white};
   z-index: ${Constants.zindex.modal};
 
-  @supports ((-webkit-backdrop-filter: bluur(15px)) or (backdrop-filter: blur(15px))) {
+  @supports ((-webkit-backdrop-filter: blur(15px)) or (backdrop-filter: blur(15px))) {
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     background-color: rgba(0, 0, 0, 0.8);
   }
 
-  @keyframes global-slat-object-fade-in {
+  @keyframes global-carousel-fade-in {
     from {
       transform: translate(8px);
       opacity: 0;
@@ -36,6 +37,7 @@ const STYLES_ROOT = css`
       opacity: 1;
     }
   }
+  animation: global-carousel-fade-in 400ms ease;
 `;
 
 const STYLES_ROOT_CONTENT = css`
@@ -67,13 +69,49 @@ const STYLES_BOX = css`
   }
 `;
 
+const STYLES_EXPANDER = css`
+  color: ${Constants.system.darkGray};
+  position: absolute;
+  padding: 4px;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.white};
+  }
+`;
+
+const STYLES_DISMISS_BOX = css`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: ${Constants.system.darkGray};
+  cursor: pointer;
+
+  :hover {
+    color: ${Constants.system.black};
+  }
+
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_MOBILE_HIDDEN = css`
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
 export class GlobalCarousel extends React.Component {
   state = {
+    index: 0,
     slides: null,
     visible: false,
-    index: 0,
     loading: false,
     saving: false,
+    showSidebar: true,
   };
 
   componentDidMount = () => {
@@ -145,7 +183,11 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  _handleClose = () => {
+  _handleClose = (e) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     this.setState({ visible: false, index: 0, loading: false, saving: false });
 
     if (this.state.baseURL) {
@@ -160,6 +202,7 @@ export class GlobalCarousel extends React.Component {
       slides: [...e.detail.slides],
       visible: shouldPersist ? true : false,
       index: shouldPersist ? this.state.index : 0,
+      carouselType: e.detail.carouselType,
     });
   };
 
@@ -195,7 +238,6 @@ export class GlobalCarousel extends React.Component {
 
   render() {
     const isVisible = this.state.visible && this.state.slides;
-    console.log(this.props);
     if (!isVisible) {
       return null;
     }
@@ -208,9 +250,6 @@ export class GlobalCarousel extends React.Component {
     return (
       <div css={STYLES_ROOT}>
         <div css={STYLES_ROOT_CONTENT} style={this.props.style}>
-          <div style={{ cursor: "pointer", padding: 4, position: "absolute", top: 12, right: 20 }}>
-            <SVG.Maximize height="20px" />
-          </div>
           <span
             css={STYLES_BOX}
             onClick={this._handlePrevious}
@@ -226,17 +265,48 @@ export class GlobalCarousel extends React.Component {
             <SVG.ChevronRight height="20px" />
           </span>
           {current.component}
+          <span css={STYLES_MOBILE_HIDDEN}>
+            <div
+              css={STYLES_EXPANDER}
+              onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
+            >
+              {this.state.showSidebar ? (
+                <SVG.Maximize height="24px" />
+              ) : (
+                <SVG.Minimize height="24px" />
+              )}
+            </div>
+          </span>
+          <div css={STYLES_DISMISS_BOX} onClick={this._handleClose}>
+            <SVG.Dismiss height="24px" />
+          </div>
         </div>
-        <SlateMediaObjectSidebar
-          key={current.id}
-          saving={this.state.saving}
-          loading={this.state.loading}
-          slates={this.props.slates}
-          onClose={this._handleClose}
-          onRehydrate={this.props.onRehydrate}
-          onAction={this.props.onAction}
-          {...current}
-        />
+        <span css={STYLES_MOBILE_HIDDEN}>
+          {this.state.carouselType === "data" ? (
+            <CarouselSidebarData
+              display={this.state.showSidebar ? "block" : "none"}
+              onClose={this._handleClose}
+              key={current.id}
+              saving={this.state.saving}
+              loading={this.state.loading}
+              onRehydrate={this.props.onRehydrate}
+              onAction={this.props.onAction}
+              {...current}
+            />
+          ) : (
+            <CarouselSidebarSlate
+              display={this.state.showSidebar ? "block" : "none"}
+              key={current.id}
+              saving={this.state.saving}
+              loading={this.state.loading}
+              slates={this.props.slates}
+              onClose={this._handleClose}
+              onRehydrate={this.props.onRehydrate}
+              onAction={this.props.onAction}
+              {...current}
+            />
+          )}
+        </span>
       </div>
     );
   }

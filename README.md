@@ -5,8 +5,6 @@
 ### An open source storage system for your data that makes it easy to collect, organize, and share them anywhere on the web.
 
 - [Create an account and try it out!](https://slate.host)
-- [Use our components](https://slate.host/_/system)
-- [Design System Release Repository](https://github.com/filecoin-project/slate-react-system)
 - [Filecoin](https://filecoin.io)
 - [Textile](https://textile.io)
 - [Twitter](https://twitter.com/_slate)
@@ -61,6 +59,7 @@ How?
 
 - You must create a `.env` file if you want to work on the service.
 - You don't need one if you work on the system.
+- Resource URIs are optional if you want to use another server for uploads.
 
 ```
 POSTGRES_ADMIN_PASSWORD=XXX
@@ -73,6 +72,9 @@ LOCAL_PASSWORD_ROUNDS_MANUAL=5
 LOCAL_PASSWORD_ROUNDS=14
 TEXTILE_HUB_KEY=XXX
 TEXTILE_HUB_SECRET=XXX
+RESOURCE_URI_UPLOAD=http://localhost:8888
+RESOURCE_URI_STORAGE_UPLOAD=http://localhost:8888
+RESOURCE_URI_REALTIME=http://localhost:8888
 ```
 
 ### Install and run
@@ -89,3 +91,10 @@ npm run dev
 ![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
 
 - Visit `localhost:1337` in a browser.
+
+### Design System
+
+Our design system is outdated but we will be updating it again soon.
+
+- [Use our components](https://slate.host/_/system)
+- [Design System Release Repository](https://github.com/filecoin-project/slate-react-system)

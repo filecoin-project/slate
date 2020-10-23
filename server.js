@@ -34,6 +34,10 @@ app.prepare().then(async () => {
   server.use(cors());
   server.use(morgan(":method :url :status :res[content-length] - :response-time ms"));
 
+  if (Environment.IS_PRODUCTION) {
+    server.use(compression());
+  }
+
   server.use("/public", express.static("public"));
   server.get("/system", async (r, s) => s.redirect("/_/system"));
   server.get("/experiences", async (r, s) => s.redirect("/_/system"));

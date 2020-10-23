@@ -10,23 +10,21 @@ const STYLES_VIEW_BUTTON = css`
   cursor: pointer;
 `;
 
-export const ViewAll = (props) => {
+export const ViewAllButton = (props) => {
   const [isTruncated, setTruncated] = useState(true);
-  const text = props.children;
+  const text = props.fullText;
   const maxCharacter = props.maxCharacter;
   const displayText = isTruncated ? text.slice(0, maxCharacter) : text;
 
   return (
-    <React.Fragment>
-      <div>
-        {displayText}
-        <span>{isTruncated ? "... " : ""}</span>
-        <span css={STYLES_VIEW_BUTTON} onClick={() => setTruncated(!isTruncated)}>
-          {isTruncated ? "View All" : "View Less"}
-        </span>
-      </div>
-    </React.Fragment>
+    <div>
+      {displayText}
+      <span>{isTruncated ? "... " : ""}</span>
+      <span css={STYLES_VIEW_BUTTON} onClick={() => setTruncated(!isTruncated)}>
+        {isTruncated ? "View All" : "View Less"}
+      </span>
+    </div>
   );
 };
 
-export default ViewAll;
+export default ViewAllButton;

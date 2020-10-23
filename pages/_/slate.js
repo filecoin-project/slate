@@ -7,7 +7,7 @@ import * as Actions from "~/common/actions";
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { Alert } from "~/components/core/Alert";
-import { ViewAll } from "~/components/core/ViewAll";
+import { ViewAllButton } from "~/components/core/ViewAll";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
@@ -154,10 +154,9 @@ export default class SlatePage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeaderGeneric href={headerURL} title={headerTitle}>
-            <ViewAll maxCharacter={208}>
-              {/* <ProcessedText text={this.props.slate.data.body} /> */}
-              {this.props.slate.data.body}
-            </ViewAll>
+            <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
+              <ProcessedText text={this.props.slate.data.body} />
+            </ViewAllButton>
           </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
             <SlateLayout

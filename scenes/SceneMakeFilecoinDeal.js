@@ -320,7 +320,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
 
   _handleRemoveTrustedMiner = (minerId) => {
     this.setState({
-      settings_cold_default_trusted_miners: this.state.settings_cold_default_excluded_miners.filter(
+      settings_cold_default_trusted_miners: this.state.settings_cold_default_trusted_miners.filter(
         (m) => m !== minerId
       ),
     });
@@ -534,9 +534,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
             <System.DescriptionGroup
               style={{ marginTop: 64, maxWidth: 688 }}
               label="Configure your deal"
-              description={`Your deal will come out of your wallet address: ${
-                this.state.settings_cold_default_address
-              }`}
+              description={`Your deal will come out of your wallet address: ${this.state.settings_cold_default_address}`}
             />
 
             <System.Input

@@ -124,8 +124,10 @@ export const upload = async ({ file, context, bucketName, routes }) => {
   // TODO(jim): Make this smarter.
 
   const storageDealRoute =
-    routes && routes.storageDealUpload ? routes.storageDealUpload : `/api/data/deal/`;
-  const generalRoute = routes && routes.upload ? routes.upload : "/api/data/";
+    routes && routes.storageDealUpload
+      ? `${routes.storageDealUpload}/api/deal/`
+      : `/api/data/deal/`;
+  const generalRoute = routes && routes.upload ? `${routes.upload}/api/data/` : "/api/data/";
 
   if (bucketName && bucketName === STAGING_DEAL_BUCKET) {
     res = await _privateUploadMethod(`${storageDealRoute}${file.name}`, file);

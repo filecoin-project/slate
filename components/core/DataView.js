@@ -201,7 +201,7 @@ export default class DataView extends React.Component {
     startIndex: 0,
     checked: {},
     view: "grid",
-    viewLimit: 20,
+    viewLimit: 50,
     scrollDebounce: false,
   };
 
@@ -231,7 +231,6 @@ export default class DataView extends React.Component {
 
     return function executedFunction(...args) {
       const later = () => {
-        clearTimeout(timeout);
         func(...args);
       };
 
@@ -252,9 +251,9 @@ export default class DataView extends React.Component {
       html.scrollHeight,
       html.offsetHeight
     );
-    const windowBottom = windowHeight + window.pageYOffset;
+    const windowBottom = windowHeight + window.pageYOffset + 200;
     if (windowBottom >= docHeight) {
-      this.setState({ viewLimit: this.state.viewLimit + 10 });
+      this.setState({ viewLimit: this.state.viewLimit + 30 });
     }
   };
 

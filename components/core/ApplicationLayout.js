@@ -85,9 +85,7 @@ const STYLES_NAVIGATION = css`
   z-index: ${Constants.zindex.navigation};
   width: ${Constants.sizes.navigation}px;
   background-color: ${Constants.system.foreground};
-  ${
-    "" /* ${STYLES_NO_VISIBLE_SCROLL} NOTE(martina): removed for now b/c unnecessary (now that there's no slates dropdown) and b/c caused user menu to be cut off on mobile*/
-  }
+  ${STYLES_NO_VISIBLE_SCROLL}
   @media (max-width: ${Constants.sizes.mobile}px) {
     top: auto;
     bottom: 0;

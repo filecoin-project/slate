@@ -115,6 +115,7 @@ export default class ApplicationPage extends React.Component {
     sidebarLoading: false,
     online: null,
     sidebar: null,
+    mobile: this.props.mobile,
   };
 
   async componentDidMount() {
@@ -124,6 +125,7 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("drop", this._handleDrop);
     window.addEventListener("online", this._handleOnlineStatus);
     window.addEventListener("offline", this._handleOnlineStatus);
+    window.addEventListener("resize", this._handleWindowResize);
 
     const id = Window.getQueryParameterByName("scene");
 
@@ -137,7 +139,22 @@ export default class ApplicationPage extends React.Component {
     window.removeEventListener("dragleave", this._handleDragLeave);
     window.removeEventListener("dragover", this._handleDragOver);
     window.removeEventListener("drop", this._handleDrop);
+    window.removeEventListener("resize", this._handleWindowResize);
   }
+
+  _handleWindowResize = () => {
+    const { width } = Window.getViewportSize();
+
+    // (1) is Window.isMobileBrowser checks, that one holds.
+    // (2) then if the viewport is smaller than the width
+    let mobile = width > Constants.sizes.mobile ? this.props.mobile : true;
+
+    // only change if necessary.
+    if (this.state.mobile !== mobile) {
+      console.log("changing to mobile?", mobile);
+      this.setState({ mobile });
+    }
+  };
 
   _handleOnlineStatus = async () => {
     if (navigator.onLine) {
@@ -766,7 +783,7 @@ export default class ApplicationPage extends React.Component {
         navigation={navigation}
         onAction={this._handleAction}
         onSignOut={this._handleSignOut}
-        mobile={this.props.mobile}
+        mobile={this.state.mobile}
       />
     );
 
@@ -781,7 +798,7 @@ export default class ApplicationPage extends React.Component {
         onBack={this._handleBack}
         onForward={this._handleForward}
         onSignOut={this._handleSignOut}
-        mobile={this.props.mobile}
+        mobile={this.state.mobile}
       />
     );
 
@@ -799,7 +816,7 @@ export default class ApplicationPage extends React.Component {
       onForward: this._handleForward,
       onRehydrate: this.rehydrate,
       sceneId: current.target.id,
-      mobile: this.props.mobile,
+      mobile: this.state.mobile,
     });
 
     let sidebarElement;
@@ -838,16 +855,16 @@ export default class ApplicationPage extends React.Component {
             onDismissSidebar={this._handleDismissSidebar}
             fileLoading={this.state.fileLoading}
             filecoin={current.target.filecoin}
-            mobile={this.props.mobile}
+            mobile={this.state.mobile}
           >
             {scene}
           </ApplicationLayout>
           <GlobalViewerCID
             onRehydrate={this.rehydrate}
             onAction={this._handleAction}
-            mobile={this.props.mobile}
+            mobile={this.state.mobile}
           />
-          <System.GlobalCarousel mobile={this.props.mobile} />
+          <System.GlobalCarousel mobile={this.state.mobile} />
           <System.GlobalModal />
         </WebsitePrototypeWrapper>
       </React.Fragment>

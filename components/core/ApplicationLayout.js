@@ -66,28 +66,11 @@ const STYLES_CONTENT = css`
   position: relative;
   padding-left: ${Constants.sizes.navigation}px;
   margin-top: ${Constants.sizes.topOffset}px;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding-left: 0px;
+    padding: 0 0 88px 0;
     margin-top: calc(${Constants.sizes.topOffset}px + 36px);
-  }
-`;
-
-const STYLES_BODY_WEB = css`
-  display: block;
-  width: 100%;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
-`;
-
-const STYLES_BODY_MOBILE = css`
-  display: none;
-  width: 100%;
-  padding: 0px 0px 88px 0px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
   }
 `;
 
@@ -102,7 +85,9 @@ const STYLES_NAVIGATION = css`
   z-index: ${Constants.zindex.navigation};
   width: ${Constants.sizes.navigation}px;
   background-color: ${Constants.system.foreground};
-  ${"" /* ${STYLES_NO_VISIBLE_SCROLL} NOTE(martina): removed for now b/c unnecessary (now that there's no slates dropdown) and b/c caused user menu to be cut off on mobile*/}
+  ${
+    "" /* ${STYLES_NO_VISIBLE_SCROLL} NOTE(martina): removed for now b/c unnecessary (now that there's no slates dropdown) and b/c caused user menu to be cut off on mobile*/
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
     top: auto;
     bottom: 0;
@@ -163,18 +148,6 @@ const STYLES_BLOCK = css`
   transition: 200ms ease all;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.25);
-`;
-
-const STYLES_MOBILE_HIDDEN = css`
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
-`;
-
-const STYLES_MOBILE_ONLY = css`
-  @media (min-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
 `;
 
 export default class ApplicationLayout extends React.Component {
@@ -253,42 +226,27 @@ export default class ApplicationLayout extends React.Component {
         <div css={STYLES_CONTENT}>
           {/* <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} /> */}
           <GlobalTooltip />
-          <span css={STYLES_MOBILE_HIDDEN}>
-            <div css={STYLES_HEADER}>{this.props.header}</div>
-          </span>
-          <span css={STYLES_MOBILE_ONLY}>
-            <div css={STYLES_HEADER} style={{ top: this.state.headerTop }}>
-              {this.props.header}
-            </div>
-          </span>
-          <div
-            css={STYLES_BODY_WEB}
-            ref={(c) => {
-              this._body = c;
-            }}
-            id="slate-client-body"
-          >
-            <Alert
-              fileLoading={this.props.fileLoading}
-              onAction={this.props.onAction}
-              filecoin={this.props.filecoin}
-              style={{
-                paddingRight: this.props.sidebar
-                  ? `calc(${Constants.sizes.sidebar}px + 48px`
-                  : "auto",
-              }}
-            />
-            {this.props.children}
+
+          <div css={STYLES_HEADER} style={{ top: this.props.mobile ? this.state.headerTop : null }}>
+            {this.props.header}
           </div>
-          <div css={STYLES_BODY_MOBILE}>
-            <Alert
-              id="slate-mobile-alert"
-              fileLoading={this.props.fileLoading}
-              onAction={this.props.onAction}
-              style={{ top: this.state.headerTop + 56 }}
-            />
-            {this.props.children}
-          </div>
+
+          <Alert
+            fileLoading={this.props.fileLoading}
+            onAction={this.props.onAction}
+            filecoin={this.props.filecoin}
+            id={this.props.mobile ? "slate-mobile-alert" : null}
+            style={
+              this.props.mobile
+                ? { top: this.state.headerTop + 56 }
+                : {
+                    paddingRight: this.props.sidebar
+                      ? `calc(${Constants.sizes.sidebar}px + 48px`
+                      : "auto",
+                  }
+            }
+          />
+          {this.props.children}
         </div>
 
         {this.props.sidebar ? (

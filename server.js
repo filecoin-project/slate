@@ -157,6 +157,7 @@ app.prepare().then(async () => {
 
   server.get("/:username/:slatename", async (req, res) => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
       return handler(req, res, req.url, { mobile });

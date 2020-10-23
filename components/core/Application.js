@@ -776,6 +776,12 @@ export default class ApplicationPage extends React.Component {
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
 
+    // NOTE(jim): Only happens during a bad query parameter.
+    if (!current.target) {
+      window.location.replace("/_");
+      return null;
+    }
+
     const navigationElement = (
       <ApplicationNavigation
         viewer={this.state.viewer}

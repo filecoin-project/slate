@@ -9,10 +9,7 @@ import * as Window from "~/common/window";
 
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "~/components/system/components/Buttons";
+import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
@@ -75,10 +72,7 @@ export default class SceneSlate extends React.Component {
         isOwner: this.props.current.data.ownerId === this.props.viewer.id,
       });
 
-      this._handleUpdateCarousel(
-        this.props.current.data.objects,
-        this.state.isOwner
-      );
+      this._handleUpdateCarousel(this.props.current.data.objects, this.state.isOwner);
     }
   }
 
@@ -90,18 +84,9 @@ export default class SceneSlate extends React.Component {
 
     this._handleUpdateCarousel();
 
-    window.addEventListener(
-      "remote-update-slate-screen",
-      this._handleRemoteAddObject
-    );
-    window.addEventListener(
-      "remote-delete-object",
-      this._handleRemoteDeleteObject
-    );
-    window.addEventListener(
-      "remote-object-update",
-      this._handleRemoteEditObject
-    );
+    window.addEventListener("remote-update-slate-screen", this._handleRemoteAddObject);
+    window.addEventListener("remote-delete-object", this._handleRemoteDeleteObject);
+    window.addEventListener("remote-object-update", this._handleRemoteEditObject);
 
     if (this.state.isOwner) {
       let changed = false;
@@ -126,18 +111,9 @@ export default class SceneSlate extends React.Component {
   componentWillUnmount() {
     isMounted = false;
 
-    window.removeEventListener(
-      "remote-update-slate-screen",
-      this._handleRemoteAddObject
-    );
-    window.removeEventListener(
-      "remote-delete-object",
-      this._handleRemoteDeleteObject
-    );
-    window.removeEventListener(
-      "remote-object-update",
-      this._handleRemoteEditObject
-    );
+    window.removeEventListener("remote-update-slate-screen", this._handleRemoteAddObject);
+    window.removeEventListener("remote-delete-object", this._handleRemoteDeleteObject);
+    window.removeEventListener("remote-object-update", this._handleRemoteEditObject);
   }
 
   _handleRemoteAddObject = () => {
@@ -187,8 +163,7 @@ export default class SceneSlate extends React.Component {
           name: "create-alert",
           detail: {
             alert: {
-              message:
-                "We're having trouble connecting right now. Please try again later",
+              message: "We're having trouble connecting right now. Please try again later",
             },
           },
         });
@@ -245,9 +220,7 @@ export default class SceneSlate extends React.Component {
   };
 
   _handleUpdateCarousel = (newObjects, isOwner) => {
-    let objects = newObjects
-      ? newObjects
-      : [...this.props.current.data.objects];
+    let objects = newObjects ? newObjects : [...this.props.current.data.objects];
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: {
@@ -294,8 +267,7 @@ export default class SceneSlate extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -344,8 +316,7 @@ export default class SceneSlate extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -397,8 +368,7 @@ export default class SceneSlate extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -425,6 +395,7 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const { user, data } = this.props.current;
     const { body = "", preview } = data;
     let objects = this.props.current.data.objects;
@@ -524,9 +495,7 @@ export default class SceneSlate extends React.Component {
             <SlateLayoutMobile
               isOwner={this.state.isOwner}
               items={objects}
-              fileNames={
-                layouts && layouts.ver === "2.0" ? layouts.fileNames : false
-              }
+              fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
               onSelect={this._handleSelect}
             />
           ) : (
@@ -540,32 +509,20 @@ export default class SceneSlate extends React.Component {
                     : this.state.isOwner
                     ? `${window.location.hostname}${
                         window.location.port ? ":" + window.location.port : ""
-                      }/${this.props.viewer.username}/${
-                        this.props.current.slatename
-                      }`
+                      }/${this.props.viewer.username}/${this.props.current.slatename}`
                     : ""
                 }
                 viewer={this.props.viewer}
                 slateId={this.props.current.id}
-                layout={
-                  layouts && layouts.ver === "2.0" ? layouts.layout || [] : null
-                }
+                layout={layouts && layouts.ver === "2.0" ? layouts.layout || [] : null}
                 onSaveLayout={this._handleSaveLayout}
                 isOwner={this.state.isOwner}
-                fileNames={
-                  layouts && layouts.ver === "2.0" ? layouts.fileNames : false
-                }
+                fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
                 preview={preview}
-                onSavePreview={(preview) =>
-                  this._handleSave(null, null, null, false, preview)
-                }
+                onSavePreview={(preview) => this._handleSave(null, null, null, false, preview)}
                 items={objects}
                 onSelect={this._handleSelect}
-                defaultLayout={
-                  layouts && layouts.ver === "2.0"
-                    ? layouts.defaultLayout
-                    : true
-                }
+                defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
                 onAction={this.props.onAction}
                 onRemoveFromSlate={this._handleRemoteDeleteObject}
                 onDeleteFiles={this._handleDeleteFiles}
@@ -583,9 +540,7 @@ export default class SceneSlate extends React.Component {
                 <SVG.Book height="24px" style={{ margin: "0 16px" }} />
                 <SVG.Video height="24px" style={{ margin: "0 16px" }} />
               </div>
-              <div style={{ marginTop: 24 }}>
-                Drag and drop files to add them to this slate
-              </div>
+              <div style={{ marginTop: 24 }}>Drag and drop files to add them to this slate</div>
             </EmptyState>
           </div>
         ) : (

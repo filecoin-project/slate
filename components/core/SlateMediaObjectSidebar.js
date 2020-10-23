@@ -12,6 +12,24 @@ import { Input } from "~/components/system/components/Input";
 import { Textarea } from "~/components/system/components/Textarea";
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
+const STYLES_NO_VISIBLE_SCROLL = css`
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+  }
+  ::-webkit-scrollbar-track {
+    background: ${Constants.system.foreground};
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${Constants.system.darkGray};
+  }
+`;
+
 const STYLES_SIDEBAR_INPUT = css`
   ${STYLES_NO_VISIBLE_SCROLL}
   position: relative;
@@ -47,39 +65,21 @@ const STYLES_SIDEBAR_TEXTAREA = css`
   }
 `;
 
-class SidebarInput extends React.Component {
-  render() {
-    return (
-      <Input
-        full
-        value={this.props.value}
-        name={this.props.name}
-        onChange={this.props.onChange}
-        id={`sidebar-label-${this.props.name}`}
-        placeholder={this.props.placeholder}
-        style={this.props.style}
-      />
-    );
-  }
-}
-
-const STYLES_NO_VISIBLE_SCROLL = css`
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-
-  ::-webkit-scrollbar {
-    width: 0px;
-    display: none;
-  }
-  ::-webkit-scrollbar-track {
-    background: ${Constants.system.foreground};
-  }
-  ::-webkit-scrollbar-thumb {
-    background: ${Constants.system.darkGray};
-  }
-`;
+// class SidebarInput extends React.Component {
+//   render() {
+//     return (
+//       <Input
+//         full
+//         value={this.props.value}
+//         name={this.props.name}
+//         onChange={this.props.onChange}
+//         id={`sidebar-label-${this.props.name}`}
+//         placeholder={this.props.placeholder}
+//         style={this.props.style}
+//       />
+//     );
+//   }
+// }
 
 const STYLES_SIDEBAR = css`
   width: 420px;
@@ -105,24 +105,24 @@ const STYLES_SIDEBAR = css`
   }
 `;
 
-const STYLES_BUTTON = css`
-  border-top: 1px solid #222222;
-  flex-shrink: 0;
-  color: ${Constants.system.white};
-  width: 100%;
-  padding: 16px 24px 16px 24px;
-  min-height: 56px;
-  font-size: 14px;
-  font-family: ${Constants.font.semiBold};
-  transition: 200ms ease all;
-  cursor: pointer;
-  overflow-wrap: break-word;
-  text-decoration: none;
+// const STYLES_BUTTON = css`
+//   border-top: 1px solid #222222;
+//   flex-shrink: 0;
+//   color: ${Constants.system.white};
+//   width: 100%;
+//   padding: 16px 24px 16px 24px;
+//   min-height: 56px;
+//   font-size: 14px;
+//   font-family: ${Constants.font.semiBold};
+//   transition: 200ms ease all;
+//   cursor: pointer;
+//   overflow-wrap: break-word;
+//   text-decoration: none;
 
-  :hover {
-    background-color: ${Constants.system.brand};
-  }
-`;
+//   :hover {
+//     background-color: ${Constants.system.brand};
+//   }
+// `;
 
 const STYLES_SIDEBAR_SECTION = css`
   flex-shrink: 0;

@@ -256,7 +256,7 @@ export default class DataView extends React.Component {
     }
   };
 
-  _handleCheckScroll = this._handleDebounce(this._handleScroll, 250);
+  _handleCheckScroll = this._handleDebounce(this._handleScroll, 500);
 
   _handleCheckBox = (e) => {
     let checked = this.state.checked;

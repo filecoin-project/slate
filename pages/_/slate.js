@@ -7,6 +7,7 @@ import * as Actions from "~/common/actions";
 import { css } from "@emotion/react";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { Alert } from "~/components/core/Alert";
+import { ViewAllButton } from "~/components/core/ViewAll";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
@@ -25,10 +26,11 @@ const STYLES_ROOT = css`
   min-height: 100vh;
   text-align: center;
   font-size: 1rem;
+  background-color: ${Constants.system.white};
 `;
 
 const STYLES_SLATE = css`
-  padding: 0 88px 0 88px;
+  padding: 0 64px 0 64px;
   ${"" /* max-width: 1660px; */}
   display: block;
   width: 100%;
@@ -152,7 +154,9 @@ export default class SlatePage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeaderGeneric href={headerURL} title={headerTitle}>
-            <ProcessedText text={this.props.slate.data.body} />
+            <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
+              <ProcessedText text={this.props.slate.data.body} />
+            </ViewAllButton>
           </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
             <SlateLayout

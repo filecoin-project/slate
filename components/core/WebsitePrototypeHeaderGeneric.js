@@ -4,40 +4,41 @@ import * as SVGLogo from "~/common/logo";
 
 import { css } from "@emotion/react";
 
-const STYLES_CONTAINER = css`
-  font-family: ${Constants.font.code};
-  font-size: 12px;
+const STYLES_ROOT = css`
+  padding: 24px 88px 24px 64px;
   width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 16px 24px 16px 24px;
+  margin: 0 auto;
+  z-index: ${Constants.zindex.header};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
+    padding: 16px 24px;
   }
 `;
 
+const STYLES_CONTAINER = css`
+  max-width: 1440px;
+  margin: 0 auto;
+  font-family: ${Constants.font.text};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl1};
+  width: 100%;
+`;
+
+const STYLES_NAV_CONTAINER = css`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+`;
+
 const STYLES_LINK = css`
-  font-family: ${Constants.font.medium};
-  color: ${Constants.system.pitchBlack};
+  color: ${Constants.system.grayBlack};
   text-decoration: none;
   transition: 200ms ease color;
-  overflow-wrap: break-word;
   text-align: left;
-
-  :visited {
-    color: ${Constants.system.black};
-  }
+  display: block;
 
   :hover {
     color: ${Constants.system.brand};
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-    padding: 16px 0 0 0;
-    max-width: auto;
   }
 `;
 
@@ -47,38 +48,21 @@ const STYLES_PARAGRAPH = css`
   text-decoration: none;
   transition: 200ms ease color;
   overflow-wrap: break-word;
-  width: 100%;
+  max-width: 50%;
   min-width: 10%;
   text-align: left;
-
-  :visited {
-    color: ${Constants.system.black};
-  }
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
+  margin-left: 30px;
+  display: block;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-    padding: 16px 0 0 0;
-    max-width: auto;
+    max-width: 100%;
   }
 `;
 
 const STYLES_LEFT = css`
   flex-shrink: 0;
-  padding: 0 8px 0 8px;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 100%;
-  max-width: 588px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-    max-width: auto;
-  }
+  max-width: 70%;
 `;
 
 const STYLES_RIGHT = css`
@@ -86,44 +70,32 @@ const STYLES_RIGHT = css`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  padding: 0 8px 0 8px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
-    text-align: left;
-  }
+  text-align: left;
 `;
 
 const WebsitePrototypeHeaderGeneric = (props) => {
   return (
-    <div css={STYLES_CONTAINER} style={props.style}>
-      <div css={STYLES_LEFT}>
-        <a css={STYLES_LINK} href={props.href} style={{ marginRight: 16 }}>
-          <SVGLogo.Symbol
-            height={`20px`}
-            style={{ transform: "translateY(-2px)" }}
-          />
-        </a>
-        <a
-          css={STYLES_LINK}
-          href={props.href}
-          style={{ flexShrink: 0, maxWidth: 212, marginRight: 16 }}
-        >
-          {props.title}
-        </a>
-        <span css={STYLES_PARAGRAPH}>{props.children}</span>
-      </div>
-      <div css={STYLES_RIGHT}>
-        <a
-          css={STYLES_LINK}
-          style={{
-            fontFamily: Constants.font.code,
-            textTransform: "uppercase",
-          }}
-          href="https://github.com/filecoin-project/slate"
-        >
-          View Source
-        </a>
+    <div css={STYLES_ROOT}>
+      <div css={STYLES_CONTAINER}>
+        <div css={STYLES_NAV_CONTAINER} style={props.style}>
+          <div css={STYLES_LEFT}>
+            <a css={STYLES_LINK} href={props.href} style={{ marginRight: 12 }}>
+              <SVGLogo.Symbol height={`20px`} style={{ transform: "translateY(-1px)" }} />
+            </a>
+            <a css={STYLES_LINK} href={props.href}>
+              {props.title}
+            </a>
+          </div>
+          <div css={STYLES_RIGHT}>
+            <a css={STYLES_LINK} href="/_" style={{ marginRight: 24 }}>
+              Sign up
+            </a>
+            <a css={STYLES_LINK} href="/_">
+              Sign in
+            </a>
+          </div>
+        </div>
+        <div css={STYLES_PARAGRAPH}>{props.children}</div>
       </div>
     </div>
   );

@@ -24,17 +24,17 @@ Slate is tightly scoped for the present and more broadly thought out for the fut
 
 ### Developer API
 
-Slate has a Developer API that allows you upload files using code and HTTP. 
+Slate has a Developer API that allows you upload files using code and HTTP.
 
 Every user who creates an account on Slate can use the API. Here is an example:
 
 ```js
-const response = await fetch('https://slate.host/api/v1/get', {
-  method: 'POST',
+const response = await fetch("https://slate.host/api/v1/get", {
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json',
-    Authorization: 'Basic XXX-YOUR-SLATE-KEY-XXX',
-  }
+    "Content-Type": "application/json",
+    Authorization: "Basic XXX-YOUR-SLATE-KEY-XXX",
+  },
 });
 ```
 
@@ -42,7 +42,7 @@ const response = await fetch('https://slate.host/api/v1/get', {
 
 # Get involved
 
-Slate is built by a growing community of collaborators and contributors. We’d love for you to join us! 
+Slate is built by a growing community of collaborators and contributors. We’d love for you to join us!
 
 How?
 
@@ -74,7 +74,7 @@ TEXTILE_HUB_KEY=XXX
 TEXTILE_HUB_SECRET=XXX
 RESOURCE_URI_UPLOAD=http://localhost:8888
 RESOURCE_URI_STORAGE_UPLOAD=http://localhost:8888
-RESOURCE_URI_REALTIME=http://localhost:8888
+RESOURCE_URI_PUBSUB=http://localhost:5555
 ```
 
 ### Install and run

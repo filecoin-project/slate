@@ -154,7 +154,9 @@ export class Alert extends React.Component {
           }
         >
           <div css={STYLES_MESSAGE_BOX}>
-            <LoaderSpinner style={{ height: 16, width: 16, marginRight: 16 }} />
+            <div style={{ height: 16, width: 16, marginRight: 16 }}>
+              <LoaderSpinner style={{ height: 16, width: 16 }} />
+            </div>
             <span css={STYLES_TEXT}>
               {uploaded} / {total} file
               {total === 1 ? "" : "s"} uploading{" "}

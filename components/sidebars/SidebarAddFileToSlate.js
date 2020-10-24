@@ -8,42 +8,13 @@ import * as Actions from "~/common/actions";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/react";
-import {
-  ButtonPrimary,
-  ButtonDisabled,
-} from "~/components/system/components/Buttons";
+import { ButtonPrimary, ButtonDisabled } from "~/components/system/components/Buttons";
 import { SlatePicker } from "~/components/core/SlatePicker";
-
-const STYLES_SLATE_NAME = css`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: ${Constants.font.medium};
-`;
 
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
   margin-top: 32px;
   margin-bottom: 16px;
-`;
-
-const STYLES_SLATE_LIST = css`
-  max-height: 400px;
-  overflow-y: scroll;
-`;
-
-const STYLES_SLATE_LINE = css`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 12px 16px;
-  background-color: ${Constants.system.white};
-  margin-bottom: 1px;
-  cursor: pointer;
-`;
-
-const STYLES_ICON_BOX = css`
-  display: flex;
-  align-items: center;
 `;
 
 export default class SidebarAddFileToSlate extends React.Component {
@@ -102,8 +73,7 @@ export default class SidebarAddFileToSlate extends React.Component {
           name: "create-alert",
           detail: {
             alert: {
-              message:
-                "We're having trouble connecting right now. Please try again later",
+              message: "We're having trouble connecting right now. Please try again later",
             },
           },
         });
@@ -133,10 +103,6 @@ export default class SidebarAddFileToSlate extends React.Component {
       });
     }
     await this.props.onRehydrate();
-    dispatchCustomEvent({
-      name: "remote-update-carousel",
-      detail: null,
-    });
     this.props.onCancel();
   };
 
@@ -163,11 +129,7 @@ export default class SidebarAddFileToSlate extends React.Component {
         />
 
         {Object.keys(this.state.selected).length ? (
-          <ButtonPrimary
-            full
-            onClick={this._handleSubmit}
-            style={{ marginTop: 32 }}
-          >
+          <ButtonPrimary full onClick={this._handleSubmit} style={{ marginTop: 32 }}>
             Add to slates
           </ButtonPrimary>
         ) : (

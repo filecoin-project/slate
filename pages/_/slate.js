@@ -13,6 +13,7 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
 import { SlateLayout } from "~/components/core/SlateLayout";
+import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 
 const SIZE_LIMIT = 1000000; //NOTE(martina): 1mb limit for twitter preview images
@@ -59,6 +60,7 @@ export default class SlatePage extends React.Component {
     System.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: {
+        carouselType: "slate",
         slides: this.props.slate.data.objects.map((each, index) => {
           // NOTE(jim):
           // This is a hack to catch this undefined case I don't want to track down yet.
@@ -159,21 +161,30 @@ export default class SlatePage extends React.Component {
             </ViewAllButton>
           </WebsitePrototypeHeaderGeneric>
           <div css={STYLES_SLATE}>
-            <SlateLayout
-              external
-              slateId={this.props.slate.id}
-              layout={layouts && layouts.ver === "2.0" ? layouts.layout : null}
-              onSaveLayout={this._handleSave}
-              isOwner={false}
-              fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
-              items={objects}
-              onSelect={this._handleSelect}
-              defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
-            />
+            {this.props.mobile ? (
+              <SlateLayoutMobile
+                isOwner={false}
+                items={objects}
+                fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
+                onSelect={this._handleSelect}
+              />
+            ) : (
+              <SlateLayout
+                external
+                slateId={this.props.slate.id}
+                layout={layouts && layouts.ver === "2.0" ? layouts.layout : null}
+                onSaveLayout={this._handleSave}
+                isOwner={false}
+                fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
+                items={objects}
+                onSelect={this._handleSelect}
+                defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
+              />
+            )}
           </div>
           <WebsitePrototypeFooter />
         </div>
-        <System.GlobalCarousel />
+        <System.GlobalCarousel external current={this.props.slate} viewer={this.props.creator} />
         <System.GlobalModal />
       </WebsitePrototypeWrapper>
     );

@@ -23,7 +23,7 @@ const STYLES_TEXTAREA = css`
   outline: 0;
   border: 0;
   transition: 200ms ease all;
-  padding: 16px 24px 16px 24px;
+  padding: 16px;
   box-shadow: 0 0 0 1px ${Constants.system.border} inset;
 
   ::placeholder {

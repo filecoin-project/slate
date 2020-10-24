@@ -36,6 +36,7 @@ const STYLES_UNIT = css`
 `;
 
 const STYLES_INPUT_CONTAINER = css`
+  width: 100%;
   box-sizing: border-box;
   position: relative;
   max-width: 480px;
@@ -43,6 +44,7 @@ const STYLES_INPUT_CONTAINER = css`
 `;
 
 const STYLES_INPUT_CONTAINER_FULL = css`
+  width: 100%;
   box-sizing: border-box;
   position: relative;
   min-width: 188px;
@@ -51,7 +53,7 @@ const STYLES_INPUT_CONTAINER_FULL = css`
 const STYLES_INPUT = css`
   ${INPUT_STYLES}
 
-  padding: 0 24px 0 24px;
+  padding: 0 16px 0 16px;
   text-overflow: ellipsis;
   white-space: nowrap;
   box-shadow: 0 0 0 1px ${Constants.system.border} inset;
@@ -129,10 +131,7 @@ export class Input extends React.Component {
   };
 
   _handleChange = (e) => {
-    if (
-      !Strings.isEmpty(this.props.pattern) &&
-      !Strings.isEmpty(e.target.value)
-    ) {
+    if (!Strings.isEmpty(this.props.pattern) && !Strings.isEmpty(e.target.value)) {
       const TestRegex = new RegExp(this.props.pattern);
       if (!TestRegex.test(e.target.value)) {
         e.preventDefault();
@@ -153,9 +152,7 @@ export class Input extends React.Component {
   render() {
     return (
       <div
-        css={
-          this.props.full ? STYLES_INPUT_CONTAINER_FULL : STYLES_INPUT_CONTAINER
-        }
+        css={this.props.full ? STYLES_INPUT_CONTAINER_FULL : STYLES_INPUT_CONTAINER}
         style={this.props.containerStyle}
       >
         <DescriptionGroup
@@ -189,8 +186,7 @@ export class Input extends React.Component {
                     INPUT_COLOR_MAP[this.props.validation]
                   }`
                 : null,
-              paddingRight:
-                this.props.copyable || this.props.icon ? "32px" : "24px",
+              paddingRight: this.props.copyable || this.props.icon ? "32px" : "24px",
               ...this.props.style,
             }}
           />
@@ -204,17 +200,9 @@ export class Input extends React.Component {
           </div>
         </div>
         {this.props.unit ? null : this.props.icon ? (
-          <this.props.icon
-            height="16px"
-            css={STYLES_ICON}
-            onClick={this.props.onSubmit}
-          />
+          <this.props.icon height="16px" css={STYLES_ICON} onClick={this.props.onSubmit} />
         ) : this.props.copyable ? (
-          <SVG.CopyAndPaste
-            height="16px"
-            css={STYLES_ICON}
-            onClick={this._handleCopy}
-          />
+          <SVG.CopyAndPaste height="16px" css={STYLES_ICON} onClick={this._handleCopy} />
         ) : null}
       </div>
     );

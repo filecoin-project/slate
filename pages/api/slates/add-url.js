@@ -6,9 +6,7 @@ import * as Strings from "~/common/strings";
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(403)
-      .send({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
+    return res.status(403).send({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
   }
 
   const user = await Data.getUserById({
@@ -51,9 +49,7 @@ export default async (req, res) => {
   } else {
     newObjects = [req.body.data];
   }
-
   let slateURLs = slate.data.objects.map((file) => file.url);
-
   let addlObjects;
   if (req.body.fromSlate) {
     let newURLs = [];
@@ -68,9 +64,7 @@ export default async (req, res) => {
     let newIPFSs = [];
     addlObjects = newObjects.filter((each) => {
       if (
-        slateURLs.includes(
-          `${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`
-        ) ||
+        slateURLs.includes(`${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`) ||
         newIPFSs.includes(each.ipfs)
       ) {
         return false;
@@ -80,14 +74,14 @@ export default async (req, res) => {
     });
   }
   addlObjects = addlObjects.map((each) => {
-    let url = each.url
-      ? each.url
-      : `${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`;
-    let cid = each.cid
-      ? each.cid
+    let url = each.ipfs
+      ? `${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`
+      : each.url;
+    let cid = each.url
+      ? Strings.urlToCid(each.url)
       : each.ipfs
       ? each.ipfs.replace("/ipfs/", "")
-      : Strings.urlToCid(each.url);
+      : each.cid;
     return {
       blurhash: each.blurhash,
       cid: cid,

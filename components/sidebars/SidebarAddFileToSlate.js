@@ -8,10 +8,7 @@ import * as Actions from "~/common/actions";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/react";
-import {
-  ButtonPrimary,
-  ButtonDisabled,
-} from "~/components/system/components/Buttons";
+import { ButtonPrimary, ButtonDisabled } from "~/components/system/components/Buttons";
 import { SlatePicker } from "~/components/core/SlatePicker";
 
 const STYLES_SLATE_NAME = css`
@@ -102,8 +99,7 @@ export default class SidebarAddFileToSlate extends React.Component {
           name: "create-alert",
           detail: {
             alert: {
-              message:
-                "We're having trouble connecting right now. Please try again later",
+              message: "We're having trouble connecting right now. Please try again later",
             },
           },
         });
@@ -133,10 +129,10 @@ export default class SidebarAddFileToSlate extends React.Component {
       });
     }
     await this.props.onRehydrate();
-    dispatchCustomEvent({
-      name: "remote-update-carousel",
-      detail: null,
-    });
+    // dispatchCustomEvent({
+    //   name: "remote-update-carousel",
+    //   detail: null,
+    // });
     this.props.onCancel();
   };
 
@@ -163,11 +159,7 @@ export default class SidebarAddFileToSlate extends React.Component {
         />
 
         {Object.keys(this.state.selected).length ? (
-          <ButtonPrimary
-            full
-            onClick={this._handleSubmit}
-            style={{ marginTop: 32 }}
-          >
+          <ButtonPrimary full onClick={this._handleSubmit} style={{ marginTop: 32 }}>
             Add to slates
           </ButtonPrimary>
         ) : (

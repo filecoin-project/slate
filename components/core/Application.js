@@ -310,7 +310,6 @@ export default class ApplicationPage extends React.Component {
 
       // NOTE(jim): We probably don't want to keep the responses for failed attempt.
       if (!response || response.error) {
-        console.log("error response", response);
         continue;
       }
 
@@ -320,21 +319,17 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (!resolvedFiles.length) {
-      console.log("aborted");
       this.setState({ fileLoading: {} });
       return null;
     }
 
     let responses = await Promise.allSettled(resolvedFiles);
 
-    console.log(responses);
-
     let succeeded = responses
       .filter((res) => {
         return res.status === "fulfilled" && res.value && !res.value.error;
       })
       .map((res) => res.value);
-    console.log(succeeded);
     if (slate && slate.id) {
       await FileUtilities.uploadToSlate({ responses: succeeded, slate });
     }
@@ -366,26 +361,26 @@ export default class ApplicationPage extends React.Component {
 
     await this.rehydrate({ resetFiles: true });
 
-    //NOTE(martina): to update the carousel to include the new file if you're on the data view page
-    dispatchCustomEvent({
-      name: "remote-update-carousel",
-      detail: {},
-    });
+    // //NOTE(martina): to update the carousel to include the new file if you're on the data view page
+    // dispatchCustomEvent({
+    //   name: "remote-update-carousel",
+    //   detail: {},
+    // });
 
-    //NOTE(martina): to update the slate to include the new file if you're on a slate page
-    const navigation = NavigationData.generate(this.state.viewer);
-    const next = this.state.history[this.state.currentIndex];
-    const current = NavigationData.getCurrentById(navigation, next.id);
-    if (
-      current.target &&
-      current.target.slateId &&
-      this.state.viewer.slates.map((slate) => slate.id).includes(current.target.slateId)
-    ) {
-      dispatchCustomEvent({
-        name: "remote-update-slate-screen",
-        detail: {},
-      });
-    }
+    //NOTE(martina): to update the slate carousel to include the new file if you're on a slate page
+    // const navigation = NavigationData.generate(this.state.viewer);
+    // const next = this.state.history[this.state.currentIndex];
+    // const current = NavigationData.getCurrentById(navigation, next.id);
+    // if (
+    //   current.target &&
+    //   current.target.slateId &&
+    //   this.state.viewer.slates.map((slate) => slate.id).includes(current.target.slateId)
+    // ) {
+    //   dispatchCustomEvent({
+    //     name: "remote-update-slate-screen",
+    //     detail: {},
+    //   });
+    // }
 
     if (!slate) {
       const { added, skipped } = processResponse.data;
@@ -873,6 +868,12 @@ export default class ApplicationPage extends React.Component {
             mobile={this.state.mobile}
           />
           <System.GlobalCarousel
+            viewer={this.state.viewer}
+            current={
+              current.target && current.target.decorator === "SLATE"
+                ? current.target
+                : this.state.data
+            }
             onRehydrate={this.rehydrate}
             slates={this.state.viewer.slates}
             onAction={this._handleAction}

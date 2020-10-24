@@ -128,9 +128,9 @@ export default async (req, res) => {
 
   // NOTE(martina):
   // Removes the reposted file from other people's slates
-  for (let cid of req.body.data.cids) {
-    Data.deleteRepostsByCid({ cid, ownerId: id });
-  }
+  // for (let cid of req.body.data.cids) {
+  //   Data.deleteRepostsByCid({ cid, ownerId: id });
+  // }
 
   // NOTE(jim):
   // Removes the file reference from your library

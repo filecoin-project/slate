@@ -208,8 +208,8 @@ export const deleteSlate = async (data) => {
   });
 };
 
-export const deleteSlateItem = async (data) => {
-  return await returnJSON(`/api/slates/remove-item`, {
+export const removeFileFromSlate = async (data) => {
+  return await returnJSON(`/api/slates/remove`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });

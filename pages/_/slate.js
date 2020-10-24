@@ -174,7 +174,7 @@ export default class SlatePage extends React.Component {
           </div>
           <WebsitePrototypeFooter />
         </div>
-        <System.GlobalCarousel />
+        <System.GlobalCarousel external current={this.props.slate} viewer={this.props.creator} />
         <System.GlobalModal />
       </WebsitePrototypeWrapper>
     );

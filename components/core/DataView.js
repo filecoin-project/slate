@@ -240,19 +240,18 @@ export default class DataView extends React.Component {
       window.addEventListener("remote-data-deletion", this._handleDataDeletion);
       window.addEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
       window.addEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
-      window.addEventListener("remote-update-carousel", this._handleUpdate);
+      // window.addEventListener("remote-update-carousel", this._handleUpdate);
     }
 
-    await this._handleUpdate();
+    // await this._handleUpdate();
   }
 
   componentWillUnmount() {
     mounted = false;
-
     window.removeEventListener("remote-data-deletion", this._handleDataDeletion);
     window.removeEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
     window.removeEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
-    window.removeEventListener("remote-update-carousel", this._handleUpdate);
+    // window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }
 
   _increment = (direction) => {
@@ -316,7 +315,7 @@ export default class DataView extends React.Component {
       return;
     }
     await this.props.onRehydrate();
-    await this._handleUpdate();
+    // await this._handleUpdate();
     this._handleLoading({ cids });
     this.setState({ checked: {} });
     dispatchCustomEvent({
@@ -327,49 +326,31 @@ export default class DataView extends React.Component {
     });
   };
 
-  _handleUpdate = async () => {
-    // NOTE(jim): Hack to handle some race conditions.
-    await delay(200);
+  // _handleUpdate = async () => {
+  //   // NOTE(jim): Hack to handle some race conditions.
+  //   await delay(200);
 
-    System.dispatchCustomEvent({
-      name: "slate-global-create-carousel",
-      detail: {
-        carouselType: "data",
-        slides: this.props.items.map((each) => {
-          const cid = each.ipfs.replace("/ipfs/", "");
-          const url = Strings.getCIDGatewayURL(cid);
-          const data = { ...each, url, cid };
+  //   System.dispatchCustomEvent({
+  //     name: "slate-global-create-carousel",
+  //     detail: {
+  //       carouselType: "data",
+  //       slides: this.props.items.map((each) => {
+  //         const cid = each.ipfs.replace("/ipfs/", "");
+  //         const url = Strings.getCIDGatewayURL(cid);
+  //         const data = { ...each, url, cid };
 
-          return {
-            id: data.id,
-            slates: this.props.viewer.slates,
-            cid,
-            data,
-            renderDataControls: true,
-            component: <SlateMediaObject key={data.id} data={data} />,
-            onDataDelete: () => {
-              return dispatchCustomEvent({
-                name: "remote-data-deletion",
-                detail: { cid },
-              });
-            },
-            onRemoveFromSlate: (data) => {
-              return dispatchCustomEvent({
-                name: "remote-slate-object-remove",
-                detail: { ...data },
-              });
-            },
-            onAddToSlate: (data) => {
-              return dispatchCustomEvent({
-                name: "remote-slate-object-add",
-                detail: { ...data },
-              });
-            },
-          };
-        }),
-      },
-    });
-  };
+  //         return {
+  //           id: data.id,
+  //           slates: this.props.viewer.slates,
+  //           cid,
+  //           data,
+  //           renderDataControls: true,
+  //           component: <SlateMediaObject key={data.id} data={data} />,
+  //         };
+  //       }),
+  //     },
+  //   });
+  // };
 
   _handleSelect = (index) => {
     System.dispatchCustomEvent({
@@ -430,7 +411,7 @@ export default class DataView extends React.Component {
     });
 
     await this.props.onRehydrate();
-    await this._handleUpdate();
+    // await this._handleUpdate();
 
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",
@@ -446,16 +427,7 @@ export default class DataView extends React.Component {
       detail: { loading: { id: slate.id } },
     });
 
-    const objects = slate.data.objects.filter((o, i) => {
-      return o.id !== id;
-    });
-
-    const response = await Actions.updateSlate({
-      id: slate.id,
-      data: {
-        objects,
-      },
-    });
+    const response = await Actions.removeFileFromSlate({ slateId: slate.id, ids: [id] });
 
     if (!response) {
       System.dispatchCustomEvent({
@@ -493,7 +465,7 @@ export default class DataView extends React.Component {
     }
 
     await this.props.onRehydrate();
-    await this._handleUpdate();
+    // await this._handleUpdate();
 
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",

@@ -71,8 +71,7 @@ export default class SidebarCreateSlate extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -89,12 +88,12 @@ export default class SidebarCreateSlate extends React.Component {
 
     if (this.props.sidebarData && this.props.sidebarData.files) {
       let data = this.props.sidebarData.files.map((file) => {
-        return { title: file.name, ...file };
+        return { title: file.title || file.name, ...file };
       });
       const addResponse = await Actions.addFileToSlate({
         slate: response.slate,
         data,
-        repost: this.props.sidebarData.repost,
+        fromSlate: this.props.sidebarData.fromSlate,
       });
 
       if (!addResponse) {
@@ -102,8 +101,7 @@ export default class SidebarCreateSlate extends React.Component {
           name: "create-alert",
           detail: {
             alert: {
-              message:
-                "We're having trouble connecting right now. Please try again later",
+              message: "We're having trouble connecting right now. Please try again later",
             },
           },
         });
@@ -136,10 +134,10 @@ export default class SidebarCreateSlate extends React.Component {
 
       await this.props.onRehydrate();
 
-      dispatchCustomEvent({
-        name: "remote-update-carousel",
-        detail: null,
-      });
+      // dispatchCustomEvent({
+      //   name: "remote-update-carousel",
+      //   detail: null,
+      // });
     }
 
     this.setState({ loading: false });
@@ -184,9 +182,7 @@ export default class SidebarCreateSlate extends React.Component {
         <System.P style={{ marginTop: 12 }}>
           Your slate URL will be:{" "}
           <a
-            href={`${this.props.viewer.username}/${Strings.createSlug(
-              this.state.name
-            )}`}
+            href={`${this.props.viewer.username}/${Strings.createSlug(this.state.name)}`}
             target="_blank"
           >
             https://slate.host/
@@ -214,11 +210,7 @@ export default class SidebarCreateSlate extends React.Component {
               ? "Public. Anyone can search for and view this slate."
               : "Private. Only you can view this slate."}
           </System.P>
-          <System.Toggle
-            name="public"
-            onChange={this._handleChange}
-            active={this.state.public}
-          />
+          <System.Toggle name="public" onChange={this._handleChange} active={this.state.public} />
         </div>
 
         <System.ButtonPrimary

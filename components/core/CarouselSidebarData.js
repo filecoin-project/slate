@@ -188,20 +188,19 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleAdd = (slate) => {
+    //NOTE(martina): triggers action through DataView.js (which is always mounted if this carousel is open)
     if (this.state.selected[slate.id]) {
-      this.props.onRemoveFromSlate({
-        id: this.props.data.id,
-        slate: slate,
-        data: this.props.data,
+      dispatchCustomEvent({
+        name: "remote-slate-object-remove",
+        detail: { id: this.props.data.id, slate: slate, data: this.props.data },
       });
       this.setState({
         selected: { ...this.state.selected, [slate.id]: false },
       });
     } else {
-      this.props.onAddToSlate({
-        id: this.props.data.id,
-        slate: slate,
-        data: this.props.data,
+      dispatchCustomEvent({
+        name: "remote-slate-object-add",
+        detail: { id: this.props.data.id, slate: slate, data: this.props.data },
       });
       this.setState({
         selected: { ...this.state.selected, [slate.id]: slate },
@@ -220,42 +219,10 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleDelete = async (cid) => {
-    this.setState({ loading: "deleting" });
-    if (
-      !window.confirm(
-        "Are you sure you want to delete this? It will be removed from your Slates too."
-      )
-    ) {
-      this.setState({ loading: false });
-      return;
-    }
-
-    const response = await Actions.deleteBucketItems({ cids: [cid] });
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      this.setState({ loading: false });
-      return;
-    }
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      this.setState({ loading: false });
-      return;
-    }
-    await this.props.onRehydrate();
-    this.setState({ loading: false });
+    //NOTE(martina): triggers action through DataView.js (which is always mounted if this carousel is open)
     dispatchCustomEvent({
-      name: "remote-update-carousel",
-      detail: {},
+      name: "remote-data-deletion",
+      detail: { cid },
     });
   };
 
@@ -272,7 +239,7 @@ export default class CarouselSidebarData extends React.Component {
     }
 
     elements.push(
-      <div css={STYLES_CONTAINER}>
+      <div key="s-2" css={STYLES_CONTAINER}>
         <div css={STYLES_META}>
           <a css={STYLES_META_TITLE} target="_blank" href={Strings.getCIDGatewayURL(cid)}>
             {file}

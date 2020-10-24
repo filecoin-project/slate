@@ -10,6 +10,7 @@ import { ProcessedText } from "~/components/system/components/Typography";
 import { SlatePicker } from "~/components/core/SlatePicker";
 import { Input } from "~/components/system/components/Input";
 import { Textarea } from "~/components/system/components/Textarea";
+import { dispatchCustomEvent } from "~/common/custom-events";
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
 const STYLES_NO_VISIBLE_SCROLL = css`
@@ -206,56 +207,126 @@ export default class CarouselSidebarSlate extends React.Component {
     copyValue: "",
     showConnected: false,
     showFile: false,
+    unsavedChanges: false,
   };
 
   componentDidMount = () => {
-    let isPublic = false;
-    let selected = {};
-    const id = this.props.data.id;
-    for (let slate of this.props.slates) {
-      if (slate.data.objects.some((o) => o.id === id)) {
-        if (slate.data.public) {
-          isPublic = true;
+    if (this.props.isOwner) {
+      this.debounceInstance = this.debounce(this._handleSave, 3000);
+      let isPublic = false;
+      let selected = {};
+      const id = this.props.data.id;
+      for (let slate of this.props.slates) {
+        if (slate.data.objects.some((o) => o.id === id)) {
+          if (slate.data.public) {
+            isPublic = true;
+          }
+          selected[slate.id] = true;
         }
-        selected[slate.id] = true;
       }
+      this.setState({ selected, isPublic });
     }
-    this.setState({ selected, isPublic });
+  };
+
+  debounce = (func, ms) => {
+    let timer;
+
+    return () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(func, ms);
+    };
+  };
+
+  _handleClose = () => {
+    if (this.state.unsavedChanges) {
+      this._handleSave();
+    }
+    this.props.onClose();
+  };
+
+  _handleSave = () => {
+    let data = {
+      title: this.state.title,
+      body: this.state.body,
+      source: this.state.source,
+      author: this.state.author,
+    };
+    this.props.onSave(data);
+    this.setState({ unsavedChanges: false });
   };
 
   _handleCreateSlate = async () => {
+    if (this.props.external) return;
     this.props.onClose();
     this.props.onAction({
       type: "SIDEBAR",
       value: "SIDEBAR_CREATE_SLATE",
-      data: { files: [this.props.data] },
+      data: { files: [this.props.data], fromSlate: true },
     });
   };
 
   _handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.debounceInstance();
+    this.setState({ [e.target.name]: e.target.value, unsavedChanges: true });
   };
 
-  _handleAdd = (slate) => {
+  _handleAdd = async (slate) => {
+    if (this.props.external) return;
     if (this.state.selected[slate.id]) {
-      this.props.onRemoveFromSlate({
-        id: this.props.data.id,
-        slate: slate,
-        data: this.props.data,
+      const removeResponse = await Actions.removeFileFromSlate({
+        slateId: slate.id,
+        ids: [this.props.data.id],
       });
+      if (!removeResponse) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message: "We're having trouble connecting right now. Please try again later",
+            },
+          },
+        });
+        return;
+      }
+      if (removeResponse.error) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: { alert: { decorator: removeResponse.decorator } },
+        });
+        return;
+      }
       this.setState({
         selected: { ...this.state.selected, [slate.id]: false },
       });
     } else {
-      this.props.onAddToSlate({
-        id: this.props.data.id,
-        slate: slate,
-        data: this.props.data,
+      const addResponse = await Actions.addFileToSlate({
+        slate,
+        data: [{ title: this.props.data.title || this.props.data.name, ...this.props.data }],
+        fromSlate: true,
       });
+      if (!addResponse) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message: "We're having trouble connecting right now. Please try again later",
+            },
+          },
+        });
+        return;
+      }
+      if (addResponse.error) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: { alert: { decorator: addResponse.decorator } },
+        });
+        return;
+      }
       this.setState({
-        selected: { ...this.state.selected, [slate.id]: slate },
+        selected: { ...this.state.selected, [slate.id]: true },
       });
     }
+    this.props.onRehydrate();
   };
 
   _handleCopy = (copyValue, loading) => {
@@ -269,6 +340,7 @@ export default class CarouselSidebarSlate extends React.Component {
   };
 
   _handleDelete = async (cid) => {
+    if (this.props.external || !this.props.isOwner) return;
     this.setState({ loading: "deleting" });
     if (
       !window.confirm(
@@ -302,10 +374,10 @@ export default class CarouselSidebarSlate extends React.Component {
     }
     await this.props.onRehydrate();
     this.setState({ loading: false });
-    dispatchCustomEvent({
-      name: "remote-update-carousel",
-      detail: {},
-    });
+    // dispatchCustomEvent({
+    //   name: "remote-update-carousel",
+    //   detail: {},
+    // });
   };
 
   _toggleAccordion = (tab) => {
@@ -315,7 +387,6 @@ export default class CarouselSidebarSlate extends React.Component {
   render() {
     const elements = [];
     const { cid, url } = this.props.data;
-    console.log(this.props);
 
     if (this.props.data) {
       if (this.props.isOwner) {
@@ -360,18 +431,17 @@ export default class CarouselSidebarSlate extends React.Component {
           </React.Fragment>
         );
       } else {
-        const hasTitle = "Title.jpg"; //!Strings.isEmpty(this.props.data.title || this.props.data.name);
-        const hasBody =
-          "This is the body of a value. It's a pretty short description of the object"; //!Strings.isEmpty(this.props.data.body);
-        const hasSource = "https://abcdinamo.com/news/2020-launch-press-release"; //!Strings.isEmpty(this.props.data.source);
-        const hasAuthor = "ABC Dinamo"; //!Strings.isEmpty(this.props.data.author);
+        const hasTitle = !Strings.isEmpty(this.props.data.title || this.props.data.name);
+        const hasBody = !Strings.isEmpty(this.props.data.body);
+        const hasSource = !Strings.isEmpty(this.props.data.source);
+        const hasAuthor = !Strings.isEmpty(this.props.data.author);
+        console.log(this.props.data);
 
         if (hasTitle) {
           elements.push(
             <div key="sidebar-media-info-title" css={STYLES_SIDEBAR_SECTION}>
               <h1 css={STYLES_HEADING}>
-                {/* <ProcessedText dark text={this.props.data.title} /> */}
-                <ProcessedText dark text={hasTitle} />
+                <ProcessedText dark text={this.props.data.title || this.props.data.name} />
               </h1>
             </div>
           );
@@ -381,8 +451,7 @@ export default class CarouselSidebarSlate extends React.Component {
           elements.push(
             <div key="sidebar-media-info-body" css={STYLES_SIDEBAR_SECTION}>
               <p css={STYLES_BODY}>
-                {/* <ProcessedText dark text={this.props.data.body} /> */}
-                <ProcessedText dark text={hasBody} />
+                <ProcessedText dark text={this.props.data.body} />
               </p>
             </div>
           );
@@ -395,8 +464,7 @@ export default class CarouselSidebarSlate extends React.Component {
                 Source:
               </div>
               <p css={STYLES_BODY} style={{ color: Constants.system.darkGray }}>
-                {/* <ProcessedText dark text={this.props.data.source} /> */}
-                <ProcessedText dark text={hasSource} />
+                <ProcessedText dark text={this.props.data.source} />
               </p>
             </div>
           );
@@ -409,8 +477,7 @@ export default class CarouselSidebarSlate extends React.Component {
                 Author:
               </div>
               <p css={STYLES_BODY} style={{ color: Constants.system.darkGray }}>
-                {/* <ProcessedText dark text={this.props.data.author} /> */}
-                <ProcessedText dark text={hasAuthor} />
+                <ProcessedText dark text={this.props.data.author} />
               </p>
             </div>
           );
@@ -421,42 +488,45 @@ export default class CarouselSidebarSlate extends React.Component {
     if (!elements.length) {
       return null;
     }
-
     return (
       <div css={STYLES_SIDEBAR} style={{ display: this.props.display }}>
-        <div css={STYLES_DISMISS_BOX} onClick={this.props.onClose}>
+        <div css={STYLES_DISMISS_BOX} onClick={this._handleClose}>
           <SVG.Dismiss height="24px" />
         </div>
         {elements}
-        <div
-          css={STYLES_SECTION_HEADER}
-          style={{ cursor: "pointer", marginTop: 44 }}
-          onClick={() => this._toggleAccordion("showConnected")}
-        >
-          <span
-            style={{
-              marginRight: 8,
-              transform: this.state.showConnected ? "none" : "rotate(-90deg)",
-              transition: "100ms ease transform",
-            }}
-          >
-            <SVG.ChevronDown height="24px" display="block" />
-          </span>
-          <span>{this.props.isOwner ? "Connected slates" : "My slates"}</span>
-        </div>
-        {this.state.showConnected ? (
-          <div style={{ width: "100%", margin: "24px 0 44px 0" }}>
-            <SlatePicker
-              slates={this.props.slates}
-              selected={this.state.selected}
-              onAdd={this._handleAdd}
-              onCreateSlate={this._handleCreateSlate}
-              loading={this.props.loading}
-              dark
-              selectedColor={Constants.system.white}
-            />
-          </div>
-        ) : null}
+        {this.props.external ? null : (
+          <React.Fragment>
+            <div
+              css={STYLES_SECTION_HEADER}
+              style={{ cursor: "pointer", marginTop: 44 }}
+              onClick={() => this._toggleAccordion("showConnected")}
+            >
+              <span
+                style={{
+                  marginRight: 8,
+                  transform: this.state.showConnected ? "none" : "rotate(-90deg)",
+                  transition: "100ms ease transform",
+                }}
+              >
+                <SVG.ChevronDown height="24px" display="block" />
+              </span>
+              <span>{this.props.isOwner ? "Connected slates" : "My slates"}</span>
+            </div>
+            {this.state.showConnected ? (
+              <div style={{ width: "100%", margin: "24px 0 44px 0" }}>
+                <SlatePicker
+                  slates={this.props.slates}
+                  selected={this.state.selected}
+                  onAdd={this._handleAdd}
+                  onCreateSlate={this._handleCreateSlate}
+                  loading={this.props.loading}
+                  dark
+                  selectedColor={Constants.system.white}
+                />
+              </div>
+            ) : null}
+          </React.Fragment>
+        )}
         <div
           css={STYLES_SECTION_HEADER}
           style={{ cursor: "pointer" }}
@@ -489,20 +559,22 @@ export default class CarouselSidebarSlate extends React.Component {
                 {this.state.loading === "urlCopying" ? "Copied!" : "Copy link"}
               </span>
             </div>
-            <div
-              css={STYLES_ACTION}
-              // onClick={() => this.props.onObjectSave({ ...this.props.data, ...this.state })}
-            >
-              <SVG.Download height="24px" />
-              <span style={{ marginLeft: 16 }}>
-                {this.props.saving ? (
-                  <LoaderSpinner style={{ height: 16, width: 16 }} />
-                ) : (
-                  <span>Download</span>
-                )}
-              </span>
-            </div>
-            {this.props.isOwner ? (
+            {this.props.external ? null : (
+              <div
+                css={STYLES_ACTION}
+                // onClick={() => this.props.onObjectSave({ ...this.props.data, ...this.state })}
+              >
+                <SVG.Download height="24px" />
+                <span style={{ marginLeft: 16 }}>
+                  {this.props.saving ? (
+                    <LoaderSpinner style={{ height: 16, width: 16 }} />
+                  ) : (
+                    <span>Download</span>
+                  )}
+                </span>
+              </div>
+            )}
+            {this.props.isOwner && !this.props.isRepost ? (
               <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
                 <SVG.Trash height="24px" />
                 {this.state.loading === "deleting" ? (

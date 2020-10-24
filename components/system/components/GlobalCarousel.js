@@ -1,11 +1,14 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as Strings from "~/common/strings";
+import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/react";
 
 import CarouselSidebarSlate from "~/components/core/CarouselSidebarSlate";
 import CarouselSidebarData from "~/components/core/CarouselSidebarData";
+import SlateMediaObject from "~/components/core/SlateMediaObject";
 
 const STYLES_ROOT = css`
   position: fixed;
@@ -107,7 +110,6 @@ const STYLES_MOBILE_HIDDEN = css`
 export class GlobalCarousel extends React.Component {
   state = {
     index: 0,
-    slides: null,
     visible: false,
     loading: false,
     saving: false,
@@ -116,8 +118,8 @@ export class GlobalCarousel extends React.Component {
 
   componentDidMount = () => {
     window.addEventListener("keydown", this._handleKeyDown);
-    window.addEventListener("slate-global-create-carousel", this._handleCreate);
-    window.addEventListener("slate-global-delete-carousel", this._handleDelete);
+    // window.addEventListener("slate-global-create-carousel", this._handleCreate);
+    // window.addEventListener("slate-global-delete-carousel", this._handleDelete);
     window.addEventListener("slate-global-open-carousel", this._handleOpen);
     window.addEventListener("slate-global-close-carousel", this._handleClose);
     window.addEventListener("state-global-carousel-loading", this._handleSetLoading);
@@ -125,8 +127,8 @@ export class GlobalCarousel extends React.Component {
 
   componentWillUnmount = () => {
     window.removeEventListener("keydown", this._handleKeyDown);
-    window.removeEventListener("slate-global-create-carousel", this._handleCreate);
-    window.removeEventListener("slate-global-delete-carousel", this._handleDelete);
+    // window.removeEventListener("slate-global-create-carousel", this._handleCreate);
+    // window.removeEventListener("slate-global-delete-carousel", this._handleDelete);
     window.removeEventListener("slate-global-open-carousel", this._handleOpen);
     window.removeEventListener("slate-global-close-carousel", this._handleClose);
     window.removeEventListener("state-global-carousel-loading", this._handleSetLoading);
@@ -165,7 +167,10 @@ export class GlobalCarousel extends React.Component {
   _handleSetLoading = (e) => this.setState({ ...e.detail });
 
   _handleOpen = (e) => {
+    console.log(this.props.current);
+    let carouselType = this.props.current.decorator === "FOLDER" ? "data" : "slate";
     this.setState({
+      carouselType: carouselType,
       visible: true,
       index: e.detail.index || 0,
       loading: false,
@@ -173,12 +178,17 @@ export class GlobalCarousel extends React.Component {
       baseURL: e.detail.baseURL,
     });
 
-    if (this.state.slides && e.detail.baseURL) {
-      const current = this.state.slides[e.detail.index];
+    if (
+      carouselType === "slate" &&
+      e.detail.baseURL &&
+      this.props.current.data &&
+      this.props.current.data.objects
+    ) {
+      const data = this.props.current.data.objects[e.detail.index];
       window.history.replaceState(
         { index: e.detail.index },
         "",
-        `/${e.detail.baseURL}/cid:${current.cid}`
+        `/${e.detail.baseURL}/cid:${Strings.urlToCid(data.url)}`
       );
     }
   };
@@ -195,16 +205,14 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  _handleCreate = (e) => {
-    const shouldPersist = this.state.visible && this.state.index < e.detail.slides.length;
+  // _handleCreate = (e) => {
+  //   const shouldPersist = this.state.visible && this.state.index < e.detail.slides.length;
 
-    this.setState({
-      slides: [...e.detail.slides],
-      visible: shouldPersist ? true : false,
-      index: shouldPersist ? this.state.index : 0,
-      carouselType: e.detail.carouselType,
-    });
-  };
+  //   this.setState({
+  //     visible: shouldPersist ? true : false,
+  //     index: shouldPersist ? this.state.index : 0,
+  //   });
+  // };
 
   _handleDelete = (e) => {
     this.setState({ slides: null, visible: false, index: 0 });
@@ -215,35 +223,125 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handleNext = () => {
-    if (!this.state.slides) return;
-    const index = (this.state.index + 1) % this.state.slides.length;
+    let index = this.state.index + 1;
+    if (
+      this.state.carouselType === "slate" &&
+      this.props.current.data &&
+      this.props.current.data.objects
+    ) {
+      if (index >= this.props.current.data.objects.length) {
+        index = 0;
+      }
+    } else if (
+      this.state.carouselType === "data" &&
+      this.props.viewer &&
+      this.props.viewer.library
+    ) {
+      if (index >= this.props.viewer.library[0].children.length) {
+        index = 0;
+      }
+    }
     this.setState({ index, loading: false, saving: false });
 
-    if (this.state.baseURL) {
-      const current = this.state.slides[index];
-      window.history.replaceState({ index }, "", `/${this.state.baseURL}/cid:${current.cid}`);
+    if (
+      this.state.carouselType === "slate" &&
+      this.state.baseURL &&
+      this.props.current.data &&
+      this.props.current.data.objects
+    ) {
+      const data = this.props.current.data.objects[index];
+      window.history.replaceState(
+        { index },
+        "",
+        `/${this.state.baseURL}/cid:${Strings.urlToCid(data.url)}`
+      );
     }
   };
 
   _handlePrevious = () => {
-    if (!this.state.slides) return;
-    const index = (this.state.index + this.state.slides.length - 1) % this.state.slides.length;
+    let index = this.state.index - 1;
+    if (index < 0) {
+      if (
+        this.state.carouselType === "slate" &&
+        this.props.current.data &&
+        this.props.current.data.objects
+      ) {
+        index = this.props.current.data.objects.length - 1;
+      } else if (
+        this.state.carouselType === "data" &&
+        this.props.viewer &&
+        this.props.viewer.library
+      ) {
+        index = this.props.viewer.library[0].children.length - 1;
+      }
+    }
     this.setState({ index, loading: false, saving: false });
 
-    if (this.state.baseURL) {
-      const current = this.state.slides[index];
-      window.history.replaceState({ index }, "", `/${this.state.baseURL}/cid:${current.cid}`);
+    if (
+      this.state.carouselType === "slate" &&
+      this.state.baseURL &&
+      this.props.current.data &&
+      this.props.current.data.objects
+    ) {
+      const data = this.props.current.data.objects[index];
+      window.history.replaceState(
+        { index },
+        "",
+        `/${this.state.baseURL}/cid:${Strings.urlToCid(data.url)}`
+      );
     }
   };
 
+  _handleSave = async (details) => {
+    this.setState({ loading: true });
+    if (this.props.viewer.id !== this.props.current.data.ownerId || this.props.external) return;
+    let objects = this.props.current.data.objects;
+    objects[this.state.index] = { ...objects[this.state.index], ...details };
+    const response = await Actions.updateSlate({
+      id: this.props.current.id,
+      data: { objects },
+    });
+    if (!response) {
+      this.setState({ loading: false, saving: "ERROR" });
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+    }
+    if (response.error) {
+      this.setState({ loading: false, saving: "ERROR" });
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+    }
+    this.props.onRehydrate();
+    this.setState({ loading: false, saving: false });
+  };
+
   render() {
-    const isVisible = this.state.visible && this.state.slides;
-    if (!isVisible) {
+    if (!this.state.visible || !this.state.carouselType) {
       return null;
     }
-
-    const current = this.state.slides[this.state.index];
-    if (!current) {
+    let data;
+    if (
+      this.state.carouselType === "slate" &&
+      this.props.current.data &&
+      this.props.current.data.objects
+    ) {
+      data = this.props.current.data.objects[this.state.index];
+      data.url = data.url.replace("https://undefined", "https://");
+      data.cid = Strings.urlToCid(data.url);
+    } else if (this.state.carouselType === "data" && this.props.viewer.library) {
+      data = this.props.viewer.library[0].children[this.state.index];
+      data.url = `${Constants.gateways.ipfs}/${data.cid || Strings.getCIDFromIPFS(data.ipfs)}`;
+    }
+    let slide = <SlateMediaObject data={data} />;
+    if (!slide || !data) {
       return null;
     }
 
@@ -264,7 +362,7 @@ export class GlobalCarousel extends React.Component {
           >
             <SVG.ChevronRight height="20px" />
           </span>
-          {current.component}
+          {slide}
           <span css={STYLES_MOBILE_HIDDEN}>
             <div
               css={STYLES_EXPANDER}
@@ -286,24 +384,38 @@ export class GlobalCarousel extends React.Component {
             <CarouselSidebarData
               display={this.state.showSidebar ? "block" : "none"}
               onClose={this._handleClose}
-              key={current.id}
+              key={data.id}
               saving={this.state.saving}
               loading={this.state.loading}
+              slates={this.props.slates}
               onRehydrate={this.props.onRehydrate}
               onAction={this.props.onAction}
-              {...current}
+              data={data}
+              cid={data.cid}
             />
           ) : (
             <CarouselSidebarSlate
               display={this.state.showSidebar ? "block" : "none"}
-              key={current.id}
+              key={data.id}
               saving={this.state.saving}
               loading={this.state.loading}
               slates={this.props.slates}
               onClose={this._handleClose}
               onRehydrate={this.props.onRehydrate}
               onAction={this.props.onAction}
-              {...current}
+              data={data}
+              external={this.props.external}
+              onSave={this._handleSave}
+              isOwner={
+                this.props.external
+                  ? false
+                  : this.props.current.data
+                  ? this.props.viewer.id === this.props.current.data.ownerId
+                  : false
+              }
+              isRepost={
+                this.props.external ? false : this.props.viewer.id === data.ownerId ? false : true
+              }
             />
           )}
         </span>

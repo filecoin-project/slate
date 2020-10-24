@@ -30,11 +30,11 @@ const handler = app.getRequestHandler();
 
 const EXTERNAL_RESOURCES = {
   storageDealUpload: Strings.isEmpty(Environment.RESOURCE_URI_STORAGE_UPLOAD)
-    ? Environment.RESOURCE_URI_STORAGE_UPLOAD
-    : null,
+    ? null
+    : Environment.RESOURCE_URI_STORAGE_UPLOAD,
   upload: Strings.isEmpty(Environment.RESOURCE_URI_UPLOAD)
-    ? Environment.RESOURCE_URI_STORAGE_UPLOAD
-    : null,
+    ? null
+    : Environment.RESOURCE_URI_STORAGE_UPLOAD,
 };
 
 app.prepare().then(async () => {

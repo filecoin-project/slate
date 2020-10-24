@@ -4,7 +4,7 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
 import * as Window from "~/common/window";
-
+import * as Strings from "~/common/strings";
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as AnalyticsManager from "~/node_common/managers/analytics";
 
@@ -27,6 +27,15 @@ function sleep(ms) {
 }
 
 const handler = app.getRequestHandler();
+
+const EXTERNAL_RESOURCES = {
+  storageDealUpload: Strings.isEmpty(Environment.RESOURCE_URI_STORAGE_UPLOAD)
+    ? Environment.RESOURCE_URI_STORAGE_UPLOAD
+    : null,
+  upload: Strings.isEmpty(Environment.RESOURCE_URI_UPLOAD)
+    ? Environment.RESOURCE_URI_STORAGE_UPLOAD
+    : null,
+};
 
 app.prepare().then(async () => {
   const server = express();
@@ -97,10 +106,7 @@ app.prepare().then(async () => {
       viewer,
       analytics,
       mobile,
-      resources: {
-        storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
-        upload: Environment.RESOURCE_URI_UPLOAD,
-      },
+      resources: EXTERNAL_RESOURCES,
     });
   });
 
@@ -129,10 +135,7 @@ app.prepare().then(async () => {
     if (!Validations.userRoute(req.params.username)) {
       return handler(req, res, req.url, {
         mobile,
-        resources: {
-          storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
-          upload: Environment.RESOURCE_URI_UPLOAD,
-        },
+        resources: EXTERNAL_RESOURCES,
       });
     }
 
@@ -166,10 +169,7 @@ app.prepare().then(async () => {
       viewer,
       creator: Serializers.user({ ...creator, slates }),
       mobile,
-      resources: {
-        storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
-        upload: Environment.RESOURCE_URI_UPLOAD,
-      },
+      resources: EXTERNAL_RESOURCES,
     });
   });
 
@@ -180,10 +180,7 @@ app.prepare().then(async () => {
     if (!Validations.userRoute(req.params.username)) {
       return handler(req, res, req.url, {
         mobile,
-        resources: {
-          storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
-          upload: Environment.RESOURCE_URI_UPLOAD,
-        },
+        resources: EXTERNAL_RESOURCES,
       });
     }
 
@@ -232,10 +229,7 @@ app.prepare().then(async () => {
       creator: Serializers.user(creator),
       slate,
       mobile,
-      resources: {
-        storageDealUpload: Environment.RESOURCE_URI_STORAGE_UPLOAD,
-        upload: Environment.RESOURCE_URI_UPLOAD,
-      },
+      resources: EXTERNAL_RESOURCES,
     });
   });
 

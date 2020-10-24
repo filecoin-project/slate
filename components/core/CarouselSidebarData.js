@@ -220,7 +220,7 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleDelete = async (cid) => {
-    dispatchCustomEvent({ name: "state-global-carousel-loading", detail: { loading: true } });
+    dispatchCustomEvent({ name: "state-global-carousel-loading", detail: { loading: "deleting" } });
     //NOTE(martina): triggers action through DataView.js (which is always mounted if this carousel is open)
     dispatchCustomEvent({
       name: "remote-data-deletion",
@@ -265,7 +265,7 @@ export default class CarouselSidebarData extends React.Component {
           </div>
           <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
             <SVG.Trash height="24px" />
-            {this.props.loading ? (
+            {this.props.loading === "deleting" ? (
               <LoaderSpinner style={{ height: 20, width: 20, marginLeft: 16 }} />
             ) : (
               <span style={{ marginLeft: 16 }}>Delete</span>

@@ -863,11 +863,6 @@ export default class ApplicationPage extends React.Component {
           >
             {scene}
           </ApplicationLayout>
-          <GlobalViewerCID
-            onRehydrate={this.rehydrate}
-            onAction={this._handleAction}
-            mobile={this.state.mobile}
-          />
           <System.GlobalCarousel
             viewer={this.state.viewer}
             current={

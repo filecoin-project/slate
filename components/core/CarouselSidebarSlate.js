@@ -162,7 +162,7 @@ export default class CarouselSidebarSlate extends React.Component {
   };
 
   componentDidMount = () => {
-    if (this.props.isOwner) {
+    if (this.props.isOwner && !this.props.external) {
       this.debounceInstance = this.debounce(this._handleSave, 3000);
       let isPublic = false;
       let selected = {};
@@ -288,6 +288,39 @@ export default class CarouselSidebarSlate extends React.Component {
     setTimeout(() => {
       this.setState({ loading: false });
     }, 1000);
+  };
+
+  _handleSaveCopy = async (data) => {
+    this.setState({ loading: "savingCopy" });
+    let items = [
+      {
+        ownerId: data.ownerId,
+        cid: data.cid || Strings.urlToCid(data.url),
+      },
+    ];
+    let response = await Actions.addCIDToData({ items });
+    if (!response) {
+      this.setState({ loading: false, saving: "ERROR" });
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble connecting right now. Please try again later",
+          },
+        },
+      });
+      return;
+    }
+    if (response.error) {
+      this.setState({ loading: false, saving: "ERROR" });
+      System.dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+      return;
+    }
+    this.props.onRehydrate();
+    this.setState({ loading: false });
   };
 
   _handleDelete = async (cid) => {
@@ -500,12 +533,34 @@ export default class CarouselSidebarSlate extends React.Component {
                 </span>
               </div>
             ) : null}
-            <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "urlCopying")}>
+            <div
+              css={STYLES_ACTION}
+              onClick={() =>
+                this._handleCopy(
+                  this.props.external
+                    ? this.props.data.url.replace("https://undefined", "https://")
+                    : `${this.props.link}/cid:${Strings.urlToCid(this.props.data.url)}`,
+                  "urlCopying"
+                )
+              }
+            >
               <SVG.DeepLink height="24px" />
               <span style={{ marginLeft: 16 }}>
                 {this.state.loading === "urlCopying" ? "Copied!" : "Copy link"}
               </span>
             </div>
+            {this.props.isOwner || this.props.external ? null : (
+              <div css={STYLES_ACTION} onClick={() => this._handleSaveCopy(this.props.data)}>
+                <SVG.Save height="24px" />
+                <span style={{ marginLeft: 16 }}>
+                  {this.state.loading === "savingCopy" ? (
+                    <LoaderSpinner style={{ height: 16, width: 16 }} />
+                  ) : (
+                    <span>Save copy</span>
+                  )}
+                </span>
+              </div>
+            )}
             {this.props.external ? null : (
               <div css={STYLES_ACTION}>
                 <SVG.Download height="24px" />

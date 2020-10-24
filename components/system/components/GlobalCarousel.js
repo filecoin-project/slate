@@ -307,10 +307,15 @@ export class GlobalCarousel extends React.Component {
   };
 
   render() {
+    console.log(this.props.current);
+    console.log(this.props.viewer);
     if (!this.state.visible || !this.state.carouselType || this.state.index < 0) {
       return null;
     }
     let data;
+    let isOwner;
+    let isRepost;
+    let link;
     if (
       this.state.carouselType === "slate" &&
       this.props.current &&
@@ -322,6 +327,22 @@ export class GlobalCarousel extends React.Component {
       data = this.props.current.data.objects[this.state.index];
       data.url = data.url.replace("https://undefined", "https://");
       data.cid = Strings.urlToCid(data.url);
+      isRepost = this.props.external ? false : this.props.viewer.id !== data.ownerId;
+      isOwner = this.props.external
+        ? false
+        : this.props.viewer.id === this.props.current.data.ownerId;
+      link = this.props.external
+        ? data.url.replace("https://undefined", "https://")
+        : isOwner
+        ? `${window.location.hostname}${window.location.port ? ":" + window.location.port : ""}/${
+            this.props.viewer.username
+          }/${this.props.current.slatename}`
+        : this.props.current.owner && this.props.current.owner.username
+        ? `${window.location.hostname}${window.location.port ? ":" + window.location.port : ""}/${
+            this.props.current.owner.username
+          }/${this.props.current.slatename}`
+        : data.url.replace("https://undefined", "https://");
+      console.log({ link: link });
     } else if (
       this.state.carouselType === "data" &&
       this.props.viewer.library &&
@@ -398,16 +419,9 @@ export class GlobalCarousel extends React.Component {
               data={data}
               external={this.props.external}
               onSave={this._handleSave}
-              isOwner={
-                this.props.external
-                  ? false
-                  : this.props.current.data
-                  ? this.props.viewer.id === this.props.current.data.ownerId
-                  : false
-              }
-              isRepost={
-                this.props.external ? false : this.props.viewer.id === data.ownerId ? false : true
-              }
+              isOwner={isOwner}
+              isRepost={isRepost}
+              link={link}
             />
           )}
         </span>

@@ -31,41 +31,6 @@ const STYLES_NO_VISIBLE_SCROLL = css`
   }
 `;
 
-// const STYLES_SIDEBAR_INPUT = css`
-//   ${STYLES_NO_VISIBLE_SCROLL}
-//   position: relative;
-//   padding: 12px;
-//   scrollbar-width: none;
-//   -webkit-overflow-scrolling: touch;
-//   -ms-overflow-style: -ms-autohiding-scrollbar;
-
-//   ::-webkit-scrollbar {
-//     width: 0px;
-//     display: none;
-//   }
-// `;
-
-// const STYLES_SIDEBAR_TEXTAREA = css`
-//   ${STYLES_NO_VISIBLE_SCROLL}
-//   resize: none;
-//   box-sizing: border-box;
-//   line-height: 1.255;
-//   font-size: 16px;
-//   outline: 0;
-//   border: 0;
-//   background: transparent;
-//   width: 100%;
-//   white-space: pre-wrap;
-//   color: ${Constants.system.white};
-//   font-family: ${Constants.font.text};
-//   scrollbar-width: none;
-//   -ms-overflow-style: -ms-autohiding-scrollbar;
-
-//   ::-webkit-scrollbar {
-//     display: none;
-//   }
-// `;
-
 const STYLES_SIDEBAR = css`
   width: 420px;
   padding: 80px 24px 64px 24px;
@@ -75,6 +40,7 @@ const STYLES_SIDEBAR = css`
   flex-direction: column;
   align-items: flex-start;
   position: relative;
+  background-color: rgba(20, 20, 20, 0.8);
   ${STYLES_NO_VISIBLE_SCROLL}
 
   @supports (
@@ -94,21 +60,6 @@ const STYLES_SIDEBAR_SECTION = css`
   flex-shrink: 0;
   width: 100%;
   margin-bottom: 16px;
-`;
-
-const STYLES_SIDEBAR_CONTENT = css`
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  margin-bottom: 16px;
-  border: 1px solid rgba(60, 60, 60, 1);
-  border-radius: 4px;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 const STYLES_HEADING = css`
@@ -374,10 +325,6 @@ export default class CarouselSidebarSlate extends React.Component {
     }
     await this.props.onRehydrate();
     this.setState({ loading: false });
-    // dispatchCustomEvent({
-    //   name: "remote-update-carousel",
-    //   detail: {},
-    // });
   };
 
   _toggleAccordion = (tab) => {
@@ -560,10 +507,7 @@ export default class CarouselSidebarSlate extends React.Component {
               </span>
             </div>
             {this.props.external ? null : (
-              <div
-                css={STYLES_ACTION}
-                // onClick={() => this.props.onObjectSave({ ...this.props.data, ...this.state })}
-              >
+              <div css={STYLES_ACTION}>
                 <SVG.Download height="24px" />
                 <span style={{ marginLeft: 16 }}>
                   {this.props.saving ? (

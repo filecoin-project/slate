@@ -846,7 +846,8 @@ export default class ApplicationPage extends React.Component {
     const title = `Slate : ${current.target.pageTitle}`;
     const description = "";
     const url = "https://slate.host/_";
-
+    console.log(current.target);
+    console.log(this.state.data);
     return (
       <React.Fragment>
         <WebsitePrototypeWrapper description={description} title={title} url={url}>
@@ -870,9 +871,10 @@ export default class ApplicationPage extends React.Component {
           <System.GlobalCarousel
             viewer={this.state.viewer}
             current={
-              current.target && current.target.decorator === "SLATE"
+              current.target &&
+              (current.target.decorator === "SLATE" || current.target.decorator === "HOME")
                 ? current.target
-                : this.state.data
+                : this.state.data //NOTE(martina): for slates that are not your own
             }
             onRehydrate={this.rehydrate}
             slates={this.state.viewer.slates}

@@ -38,6 +38,7 @@ const STYLES_SIDEBAR = css`
   align-items: flex-start;
   justify-content: space-between;
   position: relative;
+  background-color: rgba(20, 20, 20, 0.8);
   ${STYLES_NO_VISIBLE_SCROLL}
 
   @supports (
@@ -219,6 +220,7 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleDelete = async (cid) => {
+    dispatchCustomEvent({ name: "state-global-carousel-loading", detail: { loading: true } });
     //NOTE(martina): triggers action through DataView.js (which is always mounted if this carousel is open)
     dispatchCustomEvent({
       name: "remote-data-deletion",
@@ -263,7 +265,7 @@ export default class CarouselSidebarData extends React.Component {
           </div>
           <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
             <SVG.Trash height="24px" />
-            {this.state.loading === "deleting" ? (
+            {this.props.loading ? (
               <LoaderSpinner style={{ height: 20, width: 20, marginLeft: 16 }} />
             ) : (
               <span style={{ marginLeft: 16 }}>Delete</span>

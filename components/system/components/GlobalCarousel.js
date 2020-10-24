@@ -23,11 +23,11 @@ const STYLES_ROOT = css`
   justify-content: space-between;
   color: ${Constants.system.white};
   z-index: ${Constants.zindex.modal};
+  background-color: rgba(0, 0, 0, 0.8);
 
   @supports ((-webkit-backdrop-filter: blur(15px)) or (backdrop-filter: blur(15px))) {
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
-    background-color: rgba(0, 0, 0, 0.8);
   }
 
   @keyframes global-carousel-fade-in {
@@ -118,8 +118,6 @@ export class GlobalCarousel extends React.Component {
 
   componentDidMount = () => {
     window.addEventListener("keydown", this._handleKeyDown);
-    // window.addEventListener("slate-global-create-carousel", this._handleCreate);
-    // window.addEventListener("slate-global-delete-carousel", this._handleDelete);
     window.addEventListener("slate-global-open-carousel", this._handleOpen);
     window.addEventListener("slate-global-close-carousel", this._handleClose);
     window.addEventListener("state-global-carousel-loading", this._handleSetLoading);
@@ -127,8 +125,6 @@ export class GlobalCarousel extends React.Component {
 
   componentWillUnmount = () => {
     window.removeEventListener("keydown", this._handleKeyDown);
-    // window.removeEventListener("slate-global-create-carousel", this._handleCreate);
-    // window.removeEventListener("slate-global-delete-carousel", this._handleDelete);
     window.removeEventListener("slate-global-open-carousel", this._handleOpen);
     window.removeEventListener("slate-global-close-carousel", this._handleClose);
     window.removeEventListener("state-global-carousel-loading", this._handleSetLoading);
@@ -167,8 +163,12 @@ export class GlobalCarousel extends React.Component {
   _handleSetLoading = (e) => this.setState({ ...e.detail });
 
   _handleOpen = (e) => {
-    console.log(this.props.current);
-    let carouselType = this.props.current.decorator === "FOLDER" ? "data" : "slate";
+    let carouselType =
+      !this.props.current ||
+      (this.props.current &&
+        (this.props.current.decorator === "FOLDER" || this.props.current.decorator === "HOME"))
+        ? "data"
+        : "slate";
     this.setState({
       carouselType: carouselType,
       visible: true,
@@ -199,23 +199,6 @@ export class GlobalCarousel extends React.Component {
       e.preventDefault();
     }
     this.setState({ visible: false, index: 0, loading: false, saving: false });
-
-    if (this.state.baseURL) {
-      window.history.replaceState({}, "", `/${this.state.baseURL}`);
-    }
-  };
-
-  // _handleCreate = (e) => {
-  //   const shouldPersist = this.state.visible && this.state.index < e.detail.slides.length;
-
-  //   this.setState({
-  //     visible: shouldPersist ? true : false,
-  //     index: shouldPersist ? this.state.index : 0,
-  //   });
-  // };
-
-  _handleDelete = (e) => {
-    this.setState({ slides: null, visible: false, index: 0 });
 
     if (this.state.baseURL) {
       window.history.replaceState({}, "", `/${this.state.baseURL}`);
@@ -324,26 +307,35 @@ export class GlobalCarousel extends React.Component {
   };
 
   render() {
-    if (!this.state.visible || !this.state.carouselType) {
+    if (!this.state.visible || !this.state.carouselType || this.state.index < 0) {
       return null;
     }
     let data;
     if (
       this.state.carouselType === "slate" &&
+      this.props.current &&
       this.props.current.data &&
-      this.props.current.data.objects
+      this.props.current.data.objects &&
+      this.props.current.data.objects.length &&
+      this.state.index < this.props.current.data.objects.length
     ) {
       data = this.props.current.data.objects[this.state.index];
       data.url = data.url.replace("https://undefined", "https://");
       data.cid = Strings.urlToCid(data.url);
-    } else if (this.state.carouselType === "data" && this.props.viewer.library) {
+    } else if (
+      this.state.carouselType === "data" &&
+      this.props.viewer.library &&
+      this.props.viewer.library[0].children.length &&
+      this.state.index < this.props.viewer.library[0].children.length
+    ) {
       data = this.props.viewer.library[0].children[this.state.index];
       data.url = `${Constants.gateways.ipfs}/${data.cid || Strings.getCIDFromIPFS(data.ipfs)}`;
     }
-    let slide = <SlateMediaObject data={data} />;
-    if (!slide || !data) {
+    if (!data) {
+      this._handleClose();
       return null;
     }
+    let slide = <SlateMediaObject data={data} />;
 
     return (
       <div css={STYLES_ROOT}>

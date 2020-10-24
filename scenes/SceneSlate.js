@@ -16,7 +16,6 @@ import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 import EmptyState from "~/components/core/EmptyState";
 
@@ -71,8 +70,6 @@ export default class SceneSlate extends React.Component {
         saving: "IDLE",
         isOwner: this.props.current.data.ownerId === this.props.viewer.id,
       });
-
-      // this._handleUpdateCarousel(this.props.current.data.objects, this.state.isOwner);
     }
   }
 
@@ -81,10 +78,6 @@ export default class SceneSlate extends React.Component {
       return false;
     }
     isMounted = true;
-
-    // this._handleUpdateCarousel();
-
-    // window.addEventListener("remote-update-slate-screen", this._handleRemoteAddObject);
     window.addEventListener("remote-delete-object", this._handleRemoteDeleteObject);
     window.addEventListener("remote-object-update", this._handleRemoteEditObject);
 
@@ -110,15 +103,9 @@ export default class SceneSlate extends React.Component {
 
   componentWillUnmount() {
     isMounted = false;
-
-    // window.removeEventListener("remote-update-slate-screen", this._handleRemoteAddObject);
     window.removeEventListener("remote-delete-object", this._handleRemoteDeleteObject);
     window.removeEventListener("remote-object-update", this._handleRemoteEditObject);
   }
-
-  // _handleRemoteAddObject = () => {
-  //   this._handleUpdateCarousel();
-  // };
 
   _handleFollow = () => {
     this.setState({ followLoading: true }, async () => {
@@ -185,13 +172,6 @@ export default class SceneSlate extends React.Component {
     this.setState({
       saving: "SAVED",
     });
-
-    // if (!layoutOnly) {
-    //   this._handleUpdateCarousel(
-    //     objects ? objects : this.props.current.data.objects,
-    //     this.state.isOwner
-    //   );
-    // }
   };
 
   _handleRemoteEditObject = async ({ detail }) => {
@@ -218,43 +198,6 @@ export default class SceneSlate extends React.Component {
       detail: { saving: false },
     });
   };
-
-  // _handleUpdateCarousel = (newObjects, isOwner) => {
-  //   let objects = newObjects ? newObjects : [...this.props.current.data.objects];
-  //   System.dispatchCustomEvent({
-  //     name: "slate-global-create-carousel",
-  //     detail: {
-  //       carouselType: "slate",
-  //       slides: objects.map((each) => {
-  //         // NOTE(jim):
-  //         // This is a hack to catch this undefined case I don't want to track down yet.
-  //         const url = each.url.replace("https://undefined", "https://");
-  //         const cid = Strings.getCIDFromIPFS(url);
-  //         const data = { ...each, cid, url };
-
-  //         return {
-  //           onDelete: () =>
-  //             System.dispatchCustomEvent({
-  //               name: "remote-delete-object",
-  //               detail: { ids: [data.id] },
-  //             }),
-  //           onObjectSave: (object) =>
-  //             System.dispatchCustomEvent({
-  //               name: "remote-object-update",
-  //               detail: { object },
-  //             }),
-  //           id: data.id,
-  //           cid,
-  //           data,
-  //           username: this.props.viewer.username,
-  //           slatename: this.props.current.slatename,
-  //           isOwner: isOwner ? isOwner : this.state.isOwner,
-  //           component: <SlateMediaObject key={each.id} data={data} />,
-  //         };
-  //       }),
-  //     },
-  //   });
-  // };
 
   _handleDeleteFiles = async (cids) => {
     const message = `Are you sure you want to delete these files? They will be deleted from your slates as well`;
@@ -306,7 +249,6 @@ export default class SceneSlate extends React.Component {
         objects,
       },
     });
-    //update the carousel here
 
     if (!response) {
       System.dispatchCustomEvent({
@@ -334,8 +276,6 @@ export default class SceneSlate extends React.Component {
       });
       return;
     }
-
-    // this._handleUpdateCarousel(response.slate.data.objects);
 
     await this.props.onRehydrate();
 

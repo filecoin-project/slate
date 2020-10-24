@@ -133,11 +133,6 @@ export default class SidebarCreateSlate extends React.Component {
       }
 
       await this.props.onRehydrate();
-
-      // dispatchCustomEvent({
-      //   name: "remote-update-carousel",
-      //   detail: null,
-      // });
     }
 
     this.setState({ loading: false });

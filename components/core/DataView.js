@@ -16,7 +16,6 @@ import { FileTypeIcon } from "~/components/core/FileTypeIcon";
 import { ButtonPrimary, ButtonWarning } from "~/components/system/components/Buttons";
 import { TabGroup } from "~/components/core/TabGroup";
 
-import SlateMediaObject from "~/components/core/SlateMediaObject";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import FilePreviewBubble from "~/components/core/FilePreviewBubble";
 
@@ -240,10 +239,7 @@ export default class DataView extends React.Component {
       window.addEventListener("remote-data-deletion", this._handleDataDeletion);
       window.addEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
       window.addEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
-      // window.addEventListener("remote-update-carousel", this._handleUpdate);
     }
-
-    // await this._handleUpdate();
   }
 
   componentWillUnmount() {
@@ -251,7 +247,6 @@ export default class DataView extends React.Component {
     window.removeEventListener("remote-data-deletion", this._handleDataDeletion);
     window.removeEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
     window.removeEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
-    // window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }
 
   _increment = (direction) => {
@@ -324,33 +319,8 @@ export default class DataView extends React.Component {
         alert: { message: "Files successfully deleted!", status: "INFO" },
       },
     });
+    dispatchCustomEvent({ name: "state-global-carousel-loading", detail: { loading: false } });
   };
-
-  // _handleUpdate = async () => {
-  //   // NOTE(jim): Hack to handle some race conditions.
-  //   await delay(200);
-
-  //   System.dispatchCustomEvent({
-  //     name: "slate-global-create-carousel",
-  //     detail: {
-  //       carouselType: "data",
-  //       slides: this.props.items.map((each) => {
-  //         const cid = each.ipfs.replace("/ipfs/", "");
-  //         const url = Strings.getCIDGatewayURL(cid);
-  //         const data = { ...each, url, cid };
-
-  //         return {
-  //           id: data.id,
-  //           slates: this.props.viewer.slates,
-  //           cid,
-  //           data,
-  //           renderDataControls: true,
-  //           component: <SlateMediaObject key={data.id} data={data} />,
-  //         };
-  //       }),
-  //     },
-  //   });
-  // };
 
   _handleSelect = (index) => {
     System.dispatchCustomEvent({
@@ -411,8 +381,6 @@ export default class DataView extends React.Component {
     });
 
     await this.props.onRehydrate();
-    // await this._handleUpdate();
-
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",
       detail: { loading: false },
@@ -465,7 +433,6 @@ export default class DataView extends React.Component {
     }
 
     await this.props.onRehydrate();
-    // await this._handleUpdate();
 
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",

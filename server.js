@@ -35,6 +35,7 @@ const EXTERNAL_RESOURCES = {
   upload: Strings.isEmpty(Environment.RESOURCE_URI_UPLOAD)
     ? null
     : Environment.RESOURCE_URI_STORAGE_UPLOAD,
+  pubsub: Strings.isEmpty(Environment.RESOURCE_URI_PUBSUB) ? null : Environment.Resource_URI_PUBSUB,
 };
 
 app.prepare().then(async () => {

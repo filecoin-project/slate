@@ -77,7 +77,8 @@
     "regenerator-runtime": "^0.13.7",
     "three": "^0.108.0",
     "universal-cookie": "^4.0.3",
-    "uuid": "^8.0.0"
+    "uuid": "^8.0.0",
+    "websocket": "^1.0.32"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^4.1.0",

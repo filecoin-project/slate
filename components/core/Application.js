@@ -10,6 +10,7 @@ import * as FileUtilities from "~/common/file-utilities";
 import * as System from "~/components/system";
 import * as Window from "~/common/window";
 import * as Store from "~/common/store";
+import * as Websockets from "~/common/websockets";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -118,6 +119,13 @@ export default class ApplicationPage extends React.Component {
   };
 
   async componentDidMount() {
+    let wsclient = null;
+    if (this.props.resources && !Strings.isEmpty(this.props.resources.pubsub)) {
+      wsclient = Websockets.init({ resource: this.props.resources.pubsub });
+    }
+
+    console.log({ wsclient });
+
     window.addEventListener("dragenter", this._handleDragEnter);
     window.addEventListener("dragleave", this._handleDragLeave);
     window.addEventListener("dragover", this._handleDragOver);

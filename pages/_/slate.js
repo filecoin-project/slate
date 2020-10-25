@@ -10,7 +10,7 @@ import { Alert } from "~/components/core/Alert";
 import { ViewAllButton } from "~/components/core/ViewAll";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
-import WebsitePrototypeHeaderGeneric from "~/components/core/WebsitePrototypeHeaderGeneric";
+import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
@@ -155,11 +155,10 @@ export default class SlatePage extends React.Component {
     return (
       <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeaderGeneric href={headerURL} title={headerTitle}>
-            <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
-              <ProcessedText text={this.props.slate.data.body} />
-            </ViewAllButton>
-          </WebsitePrototypeHeaderGeneric>
+          <WebsitePrototypeHeader />
+          <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
+            <ProcessedText text={this.props.slate.data.body} />
+          </ViewAllButton>
           <div css={STYLES_SLATE}>
             {this.props.mobile ? (
               <SlateLayoutMobile

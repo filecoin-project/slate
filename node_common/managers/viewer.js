@@ -104,6 +104,7 @@ export const getById = async ({ id }) => {
     ...Serializers.user(user),
     type: "VIEWER",
     library: user.data.library,
+    onboarding: user.data.onboarding || {},
 
     // TODO(jim): Move this elsewhere.
     allow_filecoin_directory_listing: user.data.allow_filecoin_directory_listing

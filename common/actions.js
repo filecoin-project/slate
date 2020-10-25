@@ -180,6 +180,13 @@ export const createUser = async (data) => {
   });
 };
 
+export const updateOnboardingStatus = async (data) => {
+  return await returnJSON(`/api/users/onboarding-update`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
 export const checkCIDStatus = async (data) => {
   return await returnJSON(`/api/data/cid-status`, {
     ...DEFAULT_OPTIONS,

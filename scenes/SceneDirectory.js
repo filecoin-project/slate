@@ -8,10 +8,7 @@ import { css } from "@emotion/react";
 import { TabGroup } from "~/components/core/TabGroup";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "~/components/system/components/Buttons";
+import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -107,10 +104,7 @@ function UserEntry({ user, button, onClick, message }) {
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
       <div css={STYLES_USER} onClick={onClick}>
-        <div
-          css={STYLES_PROFILE_IMAGE}
-          style={{ backgroundImage: `url(${user.data.photo})` }}
-        />
+        <div css={STYLES_PROFILE_IMAGE} style={{ backgroundImage: `url(${user.data.photo})` }} />
         <span css={STYLES_NAME}>
           {user.data.name || `@${user.username}`}
           {message ? <span css={STYLES_MESSAGE}>{message}</span> : null}
@@ -212,10 +206,7 @@ export default class SceneDirectory extends React.Component {
                   css={STYLES_ITEM_BOX}
                   onClick={(e) => this._handleAccept(e, relation.owner.id)}
                 >
-                  <SVG.CheckBox
-                    height="24px"
-                    style={{ color: Constants.system.brand }}
-                  />
+                  <SVG.CheckBox height="24px" style={{ color: Constants.system.brand }} />
                 </div>
                 <div
                   css={STYLES_ITEM_BOX}
@@ -224,10 +215,7 @@ export default class SceneDirectory extends React.Component {
                     this._handleDelete(e, relation.id);
                   }}
                 >
-                  <SVG.Dismiss
-                    height="24px"
-                    style={{ color: Constants.system.gray }}
-                  />
+                  <SVG.Dismiss height="24px" style={{ color: Constants.system.gray }} />
                 </div>
               </div>
             </span>
@@ -277,10 +265,7 @@ export default class SceneDirectory extends React.Component {
       })
       .map((relation) => {
         let button = (
-          <div
-            css={STYLES_ITEM_BOX}
-            onClick={(e) => this._handleClick(e, relation.id)}
-          >
+          <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
             <SVG.MoreHorizontal height="24px" />
             {this.state.contextMenu === relation.id ? (
               <Boundary
@@ -298,10 +283,7 @@ export default class SceneDirectory extends React.Component {
                     {
                       text: "Copy profile URL",
                       onClick: (e) =>
-                        this._handleCopy(
-                          e,
-                          `https://slate.host/${relation.owner.username}`
-                        ),
+                        this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
                     },
                     {
                       text: "Remove peer",
@@ -339,10 +321,7 @@ export default class SceneDirectory extends React.Component {
         })
         .map((relation) => {
           let button = (
-            <div
-              css={STYLES_ITEM_BOX}
-              onClick={(e) => this._handleClick(e, relation.id)}
-            >
+            <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
               <SVG.MoreHorizontal height="24px" />
               {this.state.contextMenu === relation.id ? (
                 <Boundary
@@ -360,10 +339,7 @@ export default class SceneDirectory extends React.Component {
                       {
                         text: "Copy profile URL",
                         onClick: (e) =>
-                          this._handleCopy(
-                            e,
-                            `https://slate.host/${relation.user.username}`
-                          ),
+                          this._handleCopy(e, `https://slate.host/${relation.user.username}`),
                       },
                       {
                         text: "Remove peer",
@@ -399,10 +375,7 @@ export default class SceneDirectory extends React.Component {
       })
       .map((relation) => {
         let button = (
-          <div
-            css={STYLES_ITEM_BOX}
-            onClick={(e) => this._handleClick(e, relation.id)}
-          >
+          <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
             <SVG.MoreHorizontal height="24px" />
             {this.state.contextMenu === relation.id ? (
               <Boundary
@@ -420,10 +393,7 @@ export default class SceneDirectory extends React.Component {
                     {
                       text: "Copy profile URL",
                       onClick: (e) =>
-                        this._handleCopy(
-                          e,
-                          `https://slate.host/${relation.user.username}`
-                        ),
+                        this._handleCopy(e, `https://slate.host/${relation.user.username}`),
                     },
                     {
                       text: "Unfollow",
@@ -454,10 +424,7 @@ export default class SceneDirectory extends React.Component {
 
     let followers = this.props.viewer.subscribers.map((relation) => {
       let button = (
-        <div
-          css={STYLES_ITEM_BOX}
-          onClick={(e) => this._handleClick(e, relation.id)}
-        >
+        <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
           <SVG.MoreHorizontal height="24px" />
           {this.state.contextMenu === relation.id ? (
             <Boundary
@@ -475,19 +442,12 @@ export default class SceneDirectory extends React.Component {
                   {
                     text: "Copy profile URL",
                     onClick: (e) =>
-                      this._handleCopy(
-                        e,
-                        `https://slate.host/${relation.owner.username}`
-                      ),
+                      this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
                   },
                   {
-                    text: this.props.viewer.subscriptions.filter(
-                      (subscription) => {
-                        return (
-                          subscription.target_user_id === relation.owner.id
-                        );
-                      }
-                    ).length
+                    text: this.props.viewer.subscriptions.filter((subscription) => {
+                      return subscription.target_user_id === relation.owner.id;
+                    }).length
                       ? "Unfollow"
                       : "Follow",
                     onClick: (e) => this._handleFollow(e, relation.owner.id),
@@ -549,8 +509,7 @@ export default class SceneDirectory extends React.Component {
           ) : (
             <EmptyState>
               <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-              You can follow any user on the network to be updated on their new
-              uploads and slates.
+              You can follow any user on the network to be updated on their new uploads and slates.
             </EmptyState>
           )
         ) : null}

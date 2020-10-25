@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
+import * as Window from "~/common/window";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
@@ -9,8 +10,6 @@ import { CheckBox } from "~/components/system/components/CheckBox";
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { Toggle } from "~/components/system/components/Toggle";
-import { Boundary } from "~/components/system/components/fragments/Boundary";
-import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { DynamicIcon } from "~/components/core/DynamicIcon";
 import { Tooltip } from "~/components/core/Tooltip";
@@ -945,8 +944,26 @@ export class SlateLayout extends React.Component {
   _handleDownload = (e, i) => {
     e.stopPropagation();
     e.preventDefault();
-    this.setState({ checked: {} });
-    //TODO(martina): make a download function that works
+    if (i !== undefined) {
+      let filename = this.state.items[i].name || this.state.items[i].title;
+      let uri = this.state.items[i].url.replace("https://undefined", "https://");
+      Window.saveAs(uri, filename);
+    }
+    // else {
+    //   for (let i of Object.keys(this.state.checked)) {
+    //     console.log(i);
+    //     download = this.state.items[i].name || this.state.items[i].title;
+    //     uri = this.state.items[i].url.replace("https://undefined", "https://");
+    //     let link = document.createElement("a");
+    //     document.body.appendChild(link);
+    //     link.target = "_blank";
+    //     link.download = download;
+    //     link.href = uri;
+    //     link.click();
+    //     document.body.removeChild(link);
+    //   }
+    // }
+    // this.setState({ checked: {} });
   };
 
   _handleSaveCopy = (e, i) => {
@@ -1254,18 +1271,18 @@ export class SlateLayout extends React.Component {
                                     : this.state.tooltip === `${i}-view`
                                     ? {
                                         position: "absolute",
-                                        bottom: 52,
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
                                         right: "calc(50% + 28px)",
                                       }
                                     : this.state.tooltip === `${i}-download`
                                     ? {
                                         position: "absolute",
-                                        bottom: 52,
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
                                         right: "calc(50% - 12px)",
                                       }
                                     : {
                                         position: "absolute",
-                                        bottom: 52,
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
                                         right: "calc(50% - 52px)",
                                         color: Constants.system.red,
                                       }
@@ -1379,18 +1396,18 @@ export class SlateLayout extends React.Component {
                                     : this.state.tooltip === `${i}-copy`
                                     ? {
                                         position: "absolute",
-                                        bottom: 52,
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
                                         right: "calc(50% + 28px)",
                                       }
                                     : this.state.tooltip === `${i}-download`
                                     ? {
                                         position: "absolute",
-                                        bottom: 52,
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
                                         right: "calc(50% - 12px)",
                                       }
                                     : {
                                         position: "absolute",
-                                        bottom: 52,
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
                                         right: "calc(50% - 52px)",
                                       }
                                 }
@@ -1616,9 +1633,9 @@ export class SlateLayout extends React.Component {
                 <ButtonPrimary transparent onClick={this._handleAddToSlate}>
                   Add to slate
                 </ButtonPrimary>
-                <ButtonPrimary transparent onClick={this._handleDownload}>
+                {/* <ButtonPrimary transparent onClick={this._handleDownload}>
                   Download
-                </ButtonPrimary>
+                </ButtonPrimary> */}
                 <ButtonWarning
                   transparent
                   style={{ marginLeft: 8 }}
@@ -1657,9 +1674,9 @@ export class SlateLayout extends React.Component {
                 <ButtonPrimary transparent onClick={this._handleSaveCopy}>
                   Save copy
                 </ButtonPrimary>
-                <ButtonPrimary transparent onClick={this._handleDownload}>
+                {/* <ButtonPrimary transparent onClick={this._handleDownload}>
                   Download
-                </ButtonPrimary>
+                </ButtonPrimary> */}
                 <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
                   <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
                 </div>

@@ -307,8 +307,6 @@ export class GlobalCarousel extends React.Component {
   };
 
   render() {
-    console.log(this.props.current);
-    console.log(this.props.viewer);
     if (!this.state.visible || !this.state.carouselType || this.state.index < 0) {
       return null;
     }
@@ -332,7 +330,7 @@ export class GlobalCarousel extends React.Component {
         ? false
         : this.props.viewer.id === this.props.current.data.ownerId;
       link = this.props.external
-        ? data.url.replace("https://undefined", "https://")
+        ? null
         : isOwner
         ? `${window.location.hostname}${window.location.port ? ":" + window.location.port : ""}/${
             this.props.viewer.username
@@ -341,8 +339,7 @@ export class GlobalCarousel extends React.Component {
         ? `${window.location.hostname}${window.location.port ? ":" + window.location.port : ""}/${
             this.props.current.owner.username
           }/${this.props.current.slatename}`
-        : data.url.replace("https://undefined", "https://");
-      console.log({ link: link });
+        : null;
     } else if (
       this.state.carouselType === "data" &&
       this.props.viewer.library &&

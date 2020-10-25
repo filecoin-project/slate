@@ -171,12 +171,10 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleDownload = () => {
-    // NOTE(jim): 2mb limit on this.
-    const extension = Strings.getFileExtension(this.props.data.file);
-    const download = `${this.props.cid}.${extension}`;
-    const uri = Strings.getCIDGatewayURL(this.props.cid);
-
-    Window.saveAs(uri, download);
+    const filename = this.props.data.file;
+    let cid = this.props.data.cid || this.props.data.ipfs.replace("/ipfs/", "");
+    const uri = Strings.getCIDGatewayURL(cid);
+    Window.saveAs(uri, filename);
   };
 
   _handleCreateSlate = async () => {
@@ -220,7 +218,6 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleDelete = async (cid) => {
-    dispatchCustomEvent({ name: "state-global-carousel-loading", detail: { loading: "deleting" } });
     //NOTE(martina): triggers action through DataView.js (which is always mounted if this carousel is open)
     dispatchCustomEvent({
       name: "remote-data-deletion",
@@ -262,6 +259,10 @@ export default class CarouselSidebarData extends React.Component {
             <span style={{ marginLeft: 16 }}>
               {this.state.loading === "urlCopying" ? "Copied!" : "Copy link"}
             </span>
+          </div>
+          <div css={STYLES_ACTION} onClick={this._handleDownload}>
+            <SVG.Download height="24px" />
+            <span style={{ marginLeft: 16 }}>Download</span>
           </div>
           <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
             <SVG.Trash height="24px" />

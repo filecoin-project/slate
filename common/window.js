@@ -36,18 +36,25 @@ export const getViewportSize = () => {
   };
 };
 
-// NOTE(jim): This has a 2mb limit and is pointless :(
+// NOTE(martina): Works in most cases, except some where the type of the file is jumbled (not an issue specific to this function)
 export const saveAs = (uri, filename) => {
-  var link = document.createElement("a");
-  if (typeof link.download === "string") {
-    document.body.appendChild(link);
-    link.download = filename;
-    link.href = `data:,${uri}`;
-    link.click();
-    document.body.removeChild(link);
-  } else {
-    location.replace(uri);
-  }
+  fetch(uri, {
+    headers: new Headers({
+      Origin: location.origin,
+    }),
+    mode: "cors",
+  })
+    .then((response) => response.blob())
+    .then((blob) => {
+      let blobUrl = window.URL.createObjectURL(blob);
+      var link = document.createElement("a");
+      document.body.appendChild(link);
+      link.download = filename;
+      link.href = blobUrl;
+      link.click();
+      document.body.removeChild(link);
+    })
+    .catch((e) => console.error(e));
 };
 
 export const getQueryParameterByName = (name) => {

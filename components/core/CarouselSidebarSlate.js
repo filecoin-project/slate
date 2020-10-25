@@ -3,6 +3,7 @@ import * as SVG from "~/common/svg";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
+import * as Window from "~/common/window";
 
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -280,6 +281,12 @@ export default class CarouselSidebarSlate extends React.Component {
     this.props.onRehydrate();
   };
 
+  _handleDownload = () => {
+    const filename = this.props.data.name || this.props.data.title;
+    const uri = this.props.data.url.replace("https://undefined", "https://");
+    Window.saveAs(uri, filename);
+  };
+
   _handleCopy = (copyValue, loading) => {
     this.setState({ copyValue, loading }, () => {
       this._ref.select();
@@ -537,9 +544,9 @@ export default class CarouselSidebarSlate extends React.Component {
               css={STYLES_ACTION}
               onClick={() =>
                 this._handleCopy(
-                  this.props.external
-                    ? this.props.data.url.replace("https://undefined", "https://")
-                    : `${this.props.link}/cid:${Strings.urlToCid(this.props.data.url)}`,
+                  this.props.link
+                    ? `${this.props.link}/cid:${Strings.urlToCid(this.props.data.url)}`
+                    : this.props.data.url.replace("https://undefined", "https://"),
                   "urlCopying"
                 )
               }
@@ -562,7 +569,7 @@ export default class CarouselSidebarSlate extends React.Component {
               </div>
             )}
             {this.props.external ? null : (
-              <div css={STYLES_ACTION}>
+              <div css={STYLES_ACTION} onClick={this._handleDownload}>
                 <SVG.Download height="24px" />
                 <span style={{ marginLeft: 16 }}>
                   {this.props.saving ? (

@@ -277,6 +277,7 @@ export default class DataView extends React.Component {
     if (!window.confirm(message)) {
       return;
     }
+    dispatchCustomEvent({ name: "state-global-carousel-loading", detail: { loading: "deleting" } });
     let cids;
     if (cid) {
       cids = [cid];
@@ -299,6 +300,7 @@ export default class DataView extends React.Component {
         },
       });
       this._handleLoading({ cids });
+      dispatchCustomEvent({ name: "state-global-carousel-loading", detail: { loading: false } });
       return;
     }
     if (response.error) {
@@ -307,10 +309,10 @@ export default class DataView extends React.Component {
         detail: { alert: { decorator: response.decorator } },
       });
       this._handleLoading({ cids });
+      dispatchCustomEvent({ name: "state-global-carousel-loading", detail: { loading: false } });
       return;
     }
     await this.props.onRehydrate();
-    // await this._handleUpdate();
     this._handleLoading({ cids });
     this.setState({ checked: {} });
     dispatchCustomEvent({

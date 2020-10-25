@@ -199,9 +199,8 @@ export default class DataView extends React.Component {
     menu: null,
     loading: {},
     checked: {},
-    startIndex: 0,
     view: "grid",
-    viewLimit: 40,
+    viewLimit: 5,
     scrollDebounce: false,
   };
 
@@ -214,7 +213,7 @@ export default class DataView extends React.Component {
     }
 
     window.addEventListener("scroll", this._handleScroll);
-    await this._handleCheckScroll();
+    // await this._handleUpdate();
   }
 
   componentWillUnmount() {
@@ -252,10 +251,9 @@ export default class DataView extends React.Component {
       html.offsetHeight
     );
     const windowBottom = windowHeight + window.pageYOffset;
-    if (windowBottom >= docHeight - 600) {
+    if (windowBottom >= docHeight) {
       this.setState({ viewLimit: this.state.viewLimit + 30 });
     }
-    console.log(e);
   };
 
   _handleCheckScroll = this._handleDebounce(this._handleScroll, 200);
@@ -560,118 +558,114 @@ export default class DataView extends React.Component {
         <React.Fragment>
           {header}
           <div css={STYLES_IMAGE_GRID}>
-            {this.props.items
-              .slice(this.state.startIndex, this.state.startIndex + this.state.viewLimit)
-              .map((each, i) => {
-                const cid = each.ipfs.replace("/ipfs/", "");
-                return (
-                  <div
-                    key={each.id}
-                    css={STYLES_IMAGE_BOX}
-                    onClick={() => this._handleSelect(i)}
-                    onMouseEnter={() => this.setState({ hover: i })}
-                    onMouseLeave={() => this.setState({ hover: null })}
-                  >
-                    <SlateMediaObjectPreview
-                      url={`${Constants.gateways.ipfs}/${each.ipfs.replace("/ipfs/", "")}`}
-                      title={each.file || each.name}
-                      type={each.type || each.icon}
-                    />
-                    <span css={STYLES_MOBILE_HIDDEN}>
-                      {numChecked || this.state.hover === i || this.state.menu === each.id ? (
-                        <React.Fragment>
-                          <div
-                            css={STYLES_ICON_BOX_BACKGROUND}
-                            onClick={
-                              this.state.loading[cid]
-                                ? () => {}
-                                : (e) => {
-                                    e.stopPropagation();
-                                    this.setState({
-                                      menu: this.state.menu === each.id ? null : each.id,
-                                    });
-                                  }
-                            }
-                          >
-                            {this.state.loading[cid] ? (
-                              <LoaderSpinner style={{ height: 24, width: 24 }} />
-                            ) : (
-                              <SVG.MoreHorizontal height="24px" />
-                            )}
+            {this.props.items.slice(this.state.viewLimit).map((each, i) => {
+              const cid = each.ipfs.replace("/ipfs/", "");
+              return (
+                <div
+                  key={each.id}
+                  css={STYLES_IMAGE_BOX}
+                  onClick={() => this._handleSelect(i)}
+                  onMouseEnter={() => this.setState({ hover: i })}
+                  onMouseLeave={() => this.setState({ hover: null })}
+                >
+                  <SlateMediaObjectPreview
+                    url={`${Constants.gateways.ipfs}/${each.ipfs.replace("/ipfs/", "")}`}
+                    title={each.file || each.name}
+                    type={each.type || each.icon}
+                  />
+                  <span css={STYLES_MOBILE_HIDDEN}>
+                    {numChecked || this.state.hover === i || this.state.menu === each.id ? (
+                      <React.Fragment>
+                        <div
+                          css={STYLES_ICON_BOX_BACKGROUND}
+                          onClick={
+                            this.state.loading[cid]
+                              ? () => {}
+                              : (e) => {
+                                  e.stopPropagation();
+                                  this.setState({
+                                    menu: this.state.menu === each.id ? null : each.id,
+                                  });
+                                }
+                          }
+                        >
+                          {this.state.loading[cid] ? (
+                            <LoaderSpinner style={{ height: 24, width: 24 }} />
+                          ) : (
+                            <SVG.MoreHorizontal height="24px" />
+                          )}
 
-                            {this.state.menu === each.id ? (
-                              <Boundary
-                                captureResize={true}
-                                captureScroll={false}
-                                enabled
-                                onOutsideRectEvent={this._handleHide}
-                              >
-                                <PopoverNavigation
-                                  style={{
-                                    top: "32px",
-                                    right: "0px",
-                                  }}
-                                  navigation={[
-                                    {
-                                      text: "Copy CID",
-                                      onClick: (e) => this._handleCopy(e, cid),
+                          {this.state.menu === each.id ? (
+                            <Boundary
+                              captureResize={true}
+                              captureScroll={false}
+                              enabled
+                              onOutsideRectEvent={this._handleHide}
+                            >
+                              <PopoverNavigation
+                                style={{
+                                  top: "32px",
+                                  right: "0px",
+                                }}
+                                navigation={[
+                                  {
+                                    text: "Copy CID",
+                                    onClick: (e) => this._handleCopy(e, cid),
+                                  },
+                                  {
+                                    text: "Copy link",
+                                    onClick: (e) =>
+                                      this._handleCopy(e, `${Constants.gateways.ipfs}/${cid}`),
+                                  },
+                                  {
+                                    text: "Delete",
+                                    onClick: (e) => {
+                                      e.stopPropagation();
+                                      this.setState({ menu: null }, () => this._handleDelete(cid));
                                     },
-                                    {
-                                      text: "Copy link",
-                                      onClick: (e) =>
-                                        this._handleCopy(e, `${Constants.gateways.ipfs}/${cid}`),
-                                    },
-                                    {
-                                      text: "Delete",
-                                      onClick: (e) => {
-                                        e.stopPropagation();
-                                        this.setState({ menu: null }, () =>
-                                          this._handleDelete(cid)
-                                        );
-                                      },
-                                    },
-                                  ]}
-                                />
-                              </Boundary>
-                            ) : null}
-                          </div>
-                          <div
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              e.preventDefault();
-                              let checked = this.state.checked;
-                              if (checked[i]) {
-                                delete checked[i];
-                              } else {
-                                checked[i] = true;
-                              }
-                              this.setState({ checked });
+                                  },
+                                ]}
+                              />
+                            </Boundary>
+                          ) : null}
+                        </div>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            let checked = this.state.checked;
+                            if (checked[i]) {
+                              delete checked[i];
+                            } else {
+                              checked[i] = true;
+                            }
+                            this.setState({ checked });
+                          }}
+                        >
+                          <CheckBox
+                            name={i}
+                            value={!!this.state.checked[i]}
+                            onChange={this._handleCheckBox}
+                            boxStyle={{
+                              height: 24,
+                              width: 24,
+                              backgroundColor: this.state.checked[i]
+                                ? Constants.system.brand
+                                : "rgba(255, 255, 255, 0.75)",
                             }}
-                          >
-                            <CheckBox
-                              name={i}
-                              value={!!this.state.checked[i]}
-                              onChange={this._handleCheckBox}
-                              boxStyle={{
-                                height: 24,
-                                width: 24,
-                                backgroundColor: this.state.checked[i]
-                                  ? Constants.system.brand
-                                  : "rgba(255, 255, 255, 0.75)",
-                              }}
-                              style={{
-                                position: "absolute",
-                                bottom: 8,
-                                left: 8,
-                              }}
-                            />
-                          </div>
-                        </React.Fragment>
-                      ) : null}
-                    </span>
-                  </div>
-                );
-              })}
+                            style={{
+                              position: "absolute",
+                              bottom: 8,
+                              left: 8,
+                            }}
+                          />
+                        </div>
+                      </React.Fragment>
+                    ) : null}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           {footer}
           <input
@@ -714,93 +708,91 @@ export default class DataView extends React.Component {
         width: "48px",
       },
     ];
-    const rows = this.props.items
-      .slice(this.state.startIndex, this.state.startIndex + this.state.viewLimit)
-      .map((each, index) => {
-        const cid = each.ipfs.replace("/ipfs/", "");
-        const isOnNetwork = each.networks && each.networks.includes("FILECOIN");
+    const rows = this.props.items.slice(this.state.viewLimit).map((each, index) => {
+      const cid = each.ipfs.replace("/ipfs/", "");
+      const isOnNetwork = each.networks && each.networks.includes("FILECOIN");
 
-        return {
-          ...each,
-          checkbox: (
-            <CheckBox
-              name={index}
-              value={!!this.state.checked[index]}
-              onChange={this._handleCheckBox}
-              boxStyle={{ height: 16, width: 16 }}
-              style={{
-                position: "relative",
-                right: 3,
-                margin: "12px 0",
-                opacity: numChecked > 0 || this.state.hover === index ? "100%" : "0%",
-              }}
-            />
-          ),
-          name: (
-            <FilePreviewBubble url={cid} type={each.type}>
-              <div css={STYLES_CONTAINER_HOVER} onClick={() => this._handleSelect(index)}>
-                <div css={STYLES_ICON_BOX_HOVER} style={{ paddingLeft: 0, paddingRight: 18 }}>
-                  <FileTypeIcon type={each.type} height="24px" />
-                </div>
-                <div css={STYLES_LINK}>{each.file || each.name}</div>
+      return {
+        ...each,
+        checkbox: (
+          <CheckBox
+            name={index}
+            value={!!this.state.checked[index]}
+            onChange={this._handleCheckBox}
+            boxStyle={{ height: 16, width: 16 }}
+            style={{
+              position: "relative",
+              right: 3,
+              margin: "12px 0",
+              opacity: numChecked > 0 || this.state.hover === index ? "100%" : "0%",
+            }}
+          />
+        ),
+        name: (
+          <FilePreviewBubble url={cid} type={each.type}>
+            <div css={STYLES_CONTAINER_HOVER} onClick={() => this._handleSelect(index)}>
+              <div css={STYLES_ICON_BOX_HOVER} style={{ paddingLeft: 0, paddingRight: 18 }}>
+                <FileTypeIcon type={each.type} height="24px" />
               </div>
-            </FilePreviewBubble>
-          ),
-          size: <div css={STYLES_VALUE}>{Strings.bytesToSize(each.size)}</div>,
-          more: (
-            <div
-              css={STYLES_ICON_BOX_HOVER}
-              onClick={
-                this.state.loading[cid]
-                  ? () => {}
-                  : () =>
-                      this.setState({
-                        menu: this.state.menu === each.id ? null : each.id,
-                      })
-              }
-            >
-              {this.state.loading[cid] ? (
-                <LoaderSpinner style={{ height: 24, width: 24 }} />
-              ) : (
-                <SVG.MoreHorizontal height="24px" />
-              )}
-
-              {this.state.menu === each.id ? (
-                <Boundary
-                  captureResize={true}
-                  captureScroll={false}
-                  enabled
-                  onOutsideRectEvent={this._handleHide}
-                >
-                  <PopoverNavigation
-                    style={{
-                      top: "48px",
-                      right: "40px",
-                    }}
-                    navigation={[
-                      {
-                        text: "Copy CID",
-                        onClick: (e) => this._handleCopy(e, cid),
-                      },
-                      {
-                        text: "Copy link",
-                        onClick: (e) => this._handleCopy(e, `${Constants.gateways.ipfs}/${cid}`),
-                      },
-                      {
-                        text: "Delete",
-                        onClick: (e) => {
-                          e.stopPropagation();
-                          this.setState({ menu: null }, () => this._handleDelete(cid));
-                        },
-                      },
-                    ]}
-                  />
-                </Boundary>
-              ) : null}
+              <div css={STYLES_LINK}>{each.file || each.name}</div>
             </div>
-          ),
-        };
-      });
+          </FilePreviewBubble>
+        ),
+        size: <div css={STYLES_VALUE}>{Strings.bytesToSize(each.size)}</div>,
+        more: (
+          <div
+            css={STYLES_ICON_BOX_HOVER}
+            onClick={
+              this.state.loading[cid]
+                ? () => {}
+                : () =>
+                    this.setState({
+                      menu: this.state.menu === each.id ? null : each.id,
+                    })
+            }
+          >
+            {this.state.loading[cid] ? (
+              <LoaderSpinner style={{ height: 24, width: 24 }} />
+            ) : (
+              <SVG.MoreHorizontal height="24px" />
+            )}
+
+            {this.state.menu === each.id ? (
+              <Boundary
+                captureResize={true}
+                captureScroll={false}
+                enabled
+                onOutsideRectEvent={this._handleHide}
+              >
+                <PopoverNavigation
+                  style={{
+                    top: "48px",
+                    right: "40px",
+                  }}
+                  navigation={[
+                    {
+                      text: "Copy CID",
+                      onClick: (e) => this._handleCopy(e, cid),
+                    },
+                    {
+                      text: "Copy link",
+                      onClick: (e) => this._handleCopy(e, `${Constants.gateways.ipfs}/${cid}`),
+                    },
+                    {
+                      text: "Delete",
+                      onClick: (e) => {
+                        e.stopPropagation();
+                        this.setState({ menu: null }, () => this._handleDelete(cid));
+                      },
+                    },
+                  ]}
+                />
+              </Boundary>
+            ) : null}
+          </div>
+        ),
+      };
+    });
 
     const data = {
       columns,

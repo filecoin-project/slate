@@ -282,7 +282,7 @@ export default class SlatePage extends React.Component {
               <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
                 <ProcessedText text={this.props.slate.data.body} />
               </ViewAllButton>
-              <div css={STYLES_STATS}>
+              {/* <div css={STYLES_STATS}>
                 <div css={STYLES_STAT}>
                   <div style={{ color: `${Constants.system.grayBlack}` }}>Data</div>
                   <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
@@ -295,7 +295,9 @@ export default class SlatePage extends React.Component {
                   <div style={{ color: `${Constants.system.grayBlack}` }}>Followers</div>
                   <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
                 </div>
-              </div>
+              </div> 
+              // tara: pending until I got help from Martina on how to pass in the counts.
+              */}
             </div>
           </div>
           <div css={STYLES_SLATE}>

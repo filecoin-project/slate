@@ -16,6 +16,7 @@ const STYLES_CONTAINER = css`
   line-height: 150%;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;

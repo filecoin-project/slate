@@ -42,6 +42,7 @@ const STYLES_CREATOR = css`
   flex-shrink: 0;
   margin-right: 4px;
   text-decoration: none;
+  color: ${Constants.system.black};
 
   :hover {
     color: ${Constants.system.brand};
@@ -73,7 +74,8 @@ const STYLES_TITLE = css`
   font-family: ${Constants.font.medium};
   font-weight: 400;
   color: ${Constants.system.black};
-  width: 70%;
+  width: auto;
+  margin-right: 24px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl2};
@@ -82,7 +84,7 @@ const STYLES_TITLE = css`
 
 const STYLES_FLEX = css`
   display: flex;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
@@ -91,8 +93,9 @@ const STYLES_FLEX = css`
 
 const STYLES_STATS = css`
   font-size: ${Constants.typescale.lvl0};
-  margin-top: 32px;
+  margin-top: 24px;
   display: flex;
+  line-height: 1.5;
 `;
 
 const STYLES_STAT = css`
@@ -104,10 +107,11 @@ padding-left: 12px; */};
 
 const STYLES_BUTTONS = css`
   display: flex;
-  width: 240px;
-  height: 40px;
+  width: 200px;
+  height: 36px;
   border-radius: 4px;
   border: 1px solid ${Constants.system.gray};
+  flex-shrink: 0;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 12px 0;
@@ -116,7 +120,7 @@ const STYLES_BUTTONS = css`
 
 const STYLES_BUTTON = css`
   border-right: 1px solid ${Constants.system.gray};
-  padding: 10px 24px;
+  padding: 8px 4px;
   cursor: pointer;
   width: 50%;
   font-family: ${Constants.font.medium};
@@ -296,19 +300,17 @@ export default class SlatePage extends React.Component {
               <div css={STYLES_STATS}>
                 <div css={STYLES_STAT}>
                   <div style={{ color: `${Constants.system.grayBlack}` }}>Data</div>
-                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>
+                  <div style={{ fontFamily: `${Constants.font.medium}` }}>
                     {this.props.slate.data.objects.length}
                   </div>
                 </div>
                 <div css={STYLES_STAT}>
                   <div style={{ color: `${Constants.system.grayBlack}` }}>Contributors</div>
-                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>
-                    {contributorsCount}
-                  </div>
+                  <div style={{ fontFamily: `${Constants.font.medium}` }}>{contributorsCount}</div>
                 </div>
                 {/* <div css={STYLES_STAT}>
                   <div style={{ color: `${Constants.system.grayBlack}` }}>Followers</div>
-                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
+                  <div style={{ fontFamily: `${Constants.font.medium}` }}>0</div>
                 </div> */}
               </div>
             </div>

@@ -822,7 +822,7 @@ export default class ApplicationPage extends React.Component {
           description="Sign in to your Slate account to manage your assets."
           url="https://slate.host/_"
         >
-          <Alert noWarning style={{ top: 0, width: "100%" }} />
+          <Alert noWarning />
           <SceneSignIn
             onCreateUser={this._handleCreateUser}
             onAuthenticate={this._handleAuthenticate}

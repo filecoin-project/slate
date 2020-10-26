@@ -259,6 +259,13 @@ export default class SlatePage extends React.Component {
     const slateCreator = `${this.props.creator.username} / `;
     const slateTitle = `${this.props.slate.slatename}`;
 
+    const counts = objects.reduce((counts, { ownerId }) => {
+      counts[ownerId] = (counts[ownerId] || 0) + 1;
+      return counts;
+    }, {});
+
+    const contributorsCount = Object.keys(counts).length;
+
     return (
       <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
         <div css={STYLES_ROOT}>
@@ -282,22 +289,24 @@ export default class SlatePage extends React.Component {
               <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
                 <ProcessedText text={this.props.slate.data.body} />
               </ViewAllButton>
-              {/* <div css={STYLES_STATS}>
+              <div css={STYLES_STATS}>
                 <div css={STYLES_STAT}>
                   <div style={{ color: `${Constants.system.grayBlack}` }}>Data</div>
-                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
+                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>
+                    {this.props.slate.data.objects.length}
+                  </div>
                 </div>
                 <div css={STYLES_STAT}>
                   <div style={{ color: `${Constants.system.grayBlack}` }}>Contributors</div>
-                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
+                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>
+                    {contributorsCount}
+                  </div>
                 </div>
-                <div css={STYLES_STAT}>
+                {/* <div css={STYLES_STAT}>
                   <div style={{ color: `${Constants.system.grayBlack}` }}>Followers</div>
                   <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
-                </div>
-              </div> 
-              // tara: pending until I got help from Martina on how to pass in the counts.
-              */}
+                </div> */}
+              </div>
             </div>
           </div>
           <div css={STYLES_SLATE}>

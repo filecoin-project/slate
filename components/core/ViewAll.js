@@ -21,7 +21,6 @@ export const ViewAllButton = (props) => {
   const maxCharacter = props.maxCharacter;
   const displayText = isTruncated ? text.slice(0, maxCharacter) : text;
   const textCount = text.length;
-  console.log(textCount);
 
   return (
     <div>

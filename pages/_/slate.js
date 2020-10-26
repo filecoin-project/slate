@@ -58,8 +58,11 @@ const STYLES_DESCTIPTION = css`
   width: 50%;
   color: ${Constants.system.black};
 
-  @media (max-width: ${Constants.sizes.mobile}px) {
+  @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: 14px;
     margin-top: 4px;
   }

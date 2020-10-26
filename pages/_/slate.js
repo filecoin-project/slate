@@ -30,6 +30,7 @@ const STYLES_SLATE_INTRO = css`
   margin: 0 64px;
   align-items: baseline;
   line-height: 1.3;
+  word-wrap: break-word;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 0 24px;
@@ -58,6 +59,7 @@ const STYLES_DESCTIPTION = css`
   font-family: ${Constants.font.text};
   width: 50%;
   color: ${Constants.system.black};
+  word-wrap: break-word;
 
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
@@ -75,7 +77,9 @@ const STYLES_TITLE = css`
   font-weight: 400;
   color: ${Constants.system.black};
   width: auto;
+  max-width: 100%;
   margin-right: 24px;
+  word-wrap: break-word;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl2};

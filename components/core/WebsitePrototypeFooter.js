@@ -8,8 +8,6 @@ const STYLES_CONTAINER = css`
   position: sticky;
   bottom: 0;
   padding: 8px 64px;
-  width: 100%;
-  margin: 0 auto;
   z-index: ${Constants.zindex.header};
   background-color: ${Constants.system.foreground};
   font-family: ${Constants.font.text};

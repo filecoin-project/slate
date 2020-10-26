@@ -20,14 +20,120 @@ const SIZE_LIMIT = 1000000; //NOTE(martina): 1mb limit for twitter preview image
 const DEFAULT_IMAGE = "";
 
 const STYLES_ROOT = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
   min-height: 100vh;
-  text-align: center;
-  font-size: 1rem;
   background-color: ${Constants.system.white};
+`;
+
+const STYLES_SLATE_INTRO = css`
+  display: flex;
+  margin: 0 64px;
+  align-items: baseline;
+  line-height: 1.3;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 0 24px;
+    display: block;
+    font-size: 14px;
+  }
+`;
+
+const STYLES_CREATOR = css`
+  flex-shrink: 0;
+  margin-right: 4px;
+  text-decoration: none;
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
+
+  :visited {
+    color: ${Constants.system.black};
+  }
+`;
+
+const STYLES_DESCTIPTION = css`
+  font-size: ${Constants.typescale.lvl1};
+  font-family: ${Constants.font.text};
+  width: 50%;
+  color: ${Constants.system.black};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+`;
+
+const STYLES_TITLE = css`
+  font-size: ${Constants.typescale.lvl3};
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
+  color: ${Constants.system.black};
+  width: 70%;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    font-size: ${Constants.typescale.lvl2};
+  }
+`;
+
+const STYLES_FLEX = css`
+  display: flex;
+  margin-bottom: 8px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+  }
+`;
+
+const STYLES_STATS = css`
+  font-size: ${Constants.typescale.lvl0};
+  margin-top: 32px;
+  display: flex;
+`;
+
+const STYLES_STAT = css`
+  margin-right: 48px;
+  width: 80px;
+  ${"" /* border-left: 1px solid ${Constants.system.darkGray};
+padding-left: 12px; */};
+`;
+
+const STYLES_BUTTONS = css`
+  display: flex;
+  width: 240px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid ${Constants.system.gray};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 12px 0;
+  }
+`;
+
+const STYLES_BUTTON = css`
+  border-right: 1px solid ${Constants.system.gray};
+  padding: 10px 24px;
+  cursor: pointer;
+  width: 50%;
+  font-family: ${Constants.font.medium};
+  font-weight: 400;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+
+  :last-child {
+    border-right: none;
+  }
+
+  :hover {
+    background-color: ${Constants.system.gray};
+    transition: 200ms background-color linear;
+  }
+
+  :visited {
+    color: ${Constants.system.black};
+  }
 `;
 
 const STYLES_SLATE = css`
@@ -150,15 +256,48 @@ export default class SlatePage extends React.Component {
       }
     }
 
-    const headerTitle = `${this.props.creator.username} / ${this.props.slate.slatename}`;
+    const slateCreator = `${this.props.creator.username} / `;
+    const slateTitle = `${this.props.slate.slatename}`;
 
     return (
       <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
-          <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
-            <ProcessedText text={this.props.slate.data.body} />
-          </ViewAllButton>
+          <div css={STYLES_SLATE_INTRO}>
+            <a css={STYLES_CREATOR} href={headerURL}>
+              {slateCreator}
+            </a>
+            <div css={STYLES_DESCTIPTION}>
+              <div css={STYLES_FLEX}>
+                <div css={STYLES_TITLE}>{slateTitle} </div>
+                <div css={STYLES_BUTTONS}>
+                  <a css={STYLES_BUTTON} href={"http://slate.host/_"}>
+                    Follow
+                  </a>
+                  <a css={STYLES_BUTTON} href={"http://slate.host/_"}>
+                    Download
+                  </a>
+                </div>
+              </div>
+              <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
+                <ProcessedText text={this.props.slate.data.body} />
+              </ViewAllButton>
+              <div css={STYLES_STATS}>
+                <div css={STYLES_STAT}>
+                  <div style={{ color: `${Constants.system.grayBlack}` }}>Data</div>
+                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
+                </div>
+                <div css={STYLES_STAT}>
+                  <div style={{ color: `${Constants.system.grayBlack}` }}>Contributors</div>
+                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
+                </div>
+                <div css={STYLES_STAT}>
+                  <div style={{ color: `${Constants.system.grayBlack}` }}>Followers</div>
+                  <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div css={STYLES_SLATE}>
             {this.props.mobile ? (
               <SlateLayoutMobile
@@ -181,10 +320,10 @@ export default class SlatePage extends React.Component {
               />
             )}
           </div>
-          <WebsitePrototypeFooter />
         </div>
         <System.GlobalCarousel external current={this.props.slate} viewer={this.props.creator} />
         <System.GlobalModal />
+        <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>
     );
   }

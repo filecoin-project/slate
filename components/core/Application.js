@@ -102,6 +102,8 @@ const SCENES = {
   TARA: <SceneTara />,
 };
 
+let mounted;
+
 export default class ApplicationPage extends React.Component {
   _body;
 
@@ -119,12 +121,11 @@ export default class ApplicationPage extends React.Component {
   };
 
   async componentDidMount() {
-    let wsclient = null;
-    if (this.props.resources && !Strings.isEmpty(this.props.resources.pubsub)) {
-      wsclient = Websockets.init({ resource: this.props.resources.pubsub });
+    if (mounted) {
+      return false;
     }
 
-    console.log({ wsclient });
+    mounted = true;
 
     window.addEventListener("dragenter", this._handleDragEnter);
     window.addEventListener("dragleave", this._handleDragLeave);
@@ -135,6 +136,17 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("resize", this._handleWindowResize);
 
     const id = Window.getQueryParameterByName("scene");
+
+    let wsclient = Websockets.getClient();
+    if (wsclient) {
+      await Websockets.deleteClient();
+      wsclient = null;
+    }
+
+    wsclient = this._handleSetupWebsocket();
+    if (!wsclient) {
+      console.log("WEBSOCKET: INIT FAILED");
+    }
 
     if (!Strings.isEmpty(id) && this.state.viewer) {
       return this._handleNavigateTo({ id });
@@ -147,7 +159,30 @@ export default class ApplicationPage extends React.Component {
     window.removeEventListener("dragover", this._handleDragOver);
     window.removeEventListener("drop", this._handleDrop);
     window.removeEventListener("resize", this._handleWindowResize);
+
+    mounted = false;
+
+    let wsclient = Websockets.getClient();
+    if (wsclient) {
+      Websockets.deleteClient();
+    }
   }
+
+  _handleSetupWebsocket = () => {
+    if (this.props.resources && !Strings.isEmpty(this.props.resources.pubsub)) {
+      if (!this.state.viewer) {
+        console.log("WEBSOCKET: NOT AUTHENTICATED");
+        return null;
+      }
+
+      return Websockets.init({
+        resource: this.props.resources.pubsub,
+        viewer: this.state.viewer,
+      });
+    }
+
+    return null;
+  };
 
   _handleWindowResize = () => {
     const { width } = Window.getViewportSize();
@@ -557,6 +592,12 @@ export default class ApplicationPage extends React.Component {
 
     await this._handleSignOut();
 
+    let wsclient = Websockets.getClient();
+    if (wsclient) {
+      await Websockets.deleteClient();
+      wsclient = null;
+    }
+
     return response;
   };
 
@@ -599,10 +640,28 @@ export default class ApplicationPage extends React.Component {
     }
 
     await this.rehydrate();
+
+    let wsclient = Websockets.getClient();
+    if (wsclient) {
+      await Websockets.deleteClient();
+      wsclient = null;
+    }
+
+    wsclient = this._handleSetupWebsocket();
+    if (!wsclient) {
+      console.log("WEBSOCKET: INIT FAILED.");
+    }
+
     return response;
   };
 
-  _handleSignOut = () => {
+  _handleSignOut = async () => {
+    let wsclient = Websockets.getClient();
+    if (wsclient) {
+      await Websockets.deleteClient();
+      wsclient = null;
+    }
+
     const jwt = cookies.get(Credentials.session.key);
 
     if (jwt) {
@@ -854,8 +913,10 @@ export default class ApplicationPage extends React.Component {
     const title = `Slate : ${current.target.pageTitle}`;
     const description = "";
     const url = "https://slate.host/_";
-    console.log(current.target);
-    console.log(this.state.data);
+
+    console.log({ target: current.target });
+    console.log({ data: this.state.data });
+
     return (
       <React.Fragment>
         <WebsitePrototypeWrapper description={description} title={title} url={url}>

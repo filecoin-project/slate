@@ -124,6 +124,7 @@ const STYLES_BUTTON = css`
   font-size: 14px;
   text-align: center;
   text-decoration: none;
+  color: ${Constants.system.black};
 
   :last-child {
     border-right: none;

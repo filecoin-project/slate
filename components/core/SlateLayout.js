@@ -1458,13 +1458,14 @@ export class SlateLayout extends React.Component {
                                 onClick={(e) => {
                                   this._handleCopy(
                                     e,
-                                    `${this.props.link}/cid:${Strings.urlToCid(
-                                      this.state.items[i].url
-                                    )}` ||
-                                      this.state.items[i].url.replace(
-                                        "https://undefined",
-                                        "https://"
-                                      )
+                                    this.props.link
+                                      ? `${this.props.link}/cid:${Strings.urlToCid(
+                                          this.state.items[i].url
+                                        )}`
+                                      : this.state.items[i].url.replace(
+                                          "https://undefined",
+                                          "https://"
+                                        )
                                   );
                                 }}
                                 onMouseDown={this._stopProp}

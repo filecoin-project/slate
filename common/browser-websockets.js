@@ -1,9 +1,10 @@
 import * as Window from "~/common/window";
+import * as Strings from "~/common/strings";
 
 let pingTimeout = null;
 let client = null;
 
-export const init = ({ resource = "", viewer }) => {
+export const init = ({ resource = "", viewer, onUpdate }) => {
   console.log(`${resource}: init`);
 
   if (client) {
@@ -41,7 +42,31 @@ export const init = ({ resource = "", viewer }) => {
       return;
     }
 
-    console.log(`${resource}: ${event.data}`);
+    if (Strings.isEmpty(event.data)) {
+      return;
+    }
+
+    let type;
+    let data;
+    try {
+      const response = JSON.parse(event.data);
+      type = response.type;
+      data = response.data;
+    } catch (e) {
+      console.log(e);
+    }
+
+    if (!data) {
+      return;
+    }
+
+    if (!type) {
+      return;
+    }
+
+    if (type === "UPDATE" && onUpdate) {
+      onUpdate(data);
+    }
   });
 
   client.addEventListener("close", (e) => {
@@ -49,8 +74,7 @@ export const init = ({ resource = "", viewer }) => {
       return;
     }
 
-    client.send(JSON.stringify({ type: "NOTICE", data: `closing ...` }));
-
+    console.log(`${resource}: closed`);
     clearTimeout(pingTimeout);
   });
 

@@ -3,8 +3,12 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/node_common/constants";
 import * as Social from "~/node_common/social";
 
+import crypto from "crypto";
 import JWT from "jsonwebtoken";
 import BCrypt from "bcrypt";
+
+const ENCRYPTION_ALGORITHM = "aes-256-ctr";
+const ENCRYPTION_IV = crypto.randomBytes(16);
 
 import { Buckets, PrivateKey, Pow, Client, ThreadID } from "@textile/hub";
 
@@ -69,6 +73,16 @@ export const getIdFromCookie = (req) => {
   }
 
   return id;
+};
+
+export const encryptWithSecret = async (text, secret) => {
+  const cipher = crypto.createCipheriv(ENCRYPTION_ALGORITHM, secret, ENCRYPTION_IV);
+  const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
+
+  return {
+    iv: ENCRYPTION_IV.toString("hex"),
+    hex: encrypted.toString("hex"),
+  };
 };
 
 export const encryptPassword = async (text, salt) => {

@@ -10,7 +10,7 @@ import * as FileUtilities from "~/common/file-utilities";
 import * as System from "~/components/system";
 import * as Window from "~/common/window";
 import * as Store from "~/common/store";
-import * as Websockets from "~/common/websockets";
+import * as Websockets from "~/common/browser-websockets";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -168,6 +168,16 @@ export default class ApplicationPage extends React.Component {
     }
   }
 
+  _handleUpdateViewer = (newViewerState) => {
+    console.log({ newViewerState });
+
+    if (this.state.viewer && newViewerState.id && newViewerState.id === this.state.viewer.id) {
+      this.setState({
+        viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
+      });
+    }
+  };
+
   _handleSetupWebsocket = () => {
     if (this.props.resources && !Strings.isEmpty(this.props.resources.pubsub)) {
       if (!this.state.viewer) {
@@ -178,6 +188,7 @@ export default class ApplicationPage extends React.Component {
       return Websockets.init({
         resource: this.props.resources.pubsub,
         viewer: this.state.viewer,
+        onUpdate: this._handleUpdateViewer,
       });
     }
 

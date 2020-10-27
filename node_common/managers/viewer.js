@@ -4,17 +4,60 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { WebsocketTransport } from "@textile/grpc-transport";
 grpc.setDefaultTransport(WebsocketTransport());
 
+import * as Environment from "~/node_common/environment";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Constants from "~/node_common/constants";
 import * as Serializers from "~/node_common/serializers";
 import * as Social from "~/node_common/social";
 import * as Strings from "~/common/strings";
+import * as Websocket from "~/node_common/nodejs-websocket";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
 const delay = async (waitMs) => {
   return await new Promise((resolve) => setTimeout(resolve, waitMs));
+};
+
+Websocket.create();
+
+export const hydratePartialViewer = async (user) => {
+  const data = {
+    ...Serializers.user(user),
+    type: "PARTIAL_VIEWER",
+    library: user.data.library,
+    onboarding: user.data.onboarding || {},
+
+    // TODO(jim): Move this elsewhere.
+    allow_filecoin_directory_listing: user.data.allow_filecoin_directory_listing
+      ? user.data.allow_filecoin_directory_listing
+      : null,
+    allow_automatic_data_storage: user.data.allow_automatic_data_storage
+      ? user.data.allow_automatic_data_storage
+      : null,
+    allow_encrypted_data_storage: user.data.allow_encrypted_data_storage
+      ? user.data.allow_encrypted_data_storage
+      : null,
+  };
+
+  if (Strings.isEmpty(Environment.PUBSUB_SECRET)) {
+    return;
+  }
+
+  const ws = Websocket.get();
+  const encryptedData = await Utilities.encryptWithSecret(
+    JSON.stringify(data),
+    Environment.PUBSUB_SECRET
+  );
+
+  // NOTE(jim): Only allow this to be passed around encrypted.
+  ws.send(
+    JSON.stringify({
+      type: "UPDATE",
+      iv: encryptedData.iv,
+      data: encryptedData.hex,
+    })
+  );
 };
 
 // TODO(jim): Work on better serialization when adoption starts occuring.

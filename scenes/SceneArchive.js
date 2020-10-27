@@ -59,8 +59,6 @@ export default class SceneArchive extends React.Component {
       },
     });
 
-    await this.props.onRehydrate();
-
     this.setState({ changingFilecoin: false });
   };
 

@@ -143,9 +143,19 @@ export default class ApplicationPage extends React.Component {
       wsclient = null;
     }
 
-    wsclient = this._handleSetupWebsocket();
-    if (!wsclient) {
-      console.log("WEBSOCKET: INIT FAILED");
+    if (this.state.viewer) {
+      wsclient = this._handleSetupWebsocket();
+      if (!wsclient) {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message:
+                "We cannot connect to our live update server. You may have to refresh to see updates.",
+            },
+          },
+        });
+      }
     }
 
     if (!Strings.isEmpty(id) && this.state.viewer) {
@@ -413,6 +423,8 @@ export default class ApplicationPage extends React.Component {
       return;
     }
 
+    // TODO(jim): Remove this once the viewer is being broadcasted for
+    //            this case.
     await this.rehydrate({ resetFiles: true });
 
     // //NOTE(martina): to update the carousel to include the new file if you're on the data view page
@@ -573,6 +585,8 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
+    // TODO(jim): Remove this once the viewer is being broadcasted for
+    //            this case.
     await this.rehydrate();
 
     this._handleDismissSidebar();
@@ -650,6 +664,8 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
+    // TODO(jim): Remove this once the viewer is being broadcasted for
+    //            this case.
     await this.rehydrate();
 
     let wsclient = Websockets.getClient();
@@ -660,7 +676,15 @@ export default class ApplicationPage extends React.Component {
 
     wsclient = this._handleSetupWebsocket();
     if (!wsclient) {
-      console.log("WEBSOCKET: INIT FAILED.");
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We cannot connect to our live update server. You may have to refresh to see updates.",
+          },
+        },
+      });
     }
 
     return response;

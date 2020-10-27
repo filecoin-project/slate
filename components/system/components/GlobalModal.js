@@ -36,6 +36,7 @@ const STYLES_MODAL = css`
 export class GlobalModal extends React.Component {
   state = {
     modal: null,
+    noBoundary: false,
   };
 
   componentDidMount = () => {
@@ -59,7 +60,10 @@ export class GlobalModal extends React.Component {
   };
 
   _handleCreate = (e) => {
-    this.setState({ modal: e.detail.modal });
+    this.setState({
+      modal: e.detail.modal,
+      noBoundary: e.detail.noBoundary,
+    });
   };
 
   _handleDelete = (e) => {
@@ -90,7 +94,7 @@ export class GlobalModal extends React.Component {
         aria-label={this.props.label ? this.props.label : "modal"}
       >
         <Boundary
-          enabled
+          enabled={!this.state.noBoundary}
           onOutsideRectEvent={this._handleDelete}
           isDataMenuCaptured={true}
         >

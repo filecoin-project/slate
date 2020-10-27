@@ -38,6 +38,7 @@ export default async (req, res) => {
   let onboarding = user.data.onboarding;
   if (!onboarding) {
     onboarding = {};
+    onboarding[item] = true;
   }
   for (let item of req.body.data.onboarding) {
     onboarding[item] = true;

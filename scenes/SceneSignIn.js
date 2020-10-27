@@ -8,7 +8,6 @@ import * as Strings from "~/common/strings";
 import { css } from "@emotion/react";
 import { Logo, Symbol } from "~/common/logo";
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { OnboardingModal } from "~/components/core/OnboardingModal";
 
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
@@ -192,8 +191,7 @@ export default class SceneSignIn extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later.",
+            message: "We're having trouble connecting right now. Please try again later.",
           },
         },
       });
@@ -208,16 +206,6 @@ export default class SceneSignIn extends React.Component {
       });
       this.setState({ loading: false });
       return;
-    }
-
-    this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
-    if (this.state.scene === "CREATE_ACCOUNT") {
-      dispatchCustomEvent({
-        name: "create-modal",
-        detail: {
-          modal: <OnboardingModal />,
-        },
-      });
     }
   };
 
@@ -247,8 +235,7 @@ export default class SceneSignIn extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later.",
+            message: "We're having trouble connecting right now. Please try again later.",
           },
         },
       });
@@ -292,10 +279,7 @@ export default class SceneSignIn extends React.Component {
       return (
         <React.Fragment>
           <div css={STYLES_POPOVER} key={this.state.scene}>
-            <Logo
-              height="36px"
-              style={{ display: "block", margin: "56px auto 0px auto" }}
-            />
+            <Logo height="36px" style={{ display: "block", margin: "56px auto 0px auto" }} />
 
             <System.P style={{ margin: "56px 0", textAlign: "center" }}>
               An open-source file sharing network for research and collaboration

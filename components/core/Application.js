@@ -59,6 +59,7 @@ import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
 
+import { OnboardingModal } from "~/components/core/OnboardingModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { Alert } from "~/components/core/Alert";
 
@@ -622,10 +623,10 @@ export default class ApplicationPage extends React.Component {
       return response;
     }
 
-    return this._handleAuthenticate(state);
+    return this._handleAuthenticate(state, true);
   };
 
-  _handleAuthenticate = async (state) => {
+  _handleAuthenticate = async (state, newAccount) => {
     // NOTE(jim): Kills existing session cookie if there is one.
     const jwt = cookies.get(Credentials.session.key);
 
@@ -663,6 +664,18 @@ export default class ApplicationPage extends React.Component {
       console.log("WEBSOCKET: INIT FAILED.");
     }
 
+    this._handleAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
+
+    let unseenAnnouncements = false; //TODO(tara): change this to something that checks this.state.viewer for whether they have seen all the current annoucements
+    if (newAccount || unseenAnnouncements) {
+      dispatchCustomEvent({
+        name: "create-modal",
+        detail: {
+          modal: <OnboardingModal viewer={this.state.viewer} newAccount={newAccount} />,
+          noBoundary: true,
+        },
+      });
+    }
     return response;
   };
 

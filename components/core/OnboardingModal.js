@@ -63,10 +63,7 @@ export class OnboardingModal extends React.Component {
         />
       ),
       button: (
-        <ButtonPrimary
-          style={{ width: 160 }}
-          onClick={() => this._handleClick(1)}
-        >
+        <ButtonPrimary style={{ width: 160 }} onClick={() => this._handleClick(1)}>
           Got it
         </ButtonPrimary>
       ),
@@ -89,10 +86,7 @@ export class OnboardingModal extends React.Component {
               Get extension
             </ButtonPrimary>
           </a> */}
-          <ButtonPrimary
-            style={{ width: 160 }}
-            onClick={() => this._handleClick(1)}
-          >
+          <ButtonPrimary style={{ width: 160 }} onClick={() => this._handleClick(1)}>
             Next
           </ButtonPrimary>
         </React.Fragment>
@@ -133,9 +127,7 @@ export class OnboardingModal extends React.Component {
     return (
       <div css={STYLES_MODAL}>
         {this.onboardingCopy[this.state.step].image}
-        <div css={STYLES_TITLE}>
-          {this.onboardingCopy[this.state.step].title}
-        </div>
+        <div css={STYLES_TITLE}>{this.onboardingCopy[this.state.step].title}</div>
         <div css={STYLES_TEXT}>{this.onboardingCopy[this.state.step].text}</div>
         {this.onboardingCopy[this.state.step].button}
       </div>

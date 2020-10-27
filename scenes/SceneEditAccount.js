@@ -266,7 +266,7 @@ export default class SceneEditAccount extends React.Component {
                 htmlFor="file"
                 loading={this.state.changingAvatar}
               >
-                Pick avatar
+                Upload avatar
               </System.ButtonPrimary>
             </div>
             <System.Input
@@ -318,7 +318,7 @@ export default class SceneEditAccount extends React.Component {
 
             <div style={{ marginTop: 24 }}>
               <System.ButtonPrimary onClick={this._handleSaveBio} loading={this.state.changingBio}>
-                Update information
+                Save
               </System.ButtonPrimary>
             </div>
           </div>
@@ -365,7 +365,7 @@ export default class SceneEditAccount extends React.Component {
                 onClick={this._handleSaveFilecoin}
                 loading={this.state.changingFilecoin}
               >
-                Save archiving settings
+                Save
               </System.ButtonPrimary>
             </div>
           </div>

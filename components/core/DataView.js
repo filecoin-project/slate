@@ -561,6 +561,7 @@ export default class DataView extends React.Component {
                     onMouseLeave={() => this.setState({ hover: null })}
                   >
                     <SlateMediaObjectPreview
+                      blurhash={each.blurhash}
                       url={`${Constants.gateways.ipfs}/${each.ipfs.replace("/ipfs/", "")}`}
                       title={each.file || each.name}
                       type={each.type || each.icon}

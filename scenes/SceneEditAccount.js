@@ -4,6 +4,7 @@ import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
+import * as Window from "~/common/window";
 import * as FileUtilities from "~/common/file-utilities";
 
 import { css } from "@emotion/react";
@@ -11,6 +12,7 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 import { TabGroup } from "~/components/core/TabGroup";
 
 import ScenePage from "~/components/core/ScenePage";
+import ScenePageHeader from "~/components/core/ScenePageHeader";
 import Avatar from "~/components/core/Avatar";
 
 const STYLES_FILE_HIDDEN = css`
@@ -22,13 +24,6 @@ const STYLES_FILE_HIDDEN = css`
   top: -1px;
   left: -1px;
 `;
-
-const delay = (time) =>
-  new Promise((resolve) =>
-    setTimeout(() => {
-      resolve();
-    }, time)
-  );
 
 const STYLES_COPY_INPUT = css`
   pointer-events: none;
@@ -117,8 +112,6 @@ export default class SceneEditAccount extends React.Component {
       },
     });
 
-    await this.props.onRehydrate();
-
     this.setState({ changingAvatar: false, photo: url });
   };
 
@@ -133,7 +126,6 @@ export default class SceneEditAccount extends React.Component {
       },
     });
 
-    await this.props.onRehydrate();
     this.setState({ changingBio: false });
   };
 
@@ -151,7 +143,6 @@ export default class SceneEditAccount extends React.Component {
       },
     });
 
-    await this.props.onRehydrate();
     this.setState({ changingFilecoin: false });
   };
 
@@ -180,7 +171,6 @@ export default class SceneEditAccount extends React.Component {
       },
     });
 
-    await this.props.onRehydrate();
     this.setState({ changingUsername: false });
   };
 
@@ -222,7 +212,7 @@ export default class SceneEditAccount extends React.Component {
   _handleDelete = async (e) => {
     this.setState({ deleting: true });
 
-    await delay(100);
+    await Window.delay(100);
 
     const response = await this.props.onDeleteYourself();
     this.setState({ deleting: false });
@@ -239,10 +229,10 @@ export default class SceneEditAccount extends React.Component {
 
   render() {
     const profileURL = `https://slate.host/${this.state.username}`;
-    console.log(this.props.viewer);
 
     return (
       <ScenePage>
+        <ScenePageHeader title="Settings" />
         <TabGroup
           tabs={["Profile", "Data Storage", "Security", "Account"]}
           value={this.state.tab}

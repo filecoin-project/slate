@@ -6,6 +6,19 @@ export const delay = async (waitMs) => {
   return await new Promise((resolve) => setTimeout(resolve, waitMs));
 };
 
+export const debounce = (func, wait) => {
+  let timeout;
+
+  return function executedFunction(...args) {
+    const later = () => {
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
 export const checkIfElementIsVisible = (el) => {
   const rect = el.getBoundingClientRect();
   const windowHeight = window.innerHeight || document.documentElement.clientHeight;

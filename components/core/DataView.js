@@ -226,19 +226,6 @@ export default class DataView extends React.Component {
     window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }
 
-  _handleDebounce = (func, wait) => {
-    let timeout;
-
-    return function executedFunction(...args) {
-      const later = () => {
-        func(...args);
-      };
-
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  };
-
   _handleScroll = (e) => {
     const windowHeight =
       "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
@@ -258,7 +245,7 @@ export default class DataView extends React.Component {
     console.log(e);
   };
 
-  _handleCheckScroll = this._handleDebounce(this._handleScroll, 200);
+  _handleCheckScroll = window.bounce(this._handleScroll, 200);
 
   _handleCheckBox = (e) => {
     let checked = this.state.checked;

@@ -104,3 +104,16 @@ export const isMobileBrowser = (userAgent) => {
 
   return !!mobile;
 };
+
+export const debounce = (func, wait) => {
+  let timeout;
+
+  return function passedInFunction(...args) {
+    const later = () => {
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};

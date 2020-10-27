@@ -4,6 +4,7 @@ import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as SVG from "~/common/svg";
+import * as Window from "~/common/window";
 
 import { css } from "@emotion/react";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
@@ -18,8 +19,6 @@ import { TabGroup } from "~/components/core/TabGroup";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import FilePreviewBubble from "~/components/core/FilePreviewBubble";
-
-const VIEW_LIMIT = 20;
 
 const STYLES_CONTAINER_HOVER = css`
   display: flex;
@@ -106,12 +105,6 @@ const STYLES_ICON_BOX_BACKGROUND = css`
   right: 8px;
 `;
 
-const STYLES_ARROWS = css`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`;
-
 const STYLES_ACTION_BAR = css`
   display: flex;
   align-items: center;
@@ -150,28 +143,6 @@ const STYLES_FILES_SELECTED = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
-  }
-`;
-
-const STYLES_ICON_ELEMENT = css`
-  height: 40px;
-  width: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #565151;
-  user-select: none;
-  cursor: pointer;
-  pointer-events: auto;
-  margin: 16px 8px;
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-
-  svg {
-    transform: rotate(0deg);
-    transition: 200ms ease transform;
   }
 `;
 
@@ -228,9 +199,11 @@ export default class DataView extends React.Component {
   state = {
     menu: null,
     loading: {},
-    startIndex: 0,
     checked: {},
+    startIndex: 0,
     view: "grid",
+    viewLimit: 40,
+    scrollDebounce: false,
   };
 
   async componentDidMount() {
@@ -240,6 +213,9 @@ export default class DataView extends React.Component {
       window.addEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
       window.addEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
     }
+
+    window.addEventListener("scroll", this._handleScroll);
+    await this._handleCheckScroll();
   }
 
   componentWillUnmount() {
@@ -247,18 +223,30 @@ export default class DataView extends React.Component {
     window.removeEventListener("remote-data-deletion", this._handleDataDeletion);
     window.removeEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
     window.removeEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
+    window.removeEventListener("scroll", this._handleCheckScroll);
+    window.removeEventListener("remote-update-carousel", this._handleUpdate);
   }
 
-  _increment = (direction) => {
-    if (
-      direction > 0 &&
-      this.state.startIndex + VIEW_LIMIT < this.props.viewer.library[0].children.length
-    ) {
-      this.setState({ startIndex: this.state.startIndex + VIEW_LIMIT });
-    } else if (direction < 0 && this.state.startIndex - VIEW_LIMIT >= 0) {
-      this.setState({ startIndex: this.state.startIndex - VIEW_LIMIT });
+  _handleScroll = (e) => {
+    const windowHeight =
+      "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const docHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+    const windowBottom = windowHeight + window.pageYOffset;
+    if (windowBottom >= docHeight - 600) {
+      this.setState({ viewLimit: this.state.viewLimit + 30 });
     }
+    console.log(e);
   };
+
+  _handleCheckScroll = Window.debounce(this._handleScroll, 200);
 
   _handleCheckBox = (e) => {
     let checked = this.state.checked;
@@ -444,7 +432,6 @@ export default class DataView extends React.Component {
 
   _handleCopy = (e, value) => {
     e.stopPropagation();
-
     this._handleHide();
     this.setState({ copyValue: value }, () => {
       this._ref.select();
@@ -526,36 +513,6 @@ export default class DataView extends React.Component {
     );
     const footer = (
       <React.Fragment>
-        <div css={STYLES_ARROWS}>
-          <span
-            css={STYLES_ICON_ELEMENT}
-            style={
-              this.state.startIndex - VIEW_LIMIT >= 0
-                ? null
-                : {
-                    cursor: "not-allowed",
-                    color: Constants.system.border,
-                  }
-            }
-            onClick={() => this._increment(-1)}
-          >
-            <SVG.NavigationArrow height="24px" style={{ transform: `rotate(180deg)` }} />
-          </span>
-          <span
-            css={STYLES_ICON_ELEMENT}
-            style={
-              this.state.startIndex + VIEW_LIMIT < this.props.viewer.library[0].children.length
-                ? null
-                : {
-                    cursor: "not-allowed",
-                    color: Constants.system.border,
-                  }
-            }
-            onClick={() => this._increment(1)}
-          >
-            <SVG.NavigationArrow height="24px" />
-          </span>
-        </div>
         {numChecked ? (
           <div css={STYLES_ACTION_BAR}>
             <div css={STYLES_LEFT}>
@@ -594,14 +551,14 @@ export default class DataView extends React.Component {
           {header}
           <div css={STYLES_IMAGE_GRID}>
             {this.props.items
-              .slice(this.state.startIndex, this.state.startIndex + VIEW_LIMIT)
+              .slice(this.state.startIndex, this.state.startIndex + this.state.viewLimit)
               .map((each, i) => {
                 const cid = each.ipfs.replace("/ipfs/", "");
                 return (
                   <div
                     key={each.id}
                     css={STYLES_IMAGE_BOX}
-                    onClick={() => this._handleSelect(i + this.state.startIndex)}
+                    onClick={() => this._handleSelect(i)}
                     onMouseEnter={() => this.setState({ hover: i })}
                     onMouseLeave={() => this.setState({ hover: null })}
                   >
@@ -674,22 +631,22 @@ export default class DataView extends React.Component {
                               e.stopPropagation();
                               e.preventDefault();
                               let checked = this.state.checked;
-                              if (checked[this.state.startIndex + i]) {
-                                delete checked[this.state.startIndex + i];
+                              if (checked[i]) {
+                                delete checked[i];
                               } else {
-                                checked[this.state.startIndex + i] = true;
+                                checked[i] = true;
                               }
                               this.setState({ checked });
                             }}
                           >
                             <CheckBox
-                              name={this.state.startIndex + i}
-                              value={!!this.state.checked[this.state.startIndex + i]}
+                              name={i}
+                              value={!!this.state.checked[i]}
                               onChange={this._handleCheckBox}
                               boxStyle={{
                                 height: 24,
                                 width: 24,
-                                backgroundColor: this.state.checked[this.state.startIndex + i]
+                                backgroundColor: this.state.checked[i]
                                   ? Constants.system.brand
                                   : "rgba(255, 255, 255, 0.75)",
                               }}
@@ -749,7 +706,7 @@ export default class DataView extends React.Component {
       },
     ];
     const rows = this.props.items
-      .slice(this.state.startIndex, this.state.startIndex + VIEW_LIMIT)
+      .slice(this.state.startIndex, this.state.startIndex + this.state.viewLimit)
       .map((each, index) => {
         const cid = each.ipfs.replace("/ipfs/", "");
         const isOnNetwork = each.networks && each.networks.includes("FILECOIN");
@@ -758,8 +715,8 @@ export default class DataView extends React.Component {
           ...each,
           checkbox: (
             <CheckBox
-              name={this.state.startIndex + index}
-              value={!!this.state.checked[this.state.startIndex + index]}
+              name={index}
+              value={!!this.state.checked[index]}
               onChange={this._handleCheckBox}
               boxStyle={{ height: 16, width: 16 }}
               style={{
@@ -772,10 +729,7 @@ export default class DataView extends React.Component {
           ),
           name: (
             <FilePreviewBubble url={cid} type={each.type}>
-              <div
-                css={STYLES_CONTAINER_HOVER}
-                onClick={() => this._handleSelect(this.state.startIndex + index)}
-              >
+              <div css={STYLES_CONTAINER_HOVER} onClick={() => this._handleSelect(index)}>
                 <div css={STYLES_ICON_BOX_HOVER} style={{ paddingLeft: 0, paddingRight: 18 }}>
                   <FileTypeIcon type={each.type} height="24px" />
                 </div>

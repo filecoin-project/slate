@@ -101,7 +101,7 @@ export const isMobileBrowser = (userAgent) => {
 export const _checkDebounce = (func, wait) => {
   let timeout;
 
-  return function executedFunction(...args) {
+  return function passedInFunction(...args) {
     const later = () => {
       func(...args);
     };

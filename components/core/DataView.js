@@ -4,6 +4,7 @@ import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as SVG from "~/common/svg";
+import * as Window from "~/common/window";
 
 import { css } from "@emotion/react";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
@@ -245,7 +246,7 @@ export default class DataView extends React.Component {
     console.log(e);
   };
 
-  _handleCheckScroll = window.bounce(this._handleScroll, 200);
+  _handleCheckScroll = Window._checkDebounce(this._handleScroll, 200);
 
   _handleCheckBox = (e) => {
     let checked = this.state.checked;

@@ -22,12 +22,6 @@ const app = next({
   quiet: false,
 });
 
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 const handler = app.getRequestHandler();
 
 const EXTERNAL_RESOURCES = {

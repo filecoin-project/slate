@@ -22,12 +22,6 @@ const app = next({
   quiet: false,
 });
 
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 const handler = app.getRequestHandler();
 
 const EXTERNAL_RESOURCES = {
@@ -55,27 +49,10 @@ app.prepare().then(async () => {
   server.get("/experiences", async (r, s) => s.redirect("/_/system"));
   server.get("/_/experiences", async (r, s) => s.redirect("/_/system"));
   server.get("/system/:c", async (r, s) => s.redirect(`/_/system/${r.params.c}`));
-
   server.get("/experiences/:m", async (r, s) => s.redirect(`/_/experiences/${r.params.m}`));
 
   server.all("/api/:a", async (r, s, next) => {
     return handler(r, s, r.url);
-  });
-
-  // NOTE(jim): Upload data
-  server.post("/api/data/:b", async (req, res) => {
-    // NOTE(jim): Let this request take as long as it needs to.
-    req.setTimeout(0);
-
-    return await handler(req, res, req.url);
-  });
-
-  // NOTE(jim): Upload data for deal
-  server.post("/api/data/deal/:b", async (req, res) => {
-    // NOTE(jim): Let this request take as long as it needs to.
-    req.setTimeout(0);
-
-    return await handler(req, res, req.url);
   });
 
   server.all("/api/:a/:b", async (r, s, next) => {

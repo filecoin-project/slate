@@ -120,15 +120,25 @@ export const upload = async ({ file, context, bucketName, routes }) => {
       XHR.send(formData);
     });
 
-  let res;
-  // TODO(jim): Make this smarter.
-
   const storageDealRoute =
-    routes && routes.storageDealUpload
-      ? `${routes.storageDealUpload}/api/deal/`
-      : `/api/data/deal/`;
-  const generalRoute = routes && routes.upload ? `${routes.upload}/api/data/` : "/api/data/";
+    routes && routes.storageDealUpload ? `${routes.storageDealUpload}/api/deal/` : null;
+  const generalRoute = routes && routes.upload ? `${routes.upload}/api/data/` : null;
 
+  if (!storageDealRoute || !generalRoute) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "We could not find our upload server." },
+      },
+    });
+
+    return {
+      decorator: "NO_UPLOAD_RESOURCE_URI_ATTACHED",
+      error: true,
+    };
+  }
+
+  let res;
   if (bucketName && bucketName === STAGING_DEAL_BUCKET) {
     res = await _privateUploadMethod(`${storageDealRoute}${file.name}`, file);
   } else {
@@ -154,7 +164,7 @@ export const upload = async ({ file, context, bucketName, routes }) => {
       },
     });
 
-    return !res ? { error: "NO_RESPONSE" } : res;
+    return !res ? { decorator: "NO_RESPONSE_FROM_SERVER", error: true } : res;
   }
 
   if (res.data.data.type.startsWith("image/")) {

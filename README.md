@@ -66,16 +66,27 @@ POSTGRES_ADMIN_PASSWORD=XXX
 POSTGRES_ADMIN_USERNAME=XXX
 POSTGRES_HOSTNAME=XXX
 POSTGRES_DATABASE=XXX
-JWT_SECRET=XXX
 LOCAL_PASSWORD_SECRET=XXX
 LOCAL_PASSWORD_ROUNDS_MANUAL=5
 LOCAL_PASSWORD_ROUNDS=14
 TEXTILE_HUB_KEY=XXX
 TEXTILE_HUB_SECRET=XXX
-RESOURCE_URI_UPLOAD=http://localhost:8888
-RESOURCE_URI_STORAGE_UPLOAD=http://localhost:8888
-RESOURCE_URI_PUBSUB=http://localhost:5555
+JWT_SECRET=XXX
+PUBSUB_SECRET=pKLO4lbzdMrhAFKwPo9bnmq03bxQrtu3
+RESOURCE_URI_UPLOAD=http://localhost:4242
+RESOURCE_URI_STORAGE_UPLOAD=http://localhost:4242
+RESOURCE_URI_PUBSUB=ws://localhost:6464
 ```
+
+### Setup pubsub server
+
+- In another terminal window, clone https://github.com/slate-engineering/fiji
+- You can use the same secrets
+
+### Setup file upload server
+
+- In another terminal window, clone https://github.com/slate-engineering/shovel
+- You can use the same secrets
 
 ### Install and run
 
@@ -88,13 +99,12 @@ npm install
 npm run dev
 ```
 
-![screenshot](https://user-images.githubusercontent.com/310223/84878302-7d028700-b03e-11ea-82c4-c53dca9d7e65.png)
-
 - Visit `localhost:1337` in a browser.
+- You should have 3 terminal screens open unless you don't want real time updates and file upload support.
 
-### Design System
+## Design System
 
-Our design system is outdated but we will be updating it again soon.
+Our design system is out of date and could use an update.
 
 - [Use our components](https://slate.host/_/system)
 - [Design System Release Repository](https://github.com/filecoin-project/slate-react-system)

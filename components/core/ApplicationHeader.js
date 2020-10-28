@@ -39,9 +39,7 @@ const STYLES_APPLICATION_HEADER = css`
   pointer-events: none;
   background-color: ${Constants.system.white};
 
-  @supports (
-    (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
-  ) {
+  @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
     background-color: rgba(255, 255, 255, 0.75);
@@ -105,8 +103,38 @@ const STYLES_STATIC = css`
 `;
 
 export default class ApplicationHeader extends React.Component {
+  keysPressed = {};
+
   state = {
     isRefreshing: false,
+  };
+
+  componentDidMount = () => {
+    window.addEventListener("keydown", this._handleKeyDown);
+    window.addEventListener("keyup", this._handleKeyUp);
+  };
+
+  //TODO toast: add a command-f light text next to svg
+  //add cmd svg to header
+  //add on-hover keybinds next to cmd svg
+  //--> argue with haris about how that looks
+
+  _handleKeyDown = (e) => {
+    let prevValue = this.keysPressed[e.key];
+    this.keysPressed[e.key] = true;
+    if (
+      (this.keysPressed["Control"] || this.keysPressed["Meta"]) &&
+      this.keysPressed["f"] &&
+      prevValue !== this.keysPressed[e.key]
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+      this._handleCreateSearch();
+    }
+  };
+
+  _handleKeyUp = (e) => {
+    this.keysPressed = {};
   };
 
   _handleCreateSearch = (e) => {
@@ -124,12 +152,10 @@ export default class ApplicationHeader extends React.Component {
   };
 
   render() {
-    const isBackDisabled =
-      this.props.currentIndex === 0 || this.props.history.length < 2;
+    const isBackDisabled = this.props.currentIndex === 0 || this.props.history.length < 2;
 
     const isForwardDisabled =
-      this.props.currentIndex === this.props.history.length - 1 ||
-      this.props.history.length < 2;
+      this.props.currentIndex === this.props.history.length - 1 || this.props.history.length < 2;
 
     return (
       <header css={STYLES_APPLICATION_HEADER}>
@@ -149,25 +175,18 @@ export default class ApplicationHeader extends React.Component {
             <span
               css={STYLES_ICON_ELEMENT}
               style={
-                isBackDisabled
-                  ? { cursor: "not-allowed", color: Constants.system.border }
-                  : null
+                isBackDisabled ? { cursor: "not-allowed", color: Constants.system.border } : null
               }
               onClick={isBackDisabled ? () => {} : this.props.onBack}
             >
-              <SVG.NavigationArrow
-                height="24px"
-                style={{ transform: `rotate(180deg)` }}
-              />
+              <SVG.NavigationArrow height="24px" style={{ transform: `rotate(180deg)` }} />
             </span>
           </span>
           <span css={STYLES_MOBILE_HIDDEN}>
             <span
               css={STYLES_ICON_ELEMENT}
               style={
-                isForwardDisabled
-                  ? { cursor: "not-allowed", color: Constants.system.border }
-                  : null
+                isForwardDisabled ? { cursor: "not-allowed", color: Constants.system.border } : null
               }
               onClick={isForwardDisabled ? () => {} : this.props.onForward}
             >
@@ -213,23 +232,16 @@ export default class ApplicationHeader extends React.Component {
             <span
               css={STYLES_ICON_ELEMENT}
               style={
-                isBackDisabled
-                  ? { cursor: "not-allowed", color: Constants.system.border }
-                  : null
+                isBackDisabled ? { cursor: "not-allowed", color: Constants.system.border } : null
               }
               onClick={isBackDisabled ? () => {} : this.props.onBack}
             >
-              <SVG.NavigationArrow
-                height="24px"
-                style={{ transform: `rotate(180deg)` }}
-              />
+              <SVG.NavigationArrow height="24px" style={{ transform: `rotate(180deg)` }} />
             </span>
             <span
               css={STYLES_ICON_ELEMENT}
               style={
-                isForwardDisabled
-                  ? { cursor: "not-allowed", color: Constants.system.border }
-                  : null
+                isForwardDisabled ? { cursor: "not-allowed", color: Constants.system.border } : null
               }
               onClick={isForwardDisabled ? () => {} : this.props.onForward}
             >

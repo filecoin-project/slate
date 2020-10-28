@@ -223,10 +223,6 @@ const STYLES_LOADER_SPINNER = css`
   border: 2px solid ${Constants.system.brand};
   border-radius: 50%;
   border-top-color: ${Constants.system.foreground};
-  border-top-color: ${Constants.system.foreground};
-  border-right: 2px solid ${Constants.system.brand};
-  border-bottom: 2px solid ${Constants.system.brand};
-  border-left: 2px solid ${Constants.system.brand};
   animation: slate-client-animation-spin 1s ease-in-out infinite;
 
   @keyframes slate-client-animation-spin {

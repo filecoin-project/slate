@@ -116,6 +116,11 @@ export const DataMeter = (props) => {
         used
       </div>
       <DataMeterBar bytes={props.stats.bytes} maximumBytes={props.stats.maximumBytes} />
+      <DataMeterBar bytes={props.stats.imageBytes} maximumBytes={props.stats.maximumBytes} />
+      <DataMeterBar bytes={props.stats.videoBytes} maximumBytes={props.stats.maximumBytes} />
+      <DataMeterBar bytes={props.stats.audioBytes} maximumBytes={props.stats.maximumBytes} />
+      <DataMeterBar bytes={props.stats.epubBytes} maximumBytes={props.stats.maximumBytes} />
+      <DataMeterBar bytes={props.stats.pdfBytes} maximumBytes={props.stats.maximumBytes} />
       <div css={STYLES_NOTE}>50GB coming soon with email verification</div>
     </div>
   );

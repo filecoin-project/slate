@@ -212,6 +212,14 @@ export default class ApplicationHeader extends React.Component {
               <SVG.Search height="24px" />
             </span>
           </span>
+          <span css={STYLES_MOBILE_HIDDEN}>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={{ marginLeft: 16, color: Constants.system.border, cursor: "default" }}
+            >
+              <p>CMD+F</p>
+            </span>
+          </span>
         </div>
         {/* <div css={STYLES_MIDDLE} /> */}
         <div css={STYLES_RIGHT}>

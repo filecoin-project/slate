@@ -5,7 +5,7 @@ import * as SlateManager from "~/node_common/managers/slate";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Social from "~/node_common/social";
 import * as Validations from "~/common/validations";
-import * as Common from "~/common/strings";
+import * as Strings from "~/common/strings";
 
 import BCrypt from "bcrypt";
 

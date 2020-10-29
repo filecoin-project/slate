@@ -127,6 +127,16 @@ export default class SceneSignIn extends React.Component {
   }
 
   _handleChange = (e) => {
+    if (e.target.name === "accepted" && e.target.value) {
+      const hash = Strings.generateRandomString();
+      const confirm = window.prompt(`Please type ${hash} to continue.`);
+
+      if (confirm !== hash) {
+        window.alert("Please try again.");
+        return;
+      }
+    }
+
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -139,6 +149,19 @@ export default class SceneSignIn extends React.Component {
     this.setState({ loading: true });
 
     await delay(100);
+
+    if (!this.state.accepted && this.state.scene === "CREATE_ACCOUNT") {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "You must accept the terms of service to create an account",
+          },
+        },
+      });
+      this.setState({ loading: false });
+      return;
+    }
 
     if (!Validations.username(this.state.username)) {
       dispatchCustomEvent({
@@ -178,6 +201,7 @@ export default class SceneSignIn extends React.Component {
       response = await this.props.onCreateUser({
         username: this.state.username.toLowerCase(),
         password: this.state.password,
+        accepted: this.state.accepted,
       });
     } else {
       response = await this.props.onAuthenticate({
@@ -319,7 +343,7 @@ export default class SceneSignIn extends React.Component {
     if (this.state.scene === "CREATE_ACCOUNT") {
       return (
         <React.Fragment>
-          <div css={STYLES_POPOVER} key={this.state.scene}>
+          <div css={STYLES_POPOVER} key={this.state.scene} style={{ minHeight: 496 }}>
             <div
               style={{
                 display: "flex",
@@ -362,6 +386,15 @@ export default class SceneSignIn extends React.Component {
               onSubmit={this._handleSubmit}
             />
 
+            <System.CheckBox
+              style={{ marginTop: 24 }}
+              name="accepted"
+              value={this.state.accepted}
+              onChange={this._handleChange}
+            >
+              To create an account you must accept the <a href="/terms">terms of service</a>.
+            </System.CheckBox>
+
             <System.ButtonPrimary
               full
               style={{ marginTop: 24 }}
@@ -372,10 +405,6 @@ export default class SceneSignIn extends React.Component {
             </System.ButtonPrimary>
           </div>
           <div css={STYLES_LINKS}>
-            <a css={STYLES_LINK_ITEM} href="/terms" target="_blank">
-              ⭢ You are agreeing to our terms of service.
-            </a>
-
             <div
               css={STYLES_LINK_ITEM}
               onClick={() => {

@@ -16,6 +16,10 @@ export default async (req, res) => {
     return res.status(403).send({ decorator: "YOU_ARE_NOT_ALLOWED", error: true });
   }
 
+  if (Strings.isEmpty(req.body.data.accepted)) {
+    return res.status(403).send({ decorator: "YOU_MUST_ACCEPT_TERMS", error: true });
+  }
+
   const existing = await Data.getUserByUsername({
     username: req.body.data.username,
   });

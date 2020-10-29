@@ -9,6 +9,12 @@ const WEEK = DAY * 7;
 const MONTH = (DAY * 365) / 12;
 const YEAR = DAY * 365;
 
+export const generateRandomString = () => {
+  return Math.random()
+    .toString(36)
+    .substr(2, 5);
+};
+
 export const getKey = (text) => {
   if (isEmpty(text)) {
     return null;
@@ -220,7 +226,10 @@ export const createSlug = (text, base = "untitled") => {
     return base;
   }
 
-  text = text.toString().toLowerCase().trim();
+  text = text
+    .toString()
+    .toLowerCase()
+    .trim();
 
   const sets = [
     { to: "a", from: "[ÀÁÂÃÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶ]" },

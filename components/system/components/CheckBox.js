@@ -62,6 +62,22 @@ const STYLES_CHECKBOX_LABEL = css`
     font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }
+
+  a {
+    font-family: ${Constants.font.text};
+    font-weight: 400;
+    color: ${Constants.system.moonstone};
+    cursor: pointer;
+    transition: 200ms ease color;
+
+    :visited {
+      color: ${Constants.system.moonstone};
+    }
+
+    :hover {
+      color: ${Constants.system.slate};
+    }
+  }
 `;
 
 export class CheckBox extends React.Component {
@@ -90,11 +106,7 @@ export class CheckBox extends React.Component {
           }
         >
           {this.props.value ? (
-            <SVG.CheckBox
-              height="12px"
-              strokeWidth="4"
-              style={{ color: Constants.system.white }}
-            />
+            <SVG.CheckBox height="12px" strokeWidth="4" style={{ color: Constants.system.white }} />
           ) : null}
         </figure>
         <input

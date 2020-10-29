@@ -12,6 +12,7 @@ import * as Strings from "~/common/strings";
 
 import ApiV1GetSlateObjects from "~/pages/api/v1/get-slate-objects";
 
+import limit from "express-rate-limit";
 import express from "express";
 import next from "next";
 import compression from "compression";
@@ -22,6 +23,18 @@ const app = next({
   dev: !Environment.IS_PRODUCTION,
   dir: __dirname,
   quiet: false,
+});
+
+const createLimiter = limit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 5,
+  message: { decorator: "RATE_LIMITED", error: true, message: "You have made too many requests." },
+});
+
+const loginLimiter = limit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 5,
+  message: { decorator: "RATE_LIMITED", error: true, message: "You have made too many requests." },
 });
 
 const handler = app.getRequestHandler();
@@ -56,6 +69,14 @@ app.prepare().then(async () => {
   // NOTE(jim): Example of simple query to query slates by CID.
   server.get("/api/v1/cid::cid", async (r, s) => {
     return await ApiV1GetSlateObjects(r, s);
+  });
+
+  server.all("/api/users/create", createLimiter, async (r, s, next) => {
+    return handler(r, s, r.url);
+  });
+
+  server.all("/api/sign-in", loginLimiter, async (r, s, next) => {
+    return handler(r, s, r.url);
   });
 
   server.all("/api/:a", async (r, s, next) => {

@@ -1,4 +1,3 @@
-import * as Environment from "~/node_common/environment";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
@@ -15,15 +14,11 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res
-      .status(404)
-      .send({ decorator: "SERVER_SUBSCRIBE_USER_NOT_FOUND", error: true });
+    return res.status(404).send({ decorator: "SERVER_SUBSCRIBE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_SUBSCRIBE_USER_NOT_FOUND", error: true });
+    return res.status(500).send({ decorator: "SERVER_SUBSCRIBE_USER_NOT_FOUND", error: true });
   }
 
   if (!req.body.data || (!req.body.data.userId && !req.body.data.slateId)) {
@@ -100,20 +95,14 @@ export default async (req, res) => {
     });
 
     if (!unsubscribeResponse) {
-      return res
-        .status(404)
-        .send({ decorator: "SERVER_UNSUBSCRIBE_NOT_FOUND", error: true });
+      return res.status(404).send({ decorator: "SERVER_UNSUBSCRIBE_NOT_FOUND", error: true });
     }
 
     if (unsubscribeResponse.error) {
-      return res
-        .status(500)
-        .send({ decorator: "SERVER_UNSUBSCRIBE_ERROR", error: true });
+      return res.status(500).send({ decorator: "SERVER_UNSUBSCRIBE_ERROR", error: true });
     }
 
-    return res
-      .status(200)
-      .send({ decorator: "SERVER_UNSUBSCRIBE", data: unsubscribeResponse });
+    return res.status(200).send({ decorator: "SERVER_UNSUBSCRIBE", data: unsubscribeResponse });
   }
 
   const subscribeResponse = await Data.createSubscription({
@@ -123,15 +112,11 @@ export default async (req, res) => {
   });
 
   if (!subscribeResponse) {
-    return res
-      .status(404)
-      .send({ decorator: "SERVER_SUBSCRIBE_NOT_FOUND", error: true });
+    return res.status(404).send({ decorator: "SERVER_SUBSCRIBE_NOT_FOUND", error: true });
   }
 
   if (subscribeResponse.error) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_SUBSCRIBE_ERROR", error: true });
+    return res.status(500).send({ decorator: "SERVER_SUBSCRIBE_ERROR", error: true });
   }
 
   return res.status(200).send({

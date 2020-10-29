@@ -8,9 +8,7 @@ const SLATE_LIMIT = 50;
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_FIND_USER_CREATE_SLATE", error: true });
+    return res.status(500).send({ decorator: "SERVER_FIND_USER_CREATE_SLATE", error: true });
   }
 
   const user = await Data.getUserById({
@@ -39,16 +37,12 @@ export default async (req, res) => {
   });
 
   if (found) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_EXISTING_SLATE", error: true });
+    return res.status(500).send({ decorator: "SERVER_EXISTING_SLATE", error: true });
   }
 
   const slates = await Data.getSlatesByUserId({ userId: id });
   if (slates.length >= SLATE_LIMIT) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_SLATE_LIMIT", error: true });
+    return res.status(500).send({ decorator: "SERVER_SLATE_LIMIT", error: true });
   }
 
   const slate = await Data.createSlate({
@@ -63,15 +57,11 @@ export default async (req, res) => {
   });
 
   if (!slate) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_CREATE_SLATE", error: true });
+    return res.status(500).send({ decorator: "SERVER_CREATE_SLATE", error: true });
   }
 
   if (slate.error) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_CREATE_SLATE", error: true });
+    return res.status(500).send({ decorator: "SERVER_CREATE_SLATE", error: true });
   }
 
   const userProfileURL = `https://slate.host/${user.username}`;

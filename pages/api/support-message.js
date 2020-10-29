@@ -1,4 +1,3 @@
-import * as Environment from "~/node_common/environment";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
@@ -15,15 +14,11 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res
-      .status(404)
-      .send({ decorator: "SERVER_SUPPORT_USER_NOT_FOUND", error: true });
+    return res.status(404).send({ decorator: "SERVER_SUPPORT_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_SUPPORT_USER_NOT_FOUND", error: true });
+    return res.status(500).send({ decorator: "SERVER_SUPPORT_USER_NOT_FOUND", error: true });
   }
 
   if (!req.body.data) {

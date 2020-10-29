@@ -6,6 +6,10 @@ import * as Strings from "~/common/strings";
 import JWT from "jsonwebtoken";
 
 export default async (req, res) => {
+  if (!Strings.isEmpty(Environment.ALLOWED_HOST) && req.headers.host !== Environment.ALLOWED_HOST) {
+    return res.status(403).send({ decorator: "YOU_ARE_NOT_ALLOWED", error: true });
+  }
+
   // NOTE(jim): We don't need to validate here.
   if (Strings.isEmpty(req.body.data.username)) {
     return res.status(500).send({ decorator: "SERVER_SIGN_IN", error: true });
@@ -25,26 +29,17 @@ export default async (req, res) => {
   }
 
   if (!user) {
-    return res
-      .status(404)
-      .send({ decorator: "SERVER_SIGN_IN_USER_NOT_FOUND", error: true });
+    return res.status(404).send({ decorator: "SERVER_SIGN_IN_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_SIGN_IN_ERROR", error: true });
+    return res.status(500).send({ decorator: "SERVER_SIGN_IN_ERROR", error: true });
   }
 
-  const hash = await Utilities.encryptPassword(
-    req.body.data.password,
-    user.salt
-  );
+  const hash = await Utilities.encryptPassword(req.body.data.password, user.salt);
 
   if (hash !== user.password) {
-    return res
-      .status(403)
-      .send({ decorator: "SERVER_SIGN_IN_AUTH", error: true });
+    return res.status(403).send({ decorator: "SERVER_SIGN_IN_AUTH", error: true });
   }
 
   const authorization = Utilities.parseAuthHeader(req.headers.authorization);
@@ -59,12 +54,7 @@ export default async (req, res) => {
     }
   }
 
-  const token = JWT.sign(
-    { id: user.id, username: user.username },
-    Environment.JWT_SECRET
-  );
+  const token = JWT.sign({ id: user.id, username: user.username }, Environment.JWT_SECRET);
 
-  return res
-    .status(200)
-    .send({ decorator: "SERVER_SIGN_IN", success: true, token });
+  return res.status(200).send({ decorator: "SERVER_SIGN_IN", success: true, token });
 };

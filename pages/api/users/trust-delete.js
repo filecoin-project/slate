@@ -6,9 +6,7 @@ import * as Validations from "~/common/validations";
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_TRUST_DELETE", error: true });
+    return res.status(500).send({ decorator: "SERVER_TRUST_DELETE", error: true });
   }
 
   const user = await Data.getUserById({
@@ -40,7 +38,5 @@ export default async (req, res) => {
     id: req.body.data.id,
   });
 
-  return res
-    .status(200)
-    .send({ decorator: "SERVER_TRUST_UPDATE", data: response });
+  return res.status(200).send({ decorator: "SERVER_TRUST_UPDATE", data: response });
 };

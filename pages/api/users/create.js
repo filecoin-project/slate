@@ -5,12 +5,17 @@ import * as SlateManager from "~/node_common/managers/slate";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as Social from "~/node_common/social";
 import * as Validations from "~/common/validations";
+import * as Common from "~/common/strings";
 
 import BCrypt from "bcrypt";
 
 import { PrivateKey } from "@textile/hub";
 
 export default async (req, res) => {
+  if (!Strings.isEmpty(Environment.ALLOWED_HOST) && req.headers.host !== Environment.ALLOWED_HOST) {
+    return res.status(403).send({ decorator: "YOU_ARE_NOT_ALLOWED", error: true });
+  }
+
   const existing = await Data.getUserByUsername({
     username: req.body.data.username,
   });

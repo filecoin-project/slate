@@ -17,6 +17,7 @@ export const POSTGRES_HOSTNAME = process.env.POSTGRES_HOSTNAME;
 export const POSTGRES_DATABASE = process.env.POSTGRES_DATABASE;
 export const JWT_SECRET = process.env.JWT_SECRET;
 export const PUBSUB_SECRET = process.env.PUBSUB_SECRET;
+export const ALLOWED_HOST = process.env.ALLOWED_HOST;
 export const LOCAL_PASSWORD_ROUNDS_MANUAL = process.env.LOCAL_PASSWORD_ROUNDS_MANUAL;
 export const LOCAL_PASSWORD_ROUNDS = process.env.LOCAL_PASSWORD_ROUNDS;
 export const LOCAL_PASSWORD_SECRET = `$2b$${LOCAL_PASSWORD_ROUNDS}$${

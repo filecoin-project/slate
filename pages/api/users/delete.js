@@ -15,9 +15,7 @@ const TEXTILE_KEY_INFO = {
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_USER_DELETE", error: true });
+    return res.status(500).send({ decorator: "SERVER_USER_DELETE", error: true });
   }
 
   const user = await Data.getUserById({
@@ -25,15 +23,11 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res
-      .status(404)
-      .send({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
+    return res.status(404).send({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
+    return res.status(500).send({ decorator: "SERVER_USER_DELETE_USER_NOT_FOUND", error: true });
   }
 
   await Data.deleteAPIKeysForUserId({ userId: user.id });
@@ -65,9 +59,7 @@ export default async (req, res) => {
   });
 
   if (!deleted) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_USER_DELETE", error: true });
+    return res.status(500).send({ decorator: "SERVER_USER_DELETE", error: true });
   }
 
   return res.status(200).send({ decorator: "SERVER_USER_DELETE", deleted });

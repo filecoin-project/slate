@@ -87,11 +87,9 @@ export default async (req, res) => {
   // NOTE(jim)
   // Treat trust as an API method you can call again to remove a trusted relationship.
   if (existingResponse) {
-    const deleteRelationshipResponse = await Data.deleteTrustedRelationshipById(
-      {
-        id: existingResponse.id,
-      }
-    );
+    const deleteRelationshipResponse = await Data.deleteTrustedRelationshipById({
+      id: existingResponse.id,
+    });
 
     if (!deleteRelationshipResponse) {
       return res.status(404).send({
@@ -126,9 +124,7 @@ export default async (req, res) => {
   }
 
   if (trustResponse.error) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_TRUSTED_RELATIONSHIP_ERROR", error: true });
+    return res.status(500).send({ decorator: "SERVER_TRUSTED_RELATIONSHIP_ERROR", error: true });
   }
 
   return res.status(200).send({

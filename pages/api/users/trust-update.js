@@ -7,9 +7,7 @@ import * as Validations from "~/common/validations";
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_TRUST_UPDATE", error: true });
+    return res.status(500).send({ decorator: "SERVER_TRUST_UPDATE", error: true });
   }
 
   const user = await Data.getUserById({

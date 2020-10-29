@@ -10,6 +10,8 @@ import * as Validations from "~/common/validations";
 import * as Window from "~/common/window";
 import * as Strings from "~/common/strings";
 
+import ApiV1GetSlateObjects from "~/pages/api/v1/get-slate-objects";
+
 import express from "express";
 import next from "next";
 import compression from "compression";
@@ -50,6 +52,11 @@ app.prepare().then(async () => {
   server.get("/_/experiences", async (r, s) => s.redirect("/_/system"));
   server.get("/system/:c", async (r, s) => s.redirect(`/_/system/${r.params.c}`));
   server.get("/experiences/:m", async (r, s) => s.redirect(`/_/experiences/${r.params.m}`));
+
+  // NOTE(jim): Example of simple query to query slates by CID.
+  server.get("/api/v1/cid::cid", async (r, s) => {
+    return await ApiV1GetSlateObjects(r, s);
+  });
 
   server.all("/api/:a", async (r, s, next) => {
     return handler(r, s, r.url);

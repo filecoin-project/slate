@@ -18,6 +18,7 @@ import createSlate from "~/node_common/data/methods/create-slate";
 import getSlateByName from "~/node_common/data/methods/get-slate-by-name";
 import getSlateById from "~/node_common/data/methods/get-slate-by-id";
 import getSlatesByUserId from "~/node_common/data/methods/get-slates-by-user-id";
+import getSlateObjectsByCID from "~/node_common/data/methods/get-slate-objects-by-cid";
 import updateSlateById from "~/node_common/data/methods/update-slate-by-id";
 import deleteSlatesForUserId from "~/node_common/data/methods/delete-slates-for-user-id";
 import deleteSlateById from "~/node_common/data/methods/delete-slate-by-id";
@@ -88,6 +89,7 @@ export {
   getSlateByName,
   getSlateById,
   getSlatesByUserId,
+  getSlateObjectsByCID,
   updateSlateById,
   deleteSlatesForUserId,
   deleteSlateById,

@@ -364,7 +364,7 @@ export default class SceneSlate extends React.Component {
             target="_blank"
           >
             <CircleButtonGray style={{ marginRight: 16 }}>
-              <SVG.Upload height="16px" />
+              <SVG.ExternalLink height="16px" />
             </CircleButtonGray>
           </a>
         ) : null}

@@ -3,9 +3,8 @@ import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/react";
-import { ButtonPrimary, ButtonSeconddary } from "~/components/system/components/Buttons";
+import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { CullFaceNone, NoBlending } from "three";
 
 const STYLES_MODAL = css`
   text-align: center;
@@ -86,18 +85,23 @@ export class OnboardingModal extends React.Component {
   };
 
   componentDidMount = () => {
-    const newAccount = this.props.newAccount;
     Actions.updateOnboardingStatus({ onboarding: this.props.unseenAnnouncements });
-    let toShow = [];
-    if (newAccount) {
-      toShow = this.onboardingCopy;
+    let slides = [];
+    if (this.props.newAccount) {
+      slides = this.onboardingCopy;
     }
     for (let feature of announcements) {
       if (this.props.unseenAnnouncements.includes(feature.title)) {
-        toShow.push(feature);
+        slides.push(feature);
       }
     }
-    this.setState({ slides: toShow });
+    if (!slides.length) {
+      dispatchCustomEvent({
+        name: "delete-modal",
+        detail: {},
+      });
+    }
+    this.setState({ slides });
   };
 
   onboardingCopy = [

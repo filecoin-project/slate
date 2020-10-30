@@ -3,6 +3,7 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
 import * as Validations from "~/common/validations";
+import * as ViewerManager from "~/node_common/managers/viewer";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -47,6 +48,8 @@ export default async (req, res) => {
     id: user.id,
     data: { ...user.data, onboarding },
   });
+
+  ViewerManager.hydratePartialOnboarding(onboarding, user.id);
 
   return res.status(200).send({
     decorator: "SERVER_ONBOARDING_UPDATE",

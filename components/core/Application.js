@@ -180,9 +180,10 @@ export default class ApplicationPage extends React.Component {
     }
   }
 
+  //make this a function that can handle different types of inputs and updates state accordingly (rather than ahving a bunch of different functions for each type)
   _handleUpdateViewer = (newViewerState) => {
+    console.log("update viewer");
     console.log({ newViewerState });
-
     if (this.state.viewer && newViewerState.id && newViewerState.id === this.state.viewer.id) {
       this.setState({
         viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
@@ -425,39 +426,11 @@ export default class ApplicationPage extends React.Component {
       return;
     }
 
-    // TODO(jim): Remove this once the viewer is being broadcasted for
-    //            this case.
-    await this.rehydrate({ resetFiles: true });
-
-    // //NOTE(martina): to update the carousel to include the new file if you're on the data view page
-    // dispatchCustomEvent({
-    //   name: "remote-update-carousel",
-    //   detail: {},
-    // });
-
-    //NOTE(martina): to update the slate carousel to include the new file if you're on a slate page
-    // const navigation = NavigationData.generate(this.state.viewer);
-    // const next = this.state.history[this.state.currentIndex];
-    // const current = NavigationData.getCurrentById(navigation, next.id);
-    // if (
-    //   current.target &&
-    //   current.target.slateId &&
-    //   this.state.viewer.slates.map((slate) => slate.id).includes(current.target.slateId)
-    // ) {
-    //   dispatchCustomEvent({
-    //     name: "remote-update-slate-screen",
-    //     detail: {},
-    //   });
-    // }
+    this.setState({ sidebar: null });
 
     if (!slate) {
       const { added, skipped } = processResponse.data;
-      let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
-      if (skipped) {
-        message += `${skipped || 0} duplicate / existing file${
-          added !== 1 ? "s were" : " was"
-        } skipped.`;
-      }
+      let message = Strings.formatAsUploadMessage(added, skipped);
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
@@ -527,6 +500,7 @@ export default class ApplicationPage extends React.Component {
 
   _handleSidebarLoading = (sidebarLoading) => this.setState({ sidebarLoading });
 
+  //change the naem to hydrate. and use this only upon initial sign in (should be the only time you need it)
   rehydrate = async (options) => {
     const response = await Actions.hydrateAuthenticatedUser();
 
@@ -586,10 +560,6 @@ export default class ApplicationPage extends React.Component {
         amount: data.amount,
       });
     }
-
-    // TODO(jim): Remove this once the viewer is being broadcasted for
-    //            this case.
-    await this.rehydrate();
 
     this._handleDismissSidebar();
 
@@ -666,8 +636,6 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
-    // TODO(jim): Remove this once the viewer is being broadcasted for
-    //            this case.
     await this.rehydrate();
 
     let wsclient = Websockets.getClient();
@@ -893,7 +861,6 @@ export default class ApplicationPage extends React.Component {
         </WebsitePrototypeWrapper>
       );
     }
-
     // NOTE(jim): Authenticated.
     const navigation = NavigationData.generate(this.state.viewer);
     const next = this.state.history[this.state.currentIndex];
@@ -924,7 +891,6 @@ export default class ApplicationPage extends React.Component {
         currentIndex={this.state.currentIndex}
         history={this.state.history}
         onAction={this._handleAction}
-        onRehydrate={this.rehydrate}
         onBack={this._handleBack}
         onForward={this._handleForward}
         onSignOut={this._handleSignOut}
@@ -944,7 +910,6 @@ export default class ApplicationPage extends React.Component {
       onUpload: this._handleUploadFiles,
       onBack: this._handleBack,
       onForward: this._handleForward,
-      onRehydrate: this.rehydrate,
       sceneId: current.target.id,
       mobile: this.state.mobile,
       resources: this.props.resources,
@@ -967,7 +932,6 @@ export default class ApplicationPage extends React.Component {
         onUpload: this._handleUploadFiles,
         onSidebarLoading: this._handleSidebarLoading,
         onAction: this._handleAction,
-        onRehydrate: this.rehydrate,
         resources: this.props.resources,
       });
     }
@@ -1002,7 +966,6 @@ export default class ApplicationPage extends React.Component {
                 ? current.target
                 : this.state.data //NOTE(martina): for slates that are not your own
             }
-            onRehydrate={this.rehydrate}
             slates={this.state.viewer.slates}
             onAction={this._handleAction}
             mobile={this.props.mobile}

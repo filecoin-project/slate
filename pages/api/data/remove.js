@@ -2,6 +2,7 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Strings from "~/common/strings";
 import * as Social from "~/node_common/social";
+import * as ViewerManager from "~/node_common/managers/viewer";
 
 export default async (req, res) => {
   if (!req.body.data || !req.body.data.cids || !req.body.data.cids.length) {
@@ -99,7 +100,8 @@ export default async (req, res) => {
 
   // NOTE(jim):
   // Goes through all of your slates and removes all data references.
-  const slates = await Data.getSlatesByUserId({ userId: id });
+  let refreshSlates = false;
+  let slates = await Data.getSlatesByUserId({ userId: id });
   for (let i = 0; i < slates.length; i++) {
     let slate = slates[i];
 
@@ -108,6 +110,7 @@ export default async (req, res) => {
       for (let cid of req.body.data.cids) {
         if (o.url.includes(cid)) {
           removal = true;
+          refreshSlates = true;
           return false;
         }
       }
@@ -115,7 +118,7 @@ export default async (req, res) => {
     });
 
     if (removal) {
-      let layouts = await Data.updateSlateById({
+      await Data.updateSlateById({
         id: slate.id,
         updated_at: new Date(),
         data: {
@@ -126,6 +129,11 @@ export default async (req, res) => {
     }
   }
 
+  if (refreshSlates) {
+    slates = await Data.getSlatesByUserId({ userId: id });
+    ViewerManager.hydratePartialSlates(slates, id);
+  }
+
   // NOTE(martina):
   // Removes the reposted file from other people's slates
   // for (let cid of req.body.data.cids) {
@@ -134,7 +142,7 @@ export default async (req, res) => {
 
   // NOTE(jim):
   // Removes the file reference from your library
-  const response = await Data.updateUserById({
+  const unsafeResponse = await Data.updateUserById({
     id: user.id,
     data: {
       ...user.data,
@@ -153,6 +161,10 @@ export default async (req, res) => {
       ],
     },
   });
+
+  if (unsafeResponse) {
+    ViewerManager.hydratePartialViewer(unsafeResponse);
+  }
 
   return res.status(200).send({
     decorator: "SERVER_REMOVE_DATA",

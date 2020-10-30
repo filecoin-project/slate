@@ -77,6 +77,7 @@ PUBSUB_SECRET=pKLO4lbzdMrhAFKwPo9bnmq03bxQrtu3
 RESOURCE_URI_UPLOAD=http://localhost:4242
 RESOURCE_URI_STORAGE_UPLOAD=http://localhost:4242
 RESOURCE_URI_PUBSUB=ws://localhost:6464
+RESOURCE_URI_SEARCH=http://localhost:1313
 ```
 
 ### Setup pubsub server

@@ -58,7 +58,6 @@ export default class SceneHome extends React.Component {
               viewer={this.props.viewer}
               items={this.props.viewer.library[0].children}
               onAction={this.props.onAction}
-              onRehydrate={this.props.onRehydrate}
             />
           </div>
         ) : (

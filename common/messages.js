@@ -103,6 +103,7 @@ export const error = {
   CREATE_PENDING_ERROR: "We ran into issues while uploading your data, please try again later",
   PROCESS_PENDING_ERROR:
     "We ran into an error while updating your uploaded data. Please try again later",
+  PROCESS_PENDING_USER_NOT_FOUND: "Please log in to upload files",
 
   //Data CID Status
   NO_CIDS_TO_CHECK: "There are no CIDs to check",

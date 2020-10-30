@@ -13,6 +13,12 @@ const DEFAULT_OPTIONS = {
   credentials: "include",
 };
 
+const CORS_OPTIONS = {
+  method: "POST",
+  headers: REQUEST_HEADERS,
+  credentials: "omit",
+};
+
 const returnJSON = async (route, options) => {
   const response = await fetch(route, options);
   const json = await response.json();
@@ -120,8 +126,8 @@ export const search = async (data) => {
     return { decorator: "NO_SERVER_TRIP", data: { results: [] } };
   }
 
-  return await returnJSON(`/api/search/${data.query}`, {
-    ...DEFAULT_OPTIONS,
+  return await returnJSON(`http://localhost:1313/${data.query}`, {
+    ...CORS_OPTIONS,
     body: JSON.stringify(data),
   });
 };

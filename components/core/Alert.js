@@ -68,13 +68,8 @@ const STYLES_MESSAGE = css`
 `;
 
 const STYLES_TEXT = css`
-  border-bottom: 1px solid ${Constants.system.white};
   max-width: ${Constants.sizes.mobile}px;
   width: 100%;
-
-  @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
-    border-bottom: 1px solid ${Constants.system.brand};
-  }
 `;
 
 const STYLES_MESSAGE_BOX = css`

@@ -1,15 +1,14 @@
 import * as Environment from "~/node_common/environment";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
+import * as ViewerManager from "~/node_common/managers/viewer";
 
 import { v4 as uuid } from "uuid";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_GENERATE_API_KEY_AUTH", error: true });
+    return res.status(500).send({ decorator: "SERVER_GENERATE_API_KEY_AUTH", error: true });
   }
 
   const user = await Data.getUserById({
@@ -30,7 +29,7 @@ export default async (req, res) => {
     });
   }
 
-  const keys = await Data.getAPIKeysByUserId({ userId: user.id });
+  let keys = await Data.getAPIKeysByUserId({ userId: user.id });
 
   if (keys.length > 9) {
     return res.status(404).send({
@@ -57,6 +56,9 @@ export default async (req, res) => {
       error: true,
     });
   }
+
+  keys = await Data.getAPIKeysByUserId({ userId: user.id });
+  ViewerManager.hydratePartialKeys(keys, user.id);
 
   return res.status(200).send({ decorator: "SERVER_GENERATE_API_KEY", key });
 };

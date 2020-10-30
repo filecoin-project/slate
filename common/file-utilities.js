@@ -2,6 +2,7 @@ import * as Actions from "~/common/actions";
 import * as Store from "~/common/store";
 import * as Constants from "~/common/constants";
 import * as Credentials from "~/common/credentials";
+import * as Strings from "~/common/strings";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { encode } from "blurhash";
@@ -212,12 +213,7 @@ export const uploadToSlate = async ({ responses, slate }) => {
       skipped = addResponse.skipped;
     }
   }
-  let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded to slate. `;
-  if (skipped) {
-    message += `${skipped || 0} duplicate / existing file${
-      added !== 1 ? "s were" : " was"
-    } skipped.`;
-  }
+  let message = Strings.formatAsUploadMessage(added, skipped, true);
   dispatchCustomEvent({
     name: "create-alert",
     detail: {

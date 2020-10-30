@@ -138,7 +138,6 @@ export default class SceneDirectory extends React.Component {
 
   state = {
     copyValue: "",
-    loading: false,
     tab: 0,
     contextMenu: null,
   };
@@ -168,28 +167,25 @@ export default class SceneDirectory extends React.Component {
   _handleDelete = async (e, id) => {
     this._handleHide();
     e.stopPropagation();
-    const response = await Actions.deleteTrustRelationship({
+    await Actions.deleteTrustRelationship({
       id: id,
     });
-    await this.props.onRehydrate();
   };
 
   _handleAccept = async (e, id) => {
     this._handleHide();
     e.stopPropagation();
-    const response = await Actions.updateTrustRelationship({
+    await Actions.updateTrustRelationship({
       userId: id,
     });
-    await this.props.onRehydrate();
   };
 
   _handleFollow = async (e, id) => {
     this._handleHide();
     e.stopPropagation();
-    const response = await Actions.createSubscription({
+    await Actions.createSubscription({
       userId: id,
     });
-    await this.props.onRehydrate();
   };
 
   render() {

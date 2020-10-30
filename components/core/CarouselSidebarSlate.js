@@ -278,7 +278,6 @@ export default class CarouselSidebarSlate extends React.Component {
         selected: { ...this.state.selected, [slate.id]: true },
       });
     }
-    this.props.onRehydrate();
   };
 
   _handleDownload = () => {
@@ -326,7 +325,13 @@ export default class CarouselSidebarSlate extends React.Component {
       });
       return;
     }
-    this.props.onRehydrate();
+    let message = Strings.formatAsUploadMessage(response.data.added, response.data.skipped);
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message, status: !response.data.added ? null : "INFO" },
+      },
+    });
     this.setState({ loading: false });
   };
 
@@ -363,8 +368,8 @@ export default class CarouselSidebarSlate extends React.Component {
       this.setState({ loading: false });
       return;
     }
-    await this.props.onRehydrate();
     this.setState({ loading: false });
+    console.log("got here to end of handle delete");
   };
 
   _toggleAccordion = (tab) => {

@@ -140,14 +140,7 @@ export default class ApplicationHeader extends React.Component {
   _handleCreateSearch = (e) => {
     dispatchCustomEvent({
       name: "create-modal",
-      detail: { modal: <SearchModal onAction={this.props.onAction} /> },
-    });
-  };
-
-  _handleRehydrate = (e) => {
-    this.setState({ isRefreshing: true }, async () => {
-      await this.props.onRehydrate();
-      this.setState({ isRefreshing: false });
+      detail: { modal: <SearchModal viewer={this.props.viewer} onAction={this.props.onAction} /> },
     });
   };
 
@@ -191,16 +184,6 @@ export default class ApplicationHeader extends React.Component {
               onClick={isForwardDisabled ? () => {} : this.props.onForward}
             >
               <SVG.NavigationArrow height="24px" />
-            </span>
-          </span>
-          <span css={STYLES_MOBILE_HIDDEN}>
-            <span
-              css={this.state.isRefreshing ? STYLES_ROTATION : STYLES_STATIC}
-              style={{ marginLeft: 24 }}
-            >
-              <span css={STYLES_ICON_ELEMENT} onClick={this._handleRehydrate}>
-                <SVG.Refresh height="20px" />
-              </span>
             </span>
           </span>
           <span css={STYLES_MOBILE_HIDDEN}>

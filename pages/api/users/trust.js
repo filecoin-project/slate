@@ -3,6 +3,7 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
 import * as Validations from "~/common/validations";
+import * as ViewerManager from "~/node_common/managers/viewer";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -105,6 +106,8 @@ export default async (req, res) => {
       });
     }
 
+    ViewerManager.hydratePartialSubscriptions({ trusted: true, pendingTrusted: true }, id);
+
     return res.status(200).send({
       decorator: "SERVER_DELETE_TRUSTED_RELATIONSHIP",
       data: deleteRelationshipResponse,
@@ -126,6 +129,8 @@ export default async (req, res) => {
   if (trustResponse.error) {
     return res.status(500).send({ decorator: "SERVER_TRUSTED_RELATIONSHIP_ERROR", error: true });
   }
+
+  ViewerManager.hydratePartialSubscriptions({ trusted: true, pendingTrusted: true }, id);
 
   return res.status(200).send({
     decorator: "SERVER_TRUSTED_RELATIONSHIP",

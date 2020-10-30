@@ -57,7 +57,6 @@ export default class SceneSlate extends React.Component {
     saving: "IDLE",
     isOwner: this.props.current.data.ownerId === this.props.viewer.id,
     editing: false,
-    followLoading: false,
   };
 
   // NOTE(jim):
@@ -108,12 +107,8 @@ export default class SceneSlate extends React.Component {
   }
 
   _handleFollow = () => {
-    this.setState({ followLoading: true }, async () => {
-      let response = await Actions.createSubscription({
-        slateId: this.props.current.id,
-      });
-      await this.props.onRehydrate();
-      this.setState({ followLoading: false });
+    Actions.createSubscription({
+      slateId: this.props.current.id,
     });
   };
 
@@ -163,10 +158,6 @@ export default class SceneSlate extends React.Component {
           detail: { alert: { decorator: response.decorator } },
         });
       }
-    }
-
-    if (this.state.isOwner) {
-      await this.props.onRehydrate();
     }
 
     this.setState({
@@ -224,7 +215,6 @@ export default class SceneSlate extends React.Component {
       });
       return;
     }
-    await this.props.onRehydrate();
     dispatchCustomEvent({
       name: "create-alert",
       detail: {
@@ -277,8 +267,6 @@ export default class SceneSlate extends React.Component {
       return;
     }
 
-    await this.props.onRehydrate();
-
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",
       detail: { loading: false },
@@ -323,8 +311,14 @@ export default class SceneSlate extends React.Component {
       });
       return;
     }
+    let message = Strings.formatAsUploadMessage(response.data.added, response.data.skipped);
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message, status: !response.data.added ? null : "INFO" },
+      },
+    });
     this.setState({ loading: false, saving: "SAVED" });
-    this.props.onRehydrate();
   };
 
   _handleShowSettings = () => {
@@ -336,7 +330,6 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { user, data } = this.props.current;
     const { body = "", preview } = data;
     let objects = this.props.current.data.objects;
@@ -375,19 +368,11 @@ export default class SceneSlate extends React.Component {
     ) : (
       <div onClick={this._handleFollow}>
         {following ? (
-          <ButtonSecondary
-            transparent
-            style={{ minWidth: 120, paddingLeft: 0 }}
-            loading={this.state.followLoading}
-          >
+          <ButtonSecondary transparent style={{ minWidth: 120, paddingLeft: 0 }}>
             Unfollow
           </ButtonSecondary>
         ) : (
-          <ButtonPrimary
-            transparent
-            style={{ minWidth: 120, paddingLeft: 0 }}
-            loading={this.state.followLoading}
-          >
+          <ButtonPrimary transparent style={{ minWidth: 120, paddingLeft: 0 }}>
             Follow
           </ButtonPrimary>
         )}

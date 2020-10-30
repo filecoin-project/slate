@@ -2,6 +2,7 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
 import * as Validations from "~/common/validations";
+import * as ViewerManager from "~/node_common/managers/viewer";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -102,6 +103,8 @@ export default async (req, res) => {
       return res.status(500).send({ decorator: "SERVER_UNSUBSCRIBE_ERROR", error: true });
     }
 
+    ViewerManager.hydratePartialSubscriptions({ subscriptions: true }, user.id);
+
     return res.status(200).send({ decorator: "SERVER_UNSUBSCRIBE", data: unsubscribeResponse });
   }
 
@@ -118,6 +121,8 @@ export default async (req, res) => {
   if (subscribeResponse.error) {
     return res.status(500).send({ decorator: "SERVER_SUBSCRIBE_ERROR", error: true });
   }
+
+  ViewerManager.hydratePartialSubscriptions({ subscriptions: true }, user.id);
 
   return res.status(200).send({
     decorator: "SERVER_SUBSCRIBE",

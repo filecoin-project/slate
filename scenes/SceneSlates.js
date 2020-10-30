@@ -35,13 +35,12 @@ export default class SceneSlates extends React.Component {
       type: "SIDEBAR",
       value: "SIDEBAR_CREATE_SLATE",
     });
-    this.props.onRehydrate();
   };
 
   _handleSearch = () => {
     dispatchCustomEvent({
       name: "create-modal",
-      detail: { modal: <SearchModal onAction={this.props.onAction} /> },
+      detail: { modal: <SearchModal viewer={this.props.viewer} onAction={this.props.onAction} /> },
     });
   };
 
@@ -72,10 +71,7 @@ export default class SceneSlates extends React.Component {
           title="Slates"
           actions={
             this.state.tab === 0 ? (
-              <CircleButtonGray
-                onClick={this._handleAdd}
-                style={{ marginLeft: 12 }}
-              >
+              <CircleButtonGray onClick={this._handleAdd} style={{ marginLeft: 12 }}>
                 <SVG.Plus height="16px" />
               </CircleButtonGray>
             ) : null
@@ -106,13 +102,9 @@ export default class SceneSlates extends React.Component {
                 <SVG.Video height="24px" style={{ margin: "0 16px" }} />
               </div>
               <div style={{ marginTop: 24 }}>
-                Use slates to create mood boards, share files, and organize
-                research.
+                Use slates to create mood boards, share files, and organize research.
               </div>
-              <ButtonSecondary
-                onClick={this._handleAdd}
-                style={{ marginTop: 32 }}
-              >
+              <ButtonSecondary onClick={this._handleAdd} style={{ marginTop: 32 }}>
                 Create slate
               </ButtonSecondary>
             </EmptyState>
@@ -146,10 +138,7 @@ export default class SceneSlates extends React.Component {
           ) : (
             <EmptyState>
               You can follow any public slates on the network.
-              <ButtonSecondary
-                onClick={this._handleSearch}
-                style={{ marginTop: 32 }}
-              >
+              <ButtonSecondary onClick={this._handleSearch} style={{ marginTop: 32 }}>
                 Browse slates
               </ButtonSecondary>
             </EmptyState>

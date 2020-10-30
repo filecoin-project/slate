@@ -163,6 +163,13 @@ export default class SceneWallet extends React.Component {
       <ScenePage>
         <ScenePageHeader title="Wallet">
           This is your receive only wallet address. You can deposit Filecoin to your address here.
+          You can not send Filecoin from this wallet to other people. <br />
+          <br />
+          Please read our{" "}
+          <a href="/terms" target="_blank">
+            terms of service
+          </a>{" "}
+          for more details.
         </ScenePageHeader>
 
         {networkViewer ? (

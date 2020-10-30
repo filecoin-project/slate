@@ -48,52 +48,32 @@ const STYLES_TEXT = css`
   padding: 0 64px;
 `;
 
+const STYLES_LINK = css`
+  text-decoration: none;
+  color: ${Constants.system.white};
+
+  :visited {
+    color: ${Constants.system.white};
+  }
+`;
+
 export const announcements = [
   {
-    title: "New Feature",
-    text: "Organize files in grid layout",
+    title: "New On Slate: Grid System 2.0",
+    text:
+      "We just introduced a completely new layout engine that gives you total control over the way you can organize and display your slates.",
     image: (
       <img
-        src="https://slate.textile.io/ipfs/bafybeiaiy3c72sdirjj24vvev7xpuvvqckwip3ot7l4u4iaxdlnbp4hqae"
+        src="https://slate.textile.io/ipfs/bafybeigb7pd2dh64ty7l2yhnzu5kjupgxbfzqzjjb2gtprexfxzkwx4nle"
         alt="grid layout"
         css={STYLES_IMAGE}
       />
     ),
     button: (
-      <ButtonPrimary
-        style={{ width: 160 }}
-        onClick={() => {
-          dispatchCustomEvent({
-            name: "delete-modal",
-            detail: {},
-          });
-        }}
-      >
-        Got it
-      </ButtonPrimary>
-    ),
-  },
-  {
-    title: "New Feature 2",
-    text: "Organize files in grid layout",
-    image: (
-      <img
-        src="https://slate.textile.io/ipfs/bafybeiaiy3c72sdirjj24vvev7xpuvvqckwip3ot7l4u4iaxdlnbp4hqae"
-        alt="grid layout"
-        css={STYLES_IMAGE}
-      />
-    ),
-    button: (
-      <ButtonPrimary
-        style={{ width: 160 }}
-        onClick={() => {
-          dispatchCustomEvent({
-            name: "delete-modal",
-            detail: {},
-          });
-        }}
-      >
-        Got it
+      <ButtonPrimary style={{ width: 160 }}>
+        <a css={STYLES_LINK} href="/_?scene=V1_NAVIGATION_SLATES">
+          Try it out
+        </a>
       </ButtonPrimary>
     ),
   },

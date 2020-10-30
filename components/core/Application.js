@@ -62,6 +62,7 @@ import Cookies from "universal-cookie";
 import { OnboardingModal } from "~/components/core/OnboardingModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { Alert } from "~/components/core/Alert";
+import { announcements } from "~/components/core/OnboardingModal";
 
 const cookies = new Cookies();
 
@@ -690,12 +691,24 @@ export default class ApplicationPage extends React.Component {
 
     this._handleAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
 
-    let unseenAnnouncements = false; //TODO(tara): change this to something that checks this.state.viewer for whether they have seen all the current annoucements
-    if (newAccount || unseenAnnouncements) {
+    let unseenAnnouncements = [];
+    for (let feature of announcements) {
+      if (!Object.keys(this.state.viewer.onboarding).includes(feature.title)) {
+        unseenAnnouncements.push(feature.title);
+      }
+    }
+
+    if (newAccount || unseenAnnouncements.length) {
       dispatchCustomEvent({
         name: "create-modal",
         detail: {
-          modal: <OnboardingModal viewer={this.state.viewer} newAccount={newAccount} />,
+          modal: (
+            <OnboardingModal
+              viewer={this.state.viewer}
+              newAccount={newAccount}
+              unseenAnnouncements={unseenAnnouncements}
+            />
+          ),
           noBoundary: true,
         },
       });
@@ -862,6 +875,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   render() {
+    console.log(this.state.viewer);
     // NOTE(jim): Not authenticated.
     if (!this.state.viewer) {
       return (

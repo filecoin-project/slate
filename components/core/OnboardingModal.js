@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/react";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
@@ -24,6 +25,7 @@ const STYLES_BUTTON_SECONDARY = {
   color: Constants.system.brand,
   marginRight: 16,
   width: 160,
+  textDecoration: `none`,
 };
 
 const STYLES_IMAGE = css`
@@ -45,9 +47,61 @@ const STYLES_TEXT = css`
   padding: 0 64px;
 `;
 
+const STYLES_LINK = css`
+  text-decoration: none;
+  color: ${Constants.system.white};
+
+  :visited {
+    color: ${Constants.system.white};
+  }
+`;
+
+export const announcements = [
+  {
+    title: "New On Slate: Grid System 2.0",
+    text:
+      "We just introduced a completely new layout engine that gives you total control over the way you can organize and display your slates.",
+    image: (
+      <img
+        src="https://slate.textile.io/ipfs/bafybeigb7pd2dh64ty7l2yhnzu5kjupgxbfzqzjjb2gtprexfxzkwx4nle"
+        alt="grid layout"
+        css={STYLES_IMAGE}
+      />
+    ),
+    button: (
+      <ButtonPrimary style={{ width: 160 }}>
+        <a css={STYLES_LINK} href="/_?scene=V1_NAVIGATION_SLATES">
+          Try it out
+        </a>
+      </ButtonPrimary>
+    ),
+  },
+];
+
 export class OnboardingModal extends React.Component {
   state = {
     step: 0,
+    slides: [],
+  };
+
+  componentDidMount = () => {
+    Actions.updateOnboardingStatus({ onboarding: this.props.unseenAnnouncements });
+    let slides = [];
+    if (this.props.newAccount) {
+      slides = this.onboardingCopy;
+    }
+    for (let feature of announcements) {
+      if (this.props.unseenAnnouncements.includes(feature.title)) {
+        slides.push(feature);
+      }
+    }
+    if (!slides.length) {
+      dispatchCustomEvent({
+        name: "delete-modal",
+        detail: {},
+      });
+    }
+    this.setState({ slides });
   };
 
   onboardingCopy = [
@@ -81,11 +135,13 @@ export class OnboardingModal extends React.Component {
       ),
       button: (
         <React.Fragment>
-          {/* <a href={null} target="_blank">
-            <ButtonPrimary style={STYLES_BUTTON_SECONDARY}>
-              Get extension
-            </ButtonPrimary>
-          </a> */}
+          <a
+            href="https://chrome.google.com/webstore/detail/slate/gloembacbehhbfbkcfjmloikeeaebnoc"
+            target="_blank"
+            style={{ textDecoration: `none` }}
+          >
+            <ButtonPrimary style={STYLES_BUTTON_SECONDARY}>Get extension</ButtonPrimary>
+          </a>
           <ButtonPrimary style={{ width: 160 }} onClick={() => this._handleClick(1)}>
             Next
           </ButtonPrimary>
@@ -104,15 +160,7 @@ export class OnboardingModal extends React.Component {
         />
       ),
       button: (
-        <ButtonPrimary
-          style={{ width: 160 }}
-          onClick={() => {
-            dispatchCustomEvent({
-              name: "delete-modal",
-              detail: {},
-            });
-          }}
-        >
+        <ButtonPrimary style={{ width: 160 }} onClick={() => this._handleClick(1)}>
           Start using Slate
         </ButtonPrimary>
       ),
@@ -120,16 +168,31 @@ export class OnboardingModal extends React.Component {
   ];
 
   _handleClick = (i) => {
-    this.setState({ step: this.state.step + i });
+    if (this.state.step + i >= this.state.slides.length) {
+      dispatchCustomEvent({
+        name: "delete-modal",
+        detail: {},
+      });
+    } else {
+      this.setState({ step: this.state.step + i });
+    }
   };
 
   render() {
+    if (!this.state.slides || !this.state.slides.length) {
+      return null;
+    }
+
     return (
-      <div css={STYLES_MODAL}>
-        {this.onboardingCopy[this.state.step].image}
-        <div css={STYLES_TITLE}>{this.onboardingCopy[this.state.step].title}</div>
-        <div css={STYLES_TEXT}>{this.onboardingCopy[this.state.step].text}</div>
-        {this.onboardingCopy[this.state.step].button}
+      <div>
+        <div css={STYLES_MODAL}>
+          <div>
+            {this.state.slides[this.state.step].image}
+            <div css={STYLES_TITLE}>{this.state.slides[this.state.step].title}</div>
+            <div css={STYLES_TEXT}>{this.state.slides[this.state.step].text}</div>
+            {this.state.slides[this.state.step].button}
+          </div>
+        </div>
       </div>
     );
   }

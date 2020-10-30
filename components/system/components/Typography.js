@@ -226,7 +226,8 @@ const STYLES_P = css`
   line-height: 1.5;
   overflow-wrap: break-word;
 
-  strong {
+  strong,
+  b {
     font-family: ${Constants.font.semiBold};
     font-weight: 400;
   }

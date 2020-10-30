@@ -10,8 +10,7 @@ import * as Messages from "~/common/messages";
 import { css } from "@emotion/react";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
-const DEFAULT_ERROR_MESSAGE =
-  "We could not make your deal. Please try again later.";
+const DEFAULT_ERROR_MESSAGE = "We could not make your deal. Please try again later.";
 
 export default class SidebarFilecoinArchive extends React.Component {
   state = { response: null };
@@ -68,7 +67,9 @@ export default class SidebarFilecoinArchive extends React.Component {
     }
 
     await Window.delay(5000);
-    alert("The archiving storage deal was made!");
+    alert(
+      "Your storage deal was put in the queue. This can take up to 36 hours, check back later."
+    );
     window.location.reload();
   };
 
@@ -93,8 +94,8 @@ export default class SidebarFilecoinArchive extends React.Component {
         </System.P>
 
         <System.P style={{ marginTop: 24 }}>
-          This will archive all of your data onto the Filecoin Network with a
-          storage deal using your default settings.
+          This will archive all of your data onto the Filecoin Network with a storage deal using
+          your default settings.
         </System.P>
 
         <System.ButtonPrimary

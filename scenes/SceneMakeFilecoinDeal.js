@@ -229,7 +229,9 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     }
 
     await Window.delay(5000);
-    alert("The storage deal was made!");
+    alert(
+      "Your storage deal was put in the queue. This can take up to 36 hours, check back later."
+    );
 
     this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_ARCHIVE" });
   };
@@ -534,7 +536,9 @@ export default class SceneMakeFilecoinDeal extends React.Component {
             <System.DescriptionGroup
               style={{ marginTop: 64, maxWidth: 688 }}
               label="Configure your deal"
-              description={`Your deal will come out of your wallet address: ${this.state.settings_cold_default_address}`}
+              description={`Your deal will come out of your wallet address: ${
+                this.state.settings_cold_default_address
+              }`}
             />
 
             <System.Input

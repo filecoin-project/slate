@@ -24,6 +24,14 @@ const STYLES_DATA = css`
   width: 100%;
   display: flex;
   align-items: center;
+  border-radius: 3px;
+  overflow: hidden;
+`;
+
+const STYLES_DATA_METER_BASE = css`
+  width: 100%;
+  display: flex;
+  align-items: center;
   height: 16px;
   border-radius: 3px;
   background-color: ${Constants.system.foreground};
@@ -32,13 +40,20 @@ const STYLES_DATA = css`
 
 const STYLES_DATA_METER = css`
   flex-shrink: 0;
+  position: absolute;
   height: 16px;
-  background-color: ${Constants.system.brand};
+  background-color: rgba(8, 102, 187, 0.25);
+  top: 0px;
+  left: 0px;
+  border-radius: 3px 0px 0px 3px;
 `;
+const STYLES_DATA_METER_POSITION = css``;
 
 const STYLES_ROW = css`
   display: flex;
   align-items: flex-end;
+  position: absolute;
+
   justify-content: space-between;
   font-family: ${Constants.font.code};
   color: ${Constants.system.darkGray};
@@ -60,6 +75,7 @@ const STYLES_STATS_ROW = css`
 const STYLES_LEFT = css`
   min-width: 10%;
   width: 100% "";
+  border-radius: 15px 50px 30px 5px;
 `;
 
 const STYLES_RIGHT = css`
@@ -83,9 +99,27 @@ const STYLES_NOTE = css`
   margin-bottom: 4px;
 `;
 
+const STYLES_DATA_METER_KEY_WRAPPER = css`
+  display: inline-block;
+`;
+const STYLES_DATA_METER_KEY_SQUARE = css`
+  display: inline-block;
+  border-radius: 3px;
+  background: #73ad21;
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+  vertical-align: middle;
+`;
+const STYLES_DATA_METER_KEY_LABEL = css`
+  display: inline-block;
+  margin-right: 16px;
+  vertical-align: middle;
+`;
+
 export const DataMeterBar = (props) => {
   const percentage = props.bytes / props.maximumBytes;
-
+  console.log(props.bytes);
   return (
     <React.Fragment>
       <div css={STYLES_ROW}>
@@ -115,15 +149,65 @@ export const DataMeter = (props) => {
         {Strings.bytesToSize(props.stats.bytes)} of {Strings.bytesToSize(props.stats.maximumBytes)}{" "}
         used
       </div>
-      <DataMeterBar bytes={props.stats.bytes} maximumBytes={props.stats.maximumBytes} />
-      <DataMeterBar bytes={props.stats.imageBytes} maximumBytes={props.stats.maximumBytes} />
-      <DataMeterBar bytes={props.stats.videoBytes} maximumBytes={props.stats.maximumBytes} />
-      <DataMeterBar bytes={props.stats.audioBytes} maximumBytes={props.stats.maximumBytes} />
-      <DataMeterBar bytes={props.stats.epubBytes} maximumBytes={props.stats.maximumBytes} />
-      <DataMeterBar bytes={props.stats.pdfBytes} maximumBytes={props.stats.maximumBytes} />
+
+      <div style={{ position: "relative" }}>
+        <div css={STYLES_DATA_METER_BASE}></div>
+        <DataMeterBar
+          bytes={
+            props.stats.imageBytes +
+            props.stats.videoBytes +
+            props.stats.pdfBytes +
+            props.stats.audioBytes +
+            props.stats.epubBytes
+          }
+          maximumBytes={props.stats.maximumBytes}
+        />
+        <DataMeterBar
+          bytes={
+            props.stats.imageBytes +
+            props.stats.videoBytes +
+            props.stats.pdfBytes +
+            props.stats.audioBytes
+          }
+          maximumBytes={props.stats.maximumBytes}
+        />
+        <DataMeterBar
+          bytes={props.stats.imageBytes + props.stats.videoBytes + props.stats.pdfBytes}
+          maximumBytes={props.stats.maximumBytes}
+        />
+        <DataMeterBar
+          bytes={props.stats.imageBytes + props.stats.videoBytes}
+          maximumBytes={props.stats.maximumBytes}
+        />
+        <DataMeterBar bytes={props.stats.imageBytes} maximumBytes={props.stats.maximumBytes} />
+      </div>
+      <div css={STYLES_NOTE}>
+        <div css={STYLES_DATA_METER_KEY_WRAPPER}>
+          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
+          <div css={STYLES_DATA_METER_KEY_LABEL}>Images</div>
+        </div>
+        <div css={STYLES_DATA_METER_KEY_WRAPPER}>
+          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
+          <div css={STYLES_DATA_METER_KEY_LABEL}>Videos</div>
+        </div>
+        <div css={STYLES_DATA_METER_KEY_WRAPPER}>
+          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
+          <div css={STYLES_DATA_METER_KEY_LABEL}>Books</div>
+        </div>
+        <div css={STYLES_DATA_METER_KEY_WRAPPER}>
+          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
+          <div css={STYLES_DATA_METER_KEY_LABEL}>PDF</div>
+        </div>
+        <div css={STYLES_DATA_METER_KEY_WRAPPER}>
+          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
+          <div css={STYLES_DATA_METER_KEY_LABEL}>Other</div>
+        </div>
+      </div>
+
       <div css={STYLES_NOTE}>50GB coming soon with email verification</div>
     </div>
   );
+  console.log(props.stats.bytes);
 };
 
 export default DataMeter;

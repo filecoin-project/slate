@@ -55,11 +55,22 @@ How?
 - To work on Slate you must have an internet connection.
 - We don't have windows support at the moment.
 
+### Clone this repo
+
+Working on Slate starts by cloning the repo :)
+
+```sh
+git clone https://github.com/filecoin-project/slate.git
+cd slate
+```
+
 ### .env
 
-- You must create a `.env` file if you want to work on the service.
-- You don't need one if you work on the system.
-- Resource URIs are optional if you want to use another server for uploads.
+You must create a `.env` file if you want to work on the service.
+
+- You must setup your own postgres or hosted postgres.
+- You must have your own Textile hub account setup
+- You will have to run 3 other servers manually until we automate.
 
 ```
 POSTGRES_ADMIN_PASSWORD=XXX
@@ -83,21 +94,22 @@ RESOURCE_URI_SEARCH=http://localhost:1313
 ### Setup pubsub server
 
 - In another terminal window, clone https://github.com/slate-engineering/fiji
-- You can use the same secrets
+- Use the same `.env` secret values as the root server.
 
 ### Setup file upload server
 
 - In another terminal window, clone https://github.com/slate-engineering/shovel
-- You can use the same secrets
+- Use the same `.env` secret values as the root server.
+
+### Setup search server
+
+- In another terminal window, clone https://github.com/slate-engineering/lens
+- Use the same `.env` secret values as the root server.
 
 ### Install and run
 
 ```sh
-git clone https://github.com/filecoin-project/slate.git
-cd slate
 npm install
-
-# Run using existing .data folder
 npm run dev
 ```
 

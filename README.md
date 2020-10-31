@@ -22,22 +22,6 @@ Slate is tightly scoped for the present and more broadly thought out for the fut
 - New brand: https://slate.host/narative/slate-brand-identity
 - Monet on Filecoin: https://slate.host/slate/monet
 
-### Developer API
-
-Slate has a Developer API that allows you upload files using code and HTTP.
-
-Every user who creates an account on Slate can use the API. Here is an example:
-
-```js
-const response = await fetch("https://slate.host/api/v1/get", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: "Basic XXX-YOUR-SLATE-KEY-XXX",
-  },
-});
-```
-
 [Create an account and try it out!](https://slate.host/_)
 
 # Get involved
@@ -122,3 +106,19 @@ Our design system is out of date and could use an update.
 
 - [Use our components](https://slate.host/_/system)
 - [Design System Release Repository](https://github.com/filecoin-project/slate-react-system)
+
+## Developer API
+
+Slate has a Developer API that allows you upload files using code and HTTP.
+
+Every user who creates an account on Slate can use the API. Here is an example:
+
+```js
+const response = await fetch("https://slate.host/api/v1/get", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Basic XXX-YOUR-SLATE-KEY-XXX",
+  },
+});
+```

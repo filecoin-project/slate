@@ -1,6 +1,7 @@
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
+import * as ViewerManager from "~/node_common/managers/viewer";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -10,9 +11,7 @@ export default async (req, res) => {
 
   if (!layoutOnly) {
     if (!id) {
-      return res
-        .status(500)
-        .send({ decorator: "SERVER_FIND_USER_UPDATE_SLATE", error: true });
+      return res.status(500).send({ decorator: "SERVER_FIND_USER_UPDATE_SLATE", error: true });
     }
 
     user = await Data.getUserById({
@@ -37,15 +36,11 @@ export default async (req, res) => {
   const response = await Data.getSlateById({ id: req.body.data.id });
 
   if (!response) {
-    return res
-      .status(404)
-      .send({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
+    return res.status(404).send({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
   }
 
   if (response.error) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
+    return res.status(500).send({ decorator: "SERVER_UPDATE_SLATE_NOT_FOUND", error: true });
   }
 
   if (!req.body.data) {
@@ -87,8 +82,7 @@ export default async (req, res) => {
       slatename: req.body.data.data.name
         ? Strings.createSlug(req.body.data.data.name)
         : response.slatename,
-      updated_at:
-        layoutOnly || req.body.data.autoSave ? response.updated_at : new Date(),
+      updated_at: layoutOnly || req.body.data.autoSave ? response.updated_at : new Date(),
       data: {
         ...response.data,
         ...req.body.data.data,
@@ -97,15 +91,16 @@ export default async (req, res) => {
   }
 
   if (!slate) {
-    return res
-      .status(404)
-      .send({ decorator: "SERVER_UPDATE_SLATE", error: true });
+    return res.status(404).send({ decorator: "SERVER_UPDATE_SLATE", error: true });
   }
 
   if (slate.error) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_UPDATE_SLATE", error: true });
+    return res.status(500).send({ decorator: "SERVER_UPDATE_SLATE", error: true });
+  }
+
+  let slates = await Data.getSlatesByUserId({ userId: id });
+  if (slates) {
+    ViewerManager.hydratePartialSlates(slates, id);
   }
 
   return res.status(200).send({ decorator: "SERVER_UPDATE_SLATE", slate });

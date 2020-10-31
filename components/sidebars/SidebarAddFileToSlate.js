@@ -89,12 +89,7 @@ export default class SidebarAddFileToSlate extends React.Component {
       }
 
       const { added, skipped } = addResponse;
-      let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
-      if (skipped) {
-        message += `${skipped || 0} duplicate / existing file${
-          added !== 1 ? "s were" : " was"
-        } skipped.`;
-      }
+      let message = Strings.formatAsUploadMessage(added, skipped, true);
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
@@ -102,7 +97,6 @@ export default class SidebarAddFileToSlate extends React.Component {
         },
       });
     }
-    await this.props.onRehydrate();
     this.props.onCancel();
   };
 

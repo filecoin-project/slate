@@ -65,15 +65,13 @@ export default class SidebarSingleSlateSettings extends React.Component {
         body: this.state.body,
       },
     });
-    console.log(response);
 
     if (!response) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -87,8 +85,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
       });
       return this.setState({ loading: false });
     }
-
-    await this.props.onSubmit({});
+    this.props.onCancel();
   };
 
   _handleCancel = () => {
@@ -103,9 +100,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
     this.setState({ loading: true });
 
     if (
-      !window.confirm(
-        "Are you sure you want to delete this Slate? This action is irreversible."
-      )
+      !window.confirm("Are you sure you want to delete this Slate? This action is irreversible.")
     ) {
       return this.setState({ loading: false });
     }
@@ -119,8 +114,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -139,8 +133,6 @@ export default class SidebarSingleSlateSettings extends React.Component {
       type: "NAVIGATE",
       value: "V1_NAVIGATION_SLATES",
     });
-
-    return await this.props.onRehydrate();
   };
 
   render() {
@@ -182,19 +174,14 @@ export default class SidebarSingleSlateSettings extends React.Component {
               marginTop: 12,
             }}
           >
-            Changing the slatename will change your public slate URL. Your slate
-            URL is:{" "}
+            Changing the slatename will change your public slate URL. Your slate URL is:{" "}
           </System.P>
           <System.P
             style={{
               marginTop: 12,
             }}
           >
-            <a
-              href={url}
-              target="_blank"
-              style={{ color: Constants.system.brand }}
-            >
+            <a href={url} target="_blank" style={{ color: Constants.system.brand }}>
               https://slate.host{url}
             </a>
           </System.P>
@@ -236,11 +223,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           </System.P>
 
           <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
-            <img
-              src={preview}
-              alt=""
-              style={{ maxWidth: "368px", maxHeight: "368px" }}
-            />
+            <img src={preview} alt="" style={{ maxWidth: "368px", maxHeight: "368px" }} />
           </div>
         </div>
 
@@ -252,20 +235,12 @@ export default class SidebarSingleSlateSettings extends React.Component {
                 ? "Public. Anyone can search for and view this slate."
                 : "Private. Only you can view this slate."}
             </System.P>
-            <System.Toggle
-              name="public"
-              onChange={this._handleChange}
-              active={this.state.public}
-            />
+            <System.Toggle name="public" onChange={this._handleChange} active={this.state.public} />
           </div>
         </div>
 
         <div style={{ marginTop: 40 }}>
-          <System.ButtonPrimary
-            full
-            onClick={this._handleSubmit}
-            loading={this.state.loading}
-          >
+          <System.ButtonPrimary full onClick={this._handleSubmit} loading={this.state.loading}>
             Save changes
           </System.ButtonPrimary>
 
@@ -284,11 +259,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
         {!this.state.loading ? (
           <div style={{ marginTop: 48 }}>
-            <System.ButtonWarning
-              full
-              onClick={this._handleDelete}
-              style={{ overflow: "hidden" }}
-            >
+            <System.ButtonWarning full onClick={this._handleDelete} style={{ overflow: "hidden" }}>
               Delete{" "}
               {this.props.current.data && this.props.current.data.name
                 ? this.props.current.data.name

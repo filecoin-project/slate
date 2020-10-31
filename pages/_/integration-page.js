@@ -46,7 +46,12 @@ export default class IntegrationPage extends React.Component {
 
   _handleChange = async (e) => {
     const query = e.target.value;
-    const results = await Actions.search({ query });
+    const results = await Actions.search({
+      query,
+      filter: {
+        slates: true,
+      },
+    });
 
     this.setState({ results: results.data.results });
   };
@@ -59,8 +64,7 @@ export default class IntegrationPage extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble connecting right now. Please try again later",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
@@ -135,15 +139,11 @@ export default class IntegrationPage extends React.Component {
                 {JSON.stringify(each, null, 1)}{" "}
                 <div>
                   {!each.data.verified ? (
-                    <button onClick={() => this._handleAccept(each)}>
-                      Accept
-                    </button>
+                    <button onClick={() => this._handleAccept(each)}>Accept</button>
                   ) : null}
 
                   {each.data.verified ? (
-                    <button onClick={() => this._handleDelete(each)}>
-                      Delete
-                    </button>
+                    <button onClick={() => this._handleDelete(each)}>Delete</button>
                   ) : null}
                 </div>
               </div>
@@ -162,9 +162,7 @@ export default class IntegrationPage extends React.Component {
                   ) : null}
 
                   {each.data.verified ? (
-                    <button onClick={() => this._handleDelete(each)}>
-                      Delete
-                    </button>
+                    <button onClick={() => this._handleDelete(each)}>Delete</button>
                   ) : null}
                 </div>
               </div>
@@ -172,15 +170,9 @@ export default class IntegrationPage extends React.Component {
           })}
         </div>
         <div css={STYLES_COLUMN}>
-          <button onClick={this._handleUpdate}>
-            Update {this.state.viewer.username}
-          </button>
+          <button onClick={this._handleUpdate}>Update {this.state.viewer.username}</button>
           <br />
-          <input
-            type="text"
-            onChange={this._handleChange}
-            placeholder="type anything to search"
-          />
+          <input type="text" onChange={this._handleChange} placeholder="type anything to search" />
 
           {this.state.results.map((each) => {
             if (!each) {
@@ -192,13 +184,9 @@ export default class IntegrationPage extends React.Component {
                 {JSON.stringify(each, null, 1)}{" "}
                 <div>
                   {each.type === "USER" ? (
-                    <button onClick={() => this._handleTrust(each)}>
-                      Trust
-                    </button>
+                    <button onClick={() => this._handleTrust(each)}>Trust</button>
                   ) : null}
-                  <button onClick={() => this._handleSubscribe(each)}>
-                    Subscribe
-                  </button>
+                  <button onClick={() => this._handleSubscribe(each)}>Subscribe</button>
                 </div>
               </div>
             );
@@ -210,9 +198,7 @@ export default class IntegrationPage extends React.Component {
               <div css={STYLES_ITEM} key={each.id}>
                 {JSON.stringify(each, null, 1)}{" "}
                 <div>
-                  <button onClick={() => this._handleSubscribe(each)}>
-                    Unsubscribe
-                  </button>
+                  <button onClick={() => this._handleSubscribe(each)}>Unsubscribe</button>
                 </div>
               </div>
             );

@@ -211,8 +211,6 @@ export default class SceneSettingsDeveloper extends React.Component {
       return this.setState({ loading: false });
     }
 
-    await this.props.onRehydrate();
-
     this.setState({ loading: false });
   };
 
@@ -244,6 +242,7 @@ export default class SceneSettingsDeveloper extends React.Component {
       });
       return this.setState({ loading: false });
     }
+    this.setState({ loading: false });
   };
 
   async componentDidMount() {

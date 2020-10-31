@@ -50,7 +50,6 @@ export default class SceneFilesFolder extends React.Component {
             onAction={this.props.onAction}
             viewer={this.props.viewer}
             items={this.props.viewer.library[0].children}
-            onRehydrate={this.props.onRehydrate}
           />
         ) : (
           <EmptyState>

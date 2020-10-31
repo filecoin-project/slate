@@ -118,8 +118,6 @@ export default class SceneSettings extends React.Component {
       },
     });
 
-    await this.props.onRehydrate();
-
     this.setState({ loading: false });
   };
 

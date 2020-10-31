@@ -21,9 +21,37 @@ const delay = async (waitMs) => {
 
 Websocket.create();
 
+//NOTE(martina): type = "UPDATE" will be processed by slate and lens. type = "SEARCH" will only be processed by lens
+const websocketSend = async (type, data) => {
+  if (Strings.isEmpty(Environment.PUBSUB_SECRET)) {
+    return;
+  }
+
+  const ws = Websocket.get();
+  const encryptedData = await Utilities.encryptWithSecret(
+    JSON.stringify(data),
+    Environment.PUBSUB_SECRET
+  );
+
+  // NOTE(jim): Only allow this to be passed around encrypted.
+  ws.send(
+    JSON.stringify({
+      type,
+      iv: encryptedData.iv,
+      data: encryptedData.hex,
+    })
+  );
+};
+
 export const hydratePartialViewer = async (user) => {
   const data = {
-    ...Serializers.user(user),
+    id: user.id,
+    username: user.username,
+    data: {
+      name: user.data.name ? user.data.name : "",
+      photo: user.data.photo ? user.data.photo : "",
+      body: user.data.body ? user.data.body : "",
+    },
     type: "PARTIAL_VIEWER",
     library: user.data.library,
     onboarding: user.data.onboarding || {},
@@ -40,24 +68,237 @@ export const hydratePartialViewer = async (user) => {
       : null,
   };
 
-  if (Strings.isEmpty(Environment.PUBSUB_SECRET)) {
-    return;
+  websocketSend("UPDATE", data);
+};
+
+export const hydratePartialOnboarding = async (onboarding, userId) => {
+  const data = {
+    id: userId,
+    onboarding,
+  };
+  websocketSend("UPDATE", data);
+};
+
+export const hydratePartialSubscriptions = async (updated, userId) => {
+  const data = {
+    id: userId,
+  };
+  const user = await Data.getUserById({ id: userId });
+
+  if (!user) {
+    return null;
   }
 
-  const ws = Websocket.get();
-  const encryptedData = await Utilities.encryptWithSecret(
-    JSON.stringify(data),
-    Environment.PUBSUB_SECRET
-  );
+  if (user.error) {
+    return null;
+  }
+  let mostRecent;
+  if (updated.subscriptions) {
+    const subscriptions = await Data.getSubscriptionsByUserId({ userId });
+    let r1 = await Serializers.doSubscriptions({
+      users: [],
+      slates: [],
+      subscriptions,
+      serializedUsersMap: { [user.id]: Serializers.user(user) },
+      serializedSlatesMap: {},
+    });
+    data.subscriptions = r1.serializedSubscriptions;
+    mostRecent = r1;
+  }
+  if (updated.subscribers) {
+    const subscribers = await Data.getSubscribersByUserId({ userId });
+    let r2 = await Serializers.doSubscribers({
+      users: [],
+      slates: [],
+      subscribers,
+      serializedUsersMap: mostRecent
+        ? mostRecent.serializedUsersMap
+        : { [user.id]: Serializers.user(user) },
+      serializedSlatesMap: mostRecent ? mostRecent.serializedSlatesMap : {},
+    });
+    data.subscribers = r2.serializedSubscribers;
+    mostRecent = r2;
+  }
+  if (updated.trusted) {
+    console.log("update trusted");
+    const trusted = await Data.getTrustedRelationshipsByUserId({ userId });
+    let r3 = await Serializers.doTrusted({
+      users: [],
+      trusted,
+      serializedUsersMap: mostRecent
+        ? mostRecent.serializedUsersMap
+        : { [user.id]: Serializers.user(user) },
+      serializedSlatesMap: mostRecent ? mostRecent.serializedSlatesMap : {},
+    });
+    data.trusted = r3.serializedTrusted;
+    mostRecent = r3;
+  }
+  if (updated.pendingTrusted) {
+    console.log("update pending trusted");
+    const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
+      userId,
+    });
+    let r4 = await Serializers.doPendingTrusted({
+      users: [userId],
+      pendingTrusted,
+      serializedUsersMap: mostRecent
+        ? mostRecent.serializedUsersMap
+        : { [user.id]: Serializers.user(user) },
+      serializedSlatesMap: mostRecent ? mostRecent.serializedSlatesMap : {},
+    });
+    data.pendingTrusted = r4.serializedPendingTrusted;
+  }
+  websocketSend("UPDATE", data);
+};
 
-  // NOTE(jim): Only allow this to be passed around encrypted.
-  ws.send(
-    JSON.stringify({
-      type: "UPDATE",
-      iv: encryptedData.iv,
-      data: encryptedData.hex,
-    })
-  );
+export const hydratePartialKeys = async (keys, userId) => {
+  const data = {
+    id: userId,
+    keys,
+  };
+  websocketSend("UPDATE", data);
+};
+
+export const hydratePartialLibrary = async (library, userId) => {
+  const data = {
+    id: userId,
+    library,
+  };
+  websocketSend("UPDATE", data);
+};
+
+export const hydratePartialSlates = async (slates, userId) => {
+  console.log("hydrate slates");
+  const data = {
+    id: userId,
+    slates,
+  };
+  websocketSend("UPDATE", data);
+};
+
+// export const hydratePartialActivity = async (activity, userId) => {
+//   this one will need to be more complex like what is in hydrate
+//   websocketSend("UPDATE", data);
+// };
+
+export const hydrate = async (id) => {
+  const user = await Data.getUserById({
+    id,
+  });
+
+  if (!user) {
+    return null;
+  }
+
+  if (user.error) {
+    return null;
+  }
+
+  // TODO(jim): You can serialize this last because you will have all the information
+  // from subscriptions, trusted, and pendingTrusted most likely.
+  const activity = await Data.getActivityForUserId({ userId: id });
+  const slates = await Data.getSlatesByUserId({ userId: id });
+  const keys = await Data.getAPIKeysByUserId({ userId: id });
+  const subscriptions = await Data.getSubscriptionsByUserId({ userId: id });
+  const subscribers = await Data.getSubscribersByUserId({ userId: id });
+
+  let serializedUsersMap = { [user.id]: Serializers.user(user) };
+  let serializedSlatesMap = {};
+
+  // NOTE(jim): The most expensive call first.
+  const r1 = await Serializers.doSubscriptions({
+    users: [],
+    slates: [],
+    subscriptions,
+    serializedUsersMap,
+    serializedSlatesMap,
+  });
+
+  const r2 = await Serializers.doSubscribers({
+    users: [],
+    slates: [],
+    subscribers,
+    serializedUsersMap: r1.serializedUsersMap,
+    serializedSlatesMap: r1.serializedSlatesMap,
+  });
+
+  // NOTE(jim): If any trusted users are subscription users, this ends up being cheaper.
+  const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
+  const r3 = await Serializers.doTrusted({
+    users: [],
+    trusted,
+    serializedUsersMap: r2.serializedUsersMap,
+    serializedSlatesMap: r2.serializedSlatesMap,
+  });
+
+  // NOTE(jim): This should be the cheapest call.
+  const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
+    userId: id,
+  });
+  const r4 = await Serializers.doPendingTrusted({
+    users: [id],
+    pendingTrusted,
+    serializedUsersMap: r3.serializedUsersMap,
+    serializedSlatesMap: r3.serializedSlatesMap,
+  });
+
+  let bytes = 0;
+  let imageBytes = 0;
+  let videoBytes = 0;
+  let audioBytes = 0;
+  let epubBytes = 0;
+  let pdfBytes = 0;
+  user.data.library[0].children.forEach((each) => {
+    if (each.type && each.type.startsWith("image/")) {
+      imageBytes += each.size;
+    } else if (each.type && each.type.startsWith("video/")) {
+      videoBytes += each.size;
+    } else if (each.type && each.type.startsWith("audio/")) {
+      audioBytes += each.size;
+    } else if (each.type && each.type.startsWith("application/epub")) {
+      epubBytes += each.size;
+    } else if (each.type && each.type.startsWith("application/pdf")) {
+      pdfBytes += each.size;
+    }
+    bytes += each.size;
+  });
+
+  let data = {
+    ...Serializers.user(user),
+    type: "VIEWER",
+    library: user.data.library,
+    onboarding: user.data.onboarding || {},
+
+    // TODO(jim): Move this elsewhere.
+    allow_filecoin_directory_listing: user.data.allow_filecoin_directory_listing
+      ? user.data.allow_filecoin_directory_listing
+      : null,
+    allow_automatic_data_storage: user.data.allow_automatic_data_storage
+      ? user.data.allow_automatic_data_storage
+      : null,
+    allow_encrypted_data_storage: user.data.allow_encrypted_data_storage
+      ? user.data.allow_encrypted_data_storage
+      : null,
+
+    // NOTE(jim): Remaining data.
+    stats: {
+      bytes,
+      maximumBytes: Constants.TEXTILE_ACCOUNT_BYTE_LIMIT,
+      imageBytes,
+      videoBytes,
+      audioBytes,
+      epubBytes,
+      pdfBytes,
+    },
+    keys,
+    activity,
+    slates,
+    subscriptions: r1.serializedSubscriptions,
+    subscribers: r2.serializedSubscribers,
+    trusted: r3.serializedTrusted,
+    pendingTrusted: r4.serializedPendingTrusted,
+  };
+  websocketSend("UPDATE", data);
 };
 
 // TODO(jim): Work on better serialization when adoption starts occuring.

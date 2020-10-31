@@ -243,7 +243,6 @@ export default class DataView extends React.Component {
     if (windowBottom >= docHeight - 600) {
       this.setState({ viewLimit: this.state.viewLimit + 30 });
     }
-    console.log(e);
   };
 
   _handleCheckScroll = Window.debounce(this._handleScroll, 200);
@@ -300,7 +299,6 @@ export default class DataView extends React.Component {
       dispatchCustomEvent({ name: "state-global-carousel-loading", detail: { loading: false } });
       return;
     }
-    await this.props.onRehydrate();
     this._handleLoading({ cids });
     this.setState({ checked: {} });
     dispatchCustomEvent({
@@ -357,12 +355,7 @@ export default class DataView extends React.Component {
     }
 
     const { added, skipped } = addResponse;
-    let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded. `;
-    if (skipped) {
-      message += `${skipped || 0} duplicate / existing file${
-        added !== 1 ? "s were" : " was"
-      } skipped.`;
-    }
+    let message = Strings.formatAsUploadMessage(added, skipped, true);
     dispatchCustomEvent({
       name: "create-alert",
       detail: {
@@ -370,7 +363,6 @@ export default class DataView extends React.Component {
       },
     });
 
-    await this.props.onRehydrate();
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",
       detail: { loading: false },
@@ -421,8 +413,6 @@ export default class DataView extends React.Component {
       });
       return null;
     }
-
-    await this.props.onRehydrate();
 
     System.dispatchCustomEvent({
       name: "state-global-carousel-loading",

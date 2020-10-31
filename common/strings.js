@@ -87,6 +87,16 @@ export const getCIDFromIPFS = (url) => {
   return cid;
 };
 
+export const formatAsUploadMessage = (added, skipped, slate = false) => {
+  let message = `${added || 0} file${added !== 1 ? "s" : ""} uploaded${slate ? " to slate" : ""}. `;
+  if (skipped) {
+    message += `${skipped || 0} duplicate / existing file${
+      added !== 1 ? "s were" : " was"
+    } skipped.`;
+  }
+  return message;
+};
+
 export const formatAsFilecoinConversion = (number) => {
   const filecoinNumber = new FilecoinNumber(`${number}`, "attofil");
   //const inAttoFil = filecoinNumber.toAttoFil();

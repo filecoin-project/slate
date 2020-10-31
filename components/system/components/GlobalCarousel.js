@@ -302,7 +302,6 @@ export class GlobalCarousel extends React.Component {
         detail: { alert: { decorator: response.decorator } },
       });
     }
-    this.props.onRehydrate();
     this.setState({ loading: false, saving: false });
   };
 
@@ -347,7 +346,7 @@ export class GlobalCarousel extends React.Component {
       this.state.index < this.props.viewer.library[0].children.length
     ) {
       data = this.props.viewer.library[0].children[this.state.index];
-      data.url = `${Constants.gateways.ipfs}/${data.cid || Strings.getCIDFromIPFS(data.ipfs)}`;
+      data.url = `${Constants.gateways.ipfs}/${data.cid || data.ipfs.replace("/ipfs/", "")}`;
     }
     if (!data) {
       this._handleClose();
@@ -398,7 +397,6 @@ export class GlobalCarousel extends React.Component {
               saving={this.state.saving}
               loading={this.state.loading}
               slates={this.props.slates}
-              onRehydrate={this.props.onRehydrate}
               onAction={this.props.onAction}
               data={data}
               cid={data.cid}
@@ -411,7 +409,6 @@ export class GlobalCarousel extends React.Component {
               loading={this.state.loading}
               slates={this.props.slates}
               onClose={this._handleClose}
-              onRehydrate={this.props.onRehydrate}
               onAction={this.props.onAction}
               data={data}
               external={this.props.external}

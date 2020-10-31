@@ -2,6 +2,7 @@ import * as Environment from "~/node_common/environment";
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Validations from "~/common/validations";
+import * as ViewerManager from "~/node_common/managers/viewer";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -37,6 +38,8 @@ export default async (req, res) => {
   const response = await Data.deleteTrustedRelationshipById({
     id: req.body.data.id,
   });
+
+  ViewerManager.hydratePartialSubscriptions({ trusted: true, pendingTrusted: true }, id);
 
   return res.status(200).send({ decorator: "SERVER_TRUST_UPDATE", data: response });
 };

@@ -2,6 +2,7 @@ import * as Upload from "~/node_common/upload";
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
+import * as ViewerManager from "~/node_common/managers/viewer";
 
 import { Buckets } from "@textile/hub";
 
@@ -13,17 +14,10 @@ export default async (req, res) => {
   });
 
   if (!user || user.error) {
-    return res
-      .status(403)
-      .send({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
+    return res.status(403).send({ decorator: "SERVER_ADD_TO_SLATE_USER_NOT_FOUND", error: true });
   }
 
-  let {
-    buckets,
-    bucketKey,
-    bucketRoot,
-    bucketName,
-  } = await Utilities.getBucketAPIFromUserToken({
+  let { buckets, bucketKey, bucketRoot, bucketName } = await Utilities.getBucketAPIFromUserToken({
     user,
   });
 
@@ -41,9 +35,7 @@ export default async (req, res) => {
     });
   }
 
-  let userCIDs = user.data.library[0].children.map((file) =>
-    file.ipfs.replace("/ipfs/", "")
-  );
+  let userCIDs = user.data.library[0].children.map((file) => file.ipfs.replace("/ipfs/", ""));
   let newFiles = [];
   for (let item of req.body.data.items) {
     let cid = item.cid;
@@ -71,7 +63,7 @@ export default async (req, res) => {
     }
   }
 
-  const { updatedUserDataFields } = LibraryManager.addData({
+  const { updatedUserDataFields, added, skipped } = LibraryManager.addData({
     user,
     files: newFiles,
   });
@@ -79,9 +71,12 @@ export default async (req, res) => {
     id: user.id,
     data: updatedUserDataFields,
   });
+  if (updatedUserDataFields && updatedUserDataFields.library) {
+    ViewerManager.hydratePartialLibrary(updatedUserDataFields.library, id);
+  }
 
   return res.status(200).send({
     decorator: "SERVER_ADD_EXISTING_CID_TO_DATA",
-    data: true,
+    data: { added, skipped: skipped + req.body.data.items.length - newFiles.length },
   });
 };

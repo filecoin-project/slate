@@ -55,7 +55,6 @@ const STYLES_DESCTIPTION = css`
   font-size: ${Constants.typescale.lvl1};
   font-family: ${Constants.font.text};
   width: 50%;
-  color: ${Constants.system.grayBlack};
   word-wrap: break-word;
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
@@ -288,17 +287,17 @@ export default class SlatePage extends React.Component {
               </ViewAllButton>
               <div css={STYLES_STATS}>
                 <div css={STYLES_STAT}>
-                  <div style={{ color: `${Constants.system.grayBlack}` }}>Data</div>
+                  <div style={{ color: `${Constants.system.darkGray}` }}>Data</div>
                   <div style={{ fontFamily: `${Constants.font.medium}` }}>
                     {this.props.slate.data.objects.length}
                   </div>
                 </div>
                 <div css={STYLES_STAT}>
-                  <div style={{ color: `${Constants.system.grayBlack}` }}>Contributors</div>
+                  <div style={{ color: `${Constants.system.darkGray}` }}>Contributors</div>
                   <div style={{ fontFamily: `${Constants.font.medium}` }}>{contributorsCount}</div>
                 </div>
                 {/* <div css={STYLES_STAT}>
-                  <div style={{ color: `${Constants.system.grayBlack}` }}>Followers</div>
+                  <div style={{ color: `${Constants.system.darkGray}` }}>Followers</div>
                   <div style={{ fontFamily: `${Constants.font.medium}` }}>0</div>
                 </div> */}
               </div>

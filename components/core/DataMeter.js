@@ -42,18 +42,15 @@ const STYLES_DATA_METER = css`
   flex-shrink: 0;
   position: absolute;
   height: 16px;
-  background-color: rgba(8, 102, 187, 0.25);
   top: 0px;
   left: 0px;
   border-radius: 3px 0px 0px 3px;
 `;
-const STYLES_DATA_METER_POSITION = css``;
 
 const STYLES_ROW = css`
   display: flex;
   align-items: flex-end;
   position: absolute;
-
   justify-content: space-between;
   font-family: ${Constants.font.code};
   color: ${Constants.system.darkGray};
@@ -74,7 +71,7 @@ const STYLES_STATS_ROW = css`
 
 const STYLES_LEFT = css`
   min-width: 10%;
-  width: 100% "";
+  width: 100%;
   border-radius: 15px 50px 30px 5px;
 `;
 
@@ -123,20 +120,32 @@ export const DataMeterBar = (props) => {
   return (
     <React.Fragment>
       <div css={STYLES_ROW}>
-        <div css={STYLES_LEFT} style={{ color: props.failed ? Constants.system.red : null }}>
+        <div
+          css={STYLES_LEFT}
+          style={{
+            color: props.failed ? Constants.system.red : null,
+          }}
+        >
           {props.leftLabel}
         </div>
         <div css={STYLES_RIGHT}>{props.rightLabel}</div>
       </div>
-
       <div
         css={STYLES_DATA}
         style={{
           marginTop: 8,
-          backgroundColor: props.failed ? Constants.system.red : null,
+          backgroundColor: props.failed ? props.dataMeterColor : null,
         }}
       >
-        <div css={STYLES_DATA_METER} style={{ width: `${percentage * 100}%` }} />
+        {" "}
+        <div
+          css={STYLES_DATA_METER}
+          style={{
+            width: `${percentage * 100}%`,
+            backgroundColor: props.dataMeterColor,
+            zIndex: props.dataMeterLayer,
+          }}
+        ></div>
       </div>
     </React.Fragment>
   );
@@ -161,6 +170,8 @@ export const DataMeter = (props) => {
             props.stats.epubBytes
           }
           maximumBytes={props.stats.maximumBytes}
+          dataMeterColor={`#C0D8EE`}
+          dataMeterLayer={`1`}
         />
         <DataMeterBar
           bytes={
@@ -170,37 +181,58 @@ export const DataMeter = (props) => {
             props.stats.audioBytes
           }
           maximumBytes={props.stats.maximumBytes}
+          dataMeterColor={`#C0DACD`}
+          dataMeterLayer={`2`}
         />
         <DataMeterBar
           bytes={props.stats.imageBytes + props.stats.videoBytes + props.stats.pdfBytes}
           maximumBytes={props.stats.maximumBytes}
+          dataMeterColor={`#C0DACD`}
+          dataMeterLayer={`3`}
         />
         <DataMeterBar
           bytes={props.stats.imageBytes + props.stats.videoBytes}
           maximumBytes={props.stats.maximumBytes}
+          dataMeterColor={`#C0DACD`}
+          dataMeterLayer={`4`}
         />
-        <DataMeterBar bytes={props.stats.imageBytes} maximumBytes={props.stats.maximumBytes} />
+        <DataMeterBar
+          bytes={props.stats.imageBytes}
+          maximumBytes={props.stats.maximumBytes}
+          dataMeterColor={`#C0DACD`}
+          dataMeterLayer={`5`}
+        />
       </div>
       <div css={STYLES_NOTE}>
         <div css={STYLES_DATA_METER_KEY_WRAPPER}>
-          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
+          <div css={STYLES_DATA_METER_KEY_SQUARE} style={{ background: `#C0D8EE` }}>
+            {" "}
+          </div>
           <div css={STYLES_DATA_METER_KEY_LABEL}>Images</div>
         </div>
         <div css={STYLES_DATA_METER_KEY_WRAPPER}>
-          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
+          <div css={STYLES_DATA_METER_KEY_SQUARE} style={{ background: `#C0DACD` }}>
+            {" "}
+          </div>
           <div css={STYLES_DATA_METER_KEY_LABEL}>Videos</div>
         </div>
         <div css={STYLES_DATA_METER_KEY_WRAPPER}>
-          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
+          <div css={STYLES_DATA_METER_KEY_SQUARE} style={{ background: "#FEEDC4" }}>
+            {" "}
+          </div>
           <div css={STYLES_DATA_METER_KEY_LABEL}>Books</div>
         </div>
         <div css={STYLES_DATA_METER_KEY_WRAPPER}>
-          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
+          <div css={STYLES_DATA_METER_KEY_SQUARE} style={{ background: "#FAB413" }}>
+            {" "}
+          </div>
           <div css={STYLES_DATA_METER_KEY_LABEL}>PDF</div>
         </div>
         <div css={STYLES_DATA_METER_KEY_WRAPPER}>
-          <div css={STYLES_DATA_METER_KEY_SQUARE}> </div>
-          <div css={STYLES_DATA_METER_KEY_LABEL}>Other</div>
+          <div css={STYLES_DATA_METER_KEY_SQUARE} style={{ background: "#F1C4C4" }}>
+            {" "}
+          </div>
+          <div css={STYLES_DATA_METER_KEY_LABEL}>Audio</div>
         </div>
       </div>
 

@@ -8,7 +8,6 @@ const STYLES_ROOT = css`
   width: 100%;
   margin: 0 auto;
   background-color: ${Constants.system.wall};
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
     justify-content: left;
@@ -44,7 +43,6 @@ const STYLES_LINK = css`
   opacity: 0.7;
   text-decoration: none;
   transition: 200ms ease color;
-
   :hover {
     color: ${Constants.system.newBlue};
     opacity: 1;
@@ -53,7 +51,6 @@ const STYLES_LINK = css`
 
 const STYLES_FLEX = css`
   display: flex;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
   }
@@ -61,7 +58,6 @@ const STYLES_FLEX = css`
 
 const STYLES_CONTENT_BLOCK = css`
   width: 16.67%;
-
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 50%;
   }

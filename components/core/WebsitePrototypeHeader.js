@@ -8,19 +8,23 @@ const STYLES_CONTAINER = css`
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  padding: 24px 64px 24px 42px;
+  padding: 16px 64px 16px 42px;
   width: 100%;
   margin: 0 auto;
   z-index: ${Constants.zindex.header};
   font-family: ${Constants.font.text};
   font-weight: 400;
-  font-size: 1rem;
+  font-size: ${Constants.typescale.lvl0};
   width: 100%;
   display: flex;
   justify-content: space-between;
-
+  @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
+    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
+    background-color: rgba(255, 255, 255, 0.75);
+  }
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 16px 24px;
+    padding: 12px 24px;
   }
 `;
 
@@ -29,7 +33,6 @@ const STYLES_LINK = css`
   text-decoration: none;
   transition: 200ms ease color;
   display: block;
-
   :hover {
     color: ${Constants.system.brand};
   }

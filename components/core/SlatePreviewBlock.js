@@ -373,12 +373,7 @@ export class SlatePreviewBlock extends React.Component {
     );
 
     return (
-      <div
-        css={STYLES_BLOCK}
-        style={
-          this.props.external ? { backgroundColor: Constants.system.white, boxShadow: "none" } : {}
-        }
-      >
+      <div css={STYLES_BLOCK}>
         <div css={STYLES_TITLE_LINE}>
           <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
           {this.props.isOwner ? (

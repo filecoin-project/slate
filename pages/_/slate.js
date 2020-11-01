@@ -27,13 +27,12 @@ const STYLES_ROOT = css`
 
 const STYLES_SLATE_INTRO = css`
   display: flex;
-  margin: 0 64px;
+  padding: 32px 64px;
   align-items: baseline;
   line-height: 1.3;
   word-wrap: break-word;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 24px;
+    padding: 32px 24px;
     display: block;
     font-size: 14px;
   }
@@ -44,11 +43,9 @@ const STYLES_CREATOR = css`
   margin-right: 4px;
   text-decoration: none;
   color: ${Constants.system.black};
-
   :hover {
     color: ${Constants.system.brand};
   }
-
   :visited {
     color: ${Constants.system.black};
   }
@@ -58,15 +55,10 @@ const STYLES_DESCTIPTION = css`
   font-size: ${Constants.typescale.lvl1};
   font-family: ${Constants.font.text};
   width: 50%;
-  color: ${Constants.system.black};
+  color: ${Constants.system.grayBlack};
   word-wrap: break-word;
-
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    width: 100%;
-  }
-
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: 14px;
+    width: 100%;
     margin-top: 4px;
   }
 `;
@@ -80,16 +72,14 @@ const STYLES_TITLE = css`
   max-width: 100%;
   margin-right: 24px;
   word-wrap: break-word;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: ${Constants.typescale.lvl2};
+    font-size: ${Constants.typescale.lvl3};
   }
 `;
 
 const STYLES_FLEX = css`
   display: flex;
   margin-bottom: 12px;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
   }
@@ -104,7 +94,7 @@ const STYLES_STATS = css`
 
 const STYLES_STAT = css`
   margin-right: 48px;
-  width: 80px;
+  width: 88px;
   ${"" /* border-left: 1px solid ${Constants.system.darkGray};
 padding-left: 12px; */};
 `;
@@ -116,7 +106,6 @@ const STYLES_BUTTONS = css`
   border-radius: 4px;
   border: 1px solid ${Constants.system.gray};
   flex-shrink: 0;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 12px 0;
   }
@@ -133,16 +122,13 @@ const STYLES_BUTTON = css`
   text-align: center;
   text-decoration: none;
   color: ${Constants.system.black};
-
   :last-child {
     border-right: none;
   }
-
   :hover {
     background-color: ${Constants.system.gray};
     transition: 200ms background-color linear;
   }
-
   :visited {
     color: ${Constants.system.black};
   }
@@ -156,7 +142,6 @@ const STYLES_SLATE = css`
   margin: 48px auto 0 auto;
   min-height: 10%;
   height: 100%;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 0 24px 0 24px;
   }

@@ -75,7 +75,7 @@ const STYLES_BURGER = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
     z-index: ${Constants.zindex.modal};
     position: absolute;
-    top: 24px;
+    top: 12px;
     right: 24px;
     display: flex;
     flex-direction: column;

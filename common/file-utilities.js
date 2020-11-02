@@ -170,8 +170,12 @@ export const upload = async ({ file, context, bucketName, routes }) => {
 
   if (res.data.data.type.startsWith("image/")) {
     let url = `${Constants.gateways.ipfs}/${res.data.data.cid}`;
-    let blurhash = await encodeImageToBlurhash(url);
-    res.data.data.blurhash = blurhash;
+    try {
+      let blurhash = await encodeImageToBlurhash(url);
+      res.data.data.blurhash = blurhash;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   await Actions.createPendingFiles({ data: res.data });

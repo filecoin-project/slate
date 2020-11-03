@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
+import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
 
@@ -144,6 +145,26 @@ const STYLES_HIDDEN = css`
   position: absolute;
   opacity: 0;
   pointer-events: none;
+`;
+
+const STYLES_IMAGE_BOX = css`
+  max-width: 100%;
+  max-height: 368px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${Constants.system.white};
+  overflow: hidden;
+  ${"" /* box-shadow: 0 0 0 1px ${Constants.system.border} inset; */}
+  border-radius: 4px;
+`;
+
+const STYLES_GROUPING = css`
+  width: 100%;
+  border: 1px solid rgba(100, 100, 100, 0.5);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 24px;
 `;
 
 export default class CarouselSidebarData extends React.Component {
@@ -296,6 +317,22 @@ export default class CarouselSidebarData extends React.Component {
           loading={this.props.loading}
           selectedColor={Constants.system.white}
         />
+        <System.P css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+          Preview image
+        </System.P>
+        <System.P style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
+          This is the preview image of your file.
+        </System.P>
+        <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
+          <img
+            src="https://slate.textile.io/ipfs/bafybeihaqkeoarr3sr55stdzaatcfmvxxek4qb6myd6cwdnswwic3q3ufu"
+            alt=""
+            style={{ maxWidth: "100%", maxHeight: "368px" }}
+          />
+        </div>
+        <System.ButtonPrimary full style={{ marginTop: 16 }}>
+          Upload image
+        </System.ButtonPrimary>
         <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
           Privacy
         </div>

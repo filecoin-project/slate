@@ -661,8 +661,8 @@ export default class ApplicationPage extends React.Component {
 
     let unseenAnnouncements = [];
     for (let feature of announcements) {
-      if (!Object.keys(this.state.viewer.onboarding).includes(feature.title)) {
-        unseenAnnouncements.push(feature.title);
+      if (!Object.keys(this.state.viewer.onboarding).includes(feature)) {
+        unseenAnnouncements.push(feature);
       }
     }
 
@@ -672,6 +672,7 @@ export default class ApplicationPage extends React.Component {
         detail: {
           modal: (
             <OnboardingModal
+              onAction={this._handleAction}
               viewer={this.state.viewer}
               newAccount={newAccount}
               unseenAnnouncements={unseenAnnouncements}

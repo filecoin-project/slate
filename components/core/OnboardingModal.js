@@ -56,27 +56,7 @@ const STYLES_LINK = css`
   }
 `;
 
-export const announcements = [
-  {
-    title: "New On Slate: Grid System 2.0",
-    text:
-      "We just introduced a completely new layout engine that gives you total control over the way you can organize and display your slates.",
-    image: (
-      <img
-        src="https://slate.textile.io/ipfs/bafybeigb7pd2dh64ty7l2yhnzu5kjupgxbfzqzjjb2gtprexfxzkwx4nle"
-        alt="grid layout"
-        css={STYLES_IMAGE}
-      />
-    ),
-    button: (
-      <ButtonPrimary style={{ width: 160 }}>
-        <a css={STYLES_LINK} href="/_?scene=V1_NAVIGATION_SLATES">
-          Try it out
-        </a>
-      </ButtonPrimary>
-    ),
-  },
-];
+export const announcements = ["New On Slate: Grid System 2.0"];
 
 export class OnboardingModal extends React.Component {
   state = {
@@ -90,7 +70,7 @@ export class OnboardingModal extends React.Component {
     if (this.props.newAccount) {
       slides = this.onboardingCopy;
     }
-    for (let feature of announcements) {
+    for (let feature of this.announcements) {
       if (this.props.unseenAnnouncements.includes(feature.title)) {
         slides.push(feature);
       }
@@ -103,6 +83,32 @@ export class OnboardingModal extends React.Component {
     }
     this.setState({ slides });
   };
+
+  announcements = [
+    {
+      title: "New On Slate: Grid System 2.0",
+      text:
+        "We just introduced a completely new layout engine that gives you total control over the way you can organize and display your slates.",
+      image: (
+        <img
+          src="https://slate.textile.io/ipfs/bafybeigb7pd2dh64ty7l2yhnzu5kjupgxbfzqzjjb2gtprexfxzkwx4nle"
+          alt="grid layout"
+          css={STYLES_IMAGE}
+        />
+      ),
+      button: (
+        <ButtonPrimary
+          style={{ width: 160 }}
+          onClick={() => {
+            this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_SLATES" });
+            this._handleClick(1);
+          }}
+        >
+          Try it out
+        </ButtonPrimary>
+      ),
+    },
+  ];
 
   onboardingCopy = [
     {

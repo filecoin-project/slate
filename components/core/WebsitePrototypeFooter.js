@@ -7,17 +7,16 @@ const STYLES_CONTAINER = css`
   position: -webkit-sticky;
   position: sticky;
   bottom: 0;
-  padding: 8px 64px;
+  padding: 4px 64px;
   z-index: ${Constants.zindex.header};
   background-color: ${Constants.system.foreground};
   font-family: ${Constants.font.text};
   font-weight: 400;
-  font-size: ${Constants.typescale.lvl0};
+  font-size: ${Constants.typescale.lvlN1};
   line-height: 150%;
   display: flex;
   justify-content: space-between;
   width: 100%;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
     padding: 8px 24px;
@@ -28,7 +27,6 @@ const STYLES_LINK = css`
   color: ${Constants.system.grayBlack};
   text-decoration: none;
   transition: 200ms ease color;
-
   :hover {
     color: ${Constants.system.brand};
   }
@@ -43,7 +41,6 @@ const STYLES_RIGHT = css`
   min-width: 10%;
   display: flex;
   justify-content: flex-end;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     justify-content: flex-start;
   }

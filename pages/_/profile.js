@@ -16,11 +16,12 @@ export const getServerSideProps = async (context) => {
 };
 
 const STYLES_ROOT = css`
-  display: grid;
+  display: block;
   grid-template-rows: auto 1fr auto;
   text-align: center;
   font-size: 1rem;
   min-height: 100vh;
+  background-color: ${Constants.system.white};
 `;
 
 export default class ProfilePage extends React.Component {
@@ -38,9 +39,7 @@ export default class ProfilePage extends React.Component {
       >
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
-          <div style={{ margin: "80px 24px 0px 24px" }}>
-            <Profile {...this.props} />
-          </div>
+          <Profile {...this.props} />
           <WebsitePrototypeFooter />
         </div>
       </WebsitePrototypeWrapper>

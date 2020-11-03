@@ -495,7 +495,7 @@ export default class SceneSignIn extends React.Component {
         //   backgroundImage: `url(${"https://slate.textile.io/ipfs/bafybeigrydo6q24ra4hnqpv6dpoosuar2rwbx6fslug2e2xdlcshayis2q"})`,
         // }}
       >
-        <WebsitePrototypeHeader />
+        <WebsitePrototypeHeader style={{ background: `none` }} />
         <div css={STYLES_MIDDLE}>{popover}</div>
         <WebsitePrototypeFooter />
       </div>

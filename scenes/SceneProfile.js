@@ -83,26 +83,29 @@ export default class SceneProfile extends React.Component {
       <div css={STYLES_BUTTONS}>
         {followStatus ? (
           <ButtonSecondary
-            style={{ margin: "0px 8px", minWidth: 152 }}
+            style={{ margin: "16px 8px 0 0", minWidth: 152 }}
             onClick={this._handleFollow}
           >
             Unfollow
           </ButtonSecondary>
         ) : (
-          <ButtonPrimary style={{ margin: "0px 8px", minWidth: 152 }} onClick={this._handleFollow}>
+          <ButtonPrimary
+            style={{ margin: "16px 8px 0 0", minWidth: 152 }}
+            onClick={this._handleFollow}
+          >
             Follow
           </ButtonPrimary>
         )}
         {trustStatus === "untrusted" || trustStatus === "received" ? (
           <ButtonPrimary
-            style={{ margin: "0px 8px", minWidth: 152 }}
+            style={{ margin: "16px 8px 0 0", minWidth: 152 }}
             onClick={() => this._handleTrust(trustStatus, trustId)}
           >
             {STATUS_BUTTON_MAP[trustStatus]}
           </ButtonPrimary>
         ) : (
           <ButtonSecondary
-            style={{ margin: "0px 8px", minWidth: 152 }}
+            style={{ margin: "16px 8px 0 0", minWidth: 152 }}
             onClick={() => this._handleTrust(trustStatus, trustId)}
           >
             {STATUS_BUTTON_MAP[trustStatus]}

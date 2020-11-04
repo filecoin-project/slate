@@ -32,7 +32,6 @@ const STYLES_DATA_METER_BASE = css`
   width: 100%;
   display: flex;
   align-items: center;
-  height: 16px;
   border-radius: 3px;
   background-color: ${Constants.system.foreground};
   overflow: hidden;
@@ -41,7 +40,6 @@ const STYLES_DATA_METER_BASE = css`
 const STYLES_DATA_METER = css`
   flex-shrink: 0;
   position: absolute;
-  height: 16px;
   top: 0px;
   left: 0px;
   border-radius: 3px 0px 0px 3px;
@@ -50,31 +48,17 @@ const STYLES_DATA_METER = css`
 const STYLES_ROW = css`
   font-family: ${Constants.font.code};
   color: ${Constants.system.darkGray};
+  background-color: ${Constants.system.foreground};
   display: inline-flex;
   height: 16px;
-  border-radius: 3px 0px 0px 3px;
   width: 100%;
 `;
 
 const STYLES_STATS_ROW = css`
-  font-family: ${Constants.font.text};
-  color: ${Constants.system.black};
-  text-transform: uppercase;
-  display: inline-flex;
   background-color: ${Constants.system.foreground};
-  margin: 48px;
   width: 100%;
-  height: 48px;
-`;
-
-const STYLES_LEFT = css`
-  min-width: 10%;
-  width: 100%;
-  border-radius: 15px 50px 30px 5px;
-`;
-
-const STYLES_RIGHT = css`
-  flex-shrink: 0;
+  border-radius: 3px;
+  height: 16px;
 `;
 
 const STYLES_TITLE = css`
@@ -114,54 +98,58 @@ const STYLES_DATA_METER_KEY_LABEL = css`
 
 const DATA_METER_METER_SEGMENT = css`
   height: 16px;
-  border-radius: 3px 0px 0px 3px;
 `;
 
 export const DataMeterBar = (props) => {
-  const totalSize = props.maximumBytes;
-  const percentage = props.bytes / props.maximumBytes;
-  const percentageImage = props.stats.imageBytes / props.maximumBytes;
-  const percentageVideo = props.stats.videoBytes;
-  const percentageEpub = props.stats.epubBytes;
-  const percentagePdf = props.stats.pdfBytes;
-  const percentageAudio = props.stats.audioBytes;
-  const percentageFreeSpace =
-    props.maximumBytes -
-    (props.stats.imageBytes +
-      props.stats.videoBytes +
-      props.stats.epubBytes +
-      props.stats.epubBytes +
-      props.stats.pdfBytes +
-      props.stats.audioBytes);
+  const percentageUsed = props.bytes / props.maximumBytes;
+  const percentageImage = props.stats.imageBytes / props.bytes;
+  const percentageVideo = props.stats.videoBytes / props.bytes;
+  const percentageEpub = props.stats.epubBytes / props.bytes;
+  const percentagePdf = props.stats.pdfBytes / props.bytes;
+  const percentageAudio = props.stats.audioBytes / props.bytes;
+  const percentageFreeSpace = props.bytes - props.maximumBytes;
   console.log(percentageImage);
   return (
     <React.Fragment>
-      <div
-        css={STYLES_ROW}
-        style={{
-          width: `${percentage}%`,
-        }}
-      >
+      <div css={STYLES_STATS_ROW}>
         <div
-          css={DATA_METER_METER_SEGMENT}
-          style={{ width: `${percentageImage * 100}%`, backgroundColor: "#C0D8EE" }}
-        ></div>
-        <div
-          css={DATA_METER_METER_SEGMENT}
-          style={{ width: `${percentageVideo}%`, backgroundColor: "#C0DACD" }}
-        ></div>
-        <div
-          css={DATA_METER_METER_SEGMENT}
-          style={{ width: `${percentageEpub}%`, backgroundColor: "#FEEDC4" }}
-        ></div>
-        <div
-          css={DATA_METER_METER_SEGMENT}
-          style={{ width: `${percentagePdf}%`, backgroundColor: "#FAB413" }}
-        ></div>
-        <div
-          css={DATA_METER_METER_SEGMENT}
-          style={{ width: `${percentageAudio}%`, backgroundColor: "#F1C4C4" }}
-        ></div>
+          css={STYLES_ROW}
+          style={{
+            width: `${percentageUsed * 100}%`,
+          }}
+        >
+          <div
+            css={DATA_METER_METER_SEGMENT}
+            style={{
+              width: `${percentageImage * 100}%`,
+              backgroundColor: "#C0D8EE",
+              borderRadius: "3px 0px 0px 3px",
+            }}
+          ></div>
+          <div
+            css={DATA_METER_METER_SEGMENT}
+            style={{ width: `${percentageVideo * 100}%`, backgroundColor: "#C0DACD" }}
+          ></div>
+          <div
+            css={DATA_METER_METER_SEGMENT}
+            style={{ width: `${percentageEpub * 100}%`, backgroundColor: "#FEEDC4" }}
+          ></div>
+          <div
+            css={DATA_METER_METER_SEGMENT}
+            style={{ width: `${percentagePdf * 100}%`, backgroundColor: "#FAB413" }}
+          ></div>
+          <div
+            css={DATA_METER_METER_SEGMENT}
+            style={{ width: `${percentageAudio * 100}%`, backgroundColor: "#F1C4C4" }}
+          ></div>
+          <div
+            css={DATA_METER_METER_SEGMENT}
+            style={{
+              width: `${percentageFreeSpace * 100}%`,
+              backgroundColor: "${Constants.system.foreground}",
+            }}
+          ></div>
+        </div>
       </div>
     </React.Fragment>
   );

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css, keyframes } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import Issue from "~/components/core/marketing/Issue";
 
@@ -17,7 +17,7 @@ export default class IssueList extends React.Component {
     const { issues } = this.props;
     return (
       <div css={STYLES_ISSUE_CARD_GROUP}>
-        {issues.map(issue => {
+        {issues.map((issue) => {
           return (
             <Issue
               title={issue.title}

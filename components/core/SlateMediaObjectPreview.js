@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
 import { Blurhash } from "react-blurhash";
 import { isBlurhashValid } from "blurhash";
@@ -98,8 +98,7 @@ export default class SlateMediaObjectPreview extends React.Component {
         : this.props.title;
 
     if (this.props.type && this.props.type.startsWith("image/")) {
-      let blurhash =
-        this.props.blurhash && isBlurhashValid(this.props.blurhash);
+      let blurhash = this.props.blurhash && isBlurhashValid(this.props.blurhash);
       if (this.props.centeredImage) {
         return (
           <React.Fragment>
@@ -112,9 +111,7 @@ export default class SlateMediaObjectPreview extends React.Component {
                 }}
               >
                 <SVG.FileNotFound height="24px" />
-                {this.props.iconOnly ? null : (
-                  <div css={STYLES_TITLE}>File not found</div>
-                )}
+                {this.props.iconOnly ? null : <div css={STYLES_TITLE}>File not found</div>}
               </div>
             ) : this.state.showImage ? (
               <div
@@ -152,9 +149,7 @@ export default class SlateMediaObjectPreview extends React.Component {
               style={{ ...this.props.imageStyle, backgroundColor: "#F2F2F2" }}
             >
               <SVG.FileNotFound height="24px" />
-              {this.props.iconOnly ? null : (
-                <div css={STYLES_TITLE}>File not found</div>
-              )}
+              {this.props.iconOnly ? null : <div css={STYLES_TITLE}>File not found</div>}
             </div>
           ) : this.state.showImage ? (
             <img
@@ -175,10 +170,7 @@ export default class SlateMediaObjectPreview extends React.Component {
               punch={1}
             />
           ) : (
-            <div
-              css={STYLES_IMAGE}
-              style={{ maxHeight: "100%", ...this.props.imageStyle }}
-            />
+            <div css={STYLES_IMAGE} style={{ maxHeight: "100%", ...this.props.imageStyle }} />
           )}
         </React.Fragment>
       );
@@ -189,9 +181,7 @@ export default class SlateMediaObjectPreview extends React.Component {
     return (
       <article css={STYLES_ENTITY} style={this.props.style}>
         <div>{element}</div>
-        {this.props.title && !this.props.iconOnly ? (
-          <div css={STYLES_TITLE}>{title}</div>
-        ) : null}
+        {this.props.title && !this.props.iconOnly ? <div css={STYLES_TITLE}>{title}</div> : null}
       </article>
     );
   }

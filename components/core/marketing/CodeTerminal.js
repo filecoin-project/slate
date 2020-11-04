@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/core";
 
 const blinkCursor = keyframes`
   0% {

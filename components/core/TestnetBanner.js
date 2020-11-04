@@ -3,7 +3,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_BANNER = css`
   padding: 12px 24px 12px 12px;
@@ -22,8 +22,8 @@ export default class TestnetBanner extends React.Component {
   render() {
     return (
       <div css={STYLES_BANNER} style={this.props.style}>
-        <SVG.FilecoinLogo height="24px" style={{ marginRight: 16 }} /> You are
-        on the Filecoin Testnet.{" "}
+        <SVG.FilecoinLogo height="24px" style={{ marginRight: 16 }} /> You are on the Filecoin
+        Testnet.{" "}
         {this.props.balance
           ? `You have ${this.props.balance} to use for
         testing.`

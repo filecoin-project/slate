@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
@@ -146,27 +146,23 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description =
-      "The place for all of your assets. Powered by Textile and Filecoin.";
+    const description = "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host";
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}>
+      <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
           <div css={STYLES_MIDDLE}>
             <div css={STYLES_CARD}>
               <img css={STYLES_CARD_IMAGE} src="/public/static/teaser.png" />
               <p css={STYLES_CARD_PARAGRAPH}>
-                Store your files, turn them into collections, and share them
-                with the world — with{" "}
+                Store your files, turn them into collections, and share them with the world — with{" "}
                 <a
                   css={STYLES_LINK}
                   href="https://github.com/filecoin-project/slate"
-                  target="_blank">
+                  target="_blank"
+                >
                   Filecoin & Slate
                 </a>
                 .
@@ -182,9 +178,7 @@ export default class IndexPage extends React.Component {
                 </div>
               ) : (
                 <div css={STYLES_CARD_ACTIONS}>
-                  <div
-                    css={STYLES_CARD_ACTIONS_LEFT}
-                    style={{ textAlign: "center" }}>
+                  <div css={STYLES_CARD_ACTIONS_LEFT} style={{ textAlign: "center" }}>
                     Slate is currently down for maintenance.
                   </div>
                 </div>

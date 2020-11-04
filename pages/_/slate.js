@@ -4,7 +4,7 @@ import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { Alert } from "~/components/core/Alert";
 import { ViewAllButton } from "~/components/core/ViewAll";

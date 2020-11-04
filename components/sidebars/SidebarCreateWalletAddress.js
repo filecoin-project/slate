@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const SELECT_MENU_OPTIONS = [
   { value: "1", name: "BLS" },
@@ -103,11 +103,7 @@ export default class SidebarCreateWalletAddress extends React.Component {
           Create {this.state.name}
         </System.ButtonPrimary>
 
-        <System.ButtonSecondary
-          full
-          style={{ marginTop: 16 }}
-          onClick={this._handleCancel}
-        >
+        <System.ButtonSecondary full style={{ marginTop: 16 }} onClick={this._handleCancel}>
           Cancel
         </System.ButtonSecondary>
       </div>

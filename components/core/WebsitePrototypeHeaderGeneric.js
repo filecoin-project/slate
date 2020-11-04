@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVGLogo from "~/common/logo";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_ROOT = css`
   padding: 24px 88px 24px 64px;

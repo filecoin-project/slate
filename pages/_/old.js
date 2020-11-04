@@ -5,7 +5,7 @@ import * as System from "~/components/system";
 import CodeBlock from "~/components/system/CodeBlock";
 import ReactDOM from "react-dom";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
@@ -215,9 +215,9 @@ const STYLES_SECTION = css`
 `;
 const STYLES_CARD = css``;
 
-export const getServerSideProps = async context => {
+export const getServerSideProps = async (context) => {
   return {
-    props: { ...context.query }
+    props: { ...context.query },
   };
 };
 
@@ -235,7 +235,7 @@ export default class IndexPage extends React.Component {
       url: "https://github.com/jimmylee",
       organization: "Slate",
       pic:
-        "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4"
+        "https://avatars0.githubusercontent.com/u/310223?s=400&u=62a15c1b5791b953fc5153a4b3f491f4b0bf2ae5&v=4",
     },
     {
       id: 2,
@@ -243,7 +243,7 @@ export default class IndexPage extends React.Component {
       url: "https://github.com/martinalong",
       organization: "Slate",
       pic:
-        "https://avatars2.githubusercontent.com/u/33686587?s=400&u=d1841da2872f30f7f8cb80e67cdc9b385d0f50e1&v=4"
+        "https://avatars2.githubusercontent.com/u/33686587?s=400&u=d1841da2872f30f7f8cb80e67cdc9b385d0f50e1&v=4",
     },
     {
       id: 3,
@@ -251,7 +251,7 @@ export default class IndexPage extends React.Component {
       url: "https://github.com/gndclouds",
       organization: "Slate",
       pic:
-        "https://avatars0.githubusercontent.com/u/1757261?s=400&u=b7136d82bfacac3002b3b08980ac611ca7f34b7b&v=4"
+        "https://avatars0.githubusercontent.com/u/1757261?s=400&u=b7136d82bfacac3002b3b08980ac611ca7f34b7b&v=4",
     },
     {
       id: 4,
@@ -259,7 +259,7 @@ export default class IndexPage extends React.Component {
       url: "https://github.com/uonai",
       organization: "",
       pic:
-        "https://avatars2.githubusercontent.com/u/7935491?s=400&u=8d91d58215c8df440eacf37d6291d912252685c3&v=4"
+        "https://avatars2.githubusercontent.com/u/7935491?s=400&u=8d91d58215c8df440eacf37d6291d912252685c3&v=4",
     },
     {
       id: 5,
@@ -267,14 +267,14 @@ export default class IndexPage extends React.Component {
       url: "https://github.com/tarafanlin",
       organization: "Slate",
       pic:
-        "https://avatars2.githubusercontent.com/u/35607644?s=400&u=48483bdf251e5293fefb30ae993bfa04d06601a6&v=4"
+        "https://avatars2.githubusercontent.com/u/35607644?s=400&u=48483bdf251e5293fefb30ae993bfa04d06601a6&v=4",
     },
     {
       id: 6,
       name: "jasonleyser",
       url: "https://github.com/",
       organization: "Slate",
-      pic: "/static/a1.jpg"
+      pic: "/static/a1.jpg",
     },
     {
       id: 7,
@@ -282,7 +282,7 @@ export default class IndexPage extends React.Component {
       url: "https://github.com/akuokojnr",
       organization: "",
       pic:
-        "https://avatars2.githubusercontent.com/u/31008944?s=400&u=340814cc84eac860654a072781661e58aadaf560&v=4"
+        "https://avatars2.githubusercontent.com/u/31008944?s=400&u=340814cc84eac860654a072781661e58aadaf560&v=4",
     },
     {
       id: 8,
@@ -290,14 +290,14 @@ export default class IndexPage extends React.Component {
       url: "https://github.com/jordattebayo",
       organization: "",
       pic:
-        "https://avatars2.githubusercontent.com/u/31581758?s=400&u=21765bba0c302a554ef3aab835450a32fc947a98&v=4"
+        "https://avatars2.githubusercontent.com/u/31581758?s=400&u=21765bba0c302a554ef3aab835450a32fc947a98&v=4",
     },
     {
       id: 9,
       name: "Pooja",
       url: "https://github.com/",
       organization: "",
-      pic: "/static/a1.jpg"
+      pic: "/static/a1.jpg",
     },
     {
       id: 10,
@@ -305,7 +305,7 @@ export default class IndexPage extends React.Component {
       url: "https://github.com/tmrtrn",
       organization: "",
       pic:
-        "https://avatars0.githubusercontent.com/u/2691514?s=400&u=b589dc97fa893152768b00c27b5f9f68d1a7fb79&v=4"
+        "https://avatars0.githubusercontent.com/u/2691514?s=400&u=b589dc97fa893152768b00c27b5f9f68d1a7fb79&v=4",
     },
     {
       id: 11,
@@ -313,43 +313,43 @@ export default class IndexPage extends React.Component {
       url: "https://github.com/motdde",
       organization: "",
       pic:
-        "https://avatars3.githubusercontent.com/u/12215060?s=400&u=aa85ebcfc7438becdb50a67aa79e78ba8feb2d77&v=4"
+        "https://avatars3.githubusercontent.com/u/12215060?s=400&u=aa85ebcfc7438becdb50a67aa79e78ba8feb2d77&v=4",
     },
     {
       id: 12,
       name: "harisbutt",
       url: "https://github.com/harisbutt",
       organization: "",
-      pic: "/static/a1.jpg"
+      pic: "/static/a1.jpg",
     },
     {
       id: 13,
       name: "andrewxhill",
       url: "https://github.com/andrewxhill",
       organization: "",
-      pic: "/static/a1.jpg"
+      pic: "/static/a1.jpg",
     },
     {
       id: 14,
       name: "johannes-jp",
       url: "https://github.com/johannes-jp",
       organization: "",
-      pic: "/static/a1.jpg"
+      pic: "/static/a1.jpg",
     },
     {
       id: 15,
       name: "Anish-Agnihotri",
       url: "https://github.com/anish-agnihotri",
       organization: "",
-      pic: "/static/a1.jpg"
+      pic: "/static/a1.jpg",
     },
     {
       id: 16,
       name: "Aminejvm",
       url: "https://github.com/aminejvm",
       organization: "",
-      pic: "/static/a1.jpg"
-    }
+      pic: "/static/a1.jpg",
+    },
   ];
 
   addContributors = () => {
@@ -371,29 +371,24 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description =
-      "The place for all of your assets. Powered by Textile and Filecoin.";
+    const description = "The place for all of your assets. Powered by Textile and Filecoin.";
     const url = "https://slate.host/community";
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <section css={STYLES_SECTION}>
             <div>
               <System.H1>
-                Slate is designed and built by a growing community of hackers,
-                artists, and creatives on the web.
+                Slate is designed and built by a growing community of hackers, artists, and
+                creatives on the web.
               </System.H1>
               <System.P>ytu</System.P>
             </div>
             <div>
               {" "}
-              <div id="contr-cont" css={STYLES_CONTRIBUTOR_CONTAINER}></div>
+              <div id="contr-cont" css={STYLES_CONTRIBUTOR_CONTAINER} />
             </div>
           </section>
 
@@ -401,8 +396,8 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_WRAPPER_TEXT}>
               <System.H1>Get Involved</System.H1>
               <System.P>
-                Slate is a fully open-source file sharing network designed for
-                research and collaboration.
+                Slate is a fully open-source file sharing network designed for research and
+                collaboration.
               </System.P>
               <br />
               <br />
@@ -426,8 +421,7 @@ export default class IndexPage extends React.Component {
               <System.H2>Contact</System.H2>
               <br />
               <System.P>
-                Reach out to any of the core contributors, reach us on Twitter,
-                or join our Slack.
+                Reach out to any of the core contributors, reach us on Twitter, or join our Slack.
               </System.P>
               <br />
               <br />
@@ -436,9 +430,7 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_CARD}>
               <System.H2>Integrate</System.H2>
               <br />
-              <System.P>
-                Explore our API and SDK and build on top of Slate.
-              </System.P>
+              <System.P>Explore our API and SDK and build on top of Slate.</System.P>
               <br />
               <br />
               <CodeBlock>npm install --save slate-react-system</CodeBlock>
@@ -447,9 +439,7 @@ export default class IndexPage extends React.Component {
             <div>
               <System.H2>Design System</System.H2>
               <br />
-              <System.P>
-                Check out our open source design system for your projects
-              </System.P>
+              <System.P>Check out our open source design system for your projects</System.P>
               <br />
               <br />
               <CodeBlock>npm install --save slate-react-system</CodeBlock>

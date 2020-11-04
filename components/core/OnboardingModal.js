@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { dispatchCustomEvent } from "~/common/custom-events";
 

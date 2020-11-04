@@ -3,7 +3,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_FOCUS = css`
@@ -122,9 +122,7 @@ export default class SidebarWalletSendFunds extends React.Component {
         </div>
 
         <div css={STYLES_ITEM}>
-          <div css={STYLES_FOCUS}>
-            {Strings.formatNumber(this.state.amount)}
-          </div>
+          <div css={STYLES_FOCUS}>{Strings.formatNumber(this.state.amount)}</div>
           <div css={STYLES_SUBTEXT}>Total Filecoin</div>
         </div>
 
@@ -137,11 +135,7 @@ export default class SidebarWalletSendFunds extends React.Component {
           Send
         </System.ButtonPrimary>
 
-        <System.ButtonSecondary
-          full
-          style={{ marginTop: 16 }}
-          onClick={this._handleCancel}
-        >
+        <System.ButtonSecondary full style={{ marginTop: 16 }} onClick={this._handleCancel}>
           Cancel
         </System.ButtonSecondary>
       </React.Fragment>

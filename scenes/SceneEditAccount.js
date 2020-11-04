@@ -7,7 +7,7 @@ import * as Validations from "~/common/validations";
 import * as Window from "~/common/window";
 import * as FileUtilities from "~/common/file-utilities";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { TabGroup } from "~/components/core/TabGroup";
 

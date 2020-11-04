@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_UL = css`
   list-style-type: none;
@@ -32,12 +32,7 @@ const STYLES_REMAINING = css`
   padding-left: 8px;
 `;
 
-export const AvatarGroup = ({
-  limit = 3,
-  avatars = [],
-  size = 32,
-  border = "#FFF",
-}) => {
+export const AvatarGroup = ({ limit = 3, avatars = [], size = 32, border = "#FFF" }) => {
   const containerWidth = size * avatars.length;
   const padding = size / 2 - 8;
   const remaining = avatars.length - limit;
@@ -61,7 +56,7 @@ export const AvatarGroup = ({
               height: `${size}px`,
               borderColor: `${border}`,
             }}
-          ></li>
+          />
         );
       })}
       <span

@@ -4,7 +4,7 @@ import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
 import { dispatchCustomEvent } from "~/common/custom-events";
 

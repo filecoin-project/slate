@@ -2,16 +2,16 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/core";
 import moment from "moment";
 
 import { Input } from "~/components/system/components/Input";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 
-const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-  (day, i) => <div key={i}>{day}</div>
-);
+const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, i) => (
+  <div key={i}>{day}</div>
+));
 
 const expand = keyframes`
   0% {
@@ -179,12 +179,7 @@ export class DatePicker extends React.Component {
       let result = this.checkInput(value);
       if (moment.isMoment(result)) {
         validation = "SUCCESS";
-        date =
-          value.substring(6, 10) +
-          "-" +
-          value.substring(0, 2) +
-          "-" +
-          value.substring(3, 5);
+        date = value.substring(6, 10) + "-" + value.substring(0, 2) + "-" + value.substring(3, 5);
         if (cal) {
           cal = moment(date).date(1);
         }
@@ -201,17 +196,9 @@ export class DatePicker extends React.Component {
   checkInput = (value) => {
     if (value.length !== 10 || !/\d{2}\/\d{2}\/\d{4}/.test(value)) return;
     let date = moment(
-      value.substring(6, 10) +
-        "-" +
-        value.substring(0, 2) +
-        "-" +
-        value.substring(3, 5)
+      value.substring(6, 10) + "-" + value.substring(0, 2) + "-" + value.substring(3, 5)
     );
-    if (
-      !moment.isMoment(date) ||
-      !date.isValid() ||
-      date.date() !== Number(value.substring(3, 5))
-    )
+    if (!moment.isMoment(date) || !date.isValid() || date.date() !== Number(value.substring(3, 5)))
       return "ERROR";
     if (this.isDisabled(date)) {
       return "WARNING";
@@ -232,9 +219,7 @@ export class DatePicker extends React.Component {
     } else {
       this.setState(
         {
-          cal: this.props.value
-            ? moment(this.props.value).date(1)
-            : moment().date(1),
+          cal: this.props.value ? moment(this.props.value).date(1) : moment().date(1),
         },
         this.setCalendar
       );
@@ -276,8 +261,7 @@ export class DatePicker extends React.Component {
 
   getStyle = (day) => {
     if (this.isDisabled(day)) return STYLES_DISABLED_DAY;
-    if (this.props.value && day.isSame(moment(this.props.value), "day"))
-      return STYLES_CHOSEN_DAY;
+    if (this.props.value && day.isSame(moment(this.props.value), "day")) return STYLES_CHOSEN_DAY;
     return STYLES_DAY;
   };
 

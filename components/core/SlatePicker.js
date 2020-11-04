@@ -3,7 +3,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 const STYLES_SLATE_NAME = css`

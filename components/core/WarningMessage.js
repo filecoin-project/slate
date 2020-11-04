@@ -3,7 +3,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_BOX = css`
   background-color: ${Constants.system.foreground};
@@ -22,8 +22,7 @@ export class WarningMessage extends React.Component {
     return (
       <div css={STYLES_BOX} style={this.props.boxStyle}>
         <div css={STYLES_MESSAGE}>
-          Please don't upload sensitive information to Slate yet. Private
-          storage is coming soon.
+          Please don't upload sensitive information to Slate yet. Private storage is coming soon.
         </div>
       </div>
     );
@@ -32,10 +31,6 @@ export class WarningMessage extends React.Component {
 
 export class SidebarWarningMessage extends React.Component {
   render() {
-    return (
-      <WarningMessage
-        boxStyle={{ backgroundColor: Constants.system.white, padding: 16 }}
-      />
-    );
+    return <WarningMessage boxStyle={{ backgroundColor: Constants.system.white, padding: 16 }} />;
   }
 }

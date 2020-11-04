@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
@@ -257,11 +257,7 @@ export default class IndexPage extends React.Component {
     const url = "https://slate.host/download";
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url}>
         <WebsitePrototypeHeader color="dark" />
         <div css={STYLES_ROOT}>
           <div css={STYLES_SECTION_HERO}>
@@ -273,8 +269,7 @@ export default class IndexPage extends React.Component {
               />
               <h1 css={STYLES_H1}>Slate for Chrome</h1>
               <h3 css={STYLES_H3}>
-                Take any image on the web and save it to Slate right from your
-                browser tab.
+                Take any image on the web and save it to Slate right from your browser tab.
               </h3>
               <div>
                 <button
@@ -290,11 +285,7 @@ export default class IndexPage extends React.Component {
               </div>
               <p css={STYLES_ANNOTATION}>
                 Currently avaible for{" "}
-                <a
-                  css={STYLES_LINK_WHITE}
-                  href="https://www.google.com/chrome/"
-                  target="_blank"
-                >
+                <a css={STYLES_LINK_WHITE} href="https://www.google.com/chrome/" target="_blank">
                   Chrome
                 </a>
                 .
@@ -305,8 +296,8 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_BLOCK}>
               <h2 css={STYLES_H2}>Contribute</h2>
               <h3 css={STYLES_H3}>
-                We would love for you to join us. You're welcomed to file an
-                issue or submit a pull request on Github.
+                We would love for you to join us. You're welcomed to file an issue or submit a pull
+                request on Github.
               </h3>
               <div>
                 <button
@@ -326,8 +317,7 @@ export default class IndexPage extends React.Component {
             <div css={STYLES_BLOCK}>
               <h2 css={STYLES_H2}>Releases</h2>
               <h3 css={STYLES_H3}>
-                Slate is built in public and all past releases are always
-                avaible for download.
+                Slate is built in public and all past releases are always avaible for download.
               </h3>
             </div>
             <div css={STYLES_BLOCK}>

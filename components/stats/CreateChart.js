@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import ReactDOM from "react-dom";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_GRAPH_CONTAINER = css`
   display: flex;
@@ -43,28 +43,13 @@ export default class CreateChart extends React.Component {
     this.createTicks();
   }
 
-  monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   createCircles = () => {
     const { organizedData } = this.props;
     let oData = organizedData.flat(2);
     let allCircles = oData.map((g, index) => {
-      return (
-        <circle key={index} cx={g.x} cy={g.y} r="2" css={STYLES_CHART_CIRCLE} />
-      );
+      return <circle key={index} cx={g.x} cy={g.y} r="2" css={STYLES_CHART_CIRCLE} />;
     });
     ReactDOM.render(allCircles, document.getElementById("circles"));
   };
@@ -95,11 +80,7 @@ export default class CreateChart extends React.Component {
       i[`id`] = o.id;
     });
     let polyLine = (
-      <polyline
-        css={STYLES_CHART_LINE}
-        key={i.id}
-        points={this.drawPoints(coordinates)}
-      />
+      <polyline css={STYLES_CHART_LINE} key={i.id} points={this.drawPoints(coordinates)} />
     );
     return polyLine;
   };
@@ -138,12 +119,12 @@ export default class CreateChart extends React.Component {
     return (
       <div css={STYLES_GRAPH_CONTAINER}>
         <svg css={STYLES_GRAPH} viewBox="0 0 600 600">
-          <g id="circles"></g>
-          <g id="lines"></g>
+          <g id="circles" />
+          <g id="lines" />
           <g>
             <line css={STYLES_X_LINE} x1="25" y1="550" x2="575" y2="550" />
           </g>
-          <g id="tickContainer"></g>
+          <g id="tickContainer" />
         </svg>
       </div>
     );

@@ -8,7 +8,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as SubSystem from "~/components/system/components/fragments/TableComponents";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { P } from "~/components/system/components/Typography";
 import * as SVG from "~/common/svg";
 
@@ -144,9 +144,7 @@ export class Table extends React.Component {
                   key={`table-top-${c.key}-${cIndex}`}
                   style={{
                     width: localWidth,
-                    backgroundColor: this.props.noColor
-                      ? null
-                      : ac[c.key].color,
+                    backgroundColor: this.props.noColor ? null : ac[c.key].color,
                     flexShrink,
                   }}
                   tooltip={c.tooltip}
@@ -155,9 +153,7 @@ export class Table extends React.Component {
                 </SubSystem.TableColumn>
               );
             })}
-            {this.props.onClick ? (
-              <div css={STYLES_TABLE_EXPAND_SECTION} />
-            ) : null}
+            {this.props.onClick ? <div css={STYLES_TABLE_EXPAND_SECTION} /> : null}
           </div>
         )}
 
@@ -172,8 +168,7 @@ export class Table extends React.Component {
                   const text = r[each];
 
                   let localWidth = field.width ? field.width : width;
-                  let flexShrink =
-                    field.width && field.width !== "100%" ? "0" : null;
+                  let flexShrink = field.width && field.width !== "100%" ? "0" : null;
                   if (cIndex === 0 && !field.width) {
                     localWidth = "100%";
                   }
@@ -183,9 +178,7 @@ export class Table extends React.Component {
                       key={`${each}-${i}-${cIndex}`}
                       style={{
                         width: localWidth,
-                        backgroundColor: this.props.noColor
-                          ? null
-                          : field.color,
+                        backgroundColor: this.props.noColor ? null : field.color,
                         flexShrink,
                       }}
                       contentstyle={field.contentstyle}

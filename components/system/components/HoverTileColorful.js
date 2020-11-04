@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_TILE = css`
   width: 100%;
@@ -62,12 +62,9 @@ export class HoverTileColorful extends React.Component {
     this.setState({
       tileStyle: {
         transform: `scale(.97) rotateY(${x}deg) rotateX(${y * -1}deg)`,
-        background: `linear-gradient(${x}deg, rgba(${
-          x * -5
-        },238,238,1) 0%, rgba(148,${x * -20},233,1) 100%)`,
-        boxShadow: `${x * -1 * 0.75}px ${
-          y * -1 * 1.2
-        }px 25px rgba(0, 0, 0, .15)`,
+        background: `linear-gradient(${x}deg, rgba(${x * -5},238,238,1) 0%, rgba(148,${x *
+          -20},233,1) 100%)`,
+        boxShadow: `${x * -1 * 0.75}px ${y * -1 * 1.2}px 25px rgba(0, 0, 0, .15)`,
       },
     });
   };
@@ -82,10 +79,7 @@ export class HoverTileColorful extends React.Component {
         onMouseLeave={this.handleExit}
         ref={this.containerRef}
       >
-        <div
-          css={STYLES_TILE}
-          style={{ ...this.state.tileStyle, ...this.props.style }}
-        >
+        <div css={STYLES_TILE} style={{ ...this.state.tileStyle, ...this.props.style }}>
           {this.props.children}
         </div>
       </div>

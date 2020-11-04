@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_ITEM = css`

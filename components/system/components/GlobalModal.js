@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 
 const STYLES_BACKGROUND = css`

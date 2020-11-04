@@ -6,7 +6,7 @@ import * as Actions from "~/common/actions";
 
 import MiniSearch from "minisearch";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { SearchDropdown } from "~/components/core/SearchDropdown";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { SlatePreviewRow } from "~/components/core/SlatePreviewBlock";

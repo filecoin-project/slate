@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import { Input } from "~/components/system/components/Input";
 
@@ -128,9 +128,7 @@ export class Slider extends React.Component {
 
   // NOTE(martina): Converts it to increments of this.props.step while accounting for javascript rounding errors.
   formatNum = (num) => {
-    return (Math.round(num / this.props.step) * this.props.step).toFixed(
-      this.state.decimals
-    );
+    return (Math.round(num / this.props.step) * this.props.step).toFixed(this.state.decimals);
   };
 
   // NOTE(martina): Converts from px width to return value
@@ -206,11 +204,7 @@ export class Slider extends React.Component {
                 axis="x"
                 position={{ x: this.state.value, y: 0 }}
                 bounds={{ left: 0, right: this.state.width }}
-                grid={
-                  this.props.discrete
-                    ? [this.state.step, this.state.step]
-                    : null
-                }
+                grid={this.props.discrete ? [this.state.step, this.state.step] : null}
                 onDrag={this._handleDrag}
                 handle="strong"
               >
@@ -224,9 +218,7 @@ export class Slider extends React.Component {
                   <strong>
                     <div css={STYLES_SLIDER_HANDLE} />
                   </strong>
-                  {this.props.bubble ? (
-                    <div css={STYLES_BUBBLE}>{this.props.value}</div>
-                  ) : null}
+                  {this.props.bubble ? <div css={STYLES_BUBBLE}>{this.props.value}</div> : null}
                 </div>
               </Draggable>
             </div>

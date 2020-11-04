@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 export default class SidebarDeleteWalletAddress extends React.Component {
@@ -38,19 +38,11 @@ export default class SidebarDeleteWalletAddress extends React.Component {
           Are you sure you want to delete the selected wallet?
         </System.P>
 
-        <System.ButtonPrimary
-          full
-          style={{ marginTop: 48 }}
-          onClick={this._handleSubmit}
-        >
+        <System.ButtonPrimary full style={{ marginTop: 48 }} onClick={this._handleSubmit}>
           Delete
         </System.ButtonPrimary>
 
-        <System.ButtonSecondary
-          full
-          style={{ marginTop: 16 }}
-          onClick={this._handleCancel}
-        >
+        <System.ButtonSecondary full style={{ marginTop: 16 }} onClick={this._handleCancel}>
           Cancel
         </System.ButtonSecondary>
       </div>

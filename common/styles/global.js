@@ -1,6 +1,6 @@
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 /* prettier-ignore */
 export const injectGlobalStyles = () => css`

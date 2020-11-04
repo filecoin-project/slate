@@ -5,7 +5,7 @@ import { Input } from "~/components/system/components/Input";
 import { SelectMenu } from "~/components/system/components/SelectMenus";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const SELECT_MENU_OPTIONS = [
   { value: "1", name: "BLS" },
@@ -81,11 +81,7 @@ export class CreateFilecoinAddress extends React.Component {
           Make this wallet the default
         </CheckBox>
 
-        <ButtonPrimary
-          full
-          style={{ marginTop: 48 }}
-          onClick={this._handleSubmit}
-        >
+        <ButtonPrimary full style={{ marginTop: 48 }} onClick={this._handleSubmit}>
           Create address
         </ButtonPrimary>
       </div>

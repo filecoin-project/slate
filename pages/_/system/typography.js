@@ -2,7 +2,7 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
@@ -64,8 +64,8 @@ export default class SystemPageTypography extends React.Component {
         <hr />
         <br />
         <System.P>
-          Import React and the typography components. If needed, import the
-          ViewSourceLink component.
+          Import React and the typography components. If needed, import the ViewSourceLink
+          component.
         </System.P>
         <br />
         <CodeBlock>

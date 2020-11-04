@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 import ScenePage from "~/components/core/ScenePage";

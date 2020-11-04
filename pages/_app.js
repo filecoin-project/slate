@@ -1,7 +1,6 @@
 import * as React from "react";
 
-import { CacheProvider, Global } from "@emotion/react";
-import { cache } from "@emotion/css";
+import { css, Global } from "@emotion/core";
 
 import App from "next/app";
 import { injectGlobalStyles, injectCodeBlockStyles } from "~/common/styles/global";
@@ -10,11 +9,11 @@ import { injectGlobalStyles, injectCodeBlockStyles } from "~/common/styles/globa
 // https://nextjs.org/docs/advanced-features/custom-app
 function MyApp({ Component, pageProps }) {
   return (
-    <CacheProvider value={cache}>
+    <React.Fragment>
       <Global styles={injectGlobalStyles()} />
       <Global styles={injectCodeBlockStyles()} />
       <Component {...pageProps} />
-    </CacheProvider>
+    </React.Fragment>
   );
 }
 

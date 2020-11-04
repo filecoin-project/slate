@@ -4,7 +4,7 @@ import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { TabGroup } from "~/components/core/TabGroup";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";

@@ -2,12 +2,8 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import {
-  TooltipWrapper,
-  dispatchCustomEvent,
-  PopoverNavigation,
-} from "~/components/system";
-import { css } from "@emotion/react";
+import { TooltipWrapper, dispatchCustomEvent, PopoverNavigation } from "~/components/system";
+import { css } from "@emotion/core";
 
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import CircleButtonLight from "~/components/core/CircleButtonLight";
@@ -110,7 +106,6 @@ const STYLES_ITEM_BOX = css`
   padding-right: 9px;
   transition: 200ms ease all;
   border-left: 2px solid ${Constants.system.foreground};
-
 
   :hover {
     color: ${Constants.system.brand};
@@ -256,9 +251,7 @@ export default class ApplicationUserControls extends React.Component {
               backgroundImage: `url('${this.props.viewer.data.photo}')`,
             }}
           />
-          <span css={STYLES_PROFILE_USERNAME}>
-            {this.props.viewer.username}
-          </span>
+          <span css={STYLES_PROFILE_USERNAME}>{this.props.viewer.username}</span>
           <div onClick={this._handleClick} css={STYLES_ITEM_BOX}>
             <SVG.ChevronDown height="20px" />
           </div>

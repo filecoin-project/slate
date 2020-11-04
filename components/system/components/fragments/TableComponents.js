@@ -5,7 +5,7 @@ import * as Strings from "~/common/strings";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { CodeText } from "~/components/system/components/fragments/CodeText";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import Avatar from "~/components/core/Avatar";
 

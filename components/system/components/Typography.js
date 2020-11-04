@@ -4,7 +4,7 @@ import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 import * as StringReplace from "~/vendor/react-string-replace";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const LINK_STYLES = `

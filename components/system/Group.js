@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_GROUP_CONTAINER = css`
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);

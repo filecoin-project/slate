@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { SidebarWarningMessage } from "~/components/core/WarningMessage";
 
 const STYLES_ICONS = css`
@@ -48,8 +48,7 @@ export default class SidebarDragDropNotice extends React.Component {
           <SVG.Video height="24px" style={{ margin: "0 16px" }} />
         </div>
         <System.P style={{ marginTop: 24 }}>
-          Drag and drop a file anywhere on the screen to add it to your data.{" "}
-          <br />
+          Drag and drop a file anywhere on the screen to add it to your data. <br />
           <br />
           Dropping a file while on a slate page will add it to that slate.
         </System.P>

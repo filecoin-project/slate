@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";

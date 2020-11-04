@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Actions from "~/common/actions";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import EmptyState from "~/components/core/EmptyState";
 import SceneProfile from "~/scenes/SceneProfile";

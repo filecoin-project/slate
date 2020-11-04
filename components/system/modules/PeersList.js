@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { Table } from "~/components/system/components/Table";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};

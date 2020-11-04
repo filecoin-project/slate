@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import Dismissible from "~/components/core/Dismissible";
 
@@ -58,7 +58,8 @@ export default class AvatarEntity extends React.Component {
           height: `${this.props.size}px`,
           backgroundImage: `url('${this.props.url}')`,
           cursor: this.props.onClick ? "pointer" : this.props.style,
-        }}>
+        }}
+      >
         {this.state.visible ? this.props.popover : null}
         {this.props.online ? <span css={STYLES_AVATAR_ONLINE} /> : null}
       </Dismissible>

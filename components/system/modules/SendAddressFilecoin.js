@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 
 import { Input } from "~/components/system/components/Input";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};
@@ -41,12 +41,7 @@ export class SendAddressFilecoin extends React.Component {
   render() {
     return (
       <div css={STYLES_CONTAINER}>
-        <Input
-          label="From"
-          name="source"
-          value={this.state.source}
-          onChange={this._handleChange}
-        />
+        <Input label="From" name="source" value={this.state.source} onChange={this._handleChange} />
 
         <Input
           containerStyle={{ marginTop: 24 }}
@@ -65,11 +60,7 @@ export class SendAddressFilecoin extends React.Component {
           onChange={this._handleChange}
         />
 
-        <ButtonPrimary
-          full
-          style={{ marginTop: 48 }}
-          onClick={this._handleSubmit}
-        >
+        <ButtonPrimary full style={{ marginTop: 48 }} onClick={this._handleSubmit}>
           Send {this.state.amount} FIL
         </ButtonPrimary>
       </div>

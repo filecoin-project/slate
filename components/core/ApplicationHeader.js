@@ -4,7 +4,7 @@ import * as SVG from "~/common/svg";
 
 import ApplicationUserControls from "~/components/core/ApplicationUserControls";
 
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/core";
 import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 

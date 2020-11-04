@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_TOOLTIP_ANCHOR = css`
   box-sizing: border-box;
@@ -20,9 +20,7 @@ export class TooltipAnchor extends React.Component {
         {this.props.children ? (
           this.props.children
         ) : (
-          <SVG.Information
-            height={this.props.height ? this.props.height : "24px"}
-          />
+          <SVG.Information height={this.props.height ? this.props.height : "24px"} />
         )}
       </span>
     );

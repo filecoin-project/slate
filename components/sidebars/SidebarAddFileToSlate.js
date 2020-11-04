@@ -7,7 +7,7 @@ import * as SVG from "~/common/svg";
 import * as Actions from "~/common/actions";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { ButtonPrimary, ButtonDisabled } from "~/components/system/components/Buttons";
 import { SlatePicker } from "~/components/core/SlatePicker";
 

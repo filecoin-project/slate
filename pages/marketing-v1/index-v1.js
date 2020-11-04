@@ -6,62 +6,71 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const USER_SLATES = [
   {
     name: "Urban gardens",
     url: "https://slate.host/gndclouds/urban-gardens",
     username: "gndclouds",
-    preview: "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu",
   },
   {
     name: "Shapes and Letters",
     url: "https://slate.host/haris/shapes-and-letters",
     username: "haris",
-    preview: "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
   },
   {
     name: "Mountains",
     url: "https://slate.host/jason/mountains",
     username: "jason",
-    preview: "https://slate.textile.io/ipfs/bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4",
+    preview:
+      "https://slate.textile.io/ipfs/bafkreies6uykgocrkunrsndxfubntyqvfqzo5wuwyos42vak6d4qnvtdn4",
   },
   {
     name: "Loom",
     url: "https://slate.host/tara/loom",
     username: "tara",
-    preview: "https://slate.textile.io/ipfs/bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeifl5xzy4vjctrsr3jywdlv5ceq3hpaadhcii2ekjx2gljyagveqna",
   },
   {
     name: "Brand",
     url: "https://slate.host/slate/brand",
     username: "slate",
-    preview: "https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeiaerbu2nivrgncqtwgwom27caji25netswvjbo6tcmbka47ucmupa",
   },
   {
     name: "Montreal underground",
     url: "https://slate.host/tcosta/montreal-underground",
     username: "tcosta",
-    preview: "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda",
+    preview:
+      "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda",
   },
   {
     name: "Monet",
     url: "https://slate.host/slate/monet",
     username: "slate",
-    preview: "https://slate.textile.io/ipfs/bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli",
+    preview:
+      "https://slate.textile.io/ipfs/bafkreieb4yfiamtipapmhoihl547lxeod2vfku67dimrhmab5tcglr5bli",
   },
   {
     name: "Books",
     url: "https://slate.host/haris/books",
     username: "haris",
-    preview: "https://slate.textile.io/ipfs/bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri",
+    preview:
+      "https://slate.textile.io/ipfs/bafkreihe7ismqfyytekj6yvbv6mpbc5de3gozk6n7a47smodbcsnrhbpri",
   },
   {
     name: "Papers",
     url: "https://slate.host/slate/papers",
     username: "slate",
-    preview: "https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm",
+    preview:
+      "https://slate.textile.io/ipfs/bafkreif7l2vxkvdyrydcjwjjrrmqq73id3tdrdkf3z54tp2fotc75wkdwm",
   },
 ];
 
@@ -72,52 +81,68 @@ const ASSET_HERO = {
 
 const ASSET_HERO_COLLABORATE = {
   src: "https://slate.textile.io/ipfs/bafybeih63zq5f7htbhkmrog447ybytyid2yi6fix4k6z3pbegxpcq2r2qa",
-  backgroundImage: "https://slate.textile.io/ipfs/bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4",
+  backgroundImage:
+    "https://slate.textile.io/ipfs/bafkreiagwjqvmisseb6voj7cwd3lhjudigkel63hqg6efpqjmhlfv5ucj4",
 };
 
 const ASSETS_SMALL = [
   {
-    src: "https://slate.textile.io/ipfs/bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze",
-    backgroundImage: "https://slate.textile.io/ipfs/bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4",
+    src:
+      "https://slate.textile.io/ipfs/bafybeiawzns4vxqp3llkzmc4shvytzpurysh26yj3aljde4d4fsgf7wlze",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafybeihez3rtyqqftx7mkyktwozyqjkwdtk2kglxqjc4zspah26bva3yk4",
   },
   {
-    src: "https://slate.textile.io/ipfs/bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q",
-    backgroundImage: "https://slate.textile.io/ipfs/bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou",
+    src:
+      "https://slate.textile.io/ipfs/bafybeiczug4d6uyr4pkejdwirkeffbzkkzrbaprxvreid6iitw3pmjzq3q",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafybeidnt2l3lslxi7ofkxs5ffncsh4fw5h2ohbukxumngrqj5pdrooaou",
   },
   {
-    src: "https://slate.textile.io/ipfs/bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi",
-    backgroundImage: "https://slate.textile.io/ipfs/bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti",
+    src:
+      "https://slate.textile.io/ipfs/bafkreid7wl4443p764ozdlqtodh7dmsej6ffayp4tc3lr3hil2qkclrohi",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafkreibb3onijljnmonrbs7qguimjf5qwbnkx3m33pouxbtar2yb7hupti",
   },
   {
-    src: "https://slate.textile.io/ipfs/bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga",
-    backgroundImage: "https://slate.textile.io/ipfs/bafkreiefuyyk6dcjhyk3hl2httqvdlnl3mo6wrfzgmponexrc75jop757y",
+    src:
+      "https://slate.textile.io/ipfs/bafybeicjovnsnhvt7xwjw3igdwwpb4ms2m23fayoydj3oevrwyi7dzjtga",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafkreiefuyyk6dcjhyk3hl2httqvdlnl3mo6wrfzgmponexrc75jop757y",
   },
 ];
 
 const ASSETS_MEDIUM = [
   {
     title: "Create moodboards",
-    src: "https://slate.textile.io/ipfs/bafybeib46kplzcylnzviaojgbogua52wyrzbvnj6uulvo4zwrxm4hnxeqe",
-    backgroundImage: "https://slate.textile.io/ipfs/bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq",
+    src:
+      "https://slate.textile.io/ipfs/bafybeib46kplzcylnzviaojgbogua52wyrzbvnj6uulvo4zwrxm4hnxeqe",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafybeicoaponp2nv3ikpsjgcgu7pio6aercflsvsiyxrpaonza7ncg73dq",
   },
 
   {
     title: "Organize research",
-    src: "https://slate.textile.io/ipfs/bafybeigstyjfpzazdlmgkfuhw4yxrneux3opvbls7nmv6gq7dbnhmy6xwy",
-    backgroundImage: "https://slate.textile.io/ipfs/bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi",
+    src:
+      "https://slate.textile.io/ipfs/bafybeigstyjfpzazdlmgkfuhw4yxrneux3opvbls7nmv6gq7dbnhmy6xwy",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafybeie4p45yfvbjdzc2rgw67e7crcltpu7o544xtugs3wyv3qh3t3oegi",
   },
 
   {
     title: "Share presentations",
-    src: "https://slate.textile.io/ipfs/bafybeiampkmsxeihxnuz2hkgbhtzosgkwghslpwm7dsrxrzlqwa7tvzreq",
-    backgroundImage: "https://slate.textile.io/ipfs/bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u",
+    src:
+      "https://slate.textile.io/ipfs/bafybeiampkmsxeihxnuz2hkgbhtzosgkwghslpwm7dsrxrzlqwa7tvzreq",
+    backgroundImage:
+      "https://slate.textile.io/ipfs/bafkreiglefskwq7bpa3aazihegawd4qwxockl6shipnps7zlokrbnu4f7u",
   },
 ];
 
 const ASSET_CHROME_EXTENSION =
   "https://slate.textile.io/ipfs/bafybeibwppu23j5wgshqvm5qyqv3c6pmhp3y5irdwn3ivvnnrpexiguzbi";
 
-const ASSET_SLATE_CUBE = "https://slate.textile.io/ipfs/bafybeiaex6rorqtumulc4x3u4sbl5pdbn5sx45mvm6uvbebu4cxgk3okjy";
+const ASSET_SLATE_CUBE =
+  "https://slate.textile.io/ipfs/bafybeiaex6rorqtumulc4x3u4sbl5pdbn5sx45mvm6uvbebu4cxgk3okjy";
 
 const STYLES_ROOT = css`
   display: flex;
@@ -593,7 +618,7 @@ export default class IndexPage extends React.Component {
       threshold: 0.1,
     };
 
-    const observer = new IntersectionObserver(function (entries, self) {
+    const observer = new IntersectionObserver(function(entries, self) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           preloadVideo(entry.target);
@@ -609,7 +634,8 @@ export default class IndexPage extends React.Component {
 
   render() {
     const title = `Slate`;
-    const description = "Welcome to the future of file sharing. Powered by Textile, Filecoin, and IPFS.";
+    const description =
+      "Welcome to the future of file sharing. Powered by Textile, Filecoin, and IPFS.";
     const url = "https://slate.host";
 
     return (
@@ -649,7 +675,11 @@ export default class IndexPage extends React.Component {
                 Slate{" "}
                 <span css={STYLES_HIGHLIGHT}>
                   is a{" "}
-                  <a css={STYLES_LINK} href={"https://github.com/filecoin-project/slate"} target="_blank">
+                  <a
+                    css={STYLES_LINK}
+                    href={"https://github.com/filecoin-project/slate"}
+                    target="_blank"
+                  >
                     fully open-source
                   </a>{" "}
                   file sharing network designed for research and collaboration.
@@ -684,10 +714,12 @@ export default class IndexPage extends React.Component {
           <div css={STYLES_SECTION_SLATE}>
             <div css={STYLES_TEXT_BLOCK}>
               <h1 css={STYLES_H1}>
-                A new home <span css={STYLES_HIGHLIGHT}>for your images, video, audio, ePUBs, and PDFs</span>
+                A new home{" "}
+                <span css={STYLES_HIGHLIGHT}>for your images, video, audio, ePUBs, and PDFs</span>
               </h1>
               <h3 css={STYLES_H3} style={{ marginBottom: 48 }}>
-                <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of media file to your storage system.
+                <span css={STYLES_HIGHLIGHT}>Easily upload </span>any kind of media file to your
+                storage system.
                 <br />
               </h3>
             </div>
@@ -759,8 +791,8 @@ export default class IndexPage extends React.Component {
                 Upload from <span css={STYLES_HIGHLIGHT}>anywhere</span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>The Slate Chrome extension</span> lets you seamlessly upload files to your
-                slates from anywhere on the web.
+                <span css={STYLES_HIGHLIGHT}>The Slate Chrome extension</span> lets you seamlessly
+                upload files to your slates from anywhere on the web.
               </h3>
               <div css={STYLES_ACTIONS_RIGHT}>
                 <div
@@ -791,7 +823,8 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>Organize and publish</span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your files, giving you complete flexibility.
+                <span css={STYLES_HIGHLIGHT}>A modular interface</span> for your files, giving you
+                complete flexibility.
               </h3>
             </div>
 
@@ -826,8 +859,8 @@ export default class IndexPage extends React.Component {
                 <span css={STYLES_HIGHLIGHT}>Collaborate and connect</span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built on top of a storage system making it
-                possible to connect with other people on the Filecoin network.
+                <span css={STYLES_HIGHLIGHT}>A file sharing network</span> built on top of a storage
+                system making it possible to connect with other people on the Filecoin network.
               </h3>
             </div>
 
@@ -851,8 +884,8 @@ export default class IndexPage extends React.Component {
                 Built on <span css={STYLES_HIGHLIGHT}>trust and privacy</span>
               </h1>
               <h3 css={STYLES_H3}>
-                <span css={STYLES_HIGHLIGHT}>Slate is built on Filecoin and IPFS</span> — technologies built around
-                ownership and transparency for the future of the web.
+                <span css={STYLES_HIGHLIGHT}>Slate is built on Filecoin and IPFS</span> —
+                technologies built around ownership and transparency for the future of the web.
               </h3>
               <a css={STYLES_LINK_WHITE} href="https://filecoin.io" target="_blank">
                 Learn more about Filecoin -&gt;

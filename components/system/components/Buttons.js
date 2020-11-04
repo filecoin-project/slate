@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
@@ -52,11 +52,7 @@ export const ButtonPrimary = (props) => {
   if (props.loading) {
     return (
       <button
-        css={
-          props.transparent
-            ? STYLES_BUTTON_PRIMARY_TRANSPARENT
-            : STYLES_BUTTON_PRIMARY
-        }
+        css={props.transparent ? STYLES_BUTTON_PRIMARY_TRANSPARENT : STYLES_BUTTON_PRIMARY}
         style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
@@ -67,11 +63,7 @@ export const ButtonPrimary = (props) => {
   if (props.type === "label") {
     return (
       <label
-        css={
-          props.transparent
-            ? STYLES_BUTTON_PRIMARY_TRANSPARENT
-            : STYLES_BUTTON_PRIMARY
-        }
+        css={props.transparent ? STYLES_BUTTON_PRIMARY_TRANSPARENT : STYLES_BUTTON_PRIMARY}
         style={{ ...props.style, width: props.full ? "100%" : "auto" }}
         children={props.children}
         type={props.label}
@@ -83,11 +75,7 @@ export const ButtonPrimary = (props) => {
 
   return (
     <button
-      css={
-        props.transparent
-          ? STYLES_BUTTON_PRIMARY_TRANSPARENT
-          : STYLES_BUTTON_PRIMARY
-      }
+      css={props.transparent ? STYLES_BUTTON_PRIMARY_TRANSPARENT : STYLES_BUTTON_PRIMARY}
       style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       onClick={props.onClick}
       children={props.children}
@@ -123,11 +111,7 @@ export const ButtonSecondary = (props) => {
   if (props.loading) {
     return (
       <button
-        css={
-          props.transparent
-            ? STYLES_BUTTON_SECONDARY_TRANSPARENT
-            : STYLES_BUTTON_SECONDARY
-        }
+        css={props.transparent ? STYLES_BUTTON_SECONDARY_TRANSPARENT : STYLES_BUTTON_SECONDARY}
         style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
@@ -138,11 +122,7 @@ export const ButtonSecondary = (props) => {
   if (props.type === "label") {
     return (
       <label
-        css={
-          props.transparent
-            ? STYLES_BUTTON_SECONDARY_TRANSPARENT
-            : STYLES_BUTTON_SECONDARY
-        }
+        css={props.transparent ? STYLES_BUTTON_SECONDARY_TRANSPARENT : STYLES_BUTTON_SECONDARY}
         style={{ ...props.style, width: props.full ? "100%" : "auto" }}
         onClick={props.onClick}
         children={props.children}
@@ -154,11 +134,7 @@ export const ButtonSecondary = (props) => {
 
   return (
     <button
-      css={
-        props.transparent
-          ? STYLES_BUTTON_SECONDARY_TRANSPARENT
-          : STYLES_BUTTON_SECONDARY
-      }
+      css={props.transparent ? STYLES_BUTTON_SECONDARY_TRANSPARENT : STYLES_BUTTON_SECONDARY}
       onClick={props.onClick}
       children={props.children}
       style={{ ...props.style, width: props.full ? "100%" : "auto" }}
@@ -193,11 +169,7 @@ const STYLES_BUTTON_DISABLED_TRANSPARENT = css`
 export const ButtonDisabled = (props) => {
   return (
     <button
-      css={
-        props.transparent
-          ? STYLES_BUTTON_DISABLED_TRANSPARENT
-          : STYLES_BUTTON_DISABLED
-      }
+      css={props.transparent ? STYLES_BUTTON_DISABLED_TRANSPARENT : STYLES_BUTTON_DISABLED}
       onClick={props.onClick}
       children={props.children}
       type={props.label}
@@ -240,11 +212,7 @@ export const ButtonWarning = (props) => {
   if (props.loading) {
     return (
       <button
-        css={
-          props.transparent
-            ? STYLES_BUTTON_WARNING_TRANSPARENT
-            : STYLES_BUTTON_WARNING
-        }
+        css={props.transparent ? STYLES_BUTTON_WARNING_TRANSPARENT : STYLES_BUTTON_WARNING}
         style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
@@ -255,11 +223,7 @@ export const ButtonWarning = (props) => {
   if (props.type === "label") {
     return (
       <label
-        css={
-          props.transparent
-            ? STYLES_BUTTON_WARNING_TRANSPARENT
-            : STYLES_BUTTON_WARNING
-        }
+        css={props.transparent ? STYLES_BUTTON_WARNING_TRANSPARENT : STYLES_BUTTON_WARNING}
         style={{ ...props.style, width: props.full ? "100%" : "auto" }}
         children={props.children}
         type={props.label}
@@ -271,11 +235,7 @@ export const ButtonWarning = (props) => {
 
   return (
     <button
-      css={
-        props.transparent
-          ? STYLES_BUTTON_WARNING_TRANSPARENT
-          : STYLES_BUTTON_WARNING
-      }
+      css={props.transparent ? STYLES_BUTTON_WARNING_TRANSPARENT : STYLES_BUTTON_WARNING}
       style={{ ...props.style, width: props.full ? "100%" : "auto" }}
       onClick={props.onClick}
       children={props.children}

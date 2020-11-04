@@ -5,7 +5,7 @@ import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 import * as Window from "~/common/window";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { SlatePicker } from "~/components/core/SlatePicker";

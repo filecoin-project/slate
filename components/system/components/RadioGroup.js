@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 
@@ -102,10 +102,7 @@ export class RadioGroup extends React.Component {
             return (
               <label css={STYLES_RADIO} key={`radio-${radio.value}`}>
                 <span css={STYLES_RADIO_CUSTOM}>
-                  <span
-                    css={STYLES_RADIO_CUSTOM_SELECTED}
-                    style={{ opacity: checked ? 1 : 0 }}
-                  />
+                  <span css={STYLES_RADIO_CUSTOM_SELECTED} style={{ opacity: checked ? 1 : 0 }} />
                 </span>
                 <input
                   css={STYLES_RADIO_INPUT}

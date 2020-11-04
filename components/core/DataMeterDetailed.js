@@ -39,7 +39,6 @@ const STYLES_DATA_METER_BASE = css`
 
 const STYLES_DATA_METER = css`
   flex-shrink: 0;
-  position: absolute;
   top: 0px;
   left: 0px;
   border-radius: 3px 0px 0px 3px;
@@ -167,7 +166,7 @@ export const DataMeter = (props) => {
         bytes={props.stats.bytes}
         maximumBytes={props.stats.maximumBytes}
       />
-      <div style={{ position: "relative" }}></div>
+      <div></div>
       <div css={STYLES_NOTE}>
         <div css={STYLES_DATA_METER_KEY_WRAPPER}>
           <div css={STYLES_DATA_METER_KEY_SQUARE} style={{ background: `#C0D8EE` }}>

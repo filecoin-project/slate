@@ -12,7 +12,7 @@ import { WarningMessage } from "~/components/core/WarningMessage";
 
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
-import DataMeter from "~/components/core/DataMeter";
+import DataMeter from "~/components/core/DataMeterDetailed";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import EmptyState from "~/components/core/EmptyState";
 

@@ -6,6 +6,7 @@ import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
 
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
+import SlatePreviewBlocksExternal from "~/components/core/SlatePreviewBlockExternal";
 import { SceneUtils } from "three";
 
 const STYLES_PROFILE_INTERNAL = css`
@@ -30,11 +31,12 @@ const STYLES_PROFILE = css`
 const STYLES_PROFILE_INFO = css`
   display: flex;
   line-height: 1.3;
-  margin: 0 auto;
-  width: 100%;
-  max-width: ${Constants.sizes.desktop}px;
+  width: 50%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    width: 100%;
+  }
 `;
 
 const STYLES_PROFILE_INFO_INTERNAL = css`
@@ -282,9 +284,8 @@ export default class Profile extends React.Component {
         ) : (
           <div css={STYLES_PROFILE} style={{ paddingTop: 0 }}>
             {data.slates && data.slates.length ? (
-              <SlatePreviewBlocks
+              <SlatePreviewBlocksExternal
                 isOwner={this.props.isOwner}
-                external={this.props.onAction ? false : true}
                 slates={data.slates}
                 username={data.username}
                 onAction={this.props.onAction}

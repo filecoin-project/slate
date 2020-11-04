@@ -1,6 +1,5 @@
 import configs from "~/knexfile";
 import knex from "knex";
-import fs from "fs";
 
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
@@ -20,7 +19,7 @@ function sortObject(obj) {
       });
     }
   }
-  arr.sort(function (a, b) {
+  arr.sort(function(a, b) {
     return b.value - a.value;
   });
   //arr.sort(function(a, b) { a.value.toLowerCase().localeCompare(b.value.toLowerCase()); }); //use this to sort as strings
@@ -54,10 +53,6 @@ const run = async () => {
   console.log("TOTAL USER COUNT", count);
   console.log("TOTAL BYTES", bytes);
   console.log("TOTAL BYTES (CONVERTED)", Strings.bytesToSize(bytes));
-
-  fs.writeFile("analytics.txt", JSON.stringify({ data: userMap }, null, 2), function (err) {
-    if (err) return console.log(err);
-  });
 };
 
 run();

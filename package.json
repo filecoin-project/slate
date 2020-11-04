@@ -37,7 +37,7 @@
     "@babel/register": "^7.12.1",
     "@babel/runtime": "^7.12.5",
     "@emotion/babel-preset-css-prop": "10.1.0",
-    "@emotion/core": "10.0.35",
+    "@emotion/core": "10.1.1",
     "@glif/filecoin-number": "^1.0.0-beta.5",
     "@improbable-eng/grpc-web": "^0.13.0",
     "@slack/webhook": "^5.0.3",

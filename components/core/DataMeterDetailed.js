@@ -51,20 +51,20 @@ const STYLES_ROW = css`
   font-family: ${Constants.font.code};
   color: ${Constants.system.darkGray};
   display: inline-flex;
-  height: 48px;
-  background: black;
+  height: 16px;
+  border-radius: 3px 0px 0px 3px;
+  width: 100%;
 `;
 
 const STYLES_STATS_ROW = css`
   font-family: ${Constants.font.text};
   color: ${Constants.system.black};
   text-transform: uppercase;
-
   display: inline-flex;
+  background-color: ${Constants.system.foreground};
   margin: 48px;
   width: 100%;
   height: 48px;
-  background-color: black;
 `;
 
 const STYLES_LEFT = css`
@@ -113,17 +113,18 @@ const STYLES_DATA_METER_KEY_LABEL = css`
 `;
 
 const DATA_METER_METER_SEGMENT = css`
-  height: 48px;
-  width: 100px;
+  height: 16px;
+  border-radius: 3px 0px 0px 3px;
 `;
 
 export const DataMeterBar = (props) => {
+  const totalSize = props.maximumBytes;
   const percentage = props.bytes / props.maximumBytes;
-  const percentageImage = props.stats.imageBytes;
-  const percentageVideo = props.stats.videoBytes / props.maximumBytes;
-  const percentageEpub = props.stats.epubBytes / props.maximumBytes;
-  const percentagePdf = props.stats.pdfBytes / props.maximumBytes;
-  const percentageAudio = props.stats.audioBytes / props.maximumBytes;
+  const percentageImage = props.stats.imageBytes / props.maximumBytes;
+  const percentageVideo = props.stats.videoBytes;
+  const percentageEpub = props.stats.epubBytes;
+  const percentagePdf = props.stats.pdfBytes;
+  const percentageAudio = props.stats.audioBytes;
   const percentageFreeSpace =
     props.maximumBytes -
     (props.stats.imageBytes +
@@ -132,14 +133,13 @@ export const DataMeterBar = (props) => {
       props.stats.epubBytes +
       props.stats.pdfBytes +
       props.stats.audioBytes);
+  console.log(percentageImage);
   return (
     <React.Fragment>
       <div
         css={STYLES_ROW}
         style={{
-          width: `${percentage * 100}%`,
-          backgroundColor: props.dataMeterColor,
-          zIndex: props.dataMeterLayer,
+          width: `${percentage}%`,
         }}
       >
         <div
@@ -148,25 +148,19 @@ export const DataMeterBar = (props) => {
         ></div>
         <div
           css={DATA_METER_METER_SEGMENT}
-          style={{ width: `${percentageVideo * 100}%`, backgroundColor: "#C0DACD" }}
+          style={{ width: `${percentageVideo}%`, backgroundColor: "#C0DACD" }}
         ></div>
         <div
           css={DATA_METER_METER_SEGMENT}
-          style={{ width: `${percentageEpub * 100}%`, backgroundColor: "#FEEDC4" }}
+          style={{ width: `${percentageEpub}%`, backgroundColor: "#FEEDC4" }}
         ></div>
         <div
           css={DATA_METER_METER_SEGMENT}
-          style={{ width: `${percentagePdf * 100}%`, backgroundColor: "#FAB413" }}
+          style={{ width: `${percentagePdf}%`, backgroundColor: "#FAB413" }}
         ></div>
         <div
           css={DATA_METER_METER_SEGMENT}
-          style={{ width: `${percentageAudio * 100}%`, backgroundColor: "#F1C4C4" }}
-        >
-          c
-        </div>
-        <div
-          css={DATA_METER_METER_SEGMENT}
-          style={{ width: "", backgroundColor: "${Constants.system.foreground}" }}
+          style={{ width: `${percentageAudio}%`, backgroundColor: "#F1C4C4" }}
         ></div>
       </div>
     </React.Fragment>

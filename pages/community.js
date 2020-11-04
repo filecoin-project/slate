@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/core";
 import { SceneUtils } from "three";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";

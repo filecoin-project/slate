@@ -4,7 +4,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 // import { LineChart } from "~/vendor/react-chartkick";
 import Section from "~/components/core/Section";
@@ -475,8 +475,7 @@ export default class SceneStats extends React.Component {
                   key: "date",
                   name: "Date uploaded",
                   width: "168px",
-                  tooltip:
-                    "This date represents when the file was first uploaded to the network.",
+                  tooltip: "This date represents when the file was first uploaded to the network.",
                 },
               ],
               rows: [],
@@ -508,8 +507,7 @@ export default class SceneStats extends React.Component {
                   key: "date",
                   name: "Date uploaded",
                   width: "168px",
-                  tooltip:
-                    "This date represents when the file was first uploaded to the network.",
+                  tooltip: "This date represents when the file was first uploaded to the network.",
                 },
               ],
               rows: [],

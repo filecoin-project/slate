@@ -2,8 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
-
+import { css } from "@emotion/core";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import { SELECT_COUNTRY_OPTIONS } from "~/common/fixtures";
 
@@ -86,10 +85,7 @@ export const SelectMenu = (props) => {
   let presentationValue = map[props.value] ? map[props.value] : "Unselected";
 
   return (
-    <div
-      css={props.full ? STYLES_CONTAINER_FULL : STYLES_CONTAINER}
-      style={props.containerStyle}
-    >
+    <div css={props.full ? STYLES_CONTAINER_FULL : STYLES_CONTAINER} style={props.containerStyle}>
       <DescriptionGroup
         full={props.full}
         label={props.label}
@@ -100,9 +96,7 @@ export const SelectMenu = (props) => {
       <div css={props.className ? props.className : STYLES_SELECT_MENU}>
         <label css={STYLES_SELECT_MENU_LABEL} htmlFor={`id-${props.name}`}>
           {map[props.value]}{" "}
-          {props.category ? (
-            <span css={STYLES_SELECT_MENU_CATEGORY}>{props.category}</span>
-          ) : null}
+          {props.category ? <span css={STYLES_SELECT_MENU_CATEGORY}>{props.category}</span> : null}
           <SVG.ChevronDown height="16px" css={STYLES_SELECT_MENU_CHEVRON} />
         </label>
         <select
@@ -127,10 +121,7 @@ export const SelectMenu = (props) => {
 
 export const SelectCountryMenu = (props) => {
   return (
-    <div
-      css={props.full ? STYLES_CONTAINER_FULL : STYLES_CONTAINER}
-      style={props.containerStyle}
-    >
+    <div css={props.full ? STYLES_CONTAINER_FULL : STYLES_CONTAINER} style={props.containerStyle}>
       <SelectMenu
         css={STYLES_SELECT_MENU}
         label={props.label}

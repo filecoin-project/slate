@@ -6,7 +6,7 @@ import * as Actions from "~/common/actions";
 import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { LoaderSpinner } from "~/components/system/components/Loaders";

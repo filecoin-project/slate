@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 // TODO:
 // Refactor to https://github.com/FormidableLabs/prism-react-renderer
@@ -67,11 +67,7 @@ class CodeBlock extends React.Component {
     const textMap = codeBlockToken;
 
     return (
-      <div
-        css={STYLES_CODE_BLOCK}
-        className="language-javascript"
-        style={this.props.style}
-      >
+      <div css={STYLES_CODE_BLOCK} className="language-javascript" style={this.props.style}>
         {textMap.map((element, index) => {
           return (
             <div css={STYLES_LINE} key={`${element}-${index}`}>

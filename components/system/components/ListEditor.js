@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/core";
 import Draggable from "react-draggable";
 
 import { Input } from "~/components/system/components/Input";
@@ -196,17 +196,12 @@ export class ListEditor extends React.Component {
           css={STYLES_LIST_ITEM}
           style={{
             backgroundColor:
-              this.state.reordering === i
-                ? Constants.system.gray
-                : Constants.system.white,
+              this.state.reordering === i ? Constants.system.gray : Constants.system.white,
           }}
         >
           <SVG.Reorder className="cursor" css={STYLES_REORDER} />
           <div>{item}</div>
-          <SVG.Dismiss
-            css={STYLES_DELETE}
-            onClick={() => this._handleDelete(i)}
-          />
+          <SVG.Dismiss css={STYLES_DELETE} onClick={() => this._handleDelete(i)} />
         </div>
       </Draggable>
     ));

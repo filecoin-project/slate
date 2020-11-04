@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 
 const STYLES_NOTIFICATION_LIST = css`
@@ -89,7 +89,9 @@ export class GlobalNotification extends React.Component {
                   ? {
                       backgroundColor: Constants.system.black,
                       color: Constants.system.white,
-                      boxShadow: `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${NOTIF_COLOR_MAP["GENERIC"]}`,
+                      boxShadow: `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
+                        NOTIF_COLOR_MAP["GENERIC"]
+                      }`,
                     }
                   : {
                       boxShadow: `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
@@ -98,10 +100,7 @@ export class GlobalNotification extends React.Component {
                     }
               }
             >
-              <DescriptionGroup
-                label={notif.label}
-                description={notif.description}
-              />
+              <DescriptionGroup label={notif.label} description={notif.description} />
             </div>
           );
         })}

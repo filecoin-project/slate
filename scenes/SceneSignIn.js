@@ -5,7 +5,7 @@ import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { Logo, Symbol } from "~/common/logo";
 import { dispatchCustomEvent } from "~/common/custom-events";
 

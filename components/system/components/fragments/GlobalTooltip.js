@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_TOOLTIP = css`
@@ -33,12 +33,8 @@ export class GlobalTooltip extends React.Component {
   };
 
   getStyle = (rect, bubbleRect, vertical, horizontal) => {
-    let yOffset = this.props.elementRef
-      ? this.props.elementRef.scrollTop
-      : window.pageYOffset;
-    let xOffset = this.props.elementRef
-      ? this.props.elementRef.scrollLeft
-      : window.pageXOffset;
+    let yOffset = this.props.elementRef ? this.props.elementRef.scrollTop : window.pageYOffset;
+    let xOffset = this.props.elementRef ? this.props.elementRef.scrollLeft : window.pageXOffset;
     let style = { position: "absolute" };
     switch (vertical) {
       case "above":
@@ -48,9 +44,7 @@ export class GlobalTooltip extends React.Component {
         style.top = `${rect.bottom - bubbleRect.height + yOffset}px`;
         break;
       case "center":
-        style.top = `${
-          rect.top + 0.5 * rect.height - 0.5 * bubbleRect.height + yOffset
-        }px`;
+        style.top = `${rect.top + 0.5 * rect.height - 0.5 * bubbleRect.height + yOffset}px`;
         break;
       case "down":
         style.top = `${rect.top + yOffset}px`;
@@ -67,9 +61,7 @@ export class GlobalTooltip extends React.Component {
         style.left = `${rect.right - bubbleRect.width + xOffset}px`;
         break;
       case "center":
-        style.left = `${
-          rect.left + 0.5 * rect.width - 0.5 * bubbleRect.width + xOffset
-        }px`;
+        style.left = `${rect.left + 0.5 * rect.width - 0.5 * bubbleRect.width + xOffset}px`;
         break;
       case "right":
         style.left = `${rect.left + xOffset}px`;
@@ -82,12 +74,8 @@ export class GlobalTooltip extends React.Component {
   };
 
   getOrientation = (rect, bubbleRect, vertical, horizontal) => {
-    let yOffset = this.props.elementRef
-      ? this.props.elementRef.scrollTop
-      : window.pageYOffset;
-    let xOffset = this.props.elementRef
-      ? this.props.elementRef.scrollLeft
-      : window.pageXOffset;
+    let yOffset = this.props.elementRef ? this.props.elementRef.scrollTop : window.pageYOffset;
+    let xOffset = this.props.elementRef ? this.props.elementRef.scrollLeft : window.pageXOffset;
     if (!vertical) {
       if (bubbleRect.height > rect.top + yOffset) {
         vertical = "below";
@@ -139,10 +127,7 @@ export class GlobalTooltip extends React.Component {
   };
 
   _handleRemove = (e) => {
-    if (
-      this.props.allowedTypes &&
-      !this.props.allowedTypes.includes(e.detail.type)
-    ) {
+    if (this.props.allowedTypes && !this.props.allowedTypes.includes(e.detail.type)) {
       return;
     }
 
@@ -341,9 +326,7 @@ export class TooltipAnchor extends React.Component {
           {this.props.children ? (
             this.props.children
           ) : (
-            <SVG.Information
-              height={this.props.height ? this.props.height : "24px"}
-            />
+            <SVG.Information height={this.props.height ? this.props.height : "24px"} />
           )}
         </span>
       </TooltipWrapper>

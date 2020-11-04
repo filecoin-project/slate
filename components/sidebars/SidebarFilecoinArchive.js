@@ -7,7 +7,7 @@ import * as System from "~/components/system";
 import * as Window from "~/common/window";
 import * as Messages from "~/common/messages";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const DEFAULT_ERROR_MESSAGE = "We could not make your deal. Please try again later.";

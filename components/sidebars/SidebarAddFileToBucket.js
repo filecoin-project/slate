@@ -6,7 +6,7 @@ import * as Validations from "~/common/validations";
 import * as Store from "~/common/store";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { DataMeterBar } from "~/components/core/DataMeter";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { SidebarWarningMessage } from "~/components/core/WarningMessage";
@@ -145,10 +145,7 @@ export default class SidebarAddFileToBucket extends React.Component {
             (this.props.current.data && this.props.current.data.name)) ? (
             <span>
               {" "}
-              to{" "}
-              <strong>
-                {Strings.getPresentationSlateName(this.props.current)}
-              </strong>
+              to <strong>{Strings.getPresentationSlateName(this.props.current)}</strong>
             </span>
           ) : (
             ""
@@ -158,18 +155,12 @@ export default class SidebarAddFileToBucket extends React.Component {
 
         <SidebarWarningMessage />
 
-        <System.ButtonPrimary
-          full
-          type="label"
-          htmlFor="file"
-          style={{ marginTop: 24 }}
-        >
+        <System.ButtonPrimary full type="label" htmlFor="file" style={{ marginTop: 24 }}>
           Add file
         </System.ButtonPrimary>
 
         <br />
-        {this.props.fileLoading &&
-        Object.keys(this.props.fileLoading).length ? (
+        {this.props.fileLoading && Object.keys(this.props.fileLoading).length ? (
           <div css={STYLES_BAR_CONTAINER}>
             <strong css={STYLES_PERFORMANCE}>
               {Strings.bytesToSize(loaded)} / {Strings.bytesToSize(total)}
@@ -226,13 +217,8 @@ export default class SidebarAddFileToBucket extends React.Component {
                         {file.name}
                       </div>
                     </span>
-                    {file.loaded === file.total ||
-                    file.failed ||
-                    file.cancelled ? (
-                      <div
-                        css={STYLES_RIGHT}
-                        style={{ height: 24, width: 24 }}
-                      />
+                    {file.loaded === file.total || file.failed || file.cancelled ? (
+                      <div css={STYLES_RIGHT} style={{ height: 24, width: 24 }} />
                     ) : (
                       <span
                         css={STYLES_RIGHT}

@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import { SelectMenu } from "~/components/system/components/SelectMenus";
 import { Toggle } from "~/components/system/components/Toggle";
@@ -95,29 +95,23 @@ export class FilecoinSettings extends React.Component {
   unbundleConfig = () => {
     let config = {
       settings_hot_enabled: this.props.defaultStorageConfig.hot.enabled,
-      settings_hot_allow_unfreeze: this.props.defaultStorageConfig.hot
-        .allowUnfreeze,
-      settings_hot_ipfs_add_timeout: this.props.defaultStorageConfig.hot.ipfs
-        .addTimeout,
+      settings_hot_allow_unfreeze: this.props.defaultStorageConfig.hot.allowUnfreeze,
+      settings_hot_ipfs_add_timeout: this.props.defaultStorageConfig.hot.ipfs.addTimeout,
       settings_cold_enabled: this.props.defaultStorageConfig.cold.enabled,
-      settings_cold_default_address: this.props.defaultStorageConfig.cold
-        .filecoin.addr,
-      settings_cold_default_duration: this.props.defaultStorageConfig.cold
-        .filecoin.dealMinDuration,
-      settings_cold_default_replication_factor: this.props.defaultStorageConfig
-        .cold.filecoin.repFactor,
-      settings_cold_default_excluded_miners: this.props.defaultStorageConfig
-        .cold.filecoin.excludedMinersList,
-      settings_cold_default_trusted_miners: this.props.defaultStorageConfig.cold
-        .filecoin.trustedMinersList,
-      settings_cold_country_codes_list: this.props.defaultStorageConfig.cold
-        .filecoin.countryCodesList,
-      settings_cold_default_max_price: this.props.defaultStorageConfig.cold
-        .filecoin.maxPrice,
-      settings_cold_default_auto_renew: this.props.defaultStorageConfig.cold
-        .filecoin.renew.enabled,
-      settings_cold_default_auto_renew_threshold: this.props
-        .defaultStorageConfig.cold.filecoin.renew.threshold,
+      settings_cold_default_address: this.props.defaultStorageConfig.cold.filecoin.addr,
+      settings_cold_default_duration: this.props.defaultStorageConfig.cold.filecoin.dealMinDuration,
+      settings_cold_default_replication_factor: this.props.defaultStorageConfig.cold.filecoin
+        .repFactor,
+      settings_cold_default_excluded_miners: this.props.defaultStorageConfig.cold.filecoin
+        .excludedMinersList,
+      settings_cold_default_trusted_miners: this.props.defaultStorageConfig.cold.filecoin
+        .trustedMinersList,
+      settings_cold_country_codes_list: this.props.defaultStorageConfig.cold.filecoin
+        .countryCodesList,
+      settings_cold_default_max_price: this.props.defaultStorageConfig.cold.filecoin.maxPrice,
+      settings_cold_default_auto_renew: this.props.defaultStorageConfig.cold.filecoin.renew.enabled,
+      settings_cold_default_auto_renew_threshold: this.props.defaultStorageConfig.cold.filecoin
+        .renew.threshold,
       settings_repairable: this.props.defaultStorageConfig.repairable,
       fetchedConfig: true,
     };
@@ -309,9 +303,7 @@ export class FilecoinSettings extends React.Component {
                         description="How long before a deal expires should it auto renew."
                         name="settings_cold_default_auto_renew_threshold"
                         pattern="^\d*$"
-                        value={
-                          this.state.settings_cold_default_auto_renew_threshold
-                        }
+                        value={this.state.settings_cold_default_auto_renew_threshold}
                         unit="[unit]"
                         onChange={this._handleChange}
                       />

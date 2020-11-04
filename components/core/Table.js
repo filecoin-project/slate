@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as SubSystem from "~/components/system/components/fragments/TableComponents";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { P } from "~/components/system/components/Typography";
 import * as SVG from "~/common/svg";
 
@@ -104,8 +104,7 @@ export class Table extends React.Component {
                 const content = r[each];
 
                 let localWidth = field.width ? field.width : width;
-                let flexShrink =
-                  field.width && field.width !== "100%" ? "0" : null;
+                let flexShrink = field.width && field.width !== "100%" ? "0" : null;
                 if (cIndex === 0 && !field.width) {
                   localWidth = "100%";
                 }

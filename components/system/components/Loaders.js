@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 //
 //
@@ -188,14 +188,7 @@ const STYLES_LOADER_ROTATE_SQUARES = css`
 const STYLES_LOADER_PROGRESS = css`
   width: 0;
   height: 16px;
-  background-image: linear-gradient(
-    to left,
-    #2935ff,
-    #342fc4,
-    #33288b,
-    #2b2157,
-    #1d1927
-  );
+  background-image: linear-gradient(to left, #2935ff, #342fc4, #33288b, #2b2157, #1d1927);
   border-radius: 4px;
   animation: slate-client-progressbar 5s infinite;
   transition: width 0.8s ease;
@@ -238,13 +231,9 @@ const STYLES_LOADER_SPINNER = css`
 //
 //LOADER EXPORTS
 
-export const LoaderProgress = (props) => (
-  <div css={STYLES_LOADER_PROGRESS} {...props} />
-);
+export const LoaderProgress = (props) => <div css={STYLES_LOADER_PROGRESS} {...props} />;
 
-export const LoaderSpinner = (props) => (
-  <div css={STYLES_LOADER_SPINNER} {...props} />
-);
+export const LoaderSpinner = (props) => <div css={STYLES_LOADER_SPINNER} {...props} />;
 
 export const LoaderCircles = () => (
   <div>

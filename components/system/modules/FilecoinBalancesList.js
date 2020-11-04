@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 
 import { Table } from "~/components/system/components/Table";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};
@@ -41,9 +41,7 @@ export const FilecoinBalancesList = (props) => {
           rows: props.data.map((each) => {
             return {
               id: each.addr.addr,
-              balance: Strings.formatAsFilecoin(
-                Strings.formatNumber(each.balance)
-              ),
+              balance: Strings.formatAsFilecoin(Strings.formatNumber(each.balance)),
               address: each.addr.addr,
               name: each.addr.name,
               type: each.addr.type,

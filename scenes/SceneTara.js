@@ -4,7 +4,7 @@ import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { dispatchCustomEvent } from "~/common/custom-events";

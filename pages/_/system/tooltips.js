@@ -8,7 +8,7 @@ import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_DEMO_TOOLTIP = {
   display: "flex",
@@ -79,9 +79,8 @@ export default class SystemPageTooltips extends React.Component {
         <br />
         <br />
         <System.P>
-          The Tooltip component is used to provide the user with more
-          information in a message that appears when they interact with an
-          element.
+          The Tooltip component is used to provide the user with more information in a message that
+          appears when they interact with an element.
         </System.P>
         <System.GlobalTooltip />
         <br />
@@ -91,8 +90,7 @@ export default class SystemPageTooltips extends React.Component {
         <hr />
         <br />
         <System.P>
-          Import the GlobalTooltip, TooltipWrapper, and optionally the
-          TooltipAnchor Components.
+          Import the GlobalTooltip, TooltipWrapper, and optionally the TooltipAnchor Components.
         </System.P>
         <br />
         <br />
@@ -107,9 +105,9 @@ import { GlobalTooltip, TooltipWrapper, TooltipAnchor } from "slate-react-system
         <hr />
         <br />
         <System.P>
-          Declare the <System.CodeText>GlobalTooltip</System.CodeText> at the
-          root level of your document (e.g. in index.js or App.js) so it is
-          accessible throughout and will not get buried in the DOM tree.
+          Declare the <System.CodeText>GlobalTooltip</System.CodeText> at the root level of your
+          document (e.g. in index.js or App.js) so it is accessible throughout and will not get
+          buried in the DOM tree.
         </System.P>
         <br />
         <CodeBlock>
@@ -125,17 +123,15 @@ import { GlobalTooltip, TooltipWrapper, TooltipAnchor } from "slate-react-system
         </CodeBlock>
         <br />
         <System.P>
-          Then, wrap your desired anchor with a{" "}
-          <System.CodeText>TooltipWrapper</System.CodeText>. The wrapper's id
-          should match the id in the dispatchCustomEvent call. This id must be
+          Then, wrap your desired anchor with a <System.CodeText>TooltipWrapper</System.CodeText>.
+          The wrapper's id should match the id in the dispatchCustomEvent call. This id must be
           unique for each tooltip.
         </System.P>
         <br />
         <System.P>
-          The tooltip component, passed in as{" "}
-          <System.CodeText>content</System.CodeText> to{" "}
-          <System.CodeText>TooltipWrapper</System.CodeText>, will be displayed
-          when a dispatchCustomEvent is called with its id.
+          The tooltip component, passed in as <System.CodeText>content</System.CodeText> to{" "}
+          <System.CodeText>TooltipWrapper</System.CodeText>, will be displayed when a
+          dispatchCustomEvent is called with its id.
         </System.P>
         <br />
         <System.TooltipAnchor
@@ -192,17 +188,12 @@ import { GlobalTooltip, TooltipWrapper, TooltipAnchor } from "slate-react-system
         <hr />
         <br />
         <System.P>
-          For a pre-styled tooltip that accepts a string and handles
-          dispatchCustomEvent and styling for you, use the{" "}
-          <System.CodeText>TooltipAnchor</System.CodeText> component. Be sure to
+          For a pre-styled tooltip that accepts a string and handles dispatchCustomEvent and styling
+          for you, use the <System.CodeText>TooltipAnchor</System.CodeText> component. Be sure to
           give it a unique id.
         </System.P>
         <br />
-        <System.TooltipAnchor
-          type="body"
-          id="another-unique-tooltip-id"
-          tooltip="Hello friends!"
-        />
+        <System.TooltipAnchor type="body" id="another-unique-tooltip-id" tooltip="Hello friends!" />
         <br />
         <br />
         <CodeBlock>
@@ -221,9 +212,9 @@ import { GlobalTooltip, TooltipWrapper, TooltipAnchor } from "slate-react-system
         <System.P>
           You can set a tooltip to appear in a set orientation using the{" "}
           <System.CodeText>horizontal</System.CodeText> and{" "}
-          <System.CodeText>vertical</System.CodeText> props. These can be
-          applied to both the <System.CodeText>TooltipWrapper</System.CodeText>{" "}
-          and the <System.CodeText>TooltipAnchor</System.CodeText> components.
+          <System.CodeText>vertical</System.CodeText> props. These can be applied to both the{" "}
+          <System.CodeText>TooltipWrapper</System.CodeText> and the{" "}
+          <System.CodeText>TooltipAnchor</System.CodeText> components.
         </System.P>
         <br />
         <div>
@@ -312,11 +303,7 @@ import { GlobalTooltip, TooltipWrapper, TooltipAnchor } from "slate-react-system
               rows: [
                 {
                   id: 1,
-                  a: (
-                    <span style={{ fontFamily: Constants.font.semiBold }}>
-                      id
-                    </span>
-                  ),
+                  a: <span style={{ fontFamily: Constants.font.semiBold }}>id</span>,
                   b: "string",
                   c: "null",
                   d: "Unique id to identify the tooltip.",
@@ -391,11 +378,7 @@ import { GlobalTooltip, TooltipWrapper, TooltipAnchor } from "slate-react-system
               rows: [
                 {
                   id: 1,
-                  a: (
-                    <span style={{ fontFamily: Constants.font.semiBold }}>
-                      id
-                    </span>
-                  ),
+                  a: <span style={{ fontFamily: Constants.font.semiBold }}>id</span>,
                   b: "string",
                   c: "null",
                   d: "Unique id to identify the tooltip.",

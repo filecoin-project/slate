@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_PILL = css`
   position: absolute;
@@ -25,11 +25,7 @@ const STYLES_PILL = css`
 export default class Pill extends React.Component {
   render() {
     return (
-      <figure
-        css={STYLES_PILL}
-        onClick={this.props.onClick}
-        style={this.props.style}
-      >
+      <figure css={STYLES_PILL} onClick={this.props.onClick} style={this.props.style}>
         {this.props.children}
       </figure>
     );

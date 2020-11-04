@@ -3,7 +3,7 @@ import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import ScenePage from "~/components/core/ScenePage";

@@ -4,7 +4,7 @@ import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import CarouselSidebarSlate from "~/components/core/CarouselSidebarSlate";
 import CarouselSidebarData from "~/components/core/CarouselSidebarData";

@@ -4,7 +4,7 @@ import * as SVG from "~/common/svg";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const TAG_HEIGHT = 20;
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { WarningMessage } from "~/components/core/WarningMessage";
 
 import Section from "~/components/core/Section";

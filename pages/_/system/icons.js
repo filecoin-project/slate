@@ -3,7 +3,7 @@ import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
@@ -46,11 +46,7 @@ const STYLES_ICON = css`
 export default class SystemPageIcons extends React.Component {
   render() {
     return (
-      <SystemPage
-        title="SDS: Icons"
-        description="..."
-        url="https://slate.host/_/system/icons"
-      >
+      <SystemPage title="SDS: Icons" description="..." url="https://slate.host/_/system/icons">
         <System.H1>
           Icons <ViewSourceLink file="system/icons.js" />
         </System.H1>

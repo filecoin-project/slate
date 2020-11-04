@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 // NOTE(jim): Consolidate if used elsewhere on the client (Not node_common)
 const MAX_IN_BYTES = 10737418240 * 4;

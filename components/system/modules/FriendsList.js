@@ -3,11 +3,13 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { Table } from "~/components/system/components/Table";
 import { StatUpload, StatDownload } from "~/components/system/components/Stat";
 
-let genericImg = `${Constants.gateways.ipfs}/bafybeiblly23jomdjjiq7ilth667npcfm5llqb5xfstodbbfa5pxtoek7u`;
+let genericImg = `${
+  Constants.gateways.ipfs
+}/bafybeiblly23jomdjjiq7ilth667npcfm5llqb5xfstodbbfa5pxtoek7u`;
 
 const STYLES_BUTTON = `
   font-family: ${Constants.font.text};
@@ -158,11 +160,7 @@ export class FriendsList extends React.Component {
                       borderRadius: "4px",
                     }}
                   >
-                    <img
-                      src={each.img || genericImg}
-                      alt=""
-                      style={{ width: "40px" }}
-                    />
+                    <img src={each.img || genericImg} alt="" style={{ width: "40px" }} />
                   </div>
                 ),
                 accept: (
@@ -224,11 +222,7 @@ export class FriendsList extends React.Component {
                       borderRadius: "4px",
                     }}
                   >
-                    <img
-                      src={each.img || genericImg}
-                      alt=""
-                      style={{ width: "40px" }}
-                    />
+                    <img src={each.img || genericImg} alt="" style={{ width: "40px" }} />
                   </div>
                 ),
                 children: <ExpandSection friend={each.info} />,

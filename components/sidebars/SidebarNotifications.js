@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_NOTIFICATION = css`
   margin-top: 24px;
@@ -48,9 +48,7 @@ export default class SidebarNotifications extends React.Component {
         {this.props.viewer.notifications.map((n) => {
           return (
             <div css={STYLES_NOTIFICATION} key={n.id}>
-              <div css={STYLES_NOTIFICATION_DATE}>
-                {Strings.toDate(n.createdAt)}
-              </div>
+              <div css={STYLES_NOTIFICATION_DATE}>{Strings.toDate(n.createdAt)}</div>
               <div css={STYLES_NOTIFICATION_BODY}>{n.text}</div>
             </div>
           );

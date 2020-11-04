@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 

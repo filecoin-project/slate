@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_TOOLTIP = `
   font-family: ${Constants.font.text};
@@ -29,10 +29,7 @@ const STYLES_TOOLTIP_DARK = css`
 export const Tooltip = (props) => {
   return (
     <div style={{ maxWidth: 400 }}>
-      <span
-        css={props.light ? STYLES_TOOLTIP_LIGHT : STYLES_TOOLTIP_DARK}
-        style={props.style}
-      >
+      <span css={props.light ? STYLES_TOOLTIP_LIGHT : STYLES_TOOLTIP_DARK} style={props.style}>
         {props.children}
       </span>
     </div>

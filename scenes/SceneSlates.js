@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonSecondary } from "~/components/system/components/Buttons";
 import { SearchModal } from "~/components/core/SearchModal";

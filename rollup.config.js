@@ -13,7 +13,7 @@ const generateOutput = (outputPath) => {
       file: outputPath,
       format: "cjs",
     },
-    external: ["@emotion/react", "react", "react-dom"],
+    external: ["react", "react-dom"],
     plugins: [
       json({ exclude: ["node_modules/**"], compact: true }),
       babel({
@@ -45,4 +45,7 @@ const generateOutput = (outputPath) => {
   };
 };
 
-export default [generateOutput("dist/index.js"), generateOutput("../slate-react-system/src/index.js")];
+export default [
+  generateOutput("dist/index.js"),
+  generateOutput("../slate-react-system/src/index.js"),
+];

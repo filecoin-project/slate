@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 const STYLES_DROPDOWN_CONTAINER = css`
@@ -152,9 +152,7 @@ export class SearchDropdown extends React.Component {
         let rootRect = this._optionRoot.getBoundingClientRect();
         if (elemRect.bottom > rootRect.bottom) {
           this._optionRoot.scrollTop =
-            listElem.offsetTop +
-            listElem.offsetHeight -
-            this._optionRoot.offsetHeight;
+            listElem.offsetTop + listElem.offsetHeight - this._optionRoot.offsetHeight;
         }
         this.setState({ selectedIndex: this.state.selectedIndex + 1 });
       }
@@ -171,10 +169,7 @@ export class SearchDropdown extends React.Component {
       }
       e.preventDefault();
     } else if (e.keyCode === 13) {
-      if (
-        this.props.results.length > this.state.selectedIndex &&
-        this.state.selectedIndex !== -1
-      ) {
+      if (this.props.results.length > this.state.selectedIndex && this.state.selectedIndex !== -1) {
         this._handleSelect(this.state.selectedIndex);
       }
       e.preventDefault();
@@ -222,9 +217,7 @@ export class SearchDropdown extends React.Component {
                   css={STYLES_DROPDOWN_ITEM}
                   style={{
                     borderColor:
-                      this.state.selectedIndex === i
-                        ? Constants.system.lightBorder
-                        : "transparent",
+                      this.state.selectedIndex === i ? Constants.system.lightBorder : "transparent",
                     ...this.props.itemStyle,
                   }}
                   onClick={() => this.props.onSelect(each.value)}

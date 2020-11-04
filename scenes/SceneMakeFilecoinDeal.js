@@ -8,7 +8,7 @@ import * as Window from "~/common/window";
 import * as Messages from "~/common/messages";
 import * as FileUtilities from "~/common/file-utilities";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { createState } from "~/scenes/SceneSettings";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { FilecoinNumber, Converter } from "@glif/filecoin-number";

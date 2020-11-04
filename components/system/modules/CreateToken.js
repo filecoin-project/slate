@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 
 import Odometer from "~/vendor/odometer";
@@ -76,9 +76,7 @@ export const CreateToken = (props) => {
     <div css={STYLES_CREATE_TOKEN}>
       <div css={STYLES_CREATE_TOKEN_TOP}>
         <div ref={odometerNode} onClick={handleCopy} />
-        <span css={STYLES_CREATE_TOKEN_COPY_INFO}>
-          {isCopied ? "Copied" : "Copy"}
-        </span>
+        <span css={STYLES_CREATE_TOKEN_COPY_INFO}>{isCopied ? "Copied" : "Copy"}</span>
       </div>
       <div css={STYLES_CREATE_TOKEN_BOTTOM}>
         <ButtonPrimary full onClick={props.onClick}>

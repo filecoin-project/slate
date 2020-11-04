@@ -3,7 +3,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
@@ -162,9 +162,7 @@ export default class SceneStatus extends React.Component {
           description="Reset your usage data on this Filecoin Node."
         />
 
-        <System.ButtonSecondary style={{ marginTop: 16 }}>
-          Reset
-        </System.ButtonSecondary>
+        <System.ButtonSecondary style={{ marginTop: 16 }}>Reset</System.ButtonSecondary>
       </ScenePage>
     );
   }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_POPOVER = css`
   z-index: ${Constants.zindex.tooltip};

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_TAB_GROUP = css`
   margin: 44px 0px 24px 0px;
@@ -48,9 +48,7 @@ export class TabGroup extends React.Component {
               cursor: this.props.disabled ? "auto" : "pointer",
               ...this.props.itemStyle,
             }}
-            onClick={
-              this.props.disabled ? () => {} : () => this.props.onChange(i)
-            }
+            onClick={this.props.disabled ? () => {} : () => this.props.onChange(i)}
           >
             {tab}
           </div>

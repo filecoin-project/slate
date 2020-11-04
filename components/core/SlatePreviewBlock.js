@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
@@ -340,7 +340,9 @@ export class SlatePreviewBlock extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `${window.location.hostname}/${this.props.username}/${this.props.slate.slatename}`
+                          `${window.location.hostname}/${this.props.username}/${
+                            this.props.slate.slatename
+                          }`
                         ),
                     },
                     {
@@ -354,7 +356,9 @@ export class SlatePreviewBlock extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `${window.location.hostname}/${this.props.username}/${this.props.slate.slatename}`
+                          `${window.location.hostname}/${this.props.username}/${
+                            this.props.slate.slatename
+                          }`
                         ),
                     },
                   ]

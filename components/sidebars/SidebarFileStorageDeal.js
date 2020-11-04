@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_FILE_HIDDEN = css`
   height: 1px;
@@ -45,8 +45,7 @@ const STYLES_IMAGE_PREVIEW = css`
 
 export default class SidebarFileStorageDeal extends React.Component {
   state = {
-    settings_cold_default_duration: this.props.viewer
-      .settings_cold_default_duration,
+    settings_cold_default_duration: this.props.viewer.settings_cold_default_duration,
     settings_cold_default_replication_factor: this.props.viewer
       .settings_cold_default_replication_factor,
   };
@@ -167,11 +166,7 @@ export default class SidebarFileStorageDeal extends React.Component {
         </System.ButtonPrimary>
 
         {!this.props.sidebarLoading ? (
-          <System.ButtonSecondary
-            full
-            style={{ marginTop: 16 }}
-            onClick={this._handleCancel}
-          >
+          <System.ButtonSecondary full style={{ marginTop: 16 }} onClick={this._handleCancel}>
             Cancel deal
           </System.ButtonSecondary>
         ) : null}

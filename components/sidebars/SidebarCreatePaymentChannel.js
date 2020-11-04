@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_FOCUS = css`
@@ -98,11 +98,7 @@ export default class SidebarCreatePaymentChannel extends React.Component {
           <div css={STYLES_SUBTEXT}>Total Filecoin</div>
         </div>
 
-        <System.ButtonPrimary
-          full
-          style={{ marginTop: 48 }}
-          onClick={this._handleSubmit}
-        >
+        <System.ButtonPrimary full style={{ marginTop: 48 }} onClick={this._handleSubmit}>
           Send
         </System.ButtonPrimary>
       </React.Fragment>

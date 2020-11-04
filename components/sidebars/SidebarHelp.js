@@ -6,7 +6,7 @@ import * as Validations from "~/common/validations";
 import * as Actions from "~/common/actions";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
@@ -15,10 +15,7 @@ const STYLES_HEADER = css`
 
 export default class SidebarCreateSlate extends React.Component {
   state = {
-    name:
-      this.props.viewer.data && this.props.viewer.data.name
-        ? this.props.viewer.data.name
-        : "",
+    name: this.props.viewer.data && this.props.viewer.data.name ? this.props.viewer.data.name : "",
     email: "",
     twitter: "",
     message: "",
@@ -67,8 +64,7 @@ export default class SidebarCreateSlate extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message:
-              "We're having trouble sending out your message right now. Please try again",
+            message: "We're having trouble sending out your message right now. Please try again",
           },
         },
       });

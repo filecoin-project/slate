@@ -1,11 +1,8 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "~/components/system/components/Buttons";
+import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_CONTAINER = css`
@@ -92,12 +89,7 @@ export class CreateFilecoinStorageDeal extends React.Component {
   render() {
     return (
       <div css={STYLES_CONTAINER}>
-        <input
-          css={STYLES_FILE_HIDDEN}
-          type="file"
-          id="file"
-          onChange={this._handleUpload}
-        />
+        <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
         {this.state.file ? (
           <div style={{ marginBottom: 24 }}>
             <div css={STYLES_ITEM}>
@@ -115,11 +107,7 @@ export class CreateFilecoinStorageDeal extends React.Component {
           Add file
         </ButtonSecondary>
         {this.state.file ? (
-          <ButtonPrimary
-            full
-            style={{ marginTop: 24 }}
-            onClick={this._handleSubmit}
-          >
+          <ButtonPrimary full style={{ marginTop: 24 }} onClick={this._handleSubmit}>
             Make storage deal
           </ButtonPrimary>
         ) : null}

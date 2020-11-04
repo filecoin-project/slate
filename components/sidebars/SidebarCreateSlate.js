@@ -6,7 +6,7 @@ import * as Validations from "~/common/validations";
 import * as Actions from "~/common/actions";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const SLATE_LIMIT = 50;
 

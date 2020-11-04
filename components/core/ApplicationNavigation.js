@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 import ApplicationUserControls from "~/components/core/ApplicationUserControls";
 
@@ -118,14 +118,8 @@ const STYLES_ICON_ELEMENT = css`
 
 const Item = (props) => {
   return (
-    <span
-      css={STYLES_NAVIGATION_ITEM}
-      style={{ padding: `0 0 0 ${props.level * 16}px` }}
-    >
-      <span
-        css={STYLES_EXPANDER}
-        onClick={props.onToggleShow ? props.onToggleShow : null}
-      >
+    <span css={STYLES_NAVIGATION_ITEM} style={{ padding: `0 0 0 ${props.level * 16}px` }}>
+      <span css={STYLES_EXPANDER} onClick={props.onToggleShow ? props.onToggleShow : null}>
         <span
           css={STYLES_ICON_ELEMENT}
           style={{
@@ -254,8 +248,7 @@ export default class ApplicationNavigation extends React.Component {
             <div
               key={each.id}
               css={
-                each.id === "V1_NAVIGATION_ARCHIVE" ||
-                each.id === "V1_NAVIGATION_API"
+                each.id === "V1_NAVIGATION_ARCHIVE" || each.id === "V1_NAVIGATION_API"
                   ? STYLES_MOBILE_HIDDEN
                   : null
               }

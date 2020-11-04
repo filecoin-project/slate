@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const SIZE_LIMIT = 1000000;

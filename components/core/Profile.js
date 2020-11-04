@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
 
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
@@ -195,15 +195,14 @@ export default class Profile extends React.Component {
                 <div css={STYLES_NAME_INTERNAL}>{Strings.getPresentationName(data)}</div>
               </div>
 
-              {
-                data.data.body ? (
-                  <div css={STYLES_DESCRIPTION}>
-                    <ProcessedText text={data.data.body} />
-                  </div>
-                ) : null
-                // <div css={STYLES_DESCRIPTION}>
-                //   <ProcessedText text={"Joined Slate Month, Year"} />
-                // </div>
+              {data.data.body ? (
+                <div css={STYLES_DESCRIPTION}>
+                  <ProcessedText text={data.data.body} />
+                </div>
+              ) : null
+              // <div css={STYLES_DESCRIPTION}>
+              //   <ProcessedText text={"Joined Slate Month, Year"} />
+              // </div>
               }
 
               <div>{this.props.buttons}</div>
@@ -234,15 +233,14 @@ export default class Profile extends React.Component {
                 <div css={STYLES_FLEX}>
                   <div css={STYLES_NAME}>{Strings.getPresentationName(data)}</div>
                 </div>
-                {
-                  data.data.body ? (
-                    <div css={STYLES_DESCRIPTION} style={{ marginBottom: 16 }}>
-                      <ProcessedText text={data.data.body} />
-                    </div>
-                  ) : null
-                  // <div css={STYLES_DESCRIPTION}>
-                  //   <ProcessedText text={"Joined Slate Month, Year"} />
-                  // </div>
+                {data.data.body ? (
+                  <div css={STYLES_DESCRIPTION} style={{ marginBottom: 16 }}>
+                    <ProcessedText text={data.data.body} />
+                  </div>
+                ) : null
+                // <div css={STYLES_DESCRIPTION}>
+                //   <ProcessedText text={"Joined Slate Month, Year"} />
+                // </div>
                 }
                 <div css={STYLES_BUTTON}>
                   <a css={STYLES_BUTTON} href={"http://slate.host/_"}>

@@ -5,7 +5,7 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 
 const USER_SLATES = [
   {

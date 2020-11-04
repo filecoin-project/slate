@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
-import { css, keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/core";
 
 const blinkCursor = keyframes`
   0% {opacity: 0;}
@@ -74,9 +74,7 @@ const CodeTerminal = () => {
     <div css={STYLES_ROOT}>
       <div css={STYLES_WINDOW}>
         <div css={STYLES_WINDOW_NAV}>Cat</div>
-        <div css={STYLES_WINDOW_BODY}>
-          npm install --save slate-react-system
-        </div>
+        <div css={STYLES_WINDOW_BODY}>npm install --save slate-react-system</div>
       </div>
     </div>
   );

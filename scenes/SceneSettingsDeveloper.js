@@ -162,7 +162,7 @@ const EXAMPLE_GET_SLATE_RESPONSE = (key, slateId) => `{
 const EXAMPLE_UPLOAD_TO_SLATE = (
   key,
   slateId
-) => `const url = 'https://slate.host/api/v1/upload-data/${slateId}';
+) => `const url = 'https://uploads.slate.host/api/public/${slateId}';
 
 let file = e.target.files[0];
 let data = new FormData();

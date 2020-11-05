@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as System from "~/dist";
+import * as System from "~/components/system";
 
 import { css } from "@emotion/core";
 
@@ -30,7 +30,7 @@ export default class SlateReactSystemPage extends React.Component {
   _handleUpload = async (e) => {
     e.persist();
 
-    const url = "/api/v1/upload-data/--";
+    const url = "https://uploads.slate.host/api/public/ed07eb13-7176-4ee5-ab94-c4a1c2227fe4";
     let file = e.target.files[0];
     let data = new FormData();
 
@@ -38,7 +38,7 @@ export default class SlateReactSystemPage extends React.Component {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Basic --",
+        Authorization: "Basic SLAf82a5e64-4683-4e97-8cf6-658bd34c0b78TE",
       },
       body: data,
     });

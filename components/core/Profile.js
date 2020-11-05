@@ -132,7 +132,7 @@ const STYLES_DESCRIPTION = css`
 const STYLES_STATS = css`
   font-size: ${Constants.typescale.lvl0};
   line-height: 1.5;
-  margin-top: 24px;
+  margin: 12px 0 24px 0;
   display: flex;
   width: 100%;
   flex-wrap: wrap;
@@ -142,9 +142,6 @@ const STYLES_STAT = css`
   margin-right: 16px;
   width: 112px;
   flex-shrink: 0;
-  margin-bottom: 16px;
-  ${"" /* border-left: 1px solid ${Constants.system.darkGray};
-padding-left: 12px; */};
 `;
 
 const STYLES_BUTTON = css`
@@ -169,6 +166,7 @@ const STYLES_FLEX = css`
   display: flex;
   margin-bottom: 12px;
   align-items: baseline;
+  justify-content: space-between;
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
   }
@@ -195,20 +193,8 @@ export default class Profile extends React.Component {
             <div css={STYLES_INFO_INTERNAL}>
               <div css={STYLES_FLEX}>
                 <div css={STYLES_NAME_INTERNAL}>{Strings.getPresentationName(data)}</div>
+                <div>{this.props.buttons}</div>
               </div>
-
-              {
-                data.data.body ? (
-                  <div css={STYLES_DESCRIPTION}>
-                    <ProcessedText text={data.data.body} />
-                  </div>
-                ) : null
-                // <div css={STYLES_DESCRIPTION}>
-                //   <ProcessedText text={"Joined Slate Month, Year"} />
-                // </div>
-              }
-
-              <div>{this.props.buttons}</div>
               <div css={STYLES_STATS}>
                 <div css={STYLES_STAT}>
                   <div style={{ color: `${Constants.system.darkGray}` }}>Public data</div>
@@ -223,6 +209,17 @@ export default class Profile extends React.Component {
                 <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
               </div> */}
               </div>
+
+              {
+                data.data.body ? (
+                  <div css={STYLES_DESCRIPTION}>
+                    <ProcessedText text={data.data.body} />
+                  </div>
+                ) : null
+                // <div css={STYLES_DESCRIPTION}>
+                //   <ProcessedText text={"Joined Slate Month, Year"} />
+                // </div>
+              }
             </div>
           </div>
         ) : (
@@ -235,21 +232,11 @@ export default class Profile extends React.Component {
               <div css={STYLES_INFO}>
                 <div css={STYLES_FLEX}>
                   <div css={STYLES_NAME}>{Strings.getPresentationName(data)}</div>
-                </div>
-                {
-                  data.data.body ? (
-                    <div css={STYLES_DESCRIPTION} style={{ marginBottom: 16 }}>
-                      <ProcessedText text={data.data.body} />
-                    </div>
-                  ) : null
-                  // <div css={STYLES_DESCRIPTION}>
-                  //   <ProcessedText text={"Joined Slate Month, Year"} />
-                  // </div>
-                }
-                <div css={STYLES_BUTTON}>
-                  <a css={STYLES_BUTTON} href={"http://slate.host/_"}>
-                    Follow
-                  </a>
+                  <div css={STYLES_BUTTON}>
+                    <a css={STYLES_BUTTON} href={"http://slate.host/_"}>
+                      Follow
+                    </a>
+                  </div>
                 </div>
                 <div css={STYLES_STATS}>
                   <div css={STYLES_STAT}>
@@ -267,6 +254,16 @@ export default class Profile extends React.Component {
                 <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
               </div> */}
                 </div>
+                {
+                  data.data.body ? (
+                    <div css={STYLES_DESCRIPTION} style={{ marginBottom: 16 }}>
+                      <ProcessedText text={data.data.body} />
+                    </div>
+                  ) : null
+                  // <div css={STYLES_DESCRIPTION}>
+                  //   <ProcessedText text={"Joined Slate Month, Year"} />
+                  // </div>
+                }
               </div>
             </div>
           </div>

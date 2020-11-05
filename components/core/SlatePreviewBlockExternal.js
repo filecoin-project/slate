@@ -51,6 +51,7 @@ const STYLES_PLACEHOLDER = css`
   height: 320px;
   background-size: cover;
   background-position: 50% 50%;
+  margin-bottom: 4px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     height: 100%;
@@ -345,7 +346,8 @@ export class SlatePreviewBlock extends React.Component {
 const STYLES_LINK = css`
   color: ${Constants.system.black};
   text-decoration: none;
-  width: 33.33%;
+  width: calc(33.33% - 16px);
+  margin-bottom: 24px;
 
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 50%;
@@ -362,6 +364,7 @@ const STYLES_SLATES = css`
   flex-wrap: wrap;
   overflow: hidden;
   padding-bottom: 48px;
+  justify-content: space-between;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;

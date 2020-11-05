@@ -100,7 +100,7 @@ const STYLES_NAME = css`
   overflow-wrap: break-word;
   white-space: pre-wrap;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     margin-right: 0;
   }
 `;
@@ -114,9 +114,6 @@ const STYLES_NAME_INTERNAL = css`
   margin-top: 8px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin-bottom: 16px;
-  }
 `;
 
 const STYLES_DESCRIPTION = css`
@@ -167,7 +164,8 @@ const STYLES_FLEX = css`
   margin-bottom: 12px;
   align-items: baseline;
   justify-content: space-between;
-  @media (max-width: ${Constants.sizes.mobile}px) {
+  flex-wrap: wrap;
+  @media (max-width: ${Constants.sizes.tablet}px) {
     display: block;
   }
 `;

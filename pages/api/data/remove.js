@@ -4,6 +4,8 @@ import * as Strings from "~/common/strings";
 import * as Social from "~/node_common/social";
 import * as ViewerManager from "~/node_common/managers/viewer";
 
+const DEFAULT_BUCKET_NAME = "data";
+
 export default async (req, res) => {
   if (!req.body.data || !req.body.data.cids || !req.body.data.cids.length) {
     return res.status(500).send({ decorator: "SERVER_REMOVE_DATA_NO_CID", error: true });
@@ -47,10 +49,14 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "SERVER_REMOVE_MULTIPLE_NO_TEXTILE", error: true });
   }
 
-  // TODO(jim): Put this call into a file for all Textile related calls.
-  let items = null;
+  let items = [];
   try {
-    items = await buckets.listIpfsPath(r[0].path);
+    for (let i = 0; i < r.length; i++) {
+      if (r[i].name === DEFAULT_BUCKET_NAME) {
+        const next = await buckets.listIpfsPath(r[i].path);
+        items = [...next.items, ...items];
+      }
+    }
   } catch (e) {
     Social.sendTextileSlackMessage({
       file: "/pages/api/data/remove-multiple.js",
@@ -61,15 +67,14 @@ export default async (req, res) => {
     });
   }
 
-  if (!items) {
+  if (!items || !items.length) {
     return res.status(500).send({ decorator: "SERVER_REMOVE_MULTIPLE_NO_TEXTILE", error: true });
   }
 
   let entities = [];
-  for (let i = 0; i < items.items.length; i++) {
-    if (req.body.data.cids.includes(items.items[i].cid)) {
-      entities.push(items.items[i]);
-      if (entities.length === items.items.length) break;
+  for (let i = 0; i < items.length; i++) {
+    if (req.body.data.cids.includes(items[i].cid)) {
+      entities.push(items[i]);
     }
   }
 
@@ -78,13 +83,12 @@ export default async (req, res) => {
   }
 
   let bucketRemoval;
-  // remove from your bucket
   for (let entity of entities) {
     try {
       // NOTE(jim):
       // We use name instead of path because the second argument is for
       // a subpath, not the full path.
-      bucketRemoval = await buckets.removePath(bucketKey, entity.name);
+      await buckets.removePath(bucketKey, entity.name);
     } catch (e) {
       Social.sendTextileSlackMessage({
         file: "/pages/api/data/remove.js",

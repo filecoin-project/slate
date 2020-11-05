@@ -33,7 +33,7 @@ export default async (req, res) => {
   await Data.deleteAPIKeysForUserId({ userId: user.id });
   await Data.deleteSlatesForUserId({ userId: user.id });
 
-  const i = await PrivateKey.fromString(user.data.tokens.api);
+  const k = await PrivateKey.fromString(user.data.tokens.api);
   const b = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
   const defaultData = await Utilities.getBucketAPIFromUserToken({ user });
 

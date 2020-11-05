@@ -883,7 +883,7 @@ export class SlateLayout extends React.Component {
     //NOTE(martina): collapses the z-indexes back down to 0 through n-1 (so they don't continuously get higher)
     let zIndexes = this.state.layout.map((pos) => pos.z);
     zIndexes = [...new Set(zIndexes)];
-    zIndexes.sort(function(a, b) {
+    zIndexes.sort(function (a, b) {
       return a - b;
     });
     let layout = this.cloneLayout(this.state.layout);
@@ -1165,10 +1165,12 @@ export class SlateLayout extends React.Component {
               height: this.state.editing
                 ? `calc(100vh + ${this.state.containerHeight}px)`
                 : `calc(96px + ${this.state.containerHeight}px)`,
-              backgroundSize: `${(CONTAINER_SIZE / 108) * this.state.unit}px ${10 *
-                this.state.unit}px`,
-              backgroundPosition: `-${(CONTAINER_SIZE / 220) *
-                this.state.unit}px -${(CONTAINER_SIZE / 220) * this.state.unit}px`,
+              backgroundSize: `${(CONTAINER_SIZE / 108) * this.state.unit}px ${
+                10 * this.state.unit
+              }px`,
+              backgroundPosition: `-${(CONTAINER_SIZE / 220) * this.state.unit}px -${
+                (CONTAINER_SIZE / 220) * this.state.unit
+              }px`,
             }}
             ref={(c) => {
               this._ref = c;
@@ -1254,7 +1256,7 @@ export class SlateLayout extends React.Component {
                             />
                           </div>
                         )}
-                        {this.state.editing ? (
+                        {this.state.hover !== i ? null : this.state.editing ? (
                           <React.Fragment>
                             {this.state.tooltip && this.state.tooltip.startsWith(`${i}-`) ? (
                               <Tooltip

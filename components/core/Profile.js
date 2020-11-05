@@ -18,7 +18,7 @@ const STYLES_PROFILE_INTERNAL = css`
 
 const STYLES_PROFILE = css`
   width: 100%;
-  padding: 80px 64px 0px 64px;
+  padding: 64px 64px 0px 64px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   flex-shrink: 0;
@@ -34,7 +34,7 @@ const STYLES_PROFILE_INFO = css`
   width: 50%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  @media (max-width: ${Constants.sizes.mobile}px) {
+  @media (max-width: ${Constants.sizes.tablet}px) {
     width: 100%;
   }
 `;
@@ -197,14 +197,15 @@ export default class Profile extends React.Component {
                 <div css={STYLES_NAME_INTERNAL}>{Strings.getPresentationName(data)}</div>
               </div>
 
-              {data.data.body ? (
-                <div css={STYLES_DESCRIPTION}>
-                  <ProcessedText text={data.data.body} />
-                </div>
-              ) : null
-              // <div css={STYLES_DESCRIPTION}>
-              //   <ProcessedText text={"Joined Slate Month, Year"} />
-              // </div>
+              {
+                data.data.body ? (
+                  <div css={STYLES_DESCRIPTION}>
+                    <ProcessedText text={data.data.body} />
+                  </div>
+                ) : null
+                // <div css={STYLES_DESCRIPTION}>
+                //   <ProcessedText text={"Joined Slate Month, Year"} />
+                // </div>
               }
 
               <div>{this.props.buttons}</div>
@@ -235,14 +236,15 @@ export default class Profile extends React.Component {
                 <div css={STYLES_FLEX}>
                   <div css={STYLES_NAME}>{Strings.getPresentationName(data)}</div>
                 </div>
-                {data.data.body ? (
-                  <div css={STYLES_DESCRIPTION} style={{ marginBottom: 16 }}>
-                    <ProcessedText text={data.data.body} />
-                  </div>
-                ) : null
-                // <div css={STYLES_DESCRIPTION}>
-                //   <ProcessedText text={"Joined Slate Month, Year"} />
-                // </div>
+                {
+                  data.data.body ? (
+                    <div css={STYLES_DESCRIPTION} style={{ marginBottom: 16 }}>
+                      <ProcessedText text={data.data.body} />
+                    </div>
+                  ) : null
+                  // <div css={STYLES_DESCRIPTION}>
+                  //   <ProcessedText text={"Joined Slate Month, Year"} />
+                  // </div>
                 }
                 <div css={STYLES_BUTTON}>
                   <a css={STYLES_BUTTON} href={"http://slate.host/_"}>

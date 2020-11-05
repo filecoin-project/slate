@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/react";
+import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { ViewAllButton } from "~/components/core/ViewAll";
 
@@ -10,6 +10,8 @@ import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
 const MARGIN = 12;
 const MIN_WIDTH = 144;
+const placeholder =
+  "https://slate.textile.io/ipfs/bafkreidq27ycqubd4pxbo76n3rv5eefgxl3a2lh3wfvdgtil4u47so3nqe";
 
 const STYLES_MOBILE_HIDDEN = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -44,28 +46,51 @@ const STYLES_ITEM_BOX = css`
   }
 `;
 
+const STYLES_PLACEHOLDER = css`
+  width: 100%;
+  height: 320px;
+  background-size: cover;
+  background-position: 50% 50%;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    height: 100%;
+  }
+`;
+
 export class SlatePreviewRow extends React.Component {
   render() {
     let numItems = this.props.numItems || 4;
     let objects;
-    let length = this.props.slate.data.objects.length;
-
-    let trimmed =
-      length > numItems
-        ? this.props.slate.data.objects.slice(1, numItems)
-        : this.props.slate.data.objects.slice(1, length);
-    objects = trimmed.map((each) => (
-      <div key={each.id} css={STYLES_ITEM_BOX}>
-        <SlateMediaObjectPreview
-          blurhash={each.blurhash}
-          charCap={30}
-          type={each.type}
-          url={each.url}
-          title={each.title || each.name}
-          iconOnly={this.props.small}
-        />
-      </div>
-    ));
+    if (this.props.slate.data.objects.length === 0) {
+      objects = [
+        <div
+          css={STYLES_PLACEHOLDER}
+          style={{
+            backgroundImage: `url(${placeholder})`,
+            ...this.props.imageStyle,
+          }}
+        />,
+      ];
+    } else {
+      let trimmed =
+        this.props.slate.data.objects.length > numItems
+          ? this.props.slate.data.objects.slice(1, numItems)
+          : this.props.slate.data.objects.slice(1, this.props.slate.data.objects.length);
+      objects = trimmed.map((each) => (
+        <div key={each.id} css={STYLES_ITEM_BOX}>
+          <SlateMediaObjectPreview
+            blurhash={each.blurhash}
+            charCap={30}
+            centeredImage
+            type={each.type}
+            url={each.url}
+            style={this.props.previewStyle}
+            title={each.title || each.name}
+            iconOnly={this.props.small}
+          />
+        </div>
+      ));
+    }
     return (
       <div css={STYLES_IMAGE_ROW} style={{ height: `100%`, ...this.props.containerStyle }}>
         {objects}
@@ -97,26 +122,6 @@ const STYLES_TITLE_LINE = css`
   font-size: ${Constants.typescale.lvl1};
   margin-bottom: 8px;
   overflow-wrap: break-word;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
-`;
-
-const STYLES_COPY_INPUT = css`
-  pointer-events: none;
-  position: absolute;
-  opacity: 0;
-`;
-
-const STYLES_TAG = css`
-  margin-right: 16px;
-  padding: 4px 8px;
-  border-radius: 2px;
-  border: 1px solid ${Constants.system.black};
-  color: ${Constants.system.black};
-  font-family: ${Constants.font.semiBold};
-  font-size: 0.9rem;
 `;
 
 const STYLES_BODY = css`
@@ -138,6 +143,10 @@ const STYLES_TITLE = css`
   text-overflow: ellipsis;
   white-space: nowrap;
   margin: 16px 0 0 0;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    font-size: ${Constants.typescale.lvl1};
+  }
 `;
 
 const STYLES_PREVIEW = css`
@@ -213,11 +222,8 @@ export class SlatePreviewBlock extends React.Component {
   };
 
   render() {
-    if (!this.props.isOwner && !this.props.slate.data.objects.length) {
-      return null;
-    }
     let first = this.props.slate.data.objects ? this.props.slate.data.objects[0] : null;
-    console.log(first);
+    console.log(this.props.slate.data);
 
     return (
       <div css={STYLES_BLOCK}>
@@ -238,7 +244,7 @@ export class SlatePreviewBlock extends React.Component {
                 title={first.title || first.name}
               />
             </div>
-          ) : (
+          ) : first ? (
             <div css={STYLES_PREVIEW}>
               <div
                 style={{
@@ -268,6 +274,14 @@ export class SlatePreviewBlock extends React.Component {
                 />
               </div>
             </div>
+          ) : (
+            <div
+              css={STYLES_PLACEHOLDER}
+              style={{
+                backgroundImage: `url(${placeholder})`,
+                ...this.props.imageStyle,
+              }}
+            />
           )}
           <div css={STYLES_INFO}>
             <div css={STYLES_OBJECT_COUNT}>{this.props.slate.data.objects.length}</div>
@@ -295,21 +309,32 @@ export class SlatePreviewBlock extends React.Component {
               height: `${this.state.windowWidth - 80}px`,
             }}
           >
-            <SlateMediaObjectPreview
-              blurhash={first.blurhash}
-              centeredImage
-              charCap={30}
-              type={first.type}
-              url={first.url}
-              title={first.title || first.name}
-            />
+            {first ? (
+              <SlateMediaObjectPreview
+                blurhash={first.blurhash}
+                centeredImage
+                charCap={30}
+                type={first.type}
+                url={first.url}
+                title={first.title || first.name}
+              />
+            ) : (
+              <div
+                css={STYLES_PLACEHOLDER}
+                style={{
+                  backgroundImage: `url(${placeholder})`,
+                  ...this.props.imageStyle,
+                }}
+              />
+            )}
           </div>
-          <div css={STYLES_TITLE} style={{ marginBottom: 8, fontSize: Constants.typescale.lvl1 }}>
-            {this.props.slate.data.name}
-          </div>
-          <div style={{ marginBottom: 16, fontSize: 12 }}>
-            {this.props.slate.data.objects.length} Object
-            {this.props.slate.data.objects.length === 1 ? "" : "s"}
+          <div css={STYLES_INFO}>
+            <div css={STYLES_OBJECT_COUNT}>{this.props.slate.data.objects.length}</div>
+            <div style={{ width: `85%` }}>
+              <div css={STYLES_TITLE_LINE}>
+                <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
+              </div>
+            </div>
           </div>
         </span>
       </div>
@@ -336,7 +361,7 @@ const STYLES_SLATES = css`
   flex-direction: row;
   flex-wrap: wrap;
   overflow: hidden;
-  margin-bottom: 48px;
+  padding-bottom: 48px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
@@ -395,6 +420,7 @@ export default class SlatePreviewBlocksExternal extends React.Component {
         {this.props.slates.map((slate) => (
           <a key={slate.id} href={`/${this.props.username}/${slate.slatename}`} css={STYLES_LINK}>
             <SlatePreviewBlock
+              isOwner={this.props.isOwner}
               imageSize={this.state.imageSize}
               username={this.props.username}
               slate={slate}

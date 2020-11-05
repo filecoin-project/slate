@@ -37,11 +37,11 @@ export default class ProfilePage extends React.Component {
         url={url}
         image={this.props.creator.data.photo}
       >
+        <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeader />
           <Profile {...this.props} />
-          <WebsitePrototypeFooter />
         </div>
+        <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>
     );
   }

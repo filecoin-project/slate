@@ -80,6 +80,7 @@ const STYLES_NOTE = css`
 const STYLES_DATA_METER_KEY_WRAPPER = css`
   display: inline-block;
 `;
+
 const STYLES_DATA_METER_KEY_SQUARE = css`
   display: inline-block;
   border-radius: 3px;
@@ -89,6 +90,7 @@ const STYLES_DATA_METER_KEY_SQUARE = css`
   margin-right: 4px;
   vertical-align: middle;
 `;
+
 const STYLES_DATA_METER_KEY_LABEL = css`
   display: inline-block;
   margin-right: 16px;
@@ -107,7 +109,6 @@ export const DataMeterBar = (props) => {
   const percentagePdf = props.stats.pdfBytes / props.bytes;
   const percentageAudio = props.stats.audioBytes / props.bytes;
   const percentageFreeSpace = props.bytes - props.maximumBytes;
-  console.log(percentageImage);
   return (
     <React.Fragment>
       <div css={STYLES_STATS_ROW}>
@@ -154,7 +155,7 @@ export const DataMeterBar = (props) => {
   );
 };
 
-export const DataMeter = (props) => {
+export const DataMeterDetailed = (props) => {
   return (
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_TITLE}>
@@ -166,7 +167,6 @@ export const DataMeter = (props) => {
         bytes={props.stats.bytes}
         maximumBytes={props.stats.maximumBytes}
       />
-      <div></div>
       <div css={STYLES_NOTE}>
         <div css={STYLES_DATA_METER_KEY_WRAPPER}>
           <div css={STYLES_DATA_METER_KEY_SQUARE} style={{ background: `#C0D8EE` }}>
@@ -205,4 +205,4 @@ export const DataMeter = (props) => {
   );
 };
 
-export default DataMeter;
+export default DataMeterDetailed;

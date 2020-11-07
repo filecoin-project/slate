@@ -387,13 +387,8 @@ export default class SlatePreviewBlocksExternal extends React.Component {
     window.removeEventListener("resize", this.debounceInstance);
   };
 
-  debounce = (fn, time) => {
-    let timer;
-
-    return () => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(fn, time);
-    };
+  debounce = (func, wait) => {
+    Window.debounce(func, wait);
   };
 
   calculateWidth = () => {

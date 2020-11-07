@@ -4,10 +4,10 @@ import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
+import { SceneUtils } from "three";
 
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 import SlatePreviewBlocksExternal from "~/components/core/SlatePreviewBlockExternal";
-import { SceneUtils } from "three";
 
 const STYLES_PROFILE_INTERNAL = css`
   width: 100%;
@@ -208,16 +208,11 @@ export default class Profile extends React.Component {
               </div> */}
               </div>
 
-              {
-                data.data.body ? (
-                  <div css={STYLES_DESCRIPTION}>
-                    <ProcessedText text={data.data.body} />
-                  </div>
-                ) : null
-                // <div css={STYLES_DESCRIPTION}>
-                //   <ProcessedText text={"Joined Slate Month, Year"} />
-                // </div>
-              }
+              {data.data.body ? (
+                <div css={STYLES_DESCRIPTION}>
+                  <ProcessedText text={data.data.body} />
+                </div>
+              ) : null}
             </div>
           </div>
         ) : (
@@ -252,16 +247,11 @@ export default class Profile extends React.Component {
                 <div style={{ fontFamily: `${Constants.font.semiBold}` }}>0</div>
               </div> */}
                 </div>
-                {
-                  data.data.body ? (
-                    <div css={STYLES_DESCRIPTION} style={{ marginBottom: 16 }}>
-                      <ProcessedText text={data.data.body} />
-                    </div>
-                  ) : null
-                  // <div css={STYLES_DESCRIPTION}>
-                  //   <ProcessedText text={"Joined Slate Month, Year"} />
-                  // </div>
-                }
+                {data.data.body ? (
+                  <div css={STYLES_DESCRIPTION} style={{ marginBottom: 16 }}>
+                    <ProcessedText text={data.data.body} />
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

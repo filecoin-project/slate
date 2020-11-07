@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as Window from "~/common/window";
 
 import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";

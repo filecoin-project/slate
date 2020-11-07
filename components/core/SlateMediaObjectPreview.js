@@ -19,7 +19,6 @@ const STYLES_IMAGE = css`
   background-color: ${Constants.system.foreground};
   display: block;
   width: 100%;
-  height: 100%;
   pointer-events: none;
   transition: 200ms ease all;
 `;

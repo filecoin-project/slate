@@ -10,9 +10,8 @@ const STYLES_VIEW_BUTTON = css`
   font-size: 14px;
   margin-top: 4px;
   color: ${Constants.system.grayBlack};
-  text-decoration: underline;
   cursor: pointer;
-  width: 64px;
+  width: 120px;
 `;
 
 export const ViewAllButton = (props) => {
@@ -21,6 +20,7 @@ export const ViewAllButton = (props) => {
   const maxCharacter = props.maxCharacter;
   const displayText = isTruncated ? text.slice(0, maxCharacter) : text;
   const textCount = text.length;
+  const noButton = props.noButton;
 
   return (
     <div>
@@ -28,9 +28,11 @@ export const ViewAllButton = (props) => {
       {textCount > maxCharacter ? (
         <span>
           <span>{isTruncated ? "..." : ""}</span>
-          <div css={STYLES_VIEW_BUTTON} onClick={() => setTruncated(!isTruncated)}>
-            {isTruncated ? "view all" : "view less"}
-          </div>
+          {noButton ? null : (
+            <div css={STYLES_VIEW_BUTTON} onClick={() => setTruncated(!isTruncated)}>
+              {isTruncated ? "+ View all" : "- View less"}
+            </div>
+          )}
         </span>
       ) : (
         ""

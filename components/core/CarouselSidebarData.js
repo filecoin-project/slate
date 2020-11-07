@@ -254,10 +254,10 @@ export default class CarouselSidebarData extends React.Component {
               {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
             </span>
           </div>
-          <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "urlCopying")}>
-            <SVG.DeepLink height="24px" />
+          <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "gatewayUrlCopying")}>
+            <SVG.Data height="24px" />
             <span style={{ marginLeft: 16 }}>
-              {this.state.loading === "urlCopying" ? "Copied!" : "Copy link"}
+              {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy gateway URL"}
             </span>
           </div>
           <div css={STYLES_ACTION} onClick={this._handleDownload}>

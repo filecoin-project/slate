@@ -45,6 +45,52 @@ const STYLES_MOBILE_ONLY = css`
   }
 `;
 
+const STYLES_BUTTON_PRIMARY = css`
+  min-width: 120px;
+  min-height: 36px;
+  border-radius: 4px;
+  border: 1px solid ${Constants.system.gray};
+  padding: 8px 24px;
+  cursor: pointer;
+  font-family: ${Constants.font.semiBold};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl0};
+  text-align: center;
+  text-decoration: none;
+  color: ${Constants.system.brand};
+
+  :hover {
+    background-color: ${Constants.system.gray};
+    transition: 200ms background-color linear;
+  }
+  :visited {
+    color: ${Constants.system.black};
+  }
+`;
+
+const STYLES_BUTTON_SECONDARY = css`
+  min-width: 120px;
+  min-height: 36px;
+  border-radius: 4px;
+  border: 1px solid ${Constants.system.gray};
+  padding: 8px 24px;
+  cursor: pointer;
+  font-family: ${Constants.font.semiBold};
+  font-weight: 400;
+  font-size: ${Constants.typescale.lvl0};
+  text-align: center;
+  text-decoration: none;
+  color: ${Constants.system.black};
+
+  :hover {
+    background-color: ${Constants.system.gray};
+    transition: 200ms background-color linear;
+  }
+  :visited {
+    color: ${Constants.system.black};
+  }
+`;
+
 let isMounted = false;
 
 export default class SceneSlate extends React.Component {
@@ -366,16 +412,28 @@ export default class SceneSlate extends React.Component {
         </CircleButtonGray>
       </span>
     ) : (
-      <div onClick={this._handleFollow}>
-        {following ? (
-          <ButtonSecondary transparent style={{ minWidth: 120, paddingLeft: 0 }}>
-            Unfollow
-          </ButtonSecondary>
-        ) : (
-          <ButtonPrimary transparent style={{ minWidth: 120, paddingLeft: 0 }}>
-            Follow
-          </ButtonPrimary>
-        )}
+      <div style={{ display: `flex` }}>
+        <div onClick={this._handleFollow}>
+          {following ? (
+            <div css={STYLES_BUTTON_SECONDARY}>Unfollow</div>
+          ) : (
+            <div css={STYLES_BUTTON_PRIMARY}>Follow</div>
+          )}
+        </div>
+        <a
+          href={
+            user
+              ? `/${user.username}/${this.props.current.slatename}`
+              : this.state.isOwner
+              ? `/${this.props.viewer.username}/${this.props.current.slatename}`
+              : ""
+          }
+          target="_blank"
+        >
+          <CircleButtonGray style={{ marginLeft: 16 }}>
+            <SVG.ExternalLink height="16px" />
+          </CircleButtonGray>
+        </a>
       </div>
     );
     return (

@@ -14,7 +14,6 @@ const STYLES_CONTAINER = css`
   padding: 32px;
   max-width: 100%;
   width: 100%;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px;
   }

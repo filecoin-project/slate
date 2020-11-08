@@ -1,14 +1,8 @@
 import * as React from "react";
-import * as Actions from "~/common/actions";
-import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
-import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/core";
-import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
-import { dispatchCustomEvent } from "~/common/custom-events";
-import { WarningMessage } from "~/components/core/WarningMessage";
 
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";

@@ -12,7 +12,6 @@ import { SlatePicker } from "~/components/core/SlatePicker";
 import { Input } from "~/components/system/components/Input";
 import { Textarea } from "~/components/system/components/Textarea";
 import { dispatchCustomEvent } from "~/common/custom-events";
-import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
 const STYLES_NO_VISIBLE_SCROLL = css`
   overflow-y: scroll;
@@ -24,9 +23,11 @@ const STYLES_NO_VISIBLE_SCROLL = css`
     width: 0px;
     display: none;
   }
+
   ::-webkit-scrollbar-track {
     background: ${Constants.system.foreground};
   }
+
   ::-webkit-scrollbar-thumb {
     background: ${Constants.system.darkGray};
   }

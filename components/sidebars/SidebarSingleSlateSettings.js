@@ -22,7 +22,6 @@ const STYLES_GROUP = css`
 
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
-  ${"" /* margin-top: 32px; */}
 `;
 
 const STYLES_IMAGE_BOX = css`
@@ -33,7 +32,6 @@ const STYLES_IMAGE_BOX = css`
   justify-content: center;
   background-color: ${Constants.system.white};
   overflow: hidden;
-  ${"" /* box-shadow: 0 0 0 1px ${Constants.system.border} inset; */}
   border-radius: 4px;
 `;
 

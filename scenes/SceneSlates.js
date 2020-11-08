@@ -1,6 +1,4 @@
 import * as React from "react";
-import * as Constants from "~/common/constants";
-import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/core";
@@ -8,11 +6,9 @@ import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonSecondary } from "~/components/system/components/Buttons";
 import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
-import { WarningMessage } from "~/components/core/WarningMessage";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
-import Section from "~/components/core/Section";
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 import EmptyState from "~/components/core/EmptyState";
@@ -50,20 +46,6 @@ export default class SceneSlates extends React.Component {
         return !!each.target_slate_id;
       })
       .map((relation) => relation.slate);
-    // .map((relation) => (
-    //   <div
-    //     key={relation.slate.id}
-    //     onClick={() =>
-    //       this.props.onAction({
-    //         type: "NAVIGATE",
-    //         value: "V1_NAVIGATION_SLATE",
-    //         data: relation.slate,
-    //       })
-    //     }
-    //   >
-    //     <SlatePreviewBlock username={null} slate={relation.slate} />
-    //   </div>
-    // ));
 
     return (
       <ScenePage>
@@ -110,24 +92,7 @@ export default class SceneSlates extends React.Component {
             </EmptyState>
           )
         ) : null}
-        {/* this.props.viewer.slates.map((slate) => (
-              <div
-                key={slate.id}
-                onClick={() =>
-                  this.props.onAction({
-                    type: "NAVIGATE",
-                    value: slate.id,
-                    data: { decorator: "SLATE", ...slate },
-                  })
-                }
-              >
-                <SlatePreviewBlock
-                  slate={slate}
-                  username={this.props.viewer.username}
-                  isOwner
-                />
-              </div>
-            )) */}
+
         {this.state.tab === 1 ? (
           subscriptions && subscriptions.length ? (
             <SlatePreviewBlocks

@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as Constants from "~/common/constants";
 
 export class DynamicIcon extends React.Component {
   state = {
@@ -9,10 +8,7 @@ export class DynamicIcon extends React.Component {
   _handleClick = (e) => {
     this.props.onClick(e);
     this.setState({ clicked: true });
-    setTimeout(
-      () => this.setState({ clicked: false }),
-      this.props.timeout || 1000
-    );
+    setTimeout(() => this.setState({ clicked: false }), this.props.timeout || 1000);
   };
 
   render() {

@@ -2,13 +2,10 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { TooltipWrapper, dispatchCustomEvent, PopoverNavigation } from "~/components/system";
+import { PopoverNavigation } from "~/components/system";
 import { css } from "@emotion/core";
 
 import { Boundary } from "~/components/system/components/fragments/Boundary";
-import CircleButtonLight from "~/components/core/CircleButtonLight";
-
-const APPLICATION_CONTROL_MENU_ID = "application-control-menu";
 
 const STYLES_HEADER = css`
   display: block;
@@ -267,9 +264,6 @@ export default class ApplicationUserControls extends React.Component {
               width: 28,
             }}
           />
-          {/* <div onClick={this._handleClick} css={STYLES_ITEM_BOX_MOBILE}>
-            <SVG.ChevronDown height="20px" />
-          </div> */}
           {this.state.visible ? tooltip : null}
         </div>
       </div>

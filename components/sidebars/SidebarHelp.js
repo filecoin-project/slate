@@ -2,7 +2,6 @@ import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
-import * as Validations from "~/common/validations";
 import * as Actions from "~/common/actions";
 
 import { dispatchCustomEvent } from "~/common/custom-events";

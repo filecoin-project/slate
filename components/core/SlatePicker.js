@@ -30,9 +30,11 @@ const STYLES_NO_VISIBLE_SCROLL = css`
     width: 0px;
     display: none;
   }
+
   ::-webkit-scrollbar-track {
     background: ${Constants.system.foreground};
   }
+
   ::-webkit-scrollbar-thumb {
     background: ${Constants.system.darkGray};
   }

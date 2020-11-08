@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as System from "~/components/system";
 
 import { css, keyframes } from "@emotion/core";
-
-const blinkCursor = keyframes`
-  0% {opacity: 0;}
-  50% {opacity: 1;}
-  100% {opacity: 0;}
-`;
 
 const typewriter = keyframes`
   0%, 100% {width: 0;}

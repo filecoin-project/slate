@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { css, Global } from "@emotion/core";
+import { Global } from "@emotion/core";
 
 import App from "next/app";
 import { injectGlobalStyles, injectCodeBlockStyles } from "~/common/styles/global";

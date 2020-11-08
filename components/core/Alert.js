@@ -1,7 +1,5 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/common/svg";
 
 import { error } from "~/common/messages";
 import { css } from "@emotion/core";
@@ -137,6 +135,7 @@ export class Alert extends React.Component {
         Object.values(this.props.fileLoading).filter((upload) => {
           return upload.loaded === upload.total;
         }).length || 0;
+
       return (
         <div
           css={STYLES_INFO}

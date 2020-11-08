@@ -28,6 +28,7 @@ const STYLES_CONTAINER = css`
   width: 100%;
   display: flex;
   justify-content: space-between;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: flex;
     justify-content: space-between;
@@ -58,6 +59,7 @@ const STYLES_RIGHT = css`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
@@ -65,6 +67,7 @@ const STYLES_RIGHT = css`
 
 const STYLES_MOBILENAV = css`
   display: none;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: flex;
   }
@@ -72,6 +75,7 @@ const STYLES_MOBILENAV = css`
 
 const STYLES_BURGER = css`
   display: none;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     z-index: ${Constants.zindex.modal};
     position: absolute;
@@ -128,6 +132,7 @@ const openBurgerBun2 = {
 
 const STYLES_MENU = css`
   display: none;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
     flex-direction: column;
@@ -148,6 +153,7 @@ const STYLES_MENU = css`
 
 const STYLES_NAVLINK = css`
   display: none;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 8px 0;
     color: ${Constants.system.slate};
@@ -183,9 +189,11 @@ const NewWebsitePrototypeHeader = (props) => {
     window.addEventListener("resize", handleOpen);
     return () => window.removeEventListener("resize", handleOpen);
   });
+
   const handleOpen = () => {
     setOpen(false);
   };
+
   const communityURL = "https://github.com/filecoin-project/slate";
   const signInURL = "/_";
   const styleMenu = open ? openMenu : null;

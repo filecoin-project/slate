@@ -1,11 +1,8 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as Strings from "~/common/strings";
-import * as SubSystem from "~/components/system/components/fragments/TableComponents";
 
 import { css } from "@emotion/core";
 import { P } from "~/components/system/components/Typography";
-import * as SVG from "~/common/svg";
 
 const TABLE_COLUMN_WIDTH_DEFAULTS = {
   1: "100%",

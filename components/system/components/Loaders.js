@@ -1,14 +1,9 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/core";
 
-//
-//
-//
-//
-//LOADER 1
+// Loader 1
 
 const STYLES_LOADER_CIRCLE = `
   width: 24px;
@@ -44,11 +39,7 @@ const STYLES_LOADER_CIRCLE_THREE = css`
   ${STYLES_LOADER_CIRCLE}
 `;
 
-//
-//
-//
-//
-//LOADER 2
+// Loader 2
 
 const STYLES_LOADER_DIAMONDS = css`
   margin-left: 20px;
@@ -81,7 +72,7 @@ const STYLES_LOADER_DIAMOND_ONE = css`
   background: ${Constants.system.brand};
   right: 0;
   bottom: 0;
-  animation-direction: alternate-reverse
+  animation-direction: alternate-reverse;
 `;
 
 const STYLES_LOADER_DIAMOND_TWO = css`
@@ -91,11 +82,7 @@ const STYLES_LOADER_DIAMOND_TWO = css`
   top: 0;
 `;
 
-//
-//
-//
-//
-//LOADER 3
+// Loader 3
 
 const STYLES_LOADER_MOON = css`
   position: relative;
@@ -126,11 +113,7 @@ const STYLES_LOADER_MOON_CIRCLE = css`
   }
 `;
 
-//
-//
-//
-//
-//LOADER 4
+// Loader 4
 
 const STYLES_LOADER_ROTATE = css`
   position: relative;
@@ -179,11 +162,7 @@ const STYLES_LOADER_ROTATE_SQUARES = css`
   }
 `;
 
-//
-//
-//
-//
-//LOADER 5
+// Loader 5
 
 const STYLES_LOADER_PROGRESS = css`
   width: 0;
@@ -203,11 +182,7 @@ const STYLES_LOADER_PROGRESS = css`
   }
 `;
 
-//
-//
-//
-//
-//LOADER 6
+// Loader 6
 
 const STYLES_LOADER_SPINNER = css`
   display: inline-block;
@@ -224,12 +199,6 @@ const STYLES_LOADER_SPINNER = css`
     }
   }
 `;
-
-//
-//
-//
-//
-//LOADER EXPORTS
 
 export const LoaderProgress = (props) => <div css={STYLES_LOADER_PROGRESS} {...props} />;
 

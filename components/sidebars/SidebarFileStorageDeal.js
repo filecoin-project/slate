@@ -1,20 +1,9 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/core";
-
-const STYLES_FILE_HIDDEN = css`
-  height: 1px;
-  width: 1px;
-  opacity: 0;
-  visibility: hidden;
-  position: fixed;
-  top: -1px;
-  left: -1px;
-`;
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};

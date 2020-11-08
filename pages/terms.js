@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 
@@ -102,9 +102,11 @@ const STYLES_LINK = css`
   :hover {
     color: ${Constants.system.newBlue};
   }
+
   :active {
     color: ${Constants.system.newBlue};
   }
+
   :visited {
     color: ${Constants.system.slate};
   }
@@ -338,7 +340,7 @@ export default class TermsPage extends React.Component {
                 <System.P>
                   <b>Slate</b> may terminate your access to all or any part of the <b>Website</b> at
                   any time, with or without cause, with or without notice, effective immediately. If
-                  you wish to terminate this Agreement or your <b>Slate></b> account (if you have
+                  you wish to terminate this Agreement or your <b>Slate</b> account (if you have
                   one), you may simply discontinue using the <b>Website</b>. All provisions of this
                   Agreement which by their nature should survive termination shall survive
                   termination, including, without limitation, ownership provisions, warranty

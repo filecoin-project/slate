@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
-import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 
 import MiniSearch from "minisearch";
@@ -44,11 +43,6 @@ const STYLES_MODAL = css`
   height: 60vh;
   max-height: 480px;
 `;
-
-const STYLES_SEARCH_DROPDOWN = {
-  // height: "calc(100% - 16px)",
-  // overflowY: "scroll",
-};
 
 const STYLES_USER_ENTRY_CONTAINER = css`
   display: grid;
@@ -399,6 +393,7 @@ export class SearchModal extends React.Component {
         });
       }
     }
+
     return (
       <div css={STYLES_CONTAINER}>
         <div css={STYLES_MODAL}>
@@ -410,7 +405,6 @@ export class SearchModal extends React.Component {
             onChange={this._handleChange}
             onSearch={this._handleSearch}
             inputValue={this.state.shownValue}
-            style={STYLES_SEARCH_DROPDOWN}
           />
         </div>
       </div>

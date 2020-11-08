@@ -1,29 +1,11 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
-import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/core";
 import { GlobalTooltip } from "~/components/system/components/fragments/GlobalTooltip";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { Alert } from "~/components/core/Alert";
-
-const STYLES_SCROLL = css`
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-
-  ::-webkit-scrollbar {
-    width: 4px;
-  }
-  ::-webkit-scrollbar-track {
-    background: ${Constants.system.foreground};
-  }
-  ::-webkit-scrollbar-thumb {
-    background: ${Constants.system.darkGray};
-  }
-`;
 
 const STYLES_NO_VISIBLE_SCROLL = css`
   overflow-y: scroll;

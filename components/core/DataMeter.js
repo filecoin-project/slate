@@ -1,12 +1,8 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
-import * as System from "~/components/system";
 
 import { css } from "@emotion/core";
-
-// NOTE(jim): Consolidate if used elsewhere on the client (Not node_common)
-const MAX_IN_BYTES = 10737418240 * 4;
 
 const STYLES_CONTAINER = css`
   border-radius: 4px;
@@ -14,6 +10,7 @@ const STYLES_CONTAINER = css`
   padding: 32px;
   max-width: 100%;
   width: 100%;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px;
   }
@@ -43,16 +40,6 @@ const STYLES_ROW = css`
   color: ${Constants.system.darkGray};
   font-size: 10px;
   margin-top: 2px;
-  text-transform: uppercase;
-`;
-
-const STYLES_STATS_ROW = css`
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  font-family: ${Constants.font.text};
-  color: ${Constants.system.black};
-  font-size: 12px;
   text-transform: uppercase;
 `;
 

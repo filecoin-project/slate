@@ -3,8 +3,6 @@ import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as ViewerManager from "~/node_common/managers/viewer";
 
-import { Buckets } from "@textile/hub";
-
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
 
@@ -66,10 +64,12 @@ export default async (req, res) => {
     user,
     files: newFiles,
   });
+
   await Data.updateUserById({
     id: user.id,
     data: updatedUserDataFields,
   });
+
   if (updatedUserDataFields && updatedUserDataFields.library) {
     ViewerManager.hydratePartialLibrary(updatedUserDataFields.library, id);
   }

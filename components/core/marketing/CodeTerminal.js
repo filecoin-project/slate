@@ -1,20 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as System from "~/components/system";
 
 import { css, keyframes } from "@emotion/core";
-
-const blinkCursor = keyframes`
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-`;
 
 const typewriter = keyframes`
   0% {
@@ -45,30 +32,6 @@ const STYLES_ROOT = css`
   }
 `;
 
-const STYLES_WINDOW = css`
-  box-sizing: border-box;
-  font-family: ${Constants.font.mono};
-  display: block;
-  border-radius: 4px;
-  width: 100%;
-  background: ${Constants.system.pitchBlack};
-  min-height: 150px;
-  padding: 24px;
-  color: ${Constants.system.white};
-  resize: none;
-  font-size: 14px;
-  box-sizing: border-box;
-  outline: 0;
-  border: 0;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-  scrollbar-width: none;
-  white-space: pre-wrap;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
 const STYLES_WINDOW_HEADER = css`
   height: 34px;
   display: flex;
@@ -86,6 +49,7 @@ const STYLES_ICON = css`
   width: 12px;
   height: 12px;
   margin-left: 8px;
+
   :nth-of-type(1) {
     background: rgb(255, 95, 86);
     margin-left: 12px;

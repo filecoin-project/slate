@@ -1,6 +1,6 @@
-import Head from "next/head";
-
 import * as React from "react";
+
+import Head from "next/head";
 
 export default class WebsitePrototypeWrapper extends React.Component {
   static defaultProps = {
@@ -25,30 +25,12 @@ export default class WebsitePrototypeWrapper extends React.Component {
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content={this.props.url} />
           <meta property="twitter:title" content={this.props.title} />
-          <meta
-            property="twitter:description"
-            content={this.props.description}
-          />
+          <meta property="twitter:description" content={this.props.description} />
           <meta property="twitter:image" content={this.props.image} />
 
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/static/favicon-32x32.png"
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="96x96"
-            href="/static/favicon-96x96.png"
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/static/favicon-16x16.png"
-          />
+          <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png" />
+          <link rel="icon" type="image/png" sizes="96x96" href="/static/favicon-96x96.png" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png" />
 
           <link rel="shortcut icon" href="/static/favicon.ico" />
         </Head>

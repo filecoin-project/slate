@@ -2,7 +2,6 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
-import * as Validations from "~/common/validations";
 import * as Store from "~/common/store";
 import * as SVG from "~/common/svg";
 

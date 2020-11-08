@@ -6,8 +6,6 @@ import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
-import { TooltipWrapper } from "~/components/system/components/fragments/GlobalTooltip";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
@@ -50,7 +48,6 @@ const STYLES_IMAGE_ROW = css`
   flex-direction: row;
   flex-wrap: wrap;
   height: 160px;
-  ${"" /* justify-content: space-between; */}
   overflow: hidden;
   margin: 0 -${MARGIN}px;
 
@@ -79,16 +76,6 @@ const STYLES_ITEM_BOX = css`
   }
 `;
 
-const STYLES_EMPTY_BOX = css`
-  width: 160px;
-  height: 160px;
-  margin: 0px ${MARGIN}px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 8px;
-  }
-`;
-
 const STYLES_IMAGE_ROW_SMALL = css`
   display: flex;
   flex-direction: row;
@@ -106,12 +93,6 @@ const STYLES_ITEM_BOX_SMALL = css`
   align-items: center;
   justify-content: center;
   box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset;
-`;
-
-const STYLES_EMPTY_BOX_SMALL = css`
-  width: 56px;
-  height: 56px;
-  margin: 0px 8px;
 `;
 
 export class SlatePreviewRow extends React.Component {
@@ -340,9 +321,7 @@ export class SlatePreviewBlock extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `${window.location.hostname}/${this.props.username}/${
-                            this.props.slate.slatename
-                          }`
+                          `${window.location.hostname}/${this.props.username}/${this.props.slate.slatename}`
                         ),
                     },
                     {
@@ -356,9 +335,7 @@ export class SlatePreviewBlock extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `${window.location.hostname}/${this.props.username}/${
-                            this.props.slate.slatename
-                          }`
+                          `${window.location.hostname}/${this.props.username}/${this.props.slate.slatename}`
                         ),
                     },
                   ]

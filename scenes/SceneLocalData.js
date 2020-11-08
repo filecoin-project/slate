@@ -1,7 +1,4 @@
 import * as React from "react";
-import * as System from "~/components/system";
-
-import { css } from "@emotion/core";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";

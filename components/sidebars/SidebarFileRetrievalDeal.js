@@ -1,10 +1,6 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
-
-import { css } from "@emotion/core";
 
 export default class SidebarFileRetrievalDeal extends React.Component {
   state = {};

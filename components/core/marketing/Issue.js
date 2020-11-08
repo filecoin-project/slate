@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as System from "~/components/system";
 
 import { css } from "@emotion/core";
 

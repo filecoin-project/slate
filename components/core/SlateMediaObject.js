@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
 
@@ -54,7 +53,6 @@ const typeMap = {
 
 export default class SlateMediaObject extends React.Component {
   render() {
-    const name = `${this.props.data.name}`;
     // NOTE(jim):
     // This is a hack to catch this undefined case I don't want to track down yet.
     const url = this.props.data.url.replace("https://undefined", "https://");

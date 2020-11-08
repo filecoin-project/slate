@@ -11,7 +11,6 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
-import Avatar from "~/components/core/Avatar";
 
 const delay = (time) =>
   new Promise((resolve) =>

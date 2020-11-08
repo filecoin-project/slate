@@ -3,9 +3,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/core";
-import { WarningMessage } from "~/components/core/WarningMessage";
 
-import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
 import ScenePageHeader from "~/components/core/ScenePageHeader";

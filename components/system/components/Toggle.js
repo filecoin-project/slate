@@ -2,7 +2,6 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/core";
-
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 
 const STYLES_TOGGLE = css`

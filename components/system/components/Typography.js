@@ -5,7 +5,6 @@ import * as Strings from "~/common/strings";
 import * as StringReplace from "~/vendor/react-string-replace";
 
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const LINK_STYLES = `
   font-family: ${Constants.font.text};

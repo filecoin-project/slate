@@ -9,33 +9,10 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 
-const STYLES_GROUP = css`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-  max-width: 768px;
-`;
-
 const STYLES_SUBGROUP = css`
   width: 100%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-`;
-
-const STYLES_LEFT = css`
-  padding: 12px 0 0 0;
-  min-width: 10%;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-`;
-
-const STYLES_RIGHT = css`
-  padding-left: 48px;
-  padding-top: 24px;
-  flex-shrink: 0;
 `;
 
 export const createState = (config) => {

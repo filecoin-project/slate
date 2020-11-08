@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
 
 import { css } from "@emotion/core";
@@ -205,22 +204,10 @@ export class SlatePreviewBlock extends React.Component {
       return;
     }
     this.setState({ showMenu: true });
-    // dispatchCustomEvent({
-    //   name: "show-tooltip",
-    //   detail: {
-    //     id: `slate-tooltip-${this.props.slate.id}`,
-    //   },
-    // });
   };
 
   _handleHide = (e) => {
     this.setState({ showMenu: false });
-    // dispatchCustomEvent({
-    //   name: "hide-tooltip",
-    //   detail: {
-    //     id: `slate-tooltip-${this.props.slate.id}`,
-    //   },
-    // });
   };
 
   render() {

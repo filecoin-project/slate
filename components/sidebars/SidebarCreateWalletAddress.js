@@ -1,26 +1,15 @@
 import * as React from "react";
-import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
-
-import { css } from "@emotion/core";
 
 const SELECT_MENU_OPTIONS = [
   { value: "1", name: "BLS" },
   { value: "2", name: "SECP256K1" },
-  // { value: '3', name: 'MULTISIG' },
 ];
 
-const SELECT_MENU_MAP = {
-  "1": "BLS",
-  "2": "SECP256K1",
-  // '3': 'MULTISIG',
-};
-
 const SELECT_MENU_SAVE_STRINGS = {
-  "1": "bls",
-  "2": "secp256k1",
+  1: "bls",
+  2: "secp256k1",
 };
 
 export default class SidebarCreateWalletAddress extends React.Component {

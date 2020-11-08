@@ -5,7 +5,6 @@ import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
-
 import Chart from "~/components/stats/Chart";
 
 const data = [
@@ -49,8 +48,7 @@ export default class SystemPageLineCharts extends React.Component {
         <br />
 
         <System.P>
-          The Line Chart component displays categories of data points on a line
-          chart.
+          The Line Chart component displays categories of data points on a line chart.
         </System.P>
         <br />
         <br />
@@ -102,12 +100,7 @@ const xWall = 500;`}</CodeBlock>
         <br />
         <System.H2>Output</System.H2>
         <hr />
-        <Chart
-          data={data}
-          maxTicks={tickNumber}
-          yCeiling={yCeiling}
-          xWall={xWall}
-        />
+        <Chart data={data} maxTicks={tickNumber} yCeiling={yCeiling} xWall={xWall} />
         <hr />
         <br />
         <br />
@@ -115,7 +108,7 @@ const xWall = 500;`}</CodeBlock>
         <System.H2>Props</System.H2>
         <hr />
         <br />
-        <Group title="StatCard">
+        <Group title="LineChart">
           <System.Table
             data={{
               columns: [
@@ -130,7 +123,7 @@ const xWall = 500;`}</CodeBlock>
                   a: "data",
                   b: "array",
                   c: "null",
-                  d: "The value listed in the header of the StatCard",
+                  d: "The value listed in the header of the LineChart",
                 },
                 {
                   id: 2,

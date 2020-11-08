@@ -4,9 +4,6 @@ import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
 
-// NOTE(jim): Consolidate if used elsewhere on the client (Not node_common)
-const MAX_IN_BYTES = 10737418240 * 4;
-
 const STYLES_CONTAINER = css`
   border-radius: 4px;
   box-shadow: 0 0 0 1px ${Constants.system.lightBorder} inset, 0 0 40px 0 ${Constants.system.shadow};
@@ -17,30 +14,6 @@ const STYLES_CONTAINER = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px;
   }
-`;
-
-const STYLES_DATA = css`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  border-radius: 3px;
-  overflow: hidden;
-`;
-
-const STYLES_DATA_METER_BASE = css`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  border-radius: 3px;
-  background-color: ${Constants.system.foreground};
-  overflow: hidden;
-`;
-
-const STYLES_DATA_METER = css`
-  flex-shrink: 0;
-  top: 0px;
-  left: 0px;
-  border-radius: 3px 0px 0px 3px;
 `;
 
 const STYLES_ROW = css`
@@ -108,6 +81,7 @@ export const DataMeterBar = (props) => {
   const percentagePdf = props.stats.pdfBytes / props.bytes;
   const percentageAudio = props.stats.audioBytes / props.bytes;
   const percentageFreeSpace = props.bytes - props.maximumBytes;
+
   return (
     <React.Fragment>
       <div css={STYLES_STATS_ROW}>

@@ -4,7 +4,6 @@ import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
-import { SceneUtils } from "three";
 
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 import SlatePreviewBlocksExternal from "~/components/core/SlatePreviewBlockExternal";

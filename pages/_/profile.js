@@ -9,6 +9,9 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
 
+const DEFAULT_IMAGE =
+  "https://slate.textile.io/ipfs/bafkreiaow45dlq5xaydaeqocdxvffudibrzh2c6qandpqkb6t3ahbvh6re";
+
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
@@ -29,14 +32,14 @@ export default class ProfilePage extends React.Component {
     const title = this.props.creator ? `${this.props.creator.username}` : "404";
     const url = `https://slate.host/${title}`;
     const description = this.props.creator.data.body;
+    const image = this.props.creator.data.photo;
+
+    if (!image) {
+      image = DEFAULT_IMAGE;
+    }
 
     return (
-      <WebsitePrototypeWrapper
-        title={title}
-        description={description}
-        url={url}
-        image={this.props.creator.data.photo}
-      >
+      <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <Profile {...this.props} />

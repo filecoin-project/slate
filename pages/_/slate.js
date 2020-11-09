@@ -17,7 +17,18 @@ import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 
 const SIZE_LIMIT = 1000000; //NOTE(martina): 1mb limit for twitter preview images
-const DEFAULT_IMAGE = "";
+const DEFAULT_IMAGE =
+  "https://slate.textile.io/ipfs/bafkreiaow45dlq5xaydaeqocdxvffudibrzh2c6qandpqkb6t3ahbvh6re";
+const DEFAULT_BOOK =
+  "https://slate.textile.io/ipfs/bafkreibk32sw7arspy5kw3p5gkuidfcwjbwqyjdktd5wkqqxahvkm2qlyi";
+const DEFAULT_DATA =
+  "https://slate.textile.io/ipfs/bafkreid6bnjxz6fq2deuhehtxkcesjnjsa2itcdgyn754fddc7u72oks2m";
+const DEFAULT_DOCUMENT =
+  "https://slate.textile.io/ipfs/bafkreiecdiepww52i5q3luvp4ki2n34o6z3qkjmbk7pfhx4q654a4wxeam";
+const DEFAULT_VIDEO =
+  "https://slate.textile.io/ipfs/bafkreibesdtut4j5arclrxd2hmkfrv4js4cile7ajnndn3dcn5va6wzoaa";
+const DEFAULT_AUDIO =
+  "https://slate.textile.io/ipfs/bafkreig2hijckpamesp4nawrhd6vlfvrtzt7yau5wad4mzpm3kie5omv4e";
 
 const STYLES_ROOT = css`
   display: block;
@@ -152,6 +163,22 @@ export const getServerSideProps = async (context) => {
   };
 };
 
+export const FileTypeDefaultPreview = () => {
+  if (props.type && props.type.startsWith("video/")) {
+    return DEFAULT_VIDEO;
+  }
+  if (props.type && props.type.startsWith("audio/")) {
+    return DEFAULT_AUDIO;
+  }
+  if (props.type && props.type.startsWith("application/epub")) {
+    return DEFAULT_BOOK;
+  }
+  if (props.type && props.type.startsWith("application/pdf")) {
+    return DEFAULT_DOCUMENT;
+  }
+  return DEFAULT_DATA;
+};
+
 export default class SlatePage extends React.Component {
   componentDidMount() {
     if (!this.props.slate) {
@@ -247,7 +274,11 @@ export default class SlatePage extends React.Component {
       if (object) {
         title = !Strings.isEmpty(object.title) ? object.title : this.props.cid;
         body = !Strings.isEmpty(object.body) ? Strings.elide(object.body) : `An object on ${url}`;
-        image = object.type.includes("image/") ? object.url : image;
+        image = object.type.includes("image/") ? (
+          object.url
+        ) : (
+          <FileTypeDefaultPreview type={object.type} />
+        );
         url = `${url}/cid:${this.props.cid}`;
       }
     }

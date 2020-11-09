@@ -3,6 +3,7 @@ import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 import * as Social from "~/node_common/social";
 import * as ViewerManager from "~/node_common/managers/viewer";
+import * as SearchManager from "~/node_common/managers/search";
 
 const SLATE_LIMIT = 50;
 
@@ -68,6 +69,10 @@ export default async (req, res) => {
   slates = await Data.getSlatesByUserId({ userId: id });
   if (slates) {
     ViewerManager.hydratePartialSlates(slates, id);
+  }
+
+  if (slate.data.public) {
+    SearchManager.updateSlate(slate, "ADD");
   }
 
   const userProfileURL = `https://slate.host/${user.username}`;

@@ -163,12 +163,15 @@ export class GlobalCarousel extends React.Component {
   _handleSetLoading = (e) => this.setState({ ...e.detail });
 
   _handleOpen = (e) => {
+    console.log("handle open");
+    console.log(e.detail.index);
     let carouselType =
       !this.props.current ||
       (this.props.current &&
         (this.props.current.decorator === "FOLDER" || this.props.current.decorator === "HOME"))
         ? "data"
         : "slate";
+    console.log(carouselType);
     this.setState({
       carouselType: carouselType,
       visible: true,
@@ -324,7 +327,7 @@ export class GlobalCarousel extends React.Component {
       data = this.props.current.data.objects[this.state.index];
       data.url = data.url.replace("https://undefined", "https://");
       data.cid = Strings.urlToCid(data.url);
-      isRepost = this.props.external ? false : this.props.viewer.id !== data.ownerId;
+      isRepost = this.props.external ? false : this.props.current.ownerId !== data.ownerId;
       isOwner = this.props.external
         ? false
         : this.props.viewer.id === this.props.current.data.ownerId;

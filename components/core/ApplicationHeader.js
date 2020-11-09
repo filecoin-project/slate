@@ -5,7 +5,6 @@ import * as SVG from "~/common/svg";
 import ApplicationUserControls from "~/components/core/ApplicationUserControls";
 
 import { css, keyframes } from "@emotion/core";
-import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_ICON_ELEMENT = css`
@@ -139,8 +138,8 @@ export default class ApplicationHeader extends React.Component {
 
   _handleCreateSearch = (e) => {
     dispatchCustomEvent({
-      name: "create-modal",
-      detail: { modal: <SearchModal viewer={this.props.viewer} onAction={this.props.onAction} /> },
+      name: "show-search",
+      detail: {},
     });
   };
 

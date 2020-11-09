@@ -4,7 +4,6 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/core";
 import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonSecondary } from "~/components/system/components/Buttons";
-import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 import ScenePage from "~/components/core/ScenePage";
@@ -35,8 +34,8 @@ export default class SceneSlates extends React.Component {
 
   _handleSearch = () => {
     dispatchCustomEvent({
-      name: "create-modal",
-      detail: { modal: <SearchModal viewer={this.props.viewer} onAction={this.props.onAction} /> },
+      name: "show-search",
+      detail: {},
     });
   };
 

@@ -1552,3 +1552,52 @@ export const DesktopEye = (props) => (
     />
   </svg>
 );
+
+export const ArrowDownLeft = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M9 10L4 15L9 20" />
+    <path d="M20 4V11C20 12.0609 19.5786 13.0783 18.8284 13.8284C18.0783 14.5786 17.0609 15 16 15H4" />
+  </svg>
+);
+
+export const Hash = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.3333"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M2.66663 6H13.3333" />
+    <path d="M2.66663 10H13.3333" />
+    <path d="M6.66671 2L5.33337 14" />
+    <path d="M10.6667 2L9.33337 14" />
+  </svg>
+);
+
+export const Filter = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M22 3H2L10 12.46V19L14 21V12.46L22 3Z" />
+  </svg>
+);

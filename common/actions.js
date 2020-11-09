@@ -126,9 +126,9 @@ export const search = async (data) => {
     return { decorator: "NO_SERVER_TRIP", data: { results: [] } };
   }
 
-  return await returnJSON(`http://localhost:1313/${data.query}`, {
+  return await returnJSON(`http://localhost:1313/search`, {
     ...CORS_OPTIONS,
-    body: JSON.stringify(data),
+    body: JSON.stringify({ data }),
   });
 };
 
@@ -188,6 +188,13 @@ export const createUser = async (data) => {
 
 export const updateOnboardingStatus = async (data) => {
   return await returnJSON(`/api/users/onboarding-update`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
+export const updateSearch = async (data) => {
+  return await returnJSON(`/api/search/update`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });

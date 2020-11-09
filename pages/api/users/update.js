@@ -4,6 +4,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Validations from "~/common/validations";
 import * as Social from "~/node_common/social";
 import * as ViewerManager from "~/node_common/managers/viewer";
+import * as SearchManager from "~/node_common/managers/search";
 
 import BCrypt from "bcrypt";
 
@@ -66,6 +67,14 @@ export default async (req, res) => {
 
   if (unsafeResponse) {
     ViewerManager.hydratePartialViewer(unsafeResponse);
+  }
+
+  if (
+    user.username !== unsafeResponse.username ||
+    user.data.name !== unsafeResponse.data.name ||
+    user.data.photo !== unsafeResponse.data.photo
+  ) {
+    SearchManager.updateUser(unsafeResponse, "EDIT");
   }
 
   return res.status(200).send({ decorator: "SERVER_USER_UPDATE" });

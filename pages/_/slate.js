@@ -248,7 +248,7 @@ export default class SlatePage extends React.Component {
     let { objects, layouts, body, preview } = this.props.slate.data;
 
     let image = preview;
-    if (!image) {
+    if (Strings.isEmpty(image)) {
       for (let i = 0; i < objects.length; i++) {
         if (
           objects[i].type &&
@@ -260,7 +260,7 @@ export default class SlatePage extends React.Component {
         }
       }
     }
-    if (!image) {
+    if (Strings.isEmpty(image)) {
       image = DEFAULT_IMAGE;
     }
 

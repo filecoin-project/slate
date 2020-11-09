@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
 import { Alert } from "~/components/core/Alert";
@@ -34,7 +35,7 @@ export default class ProfilePage extends React.Component {
     const description = this.props.creator.data.body;
     const image = this.props.creator.data.photo;
 
-    if (!image) {
+    if (Strings.isEmpty(image)) {
       image = DEFAULT_IMAGE;
     }
 

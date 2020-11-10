@@ -255,7 +255,8 @@ export default class SlatePage extends React.Component {
           if (
             objects[i].type &&
             objects[i].type.startsWith("image/") &&
-            (!objects[i].size || objects[i].size < SIZE_LIMIT)
+            objects[i].size &&
+            objects[i].size < SIZE_LIMIT
           ) {
             image = objects[i].url.replace("https://undefined", "https://");
             break;

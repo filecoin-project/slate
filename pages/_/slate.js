@@ -247,24 +247,22 @@ export default class SlatePage extends React.Component {
 
     let { objects, layouts, body, preview } = this.props.slate.data;
 
-    let image = preview;
-    if (Strings.isEmpty(image)) {
-      for (let i = 0; i < objects.length; i++) {
-        if (
-          objects[i].type &&
-          objects[i].type.startsWith("image/") &&
-          (!objects[i].size || objects[i].size < SIZE_LIMIT)
-        ) {
-          image = objects[i].url.replace("https://undefined", "https://");
-          break;
+    let image;
+    if (Strings.isEmpty(this.props.cid)) {
+      image = preview;
+      if (Strings.isEmpty(image)) {
+        for (let i = 0; i < objects.length; i++) {
+          if (
+            objects[i].type &&
+            objects[i].type.startsWith("image/") &&
+            (!objects[i].size || objects[i].size < SIZE_LIMIT)
+          ) {
+            image = objects[i].url.replace("https://undefined", "https://");
+            break;
+          }
         }
       }
-    }
-    if (Strings.isEmpty(image)) {
-      image = DEFAULT_IMAGE;
-    }
-
-    if (!Strings.isEmpty(this.props.cid)) {
+    } else {
       let object = objects.find((each) => {
         const url = each.url.replace("https://undefined", "https://");
         const cid = Strings.getCIDFromIPFS(url);
@@ -281,6 +279,9 @@ export default class SlatePage extends React.Component {
         );
         url = `${url}/cid:${this.props.cid}`;
       }
+    }
+    if (Strings.isEmpty(image)) {
+      image = DEFAULT_IMAGE;
     }
 
     const slateCreator = `${this.props.creator.username} / `;

@@ -8,7 +8,8 @@ import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 const SIZE_LIMIT = 1000000;
-const DEFAULT_IMAGE = "";
+const DEFAULT_IMAGE =
+  "https://slate.textile.io/ipfs/bafkreiaow45dlq5xaydaeqocdxvffudibrzh2c6qandpqkb6t3ahbvh6re";
 
 const STYLES_GROUP = css`
   display: flex;
@@ -209,21 +210,23 @@ export default class SidebarSingleSlateSettings extends React.Component {
           />
         </div>
 
-        <div css={STYLES_GROUPING}>
-          <System.P css={STYLES_HEADER}>Preview image</System.P>
+        {this.state.public ? (
+          <div css={STYLES_GROUPING}>
+            <System.P css={STYLES_HEADER}>Preview image</System.P>
 
-          <System.P
-            style={{
-              marginTop: 12,
-            }}
-          >
-            This is the image that shows when you share a link to your slate.
-          </System.P>
+            <System.P
+              style={{
+                marginTop: 12,
+              }}
+            >
+              This is the image that shows when you share a link to your slate.
+            </System.P>
 
-          <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
-            <img src={preview} alt="" style={{ maxWidth: "368px", maxHeight: "368px" }} />
+            <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
+              <img src={preview} alt="" style={{ maxWidth: "368px", maxHeight: "368px" }} />
+            </div>
           </div>
-        </div>
+        ) : null}
 
         <div css={STYLES_GROUPING}>
           <System.P css={STYLES_HEADER}>Privacy</System.P>

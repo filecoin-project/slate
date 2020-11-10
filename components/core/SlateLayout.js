@@ -117,6 +117,30 @@ const STYLES_BUTTONS_ROW = css`
   align-items: center;
 `;
 
+const STYLES_TOOLTIP_ANCHOR = css`
+  border: 1px solid #f2f2f2;
+  background-color: ${Constants.system.white};
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-around;
+  box-shadow: 0px 8px 24px rgba(178, 178, 178, 0.2);
+  width: 275px;
+  height: auto;
+  position: absolute;
+  top: -11px;
+  left: 50px;
+  z-index: ${Constants.zindex.tooltip};
+`;
+
+const STYLES_TOOLTIP_TEXT = css`
+  padding: 0 12px 0 12px;
+  font-family: ${Constants.font.text};
+  font-size: 12px;
+`;
+
 const STYLES_TOGGLE_BOX = css`
   ${STYLES_BUTTONS_ROW}
   border: 1px solid ${Constants.system.gray};
@@ -280,6 +304,7 @@ export class SlateLayout extends React.Component {
     checked: {},
     copyValue: "",
     tooltip: null,
+    keyboardTooltip: false,
   };
 
   //LEFT OFF HERE:
@@ -692,11 +717,30 @@ export class SlateLayout extends React.Component {
       e.preventDefault();
       e.stopPropagation();
       this._handleSaveLayout();
+    } else if (
+      (this.keysPressed["Control"] || this.keysPressed["Meta"]) &&
+      prevValue !== this.keysPressed[e.key]
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+      this._handleHelpKeybind();
     }
   };
 
   _handleKeyUp = (e) => {
+    this.keysPressed[e.key] = false;
+    if (!this.keysPressed["Meta"] || !this.keysPressed["Control"]) {
+      this._handleHelpKeybind();
+    }
     this.keysPressed = {};
+  };
+
+  _handleHelpKeybind = () => {
+    if (!this.state.keyboardTooltip) {
+      this.setState({ keyboardTooltip: true });
+    } else {
+      this.setState({ keyboardTooltip: false });
+    }
   };
 
   _handleUndo = () => {
@@ -1107,6 +1151,72 @@ export class SlateLayout extends React.Component {
                   >
                     Undo
                   </ButtonDisabled>
+                )}
+                {!this.state.keyboardTooltip ? (
+                  <div onMouseEnter={() => this.setState({ keyboardTooltip: true })}>
+                    <SVG.MacCommand
+                      height="15px"
+                      style={{ marginLeft: "14px", color: Constants.system.darkGray }}
+                      onMouseEnter={() => this.setState({ keyboardTooltip: true })}
+                    />
+                  </div>
+                ) : (
+                  <div css={STYLES_BUTTONS_ROW} style={{ position: "relative" }}>
+                    <span
+                      style={{ marginRight: "14px" }}
+                      onMouseLeave={() => this.setState({ keyboardTooltip: false })}
+                    >
+                      <SVG.MacCommand
+                        height="15px"
+                        style={{
+                          marginLeft: "14px",
+                          marginRight: "7px",
+                          color: Constants.system.darkGray,
+                        }}
+                      />
+                    </span>
+                    <div css={STYLES_TOOLTIP_ANCHOR}>
+                      <div>
+                        <p
+                          css={STYLES_TOOLTIP_TEXT}
+                          style={{
+                            fontFamily: Constants.font.semiBold,
+                            fontSize: "14px",
+                            paddingTop: "12px",
+                          }}
+                        >
+                          Keyboard shortcuts
+                        </p>
+                      </div>
+                      <div>
+                        <p css={STYLES_TOOLTIP_TEXT}>shift + click and drag</p>
+                        <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
+                          keep x value or y value while moving file
+                        </p>
+                      </div>
+                      <div>
+                        <p css={STYLES_TOOLTIP_TEXT}>shift + click and resize</p>
+                        <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
+                          keep aspect ratio while resizing
+                        </p>
+                      </div>
+                      <div>
+                        <p css={STYLES_TOOLTIP_TEXT}>ctrl + click and drag</p>
+                        <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
+                          move without snapping to the dot grid
+                        </p>
+                      </div>
+                      <div>
+                        <p css={STYLES_TOOLTIP_TEXT}>ctrl + click and resize</p>
+                        <p
+                          css={STYLES_TOOLTIP_TEXT}
+                          style={{ color: Constants.system.darkGray, paddingBottom: "12px" }}
+                        >
+                          resize without snapping to the dot grid
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
               <div css={STYLES_BUTTONS_ROW} style={{ flexShrink: 0 }}>

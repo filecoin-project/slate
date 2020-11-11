@@ -122,8 +122,11 @@ export const createSubscription = async (data) => {
 };
 
 export const search = async (data) => {
-  if (Strings.isEmpty(data.query) || Strings.isEmpty(data.resourceURI)) {
+  if (Strings.isEmpty(data.query)) {
     return { decorator: "NO_SERVER_TRIP", data: { results: [] } };
+  }
+  if (Strings.isEmpty(data.resourceURI)) {
+    return { decorator: "NO_RESOURCE_URI", data: { results: [] } };
   }
 
   return await returnJSON(`${data.resourceURI}/search`, {

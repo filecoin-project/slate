@@ -727,7 +727,7 @@ export class SearchModal extends React.Component {
       }
       e.preventDefault();
     } else if (e.keyCode === 13) {
-      if (results.length > this.state.selectedIndex && this.state.selectedIndex !== -1) {
+      if (results.length > this.state.selectedIndex && this.state.selectedIndex >= 0) {
         this._handleSelect(results[this.state.selectedIndex].value);
       }
       e.preventDefault();

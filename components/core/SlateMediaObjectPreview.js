@@ -19,7 +19,6 @@ const STYLES_IMAGE_CONTAINER = css`
 const STYLES_IMAGE = css`
   background-color: ${Constants.system.foreground};
   display: block;
-  width: 100%;
   pointer-events: none;
   transition: 200ms ease all;
 `;
@@ -155,7 +154,7 @@ export default class SlateMediaObjectPreview extends React.Component {
           ) : this.state.showImage ? (
             <img
               css={STYLES_IMAGE}
-              style={{ maxHeight: "100%", ...this.props.imageStyle }}
+              style={{ maxHeight: "100%", maxWidth: "100%", ...this.props.imageStyle }}
               src={url}
             />
           ) : blurhash ? (
@@ -171,7 +170,10 @@ export default class SlateMediaObjectPreview extends React.Component {
               punch={1}
             />
           ) : (
-            <div css={STYLES_IMAGE} style={{ maxHeight: "100%", ...this.props.imageStyle }} />
+            <div
+              css={STYLES_IMAGE}
+              style={{ maxHeight: "100%", maxWidth: "100%", ...this.props.imageStyle }}
+            />
           )}
         </React.Fragment>
       );

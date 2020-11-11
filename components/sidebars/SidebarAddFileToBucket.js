@@ -9,6 +9,7 @@ import { css } from "@emotion/core";
 import { DataMeterBar } from "~/components/core/DataMeter";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { SidebarWarningMessage } from "~/components/core/WarningMessage";
+import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
 const STYLES_FILE_HIDDEN = css`
   height: 1px;
@@ -74,13 +75,6 @@ const STYLES_PERFORMANCE = css`
   margin: 0 0 8px 0;
 `;
 
-const STYLES_ICONS = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 64px 0;
-`;
-
 export default class SidebarAddFileToBucket extends React.Component {
   _handleUpload = (e) => {
     this.props.onUpload({
@@ -130,13 +124,7 @@ export default class SidebarAddFileToBucket extends React.Component {
           id="file"
           onChange={this._handleUpload}
         />
-        <div css={STYLES_ICONS}>
-          <SVG.Sound height="24px" style={{ margin: "0 16px" }} />
-          <SVG.Document height="24px" style={{ margin: "0 16px" }} />
-          <SVG.Image height="24px" style={{ margin: "0 16px" }} />
-          <SVG.Book height="24px" style={{ margin: "0 16px" }} />
-          <SVG.Video height="24px" style={{ margin: "0 16px" }} />
-        </div>
+        <FileTypeGroup style={{ margin: "64px 0px" }} />
         <System.P style={{ marginTop: 24 }}>
           Click below or drop a file anywhere on the page to upload a file
           {this.props.current &&

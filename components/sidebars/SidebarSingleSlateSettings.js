@@ -3,6 +3,7 @@ import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
+import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
@@ -142,7 +143,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
       for (let object of this.props.current.data.objects) {
         if (
           object.type &&
-          object.type.startsWith("image/") &&
+          Validations.isPreviewableImage(object.type) &&
           object.size &&
           object.size < SIZE_LIMIT
         ) {

@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Validations from "~/common/validations";
 
 import { css, keyframes } from "@emotion/core";
 import { useState } from "react";
@@ -39,7 +40,7 @@ const STYLES_BUBBLE_ANCHOR = css`
 //Jim: the parent of this element needs to be position: relative or this bubble will fly off its position
 export const FilePreviewBubble = (props) => {
   const [onHover, setHover] = useState(false);
-  const showPreview = props.type && props.type.startsWith("image/") && onHover;
+  const showPreview = props.type && Validations.isPreviewableImage(props.type) && onHover;
 
   return (
     <React.Fragment>

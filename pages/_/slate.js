@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
+import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
@@ -254,7 +255,7 @@ export default class SlatePage extends React.Component {
         for (let i = 0; i < objects.length; i++) {
           if (
             objects[i].type &&
-            objects[i].type.startsWith("image/") &&
+            Validations.isPreviewableImage(objects[i].type) &&
             objects[i].size &&
             objects[i].size < SIZE_LIMIT
           ) {

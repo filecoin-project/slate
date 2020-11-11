@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 import * as Window from "~/common/window";
+import * as Validations from "~/common/validations";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
@@ -55,7 +56,7 @@ const generateLayout = (items) => {
 
 const preload = (item) =>
   new Promise((resolve, reject) => {
-    if (!item.type || !item.type.startsWith("image/")) {
+    if (!item.type || !Validations.isPreviewableImage(this.props.type)) {
       resolve(200);
     }
     const img = new Image();
@@ -841,7 +842,7 @@ export class SlateLayout extends React.Component {
         },
       ],
       ratio: [layout[i].w, layout[i].h],
-      freeRatio: !this.state.items[i].type.startsWith("image/"),
+      freeRatio: !Validations.isPreviewableImage(this.state.items[i].type),
     });
     window.addEventListener("mousemove", this._handleDragResize);
     window.addEventListener("mouseup", this._handleMouseUpResize);
@@ -1629,7 +1630,7 @@ export class SlateLayout extends React.Component {
                                     this.props.external
                                       ? this._handleLoginModal
                                       : this.state.items[i].type &&
-                                        this.state.items[i].type.startsWith("image/") &&
+                                        Validations.isPreviewableImage(this.state.items[i].type) &&
                                         this.state.items[i].size &&
                                         this.state.items[i].size < SIZE_LIMIT
                                       ? (e) => this._handleSetPreview(e, i)
@@ -1642,7 +1643,7 @@ export class SlateLayout extends React.Component {
                                           backgroundColor: "rgba(0, 97, 187, 0.75)",
                                         }
                                       : this.state.items[i].type &&
-                                        this.state.items[i].type.startsWith("image/") &&
+                                        Validations.isPreviewableImage(this.state.items[i].type) &&
                                         this.state.items[i].size &&
                                         this.state.items[i].size < SIZE_LIMIT
                                       ? {}
@@ -1701,11 +1702,7 @@ export class SlateLayout extends React.Component {
                         {this.state.items[i].title || this.state.items[i].name}
                       </span>
                       <span css={STYLES_FILE_TYPE}>
-                        {this.state.items[i].name.lastIndexOf(".") !== -1
-                          ? this.state.items[i].name.slice(
-                              this.state.items[i].name.lastIndexOf(".")
-                            )
-                          : ""}
+                        {Strings.getFileExtension(this.state.items[i].name)}
                       </span>
                     </div>
                   ) : null}

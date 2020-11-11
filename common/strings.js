@@ -68,7 +68,18 @@ export const getCIDGatewayURLWithExtension = (cid, name) => {
 };
 
 export const getFileExtension = (name) => {
-  return name.slice(((name.lastIndexOf(".") - 1) >>> 0) + 2);
+  if (!name || isEmpty(name)) {
+    return "";
+  }
+  // if (name.lastIndexOf(".") !== -1) {
+  //   return name.slice(name.lastIndexOf("."));
+  // } else {
+  //   return "";
+  // }
+  if (name.lastIndexOf(".") !== -1) {
+    return name.slice(((name.lastIndexOf(".") - 1) >>> 0) + 2);
+  }
+  return "";
 };
 
 export const getCIDFromIPFS = (url) => {

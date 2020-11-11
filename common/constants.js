@@ -59,6 +59,13 @@ export const system = {
   bgBlurBlack: "rgba(15, 14, 18, 0.9)",
 };
 
+export const shadow = {
+  light: "0 3px 6px 0 rgba(178, 178, 178, 0.15)",
+  medium: "0 8px 24px 0 rgba(178, 178, 178, 0.2)",
+  large: "0 12px 48px 0 rgba(178, 178, 178, 0.3)",
+  subtle: "0 1px 0 0 rgba(15, 14, 18, 0.04)",
+};
+
 export const zindex = {
   navigation: 1,
   body: 2,

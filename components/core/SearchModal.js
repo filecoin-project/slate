@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Actions from "~/common/actions";
 import * as Window from "~/common/window";
+import * as Validations from "~/common/validations";
 
 import MiniSearch from "minisearch";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
@@ -106,6 +107,7 @@ const STYLES_PROFILE_IMAGE = css`
   height: 182px;
   width: 182px;
   margin-bottom: 12px;
+  border-radius: 4px;
 `;
 
 const UserPreview = ({ item, viewer }) => {
@@ -253,7 +255,7 @@ const STYLES_EMPTY_SLATE_PREVIEW = css`
 const SlatePreview = ({ item, viewer }) => {
   let preview;
   for (let obj of item.data.objects) {
-    if (obj.type && obj.type.startsWith("image/")) {
+    if (obj.type && Validations.isPreviewableImage(obj.type)) {
       preview = obj;
       break;
     }
@@ -261,13 +263,11 @@ const SlatePreview = ({ item, viewer }) => {
   if (!item && item.data.objects && item.data.objects.length) {
     preview = item.data.objects[0];
   }
-  console.log(preview);
   return (
     <div style={{ textAlign: "center" }}>
       <div css={STYLES_PREVIEW_IMAGE}>
         {preview ? (
           <SlateMediaObjectPreview
-            style={{ border: `1px solid ${Constants.system.bgGray}` }}
             blurhash={preview.blurhash}
             url={preview.url.replace("https://undefined", "https://")}
             title={preview.title || preview.name}
@@ -275,7 +275,7 @@ const SlatePreview = ({ item, viewer }) => {
           />
         ) : (
           <div css={STYLES_EMPTY_SLATE_PREVIEW}>
-            <SVG.Slate height="36px" style={{ color: "#bfbfbf" }} />
+            <SVG.Slate height="80px" style={{ color: "#bfbfbf" }} />
           </div>
         )}
       </div>
@@ -305,10 +305,14 @@ const FileEntry = ({ item, viewer }) => {
         </div>
         <div css={STYLES_TEXT_ROWS}>
           <div css={STYLES_TITLE}>{file.title || file.name || file.file}</div>
-          {viewer ? (
-            <div css={STYLES_SUBTITLE}>Your files</div>
-          ) : slate ? (
-            <div css={STYLES_SUBTITLE}>{slate.data ? slate.data.name : slate.slatename}</div>
+          {file.file ? (
+            <div css={STYLES_SUBTITLE} style={{ textTransform: "uppercase" }}>
+              {Strings.getFileExtension(file.file)}
+            </div>
+          ) : file.name ? (
+            <div css={STYLES_SUBTITLE} style={{ textTransform: "uppercase" }}>
+              {Strings.getFileExtension(file.name)}
+            </div>
           ) : null}
         </div>
       </div>
@@ -323,7 +327,7 @@ const FilePreview = ({ item, viewer }) => {
     <div style={{ textAlign: "center" }}>
       <div css={STYLES_PREVIEW_IMAGE}>
         <SlateMediaObjectPreview
-          style={{ border: `1px solid ${Constants.system.bgGray}` }}
+          previewPanel
           blurhash={file.blurhash}
           url={
             file.url
@@ -390,7 +394,7 @@ const STYLES_DROPDOWN_ITEM = css`
 `;
 
 const STYLES_INPUT = css`
-  font-family: ${Constants.font.text};
+  font-family: ${Constants.font.medium};
   -webkit-appearance: none;
   width: 100%;
   height: 56px;
@@ -404,23 +408,25 @@ const STYLES_INPUT = css`
   border: 0;
   box-sizing: border-box;
   transition: 200ms ease all;
-  padding: 0 16px 0 16px;
+  padding: 0 16px 0 0;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border-radius: 0px;
+  border-radius: 0 2px 2px 0;
   margin-bottom: 8px;
+  letter-spacing: -0.1px;
+
   ::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: ${Constants.system.textGray};
+    color: ${Constants.system.textGrayLight};
     opacity: 1; /* Firefox */
   }
   :-ms-input-placeholder {
     /* Internet Explorer 10-11 */
-    color: ${Constants.system.textGray};
+    color: ${Constants.system.textGrayLight};
   }
   ::-ms-input-placeholder {
     /* Microsoft Edge */
-    color: ${Constants.system.textGray};
+    color: ${Constants.system.textGrayLight};
   }
 `;
 
@@ -482,6 +488,38 @@ const STYLES_BOTTOM_BUTTONS = css`
   left: 24px;
 `;
 
+const STYLES_INLINE_TAG_CONTAINER = css`
+  height: 56px;
+  background: ${Constants.system.bgGrayLight};
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 2px 0 0 2px;
+`;
+
+const STYLES_INLINE_TAG = css`
+  font-family: ${Constants.font.medium};
+  color: ${Constants.system.textGray};
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  background: ${Constants.system.white};
+  height: 100%;
+  padding: 0px 10px;
+  letter-spacing: -0.1px;
+`;
+
+const STYLES_DISMISS_BOX = css`
+  position: absolute;
+  right: 12px;
+  top: 16px;
+  padding: 2px;
+  cursor: pointer;
+  color: ${Constants.system.textGray};
+  outline: 0;
+`;
+
 export class SearchModal extends React.Component {
   _input;
   _optionRoot;
@@ -528,9 +566,6 @@ export class SearchModal extends React.Component {
   initializeSearch = async () => {
     this._input.focus();
     this.debounceInstance = Window.debounce(() => {
-      if (this.state.selectedIndex !== 0) {
-        this.setState({ selectedIndex: 0 });
-      }
       this._handleSearch();
     }, 500);
     let defaultResults = this.props.viewer.slates;
@@ -546,9 +581,12 @@ export class SearchModal extends React.Component {
     });
     this.setState({ defaultResults });
     let networkIds = [];
+    let slateIds = [];
     for (let sub of this.props.viewer.subscriptions) {
       if (sub.target_user_id) {
         networkIds.push(sub.target_user_id);
+      } else if (sub.target_slate_id) {
+        slateIds.push(sub.target_slate_id);
       }
     }
     for (let sub of this.props.viewer.trusted) {
@@ -562,18 +600,12 @@ export class SearchModal extends React.Component {
       }
     }
     this.networkIds = networkIds;
+    this.slateIds = slateIds;
   };
 
   fillLocalDirectory = () => {
     this.localSearch = new MiniSearch({
-      fields: [
-        "data.file.name",
-        "filename",
-        "slatename",
-        "data.name",
-        "data.file.file",
-        "data.title",
-      ],
+      fields: ["name", "title"],
       storeFields: ["type", "data", "id"],
       extractField: (entry, fieldName) => {
         return fieldName.split(".").reduce((doc, key) => doc && doc[key], entry);
@@ -586,7 +618,8 @@ export class SearchModal extends React.Component {
       return {
         type: "DATA_FILE",
         id: file.id,
-        filename: file.name || file.file,
+        name: file.title,
+        title: file.file,
         data: {
           file: {
             ...file,
@@ -604,8 +637,9 @@ export class SearchModal extends React.Component {
         ...slate.data.objects.map((file, i) => {
           return {
             type: "FILE",
-            id: file.id,
-            filename: file.title || file.name || file.file,
+            id: `${file.id}-${slate.id}`,
+            name: file.name,
+            title: file.title,
             data: {
               file,
               slate,
@@ -618,6 +652,8 @@ export class SearchModal extends React.Component {
     privateSlates = privateSlates.map((slate) => {
       return {
         ...slate,
+        name: slate.slatename,
+        title: slate.data.name,
         type: "SLATE",
       };
     });
@@ -681,6 +717,10 @@ export class SearchModal extends React.Component {
     if (e.keyCode === 27) {
       this._handleHide();
       e.preventDefault();
+    } else if (e.keyCode === 8) {
+      if (this._input.selectionStart === 0) {
+        this.setState({ typeFilter: null });
+      }
     } else if (e.keyCode === 9) {
       this._handleHide();
     } else if (e.keyCode === 40) {
@@ -745,7 +785,7 @@ export class SearchModal extends React.Component {
   _handleSearch = async (refilter = false) => {
     let searchResults = [];
     let results = [];
-
+    let ids = new Set();
     if (this.state.typeFilter !== "USER") {
       let filter;
       if (this.state.typeFilter === "FILE") {
@@ -764,7 +804,6 @@ export class SearchModal extends React.Component {
       } else {
         searchResults.push(this.localSearch.search(this.state.inputValue));
       }
-      let ids = new Set();
       for (let result of searchResults) {
         ids.add(result.id);
       }
@@ -823,6 +862,8 @@ export class SearchModal extends React.Component {
     }
     searchResults = this.processResults(res);
     for (let item of searchResults) {
+      if (ids.has(item.id)) continue;
+      ids.add(item.id);
       if (item.type === "USER") {
         results.push({
           value: {
@@ -866,7 +907,8 @@ export class SearchModal extends React.Component {
         });
       }
     }
-    this.setState({ results });
+    this.setState({ results, selectedIndex: 0 });
+    this._optionRoot.scrollTop = 0;
   };
 
   processResults = (searchResults) => {
@@ -878,10 +920,14 @@ export class SearchModal extends React.Component {
       });
     } else if (this.state.scopeFilter === "NETWORK" && this.networkIds && this.networkIds.length) {
       results = results.filter((res) => {
-        if (!this.networkIds.includes(res.ownerId)) {
-          return false;
+        if (
+          (res.type === "USER" && this.networkIds.includes(res.id)) ||
+          (res.type === "SLATE" && this.slateIds.includes(res.id)) ||
+          this.networkIds.includes(res.ownerId)
+        ) {
+          return true;
         }
-        return true;
+        return false;
       });
     }
     results = results
@@ -898,8 +944,14 @@ export class SearchModal extends React.Component {
           this.state.scopeFilter !== "NETWORK" &&
           this.state.scopeFilter !== "MY"
         ) {
-          let aInNetwork = this.networkIds.includes(a.ownerId);
-          let bInNetwork = this.networkIds.includes(b.ownerId);
+          let aInNetwork =
+            (a.type === "USER" && this.networkIds.includes(a.id)) ||
+            (a.type === "SLATE" && this.slateIds.includes(a.id)) ||
+            this.networkIds.includes(a.ownerId);
+          let bInNetwork =
+            (b.type === "USER" && this.networkIds.includes(b.id)) ||
+            (b.type === "SLATE" && this.slateIds.includes(b.id)) ||
+            this.networkIds.includes(b.ownerId);
           if (aInNetwork && !bInNetwork) {
             return -1;
           } else if (!aInNetwork && bInNetwork) {
@@ -1015,7 +1067,20 @@ export class SearchModal extends React.Component {
     }
   };
 
+  _handleClearAll = () => {
+    this._optionRoot.scrollTop = 0;
+    this._input.focus();
+    this.setState({
+      inputValue: "",
+      results: [],
+      selectedIndex: 0,
+      scopeFilter: null,
+      typeFilter: null,
+    });
+  };
+
   render() {
+    let selectedIndex = this.state.selectedIndex;
     let results =
       this.state.inputValue && this.state.inputValue.length
         ? this.state.results
@@ -1044,17 +1109,50 @@ export class SearchModal extends React.Component {
                   </div>
                 ) : (
                   <React.Fragment>
-                    <div style={{ position: "relative" }}>
+                    <div
+                      style={{
+                        position: "relative",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div css={STYLES_INLINE_TAG_CONTAINER}>
+                        {this.state.typeFilter ? (
+                          <div css={STYLES_INLINE_TAG}>
+                            {this.state.typeFilter === "SLATE"
+                              ? "Slates:"
+                              : this.state.typeFilter === "USER"
+                              ? "Users:"
+                              : this.state.typeFilter === "FILE"
+                              ? "Files:"
+                              : "Tags:"}
+                          </div>
+                        ) : null}
+                      </div>
                       <input
                         disabled={!this.state.modal || this.state.loading}
                         css={STYLES_INPUT}
                         value={this.state.inputValue}
-                        placeholder="Search for slates, users, and files..."
+                        placeholder={`Search for ${
+                          !this.state.typeFilter
+                            ? "slates, users, and files..."
+                            : this.state.typeFilter === "SLATE"
+                            ? "slates..."
+                            : this.state.typeFilter === "USER"
+                            ? "users..."
+                            : this.state.typeFilter === "FILE"
+                            ? "files..."
+                            : "tags..."
+                        }`}
                         onChange={this._handleChange}
                         ref={(c) => {
                           this._input = c;
                         }}
                       />
+                      <div css={STYLES_DISMISS_BOX} onClick={this._handleClearAll}>
+                        <SVG.Dismiss height="20px" />
+                      </div>
                     </div>
 
                     <div
@@ -1073,7 +1171,7 @@ export class SearchModal extends React.Component {
                           style={{
                             backgroundColor:
                               this.state.typeFilter === "SLATE"
-                                ? Constants.system.bgGrayLight
+                                ? Constants.system.bgGray
                                 : Constants.system.white,
                           }}
                           onClick={() => this._handleFilterType("SLATE")}
@@ -1088,7 +1186,7 @@ export class SearchModal extends React.Component {
                           style={{
                             backgroundColor:
                               this.state.typeFilter === "USER"
-                                ? Constants.system.bgGrayLight
+                                ? Constants.system.bgGray
                                 : Constants.system.white,
                           }}
                           onClick={() => this._handleFilterType("USER")}
@@ -1103,7 +1201,7 @@ export class SearchModal extends React.Component {
                           style={{
                             backgroundColor:
                               this.state.typeFilter === "FILE"
-                                ? Constants.system.bgGrayLight
+                                ? Constants.system.bgGray
                                 : Constants.system.white,
                           }}
                           onClick={() => this._handleFilterType("FILE")}
@@ -1118,7 +1216,7 @@ export class SearchModal extends React.Component {
                     style={{
                       backgroundColor:
                         this.state.typeFilter === "TAG"
-                          ? Constants.system.bgGrayLight
+                          ? Constants.system.bgGray
                           : Constants.system.white,
                     }}
                     onClick={() => this._handleFilterType("TAG")}
@@ -1133,9 +1231,9 @@ export class SearchModal extends React.Component {
                           style={{
                             marginRight: 0,
                             marginLeft: 16,
-                            backgroundColor: this.state.scopeFilter
-                              ? Constants.system.bgGrayLight
-                              : Constants.system.white,
+                            color: this.state.scopeFilter
+                              ? Constants.system.brand
+                              : Constants.system.textGray,
                           }}
                           onClick={() =>
                             this.setState({ filterTooltip: !this.state.filterTooltip })
@@ -1153,22 +1251,54 @@ export class SearchModal extends React.Component {
                             <PopoverNavigation
                               style={{
                                 right: 0,
-                                top: 48,
-                                boxShadow: "none",
+                                top: 44,
                                 borderColor: Constants.system.bgGray,
                                 color: Constants.system.textGray,
+                                width: 124,
                               }}
                               navigation={[
                                 {
-                                  text: "All",
+                                  text: (
+                                    <span
+                                      style={{
+                                        color: this.state.scopeFilter
+                                          ? "inherit"
+                                          : Constants.system.brand,
+                                      }}
+                                    >
+                                      All
+                                    </span>
+                                  ),
                                   onClick: () => this._handleFilterScope(null),
                                 },
                                 {
-                                  text: "My stuff",
+                                  text: (
+                                    <span
+                                      style={{
+                                        color:
+                                          this.state.scopeFilter === "MY"
+                                            ? Constants.system.brand
+                                            : "inherit",
+                                      }}
+                                    >
+                                      My stuff
+                                    </span>
+                                  ),
                                   onClick: () => this._handleFilterScope("MY"),
                                 },
                                 {
-                                  text: "My Network",
+                                  text: (
+                                    <span
+                                      style={{
+                                        color:
+                                          this.state.scopeFilter === "NETWORK"
+                                            ? Constants.system.brand
+                                            : "inherit",
+                                      }}
+                                    >
+                                      My network
+                                    </span>
+                                  ),
                                   onClick: () => this._handleFilterScope("NETWORK"),
                                 },
                               ]}
@@ -1195,19 +1325,19 @@ export class SearchModal extends React.Component {
                           css={STYLES_DROPDOWN_ITEM}
                           style={{
                             background:
-                              this.state.selectedIndex === i
+                              selectedIndex === i
                                 ? "rgba(196, 196, 196, 0.1)"
                                 : Constants.system.white,
-                            paddingRight: this.state.selectedIndex === i ? "88px" : "4px",
+                            paddingRight: selectedIndex === i ? "88px" : "4px",
                           }}
                           onClick={() => {
-                            this.state.selectedIndex === i || this.props.mobile
+                            selectedIndex === i || this.props.mobile
                               ? this._handleSelect(each.value)
                               : this.setState({ selectedIndex: i });
                           }}
                         >
                           {each.component}
-                          {this.state.selectedIndex === i ? (
+                          {selectedIndex === i ? (
                             <div css={STYLES_RETURN}>
                               <SVG.ArrowDownLeft height="16px" style={{ marginRight: 8 }} /> Return
                             </div>
@@ -1217,20 +1347,17 @@ export class SearchModal extends React.Component {
                     </div>
                     {results &&
                     results.length &&
-                    this.state.selectedIndex < results.length &&
-                    this.state.selectedIndex >= 0 ? (
+                    selectedIndex < results.length &&
+                    selectedIndex >= 0 ? (
                       <div
                         css={STYLES_PREVIEW_PANEL}
                         onClick={() => {
-                          if (
-                            this.state.selectedIndex >= 0 &&
-                            this.state.selectedIndex < results.length
-                          ) {
-                            this._handleSelect(results[this.state.selectedIndex].value);
+                          if (selectedIndex >= 0 && selectedIndex < results.length) {
+                            this._handleSelect(results[selectedIndex].value);
                           }
                         }}
                       >
-                        {results[this.state.selectedIndex].preview}
+                        {results[selectedIndex].preview}
                       </div>
                     ) : null}
                   </React.Fragment>

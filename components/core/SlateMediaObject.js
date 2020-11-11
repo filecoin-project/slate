@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/core";
 
@@ -83,7 +84,7 @@ export default class SlateMediaObject extends React.Component {
       );
     }
 
-    if (type.startsWith("image/")) {
+    if (Validations.isPreviewableImage(type)) {
       return (
         <div css={STYLES_ASSET}>
           <img css={STYLES_IMAGE} src={url} />

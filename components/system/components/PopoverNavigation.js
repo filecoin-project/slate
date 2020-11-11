@@ -14,7 +14,7 @@ const STYLES_POPOVER = css`
   background-color: ${Constants.system.white};
   color: ${Constants.system.pitchBlack};
   border: 1px solid ${Constants.system.lightBorder};
-  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: ${Constants.shadow.light};
   padding: 8px 0px;
 `;
 

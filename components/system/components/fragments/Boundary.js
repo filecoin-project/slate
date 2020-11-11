@@ -41,7 +41,11 @@ export class Boundary extends React.PureComponent {
     // NOTE(jim): Ensures the execution of these methods since setTimeout clears the call stack and fires this.
     window.setTimeout(() => {
       if (this.props.onOutsideRectEvent) {
-        window.addEventListener("click", this._handleOutsideClick);
+        if (this.props.onMouseDown) {
+          window.addEventListener("mousedown", this._handleOutsideClick);
+        } else {
+          window.addEventListener("click", this._handleOutsideClick);
+        }
       }
       if (this.props.captureResize) {
         window.addEventListener("resize", this._handleWindowResize);
@@ -84,12 +88,17 @@ export class Boundary extends React.PureComponent {
   _handleWindowScroll = (e) => this._handleOutsideRectEvent(e);
 
   _removeListeners = () => {
-    window.removeEventListener("click", this._handleOutsideClick);
+    if (this.props.onMouseDown) {
+      window.removeEventListener("mousedown", this._handleOutsideClick);
+    } else {
+      window.removeEventListener("click", this._handleOutsideClick);
+    }
     window.removeEventListener("resize", this._handleWindowResize);
     window.removeEventListener("scroll", this._handleWindowScroll);
   };
 
   _handleOutsideRectEvent = (e) => {
+    console.log("outside rect event");
     this.props.onOutsideRectEvent(e);
   };
 

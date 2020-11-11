@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Validations from "~/common/validations";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/core";
@@ -74,7 +75,7 @@ export default class SlateMediaObjectPreview extends React.Component {
   };
 
   componentDidMount = async () => {
-    if (this.props.type && this.props.type.startsWith("image/")) {
+    if (this.props.type && Validations.isPreviewableImage(this.props.type)) {
       try {
         let img = await preload(this.props.url);
         if (!img.height && !img.width) {
@@ -97,7 +98,7 @@ export default class SlateMediaObjectPreview extends React.Component {
         ? this.props.title.substring(0, this.props.charCap) + "..."
         : this.props.title;
 
-    if (this.props.type && this.props.type.startsWith("image/")) {
+    if (this.props.type && Validations.isPreviewableImage(this.props.type)) {
       let blurhash = this.props.blurhash && isBlurhashValid(this.props.blurhash);
       if (this.props.centeredImage) {
         return (
@@ -176,12 +177,26 @@ export default class SlateMediaObjectPreview extends React.Component {
       );
     }
 
-    let element = <FileTypeIcon type={this.props.type} height="24px" />;
+    let element = (
+      <FileTypeIcon
+        type={this.props.type}
+        height={this.props.previewPanel ? "80px" : "24px"}
+        style={this.props.previewPanel ? { color: "#bfbfbf" } : null}
+      />
+    );
 
     return (
-      <article css={STYLES_ENTITY} style={this.props.style}>
+      <article
+        css={STYLES_ENTITY}
+        style={{
+          ...this.props.style,
+          border: this.props.previewPanel ? `1px solid ${Constants.system.bgGray}` : "auto",
+        }}
+      >
         <div>{element}</div>
-        {this.props.title && !this.props.iconOnly ? <div css={STYLES_TITLE}>{title}</div> : null}
+        {this.props.title && !this.props.iconOnly && !this.props.previewPanel ? (
+          <div css={STYLES_TITLE}>{title}</div>
+        ) : null}
       </article>
     );
   }

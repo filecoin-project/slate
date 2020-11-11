@@ -138,3 +138,9 @@ export const isFileTypeAllowed = (type = "") => {
 
   return false;
 };
+
+export const isPreviewableImage = (type = "") => {
+  if (type.startsWith("image/svg")) return false;
+
+  return type.startsWith("image/");
+};

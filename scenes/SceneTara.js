@@ -8,17 +8,12 @@ import { css } from "@emotion/core";
 import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import EmptyState from "~/components/core/EmptyState";
-
-const STYLES_ICONS = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
 
 export default class SceneTara extends React.Component {
   render() {
@@ -48,13 +43,7 @@ export default class SceneTara extends React.Component {
           />
         ) : (
           <EmptyState>
-            <div css={STYLES_ICONS}>
-              <SVG.Sound height="24px" style={{ margin: "0 16px" }} />
-              <SVG.Document height="24px" style={{ margin: "0 16px" }} />
-              <SVG.Image height="24px" style={{ margin: "0 16px" }} />
-              <SVG.Book height="24px" style={{ margin: "0 16px" }} />
-              <SVG.Video height="24px" style={{ margin: "0 16px" }} />
-            </div>
+            <FileTypeGroup />
             <div style={{ marginTop: 24 }}>Drag and drop files into Slate to upload</div>
           </EmptyState>
         )}

@@ -3,8 +3,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Strings from "~/common/strings";
 import * as Social from "~/node_common/social";
 import * as ViewerManager from "~/node_common/managers/viewer";
-
-const DEFAULT_BUCKET_NAME = "data";
+import * as SearchManager from "~/node_common/managers/search";
 
 export default async (req, res) => {
   if (!req.body.data || !req.body.data.cids || !req.body.data.cids.length) {
@@ -49,14 +48,10 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "SERVER_REMOVE_MULTIPLE_NO_TEXTILE", error: true });
   }
 
-  let items = [];
+  // TODO(jim): Put this call into a file for all Textile related calls.
+  let items = null;
   try {
-    for (let i = 0; i < r.length; i++) {
-      if (r[i].name === DEFAULT_BUCKET_NAME) {
-        const next = await buckets.listIpfsPath(r[i].path);
-        items = [...next.items, ...items];
-      }
-    }
+    items = await buckets.listIpfsPath(r[0].path);
   } catch (e) {
     Social.sendTextileSlackMessage({
       file: "/pages/api/data/remove-multiple.js",
@@ -67,14 +62,15 @@ export default async (req, res) => {
     });
   }
 
-  if (!items || !items.length) {
+  if (!items) {
     return res.status(500).send({ decorator: "SERVER_REMOVE_MULTIPLE_NO_TEXTILE", error: true });
   }
 
   let entities = [];
-  for (let i = 0; i < items.length; i++) {
-    if (req.body.data.cids.includes(items[i].cid)) {
-      entities.push(items[i]);
+  for (let i = 0; i < items.items.length; i++) {
+    if (req.body.data.cids.includes(items.items[i].cid)) {
+      entities.push(items.items[i]);
+      if (entities.length === items.items.length) break;
     }
   }
 
@@ -83,12 +79,13 @@ export default async (req, res) => {
   }
 
   let bucketRemoval;
+  // remove from your bucket
   for (let entity of entities) {
     try {
       // NOTE(jim):
       // We use name instead of path because the second argument is for
       // a subpath, not the full path.
-      await buckets.removePath(bucketKey, entity.name);
+      bucketRemoval = await buckets.removePath(bucketKey, entity.name);
     } catch (e) {
       Social.sendTextileSlackMessage({
         file: "/pages/api/data/remove.js",
@@ -106,9 +103,7 @@ export default async (req, res) => {
   // Goes through all of your slates and removes all data references.
   let refreshSlates = false;
   let slates = await Data.getSlatesByUserId({ userId: id });
-  for (let i = 0; i < slates.length; i++) {
-    let slate = slates[i];
-
+  for (let slate of slates) {
     let removal = false;
     let objects = slate.data.objects.filter((o) => {
       for (let cid of req.body.data.cids) {
@@ -122,7 +117,7 @@ export default async (req, res) => {
     });
 
     if (removal) {
-      await Data.updateSlateById({
+      let newSlate = await Data.updateSlateById({
         id: slate.id,
         updated_at: new Date(),
         data: {
@@ -130,6 +125,7 @@ export default async (req, res) => {
           objects,
         },
       });
+      SearchManager.updateSlate(newSlate, "EDIT");
     }
   }
 

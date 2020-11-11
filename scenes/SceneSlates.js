@@ -4,20 +4,14 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/core";
 import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonSecondary } from "~/components/system/components/Buttons";
-import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 import EmptyState from "~/components/core/EmptyState";
-
-const STYLES_ICONS = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
 
 // TODO(jim): Slates design.
 export default class SceneSlates extends React.Component {
@@ -35,8 +29,8 @@ export default class SceneSlates extends React.Component {
 
   _handleSearch = () => {
     dispatchCustomEvent({
-      name: "create-modal",
-      detail: { modal: <SearchModal viewer={this.props.viewer} onAction={this.props.onAction} /> },
+      name: "show-search",
+      detail: {},
     });
   };
 
@@ -76,13 +70,7 @@ export default class SceneSlates extends React.Component {
             />
           ) : (
             <EmptyState>
-              <div css={STYLES_ICONS}>
-                <SVG.Sound height="24px" style={{ margin: "0 16px" }} />
-                <SVG.Document height="24px" style={{ margin: "0 16px" }} />
-                <SVG.Image height="24px" style={{ margin: "0 16px" }} />
-                <SVG.Book height="24px" style={{ margin: "0 16px" }} />
-                <SVG.Video height="24px" style={{ margin: "0 16px" }} />
-              </div>
+              <FileTypeGroup />
               <div style={{ marginTop: 24 }}>
                 Use slates to create mood boards, share files, and organize research.
               </div>

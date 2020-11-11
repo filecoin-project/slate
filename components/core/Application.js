@@ -50,6 +50,7 @@ import SidebarDragDropNotice from "~/components/sidebars/SidebarDragDropNotice";
 import SidebarSingleSlateSettings from "~/components/sidebars/SidebarSingleSlateSettings";
 import SidebarFilecoinArchive from "~/components/sidebars/SidebarFilecoinArchive";
 import SidebarHelp from "~/components/sidebars/SidebarHelp";
+import SidebarFAQ from "~/components/sidebars/SidebarFAQ";
 
 // NOTE(jim):
 // Core components to the application structure.
@@ -60,6 +61,7 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import Cookies from "universal-cookie";
 
 import { OnboardingModal } from "~/components/core/OnboardingModal";
+import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { Alert } from "~/components/core/Alert";
 import { announcements } from "~/components/core/OnboardingModal";
@@ -77,6 +79,7 @@ const SIDEBARS = {
   SIDEBAR_DRAG_DROP_NOTICE: <SidebarDragDropNotice />,
   SIDEBAR_SINGLE_SLATE_SETTINGS: <SidebarSingleSlateSettings />,
   SIDEBAR_HELP: <SidebarHelp />,
+  SIDEBAR_FAQ: <SidebarFAQ />,
 };
 
 const SCENES = {
@@ -573,6 +576,8 @@ export default class ApplicationPage extends React.Component {
       return false;
     }
 
+    await Actions.updateSearch("delete-user");
+
     let response = await Actions.deleteViewer();
 
     if (!response || response.error) {
@@ -681,6 +686,10 @@ export default class ApplicationPage extends React.Component {
           noBoundary: true,
         },
       });
+    }
+
+    if (newAccount) {
+      Actions.updateSearch("create-user");
     }
     return response;
   };
@@ -844,7 +853,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   render() {
-    console.log(this.state.viewer);
     // NOTE(jim): Not authenticated.
     if (!this.state.viewer) {
       return (
@@ -972,6 +980,11 @@ export default class ApplicationPage extends React.Component {
             mobile={this.props.mobile}
           />
           <System.GlobalModal />
+          <SearchModal
+            viewer={this.state.viewer}
+            onAction={this._handleAction}
+            mobile={this.props.mobile}
+          />
         </WebsitePrototypeWrapper>
       </React.Fragment>
     );

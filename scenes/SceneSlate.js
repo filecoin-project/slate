@@ -10,17 +10,12 @@ import { ProcessedText } from "~/components/system/components/Typography";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
+import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 import EmptyState from "~/components/core/EmptyState";
-
-const STYLES_ICONS = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
 
 const STYLES_USERNAME = css`
   cursor: pointer;
@@ -514,13 +509,7 @@ export default class SceneSlate extends React.Component {
         ) : this.state.isOwner ? (
           <div style={{ padding: "24px" }}>
             <EmptyState>
-              <div css={STYLES_ICONS}>
-                <SVG.Sound height="24px" style={{ margin: "0 16px" }} />
-                <SVG.Document height="24px" style={{ margin: "0 16px" }} />
-                <SVG.Image height="24px" style={{ margin: "0 16px" }} />
-                <SVG.Book height="24px" style={{ margin: "0 16px" }} />
-                <SVG.Video height="24px" style={{ margin: "0 16px" }} />
-              </div>
+              <FileTypeGroup />
               <div style={{ marginTop: 24 }}>Drag and drop files to add them to this slate</div>
             </EmptyState>
           </div>

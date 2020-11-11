@@ -10,9 +10,7 @@ const MONTH = (DAY * 365) / 12;
 const YEAR = DAY * 365;
 
 export const generateRandomString = () => {
-  return Math.random()
-    .toString(36)
-    .substr(2, 5);
+  return Math.random().toString(36).substr(2, 5);
 };
 
 export const getKey = (text) => {
@@ -70,7 +68,18 @@ export const getCIDGatewayURLWithExtension = (cid, name) => {
 };
 
 export const getFileExtension = (name) => {
-  return name.slice(((name.lastIndexOf(".") - 1) >>> 0) + 2);
+  if (!name || isEmpty(name)) {
+    return "";
+  }
+  // if (name.lastIndexOf(".") !== -1) {
+  //   return name.slice(name.lastIndexOf("."));
+  // } else {
+  //   return "";
+  // }
+  if (name.lastIndexOf(".") !== -1) {
+    return name.slice(((name.lastIndexOf(".") - 1) >>> 0) + 2);
+  }
+  return "";
 };
 
 export const getCIDFromIPFS = (url) => {
@@ -236,10 +245,7 @@ export const createSlug = (text, base = "untitled") => {
     return base;
   }
 
-  text = text
-    .toString()
-    .toLowerCase()
-    .trim();
+  text = text.toString().toLowerCase().trim();
 
   const sets = [
     { to: "a", from: "[ÀÁÂÃÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶ]" },

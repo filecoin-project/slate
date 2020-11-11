@@ -231,6 +231,7 @@ export default class ApplicationLayout extends React.Component {
 
         {this.props.sidebar ? (
           <Boundary
+            onMouseDown
             captureResize={false}
             captureScroll={false}
             enabled

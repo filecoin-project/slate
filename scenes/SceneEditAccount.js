@@ -67,7 +67,7 @@ export default class SceneEditAccount extends React.Component {
     }
 
     // NOTE(jim): Only allow images for account avatar.
-    if (!file.type.startsWith("image/")) {
+    if (!Validations.isPreviewableImage(file.type)) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {

@@ -5,13 +5,7 @@ import * as System from "~/components/system";
 
 import { css } from "@emotion/core";
 import { SidebarWarningMessage } from "~/components/core/WarningMessage";
-
-const STYLES_ICONS = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 64px 0;
-`;
+import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
 export default class SidebarDragDropNotice extends React.Component {
   state = {};
@@ -39,13 +33,7 @@ export default class SidebarDragDropNotice extends React.Component {
         >
           Drag & drop
         </System.P>
-        <div css={STYLES_ICONS}>
-          <SVG.Sound height="24px" style={{ margin: "0 16px" }} />
-          <SVG.Document height="24px" style={{ margin: "0 16px" }} />
-          <SVG.Image height="24px" style={{ margin: "0 16px" }} />
-          <SVG.Book height="24px" style={{ margin: "0 16px" }} />
-          <SVG.Video height="24px" style={{ margin: "0 16px" }} />
-        </div>
+        <FileTypeGroup style={{ margin: "64px 0px" }} />
         <System.P style={{ marginTop: 24 }}>
           Drag and drop a file anywhere on the screen to add it to your data. <br />
           <br />

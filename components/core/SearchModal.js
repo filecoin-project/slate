@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Actions from "~/common/actions";
+import * as Strings from "~/common/strings";
 import * as Window from "~/common/window";
 import * as Validations from "~/common/validations";
 
@@ -111,46 +112,6 @@ const STYLES_PROFILE_IMAGE = css`
 `;
 
 const UserPreview = ({ item, viewer }) => {
-  let followStatus = "Not following";
-  let trustStatus = "Not trusted";
-  let trust = viewer.trusted.filter((entry) => {
-    return entry.target_user_id === item.id;
-  });
-  if (trust.length) {
-    if (trust[0].data.verified) {
-      trustStatus = "Trusted";
-    } else {
-      trustStatus = "Trust request sent";
-    }
-  }
-  let pendingTrust = viewer.pendingTrusted.filter((entry) => {
-    return entry.owner_user_id === item.id;
-  });
-  if (pendingTrust.length) {
-    if (pendingTrust[0].data.verified) {
-      trustStatus = "Trusted";
-    } else {
-      trustStatus = "Requested to trust you";
-    }
-  }
-  if (
-    viewer.subscriptions.filter((entry) => {
-      return entry.target_user_id === item.id;
-    }).length
-  ) {
-    followStatus = "Following";
-  }
-  if (
-    viewer.subscribers.filter((entry) => {
-      return entry.owner_user_id === item.id;
-    }).length
-  ) {
-    if (followStatus === "Following") {
-      followStatus = "You follow each other";
-    } else {
-      followStatus = "Follows you";
-    }
-  }
   return (
     <div>
       <div css={STYLES_PROFILE_IMAGE} style={{ backgroundImage: `url('${item.data.photo}')` }} />
@@ -161,10 +122,6 @@ const UserPreview = ({ item, viewer }) => {
           {item.data.slates.length} Slate{item.data.slates.length === 1 ? "" : "s"}
         </div>
       ) : null}
-      {followStatus === "Not following" ? null : (
-        <div css={STYLES_PREVIEW_TEXT}>{followStatus}</div>
-      )}
-      {trustStatus === "Not trusted" ? null : <div css={STYLES_PREVIEW_TEXT}>{trustStatus}</div>}
     </div>
   );
 };
@@ -849,6 +806,7 @@ export class SearchModal extends React.Component {
     let res;
     if (!refilter) {
       let response = await Actions.search({
+        resourceURI: this.props.resourceURI,
         query: this.state.inputValue,
         type: this.state.typeFilter,
         userId: this.props.viewer.id,

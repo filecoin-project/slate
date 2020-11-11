@@ -122,11 +122,11 @@ export const createSubscription = async (data) => {
 };
 
 export const search = async (data) => {
-  if (Strings.isEmpty(data.query)) {
+  if (Strings.isEmpty(data.query) || Strings.isEmpty(data.resourceURI)) {
     return { decorator: "NO_SERVER_TRIP", data: { results: [] } };
   }
 
-  return await returnJSON(`http://localhost:1313/search`, {
+  return await returnJSON(`${data.resourceURI}/search`, {
     ...CORS_OPTIONS,
     body: JSON.stringify({ data }),
   });

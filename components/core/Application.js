@@ -984,6 +984,7 @@ export default class ApplicationPage extends React.Component {
             viewer={this.state.viewer}
             onAction={this._handleAction}
             mobile={this.props.mobile}
+            resourceURI={this.props.resources.search}
           />
         </WebsitePrototypeWrapper>
       </React.Fragment>

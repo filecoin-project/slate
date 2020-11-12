@@ -11,7 +11,7 @@ import * as FileUtilities from "~/common/file-utilities";
 import { css } from "@emotion/core";
 import { createState } from "~/scenes/SceneSettings";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { FilecoinNumber, Converter } from "@glif/filecoin-number";
+import { FilecoinNumber } from "@glif/filecoin-number";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 import Section from "~/components/core/Section";
@@ -536,9 +536,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
             <System.DescriptionGroup
               style={{ marginTop: 64, maxWidth: 688 }}
               label="Configure your deal"
-              description={`Your deal will come out of your wallet address: ${
-                this.state.settings_cold_default_address
-              }`}
+              description={`Your deal will come out of your wallet address: ${this.state.settings_cold_default_address}`}
             />
 
             <System.Input

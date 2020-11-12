@@ -503,9 +503,7 @@ export const getTextileById = async ({ id }) => {
     return null;
   }
 
-  let dealJobs = [];
-
-  const { power, powerInfo, powerHealth } = await Utilities.getPowergateAPIFromUserToken({ user });
+  const { powerInfo, powerHealth } = await Utilities.getPowergateAPIFromUserToken({ user });
 
   // NOTE(jim): This bucket is purely for staging data for other deals.
   const stagingData = await Utilities.getBucketAPIFromUserToken({
@@ -542,10 +540,21 @@ export const getTextileById = async ({ id }) => {
     });
   }
 
+  const b = await Utilities.getBucketAPIFromUserToken({
+    user,
+    bucketName: "data",
+    encrypted: false,
+  });
+
+  const settings = await b.buckets.defaultArchiveConfig(b.bucketKey);
+
   return {
     type: "VIEWER_FILECOIN",
     settings: {
-      deals_auto_approve: user.data.settings_deals_auto_approve,
+      ...settings,
+      addr: powerInfo.defaultStorageConfig.cold.filecoin.addr,
+      renewEnabled: settings.renew.enabled,
+      renewThreshold: settings.renew.threshold,
     },
     powerInfo,
     powerHealth,

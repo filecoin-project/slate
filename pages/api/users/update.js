@@ -4,7 +4,6 @@ import * as Utilities from "~/node_common/utilities";
 import * as Validations from "~/common/validations";
 import * as Social from "~/node_common/social";
 import * as ViewerManager from "~/node_common/managers/viewer";
-import * as SearchManager from "~/node_common/managers/search";
 
 import BCrypt from "bcrypt";
 
@@ -49,6 +48,42 @@ export default async (req, res) => {
     }
   }
 
+  if (req.body.type === "SAVE_DEFAULT_ARCHIVE_CONFIG") {
+    let b;
+    try {
+      b = await Utilities.getBucketAPIFromUserToken({
+        user,
+        bucketName: "data",
+      });
+    } catch (e) {
+      console.log(e);
+      Social.sendTextileSlackMessage({
+        file: "/pages/api/users/update.js",
+        user,
+        message: e.message,
+        code: e.code,
+        functionName: `Utilities.getBucketAPIFromUserToken`,
+      });
+
+      return res.status(500).send({ decorator: "SERVER_FAILED_TO_GET_BUCKET", error: true });
+    }
+
+    try {
+      const configResponse = await b.buckets.setDefaultArchiveConfig(b.bucketKey, req.body.config);
+    } catch (e) {
+      console.log(e);
+      Social.sendTextileSlackMessage({
+        file: "/pages/api/users/update.js",
+        user,
+        message: e.message,
+        code: e.code,
+        functionName: `b.buckets.setDefaultArchiveConfig`,
+      });
+
+      return res.status(500).send({ decorator: "SERVER_DEFAULT_ARCHIVE_CONFIG", error: true });
+    }
+  }
+
   if (req.body.type == "CHANGE_PASSWORD") {
     if (!Validations.password(req.body.password)) {
       return res.status(500).send({ decorator: "SERVER_INVALID_PASSWORD", error: true });
@@ -67,14 +102,6 @@ export default async (req, res) => {
 
   if (unsafeResponse) {
     ViewerManager.hydratePartialViewer(unsafeResponse);
-  }
-
-  if (
-    user.username !== unsafeResponse.username ||
-    user.data.name !== unsafeResponse.data.name ||
-    user.data.photo !== unsafeResponse.data.photo
-  ) {
-    SearchManager.updateUser(unsafeResponse, "EDIT");
   }
 
   return res.status(200).send({ decorator: "SERVER_USER_UPDATE" });

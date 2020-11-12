@@ -315,8 +315,6 @@ export default class SlatePage extends React.Component {
 
     const contributorsCount = Object.keys(counts).length;
 
-    console.log(this.state.visible);
-
     return (
       <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
         <div css={STYLES_ROOT}>

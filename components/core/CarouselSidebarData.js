@@ -11,6 +11,19 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
+import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
+
+const DEFAULT_BOOK =
+  "https://slate.textile.io/ipfs/bafkreibk32sw7arspy5kw3p5gkuidfcwjbwqyjdktd5wkqqxahvkm2qlyi";
+const DEFAULT_DATA =
+  "https://slate.textile.io/ipfs/bafkreid6bnjxz6fq2deuhehtxkcesjnjsa2itcdgyn754fddc7u72oks2m";
+const DEFAULT_DOCUMENT =
+  "https://slate.textile.io/ipfs/bafkreiecdiepww52i5q3luvp4ki2n34o6z3qkjmbk7pfhx4q654a4wxeam";
+const DEFAULT_VIDEO =
+  "https://slate.textile.io/ipfs/bafkreibesdtut4j5arclrxd2hmkfrv4js4cile7ajnndn3dcn5va6wzoaa";
+const DEFAULT_AUDIO =
+  "https://slate.textile.io/ipfs/bafkreig2hijckpamesp4nawrhd6vlfvrtzt7yau5wad4mzpm3kie5omv4e";
+
 const STYLES_NO_VISIBLE_SCROLL = css`
   overflow-y: scroll;
   scrollbar-width: none;
@@ -153,7 +166,7 @@ const STYLES_IMAGE_BOX = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${Constants.system.white};
+  background-color: ${Constants.system.black};
   overflow: hidden;
   ${"" /* box-shadow: 0 0 0 1px ${Constants.system.border} inset; */}
   border-radius: 4px;
@@ -166,6 +179,22 @@ const STYLES_GROUPING = css`
   padding: 16px;
   margin-bottom: 24px;
 `;
+
+export const FileTypeDefaultPreview = () => {
+  if (props.type && props.type.startsWith("video/")) {
+    return DEFAULT_VIDEO;
+  }
+  if (props.type && props.type.startsWith("audio/")) {
+    return DEFAULT_AUDIO;
+  }
+  if (props.type && props.type.startsWith("application/epub")) {
+    return DEFAULT_BOOK;
+  }
+  if (props.type && props.type.startsWith("application/pdf")) {
+    return DEFAULT_DOCUMENT;
+  }
+  return DEFAULT_DATA;
+};
 
 export default class CarouselSidebarData extends React.Component {
   _ref = null;
@@ -324,11 +353,19 @@ export default class CarouselSidebarData extends React.Component {
           This is the preview image of your file.
         </System.P>
         <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
-          <img
-            src="https://slate.textile.io/ipfs/bafybeihaqkeoarr3sr55stdzaatcfmvxxek4qb6myd6cwdnswwic3q3ufu"
-            alt=""
-            style={{ maxWidth: "100%", maxHeight: "368px" }}
-          />
+          {type && type.startsWith("image/") ? (
+            <img src={url} alt="" style={{ maxWidth: "100%", maxHeight: "368px" }} />
+          ) : (
+            <div>
+              <SlateMediaObjectPreview
+                style={{ color: `${Constants.system.black}`, height: "240px" }}
+                blurhash={true}
+                url={url}
+                title={file}
+                type={type}
+              />
+            </div>
+          )}
         </div>
         <System.ButtonPrimary full style={{ marginTop: 16 }}>
           Upload image

@@ -460,6 +460,7 @@ export default class DataView extends React.Component {
 
   render() {
     let numChecked = Object.keys(this.state.checked).length || 0;
+    console.log(this.props.items.blurhash);
     const header = (
       <div css={STYLES_HEADER_LINE}>
         <TabGroup disabled tabs={["Uploads"]} style={{ margin: 0 }} />

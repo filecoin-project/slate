@@ -99,6 +99,7 @@ export default class SlateMediaObjectPreview extends React.Component {
 
     if (this.props.type && Validations.isPreviewableImage(this.props.type)) {
       let blurhash = this.props.blurhash && isBlurhashValid(this.props.blurhash);
+      console.log("check");
       if (this.props.centeredImage) {
         return (
           <React.Fragment>

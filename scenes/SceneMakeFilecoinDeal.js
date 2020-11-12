@@ -78,8 +78,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
 
     this.setState({
       networkViewer,
-      ...createState(networkViewer.powerInfo.defaultStorageConfig),
-      settings_cold_default_max_price: 1000000000000000,
+      ...createState(networkViewer.settings),
       encryption: false,
     });
   }
@@ -132,31 +131,31 @@ export default class SceneMakeFilecoinDeal extends React.Component {
          * with different miners to store the data. While making deals
          * the other attributes of FilConfig are considered for miner selection.
          */
-        repFactor: Number(this.state.settings_cold_default_replication_factor),
+        repFactor: Number(this.state.repFactor),
 
         /**
          * DealMinDuration indicates the duration to be used when making new deals.
          */
-        dealMinDuration: this.state.settings_cold_default_duration,
+        dealMinDuration: this.state.dealMinDuration,
 
         /**
          * ExcludedMiners is a set of miner addresses won't be ever be selected
          *when making new deals, even if they comply to other filters.
          */
-        excludedMiners: this.state.settings_cold_default_excluded_miners,
+        excludedMiners: this.state.excludedMiners,
 
         /**
          * TrustedMiners is a set of miner addresses which will be forcibly used
          * when making new deals. An empty/nil list disables this feature.
          */
-        trustedMiners: this.state.settings_cold_default_trusted_miners,
+        trustedMiners: this.state.trustedMiners,
 
         /**
          * Renew indicates deal-renewal configuration.
          */
         renew: {
-          enabled: this.state.settings_cold_default_auto_renew,
-          threshold: this.state.settings_cold_default_auto_renew_max_price,
+          enabled: this.state.renewEnabled,
+          threshold: this.state.renewThreshold,
         },
 
         /**
@@ -167,12 +166,12 @@ export default class SceneMakeFilecoinDeal extends React.Component {
         /**
          * Addr is the wallet address used to store the data in filecoin
          */
-        addr: this.state.settings_cold_default_address,
+        addr: this.state.addr,
 
         /**
          * MaxPrice is the maximum price that will be spent to store the data, 0 is no max
          */
-        maxPrice: this.state.settings_cold_default_max_price,
+        maxPrice: this.state.maxPrice,
 
         /**
          *
@@ -268,7 +267,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
       });
     }
 
-    if (this.state.settings_cold_default_trusted_miners.includes(miner)) {
+    if (this.state.trustedMiners.includes(miner)) {
       return dispatchCustomEvent({
         name: "create-alert",
         detail: {
@@ -280,10 +279,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     }
 
     this.setState({
-      settings_cold_default_trusted_miners: [
-        miner,
-        ...this.state.settings_cold_default_trusted_miners,
-      ],
+      trustedMiners: [miner, ...this.state.trustedMiners],
     });
   };
 
@@ -301,7 +297,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
       });
     }
 
-    if (this.state.settings_cold_default_excluded_miners.includes(miner)) {
+    if (this.state.excludedMiners.includes(miner)) {
       return dispatchCustomEvent({
         name: "create-alert",
         detail: {
@@ -313,26 +309,19 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     }
 
     this.setState({
-      settings_cold_default_excluded_miners: [
-        miner,
-        ...this.state.settings_cold_default_excluded_miners,
-      ],
+      excludedMiners: [miner, ...this.state.excludedMiners],
     });
   };
 
   _handleRemoveTrustedMiner = (minerId) => {
     this.setState({
-      settings_cold_default_trusted_miners: this.state.settings_cold_default_trusted_miners.filter(
-        (m) => m !== minerId
-      ),
+      trustedMiners: this.state.trustedMiners.filter((m) => m !== minerId),
     });
   };
 
   _handleRemoveExcludedMiner = (minerId) => {
     this.setState({
-      settings_cold_default_excluded_miners: this.state.settings_cold_default_excluded_miners.filter(
-        (m) => m !== minerId
-      ),
+      excludedMiners: this.state.excludedMiners.filter((m) => m !== minerId),
     });
   };
 
@@ -371,10 +360,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
 
     let inFil = 0;
     if (networkViewer) {
-      const filecoinNumber = new FilecoinNumber(
-        `${this.state.settings_cold_default_max_price}`,
-        "attofil"
-      );
+      const filecoinNumber = new FilecoinNumber(`${this.state.maxPrice}`, "attofil");
 
       inFil = filecoinNumber.toFil();
     }
@@ -473,7 +459,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
                       width: "100%",
                     },
                   ],
-                  rows: this.state.settings_cold_default_trusted_miners.map((miner) => {
+                  rows: this.state.trustedMiners.map((miner) => {
                     return {
                       miner: (
                         <div css={STYLES_ROW} key={miner}>
@@ -512,7 +498,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
                       width: "100%",
                     },
                   ],
-                  rows: this.state.settings_cold_default_excluded_miners.map((miner) => {
+                  rows: this.state.excludedMiners.map((miner) => {
                     return {
                       miner: (
                         <div css={STYLES_ROW} key={miner}>
@@ -535,18 +521,18 @@ export default class SceneMakeFilecoinDeal extends React.Component {
 
             <System.DescriptionGroup
               style={{ marginTop: 64, maxWidth: 688 }}
-              label="Configure your deal"
-              description={`Your deal will come out of your wallet address: ${this.state.settings_cold_default_address}`}
+              label="Default Filecoin address"
+              description={`${this.state.addr}`}
             />
 
             <System.Input
-              containerStyle={{ marginTop: 48, maxWidth: 688 }}
+              containerStyle={{ marginTop: 32, maxWidth: 688 }}
               descriptionStyle={{ maxWidth: 688 }}
               label="Default Filecoin replication and availability factor"
               description="How many times should we replicate this deal across your selected miners?"
-              name="settings_cold_default_replication_factor"
+              name="repFactor"
               type="number"
-              value={this.state.settings_cold_default_replication_factor}
+              value={this.state.repFactor}
               placeholder="Type in amount of miners"
               onChange={this._handleChange}
             />
@@ -556,12 +542,12 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               descriptionStyle={{ maxWidth: 688 }}
               label="Default Filecoin deal duration"
               description={`Your deal is set for ${Strings.getDaysFromEpoch(
-                this.state.settings_cold_default_duration
+                this.state.dealMinDuration
               )}.`}
-              name="settings_cold_default_duration"
+              name="dealMinDuration"
               type="number"
               unit="epochs"
-              value={this.state.settings_cold_default_duration}
+              value={this.state.dealMinDuration}
               placeholder="Type in epochs (1 epoch = ~30 seconds)"
               onChange={this._handleChange}
             />
@@ -573,8 +559,8 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               unit="attoFIL"
               type="number"
               description={`Set the maximum Filecoin price you're willing to pay. The current price you have set is equivalent to ${inFil} FIL`}
-              name="settings_cold_default_max_price"
-              value={this.state.settings_cold_default_max_price}
+              name="maxPrice"
+              value={this.state.maxPrice}
               placeholder="Type in amount of Filecoin (attoFIL)"
               onChange={this._handleChange}
             />

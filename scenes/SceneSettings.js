@@ -90,7 +90,7 @@ export default class SceneSettings extends React.Component {
         fastRetrieval: this.state.fastRetrieval,
         maxPrice: this.state.maxPrice,
         renew: { enabled: this.state.renewEnabled, threshold: this.state.renewThreshold },
-        repFactor: this.state.repFactor,
+        repFactor: Number(this.state.repFactor),
         trustedMiners: this.state.trustedMiners,
       },
     });
@@ -307,6 +307,7 @@ export default class SceneSettings extends React.Component {
               name="dealMinDuration"
               type="number"
               value={this.state.dealMinDuration}
+              unit="epochs"
               placeholder="Type in epochs (~25 seconds)"
               onChange={this._handleChange}
             />
@@ -316,6 +317,7 @@ export default class SceneSettings extends React.Component {
               label="Replication factor"
               description="How many times should our deal broker replicate storage deals across your preferred miners?"
               name="repFactor"
+              type="number"
               value={this.state.repFactor}
               placeholder="Type in amount of miners"
               onChange={this._handleChange}
@@ -323,9 +325,10 @@ export default class SceneSettings extends React.Component {
 
             <System.Input
               containerStyle={{ marginTop: 24 }}
-              label="Max price (attoFIL)"
+              label="Max price"
               description={`Set the maximum attoFIL you're willing to pay. The current price you have set is equivalent to ${inFil} FIL.`}
               name="maxPrice"
+              unit="attoFIL"
               value={this.state.maxPrice}
               placeholder="Type in an amount of attoFIL"
               onChange={this._handleChange}
@@ -342,10 +345,11 @@ export default class SceneSettings extends React.Component {
 
             <System.Input
               containerStyle={{ marginTop: 24 }}
-              label="Max auto renew price (attoFIL)."
+              label="Max auto renew price"
               description={`Set the maximum attoFIL you're willing to pay in attoFIL. The current price you have set is equivalent to ${inFilRenew} FIL.`}
               name="renewThreshold"
               value={this.state.renewThreshold}
+              unit="attoFIL"
               placeholder="Type in an amount of attoFIL"
               onChange={this._handleChange}
             />

@@ -168,7 +168,6 @@ export const hydratePartialLibrary = async (library, userId) => {
 };
 
 export const hydratePartialSlates = async (slates, userId) => {
-  console.log("hydrate slates");
   const data = {
     id: userId,
     slates,

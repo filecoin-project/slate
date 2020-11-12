@@ -223,6 +223,10 @@ const STYLES_ICON_BOX = css`
   justify-content: center;
   position: relative;
   color: ${Constants.system.darkGray};
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
 `;
 
 const STYLES_CONTEXT_MENU = css`

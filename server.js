@@ -97,9 +97,9 @@ app.prepare().then(async () => {
 
     const isBucketsAvailable = await Utilities.checkTextile();
 
-    if (!isBucketsAvailable) {
-      return res.redirect("/maintenance");
-    }
+    // if (!isBucketsAvailable) {
+    //   return res.redirect("/maintenance");
+    // }
 
     const id = Utilities.getIdFromCookie(req);
 

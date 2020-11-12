@@ -164,6 +164,7 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (!Strings.isEmpty(id) && this.state.viewer) {
+      console.log("redirecting to page");
       return this._handleNavigateTo({ id });
     }
   }
@@ -188,6 +189,8 @@ export default class ApplicationPage extends React.Component {
     console.log("update viewer");
     console.log({ newViewerState });
     if (this.state.viewer && newViewerState.id && newViewerState.id === this.state.viewer.id) {
+      console.log(this.state.viewer);
+      console.log(newViewerState);
       this.setState({
         viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
       });

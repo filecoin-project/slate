@@ -53,7 +53,7 @@ export const ButtonPrimary = (props) => {
     return (
       <button
         css={props.transparent ? STYLES_BUTTON_PRIMARY_TRANSPARENT : STYLES_BUTTON_PRIMARY}
-        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+        style={{ width: props.full ? "100%" : "auto", ...props.style }}
       >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
@@ -64,7 +64,7 @@ export const ButtonPrimary = (props) => {
     return (
       <label
         css={props.transparent ? STYLES_BUTTON_PRIMARY_TRANSPARENT : STYLES_BUTTON_PRIMARY}
-        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+        style={{ width: props.full ? "100%" : "auto", ...props.style }}
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}
@@ -76,7 +76,7 @@ export const ButtonPrimary = (props) => {
   return (
     <button
       css={props.transparent ? STYLES_BUTTON_PRIMARY_TRANSPARENT : STYLES_BUTTON_PRIMARY}
-      style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+      style={{ width: props.full ? "100%" : "auto", ...props.style }}
       onClick={props.onClick}
       children={props.children}
     />
@@ -112,7 +112,7 @@ export const ButtonSecondary = (props) => {
     return (
       <button
         css={props.transparent ? STYLES_BUTTON_SECONDARY_TRANSPARENT : STYLES_BUTTON_SECONDARY}
-        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+        style={{ width: props.full ? "100%" : "auto", ...props.style }}
       >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
@@ -123,7 +123,7 @@ export const ButtonSecondary = (props) => {
     return (
       <label
         css={props.transparent ? STYLES_BUTTON_SECONDARY_TRANSPARENT : STYLES_BUTTON_SECONDARY}
-        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+        style={{ width: props.full ? "100%" : "auto", ...props.style }}
         onClick={props.onClick}
         children={props.children}
         type={props.label}
@@ -137,7 +137,7 @@ export const ButtonSecondary = (props) => {
       css={props.transparent ? STYLES_BUTTON_SECONDARY_TRANSPARENT : STYLES_BUTTON_SECONDARY}
       onClick={props.onClick}
       children={props.children}
-      style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+      style={{ width: props.full ? "100%" : "auto", ...props.style }}
     />
   );
 };
@@ -174,7 +174,7 @@ export const ButtonDisabled = (props) => {
       children={props.children}
       type={props.label}
       htmlFor={props.htmlFor}
-      style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+      style={{ width: props.full ? "100%" : "auto", ...props.style }}
     />
   );
 };
@@ -213,7 +213,7 @@ export const ButtonWarning = (props) => {
     return (
       <button
         css={props.transparent ? STYLES_BUTTON_WARNING_TRANSPARENT : STYLES_BUTTON_WARNING}
-        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+        style={{ width: props.full ? "100%" : "auto", ...props.style }}
       >
         <LoaderSpinner style={{ height: 16, width: 16 }} />
       </button>
@@ -224,7 +224,7 @@ export const ButtonWarning = (props) => {
     return (
       <label
         css={props.transparent ? STYLES_BUTTON_WARNING_TRANSPARENT : STYLES_BUTTON_WARNING}
-        style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+        style={{ width: props.full ? "100%" : "auto", ...props.style }}
         children={props.children}
         type={props.label}
         htmlFor={props.htmlFor}
@@ -236,7 +236,7 @@ export const ButtonWarning = (props) => {
   return (
     <button
       css={props.transparent ? STYLES_BUTTON_WARNING_TRANSPARENT : STYLES_BUTTON_WARNING}
-      style={{ ...props.style, width: props.full ? "100%" : "auto" }}
+      style={{ width: props.full ? "100%" : "auto", ...props.style }}
       onClick={props.onClick}
       children={props.children}
     />

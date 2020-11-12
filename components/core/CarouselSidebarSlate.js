@@ -159,13 +159,13 @@ export default class CarouselSidebarSlate extends React.Component {
     isPublic: false,
     copyValue: "",
     showConnected: false,
-    showFile: false,
+    showFile: true,
     unsavedChanges: false,
   };
 
   componentDidMount = () => {
     if (this.props.isOwner && !this.props.external) {
-      this.debounceInstance = this.debounce(this._handleSave, 3000);
+      this.debounceInstance = this.debounce(() => this._handleSave(), 3000);
       let isPublic = false;
       let selected = {};
       const id = this.props.data.id;
@@ -204,7 +204,7 @@ export default class CarouselSidebarSlate extends React.Component {
       source: this.state.source,
       author: this.state.author,
     };
-    this.props.onSave(data);
+    this.props.onSave(data, this.props.index);
     this.setState({ unsavedChanges: false });
   };
 
@@ -552,7 +552,7 @@ export default class CarouselSidebarSlate extends React.Component {
                 this._handleCopy(
                   this.props.link
                     ? `${this.props.link}/cid:${Strings.urlToCid(this.props.data.url)}`
-                    : this.props.data.url.replace("https://undefined", "https://"),
+                    : url.replace("https://undefined", "https://"),
                   "urlCopying"
                 )
               }
@@ -562,14 +562,17 @@ export default class CarouselSidebarSlate extends React.Component {
                 {this.state.loading === "urlCopying" ? "Copied!" : "Copy link"}
               </span>
             </div>
-            {this.props.isOwner ? (
-              <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "gatewayUrlCopying")}>
-                <SVG.Data height="24px" />
-                <span style={{ marginLeft: 16 }}>
-                  {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy gateway URL"}
-                </span>
-              </div>
-            ) : null}
+            <div
+              css={STYLES_ACTION}
+              onClick={() =>
+                this._handleCopy(url.replace("https://undefined", "https://"), "gatewayUrlCopying")
+              }
+            >
+              <SVG.Data height="24px" />
+              <span style={{ marginLeft: 16 }}>
+                {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy gateway URL"}
+              </span>
+            </div>
             {this.props.isOwner || this.props.external ? null : (
               <div css={STYLES_ACTION} onClick={() => this._handleSaveCopy(this.props.data)}>
                 <SVG.Save height="24px" />

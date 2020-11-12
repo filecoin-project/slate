@@ -26,24 +26,13 @@ export default async (req, res) => {
   }
 
   let unsafeResponse;
-  if (req.body.data) {
-    unsafeResponse = await Data.updateUserById({
-      id: user.id,
-      data: { ...user.data, ...req.body.data },
-    });
-  }
 
   if (req.body.username) {
     const existing = await Data.getUserByUsername({
-      username: req.body.username,
+      username: req.body.username.toLowerCase(),
     });
 
-    if (!existing) {
-      unsafeResponse = await Data.updateUserById({
-        id: user.id,
-        username: req.body.username,
-      });
-    } else {
+    if (existing && existing.id !== id) {
       return res.status(500).send({ decorator: "SERVER_USERNAME_IS_TAKEN", error: true });
     }
   }
@@ -98,10 +87,24 @@ export default async (req, res) => {
       salt,
       password: hash,
     });
+  } else {
+    unsafeResponse = await Data.updateUserById({
+      id: user.id,
+      username: req.body.username ? req.body.username.toLowerCase() : user.username,
+      data: { ...user.data, ...req.body.data },
+    });
   }
 
-  if (unsafeResponse) {
+  if (unsafeResponse && !unsafeResponse.error) {
     ViewerManager.hydratePartialViewer(unsafeResponse);
+
+    if (
+      user.username !== unsafeResponse.username ||
+      user.data.name !== unsafeResponse.data.name ||
+      user.data.photo !== unsafeResponse.data.photo
+    ) {
+      SearchManager.updateUser(unsafeResponse, "EDIT");
+    }
   }
 
   return res.status(200).send({ decorator: "SERVER_USER_UPDATE" });

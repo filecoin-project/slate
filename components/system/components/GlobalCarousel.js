@@ -5,6 +5,7 @@ import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/core";
+import { Alert } from "~/components/core/Alert";
 
 import CarouselSidebarSlate from "~/components/core/CarouselSidebarSlate";
 import CarouselSidebarData from "~/components/core/CarouselSidebarData";
@@ -278,11 +279,11 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  _handleSave = async (details) => {
+  _handleSave = async (details, index) => {
     this.setState({ loading: true });
     if (this.props.viewer.id !== this.props.current.data.ownerId || this.props.external) return;
     let objects = this.props.current.data.objects;
-    objects[this.state.index] = { ...objects[this.state.index], ...details };
+    objects[index] = { ...objects[index], ...details };
     const response = await Actions.updateSlate({
       id: this.props.current.id,
       data: { objects },
@@ -327,7 +328,7 @@ export class GlobalCarousel extends React.Component {
       data = this.props.current.data.objects[this.state.index];
       data.url = data.url.replace("https://undefined", "https://");
       data.cid = Strings.urlToCid(data.url);
-      isRepost = this.props.external ? false : this.props.current.ownerId !== data.ownerId;
+      isRepost = this.props.external ? false : this.props.current.data.ownerId !== data.ownerId;
       isOwner = this.props.external
         ? false
         : this.props.viewer.id === this.props.current.data.ownerId;
@@ -356,9 +357,23 @@ export class GlobalCarousel extends React.Component {
       return null;
     }
     let slide = <SlateMediaObject data={data} />;
-
     return (
       <div css={STYLES_ROOT}>
+        <Alert
+          noWarning
+          id={this.props.mobile ? "slate-mobile-alert" : null}
+          style={
+            this.props.mobile
+              ? {}
+              : {
+                  bottom: 0,
+                  top: "auto",
+                  paddingRight: this.props.sidebar
+                    ? `calc(${Constants.sizes.sidebar}px + 48px)`
+                    : "auto",
+                }
+          }
+        />
         <div css={STYLES_ROOT_CONTENT} style={this.props.style}>
           <span
             css={STYLES_BOX}
@@ -419,6 +434,7 @@ export class GlobalCarousel extends React.Component {
               isOwner={isOwner}
               isRepost={isRepost}
               link={link}
+              index={this.state.index}
             />
           )}
         </span>

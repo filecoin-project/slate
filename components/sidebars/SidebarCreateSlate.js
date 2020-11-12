@@ -128,13 +128,14 @@ export default class SidebarCreateSlate extends React.Component {
       }
     }
 
-    this.setState({ loading: false });
-    window.setTimeout(() =>
-      this.props.onAction({
-        type: "NAVIGATE",
-        value: response.slate.id,
-        data: response.slate,
-      })
+    await this.setState({ loading: false });
+    window.setTimeout(
+      () =>
+        this.props.onAction({
+          type: "NAVIGATE",
+          value: response.slate.id,
+        }),
+      200
     );
   };
 

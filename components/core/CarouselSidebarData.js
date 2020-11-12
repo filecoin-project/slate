@@ -153,9 +153,11 @@ export default class CarouselSidebarData extends React.Component {
     selected: {},
     isPublic: false,
     copyValue: "",
+    loading: false,
   };
 
   componentDidMount = () => {
+    window.addEventListener("data-global-carousel-loading", this._handleSetLoading);
     let isPublic = false;
     let selected = {};
     const id = this.props.data.id;
@@ -168,6 +170,16 @@ export default class CarouselSidebarData extends React.Component {
       }
     }
     this.setState({ selected, isPublic });
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("data-global-carousel-loading", this._handleSetLoading);
+  };
+
+  _handleSetLoading = (e) => {
+    console.log("set loading to:");
+    console.log(e.detail.loading);
+    this.setState({ loading: e.detail.loading });
   };
 
   _handleDownload = () => {
@@ -214,11 +226,12 @@ export default class CarouselSidebarData extends React.Component {
     });
     setTimeout(() => {
       this.setState({ loading: false });
-    }, 10000);
+    }, 1000);
   };
 
   _handleDelete = async (cid) => {
     //NOTE(martina): triggers action through DataView.js (which is always mounted if this carousel is open)
+    await this.setState({ loading: cid });
     dispatchCustomEvent({
       name: "remote-data-deletion",
       detail: { cid },
@@ -266,7 +279,7 @@ export default class CarouselSidebarData extends React.Component {
           </div>
           <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
             <SVG.Trash height="24px" />
-            {this.props.loading === "deleting" ? (
+            {this.state.loading === cid ? (
               <LoaderSpinner style={{ height: 20, width: 20, marginLeft: 16 }} />
             ) : (
               <span style={{ marginLeft: 16 }}>Delete</span>

@@ -4,6 +4,7 @@ import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
 import * as Window from "~/common/window";
+import * as Constants from "~/common/constants";
 import * as FileUtilities from "~/common/file-utilities";
 
 import { css } from "@emotion/core";
@@ -30,6 +31,12 @@ const STYLES_COPY_INPUT = css`
   opacity: 0;
 `;
 
+const STYLES_HEADER = css`
+  font-family: ${Constants.font.semiBold};
+  margin-top: 32px;
+  margin-bottom: 16px;
+`;
+
 export default class SceneEditAccount extends React.Component {
   state = {
     username: this.props.viewer.username,
@@ -43,7 +50,7 @@ export default class SceneEditAccount extends React.Component {
     allow_automatic_data_storage: this.props.viewer.allow_automatic_data_storage,
     allow_encrypted_data_storage: this.props.viewer.allow_encrypted_data_storage,
     changingPassword: false,
-    changingUsername: false,
+    changingDetails: false,
     changingAvatar: false,
     changingFilecoin: false,
     tab: 0,
@@ -103,50 +110,71 @@ export default class SceneEditAccount extends React.Component {
 
     const cid = json.data.ipfs.replace("/ipfs/", "");
     const url = Strings.getCIDGatewayURL(cid);
-    await Actions.updateViewer({
+    let updateResponse = await Actions.updateViewer({
       data: {
         photo: Strings.getCIDGatewayURL(cid),
-        body: this.state.body,
-        name: this.state.name,
       },
     });
+
+    if (!updateResponse) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble connecting right now.",
+          },
+        },
+      });
+    } else if (updateResponse.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
+    }
 
     this.setState({ changingAvatar: false, photo: url });
-  };
-
-  _handleSaveBio = async (e) => {
-    this.setState({ changingBio: true });
-
-    await Actions.updateViewer({
-      data: {
-        photo: this.state.photo,
-        body: this.state.body,
-        name: this.state.name,
-      },
-    });
-
-    this.setState({ changingBio: false });
   };
 
   _handleSaveFilecoin = async (e) => {
     this.setState({ changingFilecoin: true });
 
-    await Actions.updateViewer({
+    let response = await Actions.updateViewer({
       data: {
-        photo: this.state.photo,
-        body: this.state.body,
-        name: this.state.name,
         allow_filecoin_directory_listing: this.state.allow_filecoin_directory_listing,
         allow_automatic_data_storage: this.state.allow_automatic_data_storage,
         allow_encrypted_data_storage: this.state.allow_encrypted_data_storage,
       },
     });
 
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble connecting right now.",
+          },
+        },
+      });
+    } else if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
+    }
+
     this.setState({ changingFilecoin: false });
   };
 
   _handleSave = async (e) => {
-    this.setState({ changingUsername: true });
+    this.setState({ changingDetails: true });
 
     if (!Validations.username(this.state.username)) {
       dispatchCustomEvent({
@@ -157,11 +185,11 @@ export default class SceneEditAccount extends React.Component {
           },
         },
       });
-      this.setState({ changingUsername: false });
+      this.setState({ changingDetails: false });
       return;
     }
 
-    await Actions.updateViewer({
+    let response = await Actions.updateViewer({
       username: this.state.username,
       data: {
         photo: this.state.photo,
@@ -170,7 +198,27 @@ export default class SceneEditAccount extends React.Component {
       },
     });
 
-    this.setState({ changingUsername: false });
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble connecting right now.",
+          },
+        },
+      });
+    } else if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
+    }
+
+    this.setState({ changingDetails: false });
   };
 
   _handleUsernameChange = (e) => {
@@ -200,10 +248,30 @@ export default class SceneEditAccount extends React.Component {
       return;
     }
 
-    await Actions.updateViewer({
+    let response = await Actions.updateViewer({
       type: "CHANGE_PASSWORD",
       password: this.state.password,
     });
+
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble connecting right now.",
+          },
+        },
+      });
+    } else if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
+    }
 
     this.setState({ changingPassword: false, password: "", confirm: "" });
   };
@@ -236,21 +304,18 @@ export default class SceneEditAccount extends React.Component {
           tabs={["Profile", "Data Storage", "Security", "Account"]}
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}
+          style={{ marginBottom: 48 }}
         />
         {this.state.tab === 0 ? (
           <div>
-            <System.DescriptionGroup
-              style={{ marginTop: 48 }}
-              label="Avatar image"
-              description="This image will appear in various lists."
-            />
+            <div css={STYLES_HEADER}>Your Avatar</div>
 
-            <Avatar style={{ marginTop: 24 }} size={256} url={this.props.viewer.data.photo} />
+            <Avatar size={256} url={this.props.viewer.data.photo} />
 
             <div style={{ marginTop: 24 }}>
               <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
               <System.ButtonPrimary
-                style={{ margin: "0 16px 16px 0" }}
+                style={{ margin: "0 16px 16px 0", width: "200px" }}
                 type="label"
                 htmlFor="file"
                 loading={this.state.changingAvatar}
@@ -258,67 +323,52 @@ export default class SceneEditAccount extends React.Component {
                 Upload avatar
               </System.ButtonPrimary>
             </div>
+
+            <div css={STYLES_HEADER}>Username</div>
             <System.Input
-              containerStyle={{ marginTop: 64 }}
-              label="Username"
-              description={
-                <React.Fragment>
-                  This is your username on Slate. Your username is unique and used for your profile
-                  URL{" "}
-                  <a href={profileURL} target="_blank">
-                    {profileURL}
-                  </a>
-                </React.Fragment>
-              }
               name="username"
               value={this.state.username}
               placeholder="Username"
               onChange={this._handleUsernameChange}
             />
 
+            <div css={STYLES_HEADER}>Name</div>
+            <System.Input
+              name="name"
+              value={this.state.name}
+              placeholder="Your name..."
+              onChange={this._handleChange}
+            />
+
+            <div css={STYLES_HEADER}>Bio</div>
+            <System.Textarea
+              name="body"
+              value={this.state.body}
+              placeholder="A bit about yourself..."
+              onChange={this._handleChange}
+            />
+
             <div style={{ marginTop: 24 }}>
               <System.ButtonPrimary
                 onClick={this._handleSave}
-                loading={this.state.changingUsername}
+                loading={this.state.changingDetails}
+                style={{ width: "200px" }}
               >
-                Change username
-              </System.ButtonPrimary>
-            </div>
-
-            <System.Input
-              containerStyle={{ marginTop: 48 }}
-              label="Name"
-              description={`This is how your name will be publicly shown.`}
-              name="name"
-              value={this.state.name}
-              placeholder="Your name"
-              onChange={this._handleChange}
-            />
-
-            <System.DescriptionGroup label="Bio" style={{ marginTop: 24 }} />
-            <System.Textarea
-              style={{ marginTop: 24 }}
-              label="Bio"
-              name="body"
-              value={this.state.body}
-              placeholder="A user on Slate."
-              onChange={this._handleChange}
-            />
-
-            <div style={{ marginTop: 24 }}>
-              <System.ButtonPrimary onClick={this._handleSaveBio} loading={this.state.changingBio}>
                 Save
               </System.ButtonPrimary>
             </div>
           </div>
         ) : null}
         {this.state.tab === 1 ? (
-          <div>
-            <System.DescriptionGroup
-              style={{ marginTop: 48 }}
-              label="Allow Slate to make Filecoin archive storage deals on your behalf"
-              description="If this box is checked, then we will make Filecoin archive storage deals on your behalf. By default these storage deals are not encrypted and anyone can retrieve them from the Filecoin Network."
-            />
+          <div style={{ maxWidth: 800 }}>
+            <div css={STYLES_HEADER}>
+              Allow Slate to make Filecoin archive storage deals on your behalf
+            </div>
+            <div style={{ maxWidth: 800 }}>
+              If this box is checked, then we will make Filecoin archive storage deals on your
+              behalf. By default these storage deals are not encrypted and anyone can retrieve them
+              from the Filecoin Network.
+            </div>
 
             <System.CheckBox
               style={{ marginTop: 48 }}
@@ -353,6 +403,7 @@ export default class SceneEditAccount extends React.Component {
               <System.ButtonPrimary
                 onClick={this._handleSaveFilecoin}
                 loading={this.state.changingFilecoin}
+                style={{ width: "200px" }}
               >
                 Save
               </System.ButtonPrimary>
@@ -361,15 +412,11 @@ export default class SceneEditAccount extends React.Component {
         ) : null}
         {this.state.tab === 2 ? (
           <div>
-            <System.DescriptionGroup
-              style={{ marginTop: 48 }}
-              label="Reset password"
-              description="Your new password must be a minimum of eight characters."
-            />
+            <div css={STYLES_HEADER}>Change password</div>
+            <div>Passwords must be a minimum of eight characters.</div>
 
             <System.Input
               containerStyle={{ marginTop: 24 }}
-              label="New password"
               name="password"
               type="password"
               value={this.state.password}
@@ -377,12 +424,11 @@ export default class SceneEditAccount extends React.Component {
               onChange={this._handleChange}
             />
             <System.Input
-              containerStyle={{ marginTop: 24 }}
-              label="Confirm password"
+              containerStyle={{ marginTop: 12 }}
               name="confirm"
               type="password"
               value={this.state.confirm}
-              placeholder="Confirm it!"
+              placeholder="Confirm password"
               onChange={this._handleChange}
             />
 
@@ -390,6 +436,7 @@ export default class SceneEditAccount extends React.Component {
               <System.ButtonPrimary
                 onClick={this._handleChangePassword}
                 loading={this.state.changingPassword}
+                style={{ width: "200px" }}
               >
                 Change password
               </System.ButtonPrimary>
@@ -398,14 +445,18 @@ export default class SceneEditAccount extends React.Component {
         ) : null}
         {this.state.tab === 3 ? (
           <div>
-            <System.DescriptionGroup
-              style={{ marginTop: 48 }}
-              label="Delete your account"
-              description="If you choose to delete your account you will lose your Textile Hub and Powergate key. Make sure you back those up before deleting your account."
-            />
+            <div css={STYLES_HEADER}>Delete your account</div>
+            <div style={{ maxWidth: 800 }}>
+              If you choose to delete your account you will lose your Textile Hub and Powergate key.
+              Make sure you back those up before deleting your account.
+            </div>
 
             <div style={{ marginTop: 24 }}>
-              <System.ButtonPrimary onClick={this._handleDelete} loading={this.state.deleting}>
+              <System.ButtonPrimary
+                onClick={this._handleDelete}
+                loading={this.state.deleting}
+                style={{ width: "200px" }}
+              >
                 Delete my account
               </System.ButtonPrimary>
             </div>

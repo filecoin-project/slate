@@ -166,6 +166,7 @@ const STYLES_DISMISS_BOX = css`
   right: 16px;
   color: ${Constants.system.darkGray};
   cursor: pointer;
+  z-index: ${Constants.zindex.tooltip};
 
   :hover {
     color: ${Constants.system.white};
@@ -382,7 +383,14 @@ export default class SlatePage extends React.Component {
         </div>
         <System.GlobalCarousel external current={this.props.slate} viewer={this.props.creator} />
         <System.GlobalModal />
-        <CTATransition open={this.state.visible} />
+        {this.state.visible && (
+          <div>
+            <CTATransition open={this.state.visible} />
+            <a css={STYLES_DISMISS_BOX} onClick={() => this.setState({ visible: false })}>
+              <SVG.Dismiss height="24px" />
+            </a>
+          </div>
+        )}
         <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>
     );

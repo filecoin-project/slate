@@ -1,12 +1,14 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
+import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
 
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 import SlatePreviewBlocksExternal from "~/components/core/SlatePreviewBlockExternal";
+import CTATransition from "~/components/core/CTATransition";
 
 const STYLES_PROFILE_INTERNAL = css`
   width: 100%;
@@ -175,7 +177,24 @@ const STYLES_FLEX = css`
   }
 `;
 
+const STYLES_DISMISS_BOX = css`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: ${Constants.system.darkGray};
+  cursor: pointer;
+  z-index: ${Constants.zindex.tooltip};
+
+  :hover {
+    color: ${Constants.system.white};
+  }
+`;
+
 export default class Profile extends React.Component {
+  state = {
+    visible: false,
+  };
+
   render() {
     let data = this.props.creator ? this.props.creator : this.props.data;
 
@@ -226,7 +245,7 @@ export default class Profile extends React.Component {
                 <div css={STYLES_FLEX}>
                   <div css={STYLES_NAME}>{Strings.getPresentationName(data)}</div>
                   <div css={STYLES_BUTTON}>
-                    <a css={STYLES_BUTTON} href={"http://slate.host/_"}>
+                    <a css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
                       Follow
                     </a>
                   </div>
@@ -250,6 +269,15 @@ export default class Profile extends React.Component {
                 ) : null}
               </div>
             </div>
+          </div>
+        )}
+
+        {this.state.visible && (
+          <div>
+            <CTATransition open={this.state.visible} />
+            <a css={STYLES_DISMISS_BOX} onClick={() => this.setState({ visible: false })}>
+              <SVG.Dismiss height="24px" />
+            </a>
           </div>
         )}
 

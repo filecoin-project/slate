@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
-import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/core";
@@ -89,18 +88,6 @@ const STYLES_LINK_ITEM = css`
   }
 `;
 
-const STYLES_DISMISS_BOX = css`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  color: ${Constants.system.darkGray};
-  cursor: pointer;
-
-  :hover {
-    color: ${Constants.system.white};
-  }
-`;
-
 export const CTATransition = (props) => {
   const [open, setOpen] = React.useState(false);
 
@@ -108,15 +95,10 @@ export const CTATransition = (props) => {
     setOpen(props.open);
   }, [props.open]);
 
-  console.log(open);
-
   return (
     <div>
       {open && (
         <div css={STYLES_BACKGROUND}>
-          <a css={STYLES_DISMISS_BOX} onClick={() => setOpen(false)}>
-            <SVG.Dismiss height="24px" />
-          </a>
           <div css={STYLES_TRANSITION}>
             <div css={STYLES_EXPLAINER}>Sign up or sign in to continue</div>
             <br />

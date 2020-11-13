@@ -7,15 +7,14 @@ const STYLES_POPOVER = css`
   z-index: ${Constants.zindex.tooltip};
   box-sizing: border-box;
   font-family: ${Constants.font.text};
-  width: 204px;
+  width: 200px;
   border-radius: 4px;
   user-select: none;
   position: absolute;
   background-color: ${Constants.system.white};
   color: ${Constants.system.pitchBlack};
-  border: 1px solid ${Constants.system.lightBorder};
-  box-shadow: ${Constants.shadow.light};
-  padding: 8px 0px;
+  box-shadow: ${Constants.shadow.medium};
+  padding: 16px 24px;
 `;
 
 const STYLES_POPOVER_ITEM = css`
@@ -23,14 +22,13 @@ const STYLES_POPOVER_ITEM = css`
   box-sizing: border-box;
   top: 0;
   left: 0;
-  padding: 16px 24px 16px 24px;
+  margin: 8px 0px;
   display: flex;
   align-items: center;
-  height: 40px;
-  font-size: ${Constants.typescale.lvl1};
+  height: 24px;
   transition: 200ms ease all;
   cursor: pointer;
-  font-size: 12px;
+  font-size: ${Constants.typescale.lvlN1};
 
   :hover {
     color: ${Constants.system.brand};

@@ -54,7 +54,6 @@ import SidebarFAQ from "~/components/sidebars/SidebarFAQ";
 
 // NOTE(jim):
 // Core components to the application structure.
-import ApplicationNavigation from "~/components/core/ApplicationNavigation";
 import ApplicationHeader from "~/components/core/ApplicationHeader";
 import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
@@ -884,21 +883,11 @@ export default class ApplicationPage extends React.Component {
       return null;
     }
 
-    const navigationElement = (
-      <ApplicationNavigation
-        viewer={this.state.viewer}
-        activeId={current.target.id}
-        activeIds={current.activeIds}
-        navigation={navigation}
-        onAction={this._handleAction}
-        onSignOut={this._handleSignOut}
-        mobile={this.state.mobile}
-      />
-    );
-
     let headerElement = (
       <ApplicationHeader
         viewer={this.state.viewer}
+        navigation={navigation}
+        activeIds={current.activeIds}
         pageTitle={current.target.pageTitle}
         currentIndex={this.state.currentIndex}
         history={this.state.history}
@@ -961,7 +950,6 @@ export default class ApplicationPage extends React.Component {
           <ApplicationLayout
             onAction={this._handleAction}
             header={headerElement}
-            navigation={navigationElement}
             sidebar={sidebarElement}
             onDismissSidebar={this._handleDismissSidebar}
             fileLoading={this.state.fileLoading}

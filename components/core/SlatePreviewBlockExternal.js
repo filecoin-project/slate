@@ -384,7 +384,7 @@ export default class SlatePreviewBlocksExternal extends React.Component {
       if (this.props.external) {
         windowWidth -= 48;
       } else {
-        windowWidth -= Constants.sizes.navigation + 96;
+        windowWidth -= 96;
       }
       windowWidth = Math.min(windowWidth, Constants.sizes.desktop);
       windowWidth -= 80; //NOTE(martina): 48px padding on scene page, 40px padding on block

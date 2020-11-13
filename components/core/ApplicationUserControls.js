@@ -8,11 +8,8 @@ import { css } from "@emotion/core";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 
 const STYLES_HEADER = css`
-  display: block;
   position: relative;
-  width: 100%;
-  padding: 84px 24px 40px 42px;
-  padding-top: calc(84px + ${Constants.sizes.topOffset}px);
+  margin-left: 16px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 0px;
@@ -46,11 +43,6 @@ const STYLES_PROFILE = css`
 const STYLES_PROFILE_MOBILE = css`
   display: flex;
   align-items: center;
-  width: 100%;
-
-  @media (min-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
 `;
 
 const STYLES_PROFILE_IMAGE = css`
@@ -60,14 +52,12 @@ const STYLES_PROFILE_IMAGE = css`
   flex-shrink: 0;
   height: 32px;
   width: 32px;
-  border-radius: 4px;
-  margin-left: 8px;
+  border-radius: 2px;
   cursor: pointer;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     height: 24px;
     width: 24px;
-    margin-left: 0px;
   }
 `;
 
@@ -112,7 +102,12 @@ const STYLES_ITEM_BOX = css`
 const STYLES_MENU = css`
   position: absolute;
   top: 48px;
-  left: 0px;
+  right: 0px;
+
+  ${"" /* @media (max-width: ${Constants.sizes.mobile}px) {
+    top: 48px;
+    left: 0px;
+  } */}
 `;
 
 const STYLES_MOBILE_HIDDEN = css`
@@ -158,40 +153,63 @@ export default class ApplicationUserControls extends React.Component {
 
   render() {
     let tooltip = (
-      <div css={STYLES_MENU}>
-        <Boundary
-          captureResize={true}
-          captureScroll={false}
-          enabled
-          onOutsideRectEvent={this._handleHide}
-          style={this.props.style}
-        >
-          <div css={STYLES_MOBILE_ONLY}>
+      <Boundary
+        captureResize={true}
+        captureScroll={false}
+        enabled
+        onOutsideRectEvent={this._handleHide}
+        style={this.props.style}
+      >
+        <div>
+          <PopoverNavigation
+            style={{ top: 36, right: 0, padding: "0px 24px", width: 220 }}
+            itemStyle={{ margin: "24px 0", fontSize: 18, justifyContent: "flex-end" }}
+            navigation={[
+              {
+                text: "View profile",
+                onClick: (e) =>
+                  this._handleAction(e, {
+                    type: "NAVIGATE",
+                    value: "V1_NAVIGATION_PROFILE",
+                    data: this.props.viewer,
+                  }),
+              },
+              {
+                text: "Account settings",
+                onClick: (e) =>
+                  this._handleAction(e, {
+                    type: "NAVIGATE",
+                    value: "V1_NAVIGATION_PROFILE_EDIT",
+                  }),
+              },
+              {
+                text: "Contact us",
+                onClick: (e) =>
+                  this._handleAction(e, {
+                    type: "SIDEBAR",
+                    value: "SIDEBAR_HELP",
+                  }),
+              },
+              {
+                text: "Sign out",
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  this._handleSignOut(e);
+                },
+              },
+            ]}
+          />
+        </div>
+        {/* <div css={STYLES_MOBILE_HIDDEN} style={{ marginBottom: "8px" }}>
             <PopoverNavigation
               navigation={[
-                {
-                  text: "My profile",
-                  onClick: (e) =>
-                    this._handleAction(e, {
-                      type: "NAVIGATE",
-                      value: "V1_NAVIGATION_PROFILE",
-                      data: this.props.viewer,
-                    }),
-                },
                 {
                   text: "Account settings",
                   onClick: (e) =>
                     this._handleAction(e, {
                       type: "NAVIGATE",
                       value: "V1_NAVIGATION_PROFILE_EDIT",
-                    }),
-                },
-                {
-                  text: "Help",
-                  onClick: (e) =>
-                    this._handleAction(e, {
-                      type: "SIDEBAR",
-                      value: "SIDEBAR_HELP",
                     }),
                 },
                 {
@@ -204,35 +222,12 @@ export default class ApplicationUserControls extends React.Component {
                 },
               ]}
             />
-          </div>
-          <div css={STYLES_MOBILE_HIDDEN} style={{ marginBottom: "8px" }}>
-            <PopoverNavigation
-              navigation={[
-                {
-                  text: "Account settings",
-                  onClick: (e) =>
-                    this._handleAction(e, {
-                      type: "NAVIGATE",
-                      value: "V1_NAVIGATION_PROFILE_EDIT",
-                    }),
-                },
-                {
-                  text: "Sign out",
-                  onClick: (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this._handleSignOut(e);
-                  },
-                },
-              ]}
-            />
-          </div>
-        </Boundary>
-      </div>
+          </div> */}
+      </Boundary>
     );
     return (
       <div css={STYLES_HEADER}>
-        <div
+        {/* <div
           css={STYLES_PROFILE}
           onClick={() =>
             this.props.onAction({
@@ -253,15 +248,13 @@ export default class ApplicationUserControls extends React.Component {
             <SVG.ChevronDown height="20px" />
           </div>
           {this.state.visible ? tooltip : null}
-        </div>
-        <div css={STYLES_PROFILE_MOBILE}>
+        </div> */}
+        <div css={STYLES_PROFILE_MOBILE} style={{ position: "relative" }}>
           <span
             css={STYLES_PROFILE_IMAGE}
             onClick={this._handleClick}
             style={{
               backgroundImage: `url('${this.props.viewer.data.photo}')`,
-              height: 28,
-              width: 28,
             }}
           />
           {this.state.visible ? tooltip : null}

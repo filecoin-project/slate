@@ -29,15 +29,11 @@ const STYLES_HEADER = css`
   z-index: ${Constants.zindex.header};
   height: ${Constants.sizes.header}px;
   pointer-events: none;
-  width: 100%;
+  width: 100vw;
   position: fixed;
-  left: ${Constants.sizes.navigation}px;
   right: 0;
   top: 0;
   transition: top 0.25s;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    left: 0;
-  }
 `;
 
 const STYLES_CONTENT = css`
@@ -46,36 +42,12 @@ const STYLES_CONTENT = css`
   min-width: 10%;
   min-height: 100vh;
   position: relative;
-  padding-left: ${Constants.sizes.navigation}px;
   margin-top: ${Constants.sizes.topOffset}px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding-left: 0px;
     padding: 0 0 88px 0;
     margin-top: calc(${Constants.sizes.topOffset}px + 36px);
-  }
-`;
-
-const STYLES_NAVIGATION = css`
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 1;
-  flex-shrink: 0;
-  height: 100vh;
-  z-index: ${Constants.zindex.navigation};
-  width: ${Constants.sizes.navigation}px;
-  background-color: ${Constants.system.foreground};
-  ${STYLES_NO_VISIBLE_SCROLL}
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 56px;
-    z-index: ${Constants.zindex.header};
   }
 `;
 
@@ -190,19 +162,6 @@ export default class ApplicationLayout extends React.Component {
     }
     return (
       <React.Fragment>
-        <div
-          css={STYLES_NAVIGATION}
-          ref={(c) => {
-            this._navigation = c;
-          }}
-        >
-          {/* <GlobalTooltip
-            elementRef={this._navigation}
-            allowedTypes={["navigation"]}
-          /> */}
-          {this.props.navigation}
-        </div>
-
         <div css={STYLES_CONTENT}>
           {/* <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} /> */}
           <GlobalTooltip />

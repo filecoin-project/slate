@@ -6,6 +6,28 @@ import ApplicationUserControls from "~/components/core/ApplicationUserControls";
 
 import { css, keyframes } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
+import { PopoverNavigation } from "~/components/system";
+
+const IconMap = {
+  HOME: <SVG.Home height="20px" />,
+  ENCRYPTED: <SVG.SecurityLock height="20px" />,
+  NETWORK: <SVG.Activity height="20px" />,
+  DIRECTORY: <SVG.Directory height="20px" />,
+  FOLDER: <SVG.Folder height="20px" />,
+  WALLET: <SVG.OldWallet height="20px" />,
+  DEALS: <SVG.Deals height="20px" />,
+  MAKE_DEAL: <SVG.HardDrive height="20px" />,
+  SLATES: <SVG.Layers height="20px" />,
+  SLATE: <SVG.Slate height="20px" />,
+  LOCAL_DATA: <SVG.HardDrive height="20px" />,
+  PROFILE_PAGE: <SVG.ProfileUser height="20px" />,
+  SETTINGS_DEVELOPER: <SVG.Tool height="20px" />,
+  SETTINGS: <SVG.Settings height="20px" />,
+  DIRECTORY: <SVG.Directory height="20px" />,
+  FILECOIN: <SVG.Wallet height="20px" />,
+  MINERS: <SVG.Miners height="20px" />,
+};
 
 const STYLES_ICON_ELEMENT = css`
   height: 40px;
@@ -13,7 +35,7 @@ const STYLES_ICON_ELEMENT = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #565151;
+  color: ${Constants.system.textGray};
   user-select: none;
   cursor: pointer;
   pointer-events: auto;
@@ -32,9 +54,9 @@ const STYLES_APPLICATION_HEADER = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - ${Constants.sizes.navigation}px);
+  width: 100%;
   height: 56px;
-  padding: 0 48px 0 36px;
+  padding: 0 28px 0 20px;
   pointer-events: none;
   background-color: ${Constants.system.white};
 
@@ -70,12 +92,6 @@ const STYLES_MOBILE_HIDDEN = css`
   }
 `;
 
-const STYLES_MOBILE_ONLY = css`
-  @media (min-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
-`;
-
 const STYLES_RIGHT = css`
   min-width: 10%;
   width: 100%;
@@ -101,10 +117,19 @@ const STYLES_STATIC = css`
   transition: 200ms ease all;
 `;
 
+const STYLES_MARGIN_LEFT = css`
+  margin-left: 32px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-left: 16px;
+  }
+`;
+
 export default class ApplicationHeader extends React.Component {
   keysPressed = {};
 
   state = {
+    showNav: false,
     isRefreshing: false,
   };
 
@@ -148,22 +173,55 @@ export default class ApplicationHeader extends React.Component {
 
     const isForwardDisabled =
       this.props.currentIndex === this.props.history.length - 1 || this.props.history.length < 2;
-
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
-          <span
-            css={STYLES_MOBILE_ONLY}
-            style={{ pointerEvents: "auto", marginLeft: 8, marginRight: 16 }}
-          >
-            <ApplicationUserControls
-              viewer={this.props.viewer}
-              onAction={this.props.onAction}
-              onSignOut={this.props.onSignOut}
+          <span css={STYLES_ICON_ELEMENT} style={{ position: "relative" }}>
+            <SVG.Menu
+              height="24px"
+              onClick={() => this.setState({ showNav: !this.state.showNav })}
             />
+            {this.state.showNav ? (
+              <Boundary
+                captureResize={true}
+                captureScroll={false}
+                enabled
+                onOutsideRectEvent={() => this.setState({ showNav: false })}
+                style={this.props.style}
+              >
+                <PopoverNavigation
+                  style={{ top: 44, left: 8, width: 220, padding: "0px 24px" }}
+                  itemStyle={{ margin: "24px 0" }}
+                  navigation={this.props.navigation
+                    .filter((item) => !item.ignore)
+                    .map((item) => {
+                      return {
+                        text: (
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              color: this.props.activeIds[item.id] ? Constants.system.brand : null,
+                            }}
+                          >
+                            <span style={{ marginRight: 16 }}>{IconMap[item.decorator]}</span>
+                            <span style={{ fontSize: 18 }}>{item.name}</span>
+                          </div>
+                        ),
+                        onClick: (e) => {
+                          this.setState({ showNav: false });
+                          this.props.onAction({
+                            type: "NAVIGATE",
+                            value: item.id,
+                          });
+                        },
+                      };
+                    })}
+                />
+              </Boundary>
+            ) : null}
           </span>
-
-          <span css={STYLES_MOBILE_HIDDEN}>
+          <span css={STYLES_MOBILE_HIDDEN} style={{ marginLeft: 60 }}>
             <span
               css={STYLES_ICON_ELEMENT}
               style={
@@ -173,39 +231,35 @@ export default class ApplicationHeader extends React.Component {
             >
               <SVG.NavigationArrow height="24px" style={{ transform: `rotate(180deg)` }} />
             </span>
-          </span>
-          <span css={STYLES_MOBILE_HIDDEN}>
             <span
               css={STYLES_ICON_ELEMENT}
-              style={
-                isForwardDisabled ? { cursor: "not-allowed", color: Constants.system.border } : null
-              }
+              style={{
+                cursor: isForwardDisabled ? "not-allowed" : "default",
+                color: isForwardDisabled ? Constants.system.border : "auto",
+                marginLeft: 8,
+              }}
               onClick={isForwardDisabled ? () => {} : this.props.onForward}
             >
               <SVG.NavigationArrow height="24px" />
             </span>
           </span>
-          <span css={STYLES_MOBILE_HIDDEN}>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={{ marginLeft: 24 }}
-              onClick={this._handleCreateSearch}
-            >
+          <span css={STYLES_MARGIN_LEFT}>
+            <span css={STYLES_ICON_ELEMENT} onClick={this._handleCreateSearch}>
               <SVG.Search height="24px" />
             </span>
-          </span>
-          <span css={STYLES_MOBILE_HIDDEN}>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={{ marginLeft: 16, color: Constants.system.border, cursor: "default" }}
-            >
-              <p>CMD+F</p>
+            <span css={STYLES_MOBILE_HIDDEN}>
+              <span
+                css={STYLES_ICON_ELEMENT}
+                style={{ marginLeft: 16, color: Constants.system.border, cursor: "pointer" }}
+              >
+                <p>CMD+F</p>
+              </span>
             </span>
           </span>
         </div>
         {/* <div css={STYLES_MIDDLE} /> */}
         <div css={STYLES_RIGHT}>
-          <span css={STYLES_MOBILE_HIDDEN}>
+          {/* <span css={STYLES_MOBILE_HIDDEN}>
             <span
               css={STYLES_ICON_ELEMENT}
               onClick={() =>
@@ -217,33 +271,13 @@ export default class ApplicationHeader extends React.Component {
             >
               <SVG.Help height="24px" />
             </span>
-          </span>
-          <span css={STYLES_MOBILE_ONLY}>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={
-                isBackDisabled ? { cursor: "not-allowed", color: Constants.system.border } : null
-              }
-              onClick={isBackDisabled ? () => {} : this.props.onBack}
-            >
-              <SVG.NavigationArrow height="24px" style={{ transform: `rotate(180deg)` }} />
-            </span>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={
-                isForwardDisabled ? { cursor: "not-allowed", color: Constants.system.border } : null
-              }
-              onClick={isForwardDisabled ? () => {} : this.props.onForward}
-            >
-              <SVG.NavigationArrow height="24px" />
-            </span>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={{ marginLeft: 12 }}
-              onClick={this._handleCreateSearch}
-            >
-              <SVG.Search height="24px" />
-            </span>
+          </span> */}
+          <span style={{ pointerEvents: "auto", marginLeft: 24 }}>
+            <ApplicationUserControls
+              viewer={this.props.viewer}
+              onAction={this.props.onAction}
+              onSignOut={this.props.onSignOut}
+            />
           </span>
         </div>
       </header>

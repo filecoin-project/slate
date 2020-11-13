@@ -43,11 +43,6 @@ const STYLES_ICON_ELEMENT = css`
   :hover {
     color: ${Constants.system.brand};
   }
-
-  svg {
-    transform: rotate(0deg);
-    transition: 200ms ease transform;
-  }
 `;
 
 const STYLES_APPLICATION_HEADER = css`
@@ -119,6 +114,19 @@ const STYLES_STATIC = css`
 
 const STYLES_MARGIN_LEFT = css`
   margin-left: 32px;
+  height: 40px;
+  width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: ${Constants.system.textGray};
+  user-select: none;
+  cursor: pointer;
+  pointer-events: auto;
+
+  :hover {
+    color: ${Constants.system.brand};
+  }
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin-left: 16px;
@@ -144,13 +152,13 @@ export default class ApplicationHeader extends React.Component {
   //--> argue with haris about how that looks
 
   _handleKeyDown = (e) => {
+    console.log(e.key);
     let prevValue = this.keysPressed[e.key];
+    if (prevValue) {
+      return;
+    }
     this.keysPressed[e.key] = true;
-    if (
-      (this.keysPressed["Control"] || this.keysPressed["Meta"]) &&
-      this.keysPressed["f"] &&
-      prevValue !== this.keysPressed[e.key]
-    ) {
+    if ((this.keysPressed["Control"] || this.keysPressed["Meta"]) && this.keysPressed["f"]) {
       e.preventDefault();
       e.stopPropagation();
       this._handleCreateSearch();
@@ -158,10 +166,12 @@ export default class ApplicationHeader extends React.Component {
   };
 
   _handleKeyUp = (e) => {
+    console.log("key up");
     this.keysPressed = {};
   };
 
   _handleCreateSearch = (e) => {
+    console.log("create search");
     dispatchCustomEvent({
       name: "show-search",
       detail: {},
@@ -243,17 +253,15 @@ export default class ApplicationHeader extends React.Component {
               <SVG.NavigationArrow height="24px" />
             </span>
           </span>
-          <span css={STYLES_MARGIN_LEFT}>
-            <span css={STYLES_ICON_ELEMENT} onClick={this._handleCreateSearch}>
-              <SVG.Search height="24px" />
-            </span>
-            <span css={STYLES_MOBILE_HIDDEN}>
-              <span
-                css={STYLES_ICON_ELEMENT}
-                style={{ marginLeft: 16, color: Constants.system.border, cursor: "pointer" }}
-              >
-                <p>CMD+F</p>
-              </span>
+          <span css={STYLES_MARGIN_LEFT} onClick={this._handleCreateSearch}>
+            <SVG.Search height="24px" />
+          </span>
+          <span css={STYLES_MOBILE_HIDDEN}>
+            <span
+              css={STYLES_ICON_ELEMENT}
+              style={{ marginLeft: 16, color: Constants.system.border, cursor: "pointer" }}
+            >
+              <p>CMD+F</p>
             </span>
           </span>
         </div>

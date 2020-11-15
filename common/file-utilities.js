@@ -3,6 +3,7 @@ import * as Store from "~/common/store";
 import * as Constants from "~/common/constants";
 import * as Credentials from "~/common/credentials";
 import * as Strings from "~/common/strings";
+import * as Validations from "~/common/validations";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { encode } from "blurhash";
@@ -48,8 +49,9 @@ export const upload = async ({ file, context, bucketName, routes }) => {
     return null;
   }
 
-  const isFileZip =
+  const isZipFile =
     file.type.startsWith("application/zip") || file.type.startsWith("application/x-zip-compressed");
+  const isUnityFile = await Validations.isUnityFile(file);
 
   // TODO(jim): Put this somewhere else to handle conversion cases.
   if (file.type.startsWith("image/heic")) {
@@ -144,7 +146,7 @@ export const upload = async ({ file, context, bucketName, routes }) => {
   }
 
   let res;
-  if (isFileZip) {
+  if (isZipFile && isUnityFile) {
     res = await _privateUploadMethod(`${zipUploadRoute}${file.name}`, file);
   } else if (bucketName && bucketName === STAGING_DEAL_BUCKET) {
     res = await _privateUploadMethod(`${storageDealRoute}${file.name}`, file);

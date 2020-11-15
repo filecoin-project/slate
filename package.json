@@ -57,6 +57,7 @@
     "heic2any": "0.0.3",
     "isomorphic-fetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
+    "jszip": "^3.5.0",
     "knex": "^0.21.12",
     "minisearch": "^2.5.1",
     "moment": "^2.27.0",

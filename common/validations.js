@@ -154,5 +154,7 @@ export const isUnityFile = async (file) => {
   const fileNames = Object.keys(contents.files);
 
   // NOTE(daniel): every Unity game file will have this file
-  return fileNames.includes("Build/UnityLoader.js");
+  const unityRegex = new RegExp(/unityloader.js/i);
+
+  return fileNames.some((file) => unityRegex.test(file));
 };

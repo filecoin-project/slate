@@ -144,7 +144,7 @@ export default class SceneArchive extends React.Component {
         </ScenePageHeader>
 
         <TabGroup
-          tabs={["Storage deal", "Wallet", "Settings", "API", "Miners"]}
+          tabs={["Storage Deal", "Wallet", "Settings", "API", "Miners"]}
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}
         />

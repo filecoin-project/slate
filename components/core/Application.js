@@ -140,6 +140,8 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("resize", this._handleWindowResize);
 
     const id = Window.getQueryParameterByName("scene");
+    const user = Window.getQueryParameterByName("user");
+    const slate = Window.getQueryParameterByName("slate");
 
     let wsclient = Websockets.getClient();
     if (wsclient) {
@@ -164,7 +166,7 @@ export default class ApplicationPage extends React.Component {
 
     if (!Strings.isEmpty(id) && this.state.viewer) {
       console.log("redirecting to page");
-      return this._handleNavigateTo({ id });
+      return this._handleNavigateTo({ id, user, slate });
     }
   }
 
@@ -733,7 +735,7 @@ export default class ApplicationPage extends React.Component {
       // + e.g. to display <SceneProfile/> while on the Home tab
       // + `scene` should be the decorator of the component you want displayed
       return this._handleNavigateTo(
-        { id: options.value, scene: options.scene },
+        { id: options.value, scene: options.scene, user: options.user, slate: options.slate },
         options.data,
         options.redirect
       );
@@ -772,7 +774,16 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleNavigateTo = (next, data = null, redirect = false) => {
-    window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
+    if (next.id) {
+      window.history.replaceState(
+        { ...next },
+        "Slate",
+        `?scene=${next.id}${next.user ? `&user=${next.user}` : ""}${
+          next.slate ? `&slate=${next.slate}` : ""
+        }`
+      );
+    }
+
     if (redirect) {
       const adjustedArray = [...this.state.history];
       adjustedArray.length = this.state.currentIndex;

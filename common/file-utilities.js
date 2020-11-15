@@ -3,6 +3,7 @@ import * as Store from "~/common/store";
 import * as Constants from "~/common/constants";
 import * as Credentials from "~/common/credentials";
 import * as Strings from "~/common/strings";
+import * as Validations from "~/common/validations";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { encode } from "blurhash";
@@ -47,6 +48,10 @@ export const upload = async ({ file, context, bucketName, routes }) => {
   if (!file) {
     return null;
   }
+
+  const isZipFile =
+    file.type.startsWith("application/zip") || file.type.startsWith("application/x-zip-compressed");
+  const isUnityFile = await Validations.isUnityFile(file);
 
   // TODO(jim): Put this somewhere else to handle conversion cases.
   if (file.type.startsWith("image/heic")) {
@@ -124,8 +129,9 @@ export const upload = async ({ file, context, bucketName, routes }) => {
   const storageDealRoute =
     routes && routes.storageDealUpload ? `${routes.storageDealUpload}/api/deal/` : null;
   const generalRoute = routes && routes.upload ? `${routes.upload}/api/data/` : null;
+  const zipUploadRoute = routes && routes.uploadZip ? `${routes.uploadZip}/api/data/zip/` : null;
 
-  if (!storageDealRoute || !generalRoute) {
+  if (!storageDealRoute || !generalRoute || !zipUploadRoute) {
     dispatchCustomEvent({
       name: "create-alert",
       detail: {
@@ -140,7 +146,9 @@ export const upload = async ({ file, context, bucketName, routes }) => {
   }
 
   let res;
-  if (bucketName && bucketName === STAGING_DEAL_BUCKET) {
+  if (isZipFile && isUnityFile) {
+    res = await _privateUploadMethod(`${zipUploadRoute}${file.name}`, file);
+  } else if (bucketName && bucketName === STAGING_DEAL_BUCKET) {
     res = await _privateUploadMethod(`${storageDealRoute}${file.name}`, file);
   } else {
     res = await _privateUploadMethod(`${generalRoute}${file.name}`, file);

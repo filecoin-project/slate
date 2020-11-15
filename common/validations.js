@@ -1,5 +1,7 @@
 import * as Strings from "~/common/strings";
 
+import JSZip from "jszip";
+
 const USERNAME_REGEX = new RegExp("^[a-zA-Z0-9_]{0,}[a-zA-Z]+[0-9]*$");
 const MIN_PASSWORD_LENGTH = 8;
 const EMAIL_REGEX = /^[\w-]+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,50}$/;
@@ -143,4 +145,16 @@ export const isPreviewableImage = (type = "") => {
   if (type.startsWith("image/svg")) return false;
 
   return type.startsWith("image/");
+};
+
+export const isUnityFile = async (file) => {
+  const zip = new JSZip();
+
+  const contents = await zip.loadAsync(file);
+  const fileNames = Object.keys(contents.files);
+
+  // NOTE(daniel): every Unity game file will have this file
+  const unityRegex = new RegExp(/unityloader.js/i);
+
+  return fileNames.some((file) => unityRegex.test(file));
 };

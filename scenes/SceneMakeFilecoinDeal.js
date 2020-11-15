@@ -58,30 +58,13 @@ const STYLES_RIGHT = css`
 `;
 
 const DEFAULT_ERROR_MESSAGE = "We could not make your deal. Please try again later.";
-let mounted = false;
 
 export default class SceneMakeFilecoinDeal extends React.Component {
-  state = { encryption: false };
-
-  async componentDidMount() {
-    if (mounted) {
-      return;
-    }
-
-    mounted = true;
-    let networkViewer;
-    try {
-      const response = await fetch("/api/network");
-      const json = await response.json();
-      networkViewer = json.data;
-    } catch (e) {}
-
-    this.setState({
-      networkViewer,
-      ...createState(networkViewer.settings),
-      encryption: false,
-    });
-  }
+  state = {
+    encryption: false,
+    networkViewer: this.props.networkViewer,
+    ...createState(this.props.networkViewer.settings),
+  };
 
   _handleUpload = async (e) => {
     e.persist();
@@ -329,10 +312,6 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  componentWillUnmount() {
-    mounted = false;
-  }
-
   render() {
     const { networkViewer } = this.state;
     const addressMap = {};
@@ -368,7 +347,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     console.log(this.state);
 
     return (
-      <ScenePage>
+      <React.Fragment>
         <input
           css={STYLES_FILE_HIDDEN}
           multiple
@@ -377,9 +356,9 @@ export default class SceneMakeFilecoinDeal extends React.Component {
           onChange={this._handleUpload}
         />
 
-        <ScenePageHeader title="Make an one-off Filecoin Storage Deal">
+        <ScenePageHeader>
           Upload data and make one-off storage deals in the Filecoin network here. You must store at
-          least 100MB of data.
+          least 100MB of data to make a storage deal.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (
@@ -585,7 +564,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
         ) : (
           <LoaderSpinner style={{ marginTop: 48, height: 32, width: 32 }} />
         )}
-      </ScenePage>
+      </React.Fragment>
     );
   }
 }

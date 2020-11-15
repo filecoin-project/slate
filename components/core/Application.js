@@ -36,7 +36,6 @@ import SceneArchive from "~/scenes/SceneArchive";
 import SceneMakeFilecoinDeal from "~/scenes/SceneMakeFilecoinDeal";
 import SceneEncryptedData from "~/scenes/SceneEncryptedData";
 import SceneMiners from "~/scenes/SceneMiners";
-import SceneTara from "~/scenes/SceneTara";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -86,24 +85,16 @@ const SCENES = {
   DIRECTORY: <SceneDirectory />,
   PUBLIC_PROFILE: <ScenePublicProfile />,
   PROFILE: <SceneProfile />,
-  WALLET: <SceneWallet />,
   FOLDER: <SceneFilesFolder />,
   FILE: <SceneFile />,
   PUBLIC_SLATE: <ScenePublicSlate />,
   SLATE: <SceneSlate />,
-  DEALS: <SceneDeals />,
-  SETTINGS: <SceneSettings />,
   SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
   EDIT_ACCOUNT: <SceneEditAccount />,
   SLATES: <SceneSlates />,
   LOCAL_DATA: <SceneLocalData />,
-  NETWORK: <SceneSentinel />,
   DIRECTORY: <SceneDirectory />,
   FILECOIN: <SceneArchive />,
-  MAKE_DEAL: <SceneMakeFilecoinDeal />,
-  ENCRYPTED: <SceneEncryptedData />,
-  MINERS: <SceneMiners />,
-  TARA: <SceneTara />,
 };
 
 let mounted;

@@ -59,16 +59,9 @@ export default class SceneSettings extends React.Component {
     }
 
     mounted = true;
-    let networkViewer;
-    try {
-      const response = await fetch("/api/network");
-      const json = await response.json();
-      networkViewer = json.data;
-    } catch (e) {}
-
     this.setState({
-      networkViewer,
-      ...createState(networkViewer.settings),
+      networkViewer: this.props.networkViewer,
+      ...createState(this.props.networkViewer.settings),
     });
   }
 
@@ -201,11 +194,7 @@ export default class SceneSettings extends React.Component {
     }
 
     return (
-      <ScenePage>
-        <ScenePageHeader title="Deal settings">
-          Modify your automated Filecoin storage deal settings.
-        </ScenePageHeader>
-
+      <React.Fragment>
         {this.state.networkViewer ? (
           <React.Fragment>
             <System.DescriptionGroup
@@ -356,14 +345,14 @@ export default class SceneSettings extends React.Component {
 
             <div style={{ marginTop: 32 }}>
               <System.ButtonPrimary loading={this.state.loading} onClick={this._handleSave}>
-                Save
+                Save configuration
               </System.ButtonPrimary>
             </div>
           </React.Fragment>
         ) : (
           <LoaderSpinner style={{ marginTop: 48, height: 32, width: 32 }} />
         )}
-      </ScenePage>
+      </React.Fragment>
     );
   }
 }

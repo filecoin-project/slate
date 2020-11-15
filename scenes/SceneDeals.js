@@ -7,46 +7,17 @@ import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 
-let mounted = false;
-
 export default class SceneDeals extends React.Component {
-  state = { deals: [], loaded: false };
-
-  async componentDidMount() {
-    if (mounted) {
-      return null;
-    }
-
-    mounted = true;
-    let deals = [];
-    try {
-      const response = await fetch("/api/network-deals");
-      const json = await response.json();
-      deals = json.data.deals;
-    } catch (e) {}
-
-    if (!deals || !deals.length) {
-      this.setState({ loaded: true });
-      return null;
-    }
-
-    this.setState({ deals, loaded: true });
-  }
-
-  componentWillUnmount() {
-    mounted = false;
-  }
-
   render() {
     let addressSentence = "Your deals are made from your default address.";
 
     return (
-      <ScenePage>
-        <ScenePageHeader title="Storage deal history">
+      <React.Fragment>
+        <ScenePageHeader>
           View all of your storage deals that are in progress or successful. {addressSentence}
         </ScenePageHeader>
 
-        {this.state.loaded ? (
+        {this.props.dealsLoaded ? (
           <Section title={"History"} style={{ maxWidth: 960, minWidth: "auto" }}>
             <System.Table
               data={{
@@ -93,7 +64,7 @@ export default class SceneDeals extends React.Component {
                     type: "RETRIEVABLE",
                   },
                 ],
-                rows: this.state.deals,
+                rows: this.props.deals,
               }}
             />
           </Section>
@@ -102,7 +73,7 @@ export default class SceneDeals extends React.Component {
             <LoaderSpinner style={{ height: 32, width: 32 }} />
           </div>
         )}
-      </ScenePage>
+      </React.Fragment>
     );
   }
 }

@@ -85,33 +85,7 @@ const STYLES_ITEM_GROUP = css`
   justify-content: flex-start;
 `;
 
-let mounted = false;
-
 export default class SceneWallet extends React.Component {
-  state = {};
-
-  async componentDidMount() {
-    if (mounted) {
-      return null;
-    }
-
-    mounted = true;
-    let networkViewer;
-    try {
-      const response = await fetch("/api/network");
-      const json = await response.json();
-      networkViewer = json.data;
-    } catch (e) {}
-
-    this.setState({
-      networkViewer,
-    });
-  }
-
-  componentWillUnmount() {
-    mounted = false;
-  }
-
   state = { table_transaction: null, visible: false };
 
   _handleChange = (e) => {
@@ -137,7 +111,7 @@ export default class SceneWallet extends React.Component {
 
   render() {
     // TODO(jim): Temporary because of read only Filecoin Addresses
-    const { networkViewer } = this.state;
+    const { networkViewer } = this.props;
 
     const addressMap = {};
     const addresses = [];
@@ -160,12 +134,10 @@ export default class SceneWallet extends React.Component {
     }
 
     return (
-      <ScenePage>
-        <ScenePageHeader title="Wallet">
+      <React.Fragment>
+        <ScenePageHeader>
           This is your receive only wallet address. You can deposit Filecoin to your address here.
-          You can not send Filecoin from this wallet to other people. <br />
-          <br />
-          Please read our{" "}
+          You can not send Filecoin from this wallet to other people. Please read our{" "}
           <a href="/terms" target="_blank">
             terms of service
           </a>{" "}
@@ -257,7 +229,7 @@ export default class SceneWallet extends React.Component {
         ) : (
           <LoaderSpinner style={{ marginTop: 48, height: 32, width: 32 }} />
         )}
-      </ScenePage>
+      </React.Fragment>
     );
   }
 }

@@ -5,40 +5,11 @@ import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 
-let mounted = false;
-
 export default class SceneMiners extends React.Component {
-  state = { miners: [] };
-
-  async componentDidMount() {
-    if (mounted) {
-      return null;
-    }
-
-    mounted = true;
-
-    let miners = [];
-    try {
-      const response = await fetch("https://sentinel.slate.host/api/mapped-static-global-miners");
-      const json = await response.json();
-      const sources = json.data;
-
-      sources.forEach((group) => {
-        miners = [...group.minerAddresses, ...miners];
-      });
-    } catch (e) {}
-
-    this.setState({ miners });
-  }
-
-  componentWillUnmount() {
-    mounted = false;
-  }
-
   render() {
     return (
-      <ScenePage>
-        <ScenePageHeader title="Miners">
+      <React.Fragment>
+        <ScenePageHeader>
           Whenever you make a deal against the Filecoin Network, Slate works with Textile's
           infrastructure to find the best possible miner to make a storage deal with.
         </ScenePageHeader>
@@ -73,7 +44,7 @@ export default class SceneMiners extends React.Component {
                   width: "100%",
                 },
               ],
-              rows: this.state.miners.map((each) => {
+              rows: this.props.miners.map((each) => {
                 return {
                   ...each,
                   ...each.storageAsk,
@@ -82,7 +53,7 @@ export default class SceneMiners extends React.Component {
             }}
           />
         </Section>
-      </ScenePage>
+      </React.Fragment>
     );
   }
 }

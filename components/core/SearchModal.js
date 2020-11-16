@@ -1336,7 +1336,7 @@ export class SearchModal extends React.Component {
                   FAQ
                 </span>
                 <span style={{ cursor: "pointer" }} onClick={() => this._handleRedirect("FMU")}>
-                  Fuck Me Up
+                  I'm Feeling Lucky
                 </span>
               </div>
             </div>

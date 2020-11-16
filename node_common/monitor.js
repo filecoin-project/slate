@@ -110,9 +110,20 @@ export const createSlateObject = ({ slateId, data }) => {
 export const subscribeUser = ({ userId, data }) => {
   try {
     // NOTE(jim):
-    // <USER> SUBSCRIBES TO <USER>
+    // YOU SUBSCRIBED TO <USER>
     Data.createActivity({
       userId,
+      data: {
+        type: "SUBSCRIBE_USER",
+        actorUserId: data.actorUserId,
+        context: data.context,
+      },
+    });
+
+    // NOTE(jim):
+    // <USER> SUBSCRIBES TO YOU
+    Data.createActivity({
+      userId: data.context.targetUserId,
       data: {
         type: "SUBSCRIBE_USER",
         actorUserId: data.actorUserId,
@@ -150,9 +161,16 @@ export const subscribeSlate = ({ slateId, data }) => {
       },
     });
 
-    // TODO(jim):
-    // <USER> SUBSCRIBES TO <SLATE>
-    // --
+    // NOTE(jim):
+    // YOU SUBSCRIBES TO <SLATE>
+    Data.createActivity({
+      userId: data.actorUserId,
+      data: {
+        type: "SUBSCRIBE_SLATE",
+        actorUserId: data.actorUserId,
+        context: data.context,
+      },
+    });
 
     // TODO(jim):
     // <SLATE SUBSCRIBER> WITNESSES <SLATE> OBTAIN NEW <USER>

@@ -1,6 +1,7 @@
 import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Social from "~/node_common/social";
+import * as Monitor from "~/node_common/monitor";
 import * as Strings from "~/common/strings";
 
 import { v4 as uuid } from "uuid";
@@ -32,7 +33,7 @@ export default async (req, res) => {
     });
   }
 
-  let bucketName;
+  let bucketName = null;
   if (req.body.data && req.body.data.bucketName) {
     bucketName = req.body.data.bucketName;
   }
@@ -77,7 +78,6 @@ export default async (req, res) => {
   }
 
   console.log(`[ deal ] will make a deal for ${items.items.length} items`);
-
   if (items.items.length < 2) {
     return res.status(500).send({
       decorator: "STORAGE_DEAL_MAKING_NO_FILES",
@@ -99,7 +99,6 @@ export default async (req, res) => {
   // NOTE(jim):
   //
   // Make sure that you haven't hit the MAX_BUCKET_COUNT
-
   let userBuckets = [];
   try {
     userBuckets = await buckets.list();
@@ -131,7 +130,6 @@ export default async (req, res) => {
   // NOTE(jim):
   //
   // Either encrypt the bucket or don't encrypt the bucket.
-
   let encryptThisDeal = false;
   if (bucketName !== STAGING_DEAL_BUCKET && user.data.allow_encrypted_data_storage) {
     encryptThisDeal = true;
@@ -142,8 +140,9 @@ export default async (req, res) => {
   }
 
   let key = bucketRoot.key;
+  let encryptedBucketName = null;
   if (user.data.allow_encrypted_data_storage || req.body.data.forceEncryption) {
-    const encryptedBucketName = req.body.data.forceEncryption
+    encryptedBucketName = req.body.data.forceEncryption
       ? `encrypted-deal-${uuid()}`
       : `encrypted-data-${uuid()}`;
 
@@ -210,6 +209,19 @@ export default async (req, res) => {
     } else {
       response = await buckets.archive(key);
     }
+
+    Monitor.deal({
+      userId: user.id,
+      data: {
+        actorUserId: user.id,
+        context: {
+          username: user.username,
+          bucketName: encryptedBucketName ? encryptedBucketName : bucketName,
+          isEncrypted: encryptThisDeal,
+        },
+      },
+    });
+
     console.log(response);
   } catch (e) {
     error.message = e.message;

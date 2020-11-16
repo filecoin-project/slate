@@ -3,7 +3,7 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as SlateManager from "~/node_common/managers/slate";
 import * as LibraryManager from "~/node_common/managers/library";
-import * as Social from "~/node_common/social";
+import * as Monitor from "~/node_common/monitor";
 import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
 
@@ -91,9 +91,15 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "SERVER_USER_CREATE_USER_NOT_FOUND", error: true });
   }
 
-  const userProfileURL = `https://slate.host/${user.username}`;
-  const userURL = `<${userProfileURL}|${user.username}>`;
-  Social.sendSlackMessage(`*${userURL}* joined the movement.`);
+  Monitor.createUser({
+    userId: user.id,
+    data: {
+      actorUserId: user.id,
+      context: {
+        username: user.username,
+      },
+    },
+  });
 
   return res.status(200).send({
     decorator: "SERVER_USER_CREATE",

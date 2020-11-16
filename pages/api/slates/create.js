@@ -1,7 +1,7 @@
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
-import * as Social from "~/node_common/social";
+import * as Monitor from "~/node_common/monitor";
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as SearchManager from "~/node_common/managers/search";
 
@@ -75,11 +75,13 @@ export default async (req, res) => {
     SearchManager.updateSlate(slate, "ADD");
   }
 
-  const userProfileURL = `https://slate.host/${user.username}`;
-  const userURL = `<${userProfileURL}|${user.username}>`;
-  Social.sendSlackMessage(
-    `*${userURL}* created a slate: https://slate.host/${user.username}/${slate.slatename}`
-  );
+  Monitor.createSlate({
+    userId: user.id,
+    data: {
+      actorUserId: user.id,
+      context: { id: user.id, username: user.username, slatename: slate.slatename },
+    },
+  });
 
   return res.status(200).send({ decorator: "SERVER_CREATE_SLATE", slate });
 };

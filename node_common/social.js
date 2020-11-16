@@ -4,15 +4,11 @@ import * as Strings from "~/common/strings";
 import { IncomingWebhook } from "@slack/webhook";
 
 // NOTE(jim): #fil-slate-social
-const url = `https://hooks.slack.com/services/${
-  Environment.SOCIAL_SLACK_WEBHOOK_KEY
-}`;
+const url = `https://hooks.slack.com/services/${Environment.SOCIAL_SLACK_WEBHOOK_KEY}`;
 const webhook = new IncomingWebhook(url);
 
 // NOTE(jim): #fil-slate-textile-api
-const textileURL = `https://hooks.slack.com/services/${
-  Environment.TEXTILE_SLACK_WEBHOOK_KEY
-}`;
+const textileURL = `https://hooks.slack.com/services/${Environment.TEXTILE_SLACK_WEBHOOK_KEY}`;
 const textileWebhook = new IncomingWebhook(textileURL);
 
 export const sendSlackMessage = (message) => {

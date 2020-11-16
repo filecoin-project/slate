@@ -2,6 +2,7 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
 import * as Validations from "~/common/validations";
+import * as Monitor from "~/node_common/monitor";
 import * as ViewerManager from "~/node_common/managers/viewer";
 
 export default async (req, res) => {
@@ -81,6 +82,34 @@ export default async (req, res) => {
     slateId: targetSlate ? targetSlate.id : null,
     userId: targetUser ? targetUser.id : null,
   });
+
+  if (targetUser) {
+    Monitor.subscribeUser({
+      userId: user.id,
+      data: {
+        actorUserId: user.id,
+        context: {
+          username: user.username,
+          targetUsername: targetUser.username,
+          targetUserId: targetUser.id,
+        },
+      },
+    });
+  }
+
+  if (targetSlate) {
+    Monitor.subscribeSlate({
+      slateId: targetSlate.id,
+      data: {
+        actorUserId: user.id,
+        context: {
+          slateId: targetSlate.id,
+          slatename: targetSlate.slatename,
+          username: user.username,
+        },
+      },
+    });
+  }
 
   if (existingResponse && existingResponse.error) {
     return res.status(500).send({

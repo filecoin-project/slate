@@ -9,6 +9,8 @@ const EMAIL_REGEX = /^[\w-]+@[a-zA-Z0-9_]+?\.[a-zA-Z]{2,50}$/;
 // TODO(jim): Regex should cover some of this.
 const REJECT_LIST = [
   "..",
+  "$",
+  "#",
   "_",
   "_next",
   "next",

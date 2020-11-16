@@ -140,6 +140,53 @@ app.prepare().then(async () => {
   server.all("/_/:a", async (r, s) => handler(r, s, r.url));
   server.all("/_/:a/:b", async (r, s) => handler(r, s, r.url));
 
+  server.get("/[$]/:id", async (req, res) => {
+    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+
+    const slate = await Data.getSlateById({
+      id: req.params.id,
+    });
+
+    if (!slate) {
+      return res.redirect("/404");
+    }
+
+    if (slate.error) {
+      return res.redirect("/404");
+    }
+
+    if (!slate.data.public) {
+      return res.redirect("/403");
+    }
+
+    const creator = await Data.getUserById({ id: slate.data.ownerId });
+
+    if (!creator) {
+      return res.redirect("/404");
+    }
+
+    if (creator.error) {
+      return res.redirect("/404");
+    }
+
+    const id = Utilities.getIdFromCookie(req);
+
+    let viewer = null;
+    if (id) {
+      viewer = await ViewerManager.getById({
+        id,
+      });
+    }
+
+    return app.render(req, res, "/_/slate", {
+      viewer,
+      creator: Serializers.user(creator),
+      slate,
+      mobile,
+      resources: EXTERNAL_RESOURCES,
+    });
+  });
+
   server.get("/:username", async (req, res) => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
 

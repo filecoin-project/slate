@@ -4,6 +4,7 @@ import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as SearchManager from "~/node_common/managers/search";
+import * as Monitor from "~/node_common/monitor";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -75,6 +76,7 @@ export default async (req, res) => {
       return true;
     });
   }
+
   addlObjects = addlObjects.map((each) => {
     let url = each.ipfs
       ? `${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`
@@ -84,6 +86,23 @@ export default async (req, res) => {
       : each.ipfs
       ? each.ipfs.replace("/ipfs/", "")
       : each.cid;
+
+    // NOTE(jim): Share events if public.
+    if (slate.data.public) {
+      Monitor.createSlateObject({
+        slateId: slate.id,
+        data: {
+          actorUserId: user.id,
+          context: {
+            username: user.username,
+            slatename: slate.slatename,
+            url,
+            cid,
+          },
+        },
+      });
+    }
+
     return {
       blurhash: each.blurhash,
       cid: cid,

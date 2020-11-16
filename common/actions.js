@@ -79,13 +79,6 @@ export const getNetworkDirectory = async () => {
   });
 };
 
-export const searchSlates = async (data) => {
-  return await returnJSON(`/api/search/slates/${data.query}`, {
-    ...DEFAULT_OPTIONS,
-    body: JSON.stringify({ data }),
-  });
-};
-
 export const getSlateById = async (data) => {
   return await returnJSON(`/api/slates/get`, {
     ...DEFAULT_OPTIONS,
@@ -125,6 +118,7 @@ export const search = async (data) => {
   if (Strings.isEmpty(data.query)) {
     return { decorator: "NO_SERVER_TRIP", data: { results: [] } };
   }
+
   if (Strings.isEmpty(data.resourceURI)) {
     return { decorator: "NO_RESOURCE_URI", data: { results: [] } };
   }

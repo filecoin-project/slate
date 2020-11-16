@@ -103,8 +103,16 @@ class Key extends React.Component {
   }
 }
 
-const EXAMPLE_UPDATE_SLATE = (key) => {
-  return `const slate = SOME_SLATE_DATA_YOU_HAVE;
+const EXAMPLE_UPDATE_SLATE = (key, slateId) => {
+  return `const slateAPIResponseData = ${EXAMPLE_GET_SLATE_RESPONSE(key, slateId)};
+
+// NOTE(jim)
+// Make any modifications you want!
+// Becareful because if you modify too many things, your Slate may not work
+// With https://slate.host
+const slate = slateAPIResponseData.data;
+slate.data.objects[0].title = "Julie Was Here."
+
 const response = await fetch('https://slate.host/api/v1/update-slate', {
   method: 'POST',
   headers: {
@@ -159,14 +167,24 @@ const EXAMPLE_GET_SLATE_RESPONSE = (key, slateId) => `{
     created_at: '2020-07-27T09:04:53.007Z',
     published_at: '2020-07-27T09:04:53.007Z',
     slatename: 'slatename',
+    // NOTE(jim)
+    // This 'data' property is JSONB in our postgres database
+    // so every child is customizable.
     data: {
       name: "slatename",
       public: true,
       objects: [
         {
           id: "data-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-          name: "data-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          name: "Name Example",
           ownerId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          title: "The Final Storage System",
+          body: "You can store 4GB on Slate",
+          author: "Jason Leyser",
+          source: "https://google.com",
+          anything: "you-want",
+          // NOTE(jim)
+          // When you use the API you can make these API fields anything.
           url: "https://slate.host/static/art-v2-social.png"
         }
       ],
@@ -334,13 +352,13 @@ export default class SceneSettingsDeveloper extends React.Component {
             <System.DescriptionGroup
               style={{ marginTop: 48, marginBottom: 16 }}
               label="Get slate by ID: Response"
-              description="This is the shape of the response."
+              description="This is the shape of the response. Save it locally because you can send this JSON back to our API server using the route /api/v1/update-slate to update your slate."
             />
-            <CodeBlock children={EXAMPLE_GET_SLATE_RESPONSE(key)} style={{ maxWidth: "768px" }} />
+            <CodeBlock children={EXAMPLE_GET_SLATE_RESPONSE(key, slateId)} style={{ maxWidth: "768px" }} />
             <System.DescriptionGroup
               style={{ marginTop: 48 }}
               label="Upload data to slate by ID"
-              description="This API request will add a JavaScript file object to your slate."
+              description="This API endpoint will add a JavaScript file object to your slate."
             />
             <CodeBlock
               children={EXAMPLE_UPLOAD_TO_SLATE(key, slateId)}
@@ -349,9 +367,9 @@ export default class SceneSettingsDeveloper extends React.Component {
             <System.DescriptionGroup
               style={{ marginTop: 48 }}
               label="Update slate"
-              description="This API request will allow you to update a slate by sending your current locally modified version."
+              description="This API endpoint will allow you to update a slate by sending your current locally modified version. This API endpoint allows for full customization so be careful."
             />
-            <CodeBlock children={EXAMPLE_UPDATE_SLATE(key)} style={{ maxWidth: "768px" }} />
+            <CodeBlock children={EXAMPLE_UPDATE_SLATE(key, slateId)} style={{ maxWidth: "768px" }} />
           </React.Fragment>
         ) : null}
       </ScenePage>

@@ -148,13 +148,17 @@ export const isPreviewableImage = (type = "") => {
 };
 
 export const isUnityFile = async (file) => {
-  const zip = new JSZip();
+  try {
+    const zip = new JSZip();
 
-  const contents = await zip.loadAsync(file);
-  const fileNames = Object.keys(contents.files);
+    const contents = await zip.loadAsync(file);
+    const fileNames = Object.keys(contents.files);
 
-  // NOTE(daniel): every Unity game file will have this file
-  const unityRegex = new RegExp(/unityloader.js/i);
+    // NOTE(daniel): every Unity game file will have this file
+    const unityRegex = new RegExp(/unityloader.js/i);
 
-  return fileNames.some((file) => unityRegex.test(file));
+    return fileNames.some((file) => unityRegex.test(file));
+  } catch (e) {
+    return false;
+  }
 };

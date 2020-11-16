@@ -79,7 +79,6 @@ export const upload = async ({ file, context, bucketName, routes }) => {
       });
 
       XHR.open("post", path, true);
-
       XHR.setRequestHeader("authorization", getCookie(Credentials.session.key));
       XHR.onerror = (event) => {
         console.log(event);

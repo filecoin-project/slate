@@ -105,6 +105,7 @@ export default async (req, res) => {
 
     return {
       blurhash: each.blurhash,
+      previewImage: each.previewImage,
       cid: cid,
       size: each.size,
       id: each.id,

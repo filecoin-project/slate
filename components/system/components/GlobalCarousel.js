@@ -414,6 +414,7 @@ export class GlobalCarousel extends React.Component {
               loading={this.state.loading}
               slates={this.props.slates}
               onAction={this.props.onAction}
+              resources={this.props.resources}
               data={data}
               cid={data.cid}
             />

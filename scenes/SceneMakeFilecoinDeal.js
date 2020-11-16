@@ -20,6 +20,14 @@ import ScenePageHeader from "~/components/core/ScenePageHeader";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
+const STYLES_SPINNER_CONTAINER = css`
+  width: 100%;
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const STYLES_FILE_HIDDEN = css`
   height: 1px;
   width: 1px;
@@ -41,7 +49,6 @@ const STYLES_LEFT = css`
   transition: 200ms ease all;
   min-width: 10%;
   width: 100%;
-
   :visited {
     color: ${Constants.system.black};
   }
@@ -51,20 +58,36 @@ const STYLES_RIGHT = css`
   flex-shrink: 0;
   transition: 200ms ease all;
   cursor: pointer;
-
   :hover {
     color: ${Constants.system.brand};
   }
 `;
 
 const DEFAULT_ERROR_MESSAGE = "We could not make your deal. Please try again later.";
+let mounted = false;
 
 export default class SceneMakeFilecoinDeal extends React.Component {
-  state = {
-    encryption: false,
-    networkViewer: this.props.networkViewer,
-    ...createState(this.props.networkViewer.settings),
-  };
+  state = { encryption: false };
+
+  async componentDidMount() {
+    if (mounted) {
+      return;
+    }
+
+    mounted = true;
+    let networkViewer;
+    try {
+      const response = await fetch("/api/network");
+      const json = await response.json();
+      networkViewer = json.data;
+    } catch (e) {}
+
+    this.setState({
+      networkViewer,
+      ...createState(networkViewer.settings),
+      encryption: false,
+    });
+  }
 
   _handleUpload = async (e) => {
     e.persist();
@@ -312,6 +335,10 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  componentWillUnmount() {
+    mounted = false;
+  }
+
   render() {
     const { networkViewer } = this.state;
     const addressMap = {};
@@ -347,7 +374,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     console.log(this.state);
 
     return (
-      <React.Fragment>
+      <ScenePage>
         <input
           css={STYLES_FILE_HIDDEN}
           multiple
@@ -356,9 +383,9 @@ export default class SceneMakeFilecoinDeal extends React.Component {
           onChange={this._handleUpload}
         />
 
-        <ScenePageHeader>
+        <ScenePageHeader title="Make an one-off Filecoin Storage Deal">
           Upload data and make one-off storage deals in the Filecoin network here. You must store at
-          least 100MB of data to make a storage deal.
+          least 100MB of data.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (
@@ -382,7 +409,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
               ]}
             >
               {this.state.loading ? (
-                <div style={{ padding: 24 }}>
+                <div css={STYLES_SPINNER_CONTAINER}>
                   <LoaderSpinner style={{ height: 32, width: 32 }} />
                 </div>
               ) : (
@@ -562,9 +589,11 @@ export default class SceneMakeFilecoinDeal extends React.Component {
             </System.ButtonPrimary>
           </React.Fragment>
         ) : (
-          <LoaderSpinner style={{ marginTop: 48, height: 32, width: 32 }} />
+          <div css={STYLES_SPINNER_CONTAINER}>
+            <LoaderSpinner style={{ height: 32, width: 32 }} />
+          </div>
         )}
-      </React.Fragment>
+      </ScenePage>
     );
   }
 }

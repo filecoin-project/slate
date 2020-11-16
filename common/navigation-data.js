@@ -116,6 +116,13 @@ export const generate = ({ library = [], slates = [] }) => [
     children: null,
   },
   {
+    id: "V1_NAVIGATION_FILECOIN_STORAGE_DEAL",
+    decorator: "MAKE_DEAL",
+    name: "Storage Deal",
+    filecoin: true,
+    pageTitle: "Make an one-off Filecoin storage deal",
+  },
+  {
     id: "V1_NAVIGATION_API",
     decorator: "SETTINGS_DEVELOPER",
     name: "API",

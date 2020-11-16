@@ -14,13 +14,11 @@ import * as Websockets from "~/common/browser-websockets";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
-import SceneDeals from "~/scenes/SceneDeals";
 import SceneEditAccount from "~/scenes/SceneEditAccount";
 import SceneFile from "~/scenes/SceneFile";
 import SceneFilesFolder from "~/scenes/SceneFilesFolder";
 import SceneHome from "~/scenes/SceneHome";
 import SceneSettings from "~/scenes/SceneSettings";
-import SceneWallet from "~/scenes/SceneWallet";
 import SceneSlates from "~/scenes/SceneSlates";
 import SceneLocalData from "~/scenes/SceneLocalData";
 import SceneSettingsDeveloper from "~/scenes/SceneSettingsDeveloper";
@@ -29,13 +27,10 @@ import SceneSlate from "~/scenes/SceneSlate";
 import SceneActivity from "~/scenes/SceneActivity";
 import SceneDirectory from "~/scenes/SceneDirectory";
 import SceneProfile from "~/scenes/SceneProfile";
-import SceneSentinel from "~/scenes/SceneSentinel";
 import ScenePublicProfile from "~/scenes/ScenePublicProfile";
 import ScenePublicSlate from "~/scenes/ScenePublicSlate";
 import SceneArchive from "~/scenes/SceneArchive";
 import SceneMakeFilecoinDeal from "~/scenes/SceneMakeFilecoinDeal";
-import SceneEncryptedData from "~/scenes/SceneEncryptedData";
-import SceneMiners from "~/scenes/SceneMiners";
 
 // NOTE(jim):
 // Sidebars each have a decorator and can be shown to with _handleAction
@@ -95,6 +90,7 @@ const SCENES = {
   LOCAL_DATA: <SceneLocalData />,
   DIRECTORY: <SceneDirectory />,
   FILECOIN: <SceneArchive />,
+  MAKE_DEAL: <SceneMakeFilecoinDeal />,
 };
 
 let mounted;

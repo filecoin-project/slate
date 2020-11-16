@@ -13,7 +13,6 @@ import ScenePageHeader from "~/components/core/ScenePageHeader";
 import SceneSettings from "~/scenes/SceneSettings";
 import SceneDeals from "~/scenes/SceneDeals";
 import SceneWallet from "~/scenes/SceneWallet";
-import SceneMakeFilecoinDeal from "~/scenes/SceneMakeFilecoinDeal";
 import SceneSentinel from "~/scenes/SceneSentinel";
 import SceneMiners from "~/scenes/SceneMiners";
 
@@ -112,30 +111,6 @@ export default class SceneArchive extends React.Component {
   }
 
   render() {
-    const { networkViewer } = this.state;
-    const addressMap = {};
-    const addresses = [];
-    let selected = null;
-    let balance = 0;
-
-    if (networkViewer) {
-      networkViewer.powerInfo.balancesList.forEach((a) => {
-        addressMap[a.addr.addr] = { ...a.addr, balance: a.balance };
-        addresses.push({ ...a.addr, balance: a.balance });
-      });
-
-      if (addresses.length) {
-        selected = addresses[0];
-      }
-
-      let transactions = [];
-      if (selected.transactions) {
-        transactions = [...selected.transactions];
-      }
-
-      balance = Strings.formatAsFilecoinConversion(selected.balance);
-    }
-
     return (
       <ScenePage>
         <ScenePageHeader title="Filecoin">
@@ -144,7 +119,7 @@ export default class SceneArchive extends React.Component {
         </ScenePageHeader>
 
         <TabGroup
-          tabs={["Storage Deal", "Wallet", "Settings", "API", "Miners"]}
+          tabs={["Archive Settings", "Wallet", "API", "Miners"]}
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}
         />
@@ -152,27 +127,6 @@ export default class SceneArchive extends React.Component {
         {this.state.networkViewer ? (
           <React.Fragment>
             {this.state.tab === 0 ? (
-              <React.Fragment>
-                <SceneMakeFilecoinDeal {...this.props} networkViewer={this.state.networkViewer} />
-              </React.Fragment>
-            ) : null}
-
-            {this.state.tab === 1 ? (
-              <React.Fragment>
-                <SceneWallet {...this.props} networkViewer={this.state.networkViewer} />
-                <br />
-                <br />
-                {this.state.dealsLoaded ? (
-                  <SceneDeals deals={this.state.deals} dealsLoaded={this.state.dealsLoaded} />
-                ) : (
-                  <div css={STYLES_SPINNER_CONTAINER}>
-                    <LoaderSpinner style={{ height: 32, width: 32 }} />
-                  </div>
-                )}
-              </React.Fragment>
-            ) : null}
-
-            {this.state.tab === 2 ? (
               <React.Fragment>
                 <System.P style={{ marginTop: 24 }}>
                   Archive all of your data onto the Filecoin Network with a storage deal using your
@@ -239,7 +193,22 @@ export default class SceneArchive extends React.Component {
               </React.Fragment>
             ) : null}
 
-            {this.state.tab === 3 ? (
+            {this.state.tab === 1 ? (
+              <React.Fragment>
+                <SceneWallet {...this.props} networkViewer={this.state.networkViewer} />
+                <br />
+                <br />
+                {this.state.dealsLoaded ? (
+                  <SceneDeals deals={this.state.deals} dealsLoaded={this.state.dealsLoaded} />
+                ) : (
+                  <div css={STYLES_SPINNER_CONTAINER}>
+                    <LoaderSpinner style={{ height: 32, width: 32 }} />
+                  </div>
+                )}
+              </React.Fragment>
+            ) : null}
+
+            {this.state.tab === 2 ? (
               <React.Fragment>
                 {this.state.routes ? (
                   <SceneSentinel routes={this.state.routes} />
@@ -251,7 +220,7 @@ export default class SceneArchive extends React.Component {
               </React.Fragment>
             ) : null}
 
-            {this.state.tab === 4 ? (
+            {this.state.tab === 3 ? (
               <React.Fragment>
                 {this.state.miners ? (
                   <SceneMiners miners={this.state.miners} />

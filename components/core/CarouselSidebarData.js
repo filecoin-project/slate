@@ -342,30 +342,30 @@ export default class CarouselSidebarData extends React.Component {
           loading={this.props.loading}
           selectedColor={Constants.system.white}
         />
-        <System.P css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
-          Preview image
-        </System.P>
-        <System.P style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
-          This is the preview image of your file.
-        </System.P>
-        <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
-          {type && type.startsWith("image/") ? (
-            <img src={url} alt="" style={{ maxWidth: "100%", maxHeight: "368px" }} />
-          ) : (
-            <div>
-              <SlateMediaObjectPreview
-                style={{ color: `${Constants.system.black}`, height: "240px" }}
-                blurhash={true}
-                url={url}
-                title={file}
-                type={type}
-              />
+        {type && type.startsWith("image/") ? null : (
+          <div>
+            <System.P css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+              Preview image
+            </System.P>
+            <System.P style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
+              This is the preview image of your file.
+            </System.P>
+            <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
+              <div>
+                <SlateMediaObjectPreview
+                  style={{ color: `${Constants.system.black}`, height: "240px" }}
+                  blurhash={true}
+                  url={url}
+                  title={file}
+                  type={type}
+                />
+              </div>
             </div>
-          )}
-        </div>
-        <System.ButtonPrimary full style={{ marginTop: 16 }}>
-          Upload image
-        </System.ButtonPrimary>
+            <System.ButtonPrimary full style={{ marginTop: 16 }}>
+              Upload image
+            </System.ButtonPrimary>{" "}
+          </div>
+        )}
         <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
           Privacy
         </div>

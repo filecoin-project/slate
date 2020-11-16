@@ -256,7 +256,7 @@ export default class ApplicationHeader extends React.Component {
           <span css={STYLES_MARGIN_LEFT} onClick={this._handleCreateSearch}>
             <SVG.Search height="24px" />
           </span>
-          <span css={STYLES_MOBILE_HIDDEN}>
+          <span css={STYLES_MOBILE_HIDDEN} onClick={this._handleCreateSearch}>
             <span
               css={STYLES_ICON_ELEMENT}
               style={{ marginLeft: 16, color: Constants.system.border, cursor: "pointer" }}

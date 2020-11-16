@@ -323,7 +323,7 @@ export default class SceneSignIn extends React.Component {
               onClick={() => this.setState({ scene: "SIGN_IN" })}
               loading={this.state.loading}
             >
-              Log in
+              Sign in
             </System.ButtonSecondary>
           </div>
           <div css={STYLES_LINKS}>
@@ -467,7 +467,7 @@ export default class SceneSignIn extends React.Component {
             onClick={!this.state.loading ? this._handleSubmit : () => {}}
             loading={this.state.loading}
           >
-            Log in
+            Sign in
           </System.ButtonPrimary>
         </div>
         <div css={STYLES_LINKS}>

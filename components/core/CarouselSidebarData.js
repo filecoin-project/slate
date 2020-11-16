@@ -1,10 +1,12 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
+import * as Validations from "~/common/validations";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
+import * as FileUtilities from "~/common/file-utilities";
 
 import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -12,6 +14,8 @@ import { SlatePicker } from "~/components/core/SlatePicker";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
+import { json } from "body-parser";
+import { isResSent } from "next/dist/next-server/lib/utils";
 
 const DEFAULT_BOOK =
   "https://slate.textile.io/ipfs/bafkreibk32sw7arspy5kw3p5gkuidfcwjbwqyjdktd5wkqqxahvkm2qlyi";
@@ -168,12 +172,14 @@ const STYLES_IMAGE_BOX = css`
   border-radius: 4px;
 `;
 
-const STYLES_GROUPING = css`
-  width: 100%;
-  border: 1px solid rgba(100, 100, 100, 0.5);
-  border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 24px;
+const STYLES_FILE_HIDDREN = css`
+  height: 1px;
+  width: 1px;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: -1px;
+  left: -1px;
 `;
 
 export const FileTypeDefaultPreview = () => {
@@ -200,6 +206,7 @@ export default class CarouselSidebarData extends React.Component {
     isPublic: false,
     copyValue: "",
     loading: false,
+    changingPreview: false,
   };
 
   componentDidMount = () => {
@@ -226,6 +233,88 @@ export default class CarouselSidebarData extends React.Component {
     console.log("set loading to:");
     console.log(e.detail.loading);
     this.setState({ loading: e.detail.loading });
+  };
+
+  _handleUpload = async (e) => {
+    this.setState({ changingPreview: true });
+    e.persist();
+    let file = e.target.files[0];
+    console.log(file);
+
+    if (!file) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "Something went wrong with the upload. Please try again",
+          },
+        },
+      });
+      return;
+    }
+
+    if (!Validations.isPreviewableImage(file.type)) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "Upload failed. Only images and gifs are allowed" },
+        },
+      });
+      return;
+    }
+
+    const response = await FileUtilities.upload({ file, routes: this.props.resources });
+
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "We're having trouble connecting right now" },
+        },
+      });
+      this.setState({ changingPreview: false });
+      return;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: json.decorator } },
+      });
+      this.setState({ changingPreview: false });
+      return;
+    }
+    console.log(response);
+    const { json } = response;
+
+    const cid = json.data.ipfs.replace("/ipfs/", "");
+    const previewImage = Strings.getCIDGatewayURL(cid);
+    let updateReponse = await Actions.updateData({
+      data: {
+        photo: Strings.getCIDGatewayURL(cid),
+      },
+    });
+
+    if (!updateReponse) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble connecting right now.",
+          },
+        },
+      });
+    } else if (updateReponse.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
+    }
+    this.setState({ changingPreview: false, photo: previewImage });
   };
 
   _handleDownload = () => {
@@ -361,9 +450,22 @@ export default class CarouselSidebarData extends React.Component {
                 />
               </div>
             </div>
-            <System.ButtonPrimary full style={{ marginTop: 16 }}>
-              Upload image
-            </System.ButtonPrimary>{" "}
+            <div style={{ marginTop: 16 }}>
+              <input
+                css={STYLES_FILE_HIDDREN}
+                type="file"
+                id="file"
+                onChange={this._handleUpload}
+              />
+              <System.ButtonPrimary
+                full
+                type="label"
+                htmlFor="file"
+                loading={this.state.changingPreview}
+              >
+                Upload image
+              </System.ButtonPrimary>
+            </div>
           </div>
         )}
         <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>

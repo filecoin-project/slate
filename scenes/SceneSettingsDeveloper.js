@@ -103,6 +103,22 @@ class Key extends React.Component {
   }
 }
 
+const EXAMPLE_UPDATE_SLATE = (key) => {
+  return `const slate = SOME_SLATE_DATA_YOU_HAVE;
+const response = await fetch('https://slate.host/api/v1/update-slate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    // NOTE: your API key
+    Authorization: 'Basic ${key}',
+  },
+  body: JSON.stringify({ data: slate })
+});
+
+const json = await response.json();
+console.log(json);`;
+};
+
 const EXAMPLE_GET_SLATE = (
   key,
   slateId
@@ -330,6 +346,12 @@ export default class SceneSettingsDeveloper extends React.Component {
               children={EXAMPLE_UPLOAD_TO_SLATE(key, slateId)}
               style={{ maxWidth: "768px" }}
             />
+            <System.DescriptionGroup
+              style={{ marginTop: 48 }}
+              label="Update slate"
+              description="This API request will allow you to update a slate by sending your current locally modified version."
+            />
+            <CodeBlock children={EXAMPLE_UPDATE_SLATE(key)} style={{ maxWidth: "768px" }} />
           </React.Fragment>
         ) : null}
       </ScenePage>

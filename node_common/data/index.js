@@ -69,12 +69,17 @@ import getEverySlate from "~/node_common/data/methods/get-every-slate";
 import getEveryUser from "~/node_common/data/methods/get-every-user";
 
 // NOTE(jim):
-// Deals
+// one-offs
 import getAllDeals from "~/node_common/data/methods/get-all-deals";
+import createOrUpdateStats from "~/node_common/data/methods/create-or-update-stats";
+import createOrphan from "~/node_common/data/methods/create-orphan";
 
 export {
+  // NOTE(jim): One-offs
+  createOrUpdateStats,
+  createOrphan,
   getAllDeals,
-  // NOTE(jim): User operations.
+  // NOTE(jim): User operations
   createUser,
   updateUserById,
   deleteUserByUsername,
@@ -84,7 +89,7 @@ export {
   getPendingDataForUserId,
   deletePendingDataByUserId,
   createPendingData,
-  // NOTE(jim): Slate operations.
+  // NOTE(jim): Slate operations
   createSlate,
   getSlateByName,
   getSlateById,
@@ -94,14 +99,14 @@ export {
   deleteSlatesForUserId,
   deleteSlateById,
   deleteRepostsByCid,
-  // NOTE(jim): API key operations,
+  // NOTE(jim): API key operations
   createAPIKeyForUserId,
   deleteAPIKeyById,
   deleteAPIKeysForUserId,
   getAPIKey,
   getAPIKeyByKey,
   getAPIKeysByUserId,
-  // NOTE(jim): Subscription operations,
+  // NOTE(jim): Subscription operations
   createSubscription,
   getSubscriptionById,
   getSubscriptionsByUserId,

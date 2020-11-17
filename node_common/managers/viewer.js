@@ -300,16 +300,19 @@ export const hydrate = async (id) => {
   websocketSend("UPDATE", data);
 };
 
-export const checkId = async ({ id }) => {
-  if (!id) {
+export const shouldRedirect = async ({ id }) => {
+  if (Strings.isEmpty(id)) {
     return false;
   }
+
   const user = await Data.getUserById({
     id,
   });
+
   if (!user || user.error) {
     return false;
   }
+
   return true;
 };
 

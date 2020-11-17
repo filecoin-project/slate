@@ -206,11 +206,8 @@ app.prepare().then(async () => {
     }
 
     const id = Utilities.getIdFromCookie(req);
-    let loggedIn;
-    if (id) {
-      loggedIn = await ViewerManager.checkId({ id });
-    }
-    if (!Strings.isEmpty(id) && loggedIn) {
+    const shouldViewerRedirect = ViewerManager.shouldRedirect({ id });
+    if (shouldViewerRedirect) {
       return res.redirect(
         `/_${Strings.createQueryParams({
           scene: "V1_NAVIGATION_PROFILE",
@@ -218,6 +215,7 @@ app.prepare().then(async () => {
         })}`
       );
     }
+
     let viewer = null;
     if (id) {
       viewer = await ViewerManager.getById({
@@ -262,11 +260,8 @@ app.prepare().then(async () => {
     }
 
     const id = Utilities.getIdFromCookie(req);
-    let loggedIn;
-    if (id) {
-      loggedIn = await ViewerManager.checkId({ id });
-    }
-    if (!Strings.isEmpty(id) && loggedIn) {
+    const shouldViewerRedirect = ViewerManager.shouldRedirect({ id });
+    if (shouldViewerRedirect) {
       return res.redirect(
         `/_${Strings.createQueryParams({
           scene: "V1_NAVIGATION_SLATE",
@@ -330,11 +325,9 @@ app.prepare().then(async () => {
     }
 
     const id = Utilities.getIdFromCookie(req);
-    let loggedIn;
-    if (id) {
-      loggedIn = await ViewerManager.checkId({ id });
-    }
-    if (!Strings.isEmpty(id) && loggedIn) {
+
+    const shouldViewerRedirect = await ViewerManager.shouldRedirect({ id });
+    if (shouldViewerRedirect) {
       return res.redirect(
         `/_${Strings.createQueryParams({
           scene: "V1_NAVIGATION_SLATE",

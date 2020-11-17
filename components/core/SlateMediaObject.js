@@ -2,6 +2,8 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 
+import UnityFrame from "~/components/core/UnityFrame";
+
 import { css } from "@emotion/core";
 
 const STYLES_FAILURE = css`
@@ -59,9 +61,9 @@ export default class SlateMediaObject extends React.Component {
     const url = this.props.data.url.replace("https://undefined", "https://");
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
     const playType = typeMap[type] ? typeMap[type] : type;
-
+    console.log(this.props);
     let element = <div css={STYLES_FAILURE}>No Preview</div>;
-
+    console.log(url);
     if (type.startsWith("application/pdf")) {
       return <object css={STYLES_OBJECT} data={url} type={type} />;
     }
@@ -90,6 +92,10 @@ export default class SlateMediaObject extends React.Component {
           <img css={STYLES_IMAGE} src={url} />
         </div>
       );
+    }
+
+    if (type.startsWith("application/")) {
+      return <UnityFrame url={url} />;
     }
 
     return element;

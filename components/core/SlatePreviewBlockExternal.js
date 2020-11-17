@@ -27,7 +27,6 @@ const STYLES_MOBILE_ONLY = css`
 
 const STYLES_IMAGE_ROW = css`
   overflow: hidden;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     justify-content: center;
     margin: 0 -8px;
@@ -40,7 +39,6 @@ const STYLES_ITEM_BOX = css`
   margin: 0px 0px 4px 4px;
   box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset;
   cursor: pointer;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 0 8px;
   }
@@ -52,7 +50,6 @@ const STYLES_PLACEHOLDER = css`
   background-size: cover;
   background-position: 50% 50%;
   margin-bottom: 4px;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     height: 100%;
   }
@@ -103,48 +100,38 @@ export class SlatePreviewRow extends React.Component {
 const STYLES_BLOCK = css`
   box-shadow: 0 0 0 0.5px ${Constants.system.lightBorder} inset,
     0 0 40px 0 ${Constants.system.shadow};
-  padding: 16px;
+  padding: 24px;
   font-size: 12px;
   text-align: left;
   cursor: pointer;
-  height: 480px;
+  height: 440px;
   width: 100%;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 24px auto;
     height: auto;
   }
 `;
 
-const STYLES_TITLE_LINE = css`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  font-size: ${Constants.typescale.lvl1};
-  margin-bottom: 8px;
-  overflow-wrap: break-word;
-`;
-
 const STYLES_BODY = css`
   font-family: ${Constants.font.text};
-  font-size: ${Constants.typescale.lvl1};
+  font-size: ${Constants.typescale.lvl0};
+  color: ${Constants.system.darkGray};
   margin-bottom: 24px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }
 `;
 
 const STYLES_TITLE = css`
-  font-size: ${Constants.typescale.lvl2};
-  font-family: ${Constants.font.semiBold};
+  font-size: ${Constants.typescale.lvl1};
+  font-family: ${Constants.font.medium};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin: 16px 0 0 0;
-
+  margin: 16px 0 4px 0;
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl1};
   }
@@ -156,13 +143,18 @@ const STYLES_PREVIEW = css`
 
 const STYLES_INFO = css`
   display: flex;
+  justify-content: space-between;
 `;
 
 const STYLES_OBJECT_COUNT = css`
   margin-top: 18px;
-  width: 15%;
-  font-size: ${Constants.typescale.lvl0};
+  width: auto;
+  font-size: ${Constants.typescale.lvlN1};
   color: ${Constants.system.darkGray};
+  margin-right: 0;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-top: 18px;
+  }
 `;
 
 export class SlatePreviewBlock extends React.Component {
@@ -212,7 +204,6 @@ export class SlatePreviewBlock extends React.Component {
 
   render() {
     let first = this.props.slate.data.objects ? this.props.slate.data.objects[0] : null;
-    console.log(this.props.slate.data);
 
     return (
       <div css={STYLES_BLOCK}>
@@ -273,20 +264,19 @@ export class SlatePreviewBlock extends React.Component {
             />
           )}
           <div css={STYLES_INFO}>
-            <div css={STYLES_OBJECT_COUNT}>{this.props.slate.data.objects.length}</div>
             <div style={{ width: `85%` }}>
-              <div css={STYLES_TITLE_LINE}>
-                <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
-              </div>
+              <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
               {this.props.slate.data.body ? (
                 <div css={STYLES_BODY}>
-                  <ViewAllButton noButton fullText={this.props.slate.data.body} maxCharacter={100}>
-                    <ProcessedText text={this.props.slate.data.body} />
-                  </ViewAllButton>
+                  <ProcessedText text={this.props.slate.data.body} />
                 </div>
               ) : (
                 <div style={{ height: "8px" }} />
               )}
+            </div>
+            <div css={STYLES_OBJECT_COUNT}>
+              {this.props.slate.data.objects.length} file
+              {this.props.slate.data.objects.length > 1 ? "s" : ""}
             </div>
           </div>
         </span>
@@ -318,11 +308,19 @@ export class SlatePreviewBlock extends React.Component {
             )}
           </div>
           <div css={STYLES_INFO}>
-            <div css={STYLES_OBJECT_COUNT}>{this.props.slate.data.objects.length}</div>
             <div style={{ width: `85%` }}>
-              <div css={STYLES_TITLE_LINE}>
-                <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
-              </div>
+              <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
+              {this.props.slate.data.body ? (
+                <div css={STYLES_BODY}>
+                  <ProcessedText text={this.props.slate.data.body} />
+                </div>
+              ) : (
+                <div style={{ height: "8px" }} />
+              )}
+            </div>
+            <div css={STYLES_OBJECT_COUNT}>
+              {this.props.slate.data.objects.length} file
+              {this.props.slate.data.objects.length > 1 ? "s" : ""}
             </div>
           </div>
         </span>
@@ -332,15 +330,14 @@ export class SlatePreviewBlock extends React.Component {
 }
 
 const STYLES_LINK = css`
-  color: ${Constants.system.black};
+  color: ${Constants.system.grayBlack};
   text-decoration: none;
   width: calc(33.33% - 16px);
-  margin-bottom: 24px;
-
+  margin-bottom: 16px;
+  margin-right: 16px;
   @media (max-width: ${Constants.sizes.tablet}px) {
     width: 50%;
   }
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
   }
@@ -352,8 +349,6 @@ const STYLES_SLATES = css`
   flex-wrap: wrap;
   overflow: hidden;
   padding-bottom: 48px;
-  justify-content: space-between;
-
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
   }

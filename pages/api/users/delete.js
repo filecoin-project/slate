@@ -62,13 +62,9 @@ export default async (req, res) => {
 
   SearchManager.updateUser(user, "REMOVE");
 
-  // NOTE(jim): Creates an orphan to preserve the libp2p token
-  // Incase we need to retrieve Filecoin from it.
-  /*
   await Data.createOrphan({
     data: { token: user.data.tokens.api },
   });
-  */
 
   const deleted = await Data.deleteUserByUsername({
     username: user.username,

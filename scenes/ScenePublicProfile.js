@@ -26,19 +26,15 @@ export default class ScenePublicProfile extends React.Component {
   };
 
   componentDidUpdate = async (prevProps) => {
-    if (!this.props.data) {
-      return null;
+    if (
+      this.props.data &&
+      prevProps.data &&
+      this.props.data.id &&
+      prevProps.data.id &&
+      this.props.data.id !== prevProps.data.id
+    ) {
+      await this.fetchProfile();
     }
-
-    if (!prevProps.data) {
-      return null;
-    }
-
-    if (!prevProps.data.id || this.props.data.id === prevProps.data.id) {
-      return null;
-    }
-
-    await this.fetchProfile();
   };
 
   fetchProfile = async () => {
@@ -55,12 +51,12 @@ export default class ScenePublicProfile extends React.Component {
     } else {
       query = { id: this.props.viewer.id };
     }
-    let profile;
+    let response;
     if (query) {
-      profile = await Actions.getSerializedProfile(query);
+      response = await Actions.getSerializedProfile(query);
     }
 
-    if (!profile || profile.error) {
+    if (!response || response.error) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: { alert: { message: "We're having trouble fetching that user right now." } },
@@ -69,7 +65,8 @@ export default class ScenePublicProfile extends React.Component {
       return;
     }
 
-    this.setState({ profile: profile.data });
+    this.props.onUpdateData({ data: response.data });
+    this.setState({ profile: response.data });
   };
 
   render() {

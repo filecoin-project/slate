@@ -274,10 +274,14 @@ export default class Profile extends React.Component {
 
         {this.state.visible && (
           <div>
-            <CTATransition open={this.state.visible} />
-            <a css={STYLES_DISMISS_BOX} onClick={() => this.setState({ visible: false })}>
+            <CTATransition
+              viewer={this.props.viewer}
+              open={this.state.visible}
+              redirectURL={`/_?scene=V1_NAVIGATION_PROFILE&user=${data.username}`}
+            />
+            <div css={STYLES_DISMISS_BOX} onClick={() => this.setState({ visible: false })}>
               <SVG.Dismiss height="24px" />
-            </a>
+            </div>
           </div>
         )}
 

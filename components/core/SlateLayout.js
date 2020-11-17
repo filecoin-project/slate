@@ -6,6 +6,7 @@ import * as Window from "~/common/window";
 import * as Validations from "~/common/validations";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
+import CTATransition from "~/components/core/CTATransition";
 
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { css } from "@emotion/core";
@@ -282,6 +283,19 @@ const STYLES_ICON_ROW = css`
   left: calc(50% - 60px);
 `;
 
+const STYLES_DISMISS_BOX = css`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: ${Constants.system.darkGray};
+  cursor: pointer;
+  z-index: ${Constants.zindex.tooltip};
+
+  :hover {
+    color: ${Constants.system.white};
+  }
+`;
+
 export class SlateLayout extends React.Component {
   _ref;
   _input;
@@ -306,6 +320,7 @@ export class SlateLayout extends React.Component {
     copyValue: "",
     tooltip: null,
     keyboardTooltip: false,
+    signInModal: false,
   };
 
   //LEFT OFF HERE:
@@ -971,13 +986,6 @@ export class SlateLayout extends React.Component {
     });
   };
 
-  _handleLoginModal = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    //TODO(martina): add a modal popup that says "login or sign up to use this feature", and automatically redirect to in-client view if already logged in
-    window.location.pathname = "/_";
-  };
-
   _handleSetPreview = (e, i) => {
     e.stopPropagation();
     e.preventDefault();
@@ -1092,6 +1100,12 @@ export class SlateLayout extends React.Component {
   _stopProp = (e) => {
     e.stopPropagation();
     e.preventDefault();
+  };
+
+  _handleLoginModal = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({ signInModal: true });
   };
 
   render() {
@@ -1800,6 +1814,18 @@ export class SlateLayout extends React.Component {
           value={this.state.copyValue}
           css={STYLES_COPY_INPUT}
         />
+        {this.props.external && this.state.signInModal && (
+          <div>
+            <CTATransition
+              viewer={this.props.viewer}
+              open={this.state.signInModal}
+              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${this.props.creator.username}&slate=${this.props.slate.slatename}`}
+            />
+            <div css={STYLES_DISMISS_BOX} onClick={() => this.setState({ signInModal: false })}>
+              <SVG.Dismiss height="24px" />
+            </div>
+          </div>
+        )}
       </div>
     );
   }

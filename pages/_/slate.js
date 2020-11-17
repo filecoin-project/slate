@@ -10,12 +10,12 @@ import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { Alert } from "~/components/core/Alert";
 import { ViewAllButton } from "~/components/core/ViewAll";
+import { SlateLayout } from "~/components/core/SlateLayout";
+import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
-import { SlateLayout } from "~/components/core/SlateLayout";
-import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
 import CTATransition from "~/components/core/CTATransition";
 
@@ -320,19 +320,19 @@ export default class SlatePage extends React.Component {
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
           <div css={STYLES_SLATE_INTRO}>
-            <a css={STYLES_CREATOR} href={headerURL}>
+            <a css={STYLES_CREATOR} href={`/${this.props.creator.username}`}>
               {slateCreator}
             </a>
             <div css={STYLES_DESCTIPTION}>
               <div css={STYLES_FLEX}>
                 <div css={STYLES_TITLE}>{slateTitle} </div>
                 <div css={STYLES_BUTTONS}>
-                  <a css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
+                  <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
                     Follow
-                  </a>
-                  <a css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
+                  </div>
+                  <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
                     Download
-                  </a>
+                  </div>
                 </div>
               </div>
               <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
@@ -375,6 +375,8 @@ export default class SlatePage extends React.Component {
                 items={objects}
                 onSelect={this._handleSelect}
                 defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
+                creator={this.props.creator}
+                slate={this.props.slate}
               />
             )}
           </div>
@@ -383,10 +385,14 @@ export default class SlatePage extends React.Component {
         <System.GlobalModal />
         {this.state.visible && (
           <div>
-            <CTATransition open={this.state.visible} />
-            <a css={STYLES_DISMISS_BOX} onClick={() => this.setState({ visible: false })}>
+            <CTATransition
+              viewer={this.props.viewer}
+              open={this.state.visible}
+              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${this.props.creator.username}&slate=${this.props.slate.slatename}`}
+            />
+            <div css={STYLES_DISMISS_BOX} onClick={() => this.setState({ visible: false })}>
               <SVG.Dismiss height="24px" />
-            </a>
+            </div>
           </div>
         )}
         <WebsitePrototypeFooter />

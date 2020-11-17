@@ -82,6 +82,19 @@ export const getFileExtension = (name) => {
   return "";
 };
 
+export const createQueryParams = (params) => {
+  let query = "?";
+  let first = true;
+  for (const [key, value] of Object.entries(params)) {
+    if (!first) {
+      query += "&";
+    }
+    query += `${key}=${value}`;
+    first = false;
+  }
+  return query;
+};
+
 export const getCIDFromIPFS = (url) => {
   // NOTE(andrew)
   const cid = url.includes("/ipfs/")

@@ -199,7 +199,15 @@ app.prepare().then(async () => {
     }
 
     const id = Utilities.getIdFromCookie(req);
-
+    const loggedIn = ViewerManager.checkId({ id });
+    if (loggedIn) {
+      return res.redirect(
+        `/_${Strings.createQueryParams({
+          scene: "V1_NAVIGATION_PROFILE",
+          user: req.params.username,
+        })}`
+      );
+    }
     let viewer = null;
     if (id) {
       viewer = await ViewerManager.getById({
@@ -243,6 +251,18 @@ app.prepare().then(async () => {
       });
     }
 
+    const id = Utilities.getIdFromCookie(req);
+    const loggedIn = ViewerManager.checkId({ id });
+    if (loggedIn) {
+      return res.redirect(
+        `/_${Strings.createQueryParams({
+          scene: "V1_NAVIGATION_SLATE",
+          user: req.params.username,
+          slate: req.params.slatename,
+        })}`
+      );
+    }
+
     const slate = await Data.getSlateByName({
       slatename: req.params.slatename,
       username: req.params.username,
@@ -273,8 +293,6 @@ app.prepare().then(async () => {
     if (req.params.username !== creator.username) {
       return res.redirect("/403");
     }
-
-    const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;
     if (id) {
@@ -298,6 +316,19 @@ app.prepare().then(async () => {
       return handler(req, res, req.url);
     }
 
+    const id = Utilities.getIdFromCookie(req);
+    const loggedIn = ViewerManager.checkId({ id });
+    if (loggedIn) {
+      return res.redirect(
+        `/_${Strings.createQueryParams({
+          scene: "V1_NAVIGATION_SLATE",
+          user: req.params.username,
+          slate: req.params.slatename,
+          cid: req.params.cid,
+        })}`
+      );
+    }
+
     const slate = await Data.getSlateByName({
       slatename: req.params.slatename,
       username: req.params.username,
@@ -328,8 +359,6 @@ app.prepare().then(async () => {
     if (req.params.username !== creator.username) {
       return res.redirect("/403");
     }
-
-    const id = Utilities.getIdFromCookie(req);
 
     let viewer = null;
     if (id) {

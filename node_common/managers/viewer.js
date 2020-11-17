@@ -300,6 +300,17 @@ export const hydrate = async (id) => {
   websocketSend("UPDATE", data);
 };
 
+export const checkId = async ({ id }) => {
+  const user = await Data.getUserById({
+    id,
+  });
+
+  if (!user || user.error) {
+    return false;
+  }
+  return true;
+};
+
 // TODO(jim): Work on better serialization when adoption starts occuring.
 export const getById = async ({ id }) => {
   const user = await Data.getUserById({

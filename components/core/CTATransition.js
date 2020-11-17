@@ -1,9 +1,12 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as Actions from "~/common/actions";
+import * as Credentials from "~/common/credentials";
 
 import { css } from "@emotion/core";
 import { Logo } from "~/common/logo";
+import { SignIn } from "~/components/core/SignIn";
 
 const STYLES_BACKGROUND = css`
   z-index: ${Constants.zindex.tooltip};
@@ -79,49 +82,39 @@ const STYLES_LINK_ITEM = css`
   transition: 200ms ease all;
   word-wrap: break-word;
 
-  :visited {
-    color: ${Constants.system.black};
-  }
-
   :hover {
     color: ${Constants.system.brand};
   }
 `;
 
-export const CTATransition = (props) => {
-  const [open, setOpen] = React.useState(false);
+export default class CTATransition extends React.Component {
+  render() {
+    return (
+      <div>
+        {open && (
+          <div css={STYLES_BACKGROUND}>
+            <div css={STYLES_TRANSITION}>
+              <div css={STYLES_EXPLAINER}>Sign up or sign in to continue</div>
+              <br />
+              <div css={STYLES_POPOVER}>
+                <Logo height="36px" style={{ display: "block", margin: "56px auto 0px auto" }} />
 
-  React.useEffect(() => {
-    setOpen(props.open);
-  }, [props.open]);
-
-  return (
-    <div>
-      {open && (
-        <div css={STYLES_BACKGROUND}>
-          <div css={STYLES_TRANSITION}>
-            <div css={STYLES_EXPLAINER}>Sign up or sign in to continue</div>
-            <br />
-            <div css={STYLES_POPOVER}>
-              <Logo height="36px" style={{ display: "block", margin: "56px auto 0px auto" }} />
-
-              <System.P style={{ margin: "56px 0", textAlign: "center" }}>
-                An open-source file sharing network for research and collaboration
-              </System.P>
-              <a href="https://slate.host/_" style={{ textDecoration: `none` }}>
-                <System.ButtonPrimary full style={{ marginBottom: 16 }}>
-                  Continue to sign up
-                </System.ButtonPrimary>{" "}
-              </a>
-              <a css={STYLES_LINK_ITEM} href="https://slate.host/_">
-                Already have an account?
-              </a>
+                <System.P style={{ margin: "56px 0", textAlign: "center" }}>
+                  An open-source file sharing network for research and collaboration
+                </System.P>
+                <a href={this.props.redirectURL} style={{ textDecoration: `none` }}>
+                  <System.ButtonPrimary full style={{ marginBottom: 16 }}>
+                    Continue to sign up
+                  </System.ButtonPrimary>{" "}
+                </a>
+                <a css={STYLES_LINK_ITEM} href={this.props.redirectURL}>
+                  Already have an account?
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default CTATransition;
+        )}
+      </div>
+    );
+  }
+}

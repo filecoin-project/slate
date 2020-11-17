@@ -3,6 +3,8 @@ import * as Social from "~/node_common/social";
 
 export const deal = ({ userId, data }) => {
   try {
+    // Data.createOrUpdateStats(new Date(), { deals: 1 });
+
     // NOTE(jim):
     // <USER> CREATED <DEAL>
     Data.createActivity({
@@ -12,9 +14,7 @@ export const deal = ({ userId, data }) => {
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const message = `*${userURL}* made a one-off storage deal with bucket "${
-      data.context.bucketName
-    }".`;
+    const message = `*${userURL}* made a one-off storage deal with bucket "${data.context.bucketName}".`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -24,6 +24,8 @@ export const deal = ({ userId, data }) => {
 
 export const createUser = ({ userId, data }) => {
   try {
+    // Data.createOrUpdateStats(new Date(), { users: 1 });
+
     // NOTE(jim):
     // <USER> INIT
     Data.createActivity({
@@ -43,6 +45,8 @@ export const createUser = ({ userId, data }) => {
 
 export const createSlate = ({ userId, data }) => {
   try {
+    // Data.createOrUpdateStats(new Date(), { slates: 1 });
+
     // NOTE(jim):
     // <USER> CREATED <SLATE>
     Data.createActivity({
@@ -56,9 +60,7 @@ export const createSlate = ({ userId, data }) => {
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const message = `*${userURL}* created a slate: https://slate.host/${data.context.username}/${
-      data.context.slatename
-    }`;
+    const message = `*${userURL}* created a slate: https://slate.host/${data.context.username}/${data.context.slatename}`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -67,6 +69,8 @@ export const createSlate = ({ userId, data }) => {
 };
 
 export const createSlateObject = ({ slateId, data }) => {
+  // Data.createOrUpdateStats(new Date(), { objects: 1 });
+
   // TODO(jim): We may do some private tracking here.
   if (data.context.private) {
     return;
@@ -94,12 +98,8 @@ export const createSlateObject = ({ slateId, data }) => {
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const objectURL = `<https://slate.host/${data.context.username}/${data.context.slatename}/cid:${
-      data.context.cid
-    }|${data.context.cid}>`;
-    const message = `*${userURL}* added ${objectURL} to https://slate.host/${
-      data.context.username
-    }/${data.context.slatename}`;
+    const objectURL = `<https://slate.host/${data.context.username}/${data.context.slatename}/cid:${data.context.cid}|${data.context.cid}>`;
+    const message = `*${userURL}* added ${objectURL} to https://slate.host/${data.context.username}/${data.context.slatename}`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -108,6 +108,8 @@ export const createSlateObject = ({ slateId, data }) => {
 };
 
 export const subscribeUser = ({ userId, data }) => {
+  // Data.createOrUpdateStats(new Date(), { subscribeUsers: 1 });
+
   try {
     // NOTE(jim):
     // YOU SUBSCRIBED TO <USER>
@@ -149,6 +151,8 @@ export const subscribeUser = ({ userId, data }) => {
 };
 
 export const subscribeSlate = ({ slateId, data }) => {
+  // Data.createOrUpdateStats(new Date(), { subscribeSlates: 1 });
+
   try {
     // NOTE(jim):
     // <SLATE> OBTAINS NEW <USER>

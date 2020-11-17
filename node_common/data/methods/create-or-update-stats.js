@@ -11,7 +11,7 @@ export default async (date, data) => {
       }
 
       if (query.id) {
-        let updates = {...query.data};
+        let updates = { ...query.data };
 
         if (data.deals) {
           updates.deals = updates.deals + data.deals;
@@ -30,14 +30,17 @@ export default async (date, data) => {
         }
 
         if (data.subscribeUser) {
-          updates.subscribeUsers = updates.subscribeUsers + data.subscribeUser; 
+          updates.subscribeUsers = updates.subscribeUsers + data.subscribeUser;
         }
 
         if (data.subscribeSlate) {
-          updates.subscribeSlates = updates.subscribeSlates + data.subscribeSlate; 
+          updates.subscribeSlates = updates.subscribeSlates + data.subscribeSlate;
         }
 
-        const update = await DB.from("stats").where("id", query.id).update({ data: update }).returning("*");
+        const update = await DB.from("stats")
+          .where("id", query.id)
+          .update({ data: update })
+          .returning("*");
 
         if (!update || update.error) {
           return null;
@@ -47,21 +50,26 @@ export default async (date, data) => {
         return updateIndex;
       }
 
-      const insert = await DB.insert({ created_at: date, data: {
-        deals: 0,
-        users: 0,
-        slates: 0,
-        objects: 0,
-        subscribeUsers: 0,
-        subscribeSlates: 0,
-        ...data
-      } }).into("stats").returning("*");
+      const insert = await DB.insert({
+        created_at: date,
+        data: {
+          deals: 0,
+          users: 0,
+          slates: 0,
+          objects: 0,
+          subscribeUsers: 0,
+          subscribeSlates: 0,
+          ...data,
+        },
+      })
+        .into("stats")
+        .returning("*");
       const index = insert ? insert.pop() : null;
 
       if (!index) {
         return null;
       }
-      
+
       return JSON.parse(JSON.stringify(index));
     },
     errorFn: async (e) => {

@@ -1,5 +1,12 @@
 import * as React from "react";
 
+import { css } from "@emotion/core";
+
+const STYLES_CONTAINER = css`
+  height: 100%;
+  width: 100%;
+`;
+
 const loadScript = (url) =>
   new Promise((res, rej) => {
     // NOTE (Amine): Create script
@@ -41,7 +48,7 @@ const UnityFrame = ({ url }) => {
     return _cleanScripts;
   }, []);
 
-  return <div id="unityContainer" />;
+  return <div id="unityContainer" css={STYLES_CONTAINER} />;
 };
 
 export default UnityFrame;

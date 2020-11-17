@@ -63,7 +63,7 @@ export default class SlateMediaObject extends React.Component {
     const playType = typeMap[type] ? typeMap[type] : type;
     console.log(this.props);
     let element = <div css={STYLES_FAILURE}>No Preview</div>;
-    console.log(url);
+
     if (type.startsWith("application/pdf")) {
       return <object css={STYLES_OBJECT} data={url} type={type} />;
     }

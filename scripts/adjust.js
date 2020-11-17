@@ -9,15 +9,35 @@ const db = knex(envConfig);
 
 console.log(`RUNNING:  adjust.js`);
 
-const createDealsTable = db.schema.createTable("deals", function (table) {
-  table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-  table.string("owner_user_id").nullable();
+const createOrphansTable = db.schema.createTable("orphans", function(table) {
+  table
+    .uuid("id")
+    .primary()
+    .unique()
+    .notNullable()
+    .defaultTo(db.raw("uuid_generate_v4()"));
   table.jsonb("data").nullable();
-  table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
-  table.timestamp("updated_at").notNullable().defaultTo(db.raw("now()"));
+  table
+    .timestamp("created_at")
+    .notNullable()
+    .defaultTo(db.raw("now()"));
 });
 
-Promise.all([createDealsTable]);
+const createStatsTable = db.schema.createTable("stats", function(table) {
+  table
+    .uuid("id")
+    .primary()
+    .unique()
+    .notNullable()
+    .defaultTo(db.raw("uuid_generate_v4()"));
+  table.jsonb("data").nullable();
+  table
+    .timestamp("created_at")
+    .notNullable()
+    .defaultTo(db.raw("now()"));
+});
+
+Promise.all([createOrphansTable, createStatsTable]);
 
 console.log(`FINISHED: adjust.js`);
 console.log(`          CTRL +C to return to terminal.`);

@@ -5,7 +5,6 @@ import * as Serializers from "~/node_common/serializers";
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as AnalyticsManager from "~/node_common/managers/analytics";
 import * as Websocket from "~/node_common/nodejs-websocket";
-
 import * as Validations from "~/common/validations";
 import * as Window from "~/common/window";
 import * as Strings from "~/common/strings";
@@ -207,8 +206,11 @@ app.prepare().then(async () => {
     }
 
     const id = Utilities.getIdFromCookie(req);
-    const loggedIn = ViewerManager.checkId({ id });
-    if (loggedIn) {
+    let loggedIn;
+    if (id) {
+      loggedIn = await ViewerManager.checkId({ id });
+    }
+    if (!Strings.isEmpty(id) && loggedIn) {
       return res.redirect(
         `/_${Strings.createQueryParams({
           scene: "V1_NAVIGATION_PROFILE",
@@ -260,8 +262,11 @@ app.prepare().then(async () => {
     }
 
     const id = Utilities.getIdFromCookie(req);
-    const loggedIn = ViewerManager.checkId({ id });
-    if (loggedIn) {
+    let loggedIn;
+    if (id) {
+      loggedIn = await ViewerManager.checkId({ id });
+    }
+    if (!Strings.isEmpty(id) && loggedIn) {
       return res.redirect(
         `/_${Strings.createQueryParams({
           scene: "V1_NAVIGATION_SLATE",
@@ -325,8 +330,11 @@ app.prepare().then(async () => {
     }
 
     const id = Utilities.getIdFromCookie(req);
-    const loggedIn = ViewerManager.checkId({ id });
-    if (loggedIn) {
+    let loggedIn;
+    if (id) {
+      loggedIn = await ViewerManager.checkId({ id });
+    }
+    if (!Strings.isEmpty(id) && loggedIn) {
       return res.redirect(
         `/_${Strings.createQueryParams({
           scene: "V1_NAVIGATION_SLATE",

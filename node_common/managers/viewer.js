@@ -301,10 +301,12 @@ export const hydrate = async (id) => {
 };
 
 export const checkId = async ({ id }) => {
+  if (!id) {
+    return false;
+  }
   const user = await Data.getUserById({
     id,
   });
-
   if (!user || user.error) {
     return false;
   }

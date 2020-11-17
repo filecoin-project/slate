@@ -57,7 +57,7 @@ const generateLayout = (items) => {
 
 const preload = (item) =>
   new Promise((resolve, reject) => {
-    if (!item.type || !Validations.isPreviewableImage(this.props.type)) {
+    if (!item.type || !Validations.isPreviewableImage(item.type)) {
       resolve(200);
     }
     const img = new Image();

@@ -206,7 +206,7 @@ app.prepare().then(async () => {
     }
 
     const id = Utilities.getIdFromCookie(req);
-    const shouldViewerRedirect = ViewerManager.shouldRedirect({ id });
+    const shouldViewerRedirect = await ViewerManager.shouldRedirect({ id });
     if (shouldViewerRedirect) {
       return res.redirect(
         `/_${Strings.createQueryParams({
@@ -260,7 +260,7 @@ app.prepare().then(async () => {
     }
 
     const id = Utilities.getIdFromCookie(req);
-    const shouldViewerRedirect = ViewerManager.shouldRedirect({ id });
+    const shouldViewerRedirect = await ViewerManager.shouldRedirect({ id });
     if (shouldViewerRedirect) {
       return res.redirect(
         `/_${Strings.createQueryParams({

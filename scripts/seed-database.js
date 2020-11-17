@@ -89,6 +89,12 @@ const createPendingTable = db.schema.createTable("pending", function (table) {
   table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
 });
 
+const createStatsTable = db.schema.createTable("stats", function (table) {
+  table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
+  table.jsonb("data").nullable();
+  table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
+});
+
 // --------------------------
 // RUN
 // --------------------------
@@ -102,6 +108,7 @@ Promise.all([
   createActivityTable,
   createTrustedTable,
   createPendingTable,
+  createStatsTable,
 ]);
 
 console.log(`FINISHED: seed-database.js`);

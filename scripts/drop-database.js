@@ -13,6 +13,7 @@ Promise.all([
   db.schema.dropTable("users"),
   db.schema.dropTable("slates"),
   db.schema.dropTable("keys"),
+  db.schema.dropTable("stats"),
 ]);
 
 console.log(`FINISHED: drop-database.js`);

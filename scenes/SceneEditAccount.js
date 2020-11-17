@@ -93,6 +93,7 @@ export default class SceneEditAccount extends React.Component {
           alert: { message: "We're having trouble connecting right now" },
         },
       });
+
       this.setState({ changingAvatar: false });
       return;
     }
@@ -100,8 +101,9 @@ export default class SceneEditAccount extends React.Component {
     if (response.error) {
       dispatchCustomEvent({
         name: "create-alert",
-        detail: { alert: { decorator: json.decorator } },
+        detail: { alert: { decorator: response.decorator } },
       });
+
       this.setState({ changingAvatar: false });
       return;
     }
@@ -125,7 +127,9 @@ export default class SceneEditAccount extends React.Component {
           },
         },
       });
-    } else if (updateResponse.error) {
+    }
+
+    if (updateResponse.error) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {

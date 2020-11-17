@@ -4,6 +4,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Validations from "~/common/validations";
 import * as Social from "~/node_common/social";
 import * as ViewerManager from "~/node_common/managers/viewer";
+import * as SearchManager from "~/node_common/managers/search";
 
 import BCrypt from "bcrypt";
 

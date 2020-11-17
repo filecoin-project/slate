@@ -240,11 +240,11 @@ export default class ApplicationHeader extends React.Component {
             </span>
             <span
               css={STYLES_ICON_ELEMENT}
-              style={{
-                cursor: isForwardDisabled ? "not-allowed" : "default",
-                color: isForwardDisabled ? Constants.system.border : "auto",
-                marginLeft: 8,
-              }}
+              style={
+                isForwardDisabled
+                  ? { cursor: "not-allowed", color: Constants.system.border, marginLeft: 8 }
+                  : { marginLeft: 8 }
+              }
               onClick={isForwardDisabled ? () => {} : this.props.onForward}
             >
               <SVG.NavigationArrow height="24px" />

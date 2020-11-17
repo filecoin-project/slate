@@ -137,6 +137,7 @@ export const error = {
   SERVER_NO_CIDS_TO_CHECK: "No CIDs were entered, please check your input",
 
   //Users Create
+  SIGN_UP_RATE_LIMITED: "Too many sign up attempts. Please try again in 10 minutes",
   SERVER_EXISTING_USER_ALREADY: "That username is taken. Please try another one",
   EXISTING_USER_ALREADY: "That username is taken. Please try another one",
   INVALID_USERNAME: "Invalid username. Please include only letters and numbers",
@@ -185,6 +186,7 @@ export const error = {
     "We're havign trouble fetching your information right now. Please try again",
 
   //Sign-in
+  SIGN_IN_RATE_LIMITED: "Too many sign in attempts. Please try again in 10 minutes",
   SIGN_IN: "Your username/password can't be blank",
   SERVER_SIGN_IN: "Your username/password can't be blank",
   SIGN_IN_USER_NOT_FOUND: "We're having trouble logging you in right now, please try again later",

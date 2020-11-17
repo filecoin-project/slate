@@ -28,13 +28,21 @@ const app = next({
 const createLimiter = limit({
   windowMs: 10 * 60 * 1000, // 10 minutes
   max: 5,
-  message: { decorator: "RATE_LIMITED", error: true, message: "You have made too many requests." },
+  message: {
+    decorator: "SIGN_UP_RATE_LIMITED",
+    error: true,
+    message: "You have made too many requests.",
+  },
 });
 
 const loginLimiter = limit({
   windowMs: 10 * 60 * 1000, // 10 minutes
   max: 5,
-  message: { decorator: "RATE_LIMITED", error: true, message: "You have made too many requests." },
+  message: {
+    decorator: "SIGN_IN_RATE_LIMITED",
+    error: true,
+    message: "You have made too many requests.",
+  },
 });
 
 const handler = app.getRequestHandler();

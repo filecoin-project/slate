@@ -160,19 +160,6 @@ const STYLES_SLATE = css`
   }
 `;
 
-const STYLES_DISMISS_BOX = css`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  color: ${Constants.system.darkGray};
-  cursor: pointer;
-  z-index: ${Constants.zindex.tooltip};
-
-  :hover {
-    color: ${Constants.system.white};
-  }
-`;
-
 export const getServerSideProps = async (context) => {
   return {
     props: { ...context.query },
@@ -386,13 +373,11 @@ export default class SlatePage extends React.Component {
         {this.state.visible && (
           <div>
             <CTATransition
+              onClose={() => this.setState({ visible: false })}
               viewer={this.props.viewer}
               open={this.state.visible}
               redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${this.props.creator.username}&slate=${this.props.slate.slatename}`}
             />
-            <div css={STYLES_DISMISS_BOX} onClick={() => this.setState({ visible: false })}>
-              <SVG.Dismiss height="24px" />
-            </div>
           </div>
         )}
         <WebsitePrototypeFooter />

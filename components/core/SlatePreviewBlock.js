@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
@@ -325,7 +326,9 @@ export class SlatePreviewBlock extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `${window.location.hostname}/${this.props.username}/${this.props.slate.slatename}`
+                          Strings.getURLFromPath(
+                            `/${this.props.username}/${this.props.slate.slatename}`
+                          )
                         ),
                     },
                     {
@@ -339,7 +342,9 @@ export class SlatePreviewBlock extends React.Component {
                       onClick: (e) =>
                         this._handleCopy(
                           e,
-                          `${window.location.hostname}/${this.props.username}/${this.props.slate.slatename}`
+                          Strings.getURLFromPath(
+                            `/${this.props.username}/${this.props.slate.slatename}`
+                          )
                         ),
                     },
                   ]

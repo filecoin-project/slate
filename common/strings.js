@@ -67,6 +67,12 @@ export const getCIDGatewayURLWithExtension = (cid, name) => {
   return url;
 };
 
+export const getURLFromPath = (path) => {
+  return `${window.location.protocol}//${window.location.hostname}${
+    window.location.port ? ":" + window.location.port : ""
+  }${path}`;
+};
+
 export const getFileExtension = (name) => {
   if (!name || isEmpty(name)) {
     return "";

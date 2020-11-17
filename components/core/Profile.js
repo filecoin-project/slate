@@ -177,19 +177,6 @@ const STYLES_FLEX = css`
   }
 `;
 
-const STYLES_DISMISS_BOX = css`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  color: ${Constants.system.darkGray};
-  cursor: pointer;
-  z-index: ${Constants.zindex.tooltip};
-
-  :hover {
-    color: ${Constants.system.white};
-  }
-`;
-
 export default class Profile extends React.Component {
   state = {
     visible: false,
@@ -275,13 +262,11 @@ export default class Profile extends React.Component {
         {this.state.visible && (
           <div>
             <CTATransition
+              onClose={() => this.setState({ visible: false })}
               viewer={this.props.viewer}
               open={this.state.visible}
               redirectURL={`/_?scene=V1_NAVIGATION_PROFILE&user=${data.username}`}
             />
-            <div css={STYLES_DISMISS_BOX} onClick={() => this.setState({ visible: false })}>
-              <SVG.Dismiss height="24px" />
-            </div>
           </div>
         )}
 

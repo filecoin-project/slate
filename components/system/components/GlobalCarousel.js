@@ -335,13 +335,11 @@ export class GlobalCarousel extends React.Component {
       link = this.props.external
         ? null
         : isOwner
-        ? `${window.location.hostname}${window.location.port ? ":" + window.location.port : ""}/${
-            this.props.viewer.username
-          }/${this.props.current.slatename}`
+        ? Strings.getURLFromPath(`/${this.props.viewer.username}/${this.props.current.slatename}`)
         : this.props.current.owner && this.props.current.owner.username
-        ? `${window.location.hostname}${window.location.port ? ":" + window.location.port : ""}/${
-            this.props.current.owner.username
-          }/${this.props.current.slatename}`
+        ? Strings.getURLFromPath(
+            `/${this.props.current.owner.username}/${this.props.current.slatename}`
+          )
         : null;
     } else if (
       this.state.carouselType === "data" &&

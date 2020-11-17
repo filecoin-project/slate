@@ -17,6 +17,12 @@ import ScenePageHeader from "~/components/core/ScenePageHeader";
 import CircleButtonGray from "~/components/core/CircleButtonGray";
 import EmptyState from "~/components/core/EmptyState";
 
+const STYLES_COPY_INPUT = css`
+  pointer-events: none;
+  position: absolute;
+  opacity: 0;
+`;
+
 const STYLES_USERNAME = css`
   cursor: pointer;
 
@@ -86,6 +92,7 @@ const STYLES_BUTTON_SECONDARY = css`
 let isMounted = false;
 
 export default class SceneSlate extends React.Component {
+  _copy = null;
   _timeout = null;
   _remoteLock = false;
 
@@ -367,6 +374,18 @@ export default class SceneSlate extends React.Component {
     });
   };
 
+  _handleCopy = (e, value) => {
+    e.stopPropagation();
+    e.preventDefault();
+    this.setState({ copyValue: value, copying: true }, () => {
+      this._copy.select();
+      document.execCommand("copy");
+    });
+    setTimeout(() => {
+      this.setState({ copying: false });
+    }, 1000);
+  };
+
   render() {
     const { user, data } = this.props.current;
     const { body = "", preview } = data;
@@ -384,20 +403,23 @@ export default class SceneSlate extends React.Component {
           <SVG.Plus height="16px" />
         </CircleButtonGray>
         {isPublic ? (
-          <a
-            href={
-              user
-                ? `/${user.username}/${this.props.current.slatename}`
-                : this.state.isOwner
-                ? `/${this.props.viewer.username}/${this.props.current.slatename}`
-                : ""
+          <CircleButtonGray
+            style={{ marginRight: 16 }}
+            onClick={(e) =>
+              this._handleCopy(
+                e,
+                user
+                  ? Strings.getURLFromPath(`/${user.username}/${this.props.current.slatename}`)
+                  : this.state.isOwner
+                  ? Strings.getURLFromPath(
+                      `/${this.props.viewer.username}/${this.props.current.slatename}`
+                    )
+                  : ""
+              )
             }
-            target="_blank"
           >
-            <CircleButtonGray style={{ marginRight: 16 }}>
-              <SVG.ExternalLink height="16px" />
-            </CircleButtonGray>
-          </a>
+            {this.state.copying ? <SVG.CheckBox height="16px" /> : <SVG.DeepLink height="16px" />}
+          </CircleButtonGray>
         ) : null}
         <CircleButtonGray onClick={this._handleShowSettings}>
           <SVG.Settings height="16px" />
@@ -412,20 +434,23 @@ export default class SceneSlate extends React.Component {
             <div css={STYLES_BUTTON_PRIMARY}>Follow</div>
           )}
         </div>
-        <a
-          href={
-            user
-              ? `/${user.username}/${this.props.current.slatename}`
-              : this.state.isOwner
-              ? `/${this.props.viewer.username}/${this.props.current.slatename}`
-              : ""
+        <CircleButtonGray
+          style={{ marginLeft: 16 }}
+          onClick={(e) =>
+            this._handleCopy(
+              e,
+              user
+                ? Strings.getURLFromPath(`/${user.username}/${this.props.current.slatename}`)
+                : this.state.isOwner
+                ? Strings.getURLFromPath(
+                    `/${this.props.viewer.username}/${this.props.current.slatename}`
+                  )
+                : ""
+            )
           }
-          target="_blank"
         >
-          <CircleButtonGray style={{ marginLeft: 16 }}>
-            <SVG.ExternalLink height="16px" />
-          </CircleButtonGray>
-        </a>
+          {this.state.copying ? <SVG.CheckBox height="16px" /> : <SVG.DeepLink height="16px" />}
+        </CircleButtonGray>
       </div>
     );
     return (
@@ -479,13 +504,11 @@ export default class SceneSlate extends React.Component {
               <SlateLayout
                 link={
                   user
-                    ? `${window.location.hostname}${
-                        window.location.port ? ":" + window.location.port : ""
-                      }/${user.username}/${this.props.current.slatename}`
+                    ? Strings.getURLFromPath(`/${user.username}/${this.props.current.slatename}`)
                     : this.state.isOwner
-                    ? `${window.location.hostname}${
-                        window.location.port ? ":" + window.location.port : ""
-                      }/${this.props.viewer.username}/${this.props.current.slatename}`
+                    ? Strings.getURLFromPath(
+                        `/${this.props.viewer.username}/${this.props.current.slatename}`
+                      )
                     : ""
                 }
                 viewer={this.props.viewer}
@@ -518,6 +541,14 @@ export default class SceneSlate extends React.Component {
             <EmptyState>There's nothing here :)</EmptyState>
           </div>
         )}
+        <input
+          ref={(c) => {
+            this._copy = c;
+          }}
+          readOnly
+          value={this.state.copyValue}
+          css={STYLES_COPY_INPUT}
+        />
       </ScenePage>
     );
   }

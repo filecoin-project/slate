@@ -16,7 +16,7 @@ const STYLES_VIEW_BUTTON = css`
 
 export const ViewAllButton = (props) => {
   const [isTruncated, setTruncated] = useState(true);
-  const text = props.fullText;
+  const text = props.fullText || "";
   const maxCharacter = props.maxCharacter;
   const displayText = isTruncated ? text.slice(0, maxCharacter) : text;
   const textCount = text.length;
@@ -30,7 +30,7 @@ export const ViewAllButton = (props) => {
           <span>{isTruncated ? "..." : ""}</span>
           {noButton ? null : (
             <div css={STYLES_VIEW_BUTTON} onClick={() => setTruncated(!isTruncated)}>
-              {isTruncated ? "+ View all" : "- View less"}
+              {isTruncated ? "+ Show more" : "- Show less"}
             </div>
           )}
         </span>

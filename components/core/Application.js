@@ -129,6 +129,7 @@ export default class ApplicationPage extends React.Component {
     const id = Window.getQueryParameterByName("scene");
     const user = Window.getQueryParameterByName("user");
     const slate = Window.getQueryParameterByName("slate");
+    const cid = Window.getQueryParameterByName("cid");
 
     let wsclient = Websockets.getClient();
     if (wsclient) {
@@ -153,7 +154,7 @@ export default class ApplicationPage extends React.Component {
 
     if (!Strings.isEmpty(id) && this.state.viewer) {
       console.log("redirecting to page");
-      return this._handleNavigateTo({ id, user, slate });
+      return this._handleNavigateTo({ id, user, slate, cid });
     }
   }
 
@@ -494,7 +495,6 @@ export default class ApplicationPage extends React.Component {
 
   _handleSidebarLoading = (sidebarLoading) => this.setState({ sidebarLoading });
 
-  //change the naem to hydrate. and use this only upon initial sign in (should be the only time you need it)
   rehydrate = async (options) => {
     const response = await Actions.hydrateAuthenticatedUser();
 
@@ -653,8 +653,6 @@ export default class ApplicationPage extends React.Component {
       });
     }
 
-    this._handleAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
-
     let unseenAnnouncements = [];
     for (let feature of announcements) {
       if (!Object.keys(this.state.viewer.onboarding).includes(feature)) {
@@ -682,6 +680,17 @@ export default class ApplicationPage extends React.Component {
     if (newAccount) {
       Actions.updateSearch("create-user");
     }
+
+    const id = Window.getQueryParameterByName("scene");
+    const user = Window.getQueryParameterByName("user");
+    const slate = Window.getQueryParameterByName("slate");
+    const cid = Window.getQueryParameterByName("cid");
+    if (!Strings.isEmpty(id) && this.state.viewer) {
+      console.log("redirecting to page");
+      this._handleNavigateTo({ id, user, slate, cid });
+    } else {
+      this._handleAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
+    }
     return response;
   };
 
@@ -696,8 +705,8 @@ export default class ApplicationPage extends React.Component {
 
     if (jwt) {
       cookies.remove(Credentials.session.key);
-      window.location.reload();
     }
+    window.location.replace("/_");
   };
 
   _handleViewerChange = (e) => {
@@ -722,7 +731,13 @@ export default class ApplicationPage extends React.Component {
       // + e.g. to display <SceneProfile/> while on the Home tab
       // + `scene` should be the decorator of the component you want displayed
       return this._handleNavigateTo(
-        { id: options.value, scene: options.scene, user: options.user, slate: options.slate },
+        {
+          id: options.value,
+          scene: options.scene,
+          user: options.user,
+          slate: options.slate,
+          cid: options.cid,
+        },
         options.data,
         options.redirect
       );
@@ -760,13 +775,17 @@ export default class ApplicationPage extends React.Component {
     return alert(JSON.stringify(options));
   };
 
+  _handleUpdateData = ({ data }) => {
+    this.setState({ data });
+  };
+
   _handleNavigateTo = (next, data = null, redirect = false) => {
     if (next.id) {
       window.history.replaceState(
         { ...next },
         "Slate",
         `?scene=${next.id}${next.user ? `&user=${next.user}` : ""}${
-          next.slate ? `&slate=${next.slate}` : ""
+          next.slate ? `&slate=${next.slate}${next.cid ? `&cid=${next.cid}` : ""}` : ""
         }`
       );
     }
@@ -909,6 +928,7 @@ export default class ApplicationPage extends React.Component {
       onUpload: this._handleUploadFiles,
       onBack: this._handleBack,
       onForward: this._handleForward,
+      onUpdateData: this._handleUpdateData,
       sceneId: current.target.id,
       mobile: this.state.mobile,
       resources: this.props.resources,

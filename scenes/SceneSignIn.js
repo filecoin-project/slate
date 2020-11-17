@@ -6,7 +6,7 @@ import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
-import { Logo, Symbol } from "~/common/logo";
+import { SignIn } from "~/components/core/SignIn";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
@@ -47,71 +47,6 @@ const STYLES_MIDDLE = css`
   padding: 24px;
 `;
 
-const STYLES_POPOVER = css`
-  height: 424px;
-  padding: 32px 36px;
-  border-radius: 4px;
-  max-width: 376px;
-  width: 95vw;
-  display: flex;
-  flex-direction: column;
-  background: ${Constants.system.white};
-  color: ${Constants.system.black};
-  ${"" /* box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25); */}
-  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.05);
-
-  @keyframes authentication-popover-fade-in {
-    from {
-      transform: translateY(-8px);
-      opacity: 0;
-    }
-
-    to {
-      transform: translateY(0px);
-      opacity: 1;
-    }
-  }
-
-  animation: authentication-popover-fade-in 400ms ease;
-`;
-
-const STYLES_LINKS = css`
-  margin-top: 24px;
-  max-width: 376px;
-  width: 100%;
-  padding-left: 26px;
-`;
-
-const STYLES_LINK_ITEM = css`
-  display: block;
-  text-decoration: none;
-  font-weight: 400;
-  font-size: 14px;
-  font-family: ${Constants.font.semiBold};
-  user-select: none;
-  cursor: pointer;
-  margin-top: 2px;
-  color: ${Constants.system.black};
-  transition: 200ms ease all;
-  word-wrap: break-word;
-
-  :visited {
-    color: ${Constants.system.black};
-  }
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-`;
-
-const STYLES_CODE_PREVIEW = css`
-  color: ${Constants.system.black};
-  font-family: ${Constants.font.code};
-  font-size: 12px;
-  text-transform: uppercase;
-  margin-bottom: 24px;
-`;
-
 export default class SceneSignIn extends React.Component {
   state = {
     scene: "WELCOME",
@@ -121,9 +56,9 @@ export default class SceneSignIn extends React.Component {
     usernameTaken: false,
   };
 
-  componentDidMount() {
-    window.history.replaceState({ id: null }, "Slate", `/_`);
-  }
+  // componentDidMount() {
+  //   window.history.replaceState({ id: null }, "Slate", `/_`);
+  // }
 
   _handleChange = (e) => {
     if (e.target.name === "accepted" && e.target.value) {
@@ -297,205 +232,13 @@ export default class SceneSignIn extends React.Component {
     });
   };
 
-  _getPopoverComponent = () => {
-    if (this.state.scene === "WELCOME") {
-      return (
-        <React.Fragment>
-          <div css={STYLES_POPOVER} key={this.state.scene}>
-            <Logo height="36px" style={{ display: "block", margin: "56px auto 0px auto" }} />
-
-            <System.P style={{ margin: "56px 0", textAlign: "center" }}>
-              An open-source file sharing network for research and collaboration
-            </System.P>
-
-            <System.ButtonPrimary
-              full
-              style={{ marginTop: 24 }}
-              onClick={() => this.setState({ scene: "CREATE_ACCOUNT" })}
-              loading={this.state.loading}
-            >
-              Sign up
-            </System.ButtonPrimary>
-
-            <System.ButtonSecondary
-              full
-              style={{ marginTop: 16 }}
-              onClick={() => this.setState({ scene: "SIGN_IN" })}
-              loading={this.state.loading}
-            >
-              Sign in
-            </System.ButtonSecondary>
-          </div>
-          <div css={STYLES_LINKS}>
-            <a css={STYLES_LINK_ITEM} href="/terms" target="_blank">
-              ⭢ Terms of service
-            </a>
-
-            <a css={STYLES_LINK_ITEM} href="/guidelines" target="_blank">
-              ⭢ Community guidelines
-            </a>
-          </div>
-        </React.Fragment>
-      );
-    }
-
-    if (this.state.scene === "CREATE_ACCOUNT") {
-      return (
-        <React.Fragment>
-          <div css={STYLES_POPOVER} key={this.state.scene} style={{ minHeight: 496 }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: 56,
-              }}
-            >
-              <Symbol height="36px" />
-            </div>
-
-            <System.P
-              style={{
-                marginTop: 56,
-                textAlign: "center",
-                fontFamily: Constants.font.medium,
-              }}
-            >
-              Create your account
-            </System.P>
-
-            <System.Input
-              autoFocus
-              containerStyle={{ marginTop: 32 }}
-              placeholder="Username"
-              name="username"
-              type="text"
-              value={this.state.username}
-              onChange={this._handleUsernameChange}
-              onBlur={this._handleCheckUsername}
-              onSubmit={this._handleSubmit}
-            />
-
-            <System.Input
-              containerStyle={{ marginTop: 16 }}
-              placeholder="Password"
-              name="password"
-              type="password"
-              value={this.state.password}
-              onChange={this._handleChange}
-              onSubmit={this._handleSubmit}
-            />
-
-            <System.CheckBox
-              style={{ marginTop: 24 }}
-              name="accepted"
-              value={this.state.accepted}
-              onChange={this._handleChange}
-            >
-              To create an account you must accept the <a href="/terms">terms of service</a>.
-            </System.CheckBox>
-
-            <System.ButtonPrimary
-              full
-              style={{ marginTop: 24 }}
-              onClick={!this.state.loading ? this._handleSubmit : () => {}}
-              loading={this.state.loading}
-            >
-              Sign up
-            </System.ButtonPrimary>
-          </div>
-          <div css={STYLES_LINKS}>
-            <div
-              css={STYLES_LINK_ITEM}
-              onClick={() => {
-                this.setState({ scene: "SIGN_IN", loading: false });
-              }}
-            >
-              ⭢ Already have an account?
-            </div>
-          </div>
-        </React.Fragment>
-      );
-    }
-
-    return (
-      <React.Fragment>
-        <div css={STYLES_POPOVER} key={this.state.scene}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              paddingTop: 56,
-            }}
-          >
-            <Symbol height="36px" />
-          </div>
-
-          <System.P
-            style={{
-              marginTop: 56,
-              textAlign: "center",
-              fontFamily: Constants.font.medium,
-            }}
-          >
-            Welcome back
-          </System.P>
-
-          <System.Input
-            autoFocus
-            containerStyle={{ marginTop: 32 }}
-            placeholder="Username"
-            name="username"
-            type="text"
-            value={this.state.username}
-            onChange={this._handleUsernameChange}
-            onSubmit={this._handleSubmit}
-          />
-
-          <System.Input
-            containerStyle={{ marginTop: 16 }}
-            placeholder="Password"
-            name="password"
-            type="password"
-            value={this.state.password}
-            onChange={this._handleChange}
-            onSubmit={this._handleSubmit}
-          />
-
-          <System.ButtonPrimary
-            full
-            style={{ marginTop: 24 }}
-            onClick={!this.state.loading ? this._handleSubmit : () => {}}
-            loading={this.state.loading}
-          >
-            Sign in
-          </System.ButtonPrimary>
-        </div>
-        <div css={STYLES_LINKS}>
-          <div
-            css={STYLES_LINK_ITEM}
-            onClick={() => {
-              this.setState({ scene: "CREATE_ACCOUNT", loading: false });
-            }}
-          >
-            ⭢ Not registered? Sign up instead
-          </div>
-        </div>
-      </React.Fragment>
-    );
-  };
-
   render() {
-    const popover = this._getPopoverComponent();
-
     return (
-      <div
-        css={STYLES_ROOT}
-        // style={{
-        //   backgroundImage: `url(${"https://slate.textile.io/ipfs/bafybeigrydo6q24ra4hnqpv6dpoosuar2rwbx6fslug2e2xdlcshayis2q"})`,
-        // }}
-      >
+      <div css={STYLES_ROOT}>
         <WebsitePrototypeHeader style={{ background: `none` }} />
-        <div css={STYLES_MIDDLE}>{popover}</div>
+        <div css={STYLES_MIDDLE}>
+          <SignIn {...this.props} />
+        </div>
         <WebsitePrototypeFooter />
       </div>
     );

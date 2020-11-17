@@ -97,13 +97,7 @@ export class OnboardingModal extends React.Component {
         />
       ),
       button: (
-        <ButtonPrimary
-          style={{ width: 160 }}
-          onClick={() => {
-            this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_SLATES" });
-            this._handleClick(1);
-          }}
-        >
+        <ButtonPrimary style={{ width: 160 }} onClick={() => this._handleClick(1)}>
           Try it out
         </ButtonPrimary>
       ),

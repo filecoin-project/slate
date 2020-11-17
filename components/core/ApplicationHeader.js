@@ -152,7 +152,6 @@ export default class ApplicationHeader extends React.Component {
   //--> argue with haris about how that looks
 
   _handleKeyDown = (e) => {
-    console.log(e.key);
     let prevValue = this.keysPressed[e.key];
     if (prevValue) {
       return;
@@ -166,12 +165,10 @@ export default class ApplicationHeader extends React.Component {
   };
 
   _handleKeyUp = (e) => {
-    console.log("key up");
     this.keysPressed = {};
   };
 
   _handleCreateSearch = (e) => {
-    console.log("create search");
     dispatchCustomEvent({
       name: "show-search",
       detail: {},

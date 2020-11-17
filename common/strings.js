@@ -67,6 +67,12 @@ export const getCIDGatewayURLWithExtension = (cid, name) => {
   return url;
 };
 
+export const getURLFromPath = (path) => {
+  return `${window.location.protocol}//${window.location.hostname}${
+    window.location.port ? ":" + window.location.port : ""
+  }${path}`;
+};
+
 export const getFileExtension = (name) => {
   if (!name || isEmpty(name)) {
     return "";
@@ -80,6 +86,19 @@ export const getFileExtension = (name) => {
     return name.slice(((name.lastIndexOf(".") - 1) >>> 0) + 2);
   }
   return "";
+};
+
+export const createQueryParams = (params) => {
+  let query = "?";
+  let first = true;
+  for (const [key, value] of Object.entries(params)) {
+    if (!first) {
+      query += "&";
+    }
+    query += `${key}=${value}`;
+    first = false;
+  }
+  return query;
 };
 
 export const getCIDFromIPFS = (url) => {

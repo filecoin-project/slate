@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 import * as Validations from "~/common/validations";
@@ -9,13 +10,14 @@ import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
 import { Alert } from "~/components/core/Alert";
 import { ViewAllButton } from "~/components/core/ViewAll";
+import { SlateLayout } from "~/components/core/SlateLayout";
+import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
-import { SlateLayout } from "~/components/core/SlateLayout";
-import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
+import CTATransition from "~/components/core/CTATransition";
 
 const SIZE_LIMIT = 1000000; //NOTE(martina): 1mb limit for twitter preview images
 const DEFAULT_IMAGE =
@@ -181,6 +183,10 @@ export const FileTypeDefaultPreview = () => {
 };
 
 export default class SlatePage extends React.Component {
+  state = {
+    visible: false,
+  };
+
   componentDidMount() {
     if (!this.props.slate) {
       return null;
@@ -301,19 +307,19 @@ export default class SlatePage extends React.Component {
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
           <div css={STYLES_SLATE_INTRO}>
-            <a css={STYLES_CREATOR} href={headerURL}>
+            <a css={STYLES_CREATOR} href={`/${this.props.creator.username}`}>
               {slateCreator}
             </a>
             <div css={STYLES_DESCTIPTION}>
               <div css={STYLES_FLEX}>
                 <div css={STYLES_TITLE}>{slateTitle} </div>
                 <div css={STYLES_BUTTONS}>
-                  <a css={STYLES_BUTTON} href={"http://slate.host/_"}>
+                  <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
                     Follow
-                  </a>
-                  <a css={STYLES_BUTTON} href={"http://slate.host/_"}>
+                  </div>
+                  <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
                     Download
-                  </a>
+                  </div>
                 </div>
               </div>
               <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
@@ -356,12 +362,24 @@ export default class SlatePage extends React.Component {
                 items={objects}
                 onSelect={this._handleSelect}
                 defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
+                creator={this.props.creator}
+                slate={this.props.slate}
               />
             )}
           </div>
         </div>
         <System.GlobalCarousel external current={this.props.slate} viewer={this.props.creator} />
         <System.GlobalModal />
+        {this.state.visible && (
+          <div>
+            <CTATransition
+              onClose={() => this.setState({ visible: false })}
+              viewer={this.props.viewer}
+              open={this.state.visible}
+              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${this.props.creator.username}&slate=${this.props.slate.slatename}`}
+            />
+          </div>
+        )}
         <WebsitePrototypeFooter />
       </WebsitePrototypeWrapper>
     );

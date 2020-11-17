@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Actions from "~/common/actions";
 import * as Window from "~/common/window";
+import * as Strings from "~/common/strings";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { css } from "@emotion/core";
@@ -26,24 +27,22 @@ export default class ScenePublicSlate extends React.Component {
   };
 
   componentDidUpdate = async (prevProps) => {
-    if (!this.props.data) {
-      return null;
+    if (
+      this.props.data &&
+      prevProps.data &&
+      this.props.data.id &&
+      prevProps.data.id &&
+      this.props.data.id !== prevProps.data.id
+    ) {
+      await this.fetchSlate();
     }
-
-    if (!prevProps.data) {
-      return null;
-    }
-
-    if (this.props.data.id === prevProps.data.id) {
-      return null;
-    }
-
-    await this.fetchSlate();
   };
 
   fetchSlate = async () => {
+    console.log(this.props.data);
     const username = Window.getQueryParameterByName("user");
     const slatename = Window.getQueryParameterByName("slate");
+    const cid = Window.getQueryParameterByName("cid");
     if (
       !this.props.data &&
       !username &&
@@ -92,20 +91,40 @@ export default class ScenePublicSlate extends React.Component {
     } else if (this.props.data && this.props.data.id) {
       query = { id: this.props.data.id };
     }
-    let slate;
+    let response;
     if (query) {
-      slate = await Actions.getSerializedSlate(query);
+      response = await Actions.getSerializedSlate(query);
     }
 
-    if (!slate || slate.error) {
+    if (!response || response.error) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: { alert: { message: "We're having trouble fetching that slate right now." } },
       });
       this.props.onBack();
+      return;
     }
 
-    this.setState({ slate: slate.data });
+    this.props.onUpdateData({ data: response.data });
+    this.setState({ slate: response.data });
+
+    if (!Strings.isEmpty(cid)) {
+      let index = -1;
+      for (let i = 0; i < response.data.data.objects.length; i++) {
+        let obj = response.data.data.objects[i];
+        if ((obj.cid && obj.cid === cid) || (obj.url && obj.url.includes(cid))) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index !== -1) {
+        dispatchCustomEvent({
+          name: "slate-global-open-carousel",
+          detail: { index },
+        });
+      }
+    }
   };
 
   render() {

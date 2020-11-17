@@ -309,11 +309,11 @@ export const shouldRedirect = async ({ id }) => {
     id,
   });
 
-  if (!user || user.error) {
-    return false;
+  if (user && user.id) {
+    return true;
   }
 
-  return true;
+  return false;
 };
 
 // TODO(jim): Work on better serialization when adoption starts occuring.

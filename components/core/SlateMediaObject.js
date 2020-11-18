@@ -94,7 +94,8 @@ export default class SlateMediaObject extends React.Component {
       );
     }
 
-    if (type.startsWith("application/")) {
+    // TODO(jim): We will need to revisit this later.
+    if (type.startsWith("application/unity")) {
       return <UnityFrame url={url} />;
     }
 

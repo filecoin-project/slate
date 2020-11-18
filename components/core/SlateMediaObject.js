@@ -61,7 +61,7 @@ export default class SlateMediaObject extends React.Component {
     const url = this.props.data.url.replace("https://undefined", "https://");
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
     const playType = typeMap[type] ? typeMap[type] : type;
-    console.log(this.props);
+
     let element = <div css={STYLES_FAILURE}>No Preview</div>;
 
     if (type.startsWith("application/pdf")) {

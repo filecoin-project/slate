@@ -2,6 +2,8 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 
+import UnityFrame from "~/components/core/UnityFrame";
+
 import { css } from "@emotion/core";
 
 const STYLES_FAILURE = css`
@@ -90,6 +92,10 @@ export default class SlateMediaObject extends React.Component {
           <img css={STYLES_IMAGE} src={url} />
         </div>
       );
+    }
+
+    if (type.startsWith("application/")) {
+      return <UnityFrame url={url} />;
     }
 
     return element;

@@ -6,19 +6,16 @@ export default async ({ cid, url, ownerId }) => {
   return await runQuery({
     label: "GET_SLATE_OBJECT_BY_CID",
     queryFn: async (DB) => {
-      const hasObjectURL;
+      let hasObjectURL;
       if (ownerId) {
         hasObjectURL = (textileURL) =>
-        DB.raw(`?? @> ?::jsonb`, [
-          "data",
-          JSON.stringify({ objects: [{ url: textileURL, ownerId }] }),
-        ]);
+          DB.raw(`?? @> ?::jsonb`, [
+            "data",
+            JSON.stringify({ objects: [{ url: textileURL, ownerId }] }),
+          ]);
       } else {
         hasObjectURL = (textileURL) =>
-        DB.raw(`?? @> ?::jsonb`, [
-          "data",
-          JSON.stringify({ objects: [{ url: textileURL }] }),
-        ]);
+          DB.raw(`?? @> ?::jsonb`, ["data", JSON.stringify({ objects: [{ url: textileURL }] })]);
       }
 
       /*

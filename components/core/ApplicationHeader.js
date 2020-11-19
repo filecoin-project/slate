@@ -137,7 +137,7 @@ export default class ApplicationHeader extends React.Component {
   keysPressed = {};
 
   state = {
-    showNav: false,
+    popup: null,
     isRefreshing: false,
   };
 
@@ -175,6 +175,14 @@ export default class ApplicationHeader extends React.Component {
     });
   };
 
+  _handleTogglePopup = (value) => {
+    if (!value || this.state.popup === value) {
+      this.setState({ popup: null });
+    } else {
+      this.setState({ popup: value });
+    }
+  };
+
   render() {
     const isBackDisabled = this.props.currentIndex === 0 || this.props.history.length < 2;
 
@@ -184,16 +192,13 @@ export default class ApplicationHeader extends React.Component {
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
           <span css={STYLES_ICON_ELEMENT} style={{ position: "relative" }}>
-            <SVG.Menu
-              height="24px"
-              onClick={() => this.setState({ showNav: !this.state.showNav })}
-            />
-            {this.state.showNav ? (
+            <SVG.Menu height="24px" onClick={() => this._handleTogglePopup("nav")} />
+            {this.state.popup === "nav" ? (
               <Boundary
                 captureResize={true}
                 captureScroll={false}
                 enabled
-                onOutsideRectEvent={() => this.setState({ showNav: false })}
+                onOutsideRectEvent={() => this._handleTogglePopup()}
                 style={this.props.style}
               >
                 <PopoverNavigation
@@ -216,7 +221,7 @@ export default class ApplicationHeader extends React.Component {
                           </div>
                         ),
                         onClick: (e) => {
-                          this.setState({ showNav: false });
+                          this._handleTogglePopup();
                           this.props.onAction({
                             type: "NAVIGATE",
                             value: item.id,
@@ -279,6 +284,8 @@ export default class ApplicationHeader extends React.Component {
           </span> */}
           <span style={{ pointerEvents: "auto", marginLeft: 24 }}>
             <ApplicationUserControls
+              popup={this.state.popup}
+              onTogglePopup={this._handleTogglePopup}
               viewer={this.props.viewer}
               onAction={this.props.onAction}
               onSignOut={this.props.onSignOut}

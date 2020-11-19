@@ -123,31 +123,15 @@ const STYLES_MOBILE_ONLY = css`
 `;
 
 export default class ApplicationUserControls extends React.Component {
-  state = { visible: false };
-
-  _handleClick = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    if (this.state.visible) {
-      this._handleHide();
-      return;
-    }
-    this.setState({ visible: true });
-  };
-
-  _handleHide = () => {
-    this.setState({ visible: false });
-  };
-
   _handleAction = (e, data) => {
     e.preventDefault();
     e.stopPropagation();
-    this._handleHide();
+    this.props.onTogglePopup();
     return this.props.onAction(data);
   };
 
   _handleSignOut = (data) => {
-    this._handleHide();
+    this.props.onTogglePopup();
     return this.props.onSignOut(data);
   };
 
@@ -157,7 +141,7 @@ export default class ApplicationUserControls extends React.Component {
         captureResize={true}
         captureScroll={false}
         enabled
-        onOutsideRectEvent={this._handleHide}
+        onOutsideRectEvent={() => this.props.onTogglePopup()}
         style={this.props.style}
       >
         <div>
@@ -201,63 +185,19 @@ export default class ApplicationUserControls extends React.Component {
             ]}
           />
         </div>
-        {/* <div css={STYLES_MOBILE_HIDDEN} style={{ marginBottom: "8px" }}>
-            <PopoverNavigation
-              navigation={[
-                {
-                  text: "Account settings",
-                  onClick: (e) =>
-                    this._handleAction(e, {
-                      type: "NAVIGATE",
-                      value: "V1_NAVIGATION_PROFILE_EDIT",
-                    }),
-                },
-                {
-                  text: "Sign out",
-                  onClick: (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this._handleSignOut(e);
-                  },
-                },
-              ]}
-            />
-          </div> */}
       </Boundary>
     );
     return (
       <div css={STYLES_HEADER}>
-        {/* <div
-          css={STYLES_PROFILE}
-          onClick={() =>
-            this.props.onAction({
-              type: "NAVIGATE",
-              value: "V1_NAVIGATION_PROFILE",
-              data: this.props.viewer,
-            })
-          }
-        >
-          <span
-            css={STYLES_PROFILE_IMAGE}
-            style={{
-              backgroundImage: `url('${this.props.viewer.data.photo}')`,
-            }}
-          />
-          <span css={STYLES_PROFILE_USERNAME}>{this.props.viewer.username}</span>
-          <div onClick={this._handleClick} css={STYLES_ITEM_BOX}>
-            <SVG.ChevronDown height="20px" />
-          </div>
-          {this.state.visible ? tooltip : null}
-        </div> */}
         <div css={STYLES_PROFILE_MOBILE} style={{ position: "relative" }}>
           <span
             css={STYLES_PROFILE_IMAGE}
-            onClick={this._handleClick}
+            onClick={() => this.props.onTogglePopup("profile")}
             style={{
               backgroundImage: `url('${this.props.viewer.data.photo}')`,
             }}
           />
-          {this.state.visible ? tooltip : null}
+          {this.props.popup === "profile" ? tooltip : null}
         </div>
       </div>
     );

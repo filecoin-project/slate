@@ -34,7 +34,7 @@ export const createLocalDataIncomplete = ({ type, size, name }, id = null) => {
     date: new Date(),
     networks: [],
     job: null,
-    ipfs: null,
+    cid: null,
     storage: 0,
     retrieval: 0,
   };
@@ -75,7 +75,7 @@ export const getDataByIPFS = (user, ipfs) => {
   // TODO(jim): Totally purges the ID.
   for (let i = 0; i < library.length; i++) {
     for (let j = 0; j < library[i].children.length; j++) {
-      if (library[i].children[j].ipfs === ipfs) {
+      if (library[i].children[j].ipfs === ipfs || library[i].children[j].cid === ipfs) {
         return library[i].children[j];
       }
     }
@@ -89,12 +89,20 @@ export const addData = ({ user, files }) => {
 
   // TODO(jim): Since we don't support bucket organization... yet.
   // Add just pushes to the first set. But we can change this easily later.
-  let noRepeats = [...files];
+  let noRepeats = [];
+  for (let file of files) {
+    file.cid = file.ipfs.replace("/ipfs/", "");
+    delete file.ipfs;
+    noRepeats.push(file);
+  }
 
   for (let i = 0; i < library.length; i++) {
-    let cids = library[i].children.map((file) => file.ipfs);
+    let cids = library[i].children.map((file) => file.cid || file.ipfs.replace("/ipfs/", ""));
     for (let j = 0; j < files.length; j++) {
-      if (cids.includes(files[j].ipfs)) {
+      if (
+        (files[j].cid && cids.includes(files[j].cid)) ||
+        cids.includes(files[j].ipfs.replace("/ipfs/", ""))
+      ) {
         noRepeats[j] = null;
       }
     }

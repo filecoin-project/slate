@@ -348,7 +348,7 @@ export class GlobalCarousel extends React.Component {
       this.state.index < this.props.viewer.library[0].children.length
     ) {
       data = this.props.viewer.library[0].children[this.state.index];
-      data.url = `${Constants.gateways.ipfs}/${data.cid || data.ipfs.replace("/ipfs/", "")}`;
+      data.url = Strings.getCIDGatewayURL(data.cid || data.ipfs.replace("/ipfs/", ""));
     }
     if (!data) {
       this._handleClose();

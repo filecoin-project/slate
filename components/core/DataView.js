@@ -265,7 +265,8 @@ export default class DataView extends React.Component {
     } else {
       cids = Object.keys(this.state.checked).map((id) => {
         let index = parseInt(id);
-        return this.props.viewer.library[0].children[index].ipfs.replace("/ipfs/", "");
+        let item = this.props.viewer.library[0].children[index];
+        return item.cid || item.ipfs.replace("/ipfs/", "");
       });
     }
     this._handleLoading({ cids });
@@ -535,7 +536,7 @@ export default class DataView extends React.Component {
           {header}
           <div css={STYLES_IMAGE_GRID}>
             {this.props.items.slice(0, this.state.viewLimit).map((each, i) => {
-              const cid = each.ipfs.replace("/ipfs/", "");
+              const cid = each.cid || each.ipfs.replace("/ipfs/", "");
               return (
                 <div
                   key={each.id}
@@ -546,7 +547,7 @@ export default class DataView extends React.Component {
                 >
                   <SlateMediaObjectPreview
                     blurhash={each.blurhash}
-                    url={`${Constants.gateways.ipfs}/${each.ipfs.replace("/ipfs/", "")}`}
+                    url={Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))}
                     title={each.file || each.name}
                     type={each.type || each.icon}
                     previewImage={each.previewImage}
@@ -594,7 +595,7 @@ export default class DataView extends React.Component {
                                   {
                                     text: "Copy link",
                                     onClick: (e) =>
-                                      this._handleCopy(e, `${Constants.gateways.ipfs}/${cid}`),
+                                      this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
                                   },
                                   {
                                     text: "Delete",
@@ -695,7 +696,7 @@ export default class DataView extends React.Component {
       },
     ];
     const rows = this.props.items.slice(0, this.state.viewLimit).map((each, index) => {
-      const cid = each.ipfs.replace("/ipfs/", "");
+      const cid = each.cid || each.ipfs.replace("/ipfs/", "");
       const isOnNetwork = each.networks && each.networks.includes("FILECOIN");
 
       return {
@@ -762,7 +763,7 @@ export default class DataView extends React.Component {
                     },
                     {
                       text: "Copy link",
-                      onClick: (e) => this._handleCopy(e, `${Constants.gateways.ipfs}/${cid}`),
+                      onClick: (e) => this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
                     },
                     {
                       text: "Delete",

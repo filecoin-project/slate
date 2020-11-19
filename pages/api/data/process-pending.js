@@ -41,8 +41,8 @@ export default async (req, res) => {
   let cids = [];
   let noRepeats = [];
   for (let entry of pending) {
-    if (cids.includes(entry.data.ipfs)) continue;
-    cids.push(entry.data.ipfs);
+    if (cids.includes(entry.data.cid || entry.data.ipfs)) continue;
+    cids.push(entry.data.cid || entry.data.ipfs);
     noRepeats.push(entry.data);
   }
 

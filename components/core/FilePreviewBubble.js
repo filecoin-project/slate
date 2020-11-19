@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
+import * as Strings from "~/common/strings";
 
 import { css, keyframes } from "@emotion/core";
 import { useState } from "react";
@@ -53,7 +54,7 @@ export const FilePreviewBubble = (props) => {
       </div>
       {showPreview && (
         <div css={STYLES_FILE_PREVIEW_BUBBLE}>
-          <img css={STYLES_FILE_PREVIEW} src={`${Constants.gateways.ipfs}/${props.url}`} />
+          <img css={STYLES_FILE_PREVIEW} src={Strings.getCIDGatewayURL(props.url)} />
         </div>
       )}
     </React.Fragment>

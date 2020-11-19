@@ -67,19 +67,19 @@ export default async (req, res) => {
     let newIPFSs = [];
     addlObjects = newObjects.filter((each) => {
       if (
-        slateURLs.includes(`${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`) ||
-        newIPFSs.includes(each.ipfs)
+        slateURLs.includes(Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))) ||
+        newIPFSs.includes(each.cid || each.ipfs)
       ) {
         return false;
       }
-      newIPFSs.push(each.ipfs);
+      newIPFSs.push(each.cid || each.ipfs);
       return true;
     });
   }
 
   addlObjects = addlObjects.map((each) => {
     let url = each.ipfs
-      ? `${Constants.IPFS_GATEWAY_URL}/${each.ipfs.replace("/ipfs/", "")}`
+      ? Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))
       : each.url;
     let cid = each.url
       ? Strings.urlToCid(each.url)

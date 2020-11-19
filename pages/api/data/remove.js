@@ -173,7 +173,7 @@ export default async (req, res) => {
           ...user.data.library[0],
           children: user.data.library[0].children.filter((o) => {
             for (let cid of req.body.data.cids) {
-              if (o.ipfs.includes(cid)) {
+              if ((o.ipfs && o.ipfs.includes(cid)) || (o.cid && o.cid === cid)) {
                 return false;
               }
             }

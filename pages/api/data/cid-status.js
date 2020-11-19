@@ -12,15 +12,11 @@ const check = async (PG, jobId) =>
 
 export default async (req, res) => {
   if (!req.body.data) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
+    return res.status(500).send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
   }
 
   if (!req.body.data.length) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
+    return res.status(500).send({ decorator: "SERVER_NO_CIDS_TO_CHECK", error: true });
   }
 
   const id = Utilities.getIdFromCookie(req);
@@ -80,7 +76,7 @@ export default async (req, res) => {
 
   if (failed.length) {
     for (let i = 0; i < failed.length; i++) {
-      let data = LibraryManager.getDataByIPFS(targetUser, failed[i].ipfs);
+      let data = LibraryManager.getDataByIPFS(targetUser, failed[i].ipfs || failed[i].cid);
       if (!data) {
         continue;
       }
@@ -100,7 +96,7 @@ export default async (req, res) => {
 
   if (success.length) {
     for (let i = 0; i < success.length; i++) {
-      let data = LibraryManager.getDataByIPFS(targetUser, success[i].ipfs);
+      let data = LibraryManager.getDataByIPFS(targetUser, success[i].ipfs || success[i].cid);
       if (!data) {
         continue;
       }
@@ -118,7 +114,7 @@ export default async (req, res) => {
 
   if (reset.length) {
     for (let i = 0; i < reset.length; i++) {
-      let data = LibraryManager.getDataByIPFS(targetUser, reset[i].ipfs);
+      let data = LibraryManager.getDataByIPFS(targetUser, reset[i].ipfs || reset[i].cid);
       if (!data) {
         continue;
       }

@@ -50,32 +50,19 @@ const onDeepLink = async (object) => {
   return window.open(slug);
 };
 
+const ProcessedLink = ({href, children, dark}) => {
+
+
+}
+
 const Link = ({href, children, dark}) => {
   return <a css={dark ? STYLES_LINK_DARK: STYLES_LINK} href={href} target="_blank" rel="nofollow">
       {children}
     </a>
 }
-  
-export const ProcessedText = ({ text, dark }) => {
-  let replacedText;
-  const remarkReactComponents = {
-  a: (props) => dark ? <Link dark {...props} /> : <Link {...props} />,
-  h1: function (props) {
-                return React.createElement('h2', props)
-              }
-};
-  console.log('gekki', remarkReactComponents)
 
-  return <Markdown body={text} options={{remarkReactComponents}} />
-
-
-  replacedText = StringReplace(text, /(https?:\/\/\S+)/g, (match, i) => (
-    <a css={dark ? STYLES_LINK_DARK : STYLES_LINK} key={match + i} href={match} target="_blank">
-      {match}
-    </a>
-  ));
-
-  replacedText = StringReplace(
+const LinkMention = () => {
+    replacedText = StringReplace(
     replacedText,
     /@(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
     (match, i) => (
@@ -89,8 +76,10 @@ export const ProcessedText = ({ text, dark }) => {
       </a>
     )
   );
+}
 
-  //NOTE(martina): previous regex: /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])\/(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
+const LinkHash = () => {
+    //NOTE(martina): previous regex: /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])\/(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
   replacedText = StringReplace(
     replacedText,
     /#(\w*[0-9a-zA-Z-_]+\/\w*[0-9a-zA-Z-_]+)/g,
@@ -107,6 +96,21 @@ export const ProcessedText = ({ text, dark }) => {
       );
     }
   );
+}
+  
+export const ProcessedText = ({ text, dark }) => {
+  let replacedText;
+  const remarkReactComponents = {
+  a: (props) => dark ? <Link dark {...props} /> : <Link {...props} />,
+};
+
+  return <Markdown md={text} options={{remarkReactComponents}} />
+
+  // replacedText = StringReplace(text, /(https?:\/\/\S+)/g, (match, i) => (
+  //   <a css={dark ? STYLES_LINK_DARK : STYLES_LINK} key={match + i} href={match} target="_blank">
+  //     {match}
+  //   </a>
+  // ));
 
   return <React.Fragment>{replacedText}</React.Fragment>;
 };

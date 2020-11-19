@@ -1316,6 +1316,7 @@ export class SlateLayout extends React.Component {
                       type={this.state.items[i].type}
                       url={this.state.items[i].url}
                       title={this.state.items[i].title || this.state.items[i].name}
+                      previewImage={this.state.previewImage}
                       height={pos.h * unit}
                       width={pos.w * unit}
                       style={{

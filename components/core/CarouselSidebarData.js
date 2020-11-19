@@ -264,6 +264,7 @@ export default class CarouselSidebarData extends React.Component {
     }
 
     const response = await FileUtilities.upload({ file, routes: this.props.resources });
+    const { json } = response;
 
     if (!response) {
       dispatchCustomEvent({
@@ -279,19 +280,17 @@ export default class CarouselSidebarData extends React.Component {
     if (response.error) {
       dispatchCustomEvent({
         name: "create-alert",
-        detail: { alert: { decorator: json.decorator } },
+        detail: { alert: { decorator: response.decorator } },
       });
       this.setState({ changingPreview: false });
       return;
     }
-    console.log(response);
-    const { json } = response;
 
     const cid = json.data.ipfs.replace("/ipfs/", "");
-    const previewImage = Strings.getCIDGatewayURL(cid);
     let updateReponse = await Actions.updateData({
       data: {
-        photo: Strings.getCIDGatewayURL(cid),
+        id: this.props.data.id,
+        previewImage: Strings.getCIDGatewayURL(cid),
       },
     });
 
@@ -314,7 +313,7 @@ export default class CarouselSidebarData extends React.Component {
         },
       });
     }
-    this.setState({ changingPreview: false, photo: previewImage });
+    this.setState({ changingPreview: false });
   };
 
   _handleDownload = () => {
@@ -443,10 +442,11 @@ export default class CarouselSidebarData extends React.Component {
               <div>
                 <SlateMediaObjectPreview
                   style={{ color: `${Constants.system.black}`, height: "240px" }}
-                  blurhash={true}
+                  blurhash={this.props.previewImage ? false : true}
                   url={url}
                   title={file}
                   type={type}
+                  previewImage={this.props.data.previewImage}
                 />
               </div>
             </div>

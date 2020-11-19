@@ -91,17 +91,19 @@ export const addData = ({ user, files }) => {
   // Add just pushes to the first set. But we can change this easily later.
   let noRepeats = [];
   for (let file of files) {
-    file.cid = file.ipfs.replace("/ipfs/", "");
+    file.cid = file.cid || file.ipfs.replace("/ipfs/", "");
     delete file.ipfs;
     noRepeats.push(file);
   }
+  console.log(noRepeats);
 
   for (let i = 0; i < library.length; i++) {
-    let cids = library[i].children.map((file) => file.cid || file.ipfs.replace("/ipfs/", ""));
+    let cids = library[i].children.map((file) => file.cid || file.ipfs.replace("/ipfs/", "")) || [];
+    console.log(cids);
     for (let j = 0; j < files.length; j++) {
       if (
         (files[j].cid && cids.includes(files[j].cid)) ||
-        cids.includes(files[j].ipfs.replace("/ipfs/", ""))
+        (files[j].ipfs && cids.includes(files[j].ipfs.replace("/ipfs/", "")))
       ) {
         noRepeats[j] = null;
       }

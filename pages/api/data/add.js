@@ -32,10 +32,12 @@ export default async (req, res) => {
     });
   }
 
-  let userCIDs = user.data.library[0].children.map((file) => file.ipfs.replace("/ipfs/", ""));
+  let userCIDs = user.data.library[0].children.map(
+    (file) => file.cid || file.ipfs.replace("/ipfs/", "")
+  );
   let newFiles = [];
   for (let item of req.body.data.items) {
-    let cid = item.cid;
+    let cid = item.cid || item.ipfs.replace("/ipfs/", "");
     if (userCIDs.includes(cid)) {
       continue;
     }

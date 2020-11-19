@@ -68,19 +68,20 @@ export default async (req, res) => {
     addlObjects = newObjects.filter((each) => {
       if (
         slateURLs.includes(Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))) ||
-        newIPFSs.includes(each.cid || each.ipfs)
+        newIPFSs.includes(each.cid || each.ipfs.replace("/ipfs/", ""))
       ) {
         return false;
       }
-      newIPFSs.push(each.cid || each.ipfs);
+      newIPFSs.push(each.cid || each.ipfs.replace("/ipfs/", ""));
       return true;
     });
   }
 
   addlObjects = addlObjects.map((each) => {
-    let url = each.ipfs
-      ? Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))
-      : each.url;
+    let url =
+      each.ipfs || each.cid
+        ? Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))
+        : each.url;
     let cid = each.url
       ? Strings.urlToCid(each.url)
       : each.ipfs

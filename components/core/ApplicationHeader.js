@@ -51,7 +51,7 @@ const STYLES_APPLICATION_HEADER = css`
   justify-content: space-between;
   width: 100%;
   height: 56px;
-  padding: 0 28px 0 20px;
+  padding: 0 32px 0 32px;
   pointer-events: none;
   background-color: ${Constants.system.white};
 

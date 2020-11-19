@@ -454,7 +454,7 @@ export default class SceneSlate extends React.Component {
       </div>
     );
     return (
-      <ScenePage contentstyle={{ maxWidth: "1660px" }}>
+      <ScenePage>
         <ScenePageHeader
           wide
           title={

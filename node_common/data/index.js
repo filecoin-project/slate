@@ -23,7 +23,6 @@ import getSlateObjectsByCID from "~/node_common/data/methods/get-slate-objects-b
 import updateSlateById from "~/node_common/data/methods/update-slate-by-id";
 import deleteSlatesForUserId from "~/node_common/data/methods/delete-slates-for-user-id";
 import deleteSlateById from "~/node_common/data/methods/delete-slate-by-id";
-import deleteRepostsByCid from "~/node_common/data/methods/delete-reposts-by-cid";
 
 // NOTE(jim):
 // API postgres queries
@@ -100,7 +99,6 @@ export {
   updateSlateById,
   deleteSlatesForUserId,
   deleteSlateById,
-  deleteRepostsByCid,
   // NOTE(jim): API key operations
   createAPIKeyForUserId,
   deleteAPIKeyById,

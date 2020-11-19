@@ -99,24 +99,19 @@ export default async (req, res) => {
     }
   }
 
-  // NOTE(jim):
-  // Goes through all of your slates and removes all data references.
   let refreshSlates = false;
-  let slates = await Data.getSlatesByUserId({ userId: id });
-  for (let slate of slates) {
-    let removal = false;
-    let objects = slate.data.objects.filter((o) => {
-      for (let cid of req.body.data.cids) {
-        if (o.url.includes(cid)) {
-          removal = true;
-          refreshSlates = true;
-          return false;
-        }
-      }
-      return true;
+  // NOTE(martina):
+  // Removes the file from all of your slates and any slates it was reposted to from yours
+  for (let cid of req.body.data.cids) {
+    let slates = await Data.getSlateObjectsByCID({
+      url: Strings.getCIDGatewayURL(cid),
+      ownerId: id,
     });
-
-    if (removal) {
+    for (let slate of slates) {
+      let objects = slate.data.objects.filter((o) => {
+        if (o.url.includes(cid)) return false;
+        return true;
+      });
       let newSlate = await Data.updateSlateById({
         id: slate.id,
         updated_at: new Date(),
@@ -125,19 +120,46 @@ export default async (req, res) => {
           objects,
         },
       });
+      if (slate.data.ownerId === id) {
+        refreshSlates = true;
+      }
       SearchManager.updateSlate(newSlate, "EDIT");
     }
   }
 
   if (refreshSlates) {
-    slates = await Data.getSlatesByUserId({ userId: id });
+    let slates = await Data.getSlatesByUserId({ userId: id });
     ViewerManager.hydratePartialSlates(slates, id);
   }
 
-  // NOTE(martina):
-  // Removes the reposted file from other people's slates
-  // for (let cid of req.body.data.cids) {
-  //   Data.deleteRepostsByCid({ cid, ownerId: id });
+  // NOTE(jim):
+  // Goes through all of your slates and removes all data references.
+  // let refreshSlates = false;
+  // let slates = await Data.getSlatesByUserId({ userId: id });
+  // for (let slate of slates) {
+  //   let removal = false;
+  //   let objects = slate.data.objects.filter((o) => {
+  //     for (let cid of req.body.data.cids) {
+  //       if (o.url.includes(cid)) {
+  //         removal = true;
+  //         refreshSlates = true;
+  //         return false;
+  //       }
+  //     }
+  //     return true;
+  //   });
+
+  //   if (removal) {
+  //     let newSlate = await Data.updateSlateById({
+  //       id: slate.id,
+  //       updated_at: new Date(),
+  //       data: {
+  //         ...slate.data,
+  //         objects,
+  //       },
+  //     });
+  //     SearchManager.updateSlate(newSlate, "EDIT");
+  //   }
   // }
 
   // NOTE(jim):

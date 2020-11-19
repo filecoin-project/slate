@@ -10,10 +10,10 @@ export default async (req, res) => {
   }
 
   const user = await Data.getUserById({ id });
-
   if (!user || user.error) {
     return res.status(403).send({ decorator: "SERVER_EDIT_DATA_USER_NOT_FOUND", error: true });
   }
+
   let newUserData = LibraryManager.editItem({ user, update: req.body.data });
   let response = await Data.updateUserById({
     id: user.id,
@@ -24,6 +24,10 @@ export default async (req, res) => {
   }
 
   let slates = await Data.getSlatesByUserId({ userId: id });
+  if (!slates || slates.error) {
+    return res.status(500).send({ decorator: "SERVER_SLATES_NOT_FOUND", error: true });
+  }
+
   for (let slate of slates) {
     let edited = false;
     let objects = slate.data.objects.map((obj) => {
@@ -47,6 +51,10 @@ export default async (req, res) => {
   }
 
   slates = await Data.getSlatesByUserId({ userId: id });
+  if (!slates || slates.error) {
+    return res.status(500).send({ decorator: "SERVER_SLATES_NOT_FOUND", error: true });
+  }
+
   ViewerManager.hydratePartialSlates(slates, id);
 
   if (newUserData && newUserData.library) {

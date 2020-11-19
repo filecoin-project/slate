@@ -4,6 +4,7 @@ import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 import * as StringReplace from "~/vendor/react-string-replace";
 
+import { Markdown } from './Markdown'
 import { css } from "@emotion/core";
 
 const LINK_STYLES = `
@@ -49,8 +50,24 @@ const onDeepLink = async (object) => {
   return window.open(slug);
 };
 
+const Link = ({href, children, dark}) => {
+  return <a css={dark ? STYLES_LINK_DARK: STYLES_LINK} href={href} target="_blank" rel="nofollow">
+      {children}
+    </a>
+}
+  
 export const ProcessedText = ({ text, dark }) => {
   let replacedText;
+  const remarkReactComponents = {
+  a: (props) => dark ? <Link dark {...props} /> : <Link {...props} />,
+  h1: function (props) {
+                return React.createElement('h2', props)
+              }
+};
+  console.log('gekki', remarkReactComponents)
+
+  return <Markdown body={text} options={{remarkReactComponents}} />
+
 
   replacedText = StringReplace(text, /(https?:\/\/\S+)/g, (match, i) => (
     <a css={dark ? STYLES_LINK_DARK : STYLES_LINK} key={match + i} href={match} target="_blank">

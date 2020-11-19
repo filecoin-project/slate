@@ -14,8 +14,6 @@ import { SlatePicker } from "~/components/core/SlatePicker";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
-import { json } from "body-parser";
-import { isResSent } from "next/dist/next-server/lib/utils";
 
 const DEFAULT_BOOK =
   "https://slate.textile.io/ipfs/bafkreibk32sw7arspy5kw3p5gkuidfcwjbwqyjdktd5wkqqxahvkm2qlyi";
@@ -186,15 +184,19 @@ export const FileTypeDefaultPreview = () => {
   if (props.type && props.type.startsWith("video/")) {
     return DEFAULT_VIDEO;
   }
+
   if (props.type && props.type.startsWith("audio/")) {
     return DEFAULT_AUDIO;
   }
+
   if (props.type && props.type.startsWith("application/epub")) {
     return DEFAULT_BOOK;
   }
+
   if (props.type && props.type.startsWith("application/pdf")) {
     return DEFAULT_DOCUMENT;
   }
+
   return DEFAULT_DATA;
 };
 

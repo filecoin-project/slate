@@ -85,6 +85,7 @@ export class SlatePreviewRow extends React.Component {
             style={this.props.previewStyle}
             title={each.title || each.name}
             iconOnly={this.props.small}
+            previewImage={each.previewImage}
           />
         </div>
       ));
@@ -222,6 +223,7 @@ export class SlatePreviewBlock extends React.Component {
                 type={first.type}
                 url={first.url}
                 title={first.title || first.name}
+                previewImage={first.previewImage}
               />
             </div>
           ) : first ? (
@@ -239,6 +241,7 @@ export class SlatePreviewBlock extends React.Component {
                   type={first.type}
                   url={first.url}
                   title={first.title || first.name}
+                  previewImage={first.previewImage}
                 />
               </div>
               <div
@@ -296,6 +299,7 @@ export class SlatePreviewBlock extends React.Component {
                 type={first.type}
                 url={first.url}
                 title={first.title || first.name}
+                previewImage={first.previewImage}
               />
             ) : (
               <div

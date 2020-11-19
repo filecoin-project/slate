@@ -188,18 +188,32 @@ export default class SlateMediaObjectPreview extends React.Component {
     );
 
     return (
-      <article
-        css={STYLES_ENTITY}
-        style={{
-          ...this.props.style,
-          border: this.props.previewPanel ? `1px solid ${Constants.system.bgGray}` : "auto",
-        }}
-      >
-        <div>{element}</div>
-        {this.props.title && !this.props.iconOnly && !this.props.previewPanel ? (
-          <div css={STYLES_TITLE}>{title}</div>
-        ) : null}
-      </article>
+      <React.Fragment>
+        {this.props.previewImage ? (
+          <img
+            src={this.props.previewImage}
+            alt=""
+            css={STYLES_IMAGE}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+            }}
+          />
+        ) : (
+          <article
+            css={STYLES_ENTITY}
+            style={{
+              ...this.props.style,
+              border: this.props.previewPanel ? `1px solid ${Constants.system.bgGray}` : "auto",
+            }}
+          >
+            <div>{element}</div>
+            {this.props.title && !this.props.iconOnly && !this.props.previewPanel ? (
+              <div css={STYLES_TITLE}>{title}</div>
+            ) : null}
+          </article>
+        )}
+      </React.Fragment>
     );
   }
 }

@@ -229,6 +229,7 @@ const SlatePreview = ({ item, viewer }) => {
             url={preview.url.replace("https://undefined", "https://")}
             title={preview.title || preview.name}
             type={preview.type}
+            previewImage={preview.previewImage}
           />
         ) : (
           <div css={STYLES_EMPTY_SLATE_PREVIEW}>
@@ -295,6 +296,7 @@ const FilePreview = ({ item, viewer }) => {
           }
           title={file.title || file.name || file.file}
           type={file.type}
+          previewImage={file.previewImage}
         />
       </div>
       {viewer || (slate && slate.owner) ? (

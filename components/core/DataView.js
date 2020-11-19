@@ -549,6 +549,8 @@ export default class DataView extends React.Component {
                     url={`${Constants.gateways.ipfs}/${each.ipfs.replace("/ipfs/", "")}`}
                     title={each.file || each.name}
                     type={each.type || each.icon}
+                    previewImage={each.previewImage}
+                    dataView={true}
                   />
                   <span css={STYLES_MOBILE_HIDDEN}>
                     {numChecked || this.state.hover === i || this.state.menu === each.id ? (

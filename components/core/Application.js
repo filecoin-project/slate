@@ -977,6 +977,7 @@ export default class ApplicationPage extends React.Component {
             {scene}
           </ApplicationLayout>
           <System.GlobalCarousel
+            resources={this.props.resources}
             viewer={this.state.viewer}
             current={
               current.target &&

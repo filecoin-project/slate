@@ -1,14 +1,32 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
+import * as Validations from "~/common/validations";
 import * as Actions from "~/common/actions";
+import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
+import * as FileUtilities from "~/common/file-utilities";
 
 import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
 import { dispatchCustomEvent } from "~/common/custom-events";
+
+import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
+import { json } from "body-parser";
+import { isResSent } from "next/dist/next-server/lib/utils";
+
+const DEFAULT_BOOK =
+  "https://slate.textile.io/ipfs/bafkreibk32sw7arspy5kw3p5gkuidfcwjbwqyjdktd5wkqqxahvkm2qlyi";
+const DEFAULT_DATA =
+  "https://slate.textile.io/ipfs/bafkreid6bnjxz6fq2deuhehtxkcesjnjsa2itcdgyn754fddc7u72oks2m";
+const DEFAULT_DOCUMENT =
+  "https://slate.textile.io/ipfs/bafkreiecdiepww52i5q3luvp4ki2n34o6z3qkjmbk7pfhx4q654a4wxeam";
+const DEFAULT_VIDEO =
+  "https://slate.textile.io/ipfs/bafkreibesdtut4j5arclrxd2hmkfrv4js4cile7ajnndn3dcn5va6wzoaa";
+const DEFAULT_AUDIO =
+  "https://slate.textile.io/ipfs/bafkreig2hijckpamesp4nawrhd6vlfvrtzt7yau5wad4mzpm3kie5omv4e";
 
 const STYLES_NO_VISIBLE_SCROLL = css`
   overflow-y: scroll;
@@ -37,13 +55,9 @@ const STYLES_SIDEBAR = css`
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  position: relative;
   background-color: rgba(20, 20, 20, 0.8);
-  ${STYLES_NO_VISIBLE_SCROLL}
 
-  @supports (
-    (-webkit-backdrop-filter: blur(75px)) or (backdrop-filter: blur(75px))
-  ) {
+  @supports ((-webkit-backdrop-filter: blur(75px)) or (backdrop-filter: blur(75px))) {
     -webkit-backdrop-filter: blur(75px);
     backdrop-filter: blur(75px);
     background-color: rgba(150, 150, 150, 0.2);
@@ -146,6 +160,44 @@ const STYLES_HIDDEN = css`
   pointer-events: none;
 `;
 
+const STYLES_IMAGE_BOX = css`
+  max-width: 100%;
+  max-height: 368px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${Constants.system.black};
+  overflow: hidden;
+  ${"" /* box-shadow: 0 0 0 1px ${Constants.system.border} inset; */}
+  border-radius: 4px;
+`;
+
+const STYLES_FILE_HIDDREN = css`
+  height: 1px;
+  width: 1px;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: -1px;
+  left: -1px;
+`;
+
+export const FileTypeDefaultPreview = () => {
+  if (props.type && props.type.startsWith("video/")) {
+    return DEFAULT_VIDEO;
+  }
+  if (props.type && props.type.startsWith("audio/")) {
+    return DEFAULT_AUDIO;
+  }
+  if (props.type && props.type.startsWith("application/epub")) {
+    return DEFAULT_BOOK;
+  }
+  if (props.type && props.type.startsWith("application/pdf")) {
+    return DEFAULT_DOCUMENT;
+  }
+  return DEFAULT_DATA;
+};
+
 export default class CarouselSidebarData extends React.Component {
   _ref = null;
 
@@ -154,6 +206,7 @@ export default class CarouselSidebarData extends React.Component {
     isPublic: false,
     copyValue: "",
     loading: false,
+    changingPreview: false,
   };
 
   componentDidMount = () => {
@@ -180,6 +233,87 @@ export default class CarouselSidebarData extends React.Component {
     console.log("set loading to:");
     console.log(e.detail.loading);
     this.setState({ loading: e.detail.loading });
+  };
+
+  _handleUpload = async (e) => {
+    this.setState({ changingPreview: true });
+    e.persist();
+    let file = e.target.files[0];
+    console.log(file);
+
+    if (!file) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "Something went wrong with the upload. Please try again",
+          },
+        },
+      });
+      return;
+    }
+
+    if (!Validations.isPreviewableImage(file.type)) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "Upload failed. Only images and gifs are allowed" },
+        },
+      });
+      return;
+    }
+
+    const response = await FileUtilities.upload({ file, routes: this.props.resources });
+    const { json } = response;
+
+    if (!response) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: { message: "We're having trouble connecting right now" },
+        },
+      });
+      this.setState({ changingPreview: false });
+      return;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: { alert: { decorator: response.decorator } },
+      });
+      this.setState({ changingPreview: false });
+      return;
+    }
+
+    const cid = json.data.ipfs.replace("/ipfs/", "");
+    let updateReponse = await Actions.updateData({
+      data: {
+        id: this.props.data.id,
+        previewImage: Strings.getCIDGatewayURL(cid),
+      },
+    });
+
+    if (!updateReponse) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We're having trouble connecting right now.",
+          },
+        },
+      });
+    } else if (updateReponse.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
+    }
+    this.setState({ changingPreview: false });
   };
 
   _handleDownload = () => {
@@ -296,6 +430,44 @@ export default class CarouselSidebarData extends React.Component {
           loading={this.props.loading}
           selectedColor={Constants.system.white}
         />
+        {type && type.startsWith("image/") ? null : (
+          <div>
+            <System.P css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+              Preview image
+            </System.P>
+            <System.P style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
+              This is the preview image of your file.
+            </System.P>
+            <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
+              <div>
+                <SlateMediaObjectPreview
+                  style={{ color: `${Constants.system.black}`, height: "240px" }}
+                  blurhash={this.props.previewImage ? false : true}
+                  url={url}
+                  title={file}
+                  type={type}
+                  previewImage={this.props.data.previewImage}
+                />
+              </div>
+            </div>
+            <div style={{ marginTop: 16 }}>
+              <input
+                css={STYLES_FILE_HIDDREN}
+                type="file"
+                id="file"
+                onChange={this._handleUpload}
+              />
+              <System.ButtonPrimary
+                full
+                type="label"
+                htmlFor="file"
+                loading={this.state.changingPreview}
+              >
+                Upload image
+              </System.ButtonPrimary>
+            </div>
+          </div>
+        )}
         <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
           Privacy
         </div>

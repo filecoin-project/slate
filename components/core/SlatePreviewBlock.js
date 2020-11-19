@@ -130,6 +130,7 @@ export class SlatePreviewRow extends React.Component {
             style={this.props.previewStyle}
             title={each.title || each.name}
             iconOnly={this.props.small}
+            previewImage={each.previewImage}
           />
         </div>
       ));
@@ -444,6 +445,7 @@ export class SlatePreviewBlock extends React.Component {
                 style={{ borderRadius: 8 }}
                 imageStyle={{ borderRadius: 8 }}
                 title={first.title || first.name}
+                previewImage={first.previewImage}
               />
             ) : (
               <div css={STYLES_CREATE_NEW} key="add-files">

@@ -11,6 +11,7 @@ import * as System from "~/components/system";
 import * as Window from "~/common/window";
 import * as Store from "~/common/store";
 import * as Websockets from "~/common/browser-websockets";
+import * as UserBehaviors from "~/common/user-behaviors";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -560,39 +561,8 @@ export default class ApplicationPage extends React.Component {
     return response;
   };
 
-  _handleDeleteYourself = async () => {
-    // TODO(jim): Put this somewhere better for messages.
-    const message = "Do you really want to delete your account? It will be permanently removed";
-    if (!window.confirm(message)) {
-      return false;
-    }
-
-    await Actions.updateSearch("delete-user");
-
-    let response = await Actions.deleteViewer();
-
-    if (!response || response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return response;
-    }
-
-    await this._handleSignOut();
-
-    let wsclient = Websockets.getClient();
-    if (wsclient) {
-      await Websockets.deleteClient();
-      wsclient = null;
-    }
-
-    return response;
-  };
+  _handleDeleteYourself = async () => await UserBehaviors.deleteMe();
+  _handleSignOut = async () => await UserBehaviors.signOut();
 
   _handleCreateUser = async (state) => {
     // NOTE(jim): Acts as our existing username exists check.
@@ -692,21 +662,6 @@ export default class ApplicationPage extends React.Component {
       this._handleAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
     }
     return response;
-  };
-
-  _handleSignOut = async () => {
-    let wsclient = Websockets.getClient();
-    if (wsclient) {
-      await Websockets.deleteClient();
-      wsclient = null;
-    }
-
-    const jwt = cookies.get(Credentials.session.key);
-
-    if (jwt) {
-      cookies.remove(Credentials.session.key);
-    }
-    window.location.replace("/_");
   };
 
   _handleViewerChange = (e) => {

@@ -70,6 +70,7 @@
     "react-dom": "^16.12.0",
     "react-draggable": "^4.4.3",
     "regenerator-runtime": "^0.13.7",
+    "remark-gfm": "^1.0.0",
     "remark-linkify-regex": "^1.0.0",
     "remark-parse": "^9.0.0",
     "remark-react": "^8.0.0",

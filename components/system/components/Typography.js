@@ -72,7 +72,8 @@ const Link = ({ href, children, dark }) => {
       break;
     }
     case "#": {
-      // hash links
+      // hash deepLinks
+      // TODO: disabled in Markdown for now
       const tag = href.substr(1).toLowerCase();
       linkProps.href = `/${tag}`;
       linkProps.onClick = (e) => {

@@ -52,15 +52,12 @@ import SidebarFAQ from "~/components/sidebars/SidebarFAQ";
 import ApplicationHeader from "~/components/core/ApplicationHeader";
 import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
-import Cookies from "universal-cookie";
 
 import { OnboardingModal } from "~/components/core/OnboardingModal";
 import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { Alert } from "~/components/core/Alert";
 import { announcements } from "~/components/core/OnboardingModal";
-
-const cookies = new Cookies();
 
 const SIDEBARS = {
   SIDEBAR_FILECOIN_ARCHIVE: <SidebarFilecoinArchive />,
@@ -127,36 +124,11 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("offline", this._handleOnlineStatus);
     window.addEventListener("resize", this._handleWindowResize);
 
-    const id = Window.getQueryParameterByName("scene");
-    const user = Window.getQueryParameterByName("user");
-    const slate = Window.getQueryParameterByName("slate");
-    const cid = Window.getQueryParameterByName("cid");
-
-    let wsclient = Websockets.getClient();
-    if (wsclient) {
-      await Websockets.deleteClient();
-      wsclient = null;
-    }
-
     if (this.state.viewer) {
-      wsclient = this._handleSetupWebsocket();
-      if (!wsclient) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message:
-                "We cannot connect to our live update server. You may have to refresh to see updates.",
-            },
-          },
-        });
-      }
+      await this._handleSetupWebsocket();
     }
 
-    if (!Strings.isEmpty(id) && this.state.viewer) {
-      console.log("redirecting to page");
-      return this._handleNavigateTo({ id, user, slate, cid });
-    }
+    this._handleURLRedirect();
   }
 
   componentWillUnmount() {
@@ -174,34 +146,44 @@ export default class ApplicationPage extends React.Component {
     }
   }
 
-  //make this a function that can handle different types of inputs and updates state accordingly (rather than ahving a bunch of different functions for each type)
   _handleUpdateViewer = (newViewerState) => {
-    console.log("update viewer");
-    console.log({ newViewerState });
     if (this.state.viewer && newViewerState.id && newViewerState.id === this.state.viewer.id) {
-      console.log(this.state.viewer);
-      console.log(newViewerState);
       this.setState({
         viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
       });
     }
   };
 
-  _handleSetupWebsocket = () => {
+  _handleSetupWebsocket = async () => {
+    let wsclient = Websockets.getClient();
+    if (wsclient) {
+      await Websockets.deleteClient();
+      wsclient = null;
+    }
     if (this.props.resources && !Strings.isEmpty(this.props.resources.pubsub)) {
       if (!this.state.viewer) {
         console.log("WEBSOCKET: NOT AUTHENTICATED");
-        return null;
+        return;
       }
 
-      return Websockets.init({
+      wsclient = Websockets.init({
         resource: this.props.resources.pubsub,
         viewer: this.state.viewer,
         onUpdate: this._handleUpdateViewer,
       });
     }
-
-    return null;
+    if (!wsclient) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message:
+              "We cannot connect to our live update server. You may have to refresh to see updates.",
+          },
+        },
+      });
+    }
+    return;
   };
 
   _handleWindowResize = () => {
@@ -234,16 +216,12 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDrop = async (e) => {
-    this._handleDismissSidebar();
-    // NOTE(jim): If this is true, then drag and drop came from a slate object.
-    const data = e.dataTransfer.getData("slate-object-drag-data");
-    if (data) {
-      return;
-    }
-
     e.preventDefault();
+    this.setState({ sidebar: null });
+    const { fileLoading, files, numFailed } = UserBehaviors.formatDroppedFiles({
+      dataTransfer: e.dataTransfer,
+    });
 
-    // TODO(jim): Refactor later
     const navigation = NavigationData.generate(this.state.viewer);
     const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
@@ -252,100 +230,23 @@ export default class ApplicationPage extends React.Component {
     if (current.target && current.target.slateId) {
       slate = { id: current.target.slateId };
     }
-
-    const files = [];
-    let fileLoading = {};
-    // let sidebarOpen = false;
-    if (e.dataTransfer.items && e.dataTransfer.items.length) {
-      for (var i = 0; i < e.dataTransfer.items.length; i++) {
-        if (e.dataTransfer.items[i].kind === "file") {
-          var file = e.dataTransfer.items[i].getAsFile();
-
-          // if (!sidebarOpen) {
-          //   this._handleAction({
-          //     type: "SIDEBAR",
-          //     value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-          //     data: slate,
-          //   });
-          //   sidebarOpen = true;
-          // }
-
-          files.push(file);
-          fileLoading[`${file.lastModified}-${file.name}`] = {
-            name: file.name,
-            loaded: 0,
-            total: file.size,
-          };
-        }
-      }
-    }
-
-    if (!files.length) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "File type not supported. Please try a different file",
-          },
-        },
-      });
-      return;
-    }
-
-    // NOTE(jim): Stages each file.
     this._handleRegisterFileLoading({ fileLoading });
-
-    this._handleUpload({ files, slate, keys: Object.keys(fileLoading) });
+    this._handleUpload({ files, slate, keys: Object.keys(fileLoading), numFailed });
   };
 
   _handleUploadFiles = async ({ files, slate }) => {
-    let toUpload = [];
-    let fileLoading = {};
-    let someFailed = false;
-    for (let i = 0; i < files.length; i++) {
-      let file = files[i];
-
-      if (!file) {
-        someFailed = true;
-        continue;
-      }
-
-      toUpload.push(file);
-      fileLoading[`${file.lastModified}-${file.name}`] = {
-        name: file.name,
-        loaded: 0,
-        total: file.size,
-      };
-    }
-
-    if (!toUpload.length) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "We could not find any files to upload." },
-        },
-      });
-      return false;
-    }
-
-    if (someFailed) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "Some of your files could not be uploaded" },
-        },
-      });
-    }
+    const { fileLoading, toUpload, numFailed } = UserBehaviors.formatUploadedFiles({ files });
 
     this._handleRegisterFileLoading({ fileLoading });
     this._handleUpload({
       files: toUpload,
       slate,
       keys: Object.keys(fileLoading),
+      numFailed,
     });
   };
 
-  _handleUpload = async ({ files, slate, keys }) => {
+  _handleUpload = async ({ files, slate, keys, numFailed }) => {
     if (!files || !files.length) {
       return null;
     }
@@ -361,6 +262,7 @@ export default class ApplicationPage extends React.Component {
 
       // NOTE(jim): Sends XHR request.
       let response = null;
+      console.log("before upload function");
       try {
         response = await FileUtilities.upload({
           file: files[i],
@@ -370,16 +272,14 @@ export default class ApplicationPage extends React.Component {
       } catch (e) {
         console.log(e);
       }
+      console.log("after upload function");
 
-      // NOTE(jim): We probably don't want to keep the responses for failed attempt.
       if (!response || response.error) {
         continue;
       }
-
-      if (response) {
-        resolvedFiles.push(response);
-      }
+      resolvedFiles.push(response);
     }
+    console.log("got here 1");
 
     if (!resolvedFiles.length) {
       this.setState({ fileLoading: {} });
@@ -387,7 +287,7 @@ export default class ApplicationPage extends React.Component {
     }
 
     let responses = await Promise.allSettled(resolvedFiles);
-
+    console.log("got here 2");
     let succeeded = responses
       .filter((res) => {
         return res.status === "fulfilled" && res.value && !res.value.error;
@@ -396,6 +296,7 @@ export default class ApplicationPage extends React.Component {
     if (slate && slate.id) {
       await FileUtilities.uploadToSlate({ responses: succeeded, slate });
     }
+    console.log("got here 3");
 
     let processResponse = await Actions.processPendingFiles();
     if (!processResponse) {
@@ -421,12 +322,11 @@ export default class ApplicationPage extends React.Component {
       });
       return;
     }
-
-    this.setState({ sidebar: null });
+    console.log("got here 4");
 
     if (!slate) {
       const { added, skipped } = processResponse.data;
-      let message = Strings.formatAsUploadMessage(added, skipped);
+      let message = Strings.formatAsUploadMessage(added, skipped + numFailed);
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
@@ -436,7 +336,6 @@ export default class ApplicationPage extends React.Component {
     }
 
     this._handleRegisterLoadingFinished({ keys });
-
     return null;
   };
 
@@ -458,6 +357,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleRegisterLoadingFinished = ({ keys }) => {
+    console.log("loading finished");
     let fileLoading = this.state.fileLoading;
     for (let key of keys) {
       delete fileLoading[key];
@@ -496,80 +396,12 @@ export default class ApplicationPage extends React.Component {
 
   _handleSidebarLoading = (sidebarLoading) => this.setState({ sidebarLoading });
 
-  rehydrate = async (options) => {
-    const response = await Actions.hydrateAuthenticatedUser();
-
-    if (!response || response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We encountered issues while refreshing. Please try again",
-          },
-        },
-      });
-      return null;
-    }
-
-    console.log("REHYDRATION CALL", response);
-
-    const updates = {
-      viewer: JSON.parse(JSON.stringify(response.data)),
-    };
-
-    if (options && options.resetFiles) {
-      updates.sidebar = null;
-    }
-
-    this.setState(updates);
-
-    return response;
-  };
-
-  _handleSubmit = async (data) => {
-    let response;
-
-    if (data.type === "CREATE_SLATE") {
-      response = await Actions.createSlate({
-        name: data.name,
-        public: data.public,
-        body: data.body,
-      });
-    }
-
-    if (data.type === "CREATE_WALLET_ADDRESS") {
-      response = await Actions.updateViewer({
-        type: "CREATE_FILECOIN_ADDRESS",
-        address: {
-          name: data.name,
-          type: data.wallet_type,
-          makeDefault: data.makeDefault,
-        },
-      });
-    }
-
-    if (data.type === "SEND_WALLET_ADDRESS_FILECOIN") {
-      response = await Actions.sendFilecoin({
-        source: data.source,
-        target: data.target,
-        amount: data.amount,
-      });
-    }
-
-    this._handleDismissSidebar();
-
-    return response;
-  };
-
   _handleDeleteYourself = async () => await UserBehaviors.deleteMe();
+
   _handleSignOut = async () => await UserBehaviors.signOut();
 
   _handleCreateUser = async (state) => {
-    // NOTE(jim): Acts as our existing username exists check.
-    // If the user exists, move on the sign in anyways.
     let response = await Actions.createUser(state);
-    console.log("CREATE_USER", response);
-
     if (!response || response.error) {
       return response;
     }
@@ -578,50 +410,10 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleAuthenticate = async (state, newAccount) => {
-    // NOTE(jim): Kills existing session cookie if there is one.
-    const jwt = cookies.get(Credentials.session.key);
-
-    if (jwt) {
-      cookies.remove(Credentials.session.key);
-    }
-
-    let response = await Actions.signIn(state);
-    if (!response || response.error) {
-      return response;
-    }
-
-    if (response.token) {
-      // NOTE(jim):
-      // + One week.
-      // + Only requests to the same site.
-      // + Not using sessionStorage so the cookie doesn't leave when the browser dies.
-      cookies.set(Credentials.session.key, response.token, true, {
-        path: "/",
-        maxAge: 3600 * 24 * 7,
-        sameSite: "strict",
-      });
-    }
-
-    await this.rehydrate();
-
-    let wsclient = Websockets.getClient();
-    if (wsclient) {
-      await Websockets.deleteClient();
-      wsclient = null;
-    }
-
-    wsclient = this._handleSetupWebsocket();
-    if (!wsclient) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "We cannot connect to our live update server. You may have to refresh to see updates.",
-          },
-        },
-      });
-    }
+    let response = await UserBehaviors.authenticate(state, newAccount);
+    let viewer = await UserBehaviors.hydrate();
+    await this.setState({ viewer });
+    await this._handleSetupWebsocket();
 
     let unseenAnnouncements = [];
     for (let feature of announcements) {
@@ -651,17 +443,24 @@ export default class ApplicationPage extends React.Component {
       Actions.updateSearch("create-user");
     }
 
+    let redirected = this._handleURLRedirect();
+    if (!redirected) {
+      this._handleAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
+    }
+    return response;
+  };
+
+  _handleURLRedirect = () => {
     const id = Window.getQueryParameterByName("scene");
     const user = Window.getQueryParameterByName("user");
     const slate = Window.getQueryParameterByName("slate");
     const cid = Window.getQueryParameterByName("cid");
+
     if (!Strings.isEmpty(id) && this.state.viewer) {
-      console.log("redirecting to page");
       this._handleNavigateTo({ id, user, slate, cid });
-    } else {
-      this._handleAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
+      return true;
     }
-    return response;
+    return false;
   };
 
   _handleViewerChange = (e) => {

@@ -95,24 +95,16 @@ export const addData = ({ user, files }) => {
     delete file.ipfs;
     noRepeats.push(file);
   }
-  console.log(noRepeats);
 
+  let newCids = [];
   for (let i = 0; i < library.length; i++) {
     let cids = library[i].children.map((file) => file.cid || file.ipfs.replace("/ipfs/", "")) || [];
-    console.log(cids);
-    for (let j = 0; j < files.length; j++) {
-      if (
-        (files[j].cid && cids.includes(files[j].cid)) ||
-        (files[j].ipfs && cids.includes(files[j].ipfs.replace("/ipfs/", "")))
-      ) {
-        noRepeats[j] = null;
-      }
-    }
+    noRepeats = noRepeats.filter((item) => {
+      newCids.push(item.cid);
+      return !cids.includes(item.cid) && !newCids.includes(item.cid);
+    });
   }
 
-  noRepeats = noRepeats.filter((file) => {
-    return !!file;
-  });
   for (let i = 0; i < library.length; i++) {
     library[i].children = [...noRepeats, ...library[i].children];
     break;

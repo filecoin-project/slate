@@ -58,12 +58,12 @@ export default class SidebarWalletSendFunds extends React.Component {
       return;
     }
 
-    await this.props.onSubmit({
-      type: "SEND_WALLET_ADDRESS_FILECOIN",
+    await Actions.sendFilecoin({
       source: currentAddress.address,
       target: this.state.address,
       amount: this.state.amount,
     });
+    this.props.onCancel();
 
     this.setState({ loading: false });
   };

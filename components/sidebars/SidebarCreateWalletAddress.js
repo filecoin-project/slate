@@ -23,14 +23,15 @@ export default class SidebarCreateWalletAddress extends React.Component {
   _handleSubmit = async () => {
     this.setState({ loading: true });
 
-    const data = {
-      name: this.state.name,
-      wallet_type: SELECT_MENU_SAVE_STRINGS[this.state.type],
-      makeDefault: this.state.default,
-      type: "CREATE_WALLET_ADDRESS",
-    };
-
-    await this.props.onSubmit(data);
+    await Actions.updateViewer({
+      type: "CREATE_FILECOIN_ADDRESS",
+      address: {
+        name: this.state.name,
+        type: SELECT_MENU_SAVE_STRINGS[this.state.type],
+        makeDefault: this.state.default,
+      },
+    });
+    this.props.onCancel();
 
     this.setState({ loading: false });
   };

@@ -14,14 +14,14 @@ const SELECT_MENU_OPTIONS = [
 ];
 
 const SELECT_MENU_MAP = {
-  "1": "BLS",
-  "2": "SECP256K1",
+  1: "BLS",
+  2: "SECP256K1",
   // '3': 'MULTISIG',
 };
 
 const SELECT_MENU_SAVE_STRINGS = {
-  "1": "bls",
-  "2": "secp256k1",
+  1: "bls",
+  2: "secp256k1",
 };
 
 const STYLES_CONTAINER = css`

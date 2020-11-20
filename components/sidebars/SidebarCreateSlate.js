@@ -59,8 +59,7 @@ export default class SidebarCreateSlate extends React.Component {
       return;
     }
 
-    const response = await this.props.onSubmit({
-      type: "CREATE_SLATE",
+    const response = await Actions.createSlate({
       name: this.state.name,
       public: this.state.public,
       body: this.state.body,

@@ -8,7 +8,7 @@ const STYLES_CONTAINER = css`
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  padding: 16px 64px 16px 42px;
+  padding: 16px 32px 16px 24px;
   width: 100%;
   margin: 0 auto;
   z-index: ${Constants.zindex.header};

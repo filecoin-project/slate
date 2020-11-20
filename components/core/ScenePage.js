@@ -6,7 +6,7 @@ import { css } from "@emotion/core";
 const STYLES_SCENE = css`
   flex-shrink: 0;
   width: 100%;
-  padding: 128px 48px 128px 48px;
+  padding: 128px 32px 128px 32px;
   display: block;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -14,16 +14,9 @@ const STYLES_SCENE = css`
   }
 `;
 
-const STYLES_CONTENT = css`
-  max-width: ${Constants.sizes.desktop}px;
-  margin: 0 auto;
-`;
-
 export const ScenePage = (props) => (
   <div css={STYLES_SCENE} {...props}>
-    <div css={STYLES_CONTENT} style={props.contentstyle}>
-      {props.children}
-    </div>
+    <div style={props.contentstyle}>{props.children}</div>
   </div>
 );
 

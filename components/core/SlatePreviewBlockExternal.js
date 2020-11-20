@@ -4,7 +4,6 @@ import * as Window from "~/common/window";
 
 import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
-import { ViewAllButton } from "~/components/core/ViewAll";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
@@ -107,6 +106,7 @@ const STYLES_BLOCK = css`
   cursor: pointer;
   height: 440px;
   width: 100%;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 24px auto;
     height: auto;
@@ -121,6 +121,7 @@ const STYLES_BODY = css`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }

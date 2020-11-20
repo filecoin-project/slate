@@ -7,7 +7,7 @@ const STYLES_CONTAINER = css`
   position: -webkit-sticky;
   position: sticky;
   bottom: 0;
-  padding: 4px 64px;
+  padding: 4px 32px;
   z-index: ${Constants.zindex.header};
   background-color: ${Constants.system.foreground};
   font-family: ${Constants.font.text};

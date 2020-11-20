@@ -18,7 +18,7 @@ const STYLES_PROFILE_INTERNAL = css`
 
 const STYLES_PROFILE = css`
   width: 100%;
-  padding: 64px 64px 0px 64px;
+  padding: 64px 32px 0px 32px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   flex-shrink: 0;
@@ -49,14 +49,14 @@ const STYLES_PROFILE_INFO_INTERNAL = css`
 
 const STYLES_INFO_INTERNAL = css`
   display: block;
-  width: 100%;
+  width: 33.3%;
   max-width: calc(100% - 104px);
   text-align: left;
   margin-bottom: 48px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    max-width: calc(100% - 64px);
+    width: calc(100% - 64px);
   }
 `;
 

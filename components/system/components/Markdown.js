@@ -11,7 +11,7 @@ export const Markdown = ({ md, options }) => {
       {
         unified()
           .use(parse)
-          .use(linkifyRegex(/[@#](\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g)) // @user #tag
+          .use(linkifyRegex(/@(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g)) // @user
           .use(linkifyRegex(/^(https?):\/\/[^\s$.?#].[^\s]*$/gm)) // http(s) links
           .use(remark2react, options)
           .processSync(md).result

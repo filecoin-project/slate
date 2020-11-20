@@ -47,6 +47,7 @@ const STYLES_SLATE_INTRO = css`
   flex-shrink: 0;
   display: block;
   width: 50%;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px 24px 0px 24px;
     width: 100%;
@@ -57,6 +58,7 @@ const STYLES_TITLELINE = css`
   display: flex;
   line-height: 1.3;
   word-wrap: break-word;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
     font-size: 14px;
@@ -84,6 +86,7 @@ const STYLES_TITLE = css`
   max-width: 100%;
   margin-right: 24px;
   word-wrap: break-word;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     font-size: ${Constants.typescale.lvl3};
   }
@@ -96,6 +99,7 @@ const STYLES_DESCRIPTION = css`
   overflow-wrap: break-word;
   white-space: pre-wrap;
   margin-top: 16px;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin-top: 24px;
   }
@@ -121,6 +125,7 @@ const STYLES_BUTTONS = css`
   border-radius: 4px;
   border: 1px solid ${Constants.system.gray};
   flex-shrink: 0;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 12px 0;
   }
@@ -151,12 +156,12 @@ const STYLES_BUTTON = css`
 
 const STYLES_SLATE = css`
   padding: 0 32px;
-  ${"" /* max-width: 1660px; */}
   display: block;
   width: 100%;
   margin: 48px auto 0 auto;
   min-height: 10%;
   height: 100%;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 0 24px 0 24px;
   }
@@ -341,10 +346,6 @@ export default class SlatePage extends React.Component {
                   <span style={{ color: `${Constants.system.darkGray}` }}>Contributors</span>
                 </div>
               </div>
-              {/* <div css={STYLES_STAT}>
-                  <div style={{ color: `${Constants.system.darkGray}` }}>Followers</div>
-                  <div style={{ fontFamily: `${Constants.font.medium}` }}>0</div>
-                </div> */}
             </div>
           </div>
           <div css={STYLES_SLATE}>

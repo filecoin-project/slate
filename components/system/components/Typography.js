@@ -4,6 +4,7 @@ import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 import * as StringReplace from "~/vendor/react-string-replace";
 
+import { Markdown } from "./Markdown";
 import { css } from "@emotion/core";
 
 const LINK_STYLES = `
@@ -49,49 +50,58 @@ const onDeepLink = async (object) => {
   return window.open(slug);
 };
 
-export const ProcessedText = ({ text, dark }) => {
-  let replacedText;
+const outboundRE = /^[a-z]+:/i;
+const isExternal = (path) => outboundRE.test(path);
 
-  replacedText = StringReplace(text, /(https?:\/\/\S+)/g, (match, i) => (
-    <a css={dark ? STYLES_LINK_DARK : STYLES_LINK} key={match + i} href={match} target="_blank">
-      {match}
-    </a>
-  ));
+const Link = ({ href, children, dark }) => {
+  // setup default linkProps
+  const linkProps = {
+    href,
+    target: isExternal(href) ? "_blank" : "_self",
+    rel: isExternal(href) ? "external nofollow" : "",
+    css: dark ? STYLES_LINK_DARK : STYLES_LINK,
+    children,
+  };
 
-  replacedText = StringReplace(
-    replacedText,
-    /@(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
-    (match, i) => (
-      <a
-        css={dark ? STYLES_LINK_DARK : STYLES_LINK}
-        key={match + i}
-        target="_blank"
-        href={`/${match}`.toLowerCase()}
-      >
-        @{match}
-      </a>
-    )
-  );
-
-  //NOTE(martina): previous regex: /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])\/(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
-  replacedText = StringReplace(
-    replacedText,
-    /#(\w*[0-9a-zA-Z-_]+\/\w*[0-9a-zA-Z-_]+)/g,
-    (match, i) => {
-      let displayString = match.split("/")[1];
-      return (
-        <span
-          css={dark ? STYLES_LINK_DARK : STYLES_LINK}
-          key={match + i}
-          onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}
-        >
-          #{displayString}
-        </span>
-      );
+  // process all types of Slate links
+  switch (href.charAt(0)) {
+    case "@": {
+      // mention links
+      const mention = href.substr(1).toLowerCase();
+      linkProps.href = `/${mention}`;
+      break;
     }
-  );
+    case "#": {
+      // hash deepLinks
+      // TODO: disabled in Markdown for now
+      const tag = href.substr(1).toLowerCase();
+      linkProps.href = `/${tag}`;
+      linkProps.onClick = (e) => {
+        e.preventDefault();
+        onDeepLink({ deeplink: tag });
+      };
+      break;
+    }
+    default: {
+    }
+  }
+  return <a {...linkProps} />;
+};
 
-  return <React.Fragment>{replacedText}</React.Fragment>;
+export const ProcessedText = ({ text, dark }) => {
+  const remarkReactComponents = {
+    h1: P,
+    h2: P,
+    h3: P,
+    h4: P,
+    h5: P,
+    h6: P,
+    ol: OL,
+    ul: UL,
+    li: LI,
+    a: (props) => <Link dark={dark} {...props} />,
+  };
+  return <Markdown md={text} options={{ remarkReactComponents }} />;
 };
 
 const STYLES_H1 = css`

@@ -89,6 +89,12 @@ const Link = ({ href, children, dark }) => {
 
 export const ProcessedText = ({ text, dark }) => {
   const remarkReactComponents = {
+    h1: P,
+    h2: P,
+    h3: P,
+    h4: P,
+    h5: P,
+    h6: P,
     a: (props) => <Link dark={dark} {...props} />,
   };
   return <Markdown md={text} options={{ remarkReactComponents }} />;

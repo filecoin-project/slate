@@ -100,8 +100,9 @@ export const addData = ({ user, files }) => {
   for (let i = 0; i < library.length; i++) {
     let cids = library[i].children.map((file) => file.cid || file.ipfs.replace("/ipfs/", "")) || [];
     noRepeats = noRepeats.filter((item) => {
+      let isNotRepeat = !cids.includes(item.cid) && !newCids.includes(item.cid);
       newCids.push(item.cid);
-      return !cids.includes(item.cid) && !newCids.includes(item.cid);
+      return isNotRepeat;
     });
   }
 

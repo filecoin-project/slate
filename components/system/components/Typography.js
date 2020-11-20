@@ -4,7 +4,7 @@ import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 import * as StringReplace from "~/vendor/react-string-replace";
 
-import { Markdown } from './Markdown'
+import { Markdown } from "./Markdown";
 import { css } from "@emotion/core";
 
 const LINK_STYLES = `
@@ -50,19 +50,18 @@ const onDeepLink = async (object) => {
   return window.open(slug);
 };
 
-const ProcessedLink = ({href, children, dark}) => {
+const ProcessedLink = ({ href, children, dark }) => {};
 
-
-}
-
-const Link = ({href, children, dark}) => {
-  return <a css={dark ? STYLES_LINK_DARK: STYLES_LINK} href={href} target="_blank" rel="nofollow">
+const Link = ({ href, children, dark }) => {
+  return (
+    <a css={dark ? STYLES_LINK_DARK : STYLES_LINK} href={href} target="_blank" rel="nofollow">
       {children}
     </a>
-}
+  );
+};
 
 const LinkMention = () => {
-    replacedText = StringReplace(
+  replacedText = StringReplace(
     replacedText,
     /@(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
     (match, i) => (
@@ -76,10 +75,10 @@ const LinkMention = () => {
       </a>
     )
   );
-}
+};
 
 const LinkHash = () => {
-    //NOTE(martina): previous regex: /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])\/(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
+  //NOTE(martina): previous regex: /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])\/(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
   replacedText = StringReplace(
     replacedText,
     /#(\w*[0-9a-zA-Z-_]+\/\w*[0-9a-zA-Z-_]+)/g,
@@ -96,15 +95,15 @@ const LinkHash = () => {
       );
     }
   );
-}
-  
+};
+
 export const ProcessedText = ({ text, dark }) => {
   let replacedText;
   const remarkReactComponents = {
-  a: (props) => dark ? <Link dark {...props} /> : <Link {...props} />,
-};
+    a: (props) => (dark ? <Link dark {...props} /> : <Link {...props} />),
+  };
 
-  return <Markdown md={text} options={{remarkReactComponents}} />
+  return <Markdown md={text} options={{ remarkReactComponents }} />;
 
   // replacedText = StringReplace(text, /(https?:\/\/\S+)/g, (match, i) => (
   //   <a css={dark ? STYLES_LINK_DARK : STYLES_LINK} key={match + i} href={match} target="_blank">

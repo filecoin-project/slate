@@ -49,7 +49,7 @@ const STYLES_PROFILE_INFO_INTERNAL = css`
 
 const STYLES_INFO_INTERNAL = css`
   display: block;
-  width: 100%;
+  width: 33.3%;
   max-width: calc(100% - 104px);
   text-align: left;
   margin-bottom: 48px;

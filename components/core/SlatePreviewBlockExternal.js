@@ -4,7 +4,6 @@ import * as Window from "~/common/window";
 
 import { css } from "@emotion/core";
 import { ProcessedText } from "~/components/system/components/Typography";
-import { ViewAllButton } from "~/components/core/ViewAll";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 

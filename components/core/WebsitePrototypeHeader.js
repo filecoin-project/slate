@@ -8,7 +8,7 @@ const STYLES_CONTAINER = css`
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  padding: 16px 32px 16px 24px;
+  padding: 16px 32px 16px 16px;
   width: 100%;
   margin: 0 auto;
   z-index: ${Constants.zindex.header};
@@ -29,7 +29,7 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.grayBlack};
+  color: ${Constants.system.darkGray};
   text-decoration: none;
   transition: 200ms ease color;
   display: block;
@@ -56,7 +56,7 @@ const WebsitePrototypeHeader = (props) => {
     <div css={STYLES_CONTAINER} style={props.style}>
       <div css={STYLES_LEFT}>
         <a css={STYLES_LINK} href="/" style={{ marginRight: 16, position: "relative", top: "1px" }}>
-          <Logo style={{ height: 20 }} />
+          <Logo style={{ height: 16 }} />
         </a>
       </div>
       <div css={STYLES_RIGHT}>

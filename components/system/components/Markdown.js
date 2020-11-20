@@ -3,6 +3,7 @@ import * as React from "react";
 import unified from "unified";
 import parse from "remark-parse";
 import remark2react from "remark-react";
+import gfm from "remark-gfm";
 import linkifyRegex from "remark-linkify-regex";
 
 export const Markdown = ({ md, options }) => {
@@ -11,6 +12,7 @@ export const Markdown = ({ md, options }) => {
       {
         unified()
           .use(parse)
+          .use(gfm)
           .use(linkifyRegex(/@(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g)) // @user
           .use(linkifyRegex(/^(https?):\/\/[^\s$.?#].[^\s]*$/gm)) // http(s) links
           .use(remark2react, options)

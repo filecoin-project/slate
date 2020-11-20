@@ -40,13 +40,24 @@ const STYLES_ROOT = css`
 `;
 
 const STYLES_SLATE_INTRO = css`
+  width: 100%;
+  padding: 16px 32px 0px 32px;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  flex-shrink: 0;
+  display: block;
+  width: 50%;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 24px 24px 0px 24px;
+    width: 100%;
+  }
+`;
+
+const STYLES_TITLELINE = css`
   display: flex;
-  padding: 32px 64px;
-  align-items: baseline;
   line-height: 1.3;
   word-wrap: break-word;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 32px 24px;
     display: block;
     font-size: 14px;
   }
@@ -56,23 +67,11 @@ const STYLES_CREATOR = css`
   flex-shrink: 0;
   margin-right: 4px;
   text-decoration: none;
+  font-size: ${Constants.typescale.lvl3};
   color: ${Constants.system.black};
+  font-family: ${Constants.font.medium};
   :hover {
     color: ${Constants.system.brand};
-  }
-  :visited {
-    color: ${Constants.system.black};
-  }
-`;
-
-const STYLES_DESCTIPTION = css`
-  font-size: ${Constants.typescale.lvl1};
-  font-family: ${Constants.font.text};
-  width: 50%;
-  word-wrap: break-word;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    margin-top: 4px;
   }
 `;
 
@@ -90,26 +89,29 @@ const STYLES_TITLE = css`
   }
 `;
 
-const STYLES_FLEX = css`
-  display: flex;
-  margin-bottom: 12px;
+const STYLES_DESCRIPTION = css`
+  font-size: ${Constants.typescale.lvl0};
+  color: ${Constants.system.darkGray};
+  width: 100%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  margin-top: 16px;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: block;
+    margin-top: 24px;
   }
 `;
 
 const STYLES_STATS = css`
   font-size: ${Constants.typescale.lvl0};
-  margin-top: 24px;
+  margin: 16px 0;
   display: flex;
-  line-height: 1.5;
+  width: 100%;
+  color: ${Constants.system.grayBlack};
 `;
 
 const STYLES_STAT = css`
-  margin-right: 48px;
-  width: 88px;
-  ${"" /* border-left: 1px solid ${Constants.system.darkGray};
-padding-left: 12px; */};
+  margin-right: 16px;
+  flex-shrink: 0;
 `;
 
 const STYLES_BUTTONS = css`
@@ -148,7 +150,7 @@ const STYLES_BUTTON = css`
 `;
 
 const STYLES_SLATE = css`
-  padding: 0 64px 0 64px;
+  padding: 0 32px;
   ${"" /* max-width: 1660px; */}
   display: block;
   width: 100%;
@@ -307,40 +309,42 @@ export default class SlatePage extends React.Component {
         <div css={STYLES_ROOT}>
           <WebsitePrototypeHeader />
           <div css={STYLES_SLATE_INTRO}>
-            <a css={STYLES_CREATOR} href={`/${this.props.creator.username}`}>
-              {slateCreator}
-            </a>
-            <div css={STYLES_DESCTIPTION}>
-              <div css={STYLES_FLEX}>
-                <div css={STYLES_TITLE}>{slateTitle} </div>
-                <div css={STYLES_BUTTONS}>
-                  <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
-                    Follow
-                  </div>
-                  <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
-                    Download
-                  </div>
+            <div css={STYLES_TITLELINE}>
+              <a css={STYLES_CREATOR} href={`/${this.props.creator.username}`}>
+                {slateCreator}
+              </a>
+              <div css={STYLES_TITLE}>{slateTitle} </div>
+              <div css={STYLES_BUTTONS}>
+                <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
+                  Follow
+                </div>
+                <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
+                  Download
                 </div>
               </div>
+            </div>
+            <div css={STYLES_DESCRIPTION}>
               <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
                 <ProcessedText text={this.props.slate.data.body} />
               </ViewAllButton>
-              <div css={STYLES_STATS}>
-                <div css={STYLES_STAT}>
-                  <div style={{ color: `${Constants.system.darkGray}` }}>Data</div>
-                  <div style={{ fontFamily: `${Constants.font.medium}` }}>
-                    {this.props.slate.data.objects.length}
-                  </div>
+            </div>
+            <div css={STYLES_STATS}>
+              <div css={STYLES_STAT}>
+                <div style={{ fontFamily: `${Constants.font.medium}` }}>
+                  {this.props.slate.data.objects.length}{" "}
+                  <span style={{ color: `${Constants.system.darkGray}` }}>Data</span>
                 </div>
-                <div css={STYLES_STAT}>
-                  <div style={{ color: `${Constants.system.darkGray}` }}>Contributors</div>
-                  <div style={{ fontFamily: `${Constants.font.medium}` }}>{contributorsCount}</div>
+              </div>
+              <div css={STYLES_STAT}>
+                <div style={{ fontFamily: `${Constants.font.medium}` }}>
+                  {contributorsCount}{" "}
+                  <span style={{ color: `${Constants.system.darkGray}` }}>Contributors</span>
                 </div>
-                {/* <div css={STYLES_STAT}>
+              </div>
+              {/* <div css={STYLES_STAT}>
                   <div style={{ color: `${Constants.system.darkGray}` }}>Followers</div>
                   <div style={{ fontFamily: `${Constants.font.medium}` }}>0</div>
                 </div> */}
-              </div>
             </div>
           </div>
           <div css={STYLES_SLATE}>

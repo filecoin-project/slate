@@ -18,7 +18,7 @@ const STYLES_PROFILE_INTERNAL = css`
 
 const STYLES_PROFILE = css`
   width: 100%;
-  padding: 64px 32px 0px 32px;
+  padding: 32px 32px 0px 32px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   flex-shrink: 0;

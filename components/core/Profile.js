@@ -56,7 +56,7 @@ const STYLES_INFO_INTERNAL = css`
   overflow-wrap: break-word;
   white-space: pre-wrap;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    max-width: calc(100% - 64px);
+    width: calc(100% - 64px);
   }
 `;
 

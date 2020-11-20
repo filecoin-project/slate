@@ -96,6 +96,9 @@ export const ProcessedText = ({ text, dark }) => {
     h4: P,
     h5: P,
     h6: P,
+    ol: OL,
+    ul: UL,
+    li: LI,
     a: (props) => <Link dark={dark} {...props} />,
   };
   return <Markdown md={text} options={{ remarkReactComponents }} />;

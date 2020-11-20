@@ -11,7 +11,6 @@ const STYLES_EMPTY_STATE = css`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 24px;
   border-radius: 4px;
   text-align: center;
   margin-top: 48px;

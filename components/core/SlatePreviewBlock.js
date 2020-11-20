@@ -43,97 +43,6 @@ const STYLES_CREATE_NEW = css`
   }
 `;
 
-const STYLES_IMAGE_ROW = css`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  height: 304px;
-  overflow: hidden;
-  margin: 0 -${MARGIN}px;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    justify-content: center;
-    margin: 0 -8px;
-  }
-`;
-
-const STYLES_ITEM_BOX = css`
-  width: 20%;
-  height: 120px;
-  margin: 0px ${MARGIN}px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset;
-  cursor: pointer;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 0 8px;
-  }
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-`;
-
-export class SlatePreviewRow extends React.Component {
-  render() {
-    let numItems = this.props.numItems || 4;
-    let objects;
-    if (this.props.slate.data.objects.length === 0) {
-      objects = [
-        <div css={STYLES_CREATE_NEW} key="add-files">
-          <SVG.Plus height="24px" />
-          <div>Add Files</div>
-        </div>,
-      ];
-    } else {
-      let trimmed =
-        this.props.slate.data.objects.length > numItems
-          ? this.props.slate.data.objects.slice(0, numItems)
-          : this.props.slate.data.objects;
-      objects = trimmed.map((each) => (
-        <div
-          key={each.id}
-          css={STYLES_ITEM_BOX}
-          style={{
-            ...this.props.style,
-          }}
-        >
-          <SlateMediaObjectPreview
-            blurhash={each.blurhash}
-            charCap={30}
-            type={each.type}
-            url={each.url}
-            style={this.props.previewStyle}
-            title={each.title || each.name}
-            iconOnly={this.props.small}
-            previewImage={each.previewImage}
-          />
-        </div>
-      ));
-    }
-    // let numExtra = this.props.numItems
-    //   ? this.props.numItems - objects.length
-    //   : 5 - objects.length;
-    // let extra = [];
-    // for (let i = 0; i < numExtra; i++) {
-    //   extra.push(
-    //     <div
-    //       key={`extra-${i}`}
-    //       css={this.props.small ? STYLES_EMPTY_BOX_SMALL : STYLES_EMPTY_BOX}
-    //     />
-    //   );
-    // }
-    return (
-      <div css={STYLES_IMAGE_ROW} style={{ ...this.props.containerStyle }}>
-        {objects}
-        {/* {extra} */}
-      </div>
-    );
-  }
-}
-
 const STYLES_BLOCK = css`
   box-shadow: 0 0 0 0.5px ${Constants.system.lightBorder} inset,
     0 0 40px 0 ${Constants.system.shadow};
@@ -365,7 +274,7 @@ export class SlatePreviewBlock extends React.Component {
           ) : (
             <div />
           )}
-          {this.props.external ? null : this.props.username ? (
+          {this.props.username ? (
             <div
               style={{ marginLeft: "auto" }}
               ref={(c) => {
@@ -391,8 +300,10 @@ export class SlatePreviewBlock extends React.Component {
           <div css={STYLES_BODY}>
             <ProcessedText text={this.props.slate.data.body} />
           </div>
-        ) : (
+        ) : this.props.isOwner ? (
           <div style={{ height: "44px" }} />
+        ) : (
+          <div style={{ height: "40px" }} />
         )}
         <span css={STYLES_MOBILE_ONLY}>
           <div css={STYLES_TITLE} style={{ marginBottom: 8, fontSize: Constants.typescale.lvl1 }}>

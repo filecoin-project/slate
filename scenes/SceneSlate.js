@@ -530,14 +530,14 @@ export default class SceneSlate extends React.Component {
             </div>
           )
         ) : this.state.isOwner ? (
-          <div style={{ padding: "24px" }}>
+          <div>
             <EmptyState>
               <FileTypeGroup />
               <div style={{ marginTop: 24 }}>Drag and drop files to add them to this slate</div>
             </EmptyState>
           </div>
         ) : (
-          <div style={{ padding: "24px" }}>
+          <div>
             <EmptyState>There's nothing here :)</EmptyState>
           </div>
         )}

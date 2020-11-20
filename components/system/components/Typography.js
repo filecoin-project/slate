@@ -50,68 +50,48 @@ const onDeepLink = async (object) => {
   return window.open(slug);
 };
 
-const ProcessedLink = ({ href, children, dark }) => {};
+const outboundRE = /^[a-z]+:/i;
+const isExternal = (path) => outboundRE.test(path);
 
 const Link = ({ href, children, dark }) => {
-  return (
-    <a css={dark ? STYLES_LINK_DARK : STYLES_LINK} href={href} target="_blank" rel="nofollow">
-      {children}
-    </a>
-  );
-};
+  // setup default linkProps
+  const linkProps = {
+    href,
+    target: isExternal(href) ? "_blank" : "_self",
+    rel: isExternal(href) ? "external nofollow" : "",
+    css: dark ? STYLES_LINK_DARK : STYLES_LINK,
+    children,
+  };
 
-const LinkMention = () => {
-  replacedText = StringReplace(
-    replacedText,
-    /@(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
-    (match, i) => (
-      <a
-        css={dark ? STYLES_LINK_DARK : STYLES_LINK}
-        key={match + i}
-        target="_blank"
-        href={`/${match}`.toLowerCase()}
-      >
-        @{match}
-      </a>
-    )
-  );
-};
-
-const LinkHash = () => {
-  //NOTE(martina): previous regex: /#(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])\/(\w*[0-9a-zA-Z-_]+\w*[0-9a-zA-Z-_])/g,
-  replacedText = StringReplace(
-    replacedText,
-    /#(\w*[0-9a-zA-Z-_]+\/\w*[0-9a-zA-Z-_]+)/g,
-    (match, i) => {
-      let displayString = match.split("/")[1];
-      return (
-        <span
-          css={dark ? STYLES_LINK_DARK : STYLES_LINK}
-          key={match + i}
-          onClick={() => onDeepLink({ deeplink: match.toLowerCase() })}
-        >
-          #{displayString}
-        </span>
-      );
+  // process all types of Slate links
+  switch (href.charAt(0)) {
+    case "@": {
+      // mention links
+      const mention = href.substr(1).toLowerCase();
+      linkProps.href = `/${mention}`;
+      break;
     }
-  );
+    case "#": {
+      // hash links
+      const tag = href.substr(1).toLowerCase();
+      linkProps.href = `/${tag}`;
+      linkProps.onClick = (e) => {
+        e.preventDefault();
+        onDeepLink({ deeplink: tag });
+      };
+      break;
+    }
+    default: {
+    }
+  }
+  return <a {...linkProps} />;
 };
 
 export const ProcessedText = ({ text, dark }) => {
-  let replacedText;
   const remarkReactComponents = {
-    a: (props) => (dark ? <Link dark {...props} /> : <Link {...props} />),
+    a: (props) => <Link dark={dark} {...props} />,
   };
-
   return <Markdown md={text} options={{ remarkReactComponents }} />;
-
-  // replacedText = StringReplace(text, /(https?:\/\/\S+)/g, (match, i) => (
-  //   <a css={dark ? STYLES_LINK_DARK : STYLES_LINK} key={match + i} href={match} target="_blank">
-  //     {match}
-  //   </a>
-  // ));
-
-  return <React.Fragment>{replacedText}</React.Fragment>;
 };
 
 const STYLES_H1 = css`

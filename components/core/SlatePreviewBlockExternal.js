@@ -106,6 +106,7 @@ const STYLES_BLOCK = css`
   cursor: pointer;
   height: 440px;
   width: 100%;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 24px auto;
     height: auto;
@@ -120,6 +121,7 @@ const STYLES_BODY = css`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
   }

@@ -187,7 +187,7 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = 
   const token = user.data.tokens.api;
   const name = Strings.isEmpty(bucketName) ? BUCKET_NAME : bucketName;
   const identity = await PrivateKey.fromString(token);
-  let buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
+  let buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO, { debug: true });
 
   await buckets.getToken(identity);
 
@@ -196,7 +196,7 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = 
   console.log(`[ buckets ] getOrCreate init ${name}`);
 
   try {
-    const created = buckets.getOrCreate(name, encrypted);
+    const created = await buckets.getOrCreate(name, encrypted);
     root = created.root;
   } catch (e) {
     console.log(`[ textile ] warning: ${e.message}`);

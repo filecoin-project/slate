@@ -412,7 +412,8 @@ export default class ApplicationPage extends React.Component {
   _handleAuthenticate = async (state, newAccount) => {
     let response = await UserBehaviors.authenticate(state, newAccount);
     let viewer = await UserBehaviors.hydrate();
-    await this.setState({ viewer });
+
+    this.setState({ viewer });
     await this._handleSetupWebsocket();
 
     let unseenAnnouncements = [];

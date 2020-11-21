@@ -3,6 +3,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
+import * as UserBehaviors from "~/common/user-behaviors";
 
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/core";
@@ -18,6 +19,7 @@ const STYLES_HEADER = css`
 export default class SidebarAddFileToSlate extends React.Component {
   state = {
     selected: {},
+    loading: false,
   };
 
   componentDidMount = () => {
@@ -55,46 +57,16 @@ export default class SidebarAddFileToSlate extends React.Component {
   };
 
   _handleSubmit = async () => {
-    let data = this.props.sidebarData.files.map((file) => {
-      return { title: file.name, ...file };
-    });
+    await this.setState({ loading: true });
     for (let slate of Object.values(this.state.selected)) {
       if (!slate) continue;
-      const addResponse = await Actions.addFileToSlate({
+      await UserBehaviors.addToSlate({
         slate,
-        data,
+        files: this.props.sidebarData.files,
         fromSlate: this.props.sidebarData.fromSlate,
       });
-
-      if (!addResponse) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message: "We're having trouble connecting right now. Please try again later",
-            },
-          },
-        });
-        return;
-      }
-
-      if (addResponse.error) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: { alert: { decorator: addResponse.decorator } },
-        });
-        return;
-      }
-
-      const { added, skipped } = addResponse;
-      let message = Strings.formatAsUploadMessage(added, skipped, true);
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message, status: !added ? null : "INFO" },
-        },
-      });
     }
+    this.setState({ loading: false });
     this.props.onCancel();
   };
 
@@ -121,7 +93,12 @@ export default class SidebarAddFileToSlate extends React.Component {
         />
 
         {Object.keys(this.state.selected).length ? (
-          <ButtonPrimary full onClick={this._handleSubmit} style={{ marginTop: 32 }}>
+          <ButtonPrimary
+            full
+            onClick={this._handleSubmit}
+            style={{ marginTop: 32 }}
+            loading={this.state.loading}
+          >
             Add to slates
           </ButtonPrimary>
         ) : (

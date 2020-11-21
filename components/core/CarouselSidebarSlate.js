@@ -3,6 +3,7 @@ import * as SVG from "~/common/svg";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
+import * as UserBehaviors from "~/common/user-behaviors";
 import * as Window from "~/common/window";
 
 import { css } from "@emotion/core";
@@ -223,68 +224,8 @@ export default class CarouselSidebarSlate extends React.Component {
     this.setState({ [e.target.name]: e.target.value, unsavedChanges: true });
   };
 
-  _handleAdd = async (slate) => {
-    if (this.props.external) return;
-    if (this.state.selected[slate.id]) {
-      const removeResponse = await Actions.removeFileFromSlate({
-        slateId: slate.id,
-        ids: [this.props.data.id],
-      });
-      if (!removeResponse) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message: "We're having trouble connecting right now. Please try again later",
-            },
-          },
-        });
-        return;
-      }
-      if (removeResponse.error) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: { alert: { decorator: removeResponse.decorator } },
-        });
-        return;
-      }
-      this.setState({
-        selected: { ...this.state.selected, [slate.id]: false },
-      });
-    } else {
-      const addResponse = await Actions.addFileToSlate({
-        slate,
-        data: [{ title: this.props.data.title || this.props.data.name, ...this.props.data }],
-        fromSlate: true,
-      });
-      if (!addResponse) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message: "We're having trouble connecting right now. Please try again later",
-            },
-          },
-        });
-        return;
-      }
-      if (addResponse.error) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: { alert: { decorator: addResponse.decorator } },
-        });
-        return;
-      }
-      this.setState({
-        selected: { ...this.state.selected, [slate.id]: true },
-      });
-    }
-  };
-
   _handleDownload = () => {
-    const filename = this.props.data.name || this.props.data.title;
-    const uri = this.props.data.url.replace("https://undefined", "https://");
-    Window.saveAs(uri, filename);
+    UserBehaviors.download(this.props.data);
   };
 
   _handleCopy = (copyValue, loading) => {
@@ -298,79 +239,23 @@ export default class CarouselSidebarSlate extends React.Component {
   };
 
   _handleSaveCopy = async (data) => {
-    this.setState({ loading: "savingCopy" });
-    let items = [
-      {
-        ownerId: data.ownerId,
-        cid: data.cid || Strings.urlToCid(data.url),
-      },
-    ];
-    let response = await Actions.addCIDToData({ items });
-    if (!response) {
-      this.setState({ loading: false, saving: "ERROR" });
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return;
-    }
-    if (response.error) {
-      this.setState({ loading: false, saving: "ERROR" });
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return;
-    }
-    let message = Strings.formatAsUploadMessage(response.data.added, response.data.skipped);
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message, status: !response.data.added ? null : "INFO" },
-      },
-    });
+    await this.setState({ loading: "savingCopy" });
+    await UserBehaviors.addToDataFromSlate({ files: [data] });
     this.setState({ loading: false });
   };
 
   _handleDelete = async (cid) => {
     if (this.props.external || !this.props.isOwner) return;
-    this.setState({ loading: "deleting" });
     if (
       !window.confirm(
-        "Are you sure you want to delete this? It will be removed from your slates too."
+        "Are you sure you want to delete this? It will be removed from all your slates too."
       )
     ) {
-      this.setState({ loading: false });
       return;
     }
-
-    const response = await Actions.deleteBucketItems({ cids: [cid] });
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      this.setState({ loading: false });
-      return;
-    }
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      this.setState({ loading: false });
-      return;
-    }
+    await this.setState({ loading: "deleting" });
+    await UserBehaviors.deleteFiles(cid);
     this.setState({ loading: false });
-    console.log("got here to end of handle delete");
   };
 
   _toggleAccordion = (tab) => {
@@ -428,7 +313,6 @@ export default class CarouselSidebarSlate extends React.Component {
         const hasBody = !Strings.isEmpty(this.props.data.body);
         const hasSource = !Strings.isEmpty(this.props.data.source);
         const hasAuthor = !Strings.isEmpty(this.props.data.author);
-        console.log(this.props.data);
 
         if (hasTitle) {
           elements.push(
@@ -509,11 +393,10 @@ export default class CarouselSidebarSlate extends React.Component {
               <div style={{ width: "100%", margin: "24px 0 44px 0" }}>
                 <SlatePicker
                   slates={this.props.slates}
-                  selected={this.state.selected}
-                  onAdd={this._handleAdd}
                   onCreateSlate={this._handleCreateSlate}
-                  loading={this.props.loading}
                   dark
+                  fromSlate
+                  files={[this.props.data]}
                   selectedColor={Constants.system.white}
                 />
               </div>

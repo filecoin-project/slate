@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as UserBehaviors from "~/common/user-behaviors";
 
 import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -104,7 +105,34 @@ const STYLES_ICON_BOX = css`
 `;
 
 export class SlatePicker extends React.Component {
+  state = {
+    selected: {},
+    loading: null,
+  };
+
+  _handleAdd = async (slate) => {
+    if (this.props.onAdd) {
+      this.props.onAdd(slate);
+      return;
+    }
+    await this.setState({ loading: slate.id });
+    if (this.state.selected[slate.id]) {
+      await UserBehaviors.removeFromSlate({ slate, ids: this.props.files.map((file) => file.id) });
+    } else {
+      await UserBehaviors.addToSlate({
+        slate,
+        files: this.props.files,
+        fromSlate: this.props.fromSlate,
+      });
+    }
+    this.setState({
+      selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
+      loading: null,
+    });
+  };
+
   render() {
+    const selected = this.props.selected || this.state.selected;
     return (
       <React.Fragment>
         <div
@@ -129,14 +157,12 @@ export class SlatePicker extends React.Component {
             <div
               key={slate.id}
               css={this.props.dark ? STYLES_SLATE_LINE_DARK : STYLES_SLATE_LINE}
-              onClick={() => this.props.onAdd(slate)}
+              onClick={() => this._handleAdd(slate)}
             >
               <div css={STYLES_ICON_BOX}>
-                {this.props.loading &&
-                this.props.loading.id &&
-                this.props.loading.id === slate.id ? (
+                {this.state.loading && this.state.loading === slate.id ? (
                   <LoaderSpinner style={{ height: 20, width: 20, margin: "2px 8px 2px 2px" }} />
-                ) : this.props.selected[slate.id] ? (
+                ) : selected[slate.id] ? (
                   <SVG.Slate
                     height="24px"
                     style={{
@@ -158,7 +184,7 @@ export class SlatePicker extends React.Component {
               <div
                 css={this.props.dark ? STYLES_SLATE_NAME_DARK : STYLES_SLATE_NAME}
                 style={{
-                  color: this.props.selected[slate.id] ? this.props.selectedColor : "inherit",
+                  color: selected[slate.id] ? this.props.selectedColor : "inherit",
                 }}
               >
                 {Strings.getPresentationSlateName(slate)}

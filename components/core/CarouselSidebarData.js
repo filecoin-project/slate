@@ -4,6 +4,7 @@ import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
+import * as UserBehaviors from "~/common/user-behaviors";
 import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
 import * as FileUtilities from "~/common/file-utilities";
@@ -232,58 +233,13 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleSetLoading = (e) => {
-    console.log("set loading to:");
-    console.log(e.detail.loading);
     this.setState({ loading: e.detail.loading });
   };
 
   _handleUpload = async (e) => {
     this.setState({ changingPreview: true });
-    e.persist();
-    let file = e.target.files[0];
-    console.log(file);
-
-    if (!file) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "Something went wrong with the upload. Please try again",
-          },
-        },
-      });
-      return;
-    }
-
-    if (!Validations.isPreviewableImage(file.type)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "Upload failed. Only images and gifs are allowed" },
-        },
-      });
-      return;
-    }
-
-    const response = await FileUtilities.upload({ file, routes: this.props.resources });
-    const { json } = response;
-
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "We're having trouble connecting right now" },
-        },
-      });
-      this.setState({ changingPreview: false });
-      return;
-    }
-
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
+    let json = await UserBehaviors.uploadImage(e.target.files[0], this.props.resources);
+    if (!json) {
       this.setState({ changingPreview: false });
       return;
     }
@@ -319,10 +275,7 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleDownload = () => {
-    const filename = this.props.data.file;
-    let cid = this.props.data.cid || this.props.data.ipfs.replace("/ipfs/", "");
-    const uri = Strings.getCIDGatewayURL(cid);
-    Window.saveAs(uri, filename);
+    UserBehaviors.download(this.props.data);
   };
 
   _handleCreateSlate = async () => {
@@ -332,27 +285,6 @@ export default class CarouselSidebarData extends React.Component {
       value: "SIDEBAR_CREATE_SLATE",
       data: { files: [this.props.data] },
     });
-  };
-
-  _handleAdd = (slate) => {
-    //NOTE(martina): triggers action through DataView.js (which is always mounted if this carousel is open)
-    if (this.state.selected[slate.id]) {
-      dispatchCustomEvent({
-        name: "remote-slate-object-remove",
-        detail: { id: this.props.data.id, slate: slate, data: this.props.data },
-      });
-      this.setState({
-        selected: { ...this.state.selected, [slate.id]: false },
-      });
-    } else {
-      dispatchCustomEvent({
-        name: "remote-slate-object-add",
-        detail: { id: this.props.data.id, slate: slate, data: this.props.data },
-      });
-      this.setState({
-        selected: { ...this.state.selected, [slate.id]: slate },
-      });
-    }
   };
 
   _handleCopy = (copyValue, loading) => {
@@ -366,12 +298,13 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleDelete = async (cid) => {
-    //NOTE(martina): triggers action through DataView.js (which is always mounted if this carousel is open)
+    const message = `Are you sure you want to delete this? It will be deleted from your slates as well`;
+    if (!window.confirm(message)) {
+      return;
+    }
     await this.setState({ loading: cid });
-    dispatchCustomEvent({
-      name: "remote-data-deletion",
-      detail: { cid },
-    });
+    await UserBehaviors.deleteFiles(cid);
+    this.setState({ loading: false });
   };
 
   render() {
@@ -426,11 +359,9 @@ export default class CarouselSidebarData extends React.Component {
         <SlatePicker
           dark
           slates={this.props.slates}
-          selected={this.state.selected}
-          onAdd={this._handleAdd}
           onCreateSlate={this._handleCreateSlate}
-          loading={this.props.loading}
           selectedColor={Constants.system.white}
+          files={[this.props.data]}
         />
         {type && type.startsWith("image/") ? null : (
           <div>

@@ -10,7 +10,7 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 const DEFAULT_ERROR_MESSAGE = "We could not make your deal. Please try again later.";
 
 export default class SidebarFilecoinArchive extends React.Component {
-  state = { response: null };
+  state = { response: null, loading: false };
 
   async componentDidMount() {}
 
@@ -23,11 +23,11 @@ export default class SidebarFilecoinArchive extends React.Component {
       e.persist();
     }
 
-    this.props.onSidebarLoading(true);
+    await this.setState({ loading: true });
     const response = await this._handleMakeDeal();
 
     if (!response) {
-      this.props.onSidebarLoading(false);
+      this.setState({ loading: false });
       return dispatchCustomEvent({
         name: "create-alert",
         detail: {
@@ -39,7 +39,7 @@ export default class SidebarFilecoinArchive extends React.Component {
     }
 
     if (response.error) {
-      this.props.onSidebarLoading(false);
+      this.setState({ loading: false });
       if (response.message) {
         return dispatchCustomEvent({
           name: "create-alert",
@@ -99,7 +99,7 @@ export default class SidebarFilecoinArchive extends React.Component {
           full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
-          loading={this.props.sidebarLoading}
+          loading={this.state.loading}
         >
           Make storage deal
         </System.ButtonPrimary>

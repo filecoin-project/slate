@@ -169,6 +169,7 @@ export class SignIn extends React.Component {
         password: this.state.password,
       });
     }
+<<<<<<< HEAD
 
     if (!response) {
       dispatchCustomEvent({
@@ -192,6 +193,9 @@ export class SignIn extends React.Component {
       return;
     }
     this.setState({ scene: "whatever" });
+=======
+    this.setState({ loading: false });
+>>>>>>> cleanup moving functions to userbehaviors
   };
 
   _handleCheckUsername = async () => {
@@ -220,7 +224,7 @@ export class SignIn extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message: "2We're having trouble connecting right now. Please try again later.",
+            message: "We're having trouble connecting right now. Please try again later.",
           },
         },
       });

@@ -122,8 +122,6 @@ export default class SceneSlate extends React.Component {
       return false;
     }
     isMounted = true;
-    window.addEventListener("remote-delete-object", this._handleRemoteDeleteObject);
-    window.addEventListener("remote-object-update", this._handleRemoteEditObject);
 
     if (this.state.isOwner) {
       let changed = false;
@@ -147,8 +145,6 @@ export default class SceneSlate extends React.Component {
 
   componentWillUnmount() {
     isMounted = false;
-    window.removeEventListener("remote-delete-object", this._handleRemoteDeleteObject);
-    window.removeEventListener("remote-object-update", this._handleRemoteEditObject);
   }
 
   _handleFollow = () => {
@@ -210,114 +206,6 @@ export default class SceneSlate extends React.Component {
     });
   };
 
-  _handleRemoteEditObject = async ({ detail }) => {
-    const { object } = detail;
-    console.log(object);
-
-    System.dispatchCustomEvent({
-      name: "state-global-carousel-loading",
-      detail: { saving: true },
-    });
-
-    const objects = [...this.props.current.data.objects];
-    for (let i = 0; i < objects.length; i++) {
-      if (objects[i].id === object.id) {
-        objects[i] = object;
-        break;
-      }
-    }
-
-    await this._handleSave(null, objects);
-
-    System.dispatchCustomEvent({
-      name: "state-global-carousel-loading",
-      detail: { saving: false },
-    });
-  };
-
-  _handleDeleteFiles = async (cids) => {
-    const message = `Are you sure you want to delete these files? They will be deleted from your slates as well`;
-    if (!window.confirm(message)) {
-      return;
-    }
-
-    const response = await Actions.deleteBucketItems({ cids });
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return;
-    }
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return;
-    }
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "Files successfully deleted!", status: "INFO" },
-      },
-    });
-  };
-
-  _handleRemoteDeleteObject = async ({ detail }) => {
-    System.dispatchCustomEvent({
-      name: "state-global-carousel-loading",
-      detail: { loading: true },
-    });
-
-    let objects = this.props.current.data.objects.filter((obj) => {
-      return !detail.ids.includes(obj.id);
-    });
-
-    const response = await Actions.updateSlate({
-      id: this.props.current.id,
-      data: {
-        objects,
-      },
-    });
-
-    if (!response) {
-      System.dispatchCustomEvent({
-        name: "state-global-carousel-loading",
-        detail: { loading: false },
-      });
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return;
-    }
-    if (response.error) {
-      System.dispatchCustomEvent({
-        name: "state-global-carousel-loading",
-        detail: { loading: false },
-      });
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return;
-    }
-
-    System.dispatchCustomEvent({
-      name: "state-global-carousel-loading",
-      detail: { loading: false },
-    });
-  };
-
   _handleSelect = (index) =>
     System.dispatchCustomEvent({
       name: "slate-global-open-carousel",
@@ -330,40 +218,6 @@ export default class SceneSlate extends React.Component {
       value: "SIDEBAR_ADD_FILE_TO_BUCKET",
       data: this.props.current,
     });
-  };
-
-  _handleSaveCopy = async (items) => {
-    this.setState({ loading: true });
-    let response = await Actions.addCIDToData({ items });
-
-    if (!response) {
-      this.setState({ loading: false, saving: "ERROR" });
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return;
-    }
-    if (response.error) {
-      this.setState({ loading: false, saving: "ERROR" });
-      System.dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return;
-    }
-    let message = Strings.formatAsUploadMessage(response.data.added, response.data.skipped);
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message, status: !response.data.added ? null : "INFO" },
-      },
-    });
-    this.setState({ loading: false, saving: "SAVED" });
   };
 
   _handleShowSettings = () => {
@@ -523,9 +377,6 @@ export default class SceneSlate extends React.Component {
                 onSelect={this._handleSelect}
                 defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
                 onAction={this.props.onAction}
-                onRemoveFromSlate={this._handleRemoteDeleteObject}
-                onDeleteFiles={this._handleDeleteFiles}
-                onSaveCopy={this._handleSaveCopy}
               />
             </div>
           )

@@ -5,6 +5,7 @@ import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
+import * as UserBehaviors from "~/common/user-behaviors";
 
 import { css } from "@emotion/core";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
@@ -189,8 +190,6 @@ const STYLES_MOBILE_HIDDEN = css`
   }
 `;
 
-const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
-
 export default class DataView extends React.Component {
   _mounted = false;
 
@@ -206,18 +205,12 @@ export default class DataView extends React.Component {
   async componentDidMount() {
     if (!this._mounted) {
       this._mounted = true;
-      window.addEventListener("remote-data-deletion", this._handleDataDeletion);
-      window.addEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
-      window.addEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
       window.addEventListener("scroll", this._handleCheckScroll);
     }
   }
 
   componentWillUnmount() {
     this._mounted = false;
-    window.removeEventListener("remote-data-deletion", this._handleDataDeletion);
-    window.removeEventListener("remote-slate-object-remove", this._handleRemoteSlateObjectRemove);
-    window.removeEventListener("remote-slate-object-add", this._handleRemoteSlateObjectAdd);
     window.removeEventListener("scroll", this._handleCheckScroll);
   }
 
@@ -256,9 +249,9 @@ export default class DataView extends React.Component {
   _handleDelete = async (cid) => {
     const message = `Are you sure you want to delete these files? They will be deleted from your slates as well`;
     if (!window.confirm(message)) {
-      dispatchCustomEvent({ name: "data-global-carousel-loading", detail: { loading: false } });
       return;
     }
+    await this._handleLoading({ cids });
     let cids;
     if (cid) {
       cids = [cid];
@@ -268,150 +261,16 @@ export default class DataView extends React.Component {
         let item = this.props.viewer.library[0].children[index];
         return item.cid || item.ipfs.replace("/ipfs/", "");
       });
+      this.setState({ checked: {} });
     }
+    await UserBehaviors.deleteFiles(cids);
     this._handleLoading({ cids });
-
-    const response = await Actions.deleteBucketItems({ cids });
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      this._handleLoading({ cids });
-      dispatchCustomEvent({ name: "data-global-carousel-loading", detail: { loading: false } });
-      return;
-    }
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      this._handleLoading({ cids });
-      dispatchCustomEvent({ name: "data-global-carousel-loading", detail: { loading: false } });
-      return;
-    }
-    this._handleLoading({ cids });
-    this.setState({ checked: {} });
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "Files successfully deleted!", status: "INFO" },
-      },
-    });
-    dispatchCustomEvent({ name: "data-global-carousel-loading", detail: { loading: false } });
   };
 
   _handleSelect = (index) => {
     System.dispatchCustomEvent({
       name: "slate-global-open-carousel",
       detail: { index },
-    });
-  };
-
-  _handleDataDeletion = (e) => {
-    this._handleDelete(e.detail.cid);
-  };
-
-  _handleRemoteSlateObjectAdd = async ({ detail }) => {
-    const { id, slate, data } = detail;
-
-    System.dispatchCustomEvent({
-      name: "data-global-carousel-loading",
-      detail: { loading: { id: slate.id } },
-    });
-
-    const addResponse = await Actions.addFileToSlate({
-      slate,
-      data: [{ title: data.name, ...data }],
-    });
-
-    if (!addResponse) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return null;
-    }
-
-    if (addResponse.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: addResponse.decorator } },
-      });
-      return null;
-    }
-
-    const { added, skipped } = addResponse;
-    let message = Strings.formatAsUploadMessage(added, skipped, true);
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message, status: !added ? null : "INFO" },
-      },
-    });
-
-    System.dispatchCustomEvent({
-      name: "data-global-carousel-loading",
-      detail: { loading: false },
-    });
-  };
-
-  _handleRemoteSlateObjectRemove = async ({ detail }) => {
-    const { id, slate } = detail;
-
-    System.dispatchCustomEvent({
-      name: "data-global-carousel-loading",
-      detail: { loading: { id: slate.id } },
-    });
-
-    const response = await Actions.removeFileFromSlate({ slateId: slate.id, ids: [id] });
-
-    if (!response) {
-      System.dispatchCustomEvent({
-        name: "data-global-carousel-loading",
-        detail: { loading: false },
-      });
-
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "We're having trouble connecting right now and weren't able to delete that. Please try again later",
-          },
-        },
-      });
-      return null;
-    }
-
-    if (response.error) {
-      System.dispatchCustomEvent({
-        name: "data-global-carousel-loading",
-        detail: { loading: false },
-      });
-
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: response.decorator,
-          },
-        },
-      });
-      return null;
-    }
-
-    System.dispatchCustomEvent({
-      name: "data-global-carousel-loading",
-      detail: { loading: false },
     });
   };
 

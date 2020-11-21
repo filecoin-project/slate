@@ -1,6 +1,7 @@
 import * as Websockets from "~/common/browser-websockets";
 import * as Credentials from "~/common/credentials";
 import * as Actions from "~/common/actions";
+import * as Window from "~/common/window";
 import * as Store from "~/common/store";
 import * as FileUtilities from "~/common/file-utilities";
 
@@ -10,17 +11,7 @@ import { dispatchCustomEvent } from "~/common/custom-events";
 
 const cookies = new Cookies();
 
-// NOTE(martina): Creates a new user, then authenticates them
-export const createUser = async (state) => {
-  let response = await Actions.createUser(state);
-  if (!response || response.error) {
-    return response;
-  }
-
-  return this._handleAuthenticate(state, true);
-};
-
-export const authenticate = async (state, newAccount) => {
+export const authenticate = async (state) => {
   // NOTE(jim): Kills existing session cookie if there is one.
   const jwt = cookies.get(Credentials.session.key);
 
@@ -29,16 +20,28 @@ export const authenticate = async (state, newAccount) => {
   }
 
   let response = await Actions.signIn(state);
-  if (!response || response.error) {
+  if (!response) {
     dispatchCustomEvent({
       name: "create-alert",
       detail: {
         alert: {
-          message: "We failed to sign you in, please try again.",
+          message: "We're having trouble connecting right now. Please try again later",
         },
       },
     });
-    return null;
+    return false;
+  }
+
+  if (response.error) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          decorator: response.decorator,
+        },
+      },
+    });
+    return false;
   }
 
   if (response.token) {
@@ -191,6 +194,212 @@ export const formatUploadedFiles = ({ files }) => {
   // }
 
   return { toUpload, fileLoading, numFailed: files.length - toUpload.length };
+};
+
+export const uploadImage = async (file) => {
+  if (!file) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message: "Something went wrong with the upload. Please try again",
+        },
+      },
+    });
+    return;
+  }
+
+  if (!Validations.isPreviewableImage(file.type)) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "Upload failed. Only images and gifs are allowed" },
+      },
+    });
+    return;
+  }
+
+  const response = await FileUtilities.upload({ file, routes: resources });
+
+  if (!response) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "We're having trouble connecting right now" },
+      },
+    });
+    return false;
+  }
+
+  if (response.error) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { decorator: response.decorator } },
+    });
+    return false;
+  }
+
+  return response.json;
+};
+
+export const deleteFiles = async (fileCids) => {
+  let cids;
+  if (Array.isArray(fileCids)) {
+    cids = fileCids;
+  } else {
+    cids = [fileCids];
+  }
+  const response = await Actions.deleteBucketItems({ cids });
+  if (!response) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message: "We're having trouble connecting right now. Please try again later",
+        },
+      },
+    });
+    return false;
+  }
+  if (response.error) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { decorator: response.decorator } },
+    });
+    return false;
+  }
+  dispatchCustomEvent({
+    name: "create-alert",
+    detail: {
+      alert: { message: "Files successfully deleted!", status: "INFO" },
+    },
+  });
+  return response;
+};
+
+export const removeFromSlate = async ({ slate, ids }) => {
+  const response = await Actions.removeFileFromSlate({
+    slateId: slate.id,
+    ids,
+  });
+
+  if (!response) {
+    System.dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message: "We're having trouble connecting right now. Please try again later",
+        },
+      },
+    });
+    return false;
+  }
+  if (response.error) {
+    System.dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { decorator: response.decorator } },
+    });
+    return false;
+  }
+
+  return response;
+};
+
+export const addToSlate = async ({ slate, files, fromSlate }) => {
+  let data = files.map((file) => {
+    return {
+      title: file.name || file.title || file.file,
+      ...file,
+    };
+  });
+
+  const addResponse = await Actions.addFileToSlate({
+    slate,
+    data,
+    fromSlate,
+  });
+
+  if (!addResponse) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message: "We're having trouble connecting right now. Please try again later",
+        },
+      },
+    });
+    return false;
+  }
+
+  if (addResponse.error) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { decorator: addResponse.decorator } },
+    });
+    return false;
+  }
+
+  const { added, skipped } = addResponse;
+  let message = Strings.formatAsUploadMessage(added, skipped, true);
+  dispatchCustomEvent({
+    name: "create-alert",
+    detail: {
+      alert: { message, status: !added ? null : "INFO" },
+    },
+  });
+  return true;
+};
+
+export const addToDataFromSlate = async ({ files }) => {
+  let items = files.map((file) => {
+    return {
+      ownerId: file.ownerId,
+      cid: file.cid
+        ? file.cid
+        : file.ipfs
+        ? file.ipfs.replace("/ipfs/", "")
+        : Strings.urlToCid(file.url),
+    };
+  });
+  let response = await Actions.addCIDToData({ items });
+  if (!response) {
+    System.dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message: "We're having trouble connecting right now. Please try again later",
+        },
+      },
+    });
+    return false;
+  }
+  if (response.error) {
+    System.dispatchCustomEvent({
+      name: "create-alert",
+      detail: { alert: { decorator: response.decorator } },
+    });
+    return false;
+  }
+  let message = Strings.formatAsUploadMessage(response.data.added, response.data.skipped);
+  dispatchCustomEvent({
+    name: "create-alert",
+    detail: {
+      alert: { message, status: !response.data.added ? null : "INFO" },
+    },
+  });
+  return response;
+};
+
+export const download = (file) => {
+  const filename = file.file || file.name || file.title;
+  let uri;
+  if (file.url) {
+    uri = file.url.replace("https://undefined", "https://");
+  } else {
+    let cid = file.cid || file.ipfs.replace("/ipfs/", "");
+    uri = Strings.getCIDGatewayURL(cid);
+  }
+  Window.saveAs(uri, filename);
 };
 
 // export const createSlate = async (data) => {

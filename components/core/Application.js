@@ -103,7 +103,6 @@ export default class ApplicationPage extends React.Component {
     currentIndex: 0,
     data: null,
     sidebar: null,
-    sidebarLoading: false,
     online: null,
     sidebar: null,
     mobile: this.props.mobile,
@@ -387,35 +386,43 @@ export default class ApplicationPage extends React.Component {
     e.preventDefault();
   };
 
-  _handleSidebarLoading = (sidebarLoading) => this.setState({ sidebarLoading });
-
-  _handleDeleteYourself = async () => await UserBehaviors.deleteMe();
-
   _handleSignOut = async () => await UserBehaviors.signOut();
 
   _handleCreateUser = async (state) => {
     let response = await Actions.createUser(state);
-    if (!response || response.error) {
+
+    if (!response) {
       dispatchCustomEvent({
         name: "create-alert",
         detail: {
           alert: {
-            message: "We had an issue creating your user account.",
+            message: "We're having trouble connecting right now. Please try again later",
           },
         },
       });
-      return response;
+      return;
+    }
+
+    if (response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            decorator: response.decorator,
+          },
+        },
+      });
+      return;
     }
 
     return this._handleAuthenticate(state, true);
   };
 
   _handleAuthenticate = async (state, newAccount) => {
-    let response = await UserBehaviors.authenticate(state, newAccount);
-    if (!response || response.error) {
-      return response;
+    let response = await UserBehaviors.authenticate(state);
+    if (!response) {
+      return;
     }
-
     let viewer = await UserBehaviors.hydrate();
     if (!viewer) {
       return viewer;
@@ -485,7 +492,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleDismissSidebar = () => {
-    this.setState({ sidebar: null, sidebarLoading: false, sidebarData: null });
+    this.setState({ sidebar: null, sidebarData: null });
   };
 
   _handleAction = (options) => {
@@ -674,7 +681,6 @@ export default class ApplicationPage extends React.Component {
         onAction={this._handleAction}
         onBack={this._handleBack}
         onForward={this._handleForward}
-        onSignOut={this._handleSignOut}
         mobile={this.state.mobile}
       />
     );
@@ -686,7 +692,6 @@ export default class ApplicationPage extends React.Component {
       selected: this.state.selected,
       onSelectedChange: this._handleSelectedChange,
       onViewerChange: this._handleViewerChange,
-      onDeleteYourself: this._handleDeleteYourself,
       onAction: this._handleAction,
       onUpload: this._handleUploadFiles,
       onBack: this._handleBack,
@@ -706,13 +711,9 @@ export default class ApplicationPage extends React.Component {
         data: this.state.data,
         sidebarData: this.state.sidebarData,
         fileLoading: this.state.fileLoading,
-        sidebarLoading: this.state.sidebarLoading,
         onSelectedChange: this._handleSelectedChange,
-        onSubmit: this._handleSubmit,
         onCancel: this._handleDismissSidebar,
-        onRegisterFileLoading: this._handleRegisterFileLoading,
         onUpload: this._handleUploadFiles,
-        onSidebarLoading: this._handleSidebarLoading,
         onAction: this._handleAction,
         resources: this.props.resources,
       });

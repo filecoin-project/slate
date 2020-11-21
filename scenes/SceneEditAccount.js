@@ -6,6 +6,7 @@ import * as Validations from "~/common/validations";
 import * as Window from "~/common/window";
 import * as Constants from "~/common/constants";
 import * as FileUtilities from "~/common/file-utilities";
+import * as UserBehaviors from "~/common/user-behaviors";
 
 import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
@@ -58,57 +59,11 @@ export default class SceneEditAccount extends React.Component {
 
   _handleUpload = async (e) => {
     this.setState({ changingAvatar: true });
-    e.persist();
-    let file = e.target.files[0];
-
-    if (!file) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "Something went wrong with the upload. Please try again",
-          },
-        },
-      });
-      return;
-    }
-
-    // NOTE(jim): Only allow images for account avatar.
-    if (!Validations.isPreviewableImage(file.type)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "Upload failed. Only images and gifs are allowed" },
-        },
-      });
-      return;
-    }
-
-    const response = await FileUtilities.upload({ file, routes: this.props.resources });
-
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "We're having trouble connecting right now" },
-        },
-      });
-
+    let json = await UserBehaviors.uploadImage(e.target.files[0], this.props.resources);
+    if (!json) {
       this.setState({ changingAvatar: false });
       return;
     }
-
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-
-      this.setState({ changingAvatar: false });
-      return;
-    }
-
-    const { json } = response;
 
     const cid = json.data.cid || json.data.ipfs.replace("/ipfs/", "");
     const url = Strings.getCIDGatewayURL(cid);
@@ -285,16 +240,11 @@ export default class SceneEditAccount extends React.Component {
 
     await Window.delay(100);
 
-    const response = await this.props.onDeleteYourself();
+    await UserBehaviors.deleteMe();
     this.setState({ deleting: false });
   };
 
   _handleChange = (e) => {
-    e.persist();
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  _handleCheckboxChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -378,7 +328,7 @@ export default class SceneEditAccount extends React.Component {
               style={{ marginTop: 48 }}
               name="allow_filecoin_directory_listing"
               value={this.state.allow_filecoin_directory_listing}
-              onChange={this._handleCheckboxChange}
+              onChange={this._handleChange}
             >
               Show your successful deals on a directory page where others can retrieve them.
             </System.CheckBox>
@@ -387,7 +337,7 @@ export default class SceneEditAccount extends React.Component {
               style={{ marginTop: 24 }}
               name="allow_automatic_data_storage"
               value={this.state.allow_automatic_data_storage}
-              onChange={this._handleCheckboxChange}
+              onChange={this._handleChange}
             >
               Allow Slate to make archive storage deals on your behalf to the Filecoin Network. You
               will get a receipt in the Filecoin section.
@@ -397,7 +347,7 @@ export default class SceneEditAccount extends React.Component {
               style={{ marginTop: 24 }}
               name="allow_encrypted_data_storage"
               value={this.state.allow_encrypted_data_storage}
-              onChange={this._handleCheckboxChange}
+              onChange={this._handleChange}
             >
               Force encryption on archive storage deals (only you can see retrieved data from the
               Filecoin network).

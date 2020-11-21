@@ -4,6 +4,7 @@ import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 import * as Window from "~/common/window";
 import * as Validations from "~/common/validations";
+import * as UserBehaviors from "~/common/user-behaviors";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import CTATransition from "~/components/core/CTATransition";
@@ -310,17 +311,9 @@ export class SlateLayout extends React.Component {
     signInModal: false,
   };
 
-  //LEFT OFF HERE:
-  //make sure things work if you delete while in editing mode (haven't tested that yet)
-  //add the "delete" and checkbox actions. drag handle. and make preview image
-  //if there's repeats of ids (not cids), it'll style them the same way (potentially diff position though) everytime you change something
-  //if width under a certain amount, set to a default mobile flex or grid layout of single items
-  //add flag for following defaultLayout for last element or not. so know where to put next one. "unchanged since last add" flag. if something deleted, messes this up as well
-
   componentDidMount = async () => {
     this.debounceInstance = this.debounce(this._recalculate, 250);
     window.addEventListener("resize", this.debounceInstance);
-    window.addEventListener("remote-object-update", this._handleRemoteEditObject);
     await this.calculateUnit();
     if (this.props.layout) {
       let layout = await this.repairLayout(this.state.items);
@@ -356,7 +349,6 @@ export class SlateLayout extends React.Component {
 
   componentWillUnmount = () => {
     window.removeEventListener("resize", this.debounceInstance);
-    window.removeEventListener("remote-object-update", this._handleRemoteEditObject);
     if (this.state.editing) {
       window.removeEventListener("keydown", this._handleKeyDown);
       window.removeEventListener("keyup", this._handleKeyUp);
@@ -437,18 +429,18 @@ export class SlateLayout extends React.Component {
     }
   };
 
-  _handleRemoteEditObject = async ({ detail }) => {
-    const { object } = detail;
+  // _handleRemoteEditObject = async ({ detail }) => {
+  //   const { object } = detail;
 
-    const items = [...this.state.items];
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].id === object.id) {
-        items[i] = object;
-        break;
-      }
-    }
-    this.setState({ items });
-  };
+  //   const items = [...this.state.items];
+  //   for (let i = 0; i < items.length; i++) {
+  //     if (items[i].id === object.id) {
+  //       items[i] = object;
+  //       break;
+  //     }
+  //   }
+  //   this.setState({ items });
+  // };
 
   debounce = (func, ms) => {
     let timer;
@@ -959,10 +951,6 @@ export class SlateLayout extends React.Component {
     });
   };
 
-  _handleDelete = (ids) => {
-    dispatchCustomEvent({ name: "remote-delete-object", detail: { ids } });
-  };
-
   _handleCopy = (e, value) => {
     e.stopPropagation();
     e.preventDefault();
@@ -985,48 +973,23 @@ export class SlateLayout extends React.Component {
     e.stopPropagation();
     e.preventDefault();
     if (i !== undefined) {
-      let filename = this.state.items[i].name || this.state.items[i].title;
-      let uri = this.state.items[i].url.replace("https://undefined", "https://");
-      Window.saveAs(uri, filename);
+      UserBehaviors.download(this.state.items[i]);
     }
-    // else {
-    //   for (let i of Object.keys(this.state.checked)) {
-    //     console.log(i);
-    //     download = this.state.items[i].name || this.state.items[i].title;
-    //     uri = this.state.items[i].url.replace("https://undefined", "https://");
-    //     let link = document.createElement("a");
-    //     document.body.appendChild(link);
-    //     link.target = "_blank";
-    //     link.download = download;
-    //     link.href = uri;
-    //     link.click();
-    //     document.body.removeChild(link);
-    //   }
-    // }
-    // this.setState({ checked: {} });
   };
 
-  _handleSaveCopy = (e, i) => {
+  _handleSaveCopy = async (e, i) => {
     e.stopPropagation();
     e.preventDefault();
     let items = [];
     if (i !== undefined) {
-      items = [
-        {
-          ownerId: this.state.items[i].ownerId,
-          cid: this.state.items[i].cid || Strings.urlToCid(this.state.items[i].url),
-        },
-      ];
+      items = [this.state.items[i]];
     } else {
+      this.setState({ checked: {} });
       for (let i of Object.keys(this.state.checked)) {
-        items.push({
-          ownerId: this.state.items[i].ownerId,
-          cid: this.state.items[i].cid || Strings.urlToCid(this.state.items[i].url),
-        });
+        items.push(this.state.items[i]);
       }
     }
-    this.props.onSaveCopy(items);
-    this.setState({ checked: {} });
+    UserBehaviors.addToDataFromSlate({ files: items });
   };
 
   _handleAddToSlate = (e, i) => {
@@ -1058,9 +1021,9 @@ export class SlateLayout extends React.Component {
       for (let index of Object.keys(this.state.checked)) {
         ids.push(this.state.items[index].id);
       }
+      this.setState({ checked: {} });
     }
-    this.props.onRemoveFromSlate({ detail: { ids } });
-    this.setState({ checked: {} });
+    UserBehaviors.removeFromSlate({ slate: this.props.current, ids });
   };
 
   _handleDeleteFiles = (e, i) => {
@@ -1073,6 +1036,7 @@ export class SlateLayout extends React.Component {
       for (let index of Object.keys(this.state.checked)) {
         ids.push(this.state.items[index].id);
       }
+      this.setState({ checked: {} });
     }
     let cids = [];
     for (let file of this.props.viewer.library[0].children) {
@@ -1080,8 +1044,7 @@ export class SlateLayout extends React.Component {
         cids.push(file.cid || file.ipfs.replace("/ipfs/", ""));
       }
     }
-    this.props.onDeleteFiles(cids);
-    this.setState({ checked: {} });
+    UserBehaviors.deleteFiles(cids);
   };
 
   _stopProp = (e) => {

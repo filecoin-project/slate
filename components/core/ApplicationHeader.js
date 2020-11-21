@@ -146,11 +146,6 @@ export default class ApplicationHeader extends React.Component {
     window.addEventListener("keyup", this._handleKeyUp);
   };
 
-  //TODO toast: add a command-f light text next to svg
-  //add cmd svg to header
-  //add on-hover keybinds next to cmd svg
-  //--> argue with haris about how that looks
-
   _handleKeyDown = (e) => {
     let prevValue = this.keysPressed[e.key];
     if (prevValue) {
@@ -288,7 +283,6 @@ export default class ApplicationHeader extends React.Component {
               onTogglePopup={this._handleTogglePopup}
               viewer={this.props.viewer}
               onAction={this.props.onAction}
-              onSignOut={this.props.onSignOut}
             />
           </span>
         </div>

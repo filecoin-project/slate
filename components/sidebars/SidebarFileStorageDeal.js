@@ -37,6 +37,7 @@ export default class SidebarFileStorageDeal extends React.Component {
     settings_cold_default_duration: this.props.viewer.settings_cold_default_duration,
     settings_cold_default_replication_factor: this.props.viewer
       .settings_cold_default_replication_factor,
+    loading: false,
   };
 
   async componentDidMount() {
@@ -71,9 +72,10 @@ export default class SidebarFileStorageDeal extends React.Component {
       e.persist();
     }
 
-    this.props.onSidebarLoading(true);
+    await this.setState({ loading: true });
     await this._handleMakeDeal({ ipfs: this.props.data.ipfs || `/ipfs/${this.props.data.cid}` });
-    await this.props.onSubmit({});
+    this.setState({ loading: false });
+    await this.props.onCancel();
   };
 
   _handleCancel = () => {
@@ -110,7 +112,7 @@ export default class SidebarFileStorageDeal extends React.Component {
           </div>
         </div>
 
-        {!this.props.sidebarLoading ? (
+        {!this.state.loading ? (
           <System.Input
             containerStyle={{ marginTop: 48 }}
             label="Deal duration"
@@ -122,7 +124,7 @@ export default class SidebarFileStorageDeal extends React.Component {
           />
         ) : null}
 
-        {!this.props.sidebarLoading ? (
+        {!this.state.loading ? (
           <System.Input
             containerStyle={{ marginTop: 24 }}
             label="Replication factor"
@@ -132,7 +134,7 @@ export default class SidebarFileStorageDeal extends React.Component {
           />
         ) : null}
 
-        {!this.props.sidebarLoading ? (
+        {!this.state.loading ? (
           <System.SelectMenu
             full
             containerStyle={{ marginTop: 24 }}
@@ -149,12 +151,12 @@ export default class SidebarFileStorageDeal extends React.Component {
           full
           style={{ marginTop: 48 }}
           onClick={this._handleSubmit}
-          loading={this.props.sidebarLoading}
+          loading={this.state.loading}
         >
           Make storage deal
         </System.ButtonPrimary>
 
-        {!this.props.sidebarLoading ? (
+        {!this.state.loading ? (
           <System.ButtonSecondary full style={{ marginTop: 16 }} onClick={this._handleCancel}>
             Cancel deal
           </System.ButtonSecondary>

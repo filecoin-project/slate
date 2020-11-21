@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as UserBehaviors from "~/common/user-behaviors";
 
 import { PopoverNavigation } from "~/components/system";
 import { css } from "@emotion/core";
@@ -130,9 +131,11 @@ export default class ApplicationUserControls extends React.Component {
     return this.props.onAction(data);
   };
 
-  _handleSignOut = (data) => {
+  _handleSignOut = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     this.props.onTogglePopup();
-    return this.props.onSignOut(data);
+    UserBehaviors.signOut();
   };
 
   render() {
@@ -177,8 +180,6 @@ export default class ApplicationUserControls extends React.Component {
               {
                 text: "Sign out",
                 onClick: (e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
                   this._handleSignOut(e);
                 },
               },

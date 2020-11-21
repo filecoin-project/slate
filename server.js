@@ -106,7 +106,9 @@ app.prepare().then(async () => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
 
     const isBucketsAvailable = await Utilities.checkTextile();
+    return res.redirect("/maintenance");
 
+    /*
     if (!isBucketsAvailable) {
       return res.redirect("/maintenance");
     }
@@ -127,6 +129,7 @@ app.prepare().then(async () => {
       mobile,
       resources: EXTERNAL_RESOURCES,
     });
+    */
   });
 
   server.get("/_/integration-page", async (req, res) => {

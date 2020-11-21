@@ -192,9 +192,7 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = 
   await buckets.getToken(identity);
 
   let root = null;
-
   console.log(`[ buckets ] getOrCreate init ${name}`);
-
   try {
     const created = await buckets.getOrCreate(name, encrypted);
     root = created.root;
@@ -215,7 +213,6 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = 
   }
 
   console.log(`[ buckets ] getOrCreate success for ${name}`);
-
   return {
     buckets,
     bucketKey: root.key,

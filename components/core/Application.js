@@ -262,7 +262,6 @@ export default class ApplicationPage extends React.Component {
 
       // NOTE(jim): Sends XHR request.
       let response = null;
-      console.log("before upload function");
       try {
         response = await FileUtilities.upload({
           file: files[i],
@@ -272,14 +271,12 @@ export default class ApplicationPage extends React.Component {
       } catch (e) {
         console.log(e);
       }
-      console.log("after upload function");
 
       if (!response || response.error) {
         continue;
       }
       resolvedFiles.push(response);
     }
-    console.log("got here 1");
 
     if (!resolvedFiles.length) {
       this.setState({ fileLoading: {} });
@@ -287,7 +284,6 @@ export default class ApplicationPage extends React.Component {
     }
 
     let responses = await Promise.allSettled(resolvedFiles);
-    console.log("got here 2");
     let succeeded = responses
       .filter((res) => {
         return res.status === "fulfilled" && res.value && !res.value.error;
@@ -296,7 +292,6 @@ export default class ApplicationPage extends React.Component {
     if (slate && slate.id) {
       await FileUtilities.uploadToSlate({ responses: succeeded, slate });
     }
-    console.log("got here 3");
 
     let processResponse = await Actions.processPendingFiles();
     if (!processResponse) {
@@ -322,7 +317,6 @@ export default class ApplicationPage extends React.Component {
       });
       return;
     }
-    console.log("got here 4");
 
     if (!slate) {
       const { added, skipped } = processResponse.data;
@@ -357,7 +351,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleRegisterLoadingFinished = ({ keys }) => {
-    console.log("loading finished");
     let fileLoading = this.state.fileLoading;
     for (let key of keys) {
       delete fileLoading[key];

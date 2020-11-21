@@ -39,7 +39,6 @@ export default async (req, res) => {
   const rounds = Number(Environment.LOCAL_PASSWORD_ROUNDS);
   const salt = await BCrypt.genSalt(rounds);
   const hash = await Utilities.encryptPassword(req.body.data.password, salt);
-  // const pg = await Powergate.createNewToken();
 
   // TODO(jim):
   // Single Key Textile Auth.

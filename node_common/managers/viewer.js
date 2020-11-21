@@ -83,8 +83,8 @@ export const hydratePartialSubscriptions = async (updated, userId) => {
   const data = {
     id: userId,
   };
-  const user = await Data.getUserById({ id: userId });
 
+  const user = await Data.getUserById({ id: userId });
   if (!user) {
     return null;
   }
@@ -92,6 +92,7 @@ export const hydratePartialSubscriptions = async (updated, userId) => {
   if (user.error) {
     return null;
   }
+
   let mostRecent;
   if (updated.subscriptions) {
     const subscriptions = await Data.getSubscriptionsByUserId({ userId });
@@ -105,6 +106,7 @@ export const hydratePartialSubscriptions = async (updated, userId) => {
     data.subscriptions = r1.serializedSubscriptions;
     mostRecent = r1;
   }
+
   if (updated.subscribers) {
     const subscribers = await Data.getSubscribersByUserId({ userId });
     let r2 = await Serializers.doSubscribers({
@@ -119,8 +121,8 @@ export const hydratePartialSubscriptions = async (updated, userId) => {
     data.subscribers = r2.serializedSubscribers;
     mostRecent = r2;
   }
+
   if (updated.trusted) {
-    console.log("update trusted");
     const trusted = await Data.getTrustedRelationshipsByUserId({ userId });
     let r3 = await Serializers.doTrusted({
       users: [],
@@ -133,8 +135,8 @@ export const hydratePartialSubscriptions = async (updated, userId) => {
     data.trusted = r3.serializedTrusted;
     mostRecent = r3;
   }
+
   if (updated.pendingTrusted) {
-    console.log("update pending trusted");
     const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
       userId,
     });
@@ -148,6 +150,7 @@ export const hydratePartialSubscriptions = async (updated, userId) => {
     });
     data.pendingTrusted = r4.serializedPendingTrusted;
   }
+
   websocketSend("UPDATE", data);
 };
 
@@ -156,6 +159,7 @@ export const hydratePartialKeys = async (keys, userId) => {
     id: userId,
     keys,
   };
+
   websocketSend("UPDATE", data);
 };
 
@@ -164,6 +168,7 @@ export const hydratePartialLibrary = async (library, userId) => {
     id: userId,
     library,
   };
+
   websocketSend("UPDATE", data);
 };
 
@@ -172,6 +177,7 @@ export const hydratePartialSlates = async (slates, userId) => {
     id: userId,
     slates,
   };
+
   websocketSend("UPDATE", data);
 };
 
@@ -308,7 +314,6 @@ export const shouldRedirect = async ({ id }) => {
   const user = await Data.getUserById({
     id,
   });
-
   if (user && user.id) {
     return true;
   }

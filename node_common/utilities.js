@@ -194,7 +194,7 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = 
   let root = null;
   console.log(`[ buckets ] getOrCreate init ${name}`);
   try {
-    const created = await buckets.getOrCreate(name, encrypted);
+    const created = await buckets.getOrCreate(name, undefined, encrypted);
     root = created.root;
   } catch (e) {
     console.log(`[ textile ] warning: ${e.message}`);

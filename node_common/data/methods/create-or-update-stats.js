@@ -4,13 +4,18 @@ export default async (date, data) => {
   return await runQuery({
     label: "CREATE_OR_UPDATE_STATS",
     queryFn: async (DB) => {
-      const query = await DB.select("*").from("stats").where({ created_at: date }).first();
+      date.setHours(0, 0, 0, 0);
 
-      if (!query || query.error) {
-        return null;
-      }
+      let end = new Date();
+      end.setHours(23, 59, 59, 999);
 
-      if (query.id) {
+      const query = await DB.select("*")
+        .from("stats")
+        .where("created_at", ">=", date)
+        .where("created_at", "<", end)
+        .first();
+
+      if (query && query.id) {
         let updates = { ...query.data };
 
         if (data.deals) {
@@ -37,16 +42,16 @@ export default async (date, data) => {
           updates.subscribeSlates = updates.subscribeSlates + data.subscribeSlate;
         }
 
-        const update = await DB.from("stats")
+        const changes = await DB.from("stats")
           .where("id", query.id)
-          .update({ data: update })
+          .update({ data: updates })
           .returning("*");
 
-        if (!update || update.error) {
+        if (!changes || changes.error) {
           return null;
         }
 
-        const updateIndex = update ? update.pop() : null;
+        const updateIndex = changes ? changes.pop() : null;
         return updateIndex;
       }
 
@@ -73,6 +78,7 @@ export default async (date, data) => {
       return JSON.parse(JSON.stringify(index));
     },
     errorFn: async (e) => {
+      console.log(e);
       return {
         error: true,
         decorator: "CREATE_OR_UPDATE_STATS",

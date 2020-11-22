@@ -3,7 +3,7 @@ import * as Social from "~/node_common/social";
 
 export const deal = ({ userId, data }) => {
   try {
-    // Data.createOrUpdateStats(new Date(), { deals: 1 });
+    Data.createOrUpdateStats(new Date(), { deals: 1 });
 
     // NOTE(jim):
     // <VIEWER>, CREATED DEAL
@@ -26,7 +26,7 @@ export const deal = ({ userId, data }) => {
 
 export const createUser = ({ userId, data }) => {
   try {
-    // Data.createOrUpdateStats(new Date(), { users: 1 });
+    Data.createOrUpdateStats(new Date(), { users: 1 });
 
     // NOTE(jim):
     // <VIEWER>, CREATED ACCOUNT
@@ -47,7 +47,7 @@ export const createUser = ({ userId, data }) => {
 
 export const createSlate = ({ userId, data }) => {
   try {
-    // Data.createOrUpdateStats(new Date(), { slates: 1 });
+    Data.createOrUpdateStats(new Date(), { slates: 1 });
 
     // NOTE(jim):
     // <VIEWER> CREATED <SLATE>
@@ -73,7 +73,7 @@ export const createSlate = ({ userId, data }) => {
 };
 
 export const createSlateObject = ({ slateId, data }) => {
-  // Data.createOrUpdateStats(new Date(), { objects: 1 });
+  Data.createOrUpdateStats(new Date(), { objects: 1 });
 
   // TODO(jim): We may do some private tracking here.
   if (data.context.private) {
@@ -112,7 +112,7 @@ export const createSlateObject = ({ slateId, data }) => {
 };
 
 export const subscribeUser = ({ userId, data }) => {
-  // Data.createOrUpdateStats(new Date(), { subscribeUsers: 1 });
+  Data.createOrUpdateStats(new Date(), { subscribeUsers: 1 });
 
   try {
     // NOTE(jim):
@@ -155,7 +155,7 @@ export const subscribeUser = ({ userId, data }) => {
 };
 
 export const subscribeSlate = ({ slateId, data }) => {
-  // Data.createOrUpdateStats(new Date(), { subscribeSlates: 1 });
+  Data.createOrUpdateStats(new Date(), { subscribeSlates: 1 });
 
   try {
     // NOTE(jim):

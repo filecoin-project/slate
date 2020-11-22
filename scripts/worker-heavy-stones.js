@@ -159,7 +159,7 @@ const run = async () => {
 
     let storageDeals = [];
     try {
-      const listStorageResult = await power.listStorageDealRecords({
+      const listStorageResult = await power.storageDealRecords({
         ascending: false,
         includePending: false,
         includeFinal: true,
@@ -221,7 +221,10 @@ const run = async () => {
         Logs.note(`Saving ${dealToSave.dealId} ...`);
 
         console.log(dealToSave);
-        const existing = await db.select("*").from("deals").where(hasDealId(dealToSave.dealId));
+        const existing = await db
+          .select("*")
+          .from("deals")
+          .where(hasDealId(dealToSave.dealId));
         console.log(existing);
 
         if (existing && !existing.error && existing.length) {
@@ -231,7 +234,10 @@ const run = async () => {
 
         Logs.note(`Inserting ${dealToSave.dealId} ...`);
         await delay(1000);
-        await db.insert({ data: dealToSave, owner_user_id: user.id }).into("deals").returning("*");
+        await db
+          .insert({ data: dealToSave, owner_user_id: user.id })
+          .into("deals")
+          .returning("*");
         Logs.task(`Inserted ${dealToSave.dealId} !!!`);
       }
     }

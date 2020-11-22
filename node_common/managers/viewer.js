@@ -462,7 +462,7 @@ export const getDealHistory = async ({ id }) => {
     });
     const { power } = PowergateSingleton;
 
-    const result = await power.listStorageDealRecords({
+    const result = await power.storageDealRecords({
       ascending: false,
       includePending: true,
       includeFinal: true,

@@ -6,7 +6,7 @@ export const deal = ({ userId, data }) => {
     // Data.createOrUpdateStats(new Date(), { deals: 1 });
 
     // NOTE(jim):
-    // <USER> CREATED <DEAL>
+    // <VIEWER>, CREATED DEAL
     Data.createActivity({
       userId,
       data: { type: "USER_DEAL", actorUserId: data.actorUserId, context: data.context },
@@ -14,7 +14,9 @@ export const deal = ({ userId, data }) => {
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const message = `*${userURL}* made a one-off storage deal with bucket "${data.context.bucketName}".`;
+    const message = `*${userURL}* made a one-off storage deal with bucket "${
+      data.context.bucketName
+    }".`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -27,7 +29,7 @@ export const createUser = ({ userId, data }) => {
     // Data.createOrUpdateStats(new Date(), { users: 1 });
 
     // NOTE(jim):
-    // <USER> INIT
+    // <VIEWER>, CREATED ACCOUNT
     Data.createActivity({
       userId,
       data: { type: "CREATE_USER", actorUserId: data.actorUserId, context: data.context },
@@ -48,19 +50,21 @@ export const createSlate = ({ userId, data }) => {
     // Data.createOrUpdateStats(new Date(), { slates: 1 });
 
     // NOTE(jim):
-    // <USER> CREATED <SLATE>
+    // <VIEWER> CREATED <SLATE>
     Data.createActivity({
       userId,
       data: { type: "CREATE_SLATE", actorUserId: data.actorUserId, context: data.context },
     });
 
     // TODO(JIM):
-    // <USER SUBSCRIBER> WITNESSES <USER> CREATING <SLATE>
+    // <VIEWER> WITNESSES <USER> CREATING <SLATE>
     // --
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const message = `*${userURL}* created a slate: https://slate.host/${data.context.username}/${data.context.slatename}`;
+    const message = `*${userURL}* created a slate: https://slate.host/${data.context.username}/${
+      data.context.slatename
+    }`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -78,7 +82,7 @@ export const createSlateObject = ({ slateId, data }) => {
 
   try {
     // NOTE(jim):
-    // <USER> ADDED <SLATE OBJECT> TO <SLATE>
+    // <USER> ADDED <SLATE OBJECT> TO <VIEWER-SLATE>
     Data.createActivity({
       slateId,
       data: {
@@ -89,17 +93,17 @@ export const createSlateObject = ({ slateId, data }) => {
     });
 
     // TODO(jim):
-    // <SUBSCRIBED USER> WITNESS <USER> ADDED OBJECT TO <SLATE>
-    // --
-
-    // TODO(JIM):
-    // <SLATE SUBSCRIBER> WITNESS <USER> ADD OBJECT TO <SLATE>
+    // <VIEWER> WITNESS <USER> ADDED OBJECT TO <SLATE>
     // --
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const objectURL = `<https://slate.host/${data.context.username}/${data.context.slatename}/cid:${data.context.cid}|${data.context.cid}>`;
-    const message = `*${userURL}* added ${objectURL} to https://slate.host/${data.context.username}/${data.context.slatename}`;
+    const objectURL = `<https://slate.host/${data.context.username}/${data.context.slatename}/cid:${
+      data.context.cid
+    }|${data.context.cid}>`;
+    const message = `*${userURL}* added ${objectURL} to https://slate.host/${
+      data.context.username
+    }/${data.context.slatename}`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -112,7 +116,7 @@ export const subscribeUser = ({ userId, data }) => {
 
   try {
     // NOTE(jim):
-    // YOU SUBSCRIBED TO <USER>
+    // <VIEWER>, YOU SUBSCRIBED TO <USER>
     Data.createActivity({
       userId,
       data: {
@@ -123,18 +127,18 @@ export const subscribeUser = ({ userId, data }) => {
     });
 
     // NOTE(jim):
-    // <USER> SUBSCRIBES TO YOU
+    // <USER>. <VIEWER> SUBSCRIBED TO <USER>
     Data.createActivity({
       userId: data.context.targetUserId,
       data: {
-        type: "SUBSCRIBE_USER",
+        type: "RECEIVED_SUBSCRIBER",
         actorUserId: data.actorUserId,
         context: data.context,
       },
     });
 
     // TODO(jim):
-    // <USER SUBSCRIBER> WITNESSES <USER> SUBSCRIBE TO <USER>
+    // <VIEWER> WITNESSES <USER> SUBSCRIBE TO <USER>
     // --
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
@@ -155,18 +159,18 @@ export const subscribeSlate = ({ slateId, data }) => {
 
   try {
     // NOTE(jim):
-    // <SLATE> OBTAINS NEW <USER>
+    // <VIEWER-SLATE>, <USER> HAS SUBSCRIBED
     Data.createActivity({
       slateId,
       data: {
-        type: "SUBSCRIBE_SLATE",
+        type: "USER_SUBSCRIBED_SLATE",
         actorUserId: data.actorUserId,
         context: data.context,
       },
     });
 
     // NOTE(jim):
-    // YOU SUBSCRIBES TO <SLATE>
+    // <VIEWER>, YOU HAVE SUBSCRIBED TO <SLATE>
     Data.createActivity({
       userId: data.actorUserId,
       data: {
@@ -177,11 +181,11 @@ export const subscribeSlate = ({ slateId, data }) => {
     });
 
     // TODO(jim):
-    // <SLATE SUBSCRIBER> WITNESSES <SLATE> OBTAIN NEW <USER>
+    // <VIEWER>, <SLATE> OBTAIN NEW <USER>
     // --
 
     // TODO(jim):
-    // <USER SUBSCRIBER> WITNESSES <USER> SUBSCRIBES TO <SLATE>
+    // <VIEWER>, <USER> SUBSCRIBES TO <SLATE>
     // --
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
@@ -197,4 +201,58 @@ export const subscribeSlate = ({ slateId, data }) => {
   }
 };
 
-// TODO: ADD PEER
+export const requestPeer = ({ userId, data }) => {
+  // NOTE(jim): Don't track stats on this.
+
+  try {
+    // NOTE(jim):
+    // <VIEWER>, <USER> WANTS TO BE YOUR PEER.
+    Data.createActivity({
+      userId,
+      data: {
+        type: "REQUEST_PEER",
+        actorUserId: data.actorUserId,
+        context: data.context,
+      },
+    });
+
+    const userProfileURL = `https://slate.host/${data.context.username}`;
+    const userURL = `<${userProfileURL}|${data.context.username}>`;
+
+    const targetUserProfileURL = `https://slate.host/${data.context.targetUsername}`;
+    const targetUserURL = `<${targetUserProfileURL}|${data.context.targetUsername}>`;
+
+    const message = `*${userURL}* made a request to trust ${targetUserURL}`;
+    Social.sendSlackMessage(message);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const verifyPeer = ({ userId, data }) => {
+  // NOTE(jim): Don't track stats on this.
+
+  try {
+    // NOTE(jim):
+    // <VIEWER>, <USER> ACCEPTED YOUR REQUEST.
+    Data.createActivity({
+      userId,
+      data: {
+        type: "VERIFY_PEER",
+        actorUserId: data.actorUserId,
+        context: data.context,
+      },
+    });
+
+    const userProfileURL = `https://slate.host/${data.context.username}`;
+    const userURL = `<${userProfileURL}|${data.context.username}>`;
+
+    const targetUserProfileURL = `https://slate.host/${data.context.targetUsername}`;
+    const targetUserURL = `<${targetUserProfileURL}|${data.context.targetUsername}>`;
+
+    const message = `*${userURL}* has accepted a peer-to-peer relationship with ${targetUserURL}`;
+    Social.sendSlackMessage(message);
+  } catch (e) {
+    console.log(e);
+  }
+};

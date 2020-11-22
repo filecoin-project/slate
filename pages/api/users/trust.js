@@ -4,6 +4,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
 import * as Validations from "~/common/validations";
 import * as ViewerManager from "~/node_common/managers/viewer";
+import * as Monitor from "~/node_common/monitor";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -129,6 +130,20 @@ export default async (req, res) => {
   if (trustResponse.error) {
     return res.status(500).send({ decorator: "SERVER_TRUSTED_RELATIONSHIP_ERROR", error: true });
   }
+
+  // NOTE(jim):
+  // <VIEWER>, <USER> WANTS TO BE YOUR PEER.
+  Monitor.requestPeer({
+    userId: targetUser.id,
+    data: {
+      actorUserId: user.id,
+      context: {
+        username: user.username,
+        targetUsername: targetUser.username,
+        targetUserId: targetUser.id,
+      },
+    },
+  });
 
   ViewerManager.hydratePartialSubscriptions({ trusted: true, pendingTrusted: true }, id);
 

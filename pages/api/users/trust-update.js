@@ -4,6 +4,7 @@ import * as Utilities from "~/node_common/utilities";
 import * as Serializers from "~/node_common/serializers";
 import * as Validations from "~/common/validations";
 import * as ViewerManager from "~/node_common/managers/viewer";
+import * as Monitor from "~/node_common/monitor";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
@@ -83,6 +84,20 @@ export default async (req, res) => {
   const updateResponse = await Data.updateTrustedRelationshipById({
     id: existingResponse.id,
     data: { ...existingResponse.data, verified: true },
+  });
+
+  // NOTE(jim):
+  // <VIEWER>, <USER> ACCEPTED YOUR REQUEST.
+  Monitor.verifyPeer({
+    userId: targetUser.id,
+    data: {
+      actorUserId: user.id,
+      context: {
+        username: user.username,
+        targetUsername: targetUser.username,
+        targetUserId: targetUser.id,
+      },
+    },
   });
 
   ViewerManager.hydratePartialSubscriptions({ trusted: true, pendingTrusted: true }, id);

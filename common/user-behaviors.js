@@ -30,7 +30,15 @@ export const authenticate = async (state, newAccount) => {
 
   let response = await Actions.signIn(state);
   if (!response || response.error) {
-    return response;
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message: "We failed to sign you in, please try again.",
+        },
+      },
+    });
+    return null;
   }
 
   if (response.token) {

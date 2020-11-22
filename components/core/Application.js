@@ -413,12 +413,13 @@ export default class ApplicationPage extends React.Component {
   _handleAuthenticate = async (state, newAccount) => {
     let response = await UserBehaviors.authenticate(state, newAccount);
     if (!response || response.error) {
-      return;
+      return response;
     }
 
     let viewer = await UserBehaviors.hydrate();
-
-    console.log(viewer);
+    if (!viewer) {
+      return viewer;
+    }
 
     this.setState({ viewer });
     await this._handleSetupWebsocket();

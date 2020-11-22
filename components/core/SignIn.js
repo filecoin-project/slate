@@ -175,7 +175,7 @@ export class SignIn extends React.Component {
         name: "create-alert",
         detail: {
           alert: {
-            message: "1We're having trouble connecting right now. Please try again later.",
+            message: "We're having trouble connecting right now. Please try again later.",
           },
         },
       });

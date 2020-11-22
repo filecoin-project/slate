@@ -396,6 +396,14 @@ export default class ApplicationPage extends React.Component {
   _handleCreateUser = async (state) => {
     let response = await Actions.createUser(state);
     if (!response || response.error) {
+      dispatchCustomEvent({
+        name: "create-alert",
+        detail: {
+          alert: {
+            message: "We had an issue creating your user account.",
+          },
+        },
+      });
       return response;
     }
 
@@ -404,14 +412,20 @@ export default class ApplicationPage extends React.Component {
 
   _handleAuthenticate = async (state, newAccount) => {
     let response = await UserBehaviors.authenticate(state, newAccount);
+    if (!response || response.error) {
+      return;
+    }
+
     let viewer = await UserBehaviors.hydrate();
+
+    console.log(viewer);
 
     this.setState({ viewer });
     await this._handleSetupWebsocket();
 
     let unseenAnnouncements = [];
     for (let feature of announcements) {
-      if (!Object.keys(this.state.viewer.onboarding).includes(feature)) {
+      if (!Object.keys(viewer.onboarding).includes(feature)) {
         unseenAnnouncements.push(feature);
       }
     }
@@ -423,7 +437,7 @@ export default class ApplicationPage extends React.Component {
           modal: (
             <OnboardingModal
               onAction={this._handleAction}
-              viewer={this.state.viewer}
+              viewer={viewer}
               newAccount={newAccount}
               unseenAnnouncements={unseenAnnouncements}
             />

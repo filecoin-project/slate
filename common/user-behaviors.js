@@ -13,8 +13,6 @@ const cookies = new Cookies();
 // NOTE(martina): Creates a new user, then authenticates them
 export const createUser = async (state) => {
   let response = await Actions.createUser(state);
-  console.log("CREATE_USER", response);
-
   if (!response || response.error) {
     return response;
   }
@@ -115,6 +113,7 @@ export const hydrate = async () => {
     });
     return null;
   }
+
   return JSON.parse(JSON.stringify(response.data));
 };
 

@@ -12,6 +12,8 @@ import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
 const MARGIN = 12;
 const MIN_WIDTH = 144;
+const placeholder =
+  "https://slate.textile.io/ipfs/bafkreidq27ycqubd4pxbo76n3rv5eefgxl3a2lh3wfvdgtil4u47so3nqe";
 
 const STYLES_MOBILE_HIDDEN = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -127,6 +129,17 @@ const STYLES_TITLE = css`
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-right: 16px;
+`;
+
+const STYLES_PLACEHOLDER = css`
+  width: 100%;
+  height: 300px;
+  background-size: cover;
+  background-position: 50% 50%;
+  margin-bottom: 4px;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    height: 100%;
+  }
 `;
 
 export class SlatePreviewBlock extends React.Component {
@@ -297,9 +310,7 @@ export class SlatePreviewBlock extends React.Component {
           ) : null}
         </div>
         {this.props.slate.data.body ? (
-          <div css={STYLES_BODY}>
-            <ProcessedText text={this.props.slate.data.body} />
-          </div>
+          <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
         ) : this.props.isOwner ? (
           <div style={{ height: "44px" }} />
         ) : (
@@ -331,11 +342,19 @@ export class SlatePreviewBlock extends React.Component {
                 title={first.title || first.name}
                 previewImage={first.previewImage}
               />
-            ) : (
+            ) : this.props.isOwner ? (
               <div css={STYLES_CREATE_NEW} key="add-files">
                 <SVG.Plus height="24px" />
                 <div>Add Files</div>
               </div>
+            ) : (
+              <div
+                css={STYLES_PLACEHOLDER}
+                style={{
+                  backgroundImage: `url(${placeholder})`,
+                  ...this.props.imageStyle,
+                }}
+              />
             )}
           </div>
         </span>
@@ -356,11 +375,19 @@ export class SlatePreviewBlock extends React.Component {
                 title={first.title || first.name}
                 previewImage={first.previewImage}
               />
-            ) : (
+            ) : this.props.isOwner ? (
               <div css={STYLES_CREATE_NEW} key="add-files">
                 <SVG.Plus height="24px" />
                 <div>Add Files</div>
               </div>
+            ) : (
+              <div
+                css={STYLES_PLACEHOLDER}
+                style={{
+                  backgroundImage: `url(${placeholder})`,
+                  ...this.props.imageStyle,
+                }}
+              />
             )}
           </div>
         </span>

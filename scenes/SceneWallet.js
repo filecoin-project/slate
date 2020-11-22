@@ -115,22 +115,10 @@ export default class SceneWallet extends React.Component {
 
     const addressMap = {};
     const addresses = [];
-    let selected = null;
+    let selected = { name: "default", addr: "hidden", balance: "0", type: "Textile" };
 
     if (networkViewer) {
-      networkViewer.powerInfo.balancesList.forEach((a) => {
-        addressMap[a.addr.addr] = { ...a.addr, balance: a.balance };
-        addresses.push({ ...a.addr, balance: a.balance });
-      });
-
-      if (addresses.length) {
-        selected = addresses[0];
-      }
-
-      let transactions = [];
-      if (selected.transactions) {
-        transactions = [...selected.transactions];
-      }
+      // TODO(jim): restore this when the wallet function is back in Pow.
     }
 
     return (

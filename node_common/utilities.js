@@ -108,46 +108,14 @@ export const parseAuthHeader = (value) => {
   return matches && { scheme: matches[1], value: matches[2] };
 };
 
-// NOTE(jim): Requires @textile/hub
 export const getPowergateAPIFromUserToken = async ({ user }) => {
   const token = user.data.tokens.api;
   const identity = await PrivateKey.fromString(token);
   const power = await Pow.withKeyInfo(TEXTILE_KEY_INFO);
   await power.getToken(identity);
 
-  // TODO(jim): Put this call into a file for all Textile related calls.
-  let info = {};
-  try {
-    const powerInfoResponse = await power.info();
-    info = powerInfoResponse.info;
-  } catch (e) {
-    Social.sendTextileSlackMessage({
-      file: "/node_common/utilities.js",
-      user,
-      message: e.message,
-      code: e.code,
-      functionName: `power.info`,
-    });
-  }
-
-  // TODO(jim): Put this call into a file for all Textile related calls.
-  let health = {};
-  try {
-    health = await power.health();
-  } catch (e) {
-    Social.sendTextileSlackMessage({
-      file: "/node_common/utilities.js",
-      user,
-      message: e.message,
-      code: e.code,
-      functionName: `power.health`,
-    });
-  }
-
   return {
     power,
-    powerHealth: health,
-    powerInfo: info,
   };
 };
 
@@ -187,7 +155,7 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = 
   const token = user.data.tokens.api;
   const name = Strings.isEmpty(bucketName) ? BUCKET_NAME : bucketName;
   const identity = await PrivateKey.fromString(token);
-  let buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO, { debug: true });
+  let buckets = await Buckets.withKeyInfo(TEXTILE_KEY_INFO);
 
   await buckets.getToken(identity);
 

@@ -347,21 +347,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     let balance = 0;
 
     if (networkViewer) {
-      networkViewer.powerInfo.balancesList.forEach((a) => {
-        addressMap[a.addr.addr] = { ...a.addr, balance: a.balance };
-        addresses.push({ ...a.addr, balance: a.balance });
-      });
-
-      if (addresses.length) {
-        selected = addresses[0];
-      }
-
-      let transactions = [];
-      if (selected.transactions) {
-        transactions = [...selected.transactions];
-      }
-
-      balance = Strings.formatAsFilecoinConversion(selected.balance);
+      // TODO(jim): restore this when the wallet function is back in Pow.
     }
 
     let inFil = 0;

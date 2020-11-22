@@ -523,8 +523,6 @@ export const getTextileById = async ({ id }) => {
     return null;
   }
 
-  const { powerInfo, powerHealth } = await Utilities.getPowergateAPIFromUserToken({ user });
-
   // NOTE(jim): This bucket is purely for staging data for other deals.
   const stagingData = await Utilities.getBucketAPIFromUserToken({
     user,
@@ -572,12 +570,10 @@ export const getTextileById = async ({ id }) => {
     type: "VIEWER_FILECOIN",
     settings: {
       ...settings,
-      addr: powerInfo.defaultStorageConfig.cold.filecoin.addr,
+      addr: "hidden-wallet-address",
       renewEnabled: settings.renew.enabled,
       renewThreshold: settings.renew.threshold,
     },
-    powerInfo,
-    powerHealth,
     deal: items ? items.filter((f) => f.name !== ".textileseed") : [],
   };
 };

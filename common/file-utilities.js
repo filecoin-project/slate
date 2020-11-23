@@ -171,6 +171,7 @@ export const upload = async ({ file, context, bucketName, routes }) => {
         alert: { message: "Some of your files could not be uploaded" },
       },
     });
+    console.log(res);
 
     return !res ? { decorator: "NO_RESPONSE_FROM_SERVER", error: true } : res;
   }

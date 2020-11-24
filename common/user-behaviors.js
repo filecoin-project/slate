@@ -2,6 +2,8 @@ import * as Websockets from "~/common/browser-websockets";
 import * as Credentials from "~/common/credentials";
 import * as Actions from "~/common/actions";
 import * as Window from "~/common/window";
+import * as Validations from "~/common/validations";
+import * as Strings from "~/common/strings";
 import * as Store from "~/common/store";
 import * as FileUtilities from "~/common/file-utilities";
 
@@ -151,16 +153,16 @@ export const formatDroppedFiles = ({ dataTransfer }) => {
     }
   }
 
-  // if (!files.length) {
-  //   dispatchCustomEvent({
-  //     name: "create-alert",
-  //     detail: {
-  //       alert: {
-  //         message: "File type not supported. Please try a different file",
-  //       },
-  //     },
-  //   });
-  // }
+  if (!files.length) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: {
+          message: "File type not supported. Please try a different file",
+        },
+      },
+    });
+  }
 
   return { fileLoading, files, numFailed: dataTransfer.items.length - files.length };
 };
@@ -183,20 +185,20 @@ export const formatUploadedFiles = ({ files }) => {
     };
   }
 
-  // if (!toUpload.length) {
-  //   dispatchCustomEvent({
-  //     name: "create-alert",
-  //     detail: {
-  //       alert: { message: "We could not find any files to upload." },
-  //     },
-  //   });
-  //   return false;
-  // }
+  if (!toUpload.length) {
+    dispatchCustomEvent({
+      name: "create-alert",
+      detail: {
+        alert: { message: "We could not find any files to upload." },
+      },
+    });
+    return false;
+  }
 
   return { toUpload, fileLoading, numFailed: files.length - toUpload.length };
 };
 
-export const uploadImage = async (file) => {
+export const uploadImage = async (file, resources) => {
   if (!file) {
     dispatchCustomEvent({
       name: "create-alert",

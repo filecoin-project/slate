@@ -74,6 +74,7 @@ export default class SidebarCreateSlate extends React.Component {
           },
         },
       });
+      this.setState({ loading: false });
       return;
     }
 
@@ -82,6 +83,7 @@ export default class SidebarCreateSlate extends React.Component {
         name: "create-alert",
         detail: { alert: { decorator: response.decorator } },
       });
+      this.setState({ loading: false });
       return;
     }
 
@@ -104,6 +106,7 @@ export default class SidebarCreateSlate extends React.Component {
             },
           },
         });
+        this.setState({ loading: false });
         return;
       }
 
@@ -112,6 +115,7 @@ export default class SidebarCreateSlate extends React.Component {
           name: "create-alert",
           detail: { alert: { decorator: response.decorator } },
         });
+        this.setState({ loading: false });
         return;
       }
 

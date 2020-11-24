@@ -210,6 +210,7 @@ export default class CarouselSidebarData extends React.Component {
     copyValue: "",
     loading: false,
     changingPreview: false,
+    pickerLoading: false,
   };
 
   componentDidMount = () => {
@@ -307,6 +308,23 @@ export default class CarouselSidebarData extends React.Component {
     this.setState({ loading: false });
   };
 
+  _handleAdd = async (slate) => {
+    await this.setState({ pickerLoading: slate.id });
+    if (this.state.selected[slate.id]) {
+      await UserBehaviors.removeFromSlate({ slate, ids: [this.props.data.id] });
+    } else {
+      await UserBehaviors.addToSlate({
+        slate,
+        files: [this.props.data],
+        fromSlate: this.props.fromSlate,
+      });
+    }
+    this.setState({
+      selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
+      pickerLoading: null,
+    });
+  };
+
   render() {
     const { cid, file, type, size, url } = this.props.data;
     const elements = [];
@@ -362,6 +380,9 @@ export default class CarouselSidebarData extends React.Component {
           onCreateSlate={this._handleCreateSlate}
           selectedColor={Constants.system.white}
           files={[this.props.data]}
+          selected={this.state.selected}
+          loading={this.state.pickerLoading}
+          onAdd={this._handleAdd}
         />
         {type && type.startsWith("image/") ? null : (
           <div>

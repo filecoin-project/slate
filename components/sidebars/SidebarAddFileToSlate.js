@@ -20,6 +20,7 @@ export default class SidebarAddFileToSlate extends React.Component {
   state = {
     selected: {},
     loading: false,
+    pickerLoading: false,
   };
 
   componentDidMount = () => {
@@ -90,6 +91,7 @@ export default class SidebarAddFileToSlate extends React.Component {
           selected={this.state.selected}
           onAdd={this._handleAdd}
           onCreateSlate={this._handleCreateSlate}
+          loading={false}
         />
 
         {Object.keys(this.state.selected).length ? (

@@ -365,6 +365,7 @@ export default class SceneSlate extends React.Component {
                       )
                     : ""
                 }
+                current={this.props.current}
                 viewer={this.props.viewer}
                 slateId={this.props.current.id}
                 layout={layouts && layouts.ver === "2.0" ? layouts.layout || [] : null}

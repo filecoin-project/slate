@@ -105,34 +105,8 @@ const STYLES_ICON_BOX = css`
 `;
 
 export class SlatePicker extends React.Component {
-  state = {
-    selected: {},
-    loading: null,
-  };
-
-  _handleAdd = async (slate) => {
-    if (this.props.onAdd) {
-      this.props.onAdd(slate);
-      return;
-    }
-    await this.setState({ loading: slate.id });
-    if (this.state.selected[slate.id]) {
-      await UserBehaviors.removeFromSlate({ slate, ids: this.props.files.map((file) => file.id) });
-    } else {
-      await UserBehaviors.addToSlate({
-        slate,
-        files: this.props.files,
-        fromSlate: this.props.fromSlate,
-      });
-    }
-    this.setState({
-      selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
-      loading: null,
-    });
-  };
-
   render() {
-    const selected = this.props.selected || this.state.selected;
+    const selected = this.props.selected;
     return (
       <React.Fragment>
         <div
@@ -157,10 +131,10 @@ export class SlatePicker extends React.Component {
             <div
               key={slate.id}
               css={this.props.dark ? STYLES_SLATE_LINE_DARK : STYLES_SLATE_LINE}
-              onClick={() => this._handleAdd(slate)}
+              onClick={() => this.props.onAdd(slate)}
             >
               <div css={STYLES_ICON_BOX}>
-                {this.state.loading && this.state.loading === slate.id ? (
+                {this.props.loading && this.props.loading === slate.id ? (
                   <LoaderSpinner style={{ height: 20, width: 20, margin: "2px 8px 2px 2px" }} />
                 ) : selected[slate.id] ? (
                   <SVG.Slate

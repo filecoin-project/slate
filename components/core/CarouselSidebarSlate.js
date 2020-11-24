@@ -162,6 +162,7 @@ export default class CarouselSidebarSlate extends React.Component {
     showConnected: false,
     showFile: true,
     unsavedChanges: false,
+    pickerLoading: false,
   };
 
   componentDidMount = () => {
@@ -260,6 +261,23 @@ export default class CarouselSidebarSlate extends React.Component {
 
   _toggleAccordion = (tab) => {
     this.setState({ [tab]: !this.state[tab] });
+  };
+
+  _handleAdd = async (slate) => {
+    await this.setState({ pickerLoading: slate.id });
+    if (this.state.selected[slate.id]) {
+      await UserBehaviors.removeFromSlate({ slate, ids: [this.props.data.id] });
+    } else {
+      await UserBehaviors.addToSlate({
+        slate,
+        files: [this.props.data],
+        fromSlate: this.props.fromSlate,
+      });
+    }
+    this.setState({
+      selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
+      pickerLoading: null,
+    });
   };
 
   render() {
@@ -392,12 +410,15 @@ export default class CarouselSidebarSlate extends React.Component {
             {this.state.showConnected ? (
               <div style={{ width: "100%", margin: "24px 0 44px 0" }}>
                 <SlatePicker
+                  loading={this.state.pickerLoading}
                   slates={this.props.slates}
                   onCreateSlate={this._handleCreateSlate}
                   dark
                   fromSlate
                   files={[this.props.data]}
                   selectedColor={Constants.system.white}
+                  selected={this.state.selected}
+                  onAdd={this._handleAdd}
                 />
               </div>
             ) : null}

@@ -167,14 +167,26 @@ export default class SceneEditAccount extends React.Component {
         },
       });
     } else if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: response.decorator,
+      if (response.decorator === "SERVER_USERNAME_IS_TAKEN") {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              decorator: response.decorator,
+              message: "The username is taken.",
+            },
           },
-        },
-      });
+        });
+      } else {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              decorator: response.decorator,
+            },
+          },
+        });
+      }
     }
 
     this.setState({ changingDetails: false });

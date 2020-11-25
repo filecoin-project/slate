@@ -10,33 +10,17 @@
   "scripts": {
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 node . --unhandled-rejections=strict --max-old-space-size=8192",
     "start": "NODE_ENV=production node . --unhandled-rejections=strict --max-old-space-size=8192",
-    "build-delete": "rm -rf .next && rm -rf dist/mac",
     "build": "NODE_ENV=production next build",
     "build-system": "rollup -c",
-    "electron-dev": "NODE_ENV=development electron ./electron/main.js ",
-    "electron-prod": "NODE_ENV=production next build && electron-builder --dir",
     "scripts": "NODE_TLS_REJECT_UNAUTHORIZED=0 node --max-old-space-size=8192 ./scripts",
     "www-setup-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts setup-database",
     "www-seed-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts seed-database"
   },
-  "build": {
-    "appId": "com.slate",
-    "productName": "slate",
-    "mac": {
-      "icon": " build/icon.icns",
-      "asar": "false"
-    },
-    "extraMetadata": {
-      "main": "./electron/main.js"
-    }
-  },
   "repository": "filecoin-project/slate",
   "dependencies": {
     "@babel/core": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@babel/register": "^7.12.1",
-    "@babel/runtime": "^7.12.5",
     "@emotion/babel-preset-css-prop": "10.1.0",
     "@emotion/core": "10.1.1",
     "@glif/filecoin-number": "^1.0.0-beta.5",
@@ -70,7 +54,6 @@
     "react-blurhash": "github:zeroxme/react-blurhash#master",
     "react-dom": "^16.12.0",
     "react-draggable": "^4.4.3",
-    "regenerator-runtime": "^0.13.7",
     "remark-emoji": "^2.1.0",
     "remark-gfm": "^1.0.0",
     "remark-linkify-regex": "^1.0.0",
@@ -85,8 +68,6 @@
   "devDependencies": {
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.1.0",
-    "electron": "^9.0.5",
-    "electron-builder": "^22.7.0",
     "rollup": "^2.18.1",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",

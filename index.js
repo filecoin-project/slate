@@ -1,5 +1,6 @@
 const path = require("path");
 const dirPath = path.join(__dirname);
+
 require("@babel/register")({
   presets: [
     [require.resolve("@babel/preset-env")],
@@ -14,7 +15,6 @@ require("@babel/register")({
     ],
   ],
   plugins: [
-    [require.resolve("@babel/plugin-transform-runtime")],
     [
       require.resolve("babel-plugin-module-resolver"),
       {

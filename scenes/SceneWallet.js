@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Strings from "~/common/strings";
+import * as Filecoin from "~/common/filecoin";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
@@ -186,7 +187,7 @@ export default class SceneWallet extends React.Component {
                 <div css={STYLES_ITEM_GROUP}>
                   <div css={STYLES_ITEM}>
                     <div css={STYLES_FOCUS}>
-                      {Strings.formatAsFilecoinConversion(selected.balance)}
+                      {Filecoin.formatAsFilecoinConversion(selected.balance)}
                     </div>
                     <div css={STYLES_SUBTEXT}>Filecoin</div>
                   </div>

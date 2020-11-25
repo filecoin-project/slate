@@ -1,7 +1,5 @@
 import * as Constants from "~/common/constants";
 
-import { FilecoinNumber, Converter } from "@glif/filecoin-number";
-
 const MINUTE = 60;
 const HOUR = MINUTE * 60;
 const DAY = HOUR * 24;
@@ -10,7 +8,9 @@ const MONTH = (DAY * 365) / 12;
 const YEAR = DAY * 365;
 
 export const generateRandomString = () => {
-  return Math.random().toString(36).substr(2, 5);
+  return Math.random()
+    .toString(36)
+    .substr(2, 5);
 };
 
 export const getKey = (text) => {
@@ -123,17 +123,6 @@ export const formatAsUploadMessage = (added, skipped, slate = false) => {
     } skipped.`;
   }
   return message;
-};
-
-export const formatAsFilecoinConversion = (number) => {
-  const filecoinNumber = new FilecoinNumber(`${number}`, "attofil");
-  //const inAttoFil = filecoinNumber.toAttoFil();
-  const inFil = filecoinNumber.toFil();
-  return `${formatAsFilecoin(inFil)}`;
-};
-
-export const formatAsFilecoin = (number) => {
-  return `${number} FIL`;
 };
 
 export const pluralize = (text, count) => {
@@ -264,7 +253,10 @@ export const createSlug = (text, base = "untitled") => {
     return base;
   }
 
-  text = text.toString().toLowerCase().trim();
+  text = text
+    .toString()
+    .toLowerCase()
+    .trim();
 
   const sets = [
     { to: "a", from: "[ÀÁÂÃÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶ]" },

@@ -12,6 +12,7 @@ import * as Serializers from "~/node_common/serializers";
 import * as Social from "~/node_common/social";
 import * as Strings from "~/common/strings";
 import * as Websocket from "~/node_common/nodejs-websocket";
+import * as Filecoin from "~/common/filecoin";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
@@ -482,7 +483,7 @@ export const getDealHistory = async ({ id }) => {
         pricePerEpoch: o.dealInfo.pricePerEpoch,
         startEpoch: o.dealInfo.startEpoch,
         // NOTE(jim): just for point of reference on the total cost.
-        totalSpeculatedCost: Strings.formatAsFilecoinConversion(
+        totalSpeculatedCost: Filecoin.formatAsFilecoinConversion(
           o.dealInfo.pricePerEpoch * o.dealInfo.duration
         ),
         duration: o.dealInfo.duration,

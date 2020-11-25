@@ -174,7 +174,6 @@ export default class SystemPage extends React.Component {
           <SidebarLink url={url} href="/_/system/card-tabs" title="Card Tabs" />
           <SidebarLink url={url} href="/_/system/checkboxes" title="Checkboxes" />
           <SidebarLink url={url} href="/_/system/colors" title="Colors" />
-          <SidebarLink url={url} href="/_/system/datepicker" title="Datepicker" />
           <SidebarLink url={url} href="/_/system/dropdowns" title="Dropdowns" />
           <SidebarLink url={url} href="/_/system/globe" title="Globe" />
           <SidebarLink url={url} href="/_/system/hover-tile" title="Hover Tile" />

@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
+import * as Filecoin from "~/common/filecoin";
 
 import { Table } from "~/components/system/components/Table";
 import { css } from "@emotion/core";
@@ -41,7 +42,7 @@ export const FilecoinBalancesList = (props) => {
           rows: props.data.map((each) => {
             return {
               id: each.addr.addr,
-              balance: Strings.formatAsFilecoin(Strings.formatNumber(each.balance)),
+              balance: Filecoin.formatAsFilecoin(Strings.formatNumber(each.balance)),
               address: each.addr.addr,
               name: each.addr.name,
               type: each.addr.type,

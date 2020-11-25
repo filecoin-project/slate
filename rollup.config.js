@@ -14,7 +14,7 @@ const generateOutput = (outputPath) => {
       file: outputPath,
       format: "cjs",
     },
-    external: ["react", "react-dom"],
+    external: ["react", "react-dom", "node-fetch"],
     plugins: [
       json({ exclude: ["node_modules/**"], compact: true }),
       babel({

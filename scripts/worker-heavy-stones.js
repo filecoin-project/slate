@@ -8,6 +8,7 @@ import * as Data from "~/node_common/data";
 import * as Utilities from "~/node_common/utilities";
 import * as Strings from "~/common/strings";
 import * as Logs from "~/node_common/script-logging";
+import * as Filecoin from "~/common/filecoin";
 import * as Serializers from "~/node_common/serializers";
 
 import { Buckets, PrivateKey } from "@textile/hub";
@@ -178,7 +179,7 @@ const run = async () => {
           pricePerEpoch: o.dealInfo.pricePerEpoch,
           startEpoch: o.dealInfo.startEpoch,
           // NOTE(jim): just for point of reference on the total cost.
-          totalCostFIL: Strings.formatAsFilecoinConversion(
+          totalCostFIL: Filecoin.formatAsFilecoinConversion(
             o.dealInfo.pricePerEpoch * o.dealInfo.duration
           ),
           totalCostAttoFIL: o.dealInfo.pricePerEpoch * o.dealInfo.duration,
@@ -209,7 +210,7 @@ const run = async () => {
     Logs.taskTimeless(`\x1b[36m\x1b[1m${address}\x1b[0m`);
     Logs.taskTimeless(`\x1b[36m\x1b[1m${Strings.bytesToSize(userBytes)} stored each deal.\x1b[0m`);
     Logs.taskTimeless(
-      `\x1b[36m\x1b[1m${Strings.formatAsFilecoinConversion(balance)} remaining\x1b[0m`
+      `\x1b[36m\x1b[1m${Filecoin.formatAsFilecoinConversion(balance)} remaining\x1b[0m`
     );
 
     // NOTE(jim): Anyone can get a list for storage deals from Slate.

@@ -1,6 +1,7 @@
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
+import * as Filecoin from "~/common/filecoin";
 import * as Powergate from "~/node_common/powergate";
 
 export default async (req, res) => {
@@ -29,16 +30,16 @@ export default async (req, res) => {
     }
   });
 
-  totals.costFormatted = Strings.formatAsFilecoinConversion(totals.cost);
+  totals.costFormatted = Filecoin.formatAsFilecoinConversion(totals.cost);
   totals.sizeFormatted = Strings.bytesToSize(totals.size);
   totals.averages = {
-    costPerDealFIL: Strings.formatAsFilecoinConversion(totals.cost / totals.deals),
+    costPerDealFIL: Filecoin.formatAsFilecoinConversion(totals.cost / totals.deals),
     costPerDealAttoFIL: totals.cost / totals.deals,
     sizePerDealBytes: totals.size / totals.deals,
     sizePerDealBytesFormatted: Strings.bytesToSize(totals.size / totals.deals),
     costPerByteAttoFIL: totals.cost / totals.size,
-    costPerByteFIL: Strings.formatAsFilecoinConversion(totals.cost / totals.size),
-    costPerGBFIL: Strings.formatAsFilecoinConversion((totals.cost / totals.size) * 1073741824),
+    costPerByteFIL: Filecoin.formatAsFilecoinConversion(totals.cost / totals.size),
+    costPerGBFIL: Filecoin.formatAsFilecoinConversion((totals.cost / totals.size) * 1073741824),
   };
 
   if (!response) {

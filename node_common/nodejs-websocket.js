@@ -1,6 +1,7 @@
 import * as Environment from "~/node_common/environment";
 import * as ScriptLogging from "~/node_common/script-logging";
 import * as Strings from "~/common/strings";
+import * as NodeLogging from "~/node_common/node-logging";
 
 import WebSocket from "ws";
 
@@ -35,7 +36,10 @@ export const create = () => {
     console.log("Websocket disconnected");
   });
 
-  return ws;
+  NodeLogging.log(`Websocket server started`);
+
+  global.websocket = ws;
+  return global.websocket;
 };
 
-export const get = () => ws;
+export const get = () => global.websocket;

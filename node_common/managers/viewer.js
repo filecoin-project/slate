@@ -19,8 +19,6 @@ const delay = async (waitMs) => {
   return await new Promise((resolve) => setTimeout(resolve, waitMs));
 };
 
-Websocket.create();
-
 //NOTE(martina): type = "UPDATE" will be processed by slate and lens. type = "SEARCH" will only be processed by lens
 const websocketSend = async (type, data) => {
   if (Strings.isEmpty(Environment.PUBSUB_SECRET)) {

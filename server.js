@@ -5,6 +5,7 @@ import * as Serializers from "~/node_common/serializers";
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as AnalyticsManager from "~/node_common/managers/analytics";
 import * as Websocket from "~/node_common/nodejs-websocket";
+import * as NodeLogging from "~/node_common/node-logging";
 import * as Validations from "~/common/validations";
 import * as Window from "~/common/window";
 import * as Strings from "~/common/strings";
@@ -418,6 +419,7 @@ app.prepare().then(async () => {
   const listenServer = server.listen(Environment.PORT, (e) => {
     if (e) throw e;
 
-    console.log(`[ slate ] client: http://localhost:${Environment.PORT}`);
+    Websocket.create(server);
+    NodeLogging.log(`started on http://localhost:${Environment.PORT}`);
   });
 });

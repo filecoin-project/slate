@@ -11,8 +11,7 @@ import * as Constants from "~/node_common/constants";
 import * as Serializers from "~/node_common/serializers";
 import * as Strings from "~/common/strings";
 import * as Websocket from "~/node_common/nodejs-websocket";
-
-Websocket.create();
+import * as NodeLogging from "~/node_common/node-logging";
 
 const websocketSend = async (type, data) => {
   if (Strings.isEmpty(Environment.PUBSUB_SECRET)) {
@@ -21,10 +20,10 @@ const websocketSend = async (type, data) => {
 
   const ws = Websocket.get();
   if (!ws) {
-    console.log("NO WEBSOCKET!");
+    NodeLogging.error(`Can not find websocket ...`);
     return;
   }
-  console.log("WEBSOCKET EXISTS");
+
   const encryptedData = await Utilities.encryptWithSecret(
     JSON.stringify(data),
     Environment.PUBSUB_SECRET
@@ -38,12 +37,13 @@ const websocketSend = async (type, data) => {
       data: encryptedData.hex,
     })
   );
-  console.log("websocket sent");
 };
 
 export const updateUser = async (user, action) => {
   if (!user || !action) return;
-  console.log("UPDATE USER");
+
+  NodeLogging.log(`Search is updating user ...`);
+
   const data = {
     data: { type: action, data: { ...Serializers.user(user), type: "USER" } },
     id: "LENS",
@@ -53,7 +53,9 @@ export const updateUser = async (user, action) => {
 
 export const updateSlate = async (slate, action) => {
   if (!slate || !action) return;
-  console.log("UPDATE SLATE");
+
+  NodeLogging.log(`Search is updating slate ...`);
+
   const data = {
     id: "LENS",
     data: { type: action, data: { ...Serializers.slate(slate), type: "SLATE" } },

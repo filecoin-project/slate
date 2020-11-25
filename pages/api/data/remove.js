@@ -8,7 +8,6 @@ import * as SearchManager from "~/node_common/managers/search";
 const DEFAULT_BUCKET_NAME = "data";
 
 export default async (req, res) => {
-  console.log(req.body);
   if (!req.body.data || !req.body.data.cids || !req.body.data.cids.length) {
     return res.status(500).send({ decorator: "SERVER_REMOVE_DATA_NO_CID", error: true });
   }
@@ -75,14 +74,40 @@ export default async (req, res) => {
   }
 
   let entities = [];
+  let ids = req.body.data.ids && req.body.data.ids.length ? req.body.data.ids : [];
   for (let i = 0; i < items.length; i++) {
     if (req.body.data.cids.includes(items[i].cid)) {
       entities.push(items[i]);
+      continue;
+    }
+
+    // NOTE(jim): Maybe the CID is missing, but our names/ids are guaranteed to be unique.
+    if (ids.includes(items[i].name)) {
+      entities.push(items[i]);
+      continue;
+    }
+
+    // NOTE(jim): Perform path check against cid as a last resort.
+    for (let j = 0; j < req.body.data.cids.length; j++) {
+      if (items[i].path.includes(req.body.data.cids[j])) {
+        entities.push(items[i]);
+        continue;
+      }
+    }
+
+    // NOTE(jim): Perform path check against name as a last resort.
+    for (let j = 0; j < ids.length; j++) {
+      if (items[i].path.includes(ids[j])) {
+        entities.push(items[i]);
+        continue;
+      }
     }
   }
 
   if (!entities.length) {
-    return res.status(500).send({ decorator: "SERVER_REMOVE_DATA_NO_MATCHING_CID", error: true });
+    return res
+      .status(500)
+      .send({ decorator: "SERVER_REMOVE_DATA_NO_MATCHING_CID_ID_OR_PATH", error: true });
   }
 
   // remove from your bucket
@@ -197,6 +222,6 @@ export default async (req, res) => {
   return res.status(200).send({
     decorator: "SERVER_REMOVE_DATA",
     success: true,
-    bucketItems: items.itemsList,
+    bucketItems: items,
   });
 };

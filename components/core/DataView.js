@@ -251,6 +251,7 @@ export default class DataView extends React.Component {
     if (!window.confirm(message)) {
       return;
     }
+
     let cids;
     if (cid) {
       cids = [cid];
@@ -262,8 +263,9 @@ export default class DataView extends React.Component {
       });
       this.setState({ checked: {} });
     }
+
     await this._handleLoading({ cids });
-    await UserBehaviors.deleteFiles(cids);
+    await UserBehaviors.deleteFiles(cids, []);
     this._handleLoading({ cids });
   };
 

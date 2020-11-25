@@ -244,14 +244,11 @@ export const uploadImage = async (file, resources) => {
   return response.json;
 };
 
-export const deleteFiles = async (fileCids) => {
-  let cids;
-  if (Array.isArray(fileCids)) {
-    cids = fileCids;
-  } else {
-    cids = [fileCids];
-  }
-  const response = await Actions.deleteBucketItems({ cids });
+export const deleteFiles = async (fileCids, fileIds) => {
+  let cids = Array.isArray(fileCids) ? fileCids : [fileCids];
+  let ids = Array.isArray(fileIds) ? fileIds : [fileIds];
+
+  const response = await Actions.deleteBucketItems({ cids, ids });
   if (!response) {
     dispatchCustomEvent({
       name: "create-alert",

@@ -303,8 +303,12 @@ export default class CarouselSidebarData extends React.Component {
     if (!window.confirm(message)) {
       return;
     }
+
     await this.setState({ loading: cid });
-    await UserBehaviors.deleteFiles(cid);
+
+    // NOTE(jim): Accepts ID as well if CID can't be found.
+    // Since our IDS are unique.
+    await UserBehaviors.deleteFiles(cid, this.props.data.id);
     this.setState({ loading: false });
   };
 

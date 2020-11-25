@@ -56,12 +56,7 @@ export const doSlates = async ({ serializedUsers, slates }) => {
   };
 };
 
-export const doTrusted = async ({
-  users,
-  trusted,
-  serializedUsersMap,
-  serializedSlatesMap,
-}) => {
+export const doTrusted = async ({ users, trusted, serializedUsersMap, serializedSlatesMap }) => {
   trusted.forEach((each) => {
     if (each.target_user_id && !serializedUsersMap[each.target_user_id]) {
       users.push(each.target_user_id);
@@ -70,15 +65,12 @@ export const doTrusted = async ({
 
   let userEntities = [];
   try {
-    console.log({ query: `CHECK_TO_SERIALIZE` });
     if (users.length) {
-      console.log({ query: `(${users.length}) USERS_FOR_SERIALIZATION` });
       userEntities = await DB.select("id", "username", "data")
         .from("users")
         .whereIn("id", users);
     }
   } catch (e) {
-    console.log("FAILED TO SERIALIZE");
     return {
       serializedTrusted: trusted,
       serializedUsersMap,
@@ -135,15 +127,12 @@ export const doPendingTrusted = async ({
   let userEntities = [];
 
   try {
-    console.log({ query: `CHECK_TO_SERIALIZE` });
     if (users.length) {
-      console.log({ query: `(${users.length}) USERS_FOR_SERIALIZATION` });
       userEntities = await DB.select("id", "username", "data")
         .from("users")
         .whereIn("id", users);
     }
   } catch (e) {
-    console.log("FAILED TO SERIALIZE");
     return {
       serializedPendingTrusted: pendingTrusted,
       serializedUsersMap,
@@ -204,15 +193,12 @@ export const doSubscriptions = async ({
 
   let userEntities = [];
   try {
-    console.log({ query: `CHECK_TO_SERIALIZE` });
     if (users.length) {
-      console.log({ query: `(${users.length}) USERS_FOR_SERIALIZATION` });
       userEntities = await DB.select("id", "username", "data")
         .from("users")
         .whereIn("id", users);
     }
   } catch (e) {
-    console.log("FAILED TO SERIALIZE");
     return {
       serializedSubscriptions: subscriptions,
       serializedUsersMap,
@@ -222,15 +208,12 @@ export const doSubscriptions = async ({
 
   let slateEntities = [];
   try {
-    console.log({ query: `CHECK_TO_SERIALIZE` });
     if (slates.length) {
-      console.log({ query: `(${slates.length}) SLATES_FOR_SERIALIZATION` });
       slateEntities = await DB.select("id", "slatename", "data")
         .from("slates")
         .whereIn("id", slates);
     }
   } catch (e) {
-    console.log("FAILED TO SERIALIZE");
     return {
       serializedSubscriptions: subscriptions,
       serializedUsersMap,
@@ -298,15 +281,12 @@ export const doSubscribers = async ({
 
   let userEntities = [];
   try {
-    console.log({ query: `CHECK_TO_SERIALIZE` });
     if (users.length) {
-      console.log({ query: `(${users.length}) USERS_FOR_SERIALIZATION` });
       userEntities = await DB.select("id", "username", "data")
         .from("users")
         .whereIn("id", users);
     }
   } catch (e) {
-    console.log("FAILED TO SERIALIZE");
     return {
       serializedSubscribers: subscribers,
       serializedUsersMap,

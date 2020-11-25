@@ -2,6 +2,7 @@ import * as Environment from "~/node_common/environment";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/node_common/constants";
 import * as Social from "~/node_common/social";
+import * as NodeLogging from "~/node_common/node-logging";
 
 import crypto from "crypto";
 import JWT from "jsonwebtoken";
@@ -114,6 +115,8 @@ export const getPowergateAPIFromUserToken = async ({ user }) => {
   const power = await Pow.withKeyInfo(TEXTILE_KEY_INFO);
   await power.getToken(identity);
 
+  NodeLogging.log(`powergate init ${name}`);
+
   return {
     power,
   };
@@ -160,12 +163,12 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = 
   await buckets.getToken(identity);
 
   let root = null;
-  console.log(`[ buckets ] getOrCreate init ${name}`);
+  NodeLogging.log(`buckets.getOrCreate() init ${name}`);
   try {
     const created = await buckets.getOrCreate(name, undefined, encrypted);
     root = created.root;
   } catch (e) {
-    console.log(`[ textile ] warning: ${e.message}`);
+    NodeLogging.log(`buckets.getOrCreate() warning: ${e.message}`);
     Social.sendTextileSlackMessage({
       file: "/node_common/utilities.js",
       user,
@@ -176,11 +179,11 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = 
   }
 
   if (!root) {
-    console.log(`[ buckets ] getOrCreate init for ${name} failed`);
+    NodeLogging.error(`buckets.getOrCreate() failed for ${name}`);
     return { buckets: null, bucketKey: null, bucketRoot: null };
   }
 
-  console.log(`[ buckets ] getOrCreate success for ${name}`);
+  NodeLogging.log(`buckets.getOrCreate() success for ${name}`);
   return {
     buckets,
     bucketKey: root.key,

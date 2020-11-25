@@ -27,7 +27,9 @@ export default async ({ cid, url, ownerId }) => {
           .where(hasObjectCID(cid));
       */
 
-      const query = await DB.select("*").from("slates").where(hasObjectURL(url));
+      const query = await DB.select("*")
+        .from("slates")
+        .where(hasObjectURL(url));
 
       if (!query || query.error) {
         return [];
@@ -64,7 +66,6 @@ export default async ({ cid, url, ownerId }) => {
       // return solution;
     },
     errorFn: async (e) => {
-      console.log(e);
       console.log({
         error: true,
         decorator: "GET_SLATE_OBJECT_BY_CID",

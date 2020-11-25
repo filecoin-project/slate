@@ -7,7 +7,6 @@ import * as Credentials from "~/common/credentials";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 import * as FileUtilities from "~/common/file-utilities";
-import * as System from "~/components/system";
 import * as Window from "~/common/window";
 import * as Store from "~/common/store";
 import * as Websockets from "~/common/browser-websockets";
@@ -53,7 +52,9 @@ import ApplicationHeader from "~/components/core/ApplicationHeader";
 import ApplicationLayout from "~/components/core/ApplicationLayout";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 
+import { GlobalModal } from "~/components/system/components/GlobalModal";
 import { OnboardingModal } from "~/components/core/OnboardingModal";
+import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { SearchModal } from "~/components/core/SearchModal";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { Alert } from "~/components/core/Alert";
@@ -740,7 +741,7 @@ export default class ApplicationPage extends React.Component {
           >
             {scene}
           </ApplicationLayout>
-          <System.GlobalCarousel
+          <GlobalCarousel
             resources={this.props.resources}
             viewer={this.state.viewer}
             current={
@@ -753,7 +754,7 @@ export default class ApplicationPage extends React.Component {
             onAction={this._handleAction}
             mobile={this.props.mobile}
           />
-          <System.GlobalModal />
+          <GlobalModal />
           <SearchModal
             viewer={this.state.viewer}
             onAction={this._handleAction}

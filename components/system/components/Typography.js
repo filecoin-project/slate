@@ -2,9 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
-import * as StringReplace from "~/vendor/react-string-replace";
 
-import { Markdown } from "./Markdown";
 import { css } from "@emotion/core";
 
 const LINK_STYLES = `
@@ -53,7 +51,7 @@ const onDeepLink = async (object) => {
 const outboundRE = /^[a-z]+:/i;
 const isExternal = (path) => outboundRE.test(path);
 
-const Link = ({ href, children, dark }) => {
+export const Link = ({ href, children, dark }) => {
   // setup default linkProps
   const linkProps = {
     href,
@@ -86,22 +84,6 @@ const Link = ({ href, children, dark }) => {
     }
   }
   return <a {...linkProps} />;
-};
-
-export const ProcessedText = ({ text, dark }) => {
-  const remarkReactComponents = {
-    h1: P,
-    h2: P,
-    h3: P,
-    h4: P,
-    h5: P,
-    h6: P,
-    ol: OL,
-    ul: UL,
-    li: LI,
-    a: (props) => <Link dark={dark} {...props} />,
-  };
-  return <Markdown md={text} options={{ remarkReactComponents }} />;
 };
 
 const STYLES_H1 = css`

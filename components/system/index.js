@@ -4,6 +4,7 @@ import * as Constants from "~/common/constants";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 // NOTE(jim): Modules
+/*
 import { CreateToken } from "~/components/system/modules/CreateToken";
 import { PeersList } from "~/components/system/modules/PeersList";
 import { FriendsList } from "~/components/system/modules/FriendsList";
@@ -16,10 +17,11 @@ import {
   FilecoinRetrievalDealsList,
 } from "~/components/system/modules/FilecoinDealsList";
 import { FilecoinSettings } from "~/components/system/modules/FilecoinSettings";
+*/
 
 // NOTE(jim): Global components
-import { GlobalModal } from "~/components/system/components/GlobalModal";
-import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
+// import { GlobalModal } from "~/components/system/components/GlobalModal";
+// import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { GlobalNotification } from "~/components/system/components/GlobalNotification";
 
 // NOTE(jim): Components
@@ -51,25 +53,13 @@ import {
   LoaderSpinner,
 } from "~/components/system/components/Loaders";
 import { Slider } from "~/components/system/components/Slider";
-import {
-  SelectCountryMenu,
-  SelectMenu,
-} from "~/components/system/components/SelectMenus";
+import { SelectCountryMenu, SelectMenu } from "~/components/system/components/SelectMenus";
 import { StatUpload, StatDownload } from "~/components/system/components/Stat";
 import { TabGroup } from "~/components/system/components/TabGroup";
 import { Table } from "~/components/system/components/Table";
 import { Textarea } from "~/components/system/components/Textarea";
 import { Toggle } from "~/components/system/components/Toggle";
-import {
-  H1,
-  H2,
-  H3,
-  H4,
-  P,
-  UL,
-  OL,
-  LI,
-} from "~/components/system/components/Typography";
+import { H1, H2, H3, H4, P, UL, OL, LI } from "~/components/system/components/Typography";
 
 // NOTE(jim): Fragments
 import { Boundary } from "~/components/system/components/fragments/Boundary";
@@ -94,6 +84,7 @@ export {
   // NOTE(martina): Actions
   dispatchCustomEvent,
   // NOTE(jim): Modules
+  /*
   CreateToken,
   PeersList,
   CreateFilecoinAddress,
@@ -104,6 +95,11 @@ export {
   FilecoinStorageDealsList,
   FilecoinSettings,
   FriendsList,
+  */
+  // NOTE(jim): Global
+  // GlobalModal,
+  // GlobalCarousel,
+  GlobalNotification,
   // NOTE(jim): Components
   ButtonPrimary,
   ButtonPrimaryFull,
@@ -117,9 +113,6 @@ export {
   CodeText,
   CodeTextarea,
   DatePicker,
-  GlobalModal,
-  GlobalCarousel,
-  GlobalNotification,
   Input,
   HoverTile,
   HoverTileColorful,

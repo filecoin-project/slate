@@ -159,43 +159,9 @@ export default class SystemPage extends React.Component {
         </Head>
         <div css={STYLES_BODY}>{children}</div>
         <div css={STYLES_SIDEBAR}>
-          <a css={STYLES_LINK} href="/" style={{ marginTop: 0 }}>
+          <a css={STYLES_LINK} href="/_/system" style={{ marginTop: 0 }}>
             <SVGLogo.Logo height="32px" style={{ marginBottom: 24 }} />
           </a>
-          <span css={STYLES_LABEL}>Experiences</span>
-          <SidebarLink
-            url={url}
-            href="/_/experiences/create-address"
-            title="CreateFilecoinAddress"
-          />
-          <SidebarLink
-            url={url}
-            href="/_/experiences/make-storage-deal"
-            title="CreateFilecoinStorageDeal"
-          />
-          <SidebarLink
-            url={url}
-            href="/_/experiences/generate-powergate-token"
-            title="CreateToken"
-          />
-          <SidebarLink
-            url={url}
-            href="/_/experiences/filecoin-wallet-balances"
-            title="FilecoinBalancesList"
-          />
-          <SidebarLink
-            url={url}
-            href="/_/experiences/list-filecoin-deals"
-            title="FilecoinDealsList"
-          />
-          <SidebarLink url={url} href="/_/experiences/filecoin-settings" title="FilecoinSettings" />
-          <SidebarLink url={url} href="/_/experiences/friends-list" title="FriendsList" />
-          <SidebarLink url={url} href="/_/experiences/peers-list" title="PeersList" />
-          <SidebarLink
-            url={url}
-            href="/_/experiences/send-address-filecoin"
-            title="SendAddressFilecoin"
-          />
 
           <span css={STYLES_LABEL}>
             <br />
@@ -206,7 +172,6 @@ export default class SystemPage extends React.Component {
           <SidebarLink url={url} href="/_/system/avatar-group" title="Avatar Group" />
           <SidebarLink url={url} href="/_/system/buttons" title="Buttons" />
           <SidebarLink url={url} href="/_/system/card-tabs" title="Card Tabs" />
-          <SidebarLink url={url} href="/_/system/carousel" title="Carousel" />
           <SidebarLink url={url} href="/_/system/checkboxes" title="Checkboxes" />
           <SidebarLink url={url} href="/_/system/colors" title="Colors" />
           <SidebarLink url={url} href="/_/system/datepicker" title="Datepicker" />
@@ -215,10 +180,8 @@ export default class SystemPage extends React.Component {
           <SidebarLink url={url} href="/_/system/hover-tile" title="Hover Tile" />
           <SidebarLink url={url} href="/_/system/icons" title="Icons" />
           <SidebarLink url={url} href="/_/system/inputs" title="Inputs" />
-          <SidebarLink url={url} href="/_/system/line-chart" title="Line Chart" />
           <SidebarLink url={url} href="/_/system/list-editor" title="List Editor" />
           <SidebarLink url={url} href="/_/system/loaders" title="Loaders" />
-          <SidebarLink url={url} href="/_/system/modals" title="Modals" />
           <SidebarLink url={url} href="/_/system/notifications" title="Notifications" />
           <SidebarLink url={url} href="/_/system/radios" title="Radios" />
           <SidebarLink url={url} href="/_/system/sliders" title="Sliders" />

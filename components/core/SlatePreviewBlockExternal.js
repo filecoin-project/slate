@@ -3,8 +3,8 @@ import * as Constants from "~/common/constants";
 import * as Window from "~/common/window";
 
 import { css } from "@emotion/core";
-import { ProcessedText } from "~/components/system/components/Typography";
 
+import ProcessedText from "~/components/core/ProcessedText";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
 const MARGIN = 12;

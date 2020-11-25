@@ -3,8 +3,8 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
-import { ProcessedText } from "~/components/system/components/Typography";
 
+import ProcessedText from "~/components/core/ProcessedText";
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 import SlatePreviewBlocksExternal from "~/components/core/SlatePreviewBlockExternal";
 import CTATransition from "~/components/core/CTATransition";

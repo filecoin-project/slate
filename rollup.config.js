@@ -1,8 +1,9 @@
 import babel from "rollup-plugin-babel";
 import commonjs from "rollup-plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
-import { terser } from "rollup-plugin-terser";
 import json from "@rollup/plugin-json";
+
+import { terser } from "rollup-plugin-terser";
 
 const input = "./components/system/index.js";
 
@@ -20,11 +21,12 @@ const generateOutput = (outputPath) => {
         exclude: ["node_modules/**", "**/*.json"],
         runtimeHelpers: true,
       }),
-      resolve(),
+      resolve({ preferBuiltins: true }),
       commonjs({
         // NOTE(jim): Solution here fixed it.
         // https://github.com/styled-components/styled-components/issues/1654
         namedExports: {
+          "node_modules/@emotion/core/dist/core.browser.cjs.js": ["css"],
           "node_modules/react/index.js": [
             "cloneElement",
             "createContext",

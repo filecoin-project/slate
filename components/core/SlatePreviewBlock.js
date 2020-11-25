@@ -4,10 +4,10 @@ import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
-import { ProcessedText } from "~/components/system/components/Typography";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 
+import ProcessedText from "~/components/core/ProcessedText";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
 const MARGIN = 12;

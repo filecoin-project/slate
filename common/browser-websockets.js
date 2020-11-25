@@ -5,6 +5,10 @@ let pingTimeout = null;
 let client = null;
 
 export const init = ({ resource = "", viewer, onUpdate }) => {
+  if (!process.browser) {
+    return null;
+  }
+
   console.log(`${resource}: init`);
 
   if (client) {
@@ -16,7 +20,7 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
 
   client.addEventListener("open", (e) => {
     if (!client) {
-      return;
+      return null;
     }
 
     const payload = { type: "SUBSCRIBE_VIEWER", data: viewer };
@@ -26,7 +30,7 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
 
   client.addEventListener("ping", (e) => {
     if (!client) {
-      return;
+      return null;
     }
 
     console.log(`${resource}: ping`);
@@ -37,13 +41,13 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
     }, 30000 + 1000);
   });
 
-  client.addEventListener("message", function (event) {
+  client.addEventListener("message", function(event) {
     if (!client) {
-      return;
+      return null;
     }
 
     if (Strings.isEmpty(event.data)) {
-      return;
+      return null;
     }
 
     let type;
@@ -57,11 +61,11 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
     }
 
     if (!data) {
-      return;
+      return null;
     }
 
     if (!type) {
-      return;
+      return null;
     }
 
     if (type === "UPDATE" && onUpdate) {
@@ -71,7 +75,7 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
 
   client.addEventListener("close", (e) => {
     if (!client) {
-      return;
+      return null;
     }
 
     console.log(`${resource}: closed`);
@@ -82,10 +86,18 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
 };
 
 export const getClient = () => {
+  if (!process.browser) {
+    return null;
+  }
+
   return client;
 };
 
 export const deleteClient = async () => {
+  if (!process.browser) {
+    return null;
+  }
+
   if (!client) {
     console.log("WEBSOCKET: NOTHING TO DELETE");
     return null;

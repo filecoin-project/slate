@@ -6,12 +6,12 @@ import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/core";
-import { ProcessedText } from "~/components/system/components/Typography";
 import { dispatchCustomEvent } from "~/common/custom-events";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
+import ProcessedText from "~/components/core/ProcessedText";
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 import CircleButtonGray from "~/components/core/CircleButtonGray";

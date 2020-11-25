@@ -7,12 +7,13 @@ import * as Actions from "~/common/actions";
 import * as Validations from "~/common/validations";
 
 import { css } from "@emotion/core";
-import { ProcessedText } from "~/components/system/components/Typography";
 import { Alert } from "~/components/core/Alert";
 import { ViewAllButton } from "~/components/core/ViewAll";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
+import { GlobalModal } from "~/components/system/components/GlobalModal";
 
+import ProcessedText from "~/components/core/ProcessedText";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
@@ -373,15 +374,16 @@ export default class SlatePage extends React.Component {
             )}
           </div>
         </div>
-        <System.GlobalCarousel external current={this.props.slate} viewer={this.props.creator} />
-        <System.GlobalModal />
+        <GlobalModal />
         {this.state.visible && (
           <div>
             <CTATransition
               onClose={() => this.setState({ visible: false })}
               viewer={this.props.viewer}
               open={this.state.visible}
-              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${this.props.creator.username}&slate=${this.props.slate.slatename}`}
+              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${
+                this.props.creator.username
+              }&slate=${this.props.slate.slatename}`}
             />
           </div>
         )}

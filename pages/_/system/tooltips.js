@@ -66,13 +66,13 @@ export default class SystemPageTooltips extends React.Component {
         horizontal: "{this.state.horizontal}", vertical: "{this.state.vertical}"
       </div>
     );
+
     return (
       <SystemPage
         title="SDS: Tooltips"
         description="..."
         url="https://slate.host/_/system/tooltips"
       >
-        <System.GlobalTooltip />
         <System.H1>
           Tooltips <ViewSourceLink file="system/tooltips.js" />
         </System.H1>

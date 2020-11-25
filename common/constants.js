@@ -1,6 +1,6 @@
 export const values = {
   version: "1.0.0",
-  sds: "0.1.0",
+  sds: "0.2.0",
 };
 
 export const sizes = {

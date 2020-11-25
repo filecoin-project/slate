@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as System from "~/components/system";
+import * as System from "~/dist";
 
 import { css } from "@emotion/core";
 
@@ -52,6 +52,7 @@ export default class SlateReactSystemPage extends React.Component {
 
     return (
       <div>
+        <System.GlobalTooltip />
         <System.H1>Component Library Test</System.H1>
         <br />
         <br />
@@ -65,7 +66,11 @@ export default class SlateReactSystemPage extends React.Component {
           <System.ButtonPrimary style={{ margin: "0 16px 16px 0" }} type="label" htmlFor="file">
             Upload file To network with API
           </System.ButtonPrimary>
-          <System.TooltipAnchor tooltip="Hello friends!!" />
+          <System.TooltipAnchor
+            type="body"
+            id="another-unique-tooltip-id"
+            tooltip="Hello friends!"
+          />
         </div>
       </div>
     );

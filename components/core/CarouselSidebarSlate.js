@@ -8,11 +8,12 @@ import * as Window from "~/common/window";
 
 import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { ProcessedText } from "~/components/system/components/Typography";
 import { SlatePicker } from "~/components/core/SlatePicker";
 import { Input } from "~/components/system/components/Input";
 import { Textarea } from "~/components/system/components/Textarea";
 import { dispatchCustomEvent } from "~/common/custom-events";
+
+import ProcessedText from "~/components/core/ProcessedText";
 
 const STYLES_NO_VISIBLE_SCROLL = css`
   overflow-y: scroll;

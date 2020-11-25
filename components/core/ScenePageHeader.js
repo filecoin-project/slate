@@ -2,7 +2,8 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/core";
-import { ProcessedText } from "~/components/system/components/Typography";
+
+import ProcessedText from "~/components/core/ProcessedText";
 
 const STYLES_ROOT = css`
   display: flex;

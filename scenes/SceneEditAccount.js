@@ -167,14 +167,26 @@ export default class SceneEditAccount extends React.Component {
         },
       });
     } else if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: response.decorator,
+      if (response.decorator === "SERVER_USERNAME_IS_TAKEN") {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              decorator: response.decorator,
+              message: "The username is taken.",
+            },
           },
-        },
-      });
+        });
+      } else {
+        dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              decorator: response.decorator,
+            },
+          },
+        });
+      }
     }
 
     this.setState({ changingDetails: false });
@@ -278,15 +290,7 @@ export default class SceneEditAccount extends React.Component {
               </System.ButtonPrimary>
             </div>
 
-            <div css={STYLES_HEADER}>Username</div>
-            <System.Input
-              name="username"
-              value={this.state.username}
-              placeholder="Username"
-              onChange={this._handleUsernameChange}
-            />
-
-            <div css={STYLES_HEADER}>Name</div>
+            <div css={STYLES_HEADER}>Display name</div>
             <System.Input
               name="name"
               value={this.state.name}
@@ -399,19 +403,44 @@ export default class SceneEditAccount extends React.Component {
         ) : null}
         {this.state.tab === 3 ? (
           <div>
-            <div css={STYLES_HEADER}>Delete your account</div>
+            <div css={STYLES_HEADER}>Change username</div>
+            <div style={{ maxWidth: 800 }}>
+              Username must be unique. <br />
+              Changing your username will make any links to your profile or slates that you
+              previously shared invalid.
+            </div>
+            <System.Input
+              containerStyle={{ marginTop: 12 }}
+              name="username"
+              value={this.state.username}
+              placeholder="Username"
+              onChange={this._handleUsernameChange}
+            />
+            <div style={{ marginTop: 24 }}>
+              <System.ButtonPrimary
+                onClick={this._handleSave}
+                loading={this.state.changingDetails}
+                style={{ width: "200px" }}
+              >
+                Change my username
+              </System.ButtonPrimary>
+            </div>
+
+            <div css={STYLES_HEADER} style={{ marginTop: 64 }}>
+              Delete your account
+            </div>
             <div style={{ maxWidth: 800 }}>
               If you choose to delete your account you will lose your Textile Hub and Powergate key.
             </div>
 
             <div style={{ marginTop: 24 }}>
-              <System.ButtonPrimary
+              <System.ButtonWarning
                 onClick={this._handleDelete}
                 loading={this.state.deleting}
                 style={{ width: "200px" }}
               >
                 Delete my account
-              </System.ButtonPrimary>
+              </System.ButtonWarning>
             </div>
           </div>
         ) : null}

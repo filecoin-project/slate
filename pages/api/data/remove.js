@@ -55,8 +55,9 @@ export default async (req, res) => {
   try {
     for (let i = 0; i < r.length; i++) {
       if (r[i].name === DEFAULT_BUCKET_NAME) {
-        const next = await buckets.listIpfsPath(r[i].path);
-        items = [...next.items, ...items];
+        const next = await buckets.listPath(r[i].key, "/");
+        const set = next.item.items;
+        items = [...set, ...items];
       }
     }
   } catch (e) {
@@ -70,7 +71,7 @@ export default async (req, res) => {
   }
 
   if (!items || !items.length) {
-    return res.status(500).send({ decorator: "SERVER_REMOVE_MULTIPLE_NO_TEXTILE", error: true });
+    return res.status(500).send({ decorator: "SERVER_NO_ITEMS_FOUND", error: true });
   }
 
   let entities = [];
@@ -104,29 +105,25 @@ export default async (req, res) => {
     }
   }
 
-  if (!entities.length) {
-    return res
-      .status(500)
-      .send({ decorator: "SERVER_REMOVE_DATA_NO_MATCHING_CID_ID_OR_PATH", error: true });
-  }
+  if (entities.length) {
+    // remove from your bucket
+    for (let entity of entities) {
+      try {
+        // NOTE(jim):
+        // We use name instead of path because the second argument is for
+        // a subpath, not the full path.
+        await buckets.removePath(bucketKey, entity.name);
+      } catch (e) {
+        Social.sendTextileSlackMessage({
+          file: "/pages/api/data/remove.js",
+          user: user,
+          message: e.message,
+          code: e.code,
+          functionName: `buckets.removePath`,
+        });
 
-  // remove from your bucket
-  for (let entity of entities) {
-    try {
-      // NOTE(jim):
-      // We use name instead of path because the second argument is for
-      // a subpath, not the full path.
-      await buckets.removePath(bucketKey, entity.name);
-    } catch (e) {
-      Social.sendTextileSlackMessage({
-        file: "/pages/api/data/remove.js",
-        user: user,
-        message: e.message,
-        code: e.code,
-        functionName: `buckets.removePath`,
-      });
-
-      continue;
+        continue;
+      }
     }
   }
 
@@ -162,36 +159,6 @@ export default async (req, res) => {
     let slates = await Data.getSlatesByUserId({ userId: id });
     ViewerManager.hydratePartialSlates(slates, id);
   }
-
-  // NOTE(jim):
-  // Goes through all of your slates and removes all data references.
-  // let refreshSlates = false;
-  // let slates = await Data.getSlatesByUserId({ userId: id });
-  // for (let slate of slates) {
-  //   let removal = false;
-  //   let objects = slate.data.objects.filter((o) => {
-  //     for (let cid of req.body.data.cids) {
-  //       if (o.url.includes(cid)) {
-  //         removal = true;
-  //         refreshSlates = true;
-  //         return false;
-  //       }
-  //     }
-  //     return true;
-  //   });
-
-  //   if (removal) {
-  //     let newSlate = await Data.updateSlateById({
-  //       id: slate.id,
-  //       updated_at: new Date(),
-  //       data: {
-  //         ...slate.data,
-  //         objects,
-  //       },
-  //     });
-  //     SearchManager.updateSlate(newSlate, "EDIT");
-  //   }
-  // }
 
   // NOTE(jim):
   // Removes the file reference from your library

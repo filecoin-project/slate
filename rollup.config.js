@@ -2,6 +2,7 @@ import babel from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import json from "@rollup/plugin-json";
+import visualizer from "rollup-plugin-visualizer";
 
 import { terser } from "rollup-plugin-terser";
 
@@ -21,9 +22,16 @@ const generateOutput = (outputPath) => {
         exclude: ["node_modules/**", "**/*.json"],
         babelHelpers: "runtime",
       }),
-      resolve({ preferBuiltins: true }),
+      resolve({
+        preferBuiltins: false,
+      }),
       commonjs(),
-      terser(),
+      terser({
+        format: {
+          comments: false,
+        },
+      }),
+      visualizer(),
     ],
   };
 };

@@ -153,6 +153,27 @@ export const createSlateObject = ({ slateId, data }) => {
   }
 };
 
+const createSubscribeUserActivityForEachSubscriber = async ({ userId, data }) => {
+  const subscriptions = await Data.getSubscriptionsToUserId({ userId });
+
+  if (subscriptions.length) {
+    for (let i = 0; i < subscriptions.length; i++) {
+      const s = subscriptions[i];
+
+      // NOTE(jim):
+      // <VIEWER>, <USER> SUBSCRIBED TO <SUBSCRIBED_USER>
+      Data.createActivity({
+        userId: s.owner_user_id,
+        data: {
+          type: "USER_SUBSCRIBED_TO_SUBSCRIBED_USER",
+          actorUserId: data.actorUserId,
+          context: data.context,
+        },
+      });
+    }
+  }
+};
+
 export const subscribeUser = ({ userId, data }) => {
   Data.createOrUpdateStats(new Date(), { subscribeUsers: 1 });
 
@@ -179,9 +200,9 @@ export const subscribeUser = ({ userId, data }) => {
       },
     });
 
-    // TODO(jim):
-    // <VIEWER> WITNESSES <USER> SUBSCRIBE TO <USER>
-    // --
+    // NOTE(jim):
+    // <VIEWER> WITNESSES <USER> SUBSCRIBE TO <SUBSCRIBED_USER>
+    // createSubscribeUserActivityForEachSubscriber({ userId, data });
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
@@ -221,14 +242,6 @@ export const subscribeSlate = ({ slateId, data }) => {
         context: data.context,
       },
     });
-
-    // TODO(jim):
-    // <VIEWER>, <SLATE> OBTAIN NEW <USER>
-    // --
-
-    // TODO(jim):
-    // <VIEWER>, <USER> SUBSCRIBES TO <SLATE>
-    // --
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;

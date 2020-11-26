@@ -502,7 +502,7 @@ export const getDealHistory = async ({ id }) => {
       user,
       message: e.message,
       code: e.code,
-      functionName: `power.listStorageDealRecords`,
+      functionName: `power.storageDealRecords`,
     });
   }
 

@@ -45,6 +45,27 @@ export const createUser = ({ userId, data }) => {
   }
 };
 
+const createSlateActivityForEachSubscriber = async ({ userId, data }) => {
+  const subscriptions = await Data.getSubscriptionsToUserId({ userId });
+
+  if (subscriptions.length) {
+    for (let i = 0; i < subscriptions.length; i++) {
+      const s = subscriptions[i];
+
+      // NOTE(jim):
+      // <USER> CREATED <SLATE>
+      Data.createActivity({
+        userId: s.owner_user_id,
+        data: {
+          type: "ANOTHER_USER_CREATED_SLATE",
+          actorUserId: data.actorUserId,
+          context: data.context,
+        },
+      });
+    }
+  }
+};
+
 export const createSlate = ({ userId, data }) => {
   try {
     Data.createOrUpdateStats(new Date(), { slates: 1 });
@@ -56,9 +77,9 @@ export const createSlate = ({ userId, data }) => {
       data: { type: "CREATE_SLATE", actorUserId: data.actorUserId, context: data.context },
     });
 
-    // TODO(JIM):
+    // NOTE(JIM):
     // <VIEWER> WITNESSES <USER> CREATING <SLATE>
-    // --
+    createSlateActivityForEachSubscriber({ userId, data });
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
@@ -69,6 +90,27 @@ export const createSlate = ({ userId, data }) => {
     Social.sendSlackMessage(message);
   } catch (e) {
     console.log(e);
+  }
+};
+
+const createSlateObjectActivityForEachSubscriber = async ({ slateId, data }) => {
+  const subscriptions = await Data.getSubscriptionsToSlateId({ slateId });
+
+  if (subscriptions.length) {
+    for (let i = 0; i < subscriptions.length; i++) {
+      const s = subscriptions[i];
+
+      // NOTE(jim):
+      // <VIEWER> WITNESS <USER> ADDED OBJECT TO <SLATE>
+      Data.createActivity({
+        userId: s.owner_user_id,
+        data: {
+          type: "ANOTHER_USER_CREATE_SLATE_OBJECT",
+          actorUserId: data.actorUserId,
+          context: data.context,
+        },
+      });
+    }
   }
 };
 
@@ -92,9 +134,9 @@ export const createSlateObject = ({ slateId, data }) => {
       },
     });
 
-    // TODO(jim):
+    // NOTE(jim):
     // <VIEWER> WITNESS <USER> ADDED OBJECT TO <SLATE>
-    // --
+    createSlateObjectActivityForEachSubscriber({ slateId, data });
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;

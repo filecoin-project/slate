@@ -186,32 +186,31 @@ export default class SlateMediaObjectPreview extends React.Component {
         style={this.props.previewPanel ? { color: "#bfbfbf" } : null}
       />
     );
-    console.log(this.props.previewImage);
-    return (
-      <React.Fragment>
-        {this.props.previewImage ? (
-          <div
-            css={STYLES_IMAGE_CONTAINER}
-            style={{
-              backgroundImage: `url(${this.props.previewImage})`,
-              ...this.props.imageStyle,
-            }}
-          />
-        ) : (
-          <article
-            css={STYLES_ENTITY}
-            style={{
-              ...this.props.style,
-              border: this.props.previewPanel ? `1px solid ${Constants.system.bgGray}` : "auto",
-            }}
-          >
-            <div>{element}</div>
-            {this.props.title && !this.props.iconOnly && !this.props.previewPanel ? (
-              <div css={STYLES_TITLE}>{title}</div>
-            ) : null}
-          </article>
-        )}
-      </React.Fragment>
-    );
+    if (this.props.previewImage) {
+      return (
+        <div
+          css={STYLES_IMAGE_CONTAINER}
+          style={{
+            backgroundImage: `url(${this.props.previewImage})`,
+            ...this.props.imageStyle,
+          }}
+        />
+      );
+    } else {
+      return (
+        <article
+          css={STYLES_ENTITY}
+          style={{
+            ...this.props.style,
+            border: this.props.previewPanel ? `1px solid ${Constants.system.bgGray}` : "auto",
+          }}
+        >
+          <div>{element}</div>
+          {this.props.title && !this.props.iconOnly && !this.props.previewPanel ? (
+            <div css={STYLES_TITLE}>{title}</div>
+          ) : null}
+        </article>
+      );
+    }
   }
 }

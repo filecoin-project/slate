@@ -83,14 +83,6 @@ const STYLES_DISMISS_BOX = css`
 const STYLES_CONTAINER = css`
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  padding-bottom: 88px;
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 const STYLES_META = css`
@@ -331,9 +323,8 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   render() {
-    const { cid, file, type, size, url } = this.props.data;
+    const { cid, file, name, previewImage, type, size, url, blurhash } = this.props.data;
     const elements = [];
-
     if (this.props.onClose) {
       elements.push(
         <div key="s-1" css={STYLES_DISMISS_BOX} onClick={this.props.onClose}>
@@ -398,16 +389,7 @@ export default class CarouselSidebarData extends React.Component {
               This is the preview image of your file.
             </System.P>
             <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
-              <div>
-                <SlateMediaObjectPreview
-                  style={{ color: `${Constants.system.black}`, height: "240px" }}
-                  blurhash={this.props.previewImage ? false : true}
-                  url={url}
-                  title={file}
-                  type={type}
-                  previewImage={this.props.data.previewImage}
-                />
-              </div>
+              <img src={previewImage} alt="" style={{ maxWidth: "368px", maxHeight: "368px" }} />
             </div>
             <div style={{ marginTop: 16 }}>
               <input
@@ -430,7 +412,7 @@ export default class CarouselSidebarData extends React.Component {
         <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
           Privacy
         </div>
-        <div style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
+        <div style={{ color: Constants.system.darkGray, lineHeight: "1.5", marginBottom: 104 }}>
           {this.state.isPublic
             ? "Public. This file is currently visible to others and searchable within Slate through public slates."
             : "Private. This file is currently not visible to others unless they have the link."}

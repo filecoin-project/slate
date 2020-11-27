@@ -427,7 +427,7 @@ export default class DataView extends React.Component {
                     blurhash={each.blurhash}
                     url={Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))}
                     title={each.file || each.name}
-                    type={each.type || each.icon}
+                    type={each.type}
                     previewImage={each.previewImage}
                     dataView={true}
                   />

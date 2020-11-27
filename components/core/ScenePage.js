@@ -6,7 +6,7 @@ import { css } from "@emotion/core";
 const STYLES_SCENE = css`
   flex-shrink: 0;
   width: 100%;
-  padding: 128px 32px 128px 32px;
+  padding: 128px 56px 128px 56px;
   display: block;
 
   @media (max-width: ${Constants.sizes.mobile}px) {

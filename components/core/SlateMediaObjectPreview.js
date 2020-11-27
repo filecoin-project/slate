@@ -186,17 +186,15 @@ export default class SlateMediaObjectPreview extends React.Component {
         style={this.props.previewPanel ? { color: "#bfbfbf" } : null}
       />
     );
-
+    console.log(this.props.previewImage);
     return (
       <React.Fragment>
         {this.props.previewImage ? (
-          <img
-            src={this.props.previewImage}
-            alt=""
-            css={STYLES_IMAGE}
+          <div
+            css={STYLES_IMAGE_CONTAINER}
             style={{
-              maxWidth: "100%",
-              maxHeight: "100%",
+              backgroundImage: `url(${this.props.previewImage})`,
+              ...this.props.imageStyle,
             }}
           />
         ) : (

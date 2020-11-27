@@ -164,15 +164,12 @@ export class GlobalCarousel extends React.Component {
   _handleSetLoading = (e) => this.setState({ ...e.detail });
 
   _handleOpen = (e) => {
-    console.log("handle open");
-    console.log(e.detail.index);
     let carouselType =
       !this.props.current ||
       (this.props.current &&
         (this.props.current.decorator === "FOLDER" || this.props.current.decorator === "HOME"))
         ? "data"
         : "slate";
-    console.log(carouselType);
     this.setState({
       carouselType: carouselType,
       visible: true,

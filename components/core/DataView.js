@@ -118,11 +118,11 @@ const STYLES_ACTION_BAR = css`
   background-color: ${Constants.system.foreground};
   position: fixed;
   bottom: 12px;
-  width: calc(100vw - ${Constants.sizes.sidebar}px + 32px);
-  max-width: ${Constants.sizes.desktop}px;
+  left: 10vw;
+  width: 80vw;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    width: calc(100vw - 48px);
+    display: none;
   }
 `;
 
@@ -155,20 +155,19 @@ const STYLES_COPY_INPUT = css`
 
 const STYLES_IMAGE_GRID = css`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(214px, 1fr));
-  margin: 0 -27px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  width: 100%;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin: 0px -12px;
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
 const STYLES_IMAGE_BOX = css`
-  width: 160px;
-  height: 160px;
-  margin: 27px;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,8 +177,6 @@ const STYLES_IMAGE_BOX = css`
   position: relative;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 144px;
-    height: 144px;
     margin: 12px auto;
   }
 `;
@@ -200,19 +197,35 @@ export default class DataView extends React.Component {
     view: "grid",
     viewLimit: 40,
     scrollDebounce: false,
+    imageSize: 100,
   };
 
   async componentDidMount() {
+    this.calculateWidth();
+    this.debounceInstance = Window.debounce(this.calculateWidth, 200);
     if (!this._mounted) {
       this._mounted = true;
       window.addEventListener("scroll", this._handleCheckScroll);
+      window.addEventListener("resize", this.debounceInstance);
     }
   }
 
   componentWillUnmount() {
     this._mounted = false;
     window.removeEventListener("scroll", this._handleCheckScroll);
+    window.removeEventListener("resize", this.debounceInstance);
   }
+
+  calculateWidth = () => {
+    let windowWidth = window.innerWidth;
+    let imageSize;
+    if (windowWidth < Constants.sizes.mobile) {
+      imageSize = (windowWidth - 2 * 24 - 20) / 2;
+    } else {
+      imageSize = (windowWidth - 2 * 56 - 4 * 20) / 5;
+    }
+    this.setState({ imageSize });
+  };
 
   _handleScroll = (e) => {
     const windowHeight =
@@ -402,6 +415,10 @@ export default class DataView extends React.Component {
                 <div
                   key={each.id}
                   css={STYLES_IMAGE_BOX}
+                  style={{
+                    width: this.state.imageSize,
+                    height: this.state.imageSize,
+                  }}
                   onClick={() => this._handleSelect(i)}
                   onMouseEnter={() => this.setState({ hover: i })}
                   onMouseLeave={() => this.setState({ hover: null })}

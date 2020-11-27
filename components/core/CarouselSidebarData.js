@@ -55,6 +55,7 @@ const STYLES_SIDEBAR = css`
   align-items: flex-start;
   justify-content: space-between;
   background-color: rgba(20, 20, 20, 0.8);
+  ${STYLES_NO_VISIBLE_SCROLL}
 
   @supports ((-webkit-backdrop-filter: blur(75px)) or (backdrop-filter: blur(75px))) {
     -webkit-backdrop-filter: blur(75px);

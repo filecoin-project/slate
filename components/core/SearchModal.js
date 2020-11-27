@@ -197,7 +197,8 @@ const STYLES_PREVIEW_TEXT = css`
   font-family: ${Constants.font.medium};
   font-size: ${Constants.typescale.lvlN1};
   color: ${Constants.system.textGray};
-  margin: 4px 0;
+  margin: 4px 16px;
+  word-break: break-word;
 `;
 
 const STYLES_EMPTY_SLATE_PREVIEW = css`
@@ -670,8 +671,10 @@ export class SearchModal extends React.Component {
     let results;
     if (this.state.results && this.state.results.length) {
       results = this.state.results;
-    } else {
+    } else if (!this.state.inputValue || !this.state.inputValue.length) {
       results = this.state.defaultResults;
+    } else {
+      return;
     }
     if (e.keyCode === 27) {
       this._handleHide();

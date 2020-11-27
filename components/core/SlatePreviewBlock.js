@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
+import * as Window from "~/common/window";
 
 import { css } from "@emotion/core";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
@@ -428,21 +429,12 @@ export default class SlatePreviewBlocks extends React.Component {
 
   componentDidMount = () => {
     this.calculateWidth();
-    this.debounceInstance = this.debounce(this.calculateWidth, 350);
+    this.debounceInstance = Window.debounce(this.calculateWidth, 350);
     window.addEventListener("resize", this.debounceInstance);
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("resize", this.debounceInstance);
-  };
-
-  debounce = (fn, time) => {
-    let timer;
-
-    return () => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(fn, time);
-    };
   };
 
   calculateWidth = () => {

@@ -13,7 +13,7 @@ const STYLES_ALERT = `
   width: 100%;
   color: ${Constants.system.white};
   min-height: 48px;
-  padding: 12px 32px;
+  padding: 12px 56px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

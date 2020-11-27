@@ -122,50 +122,55 @@ export class SlatePicker extends React.Component {
           />
           <div>Create new slate</div>
         </div>
-        <br />
-        <div
-          css={STYLES_SLATE_LIST}
-          style={{ border: this.props.dark ? "1px solid #3c3c3c" : "none" }}
-        >
-          {this.props.slates.map((slate) => (
+
+        {this.props.slates.length ? (
+          <React.Fragment>
+            <br />
             <div
-              key={slate.id}
-              css={this.props.dark ? STYLES_SLATE_LINE_DARK : STYLES_SLATE_LINE}
-              onClick={() => this.props.onAdd(slate)}
+              css={STYLES_SLATE_LIST}
+              style={{ border: this.props.dark ? "1px solid #3c3c3c" : "none" }}
             >
-              <div css={STYLES_ICON_BOX}>
-                {this.props.loading && this.props.loading === slate.id ? (
-                  <LoaderSpinner style={{ height: 20, width: 20, margin: "2px 8px 2px 2px" }} />
-                ) : selected[slate.id] ? (
-                  <SVG.Slate
-                    height="24px"
+              {this.props.slates.map((slate) => (
+                <div
+                  key={slate.id}
+                  css={this.props.dark ? STYLES_SLATE_LINE_DARK : STYLES_SLATE_LINE}
+                  onClick={() => this.props.onAdd(slate)}
+                >
+                  <div css={STYLES_ICON_BOX}>
+                    {this.props.loading && this.props.loading === slate.id ? (
+                      <LoaderSpinner style={{ height: 20, width: 20, margin: "2px 8px 2px 2px" }} />
+                    ) : selected[slate.id] ? (
+                      <SVG.Slate
+                        height="24px"
+                        style={{
+                          marginRight: 8,
+                          pointerEvents: "none",
+                          color: this.props.dark ? Constants.system.white : Constants.system.black,
+                        }}
+                      />
+                    ) : (
+                      <SVG.PlusCircle
+                        height="24px"
+                        style={{
+                          marginRight: 8,
+                          pointerEvents: "none",
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    css={this.props.dark ? STYLES_SLATE_NAME_DARK : STYLES_SLATE_NAME}
                     style={{
-                      marginRight: 8,
-                      pointerEvents: "none",
-                      color: this.props.dark ? Constants.system.white : Constants.system.black,
+                      color: selected[slate.id] ? this.props.selectedColor : "inherit",
                     }}
-                  />
-                ) : (
-                  <SVG.PlusCircle
-                    height="24px"
-                    style={{
-                      marginRight: 8,
-                      pointerEvents: "none",
-                    }}
-                  />
-                )}
-              </div>
-              <div
-                css={this.props.dark ? STYLES_SLATE_NAME_DARK : STYLES_SLATE_NAME}
-                style={{
-                  color: selected[slate.id] ? this.props.selectedColor : "inherit",
-                }}
-              >
-                {Strings.getPresentationSlateName(slate)}
-              </div>
+                  >
+                    {Strings.getPresentationSlateName(slate)}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </React.Fragment>
+        ) : null}
       </React.Fragment>
     );
   }

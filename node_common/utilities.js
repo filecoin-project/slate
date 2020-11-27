@@ -115,7 +115,7 @@ export const getPowergateAPIFromUserToken = async ({ user }) => {
   const power = await Pow.withKeyInfo(TEXTILE_KEY_INFO);
   await power.getToken(identity);
 
-  NodeLogging.log(`powergate init ${name}`);
+  NodeLogging.log(`powergate init`);
 
   return {
     power,

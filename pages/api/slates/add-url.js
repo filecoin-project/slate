@@ -64,29 +64,19 @@ export default async (req, res) => {
       return true;
     });
   } else {
-    let newIPFSs = [];
+    let newCIDs = [];
     addlObjects = newObjects.filter((each) => {
-      if (
-        slateURLs.includes(Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))) ||
-        newIPFSs.includes(each.cid || each.ipfs.replace("/ipfs/", ""))
-      ) {
+      if (slateURLs.includes(Strings.getCIDGatewayURL(each.cid)) || newCIDs.includes(each.cid)) {
         return false;
       }
-      newIPFSs.push(each.cid || each.ipfs.replace("/ipfs/", ""));
+      newCIDs.push(each.cid);
       return true;
     });
   }
 
   addlObjects = addlObjects.map((each) => {
-    let url =
-      each.ipfs || each.cid
-        ? Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))
-        : each.url;
-    let cid = each.url
-      ? Strings.urlToCid(each.url)
-      : each.ipfs
-      ? each.ipfs.replace("/ipfs/", "")
-      : each.cid;
+    let url = each.url || Strings.getCIDGatewayURL(each.cid);
+    let cid = each.cid || Strings.urlToCid(each.url);
 
     // NOTE(jim): Share events if public.
     if (slate.data.public) {

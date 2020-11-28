@@ -70,7 +70,7 @@ const STYLES_PATH = css`
 
 export default class SceneFile extends React.Component {
   render() {
-    const cid = this.props.data.cid || this.props.data.ipfs.replace("/ipfs/", "");
+    const cid = this.props.data.cid;
     const fileURL = Strings.getCIDGatewayURL(cid);
 
     return (

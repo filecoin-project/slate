@@ -56,9 +56,7 @@ const typeMap = {
 
 export default class SlateMediaObject extends React.Component {
   render() {
-    // NOTE(jim):
-    // This is a hack to catch this undefined case I don't want to track down yet.
-    const url = this.props.data.url.replace("https://undefined", "https://");
+    const url = this.props.data.url;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
     const playType = typeMap[type] ? typeMap[type] : type;
 

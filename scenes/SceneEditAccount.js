@@ -65,7 +65,7 @@ export default class SceneEditAccount extends React.Component {
       return;
     }
 
-    const cid = json.data.cid || json.data.ipfs.replace("/ipfs/", "");
+    const cid = json.data.cid;
     const url = Strings.getCIDGatewayURL(cid);
     let updateResponse = await Actions.updateViewer({
       data: {

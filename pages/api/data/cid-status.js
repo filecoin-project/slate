@@ -76,7 +76,7 @@ export default async (req, res) => {
 
   if (failed.length) {
     for (let i = 0; i < failed.length; i++) {
-      let data = LibraryManager.getDataByIPFS(targetUser, failed[i].ipfs || failed[i].cid);
+      let data = LibraryManager.getDataByCID(targetUser, failed[i].cid);
       if (!data) {
         continue;
       }
@@ -96,7 +96,7 @@ export default async (req, res) => {
 
   if (success.length) {
     for (let i = 0; i < success.length; i++) {
-      let data = LibraryManager.getDataByIPFS(targetUser, success[i].ipfs || success[i].cid);
+      let data = LibraryManager.getDataByCID(targetUser, success[i].cid);
       if (!data) {
         continue;
       }
@@ -114,7 +114,7 @@ export default async (req, res) => {
 
   if (reset.length) {
     for (let i = 0; i < reset.length; i++) {
-      let data = LibraryManager.getDataByIPFS(targetUser, reset[i].ipfs || reset[i].cid);
+      let data = LibraryManager.getDataByCID(targetUser, reset[i].cid);
       if (!data) {
         continue;
       }

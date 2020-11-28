@@ -272,7 +272,7 @@ export default class DataView extends React.Component {
       cids = Object.keys(this.state.checked).map((id) => {
         let index = parseInt(id);
         let item = this.props.viewer.library[0].children[index];
-        return item.cid || item.ipfs.replace("/ipfs/", "");
+        return item.cid;
       });
       this.setState({ checked: {} });
     }
@@ -410,7 +410,7 @@ export default class DataView extends React.Component {
           {header}
           <div css={STYLES_IMAGE_GRID}>
             {this.props.items.slice(0, this.state.viewLimit).map((each, i) => {
-              const cid = each.cid || each.ipfs.replace("/ipfs/", "");
+              const cid = each.cid;
               return (
                 <div
                   key={each.id}
@@ -425,7 +425,7 @@ export default class DataView extends React.Component {
                 >
                   <SlateMediaObjectPreview
                     blurhash={each.blurhash}
-                    url={Strings.getCIDGatewayURL(each.cid || each.ipfs.replace("/ipfs/", ""))}
+                    url={Strings.getCIDGatewayURL(each.cid)}
                     title={each.file || each.name}
                     type={each.type}
                     previewImage={each.previewImage}
@@ -574,8 +574,7 @@ export default class DataView extends React.Component {
       },
     ];
     const rows = this.props.items.slice(0, this.state.viewLimit).map((each, index) => {
-      const cid = each.cid || each.ipfs.replace("/ipfs/", "");
-      const isOnNetwork = each.networks && each.networks.includes("FILECOIN");
+      const cid = each.cid;
 
       return {
         ...each,

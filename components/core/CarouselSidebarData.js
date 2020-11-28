@@ -238,7 +238,7 @@ export default class CarouselSidebarData extends React.Component {
       return;
     }
 
-    const cid = json.data.cid || json.data.ipfs.replace("/ipfs/", "");
+    const cid = json.data.cid;
     let updateReponse = await Actions.updateData({
       data: {
         id: this.props.data.id,

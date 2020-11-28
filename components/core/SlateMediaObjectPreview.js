@@ -60,7 +60,7 @@ let preload = (url) =>
     const img = new Image();
     img.onload = resolve(img);
     img.onerror = reject;
-    img.src = url.replace("https://undefined", "https://");
+    img.src = url;
   });
 
 export default class SlateMediaObjectPreview extends React.Component {
@@ -88,9 +88,7 @@ export default class SlateMediaObjectPreview extends React.Component {
   };
 
   render() {
-    // NOTE(jim):
-    // This is a hack to catch this undefined case I don't want to track down yet.
-    const url = this.props.url.replace("https://undefined", "https://");
+    const url = this.props.url;
 
     const title =
       this.props.title && this.props.title.length > this.props.charCap

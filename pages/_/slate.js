@@ -208,7 +208,7 @@ export default class SlatePage extends React.Component {
         slides: this.props.slate.data.objects.map((each, index) => {
           // NOTE(jim):
           // This is a hack to catch this undefined case I don't want to track down yet.
-          const url = each.url.replace("https://undefined", "https://");
+          const url = each.url;
           const cid = Strings.getCIDFromIPFS(url);
           CIDMap[cid] = index;
 
@@ -273,14 +273,14 @@ export default class SlatePage extends React.Component {
             objects[i].size &&
             objects[i].size < SIZE_LIMIT
           ) {
-            image = objects[i].url.replace("https://undefined", "https://");
+            image = objects[i].url;
             break;
           }
         }
       }
     } else {
       let object = objects.find((each) => {
-        const url = each.url.replace("https://undefined", "https://");
+        const url = each.url;
         const cid = Strings.getCIDFromIPFS(url);
         return cid === this.props.cid;
       });
@@ -381,9 +381,7 @@ export default class SlatePage extends React.Component {
               onClose={() => this.setState({ visible: false })}
               viewer={this.props.viewer}
               open={this.state.visible}
-              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${
-                this.props.creator.username
-              }&slate=${this.props.slate.slatename}`}
+              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${this.props.creator.username}&slate=${this.props.slate.slatename}`}
             />
           </div>
         )}

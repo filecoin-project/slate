@@ -353,11 +353,7 @@ export const addToDataFromSlate = async ({ files }) => {
   let items = files.map((file) => {
     return {
       ownerId: file.ownerId,
-      cid: file.cid
-        ? file.cid
-        : file.ipfs
-        ? file.ipfs.replace("/ipfs/", "")
-        : Strings.urlToCid(file.url),
+      cid: file.cid,
     };
   });
   let response = await Actions.addCIDToData({ items });
@@ -393,10 +389,9 @@ export const download = (file) => {
   const filename = file.file || file.name || file.title;
   let uri;
   if (file.url) {
-    uri = file.url.replace("https://undefined", "https://");
+    uri = file.url;
   } else {
-    let cid = file.cid || file.ipfs.replace("/ipfs/", "");
-    uri = Strings.getCIDGatewayURL(cid);
+    uri = Strings.getCIDGatewayURL(file.cid);
   }
   Window.saveAs(uri, filename);
 };

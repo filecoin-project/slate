@@ -66,7 +66,7 @@ const preload = (item) =>
       resolve((200 * img.height) / img.width);
     };
     img.onerror = reject;
-    const url = item.url.replace("https://undefined", "https://");
+    const url = item.url;
     img.src = url;
   });
 
@@ -964,7 +964,7 @@ export class SlateLayout extends React.Component {
   _handleSetPreview = (e, i) => {
     e.stopPropagation();
     e.preventDefault();
-    let url = this.state.items[i].url.replace("https://undefined", "https://");
+    let url = this.state.items[i].url;
     if (this.props.preview === url) return;
     this.props.onSavePreview(url);
   };
@@ -1041,7 +1041,7 @@ export class SlateLayout extends React.Component {
     let cids = [];
     for (let file of this.props.viewer.library[0].children) {
       if (ids.includes(file.id)) {
-        cids.push(file.cid || file.ipfs.replace("/ipfs/", ""));
+        cids.push(file.cid);
       }
     }
     UserBehaviors.deleteFiles(cids);
@@ -1602,8 +1602,7 @@ export class SlateLayout extends React.Component {
                                       : () => {}
                                   }
                                   style={
-                                    this.props.preview ===
-                                    this.state.items[i].url.replace("https://undefined", "https://")
+                                    this.props.preview === this.state.items[i].url
                                       ? {
                                           backgroundColor: "rgba(0, 97, 187, 0.75)",
                                         }

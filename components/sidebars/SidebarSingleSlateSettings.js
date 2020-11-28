@@ -147,7 +147,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           object.size &&
           object.size < SIZE_LIMIT
         ) {
-          preview = object.url.replace("https://undefined", "https://");
+          preview = object.url;
           break;
         }
       }

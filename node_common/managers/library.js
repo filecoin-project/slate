@@ -69,13 +69,13 @@ export const updateDataById = ({ user, id, data }) => {
   return { ...user.data, library };
 };
 
-export const getDataByIPFS = (user, ipfs) => {
+export const getDataByCID = (user, cid) => {
   const { library } = user.data;
 
   // TODO(jim): Totally purges the ID.
   for (let i = 0; i < library.length; i++) {
     for (let j = 0; j < library[i].children.length; j++) {
-      if (library[i].children[j].ipfs === ipfs || library[i].children[j].cid === ipfs) {
+      if (library[i].children[j].cid === cid) {
         return library[i].children[j];
       }
     }
@@ -93,12 +93,13 @@ export const addData = ({ user, files }) => {
   for (let file of files) {
     file.cid = file.cid || file.ipfs.replace("/ipfs/", "");
     delete file.ipfs;
+    delete file.icon;
     noRepeats.push(file);
   }
 
   let newCids = [];
   for (let i = 0; i < library.length; i++) {
-    let cids = library[i].children.map((file) => file.cid || file.ipfs.replace("/ipfs/", "")) || [];
+    let cids = library[i].children.map((file) => file.cid) || [];
     noRepeats = noRepeats.filter((item) => {
       let isNotRepeat = !cids.includes(item.cid) && !newCids.includes(item.cid);
       newCids.push(item.cid);

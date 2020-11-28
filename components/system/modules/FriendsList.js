@@ -7,9 +7,9 @@ import { css } from "@emotion/core";
 import { Table } from "~/components/system/components/Table";
 import { StatUpload, StatDownload } from "~/components/system/components/Stat";
 
-let genericImg = `${
-  Constants.gateways.ipfs
-}/bafybeiblly23jomdjjiq7ilth667npcfm5llqb5xfstodbbfa5pxtoek7u`;
+let genericImg = Strings.getCIDGatewayURL(
+  "bafybeiblly23jomdjjiq7ilth667npcfm5llqb5xfstodbbfa5pxtoek7u"
+);
 
 const STYLES_BUTTON = `
   font-family: ${Constants.font.text};

@@ -117,36 +117,6 @@ export default class SceneSlate extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (isMounted) {
-      return false;
-    }
-    isMounted = true;
-
-    if (this.state.isOwner) {
-      let changed = false;
-      let objects = [...this.props.current.data.objects];
-      for (let obj of objects) {
-        if (!obj.size) {
-          let matches = this.props.viewer.library[0].children.filter((file) => {
-            return file.id === obj.id;
-          });
-          if (matches.length) {
-            obj.size = matches[0].size;
-            changed = true;
-          }
-        }
-      }
-      if (changed) {
-        this._handleSave(null, objects, null, true);
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    isMounted = false;
-  }
-
   _handleFollow = () => {
     Actions.createSubscription({
       slateId: this.props.current.id,

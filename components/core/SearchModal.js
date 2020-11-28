@@ -227,7 +227,7 @@ const SlatePreview = ({ item, viewer }) => {
         {preview ? (
           <SlateMediaObjectPreview
             blurhash={preview.blurhash}
-            url={preview.url.replace("https://undefined", "https://")}
+            url={preview.url}
             title={preview.title || preview.name}
             type={preview.type}
             previewImage={preview.previewImage}
@@ -288,13 +288,7 @@ const FilePreview = ({ item, viewer }) => {
         <SlateMediaObjectPreview
           previewPanel
           blurhash={file.blurhash}
-          url={
-            file.url
-              ? file.url.replace("https://undefined", "https://")
-              : file.cid
-              ? Strings.getCIDGatewayURL(file.cid)
-              : Strings.getCIDGatewayURL(Strings.getCIDFromIPFS(file.ipfs))
-          }
+          url={file.url ? file.url : Strings.getCIDGatewayURL(file.cid)}
           title={file.title || file.name || file.file}
           type={file.type}
           previewImage={file.previewImage}
@@ -583,7 +577,7 @@ export class SearchModal extends React.Component {
         data: {
           file: {
             ...file,
-            url: `${Constants.gateways.ipfs}/${file.cid || file.ipfs.replace("/ipfs/", "")}`,
+            url: Strings.getCIDGatewayURL(file.cid),
           },
           index: i,
         },
@@ -640,7 +634,7 @@ export class SearchModal extends React.Component {
   //       data: {
   //         file: {
   //           ...file,
-  //           url: `${Constants.gateways.ipfs}/${file.cid || file.ipfs.replace("/ipfs/", "")}`,
+  //           url: Strings.getCIDGatewayURL(file.cid),
   //         },
   //         index: i,
   //       },

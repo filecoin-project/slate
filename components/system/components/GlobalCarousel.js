@@ -307,6 +307,7 @@ export class GlobalCarousel extends React.Component {
   };
 
   render() {
+    let unityGame = false;
     if (!this.state.visible || !this.state.carouselType || this.state.index < 0) {
       return null;
     }
@@ -323,7 +324,6 @@ export class GlobalCarousel extends React.Component {
       this.state.index < this.props.current.data.objects.length
     ) {
       data = this.props.current.data.objects[this.state.index];
-      data.url = data.url.replace("https://undefined", "https://");
       data.cid = Strings.urlToCid(data.url);
       isRepost = this.props.external ? false : this.props.current.data.ownerId !== data.ownerId;
       isOwner = this.props.external
@@ -345,11 +345,14 @@ export class GlobalCarousel extends React.Component {
       this.state.index < this.props.viewer.library[0].children.length
     ) {
       data = this.props.viewer.library[0].children[this.state.index];
-      data.url = Strings.getCIDGatewayURL(data.cid || data.ipfs.replace("/ipfs/", ""));
+      data.url = Strings.getCIDGatewayURL(data.cid);
     }
     if (!data) {
       this._handleClose();
       return null;
+    }
+    if (data.type === "application/unity") {
+      unityGame = true;
     }
     let slide = <SlateMediaObject data={data} />;
     return (
@@ -390,7 +393,7 @@ export class GlobalCarousel extends React.Component {
               css={STYLES_EXPANDER}
               onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
             >
-              {this.state.showSidebar ? (
+              {this.state.showSidebar && !unityGame ? (
                 <SVG.Maximize height="24px" />
               ) : (
                 <SVG.Minimize height="24px" />
@@ -404,7 +407,7 @@ export class GlobalCarousel extends React.Component {
         <span css={STYLES_MOBILE_HIDDEN}>
           {this.state.carouselType === "data" ? (
             <CarouselSidebarData
-              display={this.state.showSidebar ? "block" : "none"}
+              display={this.state.showSidebar && !unityGame ? "block" : "none"}
               onClose={this._handleClose}
               key={data.id}
               saving={this.state.saving}
@@ -417,7 +420,7 @@ export class GlobalCarousel extends React.Component {
             />
           ) : (
             <CarouselSidebarSlate
-              display={this.state.showSidebar ? "block" : "none"}
+              display={this.state.showSidebar && !unityGame ? "block" : "none"}
               key={data.id}
               saving={this.state.saving}
               loading={this.state.loading}

@@ -32,12 +32,10 @@ export default async (req, res) => {
     });
   }
 
-  let userCIDs = user.data.library[0].children.map(
-    (file) => file.cid || file.ipfs.replace("/ipfs/", "")
-  );
+  let userCIDs = user.data.library[0].children.map((file) => file.cid);
   let newFiles = [];
   for (let item of req.body.data.items) {
-    let cid = item.cid || item.ipfs.replace("/ipfs/", "");
+    let cid = item.cid;
     if (userCIDs.includes(cid)) {
       continue;
     }
@@ -52,7 +50,7 @@ export default async (req, res) => {
       let owner = await Data.getUserById({ id: item.ownerId });
       if (owner && !owner.error) {
         for (let file of owner.data.library[0].children) {
-          if (file.cid === cid || file.ipfs === `/ipfs/${cid}`) {
+          if (file.cid === cid) {
             file.date = new Date();
             newFiles.push(file);
             break;

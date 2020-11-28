@@ -28,9 +28,9 @@ export default async (req, res) => {
 
   let unsafeResponse;
 
-  if (req.body.username) {
+  if (req.body.data.username) {
     const existing = await Data.getUserByUsername({
-      username: req.body.username.toLowerCase(),
+      username: req.body.data.username.toLowerCase(),
     });
 
     if (existing && existing.id !== id) {
@@ -38,7 +38,7 @@ export default async (req, res) => {
     }
   }
 
-  if (req.body.type === "SAVE_DEFAULT_ARCHIVE_CONFIG") {
+  if (req.body.data.type === "SAVE_DEFAULT_ARCHIVE_CONFIG") {
     let b;
     try {
       b = await Utilities.getBucketAPIFromUserToken({
@@ -59,7 +59,10 @@ export default async (req, res) => {
     }
 
     try {
-      const configResponse = await b.buckets.setDefaultArchiveConfig(b.bucketKey, req.body.config);
+      const configResponse = await b.buckets.setDefaultArchiveConfig(
+        b.bucketKey,
+        req.body.data.config
+      );
     } catch (e) {
       console.log(e);
       Social.sendTextileSlackMessage({
@@ -74,14 +77,14 @@ export default async (req, res) => {
     }
   }
 
-  if (req.body.type == "CHANGE_PASSWORD") {
-    if (!Validations.password(req.body.password)) {
+  if (req.body.data.type == "CHANGE_PASSWORD") {
+    if (!Validations.password(req.body.data.password)) {
       return res.status(500).send({ decorator: "SERVER_INVALID_PASSWORD", error: true });
     }
 
     const rounds = Number(Environment.LOCAL_PASSWORD_ROUNDS);
     const salt = await BCrypt.genSalt(rounds);
-    const hash = await Utilities.encryptPassword(req.body.password, salt);
+    const hash = await Utilities.encryptPassword(req.body.data.password, salt);
 
     unsafeResponse = await Data.updateUserById({
       id: user.id,
@@ -91,8 +94,8 @@ export default async (req, res) => {
   } else {
     unsafeResponse = await Data.updateUserById({
       id: user.id,
-      username: req.body.username ? req.body.username.toLowerCase() : user.username,
-      data: { ...user.data, ...req.body.data },
+      username: req.body.data.username ? req.body.data.username.toLowerCase() : user.username,
+      data: { ...user.data, ...req.body.data.data },
     });
   }
 

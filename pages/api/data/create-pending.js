@@ -8,7 +8,7 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "CREATE_PENDING_ERROR", error: true });
   }
 
-  const response = await Data.createPendingData(req.body.data);
+  const response = await Data.createPendingData(req.body.data.data);
 
   if (!response) {
     return res.status(404).send({ decorator: "CREATE_PENDING_ERROR", error: true });

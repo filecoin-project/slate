@@ -186,8 +186,12 @@ export default class ApplicationHeader extends React.Component {
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
-          <span css={STYLES_ICON_ELEMENT} style={{ position: "relative" }}>
-            <SVG.Menu height="24px" onClick={() => this._handleTogglePopup("nav")} />
+          <span
+            css={STYLES_ICON_ELEMENT}
+            style={{ position: "relative" }}
+            onClick={() => this._handleTogglePopup("nav")}
+          >
+            <SVG.Menu height="24px" />
             {this.state.popup === "nav" ? (
               <Boundary
                 captureResize={true}

@@ -30,7 +30,7 @@ export default async (req, res) => {
     });
   }
 
-  const slate = await Data.getSlateById({ id: req.body.slate.id });
+  const slate = await Data.getSlateById({ id: req.body.data.slate.id });
 
   if (!slate) {
     return res.status(404).send({
@@ -47,14 +47,14 @@ export default async (req, res) => {
   }
 
   let newObjects = [];
-  if (Array.isArray(req.body.data)) {
-    newObjects = [...req.body.data];
+  if (Array.isArray(req.body.data.data)) {
+    newObjects = [...req.body.data.data];
   } else {
-    newObjects = [req.body.data];
+    newObjects = [req.body.data.data];
   }
   let slateURLs = slate.data.objects.map((file) => file.url);
   let addlObjects;
-  if (req.body.fromSlate) {
+  if (req.body.data.fromSlate) {
     let newURLs = [];
     addlObjects = newObjects.filter((each) => {
       if (slateURLs.includes(each.url) || newURLs.includes(each.url)) {
@@ -100,7 +100,7 @@ export default async (req, res) => {
       cid: cid,
       size: each.size,
       id: each.id,
-      ownerId: req.body.fromSlate ? each.ownerId : user.id,
+      ownerId: req.body.data.fromSlate ? each.ownerId : user.id,
       name: each.name,
       title: each.title,
       type: each.type,

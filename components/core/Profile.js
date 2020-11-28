@@ -49,8 +49,8 @@ const STYLES_PROFILE_INFO_INTERNAL = css`
 
 const STYLES_INFO_INTERNAL = css`
   display: block;
-  width: 33.3%;
-  max-width: calc(100% - 104px);
+  width: 100%;
+  max-width: 800px;
   text-align: left;
   margin-bottom: 48px;
   overflow-wrap: break-word;
@@ -105,13 +105,12 @@ const STYLES_NAME_INTERNAL = css`
   font-family: ${Constants.font.semiBold};
   max-width: 100%;
   font-weight: 400;
-  margin: 8px 24px 0px 0;
+  margin: 0 24px 0 0;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   color: ${Constants.system.black};
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin-bottom: 8px;
-    margin-right: 0;
   }
 `;
 
@@ -198,7 +197,7 @@ export default class Profile extends React.Component {
               style={{ backgroundImage: `url('${data.data.photo}')` }}
             />
             <div css={STYLES_INFO_INTERNAL}>
-              <div css={STYLES_FLEX}>
+              <div css={STYLES_FLEX} style={{ marginTop: 8 }}>
                 <div css={STYLES_NAME_INTERNAL}>{Strings.getPresentationName(data)}</div>
                 <div>{this.props.buttons}</div>
               </div>

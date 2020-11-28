@@ -3,7 +3,7 @@ export const dispatchCustomEvent = ({ name, detail }) => {
   window.dispatchEvent(event);
 };
 
-export const handleError = (response) => {
+export const hasError = (response) => {
   if (!response) {
     dispatchCustomEvent({
       name: "create-alert",

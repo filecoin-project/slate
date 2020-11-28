@@ -317,10 +317,7 @@ export class GlobalCarousel extends React.Component {
     let link;
     if (
       this.state.carouselType === "slate" &&
-      this.props.current &&
-      this.props.current.data &&
-      this.props.current.data.objects &&
-      this.props.current.data.objects.length &&
+      this.props.current?.data?.objects?.length &&
       this.state.index < this.props.current.data.objects.length
     ) {
       data = this.props.current.data.objects[this.state.index];
@@ -340,8 +337,7 @@ export class GlobalCarousel extends React.Component {
         : null;
     } else if (
       this.state.carouselType === "data" &&
-      this.props.viewer.library &&
-      this.props.viewer.library[0].children.length &&
+      this.props.viewer?.library[0]?.children?.length &&
       this.state.index < this.props.viewer.library[0].children.length
     ) {
       data = this.props.viewer.library[0].children[this.state.index];

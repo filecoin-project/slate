@@ -2,9 +2,9 @@ import * as React from "react";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
@@ -44,14 +44,9 @@ export default class SidebarWalletSendFunds extends React.Component {
     const currentAddress = addresses[this.props.selected.address];
 
     if (currentAddress.address === this.state.address) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "You cannot send funds from an address to itself. Please enter a different address",
-          },
-        },
+      Events.dispatchMessage({
+        message:
+          "You cannot send funds from an address to itself. Please enter a different address",
       });
 
       this.setState({ loading: false });

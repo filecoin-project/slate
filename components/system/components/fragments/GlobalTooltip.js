@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as Events from "~/common/custom-events";
 
 import { css, keyframes } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_TOOLTIP = css`
   z-index: ${Constants.zindex.tooltip};
@@ -203,7 +203,7 @@ export class TooltipWrapper extends React.Component {
     let bubbleRect = this._bubble.getBoundingClientRect();
     console.log(this._bubble);
 
-    dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "add-tooltip",
       detail: {
         type: this.props.type,
@@ -219,7 +219,7 @@ export class TooltipWrapper extends React.Component {
   };
 
   componentWillUnmount = () => {
-    dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "remove-tooltip",
       detail: { id: this.props.id, type: this.props.type },
     });
@@ -284,7 +284,7 @@ const STYLES_TOOLTIP_ANCHOR = css`
 
 export class TooltipAnchor extends React.Component {
   _handleMouseEnter = (e) => {
-    dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "show-tooltip",
       detail: {
         id: this.props.id,
@@ -294,7 +294,7 @@ export class TooltipAnchor extends React.Component {
   };
 
   _handleMouseLeave = (e) => {
-    dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "hide-tooltip",
       detail: {
         id: this.props.id,

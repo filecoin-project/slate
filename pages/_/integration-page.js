@@ -2,9 +2,9 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_ITEM = css`
   font-size: 12px;
@@ -59,23 +59,8 @@ export default class IntegrationPage extends React.Component {
   _handleUpdate = async (e) => {
     const response = await Actions.hydrateAuthenticatedUser();
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
+    if (Events.hasError(response)) {
       return null;
-    }
-
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
     }
 
     const updates = {

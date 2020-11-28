@@ -3,9 +3,9 @@ import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -225,25 +225,8 @@ export default class SceneSettingsDeveloper extends React.Component {
     this.setState({ loading: true });
 
     const response = await Actions.generateAPIKey();
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return this.setState({ loading: false });
-    }
 
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return this.setState({ loading: false });
-    }
+    Events.hasError(response);
 
     this.setState({ loading: false });
   };
@@ -257,25 +240,9 @@ export default class SceneSettingsDeveloper extends React.Component {
     }
 
     const response = await Actions.deleteAPIKey({ id });
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return this.setState({ loading: false });
-    }
 
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return this.setState({ loading: false });
-    }
+    Events.hasError(response);
+
     this.setState({ loading: false });
   };
 
@@ -354,7 +321,10 @@ export default class SceneSettingsDeveloper extends React.Component {
               label="Get slate by ID: Response"
               description="This is the shape of the response. Save it locally because you can send this JSON back to our API server using the route /api/v1/update-slate to update your slate."
             />
-            <CodeBlock children={EXAMPLE_GET_SLATE_RESPONSE(key, slateId)} style={{ maxWidth: "768px" }} />
+            <CodeBlock
+              children={EXAMPLE_GET_SLATE_RESPONSE(key, slateId)}
+              style={{ maxWidth: "768px" }}
+            />
             <System.DescriptionGroup
               style={{ marginTop: 48 }}
               label="Upload data to slate by ID"
@@ -369,7 +339,10 @@ export default class SceneSettingsDeveloper extends React.Component {
               label="Update slate"
               description="This API endpoint will allow you to update a slate by sending your current locally modified version. This API endpoint allows for full customization so be careful."
             />
-            <CodeBlock children={EXAMPLE_UPDATE_SLATE(key, slateId)} style={{ maxWidth: "768px" }} />
+            <CodeBlock
+              children={EXAMPLE_UPDATE_SLATE(key, slateId)}
+              style={{ maxWidth: "768px" }}
+            />
           </React.Fragment>
         ) : null}
       </ScenePage>

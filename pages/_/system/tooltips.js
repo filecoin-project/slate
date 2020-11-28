@@ -1,13 +1,13 @@
 import * as React from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
+import * as Events from "~/common/custom-events";
 
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/core";
 
 const STYLES_DEMO_TOOLTIP = {
@@ -39,7 +39,7 @@ export default class SystemPageTooltips extends React.Component {
   _handleClick = (e, orientation, dir) => {
     this.setState({ show: false, [orientation]: dir }, () => {
       this.setState({ show: true }, () => {
-        dispatchCustomEvent({
+        Events.dispatchCustomEvent({
           name: "show-tooltip",
           detail: {
             id: "orientation-tester-tooltip",
@@ -51,7 +51,7 @@ export default class SystemPageTooltips extends React.Component {
   };
 
   componentWillUnmount = () => {
-    dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "remove-tooltip",
       detail: {
         id: "orientation-tester-tooltip",

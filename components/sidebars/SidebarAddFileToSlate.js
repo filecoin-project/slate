@@ -5,7 +5,6 @@ import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as UserBehaviors from "~/common/user-behaviors";
 
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/core";
 import { ButtonPrimary, ButtonDisabled } from "~/components/system/components/Buttons";
 import { SlatePicker } from "~/components/core/SlatePicker";

@@ -6,13 +6,13 @@ import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 import * as UserBehaviors from "~/common/user-behaviors";
 import * as SVG from "~/common/svg";
+import * as Events from "~/common/custom-events";
 import * as Window from "~/common/window";
 import * as FileUtilities from "~/common/file-utilities";
 
 import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
@@ -246,25 +246,7 @@ export default class CarouselSidebarData extends React.Component {
       },
     });
 
-    if (!updateReponse) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now.",
-          },
-        },
-      });
-    } else if (updateReponse.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: response.decorator,
-          },
-        },
-      });
-    }
+    Events.hasError(response);
     this.setState({ changingPreview: false });
   };
 

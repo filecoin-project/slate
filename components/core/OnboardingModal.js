@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_MODAL = css`
   text-align: center;
@@ -76,7 +76,7 @@ export class OnboardingModal extends React.Component {
       }
     }
     if (!slides.length) {
-      dispatchCustomEvent({
+      Events.dispatchCustomEvent({
         name: "delete-modal",
         detail: {},
       });
@@ -169,7 +169,7 @@ export class OnboardingModal extends React.Component {
 
   _handleClick = (i) => {
     if (this.state.step + i >= this.state.slides.length) {
-      dispatchCustomEvent({
+      Events.dispatchCustomEvent({
         name: "delete-modal",
         detail: {},
       });

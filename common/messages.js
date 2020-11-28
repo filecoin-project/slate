@@ -172,6 +172,7 @@ export const error = {
     "We're having trouble locating your information right now",
   SERVER_ONBOARDING_UPDATE_MUST_PROVIDE_UPDATE:
     "We're having trouble updating your information right now",
+  SERVER_USERNAME_IS_TAKEN: "That username is taken",
 
   //Users Get
   GET_USER_BY_ID: "We weren't able to fetch information on that user. Please try again later",

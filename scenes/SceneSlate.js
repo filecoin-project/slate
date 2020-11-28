@@ -4,9 +4,9 @@ import * as Actions from "~/common/actions";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
@@ -150,25 +150,7 @@ export default class SceneSlate extends React.Component {
     });
 
     if (!autoSave) {
-      if (!response) {
-        this.setState({ loading: false, saving: "ERROR" });
-        System.dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message: "We're having trouble connecting right now. Please try again later",
-            },
-          },
-        });
-      }
-
-      if (response.error) {
-        this.setState({ loading: false, saving: "ERROR" });
-        System.dispatchCustomEvent({
-          name: "create-alert",
-          detail: { alert: { decorator: response.decorator } },
-        });
-      }
+      Events.hasError(response);
     }
 
     this.setState({
@@ -177,7 +159,7 @@ export default class SceneSlate extends React.Component {
   };
 
   _handleSelect = (index) =>
-    System.dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "slate-global-open-carousel",
       detail: { index },
     });

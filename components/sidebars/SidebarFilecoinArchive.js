@@ -4,8 +4,7 @@ import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 import * as Window from "~/common/window";
 import * as Messages from "~/common/messages";
-
-import { dispatchCustomEvent } from "~/common/custom-events";
+import * as Events from "~/common/custom-events";
 
 const DEFAULT_ERROR_MESSAGE = "We could not make your deal. Please try again later.";
 
@@ -26,41 +25,8 @@ export default class SidebarFilecoinArchive extends React.Component {
     await this.setState({ loading: true });
     const response = await this._handleMakeDeal();
 
-    if (!response) {
-      this.setState({ loading: false });
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: DEFAULT_ERROR_MESSAGE,
-          },
-        },
-      });
-    }
-
-    if (response.error) {
-      this.setState({ loading: false });
-      if (response.message) {
-        return dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message: `From Textile: ${response.message}`,
-            },
-          },
-        });
-      }
-
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: Messages.error[response.decorator]
-              ? Messages.error[response.decorator]
-              : DEFAULT_ERROR_MESSAGE,
-          },
-        },
-      });
+    if (Events.hasError(response)) {
+      return;
     }
 
     await Window.delay(5000);

@@ -3,10 +3,10 @@ import * as Actions from "~/common/actions";
 import * as Window from "~/common/window";
 import * as Strings from "~/common/strings";
 import * as SVG from "~/common/svg";
+import * as Events from "~/common/custom-events";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SceneSlate from "~/scenes/SceneSlate";
 import EmptyState from "~/components/core/EmptyState";
@@ -81,11 +81,8 @@ export default class ScenePublicSlate extends React.Component {
           return;
         }
       }
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { message: "We're having trouble fetching that slate right now." } },
-      });
-      this.props.onBack();
+      Events.dispatchMessage({ message: "We're having trouble fetching that slate right now." });
+      this.setState({ notFound: true });
       return;
     }
 
@@ -100,7 +97,7 @@ export default class ScenePublicSlate extends React.Component {
       response = await Actions.getSerializedSlate(query);
     }
 
-    if (!response || response.error) {
+    if (Events.hasError(response)) {
       this.setState({ notFound: true });
       return;
     }
@@ -119,7 +116,7 @@ export default class ScenePublicSlate extends React.Component {
       }
 
       if (index !== -1) {
-        dispatchCustomEvent({
+        Events.dispatchCustomEvent({
           name: "slate-global-open-carousel",
           detail: { index },
         });

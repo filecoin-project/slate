@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
+import * as Events from "~/common/custom-events";
 
 import Group from "~/components/system/Group";
 import SystemPage from "~/components/system/SystemPage";
@@ -13,12 +14,12 @@ export default class SystemPageNotifications extends React.Component {
   };
 
   _handleCreate = (detail) => {
-    System.dispatchCustomEvent({ name: "create-notification", detail: detail });
+    Events.dispatchCustomEvent({ name: "create-notification", detail: detail });
     this.setState({ count: this.state.count + 1 });
   };
 
   _handleDelete = () => {
-    System.dispatchCustomEvent({ name: "delete-notification", detail: {} });
+    Events.dispatchCustomEvent({ name: "delete-notification", detail: {} });
   };
 
   render() {
@@ -33,9 +34,7 @@ export default class SystemPageNotifications extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>
-          The Notification component is used to alert a user of new information.
-        </System.P>
+        <System.P>The Notification component is used to alert a user of new information.</System.P>
         <br />
         <br />
         <br />
@@ -43,8 +42,7 @@ export default class SystemPageNotifications extends React.Component {
         <hr />
         <br />
         <System.P>
-          Import React and the Notification Component, as well as the
-          dispatchCustomEvent function.
+          Import React and the Notification Component, as well as the dispatchCustomEvent function.
         </System.P>
         <br />
         <CodeBlock>
@@ -58,14 +56,13 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
         <hr />
         <br />
         <System.P>
-          Declare the component at the root level of your document (e.g. in
-          index.js or App.js) so it is accessible throughout and will not get
-          buried in the DOM tree.
+          Declare the component at the root level of your document (e.g. in index.js or App.js) so
+          it is accessible throughout and will not get buried in the DOM tree.
         </System.P>
         <br />
         <System.P>
-          Use <System.CodeText>style</System.CodeText> to specify placement of
-          the fixed positioning notification list. Default is bottom right.
+          Use <System.CodeText>style</System.CodeText> to specify placement of the fixed positioning
+          notification list. Default is bottom right.
         </System.P>
         <br />
         <CodeBlock>
@@ -117,16 +114,13 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
         </System.ButtonPrimary>
         <br />
         <System.P>
-          A notification will only appear once you trigger it by creating a
-          custom event with the title{" "}
-          <System.CodeText>"create-notification"</System.CodeText>. It can be
-          removed with a custom event entitled{" "}
-          <System.CodeText>"delete-notification"</System.CodeText>.
+          A notification will only appear once you trigger it by creating a custom event with the
+          title <System.CodeText>"create-notification"</System.CodeText>. It can be removed with a
+          custom event entitled <System.CodeText>"delete-notification"</System.CodeText>.
         </System.P>
         <br />
         <System.P>
-          Multiple stacked notifications can be created using a single
-          Notification component.{" "}
+          Multiple stacked notifications can be created using a single Notification component.{" "}
           <strong>Each co-existing notification must have a unique id.</strong>
         </System.P>
         <br />
@@ -206,8 +200,8 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
         <br />
         <System.P>
           You can declare the Notification component with a{" "}
-          <System.CodeText>timeout</System.CodeText> (in milliseconds) after
-          which it will automatically disappear.
+          <System.CodeText>timeout</System.CodeText> (in milliseconds) after which it will
+          automatically disappear.
         </System.P>
         <br />
         <CodeBlock>
@@ -309,9 +303,8 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
         <br />
         <br />
         <System.P>
-          Declare the Notification component with a{" "}
-          <System.CodeText>status</System.CodeText> to style it accordingly.
-          This is overridden if <System.CodeText>dark</System.CodeText> is set
+          Declare the Notification component with a <System.CodeText>status</System.CodeText> to
+          style it accordingly. This is overridden if <System.CodeText>dark</System.CodeText> is set
           to true.
         </System.P>
         <br />
@@ -413,8 +406,7 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
                   a: "style",
                   b: "Object",
                   c: "{ bottom: 0, right: 0 }",
-                  d:
-                    "Style object used to style the notification list positioning on the page",
+                  d: "Style object used to style the notification list positioning on the page",
                 },
               ],
             }}
@@ -429,8 +421,8 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
         <hr />
         <br />
         <System.P>
-          Note that these properties are passed through a custom event rather
-          than as react properties.
+          Note that these properties are passed through a custom event rather than as react
+          properties.
         </System.P>
         <br />
         <Group title="Notifications">
@@ -445,15 +437,10 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
               rows: [
                 {
                   id: 1,
-                  a: (
-                    <span style={{ fontFamily: Constants.font.semiBold }}>
-                      id
-                    </span>
-                  ),
+                  a: <span style={{ fontFamily: Constants.font.semiBold }}>id</span>,
                   b: ["string", "number"],
                   c: "null",
-                  d:
-                    "Notification id, must be unique for simultaneously existing notifications",
+                  d: "Notification id, must be unique for simultaneously existing notifications",
                 },
                 {
                   id: 2,
@@ -468,8 +455,7 @@ import { GlobalNotification, dispatchCustomEvent } from "slate-react-system";`}
                   a: "timeout",
                   b: "int",
                   c: "null",
-                  d:
-                    "Number of milliseconds before the notification automatically disappears",
+                  d: "Number of milliseconds before the notification automatically disappears",
                 },
                 {
                   id: 4,

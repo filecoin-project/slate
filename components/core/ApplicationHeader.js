@@ -1,11 +1,11 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as Events from "~/common/custom-events";
 
 import ApplicationUserControls from "~/components/core/ApplicationUserControls";
 
 import { css, keyframes } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system";
 
@@ -164,7 +164,7 @@ export default class ApplicationHeader extends React.Component {
   };
 
   _handleCreateSearch = (e) => {
-    dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "show-search",
       detail: {},
     });

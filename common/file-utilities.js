@@ -4,8 +4,8 @@ import * as Constants from "~/common/constants";
 import * as Credentials from "~/common/credentials";
 import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
+import * as Events from "~/common/custom-events";
 
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { encode } from "blurhash";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
@@ -131,12 +131,7 @@ export const upload = async ({ file, context, bucketName, routes }) => {
   const zipUploadRoute = routes && routes.uploadZip ? `${routes.uploadZip}/api/data/zip/` : null;
 
   if (!storageDealRoute || !generalRoute || !zipUploadRoute) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "We could not find our upload server." },
-      },
-    });
+    Events.dispatchMessage({ message: "We could not find our upload server." });
 
     return {
       decorator: "NO_UPLOAD_RESOURCE_URI_ATTACHED",
@@ -165,13 +160,7 @@ export const upload = async ({ file, context, bucketName, routes }) => {
         },
       });
     }
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "Some of your files could not be uploaded" },
-      },
-    });
-    console.log(res);
+    Events.dispatchMessage({ message: "Some of your files could not be uploaded" });
 
     return !res ? { decorator: "NO_RESPONSE_FROM_SERVER", error: true } : res;
   }
@@ -204,32 +193,13 @@ export const uploadToSlate = async ({ responses, slate }) => {
       }),
     });
 
-    if (!addResponse) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
+    if (Events.hasError(addResponse)) {
       return;
-    } else if (addResponse.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: addResponse.decorator } },
-      });
-      return;
-    } else {
-      added = addResponse.added;
-      skipped = addResponse.skipped;
     }
+
+    added = addResponse.added;
+    skipped = addResponse.skipped;
   }
   let message = Strings.formatAsUploadMessage(added, skipped, true);
-  dispatchCustomEvent({
-    name: "create-alert",
-    detail: {
-      alert: { message, status: !added ? null : "INFO" },
-    },
-  });
+  Events.dispatchMessage({ message, status: !added ? null : "INFO" });
 };

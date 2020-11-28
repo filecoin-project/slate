@@ -13,7 +13,6 @@ import { CheckBox } from "~/components/system/components/CheckBox";
 import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { Toggle } from "~/components/system/components/Toggle";
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { DynamicIcon } from "~/components/core/DynamicIcon";
 import { Tooltip } from "~/components/core/Tooltip";
 import {

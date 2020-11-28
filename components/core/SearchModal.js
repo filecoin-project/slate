@@ -5,13 +5,13 @@ import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 import * as Window from "~/common/window";
 import * as Validations from "~/common/validations";
+import * as Events from "~/common/custom-events";
 
 import MiniSearch from "minisearch";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
 import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
@@ -941,7 +941,7 @@ export class SearchModal extends React.Component {
         type: "NAVIGATE",
         value: "data",
       });
-      dispatchCustomEvent({
+      Events.dispatchCustomEvent({
         name: "slate-global-open-carousel",
         detail: { index: value.data.data.index },
       });
@@ -956,7 +956,7 @@ export class SearchModal extends React.Component {
         let ids = value.data.data.slate.data.objects.map((obj) => obj.id);
         let index = ids.indexOf(value.data.data.file.id);
         if (index !== -1) {
-          dispatchCustomEvent({
+          Events.dispatchCustomEvent({
             name: "slate-global-open-carousel",
             detail: { index },
           });

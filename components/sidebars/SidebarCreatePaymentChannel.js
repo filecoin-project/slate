@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_FOCUS = css`
   font-size: ${Constants.typescale.lvl1};
@@ -30,12 +30,7 @@ export default class SidebarCreatePaymentChannel extends React.Component {
   state = { address: "", amount: "" };
 
   _handleSubmit = () => {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "Creating payment channel...", status: "INFO" },
-      },
-    });
+    Events.dispatchMessage({ message: "Creating payment channel...", status: "INFO" });
     this.props.onSubmit({});
   };
 

@@ -7,12 +7,12 @@ import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
 import * as Messages from "~/common/messages";
 import * as FileUtilities from "~/common/file-utilities";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
 import { createState } from "~/scenes/SceneSettings";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { FilecoinNumber } from "@glif/filecoin-number";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
@@ -195,42 +195,8 @@ export default class SceneMakeFilecoinDeal extends React.Component {
       },
     });
 
-    if (!response) {
+    if (Events.hasError(response)) {
       this.setState({ archiving: false });
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: DEFAULT_ERROR_MESSAGE,
-          },
-        },
-      });
-    }
-
-    if (response.error) {
-      this.setState({ archiving: false });
-
-      if (response.message) {
-        return dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message: `From Textile: ${response.message}`,
-            },
-          },
-        });
-      }
-
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: Messages.error[response.decorator]
-              ? Messages.error[response.decorator]
-              : DEFAULT_ERROR_MESSAGE,
-          },
-        },
-      });
     }
 
     await Window.delay(5000);
@@ -263,24 +229,12 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     const miner = prompt("Enter the Miner ID to trust.");
 
     if (Strings.isEmpty(miner)) {
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "You must provide a miner ID.",
-          },
-        },
-      });
+      return Events.dispatchMessage({ message: "You must provide a miner ID." });
     }
 
     if (this.state.trustedMiners.includes(miner)) {
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: `${miner} is already on your list of miners to try.`,
-          },
-        },
+      return Events.dispatchMessage({
+        message: `${miner} is already on your list of miners to try.`,
       });
     }
 
@@ -293,24 +247,12 @@ export default class SceneMakeFilecoinDeal extends React.Component {
     const miner = prompt("Enter the Miner ID to exclude.");
 
     if (Strings.isEmpty(miner)) {
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "You must provide a miner ID.",
-          },
-        },
-      });
+      return Events.dispatchMessage({ message: "You must provide a miner ID." });
     }
 
     if (this.state.excludedMiners.includes(miner)) {
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: `${miner} is already on your list of miners to exclude.`,
-          },
-        },
+      return Events.dispatchMessage({
+        message: `${miner} is already on your list of miners to exclude.`,
       });
     }
 

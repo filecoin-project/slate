@@ -4,8 +4,8 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
 import * as Actions from "~/common/actions";
+import * as Events from "~/common/custom-events";
 
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/core";
 
 const STYLES_HEADER = css`

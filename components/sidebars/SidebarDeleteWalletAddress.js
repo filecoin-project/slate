@@ -1,17 +1,11 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
-
-import { dispatchCustomEvent } from "~/common/custom-events";
+import * as Events from "~/common/custom-events";
 
 export default class SidebarDeleteWalletAddress extends React.Component {
   _handleSubmit = () => {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "Deleting wallet address...", status: "INFO" },
-      },
-    });
+    Events.dispatchMessage({ message: "Deleting wallet address...", status: "INFO" });
     this.props.onSubmit({});
   };
 

@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Events from "~/common/custom-events";
 
 import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};
@@ -52,14 +52,7 @@ const STYLES_ITEM = css`
 export class CreateFilecoinStorageDeal extends React.Component {
   static defaultProps = {
     onSubmit: () => {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "Filecoin storage deals are still under development",
-          },
-        },
-      });
+      Events.dispatchMessage({ message: "Filecoin storage deals are still under development" });
     },
   };
 
@@ -70,12 +63,7 @@ export class CreateFilecoinStorageDeal extends React.Component {
     let file = e.target.files[0];
 
     if (!file) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "Something went wrong. Please try again" },
-        },
-      });
+      Events.dispatchMessage({ message: "Something went wrong. Please try again" });
       return;
     }
 

@@ -6,12 +6,12 @@ import * as Actions from "~/common/actions";
 import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
 import * as UserBehaviors from "~/common/user-behaviors";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { Table } from "~/components/core/Table";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
@@ -283,7 +283,7 @@ export default class DataView extends React.Component {
   };
 
   _handleSelect = (index) => {
-    System.dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "slate-global-open-carousel",
       detail: { index },
     });
@@ -305,7 +305,7 @@ export default class DataView extends React.Component {
   _handleLoading = ({ cids }) => {
     let loading = this.state.loading;
     for (let cid of cids) {
-      System.dispatchCustomEvent({
+      Events.dispatchCustomEvent({
         name: "data-global-carousel-loading",
         detail: { loading: !this.state.loading[cid] },
       });

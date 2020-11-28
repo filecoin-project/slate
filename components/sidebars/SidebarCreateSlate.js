@@ -4,8 +4,8 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Validations from "~/common/validations";
 import * as Actions from "~/common/actions";
+import * as Events from "~/common/custom-events";
 
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/core";
 
 const SLATE_LIMIT = 50;
@@ -35,26 +35,14 @@ export default class SidebarCreateSlate extends React.Component {
 
   _handleSubmit = async () => {
     if (this.props.viewer.slates.length >= SLATE_LIMIT) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: `You have reached the limit of ${SLATE_LIMIT} Slates!`,
-          },
-        },
-      });
+      Events.dispatchMessage({ message: `You have reached the limit of ${SLATE_LIMIT} Slates!` });
       return;
     }
 
     this.setState({ loading: true });
 
     if (!Validations.slatename(this.state.name)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "Please provide a name between 1-48 characters." },
-        },
-      });
+      Events.dispatchMessage({ message: "Please provide a name between 1-48 characters." });
       this.setState({ loading: false });
       return;
     }
@@ -65,25 +53,7 @@ export default class SidebarCreateSlate extends React.Component {
       body: this.state.body,
     });
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      this.setState({ loading: false });
-      return;
-    }
-
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      this.setState({ loading: false });
+    if (Events.hasError(response)) {
       return;
     }
 
@@ -97,37 +67,14 @@ export default class SidebarCreateSlate extends React.Component {
         fromSlate: this.props.sidebarData.fromSlate,
       });
 
-      if (!addResponse) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              message: "We're having trouble connecting right now. Please try again later",
-            },
-          },
-        });
-        this.setState({ loading: false });
-        return;
-      }
-
-      if (addResponse.error) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: { alert: { decorator: response.decorator } },
-        });
-        this.setState({ loading: false });
+      if (Events.hasError(addResponse)) {
         return;
       }
 
       const { added, skipped } = addResponse;
       let message = Strings.formatAsUploadMessage(added, skipped, true);
       if (message) {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: { message, status: !added ? null : "INFO" },
-          },
-        });
+        Events.dispatchMessage({ message, status: !added ? null : "INFO" });
       }
     }
 

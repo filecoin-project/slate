@@ -4,11 +4,11 @@ import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 import * as SVG from "~/common/svg";
 import * as Constants from "~/common/constants";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { FilecoinNumber } from "@glif/filecoin-number";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 import Section from "~/components/core/Section";
 import ScenePage from "~/components/core/ScenePage";
@@ -90,39 +90,19 @@ export default class SceneSettings extends React.Component {
 
     this.setState({ loading: false });
 
-    return dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "Your default settings are saved.",
-          status: "INFO",
-        },
-      },
-    });
+    return Events.dispatchMessage({ message: "Your default settings are saved.", status: "INFO" });
   };
 
   _handleAddTrustedMiner = () => {
     const miner = prompt("Enter the Miner ID to trust.");
 
     if (Strings.isEmpty(miner)) {
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "You must provide a miner ID.",
-          },
-        },
-      });
+      return Events.dispatchMessage({ message: "You must provide a miner ID." });
     }
 
     if (this.state.trustedMiners.includes(miner)) {
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: `${miner} is already on your list of miners to try.`,
-          },
-        },
+      return Events.dispatchMessage({
+        message: `${miner} is already on your list of miners to try.`,
       });
     }
 
@@ -135,24 +115,12 @@ export default class SceneSettings extends React.Component {
     const miner = prompt("Enter the Miner ID to exclude.");
 
     if (Strings.isEmpty(miner)) {
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "You must provide a miner ID.",
-          },
-        },
-      });
+      return Events.dispatchMessage({ message: "You must provide a miner ID." });
     }
 
     if (this.state.excludedMiners.includes(miner)) {
-      return dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: `${miner} is already on your list of miners to exclude.`,
-          },
-        },
+      return Events.dispatchMessage({
+        message: `${miner} is already on your list of miners to exclude.`,
       });
     }
 

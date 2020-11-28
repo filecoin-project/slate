@@ -7,9 +7,9 @@ import * as Window from "~/common/window";
 import * as Constants from "~/common/constants";
 import * as FileUtilities from "~/common/file-utilities";
 import * as UserBehaviors from "~/common/user-behaviors";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { TabGroup } from "~/components/core/TabGroup";
 
 import ScenePage from "~/components/core/ScenePage";
@@ -73,28 +73,7 @@ export default class SceneEditAccount extends React.Component {
       },
     });
 
-    if (!updateResponse) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now.",
-          },
-        },
-      });
-    }
-
-    if (updateResponse.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: response.decorator,
-          },
-        },
-      });
-    }
-
+    Events.hasError(updateResponse);
     this.setState({ changingAvatar: false, photo: url });
   };
 
@@ -109,25 +88,7 @@ export default class SceneEditAccount extends React.Component {
       },
     });
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now.",
-          },
-        },
-      });
-    } else if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: response.decorator,
-          },
-        },
-      });
-    }
+    Events.hasError(response);
 
     this.setState({ changingFilecoin: false });
   };
@@ -136,13 +97,8 @@ export default class SceneEditAccount extends React.Component {
     this.setState({ changingDetails: true });
 
     if (!Validations.username(this.state.username)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "Please include only letters and numbers in your username",
-          },
-        },
+      Events.dispatchMessage({
+        message: "Please include only letters and numbers in your username",
       });
       this.setState({ changingDetails: false });
       return;
@@ -157,37 +113,7 @@ export default class SceneEditAccount extends React.Component {
       },
     });
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now.",
-          },
-        },
-      });
-    } else if (response.error) {
-      if (response.decorator === "SERVER_USERNAME_IS_TAKEN") {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              decorator: response.decorator,
-              message: "The username is taken.",
-            },
-          },
-        });
-      } else {
-        dispatchCustomEvent({
-          name: "create-alert",
-          detail: {
-            alert: {
-              decorator: response.decorator,
-            },
-          },
-        });
-      }
-    }
+    Events.hasError(response);
 
     this.setState({ changingDetails: false });
   };
@@ -198,50 +124,26 @@ export default class SceneEditAccount extends React.Component {
   };
 
   _handleChangePassword = async (e) => {
-    this.setState({ changingPassword: true });
     if (this.state.password !== this.state.confirm) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { message: "Passwords did not match" } },
-      });
-      this.setState({ changingPassword: false });
+      Events.dispatchMessage({ message: "Passwords did not match" });
       return;
     }
 
     if (!Validations.password(this.state.password)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message: "Password length must be more than 8 characters" },
-        },
-      });
-      this.setState({ changingPassword: false });
+      Events.dispatchMessage({ message: "Password length must be more than 8 characters" });
       return;
     }
+
+    await this.setState({ changingPassword: true });
 
     let response = await Actions.updateViewer({
       type: "CHANGE_PASSWORD",
       password: this.state.password,
     });
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now.",
-          },
-        },
-      });
-    } else if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: response.decorator,
-          },
-        },
-      });
+    if (Events.hasError(response)) {
+      this.setState({ changingPassword: false });
+      return;
     }
 
     this.setState({ changingPassword: false, password: "", confirm: "" });

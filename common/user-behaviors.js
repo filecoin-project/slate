@@ -6,10 +6,9 @@ import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
 import * as Store from "~/common/store";
 import * as FileUtilities from "~/common/file-utilities";
+import * as Events from "~/common/custom-events";
 
 import Cookies from "universal-cookie";
-
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const cookies = new Cookies();
 
@@ -22,27 +21,7 @@ export const authenticate = async (state) => {
   }
 
   let response = await Actions.signIn(state);
-  if (!response) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "We're having trouble connecting right now. Please try again later",
-        },
-      },
-    });
-    return false;
-  }
-
-  if (response.error) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          decorator: response.decorator,
-        },
-      },
-    });
+  if (Events.hasError(response)) {
     return false;
   }
 
@@ -89,15 +68,7 @@ export const deleteMe = async () => {
 
   let response = await Actions.deleteViewer();
 
-  if (!response || response.error) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "We're having trouble connecting right now. Please try again later",
-        },
-      },
-    });
+  if (Events.hasError(response)) {
     return response;
   }
 
@@ -115,15 +86,7 @@ export const deleteMe = async () => {
 export const hydrate = async () => {
   const response = await Actions.hydrateAuthenticatedUser();
 
-  if (!response || response.error) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "We encountered issues while refreshing. Please try again",
-        },
-      },
-    });
+  if (Events.hasError(response)) {
     return null;
   }
 
@@ -154,14 +117,7 @@ export const formatDroppedFiles = ({ dataTransfer }) => {
   }
 
   if (!files.length) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "File type not supported. Please try a different file",
-        },
-      },
-    });
+    Events.dispatchMessage({ message: "File type not supported. Please try a different file" });
   }
 
   return { fileLoading, files, numFailed: dataTransfer.items.length - files.length };
@@ -186,12 +142,7 @@ export const formatUploadedFiles = ({ files }) => {
   }
 
   if (!toUpload.length) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "We could not find any files to upload." },
-      },
-    });
+    Events.dispatchMessage({ message: "We could not find any files to upload." });
     return false;
   }
 
@@ -200,44 +151,18 @@ export const formatUploadedFiles = ({ files }) => {
 
 export const uploadImage = async (file, resources) => {
   if (!file) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "Something went wrong with the upload. Please try again",
-        },
-      },
-    });
+    Events.dispatchMessage({ message: "Something went wrong with the upload. Please try again" });
     return;
   }
 
   if (!Validations.isPreviewableImage(file.type)) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "Upload failed. Only images and gifs are allowed" },
-      },
-    });
+    Events.dispatchMessage({ message: "Upload failed. Only images and gifs are allowed" });
     return;
   }
 
   const response = await FileUtilities.upload({ file, routes: resources });
 
-  if (!response) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: { message: "We're having trouble connecting right now" },
-      },
-    });
-    return false;
-  }
-
-  if (response.error) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: { alert: { decorator: response.decorator } },
-    });
+  if (Events.hasError(response)) {
     return false;
   }
 
@@ -249,30 +174,12 @@ export const deleteFiles = async (fileCids, fileIds) => {
   let ids = Array.isArray(fileIds) ? fileIds : [fileIds];
 
   const response = await Actions.deleteBucketItems({ cids, ids });
-  if (!response) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "We're having trouble connecting right now. Please try again later",
-        },
-      },
-    });
+
+  if (Events.hasError(response)) {
     return false;
   }
-  if (response.error) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: { alert: { decorator: response.decorator } },
-    });
-    return false;
-  }
-  dispatchCustomEvent({
-    name: "create-alert",
-    detail: {
-      alert: { message: "Files successfully deleted!", status: "INFO" },
-    },
-  });
+
+  Events.dispatchMessage({ message: "Files successfully deleted!" });
   return response;
 };
 
@@ -282,22 +189,7 @@ export const removeFromSlate = async ({ slate, ids }) => {
     ids,
   });
 
-  if (!response) {
-    System.dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "We're having trouble connecting right now. Please try again later",
-        },
-      },
-    });
-    return false;
-  }
-  if (response.error) {
-    System.dispatchCustomEvent({
-      name: "create-alert",
-      detail: { alert: { decorator: response.decorator } },
-    });
+  if (Events.hasError(response)) {
     return false;
   }
 
@@ -318,34 +210,13 @@ export const addToSlate = async ({ slate, files, fromSlate }) => {
     fromSlate,
   });
 
-  if (!addResponse) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "We're having trouble connecting right now. Please try again later",
-        },
-      },
-    });
-    return false;
-  }
-
-  if (addResponse.error) {
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: { alert: { decorator: addResponse.decorator } },
-    });
+  if (Events.hasError(addResponse)) {
     return false;
   }
 
   const { added, skipped } = addResponse;
   let message = Strings.formatAsUploadMessage(added, skipped, true);
-  dispatchCustomEvent({
-    name: "create-alert",
-    detail: {
-      alert: { message, status: !added ? null : "INFO" },
-    },
-  });
+  Events.dispatchMessage({ message, status: !added ? null : "INFO" });
   return true;
 };
 
@@ -357,31 +228,11 @@ export const addToDataFromSlate = async ({ files }) => {
     };
   });
   let response = await Actions.addCIDToData({ items });
-  if (!response) {
-    System.dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "We're having trouble connecting right now. Please try again later",
-        },
-      },
-    });
-    return false;
-  }
-  if (response.error) {
-    System.dispatchCustomEvent({
-      name: "create-alert",
-      detail: { alert: { decorator: response.decorator } },
-    });
+  if (Events.hasError(response)) {
     return false;
   }
   let message = Strings.formatAsUploadMessage(response.data.added, response.data.skipped);
-  dispatchCustomEvent({
-    name: "create-alert",
-    detail: {
-      alert: { message, status: !response.data.added ? null : "INFO" },
-    },
-  });
+  Events.dispatchMessage({ message, status: !response.data.added ? null : "INFO" });
   return response;
 };
 

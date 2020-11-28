@@ -4,10 +4,10 @@ import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
 import * as Store from "~/common/store";
 import * as SVG from "~/common/svg";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
 import { DataMeterBar } from "~/components/core/DataMeter";
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { SidebarWarningMessage } from "~/components/core/WarningMessage";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
@@ -90,7 +90,7 @@ export default class SidebarAddFileToBucket extends React.Component {
   _handleCancel = (e, key) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatchCustomEvent({ name: `cancel-${key}` }); //NOTE(martina): so that will cancel if is in the middle of uploading
+    Events.dispatchCustomEvent({ name: `cancel-${key}` }); //NOTE(martina): so that will cancel if is in the middle of uploading
     Store.setCancelled(key); //NOTE(martina): so that will cancel if hasn't started uploading yet
     this.props.onAction({ type: "REGISTER_FILE_CANCELLED", value: key }); //NOTE(martina): so that fileLoading registers it
   };

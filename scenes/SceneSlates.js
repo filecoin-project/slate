@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as SVG from "~/common/svg";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
 import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonSecondary } from "~/components/system/components/Buttons";
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
 import ScenePage from "~/components/core/ScenePage";
@@ -28,7 +28,7 @@ export default class SceneSlates extends React.Component {
   };
 
   _handleSearch = () => {
-    dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "show-search",
       detail: {},
     });

@@ -11,6 +11,7 @@ import * as Window from "~/common/window";
 import * as Store from "~/common/store";
 import * as Websockets from "~/common/browser-websockets";
 import * as UserBehaviors from "~/common/user-behaviors";
+import * as Events from "~/common/custom-events";
 
 // NOTE(jim):
 // Scenes each have an ID and can be navigated to with _handleAction
@@ -56,7 +57,6 @@ import { GlobalModal } from "~/components/system/components/GlobalModal";
 import { OnboardingModal } from "~/components/core/OnboardingModal";
 import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { SearchModal } from "~/components/core/SearchModal";
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { Alert } from "~/components/core/Alert";
 import { announcements } from "~/components/core/OnboardingModal";
 
@@ -173,14 +173,9 @@ export default class ApplicationPage extends React.Component {
       });
     }
     if (!wsclient) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "We cannot connect to our live update server. You may have to refresh to see updates.",
-          },
-        },
+      Events.dispatchMessage({
+        message:
+          "We cannot connect to our live update server. You may have to refresh to see updates.",
       });
     }
     return;
@@ -202,15 +197,9 @@ export default class ApplicationPage extends React.Component {
 
   _handleOnlineStatus = async () => {
     if (navigator.onLine) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { message: "Back online!", status: "INFO" } },
-      });
+      Events.dispatchMessage({ message: "Back online!", status: "INFO" });
     } else {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { message: "Offline. Trying to reconnect" } },
-      });
+      Events.dispatchMessage({ message: "Offline. Trying to reconnect" });
     }
     this.setState({ online: navigator.onLine });
   };
@@ -294,39 +283,14 @@ export default class ApplicationPage extends React.Component {
     }
 
     let processResponse = await Actions.processPendingFiles();
-    if (!processResponse) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We encountered issues updating your uploaded files. Please try again",
-          },
-        },
-      });
-      return;
-    }
-
-    if (processResponse.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: processResponse.decorator,
-          },
-        },
-      });
+    if (Events.hasError(processResponse)) {
       return;
     }
 
     if (!slate) {
       const { added, skipped } = processResponse.data;
       let message = Strings.formatAsUploadMessage(added, skipped + numFailed);
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: { message, status: !added ? null : "INFO" },
-        },
-      });
+      Events.dispatchMessage({ message, status: !added ? null : "INFO" });
     }
 
     this._handleRegisterLoadingFinished({ keys });
@@ -392,27 +356,7 @@ export default class ApplicationPage extends React.Component {
   _handleCreateUser = async (state) => {
     let response = await Actions.createUser(state);
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return;
-    }
-
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: response.decorator,
-          },
-        },
-      });
+    if (Events.hasError(response)) {
       return;
     }
 
@@ -440,7 +384,7 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (newAccount || unseenAnnouncements.length) {
-      dispatchCustomEvent({
+      Events.dispatchCustomEvent({
         name: "create-modal",
         detail: {
           modal: (
@@ -519,17 +463,11 @@ export default class ApplicationPage extends React.Component {
     }
 
     if (options.type === "ACTION") {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { message: JSON.stringify(options), status: "INFO" } },
-      });
+      Events.dispatchMessage({ message: JSON.stringify(options), status: "INFO" });
     }
 
     if (options.type === "DOWNLOAD") {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { message: JSON.stringify(options), status: "INFO" } },
-      });
+      Events.dispatchMessage({ message: JSON.stringify(options), status: "INFO" });
     }
 
     if (options.type === "SIDEBAR") {

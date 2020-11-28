@@ -3,8 +3,8 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
+import * as Events from "~/common/custom-events";
 
-import { dispatchCustomEvent } from "~/common/custom-events";
 import { css } from "@emotion/core";
 
 const STYLES_HEADER = css`
@@ -24,27 +24,13 @@ export default class SidebarCreateSlate extends React.Component {
   _handleSubmit = async () => {
     this.setState({ loading: true });
     if (Strings.isEmpty(this.state.email)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "Please provide an email address where we can reach you",
-          },
-        },
-      });
+      Events.dispatchMessage({ message: "Please provide an email address where we can reach you" });
       this.setState({ loading: false });
       return;
     }
 
     if (!this.state.message || !this.state.message.length) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "Please provide a message",
-          },
-        },
-      });
+      Events.dispatchMessage({ message: "Please provide a message" });
       this.setState({ loading: false });
       return;
     }
@@ -58,38 +44,14 @@ export default class SidebarCreateSlate extends React.Component {
       stored: Strings.bytesToSize(this.props.viewer.stats.bytes),
     });
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble sending out your message right now. Please try again",
-          },
-        },
-      });
+    if (Events.hasError(response)) {
       this.setState({ loading: false });
       return;
     }
 
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          decorator: response.decorator,
-        },
-      });
-      this.setState({ loading: false });
-      return;
-    }
-
-    dispatchCustomEvent({
-      name: "create-alert",
-      detail: {
-        alert: {
-          message: "Message sent. You'll hear from us shortly",
-          status: "INFO",
-        },
-      },
+    Events.dispatchMessage({
+      message: "Message sent. You'll hear from us shortly",
+      status: "INFO",
     });
     this.setState({ loading: false });
     this.props.onCancel();

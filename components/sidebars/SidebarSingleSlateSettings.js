@@ -4,9 +4,9 @@ import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const SIZE_LIMIT = 1000000;
 const DEFAULT_IMAGE =
@@ -66,24 +66,9 @@ export default class SidebarSingleSlateSettings extends React.Component {
       },
     });
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return this.setState({ loading: false });
-    }
-
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return this.setState({ loading: false });
+    if (Events.hasError(response)) {
+      this.setState({ loading: false });
+      return;
     }
     this.props.onCancel();
   };
@@ -109,24 +94,9 @@ export default class SidebarSingleSlateSettings extends React.Component {
       id: this.props.current.id,
     });
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later",
-          },
-        },
-      });
-      return this.setState({ loading: false });
-    }
-
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { decorator: response.decorator } },
-      });
-      return this.setState({ loading: false });
+    if (Events.hasError(response)) {
+      this.setState({ loading: false });
+      return;
     }
 
     await this.props.onAction({

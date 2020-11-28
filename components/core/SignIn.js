@@ -4,10 +4,10 @@ import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
 import { Logo, Symbol } from "~/common/logo";
-import { dispatchCustomEvent } from "~/common/custom-events";
 
 const delay = (time) =>
   new Promise((resolve) =>
@@ -111,45 +111,30 @@ export class SignIn extends React.Component {
     await delay(100);
 
     if (!this.state.accepted && this.state.scene === "CREATE_ACCOUNT") {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "You must accept the terms of service to create an account",
-          },
-        },
+      Events.dispatchMessage({
+        message: "You must accept the terms of service to create an account",
       });
       this.setState({ loading: false });
       return;
     }
 
     if (!Validations.username(this.state.username)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              this.state.scene === "CREATE_ACCOUNT"
-                ? "Usernames must between 1-48 characters and consist of only characters and numbers"
-                : "Invalid username",
-          },
-        },
+      Events.dispatchMessage({
+        message:
+          this.state.scene === "CREATE_ACCOUNT"
+            ? "Usernames must between 1-48 characters and consist of only characters and numbers"
+            : "Invalid username",
       });
       this.setState({ loading: false });
       return;
     }
 
     if (!Validations.password(this.state.password)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              this.state.scene === "CREATE_ACCOUNT"
-                ? "Your password must be at least 8 characters"
-                : "Incorrect password",
-          },
-        },
+      Events.dispatchMessage({
+        message:
+          this.state.scene === "CREATE_ACCOUNT"
+            ? "Your password must be at least 8 characters"
+            : "Incorrect password",
       });
       this.setState({ loading: false });
       return;
@@ -177,14 +162,9 @@ export class SignIn extends React.Component {
       return;
     }
     if (!Validations.username(this.state.username)) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message:
-              "Usernames must between 1-48 characters and consist of only characters and numbers",
-          },
-        },
+      Events.dispatchMessage({
+        message:
+          "Usernames must between 1-48 characters and consist of only characters and numbers",
       });
       return;
     }
@@ -193,41 +173,14 @@ export class SignIn extends React.Component {
       username: this.state.username.toLowerCase(),
     });
 
-    if (!response) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "We're having trouble connecting right now. Please try again later.",
-          },
-        },
-      });
-      return;
-    }
-
-    if (response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            decorator: response.decorator,
-          },
-        },
-      });
+    if (Events.hasError(response)) {
       return;
     }
 
     if (response.data) {
       //NOTE(martina): username taken
       this.setState({ usernameTaken: true });
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: {
-          alert: {
-            message: "That username is taken",
-          },
-        },
-      });
+      Events.dispatchMessage({ message: "That username is taken" });
       return;
     }
 

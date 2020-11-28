@@ -14,7 +14,7 @@ export const hasError = (response) => {
       },
     });
     return true;
-  } else if (updateReponse.error) {
+  } else if (response.error) {
     dispatchCustomEvent({
       name: "create-alert",
       detail: {
@@ -28,13 +28,14 @@ export const hasError = (response) => {
   return false;
 };
 
-export const dispatchMessage = ({ message, decorator }) => {
+export const dispatchMessage = ({ message, decorator, status }) => {
   if (decorator) {
     dispatchCustomEvent({
       name: "create-alert",
       detail: {
         alert: {
           decorator,
+          status,
         },
       },
     });
@@ -44,6 +45,7 @@ export const dispatchMessage = ({ message, decorator }) => {
       detail: {
         alert: {
           message,
+          status,
         },
       },
     });

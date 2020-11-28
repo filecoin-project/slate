@@ -5,6 +5,7 @@ import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 import * as Validations from "~/common/validations";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/core";
 import { Alert } from "~/components/core/Alert";
@@ -201,13 +202,11 @@ export default class SlatePage extends React.Component {
     }
 
     let CIDMap = {};
-    System.dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "slate-global-create-carousel",
       detail: {
         carouselType: "slate",
         slides: this.props.slate.data.objects.map((each, index) => {
-          // NOTE(jim):
-          // This is a hack to catch this undefined case I don't want to track down yet.
           const url = each.url;
           const cid = Strings.getCIDFromIPFS(url);
           CIDMap[cid] = index;
@@ -227,7 +226,7 @@ export default class SlatePage extends React.Component {
       const index = CIDMap[this.props.cid];
 
       if (index || index === 0) {
-        System.dispatchCustomEvent({
+        Events.dispatchCustomEvent({
           name: "slate-global-open-carousel",
           detail: {
             index,
@@ -239,7 +238,7 @@ export default class SlatePage extends React.Component {
   }
 
   _handleSelect = (index) =>
-    System.dispatchCustomEvent({
+    Events.dispatchCustomEvent({
       name: "slate-global-open-carousel",
       detail: {
         index,

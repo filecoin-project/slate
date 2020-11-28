@@ -9,19 +9,15 @@ import Group from "~/components/system/Group";
 export default class SystemPageButtons extends React.Component {
   render() {
     return (
-      <SystemPage
-        title="SDS: Buttons"
-        description="..."
-        url="https://slate.host/_/system/buttons"
-      >
+      <SystemPage title="SDS: Buttons" description="..." url="https://slate.host/_/system/buttons">
         <System.H1>
           Buttons <ViewSourceLink file="system/buttons.js" />
         </System.H1>
         <br />
         <br />
         <System.P>
-          The Button component is used to trigger an action or event, such as
-          submitting a form or saving users information.
+          The Button component is used to trigger an action or event, such as submitting a form or
+          saving users information.
         </System.P>
         <br />
         <br />
@@ -37,7 +33,9 @@ export default class SystemPageButtons extends React.Component {
 import {
   ButtonPrimary,
   ButtonSecondary,
+  ButtonTertiary,
   ButtonDisabled,
+  ButtonWarning,
 } from "slate-react-system";`}
         </CodeBlock>
         <br />
@@ -46,14 +44,16 @@ import {
         <hr />
         <br />
         <System.P>
-          There are three variations of the button component.
+          There are five variations of the button component.
           <br />
-          Primary, Secondary and Disabled.
+          Primary, Secondary, Tertiary, Disabled, and Warning.
         </System.P>
         <br />
         <System.ButtonPrimary>Primary</System.ButtonPrimary> &nbsp;
         <System.ButtonSecondary>Secondary</System.ButtonSecondary> &nbsp;
-        <System.ButtonDisabled>Disabled</System.ButtonDisabled>
+        <System.ButtonTertiary>Tertiary</System.ButtonTertiary> &nbsp;
+        <System.ButtonDisabled>Disabled</System.ButtonDisabled> &nbsp;
+        <System.ButtonWarning>Warning</System.ButtonWarning>
         <br />
         <br />
         <CodeBlock>
@@ -69,9 +69,21 @@ class ExampleSecondary extends React.Component {
   }
 }
 
+class ExampleTertiary extends React.Component {
+  render() {
+    return <ButtonTertiary>Tertiary Button</ButtonTertiary>;
+  }
+}
+
 class ExampleDisabled extends React.Component {
   render() {
     return <ButtonDisabled>Disabled Button</ButtonDisabled>;
+  }
+}
+
+class ExampleWarning extends React.Component {
+  render() {
+    return <ButtonWarning>Warning Button</ButtonWarning>;
   }
 }`}
         </CodeBlock>
@@ -85,11 +97,18 @@ class ExampleDisabled extends React.Component {
         <br />
         <System.ButtonPrimary full>Primary button full</System.ButtonPrimary>
         <br />
-        <System.ButtonSecondary full>
-          Secondary button full
-        </System.ButtonSecondary>
+        <br />
+        <System.ButtonSecondary full>Secondary button full</System.ButtonSecondary>
+        <br />
+        <br />
+        <System.ButtonTertiary full>Tertiary button full</System.ButtonTertiary>
+        <br />
         <br />
         <System.ButtonDisabled full>Disabled button full</System.ButtonDisabled>
+        <br />
+        <br />
+        <System.ButtonWarning full>Warning button full</System.ButtonWarning>
+        <br />
         <br />
         <br />
         <CodeBlock>
@@ -105,9 +124,21 @@ class ExampleSecondaryFull extends React.Component {
   }
 }
 
+class ExampleTertiaryFull extends React.Component {
+  render() {
+    return <ButtonTertiary full>Tertiary button full</ButtonTertiary>;
+  }
+}
+
 class ExampleDisabledFull extends React.Component {
   render() {
     return <ButtonDisabled full>Disabled button full</ButtonDisabled>;
+  }
+}
+
+class ExampleWarningFull extends React.Component {
+  render() {
+    return <ButtonWarning full>Warning button full</ButtonWarning>;
   }
 }`}
         </CodeBlock>
@@ -118,21 +149,17 @@ class ExampleDisabledFull extends React.Component {
         <hr />
         <br />
         <System.P>
-          You can add the <i>type='label'</i> property to convert any of the
-          above buttons into a label.
+          You can add the <i>type='label'</i> property to convert any of the above buttons into a
+          label.
         </System.P>
         <br />
-        <System.ButtonPrimary type="label">
-          Primary label
-        </System.ButtonPrimary>{" "}
-        &nbsp;
-        <System.ButtonSecondary type="label">
-          Secondary label
-        </System.ButtonSecondary>{" "}
-        &nbsp;
-        <System.ButtonDisabled type="label">
-          Disabled label
-        </System.ButtonDisabled>
+        <System.ButtonPrimary type="label">Primary label</System.ButtonPrimary> &nbsp;
+        <System.ButtonSecondary type="label">Secondary label</System.ButtonSecondary> &nbsp;
+        <System.ButtonTertiary type="label">Tertiary label</System.ButtonTertiary> &nbsp;
+        <System.ButtonDisabled type="label">Disabled label</System.ButtonDisabled> &nbsp;
+        <br />
+        <br />
+        <System.ButtonWarning type="label">Warning label</System.ButtonWarning>
         <br />
         <br />
         <CodeBlock>
@@ -150,9 +177,23 @@ class ExampleSecondaryLabel extends React.Component {
   }
 }
 
+class ExampleTertiaryLabel extends React.Component {
+  render() {
+    return (
+      <ButtonTertiary type="label">Tertiary Button Label</ButtonTertiary>
+    );
+  }
+}
+
 class ExampleDisabledLabel extends React.Component {
   render() {
     return <ButtonDisabled type="label">Disabled Button Label</ButtonDisabled>;
+  }
+}
+
+class ExampleWarningLabel extends React.Component {
+  render() {
+    return <ButtonWarning type="label">Warning Button Label</ButtonWarning>;
   }
 }`}
         </CodeBlock>

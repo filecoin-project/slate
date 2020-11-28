@@ -1,12 +1,15 @@
 import * as React from "react";
 import * as Actions from "~/common/actions";
 import * as Window from "~/common/window";
+import * as SVG from "~/common/svg";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
+import EmptyState from "~/components/core/EmptyState";
 import SceneProfile from "~/scenes/SceneProfile";
+import ScenePage from "~/components/core/ScenePage";
 
 const STYLES_LOADER = css`
   display: flex;
@@ -19,6 +22,7 @@ const STYLES_LOADER = css`
 export default class ScenePublicProfile extends React.Component {
   state = {
     profile: null,
+    notFound: false,
   };
 
   componentDidMount = async () => {
@@ -57,11 +61,7 @@ export default class ScenePublicProfile extends React.Component {
     }
 
     if (!response || response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { message: "We're having trouble fetching that user right now." } },
-      });
-      this.props.onBack();
+      this.setState({ notFound: true });
       return;
     }
 
@@ -70,9 +70,19 @@ export default class ScenePublicProfile extends React.Component {
   };
 
   render() {
+    if (this.state.notFound) {
+      return (
+        <ScenePage>
+          <EmptyState>
+            <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+            <div>We were unable to locate that user profile</div>
+          </EmptyState>
+        </ScenePage>
+      );
+    }
+
     if (!this.state.profile) {
       return (
-        //TODO(martina): replace with ghost UI while loading
         <div css={STYLES_LOADER}>
           <LoaderSpinner />
         </div>

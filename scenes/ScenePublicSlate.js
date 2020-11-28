@@ -2,12 +2,15 @@ import * as React from "react";
 import * as Actions from "~/common/actions";
 import * as Window from "~/common/window";
 import * as Strings from "~/common/strings";
+import * as SVG from "~/common/svg";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { css } from "@emotion/core";
 import { dispatchCustomEvent } from "~/common/custom-events";
 
 import SceneSlate from "~/scenes/SceneSlate";
+import EmptyState from "~/components/core/EmptyState";
+import ScenePage from "~/components/core/ScenePage";
 
 const STYLES_LOADER = css`
   display: flex;
@@ -20,6 +23,7 @@ const STYLES_LOADER = css`
 export default class ScenePublicSlate extends React.Component {
   state = {
     slate: null,
+    notFound: false,
   };
 
   componentDidMount = async () => {
@@ -97,11 +101,7 @@ export default class ScenePublicSlate extends React.Component {
     }
 
     if (!response || response.error) {
-      dispatchCustomEvent({
-        name: "create-alert",
-        detail: { alert: { message: "We're having trouble fetching that slate right now." } },
-      });
-      this.props.onBack();
+      this.setState({ notFound: true });
       return;
     }
 
@@ -128,6 +128,16 @@ export default class ScenePublicSlate extends React.Component {
   };
 
   render() {
+    if (this.state.notFound) {
+      return (
+        <ScenePage>
+          <EmptyState>
+            <SVG.Layers height="24px" style={{ marginBottom: 24 }} />
+            <div>We were unable to locate that slate</div>
+          </EmptyState>
+        </ScenePage>
+      );
+    }
     if (!this.state.slate) {
       return (
         <div css={STYLES_LOADER}>

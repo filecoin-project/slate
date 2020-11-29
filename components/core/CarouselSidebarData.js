@@ -14,8 +14,6 @@ import { css } from "@emotion/core";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
 
-import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
-
 const DEFAULT_BOOK =
   "https://slate.textile.io/ipfs/bafkreibk32sw7arspy5kw3p5gkuidfcwjbwqyjdktd5wkqqxahvkm2qlyi";
 const DEFAULT_DATA =
@@ -231,22 +229,40 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleUpload = async (e) => {
-    this.setState({ changingPreview: true });
-    let json = await UserBehaviors.uploadImage(e.target.files[0], this.props.resources);
+    e.persist();
+    await this.setState({ changingPreview: true });
+    let previousCoverCid = this.props.data?.coverImage?.cid;
+    if (!e || !e.target) {
+      await this.setState({ changingPreview: false });
+      return;
+    }
+    let json = await UserBehaviors.uploadImage(e.target.files[0], this.props.resources, true);
     if (!json) {
       this.setState({ changingPreview: false });
       return;
     }
 
-    const cid = json.data.cid;
+    json.data.url = Strings.getCIDGatewayURL(json.data.cid);
+
     let updateReponse = await Actions.updateData({
       data: {
         id: this.props.data.id,
-        previewImage: Strings.getCIDGatewayURL(cid),
+        coverImage: json.data,
       },
     });
 
-    Events.hasError(response);
+    if (previousCoverCid) {
+      let libraryCids = this.props.viewer.library[0].children.map((obj) => obj.cid);
+      if (!libraryCids.includes(this.props.data.coverImage.cid)) {
+        await UserBehaviors.deleteFiles(
+          this.props.data.coverImage.cid,
+          this.props.data.coverImage.id,
+          true
+        );
+      }
+    }
+
+    Events.hasError(updateReponse);
     this.setState({ changingPreview: false });
   };
 
@@ -305,7 +321,7 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   render() {
-    const { cid, file, name, previewImage, type, size, url, blurhash } = this.props.data;
+    const { cid, file, name, coverImage, type, size, url, blurhash } = this.props.data;
     const elements = [];
     if (this.props.onClose) {
       elements.push(
@@ -362,17 +378,29 @@ export default class CarouselSidebarData extends React.Component {
           loading={this.state.pickerLoading}
           onAdd={this._handleAdd}
         />
-        {type && type.startsWith("image/") ? null : (
+        {type && Validations.isPreviewableImage(type) ? null : (
           <div>
             <System.P css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
               Preview image
             </System.P>
-            <System.P style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
-              This is the preview image of your file.
-            </System.P>
-            <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
-              <img src={previewImage} alt="" style={{ maxWidth: "368px", maxHeight: "368px" }} />
-            </div>
+            {coverImage ? (
+              <React.Fragment>
+                <System.P style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
+                  This is the preview image of your file.
+                </System.P>
+                <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
+                  <img
+                    src={coverImage.url}
+                    alt=""
+                    style={{ maxWidth: "368px", maxHeight: "368px" }}
+                  />
+                </div>
+              </React.Fragment>
+            ) : (
+              <System.P style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
+                Add a cover image for your file.
+              </System.P>
+            )}
             <div style={{ marginTop: 16 }}>
               <input
                 css={STYLES_FILE_HIDDREN}

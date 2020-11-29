@@ -40,7 +40,7 @@ const getCookie = (name) => {
   if (match) return match[2];
 };
 
-export const upload = async ({ file, context, bucketName, routes }) => {
+export const upload = async ({ file, context, bucketName, routes, excludeFromLibrary }) => {
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 
@@ -175,7 +175,9 @@ export const upload = async ({ file, context, bucketName, routes }) => {
     }
   }
 
-  await Actions.createPendingFiles({ data: res.data });
+  if (!excludeFromLibrary) {
+    await Actions.createPendingFiles({ data: res.data });
+  }
 
   res.data = res.data.data;
 

@@ -4,6 +4,7 @@ import * as Strings from "~/common/strings";
 import * as Social from "~/node_common/social";
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as SearchManager from "~/node_common/managers/search";
+import { CompressedPixelFormat } from "three";
 
 const DEFAULT_BUCKET_NAME = "data";
 
@@ -74,10 +75,38 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "SERVER_NO_ITEMS_FOUND", error: true });
   }
 
+  //NOTE(martina): get the cids of the corresponding coverImages that are to be deleted (if they do not exist elsewhere in library)
+  let coverImageCids = [];
+
+  let children = user.data.library[0].children.filter((o) => {
+    for (let cid of req.body.data.cids) {
+      if (o.cid && o.cid === cid) {
+        if (o.coverImage) {
+          coverImageCids.push(o.coverImage.cid);
+        }
+        return false;
+      }
+    }
+    return true;
+  });
+
+  let libraryCids = user.data.library[0].children.map((item) => item.cid);
+  coverImageCids = coverImageCids.filter((cid) => {
+    if (libraryCids.includes(cid)) {
+      return false;
+    }
+    return true;
+  });
+
   let entities = [];
   let ids = req.body.data.ids && req.body.data.ids.length ? req.body.data.ids : [];
   for (let i = 0; i < items.length; i++) {
     if (req.body.data.cids.includes(items[i].cid)) {
+      entities.push(items[i]);
+      continue;
+    }
+
+    if (coverImageCids.includes(items[i].cid)) {
       entities.push(items[i]);
       continue;
     }
@@ -169,14 +198,7 @@ export default async (req, res) => {
       library: [
         {
           ...user.data.library[0],
-          children: user.data.library[0].children.filter((o) => {
-            for (let cid of req.body.data.cids) {
-              if (o.cid && o.cid === cid) {
-                return false;
-              }
-            }
-            return true;
-          }),
+          children,
         },
       ],
     },

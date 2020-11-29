@@ -39,7 +39,7 @@ export class SlateLayoutMobile extends React.Component {
               type={item.type}
               url={item.url}
               title={item.title || item.name}
-              previewImage={item.previewImage}
+              coverImage={item.coverImage}
               style={{
                 height: `calc(100vw - 48px)`,
                 width: `calc(100vw - 48px)`,

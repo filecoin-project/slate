@@ -149,7 +149,7 @@ export const formatUploadedFiles = ({ files }) => {
   return { toUpload, fileLoading, numFailed: files.length - toUpload.length };
 };
 
-export const uploadImage = async (file, resources) => {
+export const uploadImage = async (file, resources, excludeFromLibrary) => {
   if (!file) {
     Events.dispatchMessage({ message: "Something went wrong with the upload. Please try again" });
     return;
@@ -160,27 +160,33 @@ export const uploadImage = async (file, resources) => {
     return;
   }
 
-  const response = await FileUtilities.upload({ file, routes: resources });
+  const response = await FileUtilities.upload({ file, routes: resources, excludeFromLibrary });
 
   if (Events.hasError(response)) {
     return false;
   }
 
+  delete response.json.data.icon;
+  delete response.json.data.ipfs;
+
   return response.json;
 };
 
-export const deleteFiles = async (fileCids, fileIds) => {
+export const deleteFiles = async (fileCids, fileIds = [], noAlert) => {
   let cids = Array.isArray(fileCids) ? fileCids : [fileCids];
   let ids = Array.isArray(fileIds) ? fileIds : [fileIds];
 
   const response = await Actions.deleteBucketItems({ cids, ids });
 
-  if (Events.hasError(response)) {
-    return false;
-  }
+  if (!noAlert) {
+    if (Events.hasError(response)) {
+      return false;
+    }
 
-  Events.dispatchMessage({ message: "Files successfully deleted!" });
-  return response;
+    Events.dispatchMessage({ message: "Files successfully deleted!", status: "INFO" });
+
+    return response;
+  }
 };
 
 export const removeFromSlate = async ({ slate, ids }) => {

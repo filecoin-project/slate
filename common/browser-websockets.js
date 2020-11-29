@@ -41,7 +41,7 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
     }, 30000 + 1000);
   });
 
-  client.addEventListener("message", function(event) {
+  client.addEventListener("message", function (event) {
     if (!client) {
       return null;
     }

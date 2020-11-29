@@ -4,7 +4,6 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/core";
 
 const STYLES_BOX = css`
-  background-color: ${Constants.system.foreground};
   border: 1px solid rgba(102, 102, 102, 0.5);
   border-radius: 4px;
   padding: 36px;

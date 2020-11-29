@@ -259,26 +259,33 @@ export default class DataView extends React.Component {
     });
   };
 
-  _handleDelete = async (cid) => {
+  _handleDelete = async (cid, id) => {
     const message = `Are you sure you want to delete these files? They will be deleted from your slates as well`;
     if (!window.confirm(message)) {
       return;
     }
 
     let cids;
+    let ids;
     if (cid) {
       cids = [cid];
+      ids = [id];
     } else {
       cids = Object.keys(this.state.checked).map((id) => {
         let index = parseInt(id);
         let item = this.props.viewer.library[0].children[index];
         return item.cid;
       });
+      ids = Object.keys(this.state.checked).map((id) => {
+        let index = parseInt(id);
+        let item = this.props.viewer.library[0].children[index];
+        return item.id;
+      });
       this.setState({ checked: {} });
     }
 
     await this._handleLoading({ cids });
-    await UserBehaviors.deleteFiles(cids, []);
+    await UserBehaviors.deleteFiles(cids, ids);
     this._handleLoading({ cids });
   };
 
@@ -428,7 +435,7 @@ export default class DataView extends React.Component {
                     url={Strings.getCIDGatewayURL(each.cid)}
                     title={each.file || each.name}
                     type={each.type}
-                    previewImage={each.previewImage}
+                    coverImage={each.coverImage}
                     dataView={true}
                   />
                   <span css={STYLES_MOBILE_HIDDEN}>
@@ -479,7 +486,9 @@ export default class DataView extends React.Component {
                                     text: "Delete",
                                     onClick: (e) => {
                                       e.stopPropagation();
-                                      this.setState({ menu: null }, () => this._handleDelete(cid));
+                                      this.setState({ menu: null }, () =>
+                                        this._handleDelete(cid, each.id)
+                                      );
                                     },
                                   },
                                 ]}
@@ -646,7 +655,7 @@ export default class DataView extends React.Component {
                       text: "Delete",
                       onClick: (e) => {
                         e.stopPropagation();
-                        this.setState({ menu: null }, () => this._handleDelete(cid));
+                        this.setState({ menu: null }, () => this._handleDelete(cid, each.id));
                       },
                     },
                   ]}

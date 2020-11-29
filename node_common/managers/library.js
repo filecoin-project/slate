@@ -121,10 +121,9 @@ export const addData = ({ user, files }) => {
 
 export const editItem = ({ user, update }) => {
   const { library } = user.data;
-  const previewImage = update.data.previewImage;
   for (let i = 0; i < library[0].children.length; i++) {
     if (library[0].children[i].id === update.data.id) {
-      library[0].children[i] = { ...library[0].children[i], ...{ previewImage } };
+      library[0].children[i] = { ...library[0].children[i], coverImage: update.data?.coverImage };
       break;
     }
   }

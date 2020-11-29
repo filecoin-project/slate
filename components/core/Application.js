@@ -147,6 +147,7 @@ export default class ApplicationPage extends React.Component {
   }
 
   _handleUpdateViewer = (newViewerState) => {
+    console.log("UPDATE VIEWER");
     if (this.state.viewer && newViewerState.id && newViewerState.id === this.state.viewer.id) {
       this.setState({
         viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },

@@ -388,6 +388,7 @@ export class GlobalCarousel extends React.Component {
         <span css={STYLES_MOBILE_HIDDEN}>
           {this.state.carouselType === "data" ? (
             <CarouselSidebarData
+              viewer={this.props.viewer}
               display={this.state.showSidebar && !unityGame ? "block" : "none"}
               onClose={this._handleClose}
               key={data.id}

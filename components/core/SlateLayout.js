@@ -1043,7 +1043,7 @@ export class SlateLayout extends React.Component {
         cids.push(file.cid);
       }
     }
-    UserBehaviors.deleteFiles(cids);
+    UserBehaviors.deleteFiles(cids, ids);
   };
 
   _stopProp = (e) => {
@@ -1278,7 +1278,7 @@ export class SlateLayout extends React.Component {
                       type={this.state.items[i].type}
                       url={this.state.items[i].url}
                       title={this.state.items[i].title || this.state.items[i].name}
-                      previewImage={this.state.items[i].previewImage}
+                      coverImage={this.state.items[i].coverImage}
                       height={pos.h * unit}
                       width={pos.w * unit}
                       style={{

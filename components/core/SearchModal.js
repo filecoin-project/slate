@@ -230,7 +230,7 @@ const SlatePreview = ({ item, viewer }) => {
             url={preview.url}
             title={preview.title || preview.name}
             type={preview.type}
-            previewImage={preview.previewImage}
+            coverImage={preview.coverImage}
           />
         ) : (
           <div css={STYLES_EMPTY_SLATE_PREVIEW}>
@@ -291,7 +291,7 @@ const FilePreview = ({ item, viewer }) => {
           url={file.url ? file.url : Strings.getCIDGatewayURL(file.cid)}
           title={file.title || file.name || file.file}
           type={file.type}
-          previewImage={file.previewImage}
+          coverImage={file.coverImage}
         />
       </div>
       {viewer || (slate && slate.owner) ? (

@@ -329,7 +329,7 @@ export class SlatePreviewBlock extends React.Component {
                 style={{ borderRadius: 8 }}
                 imageStyle={{ borderRadius: 8 }}
                 title={first.title || first.name}
-                previewImage={first.previewImage}
+                coverImage={first.coverImage}
               />
             ) : this.props.isOwner ? (
               <div css={STYLES_CREATE_NEW} key="add-files">
@@ -362,7 +362,7 @@ export class SlatePreviewBlock extends React.Component {
                 type={first.type}
                 url={first.url}
                 title={first.title || first.name}
-                previewImage={first.previewImage}
+                coverImage={first.coverImage}
               />
             ) : this.props.isOwner ? (
               <div css={STYLES_CREATE_NEW} key="add-files">

@@ -34,6 +34,7 @@ const websocketSend = async (type, data) => {
 };
 
 export const updateUser = async (user, action) => {
+  console.log("UPDATE SEARCH for user");
   if (!user || !action) return;
 
   NodeLogging.log(`Search is updating user ...`);
@@ -46,6 +47,7 @@ export const updateUser = async (user, action) => {
 };
 
 export const updateSlate = async (slate, action) => {
+  console.log("UPDATE SEARCH for slate / files in slate");
   if (!slate || !action) return;
 
   NodeLogging.log(`Search is updating slate ...`);
@@ -56,11 +58,3 @@ export const updateSlate = async (slate, action) => {
   };
   websocketSend("UPDATE", data);
 };
-
-// export const searchUpdateFile = async (file, userId) => {
-//   const data = {
-//     id: "LENS",
-//     data: { type: action, data: { ...user, type: "FILE" } },
-//   };
-//   websocketSend("UPDATE", data);
-// };

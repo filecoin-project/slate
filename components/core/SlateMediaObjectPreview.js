@@ -64,6 +64,8 @@ let preload = (url) =>
   });
 
 export default class SlateMediaObjectPreview extends React.Component {
+  count = 0;
+
   static defaultProps = {
     charCap: 30,
   };
@@ -73,45 +75,71 @@ export default class SlateMediaObjectPreview extends React.Component {
     error: false,
   };
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     if (this.props.type && Validations.isPreviewableImage(this.props.type)) {
-      try {
-        let img = await preload(this.props.url);
-        if (!img.height && !img.width) {
-          this.setState({ showImage: false, error: true });
+      this.loadImage(this.props.url);
+    } else if (this.props.coverImage) {
+      this.loadImage(this.props.coverImage.url);
+    }
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.coverImage?.url !== this.props.coverImage?.url && this.props.coverImage.url) {
+      this.loadImage(this.props.coverImage.url);
+    }
+  };
+
+  loadImage = async (url) => {
+    this.count += 1;
+    try {
+      let img = await preload(url);
+      if (!img.height && !img.width) {
+        if (this.count < 10) {
+          window.setTimeout(() => this.loadImage(url), 1000);
+          return;
         }
-        this.setState({ showImage: true, error: false });
-      } catch (error) {
         this.setState({ showImage: false, error: true });
+      } else {
+        this.setState({ showImage: true, error: false });
       }
+    } catch (error) {
+      this.setState({ showImage: false, error: true });
     }
   };
 
   render() {
-    const url = this.props.url;
-
-    const title =
-      this.props.title && this.props.title.length > this.props.charCap
-        ? this.props.title.substring(0, this.props.charCap) + "..."
-        : this.props.title;
-
+    let url;
     if (this.props.type && Validations.isPreviewableImage(this.props.type)) {
-      let blurhash = this.props.blurhash && isBlurhashValid(this.props.blurhash);
+      url = this.props.url;
+    } else if (this.props.coverImage) {
+      url = this.props.coverImage.url;
+    }
+
+    if (url) {
+      let blurhash =
+        this.props.blurhash && isBlurhashValid(this.props.blurhash)
+          ? this.props.blurhash
+          : this.props.coverImage?.blurhash && isBlurhashValid(this.props.coverImage?.blurhash)
+          ? this.props.coverImage?.blurhash
+          : null;
+      if (this.state.error) {
+        return (
+          <div
+            css={STYLES_ENTITY}
+            style={{
+              ...this.props.imageStyle,
+              backgroundColor: Constants.system.foreground,
+            }}
+          >
+            <SVG.FileNotFound height="24px" />
+            {this.props.iconOnly ? null : <div css={STYLES_TITLE}>File not found</div>}
+          </div>
+        );
+      }
       if (this.props.centeredImage) {
         return (
           <React.Fragment>
-            {this.state.error ? (
-              <div
-                css={STYLES_ENTITY}
-                style={{
-                  ...this.props.imageStyle,
-                  backgroundColor: Constants.system.foreground,
-                }}
-              >
-                <SVG.FileNotFound height="24px" />
-                {this.props.iconOnly ? null : <div css={STYLES_TITLE}>File not found</div>}
-              </div>
-            ) : this.state.showImage ? (
+            {this.state.showImage ? (
               <div
                 css={STYLES_IMAGE_CONTAINER}
                 style={{
@@ -122,12 +150,10 @@ export default class SlateMediaObjectPreview extends React.Component {
             ) : blurhash ? (
               <div css={STYLES_BLUR_CONTAINER}>
                 <Blurhash
-                  hash={this.props.blurhash}
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    ...this.props.imageStyle,
-                  }}
+                  hash={blurhash}
+                  height="100%"
+                  width="100%"
+                  style={this.props.imageStyle}
                   resolutionX={32}
                   resolutionY={32}
                   punch={1}
@@ -141,28 +167,21 @@ export default class SlateMediaObjectPreview extends React.Component {
       }
       return (
         <React.Fragment>
-          {this.state.error ? (
-            <div
-              css={STYLES_ENTITY}
-              style={{ ...this.props.imageStyle, backgroundColor: "#F2F2F2" }}
-            >
-              <SVG.FileNotFound height="24px" />
-              {this.props.iconOnly ? null : <div css={STYLES_TITLE}>File not found</div>}
-            </div>
-          ) : this.state.showImage ? (
+          {this.state.showImage ? (
             <img
               css={STYLES_IMAGE}
-              style={{ maxHeight: "100%", maxWidth: "100%", ...this.props.imageStyle }}
+              style={{
+                maxHeight: "100%",
+                maxWidth: "100%",
+                ...this.props.imageStyle,
+              }}
               src={url}
             />
           ) : blurhash ? (
             <Blurhash
-              hash={this.props.blurhash}
-              style={{
-                height: "100%",
-                width: "100%",
-                ...this.props.imageStyle,
-              }}
+              hash={blurhash}
+              width="100%"
+              height="100%"
               resolutionX={32}
               resolutionY={32}
               punch={1}
@@ -177,6 +196,10 @@ export default class SlateMediaObjectPreview extends React.Component {
       );
     }
 
+    const title =
+      this.props.title && this.props.title.length > this.props.charCap
+        ? this.props.title.substring(0, this.props.charCap) + "..."
+        : this.props.title;
     let element = (
       <FileTypeIcon
         type={this.props.type}
@@ -184,31 +207,19 @@ export default class SlateMediaObjectPreview extends React.Component {
         style={this.props.previewPanel ? { color: "#bfbfbf" } : null}
       />
     );
-    if (this.props.previewImage) {
-      return (
-        <div
-          css={STYLES_IMAGE_CONTAINER}
-          style={{
-            backgroundImage: `url(${this.props.previewImage})`,
-            ...this.props.imageStyle,
-          }}
-        />
-      );
-    } else {
-      return (
-        <article
-          css={STYLES_ENTITY}
-          style={{
-            ...this.props.style,
-            border: this.props.previewPanel ? `1px solid ${Constants.system.bgGray}` : "auto",
-          }}
-        >
-          <div>{element}</div>
-          {this.props.title && !this.props.iconOnly && !this.props.previewPanel ? (
-            <div css={STYLES_TITLE}>{title}</div>
-          ) : null}
-        </article>
-      );
-    }
+    return (
+      <article
+        css={STYLES_ENTITY}
+        style={{
+          ...this.props.style,
+          border: this.props.previewPanel ? `1px solid ${Constants.system.bgGray}` : "auto",
+        }}
+      >
+        <div>{element}</div>
+        {this.props.title && !this.props.iconOnly && !this.props.previewPanel ? (
+          <div css={STYLES_TITLE}>{title}</div>
+        ) : null}
+      </article>
+    );
   }
 }

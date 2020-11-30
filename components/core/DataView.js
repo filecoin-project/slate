@@ -268,25 +268,11 @@ export default class DataView extends React.Component {
 
     let i = e.target.name;
     if (this.state.isShiftDown && this.state.lastSelectedItemIndex !== i) {
-      const start = Math.min(i, this.state.lastSelectedItemIndex);
-      const stop = Math.max(i, this.state.lastSelectedItemIndex) + 1;
-
-      let rangeSelected = {};
-
-      if (checked[i]) {
-        for (let i = start; i < stop; i++) {
-          delete checked[i];
-        }
-      } else {
-        for (let i = start; i < stop; i++) {
-          rangeSelected[i] = true;
-        }
-      }
-
-      let newSelection = Object.assign({}, checked, rangeSelected);
-      this.setState({ checked: newSelection, lastSelectedItemIndex: i });
-
-      return;
+      return this._handleShiftClick({
+        currentSelectedItemIndex: i,
+        lastSelectedItemIndex: this.state.lastSelectedItemIndex,
+        checked,
+      });
     }
 
     if (e.target.value === false) {
@@ -333,25 +319,11 @@ export default class DataView extends React.Component {
 
     let checked = this.state.checked;
     if (this.state.isShiftDown && this.state.lastSelectedItemIndex !== i) {
-      const start = Math.min(i, this.state.lastSelectedItemIndex);
-      const stop = Math.max(i, this.state.lastSelectedItemIndex) + 1;
-
-      let rangeSelected = {};
-
-      if (checked[i]) {
-        for (let i = start; i < stop; i++) {
-          delete checked[i];
-        }
-      } else {
-        for (let i = start; i < stop; i++) {
-          rangeSelected[i] = true;
-        }
-      }
-
-      let newSelection = Object.assign({}, checked, rangeSelected);
-      this.setState({ checked: newSelection, lastSelectedItemIndex: i });
-
-      return;
+      return this._handleShiftClick({
+        currentSelectedItemIndex: i,
+        lastSelectedItemIndex: this.state.lastSelectedItemIndex,
+        checked,
+      });
     }
 
     if (checked[i]) {
@@ -360,6 +332,26 @@ export default class DataView extends React.Component {
       checked[i] = true;
     }
     this.setState({ checked, lastSelectedItemIndex: i });
+  };
+
+  _handleShiftClick = ({ currentSelectedItemIndex, lastSelectedItemIndex, checked }) => {
+    const start = Math.min(currentSelectedItemIndex, lastSelectedItemIndex);
+    const stop = Math.max(currentSelectedItemIndex, lastSelectedItemIndex) + 1;
+
+    let rangeSelected = {};
+
+    for (let i = start; i < stop; i++) {
+      if (checked[currentSelectedItemIndex]) {
+        delete checked[i];
+      } else {
+        rangeSelected[i] = true;
+      }
+    }
+
+    let newSelection = Object.assign({}, checked, rangeSelected);
+    this.setState({ checked: newSelection, lastSelectedItemIndex: currentSelectedItemIndex });
+
+    return;
   };
 
   _handleDelete = async (cid, id) => {

@@ -45,6 +45,26 @@ const STYLES_TABLE_TOP_ROW = css`
 `;
 
 export class Table extends React.Component {
+  tableWrapperEl = React.createRef();
+
+  componentDidMount() {
+    if (this.tableWrapperEl.current) {
+      this.tableWrapperEl.current.addEventListener("selectstart", this._handleSelectStart);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.tableWrapperEl.current) {
+      this.tableWrapperEl.current.removeEventListener("selectstart", this._handleSelectStart);
+    }
+  }
+
+  _handleSelectStart = (e) => {
+    if (this.props.isShiftDown) {
+      e.preventDefault();
+    }
+  };
+
   render() {
     const { data } = this.props;
 
@@ -63,7 +83,7 @@ export class Table extends React.Component {
 
     const width = TABLE_COLUMN_WIDTH_DEFAULTS[data.columns.length];
     return (
-      <div css={STYLES_CONTAINER} onMouseLeave={this.props.onMouseLeave}>
+      <div css={STYLES_CONTAINER} onMouseLeave={this.props.onMouseLeave} ref={this.tableWrapperEl}>
         {this.props.noLabel ? null : (
           <div css={STYLES_TABLE_TOP_ROW} style={this.props.topRowStyle}>
             {data.columns.map((c, cIndex) => {

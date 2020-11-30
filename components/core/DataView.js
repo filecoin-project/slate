@@ -213,7 +213,10 @@ export default class DataView extends React.Component {
       window.addEventListener("resize", this.debounceInstance);
       window.addEventListener("keydown", this._handleKeyDown);
       window.addEventListener("keyup", this._handleKeyUp);
-      this.gridWrapperEl?.current.addEventListener("selectstart", this._handleSelectStart);
+
+      if (this.gridWrapperEl.current) {
+        this.gridWrapperEl.current.addEventListener("selectstart", this._handleSelectStart);
+      }
     }
   }
 
@@ -223,7 +226,10 @@ export default class DataView extends React.Component {
     window.removeEventListener("resize", this.debounceInstance);
     window.removeEventListener("keydown", this._handleKeyDown);
     window.removeEventListener("keyup", this._handleKeyUp);
-    this.gridWrapperEl?.current.removeEventListener("selectstart", this._handleSelectStart);
+
+    if (this.gridWrapperEl.current) {
+      this.gridWrapperEl.current.removeEventListener("selectstart", this._handleSelectStart);
+    }
   }
 
   calculateWidth = () => {
@@ -258,16 +264,48 @@ export default class DataView extends React.Component {
   _handleCheckScroll = Window.debounce(this._handleScroll, 200);
 
   _handleCheckBox = (e) => {
-    console.log(this.state.isShiftDown);
     let checked = this.state.checked;
-    if (e.target.value === false) {
-      delete checked[e.target.name];
-      this.setState({ checked });
+
+    let i = e.target.name;
+    if (this.state.isShiftDown && this.state.lastSelectedItemIndex !== i) {
+      const start = Math.min(i, this.state.lastSelectedItemIndex);
+      const stop = Math.max(i, this.state.lastSelectedItemIndex) + 1;
+
+      let rangeSelected = {};
+
+      if (checked[i]) {
+        for (let i = start; i < stop; i++) {
+          delete checked[i];
+        }
+      } else {
+        for (let i = start; i < stop; i++) {
+          rangeSelected[i] = true;
+        }
+      }
+
+      let newSelection = Object.assign({}, checked, rangeSelected);
+      this.setState({ checked: newSelection, lastSelectedItemIndex: i });
+
       return;
     }
+
+    if (e.target.value === false) {
+      delete checked[e.target.name];
+      this.setState({ checked, lastSelectedItemIndex: i });
+      return;
+    }
+
     this.setState({
       checked: { ...this.state.checked, [e.target.name]: true },
+      lastSelectedItemIndex: i,
     });
+
+    if (checked[i]) {
+      delete checked[i];
+    } else {
+      checked[i] = true;
+    }
+    this.setState({ checked, lastSelectedItemIndex: i });
   };
 
   /* (NOTE):daniel This disable text selection while pressing shift key */
@@ -294,7 +332,6 @@ export default class DataView extends React.Component {
     e.preventDefault();
 
     let checked = this.state.checked;
-
     if (this.state.isShiftDown && this.state.lastSelectedItemIndex !== i) {
       const start = Math.min(i, this.state.lastSelectedItemIndex);
       const stop = Math.max(i, this.state.lastSelectedItemIndex) + 1;
@@ -569,7 +606,6 @@ export default class DataView extends React.Component {
                           <CheckBox
                             name={i}
                             value={!!this.state.checked[i]}
-                            onChange={this._handleCheckBox}
                             boxStyle={{
                               height: 24,
                               width: 24,
@@ -615,7 +651,10 @@ export default class DataView extends React.Component {
       {
         key: "checkbox",
         name: numChecked ? (
-          <div css={STYLES_CANCEL_BOX} onClick={() => this.setState({ checked: {} })}>
+          <div
+            css={STYLES_CANCEL_BOX}
+            onClick={() => this.setState({ checked: {}, lastSelectedItemIndex: null })}
+          >
             <SVG.Minus height="16px" style={{ color: Constants.system.white }} />
           </div>
         ) : (
@@ -738,6 +777,7 @@ export default class DataView extends React.Component {
           topRowStyle={{ padding: "0px 16px" }}
           onMouseEnter={(i) => this.setState({ hover: i })}
           onMouseLeave={() => this.setState({ hover: null })}
+          isShiftDown={this.state.isShiftDown}
         />
         {footer}
         <input

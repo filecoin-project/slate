@@ -289,24 +289,6 @@ const STYLES_SLATE_CARD = css`
   }
 `;
 
-const STYLES_CLEAN_SLATE = css`
-  width: calc(33.33% - 1px);
-  margin: 0 auto;
-  height: 20vh;
-  transition: 200ms ease box-shadow;
-  background-color: ${Constants.system.newBlue};
-
-  :hover {
-    transition: 200ms ease box-shadow;
-    box-shadow: 0px 10px 40px 20px rgba(0, 0, 0, 0.1);
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-    height: 10vh;
-  }
-`;
-
 const STYLES_SLATE_CARD_LINK = css`
   text-decoration: none;
 `;
@@ -387,19 +369,23 @@ export default class IndexPage extends React.Component {
                   organize, and link files together.
                 </p>
               </div>
-              <div css={STYLES_SLATE_CARD_GROUP}>
-                {USER_SLATES.map((each) => (
-                  <SlateCard
-                    key={each.name}
-                    preview={each.preview}
-                    url={each.url}
-                    name={each.name}
-                    username={each.username}
-                    style={each.style}
-                  />
-                ))}
-              </div>
             </div>
+            <video
+              width="100%"
+              loop="true"
+              autoplay="autoplay"
+              src="https://slate.textile.io/ipfs/bafybeie6w5nljl3apsby7wuaanq7k34qavcv2g77c3cqp2fwdpqqsg7my4"
+              type="video/mp4"
+              muted="true"
+              playsInline="true"
+              style={{
+                backgroundImage: `url('https://slate.textile.io/ipfs/bafybeifgbcn4b6somtwbraiuz4ujoyuycp4hq5kqp47glyjit4a2gtuzje')`,
+                borderRadius: `4px`,
+                width: `100%`,
+                boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
+                backgroundSize: `cover`,
+              }}
+            />
 
             <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
               <h2 css={STYLES_H1}>
@@ -506,14 +492,17 @@ export default class IndexPage extends React.Component {
                 </h2>
                 <br />
               </div>
-              <div css={STYLES_CLEAN_SLATE}>
-                <a css={STYLES_SLATE_CARD_LINK} href="/_">
-                  <div css={STYLES_SLATE_CARD_TEXT}>
-                    <p css={STYLES_CARDP} style={{ color: `${Constants.system.white}` }}>
-                      Create your first slate →
-                    </p>
-                  </div>
-                </a>
+              <div css={STYLES_SLATE_CARD_GROUP}>
+                {USER_SLATES.map((each) => (
+                  <SlateCard
+                    key={each.name}
+                    preview={each.preview}
+                    url={each.url}
+                    name={each.name}
+                    username={each.username}
+                    style={each.style}
+                  />
+                ))}
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as UserBehaviors from "~/common/user-behaviors";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 const STYLES_SLATE_NAME = css`

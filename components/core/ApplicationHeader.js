@@ -5,7 +5,7 @@ import * as Events from "~/common/custom-events";
 
 import ApplicationUserControls from "~/components/core/ApplicationUserControls";
 
-import { css, keyframes } from "@emotion/core";
+import { css, keyframes } from "@emotion/react";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system";
 

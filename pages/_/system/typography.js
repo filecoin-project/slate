@@ -2,7 +2,7 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";

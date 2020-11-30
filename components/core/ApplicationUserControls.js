@@ -4,7 +4,7 @@ import * as SVG from "~/common/svg";
 import * as UserBehaviors from "~/common/user-behaviors";
 
 import { PopoverNavigation } from "~/components/system";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 

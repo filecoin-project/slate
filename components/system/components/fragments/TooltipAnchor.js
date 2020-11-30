@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_TOOLTIP_ANCHOR = css`
   box-sizing: border-box;

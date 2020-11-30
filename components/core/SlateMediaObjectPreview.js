@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
 import { Blurhash } from "react-blurhash";
 import { isBlurhashValid } from "blurhash";

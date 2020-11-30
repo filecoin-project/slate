@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 
 import { Input } from "~/components/system/components/Input";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};

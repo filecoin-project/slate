@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_ROOT = css`
   padding: 96px 88px 96px 88px;

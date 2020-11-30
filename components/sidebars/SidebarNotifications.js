@@ -3,7 +3,7 @@ import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_NOTIFICATION = css`
   margin-top: 24px;

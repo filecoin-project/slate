@@ -7,7 +7,7 @@ import * as UserBehaviors from "~/common/user-behaviors";
 import * as Window from "~/common/window";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
 import { Input } from "~/components/system/components/Input";

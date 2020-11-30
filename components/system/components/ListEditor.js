@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css, keyframes } from "@emotion/core";
+import { css, keyframes } from "@emotion/react";
 import Draggable from "react-draggable";
 
 import { Input } from "~/components/system/components/Input";

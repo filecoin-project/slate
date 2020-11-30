@@ -4,7 +4,7 @@ import * as Strings from "~/common/strings";
 import * as Filecoin from "~/common/filecoin";
 
 import { Table } from "~/components/system/components/Table";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.text};

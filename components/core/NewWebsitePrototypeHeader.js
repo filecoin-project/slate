@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { Logo } from "~/common/logo.js";
 
 const STYLES_ROOT = css`

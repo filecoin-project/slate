@@ -6,7 +6,7 @@ import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 import SceneSlate from "~/scenes/SceneSlate";
 import EmptyState from "~/components/core/EmptyState";

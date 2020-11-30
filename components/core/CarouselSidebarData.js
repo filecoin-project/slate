@@ -10,7 +10,7 @@ import * as Events from "~/common/custom-events";
 import * as Window from "~/common/window";
 import * as FileUtilities from "~/common/file-utilities";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
 

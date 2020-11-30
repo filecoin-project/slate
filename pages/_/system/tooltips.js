@@ -8,7 +8,7 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_DEMO_TOOLTIP = {
   display: "flex",

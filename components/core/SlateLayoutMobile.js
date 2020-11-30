@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_LAYOUT = css`
   display: flex;

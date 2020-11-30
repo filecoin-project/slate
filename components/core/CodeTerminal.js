@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css, keyframes } from "@emotion/core";
+import { css, keyframes } from "@emotion/react";
 
 const typewriter = keyframes`
   0%, 100% {width: 0;}

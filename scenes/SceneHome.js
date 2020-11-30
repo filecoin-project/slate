@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";

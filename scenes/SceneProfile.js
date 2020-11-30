@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Actions from "~/common/actions";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
 
 import ScenePage from "~/components/core/ScenePage";

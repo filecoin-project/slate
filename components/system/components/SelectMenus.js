@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import { SELECT_COUNTRY_OPTIONS } from "~/common/fixtures";
 

@@ -6,7 +6,7 @@ import * as Store from "~/common/store";
 import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { DataMeterBar } from "~/components/core/DataMeter";
 import { SidebarWarningMessage } from "~/components/core/WarningMessage";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";

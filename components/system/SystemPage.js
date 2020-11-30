@@ -5,7 +5,7 @@ import * as SVG from "~/common/svg";
 import * as SVGLogo from "~/common/logo";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_PAGE = css`
   background-color: ${Constants.system.foreground};

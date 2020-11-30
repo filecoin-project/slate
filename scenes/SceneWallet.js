@@ -6,7 +6,7 @@ import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 import * as System from "~/components/system";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import Section from "~/components/core/Section";

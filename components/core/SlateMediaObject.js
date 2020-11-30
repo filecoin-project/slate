@@ -4,7 +4,7 @@ import * as Validations from "~/common/validations";
 
 import UnityFrame from "~/components/core/UnityFrame";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_FAILURE = css`
   background-color: ${Constants.system.pitchBlack};

@@ -6,7 +6,7 @@ import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { SignIn } from "~/components/core/SignIn";
 
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";

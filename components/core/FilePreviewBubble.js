@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
 
-import { css, keyframes } from "@emotion/core";
+import { css, keyframes } from "@emotion/react";
 import { useState } from "react";
 
 const fadeIn = keyframes`

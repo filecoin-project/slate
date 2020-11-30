@@ -2,7 +2,7 @@ import * as React from "react";
 import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { TabGroup } from "~/components/core/TabGroup";
 import { ButtonSecondary } from "~/components/system/components/Buttons";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";

@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { Table } from "~/components/system/components/Table";
 import { StatUpload, StatDownload } from "~/components/system/components/Stat";
 

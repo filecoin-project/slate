@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { GlobalTooltip } from "~/components/system/components/fragments/GlobalTooltip";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { Alert } from "~/components/core/Alert";

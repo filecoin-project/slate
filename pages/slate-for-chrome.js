@@ -5,7 +5,7 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_ROOT = css`
   width: 100%;

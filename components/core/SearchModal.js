@@ -10,7 +10,7 @@ import * as Events from "~/common/custom-events";
 import MiniSearch from "minisearch";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";

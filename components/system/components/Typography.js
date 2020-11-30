@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const LINK_STYLES = `
   font-family: ${Constants.font.text};

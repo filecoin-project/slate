@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { Logo } from "~/common/logo.js";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`
   position: -webkit-sticky;

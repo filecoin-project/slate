@@ -6,7 +6,7 @@ import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const SIZE_LIMIT = 1000000;
 const DEFAULT_IMAGE =

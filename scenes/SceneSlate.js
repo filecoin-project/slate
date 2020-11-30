@@ -6,7 +6,7 @@ import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";

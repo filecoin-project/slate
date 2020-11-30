@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Window from "~/common/window";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 import ProcessedText from "~/components/core/ProcessedText";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";

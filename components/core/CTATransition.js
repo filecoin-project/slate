@@ -5,7 +5,7 @@ import * as Actions from "~/common/actions";
 import * as Credentials from "~/common/credentials";
 
 import { Boundary } from "~/components/system/components/fragments/Boundary";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { Logo } from "~/common/logo";
 
 const STYLES_BACKGROUND = css`

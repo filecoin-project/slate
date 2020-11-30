@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as System from "~/dist";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_FILE_HIDDEN = css`
   height: 1px;

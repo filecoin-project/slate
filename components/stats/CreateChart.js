@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import ReactDOM from "react-dom";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_GRAPH_CONTAINER = css`
   display: flex;

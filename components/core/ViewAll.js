@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { useState } from "react";
 
 const STYLES_VIEW_BUTTON = css`

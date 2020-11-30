@@ -5,7 +5,7 @@ import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as UserBehaviors from "~/common/user-behaviors";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { ButtonPrimary, ButtonDisabled } from "~/components/system/components/Buttons";
 import { SlatePicker } from "~/components/core/SlatePicker";
 

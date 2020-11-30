@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_CONTAINER = css`
   border-radius: 4px;
@@ -98,30 +98,30 @@ export const DataMeterBar = (props) => {
               backgroundColor: "#C0D8EE",
               borderRadius: "3px 0px 0px 3px",
             }}
-          ></div>
+          />
           <div
             css={DATA_METER_METER_SEGMENT}
             style={{ width: `${percentageVideo * 100}%`, backgroundColor: "#C0DACD" }}
-          ></div>
+          />
           <div
             css={DATA_METER_METER_SEGMENT}
             style={{ width: `${percentageEpub * 100}%`, backgroundColor: "#FEEDC4" }}
-          ></div>
+          />
           <div
             css={DATA_METER_METER_SEGMENT}
             style={{ width: `${percentagePdf * 100}%`, backgroundColor: "#FAB413" }}
-          ></div>
+          />
           <div
             css={DATA_METER_METER_SEGMENT}
             style={{ width: `${percentageAudio * 100}%`, backgroundColor: "#F1C4C4" }}
-          ></div>
+          />
           <div
             css={DATA_METER_METER_SEGMENT}
             style={{
               width: `${percentageFreeSpace * 100}%`,
               backgroundColor: "${Constants.system.foreground}",
             }}
-          ></div>
+          />
         </div>
       </div>
     </React.Fragment>

@@ -8,7 +8,7 @@ import * as Window from "~/common/window";
 import * as UserBehaviors from "~/common/user-behaviors";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { LoaderSpinner } from "~/components/system/components/Loaders";

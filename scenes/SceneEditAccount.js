@@ -9,7 +9,7 @@ import * as FileUtilities from "~/common/file-utilities";
 import * as UserBehaviors from "~/common/user-behaviors";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { TabGroup } from "~/components/core/TabGroup";
 
 import ScenePage from "~/components/core/ScenePage";

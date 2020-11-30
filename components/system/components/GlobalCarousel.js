@@ -5,7 +5,7 @@ import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { Alert } from "~/components/core/Alert";
 
 import CarouselSidebarSlate from "~/components/core/CarouselSidebarSlate";

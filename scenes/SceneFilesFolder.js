@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as SVG from "~/common/svg";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 

@@ -7,7 +7,7 @@ import * as Actions from "~/common/actions";
 import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { Alert } from "~/components/core/Alert";
 import { ViewAllButton } from "~/components/core/ViewAll";
 import { SlateLayout } from "~/components/core/SlateLayout";

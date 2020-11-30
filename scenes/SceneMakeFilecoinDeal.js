@@ -9,7 +9,7 @@ import * as Messages from "~/common/messages";
 import * as FileUtilities from "~/common/file-utilities";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { createState } from "~/scenes/SceneSettings";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { FilecoinNumber } from "@glif/filecoin-number";

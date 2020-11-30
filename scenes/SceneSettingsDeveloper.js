@@ -5,7 +5,7 @@ import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";

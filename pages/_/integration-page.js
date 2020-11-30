@@ -4,7 +4,7 @@ import * as System from "~/components/system";
 import * as Actions from "~/common/actions";
 import * as Events from "~/common/custom-events";
 
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const STYLES_ITEM = css`
   font-size: 12px;

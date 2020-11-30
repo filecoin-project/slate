@@ -4,7 +4,7 @@ import * as Window from "~/common/window";
 import * as SVG from "~/common/svg";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 import EmptyState from "~/components/core/EmptyState";
 import SceneProfile from "~/scenes/SceneProfile";

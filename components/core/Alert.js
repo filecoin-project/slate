@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { error } from "~/common/messages";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 const STYLES_ALERT = `

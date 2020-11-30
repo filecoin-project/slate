@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 
-import { css, keyframes } from "@emotion/core";
+import { css, keyframes } from "@emotion/react";
 
 const STYLES_TOOLTIP = css`
   z-index: ${Constants.zindex.tooltip};

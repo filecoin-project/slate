@@ -416,6 +416,7 @@ export class GlobalCarousel extends React.Component {
               isRepost={isRepost}
               link={link}
               index={this.state.index}
+              external={this.props.external}
             />
           )}
         </span>

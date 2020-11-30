@@ -508,7 +508,7 @@ export class SearchModal extends React.Component {
     if (!this.initialized) {
       await this.initializeSearch();
     }
-    this._input.focus();
+    this._input.select();
     window.addEventListener("keydown", this._handleDocumentKeydown);
   };
 
@@ -1025,6 +1025,9 @@ export class SearchModal extends React.Component {
   };
 
   _handleClearAll = () => {
+    if (!this.state.inputValue || !this.state.inputValue.length) {
+      this._handleHide();
+    }
     this._optionRoot.scrollTop = 0;
     this._input.focus();
     this.setState({

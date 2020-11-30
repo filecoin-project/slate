@@ -263,7 +263,7 @@ export default class DataView extends React.Component {
 
   _handleCheckScroll = Window.debounce(this._handleScroll, 200);
 
-  _handleCheckBox = (e) => {
+  _handleTableCheckBox = (e) => {
     let checked = this.state.checked;
 
     let i = e.target.name;
@@ -313,7 +313,7 @@ export default class DataView extends React.Component {
     }
   };
 
-  _handleCheckBoxSelection = (e, i) => {
+  _handleGridCheckBox = (e, i) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -594,7 +594,7 @@ export default class DataView extends React.Component {
                             </Boundary>
                           ) : null}
                         </div>
-                        <div onClick={(e) => this._handleCheckBoxSelection(e, i)}>
+                        <div onClick={(e) => this._handleGridCheckBox(e, i)}>
                           <CheckBox
                             name={i}
                             value={!!this.state.checked[i]}
@@ -679,7 +679,7 @@ export default class DataView extends React.Component {
           <CheckBox
             name={index}
             value={!!this.state.checked[index]}
-            onChange={this._handleCheckBox}
+            onChange={this._handleTableCheckBox}
             boxStyle={{ height: 16, width: 16 }}
             style={{
               position: "relative",

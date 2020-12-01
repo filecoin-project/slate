@@ -5,6 +5,7 @@ import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
 
+import Prism from "prismjs";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";

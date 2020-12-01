@@ -183,8 +183,10 @@ const STYLES_IMAGE_BOX = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${"" /* box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset,
-    0 0 40px 0 ${Constants.system.shadow}; */}
+  ${
+    "" /* box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset,
+    0 0 40px 0 ${Constants.system.shadow}; */
+  }
   cursor: pointer;
   position: relative;
 
@@ -468,13 +470,18 @@ export default class DataView extends React.Component {
                 </span>
               </div>
               <div css={STYLES_RIGHT}>
-                <ButtonPrimary
-                  transparent
-                  style={{ color: Constants.system.white }}
-                  onClick={this._handleAddToSlate}
-                >
-                  Add to slate
-                </ButtonPrimary>
+                {this.state.loading &&
+                Object.values(this.state.loading).some((elem) => {
+                  return !!elem;
+                }) ? null : (
+                  <ButtonPrimary
+                    transparent
+                    style={{ color: Constants.system.white }}
+                    onClick={this._handleAddToSlate}
+                  >
+                    Add to slate
+                  </ButtonPrimary>
+                )}
                 <ButtonWarning
                   transparent
                   style={{ marginLeft: 8, color: Constants.system.white }}

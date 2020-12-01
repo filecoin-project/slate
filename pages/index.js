@@ -6,6 +6,7 @@ import WebsitePrototypeHeader from "~/components/core/NewWebsitePrototypeHeader"
 import WebsitePrototypeFooter from "~/components/core/NewWebsitePrototypeFooter";
 
 import { css } from "@emotion/react";
+import { ButtonPrimary } from "~/components/system/components/Buttons";
 
 const USER_SLATES = [
   {
@@ -130,12 +131,12 @@ const STYLES_TEXT_BLOCK = css`
 
 const STYLES_TEXT_BLOCK_CENTER = css`
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 80px auto;
   width: 50%;
   text-align: center;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin-top: 48px;
+    margin: 48px auto 64px auto;
     width: 100%;
   }
 `;
@@ -368,42 +369,27 @@ export default class IndexPage extends React.Component {
                   Slate is a new file-sharing network that makes it possible for people to collect,
                   organize, and link files together.
                 </p>
+                <br />
+                <a style={{ textDecoration: `none` }} href="/_">
+                  <ButtonPrimary>Get started with Slate</ButtonPrimary>
+                </a>
               </div>
-            </div>
-            <video
-              width="100%"
-              loop="true"
-              autoplay="autoplay"
-              src="https://slate.textile.io/ipfs/bafybeie6w5nljl3apsby7wuaanq7k34qavcv2g77c3cqp2fwdpqqsg7my4"
-              type="video/mp4"
-              muted="true"
-              playsInline="true"
-              style={{
-                backgroundImage: `url('https://slate.textile.io/ipfs/bafybeifgbcn4b6somtwbraiuz4ujoyuycp4hq5kqp47glyjit4a2gtuzje')`,
-                borderRadius: `4px`,
-                width: `100%`,
-                boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
-                backgroundSize: `cover`,
-              }}
-            />
-
-            <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-              <h2 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_BLUE}>Get all the space you need</span> <br />
-                for all of your valuable data
-              </h2>
-              <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                Powered by Textile, Filecoin, and IPFS.
-              </p>
-              <br />
-              <img
-                style={{ width: `100%` }}
-                src="https://slate.textile.io/ipfs/bafkreig5365lqtjs5p3yrwh5p4a66wv372c5eesc2fhbmw3l5btourjo2a"
+              <video
+                width="100%"
+                loop="true"
+                autoplay="autoplay"
+                src="https://slate.textile.io/ipfs/bafybeie6w5nljl3apsby7wuaanq7k34qavcv2g77c3cqp2fwdpqqsg7my4"
+                type="video/mp4"
+                muted="true"
+                playsInline="true"
+                style={{
+                  backgroundImage: `url('https://slate.textile.io/ipfs/bafybeifgbcn4b6somtwbraiuz4ujoyuycp4hq5kqp47glyjit4a2gtuzje')`,
+                  borderRadius: `4px`,
+                  width: `100%`,
+                  boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
+                  backgroundSize: `cover`,
+                }}
               />
-              <br />
-              <a css={STYLES_LINK} href="/_">
-                Get 50GB free storage as an early member →
-              </a>
             </div>
 
             <div css={STYLES_SECTION_WRAPPER}>

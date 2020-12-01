@@ -404,7 +404,15 @@ export default class SlatePreviewBlocksExternal extends React.Component {
     return (
       <div css={STYLES_SLATES}>
         {this.props.slates.map((slate) => (
-          <a key={slate.id} href={`/${this.props.username}/${slate.slatename}`} css={STYLES_LINK}>
+          <a
+            key={slate.id}
+            href={
+              this.props.username
+                ? `/${this.props.username}/${slate.slatename}`
+                : `/${slate.username}/${slate.slatename}`
+            }
+            css={STYLES_LINK}
+          >
             <SlatePreviewBlock
               isOwner={this.props.isOwner}
               imageSize={this.state.imageSize}

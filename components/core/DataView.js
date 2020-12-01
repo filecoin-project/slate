@@ -749,7 +749,7 @@ export default class DataView extends React.Component {
           topRowStyle={{ padding: "0px 16px" }}
           onMouseEnter={(i) => this.setState({ hover: i })}
           onMouseLeave={() => this.setState({ hover: null })}
-          isShiftDown={this.state.isShiftDown}
+          isShiftDown={this.isShiftDown}
         />
         {footer}
         <input

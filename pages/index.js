@@ -392,25 +392,6 @@ export default class IndexPage extends React.Component {
               />
             </div>
 
-            <div css={STYLES_SECTION_WRAPPER} style={{ display: `block` }}>
-              <h2 css={STYLES_H1}>
-                <span css={STYLES_HIGHLIGHT_BLUE}>Get all the space you need</span> <br />
-                for all of your valuable data
-              </h2>
-              <p css={STYLES_P} style={{ opacity: 0.7 }}>
-                Powered by Textile, Filecoin, and IPFS.
-              </p>
-              <br />
-              <img
-                style={{ width: `100%` }}
-                src="https://slate.textile.io/ipfs/bafkreig5365lqtjs5p3yrwh5p4a66wv372c5eesc2fhbmw3l5btourjo2a"
-              />
-              <br />
-              <a css={STYLES_LINK} href="/_">
-                Get 50GB free storage as an early member →
-              </a>
-            </div>
-
             <div css={STYLES_SECTION_WRAPPER}>
               <div css={STYLES_TEXT_BLOCK}>
                 <h2 css={STYLES_H1}>

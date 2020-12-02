@@ -70,17 +70,21 @@ import getEveryUser from "~/node_common/data/methods/get-every-user";
 
 // NOTE(jim):
 // one-offs
+import getAllStats from "~/node_common/data/methods/get-all-stats";
 import getAllDeals from "~/node_common/data/methods/get-all-deals";
 import getAllActivity from "~/node_common/data/methods/get-all-activity";
 import createOrUpdateStats from "~/node_common/data/methods/create-or-update-stats";
+import getOrCreateGlobalStats from "~/node_common/data/methods/get-or-create-global-stats";
 import createOrphan from "~/node_common/data/methods/create-orphan";
 
 export {
   // NOTE(jim): One-offs
   createOrUpdateStats,
+  getOrCreateGlobalStats,
   createOrphan,
   getAllDeals,
   getAllActivity,
+  getAllStats,
   // NOTE(jim): User operations
   createUser,
   updateUserById,

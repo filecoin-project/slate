@@ -9,35 +9,13 @@ const db = knex(envConfig);
 
 console.log(`RUNNING:  adjust.js`);
 
-const createOrphansTable = db.schema.createTable("orphans", function(table) {
-  table
-    .uuid("id")
-    .primary()
-    .unique()
-    .notNullable()
-    .defaultTo(db.raw("uuid_generate_v4()"));
+const createGlobalTable = db.schema.createTable("global", function (table) {
+  table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
   table.jsonb("data").nullable();
-  table
-    .timestamp("created_at")
-    .notNullable()
-    .defaultTo(db.raw("now()"));
+  table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
 });
 
-const createStatsTable = db.schema.createTable("stats", function(table) {
-  table
-    .uuid("id")
-    .primary()
-    .unique()
-    .notNullable()
-    .defaultTo(db.raw("uuid_generate_v4()"));
-  table.jsonb("data").nullable();
-  table
-    .timestamp("created_at")
-    .notNullable()
-    .defaultTo(db.raw("now()"));
-});
-
-Promise.all([createOrphansTable, createStatsTable]);
+Promise.all([createGlobalTable]);
 
 console.log(`FINISHED: adjust.js`);
 console.log(`          CTRL +C to return to terminal.`);

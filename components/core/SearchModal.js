@@ -30,9 +30,6 @@ const STYLES_BACKGROUND = css`
   top: 0;
   width: 100%;
   height: 100%;
-  ${"" /* display: flex;
-  align-items: center;
-  justify-content: center; */}
   background-color: rgba(223, 223, 223, 0.3);
   -webkit-backdrop-filter: blur(7px);
   backdrop-filter: blur(7px);
@@ -615,52 +612,6 @@ export class SearchModal extends React.Component {
     this.localSearch.addAll(privateFiles);
   };
 
-  // fillPersonalDirectory = () => {
-  //   this.personalSearch = new MiniSearch({
-  //     fields: ["slatename", "data.name", "username", "filename"],
-  //     storeFields: ["type", "slatename", "username", "data", "id", "slates", "owner"],
-  //     extractField: (entry, fieldName) => {
-  //       return fieldName.split(".").reduce((doc, key) => doc && doc[key], entry);
-  //     },
-  //     searchOptions: {
-  //       fuzzy: 0.15,
-  //     },
-  //   });
-  //   let files = this.props.viewer.library[0].children.map((file, i) => {
-  //     return {
-  //       type: "DATA_FILE",
-  //       id: file.id,
-  //       filename: file.name || file.file,
-  //       data: {
-  //         file: {
-  //           ...file,
-  //           url: Strings.getCIDGatewayURL(file.cid),
-  //         },
-  //         index: i,
-  //       },
-  //     };
-  //   });
-  //   let slates = this.props.viewer.slates.map((slate) => {
-  //     return { ...slate, type: "SLATE", owner: this.props.viewer };
-  //   });
-  //   this.personalSearch.addAll(slates);
-  //   let userIds = [];
-  //   this.personalSearch.addAll(this.props.viewer.pendingTrusted.map((trust) => trust.owner));
-  //   userIds.push(...this.props.viewer.pendingTrusted.map((trust) => trust.owner.id));
-  //   this.personalSearch.addAll(
-  //     this.props.viewer.trusted
-  //       .filter((trust) => !userIds.includes(trust.user.id))
-  //       .map((trust) => trust.user)
-  //   );
-  //   userIds.push(...this.props.viewer.trusted.map((trust) => trust.user.id));
-  //   this.personalSearch.addAll(
-  //     this.props.viewer.subscriptions
-  //       .filter((sub) => sub.target_user_id && !userIds.includes(sub.user.id))
-  //       .map((sub) => sub.user)
-  //   );
-  //   this.personalSearch.addAll(files);
-  // };
-
   _handleDocumentKeydown = (e) => {
     let results;
     if (this.state.results && this.state.results.length) {
@@ -877,9 +828,10 @@ export class SearchModal extends React.Component {
       });
     } else if (this.state.scopeFilter === "NETWORK" && this.networkIds && this.networkIds.length) {
       results = results.filter((res) => {
+        let item = res.item;
         if (
-          (res.type === "USER" && this.networkIds.includes(res.id)) ||
-          (res.type === "SLATE" && this.slateIds.includes(res.id)) ||
+          (item.type === "USER" && this.networkIds.includes(item.id)) ||
+          (item.type === "SLATE" && this.slateIds.includes(item.id)) ||
           this.networkIds.includes(res.ownerId)
         ) {
           return true;
@@ -887,8 +839,8 @@ export class SearchModal extends React.Component {
         return false;
       });
     }
-    results = results
-      .sort((a, b) => {
+    if (this.state.scopeFilter !== "MY") {
+      results = results.sort((a, b) => {
         if (this.props.viewer.id && this.state.scopeFilter !== "MY") {
           if (a.ownerId === this.props.viewer.id && b.ownerId !== this.props.viewer.id) {
             return -1;
@@ -902,12 +854,12 @@ export class SearchModal extends React.Component {
           this.state.scopeFilter !== "MY"
         ) {
           let aInNetwork =
-            (a.type === "USER" && this.networkIds.includes(a.id)) ||
-            (a.type === "SLATE" && this.slateIds.includes(a.id)) ||
+            (a.item.type === "USER" && this.networkIds.includes(a.item.id)) ||
+            (a.item.type === "SLATE" && this.slateIds.includes(a.item.id)) ||
             this.networkIds.includes(a.ownerId);
           let bInNetwork =
-            (b.type === "USER" && this.networkIds.includes(b.id)) ||
-            (b.type === "SLATE" && this.slateIds.includes(b.id)) ||
+            (b.item.type === "USER" && this.networkIds.includes(b.item.id)) ||
+            (b.item.type === "SLATE" && this.slateIds.includes(b.item.id)) ||
             this.networkIds.includes(b.ownerId);
           if (aInNetwork && !bInNetwork) {
             return -1;
@@ -915,9 +867,10 @@ export class SearchModal extends React.Component {
             return 1;
           }
         }
-        return b.weight - a.weight;
-      })
-      .map((res) => res.data.value);
+        return 0;
+      });
+    }
+    results = results.map((res) => res.item);
     return results;
   };
 
@@ -1171,19 +1124,6 @@ export class SearchModal extends React.Component {
                             Search files
                           </span>
                         </div>
-                        {/* <div
-                    css={STYLES_FILTER_BUTTON}
-                    style={{
-                      backgroundColor:
-                        this.state.typeFilter === "TAG"
-                          ? Constants.system.bgGray
-                          : Constants.system.white,
-                    }}
-                    onClick={() => this._handleFilterType("TAG")}
-                  >
-                    <SVG.Hash height="16px" />
-                    <span css={STYLES_MOBILE_HIDDEN} style={{ marginLeft: 8 }}>Search tags</span>
-                  </div> */}
                       </div>
                       <div style={{ flexShrink: 0, position: "relative" }}>
                         <div

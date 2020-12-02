@@ -200,6 +200,11 @@ export default class DataView extends React.Component {
     imageSize: 100,
   };
 
+  isShiftDown = false;
+  lastSelectedItemIndex = null;
+
+  gridWrapperEl = React.createRef();
+
   async componentDidMount() {
     this.calculateWidth();
     this.debounceInstance = Window.debounce(this.calculateWidth, 200);
@@ -207,6 +212,12 @@ export default class DataView extends React.Component {
       this._mounted = true;
       window.addEventListener("scroll", this._handleCheckScroll);
       window.addEventListener("resize", this.debounceInstance);
+      window.addEventListener("keydown", this._handleKeyDown);
+      window.addEventListener("keyup", this._handleKeyUp);
+
+      if (this.gridWrapperEl.current) {
+        this.gridWrapperEl.current.addEventListener("selectstart", this._handleSelectStart);
+      }
     }
   }
 
@@ -214,6 +225,12 @@ export default class DataView extends React.Component {
     this._mounted = false;
     window.removeEventListener("scroll", this._handleCheckScroll);
     window.removeEventListener("resize", this.debounceInstance);
+    window.removeEventListener("keydown", this._handleKeyDown);
+    window.removeEventListener("keyup", this._handleKeyUp);
+
+    if (this.gridWrapperEl.current) {
+      this.gridWrapperEl.current.removeEventListener("selectstart", this._handleSelectStart);
+    }
   }
 
   calculateWidth = () => {
@@ -247,16 +264,66 @@ export default class DataView extends React.Component {
 
   _handleCheckScroll = Window.debounce(this._handleScroll, 200);
 
-  _handleCheckBox = (e) => {
-    let checked = this.state.checked;
-    if (e.target.value === false) {
-      delete checked[e.target.name];
-      this.setState({ checked });
-      return;
+  /* NOTE(daniel): This disable text selection while pressing shift key */
+  _handleSelectStart = (e) => {
+    if (this.isShiftDown) {
+      e.preventDefault();
     }
-    this.setState({
-      checked: { ...this.state.checked, [e.target.name]: true },
-    });
+  };
+
+  _handleKeyUp = (e) => {
+    if (e.keyCode === 16 && this.isShiftDown) {
+      this.isShiftDown = false;
+    }
+  };
+
+  _handleKeyDown = (e) => {
+    if (e.keyCode === 16 && !this.isShiftDown) {
+      this.isShiftDown = true;
+    }
+  };
+
+  _handleCheckBox = (e, i) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    let checked = this.state.checked;
+    if (this.isShiftDown && this.lastSelectedItemIndex !== i) {
+      return this._handleShiftClick({
+        currentSelectedItemIndex: i,
+        lastSelectedItemIndex: this.lastSelectedItemIndex,
+        checked,
+      });
+    }
+
+    if (checked[i]) {
+      delete checked[i];
+    } else {
+      checked[i] = true;
+    }
+    this.setState({ checked });
+    this.lastSelectedItemIndex = i;
+  };
+
+  _handleShiftClick = ({ currentSelectedItemIndex, lastSelectedItemIndex, checked }) => {
+    const start = Math.min(currentSelectedItemIndex, lastSelectedItemIndex);
+    const stop = Math.max(currentSelectedItemIndex, lastSelectedItemIndex) + 1;
+
+    let rangeSelected = {};
+
+    for (let i = start; i < stop; i++) {
+      if (checked[currentSelectedItemIndex]) {
+        delete checked[i];
+      } else {
+        rangeSelected[i] = true;
+      }
+    }
+
+    let newSelection = Object.assign({}, checked, rangeSelected);
+    this.setState({ checked: newSelection });
+    this.lastSelectedItemIndex = currentSelectedItemIndex;
+
+    return;
   };
 
   _handleDelete = async (cid, id) => {
@@ -338,6 +405,7 @@ export default class DataView extends React.Component {
 
   _handleUncheckAll = () => {
     this.setState({ checked: {} });
+    this.lastSelectedItemIndex = null;
   };
 
   render() {
@@ -403,7 +471,13 @@ export default class DataView extends React.Component {
               >
                 Delete files
               </ButtonWarning>
-              <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
+              <div
+                css={STYLES_ICON_BOX}
+                onClick={() => {
+                  this.setState({ checked: {} });
+                  this.lastSelectedItemIndex = null;
+                }}
+              >
                 <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
               </div>
             </div>
@@ -415,7 +489,7 @@ export default class DataView extends React.Component {
       return (
         <React.Fragment>
           {header}
-          <div css={STYLES_IMAGE_GRID}>
+          <div css={STYLES_IMAGE_GRID} ref={this.gridWrapperEl}>
             {this.props.items.slice(0, this.state.viewLimit).map((each, i) => {
               const cid = each.cid;
               return (
@@ -496,23 +570,10 @@ export default class DataView extends React.Component {
                             </Boundary>
                           ) : null}
                         </div>
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            let checked = this.state.checked;
-                            if (checked[i]) {
-                              delete checked[i];
-                            } else {
-                              checked[i] = true;
-                            }
-                            this.setState({ checked });
-                          }}
-                        >
+                        <div onClick={(e) => this._handleCheckBox(e, i)}>
                           <CheckBox
                             name={i}
                             value={!!this.state.checked[i]}
-                            onChange={this._handleCheckBox}
                             boxStyle={{
                               height: 24,
                               width: 24,
@@ -558,7 +619,13 @@ export default class DataView extends React.Component {
       {
         key: "checkbox",
         name: numChecked ? (
-          <div css={STYLES_CANCEL_BOX} onClick={() => this.setState({ checked: {} })}>
+          <div
+            css={STYLES_CANCEL_BOX}
+            onClick={() => {
+              this.setState({ checked: {} });
+              this.lastSelectedItemIndex = null;
+            }}
+          >
             <SVG.Minus height="16px" style={{ color: Constants.system.white }} />
           </div>
         ) : (
@@ -588,18 +655,19 @@ export default class DataView extends React.Component {
       return {
         ...each,
         checkbox: (
-          <CheckBox
-            name={index}
-            value={!!this.state.checked[index]}
-            onChange={this._handleCheckBox}
-            boxStyle={{ height: 16, width: 16 }}
-            style={{
-              position: "relative",
-              right: 3,
-              margin: "12px 0",
-              opacity: numChecked > 0 || this.state.hover === index ? "100%" : "0%",
-            }}
-          />
+          <div onClick={(e) => this._handleCheckBox(e, index)}>
+            <CheckBox
+              name={index}
+              value={!!this.state.checked[index]}
+              boxStyle={{ height: 16, width: 16 }}
+              style={{
+                position: "relative",
+                right: 3,
+                margin: "12px 0",
+                opacity: numChecked > 0 || this.state.hover === index ? "100%" : "0%",
+              }}
+            />
+          </div>
         ),
         name: (
           <FilePreviewBubble url={cid} type={each.type}>
@@ -681,6 +749,7 @@ export default class DataView extends React.Component {
           topRowStyle={{ padding: "0px 16px" }}
           onMouseEnter={(i) => this.setState({ hover: i })}
           onMouseLeave={() => this.setState({ hover: null })}
+          isShiftDown={this.isShiftDown}
         />
         {footer}
         <input

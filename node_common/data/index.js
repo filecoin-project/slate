@@ -71,6 +71,7 @@ import getEveryUser from "~/node_common/data/methods/get-every-user";
 // NOTE(jim):
 // one-offs
 import getAllDeals from "~/node_common/data/methods/get-all-deals";
+import getAllActivity from "~/node_common/data/methods/get-all-activity";
 import createOrUpdateStats from "~/node_common/data/methods/create-or-update-stats";
 import createOrphan from "~/node_common/data/methods/create-orphan";
 
@@ -79,6 +80,7 @@ export {
   createOrUpdateStats,
   createOrphan,
   getAllDeals,
+  getAllActivity,
   // NOTE(jim): User operations
   createUser,
   updateUserById,

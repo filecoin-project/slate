@@ -255,6 +255,11 @@ app.prepare().then(async () => {
           "0ba92c73-92e7-4b00-900e-afae4856c9ea",
         ],
       });
+
+      for (let exploreSlate of exploreSlates) {
+        let user = await Data.getUserById({ id: exploreSlate.data.ownerId });
+        exploreSlate.username = user.username;
+      }
     } else {
       exploreSlates = await Data.getSlatesByIds({
         ids: [
@@ -267,6 +272,11 @@ app.prepare().then(async () => {
           "ac907aa3-2fb2-46fd-8eba-ec8ceb87b5eb",
         ],
       });
+
+      for (let exploreSlate of exploreSlates) {
+        let user = await Data.getUserById({ id: exploreSlate.data.ownerId });
+        exploreSlate.username = user.username;
+      }
     }
 
     return app.render(req, res, "/_/profile", {

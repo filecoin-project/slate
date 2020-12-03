@@ -293,3 +293,9 @@ export const createSupportMessage = async (data) => {
     body: JSON.stringify({ data }),
   });
 };
+
+export const getActivity = async () => {
+  return await returnJSON(`/api/activity/get`, {
+    ...DEFAULT_OPTIONS,
+  });
+};

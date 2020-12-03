@@ -79,7 +79,18 @@ export default async (req, res) => {
     userId: user.id,
     data: {
       actorUserId: user.id,
-      context: { id: user.id, username: user.username, slatename: slate.slatename },
+      context: {
+        user: {
+          id: user.id,
+          username: user.username,
+          photo: user.data.photo,
+        },
+        slate: {
+          slatename: slate.slatename,
+          id: slate.id,
+          name: slate.data.name,
+        },
+      },
     },
   });
 

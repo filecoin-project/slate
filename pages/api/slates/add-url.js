@@ -85,10 +85,25 @@ export default async (req, res) => {
         data: {
           actorUserId: user.id,
           context: {
-            username: user.username,
-            slatename: slate.slatename,
-            url,
-            cid,
+            slate: {
+              id: slate.id,
+              slatename: slate.slatename,
+              name: slate.data.name,
+            },
+            user: {
+              id: user.id,
+              username: user.username,
+              photo: user.data.photo,
+            },
+            file: {
+              blurhash: each.blurhash,
+              id: each.id,
+              url,
+              cid,
+              type: each.type,
+              name: each.name,
+              title: each.title,
+            },
           },
         },
       });

@@ -14,9 +14,7 @@ export const deal = ({ userId, data }) => {
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const message = `*${userURL}* made a one-off storage deal with bucket "${
-      data.context.bucketName
-    }".`;
+    const message = `*${userURL}* made a one-off storage deal with bucket "${data.context.bucketName}".`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -57,7 +55,7 @@ const createSlateActivityForEachSubscriber = async ({ userId, data }) => {
       Data.createActivity({
         userId: s.owner_user_id,
         data: {
-          type: "ANOTHER_USER_CREATED_SLATE",
+          type: "OTHER_USER_CREATE_SLATE",
           actorUserId: data.actorUserId,
           context: data.context,
         },
@@ -83,9 +81,7 @@ export const createSlate = ({ userId, data }) => {
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const message = `*${userURL}* created a slate: https://slate.host/${data.context.username}/${
-      data.context.slatename
-    }`;
+    const message = `*${userURL}* created a slate: https://slate.host/${data.context.username}/${data.context.slatename}`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -105,7 +101,7 @@ const createSlateObjectActivityForEachSubscriber = async ({ slateId, data }) => 
       Data.createActivity({
         userId: s.owner_user_id,
         data: {
-          type: "ANOTHER_USER_CREATE_SLATE_OBJECT",
+          type: "OTHER_USER_CREATE_SLATE_OBJECT",
           actorUserId: data.actorUserId,
           context: data.context,
         },
@@ -140,12 +136,8 @@ export const createSlateObject = ({ slateId, data }) => {
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const objectURL = `<https://slate.host/${data.context.username}/${data.context.slatename}/cid:${
-      data.context.cid
-    }|${data.context.cid}>`;
-    const message = `*${userURL}* added ${objectURL} to https://slate.host/${
-      data.context.username
-    }/${data.context.slatename}`;
+    const objectURL = `<https://slate.host/${data.context.username}/${data.context.slatename}/cid:${data.context.cid}|${data.context.cid}>`;
+    const message = `*${userURL}* added ${objectURL} to https://slate.host/${data.context.username}/${data.context.slatename}`;
 
     Social.sendSlackMessage(message);
   } catch (e) {

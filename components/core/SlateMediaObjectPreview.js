@@ -84,7 +84,7 @@ export default class SlateMediaObjectPreview extends React.Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.coverImage?.url !== this.props.coverImage?.url && this.props.coverImage.url) {
+    if (prevProps.coverImage?.url !== this.props.coverImage?.url && this.props.coverImage?.url) {
       this.loadImage(this.props.coverImage.url);
     }
   };

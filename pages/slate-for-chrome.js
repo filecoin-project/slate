@@ -256,7 +256,7 @@ export default class SlateForChromePage extends React.Component {
                 </p>
                 <a
                   css={STYLES_BUTTON_SECONDARY}
-                  href="/public/static/slate-for-chrome-V0.4.zip"
+                  href="https://slate.textile.io/ipfs/bafybeibxdmhrddveho4mkyveixhhpiabjmtyvp2h7s3byexbkr3if74rwu"
                   download="Slate Chrome extension.zip"
                 >
                   Download Slate for Chrome

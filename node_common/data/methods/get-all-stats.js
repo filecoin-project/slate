@@ -6,9 +6,7 @@ export default async () => {
   return await runQuery({
     label: "GET_ALL_STATS",
     queryFn: async (DB) => {
-      const r = await DB.select("*")
-        .from("stats")
-        .orderBy("created_at");
+      const r = await DB.select("*").from("stats").orderBy("created_at", "desc");
 
       if (!r || r.error) {
         return [];

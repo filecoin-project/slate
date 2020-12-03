@@ -376,12 +376,12 @@ export default class IndexPage extends React.Component {
               </div>
               <video
                 width="100%"
-                loop="true"
-                autoplay="autoplay"
+                loop={true}
+                autoPlay="autoplay"
                 src="https://slate.textile.io/ipfs/bafybeie6w5nljl3apsby7wuaanq7k34qavcv2g77c3cqp2fwdpqqsg7my4"
                 type="video/mp4"
-                muted="true"
-                playsInline="true"
+                muted={true}
+                playsInline={true}
                 style={{
                   backgroundImage: `url('https://slate.textile.io/ipfs/bafybeifgbcn4b6somtwbraiuz4ujoyuycp4hq5kqp47glyjit4a2gtuzje')`,
                   borderRadius: `4px`,

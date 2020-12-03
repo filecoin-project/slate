@@ -5,7 +5,7 @@ export default async (req, res) => {
   const response = await Data.getOrCreateGlobalStats(new Date(), async () => {
     const users = await Data.getEveryUser(false);
     const slates = await Data.getEverySlate(false);
-    const stats = await Data.getAllStats();
+    let stats = await Data.getAllStats();
     const activity = await Data.getAllActivity();
 
     let userCount = 0;
@@ -68,8 +68,6 @@ export default async (req, res) => {
       averageNewUsersDaily,
     };
   });
-
-  console.log(response);
 
   return res.status(200).send({
     decorator: "STATS",

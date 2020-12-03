@@ -5,6 +5,7 @@ import * as Strings from "~/common/strings";
 import * as Window from "~/common/window";
 import * as Validations from "~/common/validations";
 import * as UserBehaviors from "~/common/user-behaviors";
+import * as Events from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import CTATransition from "~/components/core/CTATransition";
@@ -319,6 +320,7 @@ export class SlateLayout extends React.Component {
     tooltip: null,
     keyboardTooltip: false,
     signInModal: false,
+    loading: {},
   };
 
   componentDidMount = async () => {
@@ -1036,7 +1038,12 @@ export class SlateLayout extends React.Component {
     UserBehaviors.removeFromSlate({ slate: this.props.current, ids });
   };
 
-  _handleDeleteFiles = (e, i) => {
+  _handleDeleteFiles = async (e, i) => {
+    const message = `Are you sure you want to delete these files? They will be deleted from your data and slates.`;
+    if (!window.confirm(message)) {
+      return;
+    }
+
     e.stopPropagation();
     e.preventDefault();
     let ids = [];
@@ -1054,7 +1061,24 @@ export class SlateLayout extends React.Component {
         cids.push(file.cid);
       }
     }
-    UserBehaviors.deleteFiles(cids, ids);
+
+    await this._handleLoading({ cids });
+    await UserBehaviors.deleteFiles(cids, ids);
+    this._handleLoading({ cids });
+  };
+
+  _handleLoading = ({ cids }) => {
+    let loading = this.state.loading;
+    for (let cid of cids) {
+      console.log(this.state.loading);
+      Events.dispatchCustomEvent({
+        name: "slate-global-carousel-loading",
+        detail: { loading: !this.state.loading[cid] },
+      });
+      loading[cid] = !this.state.loading[cid];
+    }
+    this.setState({ loading });
+    console.log("loading", loading);
   };
 
   _stopProp = (e) => {
@@ -1303,6 +1327,9 @@ export class SlateLayout extends React.Component {
                         maxHeight: "none",
                       }}
                     />
+                    {this.state.loading[this.state.items[i].cid] ? (
+                      <LoaderSpinner style={{ height: 16, width: 16, marginTop: 4 }} />
+                    ) : null}
                     {numChecked || this.state.hover === i ? (
                       <div css={STYLES_MOBILE_HIDDEN}>
                         {this.props.external ? null : (
@@ -1713,13 +1740,14 @@ export class SlateLayout extends React.Component {
               </div>
               {this.props.isOwner ? (
                 <div css={STYLES_RIGHT}>
-                  <ButtonPrimary
-                    transparent
-                    style={{ color: Constants.system.white }}
-                    onClick={this._handleAddToSlate}
-                  >
-                    Add to slate
-                  </ButtonPrimary>
+                  {this.state.loading &&
+                  Object.values(this.state.loading).some((elem) => {
+                    return !!elem;
+                  }) ? null : (
+                    <ButtonPrimary transparent onClick={this._handleAddToSlate}>
+                      Add to slate
+                    </ButtonPrimary>
+                  )}
                   {/* <ButtonPrimary transparent onClick={this._handleDownload}>
                     Download
                   </ButtonPrimary> */}

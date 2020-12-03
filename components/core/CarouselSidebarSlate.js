@@ -164,9 +164,11 @@ export default class CarouselSidebarSlate extends React.Component {
     showFile: true,
     unsavedChanges: false,
     pickerLoading: false,
+    loading: false,
   };
 
   componentDidMount = () => {
+    window.addEventListener("slate-global-carousel-loading", this._handleSetLoading);
     if (this.props.isOwner && !this.props.external) {
       this.debounceInstance = this.debounce(() => this._handleSave(), 3000);
       let isPublic = false;
@@ -182,6 +184,14 @@ export default class CarouselSidebarSlate extends React.Component {
       }
       this.setState({ selected, isPublic });
     }
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("slate-global-carousel-loading", this._handleSetLoading);
+  };
+
+  _handleSetLoading = (e) => {
+    this.setState({ loading: e.detail.loading });
   };
 
   debounce = (func, ms) => {

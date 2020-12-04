@@ -343,26 +343,26 @@ export const getDealHistory = async ({ id }) => {
   let deals = [];
 
   try {
-    const PowergateSingleton = await Utilities.getPowergateAPIFromUserToken({
+    const FilecoinSingleton = await Utilities.getFilecoinAPIFromUserToken({
       user,
     });
-    const { power } = PowergateSingleton;
+    const { filecoin } = FilecoinSingleton;
 
-    const result = await power.storageDealRecords({
+    const records = await filecoin.storageDealRecords({
       ascending: false,
       includePending: true,
       includeFinal: true,
     });
 
-    for (let i = 0; i < result.recordsList.length; i++) {
-      const o = result.recordsList[i];
+    for (let i = 0; i < records.length; i++) {
+      const o = records[i];
 
       deals.push({
         dealId: o.dealInfo.dealId,
         rootCid: o.rootCid,
         proposalCid: o.dealInfo.proposalCid,
         pieceCid: o.dealInfo.pieceCid,
-        addr: o.addr,
+        addr: o.address,
         miner: o.dealInfo.miner,
         size: o.dealInfo.size,
         // NOTE(jim): formatted size.
@@ -389,7 +389,7 @@ export const getDealHistory = async ({ id }) => {
       user,
       message: e.message,
       code: e.code,
-      functionName: `power.storageDealRecords`,
+      functionName: `filecoin.storageDealRecords`,
     });
   }
 

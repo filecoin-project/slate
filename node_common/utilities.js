@@ -11,7 +11,7 @@ import BCrypt from "bcrypt";
 const ENCRYPTION_ALGORITHM = "aes-256-ctr";
 const ENCRYPTION_IV = crypto.randomBytes(16);
 
-import { Buckets, PrivateKey, Pow, Client, ThreadID } from "@textile/hub";
+import { Buckets, PrivateKey, Filecoin, Client, ThreadID } from "@textile/hub";
 
 const BUCKET_NAME = "data";
 
@@ -109,16 +109,16 @@ export const parseAuthHeader = (value) => {
   return matches && { scheme: matches[1], value: matches[2] };
 };
 
-export const getPowergateAPIFromUserToken = async ({ user }) => {
+export const getFilecoinAPIFromUserToken = async ({ user }) => {
   const token = user.data.tokens.api;
   const identity = await PrivateKey.fromString(token);
-  const power = await Pow.withKeyInfo(TEXTILE_KEY_INFO);
-  await power.getToken(identity);
+  const filecoin = await Filecoin.withKeyInfo(TEXTILE_KEY_INFO);
+  await filecoin.getToken(identity);
 
-  NodeLogging.log(`powergate init`);
+  NodeLogging.log(`filecoin init`);
 
   return {
-    power,
+    filecoin,
   };
 };
 
@@ -165,7 +165,7 @@ export const getBucketAPIFromUserToken = async ({ user, bucketName, encrypted = 
   let root = null;
   NodeLogging.log(`buckets.getOrCreate() init ${name}`);
   try {
-    const created = await buckets.getOrCreate(name, undefined, encrypted);
+    const created = await buckets.getOrCreate(name, { encrypted });
     root = created.root;
   } catch (e) {
     NodeLogging.log(`buckets.getOrCreate() warning: ${e.message}`);

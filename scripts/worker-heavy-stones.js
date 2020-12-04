@@ -136,43 +136,40 @@ const run = async () => {
 
     printData.bytes = userBytes;
 
-    const PowergateSingleton = await Utilities.getPowergateAPIFromUserToken({
+    const FilecoinSingleton = await Utilities.getFilecoinAPIFromUserToken({
       user,
     });
-    const { powerInfo, power } = PowergateSingleton;
+    const { filecoin } = FilecoinSingleton;
     let balance = 0;
     let address = null;
 
     await delay(500);
 
     try {
-      if (powerInfo) {
-        powerInfo.balancesList.forEach((a) => {
-          balance = a.balance;
-          address = a.addr.addr;
-        });
-      } else {
-        Logs.error(`Powergate powerInfo does not exist.`);
-      }
+      const addresses = filecoin.addresses()
+      addresses.forEach((a) => {
+        balance = a.balance;
+        address = a.address;
+      });
     } catch (e) {
       Logs.error(e.message);
     }
 
     let storageDeals = [];
     try {
-      const listStorageResult = await power.storageDealRecords({
+      const records = await filecoin.storageDealRecords({
         ascending: false,
         includePending: false,
         includeFinal: true,
       });
 
-      listStorageResult.recordsList.forEach((o) => {
+      records.forEach((o) => {
         storageDeals.push({
           dealId: o.dealInfo.dealId,
           rootCid: o.rootCid,
           proposalCid: o.dealInfo.proposalCid,
           pieceCid: o.dealInfo.pieceCid,
-          addr: o.addr,
+          addr: o.addrress,
           size: o.dealInfo.size,
           // NOTE(jim): formatted size.
           formattedSize: Strings.bytesToSize(o.dealInfo.size),

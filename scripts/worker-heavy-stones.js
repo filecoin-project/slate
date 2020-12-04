@@ -146,7 +146,7 @@ const run = async () => {
     await delay(500);
 
     try {
-      const addresses = filecoin.addresses()
+      const addresses = await filecoin.addresses();
       addresses.forEach((a) => {
         balance = a.balance;
         address = a.address;
@@ -169,7 +169,7 @@ const run = async () => {
           rootCid: o.rootCid,
           proposalCid: o.dealInfo.proposalCid,
           pieceCid: o.dealInfo.pieceCid,
-          addr: o.addrress,
+          addr: o.address,
           size: o.dealInfo.size,
           // NOTE(jim): formatted size.
           formattedSize: Strings.bytesToSize(o.dealInfo.size),

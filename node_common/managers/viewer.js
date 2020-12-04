@@ -416,6 +416,11 @@ export const getTextileById = async ({ id }) => {
     encrypted: false,
   });
 
+  const FilecoinSingleton = await Utilities.getFilecoinAPIFromUserToken({
+    user,
+  });
+  const { filecoin } = FilecoinSingleton;
+
   let r = null;
   try {
     r = await stagingData.buckets.list();
@@ -427,6 +432,30 @@ export const getTextileById = async ({ id }) => {
       code: e.code,
       functionName: `buckets.list`,
     });
+  }
+
+  let addresses = null;
+  try {
+    addresses = await filecoin.addresses();
+  } catch (e) {
+    Social.sendTextileSlackMessage({
+      file: "/node_common/managers/viewer.js",
+      user,
+      message: e.message,
+      code: e.code,
+      functionName: `filecoin.addresses`,
+    });
+  }
+
+  let address = null;
+  if (addresses && addresses.length) {
+    address = {
+      name: addresses[0].name,
+      address: addresses[0].address,
+      type: addresses[0].type,
+      // TODO(jim): Serialize BigInt
+      // balance: addresses[0].balance,
+    };
   }
 
   let items = null;
@@ -456,10 +485,11 @@ export const getTextileById = async ({ id }) => {
     type: "VIEWER_FILECOIN",
     settings: {
       ...settings,
-      addr: "hidden-wallet-address",
+      addr: addresses[0].address,
       renewEnabled: settings.renew.enabled,
       renewThreshold: settings.renew.threshold,
     },
+    address,
     deal: items ? items.filter((f) => f.name !== ".textileseed") : [],
   };
 };

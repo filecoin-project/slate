@@ -108,15 +108,18 @@ export default class SceneWallet extends React.Component {
   };
 
   render() {
-    // TODO(jim): Temporary because of read only Filecoin Addresses
     const { networkViewer } = this.props;
 
     const addressMap = {};
     const addresses = [];
-    let selected = { name: "default", addr: "hidden", balance: "0", type: "Textile" };
 
+    let selected = { name: "default", addr: "hidden", balance: "0", type: "Textile" };
     if (networkViewer) {
-      // TODO(jim): restore this when the wallet function is back in Pow.
+      selected = {
+        name: networkViewer.address.name,
+        addr: networkViewer.address.address,
+        type: networkViewer.address.type,
+      };
     }
 
     return (
@@ -182,12 +185,12 @@ export default class SceneWallet extends React.Component {
                 </div>
 
                 <div css={STYLES_ITEM_GROUP}>
-                  <div css={STYLES_ITEM}>
+                  {/*<div css={STYLES_ITEM}>
                     <div css={STYLES_FOCUS}>
                       {Filecoin.formatAsFilecoinConversion(selected.balance)}
                     </div>
                     <div css={STYLES_SUBTEXT}>Filecoin</div>
-                  </div>
+                  </div>*/}
 
                   <div css={STYLES_ITEM}>
                     <div css={STYLES_FOCUS}>{selected.type}</div>

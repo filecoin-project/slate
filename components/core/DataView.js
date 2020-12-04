@@ -362,12 +362,12 @@ export default class DataView extends React.Component {
         let item = this.props.viewer.library[0].children[index];
         return item.id;
       });
-      this.setState({ checked: {} });
     }
 
     await this._handleLoading({ cids });
     await UserBehaviors.deleteFiles(cids, ids);
     this._handleLoading({ cids });
+    await this.setState({ checked: {} });
   };
 
   _handleSelect = (index) => {

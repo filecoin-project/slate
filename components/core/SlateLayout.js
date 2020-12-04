@@ -235,6 +235,8 @@ const STYLES_ACTION_BAR_CONTAINER = css`
   display: flex;
   justify-content: center;
   z-index: ${Constants.zindex.header};
+  left: 10vw;
+  width: 80vw;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -1053,7 +1055,6 @@ export class SlateLayout extends React.Component {
       for (let index of Object.keys(this.state.checked)) {
         ids.push(this.state.items[index].id);
       }
-      this.setState({ checked: {} });
     }
     let cids = [];
     for (let file of this.props.viewer.library[0].children) {
@@ -1065,6 +1066,7 @@ export class SlateLayout extends React.Component {
     await this._handleLoading({ cids });
     await UserBehaviors.deleteFiles(cids, ids);
     this._handleLoading({ cids });
+    await this.setState({ checked: {} });
   };
 
   _handleLoading = ({ cids }) => {
@@ -1755,12 +1757,6 @@ export class SlateLayout extends React.Component {
                     transparent
                     style={{ marginLeft: 8, color: Constants.system.white }}
                     onClick={this._handleRemoveFromSlate}
-                    loading={
-                      this.state.loading &&
-                      Object.values(this.state.loading).some((elem) => {
-                        return !!elem;
-                      })
-                    }
                   >
                     Remove
                   </ButtonWarning>

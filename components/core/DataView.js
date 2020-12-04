@@ -559,7 +559,7 @@ export default class DataView extends React.Component {
                             <SVG.MoreHorizontal height="24px" />
                           )}
 
-                          {this.state.menu === each.id ? (
+                          {this.state.menu === each.id && !this.state.loading[cid] ? (
                             <Boundary
                               captureResize={true}
                               captureScroll={false}
@@ -595,24 +595,28 @@ export default class DataView extends React.Component {
                             </Boundary>
                           ) : null}
                         </div>
-                        <div onClick={(e) => this._handleCheckBox(e, i)}>
-                          <CheckBox
-                            name={i}
-                            value={!!this.state.checked[i]}
-                            boxStyle={{
-                              height: 24,
-                              width: 24,
-                              backgroundColor: this.state.checked[i]
-                                ? Constants.system.brand
-                                : "rgba(255, 255, 255, 0.75)",
-                            }}
-                            style={{
-                              position: "absolute",
-                              bottom: 8,
-                              left: 8,
-                            }}
-                          />
-                        </div>
+                        {Object.keys(this.state.loading).every(
+                          (k) => this.state.loading[k] === false
+                        ) && (
+                          <div onClick={(e) => this._handleCheckBox(e, i)}>
+                            <CheckBox
+                              name={i}
+                              value={!!this.state.checked[i]}
+                              boxStyle={{
+                                height: 24,
+                                width: 24,
+                                backgroundColor: this.state.checked[i]
+                                  ? Constants.system.brand
+                                  : "rgba(255, 255, 255, 0.75)",
+                              }}
+                              style={{
+                                position: "absolute",
+                                bottom: 8,
+                                left: 8,
+                              }}
+                            />
+                          </div>
+                        )}
                       </React.Fragment>
                     ) : null}
                   </span>

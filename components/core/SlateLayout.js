@@ -1072,7 +1072,6 @@ export class SlateLayout extends React.Component {
   _handleLoading = ({ cids }) => {
     let loading = this.state.loading;
     for (let cid of cids) {
-      console.log(this.state.loading);
       Events.dispatchCustomEvent({
         name: "slate-global-carousel-loading",
         detail: { loading: !this.state.loading[cid] },
@@ -1080,7 +1079,6 @@ export class SlateLayout extends React.Component {
       loading[cid] = !this.state.loading[cid];
     }
     this.setState({ loading });
-    console.log("loading", loading);
   };
 
   _stopProp = (e) => {
@@ -1293,7 +1291,11 @@ export class SlateLayout extends React.Component {
                   css={this.state.editing ? STYLES_ITEM_EDITING : STYLES_ITEM}
                   key={i}
                   name={i}
-                  onMouseEnter={() => this.setState({ hover: i })}
+                  onMouseEnter={() =>
+                    this.setState(
+                      this.state.loading[this.state.items[i].cid] ? { hover: null } : { hover: i }
+                    )
+                  }
                   onMouseLeave={() => this.setState({ hover: null })}
                   onMouseDown={this.state.editing ? (e) => this._handleMouseDown(e, i) : () => {}}
                   onClick={this.state.editing ? () => {} : () => this.props.onSelect(i)}
@@ -1349,26 +1351,30 @@ export class SlateLayout extends React.Component {
                               this.setState({ checked });
                             }}
                           >
-                            <CheckBox
-                              name={i}
-                              value={!!this.state.checked[i]}
-                              onChange={this._handleCheckBox}
-                              boxStyle={{
-                                height: 24,
-                                width: 24,
-                                backgroundColor: this.state.checked[i]
-                                  ? Constants.system.brand
-                                  : "rgba(255, 255, 255, 0.75)",
-                                boxShadow: this.state.checked[i]
-                                  ? "none"
-                                  : "0 0 0 2px #C3C3C4 inset",
-                              }}
-                              style={{
-                                position: "absolute",
-                                top: 8,
-                                left: 8,
-                              }}
-                            />
+                            {Object.keys(this.state.loading).every(
+                              (k) => this.state.loading[k] === false
+                            ) && (
+                              <CheckBox
+                                name={i}
+                                value={!!this.state.checked[i]}
+                                onChange={this._handleCheckBox}
+                                boxStyle={{
+                                  height: 24,
+                                  width: 24,
+                                  backgroundColor: this.state.checked[i]
+                                    ? Constants.system.brand
+                                    : "rgba(255, 255, 255, 0.75)",
+                                  boxShadow: this.state.checked[i]
+                                    ? "none"
+                                    : "0 0 0 2px #C3C3C4 inset",
+                                }}
+                                style={{
+                                  position: "absolute",
+                                  top: 8,
+                                  left: 8,
+                                }}
+                              />
+                            )}
                           </div>
                         )}
                         {this.state.hover !== i ? null : this.state.editing ? (

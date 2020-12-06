@@ -35,7 +35,6 @@ export default class SceneSlates extends React.Component {
   };
 
   render() {
-    console.log(this.props.viewer.slates);
     let subscriptions = this.props.viewer.subscriptions
       .filter((each) => {
         return !!each.target_slate_id;

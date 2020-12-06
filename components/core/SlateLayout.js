@@ -213,20 +213,30 @@ const STYLES_ACTION_BAR = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 0 0 1px ${Constants.system.lightBorder} inset,
-    0 0 4px 2px ${Constants.system.shadow};
   border-radius: 4px;
-  padding: 12px 32px;
+  padding: 0px 32px;
   box-sizing: border-box;
-  background-color: ${Constants.system.foreground};
+  background-color: ${Constants.system.textGrayDark};
+  width: 90vw;
+  max-width: 878px;
+  height: 48px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_ACTION_BAR_CONTAINER = css`
   position: fixed;
   bottom: 12px;
-  width: calc(100vw - ${Constants.sizes.sidebar}px + 32px);
-  max-width: 1660px;
+  left: 0px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
   z-index: ${Constants.zindex.header};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    width: calc(100vw - 48px);
+    display: none;
   }
 `;
 
@@ -245,6 +255,7 @@ const STYLES_LEFT = css`
 
 const STYLES_FILES_SELECTED = css`
   font-family: ${Constants.font.semiBold};
+  color: ${Constants.system.white};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -921,7 +932,7 @@ export class SlateLayout extends React.Component {
     //NOTE(martina): collapses the z-indexes back down to 0 through n-1 (so they don't continuously get higher)
     let zIndexes = this.state.layout.map((pos) => pos.z);
     zIndexes = [...new Set(zIndexes)];
-    zIndexes.sort(function(a, b) {
+    zIndexes.sort(function (a, b) {
       return a - b;
     });
     let layout = this.cloneLayout(this.state.layout);
@@ -1239,10 +1250,12 @@ export class SlateLayout extends React.Component {
               height: this.state.editing
                 ? `calc(100vh + ${this.state.containerHeight}px)`
                 : `calc(96px + ${this.state.containerHeight}px)`,
-              backgroundSize: `${(CONTAINER_SIZE / 108) * this.state.unit}px ${10 *
-                this.state.unit}px`,
-              backgroundPosition: `-${(CONTAINER_SIZE / 220) *
-                this.state.unit}px -${(CONTAINER_SIZE / 220) * this.state.unit}px`,
+              backgroundSize: `${(CONTAINER_SIZE / 108) * this.state.unit}px ${
+                10 * this.state.unit
+              }px`,
+              backgroundPosition: `-${(CONTAINER_SIZE / 220) * this.state.unit}px -${
+                (CONTAINER_SIZE / 220) * this.state.unit
+              }px`,
             }}
             ref={(c) => {
               this._ref = c;
@@ -1691,66 +1704,80 @@ export class SlateLayout extends React.Component {
           </div>
         </div>
         {numChecked ? (
-          <div css={STYLES_ACTION_BAR}>
-            <div css={STYLES_LEFT}>
-              <span css={STYLES_FILES_SELECTED}>
-                {numChecked} file{numChecked > 1 ? "s" : ""} selected
-              </span>
+          <div css={STYLES_ACTION_BAR_CONTAINER}>
+            <div css={STYLES_ACTION_BAR}>
+              <div css={STYLES_LEFT}>
+                <span css={STYLES_FILES_SELECTED}>
+                  {numChecked} file{numChecked > 1 ? "s" : ""} selected
+                </span>
+              </div>
+              {this.props.isOwner ? (
+                <div css={STYLES_RIGHT}>
+                  <ButtonPrimary
+                    transparent
+                    style={{ color: Constants.system.white }}
+                    onClick={this._handleAddToSlate}
+                  >
+                    Add to slate
+                  </ButtonPrimary>
+                  {/* <ButtonPrimary transparent onClick={this._handleDownload}>
+                    Download
+                  </ButtonPrimary> */}
+                  <ButtonWarning
+                    transparent
+                    style={{ marginLeft: 8, color: Constants.system.white }}
+                    onClick={this._handleRemoveFromSlate}
+                    loading={
+                      this.state.loading &&
+                      Object.values(this.state.loading).some((elem) => {
+                        return !!elem;
+                      })
+                    }
+                  >
+                    Remove
+                  </ButtonWarning>
+                  <ButtonWarning
+                    transparent
+                    style={{ marginLeft: 8, color: Constants.system.white }}
+                    onClick={this._handleDeleteFiles}
+                    loading={
+                      this.state.loading &&
+                      Object.values(this.state.loading).some((elem) => {
+                        return !!elem;
+                      })
+                    }
+                  >
+                    Delete files
+                  </ButtonWarning>
+                  <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
+                    <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
+                  </div>
+                </div>
+              ) : (
+                <div css={STYLES_RIGHT}>
+                  <ButtonPrimary
+                    transparent
+                    onClick={this._handleAddToSlate}
+                    style={{ color: Constants.system.white }}
+                  >
+                    Add to slate
+                  </ButtonPrimary>
+                  <ButtonPrimary
+                    transparent
+                    onClick={this._handleSaveCopy}
+                    style={{ color: Constants.system.white }}
+                  >
+                    Save copy
+                  </ButtonPrimary>
+                  {/* <ButtonPrimary transparent onClick={this._handleDownload}>
+                    Download
+                  </ButtonPrimary> */}
+                  <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
+                    <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
+                  </div>
+                </div>
+              )}
             </div>
-            {this.props.isOwner ? (
-              <div css={STYLES_RIGHT}>
-                <ButtonPrimary transparent onClick={this._handleAddToSlate}>
-                  Add to slate
-                </ButtonPrimary>
-                {/* <ButtonPrimary transparent onClick={this._handleDownload}>
-                  Download
-                </ButtonPrimary> */}
-                <ButtonWarning
-                  transparent
-                  style={{ marginLeft: 8 }}
-                  onClick={this._handleRemoveFromSlate}
-                  loading={
-                    this.state.loading &&
-                    Object.values(this.state.loading).some((elem) => {
-                      return !!elem;
-                    })
-                  }
-                >
-                  Remove
-                </ButtonWarning>
-                <ButtonWarning
-                  transparent
-                  style={{ marginLeft: 8 }}
-                  onClick={this._handleDeleteFiles}
-                  loading={
-                    this.state.loading &&
-                    Object.values(this.state.loading).some((elem) => {
-                      return !!elem;
-                    })
-                  }
-                >
-                  Delete files
-                </ButtonWarning>
-                <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
-                  <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
-                </div>
-              </div>
-            ) : (
-              <div css={STYLES_RIGHT}>
-                <ButtonPrimary transparent onClick={this._handleAddToSlate}>
-                  Add to slate
-                </ButtonPrimary>
-                <ButtonPrimary transparent onClick={this._handleSaveCopy}>
-                  Save copy
-                </ButtonPrimary>
-                {/* <ButtonPrimary transparent onClick={this._handleDownload}>
-                  Download
-                </ButtonPrimary> */}
-                <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
-                  <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
-                </div>
-              </div>
-            )}
           </div>
         ) : null}
         <input
@@ -1767,9 +1794,7 @@ export class SlateLayout extends React.Component {
               onClose={() => this.setState({ signInModal: false })}
               viewer={this.props.viewer}
               open={this.state.signInModal}
-              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${
-                this.props.creator.username
-              }&slate=${this.props.slate.slatename}`}
+              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${this.props.creator.username}&slate=${this.props.slate.slatename}`}
             />
           </div>
         )}

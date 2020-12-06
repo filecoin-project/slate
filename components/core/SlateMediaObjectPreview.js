@@ -46,6 +46,9 @@ const STYLES_TITLE = css`
   overflow: hidden;
   word-break: break-all;
   text-overflow: break-word;
+  color: ${Constants.system.textGray};
+  font-size: ${Constants.typescale.lvlN1};
+  font-family: ${Constants.font.medium};
 `;
 
 const STYLES_BLUR_CONTAINER = css`
@@ -203,8 +206,8 @@ export default class SlateMediaObjectPreview extends React.Component {
     let element = (
       <FileTypeIcon
         type={this.props.type}
-        height={this.props.previewPanel ? "80px" : "24px"}
-        style={this.props.previewPanel ? { color: "#bfbfbf" } : null}
+        height={this.props.previewPanel ? "80px" : "32px"}
+        style={{ color: Constants.system.textGray }}
       />
     );
     return (

@@ -108,7 +108,7 @@ app.prepare().then(async () => {
 
     const isBucketsAvailable = await Utilities.checkTextile();
 
-    if (!isBucketsAvailable) {
+    if (!isBucketsAvailable && Environment.IS_PRODUCTION) {
       return res.redirect("/maintenance");
     }
 

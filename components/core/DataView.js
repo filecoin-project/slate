@@ -110,16 +110,27 @@ const STYLES_ACTION_BAR = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 0 0 1px ${Constants.system.lightBorder} inset,
-    0 0 4px 2px ${Constants.system.shadow};
   border-radius: 4px;
-  padding: 12px 32px;
+  padding: 0px 32px;
   box-sizing: border-box;
-  background-color: ${Constants.system.foreground};
+  background-color: ${Constants.system.textGrayDark};
+  width: 90vw;
+  max-width: 878px;
+  height: 48px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
+const STYLES_ACTION_BAR_CONTAINER = css`
   position: fixed;
   bottom: 12px;
-  left: 10vw;
-  width: 80vw;
+  left: 0px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  z-index: ${Constants.zindex.header};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -141,6 +152,7 @@ const STYLES_LEFT = css`
 
 const STYLES_FILES_SELECTED = css`
   font-family: ${Constants.font.semiBold};
+  color: ${Constants.system.white};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -448,37 +460,43 @@ export default class DataView extends React.Component {
     const footer = (
       <React.Fragment>
         {numChecked ? (
-          <div css={STYLES_ACTION_BAR}>
-            <div css={STYLES_LEFT}>
-              <span css={STYLES_FILES_SELECTED}>
-                {numChecked} file{numChecked > 1 ? "s" : ""} selected
-              </span>
-            </div>
-            <div css={STYLES_RIGHT}>
-              <ButtonPrimary transparent onClick={this._handleAddToSlate}>
-                Add to slate
-              </ButtonPrimary>
-              <ButtonWarning
-                transparent
-                style={{ marginLeft: 8 }}
-                onClick={() => this._handleDelete()}
-                loading={
-                  this.state.loading &&
-                  Object.values(this.state.loading).some((elem) => {
-                    return !!elem;
-                  })
-                }
-              >
-                Delete files
-              </ButtonWarning>
-              <div
-                css={STYLES_ICON_BOX}
-                onClick={() => {
-                  this.setState({ checked: {} });
-                  this.lastSelectedItemIndex = null;
-                }}
-              >
-                <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
+          <div css={STYLES_ACTION_BAR_CONTAINER}>
+            <div css={STYLES_ACTION_BAR}>
+              <div css={STYLES_LEFT}>
+                <span css={STYLES_FILES_SELECTED}>
+                  {numChecked} file{numChecked > 1 ? "s" : ""} selected
+                </span>
+              </div>
+              <div css={STYLES_RIGHT}>
+                <ButtonPrimary
+                  transparent
+                  style={{ color: Constants.system.white }}
+                  onClick={this._handleAddToSlate}
+                >
+                  Add to slate
+                </ButtonPrimary>
+                <ButtonWarning
+                  transparent
+                  style={{ marginLeft: 8, color: Constants.system.white }}
+                  onClick={() => this._handleDelete()}
+                  loading={
+                    this.state.loading &&
+                    Object.values(this.state.loading).some((elem) => {
+                      return !!elem;
+                    })
+                  }
+                >
+                  Delete files
+                </ButtonWarning>
+                <div
+                  css={STYLES_ICON_BOX}
+                  onClick={() => {
+                    this.setState({ checked: {} });
+                    this.lastSelectedItemIndex = null;
+                  }}
+                >
+                  <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
+                </div>
               </div>
             </div>
           </div>

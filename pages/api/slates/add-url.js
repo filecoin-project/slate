@@ -82,18 +82,24 @@ export default async (req, res) => {
     if (slate.data.public) {
       Monitor.createSlateObject({
         slateId: slate.id,
+        userId: user.id,
         data: {
           actorUserId: user.id,
           context: {
             slate: {
               id: slate.id,
               slatename: slate.slatename,
-              name: slate.data.name,
+              data: {
+                name: slate.data.name,
+              },
             },
             user: {
               id: user.id,
               username: user.username,
-              photo: user.data.photo,
+              data: {
+                photo: user.data.photo,
+                name: user.data.name,
+              },
             },
             file: {
               blurhash: each.blurhash,

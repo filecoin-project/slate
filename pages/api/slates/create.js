@@ -83,12 +83,17 @@ export default async (req, res) => {
         user: {
           id: user.id,
           username: user.username,
-          photo: user.data.photo,
+          data: {
+            photo: user.data.photo,
+            name: user.data.name,
+          },
         },
         slate: {
           slatename: slate.slatename,
           id: slate.id,
-          name: slate.data.name,
+          data: {
+            name: slate.data.name,
+          },
         },
       },
     },

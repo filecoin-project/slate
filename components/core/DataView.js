@@ -183,8 +183,8 @@ const STYLES_IMAGE_BOX = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset,
-    0 0 40px 0 ${Constants.system.shadow};
+  ${"" /* box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset,
+    0 0 40px 0 ${Constants.system.shadow}; */}
   cursor: pointer;
   position: relative;
 

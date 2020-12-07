@@ -1752,20 +1752,27 @@ export class SlateLayout extends React.Component {
                   Object.values(this.state.loading).some((elem) => {
                     return !!elem;
                   }) ? null : (
-                    <ButtonPrimary transparent onClick={this._handleAddToSlate}>
-                      Add to slate
-                    </ButtonPrimary>
-                  )}
-                  {/* <ButtonPrimary transparent onClick={this._handleDownload}>
+                    <React.Fragment>
+                      <ButtonPrimary
+                        transparent
+                        style={{ marginLeft: 8, color: Constants.system.white }}
+                        onClick={this._handleAddToSlate}
+                      >
+                        Add to slate
+                      </ButtonPrimary>
+
+                      {/* <ButtonPrimary transparent onClick={this._handleDownload}>
                     Download
                   </ButtonPrimary> */}
-                  <ButtonWarning
-                    transparent
-                    style={{ marginLeft: 8, color: Constants.system.white }}
-                    onClick={this._handleRemoveFromSlate}
-                  >
-                    Remove
-                  </ButtonWarning>
+                      <ButtonWarning
+                        transparent
+                        style={{ marginLeft: 8, color: Constants.system.white }}
+                        onClick={this._handleRemoveFromSlate}
+                      >
+                        Remove
+                      </ButtonWarning>
+                    </React.Fragment>
+                  )}
                   <ButtonWarning
                     transparent
                     style={{ marginLeft: 8, color: Constants.system.white }}

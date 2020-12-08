@@ -59,7 +59,9 @@ export default class SlateMediaObject extends React.Component {
     const url = this.props.data.url;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
     const playType = typeMap[type] ? typeMap[type] : type;
-
+    const unityGameConfig = this.props.data.unityGameConfig;
+    const unityGameLoader = this.props.data.unityGameLoader;
+    console.log(this.props.data);
     let element = <div css={STYLES_FAILURE}>No Preview</div>;
 
     if (type.startsWith("application/pdf")) {
@@ -94,7 +96,9 @@ export default class SlateMediaObject extends React.Component {
 
     // TODO(jim): We will need to revisit this later.
     if (type.startsWith("application/unity")) {
-      return <UnityFrame url={url} />;
+      return (
+        <UnityFrame url={url} unityGameConfig={unityGameConfig} unityGameLoader={unityGameLoader} />
+      );
     }
 
     return element;

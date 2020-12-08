@@ -43,7 +43,7 @@ export default class ScenePublicSlate extends React.Component {
   };
 
   fetchSlate = async () => {
-    console.log(this.props.data);
+    const pageState = this.props.data.pageState;
     const username = Window.getQueryParameterByName("user");
     const slatename = Window.getQueryParameterByName("slate");
     const cid = Window.getQueryParameterByName("cid");
@@ -103,24 +103,31 @@ export default class ScenePublicSlate extends React.Component {
     }
 
     this.props.onUpdateData({ data: response.data });
-    this.setState({ slate: response.data });
+    await this.setState({ slate: response.data });
 
-    if (!Strings.isEmpty(cid)) {
-      let index = -1;
-      for (let i = 0; i < response.data.data.objects.length; i++) {
-        let obj = response.data.data.objects[i];
-        if ((obj.cid && obj.cid === cid) || (obj.url && obj.url.includes(cid))) {
-          index = i;
-          break;
+    let index = -1;
+    if (pageState || !Strings.isEmpty(cid)) {
+      if (pageState?.index) {
+        index = pageState.index;
+      } else {
+        for (let i = 0; i < response.data.data.objects.length; i++) {
+          let obj = response.data.data.objects[i];
+          if (
+            (obj.cid && (obj.cid === cid || obj.cid === pageState?.cid)) ||
+            (obj.id && obj.id === pageState?.id)
+          ) {
+            index = i;
+            break;
+          }
         }
       }
+    }
 
-      if (index !== -1) {
-        Events.dispatchCustomEvent({
-          name: "slate-global-open-carousel",
-          detail: { index },
-        });
-      }
+    if (index !== -1) {
+      Events.dispatchCustomEvent({
+        name: "slate-global-open-carousel",
+        detail: { index },
+      });
     }
   };
 

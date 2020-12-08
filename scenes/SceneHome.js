@@ -35,8 +35,6 @@ const STYLES_VIDEO_BIG = css`
 
 const STYLES_IMAGE_BOX = css`
   cursor: pointer;
-  ${"" /* background-size: cover;
-  background-position: 50% 50%; */}
   position: relative;
   box-shadow: ${Constants.shadow.light};
   margin: 10px;
@@ -58,29 +56,25 @@ const STYLES_PROFILE_IMAGE_BOX = css`
   height: 24px;
 `;
 
-const STYLES_SLATE_NAME = css`
+const STYLES_TEXT_AREA = css`
   position: absolute;
   bottom: 16px;
   left: 16px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: ${Constants.font.medium};
-  font-size: ${Constants.typescale.lvlN1};
-  color: ${Constants.system.white};
-  ${"" /* text-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5), 1px 1px 4px rgba(0, 0, 0, 0.1),
-    -1px -1px 4px rgba(0, 0, 0, 0.1); */}
 `;
 
 const STYLES_TITLE = css`
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: ${Constants.system.white};
-  ${"" /* text-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5), 0px 0px 1px rgba(0, 0, 0, 0.3); */}
+  font-family: ${Constants.font.medium};
+  margin-bottom: 4px;
+`;
+
+const STYLES_SECONDARY = css`
+  ${STYLES_TITLE}
+  font-size: ${Constants.typescale.lvlN1};
+  margin-bottom: 0px;
 `;
 
 const STYLES_GRADIENT = css`
@@ -98,8 +92,16 @@ const STYLES_GRADIENT = css`
   left: 0px;
 `;
 
+const STYLES_ACTIVITY_GRID = css`
+  margin: -10px;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
 const ActivitySquare = ({ item, size }) => {
-  console.log(item);
+  let isImage = Validations.isPreviewableImage(item.file.type);
   return (
     <div css={STYLES_IMAGE_BOX} style={{ width: size, height: size }}>
       <SlateMediaObjectPreview
@@ -112,12 +114,24 @@ const ActivitySquare = ({ item, size }) => {
         style={{ border: "none" }}
         imageStyle={{ border: "none" }}
       />
-      <div css={STYLES_GRADIENT} />
-      {/* <div css={STYLES_PROFILE_IMAGE_BOX} style={{ backgroundImage: `url(${item.user.photo})` }} /> */}
-      <div css={STYLES_SLATE_NAME} style={{ width: size }}>
+      {isImage ? <div css={STYLES_GRADIENT} /> : null}
+      <div css={STYLES_TEXT_AREA}>
+        {isImage ? null : (
+          <div
+            css={STYLES_TITLE}
+            style={{
+              color: Constants.system.textGray,
+              width: size,
+            }}
+          >
+            {item.file.title || item.file.name}
+          </div>
+        )}
         <div
+          css={STYLES_SECONDARY}
           style={{
-            lineHeight: "12px",
+            width: size,
+            color: isImage ? Constants.system.white : Constants.system.textGrayLight,
           }}
         >
           {item.slate.data.name || item.slate.slatename}
@@ -128,7 +142,6 @@ const ActivitySquare = ({ item, size }) => {
 };
 
 const ActivityRectangle = ({ item, size }) => {
-  console.log(item);
   let file;
   for (let obj of item.slate?.data?.objects || []) {
     if (Validations.isPreviewableImage(obj.type) || obj.coverImage) {
@@ -137,7 +150,7 @@ const ActivityRectangle = ({ item, size }) => {
   }
   let numObjects = item.slate?.data?.objects?.length || 0;
   return (
-    <div css={STYLES_IMAGE_BOX} style={{ width: size * 2 + 10, height: size }}>
+    <div css={STYLES_IMAGE_BOX} style={{ width: size * 2 + 20, height: size }}>
       {file ? (
         <SlateMediaObjectPreview
           centeredImage
@@ -152,23 +165,21 @@ const ActivityRectangle = ({ item, size }) => {
         />
       ) : null}
       <div css={STYLES_GRADIENT} />
-      {/* <div css={STYLES_PROFILE_IMAGE_BOX} style={{ backgroundImage: `url(${item.user.photo})` }} /> */}
-      <div css={STYLES_TITLE} style={{ width: size }}>
+      <div css={STYLES_TEXT_AREA}>
         <div
+          css={STYLES_TITLE}
           style={{
-            lineHeight: "12px",
             fontFamily: Constants.font.semiBold,
-            marginBottom: 8,
+            width: size,
           }}
         >
           {item.slate.data.name || item.slate.slatename}
         </div>
         <div
+          css={STYLES_SECONDARY}
           style={{
-            lineHeight: "12px",
-            fontFamily: Constants.font.medium,
-            fontSize: Constants.typescale.lvlN1,
             color: Constants.system.textGrayLight,
+            width: size,
           }}
         >
           {numObjects} File{numObjects == 1 ? "" : "s"}
@@ -187,6 +198,7 @@ export default class SceneHome extends React.Component {
   async componentDidMount() {
     //only fetch the last x days worth of updates maybe? or last x entries of updates?
     //maybe do this when get viewer, not here. So that dont' redo every time you go back to this scene. Or maybe save it to viewer so you don't have to redo it?
+    //if add multiple to a slate, maybe only send out the event for one of them? not sure
     this.calculateWidth();
     this.debounceInstance = Window.debounce(this.calculateWidth, 200);
     window.addEventListener("resize", this.debounceInstance);
@@ -218,17 +230,43 @@ export default class SceneHome extends React.Component {
     for (let item of activity) {
       if (item.data.type === "OTHER_USER_CREATE_SLATE") {
         let slate = slateTable[item.data.context.slate.id];
-        if (slate) {
+        if (slate?.data?.objects?.length) {
           item.data.context.slate = slate;
         }
       }
     }
-    console.log(activity);
+    //NOTE(martina): remove empty slates
+    activity = activity.filter((item) => {
+      if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") return true;
+      let slate = item.data.context.slate;
+      return slate?.data?.objects?.length;
+    });
+    //NOTE(martina): rearrange order to always get an even row of 6 squares
+    let counter = 0;
+    for (let i = 0; i < activity.length; i++) {
+      let item = activity[i];
+      if (item.data.type === "OTHER_USER_CREATE_SLATE") {
+        counter += 2;
+      } else if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") {
+        counter += 1;
+      }
+      if (counter === 6) {
+        counter = 0;
+      } else if (counter > 6) {
+        let j = i - 1;
+        while (activity[j].data.type !== "OTHER_USER_CREATE_SLATE_OBJECT") {
+          j -= 1;
+        }
+        let temp = activity[j];
+        activity[j] = activity[i];
+        activity[i] = temp;
+        counter = 0;
+        i -= 1;
+      }
+    }
     this.setState({ activity });
+    //slates with no previewable images in them?
     //filter to remove ones you no longer follow
-    //remove ones with no objects
-    //reorder to get a nice ordering
-    //maybe you try and fill a row. if it fails, you try and remove a "1" square from it and move that down to the next row
   }
 
   componentWillUnmount() {
@@ -249,181 +287,21 @@ export default class SceneHome extends React.Component {
     if (windowWidth < Constants.sizes.mobile) {
       imageSize = (windowWidth - 2 * 24 - 20) / 2;
     } else {
-      imageSize = (windowWidth - 2 * 56 - 5 * 10) / 6;
+      imageSize = (windowWidth - 2 * 56 - 5 * 20) / 6;
     }
     this.setState({ imageSize });
   };
 
   render() {
-    let squareItem = {
-      slate: {
-        id: "6fef590d-6347-48bd-a262-d7fd09319c55",
-        slatename: "playin-around",
-        data: {
-          name: "Playin Around",
-        },
-      },
-      user: {
-        id: "5172dd8b-6b11-40d3-8c9f-b4cbaa0eb8e7",
-        username: "martina",
-        data: {
-          photo:
-            "https://slate.textile.io/ipfs/bafkreib2kqtibn3pt25gdmyufrsg6gnlv5iw5mncbyenfpgfwqgq5xtk3m",
-        },
-      },
-      file: {
-        blurhash: null,
-        id: "data-adae67cb-4bab-4ade-a136-2512aab47904",
-        url:
-          "https://slate.textile.io/ipfs/bafkreiajw7ucp354rb4utaryhqde4e6rn3ydyukhnwrom3wuf6hs6m7msu",
-        cid: "bafkreiajw7ucp354rb4utaryhqde4e6rn3ydyukhnwrom3wuf6hs6m7msu",
-        type: "image/jpeg",
-        name: "IMG_299.jpg",
-        title: "IMG_299.jpg",
-      },
-    };
-    let rectItem = {
-      user: {
-        id: "ee4817fb-5b57-4a6c-b762-9127a2cdc04f",
-        username: "tuna",
-        data: {
-          photo:
-            "https://bafybeiabcoa7egpafljp6rnfhdbz7ifhnc27hpocu7clgld5oxsbjjimri.ipfs.slate.textile.io",
-        },
-      },
-      slate: {
-        slatename: "Ouroboros",
-        id: "53548922-ba60-4dd4-8358-4a4aff9ba3f3",
-        data: {
-          name: "ouroboros",
-          objects: [
-            {
-              id: "data-adae67cb-4bab-4ade-a136-2512aab47904",
-              name: "IMG_9173.jpg",
-              ownerId: "3cad78ea-01ad-4c92-8983-a97524fb9e35",
-              size: 1697947,
-              title: "IMG_9173.jpg",
-              type: "image/jpeg",
-              url:
-                "https://slate.textile.io/ipfs/bafybeie5pyqpddco6s6pq2wypkrxfbsqr4vec532tz6kaqwpe5cn3v2bu4",
-            },
-            {
-              id: "data-b114d7e5-1092-4729-86c4-71a94ebe2215",
-              name: "IMG_6730.jpg",
-              ownerId: "3cad78ea-01ad-4c92-8983-a97524fb9e35",
-              size: 2144037,
-              title: "IMG_6730.jpg",
-              type: "image/jpeg",
-              url:
-                "https://slate.textile.io/ipfs/bafybeih6ak5oufwhzqb5iuujukvmsnlitrhmhjds6dwkw5x6eqvxs3hke4",
-            },
-          ],
-        },
-      },
-    };
-    let squareItem2 = {
-      slate: {
-        id: "6fef590d-6347-48bd-a262-d7fd09319c55",
-        slatename: "looper",
-        data: {
-          name: "Looper",
-        },
-      },
-      user: {
-        id: "5172dd8b-6b11-40d3-8c9f-b4cbaa0eb8e7",
-        username: "martina",
-        data: {
-          photo:
-            "https://slate.textile.io/ipfs/bafkreifqrqyijknvg47uprc3rcjscavgesv6vuo7ypxwj27xqdi5aso6de",
-        },
-      },
-      file: {
-        blurhash: null,
-        id: "data-adae67cb-4bab-4ade-a136-2512aab47904",
-        url:
-          "https://slate.textile.io/ipfs/bafkreibh27gx3wmy4dxsl5px46mu4jjbemhlkbfuoszuro44atwznj7jqi",
-        cid: "bafkreiajw7ucp354rb4utaryhqde4e6rn3ydyukhnwrom3wuf6hs6m7msu",
-        type: "image/jpeg",
-        name: "IMG_9173.jpg",
-        title: "IMG_9173.jpg",
-      },
-    };
-    let rectItem2 = {
-      user: {
-        id: "ee4817fb-5b57-4a6c-b762-9127a2cdc04f",
-        username: "slate",
-        data: {
-          photo:
-            "https://slate.textile.io/ipfs/bafkreidc5he4qipe4dbentxtle5fao6kmeuwn7tujk5hdm7zqxc2a46uce",
-        },
-      },
-      slate: {
-        slatename: "maps-of-the-world",
-        id: "53548922-ba60-4dd4-8358-4a4aff9ba3f3",
-        data: {
-          name: "Maps of the world",
-          objects: [
-            {
-              id: "data-adae67cb-4bab-4ade-a136-2512aab47904",
-              name: "IMG_9173.jpg",
-              ownerId: "3cad78ea-01ad-4c92-8983-a97524fb9e35",
-              size: 1697947,
-              title: "IMG_9173.jpg",
-              type: "image/jpeg",
-              url:
-                "https://slate.textile.io/ipfs/bafybeigesvxcebq4b4kggvnpmgdpuxowyackzrcbuujq6t75cy7e3o6u6u",
-            },
-            {
-              id: "data-adae67cb-4bab-4ade-a136-2512aab47904",
-              name: "IMG_9173.jpg",
-              ownerId: "3cad78ea-01ad-4c92-8983-a97524fb9e35",
-              size: 1697947,
-              title: "IMG_9173.jpg",
-              type: "image/jpeg",
-              url:
-                "https://slate.textile.io/ipfs/bafybeih6ak5oufwhzqb5iuujukvmsnlitrhmhjds6dwkw5x6eqvxs3hke4",
-            },
-            {
-              id: "data-adae67cb-4bab-4ade-a136-2512aab47904",
-              name: "IMG_9173.jpg",
-              ownerId: "3cad78ea-01ad-4c92-8983-a97524fb9e35",
-              size: 1697947,
-              title: "IMG_9173.jpg",
-              type: "image/jpeg",
-              url:
-                "https://slate.textile.io/ipfs/bafybeih6ak5oufwhzqb5iuujukvmsnlitrhmhjds6dwkw5x6eqvxs3hke4",
-            },
-            {
-              id: "data-b114d7e5-1092-4729-86c4-71a94ebe2215",
-              name: "IMG_6730.jpg",
-              ownerId: "3cad78ea-01ad-4c92-8983-a97524fb9e35",
-              size: 2144037,
-              title: "IMG_6730.jpg",
-              type: "image/jpeg",
-              url:
-                "https://slate.textile.io/ipfs/bafybeih6ak5oufwhzqb5iuujukvmsnlitrhmhjds6dwkw5x6eqvxs3hke4",
-            },
-          ],
-        },
-      },
-    };
-    console.log(this.state.activity);
     return (
       <ScenePage>
-        <ScenePageHeader title="Home">
-          {this.props.viewer.activity.length
-            ? null
-            : "Welcome to Slate! You can share files with anyone in the world. Here is how it works:"}
-        </ScenePageHeader>
-
         {this.state.activity.length ? (
-          <div
-            style={{ margin: "-10px", marginTop: "38px", display: "flex", flexDirection: "row" }}
-          >
+          <div css={STYLES_ACTIVITY_GRID}>
             {this.state.activity.map((item) => {
               if (item.data.type === "OTHER_USER_CREATE_SLATE") {
                 return (
                   <span
+                    key={item.id}
                     onClick={() =>
                       this.props.onAction({
                         type: "NAVIGATE",
@@ -432,20 +310,29 @@ export default class SceneHome extends React.Component {
                       })
                     }
                   >
-                    <ActivityRectangle
-                      key={item.id}
-                      size={this.state.imageSize}
-                      item={item.data.context}
-                    />
+                    <ActivityRectangle size={this.state.imageSize} item={item.data.context} />
                   </span>
                 );
               } else if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") {
                 return (
-                  <ActivitySquare
+                  <span
                     key={item.id}
-                    size={this.state.imageSize}
-                    item={item.data.context}
-                  />
+                    onClick={() => {
+                      this.props.onAction({
+                        type: "NAVIGATE",
+                        value: "V1_NAVIGATION_SLATE",
+                        data: {
+                          decorator: "SLATE",
+                          ...item.data.context.slate,
+                          pageState: {
+                            cid: item.data.context.file.cid,
+                          },
+                        },
+                      });
+                    }}
+                  >
+                    <ActivitySquare size={this.state.imageSize} item={item.data.context} />
+                  </span>
                 );
               } else {
                 return <div>hello</div>;

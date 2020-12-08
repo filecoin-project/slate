@@ -903,18 +903,8 @@ export class SearchModal extends React.Component {
       await this.props.onAction({
         type: "NAVIGATE",
         value: "V1_NAVIGATION_SLATE",
-        data: value.data.data.slate,
+        data: { ...value.data.data.slate, pageState: { id: value.data.data.file.id } },
       });
-      if (value.data.data.slate) {
-        let ids = value.data.data.slate.data.objects.map((obj) => obj.id);
-        let index = ids.indexOf(value.data.data.file.id);
-        if (index !== -1) {
-          Events.dispatchCustomEvent({
-            name: "slate-global-open-carousel",
-            detail: { index },
-          });
-        }
-      }
     }
     this._handleHide();
   };

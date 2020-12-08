@@ -334,12 +334,11 @@ const formatActivity = async (userActivity) => {
   let slateIds = [];
   if (activity && activity.length) {
     activity = activity.filter((item) => {
-      if (item.data.type === "OTHER_USER_CREATE_SLATE") {
+      if (item.data.type === "SUBSCRIBED_CREATE_SLATE") {
         slateIds.push(item.data.context.slate.id);
       }
       return (
-        item.data.type === "OTHER_USER_CREATE_SLATE" ||
-        item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT"
+        item.data.type === "SUBSCRIBED_CREATE_SLATE" || item.data.type === "SUBSCRIBED_ADD_TO_SLATE"
       );
     });
   }
@@ -353,7 +352,7 @@ const formatActivity = async (userActivity) => {
   }
 
   for (let item of activity) {
-    if (item.data.type === "OTHER_USER_CREATE_SLATE") {
+    if (item.data.type === "SUBSCRIBED_CREATE_SLATE") {
       let slate = slateTable[item.data.context.slate.id];
       if (slate?.data?.objects?.length) {
         item.data.context.slate = slate;
@@ -362,7 +361,7 @@ const formatActivity = async (userActivity) => {
   }
   //NOTE(martina): remove empty slates
   activity = activity.filter((item) => {
-    if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") return true;
+    if (item.data.type === "SUBSCRIBED_ADD_TO_SLATE") return true;
     let slate = item.data.context.slate;
     return slate?.data?.objects?.length;
   });
@@ -370,16 +369,16 @@ const formatActivity = async (userActivity) => {
   let counter = 0;
   for (let i = 0; i < activity.length; i++) {
     let item = activity[i];
-    if (item.data.type === "OTHER_USER_CREATE_SLATE") {
+    if (item.data.type === "SUBSCRIBED_CREATE_SLATE") {
       counter += 2;
-    } else if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") {
+    } else if (item.data.type === "SUBSCRIBED_ADD_TO_SLATE") {
       counter += 1;
     }
     if (counter === 6) {
       counter = 0;
     } else if (counter > 6) {
       let j = i - 1;
-      while (activity[j].data.type !== "OTHER_USER_CREATE_SLATE_OBJECT") {
+      while (activity[j].data.type !== "SUBSCRIBED_ADD_TO_SLATE") {
         j -= 1;
       }
       let temp = activity[j];

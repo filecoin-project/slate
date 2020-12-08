@@ -55,7 +55,7 @@ const createSlateActivityForEachSubscriber = async ({ userId, data }) => {
       Data.createActivity({
         userId: s.owner_user_id,
         data: {
-          type: "OTHER_USER_CREATE_SLATE",
+          type: "SUBSCRIBED_CREATE_SLATE",
           actorUserId: data.actorUserId,
           context: data.context,
         },
@@ -101,7 +101,7 @@ const createSlateObjectActivityForEachSubscriber = async ({ slateId, userId, dat
       Data.createActivity({
         userId: s.owner_user_id,
         data: {
-          type: "OTHER_USER_CREATE_SLATE_OBJECT",
+          type: "SUBSCRIBED_ADD_TO_SLATE",
           actorUserId: data.actorUserId,
           context: data.context,
         },
@@ -120,7 +120,7 @@ const createSlateObjectActivityForEachSubscriber = async ({ slateId, userId, dat
       Data.createActivity({
         userId: s.owner_user_id,
         data: {
-          type: "OTHER_USER_CREATE_SLATE_OBJECT",
+          type: "SUBSCRIBED_ADD_TO_SLATE",
           actorUserId: data.actorUserId,
           context: data.context,
         },

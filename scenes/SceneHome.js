@@ -232,7 +232,7 @@ export default class SceneHome extends React.Component {
         {activity.length ? (
           <div css={STYLES_ACTIVITY_GRID}>
             {activity.map((item) => {
-              if (item.data.type === "OTHER_USER_CREATE_SLATE") {
+              if (item.data.type === "SUBSCRIBED_CREATE_SLATE") {
                 return (
                   <span
                     key={item.id}
@@ -247,7 +247,7 @@ export default class SceneHome extends React.Component {
                     <ActivityRectangle size={this.state.imageSize} item={item.data.context} />
                   </span>
                 );
-              } else if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") {
+              } else if (item.data.type === "SUBSCRIBED_ADD_TO_SLATE") {
                 return (
                   <span
                     key={item.id}

@@ -5,6 +5,7 @@ import * as Strings from "~/common/strings";
 import * as Window from "~/common/window";
 import * as Validations from "~/common/validations";
 import * as UserBehaviors from "~/common/user-behaviors";
+import * as Events from "~/common/custom-events";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import CTATransition from "~/components/core/CTATransition";
@@ -234,6 +235,8 @@ const STYLES_ACTION_BAR_CONTAINER = css`
   display: flex;
   justify-content: center;
   z-index: ${Constants.zindex.header};
+  left: 10vw;
+  width: 80vw;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -319,6 +322,7 @@ export class SlateLayout extends React.Component {
     tooltip: null,
     keyboardTooltip: false,
     signInModal: false,
+    loading: {},
   };
 
   componentDidMount = async () => {
@@ -1036,7 +1040,12 @@ export class SlateLayout extends React.Component {
     UserBehaviors.removeFromSlate({ slate: this.props.current, ids });
   };
 
-  _handleDeleteFiles = (e, i) => {
+  _handleDeleteFiles = async (e, i) => {
+    const message = `Are you sure you want to delete these files? They will be deleted from your data and slates.`;
+    if (!window.confirm(message)) {
+      return;
+    }
+
     e.stopPropagation();
     e.preventDefault();
     let ids = [];
@@ -1046,7 +1055,6 @@ export class SlateLayout extends React.Component {
       for (let index of Object.keys(this.state.checked)) {
         ids.push(this.state.items[index].id);
       }
-      this.setState({ checked: {} });
     }
     let cids = [];
     for (let file of this.props.viewer.library[0].children) {
@@ -1054,7 +1062,23 @@ export class SlateLayout extends React.Component {
         cids.push(file.cid);
       }
     }
-    UserBehaviors.deleteFiles(cids, ids);
+
+    await this._handleLoading({ cids });
+    await UserBehaviors.deleteFiles(cids, ids);
+    this._handleLoading({ cids });
+    await this.setState({ checked: {} });
+  };
+
+  _handleLoading = ({ cids }) => {
+    let loading = this.state.loading;
+    for (let cid of cids) {
+      Events.dispatchCustomEvent({
+        name: "slate-global-carousel-loading",
+        detail: { loading: !this.state.loading[cid] },
+      });
+      loading[cid] = !this.state.loading[cid];
+    }
+    this.setState({ loading });
   };
 
   _stopProp = (e) => {
@@ -1267,7 +1291,11 @@ export class SlateLayout extends React.Component {
                   css={this.state.editing ? STYLES_ITEM_EDITING : STYLES_ITEM}
                   key={i}
                   name={i}
-                  onMouseEnter={() => this.setState({ hover: i })}
+                  onMouseEnter={() =>
+                    this.setState(
+                      this.state.loading[this.state.items[i].cid] ? { hover: null } : { hover: i }
+                    )
+                  }
                   onMouseLeave={() => this.setState({ hover: null })}
                   onMouseDown={this.state.editing ? (e) => this._handleMouseDown(e, i) : () => {}}
                   onClick={this.state.editing ? () => {} : () => this.props.onSelect(i)}
@@ -1303,6 +1331,18 @@ export class SlateLayout extends React.Component {
                         maxHeight: "none",
                       }}
                     />
+                    {this.state.loading[this.state.items[i].cid] ? (
+                      <LoaderSpinner
+                        style={{
+                          height: 16,
+                          width: 16,
+                          marginTop: 4,
+                          position: "absolute",
+                          bottom: 8,
+                          right: 8,
+                        }}
+                      />
+                    ) : null}
                     {numChecked || this.state.hover === i ? (
                       <div css={STYLES_MOBILE_HIDDEN}>
                         {this.props.external ? null : (
@@ -1320,26 +1360,30 @@ export class SlateLayout extends React.Component {
                               this.setState({ checked });
                             }}
                           >
-                            <CheckBox
-                              name={i}
-                              value={!!this.state.checked[i]}
-                              onChange={this._handleCheckBox}
-                              boxStyle={{
-                                height: 24,
-                                width: 24,
-                                backgroundColor: this.state.checked[i]
-                                  ? Constants.system.brand
-                                  : "rgba(255, 255, 255, 0.75)",
-                                boxShadow: this.state.checked[i]
-                                  ? "none"
-                                  : "0 0 0 2px #C3C3C4 inset",
-                              }}
-                              style={{
-                                position: "absolute",
-                                top: 8,
-                                left: 8,
-                              }}
-                            />
+                            {Object.keys(this.state.loading).every(
+                              (k) => this.state.loading[k] === false
+                            ) && (
+                              <CheckBox
+                                name={i}
+                                value={!!this.state.checked[i]}
+                                onChange={this._handleCheckBox}
+                                boxStyle={{
+                                  height: 24,
+                                  width: 24,
+                                  backgroundColor: this.state.checked[i]
+                                    ? Constants.system.brand
+                                    : "rgba(255, 255, 255, 0.75)",
+                                  boxShadow: this.state.checked[i]
+                                    ? "none"
+                                    : "0 0 0 2px #C3C3C4 inset",
+                                }}
+                                style={{
+                                  position: "absolute",
+                                  top: 8,
+                                  left: 8,
+                                }}
+                              />
+                            )}
                           </div>
                         )}
                         {this.state.hover !== i ? null : this.state.editing ? (
@@ -1713,29 +1757,31 @@ export class SlateLayout extends React.Component {
               </div>
               {this.props.isOwner ? (
                 <div css={STYLES_RIGHT}>
-                  <ButtonPrimary
-                    transparent
-                    style={{ color: Constants.system.white }}
-                    onClick={this._handleAddToSlate}
-                  >
-                    Add to slate
-                  </ButtonPrimary>
-                  {/* <ButtonPrimary transparent onClick={this._handleDownload}>
+                  {this.state.loading &&
+                  Object.values(this.state.loading).some((elem) => {
+                    return !!elem;
+                  }) ? null : (
+                    <React.Fragment>
+                      <ButtonPrimary
+                        transparent
+                        style={{ marginLeft: 8, color: Constants.system.white }}
+                        onClick={this._handleAddToSlate}
+                      >
+                        Add to slate
+                      </ButtonPrimary>
+
+                      {/* <ButtonPrimary transparent onClick={this._handleDownload}>
                     Download
                   </ButtonPrimary> */}
-                  <ButtonWarning
-                    transparent
-                    style={{ marginLeft: 8, color: Constants.system.white }}
-                    onClick={this._handleRemoveFromSlate}
-                    loading={
-                      this.state.loading &&
-                      Object.values(this.state.loading).some((elem) => {
-                        return !!elem;
-                      })
-                    }
-                  >
-                    Remove
-                  </ButtonWarning>
+                      <ButtonWarning
+                        transparent
+                        style={{ marginLeft: 8, color: Constants.system.white }}
+                        onClick={this._handleRemoveFromSlate}
+                      >
+                        Remove
+                      </ButtonWarning>
+                    </React.Fragment>
+                  )}
                   <ButtonWarning
                     transparent
                     style={{ marginLeft: 8, color: Constants.system.white }}

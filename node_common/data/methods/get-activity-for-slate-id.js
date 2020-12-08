@@ -6,7 +6,8 @@ export default async ({ slateId }) => {
     queryFn: async (DB) => {
       const query = await DB.select("*")
         .from("activity")
-        .where({ owner_slate_id: slateId });
+        .where({ owner_slate_id: slateId })
+        .orderBy("created_at", "desc");
 
       if (!query || query.error) {
         return [];

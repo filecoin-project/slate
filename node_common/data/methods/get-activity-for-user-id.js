@@ -6,7 +6,8 @@ export default async ({ userId }) => {
     queryFn: async (DB) => {
       const query = await DB.select("*")
         .from("activity")
-        .where({ owner_user_id: userId });
+        .where({ owner_user_id: userId })
+        .orderBy("created_at", "desc");
 
       if (!query || query.error) {
         return [];

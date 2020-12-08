@@ -27,7 +27,7 @@ export default async (req, res) => {
   }
 
   if (Array.isArray(req.body.data.id)) {
-    const responseMultiple = Data.getSlatesByIds({ id: req.body.data.id });
+    const responseMultiple = await Data.getSlatesByIds({ ids: req.body.data.id });
     if (!responseMultiple) {
       return res.status(404).send({ decorator: "SERVER_GET_SLATES_NOT_FOUND", error: true });
     }
@@ -35,7 +35,6 @@ export default async (req, res) => {
     if (responseMultiple.error) {
       return res.status(500).send({ decorator: "SERVER_GET_SLATES_NOT_FOUND", error: true });
     }
-    console.log(responseMultiple);
 
     return res.status(200).send({ decorator: "SERVER_GET_SLATES", slate: responseMultiple });
   } else {

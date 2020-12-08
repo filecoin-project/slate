@@ -14,9 +14,7 @@ export const deal = ({ userId, data }) => {
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const message = `*${userURL}* made a one-off storage deal with bucket "${
-      data.context.bucketName
-    }".`;
+    const message = `*${userURL}* made a one-off storage deal with bucket "${data.context.bucketName}".`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -57,7 +55,7 @@ const createSlateActivityForEachSubscriber = async ({ userId, data }) => {
       Data.createActivity({
         userId: s.owner_user_id,
         data: {
-          type: "ANOTHER_USER_CREATED_SLATE",
+          type: "OTHER_USER_CREATE_SLATE",
           actorUserId: data.actorUserId,
           context: data.context,
         },
@@ -83,9 +81,7 @@ export const createSlate = ({ userId, data }) => {
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const message = `*${userURL}* created a slate: https://slate.host/${data.context.username}/${
-      data.context.slatename
-    }`;
+    const message = `*${userURL}* created a slate: https://slate.host/${data.context.username}/${data.context.slatename}`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -93,8 +89,8 @@ export const createSlate = ({ userId, data }) => {
   }
 };
 
-const createSlateObjectActivityForEachSubscriber = async ({ slateId, data }) => {
-  const subscriptions = await Data.getSubscriptionsToSlateId({ slateId });
+const createSlateObjectActivityForEachSubscriber = async ({ slateId, userId, data }) => {
+  let subscriptions = await Data.getSubscriptionsToUserId({ userId });
 
   if (subscriptions.length) {
     for (let i = 0; i < subscriptions.length; i++) {
@@ -105,7 +101,26 @@ const createSlateObjectActivityForEachSubscriber = async ({ slateId, data }) => 
       Data.createActivity({
         userId: s.owner_user_id,
         data: {
-          type: "ANOTHER_USER_CREATE_SLATE_OBJECT",
+          type: "OTHER_USER_CREATE_SLATE_OBJECT",
+          actorUserId: data.actorUserId,
+          context: data.context,
+        },
+      });
+    }
+  }
+
+  subscriptions = await Data.getSubscriptionsToSlateId({ slateId });
+
+  if (subscriptions.length) {
+    for (let i = 0; i < subscriptions.length; i++) {
+      const s = subscriptions[i];
+
+      // NOTE(jim):
+      // <VIEWER> WITNESS <USER> ADDED OBJECT TO <SLATE>
+      Data.createActivity({
+        userId: s.owner_user_id,
+        data: {
+          type: "OTHER_USER_CREATE_SLATE_OBJECT",
           actorUserId: data.actorUserId,
           context: data.context,
         },
@@ -114,7 +129,7 @@ const createSlateObjectActivityForEachSubscriber = async ({ slateId, data }) => 
   }
 };
 
-export const createSlateObject = ({ slateId, data }) => {
+export const createSlateObject = ({ slateId, userId, data }) => {
   Data.createOrUpdateStats(new Date(), { objects: 1 });
 
   // TODO(jim): We may do some private tracking here.
@@ -136,16 +151,12 @@ export const createSlateObject = ({ slateId, data }) => {
 
     // NOTE(jim):
     // <VIEWER> WITNESS <USER> ADDED OBJECT TO <SLATE>
-    createSlateObjectActivityForEachSubscriber({ slateId, data });
+    createSlateObjectActivityForEachSubscriber({ slateId, userId, data });
 
     const userProfileURL = `https://slate.host/${data.context.username}`;
     const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const objectURL = `<https://slate.host/${data.context.username}/${data.context.slatename}/cid:${
-      data.context.cid
-    }|${data.context.cid}>`;
-    const message = `*${userURL}* added ${objectURL} to https://slate.host/${
-      data.context.username
-    }/${data.context.slatename}`;
+    const objectURL = `<https://slate.host/${data.context.username}/${data.context.slatename}/cid:${data.context.cid}|${data.context.cid}>`;
+    const message = `*${userURL}* added ${objectURL} to https://slate.host/${data.context.username}/${data.context.slatename}`;
 
     Social.sendSlackMessage(message);
   } catch (e) {

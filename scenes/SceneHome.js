@@ -1,10 +1,16 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as Validations from "~/common/validations";
+import * as Window from "~/common/window";
+import * as SVG from "~/common/svg";
+import * as Actions from "~/common/actions";
+import * as Events from "~/common/custom-events";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
+import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import DataView from "~/components/core/DataView";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 
@@ -27,7 +33,179 @@ const STYLES_VIDEO_BIG = css`
   }
 `;
 
+const STYLES_IMAGE_BOX = css`
+  cursor: pointer;
+  position: relative;
+  box-shadow: ${Constants.shadow.light};
+  margin: 10px;
+
+  :hover {
+    box-shadow: ${Constants.shadow.medium};
+  }
+`;
+
+const STYLES_PROFILE_IMAGE_BOX = css`
+  background-size: cover;
+  background-position: 50% 50%;
+  position: relative;
+  border-radius: 4px;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 24px;
+  height: 24px;
+`;
+
+const STYLES_TEXT_AREA = css`
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+`;
+
+const STYLES_TITLE = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: ${Constants.system.white};
+  font-family: ${Constants.font.medium};
+  margin-bottom: 4px;
+`;
+
+const STYLES_SECONDARY = css`
+  ${STYLES_TITLE}
+  font-size: ${Constants.typescale.lvlN1};
+  margin-bottom: 0px;
+`;
+
+const STYLES_GRADIENT = css`
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.2) 26.56%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  backdrop-filter: blur(2px);
+  width: 100%;
+  height: 72px;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+`;
+
+const STYLES_ACTIVITY_GRID = css`
+  margin: -10px;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const ActivitySquare = ({ item, size }) => {
+  let isImage = Validations.isPreviewableImage(item.file.type);
+  return (
+    <div css={STYLES_IMAGE_BOX} style={{ width: size, height: size }}>
+      <SlateMediaObjectPreview
+        centeredImage
+        iconOnly
+        blurhash={item.file.blurhash}
+        url={item.file.url}
+        title={item.file.title || item.file.name}
+        type={item.file.type}
+        style={{ border: "none" }}
+        imageStyle={{ border: "none" }}
+      />
+      {isImage ? <div css={STYLES_GRADIENT} /> : null}
+      <div css={STYLES_TEXT_AREA}>
+        {isImage ? null : (
+          <div
+            css={STYLES_TITLE}
+            style={{
+              color: Constants.system.textGray,
+              width: size,
+            }}
+          >
+            {item.file.title || item.file.name}
+          </div>
+        )}
+        <div
+          css={STYLES_SECONDARY}
+          style={{
+            width: size,
+            color: isImage ? Constants.system.white : Constants.system.textGrayLight,
+          }}
+        >
+          {item.slate.data.name || item.slate.slatename}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ActivityRectangle = ({ item, size }) => {
+  let file;
+  for (let obj of item.slate?.data?.objects || []) {
+    if (Validations.isPreviewableImage(obj.type) || obj.coverImage) {
+      file = obj;
+    }
+  }
+  let numObjects = item.slate?.data?.objects?.length || 0;
+  return (
+    <div css={STYLES_IMAGE_BOX} style={{ width: size * 2 + 20, height: size }}>
+      {file ? (
+        <SlateMediaObjectPreview
+          centeredImage
+          iconOnly
+          blurhash={file.blurhash}
+          url={file.url}
+          title={file.title || file.name}
+          type={file.type}
+          style={{ border: "none" }}
+          imageStyle={{ border: "none" }}
+          coverImage={file.coverImage}
+        />
+      ) : null}
+      <div css={STYLES_GRADIENT} />
+      <div css={STYLES_TEXT_AREA}>
+        <div
+          css={STYLES_TITLE}
+          style={{
+            fontFamily: Constants.font.semiBold,
+            width: size,
+          }}
+        >
+          {item.slate.data.name || item.slate.slatename}
+        </div>
+        <div
+          css={STYLES_SECONDARY}
+          style={{
+            color: Constants.system.textGrayLight,
+            width: size,
+          }}
+        >
+          {numObjects} File{numObjects == 1 ? "" : "s"}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default class SceneHome extends React.Component {
+  state = {
+    imageSize: 200,
+  };
+
+  async componentDidMount() {
+    this.calculateWidth();
+    this.debounceInstance = Window.debounce(this.calculateWidth, 200);
+    window.addEventListener("resize", this.debounceInstance);
+    //slates with no previewable images in them?
+    //filter to remove ones you no longer follow
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.debounceInstance);
+  }
+
   _handleCreateSlate = () => {
     this.props.onAction({
       type: "NAVIGATE",
@@ -36,30 +214,72 @@ export default class SceneHome extends React.Component {
     });
   };
 
-  render() {
-    let hasChildren = false;
-    if (this.props.viewer && this.props.viewer.library[0].children.length) {
-      hasChildren = true;
+  calculateWidth = () => {
+    let windowWidth = window.innerWidth;
+    let imageSize;
+    if (windowWidth < Constants.sizes.mobile) {
+      imageSize = (windowWidth - 2 * 24 - 20) / 2;
+    } else {
+      imageSize = (windowWidth - 2 * 56 - 5 * 20) / 6;
     }
+    this.setState({ imageSize });
+  };
 
+  render() {
+    let activity = this.props.viewer.activity;
     return (
       <ScenePage>
-        <ScenePageHeader title="Home">
-          {hasChildren
-            ? "Welcome back! Here is your data."
-            : "Welcome to Slate! You can share files with anyone in the world. Here is how it works:"}
-        </ScenePageHeader>
-
-        {hasChildren ? (
-          <div style={{ marginTop: "48px" }}>
-            <DataView
-              viewer={this.props.viewer}
-              items={this.props.viewer.library[0].children}
-              onAction={this.props.onAction}
-            />
+        {activity.length ? (
+          <div css={STYLES_ACTIVITY_GRID}>
+            {activity.map((item) => {
+              if (item.data.type === "OTHER_USER_CREATE_SLATE") {
+                return (
+                  <span
+                    key={item.id}
+                    onClick={() =>
+                      this.props.onAction({
+                        type: "NAVIGATE",
+                        value: "V1_NAVIGATION_SLATE",
+                        data: { decorator: "SLATE", ...item.data.context.slate },
+                      })
+                    }
+                  >
+                    <ActivityRectangle size={this.state.imageSize} item={item.data.context} />
+                  </span>
+                );
+              } else if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") {
+                return (
+                  <span
+                    key={item.id}
+                    onClick={() => {
+                      this.props.onAction({
+                        type: "NAVIGATE",
+                        value: "V1_NAVIGATION_SLATE",
+                        data: {
+                          decorator: "SLATE",
+                          ...item.data.context.slate,
+                          pageState: {
+                            cid: item.data.context.file.cid,
+                          },
+                        },
+                      });
+                    }}
+                  >
+                    <ActivitySquare size={this.state.imageSize} item={item.data.context} />
+                  </span>
+                );
+              } else {
+                return null;
+              }
+            })}
           </div>
         ) : (
           <React.Fragment>
+            <System.P>When you're ready, create a slate!</System.P>
+            <br />
+            <System.ButtonPrimary onClick={this._handleCreateSlate}>
+              Create a slate
+            </System.ButtonPrimary>
             <video
               css={STYLES_VIDEO_BIG}
               autoPlay
@@ -76,11 +296,6 @@ export default class SceneHome extends React.Component {
                 backgroundSize: `cover`,
               }}
             />
-            <System.P>When you're ready, create a slate!</System.P>
-            <br />
-            <System.ButtonPrimary onClick={this._handleCreateSlate}>
-              Create a slate
-            </System.ButtonPrimary>
           </React.Fragment>
         )}
       </ScenePage>

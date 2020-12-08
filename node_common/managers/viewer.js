@@ -220,7 +220,7 @@ export const getById = async ({ id }) => {
 
   // TODO(jim): You can serialize this last because you will have all the information
   // from subscriptionsed, trusted, and pendingTrusted most likely.
-  const activity = await Data.getActivityForUserId({ userId: id });
+  let activity = await Data.getActivityForUserId({ userId: id });
   const slates = await Data.getSlatesByUserId({ userId: id });
   const keys = await Data.getAPIKeysByUserId({ userId: id });
   const subscriptions = await Data.getSubscriptionsByUserId({ userId: id });
@@ -290,6 +290,8 @@ export const getById = async ({ id }) => {
     bytes += each.size;
   });
 
+  activity = await formatActivity(activity);
+
   return {
     ...Serializers.user(user),
     type: "VIEWER",
@@ -325,6 +327,69 @@ export const getById = async ({ id }) => {
     trusted: r3.serializedTrusted,
     pendingTrusted: r4.serializedPendingTrusted,
   };
+};
+
+const formatActivity = async (userActivity) => {
+  let activity = userActivity;
+  let slateIds = [];
+  if (activity && activity.length) {
+    activity = activity.filter((item) => {
+      if (item.data.type === "OTHER_USER_CREATE_SLATE") {
+        slateIds.push(item.data.context.slate.id);
+      }
+      return (
+        item.data.type === "OTHER_USER_CREATE_SLATE" ||
+        item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT"
+      );
+    });
+  }
+  let slates = [];
+  if (slateIds && slateIds.length) {
+    slates = await Data.getSlatesByIds({ ids: slateIds });
+  }
+  let slateTable = {};
+  for (let slate of slates) {
+    slateTable[slate.id] = slate;
+  }
+
+  for (let item of activity) {
+    if (item.data.type === "OTHER_USER_CREATE_SLATE") {
+      let slate = slateTable[item.data.context.slate.id];
+      if (slate?.data?.objects?.length) {
+        item.data.context.slate = slate;
+      }
+    }
+  }
+  //NOTE(martina): remove empty slates
+  activity = activity.filter((item) => {
+    if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") return true;
+    let slate = item.data.context.slate;
+    return slate?.data?.objects?.length;
+  });
+  //NOTE(martina): rearrange order to always get an even row of 6 squares
+  let counter = 0;
+  for (let i = 0; i < activity.length; i++) {
+    let item = activity[i];
+    if (item.data.type === "OTHER_USER_CREATE_SLATE") {
+      counter += 2;
+    } else if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") {
+      counter += 1;
+    }
+    if (counter === 6) {
+      counter = 0;
+    } else if (counter > 6) {
+      let j = i - 1;
+      while (activity[j].data.type !== "OTHER_USER_CREATE_SLATE_OBJECT") {
+        j -= 1;
+      }
+      let temp = activity[j];
+      activity[j] = activity[i];
+      activity[i] = temp;
+      counter = 0;
+      i -= 1;
+    }
+  }
+  return activity;
 };
 
 export const getDealHistory = async ({ id }) => {

@@ -192,79 +192,12 @@ const ActivityRectangle = ({ item, size }) => {
 export default class SceneHome extends React.Component {
   state = {
     imageSize: 200,
-    activity: [],
   };
 
   async componentDidMount() {
-    //only fetch the last x days worth of updates maybe? or last x entries of updates?
-    //maybe do this when get viewer, not here. So that dont' redo every time you go back to this scene. Or maybe save it to viewer so you don't have to redo it?
-    //if add multiple to a slate, maybe only send out the event for one of them? not sure
     this.calculateWidth();
     this.debounceInstance = Window.debounce(this.calculateWidth, 200);
     window.addEventListener("resize", this.debounceInstance);
-    let activity = this.props.viewer.activity;
-    let slateIds = [];
-    if (activity && activity.length) {
-      activity = activity.filter((item) => {
-        if (item.data.type === "OTHER_USER_CREATE_SLATE") {
-          slateIds.push(item.data.context.slate.id);
-        }
-        return (
-          item.data.type === "OTHER_USER_CREATE_SLATE" ||
-          item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT"
-        );
-      });
-    }
-    let slates = [];
-    if (slateIds && slateIds.length) {
-      let response = await Actions.getSlatesByIds({ id: slateIds });
-      if (response && response.slate) {
-        slates = response.slate;
-      }
-    }
-    let slateTable = {};
-    for (let slate of slates) {
-      slateTable[slate.id] = slate;
-    }
-
-    for (let item of activity) {
-      if (item.data.type === "OTHER_USER_CREATE_SLATE") {
-        let slate = slateTable[item.data.context.slate.id];
-        if (slate?.data?.objects?.length) {
-          item.data.context.slate = slate;
-        }
-      }
-    }
-    //NOTE(martina): remove empty slates
-    activity = activity.filter((item) => {
-      if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") return true;
-      let slate = item.data.context.slate;
-      return slate?.data?.objects?.length;
-    });
-    //NOTE(martina): rearrange order to always get an even row of 6 squares
-    let counter = 0;
-    for (let i = 0; i < activity.length; i++) {
-      let item = activity[i];
-      if (item.data.type === "OTHER_USER_CREATE_SLATE") {
-        counter += 2;
-      } else if (item.data.type === "OTHER_USER_CREATE_SLATE_OBJECT") {
-        counter += 1;
-      }
-      if (counter === 6) {
-        counter = 0;
-      } else if (counter > 6) {
-        let j = i - 1;
-        while (activity[j].data.type !== "OTHER_USER_CREATE_SLATE_OBJECT") {
-          j -= 1;
-        }
-        let temp = activity[j];
-        activity[j] = activity[i];
-        activity[i] = temp;
-        counter = 0;
-        i -= 1;
-      }
-    }
-    this.setState({ activity });
     //slates with no previewable images in them?
     //filter to remove ones you no longer follow
   }
@@ -293,11 +226,12 @@ export default class SceneHome extends React.Component {
   };
 
   render() {
+    let activity = this.props.viewer.activity;
     return (
       <ScenePage>
-        {this.state.activity.length ? (
+        {activity.length ? (
           <div css={STYLES_ACTIVITY_GRID}>
-            {this.state.activity.map((item) => {
+            {activity.map((item) => {
               if (item.data.type === "OTHER_USER_CREATE_SLATE") {
                 return (
                   <span
@@ -335,7 +269,7 @@ export default class SceneHome extends React.Component {
                   </span>
                 );
               } else {
-                return <div>hello</div>;
+                return null;
               }
             })}
           </div>

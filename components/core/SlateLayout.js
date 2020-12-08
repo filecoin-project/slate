@@ -1332,7 +1332,16 @@ export class SlateLayout extends React.Component {
                       }}
                     />
                     {this.state.loading[this.state.items[i].cid] ? (
-                      <LoaderSpinner style={{ height: 16, width: 16, marginTop: 4 }} />
+                      <LoaderSpinner
+                        style={{
+                          height: 16,
+                          width: 16,
+                          marginTop: 4,
+                          position: "absolute",
+                          bottom: 8,
+                          right: 8,
+                        }}
+                      />
                     ) : null}
                     {numChecked || this.state.hover === i ? (
                       <div css={STYLES_MOBILE_HIDDEN}>

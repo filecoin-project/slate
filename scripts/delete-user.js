@@ -3,6 +3,8 @@ import knex from "knex";
 
 import * as Data from "~/node_common/data";
 
+import { deleteUser } from "~/pages/api/users/delete";
+
 const envConfig = configs["development"];
 
 const db = knex(envConfig);
@@ -18,6 +20,7 @@ const run = async () => {
 
   if (user) {
     console.log(`deleting ${user.username}`);
+    await deleteUser(user);
   }
 
   console.log(`FINISHED: delete-user.js`);

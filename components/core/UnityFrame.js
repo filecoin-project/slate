@@ -26,17 +26,17 @@ const _cleanScripts = () => {
   });
 };
 
-const UnityFrame = ({ url }) => {
+const UnityFrame = ({ url, unityGameLoader, unityGameConfig }) => {
   // NOTE (daniel): url to unity game root
   const gameRootUrl = url.split("/index.html")[0];
 
   React.useEffect(() => {
     let unityInstance;
-    _loadScript(`${gameRootUrl}/Build/UnityLoader.js`).then(() => {
+    _loadScript(`${gameRootUrl}/${unityGameLoader}`).then(() => {
       if (window) {
         unityInstance = window.UnityLoader.instantiate(
           "unityContainer",
-          `${gameRootUrl}/Build/WebGL%20Repo.json`
+          `${gameRootUrl}/${unityGameConfig}`
         );
       }
     });

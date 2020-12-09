@@ -271,9 +271,7 @@ export class SlatePreviewBlock extends React.Component {
             <div style={{ width: `85%` }}>
               <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
               {this.props.slate.data.body ? (
-                <div css={STYLES_BODY}>
-                  <ProcessedText text={this.props.slate.data.body} />
-                </div>
+                <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
               ) : (
                 <div style={{ height: "8px" }} />
               )}

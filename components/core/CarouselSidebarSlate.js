@@ -83,6 +83,35 @@ const STYLES_BODY = css`
   margin-bottom: 32px;
 `;
 
+const STYLES_AUTOSAVE = css`
+  font-size: 12px;
+  line-height: 1.225;
+  display: flex;
+  justify-content: baseline;
+  color: ${Constants.system.yellow};
+  position: absolute;
+  opacity: 0;
+
+  @keyframes autosave {
+    0% {
+      opacity: 0;
+      margin-left: 12px;
+    }
+    10% {
+      opacity: 1;
+      margin-left: 0;
+    }
+    90% {
+      opacity: 1;
+      margin-left: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  animation: autosave 4000ms ease;
+`;
+
 const STYLES_SIDEBAR_INPUT_LABEL = css`
   font-size: 16px;
   font-family: ${Constants.font.semiBold};
@@ -169,6 +198,7 @@ export default class CarouselSidebarSlate extends React.Component {
 
   componentDidMount = () => {
     window.addEventListener("slate-global-carousel-loading", this._handleSetLoading);
+    this.setState({ unsavedChanges: true });
     if (this.props.isOwner && !this.props.external) {
       this.debounceInstance = this.debounce(() => this._handleSave(), 3000);
       let isPublic = false;
@@ -298,7 +328,6 @@ export default class CarouselSidebarSlate extends React.Component {
   render() {
     const elements = [];
     const { cid, url } = this.props.data;
-
     if (this.props.data) {
       if (this.props.isOwner) {
         elements.push(
@@ -337,8 +366,14 @@ export default class CarouselSidebarSlate extends React.Component {
               placeholder="Author"
               onChange={this._handleChange}
               id={`sidebar-label-author`}
-              style={{ ...STYLES_INPUT, marginBottom: 24 }}
+              style={{ ...STYLES_INPUT, marginBottom: 12 }}
             />
+            {this.state.unsavedChanges == false && (
+              <div css={STYLES_AUTOSAVE}>
+                <SVG.Check height="14px" style={{ marginRight: 4 }} />
+                autosaved
+              </div>
+            )}
           </React.Fragment>
         );
       } else {
@@ -408,7 +443,7 @@ export default class CarouselSidebarSlate extends React.Component {
           <React.Fragment>
             <div
               css={STYLES_SECTION_HEADER}
-              style={{ cursor: "pointer", marginTop: 44 }}
+              style={{ cursor: "pointer", marginTop: 56 }}
               onClick={() => this._toggleAccordion("showConnected")}
             >
               <span

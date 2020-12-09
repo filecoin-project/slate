@@ -43,7 +43,7 @@ export default class ScenePublicSlate extends React.Component {
   };
 
   fetchSlate = async () => {
-    const pageState = this.props.data.pageState;
+    const pageState = this.props.data?.pageState;
     const username = Window.getQueryParameterByName("user");
     const slatename = Window.getQueryParameterByName("slate");
     const cid = Window.getQueryParameterByName("cid");

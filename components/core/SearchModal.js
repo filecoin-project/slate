@@ -515,7 +515,9 @@ export class SearchModal extends React.Component {
   };
 
   initializeSearch = async () => {
-    this._input.focus();
+    if (this._input) {
+      this._input.focus();
+    }
     this.debounceInstance = Window.debounce(() => {
       this._handleSearch();
     }, 500);
@@ -816,7 +818,9 @@ export class SearchModal extends React.Component {
       }
     }
     this.setState({ results, selectedIndex: 0 });
-    this._optionRoot.scrollTop = 0;
+    if (this._optionRoot) {
+      this._optionRoot.scrollTop = 0;
+    }
   };
 
   processResults = (searchResults) => {
@@ -948,7 +952,9 @@ export class SearchModal extends React.Component {
   };
 
   _handleFilterType = async (type) => {
-    this._input.focus();
+    if (this._input) {
+      this._input.focus();
+    }
     if (this.state.typeFilter === type) {
       await this.setState({ typeFilter: null });
     } else {
@@ -960,7 +966,9 @@ export class SearchModal extends React.Component {
   };
 
   _handleFilterScope = async (scope) => {
-    this._input.focus();
+    if (this._input) {
+      this._input.focus();
+    }
     await this.setState({ scopeFilter: scope, filterTooltip: false });
     if (this.state.inputValue) {
       this._handleSearch(true);
@@ -971,8 +979,12 @@ export class SearchModal extends React.Component {
     if (!this.state.inputValue || !this.state.inputValue.length) {
       this._handleHide();
     }
-    this._optionRoot.scrollTop = 0;
-    this._input.focus();
+    if (this._optionRoot) {
+      this._optionRoot.scrollTop = 0;
+    }
+    if (this._input) {
+      this._input.focus();
+    }
     this.setState({
       inputValue: "",
       results: [],

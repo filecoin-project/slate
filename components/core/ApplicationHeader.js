@@ -51,7 +51,7 @@ const STYLES_APPLICATION_HEADER = css`
   justify-content: space-between;
   width: 100%;
   height: 56px;
-  padding: 0 32px 0 24px;
+  padding: 0 24px 0 16px;
   pointer-events: none;
   background-color: ${Constants.system.white};
 
@@ -240,7 +240,7 @@ export default class ApplicationHeader extends React.Component {
               }
               onClick={isBackDisabled ? () => {} : this.props.onBack}
             >
-              <SVG.NavigationArrow height="24px" style={{ transform: `rotate(180deg)` }} />
+              <SVG.ChevronLeft height="28px" />
             </span>
             <span
               css={STYLES_ICON_ELEMENT}
@@ -251,7 +251,7 @@ export default class ApplicationHeader extends React.Component {
               }
               onClick={isForwardDisabled ? () => {} : this.props.onForward}
             >
-              <SVG.NavigationArrow height="24px" />
+              <SVG.ChevronRight height="28px" />
             </span>
           </span>
           <span css={STYLES_MARGIN_LEFT} onClick={this._handleCreateSearch}>

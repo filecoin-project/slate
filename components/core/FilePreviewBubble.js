@@ -17,12 +17,13 @@ const fadeIn = keyframes`
 
 const STYLES_FILE_PREVIEW_BUBBLE = css`
   z-index: ${Constants.zindex.tooltip};
-  padding: 8px;
   border-radius: 4px;
   background-color: ${Constants.system.black};
   animation: ${fadeIn} 200ms ease-out 1;
   width: 200px;
   position: absolute;
+  border: 1px solid black;
+  overflow: hidden;
 `;
 
 const STYLES_FILE_PREVIEW = css`

@@ -1310,7 +1310,7 @@ export const ChevronRight = (props) => {
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="1.5"
+      strokeWidth="2"
       {...props}
     >
       <polyline points="9 18 15 12 9 6" />
@@ -1327,7 +1327,7 @@ export const ChevronLeft = (props) => {
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="1.5"
+      strokeWidth="2"
       {...props}
     >
       <polyline points="15 18 9 12 15 6" />

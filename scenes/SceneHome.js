@@ -100,46 +100,67 @@ const STYLES_ACTIVITY_GRID = css`
   flex-wrap: wrap;
 `;
 
-const ActivitySquare = ({ item, size }) => {
-  let isImage = Validations.isPreviewableImage(item.file.type);
-  return (
-    <div css={STYLES_IMAGE_BOX} style={{ width: size, height: size }}>
-      <SlateMediaObjectPreview
-        centeredImage
-        iconOnly
-        blurhash={item.file.blurhash}
-        url={item.file.url}
-        title={item.file.title || item.file.name}
-        type={item.file.type}
-        style={{ border: "none" }}
-        imageStyle={{ border: "none" }}
-      />
-      {isImage ? <div css={STYLES_GRADIENT} /> : null}
-      <div css={STYLES_TEXT_AREA}>
-        {isImage ? null : (
-          <div
-            css={STYLES_TITLE}
-            style={{
-              color: Constants.system.textGray,
-              width: size,
-            }}
-          >
-            {item.file.title || item.file.name}
+class ActivitySquare extends React.Component {
+  state = {
+    showText: false,
+  };
+
+  render() {
+    const item = this.props.item;
+    const size = this.props.size;
+    const isImage = Validations.isPreviewableImage(item.file.type);
+    return (
+      <div
+        css={STYLES_IMAGE_BOX}
+        style={{ width: size, height: size }}
+        onMouseEnter={() => this.setState({ showText: true })}
+        onMouseLeave={() => this.setState({ showText: false })}
+      >
+        <SlateMediaObjectPreview
+          centeredImage
+          iconOnly
+          blurhash={item.file.blurhash}
+          url={item.file.url}
+          title={item.file.title || item.file.name}
+          type={item.file.type}
+          style={{ border: "none" }}
+          imageStyle={{ border: "none" }}
+        />
+        {isImage && this.state.showText ? <div css={STYLES_GRADIENT} /> : null}
+        {this.state.showText ? (
+          <div css={STYLES_TEXT_AREA}>
+            {isImage ? null : (
+              <div
+                css={STYLES_TITLE}
+                style={{
+                  color: Constants.system.textGray,
+                  width: size,
+                }}
+              >
+                {item.file.title || item.file.name}
+              </div>
+            )}
+            <div
+              css={STYLES_SECONDARY}
+              style={{
+                width: size,
+                color: isImage ? Constants.system.white : Constants.system.textGrayLight,
+              }}
+            >
+              {isImage ? (
+                <SVG.ArrowDownLeft
+                  height="10px"
+                  style={{ transform: "scaleX(-1)", marginRight: 4 }}
+                />
+              ) : null}
+              {item.slate.data.name || item.slate.slatename}
+            </div>
           </div>
-        )}
-        <div
-          css={STYLES_SECONDARY}
-          style={{
-            width: size,
-            color: isImage ? Constants.system.white : Constants.system.textGrayLight,
-          }}
-        >
-          {item.slate.data.name || item.slate.slatename}
-        </div>
+        ) : null}
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const ActivityRectangle = ({ item, size }) => {
   let file;

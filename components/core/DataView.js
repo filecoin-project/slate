@@ -183,15 +183,16 @@ const STYLES_IMAGE_BOX = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  ${
-    "" /* box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset,
-    0 0 40px 0 ${Constants.system.shadow}; */
-  }
   cursor: pointer;
   position: relative;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 12px auto;
+  }
+
+  :hover {
+    box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset,
+      0 0 40px 0 ${Constants.system.shadow};
   }
 `;
 
@@ -524,6 +525,10 @@ export default class DataView extends React.Component {
                   style={{
                     width: this.state.imageSize,
                     height: this.state.imageSize,
+                    boxShadow: numChecked
+                      ? `0px 0px 0px 1px ${Constants.system.lightBorder} inset,
+      0 0 40px 0 ${Constants.system.shadow}`
+                      : "",
                   }}
                   onClick={() => this._handleSelect(i)}
                   onMouseEnter={() => this.setState({ hover: i })}

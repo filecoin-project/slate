@@ -67,17 +67,17 @@ export const generate = ({ library = [], slates = [] }) => [
     children: null,
   },
   {
-    id: "V1_NAVIGATION_DIRECTORY",
-    decorator: "DIRECTORY",
-    name: "Directory",
-    pageTitle: "Your directory",
-    children: null,
-  },
-  {
     id: "V1_NAVIGATION_SLATES",
     decorator: "SLATES",
     name: "Slates",
     pageTitle: "Slates",
+    children: null,
+  },
+  {
+    id: "V1_NAVIGATION_DIRECTORY",
+    decorator: "DIRECTORY",
+    name: "Directory",
+    pageTitle: "Your directory",
     children: null,
   },
   {

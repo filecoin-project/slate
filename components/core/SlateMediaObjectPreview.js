@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 import * as SVG from "~/common/svg";
+import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
@@ -24,6 +25,7 @@ const STYLES_IMAGE = css`
 `;
 
 const STYLES_ENTITY = css`
+  position: relative;
   height: 100%;
   width: 100%;
   border: 1px solid ${Constants.system.gray};
@@ -40,21 +42,19 @@ const STYLES_ENTITY = css`
 `;
 
 const STYLES_TITLE = css`
-  width: 100%;
-  text-align: center;
+  width: calc(100% - 32px);
   margin-top: 8px;
   overflow: hidden;
-  word-break: break-all;
-  text-overflow: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: ${Constants.system.textGray};
-  font-size: ${Constants.typescale.lvlN1};
+  font-size: 16px;
   font-family: ${Constants.font.medium};
 `;
 
 const STYLES_BLUR_CONTAINER = css`
   width: 100%;
   height: 100%;
-  border-radius: 8px;
   overflow: hidden;
 `;
 
@@ -199,14 +199,18 @@ export default class SlateMediaObjectPreview extends React.Component {
       );
     }
 
-    const title =
-      this.props.title && this.props.title.length > this.props.charCap
-        ? this.props.title.substring(0, this.props.charCap) + "..."
-        : this.props.title;
+    const title = this.props.title;
+    // this.props.title && this.props.title.length > this.props.charCap
+    //   ? this.props.title.substring(0, this.props.charCap) + "..."
+    //   : this.props.title;
+    let extension = Strings.getFileExtension(this.props.title);
+    if (extension && extension.length) {
+      extension = extension.toUpperCase();
+    }
     let element = (
       <FileTypeIcon
         type={this.props.type}
-        height={this.props.previewPanel ? "80px" : "32px"}
+        height={this.props.previewPanel ? "26px" : "20px"}
         style={{ color: Constants.system.textGray }}
       />
     );
@@ -218,9 +222,30 @@ export default class SlateMediaObjectPreview extends React.Component {
           border: this.props.previewPanel ? `1px solid ${Constants.system.bgGray}` : "auto",
         }}
       >
-        <div>{element}</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <img
+            src="https://slate.textile.io/ipfs/bafkreib5mnvds3cpe7ot7ibrakmrnja2hv5tast3giiarpl5nun7jpdt5m"
+            alt=""
+            height={this.props.previewPanel ? "80" : "64"}
+          />
+          <div style={{ position: "absolute" }}>{element}</div>
+        </div>
         {this.props.title && !this.props.iconOnly && !this.props.previewPanel ? (
-          <div css={STYLES_TITLE}>{title}</div>
+          <div style={{ position: "absolute", bottom: 16, left: 16, width: "inherit" }}>
+            <div css={STYLES_TITLE}>{title}</div>
+            {extension ? (
+              <div
+                css={STYLES_TITLE}
+                style={{
+                  fontSize: 12,
+                  color: Constants.system.textGrayLight,
+                  fontFamily: Constants.font.medium,
+                }}
+              >
+                {extension}
+              </div>
+            ) : null}
+          </div>
         ) : null}
       </article>
     );

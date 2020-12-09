@@ -1,9 +1,12 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as SVG from "~/common/svg";
+import * as Actions from "~/common/actions";
 
 import { error } from "~/common/messages";
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
+import { PathActions } from "three";
 
 const STYLES_ALERT = `
   box-sizing: border-box;
@@ -112,6 +115,11 @@ export class Alert extends React.Component {
     }
   };
 
+  _handleDismissPrivacyAlert = (e) => {
+    Actions.updateStatus({ status: { hidePrivacyAlert: true } });
+    this.props.onUpdateViewer({ status: { ...this.props.viewer.status, hidePrivacyAlert: true } });
+  };
+
   render() {
     if (!this.state.message) {
       if (!this.props.fileLoading || !Object.keys(this.props.fileLoading).length) {
@@ -124,6 +132,12 @@ export class Alert extends React.Component {
             <div css={STYLES_MESSAGE_BOX} style={{ fontSize: 14 }}>
               Please don't upload sensitive information to Slate yet. Private storage is coming
               soon.
+              <span
+                style={{ position: "absolute", right: 24, padding: 4, cursor: "pointer" }}
+                onClick={this._handleDismissPrivacyAlert}
+              >
+                <SVG.Dismiss height="20px" />
+              </span>
             </div>
           </div>
         );

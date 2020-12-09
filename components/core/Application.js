@@ -147,7 +147,6 @@ export default class ApplicationPage extends React.Component {
   }
 
   _handleUpdateViewer = (newViewerState) => {
-    console.log("UPDATE VIEWER");
     if (this.state.viewer && newViewerState.id && newViewerState.id === this.state.viewer.id) {
       this.setState({
         viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
@@ -677,6 +676,8 @@ export default class ApplicationPage extends React.Component {
             fileLoading={this.state.fileLoading}
             filecoin={current.target.filecoin}
             mobile={this.state.mobile}
+            viewer={this.state.viewer}
+            onUpdateViewer={this._handleUpdateViewer}
           >
             {scene}
           </ApplicationLayout>

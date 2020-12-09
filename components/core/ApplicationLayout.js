@@ -171,10 +171,13 @@ export default class ApplicationLayout extends React.Component {
           </div>
 
           <Alert
+            noWarning={this.props.viewer.status?.hidePrivacyAlert}
             fileLoading={this.props.fileLoading}
             onAction={this.props.onAction}
             filecoin={this.props.filecoin}
             id={this.props.mobile ? "slate-mobile-alert" : null}
+            onUpdateViewer={this.props.onUpdateViewer}
+            viewer={this.props.viewer}
             style={
               this.props.mobile
                 ? { top: this.state.headerTop + 56 }

@@ -10,7 +10,7 @@ export const sizes = {
   header: 72,
   tablet: 960,
   desktop: 1024,
-  topOffset: 16, //NOTE(martina): Pushes UI down. 16 when there is a persistent announcement banner, 0 otherwise
+  topOffset: 0, //NOTE(martina): Pushes UI down. 16 when there is a persistent announcement banner, 0 otherwise
 };
 
 export const system = {

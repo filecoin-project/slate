@@ -65,7 +65,7 @@ export class OnboardingModal extends React.Component {
   };
 
   componentDidMount = () => {
-    Actions.updateOnboardingStatus({ onboarding: this.props.unseenAnnouncements });
+    Actions.updateStatus({ onboarding: this.props.unseenAnnouncements });
     let slides = [];
     if (this.props.newAccount) {
       slides = this.onboardingCopy;

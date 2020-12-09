@@ -63,11 +63,11 @@ export const hydratePartialViewer = async (user) => {
   websocketSend("UPDATE", data);
 };
 
-export const hydratePartialOnboarding = async (onboarding, userId) => {
-  console.log("HYDRATE partial onboarding");
+export const hydratePartialStatus = async (status, userId) => {
+  console.log("HYDRATE partial status");
   const data = {
     id: userId,
-    onboarding,
+    status,
   };
   websocketSend("UPDATE", data);
 };
@@ -297,6 +297,7 @@ export const getById = async ({ id }) => {
     type: "VIEWER",
     library: user.data.library,
     onboarding: user.data.onboarding || {},
+    status: user.data.status || {},
 
     // TODO(jim): Move this elsewhere.
     allow_filecoin_directory_listing: user.data.allow_filecoin_directory_listing

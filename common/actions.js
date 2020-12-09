@@ -190,8 +190,8 @@ export const createUser = async (data) => {
   });
 };
 
-export const updateOnboardingStatus = async (data) => {
-  return await returnJSON(`/api/users/onboarding-update`, {
+export const updateStatus = async (data) => {
+  return await returnJSON(`/api/users/status-update`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });

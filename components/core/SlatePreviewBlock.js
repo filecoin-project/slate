@@ -99,10 +99,6 @@ const STYLES_BODY = css`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
 `;
 
 const STYLES_ICON_BOX = css`
@@ -298,13 +294,15 @@ export class SlatePreviewBlock extends React.Component {
             </div>
           ) : null}
         </div>
-        {this.props.slate.data.body ? (
-          <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
-        ) : this.props.isOwner ? (
-          <div style={{ height: "44px" }} />
-        ) : (
-          <div style={{ height: "40px" }} />
-        )}
+        <span css={STYLES_MOBILE_HIDDEN}>
+          {this.props.slate.data.body ? (
+            <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
+          ) : this.props.isOwner ? (
+            <div style={{ height: "44px" }} />
+          ) : (
+            <div style={{ height: "40px" }} />
+          )}
+        </span>
         <span css={STYLES_MOBILE_ONLY}>
           <div css={STYLES_TITLE} style={{ marginBottom: 8, fontSize: Constants.typescale.lvl1 }}>
             {this.props.slate.data.name}

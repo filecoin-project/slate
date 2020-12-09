@@ -167,10 +167,9 @@ export const error = {
   SERVER_USER_UPDATE: "Please make sure you are signed in first",
   SERVER_USER_UPDATE_USER_NOT_FOUND:
     "We're having trouble locating your information. Please try again",
-  SERVER_ONBOARDING_UPDATE: "Please log in first to access this page",
-  SERVER_ONBOARDING_UPDATE_USER_NOT_FOUND:
-    "We're having trouble locating your information right now",
-  SERVER_ONBOARDING_UPDATE_MUST_PROVIDE_UPDATE:
+  SERVER_STATUS_UPDATE: "Please log in first to access this page",
+  SERVER_STATUS_UPDATE_USER_NOT_FOUND: "We're having trouble locating your information right now",
+  SERVER_STATUS_UPDATE_MUST_PROVIDE_UPDATE:
     "We're having trouble updating your information right now",
   SERVER_USERNAME_IS_TAKEN: "That username is taken",
 

@@ -6,7 +6,6 @@ import { css } from "@emotion/react";
 
 import ProcessedText from "~/components/core/ProcessedText";
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
-import SlatePreviewBlocksExternal from "~/components/core/SlatePreviewBlockExternal";
 import CTATransition from "~/components/core/CTATransition";
 
 const STYLES_PROFILE_INTERNAL = css`
@@ -286,8 +285,9 @@ export default class Profile extends React.Component {
         ) : (
           <div css={STYLES_PROFILE} style={{ paddingTop: 0 }}>
             {data.slates && data.slates.length ? (
-              <SlatePreviewBlocksExternal
+              <SlatePreviewBlocks
                 isOwner={this.props.isOwner}
+                external={this.props.onAction ? false : true}
                 slates={data.slates}
                 username={data.username}
                 onAction={this.props.onAction}
@@ -299,7 +299,10 @@ export default class Profile extends React.Component {
                   No publicly shared slates from @{data.username}.
                 </p>
                 <div css={STYLES_EXPLORE} />
-                <SlatePreviewBlocksExternal slates={exploreSlates} />
+                <SlatePreviewBlocks
+                  slates={exploreSlates}
+                  external={this.props.onAction ? false : true}
+                />
               </div>
             )}
           </div>

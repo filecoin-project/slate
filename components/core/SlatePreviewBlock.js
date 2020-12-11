@@ -14,6 +14,80 @@ import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 const placeholder =
   "https://slate.textile.io/ipfs/bafkreidq27ycqubd4pxbo76n3rv5eefgxl3a2lh3wfvdgtil4u47so3nqe";
 
+const STYLES_IMAGE_ROW = css`
+  overflow: hidden;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    justify-content: center;
+    margin: 0 -8px;
+  }
+`;
+
+const STYLES_ITEM_BOX = css`
+  height: calc(33.33% - 4px);
+  overflow: hidden;
+  margin: 0px 0px 4px 4px;
+  box-shadow: 0px 0px 0px 1px ${Constants.system.lightBorder} inset;
+  cursor: pointer;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 0 8px;
+  }
+`;
+
+const STYLES_PLACEHOLDER = css`
+  width: 100%;
+  height: 320px;
+  background-size: cover;
+  background-position: 50% 50%;
+  margin-bottom: 4px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    height: 100%;
+  }
+`;
+
+export class SlatePreviewRow extends React.Component {
+  render() {
+    let numItems = this.props.numItems || 4;
+    let objects;
+    if (this.props.slate.data.objects.length === 0) {
+      objects = [
+        <div
+          css={STYLES_PLACEHOLDER}
+          style={{
+            backgroundImage: `url(${placeholder})`,
+            ...this.props.imageStyle,
+          }}
+        />,
+      ];
+    } else {
+      let trimmed =
+        this.props.slate.data.objects.length > numItems
+          ? this.props.slate.data.objects.slice(1, numItems)
+          : this.props.slate.data.objects.slice(1, this.props.slate.data.objects.length);
+      objects = trimmed.map((each) => (
+        <div key={each.id} css={STYLES_ITEM_BOX}>
+          <SlateMediaObjectPreview
+            blurhash={each.blurhash}
+            charCap={30}
+            centeredImage
+            type={each.type}
+            url={each.url}
+            style={this.props.previewStyle}
+            title={each.title || each.name}
+            iconOnly={this.props.small}
+            coverImage={each.coverImage}
+          />
+        </div>
+      ));
+    }
+    return (
+      <div css={STYLES_IMAGE_ROW} style={{ height: `100%`, ...this.props.containerStyle }}>
+        {objects}
+      </div>
+    );
+  }
+}
+
 const STYLES_MOBILE_HIDDEN = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -68,6 +142,7 @@ const STYLES_TITLE_LINE = css`
   font-size: ${Constants.typescale.lvl1};
   margin-bottom: 8px;
   overflow-wrap: break-word;
+  justify-content: space-between;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -94,10 +169,11 @@ const STYLES_BODY = css`
   font-family: ${Constants.font.text};
   font-size: ${Constants.typescale.lvl0};
   color: ${Constants.system.darkGray};
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  height: 20px;
 `;
 
 const STYLES_ICON_BOX = css`
@@ -125,17 +201,20 @@ const STYLES_TITLE = css`
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-right: 16px;
+  height: 24px;
 `;
 
-const STYLES_PLACEHOLDER = css`
-  width: 100%;
-  height: 300px;
-  background-size: cover;
-  background-position: 50% 50%;
-  margin-bottom: 4px;
+const STYLES_PREVIEW = css`
+  display: flex;
+`;
+
+const STYLES_OBJECT_COUNT = css`
+  width: auto;
+  font-size: ${Constants.typescale.lvlN1};
+  color: ${Constants.system.darkGray};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    height: 100%;
+    margin: 8px 0 16px 0;
   }
 `;
 
@@ -171,7 +250,17 @@ export class SlatePreviewBlock extends React.Component {
   };
 
   render() {
-    let first = this.props.slate.data.objects ? this.props.slate.data.objects[0] : null;
+    let count = 0;
+    const { objects } = this.props.slate.data;
+    if (objects.length > 4) {
+      const set = this.props.slate.data.objects.slice(0, 4);
+      for (let object of set) {
+        if (object.type.startsWith("image/") && !object.type.startsWith("image/svg")) {
+          count++;
+        }
+      }
+    }
+    let first = objects ? objects[0] : null;
     let contextMenu = (
       <React.Fragment>
         <Boundary
@@ -231,131 +320,243 @@ export class SlatePreviewBlock extends React.Component {
 
     return (
       <div css={STYLES_BLOCK}>
-        <div css={STYLES_TITLE_LINE}>
-          <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
-          {this.props.isOwner ? (
-            this.props.slate.data.public ? (
+        {this.props.external ? (
+          <React.Fragment>
+            <span css={STYLES_MOBILE_HIDDEN}>
+              <div css={STYLES_TITLE_LINE}>
+                <div css={STYLES_TITLE} style={{ width: `85%` }}>
+                  {this.props.slate.data.name}
+                </div>
+                <div css={STYLES_OBJECT_COUNT}>
+                  {objects.length} file
+                  {objects.length > 1 ? "s" : ""}
+                </div>
+              </div>
+              {this.props.slate.data.body ? (
+                <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
+              ) : (
+                <div style={{ height: "41px" }} />
+              )}
+              {objects.length === 1 || (objects.length != 0 && count <= 3) ? (
+                <div
+                  style={{
+                    width: "100%",
+                    height: 320,
+                  }}
+                >
+                  <SlateMediaObjectPreview
+                    blurhash={first.blurhash}
+                    centeredImage
+                    charCap={30}
+                    type={first.type}
+                    url={first.url}
+                    title={first.title || first.name}
+                    coverImage={first.coverImage}
+                  />
+                </div>
+              ) : first ? (
+                <div css={STYLES_PREVIEW}>
+                  <div
+                    style={{
+                      width: "75%",
+                      height: 320,
+                    }}
+                  >
+                    <SlateMediaObjectPreview
+                      blurhash={first.blurhash}
+                      centeredImage
+                      charCap={30}
+                      type={first.type}
+                      url={first.url}
+                      title={first.title || first.name}
+                      coverImage={first.coverImage}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      width: `25%`,
+                      height: 324,
+                    }}
+                  >
+                    <SlatePreviewRow {...this.props} previewStyle={this.props.previewStyle} />
+                  </div>
+                </div>
+              ) : (
+                <div
+                  css={STYLES_PLACEHOLDER}
+                  style={{
+                    backgroundImage: `url(${placeholder})`,
+                    ...this.props.imageStyle,
+                  }}
+                />
+              )}
+            </span>
+            <span css={STYLES_MOBILE_ONLY}>
+              <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
+              <div css={STYLES_OBJECT_COUNT}>
+                {objects.length} file
+                {objects.length > 1 ? "s" : ""}
+              </div>
               <div
-                css={STYLES_TAG}
                 style={{
-                  borderColor: Constants.system.brand,
-                  color: Constants.system.brand,
+                  width: "100%",
+                  height: `320px`,
                 }}
               >
-                Public
+                {first ? (
+                  <SlateMediaObjectPreview
+                    blurhash={first.blurhash}
+                    centeredImage
+                    charCap={30}
+                    type={first.type}
+                    url={first.url}
+                    title={first.title || first.name}
+                    coverImage={first.coverImage}
+                  />
+                ) : (
+                  <div
+                    css={STYLES_PLACEHOLDER}
+                    style={{
+                      backgroundImage: `url(${placeholder})`,
+                      ...this.props.imageStyle,
+                    }}
+                  />
+                )}
               </div>
-            ) : (
-              <div
-                css={STYLES_TAG}
-                style={{
-                  color: Constants.system.darkGray,
-                  borderColor: Constants.system.darkGray,
-                }}
-              >
-                Private
-              </div>
-            )
-          ) : (
-            <div />
-          )}
-          {this.props.username ? (
-            <div
-              style={{ marginLeft: "auto" }}
-              ref={(c) => {
-                this._test = c;
-              }}
-            >
-              <div css={STYLES_ICON_BOX} onClick={this._handleClick}>
-                <SVG.MoreHorizontal height="24px" />
-                {this.state.showMenu ? <div css={STYLES_CONTEXT_MENU}>{contextMenu}</div> : null}
-              </div>
+            </span>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <div css={STYLES_TITLE_LINE}>
+              <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
+              {this.props.isOwner ? (
+                this.props.slate.data.public ? (
+                  <div
+                    css={STYLES_TAG}
+                    style={{
+                      borderColor: Constants.system.brand,
+                      color: Constants.system.brand,
+                    }}
+                  >
+                    Public
+                  </div>
+                ) : (
+                  <div
+                    css={STYLES_TAG}
+                    style={{
+                      color: Constants.system.darkGray,
+                      borderColor: Constants.system.darkGray,
+                    }}
+                  >
+                    Private
+                  </div>
+                )
+              ) : (
+                <div style={{ height: 32 }} />
+              )}
+              {this.props.username ? (
+                <div
+                  style={{ marginLeft: "auto" }}
+                  ref={(c) => {
+                    this._test = c;
+                  }}
+                >
+                  <div css={STYLES_ICON_BOX} onClick={this._handleClick}>
+                    <SVG.MoreHorizontal height="24px" />
+                    {this.state.showMenu ? (
+                      <div css={STYLES_CONTEXT_MENU}>{contextMenu}</div>
+                    ) : null}
+                  </div>
+                </div>
+              ) : null}
             </div>
-          ) : null}
-        </div>
-        <span css={STYLES_MOBILE_HIDDEN}>
-          {this.props.slate.data.body ? (
-            <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
-          ) : this.props.isOwner ? (
-            <div style={{ height: "44px" }} />
-          ) : (
-            <div style={{ height: "40px" }} />
-          )}
-        </span>
-        <span css={STYLES_MOBILE_ONLY}>
-          <div css={STYLES_TITLE} style={{ marginBottom: 8, fontSize: Constants.typescale.lvl1 }}>
-            {this.props.slate.data.name}
-          </div>
-          <div style={{ marginBottom: 16, fontSize: 12 }}>
-            {this.props.slate.data.objects.length} Object
-            {this.props.slate.data.objects.length === 1 ? "" : "s"}
-          </div>
-          <div
-            style={{
-              width: "100%",
-              height: `300px`,
-            }}
-          >
-            {first ? (
-              <SlateMediaObjectPreview
-                blurhash={first.blurhash}
-                centeredImage
-                charCap={30}
-                type={first.type}
-                url={first.url}
-                style={{ borderRadius: 8 }}
-                imageStyle={{ borderRadius: 8 }}
-                title={first.title || first.name}
-                coverImage={first.coverImage}
-              />
-            ) : this.props.isOwner ? (
-              <div css={STYLES_CREATE_NEW} key="add-files">
-                <SVG.Plus height="24px" />
-                <div>Add Files</div>
-              </div>
-            ) : (
+            <span css={STYLES_MOBILE_HIDDEN}>
+              {this.props.slate.data.body ? (
+                <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
+              ) : this.props.isOwner ? (
+                <div style={{ height: "44px" }} />
+              ) : (
+                <div style={{ height: "40px" }} />
+              )}
               <div
-                css={STYLES_PLACEHOLDER}
                 style={{
-                  backgroundImage: `url(${placeholder})`,
-                  ...this.props.imageStyle,
+                  width: "100%",
+                  height: `304px`,
                 }}
-              />
-            )}
-          </div>
-        </span>
-        <span css={STYLES_MOBILE_HIDDEN}>
-          <div
-            style={{
-              width: "100%",
-              height: `304px`,
-            }}
-          >
-            {first ? (
-              <SlateMediaObjectPreview
-                blurhash={first.blurhash}
-                centeredImage
-                charCap={30}
-                type={first.type}
-                url={first.url}
-                title={first.title || first.name}
-                coverImage={first.coverImage}
-              />
-            ) : this.props.isOwner ? (
-              <div css={STYLES_CREATE_NEW} key="add-files">
-                <SVG.Plus height="24px" />
-                <div>Add Files</div>
+              >
+                {first ? (
+                  <SlateMediaObjectPreview
+                    blurhash={first.blurhash}
+                    centeredImage
+                    charCap={30}
+                    type={first.type}
+                    url={first.url}
+                    title={first.title || first.name}
+                    coverImage={first.coverImage}
+                  />
+                ) : this.props.isOwner ? (
+                  <div css={STYLES_CREATE_NEW} key="add-files">
+                    <SVG.Plus height="24px" />
+                    <div>Add Files</div>
+                  </div>
+                ) : (
+                  <div
+                    css={STYLES_PLACEHOLDER}
+                    style={{
+                      backgroundImage: `url(${placeholder})`,
+                      ...this.props.imageStyle,
+                    }}
+                  />
+                )}
               </div>
-            ) : (
+            </span>
+            <span css={STYLES_MOBILE_ONLY}>
               <div
-                css={STYLES_PLACEHOLDER}
+                css={STYLES_TITLE}
+                style={{ marginBottom: 8, fontSize: Constants.typescale.lvl1 }}
+              >
+                {this.props.slate.data.name}
+              </div>
+              <div css={STYLES_OBJECT_COUNT} style={{ marginBottom: 16, fontSize: 12 }}>
+                {objects.length} file
+                {objects.length === 1 ? "" : "s"}
+              </div>
+              <div
                 style={{
-                  backgroundImage: `url(${placeholder})`,
-                  ...this.props.imageStyle,
+                  width: "100%",
+                  height: `300px`,
                 }}
-              />
-            )}
-          </div>
-        </span>
+              >
+                {first ? (
+                  <SlateMediaObjectPreview
+                    blurhash={first.blurhash}
+                    centeredImage
+                    charCap={30}
+                    type={first.type}
+                    url={first.url}
+                    style={{ borderRadius: 8 }}
+                    imageStyle={{ borderRadius: 8 }}
+                    title={first.title || first.name}
+                    coverImage={first.coverImage}
+                  />
+                ) : this.props.isOwner ? (
+                  <div css={STYLES_CREATE_NEW} key="add-files">
+                    <SVG.Plus height="24px" />
+                    <div>Add Files</div>
+                  </div>
+                ) : (
+                  <div
+                    css={STYLES_PLACEHOLDER}
+                    style={{
+                      backgroundImage: `url(${placeholder})`,
+                      ...this.props.imageStyle,
+                    }}
+                  />
+                )}
+              </div>
+            </span>
+          </React.Fragment>
+        )}
       </div>
     );
   }
@@ -367,6 +568,11 @@ const STYLES_SLATES = css`
   grid-column-gap: 16px;
   grid-row-gap: 16px;
   padding-bottom: 48px;
+
+  @media (max-width: ${Constants.sizes.tablet}px) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
   }
@@ -376,24 +582,43 @@ export default class SlatePreviewBlocks extends React.Component {
   render() {
     return (
       <div css={STYLES_SLATES}>
-        {this.props.slates.map((slate) => (
-          <div
-            key={slate.id}
-            onClick={() =>
-              this.props.onAction({
-                type: "NAVIGATE",
-                value: "V1_NAVIGATION_SLATE",
-                data: { decorator: "SLATE", ...slate },
-              })
-            }
-          >
-            <SlatePreviewBlock
-              isOwner={this.props.isOwner}
-              username={this.props.username}
-              slate={slate}
-            />
-          </div>
-        ))}
+        {this.props.external
+          ? this.props.slates.map((slate) => (
+              <div
+                key={slate.id}
+                href={
+                  this.props.username
+                    ? `/${this.props.username}/${slate.slatename}`
+                    : `/${slate.username}/${slate.slatename}`
+                }
+              >
+                <SlatePreviewBlock
+                  isOwner={this.props.isOwner}
+                  username={this.props.username}
+                  slate={slate}
+                  external={this.props.external}
+                />
+              </div>
+            ))
+          : this.props.slates.map((slate) => (
+              <div
+                key={slate.id}
+                onClick={() =>
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: "V1_NAVIGATION_SLATE",
+                    data: { decorator: "SLATE", ...slate },
+                  })
+                }
+              >
+                <SlatePreviewBlock
+                  isOwner={this.props.isOwner}
+                  username={this.props.username}
+                  slate={slate}
+                  external={this.props.external}
+                />
+              </div>
+            ))}
       </div>
     );
   }

@@ -1333,6 +1333,23 @@ export const ChevronLeft = (props) => {
   );
 };
 
+export const Check = (props) => {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      strokeWidth="2"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M20 6L9 17L4 12" />
+    </svg>
+  );
+};
+
 export const LocationPin = (props) => {
   return (
     <svg

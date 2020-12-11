@@ -6,7 +6,7 @@ import { css } from "@emotion/react";
 const STYLES_EMPTY_STATE = css`
   width: 100%;
   height: 328px;
-  border: 1px solid ${Constants.system.lightBorder};
+  border: 1px solid ${Constants.system.border};
   display: flex;
   align-items: center;
   justify-content: center;

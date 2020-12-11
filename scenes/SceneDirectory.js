@@ -29,7 +29,7 @@ const STYLES_USER = css`
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  margin: 24px;
+  margin: 16px;
   color: ${Constants.system.brand};
   font-family: ${Constants.font.medium};
   font-size: ${Constants.typescale.lvl1};
@@ -43,7 +43,7 @@ const STYLES_BUTTONS = css`
   justify-self: end;
   display: flex;
   flex-direction: row;
-  margin-right: 48px;
+  margin-right: 16px;
   justify-content: flex-end;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -58,7 +58,7 @@ const STYLES_ITEM_BOX = css`
   align-items: center;
   justify-content: center;
   padding: 8px;
-  margin-right: 48px;
+  margin-right: 16px;
   color: ${Constants.system.darkGray};
 
   @media (max-width: ${Constants.sizes.mobile}px) {

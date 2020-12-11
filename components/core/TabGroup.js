@@ -19,7 +19,7 @@ const STYLES_TAB_GROUP = css`
 
 const STYLES_TAB = css`
   padding: 8px 8px 8px 8px;
-  margin-right: 24px;
+  margin-right: 16px;
   display: inline-block;
   font-family: ${Constants.font.medium};
   font-size: ${Constants.typescale.lvl1};

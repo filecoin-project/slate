@@ -44,6 +44,7 @@ const STYLES_NO_VISIBLE_SCROLL = css`
 const STYLES_SLATE_LIST = css`
   ${STYLES_NO_VISIBLE_SCROLL}
   max-height: 316px;
+  border-radius: 4px;
 `;
 
 const STYLES_SLATE_LINE = css`
@@ -52,9 +53,10 @@ const STYLES_SLATE_LINE = css`
   width: 100%;
   padding: 12px 16px;
   background-color: ${Constants.system.white};
-  margin-bottom: 1px;
+  border-bottom: 1px solid ${Constants.system.foreground};
   cursor: pointer;
   color: ${Constants.system.darkGray};
+  height: 48px;
 
   :hover {
     color: ${Constants.system.grayBlack};
@@ -83,6 +85,7 @@ const STYLES_SLATE_CREATE = css`
   background-color: ${Constants.system.white};
   cursor: pointer;
   color: ${Constants.system.darkGray};
+  border-radius: 4px;
 
   :hover {
     color: ${Constants.system.grayBlack};

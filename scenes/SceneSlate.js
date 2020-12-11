@@ -10,6 +10,7 @@ import { css } from "@emotion/react";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
+import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
 
 import ProcessedText from "~/components/core/ProcessedText";
 import ScenePage from "~/components/core/ScenePage";
@@ -195,6 +196,7 @@ export default class SceneSlate extends React.Component {
   render() {
     const { user, data } = this.props.current;
     const { body = "", preview } = data;
+    console.log(body);
     let objects = this.props.current.data.objects;
     let layouts = this.props.current.data.layouts;
     const isPublic = data.public;
@@ -235,9 +237,9 @@ export default class SceneSlate extends React.Component {
       <div style={{ display: `flex` }}>
         <div onClick={this._handleFollow}>
           {following ? (
-            <div css={STYLES_BUTTON_SECONDARY}>Unfollow</div>
+            <ButtonSecondary style={{ minHeight: 36 }}>Unfollow</ButtonSecondary>
           ) : (
-            <div css={STYLES_BUTTON_PRIMARY}>Follow</div>
+            <ButtonPrimary style={{ minHeight: 36 }}>Follow</ButtonPrimary>
           )}
         </div>
         <CircleButtonGray
@@ -287,14 +289,7 @@ export default class SceneSlate extends React.Component {
           }
           actions={<span css={STYLES_MOBILE_HIDDEN}>{actions}</span>}
         >
-          <span
-            style={{
-              color: Constants.system.darkGray,
-              fontFamily: Constants.font.medium,
-            }}
-          >
-            <ProcessedText text={body} />
-          </span>
+          {body}
         </ScenePageHeader>
         <span css={STYLES_MOBILE_ONLY}>{actions}</span>
         {objects && objects.length ? (

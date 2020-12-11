@@ -11,8 +11,6 @@ import { PopoverNavigation } from "~/components/system/components/PopoverNavigat
 import ProcessedText from "~/components/core/ProcessedText";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 
-const MARGIN = 12;
-const MIN_WIDTH = 144;
 const placeholder =
   "https://slate.textile.io/ipfs/bafkreidq27ycqubd4pxbo76n3rv5eefgxl3a2lh3wfvdgtil4u47so3nqe";
 
@@ -47,14 +45,15 @@ const STYLES_CREATE_NEW = css`
 `;
 
 const STYLES_BLOCK = css`
-  box-shadow: 0 0 0 0.5px ${Constants.system.lightBorder} inset,
-    0 0 40px 0 ${Constants.system.shadow};
+  border-radius: 4px;
+  box-shadow: 0 0 40px 0 ${Constants.system.shadow};
   padding: 24px;
   font-size: 12px;
   text-align: left;
   cursor: pointer;
   height: 440px;
   width: 100%;
+  background-color: ${Constants.system.white};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 24px auto;
@@ -134,6 +133,7 @@ const STYLES_PLACEHOLDER = css`
   background-size: cover;
   background-position: 50% 50%;
   margin-bottom: 4px;
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     height: 100%;
   }
@@ -146,20 +146,6 @@ export class SlatePreviewBlock extends React.Component {
   state = {
     showMenu: false,
     copyValue: "",
-    windowWidth: 360,
-  };
-
-  componentDidMount = () => {
-    this.calculateWidth();
-    window.addEventListener("resize", this.calculateWidth);
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.calculateWidth);
-  };
-
-  calculateWidth = () => {
-    this.setState({ windowWidth: window.innerWidth });
   };
 
   _handleCopy = (e, value) => {
@@ -279,18 +265,10 @@ export class SlatePreviewBlock extends React.Component {
                 this._test = c;
               }}
             >
-              {/* <TooltipWrapper
-                id={`slate-tooltip-${this.props.slate.id}`}
-                type="body"
-                content={contextMenu}
-                horizontal="left"
-                vertical="below"
-              > */}
               <div css={STYLES_ICON_BOX} onClick={this._handleClick}>
                 <SVG.MoreHorizontal height="24px" />
                 {this.state.showMenu ? <div css={STYLES_CONTEXT_MENU}>{contextMenu}</div> : null}
               </div>
-              {/* </TooltipWrapper> */}
             </div>
           ) : null}
         </div>
@@ -314,7 +292,7 @@ export class SlatePreviewBlock extends React.Component {
           <div
             style={{
               width: "100%",
-              height: `${this.state.windowWidth - 80}px`,
+              height: `300px`,
             }}
           >
             {first ? (
@@ -383,25 +361,11 @@ export class SlatePreviewBlock extends React.Component {
   }
 }
 
-const STYLES_LINK = css`
-  color: ${Constants.system.grayBlack};
-  text-decoration: none;
-  width: calc(33.33% - 16px);
-  margin-bottom: 16px;
-  margin-right: 16px;
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    width: 50%;
-  }
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    width: 100%;
-  }
-`;
-
 const STYLES_SLATES = css`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
   padding-bottom: 48px;
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: block;
@@ -409,48 +373,11 @@ const STYLES_SLATES = css`
 `;
 
 export default class SlatePreviewBlocks extends React.Component {
-  state = {
-    imageSize: 56,
-  };
-
-  componentDidMount = () => {
-    this.calculateWidth();
-    this.debounceInstance = Window.debounce(this.calculateWidth, 350);
-    window.addEventListener("resize", this.debounceInstance);
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.debounceInstance);
-  };
-
-  calculateWidth = () => {
-    let windowWidth = window.innerWidth;
-    if (windowWidth > Constants.sizes.mobile) {
-      if (this.props.external) {
-        windowWidth -= 48;
-      } else {
-        windowWidth -= 96;
-      }
-      windowWidth = Math.min(windowWidth, Constants.sizes.desktop);
-      windowWidth -= 80; //NOTE(martina): 48px padding on scene page, 40px padding on block
-      for (let i = this.props.numItems || 5; i > 0; i--) {
-        let width = (windowWidth - MARGIN * 2 * (i - 1)) / i;
-        if (width < MIN_WIDTH) {
-          continue;
-        }
-        this.setState({ imageSize: width });
-        return;
-      }
-    }
-    this.setState({ imageSize: windowWidth - 48 - 32 }); //NOTE(martina): 24px padding on scene page, 16px padding on block on mobile
-  };
-
   render() {
     return (
       <div css={STYLES_SLATES}>
         {this.props.slates.map((slate) => (
           <div
-            css={STYLES_LINK}
             key={slate.id}
             onClick={() =>
               this.props.onAction({
@@ -463,7 +390,6 @@ export default class SlatePreviewBlocks extends React.Component {
             <SlatePreviewBlock
               isOwner={this.props.isOwner}
               username={this.props.username}
-              imageSize={this.state.imageSize}
               slate={slate}
             />
           </div>

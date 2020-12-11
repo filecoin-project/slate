@@ -35,9 +35,8 @@ export default class SidebarDragDropNotice extends React.Component {
         </System.P>
         <FileTypeGroup style={{ margin: "64px 0px" }} />
         <System.P style={{ marginTop: 24 }}>
-          Drag and drop a file anywhere on the screen to add it to your data. <br />
-          <br />
-          Dropping a file while on a slate page will add it to that slate.
+          Drag and drop a file anywhere on the screen to add it to your data. Dropping a file while
+          on a slate page will add it to that slate.
         </System.P>
 
         <SidebarWarningMessage />

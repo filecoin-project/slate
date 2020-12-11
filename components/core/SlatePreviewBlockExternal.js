@@ -98,14 +98,15 @@ export class SlatePreviewRow extends React.Component {
 }
 
 const STYLES_BLOCK = css`
-  box-shadow: 0 0 0 0.5px ${Constants.system.lightBorder} inset,
-    0 0 40px 0 ${Constants.system.shadow};
+  border-radius: 4px;
+  box-shadow: 0 0 40px 0 ${Constants.system.shadow};
   padding: 24px;
   font-size: 12px;
   text-align: left;
   cursor: pointer;
   height: 440px;
   width: 100%;
+  background-color: ${Constants.system.white};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin: 24px auto;
@@ -166,20 +167,6 @@ export class SlatePreviewBlock extends React.Component {
   state = {
     showMenu: false,
     copyValue: "",
-    windowWidth: 360,
-  };
-
-  componentDidMount = () => {
-    this.calculateWidth();
-    window.addEventListener("resize", this.calculateWidth);
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.calculateWidth);
-  };
-
-  calculateWidth = () => {
-    this.setState({ windowWidth: window.innerWidth });
   };
 
   _handleCopy = (e, value) => {
@@ -251,11 +238,7 @@ export class SlatePreviewBlock extends React.Component {
                   height: 324,
                 }}
               >
-                <SlatePreviewRow
-                  {...this.props}
-                  imageSize={this.props.imageSize}
-                  previewStyle={this.props.previewStyle}
-                />
+                <SlatePreviewRow {...this.props} previewStyle={this.props.previewStyle} />
               </div>
             </div>
           ) : (
@@ -287,7 +270,7 @@ export class SlatePreviewBlock extends React.Component {
           <div
             style={{
               width: "100%",
-              height: `${this.state.windowWidth - 80}px`,
+              height: `300px`,
             }}
           >
             {first ? (
@@ -358,46 +341,6 @@ const STYLES_SLATES = css`
 `;
 
 export default class SlatePreviewBlocksExternal extends React.Component {
-  state = {
-    imageSize: 56,
-  };
-
-  componentDidMount = () => {
-    this.calculateWidth();
-    this.debounceInstance = this.debounce(this.calculateWidth, 350);
-    window.addEventListener("resize", this.debounceInstance);
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("resize", this.debounceInstance);
-  };
-
-  debounce = (func, wait) => {
-    Window.debounce(func, wait);
-  };
-
-  calculateWidth = () => {
-    let windowWidth = window.innerWidth;
-    if (windowWidth > Constants.sizes.mobile) {
-      if (this.props.external) {
-        windowWidth -= 48;
-      } else {
-        windowWidth -= 96;
-      }
-      windowWidth = Math.min(windowWidth, Constants.sizes.desktop);
-      windowWidth -= 80; //NOTE(martina): 48px padding on scene page, 40px padding on block
-      for (let i = this.props.numItems || 5; i > 0; i--) {
-        let width = (windowWidth - MARGIN * 2 * (i - 1)) / i;
-        if (width < MIN_WIDTH) {
-          continue;
-        }
-        this.setState({ imageSize: width });
-        return;
-      }
-    }
-    this.setState({ imageSize: windowWidth - 48 - 32 }); //NOTE(martina): 24px padding on scene page, 16px padding on block on mobile
-  };
-
   render() {
     return (
       <div css={STYLES_SLATES}>
@@ -413,7 +356,6 @@ export default class SlatePreviewBlocksExternal extends React.Component {
           >
             <SlatePreviewBlock
               isOwner={this.props.isOwner}
-              imageSize={this.state.imageSize}
               username={this.props.username}
               slate={slate}
             />

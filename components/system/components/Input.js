@@ -56,7 +56,7 @@ const STYLES_INPUT = css`
   padding: 0 16px 0 16px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  box-shadow: 0 0 0 1px ${Constants.system.border} inset;
+  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
 
   :focus {
     outline: 0;

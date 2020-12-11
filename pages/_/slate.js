@@ -39,7 +39,7 @@ const DEFAULT_AUDIO =
 const STYLES_ROOT = css`
   display: block;
   min-height: 100vh;
-  background-color: ${Constants.system.white};
+  background-color: ${Constants.system.foreground};
 `;
 
 const STYLES_SLATE_INTRO = css`

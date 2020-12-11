@@ -37,7 +37,7 @@ const STYLES_HEADER = css`
 `;
 
 const STYLES_CONTENT = css`
-  background: ${Constants.system.white};
+  background: ${Constants.system.foreground};
   width: 100%;
   min-width: 10%;
   min-height: 100vh;
@@ -58,7 +58,7 @@ const STYLES_SIDEBAR = css`
   padding: 0;
   flex-shrink: 0;
   position: fixed;
-  background-color: rgba(247, 247, 247, 1);
+  background-color: rgba(195, 195, 196, 1);
   top: 0;
   right: 0;
   ${STYLES_NO_VISIBLE_SCROLL}
@@ -70,7 +70,7 @@ const STYLES_SIDEBAR = css`
   @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
-    background-color: rgba(247, 247, 247, 0.75);
+    background-color: rgba(195, 195, 196, 0.6);
   }
 `;
 
@@ -82,7 +82,7 @@ const STYLES_SIDEBAR_HEADER = css`
 
 const STYLES_SIDEBAR_CONTENT = css`
   padding: 56px 24px 24px 24px;
-  padding-top: calc(56px + ${Constants.sizes.topOffset}px);
+  padding-top: calc(32px + ${Constants.sizes.topOffset}px);
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding-top: 8px;

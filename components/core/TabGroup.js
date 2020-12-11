@@ -5,7 +5,6 @@ import { css } from "@emotion/react";
 
 const STYLES_TAB_GROUP = css`
   margin: 44px 0px 24px 0px;
-  padding: 0 0 0 2px;
   display: flex;
   align-items: flex-start;
   flex-direction: row;
@@ -19,11 +18,11 @@ const STYLES_TAB_GROUP = css`
 `;
 
 const STYLES_TAB = css`
-  padding: 8px 8px 8px 0px;
+  padding: 8px 8px 8px 8px;
   margin-right: 24px;
   display: inline-block;
   font-family: ${Constants.font.medium};
-  font-size: ${Constants.typescale.lvl2};
+  font-size: ${Constants.typescale.lvl1};
   user-select: none;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -32,13 +31,19 @@ const STYLES_TAB = css`
   }
 `;
 
+const STYLES_TAB_SELECTED = css`
+  ${STYLES_TAB}
+  background-color: ${Constants.system.white};
+  border-radius: 4px;
+`;
+
 export class TabGroup extends React.Component {
   render() {
     return (
       <div css={STYLES_TAB_GROUP} style={this.props.style}>
         {this.props.tabs.map((tab, i) => (
           <div
-            css={STYLES_TAB}
+            css={this.props.value === i ? STYLES_TAB_SELECTED : STYLES_TAB}
             key={tab}
             style={{
               color:

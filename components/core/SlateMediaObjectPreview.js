@@ -10,7 +10,7 @@ import { Blurhash } from "react-blurhash";
 import { isBlurhashValid } from "blurhash";
 
 const STYLES_IMAGE_CONTAINER = css`
-  background-color: ${Constants.system.foreground};
+  background-color: ${Constants.system.white};
   width: 100%;
   height: 100%;
   background-size: cover;
@@ -18,17 +18,19 @@ const STYLES_IMAGE_CONTAINER = css`
 `;
 
 const STYLES_IMAGE = css`
-  background-color: ${Constants.system.foreground};
+  background-color: ${Constants.system.white};
   display: block;
   pointer-events: none;
   transition: 200ms ease all;
+  max-width: 100%;
+  max-height: 100%;
 `;
 
 const STYLES_ENTITY = css`
   position: relative;
   height: 100%;
   width: 100%;
-  border: 1px solid ${Constants.system.gray};
+  border: 1px solid ${Constants.system.foreground};
   background-color: ${Constants.system.white};
   font-size: 24px;
   display: flex;
@@ -174,8 +176,6 @@ export default class SlateMediaObjectPreview extends React.Component {
             <img
               css={STYLES_IMAGE}
               style={{
-                maxHeight: "100%",
-                maxWidth: "100%",
                 ...this.props.imageStyle,
               }}
               src={url}

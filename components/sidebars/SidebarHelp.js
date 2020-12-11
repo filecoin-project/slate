@@ -9,7 +9,20 @@ import { css } from "@emotion/react";
 
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
-  margin-top: 32px;
+`;
+
+const STYLES_GROUPING = css`
+  width: 100%;
+  border: 1px solid rgba(196, 196, 196, 0.5);
+  background-color: ${Constants.system.white};
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 24px;
+`;
+
+const STYLES_TEXT = css`
+  color: ${Constants.system.textGray};
+  font-size: ${Constants.typescale.lvl0};
 `;
 
 export default class SidebarCreateSlate extends React.Component {
@@ -69,59 +82,58 @@ export default class SidebarCreateSlate extends React.Component {
           style={{
             fontFamily: Constants.font.semiBold,
             fontSize: Constants.typescale.lvl3,
-            marginBottom: "64px",
+            marginBottom: 36,
           }}
         >
           Talk to us
         </System.P>
 
-        <System.P css={STYLES_HEADER}>Name</System.P>
-        <System.Input
-          name="name"
-          style={{ marginTop: 16 }}
-          placeholder="Name"
-          value={this.state.name}
-          onChange={this._handleChange}
-          onSubmit={this._handleSubmit}
-        />
+        <div css={STYLES_GROUPING}>
+          <System.P css={STYLES_HEADER}>Your Info</System.P>
+          <System.P css={STYLES_TEXT} style={{ marginTop: 12 }}>
+            Let us know how we can reach you.
+          </System.P>
+          <System.Input
+            name="name"
+            style={{ marginTop: 12 }}
+            placeholder="Name"
+            value={this.state.name}
+            onChange={this._handleChange}
+            onSubmit={this._handleSubmit}
+          />
 
-        <System.P css={STYLES_HEADER}>Email</System.P>
-        <System.Input
-          name="email"
-          style={{ marginTop: 16 }}
-          placeholder="Email"
-          value={this.state.email}
-          onChange={this._handleChange}
-          onSubmit={this._handleSubmit}
-        />
+          <System.Input
+            name="email"
+            style={{ marginTop: 8 }}
+            placeholder="Email"
+            value={this.state.email}
+            onChange={this._handleChange}
+            onSubmit={this._handleSubmit}
+          />
+          <System.Input
+            name="twitter"
+            style={{ marginTop: 8 }}
+            placeholder="Twitter (optional)"
+            value={this.state.twitter}
+            onChange={this._handleChange}
+            onSubmit={this._handleSubmit}
+          />
+        </div>
 
-        <System.P css={STYLES_HEADER}>Twitter</System.P>
-        <System.Input
-          name="twitter"
-          style={{ marginTop: 16 }}
-          placeholder="Twitter (optional)"
-          value={this.state.twitter}
-          onChange={this._handleChange}
-          onSubmit={this._handleSubmit}
-        />
+        <div css={STYLES_GROUPING}>
+          <System.P css={STYLES_HEADER}>Message</System.P>
 
-        <System.P css={STYLES_HEADER}>Message</System.P>
+          <System.Textarea
+            style={{ marginTop: 16 }}
+            name="message"
+            value={this.state.message}
+            placeholder="Leave us your questions or feedback and we'll get back to you soon!"
+            onChange={this._handleChange}
+            onSubmit={this._handleSubmit}
+          />
+        </div>
 
-        <System.Textarea
-          style={{ marginTop: 16 }}
-          name="message"
-          value={this.state.message}
-          placeholder="Leave us your questions or feedback and we'll get back to you soon!"
-          onChange={this._handleChange}
-          onSubmit={this._handleSubmit}
-        />
-
-        <System.ButtonPrimary
-          full
-          style={{ marginTop: 48 }}
-          onClick={this._handleSubmit}
-          loading={this.state.loading}
-        >
+        <System.ButtonPrimary full onClick={this._handleSubmit} loading={this.state.loading}>
           Send message
         </System.ButtonPrimary>
       </div>

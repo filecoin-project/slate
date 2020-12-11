@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_BUTTON = css`
-  background-color: ${Constants.system.gray};
+  background-color: ${Constants.system.white};
   color: ${Constants.system.pitchBlack};
   display: inline-flex;
   width: 36px;
@@ -18,10 +18,10 @@ const STYLES_BUTTON = css`
   cursor: pointer;
   user-select: none;
   flex-shrink: 0;
-  box-shadow: 0 0 1px 4px rgba(0, 0, 0, 0.007);
+  box-shadow: 0 0 0 1px ${Constants.system.bgGray} inset;
 
   :hover {
-    background-color: #d4d4d4;
+    background-color: rgb(253, 253, 253);
   }
 `;
 

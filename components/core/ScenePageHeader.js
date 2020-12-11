@@ -44,6 +44,7 @@ const STYLES_DESCRIPTION = css`
   box-sizing: border-box;
   font-family: ${Constants.font.text};
   font-size: ${Constants.typescale.lvl1};
+  color: ${Constants.system.darkGray};
   margin-bottom: 12px;
   line-height: 1.5;
   display: block;

@@ -19,9 +19,10 @@ const STYLES_USER_ENTRY = css`
   align-items: center;
   font-size: ${Constants.typescale.lvl1};
   cursor: pointer;
-  border: 1px solid ${Constants.system.lightBorder};
+  ${"" /* border: 1px solid ${Constants.system.lightBorder}; */}
   border-radius: 4px;
   margin-bottom: 8px;
+  background-color: ${Constants.system.white};
 `;
 
 const STYLES_USER = css`

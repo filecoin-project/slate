@@ -8,7 +8,7 @@ const STYLES_CONTAINER = css`
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  padding: 16px 32px 16px 16px;
+  padding: 16px 32px;
   width: 100%;
   margin: 0 auto;
   z-index: ${Constants.zindex.header};
@@ -17,11 +17,12 @@ const STYLES_CONTAINER = css`
   font-size: ${Constants.typescale.lvl0};
   width: 100%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(248, 248, 248, 0.7);
   }
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 12px 24px;
@@ -33,6 +34,10 @@ const STYLES_LINK = css`
   text-decoration: none;
   transition: 200ms ease color;
   display: block;
+  display: flex;
+  align-items: center;
+  height: 100%;
+
   :hover {
     color: ${Constants.system.brand};
   }
@@ -41,6 +46,7 @@ const STYLES_LINK = css`
 const STYLES_LEFT = css`
   flex-shrink: 0;
   height: 24px;
+  height: 100%;
 `;
 
 const STYLES_RIGHT = css`

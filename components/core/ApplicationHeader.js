@@ -53,12 +53,12 @@ const STYLES_APPLICATION_HEADER = css`
   height: 56px;
   padding: 0 24px 0 16px;
   pointer-events: none;
-  background-color: ${Constants.system.white};
+  background-color: ${Constants.system.foreground};
 
   @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(248, 248, 248, 0.7);
   }
 
   @media (max-width: ${Constants.sizes.mobile}px) {

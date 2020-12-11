@@ -5,25 +5,22 @@ import * as System from "~/components/system";
 import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
+import * as SVG from "~/common/svg";
 
+import { RadioGroup } from "~/components/system/components/RadioGroup";
 import { css } from "@emotion/react";
 
 const SIZE_LIMIT = 1000000;
 const DEFAULT_IMAGE =
   "https://slate.textile.io/ipfs/bafkreiaow45dlq5xaydaeqocdxvffudibrzh2c6qandpqkb6t3ahbvh6re";
 
-const STYLES_GROUP = css`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-  margin-top: 8px;
-`;
-
 const STYLES_HEADER = css`
   font-family: ${Constants.font.semiBold};
+`;
+
+const STYLES_TEXT = css`
+  color: ${Constants.system.textGray};
+  font-size: ${Constants.typescale.lvl0};
 `;
 
 const STYLES_IMAGE_BOX = css`
@@ -40,6 +37,7 @@ const STYLES_IMAGE_BOX = css`
 const STYLES_GROUPING = css`
   width: 100%;
   border: 1px solid rgba(196, 196, 196, 0.5);
+  background-color: ${Constants.system.white};
   border-radius: 6px;
   padding: 16px;
   margin-bottom: 24px;
@@ -132,7 +130,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           style={{
             fontFamily: Constants.font.semiBold,
             fontSize: Constants.typescale.lvl3,
-            marginBottom: 64,
+            marginBottom: 36,
           }}
         >
           Slate settings
@@ -141,41 +139,50 @@ export default class SidebarSingleSlateSettings extends React.Component {
         <div css={STYLES_GROUPING}>
           <System.P css={STYLES_HEADER}>Name</System.P>
           <System.P
+            css={STYLES_TEXT}
             style={{
               marginTop: 12,
             }}
           >
-            Changing the slatename will change your public slate URL. Your slate URL is:{" "}
-          </System.P>
-          <System.P
-            style={{
-              marginTop: 12,
-            }}
-          >
-            <a href={url} target="_blank" style={{ color: Constants.system.brand }}>
-              https://slate.host{url}
-            </a>
+            Give your slate a name so you and others can find it on Slate and on the web.
           </System.P>
 
           <System.Input
             placeholder="Slate name..."
-            style={{ marginTop: 8, boxShadow: "none" }}
+            style={{ marginTop: 12 }}
             name="name"
             value={this.state.name}
-            placeholder="Name"
             onChange={this._handleChange}
             onSubmit={this._handleSubmit}
             descriptionStyle={{ fontSize: "20px !important" }}
             labelStyle={{ fontSize: "20px" }}
           />
+          <System.P
+            style={{
+              marginTop: 12,
+              color: Constants.system.textGrayLight,
+              fontSize: Constants.typescale.lvl0,
+            }}
+          >
+            https://slate.host{url}
+          </System.P>
         </div>
 
         <div css={STYLES_GROUPING}>
           <System.P css={STYLES_HEADER}>Description</System.P>
+          <System.P
+            css={STYLES_TEXT}
+            style={{
+              marginTop: 12,
+            }}
+          >
+            Give your slate a description, add links, and connect it to other slates.
+          </System.P>
 
           <System.Textarea
-            style={{ marginTop: 12, boxShadow: "none" }}
+            style={{ marginTop: 12 }}
             name="body"
+            placeholder="Slate description..."
             value={this.state.body}
             onChange={this._handleChange}
             onSubmit={this._handleSubmit}
@@ -187,6 +194,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
             <System.P css={STYLES_HEADER}>Preview image</System.P>
 
             <System.P
+              css={STYLES_TEXT}
               style={{
                 marginTop: 12,
               }}
@@ -201,15 +209,45 @@ export default class SidebarSingleSlateSettings extends React.Component {
         ) : null}
 
         <div css={STYLES_GROUPING}>
-          <System.P css={STYLES_HEADER}>Privacy</System.P>
-          <div css={STYLES_GROUP}>
-            <System.P style={{ marginRight: 16 }}>
-              {this.state.public
-                ? "Public. Anyone can search for and view this slate."
-                : "Private. Only you can view this slate."}
-            </System.P>
-            <System.Toggle name="public" onChange={this._handleChange} active={this.state.public} />
-          </div>
+          <System.P css={STYLES_HEADER} style={{ marginBottom: 12 }}>
+            Privacy
+          </System.P>
+          <System.P
+            css={STYLES_TEXT}
+            style={{
+              marginTop: 12,
+            }}
+          >
+            All slates are public by default. This means they can be discovered and seen by anyone
+            on the internet. If you make it private, only you will be able to see it.
+          </System.P>
+          <RadioGroup
+            name="public"
+            options={[
+              {
+                value: true,
+                label: (
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <SVG.Globe height="16px" style={{ marginRight: 8 }} />
+                    Public
+                  </div>
+                ),
+              },
+              {
+                value: false,
+                label: (
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <SVG.SecurityLock height="16px" style={{ marginRight: 8 }} />
+                    Private
+                  </div>
+                ),
+              },
+            ]}
+            style={{ marginTop: 12 }}
+            labelStyle={{ fontFamily: Constants.font.medium }}
+            selected={this.state.public}
+            onChange={this._handleChange}
+          />
         </div>
 
         <div style={{ marginTop: 40 }}>
@@ -218,28 +256,17 @@ export default class SidebarSingleSlateSettings extends React.Component {
           </System.ButtonPrimary>
 
           {!this.state.loading ? (
-            <System.ButtonWarning
-              full
-              style={{
-                marginTop: 16,
-              }}
-              onClick={this._handleCancel}
-            >
-              Cancel
-            </System.ButtonWarning>
+            <div style={{ marginTop: 16 }}>
+              <System.ButtonWarning
+                full
+                onClick={this._handleDelete}
+                style={{ overflow: "hidden" }}
+              >
+                Delete slate
+              </System.ButtonWarning>
+            </div>
           ) : null}
         </div>
-
-        {!this.state.loading ? (
-          <div style={{ marginTop: 48 }}>
-            <System.ButtonWarning full onClick={this._handleDelete} style={{ overflow: "hidden" }}>
-              Delete{" "}
-              {this.props.current.data && this.props.current.data.name
-                ? this.props.current.data.name
-                : this.props.current.slatename}
-            </System.ButtonWarning>
-          </div>
-        ) : null}
       </React.Fragment>
     );
   }

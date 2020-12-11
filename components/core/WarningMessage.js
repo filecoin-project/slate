@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 const STYLES_BOX = css`
-  border: 1px solid rgba(102, 102, 102, 0.5);
+  background-color: ${Constants.system.white};
   border-radius: 4px;
   padding: 36px;
   margin-top: 36px;
@@ -12,7 +12,8 @@ const STYLES_BOX = css`
 
 const STYLES_MESSAGE = css`
   line-height: 1.5;
-  color: ${Constants.system.grayBlack};
+  font-size: ${Constants.typescale.lvl0};
+  color: ${Constants.system.textGray};
 `;
 
 export class WarningMessage extends React.Component {

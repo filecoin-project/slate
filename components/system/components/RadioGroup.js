@@ -9,12 +9,19 @@ const STYLES_RADIO = css`
   box-sizing: border-box;
   font-family: ${Constants.font.text};
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   cursor: pointer;
+  padding: 8px 10px;
+  border: 1px solid ${Constants.system.gray30};
+  border-radius: 4px;
+
+  :last-child {
+    margin-bottom: 0px;
+  }
 `;
 
 const STYLES_RADIO_INPUT = css`
@@ -29,34 +36,27 @@ const STYLES_RADIO_INPUT = css`
   left: 0;
 `;
 
-const STYLES_RADIO_GROUP = css`
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-`;
-
 const STYLES_RADIO_CUSTOM = css`
   box-sizing: border-box;
-  box-shadow: 0 0 0 1px ${Constants.system.darkGray};
-  background-color: ${Constants.system.white};
+  background-color: ${Constants.system.bgGray};
   cursor: pointer;
-  height: 32px;
-  width: 32px;
-  border-radius: 32px;
+  height: 24px;
+  width: 24px;
+  border-radius: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  margin-right: 16px;
   flex-shrink: 0;
 `;
 
 const STYLES_RADIO_CUSTOM_SELECTED = css`
   box-sizing: border-box;
-  background-color: ${Constants.system.brand};
-  height: 24px;
-  width: 24px;
-  border-radius: 24px;
+  background-color: ${Constants.system.bgGrayLight};
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+  height: 16px;
+  width: 16px;
+  border-radius: 16px;
   pointer-events: none;
   opacity: 0;
   transition: 200ms ease opacity;
@@ -69,9 +69,9 @@ const STYLES_RADIO_LABEL = css`
   cursor: pointer;
   min-width: 10%;
   width: 100%;
-  line-height: 1.5;
-  padding-top: 4px;
   overflow-wrap: break-word;
+  display: flex;
+  align-items: center;
 
   strong {
     font-family: ${Constants.font.semiBold};
@@ -88,19 +88,26 @@ export class RadioGroup extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={this.props.style}>
         <DescriptionGroup
           full={this.props.full}
           tooltip={this.props.tooltip}
           label={this.props.label}
           description={this.props.description}
         />
-        <form css={STYLES_RADIO_GROUP}>
+        <form>
           {this.props.options.map((radio) => {
             const checked = this.props.selected === radio.value;
 
             return (
-              <label css={STYLES_RADIO} key={`radio-${radio.value}`}>
+              <label
+                css={STYLES_RADIO}
+                style={this.props.containerStyle}
+                key={`radio-${radio.value}`}
+              >
+                <span css={STYLES_RADIO_LABEL} style={this.props.labelStyle}>
+                  {radio.label}
+                </span>
                 <span css={STYLES_RADIO_CUSTOM}>
                   <span css={STYLES_RADIO_CUSTOM_SELECTED} style={{ opacity: checked ? 1 : 0 }} />
                 </span>
@@ -110,8 +117,7 @@ export class RadioGroup extends React.Component {
                   value={radio.value}
                   checked={checked}
                   onChange={() => this._handleChange(radio.value)}
-                />{" "}
-                <span css={STYLES_RADIO_LABEL}>{radio.label}</span>
+                />
               </label>
             );
           })}

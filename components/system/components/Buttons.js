@@ -34,8 +34,6 @@ const STYLES_BUTTON_PRIMARY = css`
   }
 
   :focus {
-    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: #065ca8;
     outline: 0;
     border: 0;
   }
@@ -216,8 +214,9 @@ export const ButtonTertiaryFull = (props) => {
 const STYLES_BUTTON_DISABLED = css`
   ${STYLES_BUTTON}
   cursor: not-allowed;
-  background-color: ${Constants.system.bgGrayLihgt};
+  background-color: ${Constants.system.white};
   color: ${Constants.system.textGrayLight};
+  box-shadow: 0 0 0 1px ${Constants.system.bgGray} inset;
 
   :focus {
     outline: 0;
@@ -261,8 +260,6 @@ const STYLES_BUTTON_WARNING = css`
   }
 
   :focus {
-    box-shadow: inset 0 0 5px 2px rgba(0, 0, 0, 0.3);
-    background-color: #d4d4d4;
     outline: 0;
     border: 0;
   }

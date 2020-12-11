@@ -10,6 +10,7 @@ const STYLES_CONTAINER = css`
   padding: 32px;
   max-width: 100%;
   width: 100%;
+  background-color: ${Constants.system.white};
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     padding: 24px;
@@ -119,7 +120,6 @@ export const DataMeterBar = (props) => {
             css={DATA_METER_METER_SEGMENT}
             style={{
               width: `${percentageFreeSpace * 100}%`,
-              backgroundColor: "${Constants.system.foreground}",
             }}
           />
         </div>

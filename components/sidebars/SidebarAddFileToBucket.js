@@ -112,11 +112,12 @@ export default class SidebarAddFileToBucket extends React.Component {
           style={{
             fontFamily: Constants.font.semiBold,
             fontSize: Constants.typescale.lvl3,
-            marginBottom: "64px",
+            marginBottom: 36,
           }}
         >
           Upload data
         </System.P>
+
         <input
           css={STYLES_FILE_HIDDEN}
           multiple
@@ -124,8 +125,10 @@ export default class SidebarAddFileToBucket extends React.Component {
           id="file"
           onChange={this._handleUpload}
         />
+
         <FileTypeGroup style={{ margin: "64px 0px" }} />
-        <System.P style={{ marginTop: 24 }}>
+
+        <System.P>
           Click below or drop a file anywhere on the page to upload a file
           {this.props.current &&
           (this.props.current.slatename ||

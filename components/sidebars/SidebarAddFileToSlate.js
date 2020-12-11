@@ -77,7 +77,7 @@ export default class SidebarAddFileToSlate extends React.Component {
           style={{
             fontFamily: Constants.font.semiBold,
             fontSize: Constants.typescale.lvl3,
-            marginBottom: "64px",
+            marginBottom: 36,
           }}
         >
           Add files to slate

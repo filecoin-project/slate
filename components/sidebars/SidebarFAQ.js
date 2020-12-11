@@ -79,6 +79,14 @@ export default class SidebarFAQ extends React.Component {
             world. Join our Slack or head over to our GitHub to get in on the action.
           </System.P>
         </div>
+
+        <System.P
+          css={STYLES_TEXT}
+          style={{ cursor: "pointer" }}
+          onClick={() => this.props.onAction({ type: "SIDEBAR", value: "SIDEBAR_HELP" })}
+        >
+          Still have questions? Send us a message!
+        </System.P>
       </div>
     );
   }

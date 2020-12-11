@@ -91,7 +91,7 @@ export default class SidebarCreateSlate extends React.Component {
         <div css={STYLES_GROUPING}>
           <System.P css={STYLES_HEADER}>Your Info</System.P>
           <System.P css={STYLES_TEXT} style={{ marginTop: 12 }}>
-            Let us know how we can reach you.
+            Let us know how we can reach you!
           </System.P>
           <System.Input
             name="name"
@@ -136,6 +136,14 @@ export default class SidebarCreateSlate extends React.Component {
         <System.ButtonPrimary full onClick={this._handleSubmit} loading={this.state.loading}>
           Send message
         </System.ButtonPrimary>
+
+        <System.P
+          css={STYLES_TEXT}
+          style={{ cursor: "pointer", marginTop: 24 }}
+          onClick={() => this.props.onAction({ type: "SIDEBAR", value: "SIDEBAR_FAQ" })}
+        >
+          In the meantime, feel free to view our FAQ!
+        </System.P>
       </div>
     );
   }

@@ -22,10 +22,9 @@ const STYLES_POPOVER_ITEM = css`
   box-sizing: border-box;
   top: 0;
   left: 0;
-  margin: 8px 0px;
+  padding: 8px 0px;
   display: flex;
   align-items: center;
-  height: 24px;
   transition: 200ms ease all;
   cursor: pointer;
   font-size: ${Constants.typescale.lvlN1};

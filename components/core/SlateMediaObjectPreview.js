@@ -60,14 +60,6 @@ const STYLES_BLUR_CONTAINER = css`
   overflow: hidden;
 `;
 
-let preload = (url) =>
-  new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = resolve(img);
-    img.onerror = reject;
-    img.src = url;
-  });
-
 export default class SlateMediaObjectPreview extends React.Component {
   count = 0;
 
@@ -96,20 +88,9 @@ export default class SlateMediaObjectPreview extends React.Component {
 
   loadImage = async (url) => {
     this.count += 1;
-    try {
-      let img = await preload(url);
-      if (!img.height && !img.width) {
-        if (this.count < 10) {
-          window.setTimeout(() => this.loadImage(url), 1000);
-          return;
-        }
-        this.setState({ showImage: false, error: true });
-      } else {
-        this.setState({ showImage: true, error: false });
-      }
-    } catch (error) {
-      this.setState({ showImage: false, error: true });
-    }
+    const img = new Image();
+    img.onload = () => this.setState({ showImage: true });
+    img.src = url;
   };
 
   render() {

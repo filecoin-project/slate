@@ -149,8 +149,8 @@ export default class ApplicationUserControls extends React.Component {
       >
         <div>
           <PopoverNavigation
-            style={{ top: 36, right: 0, padding: "0px 24px", width: 220 }}
-            itemStyle={{ margin: "24px 0", fontSize: 18, justifyContent: "flex-end" }}
+            style={{ top: 36, right: 0, padding: "12px 24px", width: 220 }}
+            itemStyle={{ padding: "12px 0", fontSize: 18, justifyContent: "flex-end" }}
             navigation={[
               {
                 text: "View profile",

@@ -28,7 +28,7 @@ const STYLES_FILE_LINE = css`
   width: 100%;
   padding: 12px 16px;
   background-color: ${Constants.system.white};
-  margin-bottom: 1px;
+  border-bottom: 1px solid ${Constants.system.foreground};
 `;
 
 const STYLES_FILE_NAME = css`
@@ -115,7 +115,9 @@ export default class SidebarAddFileToBucket extends React.Component {
             marginBottom: 36,
           }}
         >
-          Upload data
+          {this.props.fileLoading && Object.keys(this.props.fileLoading).length
+            ? "Upload progress"
+            : "Upload data"}
         </System.P>
 
         <input
@@ -126,30 +128,34 @@ export default class SidebarAddFileToBucket extends React.Component {
           onChange={this._handleUpload}
         />
 
-        <FileTypeGroup style={{ margin: "64px 0px" }} />
+        {this.props.fileLoading && Object.keys(this.props.fileLoading).length ? null : (
+          <React.Fragment>
+            <FileTypeGroup style={{ margin: "64px 0px" }} />
 
-        <System.P>
-          Click below or drop a file anywhere on the page to upload a file
-          {this.props.current &&
-          (this.props.current.slatename ||
-            (this.props.current.data && this.props.current.data.name)) ? (
-            <span>
-              {" "}
-              to <strong>{Strings.getPresentationSlateName(this.props.current)}</strong>
-            </span>
-          ) : (
-            ""
-          )}
-          .
-        </System.P>
+            <System.P>
+              Click below or drop a file anywhere on the page to upload a file
+              {this.props.current &&
+              (this.props.current.slatename ||
+                (this.props.current.data && this.props.current.data.name)) ? (
+                <span>
+                  {" "}
+                  to <strong>{Strings.getPresentationSlateName(this.props.current)}</strong>
+                </span>
+              ) : (
+                ""
+              )}
+              .
+            </System.P>
 
-        <SidebarWarningMessage />
+            <SidebarWarningMessage />
 
-        <System.ButtonPrimary full type="label" htmlFor="file" style={{ marginTop: 24 }}>
-          Add file
-        </System.ButtonPrimary>
+            <System.ButtonPrimary full type="label" htmlFor="file" style={{ marginTop: 24 }}>
+              Add file
+            </System.ButtonPrimary>
+            <br />
+          </React.Fragment>
+        )}
 
-        <br />
         {this.props.fileLoading && Object.keys(this.props.fileLoading).length ? (
           <div css={STYLES_BAR_CONTAINER}>
             <strong css={STYLES_PERFORMANCE}>
@@ -158,7 +164,7 @@ export default class SidebarAddFileToBucket extends React.Component {
             <DataMeterBar bytes={loaded} maximumBytes={total} />
           </div>
         ) : null}
-        <div style={{ marginTop: 24 }}>
+        <div style={{ marginTop: 24, borderRadius: 4, overflow: "hidden" }}>
           {this.props.fileLoading
             ? Object.entries(this.props.fileLoading).map((entry) => {
                 let file = entry[1];

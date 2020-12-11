@@ -201,8 +201,8 @@ export default class ApplicationHeader extends React.Component {
                 style={this.props.style}
               >
                 <PopoverNavigation
-                  style={{ top: 44, left: 8, width: 220, padding: "0px 24px" }}
-                  itemStyle={{ margin: "24px 0" }}
+                  style={{ top: 44, left: 8, width: 220, padding: "12px 24px" }}
+                  itemStyle={{ padding: "12px 0" }}
                   navigation={this.props.navigation
                     .filter((item) => !item.ignore)
                     .map((item) => {

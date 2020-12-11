@@ -15,7 +15,7 @@ const STYLES_ALERT = `
   top: 56px;
   width: 100%;
   color: ${Constants.system.white};
-  min-height: 48px;
+  min-height: 40px;
   padding: 12px 56px;
   display: flex;
   flex-wrap: wrap;

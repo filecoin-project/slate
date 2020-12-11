@@ -251,15 +251,16 @@ export class SlatePreviewBlock extends React.Component {
 
   render() {
     let count = 0;
-    if (this.props.slate.data.objects.length > 4) {
-      console.log(this.props.slate.data.objects.slice(0, 4));
-      for (let object of this.props.slate.data.objects.slice(0, 4)) {
+    const { objects } = this.props.slate.data;
+    if (objects.length > 4) {
+      const set = this.props.slate.data.objects.slice(0, 4);
+      for (let object of set) {
         if (object.type.startsWith("image/") && !object.type.startsWith("image/svg")) {
           count++;
         }
       }
     }
-    let first = this.props.slate.data.objects ? this.props.slate.data.objects[0] : null;
+    let first = objects ? objects[0] : null;
     let contextMenu = (
       <React.Fragment>
         <Boundary
@@ -319,7 +320,6 @@ export class SlatePreviewBlock extends React.Component {
 
     return (
       <div css={STYLES_BLOCK}>
-        {console.log("check", count)}
         {this.props.external ? (
           <React.Fragment>
             <span css={STYLES_MOBILE_HIDDEN}>
@@ -328,8 +328,8 @@ export class SlatePreviewBlock extends React.Component {
                   {this.props.slate.data.name}
                 </div>
                 <div css={STYLES_OBJECT_COUNT}>
-                  {this.props.slate.data.objects.length} file
-                  {this.props.slate.data.objects.length > 1 ? "s" : ""}
+                  {objects.length} file
+                  {objects.length > 1 ? "s" : ""}
                 </div>
               </div>
               {this.props.slate.data.body ? (
@@ -337,8 +337,7 @@ export class SlatePreviewBlock extends React.Component {
               ) : (
                 <div style={{ height: "41px" }} />
               )}
-              {this.props.slate.data.objects.length === 1 ||
-              (this.props.slate.data.objects.length != 0 && count <= 3) ? (
+              {objects.length === 1 || (objects.length != 0 && count <= 3) ? (
                 <div
                   style={{
                     width: "100%",
@@ -395,8 +394,8 @@ export class SlatePreviewBlock extends React.Component {
             <span css={STYLES_MOBILE_ONLY}>
               <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
               <div css={STYLES_OBJECT_COUNT}>
-                {this.props.slate.data.objects.length} file
-                {this.props.slate.data.objects.length > 1 ? "s" : ""}
+                {objects.length} file
+                {objects.length > 1 ? "s" : ""}
               </div>
               <div
                 style={{
@@ -519,8 +518,8 @@ export class SlatePreviewBlock extends React.Component {
                 {this.props.slate.data.name}
               </div>
               <div css={STYLES_OBJECT_COUNT} style={{ marginBottom: 16, fontSize: 12 }}>
-                {this.props.slate.data.objects.length} file
-                {this.props.slate.data.objects.length === 1 ? "" : "s"}
+                {objects.length} file
+                {objects.length === 1 ? "" : "s"}
               </div>
               <div
                 style={{

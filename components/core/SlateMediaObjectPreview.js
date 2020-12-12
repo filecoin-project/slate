@@ -61,8 +61,6 @@ const STYLES_BLUR_CONTAINER = css`
 `;
 
 export default class SlateMediaObjectPreview extends React.Component {
-  count = 0;
-
   static defaultProps = {
     charCap: 30,
   };
@@ -87,7 +85,6 @@ export default class SlateMediaObjectPreview extends React.Component {
   };
 
   loadImage = async (url) => {
-    this.count += 1;
     const img = new Image();
     img.onload = () => this.setState({ showImage: true });
     img.src = url;

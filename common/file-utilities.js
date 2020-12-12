@@ -20,10 +20,14 @@ const loadImage = async (src) =>
   });
 
 const getImageData = (image) => {
+  let ratio = Math.min(100 / image.height, 100 / image.width);
+  image.height = image.height * ratio;
+  image.width = image.width * ratio;
   const canvas = document.createElement("canvas");
   canvas.width = image.width;
   canvas.height = image.height;
   const context = canvas.getContext("2d");
+  context.scale(ratio, ratio);
   context.drawImage(image, 0, 0);
   return context.getImageData(0, 0, image.width, image.height);
 };
@@ -150,7 +154,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
 
   if (!res || res.error || !res.data) {
     if (context) {
-      context.setState({
+      await context.setState({
         fileLoading: {
           ...context.state.fileLoading,
           [`${file.lastModified}-${file.name}`]: {

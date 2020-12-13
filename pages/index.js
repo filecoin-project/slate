@@ -10,18 +10,18 @@ import { ButtonPrimary } from "~/components/system/components/Buttons";
 
 const USER_SLATES = [
   {
-    name: "Urban gardens",
-    url: "https://slate.host/gndclouds/urban-gardens",
-    username: "@gndclouds",
+    name: "Architecture",
+    url: "https://slate.host/cw/architecture",
+    username: "@cw",
     preview:
-      "https://slate.textile.io/ipfs/bafybeiff7y4kz4e2z4nfso4nsgdbkfsyroa62jvvldoxafuaf34m7lticu",
+      "https://slate.textile.io/ipfs/bafybeiee6hshzmxfafytbtnnx3fawrhiq5qflz5pmpsaelq7jrchgkwk2m",
   },
   {
-    name: "Shapes and Letters",
-    url: "https://slate.host/haris/shapes-and-letters",
-    username: "@haris",
+    name: "Project Wor",
+    url: "https://slate.host/jim/project-wor",
+    username: "@jim",
     preview:
-      "https://slate.textile.io/ipfs/bafybeifgxtl7mq5djnorxedzi35hkizjmbjvdy3nnoitd3xvdnqpmruxbm",
+      "https://slate.textile.io/ipfs/bafkreibboloplrnx7guqmthwe5mk47dhclyfgobihnecmx53t3ybkghnjq",
   },
   {
     name: "Cartography",
@@ -31,11 +31,11 @@ const USER_SLATES = [
       "https://slate.textile.io/ipfs/bafybeihfrqvfcetmeimpfbacf2tntlgg3xbvgxekoti4tdz2ketczlqp2a",
   },
   {
-    name: "September",
-    url: "https://slate.host/bitgraves/september",
-    username: "@bitgraves",
+    name: "Retro Japanese Toy Advertisements",
+    url: "https://slate.host/haris/retro-japanese-toy-advertisements",
+    username: "@haris",
     preview:
-      "https://slate.textile.io/ipfs/bafybeiclkru6hwzw2ghvsyrbnaf67taxxhq2hbpcia2oqj5ufdggwhcbti",
+      "https://slate.textile.io/ipfs/bafybeibtftpdszmwgg6mzagjkz6jyja2obeujujgdmzlx5yhr7gaeub7da",
   },
   {
     name: "Get started with Slate →",
@@ -45,11 +45,11 @@ const USER_SLATES = [
     style: { backgroundColor: Constants.system.newBlue, color: Constants.system.white },
   },
   {
-    name: "Montreal underground",
-    url: "https://slate.host/tcosta/montreal-underground",
-    username: "@tcosta",
+    name: "Cryptovoxels History",
+    url: "https://slate.host/jin/cryptovoxels-history",
+    username: "@jin",
     preview:
-      "https://slate.textile.io/ipfs/bafybeieblkyt6d7wg4xmltshvxm6w7tz4c3zjpjuu4yfhiak36debqccda",
+      "https://slate.textile.io/ipfs/bafybeibuva545milenwi72roifwdssgchkpqyl4auuavyqjkhujixlvxjm",
   },
   {
     name: "American currency",

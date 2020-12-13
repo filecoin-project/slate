@@ -28,6 +28,7 @@ const STYLES_PROFILE = css`
 `;
 
 const STYLES_PROFILE_INFO = css`
+  padding: 32px 32px 0px 32px;
   display: flex;
   line-height: 1.3;
   width: 50%;
@@ -59,21 +60,8 @@ const STYLES_INFO_INTERNAL = css`
   }
 `;
 
-const STYLES_INFO = css`
-  display: block;
-  width: 100%;
-  max-width: calc(100% - 224px);
-  text-align: left;
-  margin-bottom: 48px;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    max-width: calc(100% - 80px);
-  }
-`;
-
 const STYLES_PROFILE_IMAGE = css`
-  background-color: ${Constants.system.foreground};
+  background-color: ${Constants.system.white};
   background-size: cover;
   background-position: 50% 50%;
   width: 80px;
@@ -86,17 +74,6 @@ const STYLES_PROFILE_IMAGE = css`
     height: 64px;
     margin-right: 16px;
   }
-`;
-
-const STYLES_NAME = css`
-  font-size: ${Constants.typescale.lvl3};
-  font-family: ${Constants.font.medium};
-  max-width: 100%;
-  font-weight: 400;
-  margin: 8px 24px 0px 0;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-  color: ${Constants.system.black};
 `;
 
 const STYLES_NAME_INTERNAL = css`
@@ -138,29 +115,6 @@ const STYLES_STAT = css`
   flex-shrink: 0;
 `;
 
-const STYLES_BUTTON = css`
-  width: 96px;
-  height: 36px;
-  border-radius: 4px;
-  border: 1px solid ${Constants.system.gray};
-  padding: 8px 16px;
-  cursor: pointer;
-  margin-top: 8px;
-  font-family: ${Constants.font.medium};
-  font-weight: 400;
-  font-size: 14px;
-  text-align: center;
-  text-decoration: none;
-  color: ${Constants.system.black};
-  :hover {
-    background-color: ${Constants.system.gray};
-    transition: 200ms background-color linear;
-  }
-  :visited {
-    color: ${Constants.system.black};
-  }
-`;
-
 const STYLES_FLEX = css`
   display: flex;
   align-items: center;
@@ -180,6 +134,7 @@ export default class Profile extends React.Component {
   };
 
   render() {
+    const external = !this.props.onAction;
     let data = this.props.creator ? this.props.creator : this.props.data;
     let exploreSlates = this.props.exploreSlates;
 
@@ -189,75 +144,36 @@ export default class Profile extends React.Component {
     }
     return (
       <div>
-        {this.props.onAction ? (
-          <div css={STYLES_PROFILE_INFO_INTERNAL}>
-            <div
-              css={STYLES_PROFILE_IMAGE}
-              style={{ backgroundImage: `url('${data.data.photo}')` }}
-            />
-            <div css={STYLES_INFO_INTERNAL}>
-              <div css={STYLES_FLEX} style={{ marginTop: 8 }}>
-                <div css={STYLES_NAME_INTERNAL}>{Strings.getPresentationName(data)}</div>
-                <div>{this.props.buttons}</div>
-              </div>
-              <div css={STYLES_STATS}>
-                <div css={STYLES_STAT}>
-                  <div style={{ fontFamily: `${Constants.font.text}` }}>
-                    {total}{" "}
-                    <span style={{ color: `${Constants.system.darkGray}` }}>Public data</span>
-                  </div>
-                </div>
-                <div css={STYLES_STAT}>
-                  <div style={{ fontFamily: `${Constants.font.text}` }}>
-                    {data.slates.length}{" "}
-                    <span style={{ color: `${Constants.system.darkGray}` }}>Public slates</span>
-                  </div>
-                </div>
-              </div>
-              {data.data.body ? (
-                <div css={STYLES_DESCRIPTION}>
-                  <ProcessedText text={data.data.body} />
-                </div>
-              ) : null}
+        <div css={external ? STYLES_PROFILE_INFO : STYLES_PROFILE_INFO_INTERNAL}>
+          <div
+            css={STYLES_PROFILE_IMAGE}
+            style={{ backgroundImage: `url('${data.data.photo}')` }}
+          />
+          <div css={STYLES_INFO_INTERNAL}>
+            <div css={STYLES_FLEX} style={{ marginTop: 8 }}>
+              <div css={STYLES_NAME_INTERNAL}>{Strings.getPresentationName(data)}</div>
+              <div>{this.props.buttons}</div>
             </div>
-          </div>
-        ) : (
-          <div css={STYLES_PROFILE}>
-            <div css={STYLES_PROFILE_INFO}>
-              <div
-                css={STYLES_PROFILE_IMAGE}
-                style={{ backgroundImage: `url('${data.data.photo}')` }}
-              />
-              <div css={STYLES_INFO}>
-                <div css={STYLES_FLEX}>
-                  <div css={STYLES_NAME}>{Strings.getPresentationName(data)}</div>
-                  <a css={STYLES_BUTTON} href={"http://slate.host/_"}>
-                    Follow
-                  </a>
+            <div css={STYLES_STATS}>
+              <div css={STYLES_STAT}>
+                <div style={{ fontFamily: `${Constants.font.text}` }}>
+                  {total} <span style={{ color: `${Constants.system.darkGray}` }}>Public data</span>
                 </div>
-                <div css={STYLES_STATS}>
-                  <div css={STYLES_STAT}>
-                    <div style={{ fontFamily: `${Constants.font.text}` }}>
-                      {total}{" "}
-                      <span style={{ color: `${Constants.system.darkGray}` }}>Public data</span>
-                    </div>
-                  </div>
-                  <div css={STYLES_STAT}>
-                    <div style={{ fontFamily: `${Constants.font.text}` }}>
-                      {data.slates.length}{" "}
-                      <span style={{ color: `${Constants.system.darkGray}` }}>Public slates</span>
-                    </div>
-                  </div>
+              </div>
+              <div css={STYLES_STAT}>
+                <div style={{ fontFamily: `${Constants.font.text}` }}>
+                  {data.slates.length}{" "}
+                  <span style={{ color: `${Constants.system.darkGray}` }}>Public slates</span>
                 </div>
-                {data.data.body ? (
-                  <div css={STYLES_DESCRIPTION} style={{ marginBottom: 16 }}>
-                    <ProcessedText text={data.data.body} />
-                  </div>
-                ) : null}
               </div>
             </div>
+            {data.data.body ? (
+              <div css={STYLES_DESCRIPTION}>
+                <ProcessedText text={data.data.body} />
+              </div>
+            ) : null}
           </div>
-        )}
+        </div>
 
         {this.state.visible && (
           <div>

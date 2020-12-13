@@ -584,8 +584,9 @@ export default class SlatePreviewBlocks extends React.Component {
       <div css={STYLES_SLATES}>
         {this.props.external
           ? this.props.slates.map((slate) => (
-              <div
+              <a
                 key={slate.id}
+                style={{ textDecoration: "none", color: Constants.system.black }}
                 href={
                   this.props.username
                     ? `/${this.props.username}/${slate.slatename}`
@@ -598,7 +599,7 @@ export default class SlatePreviewBlocks extends React.Component {
                   slate={slate}
                   external={this.props.external}
                 />
-              </div>
+              </a>
             ))
           : this.props.slates.map((slate) => (
               <div

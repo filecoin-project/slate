@@ -7,8 +7,8 @@ import * as Actions from "~/common/actions";
 import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
 
+import { ButtonSecondary } from "~/components/system/components/Buttons";
 import { css } from "@emotion/react";
-import { Alert } from "~/components/core/Alert";
 import { ViewAllButton } from "~/components/core/ViewAll";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
@@ -59,6 +59,7 @@ const STYLES_SLATE_INTRO = css`
 
 const STYLES_TITLELINE = css`
   display: flex;
+  align-items: flex-end;
   line-height: 1.3;
   word-wrap: break-word;
 
@@ -119,42 +120,6 @@ const STYLES_STATS = css`
 const STYLES_STAT = css`
   margin-right: 16px;
   flex-shrink: 0;
-`;
-
-const STYLES_BUTTONS = css`
-  display: flex;
-  width: 200px;
-  height: 36px;
-  border-radius: 4px;
-  border: 1px solid ${Constants.system.gray};
-  flex-shrink: 0;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 12px 0;
-  }
-`;
-
-const STYLES_BUTTON = css`
-  border-right: 1px solid ${Constants.system.gray};
-  padding: 8px 4px;
-  cursor: pointer;
-  width: 50%;
-  font-family: ${Constants.font.medium};
-  font-weight: 400;
-  font-size: 14px;
-  text-align: center;
-  text-decoration: none;
-  color: ${Constants.system.black};
-  :last-child {
-    border-right: none;
-  }
-  :hover {
-    background-color: ${Constants.system.gray};
-    transition: 200ms background-color linear;
-  }
-  :visited {
-    color: ${Constants.system.black};
-  }
 `;
 
 const STYLES_SLATE = css`
@@ -321,14 +286,9 @@ export default class SlatePage extends React.Component {
                 {slateCreator}
               </a>
               <div css={STYLES_TITLE}>{slateTitle} </div>
-              <div css={STYLES_BUTTONS}>
-                <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
-                  Follow
-                </div>
-                <div css={STYLES_BUTTON} onClick={() => this.setState({ visible: true })}>
-                  Download
-                </div>
-              </div>
+              <ButtonSecondary onClick={() => this.setState({ visible: true })}>
+                Follow
+              </ButtonSecondary>
             </div>
             <div css={STYLES_DESCRIPTION}>
               <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
@@ -383,7 +343,11 @@ export default class SlatePage extends React.Component {
               onClose={() => this.setState({ visible: false })}
               viewer={this.props.viewer}
               open={this.state.visible}
-              redirectURL={`/_?scene=V1_NAVIGATION_SLATE&user=${this.props.creator.username}&slate=${this.props.slate.slatename}`}
+              redirectURL={`/_${Strings.createQueryParams({
+                scene: "V1_NAVIGATION_SLATE",
+                user: this.props.creator.username,
+                slate: this.props.slate.slatename,
+              })}`}
             />
           </div>
         )}

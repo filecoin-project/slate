@@ -164,21 +164,21 @@ export default class SceneDirectory extends React.Component {
     }
   };
 
-  _handleDelete = async (e, id) => {
-    this._handleHide();
-    e.stopPropagation();
-    await Actions.deleteTrustRelationship({
-      id: id,
-    });
-  };
+  // _handleDelete = async (e, id) => {
+  //   this._handleHide();
+  //   e.stopPropagation();
+  //   await Actions.deleteTrustRelationship({
+  //     id: id,
+  //   });
+  // };
 
-  _handleAccept = async (e, id) => {
-    this._handleHide();
-    e.stopPropagation();
-    await Actions.updateTrustRelationship({
-      userId: id,
-    });
-  };
+  // _handleAccept = async (e, id) => {
+  //   this._handleHide();
+  //   e.stopPropagation();
+  //   await Actions.updateTrustRelationship({
+  //     userId: id,
+  //   });
+  // };
 
   _handleFollow = async (e, id) => {
     this._handleHide();
@@ -189,181 +189,181 @@ export default class SceneDirectory extends React.Component {
   };
 
   render() {
-    let requests = this.props.viewer.pendingTrusted
-      .filter((relation) => {
-        return !relation.data.verified;
-      })
-      .map((relation) => {
-        let button = (
-          <React.Fragment>
-            <span css={STYLES_MOBILE_ONLY}>
-              <div css={STYLES_BUTTONS}>
-                <div
-                  css={STYLES_ITEM_BOX}
-                  onClick={(e) => this._handleAccept(e, relation.owner.id)}
-                >
-                  <SVG.CheckBox height="24px" style={{ color: Constants.system.brand }} />
-                </div>
-                <div
-                  css={STYLES_ITEM_BOX}
-                  style={{ marginRight: 0 }}
-                  onClick={(e) => {
-                    this._handleDelete(e, relation.id);
-                  }}
-                >
-                  <SVG.Dismiss height="24px" style={{ color: Constants.system.gray }} />
-                </div>
-              </div>
-            </span>
-            <span css={STYLES_MOBILE_HIDDEN}>
-              <div css={STYLES_BUTTONS}>
-                <ButtonPrimary
-                  transparent
-                  style={{ fontSize: 16 }}
-                  onClick={(e) => this._handleAccept(e, relation.owner.id)}
-                >
-                  Accept
-                </ButtonPrimary>
-                <ButtonSecondary
-                  transparent
-                  style={{ fontSize: 16 }}
-                  onClick={(e) => {
-                    this._handleDelete(e, relation.id);
-                  }}
-                >
-                  Decline
-                </ButtonSecondary>
-              </div>
-            </span>
-          </React.Fragment>
-        );
-        return (
-          <UserEntry
-            key={relation.id}
-            user={relation.owner}
-            button={button}
-            onClick={() => {
-              this.props.onAction({
-                type: "NAVIGATE",
-                value: this.props.sceneId,
-                scene: "PUBLIC_PROFILE",
-                data: relation.owner,
-              });
-            }}
-            message=" requested to trust you"
-          />
-        );
-      });
+    // let requests = this.props.viewer.pendingTrusted
+    //   .filter((relation) => {
+    //     return !relation.data.verified;
+    //   })
+    //   .map((relation) => {
+    //     let button = (
+    //       <React.Fragment>
+    //         <span css={STYLES_MOBILE_ONLY}>
+    //           <div css={STYLES_BUTTONS}>
+    //             <div
+    //               css={STYLES_ITEM_BOX}
+    //               onClick={(e) => this._handleAccept(e, relation.owner.id)}
+    //             >
+    //               <SVG.CheckBox height="24px" style={{ color: Constants.system.brand }} />
+    //             </div>
+    //             <div
+    //               css={STYLES_ITEM_BOX}
+    //               style={{ marginRight: 0 }}
+    //               onClick={(e) => {
+    //                 this._handleDelete(e, relation.id);
+    //               }}
+    //             >
+    //               <SVG.Dismiss height="24px" style={{ color: Constants.system.gray }} />
+    //             </div>
+    //           </div>
+    //         </span>
+    //         <span css={STYLES_MOBILE_HIDDEN}>
+    //           <div css={STYLES_BUTTONS}>
+    //             <ButtonPrimary
+    //               transparent
+    //               style={{ fontSize: 16 }}
+    //               onClick={(e) => this._handleAccept(e, relation.owner.id)}
+    //             >
+    //               Accept
+    //             </ButtonPrimary>
+    //             <ButtonSecondary
+    //               transparent
+    //               style={{ fontSize: 16 }}
+    //               onClick={(e) => {
+    //                 this._handleDelete(e, relation.id);
+    //               }}
+    //             >
+    //               Decline
+    //             </ButtonSecondary>
+    //           </div>
+    //         </span>
+    //       </React.Fragment>
+    //     );
+    //     return (
+    //       <UserEntry
+    //         key={relation.id}
+    //         user={relation.owner}
+    //         button={button}
+    //         onClick={() => {
+    //           this.props.onAction({
+    //             type: "NAVIGATE",
+    //             value: this.props.sceneId,
+    //             scene: "PUBLIC_PROFILE",
+    //             data: relation.owner,
+    //           });
+    //         }}
+    //         message=" requested to trust you"
+    //       />
+    //     );
+    //   });
 
-    let trusted = this.props.viewer.pendingTrusted
-      .filter((relation) => {
-        return relation.data.verified;
-      })
-      .map((relation) => {
-        let button = (
-          <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
-            <SVG.MoreHorizontal height="24px" />
-            {this.state.contextMenu === relation.id ? (
-              <Boundary
-                captureResize={true}
-                captureScroll={false}
-                enabled
-                onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
-              >
-                <PopoverNavigation
-                  style={{
-                    top: "40px",
-                    right: "0px",
-                  }}
-                  navigation={[
-                    {
-                      text: "Copy profile URL",
-                      onClick: (e) =>
-                        this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
-                    },
-                    {
-                      text: "Remove peer",
-                      onClick: (e) => this._handleDelete(e, relation.id),
-                    },
-                  ]}
-                />
-              </Boundary>
-            ) : null}
-          </div>
-        );
-        return (
-          <UserEntry
-            key={relation.id}
-            user={relation.owner}
-            button={button}
-            onClick={() => {
-              this.props.onAction({
-                type: "NAVIGATE",
-                value: this.props.sceneId,
-                scene: "PUBLIC_PROFILE",
-                data: relation.owner,
-              });
-            }}
-          />
-        );
-      });
-    if (!trusted) {
-      trusted = [];
-    }
-    trusted.push(
-      ...this.props.viewer.trusted
-        .filter((relation) => {
-          return relation.data.verified;
-        })
-        .map((relation) => {
-          let button = (
-            <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
-              <SVG.MoreHorizontal height="24px" />
-              {this.state.contextMenu === relation.id ? (
-                <Boundary
-                  captureResize={true}
-                  captureScroll={false}
-                  enabled
-                  onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
-                >
-                  <PopoverNavigation
-                    style={{
-                      top: "40px",
-                      right: "0px",
-                    }}
-                    navigation={[
-                      {
-                        text: "Copy profile URL",
-                        onClick: (e) =>
-                          this._handleCopy(e, `https://slate.host/${relation.user.username}`),
-                      },
-                      {
-                        text: "Remove peer",
-                        onClick: (e) => this._handleDelete(e, relation.id),
-                      },
-                    ]}
-                  />
-                </Boundary>
-              ) : null}
-            </div>
-          );
-          return (
-            <UserEntry
-              key={relation.id}
-              user={relation.user}
-              button={button}
-              onClick={() => {
-                this.props.onAction({
-                  type: "NAVIGATE",
-                  value: this.props.sceneId,
-                  scene: "PUBLIC_PROFILE",
-                  data: relation.user,
-                });
-              }}
-            />
-          );
-        })
-    );
+    // let trusted = this.props.viewer.pendingTrusted
+    //   .filter((relation) => {
+    //     return relation.data.verified;
+    //   })
+    //   .map((relation) => {
+    //     let button = (
+    //       <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
+    //         <SVG.MoreHorizontal height="24px" />
+    //         {this.state.contextMenu === relation.id ? (
+    //           <Boundary
+    //             captureResize={true}
+    //             captureScroll={false}
+    //             enabled
+    //             onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
+    //           >
+    //             <PopoverNavigation
+    //               style={{
+    //                 top: "40px",
+    //                 right: "0px",
+    //               }}
+    //               navigation={[
+    //                 {
+    //                   text: "Copy profile URL",
+    //                   onClick: (e) =>
+    //                     this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
+    //                 },
+    //                 {
+    //                   text: "Remove peer",
+    //                   onClick: (e) => this._handleDelete(e, relation.id),
+    //                 },
+    //               ]}
+    //             />
+    //           </Boundary>
+    //         ) : null}
+    //       </div>
+    //     );
+    //     return (
+    //       <UserEntry
+    //         key={relation.id}
+    //         user={relation.owner}
+    //         button={button}
+    //         onClick={() => {
+    //           this.props.onAction({
+    //             type: "NAVIGATE",
+    //             value: this.props.sceneId,
+    //             scene: "PUBLIC_PROFILE",
+    //             data: relation.owner,
+    //           });
+    //         }}
+    //       />
+    //     );
+    //   });
+    // if (!trusted) {
+    //   trusted = [];
+    // }
+    // trusted.push(
+    //   ...this.props.viewer.trusted
+    //     .filter((relation) => {
+    //       return relation.data.verified;
+    //     })
+    //     .map((relation) => {
+    //       let button = (
+    //         <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
+    //           <SVG.MoreHorizontal height="24px" />
+    //           {this.state.contextMenu === relation.id ? (
+    //             <Boundary
+    //               captureResize={true}
+    //               captureScroll={false}
+    //               enabled
+    //               onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
+    //             >
+    //               <PopoverNavigation
+    //                 style={{
+    //                   top: "40px",
+    //                   right: "0px",
+    //                 }}
+    //                 navigation={[
+    //                   {
+    //                     text: "Copy profile URL",
+    //                     onClick: (e) =>
+    //                       this._handleCopy(e, `https://slate.host/${relation.user.username}`),
+    //                   },
+    //                   {
+    //                     text: "Remove peer",
+    //                     onClick: (e) => this._handleDelete(e, relation.id),
+    //                   },
+    //                 ]}
+    //               />
+    //             </Boundary>
+    //           ) : null}
+    //         </div>
+    //       );
+    //       return (
+    //         <UserEntry
+    //           key={relation.id}
+    //           user={relation.user}
+    //           button={button}
+    //           onClick={() => {
+    //             this.props.onAction({
+    //               type: "NAVIGATE",
+    //               value: this.props.sceneId,
+    //               scene: "PUBLIC_PROFILE",
+    //               data: relation.user,
+    //             });
+    //           }}
+    //         />
+    //       );
+    //     })
+    // );
 
     let following = this.props.viewer.subscriptions
       .filter((relation) => {
@@ -475,11 +475,11 @@ export default class SceneDirectory extends React.Component {
       <ScenePage>
         <ScenePageHeader title="Directory" />
         <TabGroup
-          tabs={["Requests", "Trusted", "Following", "Followers"]}
+          tabs={["Following", "Followers"]}
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}
         />
-        {this.state.tab === 0 ? (
+        {/* {this.state.tab === 0 ? (
           requests && requests.length ? (
             requests
           ) : (
@@ -498,8 +498,8 @@ export default class SceneDirectory extends React.Component {
               Trusted is for your close friends.
             </EmptyState>
           )
-        ) : null}
-        {this.state.tab === 2 ? (
+        ) : null} */}
+        {this.state.tab === 0 ? (
           following && following.length ? (
             following
           ) : (
@@ -509,7 +509,7 @@ export default class SceneDirectory extends React.Component {
             </EmptyState>
           )
         ) : null}
-        {this.state.tab === 3 ? (
+        {this.state.tab === 1 ? (
           followers && followers.length ? (
             followers
           ) : (

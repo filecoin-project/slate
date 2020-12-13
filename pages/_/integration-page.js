@@ -118,7 +118,7 @@ export default class IntegrationPage extends React.Component {
     return (
       <div css={STYLES_ROW}>
         <div css={STYLES_COLUMN}>
-          {this.state.viewer.pendingTrusted.map((each) => {
+          {/* {this.state.viewer.pendingTrusted.map((each) => {
             return (
               <div css={STYLES_ITEM} key={each.id}>
                 {JSON.stringify(each, null, 1)}{" "}
@@ -133,9 +133,9 @@ export default class IntegrationPage extends React.Component {
                 </div>
               </div>
             );
-          })}
+          })} */}
 
-          {this.state.viewer.trusted.map((each) => {
+          {/* {this.state.viewer.trusted.map((each) => {
             return (
               <div css={STYLES_ITEM} key={each.id}>
                 {JSON.stringify(each, null, 1)}{" "}
@@ -152,7 +152,7 @@ export default class IntegrationPage extends React.Component {
                 </div>
               </div>
             );
-          })}
+          })} */}
         </div>
         <div css={STYLES_COLUMN}>
           <button onClick={this._handleUpdate}>Update {this.state.viewer.username}</button>

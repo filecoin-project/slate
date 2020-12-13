@@ -21,21 +21,21 @@ const STATUS_BUTTON_MAP = {
 };
 
 export default class SceneProfile extends React.Component {
-  _handleTrust = async (trustStatus, trustId) => {
-    if (trustStatus === "untrusted" || trustStatus === "sent") {
-      await Actions.createTrustRelationship({
-        userId: this.props.data.id,
-      });
-    } else if (trustStatus === "received") {
-      await Actions.updateTrustRelationship({
-        userId: this.props.data.id,
-      });
-    } else {
-      await Actions.deleteTrustRelationship({
-        id: trustId,
-      });
-    }
-  };
+  // _handleTrust = async (trustStatus, trustId) => {
+  //   if (trustStatus === "untrusted" || trustStatus === "sent") {
+  //     await Actions.createTrustRelationship({
+  //       userId: this.props.data.id,
+  //     });
+  //   } else if (trustStatus === "received") {
+  //     await Actions.updateTrustRelationship({
+  //       userId: this.props.data.id,
+  //     });
+  //   } else {
+  //     await Actions.deleteTrustRelationship({
+  //       id: trustId,
+  //     });
+  //   }
+  // };
 
   _handleFollow = async () => {
     await Actions.createSubscription({
@@ -45,32 +45,32 @@ export default class SceneProfile extends React.Component {
 
   render() {
     let trustId, followStatus, relation;
-    let trustStatus = "untrusted";
+    // let trustStatus = "untrusted";
     let viewer = this.props.viewer;
-    let trust = viewer.trusted.filter((entry) => {
-      return entry.target_user_id === this.props.data.id;
-    });
-    if (trust.length) {
-      relation = trust[0];
-      trustId = relation.id;
-      if (relation.data.verified) {
-        trustStatus = "trusted";
-      } else {
-        trustStatus = "sent";
-      }
-    }
-    let pendingTrust = viewer.pendingTrusted.filter((entry) => {
-      return entry.owner_user_id === this.props.data.id;
-    });
-    if (pendingTrust.length) {
-      relation = pendingTrust[0];
-      trustId = relation.id;
-      if (pendingTrust[0].data.verified) {
-        trustStatus = "trusted";
-      } else {
-        trustStatus = "received";
-      }
-    }
+    // let trust = viewer.trusted.filter((entry) => {
+    //   return entry.target_user_id === this.props.data.id;
+    // });
+    // if (trust.length) {
+    //   relation = trust[0];
+    //   trustId = relation.id;
+    //   if (relation.data.verified) {
+    //     trustStatus = "trusted";
+    //   } else {
+    //     trustStatus = "sent";
+    //   }
+    // }
+    // let pendingTrust = viewer.pendingTrusted.filter((entry) => {
+    //   return entry.owner_user_id === this.props.data.id;
+    // });
+    // if (pendingTrust.length) {
+    //   relation = pendingTrust[0];
+    //   trustId = relation.id;
+    //   if (pendingTrust[0].data.verified) {
+    //     trustStatus = "trusted";
+    //   } else {
+    //     trustStatus = "received";
+    //   }
+    // }
     followStatus = !!viewer.subscriptions.filter((entry) => {
       return entry.target_user_id === this.props.data.id;
     }).length;
@@ -78,15 +78,15 @@ export default class SceneProfile extends React.Component {
     let buttons = (
       <div css={STYLES_BUTTONS}>
         {followStatus ? (
-          <ButtonSecondary style={{ marginRight: 8, minWidth: 152 }} onClick={this._handleFollow}>
+          <ButtonSecondary style={{ marginRight: 8 }} onClick={this._handleFollow}>
             Unfollow
           </ButtonSecondary>
         ) : (
-          <ButtonPrimary style={{ marginRight: 8, minWidth: 152 }} onClick={this._handleFollow}>
+          <ButtonPrimary style={{ marginRight: 8 }} onClick={this._handleFollow}>
             Follow
           </ButtonPrimary>
         )}
-        {trustStatus === "untrusted" || trustStatus === "received" ? (
+        {/* {trustStatus === "untrusted" || trustStatus === "received" ? (
           <ButtonPrimary
             style={{ marginRight: 8, minWidth: 152 }}
             onClick={() => this._handleTrust(trustStatus, trustId)}
@@ -100,7 +100,7 @@ export default class SceneProfile extends React.Component {
           >
             {STATUS_BUTTON_MAP[trustStatus]}
           </ButtonSecondary>
-        )}
+        )} */}
       </div>
     );
     return (

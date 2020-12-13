@@ -164,21 +164,21 @@ export default class SceneDirectory extends React.Component {
     }
   };
 
-  _handleDelete = async (e, id) => {
-    this._handleHide();
-    e.stopPropagation();
-    await Actions.deleteTrustRelationship({
-      id: id,
-    });
-  };
+  // _handleDelete = async (e, id) => {
+  //   this._handleHide();
+  //   e.stopPropagation();
+  //   await Actions.deleteTrustRelationship({
+  //     id: id,
+  //   });
+  // };
 
-  _handleAccept = async (e, id) => {
-    this._handleHide();
-    e.stopPropagation();
-    await Actions.updateTrustRelationship({
-      userId: id,
-    });
-  };
+  // _handleAccept = async (e, id) => {
+  //   this._handleHide();
+  //   e.stopPropagation();
+  //   await Actions.updateTrustRelationship({
+  //     userId: id,
+  //   });
+  // };
 
   _handleFollow = async (e, id) => {
     this._handleHide();

@@ -79,9 +79,9 @@ export const createSlate = ({ userId, data }) => {
     // <VIEWER> WITNESSES <USER> CREATING <SLATE>
     createSlateActivityForEachSubscriber({ userId, data });
 
-    const userProfileURL = `https://slate.host/${data.context.username}`;
-    const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const message = `*${userURL}* created a slate: https://slate.host/${data.context.username}/${data.context.slatename}`;
+    const userProfileURL = `https://slate.host/${data.context.user.username}`;
+    const userURL = `<${userProfileURL}|${data.context.user.username}>`;
+    const message = `*${userURL}* created a slate: https://slate.host/${data.context.user.username}/${data.context.slate.slatename}`;
 
     Social.sendSlackMessage(message);
   } catch (e) {
@@ -153,10 +153,10 @@ export const createSlateObject = ({ slateId, userId, data }) => {
     // <VIEWER> WITNESS <USER> ADDED OBJECT TO <SLATE>
     createSlateObjectActivityForEachSubscriber({ slateId, userId, data });
 
-    const userProfileURL = `https://slate.host/${data.context.username}`;
-    const userURL = `<${userProfileURL}|${data.context.username}>`;
-    const objectURL = `<https://slate.host/${data.context.username}/${data.context.slatename}/cid:${data.context.cid}|${data.context.cid}>`;
-    const message = `*${userURL}* added ${objectURL} to https://slate.host/${data.context.username}/${data.context.slatename}`;
+    const userProfileURL = `https://slate.host/${data.context.user.username}`;
+    const userURL = `<${userProfileURL}|${data.context.user.username}>`;
+    const objectURL = `<https://slate.host/${data.context.user.username}/${data.context.slate.slatename}/cid:${data.context.file.cid}|${data.context.file.cid}>`;
+    const message = `*${userURL}* added ${objectURL} to https://slate.host/${data.context.user.username}/${data.context.slate.slatename}`;
 
     Social.sendSlackMessage(message);
   } catch (e) {

@@ -374,7 +374,9 @@ export class GlobalCarousel extends React.Component {
               css={STYLES_EXPANDER}
               onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
             >
-              {this.state.showSidebar && !unityGame ? (
+              {unityGame ? (
+                <SVG.Dismiss height="24px" onClick={this._handleClose} />
+              ) : this.state.showSidebar ? (
                 <SVG.Maximize height="24px" />
               ) : (
                 <SVG.Minimize height="24px" />

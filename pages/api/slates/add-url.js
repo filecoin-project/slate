@@ -125,6 +125,8 @@ export default async (req, res) => {
       name: each.name,
       title: each.title,
       type: each.type,
+      unityGameConfig: each.unityGameConfig,
+      unityGameLoader: each.unityGameLoader,
       url,
     };
   });

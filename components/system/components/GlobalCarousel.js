@@ -292,7 +292,7 @@ export class GlobalCarousel extends React.Component {
   };
 
   render() {
-    let unityGame = false;
+    let isUnityGame = false;
     if (!this.state.visible || !this.state.carouselType || this.state.index < 0) {
       return null;
     }
@@ -333,7 +333,7 @@ export class GlobalCarousel extends React.Component {
       return null;
     }
     if (data.type === "application/unity") {
-      unityGame = true;
+      isUnityGame = true;
     }
     let slide = <SlateMediaObject data={data} />;
     return (
@@ -374,7 +374,7 @@ export class GlobalCarousel extends React.Component {
               css={STYLES_EXPANDER}
               onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
             >
-              {unityGame ? (
+              {isUnityGame ? (
                 <SVG.Dismiss height="24px" onClick={this._handleClose} />
               ) : this.state.showSidebar ? (
                 <SVG.Maximize height="24px" />
@@ -391,7 +391,7 @@ export class GlobalCarousel extends React.Component {
           {this.state.carouselType === "data" ? (
             <CarouselSidebarData
               viewer={this.props.viewer}
-              display={this.state.showSidebar && !unityGame ? "block" : "none"}
+              display={this.state.showSidebar && !isUnityGame ? "block" : "none"}
               onClose={this._handleClose}
               key={data.id}
               saving={this.state.saving}
@@ -404,7 +404,7 @@ export class GlobalCarousel extends React.Component {
             />
           ) : (
             <CarouselSidebarSlate
-              display={this.state.showSidebar && !unityGame ? "block" : "none"}
+              display={this.state.showSidebar && !isUnityGame ? "block" : "none"}
               key={data.id}
               saving={this.state.saving}
               loading={this.state.loading}

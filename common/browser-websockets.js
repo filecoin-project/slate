@@ -69,7 +69,6 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
     }
 
     if (type === "UPDATE" && onUpdate) {
-      console.log("websocket on update");
       onUpdate(data);
     }
   });

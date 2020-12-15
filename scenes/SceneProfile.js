@@ -13,14 +13,26 @@ const STYLES_BUTTONS = css`
   align-items: center;
 `;
 
-const STATUS_BUTTON_MAP = {
-  trusted: "Remove peer",
-  untrusted: "Add peer",
-  sent: "Cancel request",
-  received: "Accept request",
-};
-
 export default class SceneProfile extends React.Component {
+  state = {
+    isFollowing: !!this.props.viewer.subscriptions.filter((entry) => {
+      return entry.target_user_id === this.props.data.id;
+    }).length,
+  };
+
+  componentDidUpdate = (prevProps) => {
+    if (
+      this.props.data.id !== prevProps.data.id ||
+      this.props.viewer.subscriptions !== prevProps.viewer.subscriptions
+    ) {
+      this.setState({
+        isFollowing: !!this.props.viewer.subscriptions.filter((entry) => {
+          return entry.target_user_id === this.props.data.id;
+        }).length,
+      });
+    }
+  };
+
   // _handleTrust = async (trustStatus, trustId) => {
   //   if (trustStatus === "untrusted" || trustStatus === "sent") {
   //     await Actions.createTrustRelationship({
@@ -38,46 +50,16 @@ export default class SceneProfile extends React.Component {
   // };
 
   _handleFollow = async () => {
+    this.setState({ isFollowing: !this.state.isFollowing });
     await Actions.createSubscription({
       userId: this.props.data.id,
     });
   };
 
   render() {
-    let trustId, followStatus, relation;
-    // let trustStatus = "untrusted";
-    let viewer = this.props.viewer;
-    // let trust = viewer.trusted.filter((entry) => {
-    //   return entry.target_user_id === this.props.data.id;
-    // });
-    // if (trust.length) {
-    //   relation = trust[0];
-    //   trustId = relation.id;
-    //   if (relation.data.verified) {
-    //     trustStatus = "trusted";
-    //   } else {
-    //     trustStatus = "sent";
-    //   }
-    // }
-    // let pendingTrust = viewer.pendingTrusted.filter((entry) => {
-    //   return entry.owner_user_id === this.props.data.id;
-    // });
-    // if (pendingTrust.length) {
-    //   relation = pendingTrust[0];
-    //   trustId = relation.id;
-    //   if (pendingTrust[0].data.verified) {
-    //     trustStatus = "trusted";
-    //   } else {
-    //     trustStatus = "received";
-    //   }
-    // }
-    followStatus = !!viewer.subscriptions.filter((entry) => {
-      return entry.target_user_id === this.props.data.id;
-    }).length;
-
     let buttons = (
       <div css={STYLES_BUTTONS}>
-        {followStatus ? (
+        {this.state.isFollowing ? (
           <ButtonSecondary style={{ marginRight: 8 }} onClick={this._handleFollow}>
             Unfollow
           </ButtonSecondary>

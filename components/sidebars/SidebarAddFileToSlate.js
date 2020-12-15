@@ -57,7 +57,8 @@ export default class SidebarAddFileToSlate extends React.Component {
   };
 
   _handleSubmit = async () => {
-    await this.setState({ loading: true });
+    this.props.onCancel();
+    // await this.setState({ loading: true });
     for (let slate of Object.values(this.state.selected)) {
       if (!slate) continue;
       await UserBehaviors.addToSlate({
@@ -66,8 +67,7 @@ export default class SidebarAddFileToSlate extends React.Component {
         fromSlate: this.props.sidebarData.fromSlate,
       });
     }
-    this.setState({ loading: false });
-    this.props.onCancel();
+    // this.setState({ loading: false });
   };
 
   render() {

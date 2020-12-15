@@ -289,22 +289,30 @@ export default class CarouselSidebarData extends React.Component {
     }, 1000);
   };
 
-  _handleDelete = async (cid) => {
+  _handleDelete = (cid) => {
     const message = `Are you sure you want to delete this? It will be deleted from your slates as well`;
     if (!window.confirm(message)) {
       return;
     }
 
-    await this.setState({ loading: cid });
+    let library = this.props.viewer.library;
+    library[0].children = library[0].children.filter((obj) => obj.cid !== cid);
+    this.props.onUpdateViewer({ library });
+
+    // await this.setState({ loading: cid });
 
     // NOTE(jim): Accepts ID as well if CID can't be found.
     // Since our IDS are unique.
-    await UserBehaviors.deleteFiles(cid, this.props.data.id);
-    this.setState({ loading: false });
+    UserBehaviors.deleteFiles(cid, this.props.data.id);
+    // this.setState({ loading: false });
   };
 
   _handleAdd = async (slate) => {
-    await this.setState({ pickerLoading: slate.id });
+    this.setState({
+      selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
+      // pickerLoading: null,
+    });
+    // await this.setState({ pickerLoading: slate.id });
     if (this.state.selected[slate.id]) {
       await UserBehaviors.removeFromSlate({ slate, ids: [this.props.data.id] });
     } else {
@@ -314,10 +322,6 @@ export default class CarouselSidebarData extends React.Component {
         fromSlate: this.props.fromSlate,
       });
     }
-    this.setState({
-      selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
-      pickerLoading: null,
-    });
   };
 
   render() {

@@ -341,7 +341,7 @@ export default class DataView extends React.Component {
     return;
   };
 
-  _handleDelete = async (cid, id) => {
+  _handleDelete = (cid, id) => {
     const message = `Are you sure you want to delete these files? They will be deleted from your slates as well`;
     if (!window.confirm(message)) {
       return;
@@ -365,10 +365,16 @@ export default class DataView extends React.Component {
       });
     }
 
-    await this._handleLoading({ cids });
-    await UserBehaviors.deleteFiles(cids, ids);
-    this._handleLoading({ cids });
-    await this.setState({ checked: {} });
+    let library = this.props.viewer.library;
+    library[0].children = library[0].children.filter(
+      (obj) => !ids.includes(obj.id) && !cids.includes(obj.cid)
+    );
+    this.props.onUpdateViewer({ library });
+
+    // await this._handleLoading({ cids });
+    UserBehaviors.deleteFiles(cids, ids);
+    // this._handleLoading({ cids });
+    this.setState({ checked: {} });
   };
 
   _handleSelect = (index) => {

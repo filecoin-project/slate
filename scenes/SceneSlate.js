@@ -141,6 +141,15 @@ export default class SceneSlate extends React.Component {
       data.layouts = layouts;
     }
     if (preview) {
+      let slates = this.props.viewer.slates;
+      let slateId = this.props.current.id;
+      for (let slate of slates) {
+        if (slate.id === slateId) {
+          slate.data.preview = preview;
+          break;
+        }
+      }
+      this.props.onUpdateViewer({ slates });
       data.preview = preview;
     }
     const response = await Actions.updateSlate({
@@ -196,7 +205,6 @@ export default class SceneSlate extends React.Component {
   render() {
     const { user, data } = this.props.current;
     const { body = "", preview } = data;
-    console.log(body);
     let objects = this.props.current.data.objects;
     let layouts = this.props.current.data.layouts;
     const isPublic = data.public;
@@ -313,10 +321,12 @@ export default class SceneSlate extends React.Component {
                     : ""
                 }
                 current={this.props.current}
+                onUpdateViewer={this.props.onUpdateViewer}
                 viewer={this.props.viewer}
                 slateId={this.props.current.id}
                 layout={layouts && layouts.ver === "2.0" ? layouts.layout || [] : null}
                 onSaveLayout={this._handleSaveLayout}
+                onSave={this._handleSave}
                 isOwner={this.state.isOwner}
                 fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
                 preview={preview}

@@ -11,7 +11,6 @@ import { css } from "@emotion/react";
 
 import ScenePage from "~/components/core/ScenePage";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
-import DataView from "~/components/core/DataView";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
 
 const STYLES_VIDEO_BIG = css`

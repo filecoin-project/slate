@@ -1037,6 +1037,17 @@ export class SlateLayout extends React.Component {
       }
       this.setState({ checked: {} });
     }
+
+    let slates = this.props.viewer.slates;
+    let slateId = this.props.current.id;
+    for (let slate of slates) {
+      if (slate.id === slateId) {
+        slate.data.objects = slate.data.objects.filter((obj) => !ids.includes(obj.id));
+        this.props.onUpdateViewer({ slates });
+        break;
+      }
+    }
+
     UserBehaviors.removeFromSlate({ slate: this.props.current, ids });
   };
 
@@ -1063,10 +1074,22 @@ export class SlateLayout extends React.Component {
       }
     }
 
-    await this._handleLoading({ cids });
+    let slates = this.props.viewer.slates;
+    let slateId = this.props.current.id;
+    for (let slate of slates) {
+      if (slate.id === slateId) {
+        slate.data.objects = slate.data.objects.filter(
+          (obj) => !ids.includes(obj.id) && !cids.includes(obj.cid)
+        );
+        this.props.onUpdateViewer({ slates });
+        break;
+      }
+    }
+
+    // await this._handleLoading({ cids });
     await UserBehaviors.deleteFiles(cids, ids);
     this._handleLoading({ cids });
-    await this.setState({ checked: {} });
+    this.setState({ checked: {} });
   };
 
   _handleLoading = ({ cids }) => {

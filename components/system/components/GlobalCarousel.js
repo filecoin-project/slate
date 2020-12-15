@@ -392,6 +392,7 @@ export class GlobalCarousel extends React.Component {
             <CarouselSidebarData
               viewer={this.props.viewer}
               display={this.state.showSidebar && !isUnityGame ? "block" : "none"}
+              onUpdateViewer={this.props.onUpdateViewer}
               onClose={this._handleClose}
               key={data.id}
               saving={this.state.saving}
@@ -405,6 +406,9 @@ export class GlobalCarousel extends React.Component {
           ) : (
             <CarouselSidebarSlate
               display={this.state.showSidebar && !isUnityGame ? "block" : "none"}
+              viewer={this.props.viewer}
+              onUpdateViewer={this.props.onUpdateViewer}
+              current={this.props.current}
               key={data.id}
               saving={this.state.saving}
               loading={this.state.loading}

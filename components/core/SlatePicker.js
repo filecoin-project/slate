@@ -140,9 +140,7 @@ export class SlatePicker extends React.Component {
                   onClick={() => this.props.onAdd(slate)}
                 >
                   <div css={STYLES_ICON_BOX}>
-                    {this.props.loading && this.props.loading === slate.id ? (
-                      <LoaderSpinner style={{ height: 20, width: 20, margin: "2px 8px 2px 2px" }} />
-                    ) : selected[slate.id] ? (
+                    {selected[slate.id] ? (
                       <SVG.Slate
                         height="24px"
                         style={{

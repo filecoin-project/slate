@@ -53,8 +53,20 @@ export default class SidebarSingleSlateSettings extends React.Component {
   };
 
   _handleSubmit = async () => {
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
 
+    let slates = this.props.viewer.slates;
+    for (let slate of slates) {
+      if (slate.id === this.props.current.id) {
+        slate.data.name = this.state.name;
+        slate.data.public = this.state.public;
+        slate.data.body = this.state.body;
+        this.props.onUpdateViewer({ slates });
+        break;
+      }
+    }
+
+    this.props.onCancel();
     const response = await Actions.updateSlate({
       id: this.props.current.id,
       data: {
@@ -65,10 +77,9 @@ export default class SidebarSingleSlateSettings extends React.Component {
     });
 
     if (Events.hasError(response)) {
-      this.setState({ loading: false });
+      // this.setState({ loading: false });
       return;
     }
-    this.props.onCancel();
   };
 
   _handleCancel = () => {

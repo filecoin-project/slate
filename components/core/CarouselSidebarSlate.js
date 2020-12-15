@@ -286,8 +286,9 @@ export default class CarouselSidebarSlate extends React.Component {
     this.setState({ loading: false });
   };
 
-  _handleDelete = async (cid) => {
+  _handleDelete = (cid) => {
     if (this.props.external || !this.props.isOwner) return;
+
     if (
       !window.confirm(
         "Are you sure you want to delete this? It will be removed from all your slates too."
@@ -295,13 +296,22 @@ export default class CarouselSidebarSlate extends React.Component {
     ) {
       return;
     }
-    console.log(this.props.data);
 
-    await this.setState({ loading: "deleting" });
+    let slates = this.props.viewer.slates;
+    let slateId = this.props.current.id;
+    for (let slate of slates) {
+      if (slate.id === slateId) {
+        slate.data.objects = slate.data.objects.filter((obj) => obj.cid !== cid);
+        this.props.onUpdateViewer({ slates });
+        break;
+      }
+    }
+
+    // await this.setState({ loading: "deleting" });
     // NOTE(jim): Accepts ID as well if CID can't be found.
     // Since our IDS are unique.
-    await UserBehaviors.deleteFiles(cid, this.props.data.id);
-    this.setState({ loading: false });
+    UserBehaviors.deleteFiles(cid, this.props.data.id);
+    // this.setState({ loading: false });
   };
 
   _toggleAccordion = (tab) => {
@@ -309,7 +319,11 @@ export default class CarouselSidebarSlate extends React.Component {
   };
 
   _handleAdd = async (slate) => {
-    await this.setState({ pickerLoading: slate.id });
+    this.setState({
+      selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
+      // pickerLoading: null,
+    });
+    // await this.setState({ pickerLoading: slate.id });
     if (this.state.selected[slate.id]) {
       await UserBehaviors.removeFromSlate({ slate, ids: [this.props.data.id] });
     } else {
@@ -319,10 +333,6 @@ export default class CarouselSidebarSlate extends React.Component {
         fromSlate: this.props.fromSlate,
       });
     }
-    this.setState({
-      selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
-      pickerLoading: null,
-    });
   };
 
   render() {

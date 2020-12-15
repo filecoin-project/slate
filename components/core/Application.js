@@ -147,11 +147,24 @@ export default class ApplicationPage extends React.Component {
   }
 
   _handleUpdateViewer = (newViewerState) => {
-    if (this.state.viewer && newViewerState.id && newViewerState.id === this.state.viewer.id) {
-      this.setState({
-        viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
-      });
-    }
+    // let setAsyncState = (newState) =>
+    //   new Promise((resolve) =>
+    //     this.setState(
+    //       {
+    //         viewer: { ...this.state.viewer, ...newState, type: "VIEWER" },
+    //       },
+    //       resolve
+    //     )
+    //   );
+    // await setAsyncState(newViewerState);
+
+    this.setState({
+      viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
+    });
+  };
+
+  _handleUpdateData = ({ data }) => {
+    this.setState({ data });
   };
 
   _handleSetupWebsocket = async () => {
@@ -424,12 +437,6 @@ export default class ApplicationPage extends React.Component {
     return false;
   };
 
-  _handleViewerChange = (e) => {
-    this.setState({
-      viewer: { ...this.state.viewer, [e.target.name]: e.target.value },
-    });
-  };
-
   _handleSelectedChange = (e) => {
     this.setState({
       selected: { ...this.state.selected, [e.target.name]: e.target.value },
@@ -482,10 +489,6 @@ export default class ApplicationPage extends React.Component {
     }
 
     return alert(JSON.stringify(options));
-  };
-
-  _handleUpdateData = ({ data }) => {
-    this.setState({ data });
   };
 
   _handleNavigateTo = (next, data = null, redirect = false) => {
@@ -582,6 +585,7 @@ export default class ApplicationPage extends React.Component {
 
   render() {
     // NOTE(jim): Not authenticated.
+    console.log(this.state.viewer);
     if (!this.state.viewer) {
       return (
         <WebsitePrototypeWrapper
@@ -630,12 +634,12 @@ export default class ApplicationPage extends React.Component {
       viewer: this.state.viewer,
       selected: this.state.selected,
       onSelectedChange: this._handleSelectedChange,
-      onViewerChange: this._handleViewerChange,
       onAction: this._handleAction,
       onUpload: this._handleUploadFiles,
       onBack: this._handleBack,
       onForward: this._handleForward,
       onUpdateData: this._handleUpdateData,
+      onUpdateViewer: this._handleUpdateViewer,
       sceneId: current.target.id,
       mobile: this.state.mobile,
       resources: this.props.resources,
@@ -654,6 +658,7 @@ export default class ApplicationPage extends React.Component {
         onCancel: this._handleDismissSidebar,
         onUpload: this._handleUploadFiles,
         onAction: this._handleAction,
+        onUpdateViewer: this._handleUpdateViewer,
         resources: this.props.resources,
       });
     }
@@ -682,6 +687,7 @@ export default class ApplicationPage extends React.Component {
             {scene}
           </ApplicationLayout>
           <GlobalCarousel
+            onUpdateViewer={this._handleUpdateViewer}
             resources={this.props.resources}
             viewer={this.state.viewer}
             current={

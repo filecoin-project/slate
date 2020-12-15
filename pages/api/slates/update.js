@@ -99,9 +99,11 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "SERVER_UPDATE_SLATE", error: true });
   }
 
-  let slates = await Data.getSlatesByUserId({ userId: id });
-  if (slates) {
-    ViewerManager.hydratePartialSlates(slates, id);
+  if (!layoutOnly && isOwner) {
+    let slates = await Data.getSlatesByUserId({ userId: id });
+    if (slates) {
+      ViewerManager.hydratePartialSlates(slates, id);
+    }
   }
 
   if (!layoutOnly && !req.body.data.autoSave) {

@@ -99,26 +99,30 @@ export default class SceneSlate extends React.Component {
 
   state = {
     ...(this.props.current, this.props.viewer),
-    loading: false,
-    saving: "IDLE",
-    isOwner: this.props.current.data.ownerId === this.props.viewer.id,
     editing: false,
+    isFollowing: !!this.props.viewer.subscriptions.filter((subscription) => {
+      return subscription.target_slate_id === this.props.current.id;
+    }).length,
   };
 
   // NOTE(jim):
   // The purpose of this is to update the Scene appropriately when
   // it changes but isn't mounted.
   async componentDidUpdate(prevProps) {
-    if (prevProps.current.id !== this.props.current.id) {
+    if (
+      prevProps.current.id !== this.props.current.id ||
+      this.props.viewer.subscriptions !== prevProps.viewer.subscriptions
+    ) {
       await this.setState({
-        loading: false,
-        saving: "IDLE",
-        isOwner: this.props.current.data.ownerId === this.props.viewer.id,
+        isFollowing: !!this.props.viewer.subscriptions.filter((subscription) => {
+          return subscription.target_slate_id === this.props.current.id;
+        }).length,
       });
     }
   }
 
   _handleFollow = () => {
+    this.setState({ isFollowing: !this.state.isFollowing });
     Actions.createSubscription({
       slateId: this.props.current.id,
     });
@@ -129,8 +133,6 @@ export default class SceneSlate extends React.Component {
   };
 
   _handleSave = async (e, objects, layouts, autoSave = false, preview) => {
-    this.setState({ loading: true, saving: "SAVING" });
-
     let layoutOnly = layouts && !objects;
 
     let data = {};
@@ -141,6 +143,15 @@ export default class SceneSlate extends React.Component {
       data.layouts = layouts;
     }
     if (preview) {
+      let slates = this.props.viewer.slates;
+      let slateId = this.props.current.id;
+      for (let slate of slates) {
+        if (slate.id === slateId) {
+          slate.data.preview = preview;
+          break;
+        }
+      }
+      this.props.onUpdateViewer({ slates });
       data.preview = preview;
     }
     const response = await Actions.updateSlate({
@@ -153,10 +164,6 @@ export default class SceneSlate extends React.Component {
     if (!autoSave) {
       Events.hasError(response);
     }
-
-    this.setState({
-      saving: "SAVED",
-    });
   };
 
   _handleSelect = (index) =>
@@ -196,16 +203,12 @@ export default class SceneSlate extends React.Component {
   render() {
     const { user, data } = this.props.current;
     const { body = "", preview } = data;
-    console.log(body);
     let objects = this.props.current.data.objects;
     let layouts = this.props.current.data.layouts;
     const isPublic = data.public;
+    const isOwner = this.props.current.data.ownerId === this.props.viewer.id;
 
-    let following = !!this.props.viewer.subscriptions.filter((subscription) => {
-      return subscription.target_slate_id === this.props.current.id;
-    }).length;
-
-    let actions = this.state.isOwner ? (
+    let actions = isOwner ? (
       <span>
         <CircleButtonGray onClick={this._handleAdd} style={{ marginRight: 16 }}>
           <SVG.Plus height="16px" />
@@ -218,7 +221,7 @@ export default class SceneSlate extends React.Component {
                 e,
                 user
                   ? Strings.getURLFromPath(`/${user.username}/${this.props.current.slatename}`)
-                  : this.state.isOwner
+                  : isOwner
                   ? Strings.getURLFromPath(
                       `/${this.props.viewer.username}/${this.props.current.slatename}`
                     )
@@ -236,7 +239,7 @@ export default class SceneSlate extends React.Component {
     ) : (
       <div style={{ display: `flex` }}>
         <div onClick={this._handleFollow}>
-          {following ? (
+          {this.state.isFollowing ? (
             <ButtonSecondary style={{ minHeight: 36 }}>Unfollow</ButtonSecondary>
           ) : (
             <ButtonPrimary style={{ minHeight: 36 }}>Follow</ButtonPrimary>
@@ -249,7 +252,7 @@ export default class SceneSlate extends React.Component {
               e,
               user
                 ? Strings.getURLFromPath(`/${user.username}/${this.props.current.slatename}`)
-                : this.state.isOwner
+                : isOwner
                 ? Strings.getURLFromPath(
                     `/${this.props.viewer.username}/${this.props.current.slatename}`
                   )
@@ -295,29 +298,31 @@ export default class SceneSlate extends React.Component {
         {objects && objects.length ? (
           this.props.mobile ? (
             <SlateLayoutMobile
-              isOwner={this.state.isOwner}
+              isOwner={isOwner}
               items={objects}
               fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
               onSelect={this._handleSelect}
             />
           ) : (
-            <div style={{ marginTop: this.state.isOwner ? 24 : 48 }}>
+            <div style={{ marginTop: isOwner ? 24 : 48 }}>
               <SlateLayout
                 link={
                   user
                     ? Strings.getURLFromPath(`/${user.username}/${this.props.current.slatename}`)
-                    : this.state.isOwner
+                    : isOwner
                     ? Strings.getURLFromPath(
                         `/${this.props.viewer.username}/${this.props.current.slatename}`
                       )
                     : ""
                 }
                 current={this.props.current}
+                onUpdateViewer={this.props.onUpdateViewer}
                 viewer={this.props.viewer}
                 slateId={this.props.current.id}
                 layout={layouts && layouts.ver === "2.0" ? layouts.layout || [] : null}
                 onSaveLayout={this._handleSaveLayout}
-                isOwner={this.state.isOwner}
+                onSave={this._handleSave}
+                isOwner={isOwner}
                 fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
                 preview={preview}
                 onSavePreview={(preview) => this._handleSave(null, null, null, false, preview)}
@@ -328,7 +333,7 @@ export default class SceneSlate extends React.Component {
               />
             </div>
           )
-        ) : this.state.isOwner ? (
+        ) : isOwner ? (
           <div>
             <EmptyState>
               <FileTypeGroup />

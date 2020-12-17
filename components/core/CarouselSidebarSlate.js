@@ -336,10 +336,14 @@ export default class CarouselSidebarSlate extends React.Component {
   };
 
   render() {
+    let isUnityGame = false;
+    if (this.props.data.type === "application/unity") {
+      isUnityGame = true;
+    }
     const elements = [];
     const { cid, url } = this.props.data;
     if (this.props.data) {
-      if (this.props.isOwner) {
+      if (this.props.isOwner && !isUnityGame) {
         elements.push(
           <React.Fragment key="sidebar-media-object-info">
             <Input

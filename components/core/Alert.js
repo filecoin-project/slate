@@ -57,14 +57,13 @@ const STYLES_INFO = css`
 
 const STYLES_MESSAGE = css`
   ${STYLES_ALERT}
-  background-color: ${Constants.system.foreground};
+  background-color: ${Constants.system.gray};
   color: ${Constants.system.grayBlack};
 
   @supports ((-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))) {
     -webkit-backdrop-filter: blur(25px);
     backdrop-filter: blur(25px);
-    background-color: rgba(244, 244, 244, 0.75);
-    color: ${Constants.system.grayBlack};
+    background-color: rgba(224, 224, 224, 0.75);
   }
 `;
 

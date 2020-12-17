@@ -6,7 +6,7 @@ import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { TabGroup } from "~/components/core/TabGroup";
+import { SecondaryTabGroup } from "~/components/core/TabGroup";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -118,7 +118,7 @@ export default class SceneArchive extends React.Component {
           must have at last 100MB stored to make an archive storage deal. <br /> */}
         </ScenePageHeader>
 
-        <TabGroup
+        <SecondaryTabGroup
           tabs={["Archive Settings", "Wallet", "API", "Miners"]}
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}

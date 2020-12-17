@@ -3,7 +3,7 @@ import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/react";
-import { TabGroup } from "~/components/core/TabGroup";
+import { PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
 import { ButtonSecondary } from "~/components/system/components/Buttons";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
@@ -44,6 +44,29 @@ export default class SceneSlates extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader
+          title={
+            <PrimaryTabGroup
+              tabs={["Activity", "Files", "Slates"]}
+              value={2}
+              onChange={(value) => {
+                if (value === 1) {
+                  this.props.onAction({ type: "NAVIGATE", value: "data" });
+                } else if (value === 0) {
+                  this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
+                }
+              }}
+            />
+          }
+          actions={
+            <SecondaryTabGroup
+              tabs={["My Slates", "Following"]}
+              value={this.state.tab}
+              onChange={(value) => this.setState({ tab: value })}
+              style={{ margin: "0 0 24px 0" }}
+            />
+          }
+        />
+        {/* <ScenePageHeader
           title="Slates"
           actions={
             this.state.tab === 0 ? (
@@ -52,13 +75,7 @@ export default class SceneSlates extends React.Component {
               </CircleButtonGray>
             ) : null
           }
-        />
-
-        <TabGroup
-          tabs={["My Slates", "Following"]}
-          value={this.state.tab}
-          onChange={(value) => this.setState({ tab: value })}
-        />
+        /> */}
 
         {this.state.tab === 0 ? (
           this.props.viewer.slates && this.props.viewer.slates.length ? (

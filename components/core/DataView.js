@@ -16,7 +16,6 @@ import { CheckBox } from "~/components/system/components/CheckBox";
 import { Table } from "~/components/core/Table";
 import { FileTypeIcon } from "~/components/core/FileTypeIcon";
 import { ButtonPrimary, ButtonWarning } from "~/components/system/components/Buttons";
-import { TabGroup } from "~/components/core/TabGroup";
 
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import FilePreviewBubble from "~/components/core/FilePreviewBubble";
@@ -209,7 +208,6 @@ export default class DataView extends React.Component {
     menu: null,
     loading: {},
     checked: {},
-    view: "grid",
     viewLimit: 40,
     scrollDebounce: false,
     imageSize: 100,
@@ -431,41 +429,40 @@ export default class DataView extends React.Component {
 
   render() {
     let numChecked = Object.keys(this.state.checked).length || 0;
-    const header = (
-      <div css={STYLES_HEADER_LINE}>
-        <TabGroup disabled tabs={["Uploads"]} style={{ margin: 0 }} />
-        <span css={STYLES_MOBILE_HIDDEN}>
-          <div
-            css={STYLES_ICON_BOX}
-            onClick={() => {
-              this.setState({ view: "grid", menu: null });
-            }}
-          >
-            <SVG.GridView
-              style={{
-                color: this.state.view === "grid" ? Constants.system.black : "rgba(0,0,0,0.25)",
-              }}
-              height="24px"
-            />
-          </div>
-        </span>
-        <span css={STYLES_MOBILE_HIDDEN}>
-          <div
-            css={STYLES_ICON_BOX}
-            onClick={() => {
-              this.setState({ view: "list", menu: null });
-            }}
-          >
-            <SVG.TableView
-              style={{
-                color: this.state.view === "list" ? Constants.system.black : "rgba(0,0,0,0.25)",
-              }}
-              height="24px"
-            />
-          </div>
-        </span>
-      </div>
-    );
+    // const header = (
+    //   <div css={STYLES_HEADER_LINE}>
+    //     <span css={STYLES_MOBILE_HIDDEN}>
+    //       <div
+    //         css={STYLES_ICON_BOX}
+    //         onClick={() => {
+    //           this.setState({ view: "grid", menu: null });
+    //         }}
+    //       >
+    //         <SVG.GridView
+    //           style={{
+    //             color: this.props.view === 0 ? Constants.system.black : "rgba(0,0,0,0.25)",
+    //           }}
+    //           height="24px"
+    //         />
+    //       </div>
+    //     </span>
+    //     <span css={STYLES_MOBILE_HIDDEN}>
+    //       <div
+    //         css={STYLES_ICON_BOX}
+    //         onClick={() => {
+    //           this.setState({ view: "list", menu: null });
+    //         }}
+    //       >
+    //         <SVG.TableView
+    //           style={{
+    //             color: this.state.view === "list" ? Constants.system.black : "rgba(0,0,0,0.25)",
+    //           }}
+    //           height="24px"
+    //         />
+    //       </div>
+    //     </span>
+    //   </div>
+    // );
     const footer = (
       <React.Fragment>
         {numChecked ? (
@@ -517,10 +514,9 @@ export default class DataView extends React.Component {
         ) : null}
       </React.Fragment>
     );
-    if (this.state.view === "grid") {
+    if (this.props.view === 0) {
       return (
         <React.Fragment>
-          {header}
           <div css={STYLES_IMAGE_GRID} ref={this.gridWrapperEl}>
             {this.props.items.slice(0, this.state.viewLimit).map((each, i) => {
               const cid = each.cid;
@@ -782,11 +778,10 @@ export default class DataView extends React.Component {
 
     return (
       <React.Fragment>
-        {header}
         <Table
           data={data}
-          rowStyle={{ padding: "10px 16px" }}
-          topRowStyle={{ padding: "0px 16px" }}
+          rowStyle={{ padding: "10px 16px", backgroundColor: Constants.system.white }}
+          topRowStyle={{ padding: "0px 16px", backgroundColor: Constants.system.white }}
           onMouseEnter={(i) => this.setState({ hover: i })}
           onMouseLeave={() => this.setState({ hover: null })}
           isShiftDown={this.isShiftDown}

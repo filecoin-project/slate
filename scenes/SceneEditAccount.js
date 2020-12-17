@@ -10,7 +10,7 @@ import * as UserBehaviors from "~/common/user-behaviors";
 import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/react";
-import { TabGroup } from "~/components/core/TabGroup";
+import { SecondaryTabGroup } from "~/components/core/TabGroup";
 
 import ScenePage from "~/components/core/ScenePage";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -94,15 +94,18 @@ export default class SceneEditAccount extends React.Component {
   };
 
   _handleSave = async (e) => {
-    this.setState({ changingDetails: true });
+    // this.setState({ changingDetails: true });
 
     if (!Validations.username(this.state.username)) {
       Events.dispatchMessage({
         message: "Please include only letters and numbers in your username",
       });
-      this.setState({ changingDetails: false });
+      // this.setState({ changingDetails: false });
       return;
     }
+
+    let data = { ...this.props.viewer.data, body: this.state.body, name: this.state.name };
+    this.props.onUpdateViewer({ username: this.state.username, data });
 
     let response = await Actions.updateViewer({
       username: this.state.username,
@@ -114,12 +117,10 @@ export default class SceneEditAccount extends React.Component {
     });
 
     Events.hasError(response);
-
-    this.setState({ changingDetails: false });
+    // this.setState({ changingDetails: false });
   };
 
   _handleUsernameChange = (e) => {
-    e.persist();
     this.setState({ [e.target.name]: e.target.value.toLowerCase() });
   };
 
@@ -163,12 +164,10 @@ export default class SceneEditAccount extends React.Component {
   };
 
   render() {
-    const profileURL = `https://slate.host/${this.state.username}`;
-
     return (
       <ScenePage>
         <ScenePageHeader title="Settings" />
-        <TabGroup
+        <SecondaryTabGroup
           tabs={["Profile", "Data Storage", "Security", "Account"]}
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}

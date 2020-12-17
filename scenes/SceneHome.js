@@ -8,6 +8,7 @@ import * as Events from "~/common/custom-events";
 import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
+import { PrimaryTabGroup } from "~/components/core/TabGroup";
 
 import ScenePage from "~/components/core/ScenePage";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
@@ -93,7 +94,6 @@ const STYLES_GRADIENT = css`
 
 const STYLES_ACTIVITY_GRID = css`
   margin: -10px;
-  margin-top: 0px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -212,6 +212,7 @@ const ActivityRectangle = ({ item, size }) => {
 export default class SceneHome extends React.Component {
   state = {
     imageSize: 200,
+    tab: 0,
   };
 
   async componentDidMount() {
@@ -249,6 +250,21 @@ export default class SceneHome extends React.Component {
     let activity = this.props.viewer.activity;
     return (
       <ScenePage>
+        <ScenePageHeader
+          title={
+            <PrimaryTabGroup
+              tabs={["Activity", "Files", "Slates"]}
+              value={0}
+              onChange={(value) => {
+                if (value === 1) {
+                  this.props.onAction({ type: "NAVIGATE", value: "data" });
+                } else if (value === 2) {
+                  this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_SLATES" });
+                }
+              }}
+            />
+          }
+        />
         {activity.length ? (
           <div css={STYLES_ACTIVITY_GRID}>
             {activity.map((item) => {

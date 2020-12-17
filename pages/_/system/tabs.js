@@ -39,19 +39,14 @@ export default class SystemPageTabs extends React.Component {
 
   render() {
     return (
-      <SystemPage
-        title="SDS: Tabs"
-        description="..."
-        url="https://slate.host/_/system/tabs"
-      >
+      <SystemPage title="SDS: Tabs" description="..." url="https://slate.host/_/system/tabs">
         <System.H1>
           Tabs <ViewSourceLink file="system/tabs.js" />
         </System.H1>
         <br />
         <br />
         <System.P>
-          The TabGroup component is used to allow the users to switch between
-          views.
+          The SecondaryTabGroup component is used to allow the users to switch between views.
         </System.P>
         <br />
         <br />
@@ -59,12 +54,12 @@ export default class SystemPageTabs extends React.Component {
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import React and the TabGroup Component.</System.P>
+        <System.P>Import React and the SecondaryTabGroup Component.</System.P>
         <br />
         <br />
         <CodeBlock>
           {`import * as React from "react";
-import { TabGroup } from "slate-react-system";`}
+import { SecondaryTabGroup } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -86,7 +81,7 @@ const TAB_GROUP_THREE = [
 ];`}
         </CodeBlock>
         <br />
-        <System.P>Declare the TabGroup component.</System.P>
+        <System.P>Declare the SecondaryTabGroup component.</System.P>
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
@@ -96,7 +91,7 @@ const TAB_GROUP_THREE = [
 
   render() {
     return (
-      <TabGroup
+      <SecondaryTabGroup
         name="exampleOne"
         value={this.state.exampleOne}
         option={TAB_GROUP_TWO}
@@ -113,7 +108,7 @@ class ExampleTwo extends React.Component {
 
   render() {
     return (
-      <TabGroup
+      <SecondaryTabGroup
         name="exampleTwo"
         value={this.state.exampleTwo}
         option={TAB_GROUP_THREE}
@@ -128,14 +123,14 @@ class ExampleTwo extends React.Component {
         <System.H2>Output</System.H2>
         <hr />
         <br />
-        <System.TabGroup
+        <System.SecondaryTabGroup
           name="eight"
           options={TAB_GROUP_TWO}
           value={this.state.eight}
           onChange={this._handleChange}
         />
         <br />
-        <System.TabGroup
+        <System.SecondaryTabGroup
           name="nine"
           options={TAB_GROUP_THREE}
           value={this.state.nine}
@@ -159,22 +154,14 @@ class ExampleTwo extends React.Component {
               rows: [
                 {
                   id: 1,
-                  a: (
-                    <span style={{ fontFamily: Constants.font.semiBold }}>
-                      onChange
-                    </span>
-                  ),
+                  a: <span style={{ fontFamily: Constants.font.semiBold }}>onChange</span>,
                   b: "function",
                   c: "null",
                   d: "Function called upon an onChange event",
                 },
                 {
                   id: 2,
-                  a: (
-                    <span style={{ fontFamily: Constants.font.semiBold }}>
-                      value
-                    </span>
-                  ),
+                  a: <span style={{ fontFamily: Constants.font.semiBold }}>value</span>,
                   b: "boolean",
                   c: "false",
                   d:
@@ -182,15 +169,10 @@ class ExampleTwo extends React.Component {
                 },
                 {
                   id: 3,
-                  a: (
-                    <span style={{ fontFamily: Constants.font.semiBold }}>
-                      options
-                    </span>
-                  ),
+                  a: <span style={{ fontFamily: Constants.font.semiBold }}>options</span>,
                   b: "Array",
                   c: "[]",
-                  d:
-                    "An array of options, each of which has a value and a label",
+                  d: "An array of options, each of which has a value and a label",
                 },
                 {
                   id: 4,

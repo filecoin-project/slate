@@ -4,7 +4,7 @@ import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
-import { TabGroup } from "~/components/core/TabGroup";
+import { SecondaryTabGroup } from "~/components/core/TabGroup";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
@@ -474,7 +474,7 @@ export default class SceneDirectory extends React.Component {
     return (
       <ScenePage>
         <ScenePageHeader title="Directory" />
-        <TabGroup
+        <SecondaryTabGroup
           tabs={["Following", "Followers"]}
           value={this.state.tab}
           onChange={(value) => this.setState({ tab: value })}

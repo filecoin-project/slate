@@ -42,6 +42,7 @@ const constructFilesTreeForNavigation = (library) => {
         children: null,
       },
     ],
+    ignore: true,
   };
 };
 
@@ -72,6 +73,7 @@ export const generate = ({ library = [], slates = [] }) => [
     name: "Slates",
     pageTitle: "Slates",
     children: null,
+    ignore: true,
   },
   {
     id: "V1_NAVIGATION_DIRECTORY",

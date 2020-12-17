@@ -381,7 +381,7 @@ export default class CarouselSidebarSlate extends React.Component {
             {this.state.unsavedChanges == false && (
               <div css={STYLES_AUTOSAVE}>
                 <SVG.Check height="14px" style={{ marginRight: 4 }} />
-                autosaved
+                AutoSaved
               </div>
             )}
           </React.Fragment>

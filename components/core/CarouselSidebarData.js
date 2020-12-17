@@ -13,6 +13,8 @@ import * as FileUtilities from "~/common/file-utilities";
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
+import { Input } from "~/components/system/components/Input";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
 
 const DEFAULT_BOOK =
   "https://slate.textile.io/ipfs/bafkreibk32sw7arspy5kw3p5gkuidfcwjbwqyjdktd5wkqqxahvkm2qlyi";
@@ -172,6 +174,45 @@ const STYLES_FILE_HIDDREN = css`
   left: -1px;
 `;
 
+const STYLES_INPUT = {
+  marginBottom: 16,
+  backgroundColor: "transparent",
+  boxShadow: "0 0 0 1px #3c3c3c inset",
+  color: Constants.system.white,
+  height: 48,
+};
+
+const STYLES_AUTOSAVE = css`
+  font-size: 12px;
+  line-height: 1.225;
+  display: flex;
+  justify-content: baseline;
+  color: ${Constants.system.yellow};
+  opacity: 0;
+  margin: 8px 0 32px 0;
+
+  @keyframes autosave {
+    0% {
+      height: 0;
+      opacity: 0;
+      margin-left: 12px;
+    }
+    10% {
+      opacity: 1;
+      margin-left: 0;
+    }
+    90% {
+      opacity: 1;
+      margin-left: 0;
+    }
+    100% {
+      opacity: 0;
+      height: 0;
+    }
+  }
+  animation: autosave 4000ms ease;
+`;
+
 export const FileTypeDefaultPreview = () => {
   if (props.type && props.type.startsWith("video/")) {
     return DEFAULT_VIDEO;
@@ -196,32 +237,64 @@ export default class CarouselSidebarData extends React.Component {
   _ref = null;
 
   state = {
+    name: this.props.data.name ? this.props.data.name : "",
     selected: {},
     isPublic: false,
     copyValue: "",
     loading: false,
     changingPreview: false,
     pickerLoading: false,
+    unsavedChanges: false,
+    isEditing: false,
   };
 
   componentDidMount = () => {
     window.addEventListener("data-global-carousel-loading", this._handleSetLoading);
-    let isPublic = false;
-    let selected = {};
-    const id = this.props.data.id;
-    for (let slate of this.props.slates) {
-      if (slate.data.objects.some((o) => o.id === id)) {
-        if (slate.data.public) {
-          isPublic = true;
+    this.setState({ unsavedChanges: true });
+    if (this.props.isOwner && !this.props.external) {
+      this.debounceInstance = this.debounce(() => this._handleSave(), 3000);
+      let isPublic = false;
+      let selected = {};
+      const id = this.props.data.id;
+      for (let slate of this.props.slates) {
+        if (slate.data.objects.some((o) => o.id === id)) {
+          if (slate.data.public) {
+            isPublic = true;
+          }
+          selected[slate.id] = true;
         }
-        selected[slate.id] = true;
       }
+      this.setState({ selected, isPublic });
     }
-    this.setState({ selected, isPublic });
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("data-global-carousel-loading", this._handleSetLoading);
+  };
+
+  debounce = (func, ms) => {
+    let timer;
+
+    return () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(func, ms);
+    };
+  };
+
+  _handleChange = (e) => {
+    this.debounceInstance();
+    this.setState({ [e.target.name]: e.target.value, unsavedChanges: true });
+  };
+
+  _handleSave = async () => {
+    let name = { name: this.state.name };
+    this.props.onSave(name, this.props.index);
+    await setTimeout(() => {
+      this.setState({ unsavedChanges: false });
+    }, 500);
+    await setTimeout(() => {
+      this.setState({ unsavedChanges: true });
+    }, 4000);
   };
 
   _handleSetLoading = (e) => {
@@ -324,6 +397,10 @@ export default class CarouselSidebarData extends React.Component {
     }
   };
 
+  _handleEditFilename = () => {
+    this.setState({ isEditing: !this.state.isEditing });
+  };
+
   render() {
     const { cid, file, name, coverImage, type, size, url, blurhash } = this.props.data;
     const elements = [];
@@ -338,9 +415,33 @@ export default class CarouselSidebarData extends React.Component {
     elements.push(
       <div key="s-2" css={STYLES_CONTAINER}>
         <div css={STYLES_META}>
-          <a css={STYLES_META_TITLE} target="_blank" href={Strings.getCIDGatewayURL(cid)}>
-            {file}
-          </a>
+          {this.state.isEditing ? (
+            <Boundary enabled onOutsideRectEvent={this._handleEditFilename}>
+              <Input
+                full
+                value={this.state.name}
+                name="name"
+                onChange={this._handleChange}
+                id={`sidebar-label-name`}
+                style={STYLES_INPUT}
+              />
+            </Boundary>
+          ) : (
+            <span
+              css={STYLES_META_TITLE}
+              target="_blank"
+              // href={Strings.getCIDGatewayURL(cid)}
+              onClick={this._handleEditFilename}
+            >
+              {name}
+            </span>
+          )}
+          {this.state.unsavedChanges == false ? (
+            <div css={STYLES_AUTOSAVE}>
+              <SVG.Check height="14px" style={{ marginRight: 4 }} />
+              AutoSaved
+            </div>
+          ) : null}
           <div css={STYLES_META_DETAILS}>
             <span css={STYLES_TAG}>{type}</span> <span>{Strings.bytesToSize(size)}</span>
           </div>

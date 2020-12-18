@@ -61,57 +61,117 @@ export default class ScenePublicSlate extends React.Component {
       return;
     }
 
-    let slateIds = this.props.viewer.slates.map((slate) => slate.id);
-    if (this.props.data && this.props.data.id && slateIds.includes(this.props.data.id)) {
-      this.props.onAction({
-        type: "NAVIGATE",
-        value: this.props.data.id,
-        redirect: true,
-      });
-      return;
-    }
-    if (username === this.props.viewer.username) {
-      for (let slate of this.props.viewer.slates) {
-        if (slate.slatename === slatename) {
-          this.props.onAction({
-            type: "NAVIGATE",
-            value: slate.id,
-            redirect: true,
-          });
-          return;
+    //NOTE(martina): look for the slate in the user's slates
+    let slate;
+    if (this.props.data?.id) {
+      for (let s of this.props.viewer.slates) {
+        if (this.props.data.id && this.props.data.id === s.id) {
+          slate = s;
+          break;
         }
       }
-      Events.dispatchMessage({ message: "We're having trouble fetching that slate right now." });
-      this.setState({ notFound: true });
-      return;
+    } else if (slatename && username === this.props.viewer.username) {
+      for (let s of this.props.viewer.slates) {
+        if (username && slatename === s.slatename) {
+          slate = s;
+          break;
+        }
+      }
+      if (!slate) {
+        Events.dispatchMessage({ message: "We're having trouble fetching that slate right now." });
+        this.setState({ notFound: true });
+        return;
+      }
+    }
+    if (slate) {
+      window.history.replaceState(
+        window.history.state,
+        "Slate",
+        `/${this.props.viewer.username}/${slate.slatename}`
+      );
     }
 
-    let query;
-    if (username && slatename) {
-      query = { username, slatename };
-    } else if (this.props.data && this.props.data.id) {
-      query = { id: this.props.data.id };
-    }
-    let response;
-    if (query) {
-      response = await Actions.getSerializedSlate(query);
+    if (!slate) {
+      let query;
+      if (username && slatename) {
+        query = { username, slatename };
+      } else if (this.props.data && this.props.data.id) {
+        query = { id: this.props.data.id };
+      }
+      let response;
+      if (query) {
+        response = await Actions.getSerializedSlate(query);
+      }
+      if (Events.hasError(response)) {
+        this.setState({ notFound: true });
+        return;
+      }
+      slate = response.data;
+      window.history.replaceState(
+        window.history.state,
+        "Slate",
+        `/${response.data.user.username}/${response.data.slatename}`
+      );
     }
 
-    if (Events.hasError(response)) {
-      this.setState({ notFound: true });
-      return;
-    }
+    // let slateIds = this.props.viewer.slates.map((slate) => slate.id);
+    // if (this.props.data && this.props.data.id && slateIds.includes(this.props.data.id)) {
+    //   this.props.onAction({
+    //     type: "NAVIGATE",
+    //     value: this.props.data.id,
+    //     redirect: true,
+    //   });
+    //   return;
+    // }
 
-    this.props.onUpdateData({ data: response.data });
-    await this.setState({ slate: response.data });
+    // if (username === this.props.viewer.username) {
+    //   for (let slate of this.props.viewer.slates) {
+    //     if (slate.slatename === slatename) {
+    //       this.props.onAction({
+    //         type: "NAVIGATE",
+    //         value: slate.id,
+    //         redirect: true,
+    //       });
+    //       return;
+    //     }
+    //   }
+    //   Events.dispatchMessage({ message: "We're having trouble fetching that slate right now." });
+    //   this.setState({ notFound: true });
+    //   return;
+    // }
+
+    // let query;
+    // if (username && slatename) {
+    //   query = { username, slatename };
+    // } else if (this.props.data && this.props.data.id) {
+    //   query = { id: this.props.data.id };
+    // }
+    // let response;
+    // if (query) {
+    //   response = await Actions.getSerializedSlate(query);
+    // }
+
+    // if (Events.hasError(response)) {
+    //   this.setState({ notFound: true });
+    //   return;
+    // }
+
+    // window.history.replaceState(
+    //   window.history.state,
+    //   "Slate",
+    //   `/${response.data.user.username}/${response.data.slatename}`
+    // );
+
+    this.props.onUpdateData({ data: slate });
+    await this.setState({ slate });
 
     let index = -1;
     if (pageState || !Strings.isEmpty(cid)) {
       if (pageState?.index) {
         index = pageState.index;
       } else {
-        for (let i = 0; i < response.data.data.objects.length; i++) {
-          let obj = response.data.data.objects[i];
+        for (let i = 0; i < slate.data.objects.length; i++) {
+          let obj = slate.data.objects[i];
           if (
             (obj.cid && (obj.cid === cid || obj.cid === pageState?.cid)) ||
             (obj.id && obj.id === pageState?.id)

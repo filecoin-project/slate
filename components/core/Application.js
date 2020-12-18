@@ -125,6 +125,7 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("online", this._handleOnlineStatus);
     window.addEventListener("offline", this._handleOnlineStatus);
     window.addEventListener("resize", this._handleWindowResize);
+    window.onpopstate = this._handleBrowserBack;
 
     if (this.state.viewer) {
       await this._handleSetupWebsocket();
@@ -138,7 +139,10 @@ export default class ApplicationPage extends React.Component {
     window.removeEventListener("dragleave", this._handleDragLeave);
     window.removeEventListener("dragover", this._handleDragOver);
     window.removeEventListener("drop", this._handleDrop);
+    window.removeEventListener("online", this._handleOnlineStatus);
+    window.removeEventListener("offline", this._handleOnlineStatus);
     window.removeEventListener("resize", this._handleWindowResize);
+    window.removeEventListener("onpopstate", this._handleBrowserBack);
 
     mounted = false;
 
@@ -495,12 +499,10 @@ export default class ApplicationPage extends React.Component {
 
   _handleNavigateTo = (next, data = null, redirect = false) => {
     if (next.id) {
-      window.history.replaceState(
-        { ...next },
+      window.history.pushState(
+        { ...next, data },
         "Slate",
-        `?scene=${next.id}${next.user ? `&user=${next.user}` : ""}${
-          next.slate ? `&slate=${next.slate}${next.cid ? `&cid=${next.cid}` : ""}` : ""
-        }`
+        `` //maybe don't need to do this scene thing. b/c going to change it to the other format anyways. ideally would set the data at the same time as the string stuff. but should i put that here or inside scenepublicslate?
       );
     }
 
@@ -542,6 +544,13 @@ export default class ApplicationPage extends React.Component {
       },
       () => body.scrollTo(0, 0)
     );
+  };
+
+  _handleBrowserBack = (e) => {
+    let next = window.history.state;
+    this.setState({
+      data: next.data,
+    });
   };
 
   _handleBack = () => {
@@ -606,7 +615,14 @@ export default class ApplicationPage extends React.Component {
     }
     // NOTE(jim): Authenticated.
     const navigation = NavigationData.generate(this.state.viewer);
-    const next = this.state.history[this.state.currentIndex];
+    let next;
+    if (typeof window !== "undefined") {
+      next = window?.history?.state;
+    }
+    if (!next || !next.id) {
+      next = { id: "V1_NAVIGATION_HOME", scrollTop: 0, data: null };
+    }
+    // const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
 
     // NOTE(jim): Only happens during a bad query parameter.

@@ -64,6 +64,8 @@ export default class ScenePublicProfile extends React.Component {
       return;
     }
 
+    window.history.replaceState(window.history.state, "A slate user", `/${response.data.username}`);
+
     this.props.onUpdateData({ data: response.data });
     this.setState({ profile: response.data });
   };

@@ -46,18 +46,18 @@ const constructFilesTreeForNavigation = (library) => {
   };
 };
 
-const constructSlatesTreeForNavigation = (slates) => {
-  return slates.map((s) => {
-    return {
-      ...s,
-      slateId: s.id,
-      name: Strings.getPresentationSlateName(s),
-      pageTitle: `Viewing ${s.slatename}`,
-      decorator: "SLATE",
-      ignore: true,
-    };
-  });
-};
+// const constructSlatesTreeForNavigation = (slates) => {
+//   return slates.map((s) => {
+//     return {
+//       ...s,
+//       slateId: s.id,
+//       name: Strings.getPresentationSlateName(s),
+//       pageTitle: `Viewing ${s.slatename}`,
+//       decorator: "SLATE",
+//       ignore: true,
+//     };
+//   });
+// };
 
 export const generate = ({ library = [], slates = [] }) => [
   {
@@ -106,7 +106,7 @@ export const generate = ({ library = [], slates = [] }) => [
     children: null,
     ignore: true,
   },
-  ...constructSlatesTreeForNavigation(slates),
+  // ...constructSlatesTreeForNavigation(slates),
   constructFilesTreeForNavigation(library),
   /*
   {

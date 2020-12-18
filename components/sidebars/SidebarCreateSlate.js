@@ -88,7 +88,10 @@ export default class SidebarCreateSlate extends React.Component {
       () =>
         this.props.onAction({
           type: "NAVIGATE",
-          value: response.slate.id,
+          value: "V1_NAVIGATION_SLATE",
+          data: {
+            id: response.slate.id,
+          },
         }),
       200
     );

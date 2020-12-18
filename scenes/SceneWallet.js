@@ -161,7 +161,7 @@ export default class SceneWallet extends React.Component {
             />
           </div> */}
 
-            <div css={STYLES_ROW} style={{ marginTop: 24 }}>
+            <div css={STYLES_ROW} style={{ paddingTop: 24 }}>
               <div css={STYLES_TEXT}>
                 <div>
                   <div css={STYLES_FOCUS}>

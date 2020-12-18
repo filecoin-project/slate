@@ -7,8 +7,8 @@ const STYLES_BUTTON = css`
   background-color: ${Constants.system.white};
   color: ${Constants.system.pitchBlack};
   display: inline-flex;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 4px;
   background-size: cover;
   background-position: 50% 50%;
@@ -18,7 +18,7 @@ const STYLES_BUTTON = css`
   cursor: pointer;
   user-select: none;
   flex-shrink: 0;
-  box-shadow: 0 0 0 1px ${Constants.system.bgGray} inset;
+  ${"" /* box-shadow: 0 0 0 1px ${Constants.system.bgGray} inset; */}
 
   :hover {
     background-color: rgb(253, 253, 253);

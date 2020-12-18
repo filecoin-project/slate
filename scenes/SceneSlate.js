@@ -240,9 +240,9 @@ export default class SceneSlate extends React.Component {
       <div style={{ display: `flex` }}>
         <div onClick={this._handleFollow}>
           {this.state.isFollowing ? (
-            <ButtonSecondary style={{ minHeight: 36 }}>Unfollow</ButtonSecondary>
+            <ButtonSecondary>Unfollow</ButtonSecondary>
           ) : (
-            <ButtonPrimary style={{ minHeight: 36 }}>Follow</ButtonPrimary>
+            <ButtonPrimary>Follow</ButtonPrimary>
           )}
         </div>
         <CircleButtonGray

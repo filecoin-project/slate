@@ -10,14 +10,13 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 const STYLES_SLATE_NAME = css`
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: ${Constants.font.medium};
   color: ${Constants.system.black};
 `;
 
 const STYLES_SLATE_NAME_DARK = css`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: ${Constants.font.medium};
+  ${STYLES_SLATE_NAME}
   color: ${Constants.system.white};
 `;
 
@@ -50,6 +49,7 @@ const STYLES_SLATE_LIST = css`
 const STYLES_SLATE_LINE = css`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   padding: 12px 16px;
   background-color: ${Constants.system.white};
@@ -139,34 +139,49 @@ export class SlatePicker extends React.Component {
                   css={this.props.dark ? STYLES_SLATE_LINE_DARK : STYLES_SLATE_LINE}
                   onClick={() => this.props.onAdd(slate)}
                 >
-                  <div css={STYLES_ICON_BOX}>
-                    {selected[slate.id] ? (
-                      <SVG.Slate
-                        height="24px"
-                        style={{
-                          marginRight: 8,
-                          pointerEvents: "none",
-                          color: this.props.dark ? Constants.system.white : Constants.system.black,
-                        }}
-                      />
-                    ) : (
-                      <SVG.PlusCircle
-                        height="24px"
-                        style={{
-                          marginRight: 8,
-                          pointerEvents: "none",
-                        }}
-                      />
-                    )}
-                  </div>
                   <div
-                    css={this.props.dark ? STYLES_SLATE_NAME_DARK : STYLES_SLATE_NAME}
-                    style={{
-                      color: selected[slate.id] ? this.props.selectedColor : "inherit",
-                    }}
+                    style={{ minWidth: "10%", width: "100%", display: "flex", flexWrap: "nowrap" }}
                   >
-                    {Strings.getPresentationSlateName(slate)}
+                    <div css={STYLES_ICON_BOX}>
+                      {selected[slate.id] ? (
+                        <SVG.Slate
+                          height="24px"
+                          style={{
+                            marginRight: 8,
+                            pointerEvents: "none",
+                            color: this.props.dark
+                              ? Constants.system.white
+                              : Constants.system.black,
+                          }}
+                        />
+                      ) : (
+                        <SVG.PlusCircle
+                          height="24px"
+                          style={{
+                            marginRight: 8,
+                            pointerEvents: "none",
+                          }}
+                        />
+                      )}
+                    </div>
+                    <div
+                      css={this.props.dark ? STYLES_SLATE_NAME_DARK : STYLES_SLATE_NAME}
+                      style={{
+                        color: selected[slate.id] ? this.props.selectedColor : "inherit",
+                      }}
+                    >
+                      {Strings.getPresentationSlateName(slate)}
+                    </div>
                   </div>
+                  {slate.data.public ? (
+                    <div style={{ flexShrink: 0, marginLeft: 16 }}>
+                      <SVG.Globe height="24px" />
+                    </div>
+                  ) : (
+                    <div style={{ flexShrink: 0, marginLeft: 16 }}>
+                      <SVG.SecurityLock height="24px" />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

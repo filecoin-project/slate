@@ -91,27 +91,31 @@ export default class SidebarSingleSlateSettings extends React.Component {
   };
 
   _handleDelete = async (e) => {
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
 
     if (
       !window.confirm("Are you sure you want to delete this Slate? This action is irreversible.")
     ) {
-      return this.setState({ loading: false });
+      return;
+      // return this.setState({ loading: false });
     }
+
+    let slates = this.props.viewer.slates.filter((slate) => slate.id !== this.props.current.id);
+    this.props.onUpdateViewer({ slates });
+
+    this.props.onAction({
+      type: "NAVIGATE",
+      value: "V1_NAVIGATION_SLATES",
+    });
 
     const response = await Actions.deleteSlate({
       id: this.props.current.id,
     });
 
     if (Events.hasError(response)) {
-      this.setState({ loading: false });
+      // this.setState({ loading: false });
       return;
     }
-
-    await this.props.onAction({
-      type: "NAVIGATE",
-      value: "V1_NAVIGATION_SLATES",
-    });
   };
 
   render() {

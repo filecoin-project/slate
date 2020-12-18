@@ -79,7 +79,7 @@ const STYLES_EXPANDER = css`
   position: absolute;
   padding: 4px;
   top: 16px;
-  right: 16px;
+  left: 16px;
   cursor: pointer;
 
   :hover {
@@ -95,12 +95,12 @@ const STYLES_DISMISS_BOX = css`
   cursor: pointer;
 
   :hover {
-    color: ${Constants.system.black};
+    color: ${Constants.system.white};
   }
 
-  @media (min-width: ${Constants.sizes.mobile}px) {
+  ${"" /* @media (min-width: ${Constants.sizes.mobile}px) {
     display: none;
-  }
+  } */}
 `;
 
 const STYLES_MOBILE_HIDDEN = css`
@@ -366,20 +366,27 @@ export class GlobalCarousel extends React.Component {
           </span>
           {slide}
           <span css={STYLES_MOBILE_HIDDEN}>
-            <div
-              css={STYLES_EXPANDER}
-              onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
-            >
-              {this.state.showSidebar ? (
+            {this.state.showSidebar ? (
+              <div
+                css={STYLES_EXPANDER}
+                onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
+              >
                 <SVG.Maximize height="24px" />
-              ) : (
-                <SVG.Minimize height="24px" />
-              )}
-            </div>
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <div
+                  css={STYLES_EXPANDER}
+                  onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
+                >
+                  <SVG.Minimize height="24px" />
+                </div>
+                <div css={STYLES_DISMISS_BOX} onClick={this._handleClose}>
+                  <SVG.Dismiss height="24px" />
+                </div>
+              </div>
+            )}
           </span>
-          <div css={STYLES_DISMISS_BOX} onClick={this._handleClose}>
-            <SVG.Dismiss height="24px" />
-          </div>
         </div>
         <span css={STYLES_MOBILE_HIDDEN}>
           {this.state.carouselType === "data" ? (

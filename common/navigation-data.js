@@ -76,11 +76,27 @@ export const generate = ({ library = [], slates = [] }) => [
     ignore: true,
   },
   {
+    id: "V1_NAVIGATION_SLATES_FOLLOWING",
+    decorator: "SLATES_FOLLOWING",
+    name: "Slates",
+    pageTitle: "Slates",
+    children: null,
+    ignore: true,
+  },
+  {
     id: "V1_NAVIGATION_DIRECTORY",
     decorator: "DIRECTORY",
     name: "Directory",
     pageTitle: "Your directory",
     children: null,
+  },
+  {
+    id: "V1_NAVIGATION_DIRECTORY_FOLLOWERS",
+    decorator: "DIRECTORY_FOLLOWERS",
+    name: "Directory",
+    pageTitle: "Your directory",
+    children: null,
+    ignore: true,
   },
   {
     id: "V1_NAVIGATION_SLATE",

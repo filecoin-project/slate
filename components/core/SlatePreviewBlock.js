@@ -429,31 +429,14 @@ export class SlatePreviewBlock extends React.Component {
           <React.Fragment>
             <div css={STYLES_TITLE_LINE}>
               <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
-              {this.props.isOwner ? (
-                this.props.slate.data.public ? (
-                  <div
-                    css={STYLES_TAG}
-                    style={{
-                      borderColor: Constants.system.brand,
-                      color: Constants.system.brand,
-                    }}
-                  >
-                    Public
-                  </div>
-                ) : (
-                  <div
-                    css={STYLES_TAG}
-                    style={{
-                      color: Constants.system.darkGray,
-                      borderColor: Constants.system.darkGray,
-                    }}
-                  >
-                    Private
-                  </div>
-                )
-              ) : (
-                <div style={{ height: 32 }} />
-              )}
+              <div style={{ height: "18px" }}>
+                {this.props.isOwner && !this.props.slate.data.public ? (
+                  <SVG.SecurityLock
+                    height="18px"
+                    style={{ color: Constants.system.grayBlack, marginRight: 24 }}
+                  />
+                ) : null}
+              </div>
               {this.props.username ? (
                 <div
                   style={{ marginLeft: "auto" }}
@@ -471,13 +454,15 @@ export class SlatePreviewBlock extends React.Component {
               ) : null}
             </div>
             <span css={STYLES_MOBILE_HIDDEN}>
-              {this.props.slate.data.body ? (
-                <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
-              ) : this.props.isOwner ? (
-                <div style={{ height: "44px" }} />
-              ) : (
-                <div style={{ height: "40px" }} />
-              )}
+              <div style={{ height: "44px" }}>
+                {this.props.slate.data.body ? (
+                  <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
+                ) : this.props.isOwner ? (
+                  <div style={{ height: "44px" }} />
+                ) : (
+                  <div style={{ height: "40px" }} />
+                )}
+              </div>
               <div
                 style={{
                   width: "100%",
@@ -624,3 +609,25 @@ export default class SlatePreviewBlocks extends React.Component {
     );
   }
 }
+
+// this.props.slate.data.public ? (
+//                   <div
+//                     css={STYLES_TAG}
+//                     style={{
+//                       borderColor: Constants.system.brand,
+//                       color: Constants.system.brand,
+//                     }}
+//                   >
+//                     Public
+//                   </div>
+//                 ) : (
+//                   <div
+//                     css={STYLES_TAG}
+//                     style={{
+//                       color: Constants.system.darkGray,
+//                       borderColor: Constants.system.darkGray,
+//                     }}
+//                   >
+//                     Private
+//                   </div>
+//                 )

@@ -138,7 +138,6 @@ export default class SceneDirectory extends React.Component {
 
   state = {
     copyValue: "",
-    tab: 0,
     contextMenu: null,
   };
 
@@ -476,10 +475,16 @@ export default class SceneDirectory extends React.Component {
         <ScenePageHeader title="Directory" />
         <SecondaryTabGroup
           tabs={["Following", "Followers"]}
-          value={this.state.tab}
-          onChange={(value) => this.setState({ tab: value })}
+          value={this.props.tab}
+          onChange={(value) => {
+            if (value === 0) {
+              this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_DIRECTORY" });
+            } else {
+              this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_DIRECTORY_FOLLOWERS" });
+            }
+          }}
         />
-        {/* {this.state.tab === 0 ? (
+        {/* {this.props.tab === 0 ? (
           requests && requests.length ? (
             requests
           ) : (
@@ -489,7 +494,7 @@ export default class SceneDirectory extends React.Component {
             </EmptyState>
           )
         ) : null}
-        {this.state.tab === 1 ? (
+        {this.props.tab === 1 ? (
           trusted && trusted.length ? (
             trusted
           ) : (
@@ -499,7 +504,7 @@ export default class SceneDirectory extends React.Component {
             </EmptyState>
           )
         ) : null} */}
-        {this.state.tab === 0 ? (
+        {this.props.tab === 0 ? (
           following && following.length ? (
             following
           ) : (
@@ -509,7 +514,7 @@ export default class SceneDirectory extends React.Component {
             </EmptyState>
           )
         ) : null}
-        {this.state.tab === 1 ? (
+        {this.props.tab === 1 ? (
           followers && followers.length ? (
             followers
           ) : (

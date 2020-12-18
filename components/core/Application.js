@@ -85,9 +85,11 @@ const SCENES = {
   SLATE: <SceneSlate />,
   SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
   EDIT_ACCOUNT: <SceneEditAccount />,
-  SLATES: <SceneSlates />,
+  SLATES: <SceneSlates tab={0} />,
+  SLATES_FOLLOWING: <SceneSlates tab={1} />,
   LOCAL_DATA: <SceneLocalData />,
-  DIRECTORY: <SceneDirectory />,
+  DIRECTORY: <SceneDirectory tab={0} />,
+  DIRECTORY_FOLLOWERS: <SceneDirectory tab={1} />,
   FILECOIN: <SceneArchive />,
   MAKE_DEAL: <SceneMakeFilecoinDeal />,
 };

@@ -15,10 +15,6 @@ import EmptyState from "~/components/core/EmptyState";
 
 // TODO(jim): Slates design.
 export default class SceneSlates extends React.Component {
-  state = {
-    tab: 0,
-  };
-
   _handleAdd = () => {
     this.props.onAction({
       name: "Create slate",
@@ -60,8 +56,17 @@ export default class SceneSlates extends React.Component {
           actions={
             <SecondaryTabGroup
               tabs={["My Slates", "Following"]}
-              value={this.state.tab}
-              onChange={(value) => this.setState({ tab: value })}
+              value={this.props.tab}
+              onChange={(value) => {
+                if (value === 0) {
+                  this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_SLATES" });
+                } else {
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: "V1_NAVIGATION_SLATES_FOLLOWING",
+                  });
+                }
+              }}
               style={{ margin: "0 0 24px 0" }}
             />
           }
@@ -69,7 +74,7 @@ export default class SceneSlates extends React.Component {
         {/* <ScenePageHeader
           title="Slates"
           actions={
-            this.state.tab === 0 ? (
+            this.props.tab === 0 ? (
               <CircleButtonGray onClick={this._handleAdd} style={{ marginLeft: 12 }}>
                 <SVG.Plus height="16px" />
               </CircleButtonGray>
@@ -77,7 +82,7 @@ export default class SceneSlates extends React.Component {
           }
         /> */}
 
-        {this.state.tab === 0 ? (
+        {this.props.tab === 0 ? (
           this.props.viewer.slates && this.props.viewer.slates.length ? (
             <SlatePreviewBlocks
               isOwner
@@ -98,7 +103,7 @@ export default class SceneSlates extends React.Component {
           )
         ) : null}
 
-        {this.state.tab === 1 ? (
+        {this.props.tab === 1 ? (
           subscriptions && subscriptions.length ? (
             <SlatePreviewBlocks
               slates={subscriptions}

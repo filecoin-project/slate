@@ -232,7 +232,7 @@ export default class ApplicationHeader extends React.Component {
               </Boundary>
             ) : null}
           </span>
-          <span css={STYLES_MOBILE_HIDDEN} style={{ marginLeft: 60 }}>
+          <span css={STYLES_MOBILE_HIDDEN} style={{ marginLeft: 32 }}>
             <span
               css={STYLES_ICON_ELEMENT}
               style={

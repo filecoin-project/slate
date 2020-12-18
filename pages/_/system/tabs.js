@@ -46,7 +46,7 @@ export default class SystemPageTabs extends React.Component {
         <br />
         <br />
         <System.P>
-          The SecondaryTabGroup component is used to allow the users to switch between views.
+          The TabGroup component is used to allow the users to switch between views.
         </System.P>
         <br />
         <br />
@@ -54,12 +54,12 @@ export default class SystemPageTabs extends React.Component {
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import React and the SecondaryTabGroup Component.</System.P>
+        <System.P>Import React and the TabGroup Component.</System.P>
         <br />
         <br />
         <CodeBlock>
           {`import * as React from "react";
-import { SecondaryTabGroup } from "slate-react-system";`}
+import { TabGroup } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -81,7 +81,7 @@ const TAB_GROUP_THREE = [
 ];`}
         </CodeBlock>
         <br />
-        <System.P>Declare the SecondaryTabGroup component.</System.P>
+        <System.P>Declare the TabGroup component.</System.P>
         <br />
         <CodeBlock>
           {`class ExampleOne extends React.Component {
@@ -91,7 +91,7 @@ const TAB_GROUP_THREE = [
 
   render() {
     return (
-      <SecondaryTabGroup
+      <TabGroup
         name="exampleOne"
         value={this.state.exampleOne}
         option={TAB_GROUP_TWO}
@@ -108,7 +108,7 @@ class ExampleTwo extends React.Component {
 
   render() {
     return (
-      <SecondaryTabGroup
+      <TabGroup
         name="exampleTwo"
         value={this.state.exampleTwo}
         option={TAB_GROUP_THREE}
@@ -123,14 +123,14 @@ class ExampleTwo extends React.Component {
         <System.H2>Output</System.H2>
         <hr />
         <br />
-        <System.SecondaryTabGroup
+        <System.TabGroup
           name="eight"
           options={TAB_GROUP_TWO}
           value={this.state.eight}
           onChange={this._handleChange}
         />
         <br />
-        <System.SecondaryTabGroup
+        <System.TabGroup
           name="nine"
           options={TAB_GROUP_THREE}
           value={this.state.nine}

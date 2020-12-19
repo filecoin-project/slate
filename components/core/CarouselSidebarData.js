@@ -436,7 +436,7 @@ export default class CarouselSidebarData extends React.Component {
               // href={Strings.getCIDGatewayURL(cid)}
               onClick={this._handleEditFilename}
             >
-              {name}
+              {this.state.name}
             </span>
           )}
           <div style={{ display: `flex`, justifyContent: `baseline` }}>

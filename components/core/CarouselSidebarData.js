@@ -189,21 +189,21 @@ const STYLES_AUTOSAVE = css`
   justify-content: baseline;
   color: ${Constants.system.yellow};
   opacity: 0;
-  margin: 8px 0 32px 0;
+  margin: 26px 24px;
 
   @keyframes autosave {
     0% {
       height: 0;
       opacity: 0;
-      margin-left: 12px;
+      margin-left: 0;
     }
     10% {
       opacity: 1;
-      margin-left: 0;
+      margin-left: 24px;
     }
     90% {
       opacity: 1;
-      margin-left: 0;
+      margin-left: 24px;
     }
     100% {
       opacity: 0;
@@ -397,8 +397,11 @@ export default class CarouselSidebarData extends React.Component {
     }
   };
 
-  _handleEditFilename = () => {
-    this.setState({ isEditing: !this.state.isEditing });
+  _handleEditFilename = async () => {
+    await this.setState({ isEditing: !this.state.isEditing });
+    if (this.state.isEditing == false) {
+      this._handleSave();
+    }
   };
 
   render() {
@@ -436,14 +439,16 @@ export default class CarouselSidebarData extends React.Component {
               {name}
             </span>
           )}
-          {this.state.unsavedChanges == false ? (
-            <div css={STYLES_AUTOSAVE}>
-              <SVG.Check height="14px" style={{ marginRight: 4 }} />
-              AutoSaved
+          <div style={{ display: `flex`, justifyContent: `baseline` }}>
+            <div css={STYLES_META_DETAILS}>
+              <span css={STYLES_TAG}>{type}</span> <span>{Strings.bytesToSize(size)}</span>
             </div>
-          ) : null}
-          <div css={STYLES_META_DETAILS}>
-            <span css={STYLES_TAG}>{type}</span> <span>{Strings.bytesToSize(size)}</span>
+            {this.state.unsavedChanges == false ? (
+              <div css={STYLES_AUTOSAVE}>
+                <SVG.Check height="14px" style={{ marginRight: 4 }} />
+                AutoSaved
+              </div>
+            ) : null}
           </div>
         </div>
         <div css={STYLES_ACTIONS}>

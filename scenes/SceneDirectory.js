@@ -474,15 +474,12 @@ export default class SceneDirectory extends React.Component {
       <ScenePage>
         <ScenePageHeader title="Directory" />
         <SecondaryTabGroup
-          tabs={["Following", "Followers"]}
+          tabs={[
+            { title: "Following", value: "NAV_DIRECTORY" },
+            { title: "Followers", value: "NAV_DIRECTORY_FOLLOWERS" },
+          ]}
           value={this.props.tab}
-          onChange={(value) => {
-            if (value === 0) {
-              this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_DIRECTORY" });
-            } else {
-              this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_DIRECTORY_FOLLOWERS" });
-            }
-          }}
+          onAction={this.props.onAction}
         />
         {/* {this.props.tab === 0 ? (
           requests && requests.length ? (

@@ -10,24 +10,38 @@ import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system";
 
 const IconMap = {
-  HOME: <SVG.Home height="20px" />,
+  // ACTIVITY: <SVG.Home height="20px" />,
   ENCRYPTED: <SVG.SecurityLock height="20px" />,
   NETWORK: <SVG.Activity height="20px" />,
   DIRECTORY: <SVG.Directory height="20px" />,
-  FOLDER: <SVG.Folder height="20px" />,
+  // DATA: <SVG.Folder height="20px" />,
+  DATA: <SVG.Home height="20px" />,
   WALLET: <SVG.OldWallet height="20px" />,
   DEALS: <SVG.Deals height="20px" />,
-  MAKE_DEAL: <SVG.HardDrive height="20px" />,
+  STORAGE_DEAL: <SVG.HardDrive height="20px" />,
   SLATES: <SVG.Layers height="20px" />,
   SLATE: <SVG.Slate height="20px" />,
   LOCAL_DATA: <SVG.HardDrive height="20px" />,
   PROFILE_PAGE: <SVG.ProfileUser height="20px" />,
-  SETTINGS_DEVELOPER: <SVG.Tool height="20px" />,
+  API: <SVG.Tool height="20px" />,
   SETTINGS: <SVG.Settings height="20px" />,
   DIRECTORY: <SVG.Directory height="20px" />,
   FILECOIN: <SVG.Wallet height="20px" />,
   MINERS: <SVG.Miners height="20px" />,
 };
+
+const STYLES_SHORTCUTS = css`
+  background-color: ${Constants.system.white};
+  border-radius: 2px;
+  height: 24px;
+  width: 24px;
+  margin-left: 4px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${Constants.system.textGray};
+`;
 
 const STYLES_ICON_ELEMENT = css`
   height: 40px;
@@ -112,27 +126,6 @@ const STYLES_STATIC = css`
   transition: 200ms ease all;
 `;
 
-const STYLES_MARGIN_LEFT = css`
-  margin-left: 32px;
-  height: 40px;
-  width: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: ${Constants.system.textGray};
-  user-select: none;
-  cursor: pointer;
-  pointer-events: auto;
-
-  :hover {
-    color: ${Constants.system.brand};
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin-left: 16px;
-  }
-`;
-
 export default class ApplicationHeader extends React.Component {
   keysPressed = {};
 
@@ -179,10 +172,10 @@ export default class ApplicationHeader extends React.Component {
   };
 
   render() {
-    const isBackDisabled = this.props.currentIndex === 0 || this.props.history.length < 2;
+    // const isBackDisabled = this.props.currentIndex === 0 || this.props.history.length < 2;
 
-    const isForwardDisabled =
-      this.props.currentIndex === this.props.history.length - 1 || this.props.history.length < 2;
+    // const isForwardDisabled =
+    //   this.props.currentIndex === this.props.history.length - 1 || this.props.history.length < 2;
     return (
       <header css={STYLES_APPLICATION_HEADER}>
         <div css={STYLES_LEFT}>
@@ -232,7 +225,7 @@ export default class ApplicationHeader extends React.Component {
               </Boundary>
             ) : null}
           </span>
-          <span css={STYLES_MOBILE_HIDDEN} style={{ marginLeft: 32 }}>
+          {/* <span css={STYLES_MOBILE_HIDDEN} style={{ marginLeft: 32 }}>
             <span
               css={STYLES_ICON_ELEMENT}
               style={
@@ -253,17 +246,34 @@ export default class ApplicationHeader extends React.Component {
             >
               <SVG.ChevronRight height="28px" />
             </span>
-          </span>
-          <span css={STYLES_MARGIN_LEFT} onClick={this._handleCreateSearch}>
+          </span> */}
+          {/* <div
+            style={{
+              height: 28,
+              margin: "0px 12px",
+              borderRight: `1px solid ${Constants.system.border}`,
+            }}
+          /> */}
+          <span
+            css={STYLES_ICON_ELEMENT}
+            style={{ marginLeft: 24 }}
+            onClick={this._handleCreateSearch}
+          >
             <SVG.Search height="24px" />
           </span>
-          <span css={STYLES_MOBILE_HIDDEN} onClick={this._handleCreateSearch}>
-            <span
-              css={STYLES_ICON_ELEMENT}
-              style={{ marginLeft: 16, color: Constants.system.border, cursor: "pointer" }}
+          <span css={STYLES_MOBILE_HIDDEN}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
             >
-              <p>CMD+F</p>
-            </span>
+              <div css={STYLES_SHORTCUTS}>
+                <SVG.MacCommand height="12px" style={{ display: "block" }} />
+              </div>
+              <div css={STYLES_SHORTCUTS}>F</div>
+            </div>
           </span>
         </div>
         {/* <div css={STYLES_MIDDLE} /> */}

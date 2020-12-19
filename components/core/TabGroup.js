@@ -57,7 +57,7 @@ export class SecondaryTabGroup extends React.Component {
         {this.props.tabs.map((tab, i) => (
           <div
             css={STYLES_TAB}
-            key={tab}
+            key={this.props.onAction ? tab.title : tab}
             style={{
               color:
                 this.props.disabled || this.props.value === i
@@ -67,9 +67,15 @@ export class SecondaryTabGroup extends React.Component {
               ...this.props.itemStyle,
               backgroundColor: this.props.value === i ? Constants.system.white : "transparent",
             }}
-            onClick={this.props.disabled ? () => {} : () => this.props.onChange(i)}
+            onClick={
+              this.props.disabled || this.props.value === i
+                ? () => {}
+                : this.props.onAction
+                ? () => this.props.onAction({ type: "NAVIGATE", value: tab.value })
+                : () => this.props.onChange(i)
+            }
           >
-            {tab}
+            {this.props.onAction ? tab.title : tab}
           </div>
         ))}
       </div>
@@ -84,7 +90,7 @@ export class PrimaryTabGroup extends React.Component {
         {this.props.tabs.map((tab, i) => (
           <div
             css={STYLES_TAB}
-            key={tab}
+            key={this.props.onAction ? tab.title : tab}
             style={{
               padding: "8px 16px 8px 0",
               color:
@@ -95,9 +101,15 @@ export class PrimaryTabGroup extends React.Component {
               fontFamily: Constants.font.medium,
               ...this.props.itemStyle,
             }}
-            onClick={this.props.disabled ? () => {} : () => this.props.onChange(i)}
+            onClick={
+              this.props.disabled || this.props.value === i
+                ? () => {}
+                : this.props.onAction
+                ? () => this.props.onAction({ type: "NAVIGATE", value: tab.value })
+                : () => this.props.onChange(i)
+            }
           >
-            {tab}
+            {this.props.onAction ? tab.title : tab}
           </div>
         ))}
       </div>

@@ -289,9 +289,7 @@ export const TableContent = ({ type, text, action, data = {}, onAction }) => {
       }
 
       return (
-        <Link onClick={() => onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_FILE", data })}>
-          {text}
-        </Link>
+        <Link onClick={() => onAction({ type: "NAVIGATE", value: "NAV_FILE", data })}>{text}</Link>
       );
     default:
       return text;

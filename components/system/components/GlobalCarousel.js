@@ -97,10 +97,6 @@ const STYLES_DISMISS_BOX = css`
   :hover {
     color: ${Constants.system.white};
   }
-
-  ${"" /* @media (min-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  } */}
 `;
 
 const STYLES_MOBILE_HIDDEN = css`
@@ -168,7 +164,7 @@ export class GlobalCarousel extends React.Component {
     let carouselType =
       !this.props.current ||
       (this.props.current &&
-        (this.props.current.decorator === "FOLDER" || this.props.current.decorator === "HOME"))
+        (this.props.current.decorator === "FOLDER" || this.props.current.decorator === "ACTIVITY"))
         ? "data"
         : "slate";
     this.setState({
@@ -177,22 +173,18 @@ export class GlobalCarousel extends React.Component {
       index: e.detail.index || 0,
       loading: false,
       saving: false,
-      baseURL: e.detail.baseURL,
+      baseURL: window.location.pathname,
     });
-
-    if (
-      carouselType === "slate" &&
-      e.detail.baseURL &&
-      this.props.current.data &&
-      this.props.current.data.objects
-    ) {
-      const data = this.props.current.data.objects[e.detail.index];
-      window.history.replaceState(
-        { index: e.detail.index },
-        "",
-        `/${e.detail.baseURL}/cid:${Strings.urlToCid(data.url)}`
-      );
-    }
+    // if (carouselType === "slate" && this.props.current.data && this.props.current.data.objects) {
+    //   const data = this.props.current.data.objects[e.detail.index];
+    //   console.log("WINDOW STATE");
+    //   console.log(window.history.state);
+    //   window.history.pushState(
+    //     { ...window.history.state, cid: data.cid },
+    //     null,
+    //     `${window.location.pathname}/cid:${data.cid}`
+    //   );
+    // }
   };
 
   _handleClose = (e) => {
@@ -202,9 +194,11 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ visible: false, index: 0, loading: false, saving: false });
 
-    if (this.state.baseURL) {
-      window.history.replaceState({}, "", `/${this.state.baseURL}`);
-    }
+    // if (this.state.baseURL) {
+    //   console.log("WINDOW STATE");
+    //   console.log(window.history.state);
+    //   window.history.pushState({ ...window.history.state, cid: null }, "", this.state.baseURL);
+    // }
   };
 
   _handleNext = () => {
@@ -228,19 +222,21 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index, loading: false, saving: false });
 
-    if (
-      this.state.carouselType === "slate" &&
-      this.state.baseURL &&
-      this.props.current.data &&
-      this.props.current.data.objects
-    ) {
-      const data = this.props.current.data.objects[index];
-      window.history.replaceState(
-        { index },
-        "",
-        `/${this.state.baseURL}/cid:${Strings.urlToCid(data.url)}`
-      );
-    }
+    // if (
+    //   this.state.carouselType === "slate" &&
+    //   this.state.baseURL &&
+    //   this.props.current.data &&
+    //   this.props.current.data.objects
+    // ) {
+    //   const data = this.props.current.data.objects[index];
+    //   console.log("WINDOW STATE");
+    //   console.log(window.history.state);
+    //   window.history.pushState(
+    //     { ...window.history.state, cid: data.cid },
+    //     "",
+    //     `${this.state.baseURL}/cid:${data.cid}`
+    //   );
+    // }
   };
 
   _handlePrevious = () => {
@@ -262,19 +258,21 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index, loading: false, saving: false });
 
-    if (
-      this.state.carouselType === "slate" &&
-      this.state.baseURL &&
-      this.props.current.data &&
-      this.props.current.data.objects
-    ) {
-      const data = this.props.current.data.objects[index];
-      window.history.replaceState(
-        { index },
-        "",
-        `/${this.state.baseURL}/cid:${Strings.urlToCid(data.url)}`
-      );
-    }
+    // if (
+    //   this.state.carouselType === "slate" &&
+    //   this.state.baseURL &&
+    //   this.props.current.data &&
+    //   this.props.current.data.objects
+    // ) {
+    //   const data = this.props.current.data.objects[index];
+    //   console.log("WINDOW STATE");
+    //   console.log(window.history.state);
+    //   window.history.pushState(
+    //     { ...window.history.state, cid: data.cid },
+    //     "",
+    //     `${this.state.baseURL}/cid:${data.cid}`
+    //   );
+    // }
   };
 
   _handleSave = async (details, index) => {

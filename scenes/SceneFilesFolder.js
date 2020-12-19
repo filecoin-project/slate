@@ -25,15 +25,13 @@ export default class SceneFilesFolder extends React.Component {
         <ScenePageHeader
           title={
             <PrimaryTabGroup
-              tabs={["Activity", "Files", "Slates"]}
-              value={1}
-              onChange={(value) => {
-                if (value === 2) {
-                  this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_SLATES" });
-                } else if (value === 0) {
-                  this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
-                }
-              }}
+              tabs={[
+                { title: "Files", value: "NAV_DATA" },
+                { title: "Slates", value: "NAV_SLATES" },
+                { title: "Activity", value: "NAV_ACTIVITY" },
+              ]}
+              value={0}
+              onAction={this.props.onAction}
             />
           }
           actions={

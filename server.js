@@ -211,7 +211,7 @@ app.prepare().then(async () => {
     if (shouldViewerRedirect) {
       return res.redirect(
         `/_${Strings.createQueryParams({
-          scene: "V1_NAVIGATION_PROFILE",
+          scene: "NAV_PROFILE",
           user: req.params.username,
         })}`
       );
@@ -304,7 +304,7 @@ app.prepare().then(async () => {
     if (shouldViewerRedirect) {
       return res.redirect(
         `/_${Strings.createQueryParams({
-          scene: "V1_NAVIGATION_SLATE",
+          scene: "NAV_SLATE",
           user: req.params.username,
           slate: req.params.slatename,
         })}`
@@ -370,7 +370,7 @@ app.prepare().then(async () => {
     if (shouldViewerRedirect) {
       return res.redirect(
         `/_${Strings.createQueryParams({
-          scene: "V1_NAVIGATION_SLATE",
+          scene: "NAV_SLATE",
           user: req.params.username,
           slate: req.params.slatename,
           cid: req.params.cid,

@@ -181,7 +181,7 @@ export default class Profile extends React.Component {
               onClose={() => this.setState({ visible: false })}
               viewer={this.props.viewer}
               open={this.state.visible}
-              redirectURL={`/_?scene=V1_NAVIGATION_PROFILE&user=${data.username}`}
+              redirectURL={`/_?scene=NAV_PROFILE&user=${data.username}`}
             />
           </div>
         )}

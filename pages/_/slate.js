@@ -344,7 +344,7 @@ export default class SlatePage extends React.Component {
               viewer={this.props.viewer}
               open={this.state.visible}
               redirectURL={`/_${Strings.createQueryParams({
-                scene: "V1_NAVIGATION_SLATE",
+                scene: "NAV_SLATE",
                 user: this.props.creator.username,
                 slate: this.props.slate.slatename,
               })}`}

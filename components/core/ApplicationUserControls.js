@@ -157,7 +157,7 @@ export default class ApplicationUserControls extends React.Component {
                 onClick: (e) =>
                   this._handleAction(e, {
                     type: "NAVIGATE",
-                    value: "V1_NAVIGATION_PROFILE",
+                    value: "NAV_PROFILE",
                     data: this.props.viewer,
                   }),
               },
@@ -166,7 +166,7 @@ export default class ApplicationUserControls extends React.Component {
                 onClick: (e) =>
                   this._handleAction(e, {
                     type: "NAVIGATE",
-                    value: "V1_NAVIGATION_PROFILE_EDIT",
+                    value: "NAV_SETTINGS",
                   }),
               },
               {

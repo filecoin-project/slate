@@ -204,7 +204,7 @@ export default class SceneMakeFilecoinDeal extends React.Component {
       "Your storage deal was put in the queue. This can take up to 36 hours, check back later."
     );
 
-    this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_ARCHIVE" });
+    this.props.onAction({ type: "NAVIGATE", value: "NAV_FILECOIN" });
   };
 
   _handleRemove = async (cid) => {

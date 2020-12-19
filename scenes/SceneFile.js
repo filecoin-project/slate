@@ -81,7 +81,7 @@ export default class SceneFile extends React.Component {
               {fileURL}
             </a>
           </div>
-          <div css={STYLES_RIGHT} onClick={() => this.props.onBack()}>
+          <div css={STYLES_RIGHT}>
             <SVG.Dismiss height="24px" />
           </div>
         </div>

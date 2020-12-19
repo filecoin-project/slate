@@ -42,31 +42,23 @@ export default class SceneSlates extends React.Component {
         <ScenePageHeader
           title={
             <PrimaryTabGroup
-              tabs={["Activity", "Files", "Slates"]}
-              value={2}
-              onChange={(value) => {
-                if (value === 1) {
-                  this.props.onAction({ type: "NAVIGATE", value: "data" });
-                } else if (value === 0) {
-                  this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
-                }
-              }}
+              tabs={[
+                { title: "Files", value: "NAV_DATA" },
+                { title: "Slates", value: "NAV_SLATES" },
+                { title: "Activity", value: "NAV_ACTIVITY" },
+              ]}
+              value={1}
+              onAction={this.props.onAction}
             />
           }
           actions={
             <SecondaryTabGroup
-              tabs={["My Slates", "Following"]}
+              tabs={[
+                { title: "My Slates", value: "NAV_SLATES" },
+                { title: "Following", value: "NAV_SLATES_FOLLOWING" },
+              ]}
               value={this.props.tab}
-              onChange={(value) => {
-                if (value === 0) {
-                  this.props.onAction({ type: "NAVIGATE", value: "V1_NAVIGATION_SLATES" });
-                } else {
-                  this.props.onAction({
-                    type: "NAVIGATE",
-                    value: "V1_NAVIGATION_SLATES_FOLLOWING",
-                  });
-                }
-              }}
+              onAction={this.props.onAction}
               style={{ margin: "0 0 24px 0" }}
             />
           }

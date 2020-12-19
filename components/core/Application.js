@@ -18,7 +18,6 @@ import * as Events from "~/common/custom-events";
 import SceneEditAccount from "~/scenes/SceneEditAccount";
 import SceneFile from "~/scenes/SceneFile";
 import SceneFilesFolder from "~/scenes/SceneFilesFolder";
-import SceneHome from "~/scenes/SceneHome";
 import SceneSettings from "~/scenes/SceneSettings";
 import SceneSlates from "~/scenes/SceneSlates";
 import SceneLocalData from "~/scenes/SceneLocalData";
@@ -75,23 +74,22 @@ const SIDEBARS = {
 };
 
 const SCENES = {
-  HOME: <SceneHome />,
+  ACTIVITY: <SceneActivity />,
   DIRECTORY: <SceneDirectory />,
   PUBLIC_PROFILE: <ScenePublicProfile />,
   PROFILE: <SceneProfile />,
-  FOLDER: <SceneFilesFolder />,
+  DATA: <SceneFilesFolder />,
   FILE: <SceneFile />,
-  PUBLIC_SLATE: <ScenePublicSlate />,
-  SLATE: <SceneSlate />,
-  SETTINGS_DEVELOPER: <SceneSettingsDeveloper />,
-  EDIT_ACCOUNT: <SceneEditAccount />,
+  SLATE: <ScenePublicSlate />,
+  API: <SceneSettingsDeveloper />,
+  SETTINGS: <SceneEditAccount />,
   SLATES: <SceneSlates tab={0} />,
   SLATES_FOLLOWING: <SceneSlates tab={1} />,
   LOCAL_DATA: <SceneLocalData />,
   DIRECTORY: <SceneDirectory tab={0} />,
   DIRECTORY_FOLLOWERS: <SceneDirectory tab={1} />,
   FILECOIN: <SceneArchive />,
-  MAKE_DEAL: <SceneMakeFilecoinDeal />,
+  STORAGE_DEAL: <SceneMakeFilecoinDeal />,
 };
 
 let mounted;
@@ -102,7 +100,6 @@ export default class ApplicationPage extends React.Component {
   state = {
     selected: {},
     viewer: this.props.viewer,
-    history: [{ id: "V1_NAVIGATION_HOME", scrollTop: 0, data: null }],
     currentIndex: 0,
     data: null,
     sidebar: null,
@@ -125,7 +122,7 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("online", this._handleOnlineStatus);
     window.addEventListener("offline", this._handleOnlineStatus);
     window.addEventListener("resize", this._handleWindowResize);
-    window.onpopstate = this._handleBrowserBack;
+    window.onpopstate = this._handleBackForward;
 
     if (this.state.viewer) {
       await this._handleSetupWebsocket();
@@ -142,7 +139,6 @@ export default class ApplicationPage extends React.Component {
     window.removeEventListener("online", this._handleOnlineStatus);
     window.removeEventListener("offline", this._handleOnlineStatus);
     window.removeEventListener("resize", this._handleWindowResize);
-    window.removeEventListener("onpopstate", this._handleBrowserBack);
 
     mounted = false;
 
@@ -231,7 +227,13 @@ export default class ApplicationPage extends React.Component {
     });
 
     const navigation = NavigationData.generate(this.state.viewer);
-    const next = this.state.history[this.state.currentIndex];
+    let next;
+    if (typeof window !== "undefined") {
+      next = window?.history?.state;
+    }
+    if (!next || !next.id) {
+      next = { id: "NAV_DATA", scrollTop: 0, data: null };
+    }
     const current = NavigationData.getCurrentById(navigation, next.id);
 
     let slate = null;
@@ -425,7 +427,7 @@ export default class ApplicationPage extends React.Component {
 
     let redirected = this._handleURLRedirect();
     if (!redirected) {
-      this._handleAction({ type: "NAVIGATE", value: "V1_NAVIGATION_HOME" });
+      this._handleAction({ type: "NAVIGATE", value: "NAV_DATA" });
     }
     return response;
   };
@@ -437,7 +439,7 @@ export default class ApplicationPage extends React.Component {
     const cid = Window.getQueryParameterByName("cid");
 
     if (!Strings.isEmpty(id) && this.state.viewer) {
-      this._handleNavigateTo({ id, user, slate, cid });
+      this._handleNavigateTo({ id, user, slate, cid }, null, true);
       return true;
     }
     return false;
@@ -498,47 +500,23 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleNavigateTo = (next, data = null, redirect = false) => {
-    if (next.id) {
+    if (redirect) {
+      window.history.replaceState(
+        { ...next, data },
+        "Slate",
+        `/_${next.id ? `?scene=${next.id}` : ""}`
+      );
+    } else {
       window.history.pushState(
         { ...next, data },
         "Slate",
-        `` //maybe don't need to do this scene thing. b/c going to change it to the other format anyways. ideally would set the data at the same time as the string stuff. but should i put that here or inside scenepublicslate?
+        `/_${next.id ? `?scene=${next.id}` : ""}`
       );
-    }
-
-    if (redirect) {
-      const adjustedArray = [...this.state.history];
-      adjustedArray.length = this.state.currentIndex;
-      return this.setState({
-        history: [...adjustedArray, next],
-        data,
-        sidebar: null,
-      });
     }
 
     let body = document.documentElement || document.body;
-    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
-    this.state.history[this.state.currentIndex].data = this.state.data;
-
-    if (this.state.currentIndex !== this.state.history.length - 1) {
-      const adjustedArray = [...this.state.history];
-      adjustedArray.length = this.state.currentIndex + 1;
-
-      return this.setState(
-        {
-          history: [...adjustedArray, next],
-          currentIndex: this.state.currentIndex + 1,
-          data,
-          sidebar: null,
-        },
-        () => body.scrollTo(0, 0)
-      );
-    }
-
     this.setState(
       {
-        history: [...this.state.history, next],
-        currentIndex: this.state.currentIndex + 1,
         data,
         sidebar: null,
       },
@@ -546,52 +524,15 @@ export default class ApplicationPage extends React.Component {
     );
   };
 
-  _handleBrowserBack = (e) => {
+  _handleBackForward = (e) => {
     let next = window.history.state;
+    console.log(next);
+    window.history.replaceState({ ...next }, "Slate", `/_${next.id ? `?scene=${next.id}` : ""}`);
     this.setState({
+      sidebar: null,
       data: next.data,
     });
-  };
-
-  _handleBack = () => {
-    let body = document.documentElement || document.body;
-    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
-    this.state.history[this.state.currentIndex].data = this.state.data;
-
-    const next = this.state.history[this.state.currentIndex - 1];
-    window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
-
-    this.setState(
-      {
-        currentIndex: this.state.currentIndex - 1,
-        sidebar: null,
-        data: { ...next.data },
-      },
-      () => {
-        console.log({ next });
-        body.scrollTo(0, next.scrollTop);
-      }
-    );
-  };
-
-  _handleForward = () => {
-    let body = document.documentElement || document.body;
-    this.state.history[this.state.currentIndex].scrollTop = body.scrollTop;
-    const next = this.state.history[this.state.currentIndex + 1];
-
-    window.history.replaceState({ ...next }, "Slate", `?scene=${next.id}`);
-
-    this.setState(
-      {
-        currentIndex: this.state.currentIndex + 1,
-        sidebar: null,
-        data: { ...next.data },
-      },
-      () => {
-        console.log({ next });
-        body.scrollTo(0, next.scrollTop);
-      }
-    );
+    Events.dispatchCustomEvent({ name: "slate-global-close-carousel", detail: {} });
   };
 
   render() {
@@ -620,9 +561,8 @@ export default class ApplicationPage extends React.Component {
       next = window?.history?.state;
     }
     if (!next || !next.id) {
-      next = { id: "V1_NAVIGATION_HOME", scrollTop: 0, data: null };
+      next = { id: "NAV_DATA", scrollTop: 0, data: null };
     }
-    // const next = this.state.history[this.state.currentIndex];
     const current = NavigationData.getCurrentById(navigation, next.id);
 
     // NOTE(jim): Only happens during a bad query parameter.
@@ -636,12 +576,7 @@ export default class ApplicationPage extends React.Component {
         viewer={this.state.viewer}
         navigation={navigation}
         activeIds={current.activeIds}
-        pageTitle={current.target.pageTitle}
-        currentIndex={this.state.currentIndex}
-        history={this.state.history}
         onAction={this._handleAction}
-        onBack={this._handleBack}
-        onForward={this._handleForward}
         mobile={this.state.mobile}
       />
     );
@@ -654,8 +589,6 @@ export default class ApplicationPage extends React.Component {
       onSelectedChange: this._handleSelectedChange,
       onAction: this._handleAction,
       onUpload: this._handleUploadFiles,
-      onBack: this._handleBack,
-      onForward: this._handleForward,
       onUpdateData: this._handleUpdateData,
       onUpdateViewer: this._handleUpdateViewer,
       sceneId: current.target.id,
@@ -708,12 +641,7 @@ export default class ApplicationPage extends React.Component {
             onUpdateViewer={this._handleUpdateViewer}
             resources={this.props.resources}
             viewer={this.state.viewer}
-            current={
-              current.target &&
-              (current.target.decorator === "SLATE" || current.target.decorator === "HOME")
-                ? current.target
-                : this.state.data //NOTE(martina): for slates that are not your own
-            }
+            current={this.state.data}
             slates={this.state.viewer.slates}
             onAction={this._handleAction}
             mobile={this.props.mobile}

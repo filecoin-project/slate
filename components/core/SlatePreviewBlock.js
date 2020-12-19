@@ -429,10 +429,10 @@ export class SlatePreviewBlock extends React.Component {
           <React.Fragment>
             <div css={STYLES_TITLE_LINE}>
               <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
-              <div style={{ height: "18px" }}>
+              <div style={{ height: "16px" }}>
                 {this.props.isOwner && !this.props.slate.data.public ? (
                   <SVG.SecurityLock
-                    height="18px"
+                    height="16px"
                     style={{ color: Constants.system.grayBlack, marginRight: 24 }}
                   />
                 ) : null}
@@ -592,7 +592,7 @@ export default class SlatePreviewBlocks extends React.Component {
                 onClick={() =>
                   this.props.onAction({
                     type: "NAVIGATE",
-                    value: "V1_NAVIGATION_SLATE",
+                    value: "NAV_SLATE",
                     data: { decorator: "SLATE", ...slate },
                   })
                 }

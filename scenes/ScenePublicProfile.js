@@ -41,7 +41,7 @@ export default class ScenePublicProfile extends React.Component {
   };
 
   fetchProfile = async () => {
-    const username = Window.getQueryParameterByName("user");
+    const { user: username } = window.history.state;
     let query;
     if (username) {
       query = { username: username };

@@ -213,7 +213,7 @@ export default class SceneSlate extends React.Component {
         <CircleButtonGray onClick={this._handleAdd} style={{ marginRight: 16 }}>
           <SVG.Plus height="16px" />
         </CircleButtonGray>
-        {isPublic ? (
+        {/* {isPublic ? (
           <CircleButtonGray
             style={{ marginRight: 16 }}
             onClick={(e) =>
@@ -231,7 +231,7 @@ export default class SceneSlate extends React.Component {
           >
             {this.state.copying ? <SVG.CheckBox height="16px" /> : <SVG.DeepLink height="16px" />}
           </CircleButtonGray>
-        ) : null}
+        ) : null} */}
         <CircleButtonGray onClick={this._handleShowSettings}>
           <SVG.Settings height="16px" />
         </CircleButtonGray>

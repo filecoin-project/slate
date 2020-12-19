@@ -359,7 +359,7 @@ const STYLES_INPUT = css`
   border: 0;
   box-sizing: border-box;
   transition: 200ms ease all;
-  padding: 0 16px 0 0;
+  padding: 0 40px 0 0;
   text-overflow: ellipsis;
   white-space: nowrap;
   border-radius: 0 2px 2px 0;
@@ -882,21 +882,21 @@ export class SearchModal extends React.Component {
     if (value.type === "SLATE") {
       this.props.onAction({
         type: "NAVIGATE",
-        value: "V1_NAVIGATION_SLATE",
+        value: "NAV_SLATE",
         data: value.data,
       });
     }
     if (value.type === "USER") {
       this.props.onAction({
         type: "NAVIGATE",
-        value: "V1_NAVIGATION_PROFILE",
+        value: "NAV_PROFILE",
         data: value.data,
       });
     }
     if (value.type === "DATA_FILE") {
       await this.props.onAction({
         type: "NAVIGATE",
-        value: "data",
+        value: "NAV_DATA",
       });
       Events.dispatchCustomEvent({
         name: "slate-global-open-carousel",
@@ -906,7 +906,7 @@ export class SearchModal extends React.Component {
     if (value.type === "FILE") {
       await this.props.onAction({
         type: "NAVIGATE",
-        value: "V1_NAVIGATION_SLATE",
+        value: "NAV_SLATE",
         data: { ...value.data.data.slate, pageState: { id: value.data.data.file.id } },
       });
     }

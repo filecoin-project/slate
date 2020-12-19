@@ -105,7 +105,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
     this.props.onAction({
       type: "NAVIGATE",
-      value: "V1_NAVIGATION_SLATES",
+      value: "NAV_SLATES",
     });
 
     const response = await Actions.deleteSlate({

@@ -82,11 +82,13 @@ export default class SceneMakeFilecoinDeal extends React.Component {
       networkViewer = json.data;
     } catch (e) {}
 
-    this.setState({
-      networkViewer,
-      ...createState(networkViewer.settings),
-      encryption: false,
-    });
+    if (networkViewer) {
+      this.setState({
+        networkViewer,
+        ...createState(networkViewer.settings),
+        encryption: false,
+      });
+    }
   }
 
   _handleUpload = async (e) => {

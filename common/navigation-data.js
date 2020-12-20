@@ -159,7 +159,7 @@ export const generate = ({ library = [], slates = [] }) => [
   },
   {
     id: "NAV_PROFILE",
-    decorator: "PUBLIC_PROFILE",
+    decorator: "PROFILE",
     name: "Profile",
     pageTitle: "Profile",
     children: null,

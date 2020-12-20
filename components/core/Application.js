@@ -27,8 +27,6 @@ import SceneSlate from "~/scenes/SceneSlate";
 import SceneActivity from "~/scenes/SceneActivity";
 import SceneDirectory from "~/scenes/SceneDirectory";
 import SceneProfile from "~/scenes/SceneProfile";
-import ScenePublicProfile from "~/scenes/ScenePublicProfile";
-import ScenePublicSlate from "~/scenes/ScenePublicSlate";
 import SceneArchive from "~/scenes/SceneArchive";
 import SceneMakeFilecoinDeal from "~/scenes/SceneMakeFilecoinDeal";
 
@@ -76,11 +74,10 @@ const SIDEBARS = {
 const SCENES = {
   ACTIVITY: <SceneActivity />,
   DIRECTORY: <SceneDirectory />,
-  PUBLIC_PROFILE: <ScenePublicProfile />,
   PROFILE: <SceneProfile />,
   DATA: <SceneFilesFolder />,
   FILE: <SceneFile />,
-  SLATE: <ScenePublicSlate />,
+  SLATE: <SceneSlate />,
   API: <SceneSettingsDeveloper />,
   SETTINGS: <SceneEditAccount />,
   SLATES: <SceneSlates tab={0} />,

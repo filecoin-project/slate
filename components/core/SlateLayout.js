@@ -1738,7 +1738,7 @@ export class SlateLayout extends React.Component {
                         {this.state.items[i].title || this.state.items[i].name}
                       </span>
                       <span css={STYLES_FILE_TYPE}>
-                        {Strings.getFileExtension(this.state.items[i].name)}
+                        {Strings.getFileExtension(this.state.items[i].file)}
                       </span>
                     </div>
                   ) : null}

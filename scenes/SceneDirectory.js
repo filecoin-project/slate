@@ -245,7 +245,7 @@ export default class SceneDirectory extends React.Component {
     //           this.props.onAction({
     //             type: "NAVIGATE",
     //             value: this.props.sceneId,
-    //             scene: "PUBLIC_PROFILE",
+    //             scene: "PROFILE",
     //             data: relation.owner,
     //           });
     //         }}
@@ -299,7 +299,7 @@ export default class SceneDirectory extends React.Component {
     //           this.props.onAction({
     //             type: "NAVIGATE",
     //             value: this.props.sceneId,
-    //             scene: "PUBLIC_PROFILE",
+    //             scene: "PROFILE",
     //             data: relation.owner,
     //           });
     //         }}
@@ -355,7 +355,7 @@ export default class SceneDirectory extends React.Component {
     //             this.props.onAction({
     //               type: "NAVIGATE",
     //               value: this.props.sceneId,
-    //               scene: "PUBLIC_PROFILE",
+    //               scene: "PROFILE",
     //               data: relation.user,
     //             });
     //           }}
@@ -409,7 +409,7 @@ export default class SceneDirectory extends React.Component {
               this.props.onAction({
                 type: "NAVIGATE",
                 value: this.props.sceneId,
-                scene: "PUBLIC_PROFILE",
+                scene: "PROFILE",
                 data: relation.user,
               });
             }}
@@ -462,7 +462,7 @@ export default class SceneDirectory extends React.Component {
             this.props.onAction({
               type: "NAVIGATE",
               value: this.props.sceneId,
-              scene: "PUBLIC_PROFILE",
+              scene: "PROFILE",
               data: relation.owner,
             });
           }}

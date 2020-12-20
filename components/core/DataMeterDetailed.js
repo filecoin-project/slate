@@ -37,17 +37,16 @@ const STYLES_TITLE = css`
   font-family: ${Constants.font.medium};
   font-size: ${Constants.typescale.lvl1};
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 12px;
   overflow-wrap: break-word;
 `;
 
 const STYLES_NOTE = css`
-  margin-top: 8px;
+  margin-top: 12px;
   font-family: ${Constants.font.text};
   font-size: ${Constants.typescale.lvl0};
   color: ${Constants.system.darkGray};
   display: block;
-  margin-bottom: 4px;
 `;
 
 const STYLES_DATA_METER_KEY_WRAPPER = css`
@@ -140,7 +139,7 @@ export const DataMeterDetailed = (props) => {
         bytes={props.stats.bytes}
         maximumBytes={props.stats.maximumBytes}
       />
-      <div css={STYLES_NOTE}>
+      <div css={STYLES_NOTE} style={{ marginTop: 8 }}>
         <div css={STYLES_DATA_METER_KEY_WRAPPER}>
           <div css={STYLES_DATA_METER_KEY_SQUARE} style={{ background: `#C0D8EE` }}>
             {" "}
@@ -174,6 +173,7 @@ export const DataMeterDetailed = (props) => {
       </div>
 
       <div css={STYLES_NOTE}>50GB coming soon with email verification</div>
+      {props.buttons ? <div style={{ marginTop: 24 }}>{props.buttons}</div> : null}
     </div>
   );
 };

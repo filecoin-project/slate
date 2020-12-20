@@ -34,9 +34,11 @@ const STYLES_SECONDARY_TAB_GROUP = css`
 `;
 
 const STYLES_TAB = css`
-  padding: 8px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0px 12px;
   margin-right: 16px;
-  display: inline-block;
   user-select: none;
   border-radius: 4px;
 

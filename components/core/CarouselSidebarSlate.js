@@ -514,28 +514,10 @@ export default class CarouselSidebarSlate extends React.Component {
                 </span>
               </div>
             ) : null}
-            {this.props.external ? null : (
-              <div
-                css={STYLES_ACTION}
-                onClick={() =>
-                  this._handleCopy(
-                    this.props.link
-                      ? `${this.props.link}/cid:${Strings.urlToCid(this.props.data.url)}`
-                      : url,
-                    "urlCopying"
-                  )
-                }
-              >
-                <SVG.DeepLink height="24px" />
-                <span style={{ marginLeft: 16 }}>
-                  {this.state.loading === "urlCopying" ? "Copied!" : "Copy link"}
-                </span>
-              </div>
-            )}
             <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "gatewayUrlCopying")}>
               <SVG.Data height="24px" />
               <span style={{ marginLeft: 16 }}>
-                {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy gateway URL"}
+                {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy file link"}
               </span>
             </div>
             {this.props.isOwner || this.props.external ? null : (

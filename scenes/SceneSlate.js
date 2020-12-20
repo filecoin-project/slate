@@ -325,23 +325,6 @@ class SlatePage extends React.Component {
             <ButtonPrimary>Follow</ButtonPrimary>
           )}
         </div>
-        <CircleButtonGray
-          style={{ marginLeft: 16 }}
-          onClick={(e) =>
-            this._handleCopy(
-              e,
-              user
-                ? Strings.getURLFromPath(`/${user.username}/${this.props.current.slatename}`)
-                : isOwner
-                ? Strings.getURLFromPath(
-                    `/${this.props.viewer.username}/${this.props.current.slatename}`
-                  )
-                : ""
-            )
-          }
-        >
-          {this.state.copying ? <SVG.CheckBox height="16px" /> : <SVG.DeepLink height="16px" />}
-        </CircleButtonGray>
       </div>
     );
     return (
@@ -386,15 +369,6 @@ class SlatePage extends React.Component {
           ) : (
             <div style={{ marginTop: isOwner ? 24 : 48 }}>
               <SlateLayout
-                link={
-                  user
-                    ? Strings.getURLFromPath(`/${user.username}/${this.props.current.slatename}`)
-                    : isOwner
-                    ? Strings.getURLFromPath(
-                        `/${this.props.viewer.username}/${this.props.current.slatename}`
-                      )
-                    : ""
-                }
                 current={this.props.current}
                 onUpdateViewer={this.props.onUpdateViewer}
                 viewer={this.props.viewer}

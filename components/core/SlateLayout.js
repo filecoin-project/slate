@@ -1608,17 +1608,7 @@ export class SlateLayout extends React.Component {
                           >
                             <DynamicIcon
                               onClick={(e) => {
-                                this._handleCopy(
-                                  e,
-                                  this.props.link
-                                    ? `${this.props.link}/cid:${Strings.urlToCid(
-                                        this.state.items[i].url
-                                      )}`
-                                    : this.state.items[i].url.replace(
-                                        "https://undefined",
-                                        "https://"
-                                      )
-                                );
+                                this._handleCopy(e, this.state.items[i].url);
                               }}
                               onMouseDown={this._stopProp}
                               onMouseUp={this._stopProp}

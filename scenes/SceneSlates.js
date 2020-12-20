@@ -52,15 +52,20 @@ export default class SceneSlates extends React.Component {
             />
           }
           actions={
-            <SecondaryTabGroup
-              tabs={[
-                { title: "My Slates", value: "NAV_SLATES" },
-                { title: "Following", value: "NAV_SLATES_FOLLOWING" },
-              ]}
-              value={this.props.tab}
-              onAction={this.props.onAction}
-              style={{ margin: "0 0 24px 0" }}
-            />
+            <div style={{ display: "flex", alignItems: "center", marginBottom: 24 }}>
+              <CircleButtonGray onClick={this._handleAdd} style={{ marginRight: 16 }}>
+                <SVG.Plus height="16px" />
+              </CircleButtonGray>
+              <SecondaryTabGroup
+                tabs={[
+                  { title: "My Slates", value: "NAV_SLATES" },
+                  { title: "Following", value: "NAV_SLATES_FOLLOWING" },
+                ]}
+                value={this.props.tab}
+                onAction={this.props.onAction}
+                style={{ margin: 0 }}
+              />
+            </div>
           }
         />
         {/* <ScenePageHeader

@@ -46,9 +46,10 @@ export default class SceneFilesFolder extends React.Component {
             />
           }
         />
-        {/* <ScenePageHeader
-          title="Data"
-          actions={
+        <DataMeter
+          stats={this.props.viewer.stats}
+          style={{ marginBottom: 64 }}
+          buttons={
             <ButtonPrimary
               onClick={() => {
                 this.props.onAction({
@@ -56,13 +57,12 @@ export default class SceneFilesFolder extends React.Component {
                   value: "SIDEBAR_ADD_FILE_TO_BUCKET",
                 });
               }}
+              style={{ whiteSpace: "nowrap", marginRight: 24 }}
             >
               Upload data
             </ButtonPrimary>
           }
-        /> */}
-
-        <DataMeter stats={this.props.viewer.stats} style={{ marginBottom: 64 }} />
+        />
         {this.props.viewer.library[0].children && this.props.viewer.library[0].children.length ? (
           <DataView
             onAction={this.props.onAction}

@@ -300,7 +300,6 @@ export class GlobalCarousel extends React.Component {
     let data;
     let isOwner;
     let isRepost;
-    let link;
     if (
       this.state.carouselType === "slate" &&
       this.props.current?.data?.objects?.length &&
@@ -312,15 +311,6 @@ export class GlobalCarousel extends React.Component {
       isOwner = this.props.external
         ? false
         : this.props.viewer.id === this.props.current.data.ownerId;
-      link = this.props.external
-        ? null
-        : isOwner
-        ? Strings.getURLFromPath(`/${this.props.viewer.username}/${this.props.current.slatename}`)
-        : this.props.current.owner && this.props.current.owner.username
-        ? Strings.getURLFromPath(
-            `/${this.props.current.owner.username}/${this.props.current.slatename}`
-          )
-        : null;
     } else if (
       this.state.carouselType === "data" &&
       this.props.viewer?.library[0]?.children?.length &&
@@ -428,7 +418,6 @@ export class GlobalCarousel extends React.Component {
               onSave={this._handleSave}
               isOwner={isOwner}
               isRepost={isRepost}
-              link={link}
               index={this.state.index}
               external={this.props.external}
             />

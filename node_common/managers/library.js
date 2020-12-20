@@ -123,7 +123,11 @@ export const editItem = ({ user, update }) => {
   const { library } = user.data;
   for (let i = 0; i < library[0].children.length; i++) {
     if (library[0].children[i].id === update.data.id) {
-      library[0].children[i] = { ...library[0].children[i], coverImage: update.data?.coverImage };
+      library[0].children[i] = {
+        ...library[0].children[i],
+        coverImage: update.data?.coverImage,
+        name: update.data?.name,
+      };
       break;
     }
   }

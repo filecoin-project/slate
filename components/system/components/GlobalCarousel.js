@@ -269,16 +269,28 @@ export class GlobalCarousel extends React.Component {
 
   _handleSave = async (details, index) => {
     this.setState({ loading: true });
-    if (this.props.viewer.id !== this.props.current.data.ownerId || this.props.external) return;
-    let objects = this.props.current.data.objects;
-    objects[index] = { ...objects[index], ...details };
-    const response = await Actions.updateSlate({
-      id: this.props.current.id,
-      data: { objects },
-    });
-
-    Events.hasError(response);
-    this.setState({ loading: false, saving: false });
+    if (this.state.carouselType === "slate") {
+      if (this.props.viewer.id !== this.props.current.data.ownerId || this.props.external) return;
+      let objects = this.props.current.data.objects;
+      objects[index] = { ...objects[index], ...details };
+      const response = await Actions.updateSlate({
+        id: this.props.current.id,
+        data: { objects },
+      });
+      Events.hasError(response);
+      this.setState({ loading: false, saving: false });
+    }
+    if (this.state.carouselType === "data") {
+      if (this.props.external) return;
+      let objects = this.props.viewer.library[0].children;
+      objects[index] = { ...objects[index], ...details };
+      const response = await Actions.updateData({
+        id: this.props.viewer.id,
+        data: objects[index],
+      });
+      Events.hasError(response);
+      this.setState({ loading: false, saving: false });
+    }
   };
 
   render() {
@@ -316,6 +328,7 @@ export class GlobalCarousel extends React.Component {
     ) {
       data = this.props.viewer.library[0].children[this.state.index];
       data.url = Strings.getCIDGatewayURL(data.cid);
+      isOwner = this.props.external ? false : true;
     }
     if (!data) {
       this._handleClose();
@@ -393,6 +406,10 @@ export class GlobalCarousel extends React.Component {
               resources={this.props.resources}
               data={data}
               cid={data.cid}
+              onSave={this._handleSave}
+              external={this.props.external}
+              isOwner={isOwner}
+              index={this.state.index}
             />
           ) : (
             <CarouselSidebarSlate

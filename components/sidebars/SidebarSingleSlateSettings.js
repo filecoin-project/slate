@@ -45,10 +45,10 @@ const STYLES_GROUPING = css`
 
 export default class SidebarSingleSlateSettings extends React.Component {
   state = {
-    slatename: this.props.current.slatename,
-    public: this.props.current.data.public,
-    body: this.props.current.data.body,
-    name: this.props.current.data.name,
+    slatename: this.props.data.slatename,
+    public: this.props.data.data.public,
+    body: this.props.data.data.body,
+    name: this.props.data.data.name,
     loading: false,
   };
 
@@ -57,7 +57,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
     let slates = this.props.viewer.slates;
     for (let slate of slates) {
-      if (slate.id === this.props.current.id) {
+      if (slate.id === this.props.data.id) {
         slate.data.name = this.state.name;
         slate.data.public = this.state.public;
         slate.data.body = this.state.body;
@@ -68,7 +68,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
 
     this.props.onCancel();
     const response = await Actions.updateSlate({
-      id: this.props.current.id,
+      id: this.props.data.id,
       data: {
         name: this.state.name,
         public: this.state.public,
@@ -119,11 +119,12 @@ export default class SidebarSingleSlateSettings extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const slug = Strings.createSlug(this.state.name);
     const url = `/${this.props.viewer.username}/${slug}`;
-    let preview = this.props.current.data.preview;
+    let preview = this.props.data.data.preview;
     if (!preview) {
-      for (let object of this.props.current.data.objects) {
+      for (let object of this.props.data.data.objects) {
         if (
           object.type &&
           Validations.isPreviewableImage(object.type) &&

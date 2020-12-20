@@ -175,30 +175,28 @@ export class GlobalCarousel extends React.Component {
       saving: false,
       baseURL: window.location.pathname,
     });
-    // if (carouselType === "slate" && this.props.current.data && this.props.current.data.objects) {
-    //   const data = this.props.current.data.objects[e.detail.index];
-    //   console.log("WINDOW STATE");
-    //   console.log(window.history.state);
-    //   window.history.pushState(
-    //     { ...window.history.state, cid: data.cid },
-    //     null,
-    //     `${window.location.pathname}/cid:${data.cid}`
-    //   );
-    // }
+    if (carouselType === "slate" && this.props.current.data?.objects) {
+      const data = this.props.current.data.objects[e.detail.index];
+      window.history.replaceState(
+        { ...window.history.state, cid: data.cid },
+        null,
+        `${window.location.pathname}/cid:${data.cid}`
+      );
+    }
   };
 
   _handleClose = (e) => {
-    if (e) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
-    this.setState({ visible: false, index: 0, loading: false, saving: false });
+    if (this.state.visible) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      this.setState({ visible: false, index: 0, loading: false, saving: false });
 
-    // if (this.state.baseURL) {
-    //   console.log("WINDOW STATE");
-    //   console.log(window.history.state);
-    //   window.history.pushState({ ...window.history.state, cid: null }, "", this.state.baseURL);
-    // }
+      if (this.state.baseURL && window.location.pathname.includes(this.state.baseURL)) {
+        window.history.replaceState({ ...window.history.state, cid: null }, "", this.state.baseURL);
+      }
+    }
   };
 
   _handleNext = () => {
@@ -222,21 +220,18 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index, loading: false, saving: false });
 
-    // if (
-    //   this.state.carouselType === "slate" &&
-    //   this.state.baseURL &&
-    //   this.props.current.data &&
-    //   this.props.current.data.objects
-    // ) {
-    //   const data = this.props.current.data.objects[index];
-    //   console.log("WINDOW STATE");
-    //   console.log(window.history.state);
-    //   window.history.pushState(
-    //     { ...window.history.state, cid: data.cid },
-    //     "",
-    //     `${this.state.baseURL}/cid:${data.cid}`
-    //   );
-    // }
+    if (
+      this.state.carouselType === "slate" &&
+      this.state.baseURL &&
+      this.props.current.data?.objects
+    ) {
+      const data = this.props.current.data.objects[index];
+      window.history.replaceState(
+        { ...window.history.state, cid: data.cid },
+        "",
+        `${this.state.baseURL}/cid:${data.cid}`
+      );
+    }
   };
 
   _handlePrevious = () => {
@@ -258,21 +253,18 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index, loading: false, saving: false });
 
-    // if (
-    //   this.state.carouselType === "slate" &&
-    //   this.state.baseURL &&
-    //   this.props.current.data &&
-    //   this.props.current.data.objects
-    // ) {
-    //   const data = this.props.current.data.objects[index];
-    //   console.log("WINDOW STATE");
-    //   console.log(window.history.state);
-    //   window.history.pushState(
-    //     { ...window.history.state, cid: data.cid },
-    //     "",
-    //     `${this.state.baseURL}/cid:${data.cid}`
-    //   );
-    // }
+    if (
+      this.state.carouselType === "slate" &&
+      this.state.baseURL &&
+      this.props.current.data?.objects
+    ) {
+      const data = this.props.current.data.objects[index];
+      window.history.replaceState(
+        { ...window.history.state, cid: data.cid },
+        "",
+        `${this.state.baseURL}/cid:${data.cid}`
+      );
+    }
   };
 
   _handleSave = async (details, index) => {

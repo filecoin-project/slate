@@ -526,8 +526,6 @@ export default class ApplicationPage extends React.Component {
 
   _handleBackForward = (e) => {
     let next = window.history.state;
-    console.log(next);
-    window.history.replaceState({ ...next }, "Slate", `/_${next.id ? `?scene=${next.id}` : ""}`);
     this.setState({
       sidebar: null,
       data: next.data,
@@ -537,7 +535,6 @@ export default class ApplicationPage extends React.Component {
 
   render() {
     // NOTE(jim): Not authenticated.
-    console.log(this.state.viewer);
     if (!this.state.viewer) {
       return (
         <WebsitePrototypeWrapper

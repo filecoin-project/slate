@@ -191,26 +191,24 @@ const STYLES_AUTOSAVE = css`
   opacity: 0;
   margin: 26px 24px;
 
-  @keyframes autosave {
+  @keyframes slate-animations-autosave {
     0% {
-      height: 0;
       opacity: 0;
-      margin-left: 0;
+      transform: translateX(0);
     }
     10% {
       opacity: 1;
-      margin-left: 24px;
+      transform: translateX(12px);
     }
     90% {
       opacity: 1;
-      margin-left: 24px;
+      transform: translateX(12px);
     }
     100% {
       opacity: 0;
-      height: 0;
     }
   }
-  animation: autosave 4000ms ease;
+  animation: slate-animations-autosave 4000ms ease;
 `;
 
 export const FileTypeDefaultPreview = () => {
@@ -237,7 +235,7 @@ export default class CarouselSidebarData extends React.Component {
   _ref = null;
 
   state = {
-    name: this.props.data.name ? this.props.data.name : "",
+    name: Strings.isEmpty(this.props.data.name) ? "" : this.props.data.name,
     selected: {},
     isPublic: false,
     copyValue: "",
@@ -252,7 +250,7 @@ export default class CarouselSidebarData extends React.Component {
     window.addEventListener("data-global-carousel-loading", this._handleSetLoading);
     this.setState({ unsavedChanges: true });
     if (this.props.isOwner && !this.props.external) {
-      this.debounceInstance = this.debounce(() => this._handleSave(), 3000);
+      this.debounceInstance = Window.debounce(() => this._handleSave(), 3000);
       let isPublic = false;
       let selected = {};
       const id = this.props.data.id;
@@ -270,15 +268,6 @@ export default class CarouselSidebarData extends React.Component {
 
   componentWillUnmount = () => {
     window.removeEventListener("data-global-carousel-loading", this._handleSetLoading);
-  };
-
-  debounce = (func, ms) => {
-    let timer;
-
-    return () => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(func, ms);
-    };
   };
 
   _handleChange = (e) => {
@@ -430,12 +419,7 @@ export default class CarouselSidebarData extends React.Component {
               />
             </Boundary>
           ) : (
-            <span
-              css={STYLES_META_TITLE}
-              target="_blank"
-              // href={Strings.getCIDGatewayURL(cid)}
-              onClick={this._handleEditFilename}
-            >
+            <span css={STYLES_META_TITLE} target="_blank" onClick={this._handleEditFilename}>
               {this.state.name}
             </span>
           )}
@@ -446,7 +430,7 @@ export default class CarouselSidebarData extends React.Component {
             {this.state.unsavedChanges == false ? (
               <div css={STYLES_AUTOSAVE}>
                 <SVG.Check height="14px" style={{ marginRight: 4 }} />
-                AutoSaved
+                Filename saved
               </div>
             ) : null}
           </div>

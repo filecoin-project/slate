@@ -27,16 +27,13 @@ const _cleanScripts = () => {
 };
 
 const UnityFrame = ({ url, unityGameLoader, unityGameConfig }) => {
-  // NOTE (daniel): url to unity game root
-  const gameRootUrl = url.split("/index.html")[0];
-
   React.useEffect(() => {
     let unityInstance;
-    _loadScript(`${gameRootUrl}/${unityGameLoader}`).then(() => {
+    _loadScript(`${url}/${unityGameLoader}`).then(() => {
       if (window) {
         unityInstance = window.UnityLoader.instantiate(
           "unityContainer",
-          `${gameRootUrl}/${unityGameConfig}`
+          `${url}/${unityGameConfig}`
         );
       }
     });

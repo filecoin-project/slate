@@ -17,11 +17,11 @@ const USER_SLATES = [
       "https://slate.textile.io/ipfs/bafybeiee6hshzmxfafytbtnnx3fawrhiq5qflz5pmpsaelq7jrchgkwk2m",
   },
   {
-    name: "Project Wor",
-    url: "https://slate.host/jim/project-wor",
-    username: "@jim",
+    name: "NG X Typography Animation",
+    url: "https://slate.host/nicolas/ng-x-typography-animation",
+    username: "@nicolas",
     preview:
-      "https://slate.textile.io/ipfs/bafkreibboloplrnx7guqmthwe5mk47dhclyfgobihnecmx53t3ybkghnjq",
+      "https://slate.textile.io/ipfs/bafybeifvqcgmk722ggvc2jjqan75qtndofhkvcq55yxsaijwsywfcegwuu",
   },
   {
     name: "Cartography",

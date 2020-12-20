@@ -92,24 +92,24 @@ const STYLES_AUTOSAVE = css`
   position: absolute;
   opacity: 0;
 
-  @keyframes autosave {
+  @keyframes slate-animations-autosave {
     0% {
       opacity: 0;
-      margin-left: 12px;
+      transform: translateX(12px);
     }
     10% {
       opacity: 1;
-      margin-left: 0;
+      transform: translateX(0px);
     }
     90% {
       opacity: 1;
-      margin-left: 0;
+      transform: translateX(0px);
     }
     100% {
       opacity: 0;
     }
   }
-  animation: autosave 4000ms ease;
+  animation: slate-animations-autosave 4000ms ease;
 `;
 
 const STYLES_SIDEBAR_INPUT_LABEL = css`
@@ -182,10 +182,10 @@ export default class CarouselSidebarSlate extends React.Component {
   _ref = null;
 
   state = {
-    title: this.props.data.title ? this.props.data.title : "",
-    body: this.props.data.body ? this.props.data.body : "",
-    source: this.props.data.source ? this.props.data.source : "",
-    author: this.props.data.author ? this.props.data.author : "",
+    title: Strings.isEmpty(this.props.data.title) ? "" : this.props.data.title,
+    body: Strings.isEmpty(this.props.data.body) ? "" : this.props.data.body,
+    source: Strings.isEmpty(this.props.data.source) ? "" : this.props.data.source,
+    author: Strings.isEmpty(this.props.data.author) ? "" : this.props.data.author,
     selected: {},
     isPublic: false,
     copyValue: "",
@@ -194,13 +194,14 @@ export default class CarouselSidebarSlate extends React.Component {
     unsavedChanges: false,
     pickerLoading: false,
     loading: false,
+    subject: "",
   };
 
   componentDidMount = () => {
     window.addEventListener("slate-global-carousel-loading", this._handleSetLoading);
     this.setState({ unsavedChanges: true });
     if (this.props.isOwner && !this.props.external) {
-      this.debounceInstance = this.debounce(() => this._handleSave(), 3000);
+      this.debounceInstance = Window.debounce(() => this._handleSave(), 3000);
       let isPublic = false;
       let selected = {};
       const id = this.props.data.id;
@@ -222,15 +223,6 @@ export default class CarouselSidebarSlate extends React.Component {
 
   _handleSetLoading = (e) => {
     this.setState({ loading: e.detail.loading });
-  };
-
-  debounce = (func, ms) => {
-    let timer;
-
-    return () => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(func, ms);
-    };
   };
 
   _handleClose = () => {
@@ -263,8 +255,16 @@ export default class CarouselSidebarSlate extends React.Component {
 
   _handleChange = (e) => {
     this.debounceInstance();
-    this.setState({ [e.target.name]: e.target.value, unsavedChanges: true });
+    this.setState({
+      [e.target.name]: e.target.value,
+      unsavedChanges: true,
+      subject: e.target.name == "body" ? "Description" : this._handleCapitalization(e.target.name),
+    });
   };
+
+  _handleCapitalization(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   _handleDownload = () => {
     UserBehaviors.download(this.props.data);
@@ -385,7 +385,7 @@ export default class CarouselSidebarSlate extends React.Component {
             {this.state.unsavedChanges == false && (
               <div css={STYLES_AUTOSAVE}>
                 <SVG.Check height="14px" style={{ marginRight: 4 }} />
-                AutoSaved
+                {this.state.subject} saved
               </div>
             )}
           </React.Fragment>

@@ -302,6 +302,7 @@ app.prepare().then(async () => {
     const id = Utilities.getIdFromCookie(req);
     const shouldViewerRedirect = await ViewerManager.shouldRedirect({ id });
     if (shouldViewerRedirect) {
+      console.log("redirect");
       return res.redirect(
         `/_${Strings.createQueryParams({
           scene: "NAV_SLATE",
@@ -324,7 +325,10 @@ app.prepare().then(async () => {
       return res.redirect("/404");
     }
 
-    if (!slate.data.public) {
+    console.log(slate.data.public);
+    console.log(slate.data.ownerId);
+    console.log(id);
+    if (!slate.data.public && slate.data.ownerId !== id) {
       return res.redirect("/403");
     }
 
@@ -391,7 +395,7 @@ app.prepare().then(async () => {
       return res.redirect("/404");
     }
 
-    if (!slate.data.public) {
+    if (!slate.data.public && slate.data.ownerId !== id) {
       return res.redirect("/403");
     }
 

@@ -499,9 +499,9 @@ export class SearchModal extends React.Component {
   };
 
   _handleShow = async () => {
-    await this.setState({ modal: true });
+    this.setState({ modal: true });
     await this.fillLocalDirectory();
-    await this.setState({ loading: false });
+    this.setState({ loading: false });
     if (!this.initialized) {
       await this.initializeSearch();
     }
@@ -956,9 +956,9 @@ export class SearchModal extends React.Component {
       this._input.focus();
     }
     if (this.state.typeFilter === type) {
-      await this.setState({ typeFilter: null });
+      this.setState({ typeFilter: null });
     } else {
-      await this.setState({ typeFilter: type });
+      this.setState({ typeFilter: type });
     }
     if (this.state.inputValue) {
       this._handleSearch();
@@ -969,7 +969,7 @@ export class SearchModal extends React.Component {
     if (this._input) {
       this._input.focus();
     }
-    await this.setState({ scopeFilter: scope, filterTooltip: false });
+    this.setState({ scopeFilter: scope, filterTooltip: false });
     if (this.state.inputValue) {
       this._handleSearch(true);
     }

@@ -206,7 +206,6 @@ export default class DataView extends React.Component {
 
   state = {
     menu: null,
-    loading: {},
     checked: {},
     viewLimit: 40,
     scrollDebounce: false,
@@ -369,9 +368,7 @@ export default class DataView extends React.Component {
     );
     this.props.onUpdateViewer({ library });
 
-    // await this._handleLoading({ cids });
     UserBehaviors.deleteFiles(cids, ids);
-    // this._handleLoading({ cids });
     this.setState({ checked: {} });
   };
 
@@ -393,18 +390,6 @@ export default class DataView extends React.Component {
 
   _handleHide = (e) => {
     this.setState({ menu: null });
-  };
-
-  _handleLoading = ({ cids }) => {
-    let loading = this.state.loading;
-    for (let cid of cids) {
-      Events.dispatchCustomEvent({
-        name: "data-global-carousel-loading",
-        detail: { loading: !this.state.loading[cid] },
-      });
-      loading[cid] = !this.state.loading[cid];
-    }
-    this.setState({ loading });
   };
 
   _handleClick = (e) => {
@@ -474,28 +459,17 @@ export default class DataView extends React.Component {
                 </span>
               </div>
               <div css={STYLES_RIGHT}>
-                {this.state.loading &&
-                Object.values(this.state.loading).some((elem) => {
-                  return !!elem;
-                }) ? null : (
-                  <ButtonPrimary
-                    transparent
-                    style={{ color: Constants.system.white }}
-                    onClick={this._handleAddToSlate}
-                  >
-                    Add to slate
-                  </ButtonPrimary>
-                )}
+                <ButtonPrimary
+                  transparent
+                  style={{ color: Constants.system.white }}
+                  onClick={this._handleAddToSlate}
+                >
+                  Add to slate
+                </ButtonPrimary>
                 <ButtonWarning
                   transparent
                   style={{ marginLeft: 8, color: Constants.system.white }}
                   onClick={() => this._handleDelete()}
-                  loading={
-                    this.state.loading &&
-                    Object.values(this.state.loading).some((elem) => {
-                      return !!elem;
-                    })
-                  }
                 >
                   Delete files
                 </ButtonWarning>
@@ -549,24 +523,15 @@ export default class DataView extends React.Component {
                       <React.Fragment>
                         <div
                           css={STYLES_ICON_BOX_BACKGROUND}
-                          onClick={
-                            this.state.loading[cid]
-                              ? () => {}
-                              : (e) => {
-                                  e.stopPropagation();
-                                  this.setState({
-                                    menu: this.state.menu === each.id ? null : each.id,
-                                  });
-                                }
-                          }
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            this.setState({
+                              menu: this.state.menu === each.id ? null : each.id,
+                            });
+                          }}
                         >
-                          {this.state.loading[cid] ? (
-                            <LoaderSpinner style={{ height: 24, width: 24 }} />
-                          ) : (
-                            <SVG.MoreHorizontal height="24px" />
-                          )}
-
-                          {this.state.menu === each.id && !this.state.loading[cid] ? (
+                          <SVG.MoreHorizontal height="24px" />
+                          {this.state.menu === each.id ? (
                             <Boundary
                               captureResize={true}
                               captureScroll={false}
@@ -602,28 +567,25 @@ export default class DataView extends React.Component {
                             </Boundary>
                           ) : null}
                         </div>
-                        {Object.keys(this.state.loading).every(
-                          (k) => this.state.loading[k] === false
-                        ) && (
-                          <div onClick={(e) => this._handleCheckBox(e, i)}>
-                            <CheckBox
-                              name={i}
-                              value={!!this.state.checked[i]}
-                              boxStyle={{
-                                height: 24,
-                                width: 24,
-                                backgroundColor: this.state.checked[i]
-                                  ? Constants.system.brand
-                                  : "rgba(255, 255, 255, 0.75)",
-                              }}
-                              style={{
-                                position: "absolute",
-                                bottom: 8,
-                                left: 8,
-                              }}
-                            />
-                          </div>
-                        )}
+
+                        <div onClick={(e) => this._handleCheckBox(e, i)}>
+                          <CheckBox
+                            name={i}
+                            value={!!this.state.checked[i]}
+                            boxStyle={{
+                              height: 24,
+                              width: 24,
+                              backgroundColor: this.state.checked[i]
+                                ? Constants.system.brand
+                                : "rgba(255, 255, 255, 0.75)",
+                            }}
+                            style={{
+                              position: "absolute",
+                              bottom: 8,
+                              left: 8,
+                            }}
+                          />
+                        </div>
                       </React.Fragment>
                     ) : null}
                   </span>
@@ -719,21 +681,13 @@ export default class DataView extends React.Component {
         more: (
           <div
             css={STYLES_ICON_BOX_HOVER}
-            onClick={
-              this.state.loading[cid]
-                ? () => {}
-                : () =>
-                    this.setState({
-                      menu: this.state.menu === each.id ? null : each.id,
-                    })
+            onClick={() =>
+              this.setState({
+                menu: this.state.menu === each.id ? null : each.id,
+              })
             }
           >
-            {this.state.loading[cid] ? (
-              <LoaderSpinner style={{ height: 24, width: 24 }} />
-            ) : (
-              <SVG.MoreHorizontal height="24px" />
-            )}
-
+            <SVG.MoreHorizontal height="24px" />
             {this.state.menu === each.id ? (
               <Boundary
                 captureResize={true}

@@ -18,8 +18,6 @@ const STYLES_HEADER = css`
 export default class SidebarAddFileToSlate extends React.Component {
   state = {
     selected: {},
-    loading: false,
-    pickerLoading: false,
   };
 
   componentDidMount = () => {
@@ -58,7 +56,6 @@ export default class SidebarAddFileToSlate extends React.Component {
 
   _handleSubmit = async () => {
     this.props.onCancel();
-    // await this.setState({ loading: true });
     for (let slate of Object.values(this.state.selected)) {
       if (!slate) continue;
       await UserBehaviors.addToSlate({
@@ -67,7 +64,6 @@ export default class SidebarAddFileToSlate extends React.Component {
         fromSlate: this.props.sidebarData.fromSlate,
       });
     }
-    // this.setState({ loading: false });
   };
 
   render() {
@@ -90,16 +86,10 @@ export default class SidebarAddFileToSlate extends React.Component {
           selected={this.state.selected}
           onAdd={this._handleAdd}
           onCreateSlate={this._handleCreateSlate}
-          loading={false}
         />
 
         {Object.keys(this.state.selected).length ? (
-          <ButtonPrimary
-            full
-            onClick={this._handleSubmit}
-            style={{ marginTop: 32 }}
-            loading={this.state.loading}
-          >
+          <ButtonPrimary full onClick={this._handleSubmit} style={{ marginTop: 32 }}>
             Add to slates
           </ButtonPrimary>
         ) : (

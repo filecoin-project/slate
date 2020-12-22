@@ -31,22 +31,24 @@ export default class SidebarCreateSlate extends React.Component {
     email: "",
     twitter: "",
     message: "",
-    loading: false,
   };
 
   _handleSubmit = async () => {
-    this.setState({ loading: true });
     if (Strings.isEmpty(this.state.email)) {
       Events.dispatchMessage({ message: "Please provide an email address where we can reach you" });
-      this.setState({ loading: false });
       return;
     }
 
     if (!this.state.message || !this.state.message.length) {
       Events.dispatchMessage({ message: "Please provide a message" });
-      this.setState({ loading: false });
       return;
     }
+
+    this.props.onCancel();
+    Events.dispatchMessage({
+      message: "Message sent. You'll hear from us shortly",
+      status: "INFO",
+    });
 
     const response = await Actions.createSupportMessage({
       username: this.props.viewer.username,
@@ -57,18 +59,7 @@ export default class SidebarCreateSlate extends React.Component {
       stored: Strings.bytesToSize(this.props.viewer.stats.bytes),
     });
 
-    if (Events.hasError(response)) {
-      this.setState({ loading: false });
-      return;
-    }
-
-    Events.dispatchMessage({
-      message: "Message sent. You'll hear from us shortly",
-      status: "INFO",
-    });
-    this.setState({ loading: false });
-    this.props.onCancel();
-    return;
+    Events.hasError(response);
   };
 
   _handleChange = (e) => {
@@ -133,7 +124,7 @@ export default class SidebarCreateSlate extends React.Component {
           />
         </div>
 
-        <System.ButtonPrimary full onClick={this._handleSubmit} loading={this.state.loading}>
+        <System.ButtonPrimary full onClick={this._handleSubmit}>
           Send message
         </System.ButtonPrimary>
 

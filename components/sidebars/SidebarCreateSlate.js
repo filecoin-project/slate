@@ -83,7 +83,7 @@ export default class SidebarCreateSlate extends React.Component {
       }
     }
 
-    await this.setState({ loading: false });
+    this.setState({ loading: false });
     window.setTimeout(
       () =>
         this.props.onAction({

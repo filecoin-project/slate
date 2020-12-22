@@ -22,7 +22,7 @@ export default class SidebarFilecoinArchive extends React.Component {
       e.persist();
     }
 
-    await this.setState({ loading: true });
+    this.setState({ loading: true });
     const response = await this._handleMakeDeal();
 
     if (Events.hasError(response)) {

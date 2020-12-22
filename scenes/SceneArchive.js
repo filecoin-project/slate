@@ -50,7 +50,7 @@ export default class SceneArchive extends React.Component {
       networkViewer = json.data;
     } catch (e) {}
 
-    await this.setState({
+    this.setState({
       networkViewer,
     });
 
@@ -65,7 +65,7 @@ export default class SceneArchive extends React.Component {
       this.setState({ dealsLoaded: true });
     }
 
-    await this.setState({ deals, dealsLoaded: true });
+    this.setState({ deals, dealsLoaded: true });
 
     let routes;
     try {
@@ -73,7 +73,7 @@ export default class SceneArchive extends React.Component {
       const json = await response.json();
       routes = json.data;
     } catch (e) {}
-    await this.setState({ routes });
+    this.setState({ routes });
 
     let miners = [];
     try {

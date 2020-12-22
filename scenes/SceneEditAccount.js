@@ -51,7 +51,6 @@ export default class SceneEditAccount extends React.Component {
     allow_automatic_data_storage: this.props.viewer.allow_automatic_data_storage,
     allow_encrypted_data_storage: this.props.viewer.allow_encrypted_data_storage,
     changingPassword: false,
-    changingDetails: false,
     changingAvatar: false,
     changingFilecoin: false,
     tab: 0,
@@ -94,13 +93,10 @@ export default class SceneEditAccount extends React.Component {
   };
 
   _handleSave = async (e) => {
-    // this.setState({ changingDetails: true });
-
     if (!Validations.username(this.state.username)) {
       Events.dispatchMessage({
         message: "Please include only letters and numbers in your username",
       });
-      // this.setState({ changingDetails: false });
       return;
     }
 
@@ -117,7 +113,6 @@ export default class SceneEditAccount extends React.Component {
     });
 
     Events.hasError(response);
-    // this.setState({ changingDetails: false });
   };
 
   _handleUsernameChange = (e) => {
@@ -135,7 +130,7 @@ export default class SceneEditAccount extends React.Component {
       return;
     }
 
-    await this.setState({ changingPassword: true });
+    this.setState({ changingPassword: true });
 
     let response = await Actions.updateViewer({
       type: "CHANGE_PASSWORD",
@@ -208,11 +203,7 @@ export default class SceneEditAccount extends React.Component {
             />
 
             <div style={{ marginTop: 24 }}>
-              <System.ButtonPrimary
-                onClick={this._handleSave}
-                loading={this.state.changingDetails}
-                style={{ width: "200px" }}
-              >
+              <System.ButtonPrimary onClick={this._handleSave} style={{ width: "200px" }}>
                 Save
               </System.ButtonPrimary>
             </div>
@@ -318,11 +309,7 @@ export default class SceneEditAccount extends React.Component {
               onChange={this._handleUsernameChange}
             />
             <div style={{ marginTop: 24 }}>
-              <System.ButtonPrimary
-                onClick={this._handleSave}
-                loading={this.state.changingDetails}
-                style={{ width: "200px" }}
-              >
+              <System.ButtonPrimary onClick={this._handleSave} style={{ width: "200px" }}>
                 Change my username
               </System.ButtonPrimary>
             </div>

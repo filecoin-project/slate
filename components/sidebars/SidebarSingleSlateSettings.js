@@ -49,12 +49,9 @@ export default class SidebarSingleSlateSettings extends React.Component {
     public: this.props.data.data.public,
     body: this.props.data.data.body,
     name: this.props.data.data.name,
-    loading: false,
   };
 
   _handleSubmit = async () => {
-    // this.setState({ loading: true });
-
     let slates = this.props.viewer.slates;
     for (let slate of slates) {
       if (slate.id === this.props.data.id) {
@@ -77,7 +74,6 @@ export default class SidebarSingleSlateSettings extends React.Component {
     });
 
     if (Events.hasError(response)) {
-      // this.setState({ loading: false });
       return;
     }
   };
@@ -91,13 +87,10 @@ export default class SidebarSingleSlateSettings extends React.Component {
   };
 
   _handleDelete = async (e) => {
-    // this.setState({ loading: true });
-
     if (
       !window.confirm("Are you sure you want to delete this Slate? This action is irreversible.")
     ) {
       return;
-      // return this.setState({ loading: false });
     }
 
     let slates = this.props.viewer.slates.filter((slate) => slate.id !== this.props.current.id);
@@ -113,13 +106,11 @@ export default class SidebarSingleSlateSettings extends React.Component {
     });
 
     if (Events.hasError(response)) {
-      // this.setState({ loading: false });
       return;
     }
   };
 
   render() {
-    console.log(this.props);
     const slug = Strings.createSlug(this.state.name);
     const url = `/${this.props.viewer.username}/${slug}`;
     let preview = this.props.data.data.preview;
@@ -267,21 +258,15 @@ export default class SidebarSingleSlateSettings extends React.Component {
         </div>
 
         <div style={{ marginTop: 40 }}>
-          <System.ButtonPrimary full onClick={this._handleSubmit} loading={this.state.loading}>
+          <System.ButtonPrimary full onClick={this._handleSubmit}>
             Save changes
           </System.ButtonPrimary>
 
-          {!this.state.loading ? (
-            <div style={{ marginTop: 16 }}>
-              <System.ButtonWarning
-                full
-                onClick={this._handleDelete}
-                style={{ overflow: "hidden" }}
-              >
-                Delete slate
-              </System.ButtonWarning>
-            </div>
-          ) : null}
+          <div style={{ marginTop: 16 }}>
+            <System.ButtonWarning full onClick={this._handleDelete} style={{ overflow: "hidden" }}>
+              Delete slate
+            </System.ButtonWarning>
+          </div>
         </div>
       </React.Fragment>
     );

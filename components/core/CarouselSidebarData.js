@@ -241,13 +241,11 @@ export default class CarouselSidebarData extends React.Component {
     copyValue: "",
     loading: false,
     changingPreview: false,
-    pickerLoading: false,
     unsavedChanges: false,
     isEditing: false,
   };
 
   componentDidMount = () => {
-    window.addEventListener("data-global-carousel-loading", this._handleSetLoading);
     this.setState({ unsavedChanges: true });
     if (this.props.isOwner && !this.props.external) {
       this.debounceInstance = Window.debounce(() => this._handleSave(), 3000);
@@ -266,10 +264,6 @@ export default class CarouselSidebarData extends React.Component {
     }
   };
 
-  componentWillUnmount = () => {
-    window.removeEventListener("data-global-carousel-loading", this._handleSetLoading);
-  };
-
   _handleChange = (e) => {
     this.debounceInstance();
     this.setState({ [e.target.name]: e.target.value, unsavedChanges: true });
@@ -286,16 +280,12 @@ export default class CarouselSidebarData extends React.Component {
     }, 4000);
   };
 
-  _handleSetLoading = (e) => {
-    this.setState({ loading: e.detail.loading });
-  };
-
   _handleUpload = async (e) => {
     e.persist();
-    await this.setState({ changingPreview: true });
+    this.setState({ changingPreview: true });
     let previousCoverCid = this.props.data?.coverImage?.cid;
     if (!e || !e.target) {
-      await this.setState({ changingPreview: false });
+      this.setState({ changingPreview: false });
       return;
     }
     let json = await UserBehaviors.uploadImage(e.target.files[0], this.props.resources, true);
@@ -361,20 +351,15 @@ export default class CarouselSidebarData extends React.Component {
     library[0].children = library[0].children.filter((obj) => obj.cid !== cid);
     this.props.onUpdateViewer({ library });
 
-    // await this.setState({ loading: cid });
-
     // NOTE(jim): Accepts ID as well if CID can't be found.
     // Since our IDS are unique.
     UserBehaviors.deleteFiles(cid, this.props.data.id);
-    // this.setState({ loading: false });
   };
 
   _handleAdd = async (slate) => {
     this.setState({
       selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
-      // pickerLoading: null,
     });
-    // await this.setState({ pickerLoading: slate.id });
     if (this.state.selected[slate.id]) {
       await UserBehaviors.removeFromSlate({ slate, ids: [this.props.data.id] });
     } else {
@@ -387,10 +372,11 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleEditFilename = async () => {
-    await this.setState({ isEditing: !this.state.isEditing });
-    if (this.state.isEditing == false) {
-      this._handleSave();
-    }
+    this.setState({ isEditing: !this.state.isEditing }, () => {
+      if (this.state.isEditing == false) {
+        this._handleSave();
+      }
+    });
   };
 
   render() {
@@ -454,11 +440,7 @@ export default class CarouselSidebarData extends React.Component {
           </div>
           <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
             <SVG.Trash height="24px" />
-            {this.state.loading === cid ? (
-              <LoaderSpinner style={{ height: 20, width: 20, marginLeft: 16 }} />
-            ) : (
-              <span style={{ marginLeft: 16 }}>Delete</span>
-            )}
+            <span style={{ marginLeft: 16 }}>Delete</span>
           </div>
         </div>
         <div css={STYLES_SECTION_HEADER}>Connected Slates</div>
@@ -469,7 +451,6 @@ export default class CarouselSidebarData extends React.Component {
           selectedColor={Constants.system.white}
           files={[this.props.data]}
           selected={this.state.selected}
-          loading={this.state.pickerLoading}
           onAdd={this._handleAdd}
         />
         {type && Validations.isPreviewableImage(type) ? null : (

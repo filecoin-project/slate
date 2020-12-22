@@ -72,7 +72,7 @@ export default class SidebarFileStorageDeal extends React.Component {
       e.persist();
     }
 
-    await this.setState({ loading: true });
+    this.setState({ loading: true });
     await this._handleMakeDeal({ ipfs: `/ipfs/${this.props.data.cid}` });
     this.setState({ loading: false });
     await this.props.onCancel();

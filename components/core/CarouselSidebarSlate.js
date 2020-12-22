@@ -192,13 +192,11 @@ export default class CarouselSidebarSlate extends React.Component {
     showConnected: false,
     showFile: true,
     unsavedChanges: false,
-    pickerLoading: false,
     loading: false,
     subject: "",
   };
 
   componentDidMount = () => {
-    window.addEventListener("slate-global-carousel-loading", this._handleSetLoading);
     this.setState({ unsavedChanges: true });
     if (this.props.isOwner && !this.props.external) {
       this.debounceInstance = Window.debounce(() => this._handleSave(), 3000);
@@ -215,14 +213,6 @@ export default class CarouselSidebarSlate extends React.Component {
       }
       this.setState({ selected, isPublic });
     }
-  };
-
-  componentWillUnmount = () => {
-    window.removeEventListener("slate-global-carousel-loading", this._handleSetLoading);
-  };
-
-  _handleSetLoading = (e) => {
-    this.setState({ loading: e.detail.loading });
   };
 
   _handleClose = () => {
@@ -281,7 +271,7 @@ export default class CarouselSidebarSlate extends React.Component {
   };
 
   _handleSaveCopy = async (data) => {
-    await this.setState({ loading: "savingCopy" });
+    this.setState({ loading: "savingCopy" });
     await UserBehaviors.addToDataFromSlate({ files: [data] });
     this.setState({ loading: false });
   };
@@ -307,11 +297,9 @@ export default class CarouselSidebarSlate extends React.Component {
       }
     }
 
-    // await this.setState({ loading: "deleting" });
     // NOTE(jim): Accepts ID as well if CID can't be found.
     // Since our IDS are unique.
     UserBehaviors.deleteFiles(cid, this.props.data.id);
-    // this.setState({ loading: false });
   };
 
   _toggleAccordion = (tab) => {
@@ -321,9 +309,7 @@ export default class CarouselSidebarSlate extends React.Component {
   _handleAdd = async (slate) => {
     this.setState({
       selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
-      // pickerLoading: null,
     });
-    // await this.setState({ pickerLoading: slate.id });
     if (this.state.selected[slate.id]) {
       await UserBehaviors.removeFromSlate({ slate, ids: [this.props.data.id] });
     } else {
@@ -474,7 +460,6 @@ export default class CarouselSidebarSlate extends React.Component {
             {this.state.showConnected ? (
               <div style={{ width: "100%", margin: "24px 0 44px 0" }}>
                 <SlatePicker
-                  loading={this.state.pickerLoading}
                   slates={this.props.slates}
                   onCreateSlate={this._handleCreateSlate}
                   dark
@@ -536,22 +521,14 @@ export default class CarouselSidebarSlate extends React.Component {
               <div css={STYLES_ACTION} onClick={this._handleDownload}>
                 <SVG.Download height="24px" />
                 <span style={{ marginLeft: 16 }}>
-                  {this.props.saving ? (
-                    <LoaderSpinner style={{ height: 16, width: 16 }} />
-                  ) : (
-                    <span>Download</span>
-                  )}
+                  <span>Download</span>
                 </span>
               </div>
             )}
             {this.props.isOwner && !this.props.isRepost ? (
               <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
                 <SVG.Trash height="24px" />
-                {this.state.loading === "deleting" ? (
-                  <LoaderSpinner style={{ height: 20, width: 20, marginLeft: 16 }} />
-                ) : (
-                  <span style={{ marginLeft: 16 }}>Delete</span>
-                )}
+                <span style={{ marginLeft: 16 }}>Delete</span>
               </div>
             ) : null}
           </div>

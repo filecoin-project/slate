@@ -139,7 +139,7 @@ export default class SceneSlate extends React.Component {
     }
 
     this.props.onUpdateData({ data: slate });
-    await this.setState({ slate });
+    this.setState({ slate });
 
     let index = -1;
     if (pageState || !Strings.isEmpty(cid)) {
@@ -207,12 +207,12 @@ class SlatePage extends React.Component {
   // NOTE(jim):
   // The purpose of this is to update the Scene appropriately when
   // it changes but isn't mounted.
-  async componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (
       prevProps.current.id !== this.props.current.id ||
       this.props.viewer.subscriptions !== prevProps.viewer.subscriptions
     ) {
-      await this.setState({
+      this.setState({
         isFollowing: !!this.props.viewer.subscriptions.filter((subscription) => {
           return subscription.target_slate_id === this.props.current.id;
         }).length,

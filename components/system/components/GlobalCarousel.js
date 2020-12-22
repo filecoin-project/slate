@@ -109,8 +109,6 @@ export class GlobalCarousel extends React.Component {
   state = {
     index: 0,
     visible: false,
-    loading: false,
-    saving: false,
     showSidebar: true,
   };
 
@@ -118,14 +116,12 @@ export class GlobalCarousel extends React.Component {
     window.addEventListener("keydown", this._handleKeyDown);
     window.addEventListener("slate-global-open-carousel", this._handleOpen);
     window.addEventListener("slate-global-close-carousel", this._handleClose);
-    window.addEventListener("state-global-carousel-loading", this._handleSetLoading);
   };
 
   componentWillUnmount = () => {
     window.removeEventListener("keydown", this._handleKeyDown);
     window.removeEventListener("slate-global-open-carousel", this._handleOpen);
     window.removeEventListener("slate-global-close-carousel", this._handleClose);
-    window.removeEventListener("state-global-carousel-loading", this._handleSetLoading);
   };
 
   _handleKeyDown = (e) => {
@@ -158,8 +154,6 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  _handleSetLoading = (e) => this.setState({ ...e.detail });
-
   _handleOpen = (e) => {
     let carouselType =
       !this.props.current ||
@@ -171,8 +165,6 @@ export class GlobalCarousel extends React.Component {
       carouselType: carouselType,
       visible: true,
       index: e.detail.index || 0,
-      loading: false,
-      saving: false,
       baseURL: window.location.pathname,
     });
     if (carouselType === "slate" && this.props.current.data?.objects) {
@@ -191,7 +183,7 @@ export class GlobalCarousel extends React.Component {
         e.stopPropagation();
         e.preventDefault();
       }
-      this.setState({ visible: false, index: 0, loading: false, saving: false });
+      this.setState({ visible: false, index: 0 });
 
       if (this.state.baseURL && window.location.pathname.includes(this.state.baseURL)) {
         window.history.replaceState({ ...window.history.state, cid: null }, "", this.state.baseURL);
@@ -218,7 +210,7 @@ export class GlobalCarousel extends React.Component {
         index = 0;
       }
     }
-    this.setState({ index, loading: false, saving: false });
+    this.setState({ index });
 
     if (
       this.state.carouselType === "slate" &&
@@ -251,7 +243,7 @@ export class GlobalCarousel extends React.Component {
         index = this.props.viewer.library[0].children.length - 1;
       }
     }
-    this.setState({ index, loading: false, saving: false });
+    this.setState({ index });
 
     if (
       this.state.carouselType === "slate" &&
@@ -268,7 +260,6 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handleSave = async (details, index) => {
-    this.setState({ loading: true });
     if (this.state.carouselType === "slate") {
       if (this.props.viewer.id !== this.props.current.data.ownerId || this.props.external) return;
       let objects = this.props.current.data.objects;
@@ -278,7 +269,6 @@ export class GlobalCarousel extends React.Component {
         data: { objects },
       });
       Events.hasError(response);
-      this.setState({ loading: false, saving: false });
     }
     if (this.state.carouselType === "data") {
       if (this.props.external) return;
@@ -289,7 +279,6 @@ export class GlobalCarousel extends React.Component {
         data: objects[index],
       });
       Events.hasError(response);
-      this.setState({ loading: false, saving: false });
     }
   };
 
@@ -389,8 +378,6 @@ export class GlobalCarousel extends React.Component {
               onUpdateViewer={this.props.onUpdateViewer}
               onClose={this._handleClose}
               key={data.id}
-              saving={this.state.saving}
-              loading={this.state.loading}
               slates={this.props.slates}
               onAction={this.props.onAction}
               resources={this.props.resources}
@@ -408,8 +395,6 @@ export class GlobalCarousel extends React.Component {
               onUpdateViewer={this.props.onUpdateViewer}
               current={this.props.current}
               key={data.id}
-              saving={this.state.saving}
-              loading={this.state.loading}
               slates={this.props.slates}
               onClose={this._handleClose}
               onAction={this.props.onAction}

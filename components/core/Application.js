@@ -97,11 +97,9 @@ export default class ApplicationPage extends React.Component {
   state = {
     selected: {},
     viewer: this.props.viewer,
-    currentIndex: 0,
     data: null,
     sidebar: null,
     online: null,
-    sidebar: null,
     mobile: this.props.mobile,
   };
 

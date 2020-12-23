@@ -174,7 +174,7 @@ export default class SceneWallet extends React.Component {
                   <div css={STYLES_SUBTEXT}>Filecoin address</div>
                 </div>
 
-                <div style={{ marginTop: 24 }}>
+                <div>
                   <div css={STYLES_FOCUS}>
                     {selected.name}{" "}
                     {networkViewer.settings_cold_default_address === selected.addr ? (

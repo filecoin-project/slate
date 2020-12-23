@@ -232,8 +232,11 @@ export default class ApplicationPage extends React.Component {
     const current = NavigationData.getCurrentById(navigation, next.id);
 
     let slate = null;
-    if (current.target && current.target.slateId) {
-      slate = { id: current.target.slateId };
+    if (
+      current.target.id === "NAV_SLATE" &&
+      this.state.data?.data?.ownerId === this.props.viewer?.id
+    ) {
+      slate = this.state.data;
     }
     this._handleRegisterFileLoading({ fileLoading });
     this._handleUpload({ files, slate, keys: Object.keys(fileLoading), numFailed });

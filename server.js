@@ -302,7 +302,6 @@ app.prepare().then(async () => {
     const id = Utilities.getIdFromCookie(req);
     const shouldViewerRedirect = await ViewerManager.shouldRedirect({ id });
     if (shouldViewerRedirect) {
-      console.log("redirect");
       return res.redirect(
         `/_${Strings.createQueryParams({
           scene: "NAV_SLATE",

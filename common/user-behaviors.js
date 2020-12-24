@@ -256,7 +256,7 @@ export const download = (file) => {
 };
 
 export const downloadZip = async (file) => {
-  const { data } = await Actions.getZipFilesPaths(file);
+  const { data } = await Actions.getZipFilePaths(file);
   const filesPaths = data.filesPaths.map((item) => item.replace(`/${file.id}/`, ""));
   const baseUrl = file.url;
   const zipFileName = file.file;
@@ -265,7 +265,7 @@ export const downloadZip = async (file) => {
 
   for (let filePath of filesPaths) {
     let url = `${baseUrl}/${filePath}`;
-    const blob = await Window.getBlob(url);
+    const blob = await Window.getBlobFromUrl(url);
 
     zip.file(filePath, blob);
   }

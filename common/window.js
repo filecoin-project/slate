@@ -118,7 +118,7 @@ export const debounce = (func, wait) => {
   };
 };
 
-export const getBlob = async (url) => {
+export const getBlobFromUrl = async (url) => {
   try {
     const response = await fetch(url, {
       headers: new Headers({
@@ -127,8 +127,7 @@ export const getBlob = async (url) => {
       mode: "cors",
     });
 
-    const blob = response.blob();
-    return blob;
+    return response.blob();
   } catch (e) {
     console.error(e);
   }

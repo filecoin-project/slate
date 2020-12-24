@@ -9,6 +9,8 @@ import * as FileUtilities from "~/common/file-utilities";
 import * as Events from "~/common/custom-events";
 
 import Cookies from "universal-cookie";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 const cookies = new Cookies();
 
@@ -251,6 +253,26 @@ export const download = (file) => {
     uri = Strings.getCIDGatewayURL(file.cid);
   }
   Window.saveAs(uri, filename);
+};
+
+export const downloadZip = async (file) => {
+  const { data } = await Actions.getZipFilesPaths(file);
+  const filesPaths = data.filesPaths.map((item) => item.replace(`/${file.id}/`, ""));
+  const baseUrl = file.url;
+  const zipFileName = file.file;
+
+  let zip = new JSZip();
+
+  for (let filePath of filesPaths) {
+    let url = `${baseUrl}/${filePath}`;
+    const blob = await Window.getBlob(url);
+
+    zip.file(filePath, blob);
+  }
+
+  zip.generateAsync({ type: "blob" }).then((blob) => {
+    saveAs(blob, zipFileName);
+  });
 };
 
 // export const createSlate = async (data) => {

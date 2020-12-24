@@ -117,3 +117,19 @@ export const debounce = (func, wait) => {
     timeout = setTimeout(later, wait);
   };
 };
+
+export const getBlob = async (url) => {
+  try {
+    const response = await fetch(url, {
+      headers: new Headers({
+        Origin: location.origin,
+      }),
+      mode: "cors",
+    });
+
+    const blob = response.blob();
+    return blob;
+  } catch (e) {
+    console.error(e);
+  }
+};

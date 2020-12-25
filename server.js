@@ -108,6 +108,10 @@ app.prepare().then(async () => {
 
     const isBucketsAvailable = await Utilities.checkTextile();
 
+    return res.redirect("/maintenance");
+
+    /*
+
     if (!isBucketsAvailable && Environment.IS_PRODUCTION) {
       return res.redirect("/maintenance");
     }
@@ -128,6 +132,8 @@ app.prepare().then(async () => {
       mobile,
       resources: EXTERNAL_RESOURCES,
     });
+
+    */
   });
 
   server.get("/_/integration-page", async (req, res) => {

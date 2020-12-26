@@ -319,7 +319,11 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleDownload = () => {
-    UserBehaviors.download(this.props.data);
+    if (this.props.data.type === "application/unity") {
+      UserBehaviors.downloadZip(this.props.data);
+    } else {
+      UserBehaviors.download(this.props.data);
+    }
   };
 
   _handleCreateSlate = async () => {

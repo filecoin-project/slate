@@ -48,10 +48,7 @@ export default async (req, res) => {
     publicOnly: req.body.data && req.body.data.private ? false : true,
   });
 
-  console.log(slates);
-
   slates = slates.map((each) => {
-    console.log(each);
     each.data.url = `https://slate.host/${user.username}/${each.slatename}`;
     return each;
   });

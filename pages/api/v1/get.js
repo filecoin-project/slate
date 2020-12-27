@@ -36,20 +36,24 @@ export default async (req, res) => {
   });
 
   if (!user) {
-    return res
-      .status(404)
-      .send({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
+    return res.status(404).send({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
   }
 
   if (user.error) {
-    return res
-      .status(500)
-      .send({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
+    return res.status(500).send({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
   }
 
-  const slates = await Data.getSlatesByUserId({
+  let slates = await Data.getSlatesByUserId({
     userId: user.id,
     publicOnly: req.body.data && req.body.data.private ? false : true,
+  });
+
+  console.log(slates);
+
+  slates = slates.map((each) => {
+    console.log(each);
+    each.data.url = `https://slate.host/${user.username}/${each.slatename}`;
+    return each;
   });
 
   if (!slates) {

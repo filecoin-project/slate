@@ -68,7 +68,7 @@ export default class SlateMediaObject extends React.Component {
 
     if (type.startsWith("video/")) {
       return (
-        <video autoPlay playsInline controls name="media" type={playType} css={STYLES_OBJECT}>
+        <video playsInline controls name="media" type={playType} css={STYLES_OBJECT}>
           <source src={url} type={playType} />
         </video>
       );
@@ -77,7 +77,7 @@ export default class SlateMediaObject extends React.Component {
     if (type.startsWith("audio/")) {
       return (
         <div css={STYLES_ASSET}>
-          <audio autoPlay controls name="media">
+          <audio controls name="media">
             <source src={url} type={playType} />
           </audio>
         </div>

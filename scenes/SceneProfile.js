@@ -133,18 +133,14 @@ class ProfilePage extends React.Component {
     let buttons = (
       <div css={STYLES_BUTTONS}>
         {this.state.isFollowing ? (
-          <ButtonSecondary style={{ marginRight: 8 }} onClick={this._handleFollow}>
-            Unfollow
-          </ButtonSecondary>
+          <ButtonSecondary onClick={this._handleFollow}>Unfollow</ButtonSecondary>
         ) : (
-          <ButtonPrimary style={{ marginRight: 8 }} onClick={this._handleFollow}>
-            Follow
-          </ButtonPrimary>
+          <ButtonPrimary onClick={this._handleFollow}>Follow</ButtonPrimary>
         )}
       </div>
     );
     return (
-      <ScenePage>
+      <ScenePage style={{ padding: `0` }}>
         <Profile
           {...this.props}
           onAction={this.props.onAction}

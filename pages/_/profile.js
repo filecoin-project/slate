@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 
 import { css } from "@emotion/react";
-import { ButtonSecondary } from "~/components/system/components/Buttons";
+import { ButtonPrimary } from "~/components/system/components/Buttons";
 
 import Profile from "~/components/core/Profile";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
@@ -41,7 +41,7 @@ export default class ProfilePage extends React.Component {
     const description = this.props.creator.data.body;
     const image = this.props.creator.data.photo;
     const buttons = (
-      <ButtonSecondary onClick={() => this.setState({ visible: true })}>Follow</ButtonSecondary>
+      <ButtonPrimary onClick={() => this.setState({ visible: true })}>Follow</ButtonPrimary>
     );
 
     if (Strings.isEmpty(image)) {

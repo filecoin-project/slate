@@ -177,8 +177,8 @@ const STYLES_BODY = css`
 `;
 
 const STYLES_ICON_BOX = css`
-  height: 32px;
-  width: 32px;
+  height: 24px;
+  width: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -320,228 +320,123 @@ export class SlatePreviewBlock extends React.Component {
 
     return (
       <div css={STYLES_BLOCK}>
-        {this.props.external ? (
-          <React.Fragment>
-            <span css={STYLES_MOBILE_HIDDEN}>
-              <div css={STYLES_TITLE_LINE}>
-                <div css={STYLES_TITLE} style={{ width: `85%` }}>
-                  {this.props.slate.data.name}
-                </div>
-                <div css={STYLES_OBJECT_COUNT}>
-                  {objects.length} file
-                  {objects.length > 1 ? "s" : ""}
+        <span css={STYLES_MOBILE_HIDDEN}>
+          <div css={STYLES_TITLE_LINE}>
+            <div css={STYLES_TITLE} style={{ width: `85%` }}>
+              {this.props.slate.data.name}
+            </div>
+
+            {!this.props.external && this.props.username ? (
+              <div
+                style={{ marginLeft: "auto" }}
+                ref={(c) => {
+                  this._test = c;
+                }}
+              >
+                <div css={STYLES_ICON_BOX} onClick={this._handleClick}>
+                  <SVG.MoreHorizontal height="24px" />
+                  {this.state.showMenu ? <div css={STYLES_CONTEXT_MENU}>{contextMenu}</div> : null}
                 </div>
               </div>
-              {this.props.slate.data.body ? (
-                <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
-              ) : (
-                <div style={{ height: "41px" }} />
-              )}
-              {objects.length === 1 || (objects.length != 0 && count <= 3) ? (
-                <div
-                  style={{
-                    width: "100%",
-                    height: 320,
-                  }}
-                >
-                  <SlateMediaObjectPreview
-                    blurhash={first.blurhash}
-                    centeredImage
-                    charCap={30}
-                    type={first.type}
-                    url={first.url}
-                    title={first.title || first.name}
-                    coverImage={first.coverImage}
-                  />
-                </div>
-              ) : first ? (
-                <div css={STYLES_PREVIEW}>
-                  <div
-                    style={{
-                      width: "75%",
-                      height: 320,
-                    }}
-                  >
-                    <SlateMediaObjectPreview
-                      blurhash={first.blurhash}
-                      centeredImage
-                      charCap={30}
-                      type={first.type}
-                      url={first.url}
-                      title={first.title || first.name}
-                      coverImage={first.coverImage}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      width: `25%`,
-                      height: 324,
-                    }}
-                  >
-                    <SlatePreviewRow {...this.props} previewStyle={this.props.previewStyle} />
-                  </div>
-                </div>
-              ) : (
-                <div
-                  css={STYLES_PLACEHOLDER}
-                  style={{
-                    backgroundImage: `url(${placeholder})`,
-                    ...this.props.imageStyle,
-                  }}
-                />
-              )}
-            </span>
-            <span css={STYLES_MOBILE_ONLY}>
-              <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
+            ) : (
               <div css={STYLES_OBJECT_COUNT}>
                 {objects.length} file
                 {objects.length > 1 ? "s" : ""}
               </div>
-              <div
-                style={{
-                  width: "100%",
-                  height: `320px`,
-                }}
-              >
-                {first ? (
-                  <SlateMediaObjectPreview
-                    blurhash={first.blurhash}
-                    centeredImage
-                    charCap={30}
-                    type={first.type}
-                    url={first.url}
-                    title={first.title || first.name}
-                    coverImage={first.coverImage}
-                  />
-                ) : (
-                  <div
-                    css={STYLES_PLACEHOLDER}
-                    style={{
-                      backgroundImage: `url(${placeholder})`,
-                      ...this.props.imageStyle,
-                    }}
-                  />
-                )}
-              </div>
-            </span>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <div css={STYLES_TITLE_LINE}>
-              <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
-              <div style={{ height: "16px" }}>
-                {this.props.isOwner && !this.props.slate.data.public ? (
-                  <SVG.SecurityLock
-                    height="16px"
-                    style={{ color: Constants.system.grayBlack, marginRight: 24 }}
-                  />
-                ) : null}
-              </div>
-              {this.props.username ? (
-                <div
-                  style={{ marginLeft: "auto" }}
-                  ref={(c) => {
-                    this._test = c;
-                  }}
-                >
-                  <div css={STYLES_ICON_BOX} onClick={this._handleClick}>
-                    <SVG.MoreHorizontal height="24px" />
-                    {this.state.showMenu ? (
-                      <div css={STYLES_CONTEXT_MENU}>{contextMenu}</div>
-                    ) : null}
-                  </div>
-                </div>
-              ) : null}
+            )}
+          </div>
+          {this.props.slate.data.body ? (
+            <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
+          ) : (
+            <div style={{ height: "41px" }} />
+          )}
+          {objects.length === 1 || (objects.length != 0 && count <= 3) ? (
+            <div
+              style={{
+                width: "100%",
+                height: 320,
+              }}
+            >
+              <SlateMediaObjectPreview
+                blurhash={first.blurhash}
+                centeredImage
+                charCap={30}
+                type={first.type}
+                url={first.url}
+                title={first.title || first.name}
+                coverImage={first.coverImage}
+              />
             </div>
-            <span css={STYLES_MOBILE_HIDDEN}>
-              <div style={{ height: "44px" }}>
-                {this.props.slate.data.body ? (
-                  <div css={STYLES_BODY}>{this.props.slate.data.body}</div>
-                ) : this.props.isOwner ? (
-                  <div style={{ height: "44px" }} />
-                ) : (
-                  <div style={{ height: "40px" }} />
-                )}
+          ) : first ? (
+            <div css={STYLES_PREVIEW}>
+              <div
+                style={{
+                  width: "75%",
+                  height: 320,
+                }}
+              >
+                <SlateMediaObjectPreview
+                  blurhash={first.blurhash}
+                  centeredImage
+                  charCap={30}
+                  type={first.type}
+                  url={first.url}
+                  title={first.title || first.name}
+                  coverImage={first.coverImage}
+                />
               </div>
               <div
                 style={{
-                  width: "100%",
-                  height: `304px`,
+                  width: `25%`,
+                  height: 324,
                 }}
               >
-                {first ? (
-                  <SlateMediaObjectPreview
-                    blurhash={first.blurhash}
-                    centeredImage
-                    charCap={30}
-                    type={first.type}
-                    url={first.url}
-                    title={first.title || first.name}
-                    coverImage={first.coverImage}
-                  />
-                ) : this.props.isOwner ? (
-                  <div css={STYLES_CREATE_NEW} key="add-files">
-                    <SVG.Plus height="24px" />
-                    <div>Add Files</div>
-                  </div>
-                ) : (
-                  <div
-                    css={STYLES_PLACEHOLDER}
-                    style={{
-                      backgroundImage: `url(${placeholder})`,
-                      ...this.props.imageStyle,
-                    }}
-                  />
-                )}
+                <SlatePreviewRow {...this.props} previewStyle={this.props.previewStyle} />
               </div>
-            </span>
-            <span css={STYLES_MOBILE_ONLY}>
+            </div>
+          ) : (
+            <div
+              css={STYLES_PLACEHOLDER}
+              style={{
+                backgroundImage: `url(${placeholder})`,
+                ...this.props.imageStyle,
+              }}
+            />
+          )}
+        </span>
+        <span css={STYLES_MOBILE_ONLY}>
+          <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
+          <div css={STYLES_OBJECT_COUNT}>
+            {objects.length} file
+            {objects.length > 1 ? "s" : ""}
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: `320px`,
+            }}
+          >
+            {first ? (
+              <SlateMediaObjectPreview
+                blurhash={first.blurhash}
+                centeredImage
+                charCap={30}
+                type={first.type}
+                url={first.url}
+                title={first.title || first.name}
+                coverImage={first.coverImage}
+              />
+            ) : (
               <div
-                css={STYLES_TITLE}
-                style={{ marginBottom: 8, fontSize: Constants.typescale.lvl1 }}
-              >
-                {this.props.slate.data.name}
-              </div>
-              <div css={STYLES_OBJECT_COUNT} style={{ marginBottom: 16, fontSize: 12 }}>
-                {objects.length} file
-                {objects.length === 1 ? "" : "s"}
-              </div>
-              <div
+                css={STYLES_PLACEHOLDER}
                 style={{
-                  width: "100%",
-                  height: `300px`,
+                  backgroundImage: `url(${placeholder})`,
+                  ...this.props.imageStyle,
                 }}
-              >
-                {first ? (
-                  <SlateMediaObjectPreview
-                    blurhash={first.blurhash}
-                    centeredImage
-                    charCap={30}
-                    type={first.type}
-                    url={first.url}
-                    style={{ borderRadius: 8 }}
-                    imageStyle={{ borderRadius: 8 }}
-                    title={first.title || first.name}
-                    coverImage={first.coverImage}
-                  />
-                ) : this.props.isOwner ? (
-                  <div css={STYLES_CREATE_NEW} key="add-files">
-                    <SVG.Plus height="24px" />
-                    <div>Add Files</div>
-                  </div>
-                ) : (
-                  <div
-                    css={STYLES_PLACEHOLDER}
-                    style={{
-                      backgroundImage: `url(${placeholder})`,
-                      ...this.props.imageStyle,
-                    }}
-                  />
-                )}
-              </div>
-            </span>
-          </React.Fragment>
-        )}
+              />
+            )}
+          </div>
+        </span>
       </div>
     );
   }

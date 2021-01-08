@@ -1,13 +1,18 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
+import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 
 import ProcessedText from "~/components/core/ProcessedText";
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 import CTATransition from "~/components/core/CTATransition";
+import DataView from "~/components/core/DataView";
+import EmptyState from "~/components/core/EmptyState";
+
 import { SceneUtils } from "three";
+import { TabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
 
 const STYLES_PROFILE_BACKGROUND = css`
   background-color: ${Constants.system.white};
@@ -20,7 +25,7 @@ const STYLES_PROFILE_BACKGROUND = css`
 
 const STYLES_PROFILE_INTERNAL = css`
   width: 100%;
-  padding: 64px 56px 0px 56px;
+  padding: 0px 56px 0px 56px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -134,12 +139,18 @@ const STYLES_BUTTON = css`
 export default class Profile extends React.Component {
   state = {
     exploreSlates: [],
+    tab: 1,
+    view: 0,
+    slateTab: 0,
+    peerTab: 0,
   };
 
   render() {
     const external = !this.props.onAction;
     let data = this.props.creator ? this.props.creator : this.props.data;
     let exploreSlates = this.props.exploreSlates;
+
+    console.log(this.props);
 
     let total = 0;
     for (let slate of data.slates) {
@@ -178,7 +189,6 @@ export default class Profile extends React.Component {
             </div>
           </div>
         </div>
-
         {this.state.visible && (
           <div>
             <CTATransition
@@ -189,17 +199,77 @@ export default class Profile extends React.Component {
             />
           </div>
         )}
-
         {this.props.onAction ? (
           <div css={STYLES_PROFILE_INTERNAL}>
-            {data.slates && data.slates.length ? (
-              <SlatePreviewBlocks
-                isOwner={this.props.isOwner}
-                external={this.props.onAction ? false : true}
-                slates={data.slates}
-                username={data.username}
-                onAction={this.props.onAction}
-              />
+            <TabGroup
+              tabs={["Files", "Slates", "Peers"]}
+              value={this.state.tab}
+              onChange={(value) => this.setState({ tab: value })}
+              style={{ marginBottom: 32 }}
+            />
+            {this.state.tab === 0 ? (
+              <div>
+                <SecondaryTabGroup
+                  tabs={[
+                    <SVG.GridView height="24px" style={{ display: "block" }} />,
+                    <SVG.TableView height="24px" style={{ display: "block" }} />,
+                  ]}
+                  value={this.state.view}
+                  onChange={(value) => this.setState({ view: value })}
+                  style={{ margin: "0 0 24px 0", justifyContent: "flex-end" }}
+                />
+                {this.props.viewer.library[0].children &&
+                this.props.viewer.library[0].children.length ? (
+                  <DataView
+                    onAction={this.props.onAction}
+                    viewer={this.props.viewer}
+                    items={this.props.viewer.library[0].children}
+                    onUpdateViewer={this.props.onUpdateViewer}
+                    view={this.state.view}
+                  />
+                ) : (
+                  <EmptyState>
+                    <FileTypeGroup />
+                    <div style={{ marginTop: 24 }}>Drag and drop files into Slate to upload</div>
+                  </EmptyState>
+                )}
+              </div>
+            ) : null}
+            {this.state.tab === 1 ? (
+              <div>
+                <SecondaryTabGroup
+                  tabs={["Public Slates", "Following Slates"]}
+                  value={this.state.slateTab}
+                  onChange={(value) => this.setState({ slateTab: value })}
+                  style={{ margin: "0 0 24px 0" }}
+                />
+                {this.state.slateTab === 0 ? (
+                  <div>
+                    {data.slates && data.slates.length ? (
+                      <SlatePreviewBlocks
+                        isOwner={this.props.isOwner}
+                        external={this.props.onAction ? false : true}
+                        slates={data.slates}
+                        username={data.username}
+                        onAction={this.props.onAction}
+                      />
+                    ) : null}
+                  </div>
+                ) : null}
+                {this.state.slateTab === 1 ? <div>{/*following slates*/}</div> : null}
+              </div>
+            ) : null}
+            {this.state.tab === 2 ? (
+              <div>
+                <SecondaryTabGroup
+                  tabs={["Following", "Follower"]}
+                  value={this.state.peerTab}
+                  onChange={(value) => this.setState({ peerTab: value })}
+                  style={{ margin: "0 0 24px 0" }}
+                />
+                {this.state.peerTab === 0 ? <div>{/*following*/}</div> : null}
+                {this.state.peerTab === 1 ? <div>{/*follower*/}</div> : null}
+              </div>
             ) : null}
           </div>
         ) : (

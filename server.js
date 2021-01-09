@@ -19,8 +19,6 @@ import compression from "compression";
 import cors from "cors";
 import morgan from "morgan";
 
-Websocket.create();
-
 const app = next({
   dev: !Environment.IS_PRODUCTION,
   dir: __dirname,
@@ -476,6 +474,7 @@ app.prepare().then(async () => {
   const listenServer = server.listen(Environment.PORT, (e) => {
     console.log("listen server function called");
     if (e) throw e;
+    Websocket.create();
 
     NodeLogging.log(`started on http://localhost:${Environment.PORT}`);
   });

@@ -21,6 +21,7 @@ export const create = () => {
   });
 
   ws.on("ping", function () {
+    NodeLogging.log(`Pinged`);
     clearTimeout(this.pingTimeout);
 
     this.pingTimeout = setTimeout(() => {

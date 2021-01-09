@@ -21,7 +21,6 @@ export const create = () => {
   });
 
   ws.on("ping", function () {
-    NodeLogging.log(`Pinged`);
     clearTimeout(this.pingTimeout);
 
     this.pingTimeout = setTimeout(() => {
@@ -35,12 +34,8 @@ export const create = () => {
   });
 
   ws.on("close", () => {
-    global.websocket = null;
-    setTimeout(() => {
-      NodeLogging.log(`Auto reconnecting websocket`);
-      create();
-    }, 1000);
-    NodeLogging.log(`Websocket disconnected`);
+    console.log(global.websocket);
+    console.log("Websocket disconnected");
   });
 
   NodeLogging.log(`Websocket server started`);

@@ -18,8 +18,13 @@ const websocketSend = async (type, data) => {
 
   let ws = Websocket.get();
   if (!ws) {
+    console.log("no websocket. creating now...");
     ws = Websocket.create();
+<<<<<<< HEAD
     await Window.delay(2000);
+=======
+    console.log(ws);
+>>>>>>> testing websockets disconnecting
   }
 
   const encryptedData = await Utilities.encryptWithSecret(

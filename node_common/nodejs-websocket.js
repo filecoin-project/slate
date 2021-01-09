@@ -33,10 +33,12 @@ export const create = () => {
   });
 
   ws.on("close", () => {
+    global.websocket = null;
     console.log(global.websocket);
     console.log("Websocket disconnected");
   });
 
+  console.log("Websocket server started");
   NodeLogging.log(`Websocket server started`);
 
   global.websocket = ws;

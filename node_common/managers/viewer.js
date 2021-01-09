@@ -23,7 +23,7 @@ const websocketSend = async (type, data) => {
   if (!ws) {
     console.log("no websocket. creating now...");
     ws = Websocket.create();
-    console.log(ws);
+    console.log(ws ? "Successfully created websocket" : "Failed to create websocket");
   }
 
   const encryptedData = await Utilities.encryptWithSecret(

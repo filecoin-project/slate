@@ -224,7 +224,7 @@ app.prepare().then(async () => {
       });
     }
 
-    const creator = await Data.getUserByUsername({
+    let creator = await Data.getUserByUsername({
       username: req.params.username,
     });
 
@@ -236,10 +236,55 @@ app.prepare().then(async () => {
       return res.redirect("/404");
     }
 
+    let library = creator.data.library;
+
+    creator = Serializers.user(creator);
+
     const slates = await Data.getSlatesByUserId({
       userId: creator.id,
       publicOnly: true,
     });
+
+    let publicFileIds = [];
+    for (let slate of slates) {
+      publicFileIds.push(...slate.data.objects.map((obj) => obj.id));
+    }
+
+    creator.slates = slates;
+
+    if (library && library.length) {
+      library[0].children = library[0].children.filter((file) => {
+        return file.public || publicFileIds.includes(file.id);
+      });
+    }
+    creator.library = library;
+
+    const subscriptions = await Data.getSubscriptionsByUserId({ userId: creator.id });
+    const subscribers = await Data.getSubscribersByUserId({ userId: creator.id });
+
+    let serializedUsersMap = { [creator.id]: creator };
+    let serializedSlatesMap = {};
+
+    // NOTE(jim): The most expensive call first.
+    const r1 = await Serializers.doSubscriptions({
+      users: [],
+      slates: [],
+      subscriptions,
+      serializedUsersMap,
+      serializedSlatesMap,
+    });
+
+    creator.subscriptions = r1.serializedSubscriptions;
+
+    const r2 = await Serializers.doSubscribers({
+      users: [],
+      slates: [],
+      subscribers,
+      serializedUsersMap: r1.serializedUsersMap,
+      serializedSlatesMap: r1.serializedSlatesMap,
+    });
+
+    creator.subscribers = r2.serializedSubscribers;
 
     let exploreSlates = [];
 
@@ -281,7 +326,7 @@ app.prepare().then(async () => {
 
     return app.render(req, res, "/_/profile", {
       viewer,
-      creator: Serializers.user({ ...creator, slates }),
+      creator,
       mobile,
       resources: EXTERNAL_RESOURCES,
       exploreSlates,
@@ -324,9 +369,6 @@ app.prepare().then(async () => {
       return res.redirect("/404");
     }
 
-    console.log(slate.data.public);
-    console.log(slate.data.ownerId);
-    console.log(id);
     if (!slate.data.public && slate.data.ownerId !== id) {
       return res.redirect("/403");
     }

@@ -15,6 +15,8 @@ export default async (req, res) => {
       error: true,
     });
   }
+  let library = user.data.library;
+
   user = Serializers.user(user);
 
   let slates = await Data.getSlatesByUserId({
@@ -29,10 +31,48 @@ export default async (req, res) => {
       });
     }
   }
+  let publicFileIds = [];
   user.slates = [];
   for (let slate of slates) {
     user.slates.push(Serializers.slate(slate));
+    if (slate.data.public) {
+      publicFileIds.push(...slate.data.objects.map((obj) => obj.id));
+    }
   }
+
+  if (library && library.length) {
+    library[0].children = library[0].children.filter((file) => {
+      return file.public || publicFileIds.includes(file.id);
+    });
+  }
+  user.library = library;
+
+  const subscriptions = await Data.getSubscriptionsByUserId({ userId: req.body.data.id });
+  const subscribers = await Data.getSubscribersByUserId({ userId: req.body.data.id });
+
+  let serializedUsersMap = { [user.id]: Serializers.user(user) };
+  let serializedSlatesMap = {};
+
+  // NOTE(jim): The most expensive call first.
+  const r1 = await Serializers.doSubscriptions({
+    users: [],
+    slates: [],
+    subscriptions,
+    serializedUsersMap,
+    serializedSlatesMap,
+  });
+
+  user.subscriptions = r1.serializedSubscriptions;
+
+  const r2 = await Serializers.doSubscribers({
+    users: [],
+    slates: [],
+    subscribers,
+    serializedUsersMap: r1.serializedUsersMap,
+    serializedSlatesMap: r1.serializedSlatesMap,
+  });
+
+  user.subscribers = r2.serializedSubscribers;
 
   return res.status(200).send({
     decorator: "SERIALIZED_USER",

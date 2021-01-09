@@ -219,7 +219,7 @@ export const getById = async ({ id }) => {
   }
 
   // TODO(jim): You can serialize this last because you will have all the information
-  // from subscriptionsed, trusted, and pendingTrusted most likely.
+  // from subscriptions, trusted, and pendingTrusted most likely.
   let activity = await Data.getActivityForUserId({ userId: id });
   const slates = await Data.getSlatesByUserId({ userId: id });
   const keys = await Data.getAPIKeysByUserId({ userId: id });

@@ -15,6 +15,7 @@ import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
 import { Input } from "~/components/system/components/Input";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
+import { Toggle } from "~/components/system/components/Toggle";
 
 const DEFAULT_BOOK =
   "https://slate.textile.io/ipfs/bafkreibk32sw7arspy5kw3p5gkuidfcwjbwqyjdktd5wkqqxahvkm2qlyi";
@@ -78,11 +79,6 @@ const STYLES_DISMISS_BOX = css`
   :hover {
     color: ${Constants.system.white};
   }
-`;
-
-const STYLES_CONTAINER = css`
-  width: 100%;
-  height: 100%;
 `;
 
 const STYLES_META = css`
@@ -238,6 +234,7 @@ export default class CarouselSidebarData extends React.Component {
     name: Strings.isEmpty(this.props.data.name) ? "" : this.props.data.name,
     selected: {},
     isPublic: false,
+    inPublicSlates: false,
     copyValue: "",
     loading: false,
     changingPreview: false,
@@ -249,18 +246,18 @@ export default class CarouselSidebarData extends React.Component {
     this.setState({ unsavedChanges: true });
     if (this.props.isOwner && !this.props.external) {
       this.debounceInstance = Window.debounce(() => this._handleSave(), 3000);
-      let isPublic = false;
+      let inPublicSlates = false;
       let selected = {};
       const id = this.props.data.id;
       for (let slate of this.props.slates) {
         if (slate.data.objects.some((o) => o.id === id)) {
           if (slate.data.public) {
-            isPublic = true;
+            inPublicSlates = true;
           }
           selected[slate.id] = true;
         }
       }
-      this.setState({ selected, isPublic });
+      this.setState({ selected, inPublicSlates, isPublic: this.props.data.public });
     }
   };
 
@@ -383,7 +380,46 @@ export default class CarouselSidebarData extends React.Component {
     });
   };
 
+  _handleToggleVisibility = async (e) => {
+    const isVisible = this.state.inPublicSlates || this.state.isPublic;
+    let selected = this.state.selected;
+    if (this.state.inPublicSlates) {
+      console.log("in public slates");
+      const slateIds = Object.entries(this.state.selected)
+        .filter((entry) => entry[1])
+        .map((entry) => entry[0]);
+      const publicSlateIds = [];
+      const publicSlateNames = [];
+      for (let slate of this.props.slates) {
+        if (slate.data.public && slateIds.includes(slate.id)) {
+          publicSlateNames.push(slate.data.name);
+          publicSlateIds.push(slate.id);
+          selected[slate.id] = false;
+        }
+      }
+      const message = `Making this file private will remove it from the following public slates: ${publicSlateNames.join(
+        ", "
+      )}. Do you wish to continue?`;
+      if (!window.confirm(message)) {
+        return;
+      }
+    }
+    let response = await Actions.toggleFilePrivacy({
+      data: {
+        id: this.props.data.id,
+        public: !isVisible,
+      },
+    });
+    console.log(response);
+    if (isVisible) {
+      this.setState({ inPublicSlates: false, isPublic: false, selected });
+    } else {
+      this.setState({ isPublic: true });
+    }
+  };
+
   render() {
+    const isVisible = this.state.inPublicSlates || this.state.isPublic;
     const { cid, file, name, coverImage, type, size, url, blurhash } = this.props.data;
     const elements = [];
     if (this.props.onClose) {
@@ -395,7 +431,7 @@ export default class CarouselSidebarData extends React.Component {
     }
 
     elements.push(
-      <div key="s-2" css={STYLES_CONTAINER}>
+      <div key="s-2" style={{ marginBottom: 80 }}>
         <div css={STYLES_META}>
           {this.state.isEditing ? (
             <Boundary enabled onOutsideRectEvent={this._handleEditFilename}>
@@ -499,12 +535,26 @@ export default class CarouselSidebarData extends React.Component {
           </div>
         )}
         <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
-          Privacy
+          Visibility
         </div>
-        <div style={{ color: Constants.system.darkGray, lineHeight: "1.5", marginBottom: 104 }}>
-          {this.state.isPublic
-            ? "Public. This file is currently visible to others and searchable within Slate through public slates."
-            : "Private. This file is currently not visible to others unless they have the link."}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            margin: "16px 0 16px 0",
+          }}
+        >
+          <div style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
+            {isVisible ? "Everyone" : "Link only"}
+          </div>
+          <Toggle dark active={isVisible} onChange={this._handleToggleVisibility} />
+        </div>
+        <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
+          {isVisible
+            ? "This file is currently visible to everyone and searchable within Slate through public slates."
+            : "This file is currently not visible to others unless they have the link."}
         </div>
         <input
           css={STYLES_HIDDEN}

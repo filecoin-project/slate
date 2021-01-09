@@ -266,6 +266,13 @@ export const updateData = async (data) => {
   });
 };
 
+export const toggleFilePrivacy = async (data) => {
+  return await returnJSON(`/api/data/toggle-privacy`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
 export const deleteBucketItems = async (data) => {
   return await returnJSON(`/api/data/remove`, {
     ...DEFAULT_OPTIONS,

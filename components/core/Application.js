@@ -613,8 +613,8 @@ export default class ApplicationPage extends React.Component {
     const description = "";
     const url = "https://slate.host/_";
 
-    console.log("application state:", { target: current.target });
-    console.log("application state:", { data: this.state.data });
+    // console.log("application state:", { target: current.target });
+    // console.log("application state:", { data: this.state.data });
 
     return (
       <React.Fragment>

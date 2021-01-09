@@ -60,6 +60,8 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
       console.log(e);
     }
 
+    console.log(`Received message of type ${type}`);
+
     if (!data) {
       return null;
     }
@@ -68,7 +70,7 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
       return null;
     }
 
-    if (type === "UPDATE" && onUpdate) {
+    if (type === "UPDATE") {
       onUpdate(data);
     }
   });

@@ -19,7 +19,13 @@ const websocketSend = async (type, data) => {
     return;
   }
 
-  const ws = Websocket.get();
+  let ws = Websocket.get();
+  if (!ws) {
+    console.log("no websocket. creating now...");
+    ws = Websocket.create();
+    console.log(ws);
+  }
+
   const encryptedData = await Utilities.encryptWithSecret(
     JSON.stringify(data),
     Environment.PUBSUB_SECRET

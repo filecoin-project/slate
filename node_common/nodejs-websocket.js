@@ -20,7 +20,7 @@ export const create = () => {
     perMessageDeflate: false,
   });
 
-  ws.on("ping", function() {
+  ws.on("ping", function () {
     clearTimeout(this.pingTimeout);
 
     this.pingTimeout = setTimeout(() => {
@@ -33,6 +33,7 @@ export const create = () => {
   });
 
   ws.on("close", () => {
+    console.log(global.websocket);
     console.log("Websocket disconnected");
   });
 

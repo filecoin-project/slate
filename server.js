@@ -472,7 +472,6 @@ app.prepare().then(async () => {
   server.all("*", async (r, s) => handler(r, s, r.url));
 
   const listenServer = server.listen(Environment.PORT, (e) => {
-    console.log("listen server function called");
     if (e) throw e;
     Websocket.create();
 

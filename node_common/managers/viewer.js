@@ -22,7 +22,9 @@ const websocketSend = async (type, data) => {
   let ws = Websocket.get();
   if (!ws) {
     console.log("no websocket. creating now...");
+    //set a timeout so it won't proceed for a few seconds after creating the socket? or maybe an wait if possible
     ws = Websocket.create();
+    //or maybe create it and then send back a failure event so they know to try again?
     console.log(ws ? "Successfully created websocket" : "Failed to create websocket");
   }
 

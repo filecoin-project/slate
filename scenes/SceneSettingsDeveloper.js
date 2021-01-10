@@ -131,6 +131,7 @@ const EXAMPLE_GET_SLATE = (
   key,
   slateId
 ) => `const response = await fetch('https://slate.host/api/v1/get-slate', {
+  method: 'POST',
   headers: {
     'Content-Type': 'application/json',
     // NOTE: your API key
@@ -146,6 +147,7 @@ const json = await response.json();
 console.log(json);`;
 
 const EXAMPLE_GET = (key) => `const response = await fetch('https://slate.host/api/v1/get', {
+  method: 'POST',
   headers: {
     'Content-Type': 'application/json',
     // NOTE: your API key

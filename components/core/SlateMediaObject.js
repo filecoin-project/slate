@@ -63,12 +63,12 @@ export default class SlateMediaObject extends React.Component {
     let element = <div css={STYLES_FAILURE}>No Preview</div>;
 
     if (type.startsWith("application/pdf")) {
-      return <object css={STYLES_OBJECT} data={url} type={type} />;
+      return <object css={STYLES_OBJECT} data={url} type={type} key={url} />;
     }
 
     if (type.startsWith("video/")) {
       return (
-        <video playsInline controls name="media" type={playType} css={STYLES_OBJECT}>
+        <video playsInline controls name="media" type={playType} css={STYLES_OBJECT} key={url}>
           <source src={url} type={playType} />
         </video>
       );
@@ -77,7 +77,7 @@ export default class SlateMediaObject extends React.Component {
     if (type.startsWith("audio/")) {
       return (
         <div css={STYLES_ASSET}>
-          <audio controls name="media">
+          <audio controls name="media" key={url}>
             <source src={url} type={playType} />
           </audio>
         </div>
@@ -98,7 +98,12 @@ export default class SlateMediaObject extends React.Component {
       const unityGameLoader = this.props.data.unityGameLoader;
 
       return (
-        <UnityFrame url={url} unityGameConfig={unityGameConfig} unityGameLoader={unityGameLoader} />
+        <UnityFrame
+          url={url}
+          unityGameConfig={unityGameConfig}
+          unityGameLoader={unityGameLoader}
+          key={url}
+        />
       );
     }
 

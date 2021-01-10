@@ -149,8 +149,16 @@ export default class Profile extends React.Component {
     const external = !this.props.onAction;
     let data = this.props.creator ? this.props.creator : this.props.data;
     let exploreSlates = this.props.exploreSlates;
+    let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : null;
+    let followingSlates = [];
+    for (let subscription of subscriptions) {
+      if (subscription.slate != null) {
+        followingSlates.push(subscription.slate);
+      }
+    }
 
-    console.log(this.props);
+    console.log("creator.subscription", subscriptions);
+    console.log("following slates", followingSlates);
 
     let total = 0;
     for (let slate of data.slates) {
@@ -256,13 +264,24 @@ export default class Profile extends React.Component {
                     ) : null}
                   </div>
                 ) : null}
-                {this.state.slateTab === 1 ? <div>{/*following slates*/}</div> : null}
+                {this.state.slateTab === 1 ? (
+                  <div>
+                    {followingSlates ? (
+                      <SlatePreviewBlocks
+                        isOwner={false}
+                        external={this.props.onAction ? false : true}
+                        slates={followingSlates}
+                        onAction={this.props.onAction}
+                      />
+                    ) : null}
+                  </div>
+                ) : null}
               </div>
             ) : null}
             {this.state.tab === 2 ? (
               <div>
                 <SecondaryTabGroup
-                  tabs={["Following", "Follower"]}
+                  tabs={["Following", "Followers"]}
                   value={this.state.peerTab}
                   onChange={(value) => this.setState({ peerTab: value })}
                   style={{ margin: "0 0 24px 0" }}

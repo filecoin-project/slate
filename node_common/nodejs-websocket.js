@@ -34,17 +34,12 @@ export const create = () => {
   });
 
   ws.on("close", () => {
-<<<<<<< HEAD
-    console.log(global.websocket);
-    console.log("Websocket disconnected");
-=======
     global.websocket = null;
     setTimeout(() => {
       NodeLogging.log(`Auto reconnecting websocket`);
       create();
     }, 1000);
     NodeLogging.log(`Websocket disconnected`);
->>>>>>> fixed slate updating upon upload issue
   });
 
   NodeLogging.log(`Websocket server started`);

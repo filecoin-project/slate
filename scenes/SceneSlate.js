@@ -56,6 +56,7 @@ const STYLES_MOBILE_ONLY = css`
 export default class SceneSlate extends React.Component {
   state = {
     slate: null,
+    isOwner: false,
     notFound: false,
   };
 
@@ -85,10 +86,12 @@ export default class SceneSlate extends React.Component {
     }
 
     //NOTE(martina): look for the slate in the user's slates
+    let isOwner = false;
     let slate;
     if (this.props.data?.id) {
       for (let s of this.props.viewer.slates) {
         if (this.props.data.id && this.props.data.id === s.id) {
+          isOwner = true;
           slate = s;
           break;
         }
@@ -96,6 +99,7 @@ export default class SceneSlate extends React.Component {
     } else if (slatename && username === this.props.viewer.username) {
       for (let s of this.props.viewer.slates) {
         if (username && slatename === s.slatename) {
+          isOwner = true;
           slate = s;
           break;
         }
@@ -139,7 +143,7 @@ export default class SceneSlate extends React.Component {
     }
 
     this.props.onUpdateData({ data: slate });
-    this.setState({ slate });
+    this.setState({ slate, isOwner });
 
     let index = -1;
     if (pageState || !Strings.isEmpty(cid)) {
@@ -187,7 +191,15 @@ export default class SceneSlate extends React.Component {
         </ScenePage>
       );
     }
-    return <SlatePage {...this.props} current={this.state.slate} />;
+    let slate = this.state.slate;
+    if (this.state.isOwner) {
+      for (let s of this.props.viewer.slates) {
+        if (slate.id === s.id) {
+          slate = s;
+        }
+      }
+    }
+    return <SlatePage {...this.props} current={slate} />;
   }
 }
 

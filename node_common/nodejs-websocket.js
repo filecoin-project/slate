@@ -35,6 +35,7 @@ export const create = () => {
   });
 
   ws.on("close", () => {
+    global.websocket = null;
     setTimeout(() => {
       NodeLogging.log(`Auto reconnecting websocket`);
       create();

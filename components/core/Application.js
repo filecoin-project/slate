@@ -154,9 +154,6 @@ export default class ApplicationPage extends React.Component {
     //     )
     //   );
     // await setAsyncState(newViewerState);
-    console.log("Handle update viewer called");
-    console.log(newViewerState);
-
     this.setState({
       viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
     });

@@ -10,7 +10,7 @@ import Prism from "prismjs";
 const STYLES_CODE_BLOCK = css`
   box-sizing: border-box;
   font-family: ${Constants.font.code};
-  background-color: ${Constants.system.pitchBlack};
+  background-color: #1f212a;
   color: ${Constants.system.white};
   border-color: ${Constants.system.yellow};
   font-size: 12px;

@@ -108,7 +108,7 @@ const EXAMPLE_UPDATE_SLATE = (key, slateId) => {
 
 // NOTE(jim)
 // Make any modifications you want!
-// Becareful because if you modify too many things, your Slate may not work
+// Be careful because if you modify too many things, your Slate may not work
 // With https://slate.host
 const slate = slateAPIResponseData.data;
 slate.data.objects[0].title = "Julie Was Here."
@@ -139,7 +139,7 @@ const EXAMPLE_GET_SLATE = (
   },
   body: JSON.stringify({ data: {
     // NOTE: your slate ID
-    id: ${slateId}
+    id: '${slateId}'
   }})
 });
 

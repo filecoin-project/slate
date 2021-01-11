@@ -97,7 +97,7 @@ export const injectCodeBlockStyles = () => css`
   .language-javascript {
     code,
     pre {
-      color: #fff5b1;
+      color: #84b6e3;
       font-family: ${Constants.font.code};
       font-size: 12px;
       text-align: left;
@@ -133,11 +133,11 @@ export const injectCodeBlockStyles = () => css`
     .token.prolog,
     .token.doctype,
     .token.cdata {
-      color: #FF00FF;
+      color: #666f94;
     }
 
     .token.punctuation {
-      color: #ffd33d;
+      color: #a1a4ab;
     }
 
     .token.tag,
@@ -147,16 +147,16 @@ export const injectCodeBlockStyles = () => css`
     .token.unit,
     .token.hexcode,
     .token.deleted {
-      color: ${Constants.system.moonstone};
+      color: #a1a4ab;
     }
 
     .token.property,
     .token.selector {
-      color: #ffdf5d;
+      color: #a1a4ab;
     }
 
     .token.function-name {
-      color: #ffd33d;
+      color: #a1a4ab;
     }
 
     .token.boolean,
@@ -173,21 +173,24 @@ export const injectCodeBlockStyles = () => css`
     .token.keyword,
     .token.selector .token.class,
     .token.builtin {
-      color: #FFFFFF;
+      color: #a994e3;
     }
 
     .token.string,
     .token.char,
     .token.attr-value,
-    .token.regex,
+    .token.regex {
+      color: #9AEFEA;
+    }
+
     .token.variable {
-      color: #fff;
+      color: #ffffff;
     }
 
     .token.operator,
     .token.entity,
     .token.url {
-      color: ${Constants.system.moonstone};
+      color: #a1a4ab;
     }
 
     .token.important,

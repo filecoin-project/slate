@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Actions from "~/common/actions";
+import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
@@ -80,6 +81,7 @@ export class SignIn extends React.Component {
     password: "",
     loading: false,
     usernameTaken: false,
+    showPassword: false,
   };
 
   componentDidMount() {
@@ -270,15 +272,34 @@ export class SignIn extends React.Component {
               onSubmit={this._handleSubmit}
             />
 
-            <System.Input
-              containerStyle={{ marginTop: 16 }}
-              placeholder="Password"
-              name="password"
-              type="password"
-              value={this.state.password}
-              onChange={this._handleChange}
-              onSubmit={this._handleSubmit}
-            />
+            <div style={{ position: "relative", marginTop: 16 }}>
+              <System.Input
+                placeholder="Password"
+                name="password"
+                type={this.state.showPassword ? "text" : "password"}
+                value={this.state.password}
+                onChange={this._handleChange}
+                onSubmit={this._handleSubmit}
+              />
+              <div
+                style={{ position: "absolute", right: 2, top: 2, padding: 8, cursor: "pointer" }}
+                onClick={() => this.setState({ showPassword: !this.state.showPassword })}
+              >
+                {this.state.showPassword ? (
+                  <SVG.EyeOff
+                    strokeWidth="1.5"
+                    height="20px"
+                    style={{ color: Constants.system.grayBlack }}
+                  />
+                ) : (
+                  <SVG.Eye
+                    strokeWidth="1.5"
+                    height="20px"
+                    style={{ color: Constants.system.grayBlack }}
+                  />
+                )}
+              </div>
+            </div>
 
             <System.CheckBox
               style={{ marginTop: 24 }}
@@ -286,7 +307,11 @@ export class SignIn extends React.Component {
               value={this.state.accepted}
               onChange={this._handleChange}
             >
-              To create an account you must accept the <a href="/terms">terms of service</a>.
+              To create an account you must accept the{" "}
+              <a href="/terms" target="_blank">
+                terms of service
+              </a>
+              .
             </System.CheckBox>
 
             <System.ButtonPrimary

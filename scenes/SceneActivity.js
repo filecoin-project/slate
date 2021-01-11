@@ -10,6 +10,7 @@ import * as System from "~/components/system";
 import { css } from "@emotion/react";
 import { PrimaryTabGroup } from "~/components/core/TabGroup";
 
+import EmptyState from "~/components/core/EmptyState";
 import ScenePage from "~/components/core/ScenePage";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
@@ -298,7 +299,20 @@ export default class SceneActivity extends React.Component {
             })}
           </div>
         ) : (
-          <React.Fragment>
+          <EmptyState>
+            <SVG.Users height="24px" />
+            <div style={{ marginTop: 24 }}>
+              Start following people and slates to see their activity here
+            </div>
+          </EmptyState>
+        )}
+      </ScenePage>
+    );
+  }
+}
+
+{
+  /* <React.Fragment>
             <System.P>When you're ready, create a slate!</System.P>
             <br />
             <System.ButtonPrimary onClick={this._handleCreateSlate}>
@@ -320,9 +334,5 @@ export default class SceneActivity extends React.Component {
                 backgroundSize: `cover`,
               }}
             />
-          </React.Fragment>
-        )}
-      </ScenePage>
-    );
-  }
+          </React.Fragment> */
 }

@@ -130,8 +130,18 @@ export const error = {
   NO_JOB: "Sorry, this job doesn't exist!",
 
   //Archive Deal
-  SERVER_REMOVE_DATA_NOT_ALLOWED: "You aren't authorized to archive that deal",
+  SERVER_REMOVE_DATA_NOT_ALLOWED: "Please login first to archive a deal!",
   SERVER_BUCKET_ARCHIVE_DEAL_USER_NOT_FOUND: "Please login first to archive a deal!",
+  SERVER_BUCKET_INIT_FAILURE: "Something went wrong while locating your storage bucket",
+  STORAGE_DEAL_MAKING_NO_BUCKET: "We could not locate your storage bucket",
+  STORAGE_DEAL_MAKING_NO_FILES: "No file selected. Please select a file to archive then try again",
+  STORAGE_BUCKET_TOO_SMALL: "Deal size too small. Deals must be 100MB or larger",
+  BUCKET_SPAWN_VERIFICATION_FAILED_FOR_BUCKET_COUNT:
+    "We ran into an issue while verifying how much storage space you have",
+  TOO_MANY_BUCKETS: "You've reached the maximum number of storage buckets for an account",
+  FORCED_ENCRYPTION_FAILED_FOR_DATA: "We ran into an issue while encrypting your data",
+  BUCKET_CLONING_FAILED: "We ran into an issue while creating a storage bucket for you",
+  STORAGE_DEAL_MAKING_NOT_SANITARY: "We ran into an issue while creating that storage deal",
 
   //CID Status
   SERVER_NO_CIDS_TO_CHECK: "No CIDs were entered, please check your input",

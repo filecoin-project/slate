@@ -314,8 +314,8 @@ export default class SceneMakeFilecoinDeal extends React.Component {
         />
 
         <ScenePageHeader title="Make an one-off Filecoin Storage Deal">
-          Upload data and make one-off storage deals in the Filecoin network here. You must store at
-          least 100MB of data.
+          Upload data and make one-off storage deals in the Filecoin network here. Files must be at
+          least 100MB in size.
         </ScenePageHeader>
 
         {this.state.networkViewer ? (

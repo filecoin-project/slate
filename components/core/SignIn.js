@@ -280,6 +280,7 @@ export class SignIn extends React.Component {
                 value={this.state.password}
                 onChange={this._handleChange}
                 onSubmit={this._handleSubmit}
+                style={{ paddingRight: 42 }}
               />
               <div
                 style={{ position: "absolute", right: 2, top: 2, padding: 8, cursor: "pointer" }}

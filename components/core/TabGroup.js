@@ -59,7 +59,7 @@ export class SecondaryTabGroup extends React.Component {
         {this.props.tabs.map((tab, i) => (
           <div
             css={STYLES_TAB}
-            key={this.props.onAction ? tab.title : tab}
+            key={this.props.onAction ? tab.title : i}
             style={{
               color:
                 this.props.disabled || this.props.value === i

@@ -13,6 +13,8 @@ import EmptyState from "~/components/core/EmptyState";
 
 import { SceneUtils } from "three";
 import { TabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
+import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 
 const STYLES_PROFILE_BACKGROUND = css`
   background-color: ${Constants.system.white};
@@ -136,13 +138,133 @@ const STYLES_BUTTON = css`
   }
 `;
 
+const STYLES_ITEM_BOX = css`
+  position: relative;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  margin-right: 16px;
+  color: ${Constants.system.darkGray};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-right: 8px;
+  }
+`;
+
+const STYLES_USER_ENTRY = css`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  font-size: ${Constants.typescale.lvl1};
+  cursor: pointer;
+  ${"" /* border: 1px solid ${Constants.system.lightBorder}; */}
+  border-radius: 4px;
+  margin-bottom: 8px;
+  background-color: ${Constants.system.white};
+`;
+
+const STYLES_USER = css`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  margin: 16px;
+  color: ${Constants.system.brand};
+  font-family: ${Constants.font.medium};
+  font-size: ${Constants.typescale.lvl1};
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin: 12px 16px;
+  }
+`;
+
+const STYLES_DIRECTORY_PROFILE_IMAGE = css`
+  background-color: ${Constants.system.foreground};
+  background-size: cover;
+  background-position: 50% 50%;
+  height: 24px;
+  width: 24px;
+  margin-right: 16px;
+  border-radius: 4px;
+`;
+
+const STYLES_MESSAGE = css`
+  color: ${Constants.system.black};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
+`;
+
+const STYLES_DIRECTORY_NAME = css`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+function UserEntry({ user, button, onClick, message }) {
+  return (
+    <div key={user.username} css={STYLES_USER_ENTRY}>
+      <div css={STYLES_USER} onClick={onClick}>
+        <div
+          css={STYLES_DIRECTORY_PROFILE_IMAGE}
+          style={{ backgroundImage: `url(${user.data.photo})` }}
+        />
+        <span css={STYLES_DIRECTORY_NAME}>
+          {user.data.name || `@${user.username}`}
+          {message ? <span css={STYLES_MESSAGE}>{message}</span> : null}
+        </span>
+      </div>
+      {button}
+    </div>
+  );
+}
+
 export default class Profile extends React.Component {
+  _ref;
+
   state = {
     exploreSlates: [],
     tab: 1,
     view: 0,
     slateTab: 0,
     peerTab: 0,
+    copyValue: "",
+    contextMenu: null,
+  };
+
+  _handleCopy = (e, value) => {
+    e.stopPropagation();
+    this.setState({ copyValue: value }, () => {
+      this._ref.select();
+      document.execCommand("copy");
+      this._handleHide();
+    });
+  };
+
+  _handleHide = (e) => {
+    this.setState({ contextMenu: null });
+  };
+
+  _handleClick = (e, value) => {
+    e.stopPropagation();
+    if (this.state.contextMenu === value) {
+      this._handleHide();
+    } else {
+      this.setState({ contextMenu: value });
+    }
+  };
+
+  _handleFollow = async (e, id) => {
+    this._handleHide();
+    e.stopPropagation();
+    await Actions.createSubscription({
+      userId: id,
+    });
   };
 
   render() {
@@ -151,11 +273,117 @@ export default class Profile extends React.Component {
     let exploreSlates = this.props.exploreSlates;
     let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : null;
     let followingSlates = [];
+    console.log(this.props);
     for (let subscription of subscriptions) {
       if (subscription.slate != null) {
         followingSlates.push(subscription.slate);
       }
     }
+    let following = subscriptions
+      .filter((relation) => {
+        return !!relation.target_user_id;
+      })
+      .map((relation) => {
+        let button = (
+          <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
+            <SVG.MoreHorizontal height="24px" />
+            {this.state.contextMenu === relation.id ? (
+              <Boundary
+                captureResize={true}
+                captureScroll={false}
+                enabled
+                onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
+              >
+                <PopoverNavigation
+                  style={{
+                    top: "40px",
+                    right: "0px",
+                  }}
+                  navigation={[
+                    {
+                      text: "Copy profile URL",
+                      onClick: (e) =>
+                        this._handleCopy(e, `https://slate.host/${relation.user.username}`),
+                    },
+                    {
+                      text: "Unfollow",
+                      onClick: (e) => this._handleFollow(e, relation.user.id),
+                    },
+                  ]}
+                />
+              </Boundary>
+            ) : null}
+          </div>
+        );
+        return (
+          <UserEntry
+            key={relation.id}
+            user={relation.user}
+            button={button}
+            onClick={() => {
+              this.props.onAction({
+                type: "NAVIGATE",
+                value: this.props.sceneId,
+                scene: "PROFILE",
+                data: relation.user,
+              });
+            }}
+          />
+        );
+      });
+
+    let followers = this.props.creator.subscribers.map((relation) => {
+      let button = (
+        <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
+          <SVG.MoreHorizontal height="24px" />
+          {this.state.contextMenu === relation.id ? (
+            <Boundary
+              captureResize={true}
+              captureScroll={false}
+              enabled
+              onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
+            >
+              <PopoverNavigation
+                style={{
+                  top: "40px",
+                  right: "0px",
+                }}
+                navigation={[
+                  {
+                    text: "Copy profile URL",
+                    onClick: (e) =>
+                      this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
+                  },
+                  {
+                    text: this.props.creator.subscriptions.filter((subscription) => {
+                      return subscription.target_user_id === relation.owner.id;
+                    }).length
+                      ? "Unfollow"
+                      : "Follow",
+                    onClick: (e) => this._handleFollow(e, relation.owner.id),
+                  },
+                ]}
+              />
+            </Boundary>
+          ) : null}
+        </div>
+      );
+      return (
+        <UserEntry
+          key={relation.id}
+          user={relation.owner}
+          button={button}
+          onClick={() => {
+            this.props.onAction({
+              type: "NAVIGATE",
+              value: this.props.sceneId,
+              scene: "PROFILE",
+              data: relation.owner,
+            });
+          }}
+        />
+      );
+    });
 
     console.log("creator.subscription", subscriptions);
     console.log("following slates", followingSlates);
@@ -286,8 +514,31 @@ export default class Profile extends React.Component {
                   onChange={(value) => this.setState({ peerTab: value })}
                   style={{ margin: "0 0 24px 0" }}
                 />
-                {this.state.peerTab === 0 ? <div>{/*following*/}</div> : null}
-                {this.state.peerTab === 1 ? <div>{/*follower*/}</div> : null}
+                {this.state.peerTab === 0 ? (
+                  <div>
+                    {following && following.length ? (
+                      following
+                    ) : (
+                      <EmptyState>
+                        <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+                        You can follow any user on the network to be updated on their new uploads
+                        and slates.
+                      </EmptyState>
+                    )}
+                  </div>
+                ) : null}
+                {this.state.peerTab === 1 ? (
+                  <div>
+                    {followers && followers.length ? (
+                      followers
+                    ) : (
+                      <EmptyState>
+                        <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+                        You don't have any followers yet.
+                      </EmptyState>
+                    )}
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>

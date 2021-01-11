@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Actions from "~/common/actions";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
+import * as Window from "~/common/window";
 import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
 import * as Events from "~/common/custom-events";
@@ -11,13 +12,6 @@ import { SignIn } from "~/components/core/SignIn";
 
 import WebsitePrototypeHeader from "~/components/core/WebsitePrototypeHeader";
 import WebsitePrototypeFooter from "~/components/core/WebsitePrototypeFooter";
-
-const delay = (time) =>
-  new Promise((resolve) =>
-    setTimeout(() => {
-      resolve();
-    }, time)
-  );
 
 const STYLES_ROOT = css`
   display: flex;
@@ -78,7 +72,7 @@ export default class SceneSignIn extends React.Component {
   _handleSubmit = async () => {
     this.setState({ loading: true });
 
-    await delay(100);
+    await Window.delay(100);
 
     if (!this.state.accepted && this.state.scene === "CREATE_ACCOUNT") {
       Events.dispatchMessage({

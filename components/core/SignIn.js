@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Actions from "~/common/actions";
+import * as Window from "~/common/window";
 import * as SVG from "~/common/svg";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
@@ -9,13 +10,6 @@ import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/react";
 import { Logo, Symbol } from "~/common/logo";
-
-const delay = (time) =>
-  new Promise((resolve) =>
-    setTimeout(() => {
-      resolve();
-    }, time)
-  );
 
 const STYLES_POPOVER = css`
   height: 424px;
@@ -110,7 +104,7 @@ export class SignIn extends React.Component {
   _handleSubmit = async () => {
     this.setState({ loading: true });
 
-    await delay(100);
+    await Window.delay(100);
 
     if (!this.state.accepted && this.state.scene === "CREATE_ACCOUNT") {
       Events.dispatchMessage({

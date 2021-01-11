@@ -5,14 +5,11 @@ import * as Constants from "~/node_common/constants";
 import * as Serializers from "~/node_common/serializers";
 import * as Social from "~/node_common/social";
 import * as Strings from "~/common/strings";
+import * as Window from "~/common/window";
 import * as Websocket from "~/node_common/nodejs-websocket";
 import * as Filecoin from "~/common/filecoin";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
-
-const delay = async (waitMs) => {
-  return await new Promise((resolve) => setTimeout(resolve, waitMs));
-};
 
 const websocketSend = async (type, data) => {
   if (Strings.isEmpty(Environment.PUBSUB_SECRET)) {
@@ -22,7 +19,7 @@ const websocketSend = async (type, data) => {
   let ws = Websocket.get();
   if (!ws) {
     ws = Websocket.create();
-    await delay(2000);
+    await Window.delay(2000);
   }
 
   const encryptedData = await Utilities.encryptWithSecret(

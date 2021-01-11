@@ -4,7 +4,14 @@ import * as Strings from "~/common/strings";
 let pingTimeout = null;
 let client = null;
 
+let savedResource = null;
+let savedViewer = null;
+let savedOnUpdate = null;
+
 export const init = ({ resource = "", viewer, onUpdate }) => {
+  savedResource = resource;
+  savedViewer = viewer;
+  savedOnUpdate = onUpdate;
   if (!process.browser) {
     return null;
   }
@@ -74,6 +81,12 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
   });
 
   client.addEventListener("close", (e) => {
+    setTimeout(() => {
+      client = null;
+      console.log(`Auto reconnecting dropped websocket`);
+      init({ resource, viewer, onUpdate });
+    }, 1000);
+
     if (!client) {
       return null;
     }
@@ -112,4 +125,18 @@ export const deleteClient = async () => {
   console.log("WEBSOCKET: TERMINATED");
 
   return client;
+};
+
+export const checkWebsocket = async () => {
+  if (client) {
+    return;
+  }
+  if (!savedResource || !savedViewer || !savedOnUpdate) {
+    console.log("no saved resources from previous, so not connecting a websocket");
+    return;
+  }
+  console.log("reconnecting dropped websocket");
+  init({ resource: savedResource, viewer: savedViewer, onUpdate: savedOnUpdate });
+  await Window.delay(2000);
+  return;
 };

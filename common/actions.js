@@ -1,5 +1,6 @@
 import "isomorphic-fetch";
 
+import * as Websockets from "~/common/browser-websockets";
 import * as Strings from "~/common/strings";
 
 const REQUEST_HEADERS = {
@@ -27,6 +28,7 @@ const returnJSON = async (route, options) => {
 };
 
 export const health = async (data = {}) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/_`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data: { buckets: data.buckets } }),
@@ -45,7 +47,7 @@ export const sendFilecoin = async (data) => {
   if (!data.amount) {
     return null;
   }
-
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/addresses/send`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -60,6 +62,7 @@ export const checkUsername = async (data) => {
 };
 
 export const archive = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/data/archive`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -67,6 +70,7 @@ export const archive = async (data) => {
 };
 
 export const removeFromBucket = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/data/bucket-remove`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -74,12 +78,14 @@ export const removeFromBucket = async (data) => {
 };
 
 export const getNetworkDirectory = async () => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/directory`, {
     ...DEFAULT_OPTIONS,
   });
 };
 
 export const getSlateById = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/slates/get`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -87,6 +93,7 @@ export const getSlateById = async (data) => {
 };
 
 export const getSlatesByIds = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/slates/get`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -94,6 +101,7 @@ export const getSlatesByIds = async (data) => {
 };
 
 export const deleteTrustRelationship = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/users/trust-delete`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -101,6 +109,7 @@ export const deleteTrustRelationship = async (data) => {
 };
 
 export const updateTrustRelationship = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/users/trust-update`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -108,6 +117,7 @@ export const updateTrustRelationship = async (data) => {
 };
 
 export const createTrustRelationship = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/users/trust`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -115,6 +125,7 @@ export const createTrustRelationship = async (data) => {
 };
 
 export const createSubscription = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/subscribe`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -122,6 +133,7 @@ export const createSubscription = async (data) => {
 };
 
 export const search = async (data) => {
+  await Websockets.checkWebsocket();
   if (Strings.isEmpty(data.query)) {
     return { decorator: "NO_SERVER_TRIP", data: { results: [] } };
   }
@@ -137,6 +149,7 @@ export const search = async (data) => {
 };
 
 export const createPendingFiles = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/data/create-pending`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -144,6 +157,7 @@ export const createPendingFiles = async (data) => {
 };
 
 export const processPendingFiles = async () => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/data/process-pending`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify(),
@@ -151,6 +165,7 @@ export const processPendingFiles = async () => {
 };
 
 export const addFileToSlate = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/slates/add-url`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -158,6 +173,7 @@ export const addFileToSlate = async (data) => {
 };
 
 export const updateViewer = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/users/update`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -172,6 +188,7 @@ export const signIn = async (data) => {
 };
 
 export const hydrateAuthenticatedUser = async () => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/hydrate`, {
     ...DEFAULT_OPTIONS,
   });
@@ -191,6 +208,7 @@ export const createUser = async (data) => {
 };
 
 export const updateStatus = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/users/status-update`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -212,6 +230,7 @@ export const checkCIDStatus = async (data) => {
 };
 
 export const createSlate = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/slates/create`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -219,6 +238,7 @@ export const createSlate = async (data) => {
 };
 
 export const updateSlate = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/slates/update`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -226,6 +246,7 @@ export const updateSlate = async (data) => {
 };
 
 export const deleteSlate = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/slates/delete`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -233,6 +254,7 @@ export const deleteSlate = async (data) => {
 };
 
 export const removeFileFromSlate = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/slates/remove`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -240,12 +262,14 @@ export const removeFileFromSlate = async (data) => {
 };
 
 export const generateAPIKey = async () => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/keys/generate`, {
     ...DEFAULT_OPTIONS,
   });
 };
 
 export const deleteAPIKey = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/keys/delete`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -253,6 +277,7 @@ export const deleteAPIKey = async (data) => {
 };
 
 export const addCIDToData = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/data/add`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -260,6 +285,7 @@ export const addCIDToData = async (data) => {
 };
 
 export const updateData = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/data/update`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -267,6 +293,7 @@ export const updateData = async (data) => {
 };
 
 export const toggleFilePrivacy = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/data/toggle-privacy`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -274,6 +301,7 @@ export const toggleFilePrivacy = async (data) => {
 };
 
 export const deleteBucketItems = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/data/remove`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
@@ -295,6 +323,7 @@ export const getSerializedProfile = async (data) => {
 };
 
 export const createSupportMessage = async (data) => {
+  await Websockets.checkWebsocket();
   return await returnJSON(`/api/support-message`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),

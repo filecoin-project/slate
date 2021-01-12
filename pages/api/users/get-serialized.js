@@ -47,8 +47,8 @@ export default async (req, res) => {
   }
   user.library = library;
 
-  const subscriptions = await Data.getSubscriptionsByUserId({ userId: req.body.data.id });
-  const subscribers = await Data.getSubscribersByUserId({ userId: req.body.data.id });
+  const subscriptions = await Data.getSubscriptionsByUserId({ userId: user.id });
+  const subscribers = await Data.getSubscribersByUserId({ userId: user.id });
 
   let serializedUsersMap = { [user.id]: Serializers.user(user) };
   let serializedSlatesMap = {};

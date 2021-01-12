@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as SVG from "~/common/svg";
+import * as Actions from "~/common/actions";
 
 import { css } from "@emotion/react";
 
@@ -27,7 +28,7 @@ const STYLES_PROFILE_BACKGROUND = css`
 
 const STYLES_PROFILE_INTERNAL = css`
   width: 100%;
-  padding: 0px 56px 0px 56px;
+  padding: 0px 56px 80px 56px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -306,8 +307,17 @@ export default class Profile extends React.Component {
                         this._handleCopy(e, `https://slate.host/${relation.user.username}`),
                     },
                     {
-                      text: "Unfollow",
-                      onClick: (e) => this._handleFollow(e, relation.user.id),
+                      text: this.props.viewer?.subscriptions.filter((subscription) => {
+                        console.log(
+                          "relation",
+                          relation.target_user_id,
+                          subscription.target_user_id
+                        );
+                        return subscription.target_user_id === relation.target_user_id;
+                      }).length
+                        ? "Unfollow"
+                        : "Follow",
+                      onClick: (e) => this._handleFollow(e, relation.owner.id),
                     },
                   ]}
                 />
@@ -355,8 +365,8 @@ export default class Profile extends React.Component {
                       this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
                   },
                   {
-                    text: this.props.creator.subscriptions.filter((subscription) => {
-                      return subscription.target_user_id === relation.owner.id;
+                    text: this.props.viewer?.subscriptions.filter((subscription) => {
+                      return subscription.target_user_id === relation.owner_user_id;
                     }).length
                       ? "Unfollow"
                       : "Follow",
@@ -435,138 +445,112 @@ export default class Profile extends React.Component {
             />
           </div>
         )}
-        {this.props.onAction ? (
-          <div css={STYLES_PROFILE_INTERNAL}>
-            <TabGroup
-              tabs={["Files", "Slates", "Peers"]}
-              value={this.state.tab}
-              onChange={(value) => this.setState({ tab: value })}
-              style={{ marginBottom: 32 }}
-            />
-            {this.state.tab === 0 ? (
-              <div>
-                <SecondaryTabGroup
-                  tabs={[
-                    <SVG.GridView height="24px" style={{ display: "block" }} />,
-                    <SVG.TableView height="24px" style={{ display: "block" }} />,
-                  ]}
-                  value={this.state.view}
-                  onChange={(value) => this.setState({ view: value })}
-                  style={{ margin: "0 0 24px 0", justifyContent: "flex-end" }}
-                />
-                {this.props.viewer.library[0].children &&
-                this.props.viewer.library[0].children.length ? (
-                  <DataView
-                    onAction={this.props.onAction}
-                    viewer={this.props.viewer}
-                    items={this.props.viewer.library[0].children}
-                    onUpdateViewer={this.props.onUpdateViewer}
-                    view={this.state.view}
-                  />
-                ) : (
-                  <EmptyState>
-                    <FileTypeGroup />
-                    <div style={{ marginTop: 24 }}>Drag and drop files into Slate to upload</div>
-                  </EmptyState>
-                )}
-              </div>
-            ) : null}
-            {this.state.tab === 1 ? (
-              <div>
-                <SecondaryTabGroup
-                  tabs={["Public Slates", "Following Slates"]}
-                  value={this.state.slateTab}
-                  onChange={(value) => this.setState({ slateTab: value })}
-                  style={{ margin: "0 0 24px 0" }}
-                />
-                {this.state.slateTab === 0 ? (
-                  <div>
-                    {data.slates && data.slates.length ? (
-                      <SlatePreviewBlocks
-                        isOwner={this.props.isOwner}
-                        external={this.props.onAction ? false : true}
-                        slates={data.slates}
-                        username={data.username}
-                        onAction={this.props.onAction}
-                      />
-                    ) : null}
-                  </div>
-                ) : null}
-                {this.state.slateTab === 1 ? (
-                  <div>
-                    {followingSlates ? (
-                      <SlatePreviewBlocks
-                        isOwner={false}
-                        external={this.props.onAction ? false : true}
-                        slates={followingSlates}
-                        onAction={this.props.onAction}
-                      />
-                    ) : null}
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-            {this.state.tab === 2 ? (
-              <div>
-                <SecondaryTabGroup
-                  tabs={["Following", "Followers"]}
-                  value={this.state.peerTab}
-                  onChange={(value) => this.setState({ peerTab: value })}
-                  style={{ margin: "0 0 24px 0" }}
-                />
-                {this.state.peerTab === 0 ? (
-                  <div>
-                    {following && following.length ? (
-                      following
-                    ) : (
-                      <EmptyState>
-                        <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                        You can follow any user on the network to be updated on their new uploads
-                        and slates.
-                      </EmptyState>
-                    )}
-                  </div>
-                ) : null}
-                {this.state.peerTab === 1 ? (
-                  <div>
-                    {followers && followers.length ? (
-                      followers
-                    ) : (
-                      <EmptyState>
-                        <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                        You don't have any followers yet.
-                      </EmptyState>
-                    )}
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-          </div>
-        ) : (
-          <div css={STYLES_PROFILE}>
-            {data.slates && data.slates.length ? (
-              <SlatePreviewBlocks
-                isOwner={this.props.isOwner}
-                external={this.props.onAction ? false : true}
-                slates={data.slates}
-                username={data.username}
-                onAction={this.props.onAction}
+        <div css={STYLES_PROFILE_INTERNAL}>
+          <TabGroup
+            tabs={["Files", "Slates", "Peers"]}
+            value={this.state.tab}
+            onChange={(value) => this.setState({ tab: value })}
+            style={{ marginBottom: 32 }}
+          />
+          {this.state.tab === 0 ? (
+            <div>
+              <SecondaryTabGroup
+                tabs={[
+                  <SVG.GridView height="24px" style={{ display: "block" }} />,
+                  <SVG.TableView height="24px" style={{ display: "block" }} />,
+                ]}
+                value={this.state.view}
+                onChange={(value) => this.setState({ view: value })}
+                style={{ margin: "0 0 24px 0", justifyContent: "flex-end" }}
               />
-            ) : (
-              <div>
-                {" "}
-                <p style={{ marginTop: 40, color: `${Constants.system.darkGray}` }}>
-                  No publicly shared slates from @{data.username}.
-                </p>
-                <div css={STYLES_EXPLORE} />
-                <SlatePreviewBlocks
-                  slates={exploreSlates}
-                  external={this.props.onAction ? false : true}
+              {this.props.creator.library[0].children &&
+              this.props.creator.library[0].children.length ? (
+                <DataView
+                  onAction={this.props.onAction}
+                  viewer={this.props.viewer}
+                  items={this.props.creator.library[0].children}
+                  onUpdateViewer={this.props.onUpdateViewer}
+                  view={this.state.view}
                 />
-              </div>
-            )}
-          </div>
-        )}
+              ) : (
+                <EmptyState>
+                  <FileTypeGroup />
+                  <div style={{ marginTop: 24 }}>Drag and drop files into Slate to upload</div>
+                </EmptyState>
+              )}
+            </div>
+          ) : null}
+          {this.state.tab === 1 ? (
+            <div>
+              <SecondaryTabGroup
+                tabs={["Public Slates", "Following Slates"]}
+                value={this.state.slateTab}
+                onChange={(value) => this.setState({ slateTab: value })}
+                style={{ margin: "0 0 24px 0" }}
+              />
+              {this.state.slateTab === 0 ? (
+                <div>
+                  {data.slates && data.slates.length ? (
+                    <SlatePreviewBlocks
+                      isOwner={this.props.isOwner}
+                      external={this.props.onAction ? false : true}
+                      slates={data.slates}
+                      username={data.username}
+                      onAction={this.props.onAction}
+                    />
+                  ) : null}
+                </div>
+              ) : null}
+              {this.state.slateTab === 1 ? (
+                <div>
+                  {followingSlates ? (
+                    <SlatePreviewBlocks
+                      isOwner={false}
+                      external={this.props.onAction ? false : true}
+                      slates={followingSlates}
+                      onAction={this.props.onAction}
+                    />
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+          {this.state.tab === 2 ? (
+            <div>
+              <SecondaryTabGroup
+                tabs={["Following", "Followers"]}
+                value={this.state.peerTab}
+                onChange={(value) => this.setState({ peerTab: value })}
+                style={{ margin: "0 0 24px 0" }}
+              />
+              {this.state.peerTab === 0 ? (
+                <div>
+                  {following && following.length ? (
+                    following
+                  ) : (
+                    <EmptyState>
+                      <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+                      You can follow any user on the network to be updated on their new uploads and
+                      slates.
+                    </EmptyState>
+                  )}
+                </div>
+              ) : null}
+              {this.state.peerTab === 1 ? (
+                <div>
+                  {followers && followers.length ? (
+                    followers
+                  ) : (
+                    <EmptyState>
+                      <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+                      You don't have any followers yet.
+                    </EmptyState>
+                  )}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
       </div>
     );
   }

@@ -505,6 +505,7 @@ export default class DataView extends React.Component {
                       ? `0px 0px 0px 1px ${Constants.system.lightBorder} inset,
       0 0 40px 0 ${Constants.system.shadow}`
                       : "",
+                    textAlign: "left",
                   }}
                   onClick={() => this._handleSelect(i)}
                   onMouseEnter={() => this.setState({ hover: i })}
@@ -734,8 +735,16 @@ export default class DataView extends React.Component {
       <React.Fragment>
         <Table
           data={data}
-          rowStyle={{ padding: "10px 16px", backgroundColor: Constants.system.white }}
-          topRowStyle={{ padding: "0px 16px", backgroundColor: Constants.system.white }}
+          rowStyle={{
+            padding: "10px 16px",
+            textAlign: "left",
+            backgroundColor: Constants.system.white,
+          }}
+          topRowStyle={{
+            padding: "0px 16px",
+            textAlign: "left",
+            backgroundColor: Constants.system.white,
+          }}
           onMouseEnter={(i) => this.setState({ hover: i })}
           onMouseLeave={() => this.setState({ hover: null })}
           isShiftDown={this.isShiftDown}

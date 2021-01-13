@@ -326,7 +326,7 @@ export class SlatePreviewBlock extends React.Component {
               {this.props.slate.data.name}
             </div>
 
-            {!this.props.external && this.props.username ? (
+            {!this.props.external ? (
               <div
                 style={{ marginLeft: "auto" }}
                 ref={(c) => {

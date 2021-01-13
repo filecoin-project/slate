@@ -236,6 +236,7 @@ export default class Profile extends React.Component {
     peerTab: 0,
     copyValue: "",
     contextMenu: null,
+    followingSlates: [],
   };
 
   _handleCopy = (e, value) => {
@@ -268,18 +269,35 @@ export default class Profile extends React.Component {
     });
   };
 
-  render() {
-    const external = !this.props.onAction;
-    let data = this.props.creator ? this.props.creator : this.props.data;
-    let exploreSlates = this.props.exploreSlates;
-    let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : null;
+  componentDidMount = async () => {
+    await this.fetchUsername();
+  };
+
+  fetchUsername = async () => {
     let followingSlates = [];
-    console.log(this.props);
+    let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : null;
     for (let subscription of subscriptions) {
       if (subscription.slate != null) {
         followingSlates.push(subscription.slate);
       }
     }
+
+    for (let followingSlate of followingSlates) {
+      let id = { id: followingSlate.data.ownerId };
+      let slateOwner = await Actions.getSerializedProfile(id);
+      followingSlate.username = slateOwner.data.username;
+    }
+
+    this.setState({ followingSlates: followingSlates });
+  };
+
+  render() {
+    const external = !this.props.onAction;
+    let data = this.props.creator ? this.props.creator : this.props.data;
+    let exploreSlates = this.props.exploreSlates;
+    let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : null;
+
+    console.log(this.props);
     let following = subscriptions
       .filter((relation) => {
         return !!relation.target_user_id;
@@ -395,9 +413,6 @@ export default class Profile extends React.Component {
       );
     });
 
-    console.log("creator.subscription", subscriptions);
-    console.log("following slates", followingSlates);
-
     let total = 0;
     for (let slate of data.slates) {
       total += slate.data.objects.length;
@@ -503,12 +518,13 @@ export default class Profile extends React.Component {
               ) : null}
               {this.state.slateTab === 1 ? (
                 <div>
-                  {followingSlates ? (
+                  {this.state.followingSlates ? (
                     <SlatePreviewBlocks
                       isOwner={false}
                       external={this.props.onAction ? false : true}
-                      slates={followingSlates}
+                      slates={this.state.followingSlates}
                       onAction={this.props.onAction}
+                      username={this.state.followingSlates.username}
                     />
                   ) : null}
                 </div>

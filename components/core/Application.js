@@ -673,6 +673,20 @@ export default class ApplicationPage extends React.Component {
             mobile={this.props.mobile}
             resourceURI={this.props.resources.search}
           />
+          {!this.state.loaded ? (
+            <div
+              style={{
+                position: "absolute",
+                width: "100vw",
+                height: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Logo style={{ width: "20vw", maxWidth: "200px" }} />
+            </div>
+          ) : null}
         </WebsitePrototypeWrapper>
       </React.Fragment>
     );

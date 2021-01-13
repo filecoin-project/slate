@@ -59,6 +59,7 @@ export default class SidebarCreateSlate extends React.Component {
     });
 
     if (Events.hasError(response)) {
+      this.setState({ loading: false });
       return;
     }
 
@@ -73,6 +74,7 @@ export default class SidebarCreateSlate extends React.Component {
       });
 
       if (Events.hasError(addResponse)) {
+        this.setState({ loading: false });
         return;
       }
 

@@ -56,6 +56,7 @@ import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { SearchModal } from "~/components/core/SearchModal";
 import { Alert } from "~/components/core/Alert";
 import { announcements } from "~/components/core/OnboardingModal";
+import { Logo } from "~/common/logo";
 
 const SIDEBARS = {
   SIDEBAR_FILECOIN_ARCHIVE: <SidebarFilecoinArchive />,
@@ -101,6 +102,7 @@ export default class ApplicationPage extends React.Component {
     sidebar: null,
     online: null,
     mobile: this.props.mobile,
+    loaded: false,
   };
 
   async componentDidMount() {
@@ -439,6 +441,9 @@ export default class ApplicationPage extends React.Component {
       this._handleNavigateTo({ id, user, slate, cid }, null, true);
       return true;
     }
+    if (!this.state.loaded) {
+      this.setState({ loaded: true });
+    }
     return false;
   };
 
@@ -509,6 +514,10 @@ export default class ApplicationPage extends React.Component {
         "Slate",
         `/_${next.id ? `?scene=${next.id}` : ""}`
       );
+    }
+
+    if (!this.state.loaded) {
+      this.setState({ loaded: true });
     }
 
     let body = document.documentElement || document.body;
@@ -614,6 +623,23 @@ export default class ApplicationPage extends React.Component {
 
     // console.log("application state:", { target: current.target });
     // console.log("application state:", { data: this.state.data });
+
+    if (!this.state.loaded) {
+      return (
+        <WebsitePrototypeWrapper description={description} title={title} url={url}>
+          <div
+            style={{
+              height: "100vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Logo style={{ width: "20vw", maxWidth: "200px" }} />
+          </div>
+        </WebsitePrototypeWrapper>
+      );
+    }
 
     return (
       <React.Fragment>

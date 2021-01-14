@@ -27,7 +27,6 @@ export default async (req, res) => {
       error: true,
     });
   }
-
   const slate = await Data.getSlateById({ id: req.body.data.id });
 
   if (!slate) {

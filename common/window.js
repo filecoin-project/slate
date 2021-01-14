@@ -110,9 +110,10 @@ export const debounce = (func, wait) => {
 
   return function passedInFunction(...args) {
     const later = () => {
+      console.log("timeout called");
       func(...args);
     };
-
+    console.log("clear timeout");
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };

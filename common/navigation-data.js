@@ -71,6 +71,14 @@ export const generate = ({ library = [], slates = [] }) => [
     ignore: true,
   },
   {
+    id: "NAV_EXPLORE",
+    decorator: "EXPLORE",
+    name: "Explore",
+    pageTitle: "Welcome back!",
+    children: null,
+    ignore: true,
+  },
+  {
     id: "NAV_SLATES",
     decorator: "SLATES",
     name: "Slates",

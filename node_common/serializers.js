@@ -1,4 +1,5 @@
 import DB from "~/node_common/database";
+import * as Data from "~/node_common/data";
 
 export const user = (entity) => {
   return {
@@ -323,4 +324,46 @@ export const doSubscribers = async ({
     serializedUsersMap,
     serializedSlatesMap,
   };
+};
+
+export const doActivity = async (fetchedActivity) => {
+  let activity = fetchedActivity;
+  let slateIds = [];
+  if (activity && activity.length) {
+    activity = activity.filter((item) => {
+      if (item.data.type === "SUBSCRIBED_CREATE_SLATE") {
+        slateIds.push(item.data.context.slate.id);
+      }
+      return (
+        item.data.type === "SUBSCRIBED_CREATE_SLATE" || item.data.type === "SUBSCRIBED_ADD_TO_SLATE"
+      );
+    });
+  }
+
+  let slates = [];
+  if (slateIds && slateIds.length) {
+    slates = await Data.getSlatesByIds({ ids: slateIds });
+  }
+
+  let slateTable = {};
+  for (let slate of slates || []) {
+    slateTable[slate.id] = slate;
+  }
+
+  for (let item of activity) {
+    if (item.data.type === "SUBSCRIBED_CREATE_SLATE") {
+      let slate = slateTable[item.data.context.slate.id];
+      if (slate?.data?.objects?.length) {
+        item.data.context.slate = slate;
+      }
+    }
+  }
+  //NOTE(martina): remove empty slates
+  activity = activity.filter((item) => {
+    if (item.data.type === "SUBSCRIBED_ADD_TO_SLATE") return true;
+    let slate = item.data.context.slate;
+    return slate?.data?.objects?.length;
+  });
+
+  return activity;
 };

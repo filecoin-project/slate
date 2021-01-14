@@ -63,12 +63,33 @@ export default class SlateMediaObject extends React.Component {
     let element = <div css={STYLES_FAILURE}>No Preview</div>;
 
     if (type.startsWith("application/pdf")) {
-      return <object css={STYLES_OBJECT} data={url} type={type} key={url} />;
+      return (
+        <object
+          css={STYLES_OBJECT}
+          style={{ width: "calc(100% - 64px)" }}
+          data={url}
+          type={type}
+          key={url}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        />
+      );
     }
 
     if (type.startsWith("video/")) {
       return (
-        <video playsInline controls name="media" type={playType} css={STYLES_OBJECT} key={url}>
+        <video
+          playsInline
+          controls
+          name="media"
+          type={playType}
+          css={STYLES_OBJECT}
+          key={url}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <source src={url} type={playType} />
         </video>
       );
@@ -77,7 +98,14 @@ export default class SlateMediaObject extends React.Component {
     if (type.startsWith("audio/")) {
       return (
         <div css={STYLES_ASSET}>
-          <audio controls name="media" key={url}>
+          <audio
+            controls
+            name="media"
+            key={url}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <source src={url} type={playType} />
           </audio>
         </div>
@@ -87,7 +115,13 @@ export default class SlateMediaObject extends React.Component {
     if (Validations.isPreviewableImage(type)) {
       return (
         <div css={STYLES_ASSET}>
-          <img css={STYLES_IMAGE} src={url} />
+          <img
+            css={STYLES_IMAGE}
+            src={url}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          />
         </div>
       );
     }

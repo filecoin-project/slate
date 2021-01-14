@@ -331,17 +331,23 @@ export class GlobalCarousel extends React.Component {
                 }
           }
         />
-        <div css={STYLES_ROOT_CONTENT} style={this.props.style}>
+        <div css={STYLES_ROOT_CONTENT} style={this.props.style} onClick={this._handleClose}>
           <span
             css={STYLES_BOX}
-            onClick={this._handlePrevious}
+            onClick={(e) => {
+              e.stopPropagation();
+              this._handlePrevious(e);
+            }}
             style={{ top: 0, left: 16, bottom: 0 }}
           >
             <SVG.ChevronLeft height="20px" />
           </span>
           <span
             css={STYLES_BOX}
-            onClick={this._handleNext}
+            onClick={(e) => {
+              e.stopPropagation();
+              this._handleNext(e);
+            }}
             style={{ top: 0, right: 16, bottom: 0 }}
           >
             <SVG.ChevronRight height="20px" />
@@ -351,7 +357,10 @@ export class GlobalCarousel extends React.Component {
             {this.state.showSidebar ? (
               <div
                 css={STYLES_EXPANDER}
-                onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  this.setState({ showSidebar: !this.state.showSidebar });
+                }}
               >
                 <SVG.Maximize height="24px" />
               </div>
@@ -359,7 +368,10 @@ export class GlobalCarousel extends React.Component {
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div
                   css={STYLES_EXPANDER}
-                  onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    this.setState({ showSidebar: !this.state.showSidebar });
+                  }}
                 >
                   <SVG.Minimize height="24px" />
                 </div>

@@ -2,7 +2,7 @@ import * as Strings from "~/common/strings";
 
 // NOTE(jim):
 // Recursion for nested entities (any number).
-export const getCurrentById = (navigation, targetId) => {
+export const getCurrentById = (targetId) => {
   let target = null;
   let activeIds = {};
 
@@ -13,14 +13,14 @@ export const getCurrentById = (navigation, targetId) => {
         activeIds[state[i].id] = true;
       }
 
-      if (!target && state[i].children) {
-        activeIds[state[i].id] = true;
-        findById(state[i].children, id);
+      // if (!target && state[i].children) {
+      //   activeIds[state[i].id] = true;
+      //   findById(state[i].children, id);
 
-        if (!target) {
-          activeIds[state[i].id] = false;
-        }
-      }
+      //   if (!target) {
+      //     activeIds[state[i].id] = false;
+      //   }
+      // }
     }
   };
 
@@ -29,45 +29,18 @@ export const getCurrentById = (navigation, targetId) => {
   return { target, activeIds };
 };
 
-const constructFilesTreeForNavigation = (library) => {
-  return {
-    ...library[0],
+export const navigation = [
+  {
     id: "NAV_DATA",
     decorator: "DATA",
     name: "Home",
-    // children: [
-    //   {
-    //     id: "V1_NAVIGATION_ENCRYPTED_DATA",
-    //     decorator: "ENCRYPTED",
-    //     name: "Encrypted Data",
-    //     pageTitle: "Encrypted data",
-    //     children: null,
-    //   },
-    // ],
-  };
-};
-
-// const constructSlatesTreeForNavigation = (slates) => {
-//   return slates.map((s) => {
-//     return {
-//       ...s,
-//       slateId: s.id,
-//       name: Strings.getPresentationSlateName(s),
-//       pageTitle: `Viewing ${s.slatename}`,
-//       decorator: "SLATE",
-//       ignore: true,
-//     };
-//   });
-// };
-
-export const generate = ({ library = [], slates = [] }) => [
-  constructFilesTreeForNavigation(library),
+    pageTitle: "Welcome back!",
+  },
   {
     id: "NAV_ACTIVITY",
     decorator: "ACTIVITY",
     name: "Activity",
     pageTitle: "Welcome back!",
-    children: null,
     ignore: true,
   },
   {
@@ -75,7 +48,6 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "EXPLORE",
     name: "Explore",
     pageTitle: "Welcome back!",
-    children: null,
     ignore: true,
   },
   {
@@ -83,7 +55,6 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SLATES",
     name: "Slates",
     pageTitle: "Slates",
-    children: null,
     ignore: true,
   },
   {
@@ -91,7 +62,6 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SLATES_FOLLOWING",
     name: "Slates",
     pageTitle: "Slates",
-    children: null,
     ignore: true,
   },
   {
@@ -99,14 +69,12 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "DIRECTORY",
     name: "Directory",
     pageTitle: "Your directory",
-    children: null,
   },
   {
     id: "NAV_DIRECTORY_FOLLOWERS",
     decorator: "DIRECTORY_FOLLOWERS",
     name: "Directory",
     pageTitle: "Your directory",
-    children: null,
     ignore: true,
   },
   {
@@ -114,10 +82,8 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "SLATE",
     name: "Slate",
     pageTitle: "Slate",
-    children: null,
     ignore: true,
   },
-  // ...constructSlatesTreeForNavigation(slates),
   /*
   {
     id: "V1_NAVIGATION_LOCAL",
@@ -141,7 +107,6 @@ export const generate = ({ library = [], slates = [] }) => [
     name: "Filecoin",
     pageTitle: "Archive on Filecoin",
     filecoin: true,
-    children: null,
   },
   {
     id: "NAV_STORAGE_DEAL",
@@ -155,14 +120,12 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "API",
     name: "API",
     pageTitle: "Developer API",
-    children: null,
   },
   {
     id: "NAV_SETTINGS",
     decorator: "SETTINGS",
     name: "Profile & Account Settings",
     pageTitle: "Your Profile & Account Settings",
-    children: null,
     ignore: true,
   },
   {
@@ -170,7 +133,6 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "PROFILE",
     name: "Profile",
     pageTitle: "Profile",
-    children: null,
     ignore: true,
   },
   {
@@ -178,7 +140,6 @@ export const generate = ({ library = [], slates = [] }) => [
     decorator: "FILE",
     name: "File",
     pageTitle: "File",
-    children: null,
     ignore: true,
   },
 ];

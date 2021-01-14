@@ -157,6 +157,31 @@ export default class ApplicationPage extends React.Component {
     //     )
     //   );
     // await setAsyncState(newViewerState);
+
+    //NOTE(martina): if updating viewer affects this.state.data (e.g. you're viewing your own slate), update data as well
+    if (newViewerState.slates?.length) {
+      let next;
+      if (typeof window !== "undefined") {
+        next = window?.history?.state;
+      }
+      if (!next || !next.id) {
+        next = { id: "NAV_DATA", scrollTop: 0, data: null };
+      }
+      if (next.id === "NAV_SLATE" && this.state.data?.data?.ownerId === this.props.viewer.id) {
+        let data = this.state.data;
+        for (let slate of newViewerState.slates) {
+          if (slate.id === data.id) {
+            data = slate;
+            break;
+          }
+        }
+        this.setState({
+          viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
+          data,
+        });
+        return;
+      }
+    }
     this.setState({
       viewer: { ...this.state.viewer, ...newViewerState, type: "VIEWER" },
     });
@@ -223,7 +248,6 @@ export default class ApplicationPage extends React.Component {
       dataTransfer: e.dataTransfer,
     });
 
-    const navigation = NavigationData.generate(this.state.viewer);
     let next;
     if (typeof window !== "undefined") {
       next = window?.history?.state;
@@ -231,7 +255,7 @@ export default class ApplicationPage extends React.Component {
     if (!next || !next.id) {
       next = { id: "NAV_DATA", scrollTop: 0, data: null };
     }
-    const current = NavigationData.getCurrentById(navigation, next.id);
+    const current = NavigationData.getCurrentById(next.id);
 
     let slate = null;
     if (
@@ -522,13 +546,22 @@ export default class ApplicationPage extends React.Component {
     }
 
     let body = document.documentElement || document.body;
-    this.setState(
-      {
-        data,
-        sidebar: null,
-      },
-      () => body.scrollTo(0, 0)
-    );
+    if (data) {
+      this.setState(
+        {
+          data,
+          sidebar: null,
+        },
+        () => body.scrollTo(0, 0)
+      );
+    } else {
+      this.setState(
+        {
+          sidebar: null,
+        },
+        () => body.scrollTo(0, 0)
+      );
+    }
   };
 
   _handleBackForward = (e) => {
@@ -559,7 +592,6 @@ export default class ApplicationPage extends React.Component {
       );
     }
     // NOTE(jim): Authenticated.
-    const navigation = NavigationData.generate(this.state.viewer);
     let next;
     if (typeof window !== "undefined") {
       next = window?.history?.state;
@@ -567,7 +599,7 @@ export default class ApplicationPage extends React.Component {
     if (!next || !next.id) {
       next = { id: "NAV_DATA", scrollTop: 0, data: null };
     }
-    const current = NavigationData.getCurrentById(navigation, next.id);
+    const current = NavigationData.getCurrentById(next.id);
 
     // NOTE(jim): Only happens during a bad query parameter.
     if (!current.target) {
@@ -578,7 +610,7 @@ export default class ApplicationPage extends React.Component {
     let headerElement = (
       <ApplicationHeader
         viewer={this.state.viewer}
-        navigation={navigation}
+        navigation={NavigationData.navigation}
         activeIds={current.activeIds}
         onAction={this._handleAction}
         mobile={this.state.mobile}

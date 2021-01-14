@@ -339,8 +339,6 @@ export const doActivity = async (fetchedActivity) => {
       );
     });
   }
-  console.log("after filter for type");
-  console.log(activity);
 
   let slates = [];
   if (slateIds && slateIds.length) {
@@ -366,8 +364,6 @@ export const doActivity = async (fetchedActivity) => {
     let slate = item.data.context.slate;
     return slate?.data?.objects?.length;
   });
-  console.log("after remove empty slates");
-  console.log(activity);
 
   return activity;
 };

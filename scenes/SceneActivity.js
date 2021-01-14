@@ -9,11 +9,20 @@ import * as System from "~/components/system";
 
 import { css } from "@emotion/react";
 import { PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
+import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import EmptyState from "~/components/core/EmptyState";
 import ScenePage from "~/components/core/ScenePage";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import ScenePageHeader from "~/components/core/ScenePageHeader";
+
+const STYLES_LOADER = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 400px);
+  width: 100%;
+`;
 
 const STYLES_VIDEO_BIG = css`
   display: block;
@@ -205,7 +214,7 @@ export default class SceneActivity extends React.Component {
   state = {
     imageSize: 200,
     tab: 0,
-    loading: null,
+    loading: "loading",
   };
 
   async componentDidMount() {
@@ -214,8 +223,6 @@ export default class SceneActivity extends React.Component {
     this.scrollDebounceInstance = Window.debounce(this._handleScroll, 200);
     window.addEventListener("resize", this.debounceInstance);
     window.addEventListener("scroll", this.scrollDebounceInstance);
-    //slates with no previewable images in them?
-    //filter to remove ones you no longer follow
     this.fetchActivityItems(true);
   }
 
@@ -250,8 +257,6 @@ export default class SceneActivity extends React.Component {
       this.fetchActivityItems();
     }
   };
-  //maybe it shouldn't save the extra loaded ones b/c that could take a lot of space. just the first 100
-  //what if a slate is deleted and you click on an activity item for it? what does it show?
 
   fetchActivityItems = async (update = false) => {
     this.setState({ loading: "loading" });
@@ -297,7 +302,7 @@ export default class SceneActivity extends React.Component {
       //NOTE(martina): fetch the most recent 100 events
       response = await Actions.getActivity({ explore: this.props.tab === 1 });
       if (Events.hasError(response)) {
-        this.setState({ loading: "failed" });
+        this.setState({ loading: false });
         return;
       }
       if (!response.activity.length) {
@@ -391,48 +396,57 @@ export default class SceneActivity extends React.Component {
           }
         />
         {activity.length ? (
-          <div css={STYLES_ACTIVITY_GRID}>
-            {activity.map((item) => {
-              if (item.data.type === "SUBSCRIBED_CREATE_SLATE") {
-                return (
-                  <span
-                    key={item.id}
-                    onClick={() =>
-                      this.props.onAction({
-                        type: "NAVIGATE",
-                        value: "NAV_SLATE",
-                        data: { decorator: "SLATE", ...item.data.context.slate },
-                      })
-                    }
-                  >
-                    <ActivityRectangle size={this.state.imageSize} item={item.data.context} />
-                  </span>
-                );
-              } else if (item.data.type === "SUBSCRIBED_ADD_TO_SLATE") {
-                return (
-                  <span
-                    key={item.id}
-                    onClick={() => {
-                      this.props.onAction({
-                        type: "NAVIGATE",
-                        value: "NAV_SLATE",
-                        data: {
-                          decorator: "SLATE",
-                          ...item.data.context.slate,
-                          pageState: {
-                            cid: item.data.context.file.cid,
+          <div>
+            <div css={STYLES_ACTIVITY_GRID}>
+              {activity.map((item) => {
+                if (item.data.type === "SUBSCRIBED_CREATE_SLATE") {
+                  return (
+                    <span
+                      key={item.id}
+                      onClick={() =>
+                        this.props.onAction({
+                          type: "NAVIGATE",
+                          value: "NAV_SLATE",
+                          data: { decorator: "SLATE", ...item.data.context.slate },
+                        })
+                      }
+                    >
+                      <ActivityRectangle size={this.state.imageSize} item={item.data.context} />
+                    </span>
+                  );
+                } else if (item.data.type === "SUBSCRIBED_ADD_TO_SLATE") {
+                  return (
+                    <span
+                      key={item.id}
+                      onClick={() => {
+                        this.props.onAction({
+                          type: "NAVIGATE",
+                          value: "NAV_SLATE",
+                          data: {
+                            decorator: "SLATE",
+                            ...item.data.context.slate,
+                            pageState: {
+                              cid: item.data.context.file.cid,
+                            },
                           },
-                        },
-                      });
-                    }}
-                  >
-                    <ActivitySquare size={this.state.imageSize} item={item.data.context} />
-                  </span>
-                );
-              } else {
-                return null;
-              }
-            })}
+                        });
+                      }}
+                    >
+                      <ActivitySquare size={this.state.imageSize} item={item.data.context} />
+                    </span>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </div>
+            <div css={STYLES_LOADER} style={{ height: 100 }}>
+              {this.state.loading === "loading" ? <LoaderSpinner /> : null}
+            </div>
+          </div>
+        ) : this.state.loading === "loading" ? (
+          <div css={STYLES_LOADER}>
+            <LoaderSpinner />
           </div>
         ) : (
           <EmptyState>

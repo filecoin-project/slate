@@ -39,7 +39,7 @@ export const error = {
     "We're having trouble retrieving information on that slate right now. Please try again later",
   GET_SLATES_BY_USER_ID:
     "We're having trouble retrieving that user's information. Please try again later",
-  SLATE_NOT_FOUND: "We're having trouble retrieving that user's slates right now. Please try again",
+  SLATE_NOT_FOUND: "That slate could not be found. It may have been deleted",
   SLATE_OWNER_NOT_FOUND:
     "We're having trouble retrieving that slate's owner right now. Please try again",
   SERVER_GET_SLATE_USER_NOT_FOUND:

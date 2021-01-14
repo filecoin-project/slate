@@ -26,25 +26,13 @@ const STYLES_PROFILE_BACKGROUND = css`
   }
 `;
 
-const STYLES_PROFILE_INTERNAL = css`
+const STYLES_PROFILE = css`
   width: 100%;
   padding: 0px 56px 80px 56px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 80px 24px 16px 24px;
-  }
-`;
-
-const STYLES_PROFILE = css`
-  width: 100%;
-  padding: 32px 32px 0px 32px;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-  flex-shrink: 0;
-  display: block;
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 80px 24px 16px 24px;
+    padding: 0px 24px 16px 24px;
   }
 `;
 
@@ -232,11 +220,15 @@ export default class Profile extends React.Component {
     exploreSlates: [],
     tab: 1,
     view: 0,
+    fileTab: 0,
     slateTab: 0,
     peerTab: 0,
     copyValue: "",
     contextMenu: null,
     followingSlates: [],
+    publicSlates: [],
+    publicFiles: [],
+    pseudoPrivateFiles: [],
   };
 
   _handleCopy = (e, value) => {
@@ -270,6 +262,7 @@ export default class Profile extends React.Component {
   };
 
   componentDidMount = async () => {
+    await this.filterByVisibility();
     await this.fetchUsername();
   };
 
@@ -291,13 +284,53 @@ export default class Profile extends React.Component {
     this.setState({ followingSlates: followingSlates });
   };
 
+  filterByVisibility = async () => {
+    let publicFiles = [];
+    let pseudoPrivateFiles = [];
+    let files = this.props.creator.library[0].children;
+    let publicSlates =
+      this.props.creator.username === this.props.viewer?.username
+        ? this.props.creator.slates.filter((slate) => {
+            return slate.data.public === true;
+          })
+        : this.props.creator.slates;
+
+    let publicSlateFiles = publicSlates
+      .reduce((acc, curr) => {
+        return acc.concat(curr.data.objects);
+      }, [])
+      .reduce((acc, curr) => {
+        return acc.concat(curr.cid);
+      }, [])
+      .reduce((acc, curr) => {
+        if (acc.indexOf(curr) === -1) {
+          acc.push(curr);
+        }
+        return acc;
+      }, []);
+    for (let file of files) {
+      if (file.public === true || publicSlateFiles.indexOf(file.cid) != -1) {
+        publicFiles.push(file);
+      } else {
+        pseudoPrivateFiles.push(file);
+      }
+    }
+    this.setState({
+      publicSlates: publicSlates,
+      publicFiles: publicFiles,
+      pseudoPrivateFiles: pseudoPrivateFiles,
+    });
+  };
+
   render() {
     const external = !this.props.onAction;
     let data = this.props.creator ? this.props.creator : this.props.data;
     let exploreSlates = this.props.exploreSlates;
     let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : null;
+    let isOwner = this.props.creator.username === this.props.viewer?.username;
 
     console.log(this.props);
+    console.log(this.state.publicSlates);
     let following = subscriptions
       .filter((relation) => {
         return !!relation.target_user_id;
@@ -326,11 +359,6 @@ export default class Profile extends React.Component {
                     },
                     {
                       text: this.props.viewer?.subscriptions.filter((subscription) => {
-                        console.log(
-                          "relation",
-                          relation.target_user_id,
-                          subscription.target_user_id
-                        );
                         return subscription.target_user_id === relation.target_user_id;
                       }).length
                         ? "Unfollow"
@@ -460,38 +488,111 @@ export default class Profile extends React.Component {
             />
           </div>
         )}
-        <div css={STYLES_PROFILE_INTERNAL}>
+        <div css={STYLES_PROFILE}>
           <TabGroup
             tabs={["Files", "Slates", "Peers"]}
             value={this.state.tab}
             onChange={(value) => this.setState({ tab: value })}
-            style={{ marginBottom: 32 }}
+            style={{ marginTop: 0, marginBottom: 32 }}
           />
           {this.state.tab === 0 ? (
             <div>
-              <SecondaryTabGroup
-                tabs={[
-                  <SVG.GridView height="24px" style={{ display: "block" }} />,
-                  <SVG.TableView height="24px" style={{ display: "block" }} />,
-                ]}
-                value={this.state.view}
-                onChange={(value) => this.setState({ view: value })}
-                style={{ margin: "0 0 24px 0", justifyContent: "flex-end" }}
-              />
-              {this.props.creator.library[0].children &&
-              this.props.creator.library[0].children.length ? (
-                <DataView
-                  onAction={this.props.onAction}
-                  viewer={this.props.viewer}
-                  items={this.props.creator.library[0].children}
-                  onUpdateViewer={this.props.onUpdateViewer}
-                  view={this.state.view}
+              <div style={{ display: `flex` }}>
+                {isOwner && (
+                  <SecondaryTabGroup
+                    tabs={["All files", "Everyone can see", "Link access only"]}
+                    value={this.state.fileTab}
+                    onChange={(value) => this.setState({ fileTab: value })}
+                    style={{ margin: "0 0 24px 0" }}
+                  />
+                )}
+                <SecondaryTabGroup
+                  tabs={[
+                    <SVG.GridView height="24px" style={{ display: "block" }} />,
+                    <SVG.TableView height="24px" style={{ display: "block" }} />,
+                  ]}
+                  value={this.state.view}
+                  onChange={(value) => this.setState({ view: value })}
+                  style={{ margin: "0 0 24px 0", justifyContent: "flex-end" }}
                 />
+              </div>
+              {isOwner ? (
+                <div>
+                  {this.state.fileTab === 0 ? (
+                    <div>
+                      {this.props.creator.library[0].children &&
+                      this.props.creator.library[0].children.length ? (
+                        <DataView
+                          onAction={this.props.onAction}
+                          viewer={this.props.viewer}
+                          items={this.props.creator.library[0].children}
+                          onUpdateViewer={this.props.onUpdateViewer}
+                          view={this.state.view}
+                        />
+                      ) : (
+                        <EmptyState>
+                          <div style={{ marginTop: 24 }}>
+                            Drag and drop files into Slate to upload
+                          </div>
+                        </EmptyState>
+                      )}
+                    </div>
+                  ) : null}
+                  {this.state.fileTab === 1 ? (
+                    <div>
+                      {this.state.publicFiles && this.state.publicFiles.length ? (
+                        <DataView
+                          onAction={this.props.onAction}
+                          viewer={this.props.viewer}
+                          items={this.state.publicFiles}
+                          onUpdateViewer={this.props.onUpdateViewer}
+                          view={this.state.view}
+                        />
+                      ) : (
+                        <EmptyState>
+                          <div style={{ marginTop: 24 }}>
+                            Drag and drop files into Slate to upload
+                          </div>
+                        </EmptyState>
+                      )}
+                    </div>
+                  ) : null}
+                  {this.state.fileTab === 2 ? (
+                    <div>
+                      {this.state.pseudoPrivateFiles && this.state.pseudoPrivateFiles.length ? (
+                        <DataView
+                          onAction={this.props.onAction}
+                          viewer={this.props.viewer}
+                          items={this.state.pseudoPrivateFiles}
+                          onUpdateViewer={this.props.onUpdateViewer}
+                          view={this.state.view}
+                        />
+                      ) : (
+                        <EmptyState>
+                          <div style={{ marginTop: 24 }}>
+                            Drag and drop files into Slate to upload
+                          </div>
+                        </EmptyState>
+                      )}
+                    </div>
+                  ) : null}
+                </div>
               ) : (
-                <EmptyState>
-                  <FileTypeGroup />
-                  <div style={{ marginTop: 24 }}>Drag and drop files into Slate to upload</div>
-                </EmptyState>
+                <div>
+                  {this.state.publicFiles && this.state.publicFiles.length ? (
+                    <DataView
+                      onAction={this.props.onAction}
+                      viewer={this.props.viewer}
+                      items={this.state.publicFiles}
+                      onUpdateViewer={this.props.onUpdateViewer}
+                      view={this.state.view}
+                    />
+                  ) : (
+                    <EmptyState>
+                      <div style={{ marginTop: 24 }}>Drag and drop files into Slate to upload</div>
+                    </EmptyState>
+                  )}
+                </div>
               )}
             </div>
           ) : null}
@@ -505,11 +606,11 @@ export default class Profile extends React.Component {
               />
               {this.state.slateTab === 0 ? (
                 <div>
-                  {data.slates && data.slates.length ? (
+                  {this.state.publicSlates && this.state.publicSlates.length ? (
                     <SlatePreviewBlocks
                       isOwner={this.props.isOwner}
                       external={this.props.onAction ? false : true}
-                      slates={data.slates}
+                      slates={this.state.publicSlates}
                       username={data.username}
                       onAction={this.props.onAction}
                     />
@@ -524,7 +625,6 @@ export default class Profile extends React.Component {
                       external={this.props.onAction ? false : true}
                       slates={this.state.followingSlates}
                       onAction={this.props.onAction}
-                      username={this.state.followingSlates.username}
                     />
                   ) : null}
                 </div>

@@ -13,6 +13,7 @@ export const hasError = (response) => {
         },
       },
     });
+    console.log(response);
     return true;
   } else if (response.error) {
     dispatchCustomEvent({
@@ -23,6 +24,7 @@ export const hasError = (response) => {
         },
       },
     });
+    console.log(response);
     return true;
   }
   return false;

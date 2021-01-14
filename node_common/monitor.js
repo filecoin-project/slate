@@ -62,6 +62,16 @@ const createSlateActivityForEachSubscriber = async ({ userId, data }) => {
       });
     }
   }
+
+  //NOTE(martina): creates the activity event used for explore/discover
+  Data.createActivity({
+    userId: "SLATE",
+    data: {
+      type: "SUBSCRIBED_CREATE_SLATE",
+      actorUserId: data.actorUserId,
+      context: data.context,
+    },
+  });
 };
 
 export const createSlate = ({ userId, data }) => {
@@ -127,6 +137,16 @@ const createSlateObjectActivityForEachSubscriber = async ({ slateId, userId, dat
       });
     }
   }
+
+  //NOTE(martina): creates the activity event used for explore/discover
+  Data.createActivity({
+    userId: "SLATE",
+    data: {
+      type: "SUBSCRIBED_ADD_TO_SLATE",
+      actorUserId: data.actorUserId,
+      context: data.context,
+    },
+  });
 };
 
 export const createSlateObject = ({ slateId, userId, data }) => {

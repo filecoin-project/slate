@@ -93,16 +93,15 @@ export default class SidebarSingleSlateSettings extends React.Component {
       return;
     }
 
-    let slates = this.props.viewer.slates.filter((slate) => slate.id !== this.props.current.id);
+    let slates = this.props.viewer.slates.filter((slate) => slate.id !== this.props.data.id);
     this.props.onUpdateViewer({ slates });
 
     this.props.onAction({
       type: "NAVIGATE",
       value: "NAV_SLATES",
     });
-
     const response = await Actions.deleteSlate({
-      id: this.props.current.id,
+      id: this.props.data.id,
     });
 
     if (Events.hasError(response)) {

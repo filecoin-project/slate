@@ -1,5 +1,6 @@
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
+import * as Serializers from "~/node_common/serializers";
 import * as Strings from "~/common/strings";
 
 export default async (req, res) => {
@@ -26,7 +27,11 @@ export default async (req, res) => {
     });
   }
 
-  let response = await Data.getActivityForUserId({ userId: user.id });
+  let response = await Data.getActivityForUserId({
+    userId: req.body.data.explore ? "SLATE" : user.id,
+    earliestTimestamp: req.body.data.earliestTimestamp,
+    latestTimestamp: req.body.data.latestTimestamp,
+  });
 
   if (!response) {
     return res.status(404).send({ decorator: "SERVER_GET_ACTIVITY_NOT_FOUND", error: true });
@@ -36,5 +41,7 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "SERVER_GET_ACTIVITY_NOT_FOUND", error: true });
   }
 
-  return res.status(200).send({ decorator: "SERVER_GET_SLATE", activity: response });
+  let activity = await Serializers.doActivity(response);
+
+  return res.status(200).send({ decorator: "SERVER_GET_SLATE", activity });
 };

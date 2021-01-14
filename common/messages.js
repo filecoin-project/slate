@@ -210,6 +210,8 @@ export const error = {
   GET_ACTIVITY_BY_ID: "We weren't able to fetch that information. Please try again",
   GET_ACTIVITY_FOR_SLATE_ID: "We weren't able to fetch that information. Please try again",
   GET_ACTIVITY_FOR_USER_ID: "We weren't able to fetch that user's information. Please try again",
+  SERVER_GET_ACTIVITY_NOT_FOUND: "We're having trouble fetching your feed right now",
+  SERVER_GET_ACTIVITY_USER_NOT_FOUND: "Please login to view your feed",
 
   //Subscription Create
   CREATE_SUBSCRIPTION: "We weren't able to subscribe you. Please try again later",

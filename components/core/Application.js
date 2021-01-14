@@ -73,7 +73,8 @@ const SIDEBARS = {
 };
 
 const SCENES = {
-  ACTIVITY: <SceneActivity />,
+  ACTIVITY: <SceneActivity tab={0} />,
+  EXPLORE: <SceneActivity tab={1} />,
   DIRECTORY: <SceneDirectory />,
   PROFILE: <SceneProfile />,
   DATA: <SceneFilesFolder />,

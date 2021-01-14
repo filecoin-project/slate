@@ -3,6 +3,10 @@ import "isomorphic-fetch";
 import * as Websockets from "~/common/browser-websockets";
 import * as Strings from "~/common/strings";
 
+//NOTE(martina): call Websockets.checkWebsocket() before any api call that uses websockets to return updates
+//  to make sure that websockets are properly connected (and to reconnect them if they are not)
+//  otherwise updates may not occur properly
+
 const REQUEST_HEADERS = {
   Accept: "application/json",
   "Content-Type": "application/json",
@@ -323,16 +327,16 @@ export const getSerializedProfile = async (data) => {
 };
 
 export const createSupportMessage = async (data) => {
-  await Websockets.checkWebsocket();
   return await returnJSON(`/api/support-message`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });
 };
 
-export const getActivity = async () => {
+export const getActivity = async (data) => {
   return await returnJSON(`/api/activity/get`, {
     ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
   });
 };
 

@@ -195,6 +195,12 @@ const STYLES_DIRECTORY_NAME = css`
   text-overflow: ellipsis;
 `;
 
+const STYLES_COPY_INPUT = css`
+  pointer-events: none;
+  position: absolute;
+  opacity: 0;
+`;
+
 function UserEntry({ user, button, onClick, message }) {
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
@@ -214,7 +220,7 @@ function UserEntry({ user, button, onClick, message }) {
 }
 
 export default class Profile extends React.Component {
-  _ref;
+  _ref = null;
 
   state = {
     exploreSlates: [],
@@ -330,7 +336,6 @@ export default class Profile extends React.Component {
     let isOwner = this.props.creator.username === this.props.viewer?.username;
 
     console.log(this.props);
-    console.log(this.state.publicSlates);
     let following = subscriptions
       .filter((relation) => {
         return !!relation.target_user_id;
@@ -346,27 +351,45 @@ export default class Profile extends React.Component {
                 enabled
                 onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
               >
-                <PopoverNavigation
-                  style={{
-                    top: "40px",
-                    right: "0px",
-                  }}
-                  navigation={[
-                    {
-                      text: "Copy profile URL",
-                      onClick: (e) =>
-                        this._handleCopy(e, `https://slate.host/${relation.user.username}`),
-                    },
-                    {
-                      text: this.props.viewer?.subscriptions.filter((subscription) => {
-                        return subscription.target_user_id === relation.target_user_id;
-                      }).length
-                        ? "Unfollow"
-                        : "Follow",
-                      onClick: (e) => this._handleFollow(e, relation.owner.id),
-                    },
-                  ]}
-                />
+                {relation.target_user_id === this.props.viewer?.id ? (
+                  <PopoverNavigation
+                    style={{
+                      top: "40px",
+                      right: "0px",
+                    }}
+                    navigation={[
+                      {
+                        text: "Copy profile URL",
+                        onClick: (e) =>
+                          this._handleCopy(e, `https://slate.host/${relation.user.username}`),
+                      },
+                    ]}
+                  />
+                ) : (
+                  <PopoverNavigation
+                    style={{
+                      top: "40px",
+                      right: "0px",
+                    }}
+                    navigation={[
+                      {
+                        text: "Copy profile URL",
+                        onClick: (e) =>
+                          this._handleCopy(e, `https://slate.host/${relation.user.username}`),
+                      },
+                      {
+                        text: this.props.viewer?.subscriptions.filter((subscription) => {
+                          return subscription.target_user_id === relation.target_user_id;
+                        }).length
+                          ? "Unfollow"
+                          : "Follow",
+                        onClick: this.props.viewer
+                          ? (e) => this._handleFollow(e, relation.target_user_id)
+                          : () => this.setState({ visible: true }),
+                      },
+                    ]}
+                  />
+                )}
               </Boundary>
             ) : null}
           </div>
@@ -399,27 +422,45 @@ export default class Profile extends React.Component {
               enabled
               onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
             >
-              <PopoverNavigation
-                style={{
-                  top: "40px",
-                  right: "0px",
-                }}
-                navigation={[
-                  {
-                    text: "Copy profile URL",
-                    onClick: (e) =>
-                      this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
-                  },
-                  {
-                    text: this.props.viewer?.subscriptions.filter((subscription) => {
-                      return subscription.target_user_id === relation.owner_user_id;
-                    }).length
-                      ? "Unfollow"
-                      : "Follow",
-                    onClick: (e) => this._handleFollow(e, relation.owner.id),
-                  },
-                ]}
-              />
+              {relation.owner_user_id === this.props.viewer?.id ? (
+                <PopoverNavigation
+                  style={{
+                    top: "40px",
+                    right: "0px",
+                  }}
+                  navigation={[
+                    {
+                      text: "Copy profile URL",
+                      onClick: (e) =>
+                        this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
+                    },
+                  ]}
+                />
+              ) : (
+                <PopoverNavigation
+                  style={{
+                    top: "40px",
+                    right: "0px",
+                  }}
+                  navigation={[
+                    {
+                      text: "Copy profile URL",
+                      onClick: (e) =>
+                        this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
+                    },
+                    {
+                      text: subscriptions.filter((subscription) => {
+                        return subscription.target_user_id === relation.owner_user_id;
+                      }).length
+                        ? "Unfollow"
+                        : "Follow",
+                      onClick: this.props.viewer
+                        ? (e) => this._handleFollow(e, relation.owner_user_id)
+                        : () => this.setState({ visible: true }),
+                    },
+                  ]}
+                />
+              )}
             </Boundary>
           ) : null}
         </div>
@@ -525,6 +566,7 @@ export default class Profile extends React.Component {
                         <DataView
                           onAction={this.props.onAction}
                           viewer={this.props.viewer}
+                          isOwner={isOwner}
                           items={this.props.creator.library[0].children}
                           onUpdateViewer={this.props.onUpdateViewer}
                           view={this.state.view}
@@ -544,6 +586,7 @@ export default class Profile extends React.Component {
                         <DataView
                           onAction={this.props.onAction}
                           viewer={this.props.viewer}
+                          isOwner={isOwner}
                           items={this.state.publicFiles}
                           onUpdateViewer={this.props.onUpdateViewer}
                           view={this.state.view}
@@ -563,6 +606,7 @@ export default class Profile extends React.Component {
                         <DataView
                           onAction={this.props.onAction}
                           viewer={this.props.viewer}
+                          isOwner={isOwner}
                           items={this.state.pseudoPrivateFiles}
                           onUpdateViewer={this.props.onUpdateViewer}
                           view={this.state.view}
@@ -583,6 +627,7 @@ export default class Profile extends React.Component {
                     <DataView
                       onAction={this.props.onAction}
                       viewer={this.props.viewer}
+                      isOwner={isOwner}
                       items={this.state.publicFiles}
                       onUpdateViewer={this.props.onUpdateViewer}
                       view={this.state.view}
@@ -646,8 +691,7 @@ export default class Profile extends React.Component {
                   ) : (
                     <EmptyState>
                       <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                      You can follow any user on the network to be updated on their new uploads and
-                      slates.
+                      Follow any user on the network to be updated on their new uploads and slates.
                     </EmptyState>
                   )}
                 </div>
@@ -659,11 +703,20 @@ export default class Profile extends React.Component {
                   ) : (
                     <EmptyState>
                       <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                      You don't have any followers yet.
+                      There aren't any followers yet.
                     </EmptyState>
                   )}
                 </div>
               ) : null}
+              <input
+                readOnly
+                ref={(c) => {
+                  this._ref = c;
+                }}
+                value={this.state.copyValue}
+                tabIndex="-1"
+                css={STYLES_COPY_INPUT}
+              />
             </div>
           ) : null}
         </div>

@@ -539,32 +539,52 @@ export default class DataView extends React.Component {
                               enabled
                               onOutsideRectEvent={this._handleHide}
                             >
-                              <PopoverNavigation
-                                style={{
-                                  top: "32px",
-                                  right: "0px",
-                                }}
-                                navigation={[
-                                  {
-                                    text: "Copy CID",
-                                    onClick: (e) => this._handleCopy(e, cid),
-                                  },
-                                  {
-                                    text: "Copy link",
-                                    onClick: (e) =>
-                                      this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
-                                  },
-                                  {
-                                    text: "Delete",
-                                    onClick: (e) => {
-                                      e.stopPropagation();
-                                      this.setState({ menu: null }, () =>
-                                        this._handleDelete(cid, each.id)
-                                      );
+                              {this.props.isOwner ? (
+                                <PopoverNavigation
+                                  style={{
+                                    top: "32px",
+                                    right: "0px",
+                                  }}
+                                  navigation={[
+                                    {
+                                      text: "Copy CID",
+                                      onClick: (e) => this._handleCopy(e, cid),
                                     },
-                                  },
-                                ]}
-                              />
+                                    {
+                                      text: "Copy link",
+                                      onClick: (e) =>
+                                        this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
+                                    },
+                                    {
+                                      text: "Delete",
+                                      onClick: (e) => {
+                                        e.stopPropagation();
+                                        this.setState({ menu: null }, () =>
+                                          this._handleDelete(cid, each.id)
+                                        );
+                                      },
+                                    },
+                                  ]}
+                                />
+                              ) : (
+                                <PopoverNavigation
+                                  style={{
+                                    top: "32px",
+                                    right: "0px",
+                                  }}
+                                  navigation={[
+                                    {
+                                      text: "Copy CID",
+                                      onClick: (e) => this._handleCopy(e, cid),
+                                    },
+                                    {
+                                      text: "Copy link",
+                                      onClick: (e) =>
+                                        this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
+                                    },
+                                  ]}
+                                />
+                              )}
                             </Boundary>
                           ) : null}
                         </div>

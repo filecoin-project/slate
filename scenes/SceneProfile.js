@@ -35,7 +35,8 @@ export default class SceneProfile extends React.Component {
   };
 
   componentDidUpdate = async (prevProps) => {
-    if (this.props.data !== prevProps.data) {
+    if (this.props.data?.id && prevProps.data?.id && this.props.data.id !== prevProps.data.id) {
+      console.log("component did update scene profile");
       await this.fetchProfile();
     }
   };

@@ -36,7 +36,6 @@ export default class SceneProfile extends React.Component {
 
   componentDidUpdate = async (prevProps) => {
     if (this.props.data?.id && prevProps.data?.id && this.props.data.id !== prevProps.data.id) {
-      console.log("component did update scene profile");
       await this.fetchProfile();
     }
   };
@@ -72,7 +71,6 @@ export default class SceneProfile extends React.Component {
 
       targetUser = response.data;
     }
-    console.log(targetUser);
 
     window.history.replaceState(window.history.state, "A slate user", `/${targetUser.username}`);
 

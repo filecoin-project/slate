@@ -64,10 +64,7 @@ export default class SceneSlate extends React.Component {
   };
 
   componentDidUpdate = async (prevProps) => {
-    if (
-      (this.props.data && prevProps.data && this.props.data !== prevProps.data) ||
-      (this.props.data?.id && prevProps.data?.id && this.props.data.id !== prevProps.data.id)
-    ) {
+    if (this.props.data?.id && prevProps.data?.id && this.props.data.id !== prevProps.data.id) {
       await this.fetchSlate();
     }
   };

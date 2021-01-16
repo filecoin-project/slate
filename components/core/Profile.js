@@ -16,6 +16,7 @@ import { SceneUtils } from "three";
 import { TabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
+import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
 const STYLES_PROFILE_BACKGROUND = css`
   background-color: ${Constants.system.white};
@@ -221,6 +222,7 @@ function UserEntry({ user, button, onClick, message }) {
 
 export default class Profile extends React.Component {
   _ref = null;
+  lastLength = null;
 
   state = {
     exploreSlates: [],
@@ -272,6 +274,12 @@ export default class Profile extends React.Component {
     await this.fetchUsername();
   };
 
+  componentDidUpdate = async () => {
+    if (this.props.viewer?.library[0].children.length !== this.lastLength) {
+      this.filterByVisibility();
+    }
+  };
+
   fetchUsername = async () => {
     let followingSlates = [];
     let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : null;
@@ -284,7 +292,7 @@ export default class Profile extends React.Component {
     for (let followingSlate of followingSlates) {
       let id = { id: followingSlate.data.ownerId };
       let slateOwner = await Actions.getSerializedProfile(id);
-      followingSlate.username = slateOwner.data.username;
+      followingSlate.username = slateOwner.data?.username;
     }
 
     this.setState({ followingSlates: followingSlates });
@@ -326,16 +334,25 @@ export default class Profile extends React.Component {
       publicFiles: publicFiles,
       pseudoPrivateFiles: pseudoPrivateFiles,
     });
+    this.lastLength = this.props.viewer?.library[0].children.length;
   };
 
   render() {
     const external = !this.props.onAction;
     let data = this.props.creator ? this.props.creator : this.props.data;
     let exploreSlates = this.props.exploreSlates;
-    let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : null;
+    let subscriptions = this.props.isOwner
+      ? this.props.viewer.subscriptions
+      : this.props.creator.subscriptions
+      ? this.props.creator.subscriptions
+      : null;
+    let subscribers = this.props.isOwner
+      ? this.props.viewer.subscribers
+      : this.props.creator.subscribers
+      ? this.props.creator.subscribers
+      : null;
     let isOwner = this.props.creator.username === this.props.viewer?.username;
 
-    console.log(this.props);
     let following = subscriptions
       .filter((relation) => {
         return !!relation.target_user_id;
@@ -411,7 +428,7 @@ export default class Profile extends React.Component {
         );
       });
 
-    let followers = this.props.creator.subscribers.map((relation) => {
+    let followers = subscribers.map((relation) => {
       let button = (
         <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
           <SVG.MoreHorizontal height="24px" />
@@ -573,6 +590,7 @@ export default class Profile extends React.Component {
                         />
                       ) : (
                         <EmptyState>
+                          <FileTypeGroup />
                           <div style={{ marginTop: 24 }}>
                             Drag and drop files into Slate to upload
                           </div>
@@ -593,6 +611,7 @@ export default class Profile extends React.Component {
                         />
                       ) : (
                         <EmptyState>
+                          <FileTypeGroup />
                           <div style={{ marginTop: 24 }}>
                             Drag and drop files into Slate to upload
                           </div>
@@ -613,6 +632,7 @@ export default class Profile extends React.Component {
                         />
                       ) : (
                         <EmptyState>
+                          <FileTypeGroup />
                           <div style={{ marginTop: 24 }}>
                             Drag and drop files into Slate to upload
                           </div>
@@ -634,6 +654,7 @@ export default class Profile extends React.Component {
                     />
                   ) : (
                     <EmptyState>
+                      <FileTypeGroup />
                       <div style={{ marginTop: 24 }}>Drag and drop files into Slate to upload</div>
                     </EmptyState>
                   )}
@@ -659,19 +680,29 @@ export default class Profile extends React.Component {
                       username={data.username}
                       onAction={this.props.onAction}
                     />
-                  ) : null}
+                  ) : (
+                    <EmptyState>
+                      <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
+                      There aren't any public slates yet.
+                    </EmptyState>
+                  )}
                 </div>
               ) : null}
               {this.state.slateTab === 1 ? (
                 <div>
-                  {this.state.followingSlates ? (
+                  {this.state.followingSlates && this.state.followingSlates.length ? (
                     <SlatePreviewBlocks
                       isOwner={false}
                       external={this.props.onAction ? false : true}
                       slates={this.state.followingSlates}
                       onAction={this.props.onAction}
                     />
-                  ) : null}
+                  ) : (
+                    <EmptyState>
+                      <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
+                      There aren't any following slates yet.
+                    </EmptyState>
+                  )}
                 </div>
               ) : null}
             </div>
@@ -691,7 +722,7 @@ export default class Profile extends React.Component {
                   ) : (
                     <EmptyState>
                       <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                      Follow any user on the network to be updated on their new uploads and slates.
+                      There isn't any following yet.
                     </EmptyState>
                   )}
                 </div>

@@ -300,7 +300,7 @@ export class SlatePreviewBlock extends React.Component {
                           e,
                           Strings.getURLFromPath(
                             this.props.username
-                              ? `/${this.props.username}/${slate.slatename}`
+                              ? `/${this.props.username}/${this.props.slate.slatename}`
                               : `/${this.props.slate.username}/${this.props.slate.slatename}`
                           )
                         ),

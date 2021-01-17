@@ -82,6 +82,7 @@ const STYLES_DISMISS_BOX = css`
 `;
 
 const STYLES_META = css`
+  text-align: start;
   padding: 14px 0px 8px 0px;
   overflow-wrap: break-word;
 `;
@@ -343,6 +344,7 @@ export default class CarouselSidebarData extends React.Component {
   };
 
   _handleDelete = (cid) => {
+    if (!this.props.isOwner) return;
     const message = `Are you sure you want to delete this? It will be deleted from your slates as well`;
     if (!window.confirm(message)) {
       return;
@@ -384,7 +386,6 @@ export default class CarouselSidebarData extends React.Component {
     const isVisible = this.state.inPublicSlates || this.state.isPublic;
     let selected = this.state.selected;
     if (this.state.inPublicSlates) {
-      console.log("in public slates");
       const slateIds = Object.entries(this.state.selected)
         .filter((entry) => entry[1])
         .map((entry) => entry[0]);
@@ -410,7 +411,6 @@ export default class CarouselSidebarData extends React.Component {
         public: !isVisible,
       },
     });
-    console.log(response);
     if (isVisible) {
       this.setState({ inPublicSlates: false, isPublic: false, selected });
     } else {
@@ -445,7 +445,10 @@ export default class CarouselSidebarData extends React.Component {
               />
             </Boundary>
           ) : (
-            <span css={STYLES_META_TITLE} target="_blank" onClick={this._handleEditFilename}>
+            <span
+              css={STYLES_META_TITLE}
+              onClick={this.props.external ? () => {} : this._handleEditFilename}
+            >
               {this.state.name}
             </span>
           )}
@@ -462,37 +465,45 @@ export default class CarouselSidebarData extends React.Component {
           </div>
         </div>
         <div css={STYLES_ACTIONS}>
-          <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
-            <SVG.CopyAndPaste height="24px" />
-            <span style={{ marginLeft: 16 }}>
-              {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
-            </span>
-          </div>
+          {this.props.isOwner ? (
+            <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
+              <SVG.CopyAndPaste height="24px" />
+              <span style={{ marginLeft: 16 }}>
+                {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
+              </span>
+            </div>
+          ) : null}
           <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "gatewayUrlCopying")}>
             <SVG.Data height="24px" />
             <span style={{ marginLeft: 16 }}>
-              {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy gateway URL"}
+              {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy external URL"}
             </span>
           </div>
           <div css={STYLES_ACTION} onClick={this._handleDownload}>
             <SVG.Download height="24px" />
             <span style={{ marginLeft: 16 }}>Download</span>
           </div>
-          <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
-            <SVG.Trash height="24px" />
-            <span style={{ marginLeft: 16 }}>Delete</span>
-          </div>
+          {this.props.isOwner ? (
+            <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
+              <SVG.Trash height="24px" />
+              <span style={{ marginLeft: 16 }}>Delete</span>
+            </div>
+          ) : null}
         </div>
-        <div css={STYLES_SECTION_HEADER}>Connected Slates</div>
-        <SlatePicker
-          dark
-          slates={this.props.slates}
-          onCreateSlate={this._handleCreateSlate}
-          selectedColor={Constants.system.white}
-          files={[this.props.data]}
-          selected={this.state.selected}
-          onAdd={this._handleAdd}
-        />
+        {this.props.external ? null : (
+          <React.Fragment>
+            <div css={STYLES_SECTION_HEADER}>Connected Slates</div>
+            <SlatePicker
+              dark
+              slates={this.props.slates}
+              onCreateSlate={this._handleCreateSlate}
+              selectedColor={Constants.system.white}
+              files={[this.props.data]}
+              selected={this.state.selected}
+              onAdd={this._handleAdd}
+            />
+          </React.Fragment>
+        )}
         {type && Validations.isPreviewableImage(type) ? null : (
           <div>
             <System.P css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
@@ -534,28 +545,32 @@ export default class CarouselSidebarData extends React.Component {
             </div>
           </div>
         )}
-        <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
-          Visibility
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            margin: "16px 0 16px 0",
-          }}
-        >
-          <div style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
-            {isVisible ? "Everyone" : "Link only"}
-          </div>
-          <Toggle dark active={isVisible} onChange={this._handleToggleVisibility} />
-        </div>
-        <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
-          {isVisible
-            ? "This file is currently visible to everyone and searchable within Slate through public slates."
-            : "This file is currently not visible to others unless they have the link."}
-        </div>
+        {this.props.isOwner ? (
+          <React.Fragment>
+            <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+              Visibility
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                margin: "16px 0 16px 0",
+              }}
+            >
+              <div style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
+                {isVisible ? "Everyone" : "Link only"}
+              </div>
+              <Toggle dark active={isVisible} onChange={this._handleToggleVisibility} />
+            </div>
+            <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
+              {isVisible
+                ? "This file is currently visible to everyone and searchable within Slate through public slates."
+                : "This file is currently not visible to others unless they have the link."}
+            </div>
+          </React.Fragment>
+        ) : null}
         <input
           css={STYLES_HIDDEN}
           ref={(c) => {

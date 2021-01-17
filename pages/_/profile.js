@@ -35,7 +35,6 @@ export default class ProfilePage extends React.Component {
   };
 
   render() {
-    console.log(this.props.creator);
     const title = this.props.creator ? `${this.props.creator.username}` : "404";
     const url = `https://slate.host/${title}`;
     const description = this.props.creator.data.body;
@@ -52,7 +51,7 @@ export default class ProfilePage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <Profile {...this.props} buttons={buttons} />
+          <Profile {...this.props} buttons={buttons} external />
         </div>
         {this.state.visible && (
           <div>

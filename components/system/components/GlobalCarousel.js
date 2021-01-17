@@ -11,6 +11,7 @@ import { Alert } from "~/components/core/Alert";
 import CarouselSidebarSlate from "~/components/core/CarouselSidebarSlate";
 import CarouselSidebarData from "~/components/core/CarouselSidebarData";
 import SlateMediaObject from "~/components/core/SlateMediaObject";
+import { CompressedPixelFormat } from "three";
 
 const STYLES_ROOT = css`
   position: fixed;
@@ -124,6 +125,12 @@ export class GlobalCarousel extends React.Component {
     window.removeEventListener("slate-global-close-carousel", this._handleClose);
   };
 
+  componentDidUpdate = (prevProps) => {
+    if (this.state.index >= (this.props.objects?.length || 0)) {
+      this._handleClose();
+    }
+  };
+
   _handleKeyDown = (e) => {
     const inputs = document.querySelectorAll("input");
     for (let i = 0; i < inputs.length; i++) {
@@ -155,20 +162,16 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handleOpen = (e) => {
-    let carouselType =
-      !this.props.current ||
-      (this.props.current &&
-        (this.props.current.decorator === "FOLDER" || this.props.current.decorator === "ACTIVITY"))
-        ? "data"
-        : "slate";
+    if (e.detail.index < 0 || e.detail.index >= this.props.objects.length) {
+      return;
+    }
     this.setState({
-      carouselType: carouselType,
       visible: true,
       index: e.detail.index || 0,
       baseURL: window.location.pathname,
     });
-    if (carouselType === "slate" && this.props.current.data?.objects) {
-      const data = this.props.current.data.objects[e.detail.index];
+    if (this.props.carouselType === "slate") {
+      const data = this.props.objects[e.detail.index];
       window.history.replaceState(
         { ...window.history.state, cid: data.cid },
         null,
@@ -193,31 +196,13 @@ export class GlobalCarousel extends React.Component {
 
   _handleNext = () => {
     let index = this.state.index + 1;
-    if (
-      this.state.carouselType === "slate" &&
-      this.props.current.data &&
-      this.props.current.data.objects
-    ) {
-      if (index >= this.props.current.data.objects.length) {
-        index = 0;
-      }
-    } else if (
-      this.state.carouselType === "data" &&
-      this.props.viewer &&
-      this.props.viewer.library
-    ) {
-      if (index >= this.props.viewer.library[0].children.length) {
-        index = 0;
-      }
+    if (index >= this.props.objects.length) {
+      index = 0;
     }
     this.setState({ index });
 
-    if (
-      this.state.carouselType === "slate" &&
-      this.state.baseURL &&
-      this.props.current.data?.objects
-    ) {
-      const data = this.props.current.data.objects[index];
+    if (this.props.carouselType === "slate" && this.state.baseURL) {
+      const data = this.props.objects[index];
       window.history.replaceState(
         { ...window.history.state, cid: data.cid },
         "",
@@ -229,28 +214,12 @@ export class GlobalCarousel extends React.Component {
   _handlePrevious = () => {
     let index = this.state.index - 1;
     if (index < 0) {
-      if (
-        this.state.carouselType === "slate" &&
-        this.props.current.data &&
-        this.props.current.data.objects
-      ) {
-        index = this.props.current.data.objects.length - 1;
-      } else if (
-        this.state.carouselType === "data" &&
-        this.props.viewer &&
-        this.props.viewer.library
-      ) {
-        index = this.props.viewer.library[0].children.length - 1;
-      }
+      index = this.props.objects.length - 1;
     }
     this.setState({ index });
 
-    if (
-      this.state.carouselType === "slate" &&
-      this.state.baseURL &&
-      this.props.current.data?.objects
-    ) {
-      const data = this.props.current.data.objects[index];
+    if (this.props.carouselType === "slate" && this.state.baseURL) {
+      const data = this.props.objects[index];
       window.history.replaceState(
         { ...window.history.state, cid: data.cid },
         "",
@@ -260,9 +229,9 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handleSave = async (details, index) => {
-    if (this.state.carouselType === "slate") {
-      if (this.props.viewer.id !== this.props.current.data.ownerId || this.props.external) return;
-      let objects = this.props.current.data.objects;
+    let objects = this.props.objects;
+    if (!this.props.isOwner || this.props.external) return;
+    if (this.props.carouselType === "slate") {
       objects[index] = { ...objects[index], ...details };
       const response = await Actions.updateSlate({
         id: this.props.current.id,
@@ -270,9 +239,7 @@ export class GlobalCarousel extends React.Component {
       });
       Events.hasError(response);
     }
-    if (this.state.carouselType === "data") {
-      if (this.props.external) return;
-      let objects = this.props.viewer.library[0].children;
+    if (this.props.carouselType === "data") {
       objects[index] = { ...objects[index], ...details };
       const response = await Actions.updateData({
         id: this.props.viewer.id,
@@ -283,35 +250,16 @@ export class GlobalCarousel extends React.Component {
   };
 
   render() {
-    if (!this.state.visible || !this.state.carouselType || this.state.index < 0) {
+    if (!this.state.visible || !this.props.carouselType || this.state.index < 0) {
       return null;
     }
-    let data;
-    let isOwner;
+    let data = this.props.objects[this.state.index];
+    let isOwner = this.props.isOwner;
     let isRepost;
-    if (
-      this.state.carouselType === "slate" &&
-      this.props.current?.data?.objects?.length &&
-      this.state.index < this.props.current.data.objects.length
-    ) {
-      data = this.props.current.data.objects[this.state.index];
-      data.cid = Strings.urlToCid(data.url);
+    if (this.props.carouselType === "slate") {
       isRepost = this.props.external ? false : this.props.current.data.ownerId !== data.ownerId;
-      isOwner = this.props.external
-        ? false
-        : this.props.viewer.id === this.props.current.data.ownerId;
-    } else if (
-      this.state.carouselType === "data" &&
-      this.props.viewer?.library[0]?.children?.length &&
-      this.state.index < this.props.viewer.library[0].children.length
-    ) {
-      data = this.props.viewer.library[0].children[this.state.index];
+    } else if (this.props.carouselType === "data") {
       data.url = Strings.getCIDGatewayURL(data.cid);
-      isOwner = this.props.external ? false : true;
-    }
-    if (!data) {
-      this._handleClose();
-      return null;
     }
     let slide = <SlateMediaObject data={data} />;
     return (
@@ -383,14 +331,14 @@ export class GlobalCarousel extends React.Component {
           </span>
         </div>
         <span css={STYLES_MOBILE_HIDDEN}>
-          {this.state.carouselType === "data" ? (
+          {this.props.carouselType === "data" ? (
             <CarouselSidebarData
               viewer={this.props.viewer}
               display={this.state.showSidebar ? "block" : "none"}
               onUpdateViewer={this.props.onUpdateViewer}
               onClose={this._handleClose}
               key={data.id}
-              slates={this.props.slates}
+              slates={this.props.viewer?.slates || []}
               onAction={this.props.onAction}
               resources={this.props.resources}
               data={data}
@@ -407,7 +355,7 @@ export class GlobalCarousel extends React.Component {
               onUpdateViewer={this.props.onUpdateViewer}
               current={this.props.current}
               key={data.id}
-              slates={this.props.slates}
+              slates={this.props.viewer?.slates || []}
               onClose={this._handleClose}
               onAction={this.props.onAction}
               data={data}
@@ -416,7 +364,6 @@ export class GlobalCarousel extends React.Component {
               isOwner={isOwner}
               isRepost={isRepost}
               index={this.state.index}
-              external={this.props.external}
             />
           )}
         </span>

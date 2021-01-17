@@ -3,18 +3,11 @@ import * as Actions from "~/common/actions";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
-import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import ScenePage from "~/components/core/ScenePage";
 import Profile from "~/components/core/Profile";
 import EmptyState from "~/components/core/EmptyState";
-
-const STYLES_BUTTONS = css`
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-`;
 
 const STYLES_LOADER = css`
   display: flex;
@@ -75,7 +68,7 @@ export default class SceneProfile extends React.Component {
     window.history.replaceState(window.history.state, "A slate user", `/${targetUser.username}`);
 
     this.props.onUpdateData({ data: targetUser });
-    this.setState({ profile: targetUser });
+    this.setState({ profile: targetUser }); //martina: keep this here? or use the data itself rather than using this?
   };
 
   render() {
@@ -98,58 +91,15 @@ export default class SceneProfile extends React.Component {
       );
     }
 
-    return <ProfilePage {...this.props} data={this.state.profile} />;
-  }
-}
-
-class ProfilePage extends React.Component {
-  state = {
-    isFollowing: !!this.props.viewer.subscriptions.filter((entry) => {
-      return entry.target_user_id === this.props.data.id;
-    }).length,
-  };
-
-  componentDidUpdate = (prevProps) => {
-    if (
-      this.props.data.id !== prevProps.data.id ||
-      this.props.viewer.subscriptions !== prevProps.viewer.subscriptions
-    ) {
-      this.setState({
-        isFollowing: !!this.props.viewer.subscriptions.filter((entry) => {
-          return entry.target_user_id === this.props.data.id;
-        }).length,
-      });
-    }
-  };
-
-  _handleFollow = async () => {
-    this.setState({ isFollowing: !this.state.isFollowing });
-    await Actions.createSubscription({
-      userId: this.props.data.id,
-    });
-  };
-
-  render() {
-    let buttons = (
-      <div css={STYLES_BUTTONS}>
-        {this.state.isFollowing ? (
-          <ButtonSecondary onClick={this._handleFollow}>Unfollow</ButtonSecondary>
-        ) : (
-          <ButtonPrimary onClick={this._handleFollow}>Follow</ButtonPrimary>
-        )}
-      </div>
-    );
+    //FOR TARA: this is the change that'll allow it to update "automatically" if you're viewing your own profile and make changes
+    //if you are viewing your own profile (aka this.state.profile.id === this.props.viewer.id), it'll set it to viewer directly, rather than a stale copy of viewer
     return (
-      <ScenePage style={{ padding: `0` }}>
-        <Profile
-          {...this.props}
-          onAction={this.props.onAction}
-          creator={this.props.data}
-          sceneId={this.props.sceneId}
-          buttons={this.props.viewer.username === this.props.data.username ? null : buttons}
-          isOwner={this.props.viewer.username === this.props.data.username}
-        />
-      </ScenePage>
+      <Profile
+        {...this.props}
+        creator={
+          this.state.profile.id === this.props.viewer.id ? this.props.viewer : this.state.profile
+        }
+      />
     );
   }
 }

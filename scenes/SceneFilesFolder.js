@@ -4,6 +4,7 @@ import * as SVG from "~/common/svg";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 import { PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
+import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
@@ -44,6 +45,16 @@ export default class SceneFilesFolder extends React.Component {
               style={{ margin: "0 0 24px 0" }}
             />
           }
+        />
+        <GlobalCarousel
+          carouselType="data"
+          onUpdateViewer={this.props.onUpdateViewer}
+          resources={this.props.resources}
+          viewer={this.props.viewer}
+          objects={this.props.viewer?.library[0]?.children || []}
+          onAction={this.props.onAction}
+          mobile={this.props.mobile}
+          isOwner={true}
         />
         <DataMeter
           stats={this.props.viewer.stats}

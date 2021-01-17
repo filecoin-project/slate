@@ -4,19 +4,20 @@ import * as Strings from "~/common/strings";
 import * as SVG from "~/common/svg";
 import * as Actions from "~/common/actions";
 
+import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { css } from "@emotion/react";
+import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
+import { TabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
+import { Boundary } from "~/components/system/components/fragments/Boundary";
+import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
+import { FileTypeGroup } from "~/components/core/FileTypeIcon";
+//FOR TARA: try and group imports by style (import *, import { Whatever }, import Whatever). Just a neatness preference
 
 import ProcessedText from "~/components/core/ProcessedText";
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
 import CTATransition from "~/components/core/CTATransition";
 import DataView from "~/components/core/DataView";
 import EmptyState from "~/components/core/EmptyState";
-
-import { SceneUtils } from "three";
-import { TabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
-import { Boundary } from "~/components/system/components/fragments/Boundary";
-import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
-import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
 const STYLES_PROFILE_BACKGROUND = css`
   background-color: ${Constants.system.white};
@@ -60,7 +61,8 @@ const STYLES_INFO = css`
 `;
 
 const STYLES_PROFILE_IMAGE = css`
-  background-color: ${Constants.system.white};
+  background-color: ${Constants.system.foreground};
+  ${"" /* FOR TARA: I like to put a background color that stands out from the background so that in the case that the background image isn't found, it doesn't just show blank. It at least shows a square there */}
   background-size: cover;
   background-position: 50% 50%;
   width: 120px;
@@ -108,8 +110,8 @@ const STYLES_STATS = css`
 `;
 
 const STYLES_STAT = css`
-  margin-right: 8px;
-  width: 112px;
+  margin: 0px 12px;
+  ${"" /* width: 112px; */}
   flex-shrink: 0;
 `;
 
@@ -233,70 +235,53 @@ export default class Profile extends React.Component {
     peerTab: 0,
     copyValue: "",
     contextMenu: null,
-    followingSlates: [],
     publicSlates: [],
     publicFiles: [],
     pseudoPrivateFiles: [],
-  };
-
-  _handleCopy = (e, value) => {
-    e.stopPropagation();
-    this.setState({ copyValue: value }, () => {
-      this._ref.select();
-      document.execCommand("copy");
-      this._handleHide();
-    });
-  };
-
-  _handleHide = (e) => {
-    this.setState({ contextMenu: null });
-  };
-
-  _handleClick = (e, value) => {
-    e.stopPropagation();
-    if (this.state.contextMenu === value) {
-      this._handleHide();
-    } else {
-      this.setState({ contextMenu: value });
-    }
-  };
-
-  _handleFollow = async (e, id) => {
-    this._handleHide();
-    e.stopPropagation();
-    await Actions.createSubscription({
-      userId: id,
-    });
+    isFollowing: this.props.external
+      ? false
+      : !!this.props.viewer.subscriptions.filter((entry) => {
+          return entry.target_user_id === this.props.data.id;
+        }).length,
+    //FOR TARA: here's an example of using the !! where it's needed. I want isFollowing to be true (if a subscription to this user was found) or false, not 0 or 1, so I use a !! to convert the number to a boolean
   };
 
   componentDidMount = async () => {
     await this.filterByVisibility();
-    await this.fetchUsername();
   };
 
   componentDidUpdate = async () => {
-    if (this.props.viewer?.library[0].children.length !== this.lastLength) {
+    if (
+      this.lastLength != null &&
+      this.props.creator?.library[0].children.length !== this.lastLength
+    ) {
+      //FOR TARA: I just added the "this.lastLength != null" so that we don't get the double-call here where component did mount calls filterbyvisiblity,
+      //then filterbyvisibility changes the library length to not null,
+      //then componentdidupdate sees that the length has changed from null to some number, then calls filterbyvisibility again
+      //FOR TARA: I also made it this.props.creator rather than this.props.viewer. Not a big deal, but this is b/c if you are viewing someone else's profile and your OWN library changes, you shouldn't have to do filterbyvisibility again b/c it won't affect anything
       this.filterByVisibility();
     }
   };
 
-  fetchUsername = async () => {
-    let followingSlates = [];
-    let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : null;
-    for (let subscription of subscriptions) {
-      if (subscription.slate != null) {
-        followingSlates.push(subscription.slate);
-      }
-    }
+  //FOR TARA: you don't need to do actions.getserialized profile to get the username of the slate owner here. it was already accessible through subscription.slate.username, and you don't need to pass it in
+  //Without that call, it makes more sense to put this inside the render method so I moved this there now. You can delete this function
+  // fetchUsername = async () => {
+  //   let followingSlates = [];
+  //   let subscriptions = this.props.creator.subscriptions ? this.props.creator.subscriptions : [];
+  //   for (let subscription of subscriptions) {
+  //     if (subscription.slate != null) {
+  //       followingSlates.push(subscription.slate);
+  //     }
+  //   }
 
-    for (let followingSlate of followingSlates) {
-      let id = { id: followingSlate.data.ownerId };
-      let slateOwner = await Actions.getSerializedProfile(id);
-      followingSlate.username = slateOwner.data?.username;
-    }
+  //   for (let followingSlate of followingSlates) {
+  //     let id = { id: followingSlate.data.ownerId };
+  //     let slateOwner = await Actions.getSerializedProfile(id); //martina: do we need to do serialized? or just normal? Or some other way of getting teh username that's more efficient?
+  //     followingSlate.username = slateOwner.data?.username;
+  //   }
 
-    this.setState({ followingSlates: followingSlates });
-  };
+  //   this.setState({ followingSlates: followingSlates });
+  // };
 
   filterByVisibility = async () => {
     let publicFiles = [];
@@ -334,24 +319,53 @@ export default class Profile extends React.Component {
       publicFiles: publicFiles,
       pseudoPrivateFiles: pseudoPrivateFiles,
     });
-    this.lastLength = this.props.viewer?.library[0].children.length;
+    this.lastLength = this.props.creator?.library[0].children.length;
+  };
+
+  _handleCopy = (e, value) => {
+    e.stopPropagation();
+    this.setState({ copyValue: value }, () => {
+      this._ref.select();
+      document.execCommand("copy");
+      this._handleHide();
+    });
+  };
+
+  _handleHide = (e) => {
+    this.setState({ contextMenu: null });
+  };
+
+  _handleClick = (e, value) => {
+    e.stopPropagation();
+    if (this.state.contextMenu === value) {
+      this._handleHide();
+    } else {
+      this.setState({ contextMenu: value });
+    }
+  };
+
+  _handleFollow = async (e, id) => {
+    this._handleHide();
+    e.stopPropagation();
+    await Actions.createSubscription({
+      userId: id,
+    });
   };
 
   render() {
-    const external = !this.props.onAction;
-    let data = this.props.creator ? this.props.creator : this.props.data;
-    let exploreSlates = this.props.exploreSlates;
-    let subscriptions = this.props.isOwner
-      ? this.props.viewer.subscriptions
-      : this.props.creator.subscriptions
-      ? this.props.creator.subscriptions
-      : null;
-    let subscribers = this.props.isOwner
-      ? this.props.viewer.subscribers
-      : this.props.creator.subscribers
-      ? this.props.creator.subscribers
-      : null;
     let isOwner = this.props.creator.username === this.props.viewer?.username;
+    let data = this.props.creator ? this.props.creator : this.props.data;
+    //FOR TARA: i made a chnage in scene profile so that if it is your own profile, creator is equivalent to viewer, so there is no longer a need to check for that here
+    //FOR TARA: also, it's always safer to make the "default" for an array an empty array, not null. Because if you try iterate over null, it will error.
+    let subscriptions = this.props.creator.subscriptions || [];
+    let subscribers = this.props.creator.subscribers || [];
+
+    //FOR TARA: this is where I moved the "fetchUsernames" function to
+    let followingSlates = subscriptions
+      .filter((relation) => {
+        return !!relation.target_slate_id;
+      })
+      .map((relation) => relation.slate);
 
     let following = subscriptions
       .filter((relation) => {
@@ -415,7 +429,7 @@ export default class Profile extends React.Component {
           <UserEntry
             key={relation.id}
             user={relation.user}
-            button={button}
+            button={this.props.external ? null : button}
             onClick={() => {
               this.props.onAction({
                 type: "NAVIGATE",
@@ -486,7 +500,7 @@ export default class Profile extends React.Component {
         <UserEntry
           key={relation.id}
           user={relation.owner}
-          button={button}
+          button={this.props.external ? null : button} //FOR TARA: clicking on a following/follower person errors if you are in the external view. I recommend making it check if this.props.external, in which case do a link instead (wrap it with an <a href={urlHere}> tag). See SlatePreviewBlocks for an example if you need one
           onClick={() => {
             this.props.onAction({
               type: "NAVIGATE",
@@ -499,12 +513,37 @@ export default class Profile extends React.Component {
       );
     });
 
-    let total = 0;
-    for (let slate of data.slates) {
-      total += slate.data.objects.length;
-    }
+    //FOR TARA: I wanted to introduce you to the "reduce" function. It basically walks through all the items in an array and reduces it down to one "summary" value
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+    //This allows you to quickly take the sum of the lengths of the objects in each slate for example, or get the maximum value in an array
+    //It isn't necessary to use since you can usually use a for loop instead, but good to know in case you encounter it later
+    // let total = 0;
+    // for (let slate of data.slates) {
+    //   total += slate.data.objects.length;
+    // }
+    let total = data.slates.reduce((total, slate) => {
+      return total + slate.data?.objects?.length || 0; //FOR TARA: should use optional chaining and add a default value of 0 in case there are some slates where slate.data or slate.data.objects is null
+    }, 0);
+
     return (
       <div>
+        <GlobalCarousel
+          carouselType="data"
+          onUpdateViewer={this.props.onUpdateViewer}
+          resources={this.props.resources}
+          viewer={this.props.viewer}
+          objects={
+            this.state.fileTab === 0
+              ? this.props.creator.library[0].children
+              : this.state.fileTab === 1
+              ? this.state.publicFiles
+              : this.state.pseudoPrivateFiles
+          }
+          isOwner={isOwner}
+          onAction={this.props.onAction}
+          mobile={this.props.mobile}
+          external={this.props.external}
+        />
         <div css={STYLES_PROFILE_BACKGROUND}>
           <div css={STYLES_PROFILE_INFO}>
             <div
@@ -513,7 +552,29 @@ export default class Profile extends React.Component {
             />
             <div css={STYLES_INFO}>
               <div css={STYLES_NAME}>{Strings.getPresentationName(data)}</div>
-              <div css={STYLES_BUTTON}>{this.props.buttons}</div>
+              {!isOwner && !this.props.external && (
+                <div css={STYLES_BUTTON}>
+                  {this.state.isFollowing ? (
+                    <ButtonSecondary
+                      onClick={(e) => {
+                        this.setState({ isFollowing: false });
+                        this._handleFollow(e, this.props.creator.id);
+                      }}
+                    >
+                      Unfollow
+                    </ButtonSecondary>
+                  ) : (
+                    <ButtonPrimary
+                      onClick={(e) => {
+                        this.setState({ isFollowing: true });
+                        this._handleFollow(e, this.props.creator.id);
+                      }}
+                    >
+                      Follow
+                    </ButtonPrimary>
+                  )}
+                </div>
+              )}
               {data.data.body ? (
                 <div css={STYLES_DESCRIPTION}>
                   <ProcessedText text={data.data.body} />
@@ -522,14 +583,13 @@ export default class Profile extends React.Component {
               <div css={STYLES_STATS}>
                 <div css={STYLES_STAT}>
                   <div style={{ fontFamily: `${Constants.font.text}` }}>
-                    {total}{" "}
-                    <span style={{ color: `${Constants.system.darkGray}` }}>Public data</span>
+                    {total} <span style={{ color: `${Constants.system.darkGray}` }}>Files</span>
                   </div>
                 </div>
                 <div css={STYLES_STAT}>
                   <div style={{ fontFamily: `${Constants.font.text}` }}>
                     {data.slates.length}{" "}
-                    <span style={{ color: `${Constants.system.darkGray}` }}>Public slates</span>
+                    <span style={{ color: `${Constants.system.darkGray}` }}>Slates</span>
                   </div>
                 </div>
               </div>
@@ -558,7 +618,7 @@ export default class Profile extends React.Component {
               <div style={{ display: `flex` }}>
                 {isOwner && (
                   <SecondaryTabGroup
-                    tabs={["All files", "Everyone can see", "Link access only"]}
+                    tabs={["All files", "Everyone can view", "Link access only"]}
                     value={this.state.fileTab}
                     onChange={(value) => this.setState({ fileTab: value })}
                     style={{ margin: "0 0 24px 0" }}
@@ -574,6 +634,8 @@ export default class Profile extends React.Component {
                   style={{ margin: "0 0 24px 0", justifyContent: "flex-end" }}
                 />
               </div>
+              {/* FOR TARA: I want you to see how you can compress these following lines 625-713. There is a lot of repeated code here and you don't need to be restating DataView and EmptyState so many times. 
+              You could just change what is passed into items for DataView (or even make a variable named items at the render method, assign it to the right thing, then just pass it into items) and what is displayed in the text for EmptyState  */}
               {isOwner ? (
                 <div>
                   {this.state.fileTab === 0 ? (
@@ -655,7 +717,9 @@ export default class Profile extends React.Component {
                   ) : (
                     <EmptyState>
                       <FileTypeGroup />
-                      <div style={{ marginTop: 24 }}>Drag and drop files into Slate to upload</div>
+                      <div style={{ marginTop: 24 }}>
+                        This user does not have any public files yet
+                      </div>
                     </EmptyState>
                   )}
                 </div>
@@ -665,7 +729,7 @@ export default class Profile extends React.Component {
           {this.state.tab === 1 ? (
             <div>
               <SecondaryTabGroup
-                tabs={["Public Slates", "Following Slates"]}
+                tabs={["Slates", "Following"]}
                 value={this.state.slateTab}
                 onChange={(value) => this.setState({ slateTab: value })}
                 style={{ margin: "0 0 24px 0" }}
@@ -675,7 +739,7 @@ export default class Profile extends React.Component {
                   {this.state.publicSlates && this.state.publicSlates.length ? (
                     <SlatePreviewBlocks
                       isOwner={this.props.isOwner}
-                      external={this.props.onAction ? false : true}
+                      external={this.props.external}
                       slates={this.state.publicSlates}
                       username={data.username}
                       onAction={this.props.onAction}
@@ -683,24 +747,24 @@ export default class Profile extends React.Component {
                   ) : (
                     <EmptyState>
                       <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
-                      There aren't any public slates yet.
+                      This user does not have any public slates yet
                     </EmptyState>
                   )}
                 </div>
               ) : null}
               {this.state.slateTab === 1 ? (
                 <div>
-                  {this.state.followingSlates && this.state.followingSlates.length ? (
+                  {followingSlates?.length ? ( //FOR TARA: with the optional chaining (see the link I sent you), you can replace "followingSlates && followingSlates.length" with just followingSlates?.length
                     <SlatePreviewBlocks
                       isOwner={false}
-                      external={this.props.onAction ? false : true}
-                      slates={this.state.followingSlates}
+                      external={this.props.external}
+                      slates={followingSlates}
                       onAction={this.props.onAction}
                     />
                   ) : (
                     <EmptyState>
                       <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
-                      There aren't any following slates yet.
+                      This user is not following any slates yet
                     </EmptyState>
                   )}
                 </div>
@@ -722,7 +786,7 @@ export default class Profile extends React.Component {
                   ) : (
                     <EmptyState>
                       <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                      There isn't any following yet.
+                      This user is not following anyone yet
                     </EmptyState>
                   )}
                 </div>
@@ -734,7 +798,7 @@ export default class Profile extends React.Component {
                   ) : (
                     <EmptyState>
                       <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                      There aren't any followers yet.
+                      This user does not have any followers yet
                     </EmptyState>
                   )}
                 </div>

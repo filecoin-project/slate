@@ -228,7 +228,7 @@ function UserEntry({ user, button, onClick, message, external, url }) {
           </span>
         </div>
       )}
-      {button}
+      {external ? null : button}
     </div>
   );
 }
@@ -251,7 +251,7 @@ export default class Profile extends React.Component {
     isFollowing: this.props.external
       ? false
       : !!this.props.viewer.subscriptions.filter((entry) => {
-          return entry.target_user_id === this.props.data.id;
+          return entry.target_user_id === this.props.creator.id;
         }).length,
   };
 
@@ -259,7 +259,21 @@ export default class Profile extends React.Component {
     await this.filterByVisibility();
   };
 
-  componentDidUpdate = async () => {
+  componentDidUpdate = async (prevProps) => {
+    if (this.props.creator?.id !== prevProps.creator?.id) {
+      this.setState({
+        tab: 1,
+        view: 0,
+        fileTab: 0,
+        slateTab: 0,
+        peerTab: 0,
+        isFollowing: this.props.external
+          ? false
+          : !!this.props.viewer.subscriptions.filter((entry) => {
+              return entry.target_user_id === this.props.creator.id;
+            }).length,
+      });
+    }
     if (
       this.lastLength != null &&
       this.props.creator?.library[0].children.length !== this.lastLength
@@ -339,7 +353,7 @@ export default class Profile extends React.Component {
 
   render() {
     let isOwner = this.props.creator.username === this.props.viewer?.username;
-    let data = this.props.creator ? this.props.creator : this.props.data;
+    let creator = this.props.creator;
     let subscriptions = this.props.creator.subscriptions || [];
     let subscribers = this.props.creator.subscribers || [];
     let dataItems = !isOwner
@@ -363,7 +377,7 @@ export default class Profile extends React.Component {
         : followingSlates?.length
         ? followingSlates
         : null;
-    let username = this.state.slateTab === 0 ? data.username : null;
+    let username = this.state.slateTab === 0 ? creator.username : null;
 
     let following = subscriptions
       .filter((relation) => {
@@ -437,7 +451,7 @@ export default class Profile extends React.Component {
               });
             }}
             external={this.props.external}
-            url={`https://slate.host/${relation.user.username}`}
+            url={`/${relation.user.username}`}
           />
         );
       });
@@ -515,14 +529,14 @@ export default class Profile extends React.Component {
       );
     });
 
-    let total = data.slates.reduce((total, slate) => {
+    let total = creator.slates.reduce((total, slate) => {
       return total + slate.data?.objects?.length || 0;
     }, 0);
 
     return (
       <div>
         <GlobalCarousel
-          carouselType="data"
+          carouselType="DATA"
           onUpdateViewer={this.props.onUpdateViewer}
           resources={this.props.resources}
           viewer={this.props.viewer}
@@ -542,10 +556,10 @@ export default class Profile extends React.Component {
           <div css={STYLES_PROFILE_INFO}>
             <div
               css={STYLES_PROFILE_IMAGE}
-              style={{ backgroundImage: `url('${data.data.photo}')` }}
+              style={{ backgroundImage: `url('${creator.data.photo}')` }}
             />
             <div css={STYLES_INFO}>
-              <div css={STYLES_NAME}>{Strings.getPresentationName(data)}</div>
+              <div css={STYLES_NAME}>{Strings.getPresentationName(creator)}</div>
               {!isOwner && !this.props.external && (
                 <div css={STYLES_BUTTON}>
                   {this.state.isFollowing ? (
@@ -569,9 +583,9 @@ export default class Profile extends React.Component {
                   )}
                 </div>
               )}
-              {data.data.body ? (
+              {creator.data.body ? (
                 <div css={STYLES_DESCRIPTION}>
-                  <ProcessedText text={data.data.body} />
+                  <ProcessedText text={creator.data.body} />
                 </div>
               ) : null}
               <div css={STYLES_STATS}>
@@ -582,7 +596,7 @@ export default class Profile extends React.Component {
                 </div>
                 <div css={STYLES_STAT}>
                   <div style={{ fontFamily: `${Constants.font.text}` }}>
-                    {data.slates.length}{" "}
+                    {creator.slates.length}{" "}
                     <span style={{ color: `${Constants.system.darkGray}` }}>Slates</span>
                   </div>
                 </div>
@@ -596,7 +610,7 @@ export default class Profile extends React.Component {
               onClose={() => this.setState({ visible: false })}
               viewer={this.props.viewer}
               open={this.state.visible}
-              redirectURL={`/_?scene=NAV_PROFILE&user=${data.username}`}
+              redirectURL={`/_?scene=NAV_PROFILE&user=${creator.username}`}
             />
           </div>
         )}

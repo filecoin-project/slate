@@ -105,6 +105,14 @@ const STYLES_TAG = css`
   border: 1px solid ${Constants.system.darkGray};
 `;
 
+const STYLES_VISIBILITY_SECTION = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0 16px 0;
+`;
+
 const STYLES_META_DETAILS = css`
   color: ${Constants.system.darkGray};
   text-transform: uppercase;
@@ -161,7 +169,7 @@ const STYLES_IMAGE_BOX = css`
   border-radius: 4px;
 `;
 
-const STYLES_FILE_HIDDREN = css`
+const STYLES_FILE_HIDDEN = css`
   height: 1px;
   width: 1px;
   opacity: 0;
@@ -169,6 +177,11 @@ const STYLES_FILE_HIDDREN = css`
   position: fixed;
   top: -1px;
   left: -1px;
+`;
+
+const STYLES_TEXT = css`
+  color: ${Constants.system.darkGray}
+  line-height: 1.5;
 `;
 
 const STYLES_INPUT = {
@@ -511,9 +524,7 @@ export default class CarouselSidebarData extends React.Component {
             </System.P>
             {coverImage ? (
               <React.Fragment>
-                <System.P style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
-                  This is the preview image of your file.
-                </System.P>
+                <System.P css={STYLES_TEXT}>This is the preview image of your file.</System.P>
                 <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
                   <img
                     src={coverImage.url}
@@ -523,17 +534,10 @@ export default class CarouselSidebarData extends React.Component {
                 </div>
               </React.Fragment>
             ) : (
-              <System.P style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
-                Add a cover image for your file.
-              </System.P>
+              <System.P css={STYLES_TEXT}>Add a cover image for your file.</System.P>
             )}
             <div style={{ marginTop: 16 }}>
-              <input
-                css={STYLES_FILE_HIDDREN}
-                type="file"
-                id="file"
-                onChange={this._handleUpload}
-              />
+              <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
               <System.ButtonPrimary
                 full
                 type="label"
@@ -550,18 +554,8 @@ export default class CarouselSidebarData extends React.Component {
             <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
               Visibility
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                margin: "16px 0 16px 0",
-              }}
-            >
-              <div style={{ color: Constants.system.darkGray, lineHeight: "1.5" }}>
-                {isVisible ? "Everyone" : "Link only"}
-              </div>
+            <div css={STYLES_VISIBILITY_SECTION}>
+              <div css={STYLES_TEXT}>{isVisible ? "Everyone" : "Link only"}</div>
               <Toggle dark active={isVisible} onChange={this._handleToggleVisibility} />
             </div>
             <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>

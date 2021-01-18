@@ -47,7 +47,7 @@ export default class SceneFilesFolder extends React.Component {
           }
         />
         <GlobalCarousel
-          carouselType="data"
+          carouselType="DATA"
           onUpdateViewer={this.props.onUpdateViewer}
           resources={this.props.resources}
           viewer={this.props.viewer}

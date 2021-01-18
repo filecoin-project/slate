@@ -68,7 +68,7 @@ export default class SceneProfile extends React.Component {
     window.history.replaceState(window.history.state, "A slate user", `/${targetUser.username}`);
 
     this.props.onUpdateData({ data: targetUser });
-    this.setState({ profile: targetUser }); //martina: keep this here? or use the data itself rather than using this?
+    this.setState({ profile: targetUser });
   };
 
   render() {
@@ -91,8 +91,6 @@ export default class SceneProfile extends React.Component {
       );
     }
 
-    //FOR TARA: this is the change that'll allow it to update "automatically" if you're viewing your own profile and make changes
-    //if you are viewing your own profile (aka this.state.profile.id === this.props.viewer.id), it'll set it to viewer directly, rather than a stale copy of viewer
     return (
       <Profile
         {...this.props}

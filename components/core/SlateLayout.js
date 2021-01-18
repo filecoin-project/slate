@@ -1107,7 +1107,7 @@ export class SlateLayout extends React.Component {
     return (
       <div>
         <GlobalCarousel
-          carouselType="slate"
+          carouselType="SLATE"
           onUpdateViewer={this.props.onUpdateViewer}
           viewer={this.props.viewer}
           objects={this.state.items}

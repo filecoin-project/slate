@@ -505,7 +505,6 @@ export default class DataView extends React.Component {
                       ? `0px 0px 0px 1px ${Constants.system.lightBorder} inset,
       0 0 40px 0 ${Constants.system.shadow}`
                       : "",
-                    textAlign: "left",
                   }}
                   onClick={() => this._handleSelect(i)}
                   onMouseEnter={() => this.setState({ hover: i })}

@@ -274,39 +274,12 @@ export class SlatePreviewBlock extends React.Component {
               top: "16px",
               right: "-12px",
             }}
-            navigation={
-              this.props.isOwner
-                ? [
-                    {
-                      text: "Copy URL",
-                      onClick: (e) =>
-                        this._handleCopy(
-                          e,
-                          Strings.getURLFromPath(
-                            `/${this.props.username}/${this.props.slate.slatename}`
-                          )
-                        ),
-                    },
-                    {
-                      text: "Copy slate ID",
-                      onClick: (e) => this._handleCopy(e, this.props.slate.id),
-                    },
-                  ]
-                : [
-                    {
-                      text: "Copy URL",
-                      onClick: (e) =>
-                        this._handleCopy(
-                          e,
-                          Strings.getURLFromPath(
-                            this.props.username
-                              ? `/${this.props.username}/${this.props.slate.slatename}`
-                              : `/${this.props.slate.username}/${this.props.slate.slatename}`
-                          )
-                        ),
-                    },
-                  ]
-            }
+            navigation={[
+              {
+                text: "Copy slate ID",
+                onClick: (e) => this._handleCopy(e, this.props.slate.id),
+              },
+            ]}
           />
         </Boundary>
         <input
@@ -328,7 +301,7 @@ export class SlatePreviewBlock extends React.Component {
               {this.props.slate.data.name}
             </div>
 
-            {!this.props.external ? (
+            {this.props.isOwner ? (
               <div
                 style={{ marginLeft: "auto" }}
                 ref={(c) => {
@@ -465,14 +438,14 @@ export default class SlatePreviewBlocks extends React.Component {
     return (
       <div css={STYLES_SLATES}>
         {this.props.external
-          ? this.props.slates.map((slate) => (
+          ? this.props.slates?.map((slate) => (
               <a
                 key={slate.id}
                 style={{ textDecoration: "none", color: Constants.system.black }}
                 href={
-                  this.props.username
+                  !!this.props.username
                     ? `/${this.props.username}/${slate.slatename}`
-                    : `/${slate.username}/${slate.slatename}`
+                    : `/$/slate/${slate.id}`
                 }
               >
                 <SlatePreviewBlock
@@ -483,7 +456,7 @@ export default class SlatePreviewBlocks extends React.Component {
                 />
               </a>
             ))
-          : this.props.slates.map((slate) => (
+          : this.props.slates?.map((slate) => (
               <div
                 key={slate.id}
                 onClick={() =>

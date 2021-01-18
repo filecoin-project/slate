@@ -52,7 +52,6 @@ import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
 
 import { GlobalModal } from "~/components/system/components/GlobalModal";
 import { OnboardingModal } from "~/components/core/OnboardingModal";
-import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { SearchModal } from "~/components/core/SearchModal";
 import { Alert } from "~/components/core/Alert";
 import { announcements } from "~/components/core/OnboardingModal";
@@ -690,15 +689,6 @@ export default class ApplicationPage extends React.Component {
           >
             {scene}
           </ApplicationLayout>
-          <GlobalCarousel
-            onUpdateViewer={this._handleUpdateViewer}
-            resources={this.props.resources}
-            viewer={this.state.viewer}
-            current={this.state.data}
-            slates={this.state.viewer.slates}
-            onAction={this._handleAction}
-            mobile={this.props.mobile}
-          />
           <GlobalModal />
           <SearchModal
             viewer={this.state.viewer}

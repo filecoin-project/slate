@@ -10,6 +10,7 @@ import * as Events from "~/common/custom-events";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
 import CTATransition from "~/components/core/CTATransition";
 
+import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -1105,6 +1106,17 @@ export class SlateLayout extends React.Component {
     let unit = this.state.unit;
     return (
       <div>
+        <GlobalCarousel
+          carouselType="SLATE"
+          onUpdateViewer={this.props.onUpdateViewer}
+          viewer={this.props.viewer}
+          objects={this.state.items}
+          current={this.props.current}
+          onAction={this.props.onAction}
+          mobile={this.props.mobile}
+          isOwner={this.props.isOwner}
+          external={this.props.external}
+        />
         {this.props.isOwner ? (
           this.state.editing ? (
             <div

@@ -148,6 +148,50 @@ app.prepare().then(async () => {
   server.all("/_/:a", async (r, s) => handler(r, s, r.url));
   server.all("/_/:a/:b", async (r, s) => handler(r, s, r.url));
 
+  server.get("/[$]/slate/:id", async (req, res) => {
+    const slate = await Data.getSlateById({
+      id: req.params.id,
+    });
+
+    if (!slate) {
+      return res.redirect("/404");
+    }
+
+    if (slate.error) {
+      return res.redirect("/404");
+    }
+
+    if (!slate.data.public) {
+      return res.redirect("/403");
+    }
+
+    const creator = await Data.getUserById({ id: slate.data.ownerId });
+
+    if (!creator) {
+      return res.redirect("/404");
+    }
+
+    if (creator.error) {
+      return res.redirect("/404");
+    }
+
+    return res.redirect(`/${creator.username}/${slate.slatename}`);
+  });
+
+  server.get("/[$]/user/:id", async (req, res) => {
+    const creator = await Data.getUserById({ id: req.params.id });
+
+    if (!creator) {
+      return res.redirect("/404");
+    }
+
+    if (creator.error) {
+      return res.redirect("/404");
+    }
+
+    return res.redirect(`/${creator.username}`);
+  });
+
   server.get("/[$]/:id", async (req, res) => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
 

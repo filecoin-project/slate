@@ -538,32 +538,52 @@ export default class DataView extends React.Component {
                               enabled
                               onOutsideRectEvent={this._handleHide}
                             >
-                              <PopoverNavigation
-                                style={{
-                                  top: "32px",
-                                  right: "0px",
-                                }}
-                                navigation={[
-                                  {
-                                    text: "Copy CID",
-                                    onClick: (e) => this._handleCopy(e, cid),
-                                  },
-                                  {
-                                    text: "Copy link",
-                                    onClick: (e) =>
-                                      this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
-                                  },
-                                  {
-                                    text: "Delete",
-                                    onClick: (e) => {
-                                      e.stopPropagation();
-                                      this.setState({ menu: null }, () =>
-                                        this._handleDelete(cid, each.id)
-                                      );
+                              {this.props.isOwner ? (
+                                <PopoverNavigation
+                                  style={{
+                                    top: "32px",
+                                    right: "0px",
+                                  }}
+                                  navigation={[
+                                    {
+                                      text: "Copy CID",
+                                      onClick: (e) => this._handleCopy(e, cid),
                                     },
-                                  },
-                                ]}
-                              />
+                                    {
+                                      text: "Copy link",
+                                      onClick: (e) =>
+                                        this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
+                                    },
+                                    {
+                                      text: "Delete",
+                                      onClick: (e) => {
+                                        e.stopPropagation();
+                                        this.setState({ menu: null }, () =>
+                                          this._handleDelete(cid, each.id)
+                                        );
+                                      },
+                                    },
+                                  ]}
+                                />
+                              ) : (
+                                <PopoverNavigation
+                                  style={{
+                                    top: "32px",
+                                    right: "0px",
+                                  }}
+                                  navigation={[
+                                    {
+                                      text: "Copy CID",
+                                      onClick: (e) => this._handleCopy(e, cid),
+                                    },
+                                    {
+                                      text: "Copy link",
+                                      onClick: (e) =>
+                                        this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
+                                    },
+                                  ]}
+                                />
+                              )}
                             </Boundary>
                           ) : null}
                         </div>
@@ -734,8 +754,16 @@ export default class DataView extends React.Component {
       <React.Fragment>
         <Table
           data={data}
-          rowStyle={{ padding: "10px 16px", backgroundColor: Constants.system.white }}
-          topRowStyle={{ padding: "0px 16px", backgroundColor: Constants.system.white }}
+          rowStyle={{
+            padding: "10px 16px",
+            textAlign: "left",
+            backgroundColor: Constants.system.white,
+          }}
+          topRowStyle={{
+            padding: "0px 16px",
+            textAlign: "left",
+            backgroundColor: Constants.system.white,
+          }}
           onMouseEnter={(i) => this.setState({ hover: i })}
           onMouseLeave={() => this.setState({ hover: null })}
           isShiftDown={this.isShiftDown}

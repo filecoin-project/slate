@@ -18,6 +18,7 @@ const websocketSend = async (type, data) => {
 
   let ws = Websocket.get();
   if (!ws) {
+    console.log("no websocket. creating now...");
     ws = Websocket.create();
     await Window.delay(2000);
   }

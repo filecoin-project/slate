@@ -13,7 +13,6 @@ import { ViewAllButton } from "~/components/core/ViewAll";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import { GlobalModal } from "~/components/system/components/GlobalModal";
-import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 
 import ProcessedText from "~/components/core/ProcessedText";
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
@@ -317,6 +316,7 @@ export default class SlatePage extends React.Component {
                 items={objects}
                 fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
                 onSelect={this._handleSelect}
+                external
               />
             ) : (
               <SlateLayout
@@ -335,7 +335,6 @@ export default class SlatePage extends React.Component {
             )}
           </div>
         </div>
-        <GlobalCarousel external current={this.props.slate} mobile={this.props.mobile} />
         <GlobalModal />
         {this.state.visible && (
           <div>

@@ -134,6 +134,7 @@ export default class SidebarCreateSlate extends React.Component {
           </System.P>
 
           <System.Input
+            autoFocus
             placeholder="Slate name..."
             style={{ marginTop: 12 }}
             name="name"

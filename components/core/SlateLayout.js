@@ -49,7 +49,7 @@ const generateLayout = (items) => {
         x: (i % 5) * (SIZE + MARGIN),
         y: 0,
         w: SIZE,
-        h: null,
+        h: 0,
         z: 0,
         id: item.id,
       };
@@ -92,7 +92,7 @@ const STYLES_LOADER = css`
 `;
 
 const STYLES_EDIT_CONTAINER = css`
-  border: 1px solid rgba(229, 229, 229, 0.5);
+  border: 1px solid ${Constants.system.gray};
   padding: 24px;
   overflow: hidden;
 `;
@@ -206,9 +206,13 @@ const STYLES_FILE_TYPE = css`
 const STYLES_HANDLE_BOX = css`
   cursor: nwse-resize;
   position: absolute;
+  bottom: 0px;
+  right: 0px;
   height: 24px;
   width: 24px;
-  color: rgba(195, 195, 196, 0.75);
+  background-color: rgba(248, 248, 248, 0.6);
+  color: #4b4a4d;
+  border-radius: 24px 0px 0px 0px;
 `;
 
 const STYLES_ACTION_BAR = css`
@@ -326,7 +330,7 @@ export class SlateLayout extends React.Component {
   };
 
   componentDidMount = async () => {
-    this.debounceInstance = this.debounce(this._recalculate, 250);
+    this.debounceInstance = Window.debounce(this._recalculate, 250);
     window.addEventListener("resize", this.debounceInstance);
     await this.calculateUnit();
     if (this.props.layout) {
@@ -443,28 +447,6 @@ export class SlateLayout extends React.Component {
     }
   };
 
-  // _handleRemoteEditObject = async ({ detail }) => {
-  //   const { object } = detail;
-
-  //   const items = [...this.state.items];
-  //   for (let i = 0; i < items.length; i++) {
-  //     if (items[i].id === object.id) {
-  //       items[i] = object;
-  //       break;
-  //     }
-  //   }
-  //   this.setState({ items });
-  // };
-
-  debounce = (func, ms) => {
-    let timer;
-
-    return () => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(func, ms);
-    };
-  };
-
   _recalculate = async () => {
     let prevUnit = this.state.unit;
     await this.calculateUnit();
@@ -497,7 +479,17 @@ export class SlateLayout extends React.Component {
     let layout = layouts ? this.cloneLayout(layouts.layout) : this.cloneLayout(this.state.layout);
     let layoutIds = layout.map((pos) => pos.id);
     let repairNeeded = false;
-    if (items.length === layout.length) {
+    if (items.length !== layout.length) {
+      repairNeeded = true;
+    }
+    if (!repairNeeded && defaultLayout) {
+      for (let i = 5; i < layout.length; i++) {
+        if (!layout[i].y) {
+          repairNeeded = true;
+        }
+      }
+    }
+    if (!repairNeeded && items.length === layout.length) {
       let itemIds = items.map((item) => item.id);
       for (let i = 0; i < itemIds.length; i++) {
         if (itemIds[i] !== layoutIds[i]) {
@@ -509,10 +501,13 @@ export class SlateLayout extends React.Component {
         return;
       }
     }
-    let newLayout = items.map((item) => null) || [];
+    let newLayout = new Array(items.length);
     for (let i = 0; i < items.length; i++) {
       let layoutIndex = layoutIds.indexOf(items[i].id);
       if (layoutIndex === -1) {
+        continue;
+      } else if (defaultLayout && layoutIndex >= 5 && !layout[layoutIndex].y) {
+        //NOTE(martina): to catch ones that were not preloaded correctly before and patch them
         continue;
       } else {
         newLayout[i] = layout[layoutIndex];
@@ -541,6 +536,7 @@ export class SlateLayout extends React.Component {
       if (fileNames) {
         yMax += TAG_HEIGHT;
       }
+      yMax = yMax || 0;
     }
     let h = 0;
     for (let i = 0; i < newLayout.length; i++) {
@@ -583,7 +579,6 @@ export class SlateLayout extends React.Component {
     let layout = oldLayout ? oldLayout : this.state.layout;
     for (let i = 0; i < this.state.items.length; i++) {
       let height = heights[i];
-      if (height === 0) continue;
       let itemAbove = i - 5 < 0 ? null : layout[i - 5];
       layout[i] = {
         x: (i % 5) * (SIZE + MARGIN),
@@ -605,7 +600,7 @@ export class SlateLayout extends React.Component {
     let results = await Promise.allSettled(this.state.items.map((item, i) => preload(item, i)));
     let heights = results.map((result) => {
       if (result.status === "fulfilled") {
-        return result.value;
+        return result.value || 200;
       } else {
         return 200;
       }
@@ -732,15 +727,11 @@ export class SlateLayout extends React.Component {
     ) {
       e.preventDefault();
       e.stopPropagation();
-      this._handleHelpKeybind();
     }
   };
 
   _handleKeyUp = (e) => {
     this.keysPressed[e.key] = false;
-    if (!this.keysPressed["Meta"] || !this.keysPressed["Control"]) {
-      this._handleHelpKeybind();
-    }
     this.keysPressed = {};
   };
 
@@ -1261,26 +1252,6 @@ export class SlateLayout extends React.Component {
               >
                 Edit
               </ButtonSecondary>
-              {/* <div
-                css={STYLES_TOGGLE_BOX}
-                style={{ marginLeft: 16, padding: "0px 12px" }}
-              >
-                <div
-                  style={{
-                    padding: 4,
-                    display: "flex",
-                    alignItems: "center",
-                    marginRight: 8,
-                  }}
-                >
-                  <SVG.GridView height="24px" />
-                </div>
-                <div
-                  style={{ padding: 4, display: "flex", alignItems: "center" }}
-                >
-                  <SVG.TableView height="24px" />
-                </div>
-              </div> */}
             </div>
           )
         ) : null}
@@ -1712,8 +1683,6 @@ export class SlateLayout extends React.Component {
                       css={STYLES_HANDLE_BOX}
                       onMouseDown={(e) => this._handleMouseDownResize(e, i)}
                       style={{
-                        bottom: this.state.fileNames ? `calc(0px + ${TAG_HEIGHT}px)` : 0,
-                        right: 0,
                         display:
                           this.state.hover === i || this.state.dragIndex === i ? "block" : "none",
                       }}

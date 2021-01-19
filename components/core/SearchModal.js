@@ -515,9 +515,6 @@ export class SearchModal extends React.Component {
   };
 
   initializeSearch = async () => {
-    if (this._input) {
-      this._input.focus();
-    }
     this.debounceInstance = Window.debounce(() => {
       this._handleSearch();
     }, 500);
@@ -955,14 +952,9 @@ export class SearchModal extends React.Component {
     if (this._input) {
       this._input.focus();
     }
-    if (this.state.typeFilter === type) {
-      this.setState({ typeFilter: null });
-    } else {
-      this.setState({ typeFilter: type });
-    }
-    if (this.state.inputValue) {
+    this.setState({ typeFilter: this.state.typeFilter === type ? null : type }, () => {
       this._handleSearch();
-    }
+    });
   };
 
   _handleFilterScope = async (scope) => {
@@ -1046,6 +1038,7 @@ export class SearchModal extends React.Component {
                         ) : null}
                       </div>
                       <input
+                        autoFocus
                         disabled={!this.state.modal || this.state.loading}
                         css={STYLES_INPUT}
                         value={this.state.inputValue}

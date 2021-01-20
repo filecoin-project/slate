@@ -97,6 +97,8 @@ export default class SceneProfile extends React.Component {
         creator={
           this.state.profile.id === this.props.viewer.id ? this.props.viewer : this.state.profile
         }
+        isOwner={this.state.profile.id === this.props.viewer.id}
+        key={this.state.profile.id}
       />
     );
   }

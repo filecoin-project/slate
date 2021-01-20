@@ -363,6 +363,7 @@ class SlatePage extends React.Component {
           ) : (
             <div style={{ marginTop: isOwner ? 24 : 48 }}>
               <SlateLayout
+                key={this.props.current.id}
                 current={this.props.current}
                 onUpdateViewer={this.props.onUpdateViewer}
                 viewer={this.props.viewer}

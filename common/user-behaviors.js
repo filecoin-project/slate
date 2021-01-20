@@ -10,7 +10,12 @@ import * as Events from "~/common/custom-events";
 
 import Cookies from "universal-cookie";
 import JSZip from "jszip";
+
 import { saveAs } from "file-saver";
+
+//NOTE(martina): this file is for utility *API-calling* functions
+//For non API related utility functions, see common/utilities.js
+//And for uploading related utility functions, see common/file-utilities.js
 
 const cookies = new Cookies();
 

@@ -374,57 +374,58 @@ export class SlateLayout extends React.Component {
   };
 
   componentDidUpdate = async (prevProps) => {
-    if (prevProps.slateId !== this.props.slateId) {
-      //NOTE(martina): to handle when you navigate between two slates, so it registers the change properly
-      await this.setState({ show: false });
-      let defaultLayout = this.props.layout ? this.props.defaultLayout : true;
-      let fileNames = this.props.fileNames;
-      let layout;
-      if (this.props.layout) {
-        layout = await this.repairLayout(this.props.items, {
-          defaultLayout,
-          fileNames,
-          layout: this.props.layout,
-        });
-        if (layout) {
-          this.props.onSaveLayout(
-            {
-              ver: "2.0",
-              fileNames,
-              defaultLayout,
-              layout,
-            },
-            true
-          );
-        } else {
-          layout = this.props.layout;
-        }
-      } else {
-        layout = generateLayout(this.props.items);
-        await this.setState({ layout, items: this.props.items });
-        layout = await this.calculateLayout(layout);
-        this.props.onSaveLayout(
-          {
-            ver: "2.0",
-            fileNames,
-            defaultLayout,
-            layout,
-          },
-          true
-        );
-      }
-      await this.setState({
-        items: this.props.items,
-        layout,
-        prevLayouts: [],
-        zIndexMax: layout && layout.length ? Math.max(...layout.map((pos) => pos.z)) + 1 : 1,
-        fileNames,
-        defaultLayout,
-        editing: false,
-        show: true,
-      });
-      this.calculateContainer();
-    } else if (prevProps.items.length !== this.props.items.length) {
+    // if (prevProps.slateId !== this.props.slateId) {
+    //   //NOTE(martina): to handle when you navigate between two slates, so it registers the change properly
+    //   await this.setState({ show: false });
+    //   let defaultLayout = this.props.layout ? this.props.defaultLayout : true;
+    //   let fileNames = this.props.fileNames;
+    //   let layout;
+    //   if (this.props.layout) {
+    //     layout = await this.repairLayout(this.props.items, {
+    //       defaultLayout,
+    //       fileNames,
+    //       layout: this.props.layout,
+    //     });
+    //     if (layout) {
+    //       this.props.onSaveLayout(
+    //         {
+    //           ver: "2.0",
+    //           fileNames,
+    //           defaultLayout,
+    //           layout,
+    //         },
+    //         true
+    //       );
+    //     } else {
+    //       layout = this.props.layout;
+    //     }
+    //   } else {
+    //     layout = generateLayout(this.props.items);
+    //     await this.setState({ layout, items: this.props.items });
+    //     layout = await this.calculateLayout(layout);
+    //     this.props.onSaveLayout(
+    //       {
+    //         ver: "2.0",
+    //         fileNames,
+    //         defaultLayout,
+    //         layout,
+    //       },
+    //       true
+    //     );
+    //   }
+    //   await this.setState({
+    //     items: this.props.items,
+    //     layout,
+    //     prevLayouts: [],
+    //     zIndexMax: layout && layout.length ? Math.max(...layout.map((pos) => pos.z)) + 1 : 1,
+    //     fileNames,
+    //     defaultLayout,
+    //     editing: false,
+    //     show: true,
+    //   });
+    //   this.calculateContainer();
+    // }
+    if (prevProps.items.length !== this.props.items.length) {
       //NOTE(martina): to handle when items are added / deleted from the slate, and recalculate the layout
       //NOTE(martina): if there is a case that allows simultaneous add / delete (aka modify but same length), this will not work.
       //would need to replace it with event listener + custom events

@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as SVG from "~/common/svg";
 import * as Actions from "~/common/actions";
+import * as Utilities from "~/common/utilities";
 
 import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { css } from "@emotion/react";
@@ -235,19 +236,15 @@ function UserEntry({ user, button, onClick, message, external, url }) {
 
 export default class Profile extends React.Component {
   _ref = null;
-  lastLength = null;
 
   state = {
     tab: 1,
     view: 0,
-    fileTab: 0,
     slateTab: 0,
     peerTab: 0,
     copyValue: "",
     contextMenu: null,
-    publicSlates: [],
     publicFiles: [],
-    pseudoPrivateFiles: [],
     isFollowing: this.props.external
       ? false
       : !!this.props.viewer.subscriptions.filter((entry) => {
@@ -255,70 +252,19 @@ export default class Profile extends React.Component {
         }).length,
   };
 
-  componentDidMount = async () => {
-    await this.filterByVisibility();
+  componentDidMount = () => {
+    this.filterByVisibility();
   };
 
-  componentDidUpdate = async (prevProps) => {
-    if (this.props.creator?.id !== prevProps.creator?.id) {
-      this.setState({
-        tab: 1,
-        view: 0,
-        fileTab: 0,
-        slateTab: 0,
-        peerTab: 0,
-        isFollowing: this.props.external
-          ? false
-          : !!this.props.viewer.subscriptions.filter((entry) => {
-              return entry.target_user_id === this.props.creator.id;
-            }).length,
-      });
-    }
-    if (
-      this.lastLength != null &&
-      this.props.creator?.library[0].children.length !== this.lastLength
-    ) {
-      this.filterByVisibility();
-    }
-  };
-
-  filterByVisibility = async () => {
+  filterByVisibility = () => {
     let publicFiles = [];
-    let pseudoPrivateFiles = [];
-    let files = this.props.creator.library[0].children;
-    let publicSlates =
-      this.props.creator.username === this.props.viewer?.username
-        ? this.props.creator.slates.filter((slate) => {
-            return slate.data.public === true;
-          })
-        : this.props.creator.slates;
-
-    let publicSlateFiles = publicSlates
-      .reduce((acc, curr) => {
-        return acc.concat(curr.data.objects);
-      }, [])
-      .reduce((acc, curr) => {
-        return acc.concat(curr.cid);
-      }, [])
-      .reduce((acc, curr) => {
-        if (acc.indexOf(curr) === -1) {
-          acc.push(curr);
-        }
-        return acc;
-      }, []);
-    for (let file of files) {
-      if (file.public === true || publicSlateFiles.indexOf(file.cid) != -1) {
-        publicFiles.push(file);
-      } else {
-        pseudoPrivateFiles.push(file);
-      }
+    if (this.props.isOwner) {
+      const res = Utilities.getPublicAndPrivateFiles({ viewer: this.props.creator });
+      publicFiles = res.publicFiles;
+    } else {
+      publicFiles = this.props.creator.library[0].children;
     }
-    this.setState({
-      publicSlates: publicSlates,
-      publicFiles: publicFiles,
-      pseudoPrivateFiles: pseudoPrivateFiles,
-    });
-    this.lastLength = this.props.creator?.library[0].children.length;
+    this.setState({ publicFiles: publicFiles });
   };
 
   _handleCopy = (e, value) => {
@@ -352,182 +298,182 @@ export default class Profile extends React.Component {
   };
 
   render() {
-    let isOwner = this.props.creator.username === this.props.viewer?.username;
+    let isOwner = this.props.isOwner;
     let creator = this.props.creator;
+    let username = this.state.slateTab === 0 ? creator.username : null;
     let subscriptions = this.props.creator.subscriptions || [];
     let subscribers = this.props.creator.subscribers || [];
-    let dataItems = !isOwner
-      ? this.state.publicFiles
-      : this.state.fileTab === 0
-      ? this.props.creator.library[0].children
-      : this.state.fileTab === 1
-      ? this.state.publicFiles
-      : this.state.pseudoPrivateFiles;
     let exploreSlates = this.props.exploreSlates;
 
-    let followingSlates = subscriptions
-      .filter((relation) => {
-        return !!relation.target_slate_id;
-      })
-      .map((relation) => relation.slate);
+    let slates = [];
+    if (this.state.tab === 1) {
+      if (this.state.slateTab === 0) {
+        slates = isOwner
+          ? creator.slates.filter((slate) => slate.data.public === true)
+          : creator.slates;
+      } else {
+        slates = subscriptions
+          .filter((relation) => {
+            return !!relation.target_slate_id;
+          })
+          .map((relation) => relation.slate);
+      }
+    }
 
-    let slates =
-      this.state.slateTab === 0
-        ? this.state.publicSlates
-        : followingSlates?.length
-        ? followingSlates
-        : null;
-    let username = this.state.slateTab === 0 ? creator.username : null;
-
-    let following = subscriptions
-      .filter((relation) => {
-        return !!relation.target_user_id;
-      })
-      .map((relation) => {
-        let button = (
-          <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
-            <SVG.MoreHorizontal height="24px" />
-            {this.state.contextMenu === relation.id ? (
-              <Boundary
-                captureResize={true}
-                captureScroll={false}
-                enabled
-                onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
-              >
-                {relation.target_user_id === this.props.viewer?.id ? (
-                  <PopoverNavigation
-                    style={{
-                      top: "40px",
-                      right: "0px",
-                    }}
-                    navigation={[
-                      {
-                        text: "Copy profile URL",
-                        onClick: (e) =>
-                          this._handleCopy(e, `https://slate.host/${relation.user.username}`),
-                      },
-                    ]}
-                  />
-                ) : (
-                  <PopoverNavigation
-                    style={{
-                      top: "40px",
-                      right: "0px",
-                    }}
-                    navigation={[
-                      {
-                        text: "Copy profile URL",
-                        onClick: (e) =>
-                          this._handleCopy(e, `https://slate.host/${relation.user.username}`),
-                      },
-                      {
-                        text: this.props.viewer?.subscriptions.filter((subscription) => {
-                          return subscription.target_user_id === relation.target_user_id;
-                        }).length
-                          ? "Unfollow"
-                          : "Follow",
-                        onClick: this.props.viewer
-                          ? (e) => this._handleFollow(e, relation.target_user_id)
-                          : () => this.setState({ visible: true }),
-                      },
-                    ]}
-                  />
-                )}
-              </Boundary>
-            ) : null}
-          </div>
-        );
-        return (
-          <UserEntry
-            key={relation.id}
-            user={relation.user}
-            button={button}
-            onClick={() => {
-              this.props.onAction({
-                type: "NAVIGATE",
-                value: this.props.sceneId,
-                scene: "PROFILE",
-                data: relation.user,
-              });
-            }}
-            external={this.props.external}
-            url={`/${relation.user.username}`}
-          />
-        );
-      });
-
-    let followers = subscribers.map((relation) => {
-      let button = (
-        <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
-          <SVG.MoreHorizontal height="24px" />
-          {this.state.contextMenu === relation.id ? (
-            <Boundary
-              captureResize={true}
-              captureScroll={false}
-              enabled
-              onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
-            >
-              {relation.owner_user_id === this.props.viewer?.id ? (
-                <PopoverNavigation
-                  style={{
-                    top: "40px",
-                    right: "0px",
-                  }}
-                  navigation={[
-                    {
-                      text: "Copy profile URL",
-                      onClick: (e) =>
-                        this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
-                    },
-                  ]}
-                />
-              ) : (
-                <PopoverNavigation
-                  style={{
-                    top: "40px",
-                    right: "0px",
-                  }}
-                  navigation={[
-                    {
-                      text: "Copy profile URL",
-                      onClick: (e) =>
-                        this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
-                    },
-                    {
-                      text: this.props.viewer?.subscriptions.filter((subscription) => {
-                        return subscription.target_user_id === relation.owner_user_id;
-                      }).length
-                        ? "Unfollow"
-                        : "Follow",
-                      onClick: this.props.viewer
-                        ? (e) => this._handleFollow(e, relation.owner_user_id)
-                        : () => this.setState({ visible: true }),
-                    },
-                  ]}
-                />
-              )}
-            </Boundary>
-          ) : null}
-        </div>
-      );
-      return (
-        <UserEntry
-          key={relation.id}
-          user={relation.owner}
-          button={button}
-          onClick={() => {
-            this.props.onAction({
-              type: "NAVIGATE",
-              value: this.props.sceneId,
-              scene: "PROFILE",
-              data: relation.owner,
-            });
-          }}
-          external={this.props.external}
-          url={`https://slate.host/${relation.owner.username}`}
-        />
-      );
-    });
+    let peers = [];
+    if (this.state.tab === 2) {
+      if (this.state.peerTab === 0) {
+        peers = subscriptions
+          .filter((relation) => {
+            return !!relation.target_user_id;
+          })
+          .map((relation) => {
+            let button = (
+              <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
+                <SVG.MoreHorizontal height="24px" />
+                {this.state.contextMenu === relation.id ? (
+                  <Boundary
+                    captureResize={true}
+                    captureScroll={false}
+                    enabled
+                    onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
+                  >
+                    {relation.target_user_id === this.props.viewer?.id ? (
+                      <PopoverNavigation
+                        style={{
+                          top: "40px",
+                          right: "0px",
+                        }}
+                        navigation={[
+                          {
+                            text: "Copy profile URL",
+                            onClick: (e) =>
+                              this._handleCopy(e, `https://slate.host/${relation.user.username}`),
+                          },
+                        ]}
+                      />
+                    ) : (
+                      <PopoverNavigation
+                        style={{
+                          top: "40px",
+                          right: "0px",
+                        }}
+                        navigation={[
+                          {
+                            text: "Copy profile URL",
+                            onClick: (e) =>
+                              this._handleCopy(e, `https://slate.host/${relation.user.username}`),
+                          },
+                          {
+                            text: this.props.viewer?.subscriptions.filter((subscription) => {
+                              return subscription.target_user_id === relation.target_user_id;
+                            }).length
+                              ? "Unfollow"
+                              : "Follow",
+                            onClick: this.props.viewer
+                              ? (e) => this._handleFollow(e, relation.target_user_id)
+                              : () => this.setState({ visible: true }),
+                          },
+                        ]}
+                      />
+                    )}
+                  </Boundary>
+                ) : null}
+              </div>
+            );
+            return (
+              <UserEntry
+                key={relation.id}
+                user={relation.user}
+                button={button}
+                onClick={() => {
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: this.props.sceneId,
+                    scene: "PROFILE",
+                    data: relation.user,
+                  });
+                }}
+                external={this.props.external}
+                url={`/${relation.user.username}`}
+              />
+            );
+          });
+      } else {
+        peers = subscribers.map((relation) => {
+          let button = (
+            <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
+              <SVG.MoreHorizontal height="24px" />
+              {this.state.contextMenu === relation.id ? (
+                <Boundary
+                  captureResize={true}
+                  captureScroll={false}
+                  enabled
+                  onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
+                >
+                  {relation.owner_user_id === this.props.viewer?.id ? (
+                    <PopoverNavigation
+                      style={{
+                        top: "40px",
+                        right: "0px",
+                      }}
+                      navigation={[
+                        {
+                          text: "Copy profile URL",
+                          onClick: (e) =>
+                            this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <PopoverNavigation
+                      style={{
+                        top: "40px",
+                        right: "0px",
+                      }}
+                      navigation={[
+                        {
+                          text: "Copy profile URL",
+                          onClick: (e) =>
+                            this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
+                        },
+                        {
+                          text: this.props.viewer?.subscriptions.filter((subscription) => {
+                            return subscription.target_user_id === relation.owner_user_id;
+                          }).length
+                            ? "Unfollow"
+                            : "Follow",
+                          onClick: this.props.viewer
+                            ? (e) => this._handleFollow(e, relation.owner_user_id)
+                            : () => this.setState({ visible: true }),
+                        },
+                      ]}
+                    />
+                  )}
+                </Boundary>
+              ) : null}
+            </div>
+          );
+          return (
+            <UserEntry
+              key={relation.id}
+              user={relation.owner}
+              button={button}
+              onClick={() => {
+                this.props.onAction({
+                  type: "NAVIGATE",
+                  value: this.props.sceneId,
+                  scene: "PROFILE",
+                  data: relation.owner,
+                });
+              }}
+              external={this.props.external}
+              url={`https://slate.host/${relation.owner.username}`}
+            />
+          );
+        });
+      }
+    }
 
     let total = creator.slates.reduce((total, slate) => {
       return total + slate.data?.objects?.length || 0;
@@ -540,14 +486,8 @@ export default class Profile extends React.Component {
           onUpdateViewer={this.props.onUpdateViewer}
           resources={this.props.resources}
           viewer={this.props.viewer}
-          objects={
-            this.state.fileTab === 0
-              ? this.props.creator.library[0].children
-              : this.state.fileTab === 1
-              ? this.state.publicFiles
-              : this.state.pseudoPrivateFiles
-          }
-          isOwner={isOwner}
+          objects={this.state.publicFiles}
+          isOwner={false}
           onAction={this.props.onAction}
           mobile={this.props.mobile}
           external={this.props.external}
@@ -624,14 +564,6 @@ export default class Profile extends React.Component {
           {this.state.tab === 0 ? (
             <div>
               <div style={{ display: `flex` }}>
-                {isOwner && (
-                  <SecondaryTabGroup
-                    tabs={["All files", "Everyone can view", "Link access only"]}
-                    value={this.state.fileTab}
-                    onChange={(value) => this.setState({ fileTab: value })}
-                    style={{ margin: "0 0 24px 0" }}
-                  />
-                )}
                 <SecondaryTabGroup
                   tabs={[
                     <SVG.GridView height="24px" style={{ display: "block" }} />,
@@ -642,23 +574,19 @@ export default class Profile extends React.Component {
                   style={{ margin: "0 0 24px 0", justifyContent: "flex-end" }}
                 />
               </div>
-              {!!dataItems.length ? (
+              {this.state.publicFiles.length ? (
                 <DataView
                   onAction={this.props.onAction}
                   viewer={this.props.viewer}
                   isOwner={isOwner}
-                  items={dataItems}
+                  items={this.state.publicFiles}
                   onUpdateViewer={this.props.onUpdateViewer}
                   view={this.state.view}
                 />
               ) : (
                 <EmptyState>
                   <FileTypeGroup />
-                  <div style={{ marginTop: 24 }}>
-                    {isOwner
-                      ? `Drag and drop files into Slate to upload`
-                      : `This user does not have any public files yet`}
-                  </div>
+                  <div style={{ marginTop: 24 }}>This user does not have any public files yet</div>
                 </EmptyState>
               )}
             </div>
@@ -710,30 +638,18 @@ export default class Profile extends React.Component {
                 onChange={(value) => this.setState({ peerTab: value })}
                 style={{ margin: "0 0 24px 0" }}
               />
-              {this.state.peerTab === 0 ? (
-                <div>
-                  {following?.length ? (
-                    following
-                  ) : (
-                    <EmptyState>
-                      <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                      This user is not following anyone yet
-                    </EmptyState>
-                  )}
-                </div>
-              ) : null}
-              {this.state.peerTab === 1 ? (
-                <div>
-                  {followers?.length ? (
-                    followers
-                  ) : (
-                    <EmptyState>
-                      <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                      This user does not have any followers yet
-                    </EmptyState>
-                  )}
-                </div>
-              ) : null}
+              <div>
+                {peers?.length ? (
+                  peers
+                ) : (
+                  <EmptyState>
+                    <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+                    {this.state.peerTab === 0
+                      ? "This user is not following anyone yet"
+                      : "This user does not have any followers yet"}
+                  </EmptyState>
+                )}
+              </div>
               <input
                 readOnly
                 ref={(c) => {

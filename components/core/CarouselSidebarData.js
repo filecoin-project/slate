@@ -489,7 +489,7 @@ export default class CarouselSidebarData extends React.Component {
           <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "gatewayUrlCopying")}>
             <SVG.Data height="24px" />
             <span style={{ marginLeft: 16 }}>
-              {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy external URL"}
+              {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy file URL"}
             </span>
           </div>
           <div css={STYLES_ACTION} onClick={this._handleDownload}>

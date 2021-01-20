@@ -322,6 +322,7 @@ export default class SlatePage extends React.Component {
               <SlateLayout
                 external
                 slateId={this.props.slate.id}
+                key={this.props.slate.id}
                 layout={layouts && layouts.ver === "2.0" ? layouts.layout : null}
                 onSaveLayout={this._handleSave}
                 isOwner={false}

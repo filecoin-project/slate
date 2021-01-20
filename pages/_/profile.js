@@ -51,7 +51,7 @@ export default class ProfilePage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <Profile {...this.props} buttons={buttons} external />
+          <Profile {...this.props} buttons={buttons} isOwner={false} external />
         </div>
         {this.state.visible && (
           <div>

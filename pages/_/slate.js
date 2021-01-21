@@ -193,10 +193,7 @@ export default class SlatePage extends React.Component {
       if (index || index === 0) {
         Events.dispatchCustomEvent({
           name: "slate-global-open-carousel",
-          detail: {
-            index,
-            baseURL: `${this.props.creator.username}/${this.props.slate.slatename}`,
-          },
+          detail: { index },
         });
       }
     }
@@ -205,10 +202,7 @@ export default class SlatePage extends React.Component {
   _handleSelect = (index) => {
     Events.dispatchCustomEvent({
       name: "slate-global-open-carousel",
-      detail: {
-        index,
-        baseURL: `${this.props.creator.username}/${this.props.slate.slatename}`,
-      },
+      detail: { index },
     });
   };
 

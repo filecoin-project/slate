@@ -164,6 +164,17 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
+  setWindowState = (cid) => {
+    let baseURL = window.location.pathname.split("/");
+    baseURL.length = 3;
+    baseURL = baseURL.join("/");
+    window.history.replaceState(
+      { ...window.history.state, cid: cid },
+      null,
+      cid ? `${baseURL}/cid:${cid}` : baseURL
+    );
+  };
+
   _handleOpen = (e) => {
     if (e.detail.index < 0 || e.detail.index >= this.props.objects.length) {
       return;
@@ -171,15 +182,10 @@ export class GlobalCarousel extends React.Component {
     this.setState({
       visible: true,
       index: e.detail.index || 0,
-      baseURL: window.location.pathname,
     });
     if (this.props.carouselType === "SLATE") {
       const data = this.props.objects[e.detail.index];
-      window.history.replaceState(
-        { ...window.history.state, cid: data.cid },
-        null,
-        `${window.location.pathname}/cid:${data.cid}`
-      );
+      this.setWindowState(data.cid);
     }
   };
 
@@ -191,9 +197,7 @@ export class GlobalCarousel extends React.Component {
       }
       this.setState({ visible: false, index: 0 });
 
-      if (this.state.baseURL && window.location.pathname.includes(this.state.baseURL)) {
-        window.history.replaceState({ ...window.history.state, cid: null }, "", this.state.baseURL);
-      }
+      this.setWindowState();
     }
   };
 
@@ -204,13 +208,9 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index });
 
-    if (this.props.carouselType === "SLATE" && this.state.baseURL) {
+    if (this.props.carouselType === "SLATE") {
       const data = this.props.objects[index];
-      window.history.replaceState(
-        { ...window.history.state, cid: data.cid },
-        "",
-        `${this.state.baseURL}/cid:${data.cid}`
-      );
+      this.setWindowState(data.cid);
     }
   };
 
@@ -221,13 +221,9 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index });
 
-    if (this.props.carouselType === "SLATE" && this.state.baseURL) {
+    if (this.props.carouselType === "SLATE") {
       const data = this.props.objects[index];
-      window.history.replaceState(
-        { ...window.history.state, cid: data.cid },
-        "",
-        `${this.state.baseURL}/cid:${data.cid}`
-      );
+      this.setWindowState(data.cid);
     }
   };
 
@@ -353,6 +349,7 @@ export class GlobalCarousel extends React.Component {
             />
           ) : (
             <CarouselSidebarSlate
+              activityView={this.props.carouselType === "ACTIVITY"}
               display={this.state.showSidebar ? "block" : "none"}
               viewer={this.props.viewer}
               onUpdateViewer={this.props.onUpdateViewer}

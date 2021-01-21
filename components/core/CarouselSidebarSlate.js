@@ -440,10 +440,27 @@ export default class CarouselSidebarSlate extends React.Component {
         </div>
         {elements}
         {this.props.external ? null : (
-          <React.Fragment>
+          <div style={{ marginTop: 32 }}>
+            {this.props.activityView ? (
+              <div css={STYLES_ACTIONS} style={{ marginTop: 24 }}>
+                <div
+                  css={STYLES_ACTION}
+                  onClick={() =>
+                    this.props.onAction({
+                      type: "NAVIGATE",
+                      value: "NAV_SLATE",
+                      data: this.props.data.slate,
+                    })
+                  }
+                >
+                  <SVG.Slate height="24px" />
+                  <span style={{ marginLeft: 16 }}>Go to slate</span>
+                </div>
+              </div>
+            ) : null}
             <div
               css={STYLES_SECTION_HEADER}
-              style={{ cursor: "pointer", marginTop: 56 }}
+              style={{ cursor: "pointer", marginTop: 24 }}
               onClick={() => this._toggleAccordion("showConnected")}
             >
               <span
@@ -471,7 +488,7 @@ export default class CarouselSidebarSlate extends React.Component {
                 />
               </div>
             ) : null}
-          </React.Fragment>
+          </div>
         )}
         <div
           css={STYLES_SECTION_HEADER}

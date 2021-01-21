@@ -5,8 +5,8 @@ import * as Window from "~/common/window";
 import * as SVG from "~/common/svg";
 import * as Actions from "~/common/actions";
 import * as Events from "~/common/custom-events";
-import * as System from "~/components/system";
 
+import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { css } from "@emotion/react";
 import { PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -79,6 +79,16 @@ const STYLES_SECONDARY = css`
   width: 100%;
 `;
 
+const STYLES_SECONDARY_HOVERABLE = css`
+  ${STYLES_SECONDARY}
+  padding: 8px 16px;
+  margin-bottom: 8px;
+
+  :hover {
+    color: ${Constants.system.brand} !important;
+  }
+`;
+
 const STYLES_GRADIENT = css`
   background: linear-gradient(
     180deg,
@@ -141,9 +151,13 @@ class ActivitySquare extends React.Component {
               </div>
             )}
             <div
-              css={STYLES_SECONDARY}
               style={{
                 color: isImage ? Constants.system.white : Constants.system.textGrayLight,
+              }}
+              css={STYLES_SECONDARY_HOVERABLE}
+              onClick={(e) => {
+                e.stopPropagation();
+                this.props.onClick();
               }}
             >
               {isImage ? (
@@ -369,6 +383,11 @@ export default class SceneActivity extends React.Component {
   render() {
     let activity =
       this.props.tab === 0 ? this.props.viewer.activity || [] : this.props.viewer.explore || [];
+    let items = activity
+      .filter((item) => item.data.type === "SUBSCRIBED_ADD_TO_SLATE")
+      .map((item) => {
+        return { ...item.data.context.file, slate: item.data.context.slate };
+      });
     return (
       <ScenePage>
         <ScenePageHeader
@@ -395,10 +414,17 @@ export default class SceneActivity extends React.Component {
             />
           }
         />
+        <GlobalCarousel
+          carouselType="ACTIVITY"
+          viewer={this.props.viewer}
+          objects={items}
+          onAction={this.props.onAction}
+          mobile={this.props.mobile}
+        />
         {activity.length ? (
           <div>
             <div css={STYLES_ACTIVITY_GRID}>
-              {activity.map((item) => {
+              {activity.map((item, index) => {
                 if (item.data.type === "SUBSCRIBED_CREATE_SLATE") {
                   return (
                     <span
@@ -418,21 +444,30 @@ export default class SceneActivity extends React.Component {
                   return (
                     <span
                       key={item.id}
-                      onClick={() => {
-                        this.props.onAction({
-                          type: "NAVIGATE",
-                          value: "NAV_SLATE",
-                          data: {
-                            decorator: "SLATE",
-                            ...item.data.context.slate,
-                            pageState: {
-                              cid: item.data.context.file.cid,
-                            },
-                          },
-                        });
-                      }}
+                      onClick={() =>
+                        Events.dispatchCustomEvent({
+                          name: "slate-global-open-carousel",
+                          detail: { index },
+                        })
+                      }
                     >
-                      <ActivitySquare size={this.state.imageSize} item={item.data.context} />
+                      <ActivitySquare
+                        size={this.state.imageSize}
+                        item={item.data.context}
+                        onClick={() => {
+                          this.props.onAction({
+                            type: "NAVIGATE",
+                            value: "NAV_SLATE",
+                            data: {
+                              decorator: "SLATE",
+                              ...item.data.context.slate,
+                              // pageState: {
+                              //   cid: item.data.context.file.cid,
+                              // },
+                            },
+                          });
+                        }}
+                      />
                     </span>
                   );
                 } else {

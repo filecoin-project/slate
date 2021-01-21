@@ -24,25 +24,6 @@ const STYLES_LOADER = css`
   width: 100%;
 `;
 
-const STYLES_VIDEO_BIG = css`
-  display: block;
-  background-color: ${Constants.system.moonstone};
-  padding: 0;
-  outline: 0;
-  margin: 48px auto 88px auto;
-  border-radius: 4px;
-  width: 100%;
-  box-shadow: 0px 10px 50px 20px rgba(0, 0, 0, 0.1);
-
-  @media (max-width: ${Constants.sizes.tablet}px) {
-    margin: 32px auto 64px auto;
-  }
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 24px auto 48px auto;
-  }
-`;
-
 const STYLES_IMAGE_BOX = css`
   cursor: pointer;
   position: relative;
@@ -51,6 +32,11 @@ const STYLES_IMAGE_BOX = css`
 
   :hover {
     box-shadow: ${Constants.shadow.medium};
+  }
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    overflow: hidden;
+    border-radius: 8px;
   }
 `;
 
@@ -102,6 +88,11 @@ const STYLES_GRADIENT = css`
   position: absolute;
   bottom: 0px;
   left: 0px;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    overflow: hidden;
+    border-radius: 0px 0px 8px 8px;
+  }
 `;
 
 const STYLES_ACTIVITY_GRID = css`
@@ -109,6 +100,10 @@ const STYLES_ACTIVITY_GRID = css`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    margin-top: 24px;
+  }
 `;
 
 class ActivitySquare extends React.Component {
@@ -137,8 +132,10 @@ class ActivitySquare extends React.Component {
           style={{ border: "none" }}
           imageStyle={{ border: "none" }}
         />
-        {isImage && this.state.showText ? <div css={STYLES_GRADIENT} /> : null}
-        {this.state.showText || !isImage ? (
+        {isImage && (this.state.showText || this.props.mobile) ? (
+          <div css={STYLES_GRADIENT} />
+        ) : null}
+        {this.state.showText || !isImage || this.props.mobile ? (
           <div css={STYLES_TEXT_AREA} style={{ width: this.props.size }}>
             {isImage ? null : (
               <div
@@ -154,7 +151,7 @@ class ActivitySquare extends React.Component {
               style={{
                 color: isImage ? Constants.system.white : Constants.system.textGrayLight,
               }}
-              css={STYLES_SECONDARY_HOVERABLE}
+              css={this.props.onClick ? STYLES_SECONDARY_HOVERABLE : STYLES_SECONDARY}
               onClick={(e) => {
                 e.stopPropagation();
                 this.props.onClick();
@@ -175,7 +172,7 @@ class ActivitySquare extends React.Component {
   }
 }
 
-const ActivityRectangle = ({ item, size }) => {
+const ActivityRectangle = ({ item, width, height }) => {
   let file;
   for (let obj of item.slate?.data?.objects || []) {
     if (Validations.isPreviewableImage(obj.type) || obj.coverImage) {
@@ -184,7 +181,7 @@ const ActivityRectangle = ({ item, size }) => {
   }
   let numObjects = item.slate?.data?.objects?.length || 0;
   return (
-    <div css={STYLES_IMAGE_BOX} style={{ width: size * 2 + 20, height: size }}>
+    <div css={STYLES_IMAGE_BOX} style={{ width, height }}>
       {file ? (
         <SlateMediaObjectPreview
           centeredImage
@@ -204,7 +201,7 @@ const ActivityRectangle = ({ item, size }) => {
           css={STYLES_TITLE}
           style={{
             fontFamily: Constants.font.semiBold,
-            width: size,
+            width,
           }}
         >
           {item.slate.data.name || item.slate.slatename}
@@ -213,7 +210,7 @@ const ActivityRectangle = ({ item, size }) => {
           css={STYLES_SECONDARY}
           style={{
             color: Constants.system.textGrayLight,
-            width: size,
+            width,
           }}
         >
           {numObjects} File{numObjects == 1 ? "" : "s"}
@@ -373,7 +370,7 @@ export default class SceneActivity extends React.Component {
     let windowWidth = window.innerWidth;
     let imageSize;
     if (windowWidth < Constants.sizes.mobile) {
-      imageSize = (windowWidth - 2 * 24 - 20) / 2;
+      imageSize = windowWidth - 2 * 24; //(windowWidth - 2 * 24 - 20) / 2;
     } else {
       imageSize = (windowWidth - 2 * 56 - 5 * 20) / 6;
     }
@@ -437,36 +434,59 @@ export default class SceneActivity extends React.Component {
                         })
                       }
                     >
-                      <ActivityRectangle size={this.state.imageSize} item={item.data.context} />
+                      <ActivityRectangle
+                        width={
+                          this.props.mobile ? this.state.imageSize : this.state.imageSize * 2 + 20
+                        }
+                        height={this.state.imageSize}
+                        item={item.data.context}
+                      />
                     </span>
                   );
                 } else if (item.data.type === "SUBSCRIBED_ADD_TO_SLATE") {
                   return (
                     <span
                       key={item.id}
-                      onClick={() =>
-                        Events.dispatchCustomEvent({
-                          name: "slate-global-open-carousel",
-                          detail: { index },
-                        })
+                      onClick={
+                        this.props.mobile
+                          ? () => {
+                              this.props.onAction({
+                                type: "NAVIGATE",
+                                value: "NAV_SLATE",
+                                data: {
+                                  decorator: "SLATE",
+                                  ...item.data.context.slate,
+                                },
+                              });
+                            }
+                          : () =>
+                              Events.dispatchCustomEvent({
+                                name: "slate-global-open-carousel",
+                                detail: { index },
+                              })
                       }
                     >
                       <ActivitySquare
                         size={this.state.imageSize}
                         item={item.data.context}
-                        onClick={() => {
-                          this.props.onAction({
-                            type: "NAVIGATE",
-                            value: "NAV_SLATE",
-                            data: {
-                              decorator: "SLATE",
-                              ...item.data.context.slate,
-                              // pageState: {
-                              //   cid: item.data.context.file.cid,
-                              // },
-                            },
-                          });
-                        }}
+                        mobile={this.props.mobile}
+                        onClick={
+                          this.props.mobile
+                            ? () => {}
+                            : () => {
+                                this.props.onAction({
+                                  type: "NAVIGATE",
+                                  value: "NAV_SLATE",
+                                  data: {
+                                    decorator: "SLATE",
+                                    ...item.data.context.slate,
+                                    // pageState: {
+                                    //   cid: item.data.context.file.cid,
+                                    // },
+                                  },
+                                });
+                              }
+                        }
                       />
                     </span>
                   );

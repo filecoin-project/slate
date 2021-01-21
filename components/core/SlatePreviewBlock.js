@@ -479,25 +479,3 @@ export default class SlatePreviewBlocks extends React.Component {
     );
   }
 }
-
-// this.props.slate.data.public ? (
-//                   <div
-//                     css={STYLES_TAG}
-//                     style={{
-//                       borderColor: Constants.system.brand,
-//                       color: Constants.system.brand,
-//                     }}
-//                   >
-//                     Public
-//                   </div>
-//                 ) : (
-//                   <div
-//                     css={STYLES_TAG}
-//                     style={{
-//                       color: Constants.system.darkGray,
-//                       borderColor: Constants.system.darkGray,
-//                     }}
-//                   >
-//                     Private
-//                   </div>
-//                 )

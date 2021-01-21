@@ -35,15 +35,17 @@ export default class SceneFilesFolder extends React.Component {
             />
           }
           actions={
-            <SecondaryTabGroup
-              tabs={[
-                <SVG.GridView height="24px" style={{ display: "block" }} />,
-                <SVG.TableView height="24px" style={{ display: "block" }} />,
-              ]}
-              value={this.state.view}
-              onChange={(value) => this.setState({ view: value })}
-              style={{ margin: "0 0 24px 0" }}
-            />
+            this.props.mobile ? null : (
+              <SecondaryTabGroup
+                tabs={[
+                  <SVG.GridView height="24px" style={{ display: "block" }} />,
+                  <SVG.TableView height="24px" style={{ display: "block" }} />,
+                ]}
+                value={this.state.view}
+                onChange={(value) => this.setState({ view: value })}
+                style={{ margin: "0 0 24px 0" }}
+              />
+            )
           }
         />
         <GlobalCarousel

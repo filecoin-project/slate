@@ -10,16 +10,17 @@ const STYLES_ROOT = css`
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;
+  flex-wrap: wrap;
 `;
 
 const STYLES_LEFT = css`
   min-width: 10%;
   width: 100%;
+  padding-right: 24px;
 `;
 
 const STYLES_RIGHT = css`
   flex-shrink: 0;
-  padding-left: 24px;
   justify-self: end;
 `;
 

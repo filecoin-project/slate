@@ -15,6 +15,10 @@ const STYLES_IMAGE_CONTAINER = css`
   height: 100%;
   background-size: cover;
   background-position: 50% 50%;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    border-radius: 8px;
+  }
 `;
 
 const STYLES_IMAGE = css`

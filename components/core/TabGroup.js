@@ -61,7 +61,9 @@ const STYLES_TAB = css`
 
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin-right: 12px;
-    font-size: ${Constants.typescale.lvl1};
+    font-size: ${Constants.typescale.lvl0};
+    height: 32px;
+    padding: 0px 8px;
   }
 
   :last-child {

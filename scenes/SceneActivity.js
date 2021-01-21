@@ -8,7 +8,7 @@ import * as Events from "~/common/custom-events";
 
 import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { css } from "@emotion/react";
-import { PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
+import { TabGroup, PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import EmptyState from "~/components/core/EmptyState";
@@ -389,15 +389,30 @@ export default class SceneActivity extends React.Component {
       <ScenePage>
         <ScenePageHeader
           title={
-            <PrimaryTabGroup
-              tabs={[
-                { title: "Files", value: "NAV_DATA" },
-                { title: "Slates", value: "NAV_SLATES" },
-                { title: "Activity", value: "NAV_ACTIVITY" },
-              ]}
-              value={2}
-              onAction={this.props.onAction}
-            />
+            this.props.mobile ? (
+              <TabGroup
+                tabs={[
+                  { title: "Files", value: "NAV_DATA" },
+                  { title: "Slates", value: "NAV_SLATES" },
+                  { title: "Activity", value: "NAV_ACTIVITY" },
+                ]}
+                value={2}
+                onAction={this.props.onAction}
+                onChange={(value) => this.setState({ tab: value })}
+                style={{ marginTop: 0, marginBottom: 32 }}
+                itemStyle={{ margin: "0px 12px" }}
+              />
+            ) : (
+              <PrimaryTabGroup
+                tabs={[
+                  { title: "Files", value: "NAV_DATA" },
+                  { title: "Slates", value: "NAV_SLATES" },
+                  { title: "Activity", value: "NAV_ACTIVITY" },
+                ]}
+                value={2}
+                onAction={this.props.onAction}
+              />
+            )
           }
           actions={
             <SecondaryTabGroup

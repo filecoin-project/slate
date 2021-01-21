@@ -3,7 +3,7 @@ import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/react";
-import { PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
+import { TabGroup, PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
 import { ButtonSecondary } from "~/components/system/components/Buttons";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 
@@ -41,15 +41,30 @@ export default class SceneSlates extends React.Component {
       <ScenePage>
         <ScenePageHeader
           title={
-            <PrimaryTabGroup
-              tabs={[
-                { title: "Files", value: "NAV_DATA" },
-                { title: "Slates", value: "NAV_SLATES" },
-                { title: "Activity", value: "NAV_ACTIVITY" },
-              ]}
-              value={1}
-              onAction={this.props.onAction}
-            />
+            this.props.mobile ? (
+              <TabGroup
+                tabs={[
+                  { title: "Files", value: "NAV_DATA" },
+                  { title: "Slates", value: "NAV_SLATES" },
+                  { title: "Activity", value: "NAV_ACTIVITY" },
+                ]}
+                value={1}
+                onAction={this.props.onAction}
+                onChange={(value) => this.setState({ tab: value })}
+                style={{ marginTop: 0, marginBottom: 32 }}
+                itemStyle={{ margin: "0px 12px" }}
+              />
+            ) : (
+              <PrimaryTabGroup
+                tabs={[
+                  { title: "Files", value: "NAV_DATA" },
+                  { title: "Slates", value: "NAV_SLATES" },
+                  { title: "Activity", value: "NAV_ACTIVITY" },
+                ]}
+                value={1}
+                onAction={this.props.onAction}
+              />
+            )
           }
           actions={
             <div style={{ display: "flex", alignItems: "center", marginBottom: 24 }}>

@@ -3,7 +3,7 @@ import * as SVG from "~/common/svg";
 
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
-import { PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
+import { TabGroup, PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
 import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 
 import ScenePage from "~/components/core/ScenePage";
@@ -24,15 +24,30 @@ export default class SceneFilesFolder extends React.Component {
       <ScenePage>
         <ScenePageHeader
           title={
-            <PrimaryTabGroup
-              tabs={[
-                { title: "Files", value: "NAV_DATA" },
-                { title: "Slates", value: "NAV_SLATES" },
-                { title: "Activity", value: "NAV_ACTIVITY" },
-              ]}
-              value={0}
-              onAction={this.props.onAction}
-            />
+            this.props.mobile ? (
+              <TabGroup
+                tabs={[
+                  { title: "Files", value: "NAV_DATA" },
+                  { title: "Slates", value: "NAV_SLATES" },
+                  { title: "Activity", value: "NAV_ACTIVITY" },
+                ]}
+                value={0}
+                onAction={this.props.onAction}
+                onChange={(value) => this.setState({ tab: value })}
+                style={{ marginTop: 0, marginBottom: 32 }}
+                itemStyle={{ margin: "0px 12px" }}
+              />
+            ) : (
+              <PrimaryTabGroup
+                tabs={[
+                  { title: "Files", value: "NAV_DATA" },
+                  { title: "Slates", value: "NAV_SLATES" },
+                  { title: "Activity", value: "NAV_ACTIVITY" },
+                ]}
+                value={0}
+                onAction={this.props.onAction}
+              />
+            )
           }
           actions={
             this.props.mobile ? null : (

@@ -518,20 +518,23 @@ export default class Profile extends React.Component {
             value={this.state.tab}
             onChange={(value) => this.setState({ tab: value })}
             style={{ marginTop: 0, marginBottom: 32 }}
+            itemStyle={{ margin: "0px 16px" }}
           />
           {this.state.tab === 0 ? (
             <div>
-              <div style={{ display: `flex` }}>
-                <SecondaryTabGroup
-                  tabs={[
-                    <SVG.GridView height="24px" style={{ display: "block" }} />,
-                    <SVG.TableView height="24px" style={{ display: "block" }} />,
-                  ]}
-                  value={this.state.view}
-                  onChange={(value) => this.setState({ view: value })}
-                  style={{ margin: "0 0 24px 0", justifyContent: "flex-end" }}
-                />
-              </div>
+              {this.props.mobile ? null : (
+                <div style={{ display: `flex` }}>
+                  <SecondaryTabGroup
+                    tabs={[
+                      <SVG.GridView height="24px" style={{ display: "block" }} />,
+                      <SVG.TableView height="24px" style={{ display: "block" }} />,
+                    ]}
+                    value={this.state.view}
+                    onChange={(value) => this.setState({ view: value })}
+                    style={{ margin: "0 0 24px 0", justifyContent: "flex-end" }}
+                  />
+                </div>
+              )}
               {this.state.publicFiles.length ? (
                 <DataView
                   onAction={this.props.onAction}

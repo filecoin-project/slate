@@ -16,7 +16,10 @@ const STYLES_ROOT = css`
 const STYLES_LEFT = css`
   min-width: 10%;
   width: 100%;
-  padding-right: 24px;
+
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    padding-right: 24px;
+  }
 `;
 
 const STYLES_RIGHT = css`

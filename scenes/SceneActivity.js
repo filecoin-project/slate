@@ -495,9 +495,6 @@ export default class SceneActivity extends React.Component {
                                   data: {
                                     decorator: "SLATE",
                                     ...item.data.context.slate,
-                                    // pageState: {
-                                    //   cid: item.data.context.file.cid,
-                                    // },
                                   },
                                 });
                               }

@@ -492,10 +492,12 @@ export default class CarouselSidebarData extends React.Component {
               {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy file URL"}
             </span>
           </div>
-          <div css={STYLES_ACTION} onClick={this._handleDownload}>
-            <SVG.Download height="24px" />
-            <span style={{ marginLeft: 16 }}>Download</span>
-          </div>
+          {this.props.external ? null : (
+            <div css={STYLES_ACTION} onClick={this._handleDownload}>
+              <SVG.Download height="24px" />
+              <span style={{ marginLeft: 16 }}>Download</span>
+            </div>
+          )}
           {this.props.isOwner ? (
             <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
               <SVG.Trash height="24px" />

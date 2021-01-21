@@ -78,10 +78,6 @@ export class SignIn extends React.Component {
     showPassword: false,
   };
 
-  componentDidMount() {
-    //   window.history.replaceState({ id: null }, "Slate", `/_`);
-  }
-
   _handleChange = (e) => {
     if (e.target.name === "accepted" && e.target.value) {
       const hash = Strings.generateRandomString();

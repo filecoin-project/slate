@@ -1782,7 +1782,11 @@ export class SlateLayout extends React.Component {
               onClose={() => this.setState({ signInModal: false })}
               viewer={this.props.viewer}
               open={this.state.signInModal}
-              redirectURL={`/_?scene=NAV_SLATE&user=${this.props.creator.username}&slate=${this.props.slate.slatename}`}
+              redirectURL={`/_${Strings.createQueryParams({
+                scene: "NAV_SLATE",
+                user: this.props.creator.username,
+                slate: this.props.slate.slatename,
+              })}`}
             />
           </div>
         )}

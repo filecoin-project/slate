@@ -10,7 +10,10 @@ const STYLES_ROOT = css`
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;
-  flex-wrap: wrap;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const STYLES_LEFT = css`

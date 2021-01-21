@@ -290,11 +290,18 @@ export default class Profile extends React.Component {
   };
 
   _handleFollow = async (e, id) => {
+    if (this.props.external) {
+      this._handleRedirectToInternal();
+    }
     this._handleHide();
     e.stopPropagation();
     await Actions.createSubscription({
       userId: id,
     });
+  };
+
+  _handleRedirectToInternal = () => {
+    this.setState({ visible: true });
   };
 
   render() {
@@ -458,7 +465,7 @@ export default class Profile extends React.Component {
             />
             <div css={STYLES_INFO}>
               <div css={STYLES_NAME}>{Strings.getPresentationName(creator)}</div>
-              {!isOwner && !this.props.external && (
+              {!isOwner && (
                 <div css={STYLES_BUTTON}>
                   {this.state.isFollowing ? (
                     <ButtonSecondary
@@ -508,7 +515,10 @@ export default class Profile extends React.Component {
               onClose={() => this.setState({ visible: false })}
               viewer={this.props.viewer}
               open={this.state.visible}
-              redirectURL={`/_?scene=NAV_PROFILE&user=${creator.username}`}
+              redirectURL={`/_${Strings.createQueryParams({
+                scene: "NAV_PROFILE",
+                user: creator.username,
+              })}`}
             />
           </div>
         )}

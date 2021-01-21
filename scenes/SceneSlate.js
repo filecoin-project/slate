@@ -70,9 +70,8 @@ export default class SceneSlate extends React.Component {
   };
 
   fetchSlate = async () => {
-    const { user: username, slate: slatename, cid } = window.history.state;
+    const { user: username, slate: slatename, cid } = this.props.page;
 
-    const pageState = this.props.data?.pageState;
     if (!this.props.data && (!username || !slatename)) {
       this.setState({ notFound: true });
       return;
@@ -135,15 +134,16 @@ export default class SceneSlate extends React.Component {
     this.props.onUpdateData({ data: slate });
 
     let index = -1;
-    if (pageState || !Strings.isEmpty(cid)) {
-      if (pageState?.index) {
-        index = pageState.index;
+    let page = this.props.page;
+    if (page?.fileId || page?.cid || page?.index || !Strings.isEmpty(cid)) {
+      if (page?.index) {
+        index = page.index;
       } else {
         for (let i = 0; i < slate.data.objects.length; i++) {
           let obj = slate.data.objects[i];
           if (
-            (obj.cid && (obj.cid === cid || obj.cid === pageState?.cid)) ||
-            (obj.id && obj.id === pageState?.id)
+            (obj.cid && (obj.cid === cid || obj.cid === page?.cid)) ||
+            (obj.id && obj.id === page?.fileId)
           ) {
             index = i;
             break;
@@ -153,7 +153,6 @@ export default class SceneSlate extends React.Component {
     }
 
     if (index !== -1) {
-      await Window.delay(250);
       Events.dispatchCustomEvent({
         name: "slate-global-open-carousel",
         detail: { index },

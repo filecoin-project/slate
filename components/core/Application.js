@@ -159,14 +159,14 @@ export default class ApplicationPage extends React.Component {
 
     //NOTE(martina): if updating viewer affects this.state.data (e.g. you're viewing your own slate), update data as well
     if (newViewerState.slates?.length) {
-      let next;
+      let page;
       if (typeof window !== "undefined") {
-        next = window?.history?.state;
+        page = window?.history?.state;
       }
-      if (!next || !next.id) {
-        next = { id: "NAV_DATA", scrollTop: 0, data: null };
+      if (!page || !page.id) {
+        page = { id: "NAV_DATA", scrollTop: 0, data: null };
       }
-      if (next.id === "NAV_SLATE" && this.state.data?.data?.ownerId === this.props.viewer.id) {
+      if (page.id === "NAV_SLATE" && this.state.data?.data?.ownerId === this.props.viewer.id) {
         let data = this.state.data;
         for (let slate of newViewerState.slates) {
           if (slate.id === data.id) {
@@ -247,14 +247,14 @@ export default class ApplicationPage extends React.Component {
       dataTransfer: e.dataTransfer,
     });
 
-    let next;
+    let page;
     if (typeof window !== "undefined") {
-      next = window?.history?.state;
+      page = window?.history?.state;
     }
-    if (!next || !next.id) {
-      next = { id: "NAV_DATA", scrollTop: 0, data: null };
+    if (!page || !page.id) {
+      page = { id: "NAV_DATA", scrollTop: 0, data: null };
     }
-    const current = NavigationData.getCurrentById(next.id);
+    const current = NavigationData.getCurrentById(page.id);
 
     let slate = null;
     if (
@@ -482,17 +482,16 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleAction = (options) => {
+    console.log("on action");
     if (options.type === "NAVIGATE") {
       // NOTE(martina): The `scene` property is only necessary when you need to display a component different from the one corresponding to the tab it appears in
       // + e.g. to display <SceneProfile/> while on the Home tab
       // + `scene` should be the decorator of the component you want displayed
       return this._handleNavigateTo(
         {
+          ...options,
           id: options.value,
-          scene: options.scene,
-          user: options.user,
-          slate: options.slate,
-          cid: options.cid,
+          redirect: null,
         },
         options.data,
         options.redirect
@@ -564,10 +563,10 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleBackForward = (e) => {
-    let next = window.history.state;
+    let page = window.history.state;
     this.setState({
       sidebar: null,
-      data: next.data,
+      data: page.data,
     });
     Events.dispatchCustomEvent({ name: "slate-global-close-carousel", detail: {} });
   };
@@ -591,14 +590,14 @@ export default class ApplicationPage extends React.Component {
       );
     }
     // NOTE(jim): Authenticated.
-    let next;
+    let page;
     if (typeof window !== "undefined") {
-      next = window?.history?.state;
+      page = window?.history?.state;
     }
-    if (!next || !next.id) {
-      next = { id: "NAV_DATA", scrollTop: 0, data: null };
+    if (!page || !page.id) {
+      page = { id: "NAV_DATA", scrollTop: 0, data: null };
     }
-    const current = NavigationData.getCurrentById(next.id);
+    const current = NavigationData.getCurrentById(page.id);
 
     // NOTE(jim): Only happens during a bad query parameter.
     if (!current.target) {
@@ -616,7 +615,8 @@ export default class ApplicationPage extends React.Component {
       />
     );
 
-    const scene = React.cloneElement(SCENES[next.scene || current.target.decorator], {
+    const scene = React.cloneElement(SCENES[page.scene || current.target.decorator], {
+      page: page,
       current: current.target,
       data: this.state.data,
       viewer: this.state.viewer,

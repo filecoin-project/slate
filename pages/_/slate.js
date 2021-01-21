@@ -292,15 +292,15 @@ export default class SlatePage extends React.Component {
               <div css={STYLES_STAT}>
                 <div style={{ fontFamily: `${Constants.font.medium}` }}>
                   {this.props.slate.data.objects.length}{" "}
-                  <span style={{ color: `${Constants.system.darkGray}` }}>Data</span>
+                  <span style={{ color: `${Constants.system.darkGray}` }}>Files</span>
                 </div>
               </div>
-              <div css={STYLES_STAT}>
+              {/* <div css={STYLES_STAT}>
                 <div style={{ fontFamily: `${Constants.font.medium}` }}>
                   {contributorsCount}{" "}
                   <span style={{ color: `${Constants.system.darkGray}` }}>Contributors</span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div css={STYLES_SLATE}>

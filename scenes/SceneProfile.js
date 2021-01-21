@@ -34,7 +34,7 @@ export default class SceneProfile extends React.Component {
   };
 
   fetchProfile = async () => {
-    const { user: username } = window.history.state;
+    const username = this.props.page.user;
     let query;
     let targetUser;
     if (username) {

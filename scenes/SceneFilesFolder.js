@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as SVG from "~/common/svg";
+import * as Events from "~/common/custom-events";
 
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
@@ -17,6 +18,32 @@ const POLLING_INTERVAL = 10000;
 export default class SceneFilesFolder extends React.Component {
   state = {
     view: 0,
+  };
+
+  componentDidMount = () => {
+    let index = -1;
+    let page = this.props.page;
+    if (page?.fileId || page?.cid || page?.index) {
+      if (page?.index) {
+        index = page.index;
+      } else {
+        let library = this.props.viewer.library[0]?.children || [];
+        for (let i = 0; i < library.length; i++) {
+          let obj = library[i];
+          if ((obj.cid && obj.cid === page?.cid) || (obj.id && obj.id === page?.fileId)) {
+            index = i;
+            break;
+          }
+        }
+      }
+    }
+
+    if (index !== -1) {
+      Events.dispatchCustomEvent({
+        name: "slate-global-open-carousel",
+        detail: { index },
+      });
+    }
   };
 
   render() {

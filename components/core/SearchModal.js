@@ -5,7 +5,6 @@ import * as Actions from "~/common/actions";
 import * as Strings from "~/common/strings";
 import * as Window from "~/common/window";
 import * as Validations from "~/common/validations";
-import * as Events from "~/common/custom-events";
 
 import MiniSearch from "minisearch";
 import SlateMediaObjectPreview from "~/components/core/SlateMediaObjectPreview";
@@ -894,17 +893,15 @@ export class SearchModal extends React.Component {
       await this.props.onAction({
         type: "NAVIGATE",
         value: "NAV_DATA",
-      });
-      Events.dispatchCustomEvent({
-        name: "slate-global-open-carousel",
-        detail: { index: value.data.data.index },
+        index: value.data.data.index,
       });
     }
     if (value.type === "FILE") {
       await this.props.onAction({
         type: "NAVIGATE",
         value: "NAV_SLATE",
-        data: { ...value.data.data.slate, pageState: { id: value.data.data.file.id } },
+        data: value.data.data.slate,
+        fileId: value.data.data.file.id,
       });
     }
     this._handleHide();

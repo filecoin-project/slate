@@ -2,7 +2,6 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import { css } from "@emotion/react";
-import { CineonToneMapping } from "three";
 
 const STYLES_PRIMARY_TAB_GROUP = css`
   font-size: ${Constants.typescale.lvl2};

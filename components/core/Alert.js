@@ -6,7 +6,6 @@ import * as Actions from "~/common/actions";
 import { error } from "~/common/messages";
 import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
-import { PathActions } from "three";
 
 const STYLES_ALERT = `
   box-sizing: border-box;

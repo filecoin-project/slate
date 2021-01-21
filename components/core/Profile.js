@@ -338,45 +338,24 @@ export default class Profile extends React.Component {
                     enabled
                     onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
                   >
-                    {relation.target_user_id === this.props.viewer?.id ? (
-                      <PopoverNavigation
-                        style={{
-                          top: "40px",
-                          right: "0px",
-                        }}
-                        navigation={[
-                          {
-                            text: "Copy profile URL",
-                            onClick: (e) =>
-                              this._handleCopy(e, `https://slate.host/${relation.user.username}`),
-                          },
-                        ]}
-                      />
-                    ) : (
-                      <PopoverNavigation
-                        style={{
-                          top: "40px",
-                          right: "0px",
-                        }}
-                        navigation={[
-                          {
-                            text: "Copy profile URL",
-                            onClick: (e) =>
-                              this._handleCopy(e, `https://slate.host/${relation.user.username}`),
-                          },
-                          {
-                            text: this.props.viewer?.subscriptions.filter((subscription) => {
-                              return subscription.target_user_id === relation.target_user_id;
-                            }).length
-                              ? "Unfollow"
-                              : "Follow",
-                            onClick: this.props.viewer
-                              ? (e) => this._handleFollow(e, relation.target_user_id)
-                              : () => this.setState({ visible: true }),
-                          },
-                        ]}
-                      />
-                    )}
+                    <PopoverNavigation
+                      style={{
+                        top: "40px",
+                        right: "0px",
+                      }}
+                      navigation={[
+                        {
+                          text: this.props.viewer?.subscriptions.filter((subscription) => {
+                            return subscription.target_user_id === relation.target_user_id;
+                          }).length
+                            ? "Unfollow"
+                            : "Follow",
+                          onClick: this.props.viewer
+                            ? (e) => this._handleFollow(e, relation.target_user_id)
+                            : () => this.setState({ visible: true }),
+                        },
+                      ]}
+                    />
                   </Boundary>
                 ) : null}
               </div>
@@ -411,45 +390,24 @@ export default class Profile extends React.Component {
                   enabled
                   onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
                 >
-                  {relation.owner_user_id === this.props.viewer?.id ? (
-                    <PopoverNavigation
-                      style={{
-                        top: "40px",
-                        right: "0px",
-                      }}
-                      navigation={[
-                        {
-                          text: "Copy profile URL",
-                          onClick: (e) =>
-                            this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
-                        },
-                      ]}
-                    />
-                  ) : (
-                    <PopoverNavigation
-                      style={{
-                        top: "40px",
-                        right: "0px",
-                      }}
-                      navigation={[
-                        {
-                          text: "Copy profile URL",
-                          onClick: (e) =>
-                            this._handleCopy(e, `https://slate.host/${relation.owner.username}`),
-                        },
-                        {
-                          text: this.props.viewer?.subscriptions.filter((subscription) => {
-                            return subscription.target_user_id === relation.owner_user_id;
-                          }).length
-                            ? "Unfollow"
-                            : "Follow",
-                          onClick: this.props.viewer
-                            ? (e) => this._handleFollow(e, relation.owner_user_id)
-                            : () => this.setState({ visible: true }),
-                        },
-                      ]}
-                    />
-                  )}
+                  <PopoverNavigation
+                    style={{
+                      top: "40px",
+                      right: "0px",
+                    }}
+                    navigation={[
+                      {
+                        text: this.props.viewer?.subscriptions.filter((subscription) => {
+                          return subscription.target_user_id === relation.owner_user_id;
+                        }).length
+                          ? "Unfollow"
+                          : "Follow",
+                        onClick: this.props.viewer
+                          ? (e) => this._handleFollow(e, relation.owner_user_id)
+                          : () => this.setState({ visible: true }),
+                      },
+                    ]}
+                  />
                 </Boundary>
               ) : null}
             </div>

@@ -4,7 +4,6 @@ import * as Strings from "~/common/strings";
 import * as Social from "~/node_common/social";
 import * as ViewerManager from "~/node_common/managers/viewer";
 import * as SearchManager from "~/node_common/managers/search";
-import { CompressedPixelFormat } from "three";
 
 const DEFAULT_BUCKET_NAME = "data";
 

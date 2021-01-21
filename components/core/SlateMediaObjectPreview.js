@@ -122,7 +122,7 @@ export default class SlateMediaObjectPreview extends React.Component {
       if (this.props.centeredImage) {
         return (
           <React.Fragment>
-            {this.state.showImage ? (
+            {this.state.showImage || !blurhash ? (
               <div
                 css={STYLES_IMAGE_CONTAINER}
                 style={{
@@ -130,7 +130,7 @@ export default class SlateMediaObjectPreview extends React.Component {
                   ...this.props.imageStyle,
                 }}
               />
-            ) : blurhash ? (
+            ) : (
               <div css={STYLES_BLUR_CONTAINER}>
                 <Blurhash
                   hash={blurhash}
@@ -142,15 +142,13 @@ export default class SlateMediaObjectPreview extends React.Component {
                   punch={1}
                 />
               </div>
-            ) : (
-              <div css={STYLES_IMAGE_CONTAINER} style={this.props.imageStyle} />
             )}
           </React.Fragment>
         );
       }
       return (
         <React.Fragment>
-          {this.state.showImage ? (
+          {this.state.showImage || !blurhash ? (
             <img
               css={STYLES_IMAGE}
               style={{
@@ -158,7 +156,7 @@ export default class SlateMediaObjectPreview extends React.Component {
               }}
               src={url}
             />
-          ) : blurhash ? (
+          ) : (
             <Blurhash
               hash={blurhash}
               width="100%"
@@ -166,11 +164,6 @@ export default class SlateMediaObjectPreview extends React.Component {
               resolutionX={32}
               resolutionY={32}
               punch={1}
-            />
-          ) : (
-            <div
-              css={STYLES_IMAGE}
-              style={{ maxHeight: "100%", maxWidth: "100%", ...this.props.imageStyle }}
             />
           )}
         </React.Fragment>

@@ -346,3 +346,9 @@ export const getZipFilePaths = async (data) => {
     body: JSON.stringify({ data }),
   });
 };
+
+export const cleanDatabase = async () => {
+  return await returnJSON(`api/clean-up/users`, {
+    ...DEFAULT_OPTIONS,
+  });
+};

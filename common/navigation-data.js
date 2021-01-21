@@ -113,7 +113,7 @@ export const navigation = [
     decorator: "STORAGE_DEAL",
     name: "Storage Deal",
     filecoin: true,
-    pageTitle: "Make an one-off Filecoin storage deal",
+    pageTitle: "Make a one-off Filecoin storage deal",
   },
   {
     id: "NAV_API",

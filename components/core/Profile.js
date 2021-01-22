@@ -115,10 +115,13 @@ const STYLES_STAT = css`
 `;
 
 const STYLES_EXPLORE = css`
+  font-size: ${Constants.typescale.lvl1};
+  font-family: ${Constants.font.text};
+  font-weight: 400;
   margin: 64px auto 64px auto;
-  height: 1px;
-  width: 80px;
-  background-color: ${Constants.system.gray};
+  width: 120px;
+  padding-top: 16px;
+  border-top: 1px solid ${Constants.system.black};
 `;
 
 const STYLES_BUTTON = css`
@@ -311,6 +314,8 @@ export default class Profile extends React.Component {
     let subscriptions = this.props.creator.subscriptions || [];
     let subscribers = this.props.creator.subscribers || [];
     let exploreSlates = this.props.exploreSlates;
+
+    console.log(this.props.onAction, exploreSlates);
 
     let slates = [];
     if (this.state.tab === 1) {
@@ -580,23 +585,31 @@ export default class Profile extends React.Component {
                 />
               ) : (
                 <React.Fragment>
-                  <EmptyState>
-                    <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
-                    {this.state.slateTab === 0
-                      ? `This user does not have any public slates yet`
-                      : `This user is not following any slates yet`}
-                  </EmptyState>
                   {this.props.external ? (
                     <React.Fragment>
-                      <div css={STYLES_EXPLORE} />
+                      <EmptyState style={{ border: `none`, height: `120px` }}>
+                        <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
+                        {this.state.slateTab === 0
+                          ? `This user does not have any public slates yet`
+                          : `This user is not following any slates yet`}
+                      </EmptyState>
+                      <div css={STYLES_EXPLORE}>Explore Slates</div>
                       <SlatePreviewBlocks
                         isOwner={false}
+                        external={this.props.external}
                         slates={exploreSlates}
-                        username={username}
+                        username={exploreSlates.username}
                         onAction={this.props.onAction}
                       />
                     </React.Fragment>
-                  ) : null}
+                  ) : (
+                    <EmptyState>
+                      <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
+                      {this.state.slateTab === 0
+                        ? `This user does not have any public slates yet`
+                        : `This user is not following any slates yet`}
+                    </EmptyState>
+                  )}
                 </React.Fragment>
               )}
             </div>

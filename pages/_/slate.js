@@ -39,6 +39,10 @@ const STYLES_ROOT = css`
   display: block;
   min-height: 100vh;
   background-color: ${Constants.system.foreground};
+  padding: 0px 32px 24px 32px;
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    padding: 0px;
+  }
 `;
 
 const STYLES_SLATE_INTRO = css`
@@ -271,8 +275,8 @@ export default class SlatePage extends React.Component {
 
     return (
       <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
+        <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <WebsitePrototypeHeader />
           <div css={STYLES_SLATE_INTRO}>
             <div css={STYLES_TITLELINE}>
               <a css={STYLES_CREATOR} href={`/${this.props.creator.username}`}>

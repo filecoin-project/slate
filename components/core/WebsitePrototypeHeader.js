@@ -30,7 +30,7 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_LINK = css`
-  color: ${Constants.system.darkGray};
+  color: ${Constants.system.grayBlack};
   text-decoration: none;
   transition: 200ms ease color;
   display: block;

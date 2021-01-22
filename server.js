@@ -301,8 +301,10 @@ app.prepare().then(async () => {
         return file.public || publicFileIds.includes(file.id);
       });
     }
+
     creator.library = library;
 
+    /*
     const subscriptions = await Data.getSubscriptionsByUserId({ userId: creator.id });
     const subscribers = await Data.getSubscribersByUserId({ userId: creator.id });
 
@@ -318,7 +320,7 @@ app.prepare().then(async () => {
     });
 
     creator.subscriptions = r1.serializedSubscriptions;
-
+    
     const r2 = await Serializers.doSubscribers({
       users: [],
       slates: [],
@@ -328,6 +330,7 @@ app.prepare().then(async () => {
     });
 
     creator.subscribers = r2.serializedSubscribers;
+    */
 
     // NOTE(tara+martina)
     // Remove this at some point.

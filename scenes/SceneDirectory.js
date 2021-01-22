@@ -279,26 +279,6 @@ export default class SceneDirectory extends React.Component {
           value={this.props.tab}
           onAction={this.props.onAction}
         />
-        {/* {this.props.tab === 0 ? (
-          requests && requests.length ? (
-            requests
-          ) : (
-            <EmptyState>
-              <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-              Trust requests that you receive will appear here.
-            </EmptyState>
-          )
-        ) : null}
-        {this.props.tab === 1 ? (
-          trusted && trusted.length ? (
-            trusted
-          ) : (
-            <EmptyState>
-              <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-              Trusted is for your close friends.
-            </EmptyState>
-          )
-        ) : null} */}
         {this.props.tab === 0 ? (
           following && following.length ? (
             following

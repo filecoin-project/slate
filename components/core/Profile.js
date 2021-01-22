@@ -313,7 +313,7 @@ export default class Profile extends React.Component {
     let username = this.state.slateTab === 0 ? creator.username : null;
     let subscriptions = this.props.creator.subscriptions || [];
     let subscribers = this.props.creator.subscribers || [];
-    let exploreSlates = this.props.exploreSlates;
+    // let exploreSlates = this.props.exploreSlates;
 
     console.log(this.props.onAction, exploreSlates);
 
@@ -585,7 +585,13 @@ export default class Profile extends React.Component {
                 />
               ) : (
                 <React.Fragment>
-                  {this.props.external ? (
+                  <EmptyState>
+                    <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
+                    {this.state.slateTab === 0
+                      ? `This user does not have any public slates yet`
+                      : `This user is not following any slates yet`}
+                  </EmptyState>
+                  {/* {this.props.external ? (
                     <React.Fragment>
                       <EmptyState style={{ border: `none`, height: `120px` }}>
                         <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
@@ -602,14 +608,7 @@ export default class Profile extends React.Component {
                         onAction={this.props.onAction}
                       />
                     </React.Fragment>
-                  ) : (
-                    <EmptyState>
-                      <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
-                      {this.state.slateTab === 0
-                        ? `This user does not have any public slates yet`
-                        : `This user is not following any slates yet`}
-                    </EmptyState>
-                  )}
+                  ) : null} */}
                 </React.Fragment>
               )}
             </div>

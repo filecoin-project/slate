@@ -315,8 +315,6 @@ export default class Profile extends React.Component {
     let subscribers = this.props.creator.subscribers || [];
     // let exploreSlates = this.props.exploreSlates;
 
-    console.log(this.props.onAction, exploreSlates);
-
     let slates = [];
     if (this.state.tab === 1) {
       if (this.state.slateTab === 0) {

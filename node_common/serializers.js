@@ -26,6 +26,7 @@ export const slate = (entity) => {
       body: entity.data.body ? entity.data.body : "",
       objects: entity.data.objects,
       layouts: entity.data.layouts,
+      public: entity.data.public,
     },
   };
 };

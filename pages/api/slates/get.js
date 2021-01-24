@@ -4,7 +4,6 @@ import * as Strings from "~/common/strings";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
-  console.log("check", req.data.id);
   if (!id) {
     return res.status(500).send({ decorator: "SERVER_GET_SLATE", error: true });
   }

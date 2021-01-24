@@ -329,7 +329,6 @@ export default class Profile extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     let isOwner = this.props.isOwner;
     let creator = this.props.creator;
     let username = this.state.slateTab === 0 ? creator.username : null;

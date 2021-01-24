@@ -252,7 +252,7 @@ export class SlatePreviewBlock extends React.Component {
   render() {
     let count = 0;
     const { objects } = this.props.slate.data;
-    if (objects.length > 4) {
+    if (objects.length >= 4) {
       const set = this.props.slate.data.objects.slice(0, 4);
       for (let object of set) {
         if (object.type.startsWith("image/") && !object.type.startsWith("image/svg")) {

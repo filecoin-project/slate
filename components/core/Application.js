@@ -482,7 +482,6 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleAction = (options) => {
-    console.log("on action");
     if (options.type === "NAVIGATE") {
       // NOTE(martina): The `scene` property is only necessary when you need to display a component different from the one corresponding to the tab it appears in
       // + e.g. to display <SceneProfile/> while on the Home tab

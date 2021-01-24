@@ -98,7 +98,15 @@ export const getSlateById = async (data) => {
 
 export const getSlatesByIds = async (data) => {
   await Websockets.checkWebsocket();
-  return await returnJSON(`/api/slates/get`, {
+  return await returnJSON(`/api/v1/explore`, {
+    ...DEFAULT_OPTIONS,
+    body: JSON.stringify({ data }),
+  });
+};
+
+export const getSocial = async (data) => {
+  await Websockets.checkWebsocket();
+  return await returnJSON(`/api/v1/social`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });

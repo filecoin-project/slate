@@ -129,8 +129,22 @@ export const navigation = [
     ignore: true,
   },
   {
+    id: "NAV_PROFILE_FILES",
+    decorator: "PROFILE_FILES",
+    name: "Profile",
+    pageTitle: "Profile",
+    ignore: true,
+  },
+  {
     id: "NAV_PROFILE",
     decorator: "PROFILE",
+    name: "Profile",
+    pageTitle: "Profile",
+    ignore: true,
+  },
+  {
+    id: "NAV_PROFILE_PEERS",
+    decorator: "PROFILE_PEERS",
     name: "Profile",
     pageTitle: "Profile",
     ignore: true,

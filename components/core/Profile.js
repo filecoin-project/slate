@@ -241,22 +241,43 @@ export default class Profile extends React.Component {
   _ref = null;
 
   state = {
-    tab: 1,
     view: 0,
     slateTab: 0,
     peerTab: 0,
     copyValue: "",
     contextMenu: null,
     publicFiles: [],
-    // isFollowing: this.props.external
-    //   ? false
-    //   : !!this.props.viewer.subscriptions.filter((entry) => {
-    //       return entry.target_user_id === this.props.creator.id;
-    //     }).length,
+    slates: this.props.creator.slates,
+    subscriptions: [],
+    subscribers: [],
+    isFollowing: null,
+    fetched: false,
   };
 
   componentDidMount = () => {
     this.filterByVisibility();
+    this.setState({
+      isFollowing: this.props.external
+        ? false
+        : !!this.state.subscriptions.filter((entry) => {
+            return entry.target_user_id === this.props.creator.id;
+          }).length,
+    });
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.tab != this.props.tab || prevState.slateTab != this.props.slateTab) {
+      if (!this.state.fetched) {
+        if (this.state.slateTab === 1 || this.props.tab === 2) this.fetchSocial();
+      }
+    }
+  };
+
+  fetchSocial = async () => {
+    let query = { userId: this.props.creator.id };
+    const { subscribers } = await Actions.getSocial(query);
+    const { subscriptions } = await Actions.getSocial(query);
+    this.setState({ subscribers: subscribers, subscriptions: subscriptions, fetched: true });
   };
 
   filterByVisibility = () => {
@@ -311,137 +332,135 @@ export default class Profile extends React.Component {
     let isOwner = this.props.isOwner;
     let creator = this.props.creator;
     let username = this.state.slateTab === 0 ? creator.username : null;
-    // let subscriptions = this.props.creator.subscriptions || [];
-    // let subscribers = this.props.creator.subscribers || [];
-    // let exploreSlates = this.props.exploreSlates;
-
+    let subscriptions = this.state.subscriptions;
+    let subscribers = this.state.subscribers;
     let slates = [];
-    // if (this.state.tab === 1) {
-    //   if (this.state.slateTab === 0) {
-    slates = isOwner
-      ? creator.slates.filter((slate) => slate.data.public === true)
-      : creator.slates;
-    //   } else {
-    //     slates = subscriptions
-    //       .filter((relation) => {
-    //         return !!relation.target_slate_id;
-    //       })
-    //       .map((relation) => relation.slate);
-    //   }
-    // }
-
-    // let peers = [];
-    // if (this.state.tab === 2) {
-    //   if (this.state.peerTab === 0) {
-    //     peers = subscriptions
-    //       .filter((relation) => {
-    //         return !!relation.target_user_id;
-    //       })
-    //       .map((relation) => {
-    //         let button = (
-    //           <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
-    //             <SVG.MoreHorizontal height="24px" />
-    //             {this.state.contextMenu === relation.id ? (
-    //               <Boundary
-    //                 captureResize={true}
-    //                 captureScroll={false}
-    //                 enabled
-    //                 onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
-    //               >
-    //                 <PopoverNavigation
-    //                   style={{
-    //                     top: "40px",
-    //                     right: "0px",
-    //                   }}
-    //                   navigation={[
-    //                     {
-    //                       text: this.props.viewer?.subscriptions.filter((subscription) => {
-    //                         return subscription.target_user_id === relation.target_user_id;
-    //                       }).length
-    //                         ? "Unfollow"
-    //                         : "Follow",
-    //                       onClick: this.props.viewer
-    //                         ? (e) => this._handleFollow(e, relation.target_user_id)
-    //                         : () => this.setState({ visible: true }),
-    //                     },
-    //                   ]}
-    //                 />
-    //               </Boundary>
-    //             ) : null}
-    //           </div>
-    //         );
-    //         return (
-    //           <UserEntry
-    //             key={relation.id}
-    //             user={relation.user}
-    //             button={button}
-    //             onClick={() => {
-    //               this.props.onAction({
-    //                 type: "NAVIGATE",
-    //                 value: this.props.sceneId,
-    //                 scene: "PROFILE",
-    //                 data: relation.user,
-    //               });
-    //             }}
-    //             external={this.props.external}
-    //             url={`/${relation.user.username}`}
-    //           />
-    //         );
-    //       });
-    //   } else {
-    //     peers = subscribers.map((relation) => {
-    //       let button = (
-    //         <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
-    //           <SVG.MoreHorizontal height="24px" />
-    //           {this.state.contextMenu === relation.id ? (
-    //             <Boundary
-    //               captureResize={true}
-    //               captureScroll={false}
-    //               enabled
-    //               onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
-    //             >
-    //               <PopoverNavigation
-    //                 style={{
-    //                   top: "40px",
-    //                   right: "0px",
-    //                 }}
-    //                 navigation={[
-    //                   {
-    //                     text: this.props.viewer?.subscriptions.filter((subscription) => {
-    //                       return subscription.target_user_id === relation.owner_user_id;
-    //                     }).length
-    //                       ? "Unfollow"
-    //                       : "Follow",
-    //                     onClick: this.props.viewer
-    //                       ? (e) => this._handleFollow(e, relation.owner_user_id)
-    //                       : () => this.setState({ visible: true }),
-    //                   },
-    //                 ]}
-    //               />
-    //             </Boundary>
-    //           ) : null}
-    //         </div>
-    //       );
-    //       return (
-    //         <UserEntry
-    //           key={relation.id}
-    //           user={relation.owner}
-    //           button={button}
-    //           onClick={() => {
-    //             this.props.onAction({
-    //               type: "NAVIGATE",
-    //               value: this.props.sceneId,
-    //               scene: "PROFILE",
-    //               data: relation.owner,
-    //             });
-    //           }}
-    //           external={this.props.external}
-    //           url={`https://slate.host/${relation.owner.username}`}
-    //         />
-    //       );
-    //     });
-    //   }
-    // }
+    if (this.props.tab === 1) {
+      if (this.state.slateTab === 0) {
+        slates = isOwner
+          ? creator.slates.filter((slate) => slate.data.public === true)
+          : creator.slates;
+      } else {
+        slates = subscriptions
+          .filter((relation) => {
+            return !!relation.target_slate_id;
+          })
+          .map((relation) => relation.slate);
+      }
+    }
+    let exploreSlates = this.props.exploreSlates;
+    let peers = [];
+    if (this.props.tab === 2) {
+      if (this.state.peerTab === 0) {
+        peers = subscriptions
+          .filter((relation) => {
+            return !!relation.target_user_id;
+          })
+          .map((relation) => {
+            let button = (
+              <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
+                <SVG.MoreHorizontal height="24px" />
+                {this.state.contextMenu === relation.id ? (
+                  <Boundary
+                    captureResize={true}
+                    captureScroll={false}
+                    enabled
+                    onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
+                  >
+                    <PopoverNavigation
+                      style={{
+                        top: "40px",
+                        right: "0px",
+                      }}
+                      navigation={[
+                        {
+                          text: this.props.viewer?.subscriptions.filter((subscription) => {
+                            return subscription.target_user_id === relation.target_user_id;
+                          }).length
+                            ? "Unfollow"
+                            : "Follow",
+                          onClick: this.props.viewer
+                            ? (e) => this._handleFollow(e, relation.target_user_id)
+                            : () => this.setState({ visible: true }),
+                        },
+                      ]}
+                    />
+                  </Boundary>
+                ) : null}
+              </div>
+            );
+            return (
+              <UserEntry
+                key={relation.id}
+                user={relation.user}
+                button={button}
+                onClick={() => {
+                  this.props.onAction({
+                    type: "NAVIGATE",
+                    value: this.props.sceneId,
+                    scene: "PROFILE",
+                    data: relation.user,
+                  });
+                }}
+                external={this.props.external}
+                url={`/${relation.user.username}`}
+              />
+            );
+          });
+      } else {
+        peers = subscribers.map((relation) => {
+          let button = (
+            <div css={STYLES_ITEM_BOX} onClick={(e) => this._handleClick(e, relation.id)}>
+              <SVG.MoreHorizontal height="24px" />
+              {this.state.contextMenu === relation.id ? (
+                <Boundary
+                  captureResize={true}
+                  captureScroll={false}
+                  enabled
+                  onOutsideRectEvent={(e) => this._handleClick(e, relation.id)}
+                >
+                  <PopoverNavigation
+                    style={{
+                      top: "40px",
+                      right: "0px",
+                    }}
+                    navigation={[
+                      {
+                        text: this.props.viewer?.subscriptions.filter((subscription) => {
+                          return subscription.target_user_id === relation.owner_user_id;
+                        }).length
+                          ? "Unfollow"
+                          : "Follow",
+                        onClick: this.props.viewer
+                          ? (e) => this._handleFollow(e, relation.owner_user_id)
+                          : () => this.setState({ visible: true }),
+                      },
+                    ]}
+                  />
+                </Boundary>
+              ) : null}
+            </div>
+          );
+          return (
+            <UserEntry
+              key={relation.id}
+              user={relation.owner}
+              button={button}
+              onClick={() => {
+                this.props.onAction({
+                  type: "NAVIGATE",
+                  value: this.props.sceneId,
+                  scene: "PROFILE",
+                  data: relation.owner,
+                });
+              }}
+              external={this.props.external}
+              url={`/${relation.owner.username}`}
+            />
+          );
+        });
+      }
+    }
 
     let total = creator.slates.reduce((total, slate) => {
       return total + slate.data?.objects?.length || 0;
@@ -527,13 +546,22 @@ export default class Profile extends React.Component {
         )}
         <div css={STYLES_PROFILE}>
           <TabGroup
-            tabs={["Files", "Slates" /*"Peers"*/]}
-            value={this.state.tab}
-            onChange={(value) => this.setState({ tab: value })}
+            tabs={
+              this.props.external
+                ? ["Files", "Slates", "Peers"]
+                : [
+                    { title: "Files", value: "NAV_PROFILE_FILES" },
+                    { title: "Slates", value: "NAV_PROFILE" },
+                    { title: "Peers", value: "NAV_PROFILE_PEERS" },
+                  ]
+            }
+            value={this.props.tab}
+            onChange={this.props.external ? this.props.changeTab : null}
+            onAction={this.props.external ? null : this.props.onAction}
             style={{ marginTop: 0, marginBottom: 32 }}
             itemStyle={{ margin: "0px 16px" }}
           />
-          {this.state.tab === 0 ? (
+          {this.props.tab === 0 ? (
             <div>
               {this.props.mobile ? null : (
                 <div style={{ display: `flex` }}>
@@ -565,17 +593,17 @@ export default class Profile extends React.Component {
               )}
             </div>
           ) : null}
-          {this.state.tab === 1 ? (
+          {this.props.tab === 1 ? (
             <div>
-              {/* <SecondaryTabGroup
+              <SecondaryTabGroup
                 tabs={["Slates", "Following"]}
                 value={this.state.slateTab}
                 onChange={(value) => this.setState({ slateTab: value })}
                 style={{ margin: "0 0 24px 0" }}
-              /> */}
+              />
               {slates?.length ? (
                 <SlatePreviewBlocks
-                  isOwner={!!isOwner ? isOwner : false}
+                  isOwner={this.state.slateTab === 0 ? isOwner : false}
                   external={this.props.external}
                   slates={slates}
                   username={username}
@@ -583,13 +611,7 @@ export default class Profile extends React.Component {
                 />
               ) : (
                 <React.Fragment>
-                  <EmptyState>
-                    <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
-                    {this.state.slateTab === 0
-                      ? `This user does not have any public slates yet`
-                      : `This user is not following any slates yet`}
-                  </EmptyState>
-                  {/* {this.props.external ? (
+                  {this.props.external ? (
                     <React.Fragment>
                       <EmptyState style={{ border: `none`, height: `120px` }}>
                         <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
@@ -606,12 +628,19 @@ export default class Profile extends React.Component {
                         onAction={this.props.onAction}
                       />
                     </React.Fragment>
-                  ) : null} */}
+                  ) : (
+                    <EmptyState>
+                      <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
+                      {this.state.slateTab === 0
+                        ? `This user does not have any public slates yet`
+                        : `This user is not following any slates yet`}
+                    </EmptyState>
+                  )}
                 </React.Fragment>
               )}
             </div>
           ) : null}
-          {/* {this.state.tab === 2 ? (
+          {this.props.tab === 2 ? (
             <div>
               <SecondaryTabGroup
                 tabs={["Following", "Followers"]}
@@ -641,7 +670,7 @@ export default class Profile extends React.Component {
                 css={STYLES_COPY_INPUT}
               />
             </div>
-          ) : null} */}
+          ) : null}
         </div>
       </div>
     );

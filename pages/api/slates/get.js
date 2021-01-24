@@ -4,6 +4,7 @@ import * as Strings from "~/common/strings";
 
 export default async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
+  console.log("check", req.data.id);
   if (!id) {
     return res.status(500).send({ decorator: "SERVER_GET_SLATE", error: true });
   }
@@ -25,15 +26,27 @@ export default async (req, res) => {
       error: true,
     });
   }
+  if (Array.isArray(req.body.data.id)) {
+    const responseMultiple = await Data.getSlatesByIds({ ids: req.body.data.id });
+    if (!responseMultiple) {
+      return res.status(404).send({ decorator: "SERVER_GET_SLATES_NOT_FOUND", error: true });
+    }
 
-  const response = await Data.getSlateById({ id: req.body.data.id });
-  if (!response) {
-    return res.status(404).send({ decorator: "SERVER_GET_SLATE_NOT_FOUND", error: true });
+    if (responseMultiple.error) {
+      return res.status(500).send({ decorator: "SERVER_GET_SLATES_NOT_FOUND", error: true });
+    }
+
+    return res.status(200).send({ decorator: "SERVER_GET_SLATES", slate: responseMultiple });
+  } else {
+    const response = await Data.getSlateById({ id: req.body.data.id });
+    if (!response) {
+      return res.status(404).send({ decorator: "SERVER_GET_SLATE_NOT_FOUND", error: true });
+    }
+
+    if (response.error) {
+      return res.status(500).send({ decorator: "SERVER_GET_SLATE_NOT_FOUND", error: true });
+    }
+
+    return res.status(200).send({ decorator: "SERVER_GET_SLATE", slate: response });
   }
-
-  if (response.error) {
-    return res.status(500).send({ decorator: "SERVER_GET_SLATE_NOT_FOUND", error: true });
-  }
-
-  return res.status(200).send({ decorator: "SERVER_GET_SLATE", slate: response });
 };

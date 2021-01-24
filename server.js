@@ -61,7 +61,7 @@ const EXTERNAL_RESOURCES = {
   search: Strings.isEmpty(Environment.RESOURCE_URI_SEARCH) ? null : Environment.RESOURCE_URI_SEARCH,
 };
 
-let exploreSlates;
+let exploreSlates = [];
 
 const fetchExploreSlates = async () => {
   if (Environment.IS_PRODUCTION) {
@@ -81,24 +81,25 @@ const fetchExploreSlates = async () => {
       let user = await Data.getUserById({ id: exploreSlate.data.ownerId });
       exploreSlate.username = user.username;
     }
-  } else {
-    exploreSlates = await Data.getSlatesByIds({
-      ids: [
-        //NOTE(tara): slates in localhost for testing
-        "857ad84d-7eff-4861-a988-65c84b62fc23",
-        "81fa0b39-0e96-4c7f-8587-38468bb67cb3",
-        "c4e8dad7-4ba0-4f25-a92a-c73ef5522d29",
-        "df05cb1f-2ecf-4872-b111-c4b8493d08f8",
-        "435035e6-dee4-4bbf-9521-64c219a527e7",
-        "ac907aa3-2fb2-46fd-8eba-ec8ceb87b5eb",
-      ],
-    });
-
-    for (let exploreSlate of exploreSlates) {
-      let user = await Data.getUserById({ id: exploreSlate.data.ownerId });
-      exploreSlate.username = user.username;
-    }
   }
+  // else {
+  //   exploreSlates = await Data.getSlatesByIds({
+  //     ids: [
+  //       //NOTE(tara): slates in localhost for testing
+  //       "857ad84d-7eff-4861-a988-65c84b62fc23",
+  //       "81fa0b39-0e96-4c7f-8587-38468bb67cb3",
+  //       "c4e8dad7-4ba0-4f25-a92a-c73ef5522d29",
+  //       "df05cb1f-2ecf-4872-b111-c4b8493d08f8",
+  //       "435035e6-dee4-4bbf-9521-64c219a527e7",
+  //       "ac907aa3-2fb2-46fd-8eba-ec8ceb87b5eb",
+  //     ],
+  //   });
+
+  //   for (let exploreSlate of exploreSlates) {
+  //     let user = await Data.getUserById({ id: exploreSlate.data.ownerId });
+  //     exploreSlate.username = user.username;
+  //   }
+  // }
 };
 
 fetchExploreSlates();

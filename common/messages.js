@@ -188,6 +188,10 @@ export const error = {
   GET_USER_BY_USERNAME:
     "We weren't able to fetch information on that user. Please check your input",
   USER_NOT_FOUND: "We aren't able to locate that user at the moment. Please try again",
+  SERVER_USER_SUBSCRIPTIONS_NOT_FOUND:
+    "We weren't able to fetch information on that user. Please try again later",
+  SERVER_USER_SUBSCRIBERS_NOT_FOUND:
+    "We weren't able to fetch information on that user. Please try again later",
 
   //Hydrate
   HYDRATE_FAILURE: "Please make sure you're logged in",

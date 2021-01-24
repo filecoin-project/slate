@@ -329,6 +329,7 @@ export default class Profile extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     let isOwner = this.props.isOwner;
     let creator = this.props.creator;
     let username = this.state.slateTab === 0 ? creator.username : null;
@@ -611,7 +612,7 @@ export default class Profile extends React.Component {
                 />
               ) : (
                 <React.Fragment>
-                  {this.props.external ? (
+                  {this.props.external && exploreSlates.length != 0 ? (
                     <React.Fragment>
                       <EmptyState style={{ border: `none`, height: `120px` }}>
                         <SVG.Slate height="24px" style={{ marginBottom: 24 }} />

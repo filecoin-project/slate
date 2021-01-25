@@ -64,6 +64,7 @@ const EXTERNAL_RESOURCES = {
 let exploreSlates = [];
 
 const fetchExploreSlates = async () => {
+  let exploreSlates = [];
   if (Environment.IS_PRODUCTION) {
     exploreSlates = await Data.getSlatesByIds({
       ids: [
@@ -100,9 +101,8 @@ const fetchExploreSlates = async () => {
   //     exploreSlate.username = user.username;
   //   }
   // }
+  return exploreSlates;
 };
-
-fetchExploreSlates();
 
 app.prepare().then(async () => {
   const server = express();
@@ -494,10 +494,12 @@ app.prepare().then(async () => {
 
   server.all("*", async (r, s) => handler(r, s, r.url));
 
-  const listenServer = server.listen(Environment.PORT, (e) => {
+  const listenServer = server.listen(Environment.PORT, async (e) => {
     if (e) throw e;
     Websocket.create();
 
     NodeLogging.log(`started on http://localhost:${Environment.PORT}`);
+
+    exploreSlates = await fetchExploreSlates();
   });
 });

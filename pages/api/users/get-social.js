@@ -25,7 +25,7 @@ export default async (req, res) => {
   let serializedUsersMap = { [req.body.data.userId]: req.body.data };
   let serializedSlatesMap = {};
 
-  const r1 = await Serializers.doSubscriptions({
+  const serializedSubscriptions = await Serializers.doSubscriptions({
     users: [],
     slates: [],
     subscriptions,
@@ -33,17 +33,17 @@ export default async (req, res) => {
     serializedSlatesMap,
   });
 
-  const r2 = await Serializers.doSubscribers({
+  const serializedSubscribers = await Serializers.doSubscribers({
     users: [],
     slates: [],
     subscribers,
-    serializedUsersMap: r1.serializedUsersMap,
-    serializedSlatesMap: r1.serializedSlatesMap,
+    serializedUsersMap: serializedSubscriptions.serializedUsersMap,
+    serializedSlatesMap: serializedSubscriptions.serializedSlatesMap,
   });
 
   return res.status(200).send({
     decorator: "SERVER_USER_SOCIAL",
-    subscriptions: r1.serializedSubscriptions,
-    subscribers: r2.serializedSubscribers,
+    subscriptions: serializedSubscriptions.serializedSubscriptions,
+    subscribers: serializedSubscribers.serializedSubscribers,
   });
 };

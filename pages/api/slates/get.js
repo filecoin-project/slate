@@ -25,7 +25,6 @@ export default async (req, res) => {
       error: true,
     });
   }
-
   if (Array.isArray(req.body.data.id)) {
     const responseMultiple = await Data.getSlatesByIds({ ids: req.body.data.id });
     if (!responseMultiple) {

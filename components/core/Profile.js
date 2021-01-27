@@ -4,6 +4,7 @@ import * as Strings from "~/common/strings";
 import * as SVG from "~/common/svg";
 import * as Actions from "~/common/actions";
 import * as Utilities from "~/common/utilities";
+import * as Window from "~/common/window";
 
 import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { css } from "@emotion/react";
@@ -252,9 +253,12 @@ export default class Profile extends React.Component {
     subscribers: [],
     isFollowing: null,
     fetched: false,
+    page: { tab: 1, slateTab: 0 },
   };
 
   componentDidMount = () => {
+    window.onpopstate = this._handleUpdatePage;
+    this._handleUpdatePage();
     this.filterByVisibility();
     this.setState({
       isFollowing: this.props.external
@@ -266,9 +270,9 @@ export default class Profile extends React.Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevProps.tab != this.props.tab || prevState.slateTab != this.props.slateTab) {
+    if (prevState.page.tab != this.state.page.tab || prevState.slateTab != this.props.slateTab) {
       if (!this.state.fetched) {
-        if (this.state.slateTab === 1 || this.props.tab === 2) this.fetchSocial();
+        if (this.state.slateTab === 1 || this.state.page.tab === 2) this.fetchSocial();
       }
     }
   };
@@ -328,6 +332,28 @@ export default class Profile extends React.Component {
     this.setState({ visible: true });
   };
 
+  _handleSwitchTab = (tab) => {
+    if (typeof window !== "undefined") {
+      this.setState({ page: { tab: tab } });
+      window.history.pushState(
+        { ...window.history.state, page: { tab: tab }, slateTab: 0 },
+        "",
+        window.location.pathname
+      );
+    }
+  };
+
+  _handleUpdatePage = () => {
+    let page;
+    if (typeof window !== "undefined") {
+      page = window?.history?.state.page;
+    }
+    if (!page || typeof page.tab === "undefined") {
+      page = { tab: 1, slateTab: 0 };
+    }
+    this.setState({ page: page });
+  };
+
   render() {
     let isOwner = this.props.isOwner;
     let creator = this.props.creator;
@@ -335,7 +361,7 @@ export default class Profile extends React.Component {
     let subscriptions = this.state.subscriptions;
     let subscribers = this.state.subscribers;
     let slates = [];
-    if (this.props.tab === 1) {
+    if (this.state.page.tab === 1) {
       if (this.state.slateTab === 0) {
         slates = isOwner
           ? creator.slates.filter((slate) => slate.data.public === true)
@@ -350,7 +376,7 @@ export default class Profile extends React.Component {
     }
     let exploreSlates = this.props.exploreSlates;
     let peers = [];
-    if (this.props.tab === 2) {
+    if (this.state.page.tab === 2) {
       if (this.state.peerTab === 0) {
         peers = subscriptions
           .filter((relation) => {
@@ -546,22 +572,13 @@ export default class Profile extends React.Component {
         )}
         <div css={STYLES_PROFILE}>
           <TabGroup
-            tabs={
-              this.props.external
-                ? ["Files", "Slates", "Peers"]
-                : [
-                    { title: "Files", value: "NAV_PROFILE_FILES" },
-                    { title: "Slates", value: "NAV_PROFILE" },
-                    { title: "Peers", value: "NAV_PROFILE_PEERS" },
-                  ]
-            }
-            value={this.props.tab}
-            onChange={this.props.external ? this.props.changeTab : null}
-            onAction={this.props.external ? null : this.props.onAction}
+            tabs={["Files", "Slates", "Peers"]}
+            value={this.state.page.tab}
+            onChange={this._handleSwitchTab}
             style={{ marginTop: 0, marginBottom: 32 }}
             itemStyle={{ margin: "0px 16px" }}
           />
-          {this.props.tab === 0 ? (
+          {this.state.page.tab === 0 ? (
             <div>
               {this.props.mobile ? null : (
                 <div style={{ display: `flex` }}>
@@ -593,7 +610,7 @@ export default class Profile extends React.Component {
               )}
             </div>
           ) : null}
-          {this.props.tab === 1 ? (
+          {this.state.page.tab === 1 ? (
             <div>
               <SecondaryTabGroup
                 tabs={["Slates", "Following"]}
@@ -640,7 +657,7 @@ export default class Profile extends React.Component {
               )}
             </div>
           ) : null}
-          {this.props.tab === 2 ? (
+          {this.state.page.tab === 2 ? (
             <div>
               <SecondaryTabGroup
                 tabs={["Following", "Followers"]}

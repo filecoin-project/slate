@@ -2,7 +2,8 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 
 import ReactMde from "react-mde";
-import ReactDOM from "react-dom";
+import ProcessedText from "~/components/core/ProcessedText";
+
 import "react-mde/lib/styles/css/react-mde-all.css";
 
 import { css } from "@emotion/react";
@@ -23,7 +24,9 @@ export function TextareaMde(props) {
         onChange={setValue}
         selectedTab={selectedTab}
         onTabChange={setSelectedTab}
-        // generateMarkdownPreview={(markdown) => Promise.resolve(converter.makeHtml(markdown))}
+        generateMarkdownPreview={(markdown) =>
+          Promise.resolve(<ProcessedText dark text={markdown} />)
+        }
         // loadSuggestions={loadSuggestions}
         childProps={{
           writeButton: {

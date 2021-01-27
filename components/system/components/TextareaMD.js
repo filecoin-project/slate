@@ -10,6 +10,32 @@ import { css } from "@emotion/react";
 
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
+function loadSuggestions(text) {
+  return new Promise((accept, reject) => {
+    setTimeout(() => {
+      const suggestions = [
+        {
+          preview: "Chris",
+          value: "@cw",
+        },
+        {
+          preview: "Jim",
+          value: "@jim",
+        },
+        {
+          preview: "Tara",
+          value: "@Tara",
+        },
+        {
+          preview: "Martina",
+          value: "@martina",
+        },
+      ].filter((i) => i.preview.toLowerCase().includes(text.toLowerCase()));
+      accept(suggestions);
+    }, 250);
+  });
+}
+
 export function TextareaMde(props) {
   // debugger;
   const [value, setValue] = React.useState(props.value);
@@ -27,7 +53,7 @@ export function TextareaMde(props) {
         generateMarkdownPreview={(markdown) =>
           Promise.resolve(<ProcessedText dark text={markdown} />)
         }
-        // loadSuggestions={loadSuggestions}
+        loadSuggestions={loadSuggestions}
         childProps={{
           writeButton: {
             tabIndex: -1,

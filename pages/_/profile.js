@@ -32,7 +32,6 @@ const STYLES_ROOT = css`
 export default class ProfilePage extends React.Component {
   state = {
     visible: false,
-    tab: 1,
   };
 
   render() {
@@ -52,14 +51,7 @@ export default class ProfilePage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <Profile
-            {...this.props}
-            buttons={buttons}
-            isOwner={false}
-            external
-            tab={this.state.tab}
-            changeTab={(value) => this.setState({ tab: value })}
-          />
+          <Profile {...this.props} buttons={buttons} isOwner={false} external />
         </div>
         {this.state.visible && (
           <div>

@@ -11,7 +11,7 @@ import { css } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
 import { Input } from "~/components/system/components/Input";
-import { Textarea } from "~/components/system/components/Textarea";
+import { TextareaMD } from "~/components/system/components/TextareaMD";
 
 import ProcessedText from "~/components/core/ProcessedText";
 
@@ -343,7 +343,7 @@ export default class CarouselSidebarSlate extends React.Component {
                 ...STYLES_INPUT,
               }}
             />
-            <Textarea
+            <TextareaMD
               name="body"
               placeholder="Add notes or a description..."
               value={this.state.body}

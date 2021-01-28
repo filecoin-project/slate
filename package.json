@@ -25,7 +25,7 @@
     "@emotion/babel-preset-css-prop": "11.0.0",
     "@emotion/react": "11.1.4",
     "@glif/filecoin-number": "^1.1.0-beta.17",
-    "@slack/webhook": "^5.0.3",
+    "@slack/webhook": "^6.0.0",
     "@textile/hub": "^5.2.0",
     "abort-controller": "^3.0.0",
     "babel-plugin-module-resolver": "^4.1.0",

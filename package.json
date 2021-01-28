@@ -24,7 +24,7 @@
     "@babel/register": "^7.12.10",
     "@emotion/babel-preset-css-prop": "11.0.0",
     "@emotion/react": "11.1.4",
-    "@glif/filecoin-number": "^1.0.0-beta.5",
+    "@glif/filecoin-number": "^1.1.0-beta.17",
     "@slack/webhook": "^5.0.3",
     "@textile/hub": "^5.2.0",
     "abort-controller": "^3.0.0",

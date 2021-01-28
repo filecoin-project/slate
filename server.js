@@ -19,6 +19,8 @@ import compression from "compression";
 import cors from "cors";
 import morgan from "morgan";
 
+import { FilecoinNumber, Converter } from "@glif/filecoin-number";
+
 const app = next({
   dev: !Environment.IS_PRODUCTION,
   dir: __dirname,
@@ -501,5 +503,11 @@ app.prepare().then(async () => {
     NodeLogging.log(`started on http://localhost:${Environment.PORT}`);
 
     exploreSlates = await fetchExploreSlates();
+
+    const filecoinNumber = new FilecoinNumber("10000", "attoFil");
+
+    console.log(`Testing Values: ${filecoinNumber.toPicoFil()} PICO FIL`);
+    console.log(`Testing Values: ${filecoinNumber.toAttoFil()} ATTO FIL`);
+    console.log(`Testing Values: ${filecoinNumber.toFil()} FIL`);
   });
 });

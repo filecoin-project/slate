@@ -26,7 +26,7 @@
     "@emotion/react": "11.1.4",
     "@glif/filecoin-number": "^1.0.0-beta.5",
     "@slack/webhook": "^5.0.3",
-    "@textile/hub": "^3.0.0",
+    "@textile/hub": "^5.2.0",
     "abort-controller": "^3.0.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "bcrypt": "^5.0.0",

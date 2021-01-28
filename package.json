@@ -61,7 +61,7 @@
     "three": "^0.108.0",
     "unified": "^9.2.0",
     "universal-cookie": "^4.0.4",
-    "uuid": "^8.0.0",
+    "uuid": "^8.3.2",
     "ws": "^7.3.1"
   },
   "devDependencies": {

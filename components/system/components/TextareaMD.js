@@ -8,8 +8,6 @@ import "react-mde/lib/styles/css/react-mde-all.css";
 
 import { css } from "@emotion/react";
 
-import TextareaAutoSize from "~/vendor/react-textarea-autosize";
-
 function loadSuggestions(text) {
   return new Promise((accept, reject) => {
     setTimeout(() => {
@@ -42,9 +40,8 @@ export function TextareaMde(props) {
   const [selectedTab, setSelectedTab] = React.useState("write");
 
   return (
-    <div className={props.className}>
+    <div className={props.className} css={props.css}>
       <ReactMde
-        css={props.css}
         value={value}
         classes={props.classes}
         onChange={setValue}
@@ -56,9 +53,11 @@ export function TextareaMde(props) {
         loadSuggestions={loadSuggestions}
         childProps={{
           writeButton: {
-            tabIndex: -1,
+            tabIndex: 1,
           },
+          ...props.childProps,
         }}
+        readOnly={props.readOnly}
       />
     </div>
   );
@@ -85,21 +84,22 @@ const STYLES_TEXTAREA = css`
     transition: 200ms ease all;
     padding: 16px;
     box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
-  }
-  textarea::placeholder {
-    /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: ${Constants.system.darkGray};
-    opacity: 1; /* Firefox */
-  }
 
-  textarea:-ms-input-placeholder {
-    /* Internet Explorer 10-11 */
-    color: ${Constants.system.darkGray};
-  }
+    &::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: ${Constants.system.darkGray};
+      opacity: 1; /* Firefox */
+    }
 
-  textarea::-ms-input-placeholder {
-    /* Microsoft Edge */
-    color: ${Constants.system.darkGray};
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: ${Constants.system.darkGray};
+    }
+
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: ${Constants.system.darkGray};
+    }
   }
 `;
 
@@ -108,11 +108,15 @@ export class TextareaMD extends React.Component {
     return (
       <TextareaMde
         css={STYLES_TEXTAREA}
-        classes={{ textArea: STYLES_TEXTAREA }}
-        style={this.props.style}
-        onChange={this.props.onChange}
-        placeholder={this.props.placeholder}
-        name={this.props.name}
+        childProps={{
+          textArea: {
+            style: this.props.style,
+            placeholder: this.props.placeholder,
+            name: this.props.name,
+            onChange: this.props.onChange,
+            value: this.props.value,
+          },
+        }}
         value={this.props.value}
         readOnly={this.props.readOnly}
       />

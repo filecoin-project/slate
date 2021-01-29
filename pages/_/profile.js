@@ -32,6 +32,17 @@ const STYLES_ROOT = css`
 export default class ProfilePage extends React.Component {
   state = {
     visible: false,
+    page: null,
+  };
+
+  componentDidMount = () => {
+    window.onpopstate = this._handleBackForward;
+  };
+
+  _handleBackForward = (e) => {
+    let page = window.history.state;
+    this.setState({ page });
+    // Events.dispatchCustomEvent({ name: "slate-global-close-carousel", detail: {} });
   };
 
   render() {
@@ -51,7 +62,13 @@ export default class ProfilePage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <Profile {...this.props} buttons={buttons} isOwner={false} external />
+          <Profile
+            {...this.props}
+            page={this.state.page}
+            buttons={buttons}
+            isOwner={false}
+            external
+          />
         </div>
         {this.state.visible && (
           <div>

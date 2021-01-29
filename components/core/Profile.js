@@ -13,6 +13,7 @@ import { TabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
+import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import ProcessedText from "~/components/core/ProcessedText";
 import SlatePreviewBlocks from "~/components/core/SlatePreviewBlock";
@@ -251,29 +252,23 @@ export default class Profile extends React.Component {
     slates: this.props.creator.slates,
     subscriptions: [],
     subscribers: [],
-    isFollowing: null,
+    isFollowing: this.props.external
+      ? false
+      : !!this.props.viewer.subscriptions.filter((entry) => {
+          return entry.target_user_id === this.props.creator.id;
+        }).length,
     fetched: false,
-    page: { tab: 1, slateTab: 0 },
+    tab: this.props.tab,
   };
 
   componentDidMount = () => {
-    window.onpopstate = this._handleUpdatePage;
     this._handleUpdatePage();
     this.filterByVisibility();
-    this.setState({
-      isFollowing: this.props.external
-        ? false
-        : !!this.state.subscriptions.filter((entry) => {
-            return entry.target_user_id === this.props.creator.id;
-          }).length,
-    });
   };
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.page.tab != this.state.page.tab || prevState.slateTab != this.props.slateTab) {
-      if (!this.state.fetched) {
-        if (this.state.slateTab === 1 || this.state.page.tab === 2) this.fetchSocial();
-      }
+  componentDidUpdate = (prevProps) => {
+    if (this.props.page?.tab !== prevProps.page?.tab) {
+      this.setState({ tab: this.props.page.tab });
     }
   };
 
@@ -334,34 +329,38 @@ export default class Profile extends React.Component {
 
   _handleSwitchTab = (tab) => {
     if (typeof window !== "undefined") {
-      this.setState({ page: { tab: tab } });
-      window.history.pushState(
-        { ...window.history.state, page: { tab: tab }, slateTab: 0 },
-        "",
-        window.location.pathname
-      );
+      this.setState({ tab });
+      window.history.pushState({ ...window.history.state, tab }, "", window.location.pathname);
+    }
+    if (tab === 2 && !this.state.fetched) {
+      this.fetchSocial();
     }
   };
 
   _handleUpdatePage = () => {
-    let page;
+    let tab;
     if (typeof window !== "undefined") {
-      page = window?.history?.state.page;
+      tab = window?.history?.state.tab;
     }
-    if (!page || typeof page.tab === "undefined") {
-      page = { tab: 1, slateTab: 0 };
+    if (typeof tab === "undefined") {
+      tab = 1;
     }
-    this.setState({ page: page });
+    this.setState({ tab }, () => {
+      if (this.state.tab === 2 || (this.state.tab === 1 && this.state.slateTab === 1)) {
+        this.fetchSocial();
+      }
+    });
   };
 
   render() {
+    let tab = typeof this.state.tab === "undefined" || this.state.tab === null ? 1 : this.state.tab;
     let isOwner = this.props.isOwner;
     let creator = this.props.creator;
     let username = this.state.slateTab === 0 ? creator.username : null;
     let subscriptions = this.state.subscriptions;
     let subscribers = this.state.subscribers;
     let slates = [];
-    if (this.state.page.tab === 1) {
+    if (tab === 1) {
       if (this.state.slateTab === 0) {
         slates = isOwner
           ? creator.slates.filter((slate) => slate.data.public === true)
@@ -376,7 +375,7 @@ export default class Profile extends React.Component {
     }
     let exploreSlates = this.props.exploreSlates;
     let peers = [];
-    if (this.state.page.tab === 2) {
+    if (tab === 2) {
       if (this.state.peerTab === 0) {
         peers = subscriptions
           .filter((relation) => {
@@ -573,12 +572,12 @@ export default class Profile extends React.Component {
         <div css={STYLES_PROFILE}>
           <TabGroup
             tabs={["Files", "Slates", "Peers"]}
-            value={this.state.page.tab}
+            value={tab}
             onChange={this._handleSwitchTab}
             style={{ marginTop: 0, marginBottom: 32 }}
             itemStyle={{ margin: "0px 16px" }}
           />
-          {this.state.page.tab === 0 ? (
+          {tab === 0 ? (
             <div>
               {this.props.mobile ? null : (
                 <div style={{ display: `flex` }}>
@@ -610,12 +609,18 @@ export default class Profile extends React.Component {
               )}
             </div>
           ) : null}
-          {this.state.page.tab === 1 ? (
+          {tab === 1 ? (
             <div>
               <SecondaryTabGroup
                 tabs={["Slates", "Following"]}
                 value={this.state.slateTab}
-                onChange={(value) => this.setState({ slateTab: value })}
+                onChange={(value) => {
+                  this.setState({ slateTab: value }, () => {
+                    if (!this.state.fetched) {
+                      this.fetchSocial();
+                    }
+                  });
+                }}
                 style={{ margin: "0 0 24px 0" }}
               />
               {slates?.length ? (
@@ -631,10 +636,16 @@ export default class Profile extends React.Component {
                   {this.props.external && exploreSlates.length != 0 ? (
                     <React.Fragment>
                       <EmptyState style={{ border: `none`, height: `120px` }}>
-                        <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
-                        {this.state.slateTab === 0
-                          ? `This user does not have any public slates yet`
-                          : `This user is not following any slates yet`}
+                        {this.state.fetched ? (
+                          <React.Fragment>
+                            <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
+                            {this.state.slateTab === 0
+                              ? `This user does not have any public slates yet`
+                              : `This user is not following any slates yet`}
+                          </React.Fragment>
+                        ) : (
+                          <LoaderSpinner style={{ height: 24, width: 24 }} />
+                        )}
                       </EmptyState>
                       <div css={STYLES_EXPLORE}>Explore Slates</div>
                       <SlatePreviewBlocks
@@ -647,17 +658,23 @@ export default class Profile extends React.Component {
                     </React.Fragment>
                   ) : (
                     <EmptyState>
-                      <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
-                      {this.state.slateTab === 0
-                        ? `This user does not have any public slates yet`
-                        : `This user is not following any slates yet`}
+                      {this.state.fetched ? (
+                        <React.Fragment>
+                          <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
+                          {this.state.slateTab === 0
+                            ? `This user does not have any public slates yet`
+                            : `This user is not following any slates yet`}
+                        </React.Fragment>
+                      ) : (
+                        <LoaderSpinner style={{ height: 24, width: 24 }} />
+                      )}
                     </EmptyState>
                   )}
                 </React.Fragment>
               )}
             </div>
           ) : null}
-          {this.state.page.tab === 2 ? (
+          {tab === 2 ? (
             <div>
               <SecondaryTabGroup
                 tabs={["Following", "Followers"]}
@@ -670,10 +687,16 @@ export default class Profile extends React.Component {
                   peers
                 ) : (
                   <EmptyState>
-                    <SVG.Users height="24px" style={{ marginBottom: 24 }} />
-                    {this.state.peerTab === 0
-                      ? "This user is not following anyone yet"
-                      : "This user does not have any followers yet"}
+                    {this.state.fetched ? (
+                      <React.Fragment>
+                        <SVG.Users height="24px" style={{ marginBottom: 24 }} />
+                        {this.state.peerTab === 0
+                          ? `This user is not following anyone yet`
+                          : `This user does not have any followers yet`}
+                      </React.Fragment>
+                    ) : (
+                      <LoaderSpinner style={{ height: 24, width: 24 }} />
+                    )}
                   </EmptyState>
                 )}
               </div>

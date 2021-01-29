@@ -163,7 +163,6 @@ const STYLES_INPUT = {
   backgroundColor: "transparent",
   boxShadow: "0 0 0 1px #3c3c3c inset",
   color: Constants.system.white,
-  height: 48,
 };
 
 const STYLES_DISMISS_BOX = css`

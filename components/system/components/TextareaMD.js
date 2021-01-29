@@ -8,6 +8,57 @@ import "react-mde/lib/styles/css/react-mde-all.css";
 
 import { css } from "@emotion/react";
 
+const STYLES_MDE = css`
+  box-sizing: border-box;
+  font-family: ${Constants.font.text};
+  -webkit-appearance: none;
+  background: ${Constants.system.white};
+  color: ${Constants.system.black};
+  border-radius: 4px;
+  display: flex;
+  font-size: 14px;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const STYLES_TEXTAREA = css`
+  ${STYLES_MDE};
+  display: block;
+  textarea {
+    box-sizing: border-box;
+    font-family: ${Constants.font.text};
+    -webkit-appearance: none;
+    width: 100%;
+    min-height: 160px;
+    max-width: 480px;
+    resize: none;
+    background: ${Constants.system.white};
+    color: ${Constants.system.black};
+    font-size: 14px;
+    outline: 0;
+    border: 0;
+    transition: 200ms ease all;
+    padding: 16px;
+    box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
+    margin-bottom: 0 !important;
+    &::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: ${Constants.system.darkGray};
+      opacity: 1; /* Firefox */
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: ${Constants.system.darkGray};
+    }
+
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: ${Constants.system.darkGray};
+    }
+  }
+`;
+
 function loadSuggestions(text) {
   return new Promise((accept, reject) => {
     setTimeout(() => {
@@ -40,7 +91,7 @@ export function TextareaMde(props) {
   const [selectedTab, setSelectedTab] = React.useState("write");
 
   return (
-    <div className={props.className} css={props.css}>
+    <div className={props.className} css={props.css} style={props.style}>
       <ReactMde
         value={value}
         classes={props.classes}
@@ -63,51 +114,12 @@ export function TextareaMde(props) {
   );
 }
 
-const STYLES_TEXTAREA = css`
-  textarea {
-    box-sizing: border-box;
-    font-family: ${Constants.font.text};
-    -webkit-appearance: none;
-    width: 100%;
-    min-height: 160px;
-    max-width: 480px;
-    resize: none;
-    background: ${Constants.system.white};
-    color: ${Constants.system.black};
-    border-radius: 4px;
-    display: flex;
-    font-size: 14px;
-    align-items: center;
-    justify-content: flex-start;
-    outline: 0;
-    border: 0;
-    transition: 200ms ease all;
-    padding: 16px;
-    box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
-
-    &::placeholder {
-      /* Chrome, Firefox, Opera, Safari 10.1+ */
-      color: ${Constants.system.darkGray};
-      opacity: 1; /* Firefox */
-    }
-
-    &:-ms-input-placeholder {
-      /* Internet Explorer 10-11 */
-      color: ${Constants.system.darkGray};
-    }
-
-    &::-ms-input-placeholder {
-      /* Microsoft Edge */
-      color: ${Constants.system.darkGray};
-    }
-  }
-`;
-
 export class TextareaMD extends React.Component {
   render() {
     return (
       <TextareaMde
         css={STYLES_TEXTAREA}
+        style={this.props.style}
         childProps={{
           textArea: {
             style: this.props.style,

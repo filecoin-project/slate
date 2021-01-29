@@ -64,6 +64,7 @@ export function TextareaMde(props) {
       }
       > div.mde-tabs button,
       > ul.mde-header-group li.mde-header-item button {
+        outline: 0;
         color: ${COLOR_FG};
       }
     }

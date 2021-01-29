@@ -56,29 +56,38 @@ export function TextareaMde(props) {
     .react-mde {
       border: 0;
       border-bottom: 0;
-    }
-    .mde-header {
-      background: ${COLOR_BG};
-      border-bottom: 1px solid #3c3c3c;
-      > ul.mde-header-group {
-        transition: 200ms ease all;
-        opacity: 1;
-        &.hidden {
-          opacity: 0;
-        }
-      }
-      > div.mde-tabs button {
-        opacity: 0.5;
-        &.selected {
-          opacity: 1;
-        }
-      }
-      > div.mde-tabs button,
-      > ul.mde-header-group li.mde-header-item button {
-        outline: 0;
+      ul.mde-suggestions {
+        background: ${COLOR_BG};
         color: ${COLOR_FG};
-        font-family: ${Constants.font.text};
         border: 0;
+        border: 1px solid #3c3c3c;
+        li {
+          border-color: #3c3c3c;
+        }
+      }
+      .mde-header {
+        background: ${COLOR_BG};
+        border-bottom: 1px solid #3c3c3c;
+        > ul.mde-header-group {
+          transition: 200ms ease all;
+          opacity: 1;
+          &.hidden {
+            opacity: 0;
+          }
+        }
+        > div.mde-tabs button {
+          opacity: 0.5;
+          &.selected {
+            opacity: 1;
+          }
+        }
+        > div.mde-tabs button,
+        > ul.mde-header-group li.mde-header-item button {
+          outline: 0;
+          color: ${COLOR_FG};
+          font-family: ${Constants.font.text};
+          border: 0;
+        }
       }
     }
   `;

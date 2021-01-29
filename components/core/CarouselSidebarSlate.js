@@ -347,6 +347,7 @@ export default class CarouselSidebarSlate extends React.Component {
               placeholder="Add notes or a description..."
               value={this.state.body}
               onChange={this._handleChange}
+              dark
               style={STYLES_INPUT}
             />
             <Input

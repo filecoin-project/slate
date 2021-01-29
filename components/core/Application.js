@@ -189,6 +189,7 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleUpdateData = ({ data }) => {
+    //TODO(martina): maybe add a default window.history.replacestate where it pushes the new data to browser?
     this.setState({ data });
   };
 

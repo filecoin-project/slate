@@ -24,6 +24,7 @@ export default class SceneProfile extends React.Component {
   };
 
   componentDidMount = async () => {
+    console.log("component did mount called");
     await this.fetchProfile();
   };
 
@@ -34,7 +35,7 @@ export default class SceneProfile extends React.Component {
   };
 
   fetchProfile = async () => {
-    const username = this.props.page.user;
+    const username = this.props.page.user || this.props.page.data?.username;
     let query;
     let targetUser;
     if (username) {
@@ -65,7 +66,11 @@ export default class SceneProfile extends React.Component {
       targetUser = response.data;
     }
 
-    window.history.replaceState(window.history.state, "A slate user", `/${targetUser.username}`);
+    window.history.replaceState(
+      { ...window.history.state, data: targetUser },
+      "A slate user",
+      `/${targetUser.username}`
+    );
 
     this.props.onUpdateData({ data: targetUser });
     this.setState({ profile: targetUser });

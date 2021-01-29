@@ -344,7 +344,7 @@ export default class CarouselSidebarSlate extends React.Component {
             />
             <TextareaMD
               name="body"
-              placeholder="Add notes or a description..."
+              placeholder="Add notes or a description with markdown..."
               value={this.state.body}
               onChange={this._handleChange}
               dark

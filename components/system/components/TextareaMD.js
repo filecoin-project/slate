@@ -53,8 +53,13 @@ export function TextareaMde(props) {
     font-size: 14px;
     align-items: center;
     justify-content: flex-start;
+    .react-mde {
+      border: 0;
+      border-bottom: 0;
+    }
     .mde-header {
       background: ${COLOR_BG};
+      border-bottom: 1px solid #3c3c3c;
       > ul.mde-header-group {
         transition: 200ms ease all;
         opacity: 1;
@@ -62,10 +67,18 @@ export function TextareaMde(props) {
           opacity: 0;
         }
       }
+      > div.mde-tabs button {
+        opacity: 0.5;
+        &.selected {
+          opacity: 1;
+        }
+      }
       > div.mde-tabs button,
       > ul.mde-header-group li.mde-header-item button {
         outline: 0;
         color: ${COLOR_FG};
+        font-family: ${Constants.font.text};
+        border: 0;
       }
     }
   `;
@@ -86,7 +99,6 @@ export function TextareaMde(props) {
       font-size: 14px;
       outline: 0;
       border: 0;
-      transition: 200ms ease all;
       padding: 16px;
       box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
       margin-bottom: 0 !important;

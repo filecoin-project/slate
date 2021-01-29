@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
+import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/react";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
@@ -42,7 +43,7 @@ export default class ProfilePage extends React.Component {
   _handleBackForward = (e) => {
     let page = window.history.state;
     this.setState({ page });
-    // Events.dispatchCustomEvent({ name: "slate-global-close-carousel", detail: {} });
+    Events.dispatchCustomEvent({ name: "slate-global-close-carousel", detail: {} });
   };
 
   render() {

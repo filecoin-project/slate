@@ -105,7 +105,7 @@ const STYLES_TAG = css`
   border: 1px solid ${Constants.system.darkGray};
 `;
 
-const STYLES_VISIBILITY_SECTION = css`
+const STYLES_OPTIONS_SECTION = css`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -180,7 +180,7 @@ const STYLES_FILE_HIDDEN = css`
 `;
 
 const STYLES_TEXT = css`
-  color: ${Constants.system.darkGray}
+  color: ${Constants.system.darkGray};
   line-height: 1.5;
 `;
 
@@ -289,6 +289,13 @@ export default class CarouselSidebarData extends React.Component {
     await setTimeout(() => {
       this.setState({ unsavedChanges: true });
     }, 4000);
+  };
+
+  _handleToggleAutoPlay = async (e) => {
+    await this.props.onSave(
+      { settings: { ...this.props.data?.settings, autoPlay: e.target.value } },
+      this.props.index
+    );
   };
 
   _handleUpload = async (e) => {
@@ -551,12 +558,12 @@ export default class CarouselSidebarData extends React.Component {
             </div>
           </div>
         )}
-        {this.props.isOwner ? (
+        {this.props.isOwner && type?.startsWith("video/") ? (
           <React.Fragment>
             <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
               Visibility
             </div>
-            <div css={STYLES_VISIBILITY_SECTION}>
+            <div css={STYLES_OPTIONS_SECTION}>
               <div css={STYLES_TEXT}>{isVisible ? "Everyone" : "Link only"}</div>
               <Toggle dark active={isVisible} onChange={this._handleToggleVisibility} />
             </div>
@@ -564,6 +571,26 @@ export default class CarouselSidebarData extends React.Component {
               {isVisible
                 ? "This file is currently visible to everyone and searchable within Slate through public slates."
                 : "This file is currently not visible to others unless they have the link."}
+            </div>
+          </React.Fragment>
+        ) : null}
+        {this.props.isOwner ? (
+          <React.Fragment>
+            <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+              Settings
+            </div>
+            <div css={STYLES_OPTIONS_SECTION}>
+              <div css={STYLES_TEXT}>AutoPlay</div>
+              <Toggle
+                dark
+                active={this.props?.data?.settings?.autoPlay}
+                onChange={this._handleToggleAutoPlay}
+              />
+            </div>
+            <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
+              {this.props?.data?.settings?.autoPlay
+                ? "This video will be autoplayed when opened by others."
+                : "This video will be paused when opened by others."}
             </div>
           </React.Fragment>
         ) : null}

@@ -221,6 +221,11 @@ const STYLES_AUTOSAVE = css`
   animation: slate-animations-autosave 4000ms ease;
 `;
 
+const STYLES_SPINNER = css`
+  width: 24px;
+  height: 24px;
+`;
+
 export const FileTypeDefaultPreview = () => {
   if (props.type && props.type.startsWith("video/")) {
     return DEFAULT_VIDEO;
@@ -254,6 +259,7 @@ export default class CarouselSidebarData extends React.Component {
     changingPreview: false,
     unsavedChanges: false,
     isEditing: false,
+    isDownloading: false,
   };
 
   componentDidMount = () => {
@@ -338,7 +344,12 @@ export default class CarouselSidebarData extends React.Component {
 
   _handleDownload = () => {
     if (this.props.data.type === "application/unity") {
-      UserBehaviors.downloadZip(this.props.data);
+      this.setState({ isDownloading: true }, async () => {
+        const response = await UserBehaviors.downloadZip(this.props.data);
+        this.setState({ isDownloading: false });
+
+        Events.hasError(response);
+      });
     } else {
       UserBehaviors.download(this.props.data);
     }
@@ -501,8 +512,17 @@ export default class CarouselSidebarData extends React.Component {
           </div>
           {this.props.external ? null : (
             <div css={STYLES_ACTION} onClick={this._handleDownload}>
-              <SVG.Download height="24px" />
-              <span style={{ marginLeft: 16 }}>Download</span>
+              {this.state.isDownloading ? (
+                <>
+                  <LoaderSpinner css={STYLES_SPINNER} />
+                  <span style={{ marginLeft: 16 }}>Downloading</span>
+                </>
+              ) : (
+                <>
+                  <SVG.Download height="24px" />
+                  <span style={{ marginLeft: 16 }}>Download</span>
+                </>
+              )}
             </div>
           )}
           {this.props.isOwner ? (

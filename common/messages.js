@@ -342,4 +342,8 @@ export const error = {
   SERVER_SUPPORT_MUST_PROVIDE_EMAIL: "Please provide an email where we can contact you",
   SERVER_SUPPORT_MUST_PROVIDE_MESSAGE: "Please provide a message to send",
   SERVER_SUPPORT: "We're having trouble sending your support message to the team right now",
+
+  // Unity game download
+  UNITY_ZIP_DOWNLOAD_FAILED:
+    "We're having trouble downloading you Unity game file. Please try again",
 };

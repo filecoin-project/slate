@@ -221,6 +221,11 @@ const STYLES_AUTOSAVE = css`
   animation: slate-animations-autosave 4000ms ease;
 `;
 
+const STYLES_SPINNER = css`
+  width: 24px;
+  height: 24px;
+`;
+
 export const FileTypeDefaultPreview = () => {
   if (props.type && props.type.startsWith("video/")) {
     return DEFAULT_VIDEO;
@@ -500,10 +505,17 @@ export default class CarouselSidebarData extends React.Component {
           </div>
           {this.props.external ? null : (
             <div css={STYLES_ACTION} onClick={this._handleDownload}>
-              <SVG.Download height="24px" />
-              <span style={{ marginLeft: 16 }}>
-                {this.state.isDownloading ? "Downloading" : "Download"}
-              </span>
+              {this.state.isDownloading ? (
+                <>
+                  <LoaderSpinner css={STYLES_SPINNER} />
+                  <span style={{ marginLeft: 16 }}>Downloading</span>
+                </>
+              ) : (
+                <>
+                  <SVG.Download height="24px" />
+                  <span style={{ marginLeft: 16 }}>Download</span>
+                </>
+              )}
             </div>
           )}
           {this.props.isOwner ? (

@@ -180,7 +180,7 @@ const STYLES_FILE_HIDDEN = css`
 `;
 
 const STYLES_TEXT = css`
-  color: ${Constants.system.darkGray}
+  color: ${Constants.system.darkGray};
   line-height: 1.5;
 `;
 
@@ -254,6 +254,7 @@ export default class CarouselSidebarData extends React.Component {
     changingPreview: false,
     unsavedChanges: false,
     isEditing: false,
+    isDownloading: false,
   };
 
   componentDidMount = () => {
@@ -331,7 +332,12 @@ export default class CarouselSidebarData extends React.Component {
 
   _handleDownload = () => {
     if (this.props.data.type === "application/unity") {
-      UserBehaviors.downloadZip(this.props.data);
+      this.setState({ isDownloading: true }, async () => {
+        const response = await UserBehaviors.downloadZip(this.props.data);
+        this.setState({ isDownloading: false });
+
+        Events.hasError(response);
+      });
     } else {
       UserBehaviors.download(this.props.data);
     }
@@ -495,7 +501,9 @@ export default class CarouselSidebarData extends React.Component {
           {this.props.external ? null : (
             <div css={STYLES_ACTION} onClick={this._handleDownload}>
               <SVG.Download height="24px" />
-              <span style={{ marginLeft: 16 }}>Download</span>
+              <span style={{ marginLeft: 16 }}>
+                {this.state.isDownloading ? "Downloading" : "Download"}
+              </span>
             </div>
           )}
           {this.props.isOwner ? (

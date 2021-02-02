@@ -261,23 +261,35 @@ export const download = (file) => {
 };
 
 export const downloadZip = async (file) => {
-  const { data } = await Actions.getZipFilePaths(file);
-  const filesPaths = data.filesPaths.map((item) => item.replace(`/${file.id}/`, ""));
-  const baseUrl = file.url;
-  const zipFileName = file.file;
+  try {
+    const { data } = await Actions.getZipFilePaths(file);
+    const filesPaths = data.filesPaths.map((item) => item.replace(`/${file.id}/`, ""));
+    const baseUrl = file.url;
+    const zipFileName = file.file;
 
-  let zip = new JSZip();
+    let zip = new JSZip();
 
-  for (let filePath of filesPaths) {
-    let url = `${baseUrl}/${filePath}`;
-    const blob = await Window.getBlobFromUrl(url);
+    for (let filePath of filesPaths) {
+      let url = `${baseUrl}/${filePath}`;
+      const blob = await Window.getBlobFromUrl(url);
 
-    zip.file(filePath, blob);
+      zip.file(filePath, blob);
+    }
+
+    zip.generateAsync({ type: "blob" }).then((blob) => {
+      saveAs(blob, zipFileName);
+    });
+
+    return {
+      decorator: "UNITY_ZIP_DOWNLOAD_SUCCESS",
+      error: false,
+    };
+  } catch (e) {
+    return {
+      decorator: "UNITY_ZIP_DOWNLOAD_FAILED",
+      error: true,
+    };
   }
-
-  zip.generateAsync({ type: "blob" }).then((blob) => {
-    saveAs(blob, zipFileName);
-  });
 };
 
 // export const createSlate = async (data) => {

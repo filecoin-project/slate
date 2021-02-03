@@ -636,7 +636,7 @@ export default class Profile extends React.Component {
                   {this.props.external && exploreSlates.length != 0 ? (
                     <React.Fragment>
                       <EmptyState style={{ border: `none`, height: `120px` }}>
-                        {this.state.fetched ? (
+                        {this.state.fetched || this.state.slateTab == 0 ? (
                           <React.Fragment>
                             <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
                             {this.state.slateTab === 0
@@ -658,7 +658,7 @@ export default class Profile extends React.Component {
                     </React.Fragment>
                   ) : (
                     <EmptyState>
-                      {this.state.fetched ? (
+                      {this.state.fetched || this.state.slateTab == 0 ? (
                         <React.Fragment>
                           <SVG.Slate height="24px" style={{ marginBottom: 24 }} />
                           {this.state.slateTab === 0
@@ -687,7 +687,7 @@ export default class Profile extends React.Component {
                   peers
                 ) : (
                   <EmptyState>
-                    {this.state.fetched ? (
+                    {this.state.fetched || this.state.slateTab == 0 ? (
                       <React.Fragment>
                         <SVG.Users height="24px" style={{ marginBottom: 24 }} />
                         {this.state.peerTab === 0

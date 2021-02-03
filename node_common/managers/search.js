@@ -14,8 +14,9 @@ const websocketSend = async (type, data) => {
 
   const ws = Websocket.get();
   if (!ws) {
-    NodeLogging.error(`Can not find websocket ...`);
-    return;
+    console.log("no websocket. creating now...");
+    ws = Websocket.create();
+    await Window.delay(2000);
   }
 
   const encryptedData = await Utilities.encryptWithSecret(

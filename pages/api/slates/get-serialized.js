@@ -20,6 +20,13 @@ export default async (req, res) => {
   }
   slate = Serializers.slate(slate);
 
+  if (!slate.data.public && slate.data.ownerId !== req.body.data.id) {
+    return res.status(403).send({
+      decorator: "SLATE_PRIVATE_ACCESS_DENIED",
+      error: true,
+    });
+  }
+
   let user = await Data.getUserById({ id: slate.data.ownerId });
   if (!user || user.error) {
     return res.status(200).send({

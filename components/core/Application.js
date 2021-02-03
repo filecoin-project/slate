@@ -168,7 +168,7 @@ export default class ApplicationPage extends React.Component {
       if (!page || !page.id) {
         page = { id: "NAV_DATA", scrollTop: 0, data: null };
       }
-      if (page.id === "NAV_SLATE" && this.state.data?.data?.ownerId === this.props.viewer.id) {
+      if (page.id === "NAV_SLATE" && this.state.data?.data?.ownerId === this.state.viewer.id) {
         let data = this.state.data;
         for (let slate of newViewerState.slates) {
           if (slate.id === data.id) {
@@ -262,7 +262,7 @@ export default class ApplicationPage extends React.Component {
     let slate = null;
     if (
       current.target.id === "NAV_SLATE" &&
-      this.state.data?.data?.ownerId === this.props.viewer?.id
+      this.state.data?.data?.ownerId === this.state.viewer?.id
     ) {
       slate = this.state.data;
     }

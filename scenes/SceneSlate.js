@@ -57,6 +57,7 @@ const STYLES_MOBILE_ONLY = css`
 export default class SceneSlate extends React.Component {
   state = {
     notFound: false,
+    accessDenied: false,
   };
 
   componentDidMount = async () => {
@@ -119,6 +120,10 @@ export default class SceneSlate extends React.Component {
       if (query) {
         response = await Actions.getSerializedSlate(query);
       }
+      if (response?.decorator == "SLATE_PRIVATE_ACCESS_DENIED") {
+        this.setState({ accessDenied: true });
+        return;
+      }
       if (Events.hasError(response)) {
         this.setState({ notFound: true });
         return;
@@ -161,12 +166,16 @@ export default class SceneSlate extends React.Component {
   };
 
   render() {
-    if (this.state.notFound) {
+    if (this.state.notFound || this.state.accessDenied) {
       return (
         <ScenePage>
           <EmptyState>
             <SVG.Layers height="24px" style={{ marginBottom: 24 }} />
-            <div>We were unable to locate that slate</div>
+            <div>
+              {this.state.accessDenied
+                ? "You do not have access to that slate"
+                : "We were unable to locate that slate"}
+            </div>
           </EmptyState>
         </ScenePage>
       );

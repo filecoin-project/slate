@@ -210,7 +210,7 @@ export default class ApplicationPage extends React.Component {
         resource: this.props.resources.pubsub,
         viewer: this.state.viewer,
         onUpdate: this._handleUpdateViewer,
-        onNewActiveUser: this._handleActiveUsers,
+        onNewActiveUser: this._handleNewActiveUser,
       });
     }
     if (!wsclient) {
@@ -222,7 +222,7 @@ export default class ApplicationPage extends React.Component {
     return;
   };
 
-  _handleActiveUsers = (users) => {
+  _handleNewActiveUser = (users) => {
     this.setState({ activeUsers: users });
   };
 

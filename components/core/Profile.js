@@ -71,6 +71,7 @@ const STYLES_PROFILE_IMAGE = css`
   flex-shrink: 0;
   border-radius: 4px;
   margin: 0 auto;
+  border: 2px solid transparent;
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 64px;
     height: 64px;
@@ -259,11 +260,13 @@ export default class Profile extends React.Component {
         }).length,
     fetched: false,
     tab: this.props.tab,
+    isOnline: false,
   };
 
   componentDidMount = () => {
     this._handleUpdatePage();
     this.filterByVisibility();
+    this.checkStatus();
   };
 
   componentDidUpdate = (prevProps) => {
@@ -352,7 +355,19 @@ export default class Profile extends React.Component {
     });
   };
 
+  checkStatus = () => {
+    const activeUsers = this.props.activeUsers;
+    const userId = this.props.data.id;
+
+    if (activeUsers && activeUsers.includes(userId)) {
+      this.setState({ isOnline: true });
+    } else {
+      this.setState({ isOnline: false });
+    }
+  };
+
   render() {
+    console.log(this.state.isOnline);
     let tab = typeof this.state.tab === "undefined" || this.state.tab === null ? 1 : this.state.tab;
     let isOwner = this.props.isOwner;
     let creator = this.props.creator;
@@ -508,7 +523,10 @@ export default class Profile extends React.Component {
           <div css={STYLES_PROFILE_INFO}>
             <div
               css={STYLES_PROFILE_IMAGE}
-              style={{ backgroundImage: `url('${creator.data.photo}')` }}
+              style={{
+                backgroundImage: `url('${creator.data.photo}')`,
+                borderColor: this.state.isOnline ? `green` : `white`,
+              }}
             />
             <div css={STYLES_INFO}>
               <div css={STYLES_NAME}>{Strings.getPresentationName(creator)}</div>

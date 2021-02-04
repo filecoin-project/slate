@@ -8,7 +8,7 @@ let savedResource = null;
 let savedViewer = null;
 let savedOnUpdate = null;
 
-export const init = ({ resource = "", viewer, onUpdate }) => {
+export const init = ({ resource = "", viewer, onUpdate, handleActiveUsers }) => {
   savedResource = resource;
   savedViewer = viewer;
   savedOnUpdate = onUpdate;
@@ -63,6 +63,7 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
       const response = JSON.parse(event.data);
       type = response.type;
       data = response.data;
+      console.log(data);
     } catch (e) {
       console.log(e);
     }
@@ -77,6 +78,10 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
 
     if (type === "UPDATE") {
       onUpdate(data);
+    }
+
+    if (type === "UPDATE_USERS_ONLINE") {
+      handleActiveUsers(data);
     }
   });
 

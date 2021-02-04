@@ -47,6 +47,18 @@ const STYLES_HEADER = css`
   }
 `;
 
+const STYLES_ACCESS = css`
+  box-sizing: border-box;
+  font-family: ${Constants.font.text};
+  font-size: ${Constants.typescale.lvl1};
+  color: ${Constants.system.black};
+  margin: 12px 0;
+  line-height: 1.5;
+  display: block;
+  width: 100%;
+  max-width: 800px;
+`;
+
 const STYLES_DESCRIPTION = css`
   box-sizing: border-box;
   font-family: ${Constants.font.text};
@@ -66,6 +78,7 @@ export const ScenePageHeader = (props) => {
     <header css={STYLES_ROOT} style={props.style}>
       <div css={STYLES_LEFT}>
         <div css={STYLES_HEADER}>{props.title}</div>
+        {props.privacy ? <div css={STYLES_ACCESS}>{props.privacy}</div> : null}
         <div css={STYLES_DESCRIPTION}>
           <ProcessedText text={props.children} />
         </div>

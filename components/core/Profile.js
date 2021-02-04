@@ -359,11 +359,7 @@ export default class Profile extends React.Component {
     const activeUsers = this.props.activeUsers;
     const userId = this.props.data.id;
 
-    if (activeUsers && activeUsers.includes(userId)) {
-      this.setState({ isOnline: true });
-    } else {
-      this.setState({ isOnline: false });
-    }
+    this.setState({ isOnline: activeUsers && activeUsers.includes(userId) });
   };
 
   render() {
@@ -525,7 +521,9 @@ export default class Profile extends React.Component {
               css={STYLES_PROFILE_IMAGE}
               style={{
                 backgroundImage: `url('${creator.data.photo}')`,
-                borderColor: this.state.isOnline ? `green` : `white`,
+                borderColor: this.state.isOnline
+                  ? Constants.system.newGreen
+                  : Constants.system.white,
               }}
             />
             <div css={STYLES_INFO}>

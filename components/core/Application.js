@@ -210,7 +210,7 @@ export default class ApplicationPage extends React.Component {
         resource: this.props.resources.pubsub,
         viewer: this.state.viewer,
         onUpdate: this._handleUpdateViewer,
-        handleActiveUsers: this._handleActiveUsers,
+        onNewActiveUser: this._handleActiveUsers,
       });
     }
     if (!wsclient) {

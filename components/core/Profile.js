@@ -232,7 +232,7 @@ const STYLES_COPY_INPUT = css`
   opacity: 0;
 `;
 
-function UserEntry({ user, button, onClick, message, external, url }) {
+function UserEntry({ user, button, onClick, message, external, url, userOnline }) {
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
       {external ? (
@@ -241,7 +241,13 @@ function UserEntry({ user, button, onClick, message, external, url }) {
             css={STYLES_DIRECTORY_PROFILE_IMAGE}
             style={{ backgroundImage: `url(${user.data.photo})` }}
           >
-            <div css={STYLES_DIRECTORY_STATUS_INDICATOR} />
+            <div
+              css={STYLES_DIRECTORY_STATUS_INDICATOR}
+              style={{
+                borderColor: userOnline && `${Constants.system.active}`,
+                backgroundColor: userOnline && `${Constants.system.active}`,
+              }}
+            />
           </div>
           <span css={STYLES_DIRECTORY_NAME}>
             {user.data.name || `@${user.username}`}
@@ -253,7 +259,15 @@ function UserEntry({ user, button, onClick, message, external, url }) {
           <div
             css={STYLES_DIRECTORY_PROFILE_IMAGE}
             style={{ backgroundImage: `url(${user.data.photo})` }}
-          />
+          >
+            <div
+              css={STYLES_DIRECTORY_STATUS_INDICATOR}
+              style={{
+                borderColor: userOnline && `${Constants.system.active}`,
+                backgroundColor: userOnline && `${Constants.system.active}`,
+              }}
+            />
+          </div>
           <span css={STYLES_DIRECTORY_NAME}>
             {user.data.name || `@${user.username}`}
             {message ? <span css={STYLES_MESSAGE}>{message}</span> : null}
@@ -454,6 +468,7 @@ export default class Profile extends React.Component {
                 key={relation.id}
                 user={relation.user}
                 button={button}
+                userOnline={this.state.isOnline}
                 onClick={() => {
                   this.props.onAction({
                     type: "NAVIGATE",
@@ -506,6 +521,7 @@ export default class Profile extends React.Component {
               key={relation.id}
               user={relation.owner}
               button={button}
+              userOnline={this.state.isOnline}
               onClick={() => {
                 this.props.onAction({
                   type: "NAVIGATE",

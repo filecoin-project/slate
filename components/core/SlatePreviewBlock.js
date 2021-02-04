@@ -143,10 +143,6 @@ const STYLES_TITLE_LINE = css`
   margin-bottom: 8px;
   overflow-wrap: break-word;
   justify-content: space-between;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    display: none;
-  }
 `;
 
 const STYLES_COPY_INPUT = css`
@@ -163,18 +159,6 @@ const STYLES_TAG = css`
   color: ${Constants.system.black};
   font-family: ${Constants.font.semiBold};
   font-size: 0.9rem;
-`;
-
-const STYLES_BODY_LINE = css`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  font-size: ${Constants.typescale.lvl1};
-  overflow-wrap: break-word;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    margin: 8px 0 16px 0;
-  }
 `;
 
 const STYLES_BODY = css`
@@ -317,6 +301,16 @@ export class SlatePreviewBlock extends React.Component {
               {this.props.slate.data.name}
             </div>
 
+            {this.props.isOwner && (
+              <div style={{ color: Constants.system.darkGray, margin: `2px 0 0 0` }}>
+                {this.props.isPublic ? (
+                  <SVG.Globe height="20px" />
+                ) : (
+                  <SVG.SecurityLock height="20px" />
+                )}
+              </div>
+            )}
+
             {this.props.isOwner ? (
               <div
                 style={{ marginLeft: "auto" }}
@@ -336,19 +330,8 @@ export class SlatePreviewBlock extends React.Component {
               </div>
             )}
           </div>
-          <div css={STYLES_BODY_LINE}>
-            {this.props.isOwner && (
-              <div style={{ color: Constants.system.darkGray, margin: `0 8px 16px 0` }}>
-                {this.props.isPublic ? (
-                  <SVG.Globe height="14px" />
-                ) : (
-                  <SVG.SecurityLock height="14px" />
-                )}
-              </div>
-            )}
-            <div css={STYLES_BODY}>
-              {this.props.slate.data.body ? this.props.slate.data.body : null}
-            </div>
+          <div css={STYLES_BODY}>
+            {this.props.slate.data.body ? this.props.slate.data.body : null}
           </div>
           {objects.length === 1 || (objects.length != 0 && count <= 3) ? (
             <div
@@ -405,20 +388,20 @@ export class SlatePreviewBlock extends React.Component {
           )}
         </span>
         <span css={STYLES_MOBILE_ONLY}>
-          <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
-          <div css={STYLES_BODY_LINE}>
+          <div css={STYLES_TITLE_LINE}>
+            <div css={STYLES_TITLE}>{this.props.slate.data.name}</div>
             {this.props.isOwner && (
-              <div style={{ color: Constants.system.darkGray, margin: `0 8px 0 0` }}>
+              <div style={{ color: Constants.system.darkGray, margin: `2px 0 0 0` }}>
                 {this.props.isPublic ? (
-                  <SVG.Globe height="14px" />
+                  <SVG.Globe height="20px" />
                 ) : (
-                  <SVG.SecurityLock height="14px" />
+                  <SVG.SecurityLock height="20px" />
                 )}
               </div>
             )}
-            <div css={STYLES_BODY}>
-              {this.props.slate.data.body ? this.props.slate.data.body : null}
-            </div>
+          </div>
+          <div css={STYLES_BODY}>
+            {this.props.slate.data.body ? this.props.slate.data.body : null}
           </div>
           <div
             style={{

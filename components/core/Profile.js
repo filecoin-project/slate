@@ -71,11 +71,22 @@ const STYLES_PROFILE_IMAGE = css`
   flex-shrink: 0;
   border-radius: 4px;
   margin: 0 auto;
-  border: 2px solid transparent;
+  position: relative;
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 64px;
     height: 64px;
   }
+`;
+
+const STYLES_STATUS_INDICATOR = css`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid ${Constants.system.gray50};
+  background-color: ${Constants.system.white};
 `;
 
 const STYLES_NAME = css`
@@ -184,6 +195,18 @@ const STYLES_DIRECTORY_PROFILE_IMAGE = css`
   width: 24px;
   margin-right: 16px;
   border-radius: 4px;
+  position: relative;
+`;
+
+const STYLES_DIRECTORY_STATUS_INDICATOR = css`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.2px solid ${Constants.system.gray50};
+  background-color: ${Constants.system.white};
 `;
 
 const STYLES_MESSAGE = css`
@@ -217,7 +240,9 @@ function UserEntry({ user, button, onClick, message, external, url }) {
           <div
             css={STYLES_DIRECTORY_PROFILE_IMAGE}
             style={{ backgroundImage: `url(${user.data.photo})` }}
-          />
+          >
+            <div css={STYLES_DIRECTORY_STATUS_INDICATOR} />
+          </div>
           <span css={STYLES_DIRECTORY_NAME}>
             {user.data.name || `@${user.username}`}
             {message ? <span css={STYLES_MESSAGE}>{message}</span> : null}
@@ -357,13 +382,12 @@ export default class Profile extends React.Component {
 
   checkStatus = () => {
     const activeUsers = this.props.activeUsers;
-    const userId = this.props.data.id;
+    const userId = this.props.data?.id;
 
     this.setState({ isOnline: activeUsers && activeUsers.includes(userId) });
   };
 
   render() {
-    console.log(this.state.isOnline);
     let tab = typeof this.state.tab === "undefined" || this.state.tab === null ? 1 : this.state.tab;
     let isOwner = this.props.isOwner;
     let creator = this.props.creator;
@@ -521,11 +545,16 @@ export default class Profile extends React.Component {
               css={STYLES_PROFILE_IMAGE}
               style={{
                 backgroundImage: `url('${creator.data.photo}')`,
-                borderColor: this.state.isOnline
-                  ? Constants.system.newGreen
-                  : Constants.system.white,
               }}
-            />
+            >
+              <div
+                css={STYLES_STATUS_INDICATOR}
+                style={{
+                  borderColor: this.state.isOnline && `${Constants.system.active}`,
+                  backgroundColor: this.state.isOnline && `${Constants.system.active}`,
+                }}
+              />
+            </div>
             <div css={STYLES_INFO}>
               <div css={STYLES_NAME}>{Strings.getPresentationName(creator)}</div>
               {!isOwner && (

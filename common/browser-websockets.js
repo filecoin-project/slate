@@ -63,7 +63,6 @@ export const init = ({ resource = "", viewer, onUpdate, onNewActiveUser }) => {
       const response = JSON.parse(event.data);
       type = response.type;
       data = response.data;
-      console.log(data);
     } catch (e) {
       console.log(e);
     }

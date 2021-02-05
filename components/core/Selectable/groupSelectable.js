@@ -40,7 +40,7 @@ const _getInitialCoords = (element) => {
   };
 };
 
-const GroupSelectable = ({ onSelection, enabled = true, children }) => {
+const GroupSelectable = ({ onSelection, onSelectionStarted, enabled = true, children }) => {
   const [state, setState] = React.useState({
     isBoxSelecting: false,
     boxHeight: 0,
@@ -109,6 +109,9 @@ const GroupSelectable = ({ onSelection, enabled = true, children }) => {
 
   const _mousedown = (e) => {
     e.preventDefault();
+
+    if (typeof onSelectionStarted === "function") onSelectionStarted(e);
+
     window.addEventListener("mouseup", _mouseUp);
 
     // Right clicks

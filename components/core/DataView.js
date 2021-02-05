@@ -209,6 +209,7 @@ export default class DataView extends React.Component {
     menu: null,
     checked: {},
     viewLimit: 40,
+    isDragging: false,
     scrollDebounce: false,
     imageSize: 100,
   };
@@ -285,8 +286,11 @@ export default class DataView extends React.Component {
   };
 
   _handleDragAndSelect = (e) => {
-    const selectedItems = e.reduce((acc, i) => ({ ...acc, [i]: true }), {});
-    this.setState({ checked: { ...this.state.checked, ...selectedItems } });
+    let selectedItems = {};
+    for (const i of e) {
+      selectedItems[i] = true;
+    }
+    this.setState({ checked: { ...this.state.checked, ...selectedItems }, isDragging: false });
   };
 
   _handleKeyUp = (e) => {
@@ -383,6 +387,16 @@ export default class DataView extends React.Component {
       name: "slate-global-open-carousel",
       detail: { index },
     });
+  };
+
+  _handleCheckBoxMouseEnter = (i) => {
+    if (this.state.isDragging) return;
+    this.setState({ hover: i });
+  };
+
+  _handleCheckBoxMouseLeave = (i) => {
+    if (this.state.isDragging) return;
+    this.setState({ hover: null });
   };
 
   _handleCopy = (e, value) => {
@@ -495,128 +509,133 @@ export default class DataView extends React.Component {
       </React.Fragment>
     );
     if (this.props.view === 0) {
+      console.log(this.state.isDragging);
       return (
         <React.Fragment>
-          <GroupSelectable enabled={true} onSelection={this._handleDragAndSelect}>
+          <GroupSelectable
+            onSelectionStarted={() => this.setState({ isDragging: true })}
+            onSelection={this._handleDragAndSelect}
+          >
             <div css={STYLES_IMAGE_GRID} ref={this.gridWrapperEl}>
               {this.props.items.slice(0, this.state.viewLimit).map((each, i) => {
                 const cid = each.cid;
                 return (
-                  <Selectable key={each.id} selectableKey={i}>
-                    <div
-                      css={STYLES_IMAGE_BOX}
-                      style={{
-                        width: this.state.imageSize,
-                        height: this.state.imageSize,
-                        boxShadow: numChecked
-                          ? `0px 0px 0px 1px ${Constants.system.lightBorder} inset,
+                  <Selectable
+                    key={each.id}
+                    selectableKey={i}
+                    css={STYLES_IMAGE_BOX}
+                    style={{
+                      width: this.state.imageSize,
+                      height: this.state.imageSize,
+                      cursor: this.state.isDragging ? "default" : "pointer",
+                      boxShadow: numChecked
+                        ? `0px 0px 0px 1px ${Constants.system.lightBorder} inset,
       0 0 40px 0 ${Constants.system.shadow}`
-                          : "",
-                      }}
-                      onClick={() => this._handleSelect(i)}
-                      onMouseEnter={() => this.setState({ hover: i })}
-                      onMouseLeave={() => this.setState({ hover: null })}
-                    >
-                      <SlateMediaObjectPreview
-                        blurhash={each.blurhash}
-                        url={Strings.getCIDGatewayURL(each.cid)}
-                        title={each.file || each.name}
-                        type={each.type}
-                        coverImage={each.coverImage}
-                        dataView={true}
-                      />
-                      <span css={STYLES_MOBILE_HIDDEN}>
-                        {numChecked || this.state.hover === i || this.state.menu === each.id ? (
-                          <React.Fragment>
-                            <div
-                              css={STYLES_ICON_BOX_BACKGROUND}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                this.setState({
-                                  menu: this.state.menu === each.id ? null : each.id,
-                                });
-                              }}
-                            >
-                              <SVG.MoreHorizontal height="24px" />
-                              {this.state.menu === each.id ? (
-                                <Boundary
-                                  captureResize={true}
-                                  captureScroll={false}
-                                  enabled
-                                  onOutsideRectEvent={this._handleHide}
-                                >
-                                  {this.props.isOwner ? (
-                                    <PopoverNavigation
-                                      style={{
-                                        top: "32px",
-                                        right: "0px",
-                                      }}
-                                      navigation={[
-                                        {
-                                          text: "Copy CID",
-                                          onClick: (e) => this._handleCopy(e, cid),
+                        : "",
+                    }}
+                    onClick={() => this._handleSelect(i)}
+                    onMouseEnter={() => this._handleCheckBoxMouseEnter(i)}
+                    onMouseLeave={() => this._handleCheckBoxMouseLeave(i)}
+                  >
+                    <SlateMediaObjectPreview
+                      blurhash={each.blurhash}
+                      url={Strings.getCIDGatewayURL(each.cid)}
+                      title={each.file || each.name}
+                      type={each.type}
+                      coverImage={each.coverImage}
+                      dataView={true}
+                    />
+                    <span css={STYLES_MOBILE_HIDDEN}>
+                      {numChecked || this.state.hover === i || this.state.menu === each.id ? (
+                        <React.Fragment>
+                          <div
+                            css={STYLES_ICON_BOX_BACKGROUND}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              this.setState({
+                                menu: this.state.menu === each.id ? null : each.id,
+                              });
+                            }}
+                          >
+                            <SVG.MoreHorizontal height="24px" />
+                            {this.state.menu === each.id ? (
+                              <Boundary
+                                captureResize={true}
+                                captureScroll={false}
+                                enabled
+                                onOutsideRectEvent={this._handleHide}
+                              >
+                                {this.props.isOwner ? (
+                                  <PopoverNavigation
+                                    style={{
+                                      top: "32px",
+                                      right: "0px",
+                                    }}
+                                    navigation={[
+                                      {
+                                        text: "Copy CID",
+                                        onClick: (e) => this._handleCopy(e, cid),
+                                      },
+                                      {
+                                        text: "Copy link",
+                                        onClick: (e) =>
+                                          this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
+                                      },
+                                      {
+                                        text: "Delete",
+                                        onClick: (e) => {
+                                          e.stopPropagation();
+                                          this.setState({ menu: null }, () =>
+                                            this._handleDelete(cid, each.id)
+                                          );
                                         },
-                                        {
-                                          text: "Copy link",
-                                          onClick: (e) =>
-                                            this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
-                                        },
-                                        {
-                                          text: "Delete",
-                                          onClick: (e) => {
-                                            e.stopPropagation();
-                                            this.setState({ menu: null }, () =>
-                                              this._handleDelete(cid, each.id)
-                                            );
-                                          },
-                                        },
-                                      ]}
-                                    />
-                                  ) : (
-                                    <PopoverNavigation
-                                      style={{
-                                        top: "32px",
-                                        right: "0px",
-                                      }}
-                                      navigation={[
-                                        {
-                                          text: "Copy CID",
-                                          onClick: (e) => this._handleCopy(e, cid),
-                                        },
-                                        {
-                                          text: "Copy link",
-                                          onClick: (e) =>
-                                            this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
-                                        },
-                                      ]}
-                                    />
-                                  )}
-                                </Boundary>
-                              ) : null}
-                            </div>
+                                      },
+                                    ]}
+                                  />
+                                ) : (
+                                  <PopoverNavigation
+                                    style={{
+                                      top: "32px",
+                                      right: "0px",
+                                    }}
+                                    navigation={[
+                                      {
+                                        text: "Copy CID",
+                                        onClick: (e) => this._handleCopy(e, cid),
+                                      },
+                                      {
+                                        text: "Copy link",
+                                        onClick: (e) =>
+                                          this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
+                                      },
+                                    ]}
+                                  />
+                                )}
+                              </Boundary>
+                            ) : null}
+                          </div>
 
-                            <div onClick={(e) => this._handleCheckBox(e, i)}>
-                              <CheckBox
-                                name={i}
-                                value={!!this.state.checked[i]}
-                                boxStyle={{
-                                  height: 24,
-                                  width: 24,
-                                  backgroundColor: this.state.checked[i]
-                                    ? Constants.system.brand
-                                    : "rgba(255, 255, 255, 0.75)",
-                                }}
-                                style={{
-                                  position: "absolute",
-                                  bottom: 8,
-                                  left: 8,
-                                }}
-                              />
-                            </div>
-                          </React.Fragment>
-                        ) : null}
-                      </span>
-                    </div>
+                          <div onClick={(e) => this._handleCheckBox(e, i)}>
+                            <CheckBox
+                              name={i}
+                              value={!!this.state.checked[i]}
+                              boxStyle={{
+                                height: 24,
+                                width: 24,
+                                backgroundColor: this.state.checked[i]
+                                  ? Constants.system.brand
+                                  : "rgba(255, 255, 255, 0.75)",
+                              }}
+                              style={{
+                                position: "absolute",
+                                bottom: 8,
+                                left: 8,
+                              }}
+                            />
+                          </div>
+                        </React.Fragment>
+                      ) : null}
+                    </span>
                   </Selectable>
                 );
               })}
@@ -697,14 +716,16 @@ export default class DataView extends React.Component {
           </div>
         ),
         name: (
-          <FilePreviewBubble url={cid} type={each.type}>
-            <div css={STYLES_CONTAINER_HOVER} onClick={() => this._handleSelect(index)}>
-              <div css={STYLES_ICON_BOX_HOVER} style={{ paddingLeft: 0, paddingRight: 18 }}>
-                <FileTypeIcon type={each.type} height="24px" />
+          <Selectable key={each.id} selectableKey={index}>
+            <FilePreviewBubble url={cid} type={each.type}>
+              <div css={STYLES_CONTAINER_HOVER} onClick={() => this._handleSelect(index)}>
+                <div css={STYLES_ICON_BOX_HOVER} style={{ paddingLeft: 0, paddingRight: 18 }}>
+                  <FileTypeIcon type={each.type} height="24px" />
+                </div>
+                <div css={STYLES_LINK}>{each.file || each.name}</div>
               </div>
-              <div css={STYLES_LINK}>{each.file || each.name}</div>
-            </div>
-          </FilePreviewBubble>
+            </FilePreviewBubble>
+          </Selectable>
         ),
         size: <div css={STYLES_VALUE}>{Strings.bytesToSize(each.size)}</div>,
         more: (
@@ -761,22 +782,28 @@ export default class DataView extends React.Component {
 
     return (
       <React.Fragment>
-        <Table
-          data={data}
-          rowStyle={{
-            padding: "10px 16px",
-            textAlign: "left",
-            backgroundColor: Constants.system.white,
-          }}
-          topRowStyle={{
-            padding: "0px 16px",
-            textAlign: "left",
-            backgroundColor: Constants.system.white,
-          }}
-          onMouseEnter={(i) => this.setState({ hover: i })}
-          onMouseLeave={() => this.setState({ hover: null })}
-          isShiftDown={this.isShiftDown}
-        />
+        <GroupSelectable
+          enabled={true}
+          onSelectionStarted={() => this.setState({ isDragging: true })}
+          onSelection={this._handleDragAndSelect}
+        >
+          <Table
+            data={data}
+            rowStyle={{
+              padding: "10px 16px",
+              textAlign: "left",
+              backgroundColor: Constants.system.white,
+            }}
+            topRowStyle={{
+              padding: "0px 16px",
+              textAlign: "left",
+              backgroundColor: Constants.system.white,
+            }}
+            onMouseEnter={(i) => this._handleCheckBoxMouseEnter(i)}
+            onMouseLeave={() => this._handleCheckBoxMouseEnter()}
+            isShiftDown={this.isShiftDown}
+          />
+        </GroupSelectable>
         {footer}
         <input
           ref={(c) => {

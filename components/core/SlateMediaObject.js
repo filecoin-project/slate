@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Document, Page } from "react-pdf";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 
@@ -55,7 +56,18 @@ const typeMap = {
 };
 
 export default class SlateMediaObject extends React.Component {
+  state = {
+    numPages: 0,
+  }
+
+  onDocumentLoadSuccess({ numPages }) {
+    this.setState({
+      numPages
+    })
+  }
+
   render() {
+    const { numPages } = this.state;
     const url = this.props.data.url;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
     const playType = typeMap[type] ? typeMap[type] : type;
@@ -64,16 +76,28 @@ export default class SlateMediaObject extends React.Component {
 
     if (type.startsWith("application/pdf")) {
       return (
-        <object
-          css={STYLES_OBJECT}
-          style={{ width: "calc(100% - 64px)" }}
-          data={url}
-          type={type}
-          key={url}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        />
+        <div css={STYLES_ASSET} style={{ width: "calc(100% - 64px)" }>
+          <Document
+            file={url}
+            key={url}
+            onLoadSuccess={this.onDocumentLoadSuccess}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            {
+              Array.from(
+                new Array(numPages),
+                (el, index) => (
+                  <Page
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1}
+                  />
+                ),
+              )
+            }
+          </Document>
+        </div>
       );
     }
 

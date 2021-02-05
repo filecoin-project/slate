@@ -13,6 +13,7 @@ import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 import { ButtonPrimary, ButtonSecondary } from "~/components/system/components/Buttons";
+import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 
 import ProcessedText from "~/components/core/ProcessedText";
 import ScenePage from "~/components/core/ScenePage";
@@ -361,35 +362,48 @@ class SlatePage extends React.Component {
         </ScenePageHeader>
         <span css={STYLES_MOBILE_ONLY}>{actions}</span>
         {objects && objects.length ? (
-          this.props.mobile ? (
-            <SlateLayoutMobile
+          <>
+            <GlobalCarousel
+              carouselType="SLATE"
+              onUpdateViewer={this.props.onUpdateViewer}
+              viewer={this.props.viewer}
+              objects={objects}
+              current={this.props.current}
+              onAction={this.props.onAction}
+              mobile={this.props.mobile}
               isOwner={isOwner}
-              items={objects}
-              fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
-              onSelect={this._handleSelect}
+              external={this.props.external}
             />
-          ) : (
-            <div style={{ marginTop: isOwner ? 24 : 48 }}>
-              <SlateLayout
-                key={this.props.current.id}
-                current={this.props.current}
-                onUpdateViewer={this.props.onUpdateViewer}
-                viewer={this.props.viewer}
-                slateId={this.props.current.id}
-                layout={layouts && layouts.ver === "2.0" ? layouts.layout || [] : null}
-                onSaveLayout={this._handleSaveLayout}
-                onSave={this._handleSave}
+            {this.props.mobile ? (
+              <SlateLayoutMobile
                 isOwner={isOwner}
-                fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
-                preview={preview}
-                onSavePreview={(preview) => this._handleSave(null, null, null, false, preview)}
                 items={objects}
+                fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
                 onSelect={this._handleSelect}
-                defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
-                onAction={this.props.onAction}
               />
-            </div>
-          )
+            ) : (
+              <div style={{ marginTop: isOwner ? 24 : 48 }}>
+                <SlateLayout
+                  key={this.props.current.id}
+                  current={this.props.current}
+                  onUpdateViewer={this.props.onUpdateViewer}
+                  viewer={this.props.viewer}
+                  slateId={this.props.current.id}
+                  layout={layouts && layouts.ver === "2.0" ? layouts.layout || [] : null}
+                  onSaveLayout={this._handleSaveLayout}
+                  onSave={this._handleSave}
+                  isOwner={isOwner}
+                  fileNames={layouts && layouts.ver === "2.0" ? layouts.fileNames : false}
+                  preview={preview}
+                  onSavePreview={(preview) => this._handleSave(null, null, null, false, preview)}
+                  items={objects}
+                  onSelect={this._handleSelect}
+                  defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
+                  onAction={this.props.onAction}
+                />
+              </div>
+            )}
+          </>
         ) : isOwner ? (
           <div>
             <EmptyState>

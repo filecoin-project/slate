@@ -1098,17 +1098,6 @@ export class SlateLayout extends React.Component {
     let unit = this.state.unit;
     return (
       <div>
-        <GlobalCarousel
-          carouselType="SLATE"
-          onUpdateViewer={this.props.onUpdateViewer}
-          viewer={this.props.viewer}
-          objects={this.state.items}
-          current={this.props.current}
-          onAction={this.props.onAction}
-          mobile={this.props.mobile}
-          isOwner={this.props.isOwner}
-          external={this.props.external}
-        />
         {this.props.isOwner ? (
           this.state.editing ? (
             <div

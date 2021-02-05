@@ -232,7 +232,16 @@ const STYLES_COPY_INPUT = css`
   opacity: 0;
 `;
 
-function UserEntry({ user, button, onClick, message, external, url, userOnline }) {
+function UserEntry({
+  user,
+  button,
+  onClick,
+  message,
+  external,
+  url,
+  userOnline,
+  showStatusIndicator,
+}) {
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
       {external ? (
@@ -241,13 +250,15 @@ function UserEntry({ user, button, onClick, message, external, url, userOnline }
             css={STYLES_DIRECTORY_PROFILE_IMAGE}
             style={{ backgroundImage: `url(${user.data.photo})` }}
           >
-            <div
-              css={STYLES_DIRECTORY_STATUS_INDICATOR}
-              style={{
-                borderColor: userOnline && `${Constants.system.active}`,
-                backgroundColor: userOnline && `${Constants.system.active}`,
-              }}
-            />
+            {showStatusIndicator && (
+              <div
+                css={STYLES_DIRECTORY_STATUS_INDICATOR}
+                style={{
+                  borderColor: userOnline && `${Constants.system.active}`,
+                  backgroundColor: userOnline && `${Constants.system.active}`,
+                }}
+              />
+            )}
           </div>
           <span css={STYLES_DIRECTORY_NAME}>
             {user.data.name || `@${user.username}`}
@@ -469,6 +480,7 @@ export default class Profile extends React.Component {
                 user={relation.user}
                 button={button}
                 userOnline={this.state.isOnline}
+                showStatusIndicator={this.props.isAuthenticated}
                 onClick={() => {
                   this.props.onAction({
                     type: "NAVIGATE",
@@ -522,6 +534,7 @@ export default class Profile extends React.Component {
               user={relation.owner}
               button={button}
               userOnline={this.state.isOnline}
+              showStatusIndicator={this.props.isAuthenticated}
               onClick={() => {
                 this.props.onAction({
                   type: "NAVIGATE",
@@ -541,6 +554,8 @@ export default class Profile extends React.Component {
     let total = creator.slates.reduce((total, slate) => {
       return total + slate.data?.objects?.length || 0;
     }, 0);
+
+    const showStatusIndicator = this.props.isAuthenticated;
 
     return (
       <div>
@@ -563,13 +578,15 @@ export default class Profile extends React.Component {
                 backgroundImage: `url('${creator.data.photo}')`,
               }}
             >
-              <div
-                css={STYLES_STATUS_INDICATOR}
-                style={{
-                  borderColor: this.state.isOnline && `${Constants.system.active}`,
-                  backgroundColor: this.state.isOnline && `${Constants.system.active}`,
-                }}
-              />
+              {showStatusIndicator && (
+                <div
+                  css={STYLES_STATUS_INDICATOR}
+                  style={{
+                    borderColor: this.state.isOnline && `${Constants.system.active}`,
+                    backgroundColor: this.state.isOnline && `${Constants.system.active}`,
+                  }}
+                />
+              )}
             </div>
             <div css={STYLES_INFO}>
               <div css={STYLES_NAME}>{Strings.getPresentationName(creator)}</div>

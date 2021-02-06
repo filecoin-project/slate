@@ -81,6 +81,18 @@ const STYLES_PROFILE_IMAGE = css`
   width: 24px;
   margin-right: 16px;
   border-radius: 4px;
+  position: relative;
+`;
+
+const STYLES_STATUS_INDICATOR = css`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 2px solid ${Constants.system.gray50};
+  background-color: ${Constants.system.white};
 `;
 
 const STYLES_MESSAGE = css`
@@ -100,11 +112,19 @@ const STYLES_NAME = css`
   text-overflow: ellipsis;
 `;
 
-function UserEntry({ user, button, onClick, message }) {
+function UserEntry({ user, button, onClick, message, userOnline }) {
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
       <div css={STYLES_USER} onClick={onClick}>
-        <div css={STYLES_PROFILE_IMAGE} style={{ backgroundImage: `url(${user.data.photo})` }} />
+        <div css={STYLES_PROFILE_IMAGE} style={{ backgroundImage: `url(${user.data.photo})` }}>
+          <div
+            css={STYLES_STATUS_INDICATOR}
+            style={{
+              borderColor: userOnline && `${Constants.system.active}`,
+              backgroundColor: userOnline && `${Constants.system.active}`,
+            }}
+          />
+        </div>
         <span css={STYLES_NAME}>
           {user.data.name || `@${user.username}`}
           {message ? <span css={STYLES_MESSAGE}>{message}</span> : null}
@@ -139,6 +159,11 @@ export default class SceneDirectory extends React.Component {
   state = {
     copyValue: "",
     contextMenu: null,
+    isOnline: false,
+  };
+
+  componentDidMount = () => {
+    this.checkStatus();
   };
 
   _handleCopy = (e, value) => {
@@ -169,6 +194,13 @@ export default class SceneDirectory extends React.Component {
     await Actions.createSubscription({
       userId: id,
     });
+  };
+
+  checkStatus = () => {
+    const activeUsers = this.props.activeUsers;
+    const userId = this.props.data?.id;
+
+    this.setState({ isOnline: activeUsers && activeUsers.includes(userId) });
   };
 
   render() {
@@ -208,6 +240,7 @@ export default class SceneDirectory extends React.Component {
             key={relation.id}
             user={relation.user}
             button={button}
+            userOnline={this.state.isOnline}
             onClick={() => {
               this.props.onAction({
                 type: "NAVIGATE",
@@ -256,6 +289,7 @@ export default class SceneDirectory extends React.Component {
           key={relation.id}
           user={relation.owner}
           button={button}
+          userOnline={this.state.isOnline}
           onClick={() => {
             this.props.onAction({
               type: "NAVIGATE",

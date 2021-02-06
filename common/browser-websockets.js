@@ -8,7 +8,7 @@ let savedResource = null;
 let savedViewer = null;
 let savedOnUpdate = null;
 
-export const init = ({ resource = "", viewer, onUpdate }) => {
+export const init = ({ resource = "", viewer, onUpdate, onNewActiveUser }) => {
   savedResource = resource;
   savedViewer = viewer;
   savedOnUpdate = onUpdate;
@@ -77,6 +77,10 @@ export const init = ({ resource = "", viewer, onUpdate }) => {
 
     if (type === "UPDATE") {
       onUpdate(data);
+    }
+
+    if (type === "UPDATE_USERS_ONLINE") {
+      onNewActiveUser(data);
     }
   });
 

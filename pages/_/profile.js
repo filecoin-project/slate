@@ -68,6 +68,7 @@ export default class ProfilePage extends React.Component {
             page={this.state.page}
             buttons={buttons}
             isOwner={false}
+            isAuthenticated={this.props.viewer !== null}
             external
           />
         </div>

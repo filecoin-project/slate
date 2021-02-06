@@ -105,6 +105,7 @@ export default class ApplicationPage extends React.Component {
     online: null,
     mobile: this.props.mobile,
     loaded: false,
+    activeUsers: null,
   };
 
   async componentDidMount() {
@@ -209,6 +210,7 @@ export default class ApplicationPage extends React.Component {
         resource: this.props.resources.pubsub,
         viewer: this.state.viewer,
         onUpdate: this._handleUpdateViewer,
+        onNewActiveUser: this._handleNewActiveUser,
       });
     }
     if (!wsclient) {
@@ -218,6 +220,10 @@ export default class ApplicationPage extends React.Component {
       });
     }
     return;
+  };
+
+  _handleNewActiveUser = (users) => {
+    this.setState({ activeUsers: users });
   };
 
   _handleWindowResize = () => {
@@ -631,6 +637,7 @@ export default class ApplicationPage extends React.Component {
       sceneId: current.target.id,
       mobile: this.state.mobile,
       resources: this.props.resources,
+      activeUsers: this.state.activeUsers,
     });
 
     let sidebarElement;

@@ -57,6 +57,7 @@ export const system = {
   white: "#FFFFFF",
   bgBlurGrayBlack: "rgba(15, 14, 18, 0.8)",
   bgBlurBlack: "rgba(15, 14, 18, 0.9)",
+  active: "#00BB00",
 };
 
 export const shadow = {

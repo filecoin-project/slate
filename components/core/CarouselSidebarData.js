@@ -578,7 +578,7 @@ export default class CarouselSidebarData extends React.Component {
             </div>
           </div>
         )}
-        {this.props.isOwner && type?.startsWith("video/") ? (
+        {this.props.isOwner ? (
           <React.Fragment>
             <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
               Visibility
@@ -594,7 +594,7 @@ export default class CarouselSidebarData extends React.Component {
             </div>
           </React.Fragment>
         ) : null}
-        {this.props.isOwner ? (
+        {this.props.isOwner && type?.startsWith("video/") ? (
           <React.Fragment>
             <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
               Settings

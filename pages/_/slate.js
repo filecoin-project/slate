@@ -12,6 +12,7 @@ import { css } from "@emotion/react";
 import { ViewAllButton } from "~/components/core/ViewAll";
 import { SlateLayout } from "~/components/core/SlateLayout";
 import { SlateLayoutMobile } from "~/components/core/SlateLayoutMobile";
+import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { GlobalModal } from "~/components/system/components/GlobalModal";
 
 import ProcessedText from "~/components/core/ProcessedText";
@@ -308,6 +309,14 @@ export default class SlatePage extends React.Component {
             </div>
           </div>
           <div css={STYLES_SLATE}>
+            <GlobalCarousel
+              carouselType="SLATE"
+              viewer={this.props.viewer}
+              objects={objects}
+              mobile={this.props.mobile}
+              isOwner={false}
+              external
+            />
             {this.props.mobile ? (
               <SlateLayoutMobile
                 isOwner={false}

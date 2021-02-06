@@ -46,25 +46,35 @@ const STYLES_ROOT = css`
   }
 `;
 
+const STYLES_HEADER = css`
+  padding: 32px 32px 0px 32px;
+  display: flex;
+  align-item: baseline;
+  max-width: 100%;
+  justify-content: space-between;
+
+  @media (max-width: ${Constants.sizes.mobile}px) {
+    display: block;
+    padding: 24px 24px 0px 24px;
+  }
+`;
+
 const STYLES_SLATE_INTRO = css`
-  width: 100%;
-  padding: 16px 32px 0px 32px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   flex-shrink: 0;
   display: block;
-  width: 50%;
+  max-width: 85%;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    padding: 24px 24px 0px 24px;
-    width: 100%;
+    display: block;
+    margin-bottom: 24px;
   }
 `;
 
 const STYLES_TITLELINE = css`
   display: flex;
-  align-items: flex-end;
-  line-height: 1.3;
+  align-items: flex-start;
   word-wrap: break-word;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
@@ -94,22 +104,18 @@ const STYLES_TITLE = css`
   max-width: 100%;
   margin-right: 24px;
   word-wrap: break-word;
-
-  @media (max-width: ${Constants.sizes.mobile}px) {
-    font-size: ${Constants.typescale.lvl3};
-  }
 `;
 
 const STYLES_DESCRIPTION = css`
   font-size: ${Constants.typescale.lvl0};
   color: ${Constants.system.darkGray};
-  width: 100%;
+  width: 50%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   margin-top: 16px;
 
   @media (max-width: ${Constants.sizes.mobile}px) {
-    margin-top: 24px;
+    width: 100%;
   }
 `;
 
@@ -225,7 +231,7 @@ export default class SlatePage extends React.Component {
     let headerURL = `https://slate.host/${this.props.creator.username}`;
 
     let { objects, layouts, body, preview } = this.props.slate.data;
-
+    let isPublic = this.props.slate.data.public;
     let image;
     if (Strings.isEmpty(this.props.cid)) {
       image = preview;
@@ -278,34 +284,38 @@ export default class SlatePage extends React.Component {
       <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
-          <div css={STYLES_SLATE_INTRO}>
-            <div css={STYLES_TITLELINE}>
-              <a css={STYLES_CREATOR} href={`/${this.props.creator.username}`}>
-                {slateCreator}
-              </a>
-              <div css={STYLES_TITLE}>{slateTitle} </div>
-              <ButtonSecondary onClick={() => this.setState({ visible: true })}>
-                Follow
-              </ButtonSecondary>
-            </div>
-            <div css={STYLES_DESCRIPTION}>
-              <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
-                <ProcessedText text={this.props.slate.data.body} />
-              </ViewAllButton>
-            </div>
-            <div css={STYLES_STATS}>
-              <div css={STYLES_STAT}>
-                <div style={{ fontFamily: `${Constants.font.medium}` }}>
-                  {this.props.slate.data.objects.length}{" "}
-                  <span style={{ color: `${Constants.system.darkGray}` }}>Files</span>
-                </div>
+          <div css={STYLES_HEADER}>
+            <div css={STYLES_SLATE_INTRO}>
+              <div css={STYLES_TITLELINE}>
+                <a css={STYLES_CREATOR} href={`/${this.props.creator.username}`}>
+                  {slateCreator}
+                </a>
+                <div css={STYLES_TITLE}>{slateTitle} </div>
               </div>
-              {/* <div css={STYLES_STAT}>
+              <div css={STYLES_DESCRIPTION}>
+                <ViewAllButton fullText={this.props.slate.data.body} maxCharacter={208}>
+                  <ProcessedText text={this.props.slate.data.body} />
+                </ViewAllButton>
+              </div>
+              <div css={STYLES_STATS}>
+                <div css={STYLES_STAT}>
+                  <div style={{ fontFamily: `${Constants.font.medium}` }}>
+                    {this.props.slate.data.objects.length}{" "}
+                    <span style={{ color: `${Constants.system.darkGray}` }}>Files</span>
+                  </div>
+                </div>
+                {/* <div css={STYLES_STAT}>
                 <div style={{ fontFamily: `${Constants.font.medium}` }}>
                   {contributorsCount}{" "}
                   <span style={{ color: `${Constants.system.darkGray}` }}>Contributors</span>
                 </div>
               </div> */}
+              </div>
+            </div>
+            <div>
+              <ButtonSecondary onClick={() => this.setState({ visible: true })}>
+                Follow
+              </ButtonSecondary>
             </div>
           </div>
           <div css={STYLES_SLATE}>

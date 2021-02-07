@@ -327,8 +327,7 @@ export default class Profile extends React.Component {
 
   fetchSocial = async () => {
     let query = { userId: this.props.creator.id };
-    const { subscribers } = await Actions.getSocial(query);
-    const { subscriptions } = await Actions.getSocial(query);
+    const { subscribers, subscriptions } = await Actions.getSocial(query);
     this.setState({ subscribers: subscribers, subscriptions: subscriptions, fetched: true });
   };
 

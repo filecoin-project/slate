@@ -404,8 +404,6 @@ export default class ApplicationPage extends React.Component {
     e.preventDefault();
   };
 
-  _handleSignOut = async () => await UserBehaviors.signOut();
-
   _handleCreateUser = async (state) => {
     let response = await Actions.createUser(state);
 

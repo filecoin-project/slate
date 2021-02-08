@@ -509,7 +509,6 @@ export default class DataView extends React.Component {
       </React.Fragment>
     );
     if (this.props.view === 0) {
-      console.log(this.state.isDragging);
       return (
         <React.Fragment>
           <GroupSelectable

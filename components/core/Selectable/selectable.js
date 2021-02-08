@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelectable } from "./groupSelectable";
+
 export default function Selectable({ children, selectableKey, ...props }) {
   const ref = React.useRef();
   const selectable = useSelectable();
@@ -10,7 +11,7 @@ export default function Selectable({ children, selectableKey, ...props }) {
     }
   });
   return (
-    <div ref={ref} {...props}>
+    <div ref={ref} style={{ pointerEvents: selectable?.enabled ? "none" : "auto" }} {...props}>
       {children}
     </div>
   );

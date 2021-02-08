@@ -40,7 +40,26 @@ const _getInitialCoords = (element) => {
   };
 };
 
-const GroupSelectable = ({ onSelection, onSelectionStarted, enabled = true, children }) => {
+const useKeyDown = (id) => {
+  const [isKeyDown, setKeyDownBool] = React.useState(false);
+  const _handleKeyDown = (e) => {
+    if (e.keyCode === id) setKeyDownBool(true);
+  };
+  const _handleKeyUp = (e) => {
+    if (e.keyCode === id) setKeyDownBool(false);
+  };
+  React.useEffect(() => {
+    window.addEventListener("keydown", _handleKeyDown);
+    window.addEventListener("keyup", _handleKeyUp);
+    return () => {
+      window.removeEventListener("keydown", _handleKeyDown);
+      window.removeEventListener("keyup", _handleKeyUp);
+    };
+  }, []);
+  return isKeyDown;
+};
+
+const GroupSelectable = ({ onSelection, onSelectionStarted, children, ...props }) => {
   const [state, setState] = React.useState({
     isBoxSelecting: false,
     boxHeight: 0,
@@ -55,6 +74,8 @@ const GroupSelectable = ({ onSelection, onSelectionStarted, enabled = true, chil
     rect: null,
     registery: [],
   });
+
+  const enabled = useKeyDown(16);
 
   React.useEffect(() => {
     if (!ref.current) return;
@@ -143,30 +164,17 @@ const GroupSelectable = ({ onSelection, onSelectionStarted, enabled = true, chil
     });
   };
 
-  if (!enabled) {
-    return children;
-  }
-
   const { isBoxSelecting, boxLeft, boxTop, boxWidth, boxHeight } = state;
-  const boxStyle = {
-    zIndex: 9000,
-    position: "absolute",
-    cursor: "default",
-  };
 
   return (
     <Context.Provider
       value={{
         register: _registerSelectable,
         unregister: _unregisterUnselectable,
+        enabled,
       }}
     >
-      <div
-        css={GROUP_WRAPPER}
-        ref={(inRef) => {
-          ref.current = inRef;
-        }}
-      >
+      <div css={GROUP_WRAPPER} ref={ref} {...props}>
         {isBoxSelecting ? (
           <div
             css={SELECTION_BOX_WRAPPER}
@@ -176,7 +184,7 @@ const GroupSelectable = ({ onSelection, onSelectionStarted, enabled = true, chil
             <span css={SELECTION_BOX_INNER} />
           </div>
         ) : null}
-        {children}
+        <div>{children}</div>
       </div>
     </Context.Provider>
   );

@@ -390,12 +390,10 @@ export default class DataView extends React.Component {
   };
 
   _handleCheckBoxMouseEnter = (i) => {
-    if (this.state.isDragging) return;
     this.setState({ hover: i });
   };
 
   _handleCheckBoxMouseLeave = (i) => {
-    if (this.state.isDragging) return;
     this.setState({ hover: null });
   };
 
@@ -526,7 +524,6 @@ export default class DataView extends React.Component {
                     style={{
                       width: this.state.imageSize,
                       height: this.state.imageSize,
-                      cursor: this.state.isDragging ? "default" : "pointer",
                       boxShadow: numChecked
                         ? `0px 0px 0px 1px ${Constants.system.lightBorder} inset,
       0 0 40px 0 ${Constants.system.shadow}`
@@ -786,22 +783,30 @@ export default class DataView extends React.Component {
           onSelectionStarted={() => this.setState({ isDragging: true })}
           onSelection={this._handleDragAndSelect}
         >
-          <Table
-            data={data}
-            rowStyle={{
-              padding: "10px 16px",
-              textAlign: "left",
-              backgroundColor: Constants.system.white,
-            }}
-            topRowStyle={{
-              padding: "0px 16px",
-              textAlign: "left",
-              backgroundColor: Constants.system.white,
-            }}
-            onMouseEnter={(i) => this._handleCheckBoxMouseEnter(i)}
-            onMouseLeave={() => this._handleCheckBoxMouseEnter()}
-            isShiftDown={this.isShiftDown}
-          />
+          {({ isSelecting }) => (
+            <Table
+              data={data}
+              rowStyle={{
+                padding: "10px 16px",
+                textAlign: "left",
+                backgroundColor: Constants.system.white,
+              }}
+              topRowStyle={{
+                padding: "0px 16px",
+                textAlign: "left",
+                backgroundColor: Constants.system.white,
+              }}
+              onMouseEnter={(i) => {
+                if (isSelecting) return;
+                this._handleCheckBoxMouseEnter(i);
+              }}
+              onMouseLeave={() => {
+                if (isSelecting) return;
+                this._handleCheckBoxMouseEnter();
+              }}
+              isShiftDown={this.isShiftDown}
+            />
+          )}
         </GroupSelectable>
         {footer}
         <input

@@ -1,6 +1,7 @@
 import React from "react";
 import doObjectsCollide from "./doObjectsCollide";
 import { css } from "@emotion/react";
+import * as Constants from "~/common/constants";
 
 const Context = React.createContext();
 export const useSelectable = () => {
@@ -18,27 +19,51 @@ const SELECTION_BOX_WRAPPER = css`
   cursor: default;
 `;
 const SELECTION_BOX_INNER = css`
-  background-color: transparent;
-  border: 1px dashed #999;
+  background-color: rgba(255, 255, 255, 0.45);
+  border: 1px dashed ${Constants.system.border};
   width: 100%;
   height: 100%;
   float: left;
 `;
 
-const _getInitialCoords = (element) => {
-  const style = window.getComputedStyle(document.body);
-  const t = style.getPropertyValue("margin-top");
-  const l = style.getPropertyValue("margin-left");
-  const mLeft = parseInt(l.slice(0, l.length - 2), 10);
-  const mTop = parseInt(t.slice(0, t.length - 2), 10);
+export default function GroupSelectable({ onSelection, onSelectionStarted, children, ...props }) {
+  const ref = React.useRef();
+  const selectBoxRef = React.useRef();
 
-  const bodyRect = document.body.getBoundingClientRect();
-  const elemRect = element.getBoundingClientRect();
-  return {
-    x: Math.round(elemRect.left - bodyRect.left + mLeft),
-    y: Math.round(elemRect.top - bodyRect.top + mTop),
-  };
-};
+  const enabled = useKeyDown(16);
+  const { _registerSelectable, _unregisterUnselectable, registery } = useRegistery();
+  const { isBoxSelecting, boxLeft, boxTop, boxWidth, boxHeight } = useGroupSelectable({
+    ref,
+    selectBoxRef,
+    enabled,
+    onSelection,
+    onSelectionStarted,
+    registery,
+  });
+
+  return (
+    <Context.Provider
+      value={{
+        register: _registerSelectable,
+        unregister: _unregisterUnselectable,
+        enabled,
+      }}
+    >
+      <div css={GROUP_WRAPPER} ref={ref} {...props}>
+        {isBoxSelecting ? (
+          <div
+            css={SELECTION_BOX_WRAPPER}
+            style={{ left: boxLeft, top: boxTop, width: boxWidth, height: boxHeight }}
+            ref={selectBoxRef}
+          >
+            <span css={SELECTION_BOX_INNER} />
+          </div>
+        ) : null}
+        <div>{typeof children === "function" ? children({ isSelecting: enabled }) : children}</div>
+      </div>
+    </Context.Provider>
+  );
+}
 
 const useKeyDown = (id) => {
   const [isKeyDown, setKeyDownBool] = React.useState(false);
@@ -59,23 +84,49 @@ const useKeyDown = (id) => {
   return isKeyDown;
 };
 
-const GroupSelectable = ({ onSelection, onSelectionStarted, children, ...props }) => {
+const useRegistery = () => {
+  const data = React.useRef({ registery: [] });
+  const _registerSelectable = (key, domNode) => {
+    data.current.registery.push({ key, domNode });
+  };
+  const _unregisterUnselectable = (key) =>
+    data.current.registery.filter((item) => item.key !== key);
+  return { _registerSelectable, _unregisterUnselectable, registery: data.current.registery };
+};
+
+const _getInitialCoords = (element) => {
+  const style = window.getComputedStyle(document.body);
+  const t = style.getPropertyValue("margin-top");
+  const l = style.getPropertyValue("margin-left");
+  const mLeft = parseInt(l.slice(0, l.length - 2), 10);
+  const mTop = parseInt(t.slice(0, t.length - 2), 10);
+
+  const bodyRect = document.body.getBoundingClientRect();
+  const elemRect = element.getBoundingClientRect();
+  return {
+    x: Math.round(elemRect.left - bodyRect.left + mLeft),
+    y: Math.round(elemRect.top - bodyRect.top + mTop),
+  };
+};
+
+const useGroupSelectable = ({
+  ref,
+  selectBoxRef,
+  enabled,
+  onSelection,
+  onSelectionStarted,
+  registery,
+}) => {
   const [state, setState] = React.useState({
     isBoxSelecting: false,
     boxHeight: 0,
     boxWidth: 0,
   });
 
-  const ref = React.useRef();
-  const selectBoxRef = React.useRef();
-
   const data = React.useRef({
     mouseDataDown: null,
     rect: null,
-    registery: [],
   });
-
-  const enabled = useKeyDown(16);
 
   React.useEffect(() => {
     if (!ref.current) return;
@@ -87,12 +138,6 @@ const GroupSelectable = ({ onSelection, onSelectionStarted, children, ...props }
       _applyMouseDown(false);
     };
   }, [enabled]);
-
-  const _registerSelectable = (key, domNode) => {
-    data.current.registery.push({ key, domNode });
-  };
-  const _unregisterUnselectable = (key) =>
-    data.current.registery.filter((item) => item.key !== key);
 
   const _applyMouseDown = (enabled) => {
     const fncName = enabled ? "addEventListener" : "removeEventListener";
@@ -116,7 +161,7 @@ const GroupSelectable = ({ onSelection, onSelectionStarted, children, ...props }
     const currentItems = [];
     const _selectbox = selectBoxRef.current;
     if (!_selectbox) return;
-    data.current.registery.forEach((item) => {
+    registery.forEach((item) => {
       if (
         item.domNode &&
         doObjectsCollide(_selectbox, item.domNode) &&
@@ -164,30 +209,5 @@ const GroupSelectable = ({ onSelection, onSelectionStarted, children, ...props }
     });
   };
 
-  const { isBoxSelecting, boxLeft, boxTop, boxWidth, boxHeight } = state;
-
-  return (
-    <Context.Provider
-      value={{
-        register: _registerSelectable,
-        unregister: _unregisterUnselectable,
-        enabled,
-      }}
-    >
-      <div css={GROUP_WRAPPER} ref={ref} {...props}>
-        {isBoxSelecting ? (
-          <div
-            css={SELECTION_BOX_WRAPPER}
-            style={{ left: boxLeft, top: boxTop, width: boxWidth, height: boxHeight }}
-            ref={selectBoxRef}
-          >
-            <span css={SELECTION_BOX_INNER} />
-          </div>
-        ) : null}
-        <div>{children}</div>
-      </div>
-    </Context.Provider>
-  );
+  return state;
 };
-
-export default GroupSelectable;

@@ -541,7 +541,7 @@ export default class DataView extends React.Component {
                       coverImage={each.coverImage}
                       dataView={true}
                     />
-                    <span css={STYLES_MOBILE_HIDDEN}>
+                    <span css={STYLES_MOBILE_HIDDEN} style={{ pointerEvents: "auto" }}>
                       {numChecked || this.state.hover === i || this.state.menu === each.id ? (
                         <React.Fragment>
                           <div

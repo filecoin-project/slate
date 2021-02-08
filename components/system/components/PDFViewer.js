@@ -9,7 +9,7 @@ const STYLES_DOCUMENT = css`
   display: grid;
   place-items: center;
   margin: 0;
-  padding: 0;
+  padding: 20px 0 0;
   width: 100%;
   min-height: 10%;
   height: 100%;

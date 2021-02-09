@@ -252,9 +252,13 @@ export default class ApplicationPage extends React.Component {
   _handleDrop = async (e) => {
     e.preventDefault();
     this.setState({ sidebar: null });
-    const { fileLoading, files, numFailed } = UserBehaviors.formatDroppedFiles({
+    const { fileLoading, files, numFailed, error } = await UserBehaviors.formatDroppedFiles({
       dataTransfer: e.dataTransfer,
     });
+
+    if (error) {
+      return null;
+    }
 
     let page;
     if (typeof window !== "undefined") {
@@ -272,6 +276,7 @@ export default class ApplicationPage extends React.Component {
     ) {
       slate = this.state.data;
     }
+
     this._handleRegisterFileLoading({ fileLoading });
     this._handleUpload({ files, slate, keys: Object.keys(fileLoading), numFailed });
   };

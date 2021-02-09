@@ -11,6 +11,7 @@ import * as Events from "~/common/custom-events";
 import Cookies from "universal-cookie";
 import JSZip from "jszip";
 
+import { v4 as uuid } from "uuid";
 import { saveAs } from "file-saver";
 
 //NOTE(martina): this file is for utility *API-calling* functions
@@ -111,16 +112,29 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
   let fileLoading = {};
   if (dataTransfer.items && dataTransfer.items.length) {
     for (var i = 0; i < dataTransfer.items.length; i++) {
-      const it = dataTransfer.items[i];
-      var file = null;
-      if (it.kind === "file") {
-        file = it.getAsFile();
-      } else if (it.kind == "string" && it.type == "text/uri-list") {
-        let asString = new Promise((resolve, reject) => it.getAsString((d) => resolve(d))); // kill me
-        const resp = await fetch(await asString);
-        const blob = resp.blob(); // is there an easier way to chain all this await?
+      const data = dataTransfer.items[i];
 
-        file = new File(blob, "dragged link"); // theres probably some way to get a real file name for this, but i dont think we care?
+      let file = null;
+      if (data.kind === "file") {
+        file = data.getAsFile();
+      } else if (data.kind == "string" && data.type == "text/uri-list") {
+        try {
+          const dataAsString = new Promise((resolve, reject) =>
+            data.getAsString((d) => resolve(d))
+          );
+          const resp = await fetch(await dataAsString);
+          const blob = resp.blob();
+
+          file = new File(blob, `data-${uuid()}`);
+          file.name = `data-${uuid()}`;
+          console.log(file);
+        } catch (e) {
+          Events.dispatchMessage({
+            message: "File type not supported. Please try a different file",
+          });
+
+          return { error: true };
+        }
       }
 
       files.push(file);

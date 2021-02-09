@@ -239,9 +239,11 @@ function UserEntry({
   message,
   external,
   url,
-  userOnline,
+  checkStatus,
   showStatusIndicator,
 }) {
+  const isOnline = checkStatus({ id: user.id });
+
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
       {external ? (
@@ -254,8 +256,8 @@ function UserEntry({
               <div
                 css={STYLES_DIRECTORY_STATUS_INDICATOR}
                 style={{
-                  borderColor: userOnline && `${Constants.system.active}`,
-                  backgroundColor: userOnline && `${Constants.system.active}`,
+                  borderColor: isOnline && `${Constants.system.active}`,
+                  backgroundColor: isOnline && `${Constants.system.active}`,
                 }}
               />
             )}
@@ -274,8 +276,8 @@ function UserEntry({
             <div
               css={STYLES_DIRECTORY_STATUS_INDICATOR}
               style={{
-                borderColor: userOnline && `${Constants.system.active}`,
-                backgroundColor: userOnline && `${Constants.system.active}`,
+                borderColor: isOnline && `${Constants.system.active}`,
+                backgroundColor: isOnline && `${Constants.system.active}`,
               }}
             />
           </div>
@@ -310,13 +312,11 @@ export default class Profile extends React.Component {
         }).length,
     fetched: false,
     tab: this.props.tab,
-    isOnline: false,
   };
 
   componentDidMount = () => {
     this._handleUpdatePage();
     this.filterByVisibility();
-    this.checkStatus();
   };
 
   componentDidUpdate = (prevProps) => {
@@ -404,11 +404,9 @@ export default class Profile extends React.Component {
     });
   };
 
-  checkStatus = () => {
-    const activeUsers = this.props.activeUsers;
-    const userId = this.props.data?.id;
-
-    this.setState({ isOnline: activeUsers && activeUsers.includes(userId) });
+  checkStatus = ({ id }) => {
+    const { activeUsers } = this.props;
+    return activeUsers && activeUsers.includes(id);
   };
 
   render() {
@@ -473,12 +471,13 @@ export default class Profile extends React.Component {
                 ) : null}
               </div>
             );
+
             return (
               <UserEntry
                 key={relation.id}
                 user={relation.user}
                 button={button}
-                userOnline={this.state.isOnline}
+                checkStatus={this.checkStatus}
                 showStatusIndicator={this.props.isAuthenticated}
                 onClick={() => {
                   this.props.onAction({
@@ -532,7 +531,7 @@ export default class Profile extends React.Component {
               key={relation.id}
               user={relation.owner}
               button={button}
-              userOnline={this.state.isOnline}
+              checkStatus={this.checkStatus}
               showStatusIndicator={this.props.isAuthenticated}
               onClick={() => {
                 this.props.onAction({
@@ -581,8 +580,10 @@ export default class Profile extends React.Component {
                 <div
                   css={STYLES_STATUS_INDICATOR}
                   style={{
-                    borderColor: this.state.isOnline && `${Constants.system.active}`,
-                    backgroundColor: this.state.isOnline && `${Constants.system.active}`,
+                    borderColor:
+                      this.checkStatus({ id: this.props.data?.id }) && `${Constants.system.active}`,
+                    backgroundColor:
+                      this.checkStatus({ id: this.props.data?.id }) && `${Constants.system.active}`,
                   }}
                 />
               )}

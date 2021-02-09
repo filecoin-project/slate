@@ -112,7 +112,9 @@ const STYLES_NAME = css`
   text-overflow: ellipsis;
 `;
 
-function UserEntry({ user, button, onClick, message, userOnline }) {
+function UserEntry({ user, button, onClick, message, checkStatus }) {
+  const isOnline = checkStatus({ id: user.id });
+
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
       <div css={STYLES_USER} onClick={onClick}>
@@ -120,8 +122,8 @@ function UserEntry({ user, button, onClick, message, userOnline }) {
           <div
             css={STYLES_STATUS_INDICATOR}
             style={{
-              borderColor: userOnline && `${Constants.system.active}`,
-              backgroundColor: userOnline && `${Constants.system.active}`,
+              borderColor: isOnline && `${Constants.system.active}`,
+              backgroundColor: isOnline && `${Constants.system.active}`,
             }}
           />
         </div>
@@ -159,11 +161,6 @@ export default class SceneDirectory extends React.Component {
   state = {
     copyValue: "",
     contextMenu: null,
-    isOnline: false,
-  };
-
-  componentDidMount = () => {
-    this.checkStatus();
   };
 
   _handleCopy = (e, value) => {
@@ -196,11 +193,10 @@ export default class SceneDirectory extends React.Component {
     });
   };
 
-  checkStatus = () => {
-    const activeUsers = this.props.activeUsers;
-    const userId = this.props.data?.id;
+  checkStatus = ({ id }) => {
+    const { activeUsers } = this.props;
 
-    this.setState({ isOnline: activeUsers && activeUsers.includes(userId) });
+    return activeUsers && activeUsers.includes(id);
   };
 
   render() {
@@ -240,7 +236,7 @@ export default class SceneDirectory extends React.Component {
             key={relation.id}
             user={relation.user}
             button={button}
-            userOnline={this.state.isOnline}
+            checkStatus={this.checkStatus}
             onClick={() => {
               this.props.onAction({
                 type: "NAVIGATE",
@@ -289,7 +285,7 @@ export default class SceneDirectory extends React.Component {
           key={relation.id}
           user={relation.owner}
           button={button}
-          userOnline={this.state.isOnline}
+          checkStatus={this.checkStatus}
           onClick={() => {
             this.props.onAction({
               type: "NAVIGATE",

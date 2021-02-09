@@ -310,7 +310,6 @@ export default class Profile extends React.Component {
         }).length,
     fetched: false,
     tab: this.props.tab,
-    /* isOnline: false, */
   };
 
   componentDidMount = () => {

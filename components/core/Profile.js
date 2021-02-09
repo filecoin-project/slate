@@ -310,7 +310,7 @@ export default class Profile extends React.Component {
         }).length,
     fetched: false,
     tab: this.props.tab,
-    isOnline: false,
+    /* isOnline: false, */
   };
 
   componentDidMount = () => {
@@ -404,11 +404,10 @@ export default class Profile extends React.Component {
     });
   };
 
-  checkStatus = () => {
+  checkStatus = (userId) => {
     const activeUsers = this.props.activeUsers;
-    const userId = this.props.data?.id;
 
-    this.setState({ isOnline: activeUsers && activeUsers.includes(userId) });
+    return activeUsers && activeUsers.includes(userId);
   };
 
   render() {
@@ -473,12 +472,13 @@ export default class Profile extends React.Component {
                 ) : null}
               </div>
             );
+
             return (
               <UserEntry
                 key={relation.id}
                 user={relation.user}
                 button={button}
-                userOnline={this.state.isOnline}
+                userOnline={this.checkStatus(relation.id)}
                 showStatusIndicator={this.props.isAuthenticated}
                 onClick={() => {
                   this.props.onAction({
@@ -532,7 +532,7 @@ export default class Profile extends React.Component {
               key={relation.id}
               user={relation.owner}
               button={button}
-              userOnline={this.state.isOnline}
+              userOnline={this.checkStatus(relation.id)}
               showStatusIndicator={this.props.isAuthenticated}
               onClick={() => {
                 this.props.onAction({
@@ -581,8 +581,10 @@ export default class Profile extends React.Component {
                 <div
                   css={STYLES_STATUS_INDICATOR}
                   style={{
-                    borderColor: this.state.isOnline && `${Constants.system.active}`,
-                    backgroundColor: this.state.isOnline && `${Constants.system.active}`,
+                    borderColor:
+                      this.checkStatus(this.props.data?.id) && `${Constants.system.active}`,
+                    backgroundColor:
+                      this.checkStatus(this.props.data?.id) && `${Constants.system.active}`,
                   }}
                 />
               )}

@@ -159,7 +159,6 @@ export default class SceneDirectory extends React.Component {
   state = {
     copyValue: "",
     contextMenu: null,
-    isOnline: false,
   };
 
   componentDidMount = () => {
@@ -196,11 +195,10 @@ export default class SceneDirectory extends React.Component {
     });
   };
 
-  checkStatus = () => {
+  checkStatus = (userId) => {
     const activeUsers = this.props.activeUsers;
-    const userId = this.props.data?.id;
 
-    this.setState({ isOnline: activeUsers && activeUsers.includes(userId) });
+    return activeUsers && activeUsers.includes(userId);
   };
 
   render() {
@@ -240,7 +238,7 @@ export default class SceneDirectory extends React.Component {
             key={relation.id}
             user={relation.user}
             button={button}
-            userOnline={this.state.isOnline}
+            userOnline={this.checkStatus(relation.id)}
             onClick={() => {
               this.props.onAction({
                 type: "NAVIGATE",
@@ -289,7 +287,7 @@ export default class SceneDirectory extends React.Component {
           key={relation.id}
           user={relation.owner}
           button={button}
-          userOnline={this.state.isOnline}
+          userOnline={this.checkStatus(relation.id)}
           onClick={() => {
             this.props.onAction({
               type: "NAVIGATE",

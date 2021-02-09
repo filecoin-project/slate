@@ -753,12 +753,29 @@ export class SlateLayout extends React.Component {
     }
   };
 
-  _handleDragAndSelect = (e) => {
+  _addSelectedItemsOnDrag = (e) => {
     let selectedItems = {};
     for (const i of e) {
       selectedItems[i] = true;
     }
     this.setState({ checked: { ...this.state.checked, ...selectedItems } });
+  };
+
+  _removeSelectedItemsOnDrag = (e) => {
+    const selectedItems = { ...this.state.checked };
+    for (const i in selectedItems) {
+      selectedItems[i] = selectedItems[i] && !e.includes(+i);
+      if (!selectedItems[i]) delete selectedItems[i];
+    }
+    this.setState({ checked: selectedItems, ...selectedItems });
+  };
+
+  _handleDragAndSelect = (e, { isAltDown }) => {
+    if (isAltDown) {
+      this._removeSelectedItemsOnDrag(e);
+      return;
+    }
+    this._addSelectedItemsOnDrag(e);
   };
 
   _handleMouseDown = (e, i) => {

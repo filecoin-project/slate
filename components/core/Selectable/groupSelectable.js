@@ -36,13 +36,16 @@ export default function GroupSelectable({
   const ref = React.useRef();
   const selectBoxRef = React.useRef();
 
-  const enabled = useKeyDown(16) && enabledProp;
+  const isShiftDown = useKeyDown(16);
+  const isAltDown = useKeyDown(18);
+  const enabled = enabledProp && (isShiftDown || isAltDown);
+
   const { _registerSelectable, _unregisterUnselectable, registery } = useRegistery();
   const { isBoxSelecting, boxLeft, boxTop, boxWidth, boxHeight } = useGroupSelectable({
     ref,
     selectBoxRef,
     enabled,
-    onSelection,
+    onSelection: (e) => onSelection(e, { isShiftDown, isAltDown }),
     onSelectionStarted,
     registery,
   });

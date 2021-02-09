@@ -1,9 +1,11 @@
-import React from "react";
-import doObjectsCollide from "./doObjectsCollide";
-import { css } from "@emotion/react";
+import * as React from "react";
 import * as Constants from "~/common/constants";
+import { css } from "@emotion/react";
+
+import doObjectsCollide from "./doObjectsCollide";
 
 const Context = React.createContext();
+
 export const useSelectable = () => {
   return React.useContext(Context);
 };
@@ -18,6 +20,7 @@ const SELECTION_BOX_WRAPPER = css`
   position: absolute;
   cursor: default;
 `;
+
 const SELECTION_BOX_INNER = css`
   background-color: rgba(255, 255, 255, 0.45);
   border: 1px dashed ${Constants.system.border};

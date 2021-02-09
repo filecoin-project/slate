@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { useSelectable } from "./groupSelectable";
 
 export default function Selectable({ children, selectableKey, style, ...props }) {

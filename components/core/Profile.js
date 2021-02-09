@@ -242,6 +242,8 @@ function UserEntry({
   checkStatus,
   showStatusIndicator,
 }) {
+  const isOnline = checkStatus({ id: user.id });
+
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
       {external ? (
@@ -254,8 +256,8 @@ function UserEntry({
               <div
                 css={STYLES_DIRECTORY_STATUS_INDICATOR}
                 style={{
-                  borderColor: checkStatus(user.id) && `${Constants.system.active}`,
-                  backgroundColor: checkStatus(user.id) && `${Constants.system.active}`,
+                  borderColor: isOnline && `${Constants.system.active}`,
+                  backgroundColor: isOnline && `${Constants.system.active}`,
                 }}
               />
             )}
@@ -274,8 +276,8 @@ function UserEntry({
             <div
               css={STYLES_DIRECTORY_STATUS_INDICATOR}
               style={{
-                borderColor: checkStatus(user.id) && `${Constants.system.active}`,
-                backgroundColor: checkStatus(user.id) && `${Constants.system.active}`,
+                borderColor: isOnline && `${Constants.system.active}`,
+                backgroundColor: isOnline && `${Constants.system.active}`,
               }}
             />
           </div>
@@ -402,10 +404,9 @@ export default class Profile extends React.Component {
     });
   };
 
-  checkStatus = (userId) => {
-    const activeUsers = this.props.activeUsers;
-
-    return activeUsers && activeUsers.includes(userId);
+  checkStatus = ({ id }) => {
+    const { activeUsers } = this.props;
+    return activeUsers && activeUsers.includes(id);
   };
 
   render() {
@@ -580,9 +581,9 @@ export default class Profile extends React.Component {
                   css={STYLES_STATUS_INDICATOR}
                   style={{
                     borderColor:
-                      this.checkStatus(this.props.data?.id) && `${Constants.system.active}`,
+                      this.checkStatus({ id: this.props.data?.id }) && `${Constants.system.active}`,
                     backgroundColor:
-                      this.checkStatus(this.props.data?.id) && `${Constants.system.active}`,
+                      this.checkStatus({ id: this.props.data?.id }) && `${Constants.system.active}`,
                   }}
                 />
               )}

@@ -113,6 +113,8 @@ const STYLES_NAME = css`
 `;
 
 function UserEntry({ user, button, onClick, message, checkStatus }) {
+  const isOnline = checkStatus({ id: user.id });
+
   return (
     <div key={user.username} css={STYLES_USER_ENTRY}>
       <div css={STYLES_USER} onClick={onClick}>
@@ -120,8 +122,8 @@ function UserEntry({ user, button, onClick, message, checkStatus }) {
           <div
             css={STYLES_STATUS_INDICATOR}
             style={{
-              borderColor: checkStatus(user.id) && `${Constants.system.active}`,
-              backgroundColor: checkStatus(user.id) && `${Constants.system.active}`,
+              borderColor: isOnline && `${Constants.system.active}`,
+              backgroundColor: isOnline && `${Constants.system.active}`,
             }}
           />
         </div>
@@ -191,10 +193,10 @@ export default class SceneDirectory extends React.Component {
     });
   };
 
-  checkStatus = (userId) => {
-    const activeUsers = this.props.activeUsers;
+  checkStatus = ({ id }) => {
+    const { activeUsers } = this.props;
 
-    return activeUsers && activeUsers.includes(userId);
+    return activeUsers && activeUsers.includes(id);
   };
 
   render() {
@@ -283,7 +285,7 @@ export default class SceneDirectory extends React.Component {
           key={relation.id}
           user={relation.owner}
           button={button}
-          userOnline={this.checkStatus(relation.id)}
+          checkStatus={this.checkStatus}
           onClick={() => {
             this.props.onAction({
               type: "NAVIGATE",

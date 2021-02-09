@@ -26,11 +26,17 @@ const SELECTION_BOX_INNER = css`
   float: left;
 `;
 
-export default function GroupSelectable({ onSelection, onSelectionStarted, children, ...props }) {
+export default function GroupSelectable({
+  onSelection,
+  onSelectionStarted,
+  children,
+  enabled: enabledProp = true,
+  ...props
+}) {
   const ref = React.useRef();
   const selectBoxRef = React.useRef();
 
-  const enabled = useKeyDown(16);
+  const enabled = useKeyDown(16) && enabledProp;
   const { _registerSelectable, _unregisterUnselectable, registery } = useRegistery();
   const { isBoxSelecting, boxLeft, boxTop, boxWidth, boxHeight } = useGroupSelectable({
     ref,

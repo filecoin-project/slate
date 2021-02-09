@@ -23,6 +23,7 @@ import {
   ButtonDisabled,
   ButtonWarning,
 } from "~/components/system/components/Buttons";
+import { GroupSelectable, Selectable } from "~/components/core/Selectable/";
 
 //NOTE(martina): sets 200px as the standard width for a 1080px wide layout with 20px margin btwn images.
 //If the container is larger or smaller, it scales accordingly by that factor
@@ -752,6 +753,14 @@ export class SlateLayout extends React.Component {
     }
   };
 
+  _handleDragAndSelect = (e) => {
+    let selectedItems = {};
+    for (const i of e) {
+      selectedItems[i] = true;
+    }
+    this.setState({ checked: { ...this.state.checked, ...selectedItems } });
+  };
+
   _handleMouseDown = (e, i) => {
     e.stopPropagation();
     e.preventDefault();
@@ -1098,687 +1107,700 @@ export class SlateLayout extends React.Component {
     let unit = this.state.unit;
     return (
       <div>
-        {this.props.isOwner ? (
-          this.state.editing ? (
-            <div
-              css={STYLES_BUTTONS_ROW}
-              style={{ marginBottom: 16, justifyContent: "space-between" }}
-            >
-              <div css={STYLES_BUTTONS_ROW} style={{ width: "100%", minWidth: "10%" }}>
-                <div css={STYLES_TOGGLE_BOX} style={{ marginRight: 16, paddingLeft: 24 }}>
-                  <span
-                    style={{
-                      fontFamily: Constants.font.semiBold,
-                      fontSize: 14,
-                      letterSpacing: "0.2px",
-                    }}
-                  >
-                    Display titles
-                  </span>
-                  <div
-                    style={{
-                      transform: "scale(0.7)",
-                      marginLeft: 8,
-                    }}
-                  >
-                    <Toggle active={this.state.fileNames} onChange={this._toggleFileNames} />
-                  </div>
-                </div>
-                {this.state.defaultLayout ? (
-                  <ButtonDisabled
-                    style={{
-                      marginRight: 16,
-                      backgroundColor: Constants.system.white,
-                    }}
-                  >
-                    Reset layout
-                  </ButtonDisabled>
-                ) : (
-                  <ButtonSecondary onClick={this._handleResetLayout} style={{ marginRight: 16 }}>
-                    Reset layout
-                  </ButtonSecondary>
-                )}
-                {this.state.prevLayouts.length ? (
-                  <ButtonSecondary style={{ marginRight: 16 }} onClick={this._handleUndo}>
-                    Undo
-                  </ButtonSecondary>
-                ) : (
-                  <ButtonDisabled
-                    style={{
-                      marginRight: 16,
-                      backgroundColor: Constants.system.white,
-                    }}
-                  >
-                    Undo
-                  </ButtonDisabled>
-                )}
-                {!this.state.keyboardTooltip ? (
-                  <div onMouseEnter={() => this.setState({ keyboardTooltip: true })}>
-                    <SVG.MacCommand
-                      height="15px"
-                      style={{ marginLeft: "14px", color: Constants.system.darkGray }}
-                      onMouseEnter={() => this.setState({ keyboardTooltip: true })}
-                    />
-                  </div>
-                ) : (
-                  <div css={STYLES_BUTTONS_ROW} style={{ position: "relative" }}>
+        <GroupSelectable enabled={!this.state.editing} onSelection={this._handleDragAndSelect}>
+          {this.props.isOwner ? (
+            this.state.editing ? (
+              <div
+                css={STYLES_BUTTONS_ROW}
+                style={{ marginBottom: 16, justifyContent: "space-between" }}
+              >
+                <div css={STYLES_BUTTONS_ROW} style={{ width: "100%", minWidth: "10%" }}>
+                  <div css={STYLES_TOGGLE_BOX} style={{ marginRight: 16, paddingLeft: 24 }}>
                     <span
-                      style={{ marginRight: "14px" }}
-                      onMouseLeave={() => this.setState({ keyboardTooltip: false })}
+                      style={{
+                        fontFamily: Constants.font.semiBold,
+                        fontSize: 14,
+                        letterSpacing: "0.2px",
+                      }}
                     >
-                      <SVG.MacCommand
-                        height="15px"
-                        style={{
-                          marginLeft: "14px",
-                          marginRight: "7px",
-                          color: Constants.system.darkGray,
-                        }}
-                      />
+                      Display titles
                     </span>
-                    <div css={STYLES_TOOLTIP_ANCHOR}>
-                      <div>
-                        <p
-                          css={STYLES_TOOLTIP_TEXT}
-                          style={{
-                            fontFamily: Constants.font.semiBold,
-                            fontSize: "14px",
-                            paddingTop: "12px",
-                          }}
-                        >
-                          Keyboard shortcuts
-                        </p>
-                      </div>
-                      <div>
-                        <p css={STYLES_TOOLTIP_TEXT}>shift + click and drag</p>
-                        <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
-                          keep x value or y value while moving file
-                        </p>
-                      </div>
-                      <div>
-                        <p css={STYLES_TOOLTIP_TEXT}>shift + click and resize</p>
-                        <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
-                          keep aspect ratio while resizing
-                        </p>
-                      </div>
-                      <div>
-                        <p css={STYLES_TOOLTIP_TEXT}>ctrl + click and drag</p>
-                        <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
-                          move without snapping to the dot grid
-                        </p>
-                      </div>
-                      <div>
-                        <p css={STYLES_TOOLTIP_TEXT}>ctrl + click and resize</p>
-                        <p
-                          css={STYLES_TOOLTIP_TEXT}
-                          style={{ color: Constants.system.darkGray, paddingBottom: "12px" }}
-                        >
-                          resize without snapping to the dot grid
-                        </p>
-                      </div>
+                    <div
+                      style={{
+                        transform: "scale(0.7)",
+                        marginLeft: 8,
+                      }}
+                    >
+                      <Toggle active={this.state.fileNames} onChange={this._toggleFileNames} />
                     </div>
                   </div>
-                )}
-              </div>
-              <div css={STYLES_BUTTONS_ROW} style={{ flexShrink: 0 }}>
-                <ButtonSecondary
-                  onClick={(e) => this._toggleEditing(e, true)}
-                  style={{ cursor: "pointer", marginLeft: 16 }}
-                >
-                  Cancel
-                </ButtonSecondary>
-                <ButtonPrimary
-                  onClick={this._handleSaveLayout}
-                  style={{ cursor: "pointer", marginLeft: 16 }}
-                >
-                  Save
-                </ButtonPrimary>
-              </div>
-            </div>
-          ) : (
-            <div css={STYLES_BUTTONS_ROW} style={{ justifyContent: "flex-end", marginBottom: 16 }}>
-              <ButtonSecondary
-                onClick={this._toggleEditing}
-                style={{ cursor: "pointer", marginLeft: 16 }}
-              >
-                Edit
-              </ButtonSecondary>
-            </div>
-          )
-        ) : null}
-        <div
-          css={this.state.editing ? STYLES_EDIT_CONTAINER : null}
-          style={{ opacity: this.state.show ? 1 : 0 }}
-        >
-          <div
-            css={this.state.editing ? STYLES_CONTAINER_EDITING : STYLES_CONTAINER}
-            style={{
-              height: this.state.editing
-                ? `calc(100vh + ${this.state.containerHeight}px)`
-                : `calc(96px + ${this.state.containerHeight}px)`,
-              backgroundSize: `${(CONTAINER_SIZE / 108) * this.state.unit}px ${
-                10 * this.state.unit
-              }px`,
-              backgroundPosition: `-${(CONTAINER_SIZE / 220) * this.state.unit}px -${
-                (CONTAINER_SIZE / 220) * this.state.unit
-              }px`,
-            }}
-            ref={(c) => {
-              this._ref = c;
-            }}
-          >
-            {this.state.show ? (
-              this.state.layout.map((pos, i) => (
-                <div
-                  css={this.state.editing ? STYLES_ITEM_EDITING : STYLES_ITEM}
-                  key={i}
-                  name={i}
-                  onMouseEnter={() => this.setState({ hover: i })}
-                  onMouseLeave={() => this.setState({ hover: null })}
-                  onMouseDown={this.state.editing ? (e) => this._handleMouseDown(e, i) : () => {}}
-                  onClick={this.state.editing ? () => {} : () => this.props.onSelect(i)}
-                  style={{
-                    top: pos.y * unit,
-                    left: pos.x * unit,
-                    width: pos.w * unit,
-                    height: this.state.fileNames ? (pos.h + TAG_HEIGHT) * unit : pos.h * unit,
-                    zIndex: pos.z,
-                    boxShadow: this.state.dragIndex === i ? `0 0 44px 0 rgba(0, 0, 0, 0.25)` : null,
-                    backgroundColor: Constants.system.white,
-                  }}
-                >
-                  <SlateMediaObjectPreview
-                    blurhash={this.state.items[i].blurhash}
-                    iconOnly={this.state.fileNames}
-                    charCap={70}
-                    type={this.state.items[i].type}
-                    url={this.state.items[i].url}
-                    title={this.state.items[i].title || this.state.items[i].name}
-                    coverImage={this.state.items[i].coverImage}
-                    height={pos.h * unit}
-                    width={pos.w * unit}
-                    style={{
-                      height: pos.h * unit,
-                      width: pos.w * unit,
-                      background: Constants.system.white,
-                    }}
-                    imageStyle={{
-                      width: pos.w * unit,
-                      height: pos.h * unit,
-                      maxHeight: "none",
-                    }}
-                  />
-                  {numChecked || this.state.hover === i ? (
-                    <div css={STYLES_MOBILE_HIDDEN}>
-                      {this.props.external ? null : (
-                        <div
-                          onMouseDown={this._stopProp}
-                          onMouseUp={this._stopProp}
-                          onClick={(e) => {
-                            this._stopProp(e);
-                            let checked = this.state.checked;
-                            if (checked[i]) {
-                              delete checked[i];
-                            } else {
-                              checked[i] = true;
-                            }
-                            this.setState({ checked });
+                  {this.state.defaultLayout ? (
+                    <ButtonDisabled
+                      style={{
+                        marginRight: 16,
+                        backgroundColor: Constants.system.white,
+                      }}
+                    >
+                      Reset layout
+                    </ButtonDisabled>
+                  ) : (
+                    <ButtonSecondary onClick={this._handleResetLayout} style={{ marginRight: 16 }}>
+                      Reset layout
+                    </ButtonSecondary>
+                  )}
+                  {this.state.prevLayouts.length ? (
+                    <ButtonSecondary style={{ marginRight: 16 }} onClick={this._handleUndo}>
+                      Undo
+                    </ButtonSecondary>
+                  ) : (
+                    <ButtonDisabled
+                      style={{
+                        marginRight: 16,
+                        backgroundColor: Constants.system.white,
+                      }}
+                    >
+                      Undo
+                    </ButtonDisabled>
+                  )}
+                  {!this.state.keyboardTooltip ? (
+                    <div onMouseEnter={() => this.setState({ keyboardTooltip: true })}>
+                      <SVG.MacCommand
+                        height="15px"
+                        style={{ marginLeft: "14px", color: Constants.system.darkGray }}
+                        onMouseEnter={() => this.setState({ keyboardTooltip: true })}
+                      />
+                    </div>
+                  ) : (
+                    <div css={STYLES_BUTTONS_ROW} style={{ position: "relative" }}>
+                      <span
+                        style={{ marginRight: "14px" }}
+                        onMouseLeave={() => this.setState({ keyboardTooltip: false })}
+                      >
+                        <SVG.MacCommand
+                          height="15px"
+                          style={{
+                            marginLeft: "14px",
+                            marginRight: "7px",
+                            color: Constants.system.darkGray,
                           }}
-                        >
-                          <CheckBox
-                            name={i}
-                            value={!!this.state.checked[i]}
-                            onChange={this._handleCheckBox}
-                            boxStyle={{
-                              height: 24,
-                              width: 24,
-                              backgroundColor: this.state.checked[i]
-                                ? Constants.system.brand
-                                : "rgba(255, 255, 255, 0.75)",
-                              boxShadow: this.state.checked[i] ? "none" : "0 0 0 2px #C3C3C4 inset",
-                            }}
+                        />
+                      </span>
+                      <div css={STYLES_TOOLTIP_ANCHOR}>
+                        <div>
+                          <p
+                            css={STYLES_TOOLTIP_TEXT}
                             style={{
-                              position: "absolute",
-                              top: 8,
-                              left: 8,
+                              fontFamily: Constants.font.semiBold,
+                              fontSize: "14px",
+                              paddingTop: "12px",
                             }}
-                          />
+                          >
+                            Keyboard shortcuts
+                          </p>
                         </div>
-                      )}
-                      {this.state.hover !== i ? null : this.state.editing ? (
-                        <React.Fragment>
-                          {this.state.tooltip && this.state.tooltip.startsWith(`${i}-`) ? (
-                            <Tooltip
-                              light
-                              style={
-                                this.state.tooltip === `${i}-remove`
-                                  ? {
-                                      position: "absolute",
-                                      top: 36,
-                                      right: 8,
-                                    }
-                                  : this.state.tooltip === `${i}-view`
-                                  ? {
-                                      position: "absolute",
-                                      bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                      right: "calc(50% + 28px)",
-                                    }
-                                  : this.state.tooltip === `${i}-download`
-                                  ? {
-                                      position: "absolute",
-                                      bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                      right: "calc(50% - 12px)",
-                                    }
-                                  : {
-                                      position: "absolute",
-                                      bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                      right: "calc(50% - 52px)",
-                                      color: Constants.system.red,
-                                    }
-                              }
-                            >
-                              {this.state.tooltip === `${i}-remove`
-                                ? "Remove from slate"
-                                : this.state.tooltip === `${i}-view`
-                                ? "View file"
-                                : this.state.tooltip === `${i}-download`
-                                ? "Download"
-                                : "Delete file"}
-                            </Tooltip>
-                          ) : null}
+                        <div>
+                          <p css={STYLES_TOOLTIP_TEXT}>shift + click and drag</p>
+                          <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
+                            keep x value or y value while moving file
+                          </p>
+                        </div>
+                        <div>
+                          <p css={STYLES_TOOLTIP_TEXT}>shift + click and resize</p>
+                          <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
+                            keep aspect ratio while resizing
+                          </p>
+                        </div>
+                        <div>
+                          <p css={STYLES_TOOLTIP_TEXT}>ctrl + click and drag</p>
+                          <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
+                            move without snapping to the dot grid
+                          </p>
+                        </div>
+                        <div>
+                          <p css={STYLES_TOOLTIP_TEXT}>ctrl + click and resize</p>
+                          <p
+                            css={STYLES_TOOLTIP_TEXT}
+                            style={{ color: Constants.system.darkGray, paddingBottom: "12px" }}
+                          >
+                            resize without snapping to the dot grid
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div css={STYLES_BUTTONS_ROW} style={{ flexShrink: 0 }}>
+                  <ButtonSecondary
+                    onClick={(e) => this._toggleEditing(e, true)}
+                    style={{ cursor: "pointer", marginLeft: 16 }}
+                  >
+                    Cancel
+                  </ButtonSecondary>
+                  <ButtonPrimary
+                    onClick={this._handleSaveLayout}
+                    style={{ cursor: "pointer", marginLeft: 16 }}
+                  >
+                    Save
+                  </ButtonPrimary>
+                </div>
+              </div>
+            ) : (
+              <div
+                css={STYLES_BUTTONS_ROW}
+                style={{ justifyContent: "flex-end", marginBottom: 16 }}
+              >
+                <ButtonSecondary
+                  onClick={this._toggleEditing}
+                  style={{ cursor: "pointer", marginLeft: 16 }}
+                >
+                  Edit
+                </ButtonSecondary>
+              </div>
+            )
+          ) : null}
+          <div
+            css={this.state.editing ? STYLES_EDIT_CONTAINER : null}
+            style={{ opacity: this.state.show ? 1 : 0 }}
+          >
+            <div
+              css={this.state.editing ? STYLES_CONTAINER_EDITING : STYLES_CONTAINER}
+              style={{
+                height: this.state.editing
+                  ? `calc(100vh + ${this.state.containerHeight}px)`
+                  : `calc(96px + ${this.state.containerHeight}px)`,
+                backgroundSize: `${(CONTAINER_SIZE / 108) * this.state.unit}px ${
+                  10 * this.state.unit
+                }px`,
+                backgroundPosition: `-${(CONTAINER_SIZE / 220) * this.state.unit}px -${
+                  (CONTAINER_SIZE / 220) * this.state.unit
+                }px`,
+              }}
+              ref={(c) => {
+                this._ref = c;
+              }}
+            >
+              {this.state.show ? (
+                this.state.layout.map((pos, i) => (
+                  <Selectable
+                    css={this.state.editing ? STYLES_ITEM_EDITING : STYLES_ITEM}
+                    key={i}
+                    name={i}
+                    selectableKey={i}
+                    onMouseEnter={() => this.setState({ hover: i })}
+                    onMouseLeave={() => this.setState({ hover: null })}
+                    onMouseDown={this.state.editing ? (e) => this._handleMouseDown(e, i) : () => {}}
+                    onClick={this.state.editing ? () => {} : () => this.props.onSelect(i)}
+                    style={{
+                      top: pos.y * unit,
+                      left: pos.x * unit,
+                      width: pos.w * unit,
+                      height: this.state.fileNames ? (pos.h + TAG_HEIGHT) * unit : pos.h * unit,
+                      zIndex: pos.z,
+                      boxShadow:
+                        this.state.dragIndex === i ? `0 0 44px 0 rgba(0, 0, 0, 0.25)` : null,
+                      backgroundColor: Constants.system.white,
+                    }}
+                  >
+                    <SlateMediaObjectPreview
+                      blurhash={this.state.items[i].blurhash}
+                      iconOnly={this.state.fileNames}
+                      charCap={70}
+                      type={this.state.items[i].type}
+                      url={this.state.items[i].url}
+                      title={this.state.items[i].title || this.state.items[i].name}
+                      coverImage={this.state.items[i].coverImage}
+                      height={pos.h * unit}
+                      width={pos.w * unit}
+                      style={{
+                        height: pos.h * unit,
+                        width: pos.w * unit,
+                        background: Constants.system.white,
+                      }}
+                      imageStyle={{
+                        width: pos.w * unit,
+                        height: pos.h * unit,
+                        maxHeight: "none",
+                      }}
+                    />
+                    {numChecked || this.state.hover === i ? (
+                      <div css={STYLES_MOBILE_HIDDEN}>
+                        {this.props.external ? null : (
                           <div
                             onMouseDown={this._stopProp}
                             onMouseUp={this._stopProp}
-                            onMouseEnter={() => this.setState({ tooltip: `${i}-remove` })}
-                            onMouseLeave={() => this.setState({ tooltip: null })}
                             onClick={(e) => {
-                              this._handleRemoveFromSlate(e, i);
-                            }}
-                            style={{
-                              position: "absolute",
-                              top: 8,
-                              right: 8,
-                              cursor: "pointer",
-                              margin: 0,
-                            }}
-                            css={STYLES_ICON_CIRCLE}
-                          >
-                            <SVG.DismissCircle height="24px" />
-                          </div>
-                          <div
-                            css={STYLES_ICON_ROW}
-                            style={{
-                              bottom: this.state.fileNames
-                                ? `calc(24px + ${TAG_HEIGHT}px)`
-                                : "24px",
-                            }}
-                          >
-                            <div
-                              css={STYLES_ICON_CIRCLE}
-                              onMouseDown={this._stopProp}
-                              onMouseUp={this._stopProp}
-                              onMouseEnter={() => this.setState({ tooltip: `${i}-view` })}
-                              onMouseLeave={() => this.setState({ tooltip: null })}
-                              onClick={(e) => {
-                                this._stopProp(e);
-                                this.props.onSelect(i);
-                              }}
-                            >
-                              <SVG.Eye height="16px" />
-                            </div>
-                            <div
-                              css={STYLES_ICON_CIRCLE}
-                              onMouseDown={this._stopProp}
-                              onMouseUp={this._stopProp}
-                              onMouseEnter={() => this.setState({ tooltip: `${i}-download` })}
-                              onMouseLeave={() => this.setState({ tooltip: null })}
-                              onClick={(e) => {
-                                this._handleDownload(e, i);
-                              }}
-                            >
-                              <SVG.Download height="16px" />
-                            </div>
-                            <div
-                              css={STYLES_ICON_CIRCLE}
-                              onMouseDown={this._stopProp}
-                              onMouseUp={this._stopProp}
-                              onMouseEnter={() => this.setState({ tooltip: `${i}-delete` })}
-                              onMouseLeave={() => this.setState({ tooltip: null })}
-                              onClick={
-                                this.state.items[i].ownerId === this.props.viewer.id
-                                  ? (e) => {
-                                      this._handleDeleteFiles(e, i);
-                                    }
-                                  : () => {}
+                              this._stopProp(e);
+                              let checked = this.state.checked;
+                              if (checked[i]) {
+                                delete checked[i];
+                              } else {
+                                checked[i] = true;
                               }
-                              style={{
-                                cursor:
-                                  this.state.items[i].ownerId === this.props.viewer.id
-                                    ? "pointer"
-                                    : "not-allowed",
-                              }}
-                            >
-                              <SVG.Trash
-                                height="16px"
-                                style={{
-                                  color:
-                                    this.state.items[i].ownerId === this.props.viewer.id
-                                      ? Constants.system.red
-                                      : "#999999",
-                                }}
-                              />
-                            </div>
-                          </div>
-                        </React.Fragment>
-                      ) : (
-                        <React.Fragment>
-                          {this.state.tooltip && this.state.tooltip.startsWith(`${i}-`) ? (
-                            <Tooltip
-                              light
-                              style={
-                                this.state.tooltip === `${i}-add`
-                                  ? {
-                                      position: "absolute",
-                                      top: 36,
-                                      right: 8,
-                                    }
-                                  : this.state.tooltip === `${i}-copy`
-                                  ? {
-                                      position: "absolute",
-                                      bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                      right: "calc(50% + 28px)",
-                                    }
-                                  : this.state.tooltip === `${i}-download`
-                                  ? {
-                                      position: "absolute",
-                                      bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                      right: "calc(50% - 12px)",
-                                    }
-                                  : {
-                                      position: "absolute",
-                                      bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                      right: "calc(50% - 52px)",
-                                    }
-                              }
-                            >
-                              {this.state.tooltip === `${i}-add`
-                                ? "Add to slate"
-                                : this.state.tooltip === `${i}-copy`
-                                ? "Copy link"
-                                : this.state.tooltip === `${i}-download`
-                                ? "Download"
-                                : this.state.tooltip === `${i}-preview`
-                                ? "Make preview image"
-                                : "Save copy"}
-                            </Tooltip>
-                          ) : null}
-                          <div
-                            onMouseDown={this._stopProp}
-                            onMouseUp={this._stopProp}
-                            onMouseEnter={() => this.setState({ tooltip: `${i}-add` })}
-                            onMouseLeave={() => this.setState({ tooltip: null })}
-                            onClick={
-                              this.props.external
-                                ? this._handleLoginModal
-                                : (e) => {
-                                    this._handleAddToSlate(e, i);
-                                  }
-                            }
-                            style={{
-                              position: "absolute",
-                              top: 8,
-                              right: 8,
-                              cursor: "pointer",
-                              margin: 0,
-                            }}
-                            css={STYLES_ICON_CIRCLE}
-                          >
-                            <SVG.PlusCircle height="24px" />
-                          </div>
-                          <div
-                            css={STYLES_ICON_ROW}
-                            style={{
-                              bottom: this.state.fileNames
-                                ? `calc(24px + ${TAG_HEIGHT}px)`
-                                : "24px",
+                              this.setState({ checked });
                             }}
                           >
-                            <DynamicIcon
-                              onClick={(e) => {
-                                this._handleCopy(e, this.state.items[i].url);
-                              }}
-                              onMouseDown={this._stopProp}
-                              onMouseUp={this._stopProp}
-                              onMouseEnter={() => this.setState({ tooltip: `${i}-copy` })}
-                              onMouseLeave={() => this.setState({ tooltip: null })}
-                              successState={
-                                <SVG.CheckBox height="16px" style={{ color: "#4b4a4d" }} />
-                              }
-                              style={{
+                            <CheckBox
+                              name={i}
+                              value={!!this.state.checked[i]}
+                              onChange={this._handleCheckBox}
+                              boxStyle={{
                                 height: 24,
                                 width: 24,
-                                borderRadius: "50%",
-                                backgroundColor: "rgba(248, 248, 248, 0.6)",
-                                color: "#4b4a4d",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                cursor: "pointer",
-                                margin: "0 8px",
-                                WebkitBackdropFilter: "blur(25px)",
-                                backdropFilter: "blur(25px)",
+                                backgroundColor: this.state.checked[i]
+                                  ? Constants.system.brand
+                                  : "rgba(255, 255, 255, 0.75)",
+                                boxShadow: this.state.checked[i]
+                                  ? "none"
+                                  : "0 0 0 2px #C3C3C4 inset",
                               }}
-                            >
-                              <SVG.DeepLink height="16px" style={{ color: "#4b4a4d" }} />
-                            </DynamicIcon>
+                              style={{
+                                position: "absolute",
+                                top: 8,
+                                left: 8,
+                                pointerEvents: "auto",
+                              }}
+                            />
+                          </div>
+                        )}
+                        {this.state.hover !== i ? null : this.state.editing ? (
+                          <React.Fragment>
+                            {this.state.tooltip && this.state.tooltip.startsWith(`${i}-`) ? (
+                              <Tooltip
+                                light
+                                style={
+                                  this.state.tooltip === `${i}-remove`
+                                    ? {
+                                        position: "absolute",
+                                        top: 36,
+                                        right: 8,
+                                      }
+                                    : this.state.tooltip === `${i}-view`
+                                    ? {
+                                        position: "absolute",
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                        right: "calc(50% + 28px)",
+                                      }
+                                    : this.state.tooltip === `${i}-download`
+                                    ? {
+                                        position: "absolute",
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                        right: "calc(50% - 12px)",
+                                      }
+                                    : {
+                                        position: "absolute",
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                        right: "calc(50% - 52px)",
+                                        color: Constants.system.red,
+                                      }
+                                }
+                              >
+                                {this.state.tooltip === `${i}-remove`
+                                  ? "Remove from slate"
+                                  : this.state.tooltip === `${i}-view`
+                                  ? "View file"
+                                  : this.state.tooltip === `${i}-download`
+                                  ? "Download"
+                                  : "Delete file"}
+                              </Tooltip>
+                            ) : null}
                             <div
-                              css={STYLES_ICON_CIRCLE}
                               onMouseDown={this._stopProp}
                               onMouseUp={this._stopProp}
-                              onMouseEnter={() => this.setState({ tooltip: `${i}-download` })}
+                              onMouseEnter={() => this.setState({ tooltip: `${i}-remove` })}
+                              onMouseLeave={() => this.setState({ tooltip: null })}
+                              onClick={(e) => {
+                                this._handleRemoveFromSlate(e, i);
+                              }}
+                              style={{
+                                position: "absolute",
+                                top: 8,
+                                right: 8,
+                                cursor: "pointer",
+                                margin: 0,
+                              }}
+                              css={STYLES_ICON_CIRCLE}
+                            >
+                              <SVG.DismissCircle height="24px" />
+                            </div>
+                            <div
+                              css={STYLES_ICON_ROW}
+                              style={{
+                                bottom: this.state.fileNames
+                                  ? `calc(24px + ${TAG_HEIGHT}px)`
+                                  : "24px",
+                              }}
+                            >
+                              <div
+                                css={STYLES_ICON_CIRCLE}
+                                onMouseDown={this._stopProp}
+                                onMouseUp={this._stopProp}
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-view` })}
+                                onMouseLeave={() => this.setState({ tooltip: null })}
+                                onClick={(e) => {
+                                  this._stopProp(e);
+                                  this.props.onSelect(i);
+                                }}
+                              >
+                                <SVG.Eye height="16px" />
+                              </div>
+                              <div
+                                css={STYLES_ICON_CIRCLE}
+                                onMouseDown={this._stopProp}
+                                onMouseUp={this._stopProp}
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-download` })}
+                                onMouseLeave={() => this.setState({ tooltip: null })}
+                                onClick={(e) => {
+                                  this._handleDownload(e, i);
+                                }}
+                              >
+                                <SVG.Download height="16px" />
+                              </div>
+                              <div
+                                css={STYLES_ICON_CIRCLE}
+                                onMouseDown={this._stopProp}
+                                onMouseUp={this._stopProp}
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-delete` })}
+                                onMouseLeave={() => this.setState({ tooltip: null })}
+                                onClick={
+                                  this.state.items[i].ownerId === this.props.viewer.id
+                                    ? (e) => {
+                                        this._handleDeleteFiles(e, i);
+                                      }
+                                    : () => {}
+                                }
+                                style={{
+                                  cursor:
+                                    this.state.items[i].ownerId === this.props.viewer.id
+                                      ? "pointer"
+                                      : "not-allowed",
+                                }}
+                              >
+                                <SVG.Trash
+                                  height="16px"
+                                  style={{
+                                    color:
+                                      this.state.items[i].ownerId === this.props.viewer.id
+                                        ? Constants.system.red
+                                        : "#999999",
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </React.Fragment>
+                        ) : (
+                          <React.Fragment>
+                            {this.state.tooltip && this.state.tooltip.startsWith(`${i}-`) ? (
+                              <Tooltip
+                                light
+                                style={
+                                  this.state.tooltip === `${i}-add`
+                                    ? {
+                                        position: "absolute",
+                                        top: 36,
+                                        right: 8,
+                                      }
+                                    : this.state.tooltip === `${i}-copy`
+                                    ? {
+                                        position: "absolute",
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                        right: "calc(50% + 28px)",
+                                      }
+                                    : this.state.tooltip === `${i}-download`
+                                    ? {
+                                        position: "absolute",
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                        right: "calc(50% - 12px)",
+                                      }
+                                    : {
+                                        position: "absolute",
+                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                        right: "calc(50% - 52px)",
+                                      }
+                                }
+                              >
+                                {this.state.tooltip === `${i}-add`
+                                  ? "Add to slate"
+                                  : this.state.tooltip === `${i}-copy`
+                                  ? "Copy link"
+                                  : this.state.tooltip === `${i}-download`
+                                  ? "Download"
+                                  : this.state.tooltip === `${i}-preview`
+                                  ? "Make preview image"
+                                  : "Save copy"}
+                              </Tooltip>
+                            ) : null}
+                            <div
+                              onMouseDown={this._stopProp}
+                              onMouseUp={this._stopProp}
+                              onMouseEnter={() => this.setState({ tooltip: `${i}-add` })}
                               onMouseLeave={() => this.setState({ tooltip: null })}
                               onClick={
                                 this.props.external
                                   ? this._handleLoginModal
                                   : (e) => {
-                                      this._handleDownload(e, i);
+                                      this._handleAddToSlate(e, i);
                                     }
                               }
+                              style={{
+                                position: "absolute",
+                                top: 8,
+                                right: 8,
+                                cursor: "pointer",
+                                margin: 0,
+                              }}
+                              css={STYLES_ICON_CIRCLE}
                             >
-                              <SVG.Download height="16px" />
+                              <SVG.PlusCircle height="24px" />
                             </div>
-                            {this.props.isOwner ? (
+                            <div
+                              css={STYLES_ICON_ROW}
+                              style={{
+                                bottom: this.state.fileNames
+                                  ? `calc(24px + ${TAG_HEIGHT}px)`
+                                  : "24px",
+                              }}
+                            >
+                              <DynamicIcon
+                                onClick={(e) => {
+                                  this._handleCopy(e, this.state.items[i].url);
+                                }}
+                                onMouseDown={this._stopProp}
+                                onMouseUp={this._stopProp}
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-copy` })}
+                                onMouseLeave={() => this.setState({ tooltip: null })}
+                                successState={
+                                  <SVG.CheckBox height="16px" style={{ color: "#4b4a4d" }} />
+                                }
+                                style={{
+                                  height: 24,
+                                  width: 24,
+                                  borderRadius: "50%",
+                                  backgroundColor: "rgba(248, 248, 248, 0.6)",
+                                  color: "#4b4a4d",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  cursor: "pointer",
+                                  margin: "0 8px",
+                                  WebkitBackdropFilter: "blur(25px)",
+                                  backdropFilter: "blur(25px)",
+                                }}
+                              >
+                                <SVG.DeepLink height="16px" style={{ color: "#4b4a4d" }} />
+                              </DynamicIcon>
                               <div
                                 css={STYLES_ICON_CIRCLE}
                                 onMouseDown={this._stopProp}
                                 onMouseUp={this._stopProp}
-                                onMouseEnter={() => this.setState({ tooltip: `${i}-preview` })}
+                                onMouseEnter={() => this.setState({ tooltip: `${i}-download` })}
                                 onMouseLeave={() => this.setState({ tooltip: null })}
                                 onClick={
                                   this.props.external
                                     ? this._handleLoginModal
-                                    : this.state.items[i].type &&
-                                      Validations.isPreviewableImage(this.state.items[i].type) &&
-                                      this.state.items[i].size &&
-                                      this.state.items[i].size < SIZE_LIMIT
-                                    ? (e) => this._handleSetPreview(e, i)
-                                    : () => {}
-                                }
-                                style={
-                                  this.props.preview === this.state.items[i].url
-                                    ? {
-                                        backgroundColor: "rgba(0, 97, 187, 0.75)",
-                                      }
-                                    : this.state.items[i].type &&
-                                      Validations.isPreviewableImage(this.state.items[i].type) &&
-                                      this.state.items[i].size &&
-                                      this.state.items[i].size < SIZE_LIMIT
-                                    ? {}
-                                    : {
-                                        color: "#999999",
-                                        cursor: "not-allowed",
+                                    : (e) => {
+                                        this._handleDownload(e, i);
                                       }
                                 }
                               >
-                                {this.props.preview ===
-                                this.state.items[i].url.replace("https://undefined", "https://") ? (
-                                  <SVG.DesktopEye
-                                    height="16px"
-                                    style={{
-                                      color: Constants.system.white,
-                                    }}
-                                  />
-                                ) : (
-                                  <SVG.Desktop height="16px" />
-                                )}
+                                <SVG.Download height="16px" />
                               </div>
-                            ) : (
-                              <div
-                                css={STYLES_ICON_CIRCLE}
-                                onMouseDown={this._stopProp}
-                                onMouseUp={this._stopProp}
-                                onMouseEnter={() => this.setState({ tooltip: `${i}-save` })}
-                                onMouseLeave={() => this.setState({ tooltip: null })}
-                                onClick={
-                                  this.props.external
-                                    ? this._handleLoginModal
-                                    : (e) => this._handleSaveCopy(e, i)
-                                }
-                              >
-                                <SVG.Save height="16px" />
-                              </div>
-                            )}
-                          </div>
-                        </React.Fragment>
-                      )}
-                    </div>
-                  ) : null}
-                  {this.state.fileNames ? (
-                    <div
-                      css={STYLES_FILE_TAG}
-                      style={{
-                        fontSize: `${Math.min(TAG_HEIGHT * unit * 0.7, 14)}px`,
-                        height: `${TAG_HEIGHT * unit}px`,
-                      }}
-                    >
-                      <span css={STYLES_FILE_NAME}>
-                        {this.state.items[i].title || this.state.items[i].name}
-                      </span>
-                      <span css={STYLES_FILE_TYPE}>
-                        {Strings.getFileExtension(this.state.items[i].file)}
-                      </span>
-                    </div>
-                  ) : null}
-                  {this.state.editing ? (
-                    <div
-                      css={STYLES_HANDLE_BOX}
-                      onMouseDown={(e) => this._handleMouseDownResize(e, i)}
-                      style={{
-                        display:
-                          this.state.hover === i || this.state.dragIndex === i ? "block" : "none",
-                      }}
-                    >
-                      <SVG.DragHandle height="24px" />
-                    </div>
-                  ) : null}
-                </div>
-              ))
-            ) : (
-              <div css={STYLES_LOADER}>
-                <LoaderSpinner />
-              </div>
-            )}
-          </div>
-        </div>
-        {numChecked ? (
-          <div css={STYLES_ACTION_BAR_CONTAINER}>
-            <div css={STYLES_ACTION_BAR}>
-              <div css={STYLES_LEFT}>
-                <span css={STYLES_FILES_SELECTED}>
-                  {numChecked} file{numChecked > 1 ? "s" : ""} selected
-                </span>
-              </div>
-              {this.props.isOwner ? (
-                <div css={STYLES_RIGHT}>
-                  <React.Fragment>
-                    <ButtonPrimary
-                      transparent
-                      style={{ marginLeft: 8, color: Constants.system.white }}
-                      onClick={this._handleAddToSlate}
-                    >
-                      Add to slate
-                    </ButtonPrimary>
-
-                    {/* <ButtonPrimary transparent onClick={this._handleDownload}>
-                    Download
-                  </ButtonPrimary> */}
-                    <ButtonWarning
-                      transparent
-                      style={{ marginLeft: 8, color: Constants.system.white }}
-                      onClick={this._handleRemoveFromSlate}
-                    >
-                      Remove
-                    </ButtonWarning>
-                  </React.Fragment>
-                  <ButtonWarning
-                    transparent
-                    style={{ marginLeft: 8, color: Constants.system.white }}
-                    onClick={this._handleDeleteFiles}
-                  >
-                    Delete files
-                  </ButtonWarning>
-                  <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
-                    <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
-                  </div>
-                </div>
+                              {this.props.isOwner ? (
+                                <div
+                                  css={STYLES_ICON_CIRCLE}
+                                  onMouseDown={this._stopProp}
+                                  onMouseUp={this._stopProp}
+                                  onMouseEnter={() => this.setState({ tooltip: `${i}-preview` })}
+                                  onMouseLeave={() => this.setState({ tooltip: null })}
+                                  onClick={
+                                    this.props.external
+                                      ? this._handleLoginModal
+                                      : this.state.items[i].type &&
+                                        Validations.isPreviewableImage(this.state.items[i].type) &&
+                                        this.state.items[i].size &&
+                                        this.state.items[i].size < SIZE_LIMIT
+                                      ? (e) => this._handleSetPreview(e, i)
+                                      : () => {}
+                                  }
+                                  style={
+                                    this.props.preview === this.state.items[i].url
+                                      ? {
+                                          backgroundColor: "rgba(0, 97, 187, 0.75)",
+                                        }
+                                      : this.state.items[i].type &&
+                                        Validations.isPreviewableImage(this.state.items[i].type) &&
+                                        this.state.items[i].size &&
+                                        this.state.items[i].size < SIZE_LIMIT
+                                      ? {}
+                                      : {
+                                          color: "#999999",
+                                          cursor: "not-allowed",
+                                        }
+                                  }
+                                >
+                                  {this.props.preview ===
+                                  this.state.items[i].url.replace(
+                                    "https://undefined",
+                                    "https://"
+                                  ) ? (
+                                    <SVG.DesktopEye
+                                      height="16px"
+                                      style={{
+                                        color: Constants.system.white,
+                                      }}
+                                    />
+                                  ) : (
+                                    <SVG.Desktop height="16px" />
+                                  )}
+                                </div>
+                              ) : (
+                                <div
+                                  css={STYLES_ICON_CIRCLE}
+                                  onMouseDown={this._stopProp}
+                                  onMouseUp={this._stopProp}
+                                  onMouseEnter={() => this.setState({ tooltip: `${i}-save` })}
+                                  onMouseLeave={() => this.setState({ tooltip: null })}
+                                  onClick={
+                                    this.props.external
+                                      ? this._handleLoginModal
+                                      : (e) => this._handleSaveCopy(e, i)
+                                  }
+                                >
+                                  <SVG.Save height="16px" />
+                                </div>
+                              )}
+                            </div>
+                          </React.Fragment>
+                        )}
+                      </div>
+                    ) : null}
+                    {this.state.fileNames ? (
+                      <div
+                        css={STYLES_FILE_TAG}
+                        style={{
+                          fontSize: `${Math.min(TAG_HEIGHT * unit * 0.7, 14)}px`,
+                          height: `${TAG_HEIGHT * unit}px`,
+                        }}
+                      >
+                        <span css={STYLES_FILE_NAME}>
+                          {this.state.items[i].title || this.state.items[i].name}
+                        </span>
+                        <span css={STYLES_FILE_TYPE}>
+                          {Strings.getFileExtension(this.state.items[i].file)}
+                        </span>
+                      </div>
+                    ) : null}
+                    {this.state.editing ? (
+                      <div
+                        css={STYLES_HANDLE_BOX}
+                        onMouseDown={(e) => this._handleMouseDownResize(e, i)}
+                        style={{
+                          display:
+                            this.state.hover === i || this.state.dragIndex === i ? "block" : "none",
+                        }}
+                      >
+                        <SVG.DragHandle height="24px" />
+                      </div>
+                    ) : null}
+                  </Selectable>
+                ))
               ) : (
-                <div css={STYLES_RIGHT}>
-                  <ButtonPrimary
-                    transparent
-                    onClick={this._handleAddToSlate}
-                    style={{ color: Constants.system.white }}
-                  >
-                    Add to slate
-                  </ButtonPrimary>
-                  <ButtonPrimary
-                    transparent
-                    onClick={this._handleSaveCopy}
-                    style={{ color: Constants.system.white }}
-                  >
-                    Save copy
-                  </ButtonPrimary>
-                  {/* <ButtonPrimary transparent onClick={this._handleDownload}>
-                    Download
-                  </ButtonPrimary> */}
-                  <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
-                    <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
-                  </div>
+                <div css={STYLES_LOADER}>
+                  <LoaderSpinner />
                 </div>
               )}
             </div>
           </div>
-        ) : null}
-        <input
-          ref={(c) => {
-            this._input = c;
-          }}
-          readOnly
-          value={this.state.copyValue}
-          css={STYLES_COPY_INPUT}
-        />
-        {this.props.external && this.state.signInModal && (
-          <div>
-            <CTATransition
-              onClose={() => this.setState({ signInModal: false })}
-              viewer={this.props.viewer}
-              open={this.state.signInModal}
-              redirectURL={`/_${Strings.createQueryParams({
-                scene: "NAV_SLATE",
-                user: this.props.creator.username,
-                slate: this.props.slate.slatename,
-              })}`}
-            />
-          </div>
-        )}
+          {numChecked ? (
+            <div css={STYLES_ACTION_BAR_CONTAINER}>
+              <div css={STYLES_ACTION_BAR}>
+                <div css={STYLES_LEFT}>
+                  <span css={STYLES_FILES_SELECTED}>
+                    {numChecked} file{numChecked > 1 ? "s" : ""} selected
+                  </span>
+                </div>
+                {this.props.isOwner ? (
+                  <div css={STYLES_RIGHT}>
+                    <React.Fragment>
+                      <ButtonPrimary
+                        transparent
+                        style={{ marginLeft: 8, color: Constants.system.white }}
+                        onClick={this._handleAddToSlate}
+                      >
+                        Add to slate
+                      </ButtonPrimary>
+
+                      {/* <ButtonPrimary transparent onClick={this._handleDownload}>
+                    Download
+                  </ButtonPrimary> */}
+                      <ButtonWarning
+                        transparent
+                        style={{ marginLeft: 8, color: Constants.system.white }}
+                        onClick={this._handleRemoveFromSlate}
+                      >
+                        Remove
+                      </ButtonWarning>
+                    </React.Fragment>
+                    <ButtonWarning
+                      transparent
+                      style={{ marginLeft: 8, color: Constants.system.white }}
+                      onClick={this._handleDeleteFiles}
+                    >
+                      Delete files
+                    </ButtonWarning>
+                    <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
+                      <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
+                    </div>
+                  </div>
+                ) : (
+                  <div css={STYLES_RIGHT}>
+                    <ButtonPrimary
+                      transparent
+                      onClick={this._handleAddToSlate}
+                      style={{ color: Constants.system.white }}
+                    >
+                      Add to slate
+                    </ButtonPrimary>
+                    <ButtonPrimary
+                      transparent
+                      onClick={this._handleSaveCopy}
+                      style={{ color: Constants.system.white }}
+                    >
+                      Save copy
+                    </ButtonPrimary>
+                    {/* <ButtonPrimary transparent onClick={this._handleDownload}>
+                    Download
+                  </ButtonPrimary> */}
+                    <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
+                      <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : null}
+          <input
+            ref={(c) => {
+              this._input = c;
+            }}
+            readOnly
+            value={this.state.copyValue}
+            css={STYLES_COPY_INPUT}
+          />
+          {this.props.external && this.state.signInModal && (
+            <div>
+              <CTATransition
+                onClose={() => this.setState({ signInModal: false })}
+                viewer={this.props.viewer}
+                open={this.state.signInModal}
+                redirectURL={`/_${Strings.createQueryParams({
+                  scene: "NAV_SLATE",
+                  user: this.props.creator.username,
+                  slate: this.props.slate.slatename,
+                })}`}
+              />
+            </div>
+          )}
+        </GroupSelectable>
       </div>
     );
   }

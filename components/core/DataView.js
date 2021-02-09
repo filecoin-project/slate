@@ -209,7 +209,6 @@ export default class DataView extends React.Component {
     menu: null,
     checked: {},
     viewLimit: 40,
-    isDragging: false,
     scrollDebounce: false,
     imageSize: 100,
   };
@@ -290,7 +289,7 @@ export default class DataView extends React.Component {
     for (const i of e) {
       selectedItems[i] = true;
     }
-    this.setState({ checked: { ...this.state.checked, ...selectedItems }, isDragging: false });
+    this.setState({ checked: { ...this.state.checked, ...selectedItems } });
   };
 
   _handleKeyUp = (e) => {
@@ -509,10 +508,7 @@ export default class DataView extends React.Component {
     if (this.props.view === 0) {
       return (
         <React.Fragment>
-          <GroupSelectable
-            onSelectionStarted={() => this.setState({ isDragging: true })}
-            onSelection={this._handleDragAndSelect}
-          >
+          <GroupSelectable onSelection={this._handleDragAndSelect}>
             <div css={STYLES_IMAGE_GRID} ref={this.gridWrapperEl}>
               {this.props.items.slice(0, this.state.viewLimit).map((each, i) => {
                 const cid = each.cid;
@@ -778,11 +774,7 @@ export default class DataView extends React.Component {
 
     return (
       <React.Fragment>
-        <GroupSelectable
-          enabled={true}
-          onSelectionStarted={() => this.setState({ isDragging: true })}
-          onSelection={this._handleDragAndSelect}
-        >
+        <GroupSelectable enabled={true} onSelection={this._handleDragAndSelect}>
           {({ isSelecting }) => (
             <Table
               data={data}

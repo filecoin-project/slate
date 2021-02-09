@@ -100,7 +100,7 @@ export const hydrate = async () => {
   return JSON.parse(JSON.stringify(response.data));
 };
 
-export const formatDroppedFiles = ({ dataTransfer }) => {
+export const formatDroppedFiles = async ({ dataTransfer }) => {
   // NOTE(jim): If this is true, then drag and drop came from a slate object.
   const data = dataTransfer.getData("slate-object-drag-data");
   if (data) {
@@ -111,15 +111,24 @@ export const formatDroppedFiles = ({ dataTransfer }) => {
   let fileLoading = {};
   if (dataTransfer.items && dataTransfer.items.length) {
     for (var i = 0; i < dataTransfer.items.length; i++) {
-      if (dataTransfer.items[i].kind === "file") {
-        var file = dataTransfer.items[i].getAsFile();
-        files.push(file);
-        fileLoading[`${file.lastModified}-${file.name}`] = {
-          name: file.name,
-          loaded: 0,
-          total: file.size,
-        };
+      const it = dataTransfer.items[i];
+      var file = null;
+      if (it.kind === "file") {
+        file = it.getAsFile();
+      } else if (it.kind == "string" && it.type == "text/uri-list") {
+        let asString = new Promise((resolve, reject) => it.getAsString((d) => resolve(d))); // kill me
+        const resp = await fetch(await asString);
+        const blob = resp.blob(); // is there an easier way to chain all this await?
+
+        file = new File(blob, "dragged link"); // theres probably some way to get a real file name for this, but i dont think we care?
       }
+
+      files.push(file);
+      fileLoading[`${file.lastModified}-${file.name}`] = {
+        name: file.name,
+        loaded: 0,
+        total: file.size,
+      };
     }
   }
 

@@ -239,7 +239,7 @@ function UserEntry({
   message,
   external,
   url,
-  userOnline,
+  checkStatus,
   showStatusIndicator,
 }) {
   return (
@@ -254,8 +254,8 @@ function UserEntry({
               <div
                 css={STYLES_DIRECTORY_STATUS_INDICATOR}
                 style={{
-                  borderColor: userOnline && `${Constants.system.active}`,
-                  backgroundColor: userOnline && `${Constants.system.active}`,
+                  borderColor: checkStatus(user.id) && `${Constants.system.active}`,
+                  backgroundColor: checkStatus(user.id) && `${Constants.system.active}`,
                 }}
               />
             )}
@@ -274,8 +274,8 @@ function UserEntry({
             <div
               css={STYLES_DIRECTORY_STATUS_INDICATOR}
               style={{
-                borderColor: userOnline && `${Constants.system.active}`,
-                backgroundColor: userOnline && `${Constants.system.active}`,
+                borderColor: checkStatus(user.id) && `${Constants.system.active}`,
+                backgroundColor: checkStatus(user.id) && `${Constants.system.active}`,
               }}
             />
           </div>
@@ -315,7 +315,6 @@ export default class Profile extends React.Component {
   componentDidMount = () => {
     this._handleUpdatePage();
     this.filterByVisibility();
-    this.checkStatus();
   };
 
   componentDidUpdate = (prevProps) => {
@@ -477,7 +476,7 @@ export default class Profile extends React.Component {
                 key={relation.id}
                 user={relation.user}
                 button={button}
-                userOnline={this.checkStatus(relation.id)}
+                checkStatus={this.checkStatus}
                 showStatusIndicator={this.props.isAuthenticated}
                 onClick={() => {
                   this.props.onAction({
@@ -531,7 +530,7 @@ export default class Profile extends React.Component {
               key={relation.id}
               user={relation.owner}
               button={button}
-              userOnline={this.checkStatus(relation.id)}
+              checkStatus={this.checkStatus}
               showStatusIndicator={this.props.isAuthenticated}
               onClick={() => {
                 this.props.onAction({

@@ -3,6 +3,7 @@ import * as Serializers from "~/node_common/serializers";
 import * as Strings from "~/common/strings";
 
 export default async (req, res) => {
+  const id = Utilities.getIdFromCookie(req);
   let user;
   if (req.body.data.id) {
     user = await Data.getUserById({ id: req.body.data.id });
@@ -21,7 +22,7 @@ export default async (req, res) => {
 
   let slates = await Data.getSlatesByUserId({
     userId: user.id,
-    publicOnly: true,
+    publicOnly: id === req.body.data.id ? false : true,
   });
   if (slates.error) {
     if (!user || user.error) {

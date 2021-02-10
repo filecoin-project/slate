@@ -2,6 +2,10 @@ import * as Data from "~/node_common/data";
 import * as Serializers from "~/node_common/serializers";
 
 export default async (req, res) => {
+  if (!req.body.data.userId) {
+    return res.status(404).send({ decorator: "SERVER_USER_SUBSCRIPTIONS_NOT_FOUND", error: true });
+  }
+
   const subscriptions = await Data.getSubscriptionsByUserId({ userId: req.body.data.userId });
 
   if (!subscriptions) {

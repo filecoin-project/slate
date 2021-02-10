@@ -52,6 +52,7 @@ export default class SceneEditAccount extends React.Component {
     allow_encrypted_data_storage: this.props.viewer.allow_encrypted_data_storage,
     changingPassword: false,
     changingAvatar: false,
+    savingNameBio: false,
     changingFilecoin: false,
     tab: 0,
   };
@@ -102,6 +103,7 @@ export default class SceneEditAccount extends React.Component {
 
     let data = { ...this.props.viewer.data, body: this.state.body, name: this.state.name };
     this.props.onUpdateViewer({ username: this.state.username, data });
+    this.setState({ savingNameBio: true });
 
     let response = await Actions.updateViewer({
       username: this.state.username,
@@ -113,6 +115,7 @@ export default class SceneEditAccount extends React.Component {
     });
 
     Events.hasError(response);
+    this.setState({ savingNameBio: false });
   };
 
   _handleUsernameChange = (e) => {
@@ -203,7 +206,11 @@ export default class SceneEditAccount extends React.Component {
             />
 
             <div style={{ marginTop: 24 }}>
-              <System.ButtonPrimary onClick={this._handleSave} style={{ width: "200px" }}>
+              <System.ButtonPrimary
+                onClick={this._handleSave}
+                loading={this.state.savingNameBio}
+                style={{ width: "200px" }}
+              >
                 Save
               </System.ButtonPrimary>
             </div>

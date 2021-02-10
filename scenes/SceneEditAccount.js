@@ -58,7 +58,7 @@ export default class SceneEditAccount extends React.Component {
   };
 
   _handleUpload = async (e) => {
-    this.setState({ changingAvatar: true, changingBio: true });
+    this.setState({ changingAvatar: true });
     let json = await UserBehaviors.uploadImage(e.target.files[0], this.props.resources, true);
     if (!json) {
       this.setState({ changingAvatar: false });

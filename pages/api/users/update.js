@@ -26,8 +26,6 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "SERVER_USER_UPDATE_USER_NOT_FOUND", error: true });
   }
 
-  let unsafeResponse;
-
   if (req.body.data.username) {
     const existing = await Data.getUserByUsername({
       username: req.body.data.username.toLowerCase(),
@@ -77,7 +75,8 @@ export default async (req, res) => {
     }
   }
 
-  if (req.body.data.type == "CHANGE_PASSWORD") {
+  let unsafeResponse;
+  if (req.body.data.password) {
     if (!Validations.password(req.body.data.password)) {
       return res.status(500).send({ decorator: "SERVER_INVALID_PASSWORD", error: true });
     }
@@ -90,12 +89,14 @@ export default async (req, res) => {
       id: user.id,
       salt,
       password: hash,
+      username: req.body.data.username ? req.body.data.username.toLowerCase() : user.username,
+      data: req.body.data.data ? { ...user.data, ...req.body.data.data } : user.data,
     });
   } else {
     unsafeResponse = await Data.updateUserById({
       id: user.id,
       username: req.body.data.username ? req.body.data.username.toLowerCase() : user.username,
-      data: { ...user.data, ...req.body.data.data },
+      data: req.body.data.data ? { ...user.data, ...req.body.data.data } : user.data,
     });
   }
 

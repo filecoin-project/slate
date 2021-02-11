@@ -31,7 +31,7 @@ export default async (req, res) => {
     });
   }
 
-  const user = await Data.getUserById({
+  let user = await Data.getUserById({
     id: key.owner_id,
   });
 
@@ -42,9 +42,6 @@ export default async (req, res) => {
   if (user.error) {
     return res.status(500).send({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
   }
-
-  const name = user.data.name;
-  const profilePhoto = user.data.photo;
 
   let slates = await Data.getSlatesByUserId({
     userId: user.id,
@@ -70,5 +67,16 @@ export default async (req, res) => {
     });
   }
 
-  return res.status(200).send({ decorator: "V1_GET", slates, name, profilePhoto });
+  const { name, photo } = user.data;
+  const username = user.username;
+
+  user = {
+    username: username,
+    data: {
+      name: name,
+      photo: photo,
+    },
+  };
+
+  return res.status(200).send({ decorator: "V1_GET", slates, user });
 };

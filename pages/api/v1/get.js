@@ -43,6 +43,9 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "V1_GET_SLATE_USER_NOT_FOUND", error: true });
   }
 
+  const name = user.data.name;
+  const profilePhoto = user.data.photo;
+
   let slates = await Data.getSlatesByUserId({
     userId: user.id,
     publicOnly: req.body.data && req.body.data.private ? false : true,
@@ -67,5 +70,5 @@ export default async (req, res) => {
     });
   }
 
-  return res.status(200).send({ decorator: "V1_GET", slates });
+  return res.status(200).send({ decorator: "V1_GET", slates, name, profilePhoto });
 };

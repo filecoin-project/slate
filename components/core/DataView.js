@@ -319,6 +319,11 @@ export default class DataView extends React.Component {
     if (e.keyCode === 16 && !this.isShiftDown) {
       this.isShiftDown = true;
     }
+
+    let numChecked = Object.keys(this.state.checked).length || 0;
+    if (e.keyCode === 27 && numChecked) {
+      this._handleUncheckAll();
+    }
   };
 
   _handleCheckBox = (e, i) => {

@@ -1770,7 +1770,7 @@ export class SlateLayout extends React.Component {
                       style={{ marginLeft: 8, color: Constants.system.white }}
                       onClick={this._handleDeleteFiles}
                     >
-                      Delete files
+                      Delete file{numChecked > 1 ? "s" : ""}
                     </ButtonWarning>
                     <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
                       <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />

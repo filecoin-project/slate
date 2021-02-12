@@ -754,7 +754,16 @@ export default class DataView extends React.Component {
           </div>
         ),
         name: (
-          <Selectable key={each.id} selectableKey={index}>
+          <Selectable
+            key={each.id}
+            selectableKey={index}
+            draggable={!numChecked}
+            onDragStart={(e) => {
+              this._disableDragAndDropUploadEvent();
+              this._handleDragToDesktop(e, each);
+            }}
+            onDragEnd={this._enableDragAndDropUploadEvent}
+          >
             <FilePreviewBubble url={cid} type={each.type}>
               <div css={STYLES_CONTAINER_HOVER} onClick={() => this._handleSelect(index)}>
                 <div css={STYLES_ICON_BOX_HOVER} style={{ paddingLeft: 0, paddingRight: 18 }}>

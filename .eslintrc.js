@@ -31,7 +31,7 @@ module.exports = {
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
-        components: ["Link"],
+        components: ["Link"], // next.js rules
         specialLink: ["hrefLeft", "hrefRight"],
         aspects: ["invalidHref", "preferButton"],
       },

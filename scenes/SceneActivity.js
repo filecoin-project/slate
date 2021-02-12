@@ -377,6 +377,11 @@ export default class SceneActivity extends React.Component {
     this.setState({ imageSize });
   };
 
+  getItemIndexById = (items, item) => {
+    const id = item.data?.context?.file?.id;
+    return items.findIndex((i) => i.id === id);
+  };
+
   render() {
     let activity =
       this.props.tab === 0 ? this.props.viewer.activity || [] : this.props.viewer.explore || [];
@@ -477,7 +482,7 @@ export default class SceneActivity extends React.Component {
                           : () =>
                               Events.dispatchCustomEvent({
                                 name: "slate-global-open-carousel",
-                                detail: { index },
+                                detail: { index: this.getItemIndexById(items, item) },
                               })
                       }
                     >

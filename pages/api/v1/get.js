@@ -31,7 +31,7 @@ export default async (req, res) => {
     });
   }
 
-  const user = await Data.getUserById({
+  let user = await Data.getUserById({
     id: key.owner_id,
   });
 
@@ -67,5 +67,16 @@ export default async (req, res) => {
     });
   }
 
-  return res.status(200).send({ decorator: "V1_GET", slates });
+  const { name, photo } = user.data;
+  const username = user.username;
+
+  user = {
+    username: username,
+    data: {
+      name: name,
+      photo: photo,
+    },
+  };
+
+  return res.status(200).send({ decorator: "V1_GET", slates, user });
 };

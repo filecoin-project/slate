@@ -479,12 +479,11 @@ export default class SceneActivity extends React.Component {
                                 },
                               });
                             }
-                          : () => {
+                          : () =>
                               Events.dispatchCustomEvent({
                                 name: "slate-global-open-carousel",
                                 detail: { index: this.getItemIndexById(items, item) },
-                              });
-                            }
+                              })
                       }
                     >
                       <ActivitySquare

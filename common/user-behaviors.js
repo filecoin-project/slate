@@ -101,7 +101,7 @@ export const hydrate = async () => {
   return JSON.parse(JSON.stringify(response.data));
 };
 
-export const fromatPastedImages = ({ clipboardItems }) => {
+export const formatPastedImages = ({ clipboardItems }) => {
   let files = [];
   let fileLoading = {};
   for (let i = 0; i < clipboardItems.length; i++) {

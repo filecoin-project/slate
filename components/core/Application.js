@@ -122,7 +122,7 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("online", this._handleOnlineStatus);
     window.addEventListener("offline", this._handleOnlineStatus);
     window.addEventListener("resize", this._handleWindowResize);
-    window.addEventListener("paste", this._handleUploadingFromClipboard);
+    window.addEventListener("paste", this._handleUploadFromClipboard);
     window.onpopstate = this._handleBackForward;
 
     if (this.state.viewer) {
@@ -140,7 +140,7 @@ export default class ApplicationPage extends React.Component {
     window.removeEventListener("online", this._handleOnlineStatus);
     window.removeEventListener("offline", this._handleOnlineStatus);
     window.removeEventListener("resize", this._handleWindowResize);
-    window.removeEventListener("paste", this._handleUploadingFromClipboard);
+    window.removeEventListener("paste", this._handleUploadFromClipboard);
 
     mounted = false;
 
@@ -150,11 +150,11 @@ export default class ApplicationPage extends React.Component {
     }
   }
 
-  _handleUploadingFromClipboard = (e) => {
+  _handleUploadFromClipboard = (e) => {
     const clipboardItems = e.clipboardData.items || [];
     if (!clipboardItems) return;
 
-    const { fileLoading, toUpload } = UserBehaviors.fromatPastedImages({
+    const { fileLoading, toUpload } = UserBehaviors.formatPastedImages({
       clipboardItems,
     });
 

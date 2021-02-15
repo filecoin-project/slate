@@ -510,7 +510,7 @@ export default class DataView extends React.Component {
                   style={{ marginLeft: 8, color: Constants.system.white }}
                   onClick={() => this._handleDelete()}
                 >
-                  Delete file{numChecked > 1 ? "s" : ""}
+                  {Strings.pluralize("Delete file", numChecked)}
                 </ButtonWarning>
                 <div
                   css={STYLES_ICON_BOX}

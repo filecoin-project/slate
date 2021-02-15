@@ -57,9 +57,10 @@ const typeMap = {
 
 export default class SlateMediaObject extends React.Component {
   openLink = (url) => {
-    let { isMobile } = this.props;
+    let { isMobile, data } = this.props;
+    const isPDF = data.type && data.type.startsWith("application/pdf");
 
-    if (isMobile) {
+    if (isPDF && isMobile) {
       window.open(url, "_blank");
       Events.dispatchCustomEvent({ name: "slate-global-close-carousel", detail: {} });
 

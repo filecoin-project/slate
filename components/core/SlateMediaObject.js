@@ -3,7 +3,6 @@ import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 
 import UnityFrame from "~/components/core/UnityFrame";
-import PDFViewer from "~/components/system/components/PDFViewer";
 
 import { css } from "@emotion/react";
 
@@ -56,23 +55,44 @@ const typeMap = {
 };
 
 export default class SlateMediaObject extends React.Component {
+  openLink = (url) => {
+    let { isMobile } = this.props;
+
+    if (isMobile) {
+      window.open(url, "_blank");
+    }
+  };
+
+  componentDidMount() {
+    const url = this.props.data.url;
+    this.openLink(url);
+  }
+
   render() {
     const url = this.props.data.url;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
     const playType = typeMap[type] ? typeMap[type] : type;
 
+    let { isMobile } = this.props;
+
     let element = <div css={STYLES_FAILURE}>No Preview</div>;
 
     if (type.startsWith("application/pdf")) {
       return (
-        <PDFViewer
-          file={url}
-          key={url}
-          style={{ width: "calc(100% - 64px)" }}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        />
+        <>
+          {!isMobile && (
+            <object
+              css={STYLES_OBJECT}
+              style={{ width: "calc(100% - 64px)" }}
+              data={url}
+              type={type}
+              key={url}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            />
+          )}
+        </>
       );
     }
 

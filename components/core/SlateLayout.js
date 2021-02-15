@@ -1069,6 +1069,26 @@ export class SlateLayout extends React.Component {
     UserBehaviors.removeFromSlate({ slate: this.props.current, ids });
   };
 
+  _stopPropagation = (e) => e.stopPropagation();
+
+  _disableDragAndDropUploadEvent = () => {
+    document.addEventListener("dragenter", this._stopPropagation);
+    document.addEventListener("drop", this._stopPropagation);
+  };
+
+  _enableDragAndDropUploadEvent = () => {
+    document.removeEventListener("dragenter", this._stopPropagation);
+    document.removeEventListener("drop", this._stopPropagation);
+  };
+
+  _handleDragToDesktop = (e, object) => {
+    const url = Strings.getCIDGatewayURL(object.cid);
+    const title = object.file || object.name;
+    const type = object.type;
+    console.log(e.dataTransfer, e.dataTransfer.setData);
+    e.dataTransfer.setData("DownloadURL", `${type}:${title}:${url}`);
+  };
+
   _handleDeleteFiles = async (e, i) => {
     const message = `Are you sure you want to delete these files? They will be deleted from your data and slates.`;
     if (!window.confirm(message)) {
@@ -1302,6 +1322,12 @@ export class SlateLayout extends React.Component {
                     css={this.state.editing ? STYLES_ITEM_EDITING : STYLES_ITEM}
                     key={i}
                     name={i}
+                    draggable={!(numChecked || this.state.editing)}
+                    onDragStart={(e) => {
+                      this._disableDragAndDropUploadEvent();
+                      this._handleDragToDesktop(e, this.state.items[i]);
+                    }}
+                    onDragEnd={this._enableDragAndDropUploadEvent}
                     selectableKey={i}
                     onMouseEnter={() => this.setState({ hover: i })}
                     onMouseLeave={() => this.setState({ hover: null })}

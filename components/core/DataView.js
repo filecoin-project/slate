@@ -446,6 +446,29 @@ export default class DataView extends React.Component {
     this.lastSelectedItemIndex = null;
   };
 
+  /** Note(Amine): These methods will stop collision between 
+                   Drag to desktop event and drop to upload
+  */
+  _stopPropagation = (e) => e.stopPropagation();
+
+  _disableDragAndDropUploadEvent = () => {
+    document.addEventListener("dragenter", this._stopPropagation);
+    document.addEventListener("drop", this._stopPropagation);
+  };
+
+  _enableDragAndDropUploadEvent = () => {
+    document.removeEventListener("dragenter", this._stopPropagation);
+    document.removeEventListener("drop", this._stopPropagation);
+  };
+
+  _handleDragToDesktop = (e, object) => {
+    const url = Strings.getCIDGatewayURL(object.cid);
+    const title = object.file || object.name;
+    const type = object.type;
+    console.log(e.dataTransfer, e.dataTransfer.setData);
+    e.dataTransfer.setData("DownloadURL", `${type}:${title}:${url}`);
+  };
+
   render() {
     let numChecked = Object.keys(this.state.checked).length || 0;
     // const header = (
@@ -532,6 +555,12 @@ export default class DataView extends React.Component {
                 return (
                   <Selectable
                     key={each.id}
+                    draggable={!numChecked}
+                    onDragStart={(e) => {
+                      this._disableDragAndDropUploadEvent();
+                      this._handleDragToDesktop(e, each);
+                    }}
+                    onDragEnd={this._enableDragAndDropUploadEvent}
                     selectableKey={i}
                     css={STYLES_IMAGE_BOX}
                     style={{
@@ -725,7 +754,16 @@ export default class DataView extends React.Component {
           </div>
         ),
         name: (
-          <Selectable key={each.id} selectableKey={index}>
+          <Selectable
+            key={each.id}
+            selectableKey={index}
+            draggable={!numChecked}
+            onDragStart={(e) => {
+              this._disableDragAndDropUploadEvent();
+              this._handleDragToDesktop(e, each);
+            }}
+            onDragEnd={this._enableDragAndDropUploadEvent}
+          >
             <FilePreviewBubble url={cid} type={each.type}>
               <div css={STYLES_CONTAINER_HOVER} onClick={() => this._handleSelect(index)}>
                 <div css={STYLES_ICON_BOX_HOVER} style={{ paddingLeft: 0, paddingRight: 18 }}>

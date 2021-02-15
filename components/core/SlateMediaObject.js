@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
+import * as Events from "~/common/custom-events";
 
 import UnityFrame from "~/components/core/UnityFrame";
 
@@ -60,6 +61,9 @@ export default class SlateMediaObject extends React.Component {
 
     if (isMobile) {
       window.open(url, "_blank");
+      Events.dispatchCustomEvent({ name: "slate-global-close-carousel", detail: {} });
+
+      return;
     }
   };
 

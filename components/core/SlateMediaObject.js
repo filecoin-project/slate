@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
+import * as Events from "~/common/custom-events";
 
 import UnityFrame from "~/components/core/UnityFrame";
 
@@ -56,10 +57,14 @@ const typeMap = {
 
 export default class SlateMediaObject extends React.Component {
   openLink = (url) => {
-    let { isMobile } = this.props;
+    let { isMobile, data } = this.props;
+    const isPDF = data.type && data.type.startsWith("application/pdf");
 
-    if (isMobile) {
+    if (isPDF && isMobile) {
       window.open(url, "_blank");
+      Events.dispatchCustomEvent({ name: "slate-global-close-carousel", detail: {} });
+
+      return;
     }
   };
 

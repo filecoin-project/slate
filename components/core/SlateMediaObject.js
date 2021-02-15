@@ -3,6 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 
 import UnityFrame from "~/components/core/UnityFrame";
+import Markdown from "~/components/core/Markdown";
 
 import { css } from "@emotion/react";
 
@@ -115,6 +116,7 @@ export default class SlateMediaObject extends React.Component {
         </video>
       );
     }
+    console.log(this.props.data);
 
     if (type.startsWith("audio/")) {
       return (
@@ -131,6 +133,10 @@ export default class SlateMediaObject extends React.Component {
           </audio>
         </div>
       );
+    }
+
+    if (this.props.data.name.endsWith(".md")) {
+      return <Markdown url={this.props.data.url} darkMode={this.props.data?.settings?.darkMode} />;
     }
 
     if (Validations.isPreviewableImage(type)) {

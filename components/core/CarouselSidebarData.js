@@ -304,6 +304,13 @@ export default class CarouselSidebarData extends React.Component {
     );
   };
 
+  _handleDarkMode = async (e) => {
+    await this.props.onSave(
+      { settings: { ...this.props.data?.settings, darkMode: e.target.value } },
+      this.props.index
+    );
+  };
+
   _handleUpload = async (e) => {
     e.persist();
     this.setState({ changingPreview: true });
@@ -591,6 +598,24 @@ export default class CarouselSidebarData extends React.Component {
               {isVisible
                 ? "This file is currently visible to everyone and searchable within Slate through public slates."
                 : "This file is currently not visible to others unless they have the link."}
+            </div>
+          </React.Fragment>
+        ) : null}
+        {this.props.data.name.endsWith(".md") ? (
+          <React.Fragment>
+            <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+              Settings
+            </div>
+            <div css={STYLES_OPTIONS_SECTION}>
+              <div css={STYLES_TEXT}>Dark mode</div>
+              <Toggle
+                dark
+                active={this.props?.data?.settings?.darkMode}
+                onChange={this._handleDarkMode}
+              />
+            </div>
+            <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
+              {this.props?.data?.settings?.darkMode ? "You're saving your eyes" : "RIP"}
             </div>
           </React.Fragment>
         ) : null}

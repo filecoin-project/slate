@@ -53,7 +53,6 @@
     "react-blurhash": "github:zeroxme/react-blurhash#master",
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
-    "react-pdf": "^5.1.0",
     "remark-emoji": "^2.1.0",
     "remark-gfm": "^1.0.0",
     "remark-linkify-regex": "^1.0.0",

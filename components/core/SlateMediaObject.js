@@ -3,7 +3,6 @@ import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 
 import UnityFrame from "~/components/core/UnityFrame";
-import PDFViewer from "~/components/system/components/PDFViewer";
 
 import { css } from "@emotion/react";
 
@@ -65,10 +64,12 @@ export default class SlateMediaObject extends React.Component {
 
     if (type.startsWith("application/pdf")) {
       return (
-        <PDFViewer
-          file={url}
-          key={url}
+        <object
+          css={STYLES_OBJECT}
           style={{ width: "calc(100% - 64px)" }}
+          data={url}
+          type={type}
+          key={url}
           onClick={(e) => {
             e.stopPropagation();
           }}

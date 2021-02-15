@@ -160,6 +160,13 @@ const useGroupSelectable = ({
     const w = Math.abs(data.current.mouseDataDown.initialW - e.pageX + data.current.rect.x);
     const h = Math.abs(data.current.mouseDataDown.initialH - e.pageY + data.current.rect.y);
 
+    if (e.clientY < 20) {
+      window.scrollBy(0, -20);
+    }
+    if (e.clientY + 20 > document.documentElement.clientHeight) {
+      window.scrollBy(0, 30);
+    }
+
     setState({
       isBoxSelecting: true,
       boxWidth: w,

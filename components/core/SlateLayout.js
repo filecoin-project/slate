@@ -331,6 +331,7 @@ export class SlateLayout extends React.Component {
   };
 
   componentDidMount = async () => {
+    if (!this.state.editing) window.addEventListener("keydown", this._handleUncheckAll);
     this.debounceInstance = Window.debounce(this._recalculate, 250);
     window.addEventListener("resize", this.debounceInstance);
     await this.calculateUnit();
@@ -371,6 +372,8 @@ export class SlateLayout extends React.Component {
     if (this.state.editing) {
       window.removeEventListener("keydown", this._handleKeyDown);
       window.removeEventListener("keyup", this._handleKeyUp);
+    } else {
+      window.removeEventListener("keydown", this._handleUncheckAll);
     }
   };
 
@@ -702,6 +705,11 @@ export class SlateLayout extends React.Component {
         ],
       });
     }
+  };
+
+  _handleUncheckAll = (e) => {
+    let numChecked = Object.keys(this.state.checked).length;
+    if (!this.state.editing && e.keyCode === 27 && numChecked) this.setState({ checked: {} });
   };
 
   _handleKeyDown = (e) => {
@@ -1788,7 +1796,7 @@ export class SlateLayout extends React.Component {
                       style={{ marginLeft: 8, color: Constants.system.white }}
                       onClick={this._handleDeleteFiles}
                     >
-                      Delete files
+                      {Strings.pluralize("Delete file", numChecked)}
                     </ButtonWarning>
                     <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
                       <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />

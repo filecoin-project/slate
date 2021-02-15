@@ -122,6 +122,7 @@ export default class ApplicationPage extends React.Component {
     window.addEventListener("online", this._handleOnlineStatus);
     window.addEventListener("offline", this._handleOnlineStatus);
     window.addEventListener("resize", this._handleWindowResize);
+    window.addEventListener("paste", this._handleUploadFromClipboard);
     window.onpopstate = this._handleBackForward;
 
     if (this.state.viewer) {
@@ -139,6 +140,7 @@ export default class ApplicationPage extends React.Component {
     window.removeEventListener("online", this._handleOnlineStatus);
     window.removeEventListener("offline", this._handleOnlineStatus);
     window.removeEventListener("resize", this._handleWindowResize);
+    window.removeEventListener("paste", this._handleUploadFromClipboard);
 
     mounted = false;
 
@@ -147,6 +149,40 @@ export default class ApplicationPage extends React.Component {
       Websockets.deleteClient();
     }
   }
+
+  _handleUploadFromClipboard = (e) => {
+    const clipboardItems = e.clipboardData.items || [];
+    if (!clipboardItems) return;
+
+    const { fileLoading, toUpload } = UserBehaviors.formatPastedImages({
+      clipboardItems,
+    });
+
+    this._handleRegisterFileLoading({ fileLoading });
+
+    let page;
+    if (typeof window !== "undefined") {
+      page = window?.history?.state;
+    }
+    if (!page || !page.id) {
+      page = { id: "NAV_DATA", scrollTop: 0, data: null };
+    }
+    const current = NavigationData.getCurrentById(page.id);
+
+    let slate = null;
+    if (
+      current.target.id === "NAV_SLATE" &&
+      this.state.data?.data?.ownerId === this.state.viewer?.id
+    ) {
+      slate = this.state.data;
+    }
+
+    this._handleUpload({
+      files: toUpload,
+      slate,
+      keys: Object.keys(fileLoading),
+    });
+  };
 
   _handleUpdateViewer = (newViewerState) => {
     // let setAsyncState = (newState) =>

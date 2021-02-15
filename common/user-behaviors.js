@@ -101,6 +101,23 @@ export const hydrate = async () => {
   return JSON.parse(JSON.stringify(response.data));
 };
 
+export const formatPastedImages = ({ clipboardItems }) => {
+  let files = [];
+  let fileLoading = {};
+  for (let i = 0; i < clipboardItems.length; i++) {
+    // Note(Amine): skip content if it's not an image
+    if (clipboardItems[i].type.indexOf("image") === -1) continue;
+    const file = clipboardItems[i].getAsFile();
+    files.push(file);
+    fileLoading[`${file.lastModified}-${file.name}`] = {
+      name: file.name,
+      loaded: 0,
+      total: file.size,
+    };
+  }
+  return { fileLoading, toUpload: files };
+};
+
 export const formatDroppedFiles = async ({ dataTransfer }) => {
   // NOTE(jim): If this is true, then drag and drop came from a slate object.
   const data = dataTransfer.getData("slate-object-drag-data");

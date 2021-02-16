@@ -22,6 +22,7 @@
     "@babel/core": "^7.12.16",
     "@babel/preset-env": "^7.12.16",
     "@babel/register": "^7.12.13",
+    "@babel/runtime": "^7.12.13",
     "@emotion/babel-preset-css-prop": "11.2.0",
     "@emotion/react": "11.1.5",
     "@glif/filecoin-number": "^1.1.0-beta.17",

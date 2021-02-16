@@ -3,7 +3,7 @@ import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
 
 import UnityFrame from "~/components/core/UnityFrame";
-import Markdown from "~/components/core/Markdown";
+import MarkdownFrame from "~/components/core/MarkdownFrame";
 
 import { css } from "@emotion/react";
 
@@ -136,7 +136,7 @@ export default class SlateMediaObject extends React.Component {
     }
 
     if (this.props.data.name.endsWith(".md")) {
-      return <Markdown url={this.props.data.url} darkMode={this.props.data?.settings?.darkMode} />;
+      return <MarkdownFrame url={this.props.data.url} />;
     }
 
     if (Validations.isPreviewableImage(type)) {

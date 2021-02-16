@@ -115,3 +115,17 @@ export const theme = {
 export const gateways = {
   ipfs: "https://slate.textile.io/ipfs",
 };
+
+export const filetypes = {
+  pdf: { type: "application", subtype: "pdf" },
+  aac: { type: "audio", subtype: "aac" },
+  csv: { type: "text", subtype: "csv" },
+  epub: { type: "application", subtype: "epub+zip" },
+  jpg: { type: "image", subtype: "jpeg" },
+  mp3: { type: "audio", subtype: "mpeg" },
+  mp4: { type: "video", subtype: "mpeg" },
+  otf: { type: "font", subtype: "otf" },
+  png: { type: "image", subtype: "png" },
+  ttf: { type: "font", subtype: "ttf" },
+  webm: { type: "video", subtype: "webm" },
+};

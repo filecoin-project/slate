@@ -4,6 +4,7 @@ import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
 
 import UnityFrame from "~/components/core/UnityFrame";
+import MarkdownFrame from "~/components/core/MarkdownFrame";
 
 import { css } from "@emotion/react";
 
@@ -136,6 +137,10 @@ export default class SlateMediaObject extends React.Component {
           </audio>
         </div>
       );
+    }
+
+    if (this.props.data.name.endsWith(".md")) {
+      return <MarkdownFrame url={this.props.data.url} />;
     }
 
     if (Validations.isPreviewableImage(type)) {

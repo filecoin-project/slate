@@ -42,19 +42,20 @@ const STYLES_TOOLTIP_ANCHOR = css`
   z-index: ${Constants.zindex.tooltip};
 `;
 
-//toast: setting both of these to 50% width might be janky but it works
 const STYLES_FILETYPE_TOOLTIP = css`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 250px;
+  height: 260px;
 `;
 
 const STYLES_PRIVACY_TOOLTIP = css`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 110px;
+  height: 115px;
+  font-family: ${Constants.font.medium};
+  font-size: 16px;
 `;
 
 export default class SceneFilesFolder extends React.Component {
@@ -64,7 +65,7 @@ export default class SceneFilesFolder extends React.Component {
     privacyTooltip: false,
     filters: {},
     filtersActive: false,
-    privacy: "ALL",
+    privacy: "All",
     files: this.props.viewer.library[0].children,
   };
 
@@ -79,12 +80,12 @@ export default class SceneFilesFolder extends React.Component {
   _handlePrivacyFilter = (filter) => {
     const viewer = this.props.viewer;
     const filtered = getPublicAndPrivateFiles({ viewer });
-    if (filter === "ALL") {
-      this.setState({ privacy: "ALL" }, this._filterFiles);
-    } else if (filter === "public") {
-      this.setState({ privacy: "public" }, this._filterFiles);
-    } else if (filter === "private") {
-      this.setState({ privacy: "private" }, this._filterFiles);
+    if (filter === "All") {
+      this.setState({ privacy: "All" }, this._filterFiles);
+    } else if (filter === "Public") {
+      this.setState({ privacy: "Public" }, this._filterFiles);
+    } else if (filter === "Private") {
+      this.setState({ privacy: "Private" }, this._filterFiles);
     } else {
       console.log("this is the worst possible scenario");
     }
@@ -94,12 +95,12 @@ export default class SceneFilesFolder extends React.Component {
     const viewer = this.props.viewer;
     const filtered = getPublicAndPrivateFiles({ viewer });
 
-    if (filter === "ALL") {
+    if (filter === "All") {
       return viewer.library[0].children;
-    } else if (filter === "public") {
-      return filtered.publicFiles;
-    } else if (filter === "private") {
-      return filtered.privateFiles;
+    } else if (filter === "Public") {
+      return filtered.PublicFiles;
+    } else if (filter === "Private") {
+      return filtered.PrivateFiles;
     } else {
       console.log("this is the worst possible scenario");
     }
@@ -262,7 +263,7 @@ export default class SceneFilesFolder extends React.Component {
                     : Constants.system.textGray,
                 }}
               />
-              <span style={{ width: 75, paddingLeft: 5, paddingBottom: 1 }}>FILETYPE</span>
+              <span style={{ width: 75, paddingLeft: 5, paddingBottom: 1 }}>Filetype</span>
             </ButtonTertiary>
             {this.state.filetypeTooltip ? (
               <Boundary
@@ -271,13 +272,18 @@ export default class SceneFilesFolder extends React.Component {
                 enabled
                 onOutsideRectEvent={() => this.setState({ filetypeTooltip: false })}
               >
-                <div css={STYLES_TOOLTIP_ANCHOR} style={{ width: 134, left: 2, top: 47 }}>
+                <div css={STYLES_TOOLTIP_ANCHOR} style={{ width: 134, left: 2, top: 50 }}>
                   <div css={STYLES_FILETYPE_TOOLTIP}>
                     <CheckBox
                       name="jpg"
                       value={this.state.filters[this._getKey(Constants.filetypes.jpg)]}
                       style={{ padding: 5 }}
                       onChange={() => this._handleFiletypeFilter(Constants.filetypes.jpg)}
+                      labelStyle={{
+                        fontFamily: Constants.font.medium,
+                        fontSize: 16,
+                        paddingTop: 0,
+                      }}
                     >
                       JPG
                     </CheckBox>
@@ -286,6 +292,11 @@ export default class SceneFilesFolder extends React.Component {
                       value={this.state.filters[this._getKey(Constants.filetypes.png)]}
                       style={{ padding: 5 }}
                       onChange={() => this._handleFiletypeFilter(Constants.filetypes.png)}
+                      labelStyle={{
+                        fontFamily: Constants.font.medium,
+                        fontSize: 16,
+                        paddingTop: 0,
+                      }}
                     >
                       PNG
                     </CheckBox>
@@ -294,6 +305,11 @@ export default class SceneFilesFolder extends React.Component {
                       value={this.state.filters[this._getKey(Constants.filetypes.mp4)]}
                       style={{ padding: 5 }}
                       onChange={() => this._handleFiletypeFilter(Constants.filetypes.mp4)}
+                      labelStyle={{
+                        fontFamily: Constants.font.medium,
+                        fontSize: 16,
+                        paddingTop: 0,
+                      }}
                     >
                       MP4
                     </CheckBox>
@@ -302,6 +318,11 @@ export default class SceneFilesFolder extends React.Component {
                       value={this.state.filters[this._getKey(Constants.filetypes.mp3)]}
                       style={{ padding: 5 }}
                       onChange={() => this._handleFiletypeFilter(Constants.filetypes.mp3)}
+                      labelStyle={{
+                        fontFamily: Constants.font.medium,
+                        fontSize: 16,
+                        paddingTop: 0,
+                      }}
                     >
                       MP3
                     </CheckBox>
@@ -310,6 +331,11 @@ export default class SceneFilesFolder extends React.Component {
                       value={this.state.filters[this._getKey(Constants.filetypes.pdf)]}
                       style={{ padding: 5 }}
                       onChange={() => this._handleFiletypeFilter(Constants.filetypes.pdf)}
+                      labelStyle={{
+                        fontFamily: Constants.font.medium,
+                        fontSize: 16,
+                        paddingTop: 0,
+                      }}
                     >
                       PDF
                     </CheckBox>
@@ -318,6 +344,11 @@ export default class SceneFilesFolder extends React.Component {
                       value={this.state.filters[this._getKey(Constants.filetypes.epub)]}
                       style={{ padding: 5 }}
                       onChange={() => this._handleFiletypeFilter(Constants.filetypes.epub)}
+                      labelStyle={{
+                        fontFamily: Constants.font.medium,
+                        fontSize: 16,
+                        paddingTop: 0,
+                      }}
                     >
                       EPUB
                     </CheckBox>
@@ -341,31 +372,31 @@ export default class SceneFilesFolder extends React.Component {
                   <div css={STYLES_PRIVACY_TOOLTIP}>
                     <div
                       style={{
-                        color: this.state.privacy === "ALL" ? Constants.system.brand : null,
+                        color: this.state.privacy === "All" ? Constants.system.brand : null,
                         cursor: "pointer",
                       }}
-                      onClick={() => this._handlePrivacyFilter("ALL")}
+                      onClick={() => this._handlePrivacyFilter("All")}
                     >
-                      ALL
-                    </div>
-                    <div
-                      style={{
-                        color: this.state.privacy === "public" ? Constants.system.brand : "inherit",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => this._handlePrivacyFilter("public")}
-                    >
-                      public
+                      All
                     </div>
                     <div
                       style={{
                         color:
-                          this.state.privacy === "private" ? Constants.system.brand : "inherit",
+                          this.state.privacy === "Private" ? Constants.system.brand : "inherit",
                         cursor: "pointer",
                       }}
-                      onClick={() => this._handlePrivacyFilter("private")}
+                      onClick={() => this._handlePrivacyFilter("Private")}
                     >
-                      private
+                      Private
+                    </div>
+                    <div
+                      style={{
+                        color: this.state.privacy === "Public" ? Constants.system.brand : "inherit",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => this._handlePrivacyFilter("Public")}
+                    >
+                      Public
                     </div>
                   </div>
                 </div>

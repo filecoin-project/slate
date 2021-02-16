@@ -19,9 +19,6 @@
   },
   "repository": "filecoin-project/slate",
   "dependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/preset-env": "^7.12.16",
-    "@babel/register": "^7.12.13",
     "@babel/runtime": "^7.12.13",
     "@emotion/babel-preset-css-prop": "11.2.0",
     "@emotion/react": "11.1.5",
@@ -66,7 +63,10 @@
     "ws": "^7.4.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.16",
     "@babel/plugin-proposal-optional-chaining": "^7.12.16",
+    "@babel/preset-env": "^7.12.16",
+    "@babel/register": "^7.12.13",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-json": "^4.1.0",

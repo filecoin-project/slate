@@ -7,7 +7,6 @@
 .env-production
 .DS_STORE
 DS_STORE
-package-lock.json
 yarn.lock
 node_modules
 dist
@@ -21,7 +20,6 @@ slate-storage-addresses.json
 4GB_BUCKET_TEST.txt
 stats.html
 
-/**/*/package-lock.json
 /**/*/.DS_STORE
 /**/*/node_modules
 /**/*/.next

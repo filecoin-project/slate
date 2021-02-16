@@ -304,13 +304,6 @@ export default class CarouselSidebarData extends React.Component {
     );
   };
 
-  _handleDarkMode = async (e) => {
-    await this.props.onSave(
-      { settings: { ...this.props.data?.settings, darkMode: e.target.value } },
-      this.props.index
-    );
-  };
-
   _handleUpload = async (e) => {
     e.persist();
     this.setState({ changingPreview: true });

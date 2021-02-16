@@ -43,7 +43,6 @@
     "jsonwebtoken": "^8.5.1",
     "jszip": "^3.5.0",
     "knex": "^0.21.16",
-    "marked": "^2.0.0",
     "minisearch": "^3.0.2",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",

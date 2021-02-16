@@ -116,7 +116,6 @@ export default class SlateMediaObject extends React.Component {
         </video>
       );
     }
-    console.log(this.props.data);
 
     if (type.startsWith("audio/")) {
       return (

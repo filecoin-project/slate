@@ -116,7 +116,7 @@ export class CheckBox extends React.Component {
           checked={this.props.value}
           onChange={() => this._handleChange(this.props.value)}
         />
-        <span css={STYLES_CHECKBOX_LABEL} style={this.props.labelStyle}>{this.props.children}</span>
+        <span css={STYLES_CHECKBOX_LABEL}>{this.props.children}</span>
       </label>
     );
   }

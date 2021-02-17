@@ -10,7 +10,7 @@ import * as Events from "~/common/custom-events";
 import * as Window from "~/common/window";
 import * as FileUtilities from "~/common/file-utilities";
 
-import { css } from "@emotion/react";
+import { css, withTheme } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 import { SlatePicker } from "~/components/core/SlatePicker";
 import { Input } from "~/components/system/components/Input";
@@ -246,7 +246,7 @@ export const FileTypeDefaultPreview = () => {
   return DEFAULT_DATA;
 };
 
-export default class CarouselSidebarData extends React.Component {
+class CarouselSidebarData extends React.Component {
   _ref = null;
 
   state = {
@@ -279,6 +279,13 @@ export default class CarouselSidebarData extends React.Component {
       }
       this.setState({ selected, inPublicSlates, isPublic: this.props.data.public });
     }
+  };
+
+  _handleDarkMode = async (e) => {
+    Events.dispatchCustomEvent({
+      name: "slate-theme-toggle-darkmode",
+      detail: { darkmode: e.target.value },
+    });
   };
 
   _handleChange = (e) => {
@@ -594,6 +601,20 @@ export default class CarouselSidebarData extends React.Component {
             </div>
           </React.Fragment>
         ) : null}
+        {this.props.data.name.endsWith(".md") ? (
+          <React.Fragment>
+            <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+              Settings
+            </div>
+            <div css={STYLES_OPTIONS_SECTION}>
+              <div css={STYLES_TEXT}>Dark mode</div>
+              <Toggle dark active={this.props?.theme?.darkmode} onChange={this._handleDarkMode} />
+            </div>
+            <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
+              {this.props?.data?.settings?.darkMode ? "You're saving your eyes" : "RIP"}
+            </div>
+          </React.Fragment>
+        ) : null}
         {this.props.isOwner && type?.startsWith("video/") ? (
           <React.Fragment>
             <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
@@ -636,3 +657,5 @@ export default class CarouselSidebarData extends React.Component {
     );
   }
 }
+
+export default withTheme(CarouselSidebarData);

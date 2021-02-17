@@ -6,15 +6,19 @@ import * as Constants from "~/common/constants";
 import { Markdown } from "~/components/system/components/Markdown";
 import { H1, H2, H3, H4, P, UL, OL, LI, Link } from "~/components/system/components/Typography";
 
-const STYLES_ASSET = css`
-  padding: 120px calc(32px + 16px + 8px);
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  will-change: transform;
-  color: ${Constants.system.white};
-`;
+const STYLES_ASSET = (theme) => {
+  console.log(theme.darkMode);
+  return css`
+    padding: 120px calc(32px + 16px + 8px);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    will-change: transform;
+    color: ${theme.darkmode ? Constants.system.white : "#000"};
+    background-color: ${theme.darkmode ? "#000" : "#fff"};
+  `;
+};
 
 const STYLES_BODY = css`
   width: 100%;

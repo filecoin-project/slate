@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 node . --unhandled-rejections=strict --max-old-space-size=8192",
     "start": "NODE_ENV=production node . --unhandled-rejections=strict --max-old-space-size=8192",
-    "lint": "eslint **/*.js",
+    "lint": "eslint . --ext .js",
     "lint:fix": "npm run lint -- --fix",
     "build": "NODE_ENV=production next build",
     "build-system": "rollup -c",
@@ -81,7 +81,7 @@
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
-    "eslint": "^7.19.0",
+    "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.3.1",

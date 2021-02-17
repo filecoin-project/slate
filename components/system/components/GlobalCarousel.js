@@ -27,6 +27,8 @@ const STYLES_ROOT = css`
   z-index: ${Constants.zindex.modal};
   background-color: rgba(0, 0, 0, 0.8);
 
+  // Note(Amine): we're using the blur filter to fix a weird backdrop-filter's bug in chrome
+  filter: blur(0px);
   @supports ((-webkit-backdrop-filter: blur(15px)) or (backdrop-filter: blur(15px))) {
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);

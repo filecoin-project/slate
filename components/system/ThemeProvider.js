@@ -4,15 +4,15 @@ import * as Constants from "~/common/constants";
 import { ThemeProvider as EmotionTP } from "@emotion/react";
 
 export default function ThemeProvider({ children }) {
-  const [theme, setTheme] = React.useState({ darkmode: true });
-  const toggleDarkMode = (e) => setTheme((prev) => ({ ...prev, darkmode: e.detail.darkmode }));
+  const [theme, setTheme] = useLocalStorage("slate-theme", { darkmode: true });
+  const handleSlateTheme = (e) => setTheme((prev) => ({ ...prev, ...e.detail }));
 
   React.useEffect(() => {
     if (!window) return;
-    window.addEventListener("slate-theme-toggle-darkmode", toggleDarkMode);
+    window.addEventListener("set-slate-theme", handleSlateTheme);
     return () => {
       if (!window) return;
-      window.removeEventListener("slate-theme-toggle-darkmode", toggleDarkMode);
+      window.removeEventListener("set-slate-theme", handleSlateTheme);
     };
   }, []);
 
@@ -34,3 +34,18 @@ export default function ThemeProvider({ children }) {
     </EmotionTP>
   );
 }
+
+export const useLocalStorage = (key, defaultValue) => {
+  const [value, setValue] = React.useState(defaultValue);
+
+  React.useEffect(() => {
+    const cachedValue = localStorage.getItem(key);
+    if (cachedValue) setValue(JSON.parse(cachedValue));
+  }, []);
+
+  React.useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+};

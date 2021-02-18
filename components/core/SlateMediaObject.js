@@ -140,7 +140,7 @@ export default class SlateMediaObject extends React.Component {
     }
 
     if (this.props.data.name.endsWith(".md")) {
-      return <MarkdownFrame url={this.props.data.url} />;
+      return <MarkdownFrame date={this.props.data.date} url={this.props.data.url} />;
     }
 
     if (Validations.isPreviewableImage(type)) {

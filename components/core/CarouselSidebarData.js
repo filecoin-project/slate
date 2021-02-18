@@ -283,7 +283,7 @@ class CarouselSidebarData extends React.Component {
 
   _handleDarkMode = async (e) => {
     Events.dispatchCustomEvent({
-      name: "slate-theme-toggle-darkmode",
+      name: "set-slate-theme",
       detail: { darkmode: e.target.value },
     });
   };
@@ -609,9 +609,6 @@ class CarouselSidebarData extends React.Component {
             <div css={STYLES_OPTIONS_SECTION}>
               <div css={STYLES_TEXT}>Dark mode</div>
               <Toggle dark active={this.props?.theme?.darkmode} onChange={this._handleDarkMode} />
-            </div>
-            <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
-              {this.props?.data?.settings?.darkMode ? "You're saving your eyes" : "RIP"}
             </div>
           </React.Fragment>
         ) : null}

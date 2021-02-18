@@ -1,8 +1,9 @@
-import * as React from "react";
-import { css } from "@emotion/react";
 import "isomorphic-fetch";
 
+import * as React from "react";
 import * as Constants from "~/common/constants";
+
+import { css } from "@emotion/react";
 import { Markdown } from "~/components/system/components/Markdown";
 import { H1, H2, H3, H4, P, UL, OL, LI, Link } from "~/components/system/components/Typography";
 
@@ -22,6 +23,7 @@ const STYLES_ASSET = (theme) => {
 
 const STYLES_BODY = css`
   width: 100%;
+  // 687px to ensure we have maximum 70ch per line
   max-width: 687px;
   margin: 0 auto;
 

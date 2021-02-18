@@ -1,10 +1,10 @@
+import App from "next/app";
+import ThemeProvider from "~/components/system/ThemeProvider";
+
 import * as React from "react";
 
 import { Global } from "@emotion/react";
-
-import App from "next/app";
 import { injectGlobalStyles, injectCodeBlockStyles } from "~/common/styles/global";
-import ThemeProvider from "~/components/system/ThemeProvider";
 
 // NOTE(wwwjim):
 // https://nextjs.org/docs/advanced-features/custom-app

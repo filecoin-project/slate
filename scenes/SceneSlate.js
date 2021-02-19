@@ -207,6 +207,10 @@ class SlatePage extends React.Component {
     }).length,
   };
 
+  componentDidMount() {
+    this._handleURLRedirect();
+  }
+
   // NOTE(jim):
   // The purpose of this is to update the Scene appropriately when
   // it changes but isn't mounted.
@@ -300,6 +304,33 @@ class SlatePage extends React.Component {
     setTimeout(() => {
       this.setState({ copying: false });
     }, 1000);
+  };
+
+  _handleURLRedirect = () => {
+    const {
+      page: { cid },
+    } = this.props;
+
+    /* NOTE(daniel): If user was redirected to this page, the cid of the slate object will exist in the page props. 
+    We'll use the cid to open the global carousel */
+    if (Strings.isEmpty(cid)) {
+      return null;
+    }
+
+    const index = this.getItemIndexByCID(cid);
+
+    Events.dispatchCustomEvent({
+      name: "slate-global-open-carousel",
+      detail: { index },
+    });
+  };
+
+  getItemIndexByCID = (cid) => {
+    const { current } = this.props;
+    const objects = current.data.objects;
+    const index = objects.findIndex((object) => object.cid === cid);
+
+    return index;
   };
 
   render() {

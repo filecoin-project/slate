@@ -167,7 +167,7 @@ export default class ApplicationPage extends React.Component {
     if (!page || !page.id) {
       page = { id: "NAV_DATA", scrollTop: 0, data: null };
     }
-    const current = NavigationData.getCurrentById(page.id);
+    const current = NavigationData.getCurrent(page);
 
     let slate = null;
     if (
@@ -303,7 +303,7 @@ export default class ApplicationPage extends React.Component {
     if (!page || !page.id) {
       page = { id: "NAV_DATA", scrollTop: 0, data: null };
     }
-    const current = NavigationData.getCurrentById(page.id);
+    const current = NavigationData.getCurrent(page);
 
     let slate = null;
     if (
@@ -372,6 +372,7 @@ export default class ApplicationPage extends React.Component {
         return res.status === "fulfilled" && res.value && !res.value.error;
       })
       .map((res) => res.value);
+
     if (slate && slate.id) {
       await FileUtilities.uploadToSlate({ responses: succeeded, slate });
     }
@@ -644,7 +645,7 @@ export default class ApplicationPage extends React.Component {
     if (!page || !page.id) {
       page = { id: "NAV_DATA", scrollTop: 0, data: null };
     }
-    const current = NavigationData.getCurrentById(page.id);
+    const current = NavigationData.getCurrent(page);
 
     // NOTE(jim): Only happens during a bad query parameter.
     if (!current.target) {

@@ -313,16 +313,16 @@ class SlatePage extends React.Component {
 
     /* NOTE(daniel): If user was redirected to this page, the cid of the slate object will exist in the page props. 
     We'll use the cid to open the global carousel */
-    if (cid) {
-      const index = this.getItemIndexByCID(cid);
-
-      Events.dispatchCustomEvent({
-        name: "slate-global-open-carousel",
-        detail: { index },
-      });
-
-      return;
+    if (Strings.isEmpty(cid)) {
+      return null;
     }
+
+    const index = this.getItemIndexByCID(cid);
+
+    Events.dispatchCustomEvent({
+      name: "slate-global-open-carousel",
+      detail: { index },
+    });
   };
 
   getItemIndexByCID = (cid) => {

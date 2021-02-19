@@ -116,16 +116,15 @@ export const gateways = {
   ipfs: "https://slate.textile.io/ipfs",
 };
 
+// more important filetypes to consider:
+// midi
+// txt, rtf, docx
+// html, css, js, other code-related extensions
+// json, csv, other script/data extensions
 export const filetypes = {
-  pdf: { type: "application", subtype: "pdf" },
-  aac: { type: "audio", subtype: "aac" },
-  csv: { type: "text", subtype: "csv" },
-  epub: { type: "application", subtype: "epub+zip" },
-  jpg: { type: "image", subtype: "jpeg" },
-  mp3: { type: "audio", subtype: "mpeg" },
-  mp4: { type: "video", subtype: "mpeg" },
-  otf: { type: "font", subtype: "otf" },
-  png: { type: "image", subtype: "png" },
-  ttf: { type: "font", subtype: "ttf" },
-  webm: { type: "video", subtype: "webm" },
+  images: ["image/jpeg", "image/png", "image/webp", "image/gif"],
+  audio: ["audio/mpeg", "audio/aac", "audio/flac", "audio/wav", "audio/webm"],
+  assets: ["font/ttf", "font/otf", "image/svg+xml"],
+  videos: ["video/mpeg", "video/webm", "video/quicktime"],
+  books: ["application/pdf", "application/epub+zip", "application/vnd.amazon.ebook"],
 };

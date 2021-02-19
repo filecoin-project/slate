@@ -4,7 +4,6 @@ import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/react";
-import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { ButtonPrimary, ButtonTertiary } from "~/components/system/components/Buttons";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 import { TabGroup, PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
@@ -29,10 +28,11 @@ const STYLES_FILTERS_CONTAINER = css`
   align-items: flex-start;
 `;
 
+//TODO(toast): Constants for SDS in future
 const STYLES_TOOLTIP_ANCHOR = css`
   border: 1px solid #f2f2f2;
   background-color: ${Constants.system.white};
-  border-radius: 4px;
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,7 +53,7 @@ const STYLES_PRIVACY_TOOLTIP = css`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 115px;
+  height: 120px;
   font-family: ${Constants.font.medium};
   font-size: 16px;
 `;
@@ -63,10 +63,16 @@ export default class SceneFilesFolder extends React.Component {
     view: 0,
     filetypeTooltip: false,
     privacyTooltip: false,
-    filters: {},
+    filters: {
+      images: false,
+      audio: false,
+      assets: false,
+      videos: false,
+      books: false,
+    },
     filtersActive: false,
     privacy: "All",
-    files: this.props.viewer.library[0].children,
+    files: this.props.viewer?.library[0].children,
   };
 
   _handleFiletypeTooltip = () => {
@@ -106,38 +112,38 @@ export default class SceneFilesFolder extends React.Component {
     }
   };
 
-  _handleFiletypeFilter = ({ type, subtype }) => {
-    const key = `${type}/${subtype}`;
+  _handleFiletypeFilter = (type) => {
     this.setState(
       (prevState) => ({
         filters: {
           ...prevState.filters,
-          [key]: !prevState.filters[key],
+          [type]: !prevState.filters[type],
         },
       }),
       this._filterFiles
     );
   };
 
-  _getKey = ({ type, subtype }) => {
-    const key = `${type}/${subtype}`;
-    return key;
-  };
-
   _filterFiles = () => {
-    const privacy = this.state.privacy;
-    const library = this._getPrivacyFiles(privacy);
+    const filteredFiles = [];
+    const library = this._getPrivacyFiles(this.state.privacy);
     const filters = this.state.filters;
     const filterKeys = Object.keys(filters).filter((key) => {
       return filters[key] === true;
     });
-    const filteredFiles = [];
+
+    for (const type in filterKeys) {
+      for (const mimeType in Constants.filetypes[type]) {
+      }
+    }
 
     if (filterKeys.length && library.length) {
       for (const libraryObject of library) {
-        for (const filter of filterKeys) {
-          {
-            libraryObject.type === filter ? filteredFiles.push(libraryObject) : null;
+        for (const type of filterKeys) {
+          for (const mimeType of Constants.filetypes[type]) {
+            {
+              libraryObject.type === mimeType ? filteredFiles.push(libraryObject) : null;
+            }
           }
         }
       }
@@ -275,82 +281,84 @@ export default class SceneFilesFolder extends React.Component {
                 <div css={STYLES_TOOLTIP_ANCHOR} style={{ width: 134, left: 2, top: 50 }}>
                   <div css={STYLES_FILETYPE_TOOLTIP}>
                     <CheckBox
-                      name="jpg"
-                      value={this.state.filters[this._getKey(Constants.filetypes.jpg)]}
+                      name="images"
+                      value={this.state.filters["images"]}
                       style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter(Constants.filetypes.jpg)}
-                      labelStyle={{
-                        fontFamily: Constants.font.medium,
-                        fontSize: 16,
-                        paddingTop: 0,
-                      }}
+                      onChange={() => this._handleFiletypeFilter("images")}
                     >
-                      JPG
+                      <span
+                        style={{
+                          fontFamily: Constants.font.medium,
+                          fontSize: 16,
+                          paddingTop: 0,
+                        }}
+                      >
+                        Images
+                      </span>
                     </CheckBox>
                     <CheckBox
-                      name="png"
-                      value={this.state.filters[this._getKey(Constants.filetypes.png)]}
+                      name="audio"
+                      value={this.state.filters["audio"]}
                       style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter(Constants.filetypes.png)}
-                      labelStyle={{
-                        fontFamily: Constants.font.medium,
-                        fontSize: 16,
-                        paddingTop: 0,
-                      }}
+                      onChange={() => this._handleFiletypeFilter("audio")}
                     >
-                      PNG
+                      <span
+                        style={{
+                          fontFamily: Constants.font.medium,
+                          fontSize: 16,
+                          paddingTop: 0,
+                        }}
+                      >
+                        Audio
+                      </span>
                     </CheckBox>
                     <CheckBox
-                      name="mp4"
-                      value={this.state.filters[this._getKey(Constants.filetypes.mp4)]}
+                      name="assets"
+                      value={this.state.filters["assets"]}
                       style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter(Constants.filetypes.mp4)}
-                      labelStyle={{
-                        fontFamily: Constants.font.medium,
-                        fontSize: 16,
-                        paddingTop: 0,
-                      }}
+                      onChange={() => this._handleFiletypeFilter("assets")}
                     >
-                      MP4
+                      <span
+                        style={{
+                          fontFamily: Constants.font.medium,
+                          fontSize: 16,
+                          paddingTop: 0,
+                        }}
+                      >
+                        Assets
+                      </span>
                     </CheckBox>
                     <CheckBox
-                      name="mp3"
-                      value={this.state.filters[this._getKey(Constants.filetypes.mp3)]}
+                      name="videos"
+                      value={this.state.filters["videos"]}
                       style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter(Constants.filetypes.mp3)}
-                      labelStyle={{
-                        fontFamily: Constants.font.medium,
-                        fontSize: 16,
-                        paddingTop: 0,
-                      }}
+                      onChange={() => this._handleFiletypeFilter("videos")}
                     >
-                      MP3
+                      <span
+                        style={{
+                          fontFamily: Constants.font.medium,
+                          fontSize: 16,
+                          paddingTop: 0,
+                        }}
+                      >
+                        Videos
+                      </span>
                     </CheckBox>
                     <CheckBox
-                      name="pdf"
-                      value={this.state.filters[this._getKey(Constants.filetypes.pdf)]}
+                      name="books"
+                      value={this.state.filters["books"]}
                       style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter(Constants.filetypes.pdf)}
-                      labelStyle={{
-                        fontFamily: Constants.font.medium,
-                        fontSize: 16,
-                        paddingTop: 0,
-                      }}
+                      onChange={() => this._handleFiletypeFilter("books")}
                     >
-                      PDF
-                    </CheckBox>
-                    <CheckBox
-                      name="epub"
-                      value={this.state.filters[this._getKey(Constants.filetypes.epub)]}
-                      style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter(Constants.filetypes.epub)}
-                      labelStyle={{
-                        fontFamily: Constants.font.medium,
-                        fontSize: 16,
-                        paddingTop: 0,
-                      }}
-                    >
-                      EPUB
+                      <span
+                        style={{
+                          fontFamily: Constants.font.medium,
+                          fontSize: 16,
+                          paddingTop: 0,
+                        }}
+                      >
+                        Books
+                      </span>
                     </CheckBox>
                   </div>
                 </div>

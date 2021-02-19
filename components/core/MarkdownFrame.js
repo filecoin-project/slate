@@ -1,26 +1,28 @@
-import * as React from "react";
-import { css } from "@emotion/react";
 import "isomorphic-fetch";
 
-import * as Constants from "~/common/constants";
+import * as React from "react";
+import * as Strings from "~/common/strings";
+
+import { css } from "@emotion/react";
 import { Markdown } from "~/components/system/components/Markdown";
 import { H1, H2, H3, H4, P, UL, OL, LI, Link } from "~/components/system/components/Typography";
 
-const STYLES_ASSET = css`
+const STYLES_ASSET = (theme) => css`
   padding: 120px calc(32px + 16px + 8px);
   position: relative;
   width: 100%;
   height: 100%;
   overflow-y: scroll;
   will-change: transform;
-  color: ${Constants.system.white};
+  color: ${theme.darkmode ? theme.system.wallLight : theme.system.pitchBlack};
+  background-color: ${theme.darkmode ? theme.system.pitchBlack : theme.system.wallLight};
 `;
 
 const STYLES_BODY = css`
   width: 100%;
+  // 687px to ensure we have maximum 70ch per line
   max-width: 687px;
   margin: 0 auto;
-
   & > *:first-child {
     margin-top: 0;
   }
@@ -65,7 +67,48 @@ const STYLES_IMG = css`
   max-width: 100%;
 `;
 
-export default function MarkdownFrame({ url }) {
+const STYLES_META = (theme) => css`
+  max-width: 687px;
+  margin: 0 auto;
+  font-size: 12px;
+  color: ${theme.darkmode ? theme.system.textGray : theme.system.gray70};
+  letter-spacing: 0.2px;
+  align-items: center;
+  margin-bottom: 12px;
+`;
+
+const STYLES_DEVIDER = (theme) => css`
+  position: sticky;
+  // Note(Amine): asset padding
+  top: -120px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  max-width: 687px;
+  margin: 0 auto;
+  margin-bottom: 58px;
+  background-color: ${theme.system.gray50};
+  transition: height 0.3s;
+`;
+
+const STYLE_PROGRESS = (theme) => css`
+  width: 80%;
+  height: 100%;
+  background-color: ${theme.darkmode ? "#fff" : "#000"};
+  transition: opacity 0.3s;
+`;
+
+const STYLES_INTENT = (theme) => css`
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(
+    180deg,
+    ${theme.darkmode ? theme.system.pitchBlack : theme.system.wallLight} 0%,
+    ${theme.darkmode ? "rgba(12, 12, 12, 0)" : "rgba(241, 240, 242, 0)"} 100%
+  );
+`;
+
+export default function MarkdownFrame({ url, date }) {
   const [content, setContent] = React.useState("");
 
   React.useEffect(() => {
@@ -74,6 +117,11 @@ export default function MarkdownFrame({ url }) {
       setContent(content);
     });
   }, []);
+
+  const ref = React.useRef();
+  const { handleScrollAnimation, percentage } = useScrollPosition({ ref });
+
+  const readTime = Math.round(content.split(" ").length / 150);
 
   const remarkReactComponents = {
     p: (props) => <P {...props} />,
@@ -96,10 +144,34 @@ export default function MarkdownFrame({ url }) {
       onClick={(e) => {
         e.stopPropagation();
       }}
+      onScroll={handleScrollAnimation}
+      ref={ref}
     >
-      <article css={STYLES_BODY}>
-        <Markdown md={content} css={STYLES_BODY} options={{ remarkReactComponents }} />
-      </article>
+      <div>
+        <div css={STYLES_META}>
+          <span>{Strings.toDate(date)}</span> / <span>{readTime} min read</span>
+        </div>
+        <div css={STYLES_DEVIDER} style={{ height: percentage > 15 ? "4px" : "1px" }}>
+          <div
+            css={STYLE_PROGRESS}
+            style={{ width: `${percentage}%`, opacity: percentage < 15 ? 0 : 1 }}
+          />
+          <div css={STYLES_INTENT} />
+        </div>
+        <article css={STYLES_BODY}>
+          <Markdown md={content} css={STYLES_BODY} options={{ remarkReactComponents }} />
+        </article>
+      </div>
     </div>
   );
 }
+
+const useScrollPosition = ({ ref }) => {
+  const [percentage, setPercentage] = React.useState(0);
+  const handleScrollAnimation = () => {
+    const percentage =
+      (100 * ref.current.scrollTop) / (ref.current.scrollHeight - ref.current.clientHeight);
+    setPercentage(percentage);
+  };
+  return { percentage, handleScrollAnimation };
+};

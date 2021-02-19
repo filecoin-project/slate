@@ -4,7 +4,6 @@ import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/react";
-import { PopoverNavigation } from "~/components/system/components/PopoverNavigation";
 import { ButtonPrimary, ButtonTertiary } from "~/components/system/components/Buttons";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 import { TabGroup, PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";

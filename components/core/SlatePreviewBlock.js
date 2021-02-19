@@ -201,7 +201,6 @@ const STYLES_TITLE = css`
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-right: 16px;
-  height: 24px;
 `;
 
 const STYLES_PREVIEW = css`

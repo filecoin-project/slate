@@ -127,39 +127,51 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
 
   const files = [];
   let fileLoading = {};
-  if (dataTransfer.items && dataTransfer.items.length) {
-    for (var i = 0; i < dataTransfer.items.length; i++) {
-      const data = dataTransfer.items[i];
 
-      let file = null;
+  // do we have uris to parse?
+  const uriList = dataTransfer.types.includes("text/uri-list");
+
+  if (uriList) {
+    // hello url, let's do some magic here
+    const uri = dataTransfer.getData("text/uri-list");
+    var file = new File([uri], "foo.md", {
+      type: "text/plain",
+    });
+    console.log(file);
+    files.push(file);
+    fileLoading[`${file.lastModified}-${file.name}`] = {
+      name: file.name,
+      loaded: 0,
+      total: file.size,
+    };
+    // fetch(`https://api.microlink.io/?url=${uri}`);
+  } else {
+    for (let item in dataTransfer.items) {
+      const data = dataTransfer.items[item];
       if (data.kind === "file") {
-        file = data.getAsFile();
-      } else if (data.kind == "string" && data.type == "text/uri-list") {
-        try {
-          const dataAsString = new Promise((resolve, reject) =>
-            data.getAsString((d) => resolve(d))
-          );
-          const resp = await fetch(await dataAsString);
-          const blob = resp.blob();
-
-          file = new File(blob, `data-${uuid()}`);
-          file.name = `data-${uuid()}`;
-          console.log(file);
-        } catch (e) {
-          Events.dispatchMessage({
-            message: "File type not supported. Please try a different file",
-          });
-
-          return { error: true };
-        }
+        const file = data.getAsFile();
+        files.push(file);
+        fileLoading[`${file.lastModified}-${file.name}`] = {
+          name: file.name,
+          loaded: 0,
+          total: file.size,
+        };
       }
+      // try {
+      //   const dataAsString = new Promise((resolve, reject) => data.getAsString((d) => resolve(d)));
+      //   const resp = await fetch(await dataAsString);
+      //   const blob = resp.blob();
 
-      files.push(file);
-      fileLoading[`${file.lastModified}-${file.name}`] = {
-        name: file.name,
-        loaded: 0,
-        total: file.size,
-      };
+      //   file = new File(blob, `data-${uuid()}`);
+      //   file.name = `data-${uuid()}`;
+      //   console.log(file);
+      // } catch (e) {
+      //   Events.dispatchMessage({
+      //     message: "File type not supported. Please try a different file",
+      //   });
+
+      //   return { error: true };
+      // }
     }
   }
 

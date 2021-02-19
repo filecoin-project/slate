@@ -2,7 +2,7 @@ import * as Strings from "~/common/strings";
 
 // NOTE(jim):
 // Recursion for nested entities (any number).
-export const getCurrentById = (targetId) => {
+export const getCurrent = ({ id, data }) => {
   let target = null;
   let activeIds = {};
 
@@ -11,6 +11,10 @@ export const getCurrentById = (targetId) => {
       if (state[i].id === id) {
         target = state[i];
         activeIds[state[i].id] = true;
+
+        if (target.id === "NAV_SLATE") {
+          target.slateId = data && data.id;
+        }
       }
 
       // if (!target && state[i].children) {
@@ -24,7 +28,7 @@ export const getCurrentById = (targetId) => {
     }
   };
 
-  findById(navigation, targetId);
+  findById(navigation, id);
 
   return { target, activeIds };
 };

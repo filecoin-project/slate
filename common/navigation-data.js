@@ -13,7 +13,7 @@ export const getCurrent = ({ id, data }) => {
         activeIds[state[i].id] = true;
 
         if (target.id === "NAV_SLATE") {
-          target.slateId = data.id;
+          target.slateId = data && data.id;
         }
       }
 

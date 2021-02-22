@@ -143,14 +143,7 @@ export default function MarkdownFrame({ url, date }) {
   };
 
   return (
-    <div
-      css={STYLES_ASSET}
-      onClick={(e) => {
-        e.stopPropagation();
-      }}
-      onScroll={handleScrollAnimation}
-      ref={ref}
-    >
+    <div css={STYLES_ASSET} onScroll={handleScrollAnimation} ref={ref}>
       <div>
         <div css={STYLES_META}>
           <span>{Strings.toDate(date)}</span> / <span>{readTime} min read</span>

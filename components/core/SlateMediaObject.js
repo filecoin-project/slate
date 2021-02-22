@@ -58,6 +58,7 @@ const typeMap = {
 };
 
 const StopPropagation = ({ children, ...rest }) => (
+  // it might be worth removing this propagation layer later
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
     onClick={(e) => {
@@ -167,7 +168,7 @@ export default class SlateMediaObject extends React.Component {
     if (Validations.isPreviewableImage(type)) {
       return (
         <FrameDefault css={STYLES_ASSET}>
-          <img alt="" css={STYLES_IMAGE} src={url} />
+          <img alt={name} css={STYLES_IMAGE} src={url} />
         </FrameDefault>
       );
     }

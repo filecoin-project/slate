@@ -47,7 +47,7 @@ const UnityFrame = ({ url, unityGameLoader, unityGameConfig }) => {
   }, []);
 
   return (
-    <div css={STYLES_CONTAINER} onClick={(e) => e.stopPropagation()}>
+    <div css={STYLES_CONTAINER}>
       <div id="unityContainer" css={STYLES_CONTAINER} />
     </div>
   );

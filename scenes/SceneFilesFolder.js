@@ -33,7 +33,7 @@ const STYLES_TOOLTIP_ANCHOR = css`
   background-color: ${Constants.system.white};
   border-radius: 2px;
   right: 0px;
-  top: 50px;
+  top: 48px;
   width: 256px;
   height: 216px;
   display: flex;
@@ -77,6 +77,7 @@ const STYLES_CHECKBOX_LABEL = css`
   top: -4px;
   font-family: ${Constants.font.medium};
   font-size: 16px;
+  user-select: none;
 `;
 
 const STYLES_TOOLTIP_DIVIDER_CONTAINER = css`
@@ -174,13 +175,13 @@ export default class SceneFilesFolder extends React.Component {
       }
       this.setState((prevState) => ({
         files: filteredFiles,
-        filetypeTooltip: prevState.filetypeTooltip ? true : false,
+        filterTooltip: true,
         filtersActive: true,
       }));
     } else {
       this.setState((prevState) => ({
         files: library,
-        filetypeTooltip: prevState.filetypeTooltip ? true : false,
+        filterTooltip: true,
         filtersActive: false,
       }));
     }

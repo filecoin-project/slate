@@ -166,25 +166,6 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  /* setWindowState = (cid, data) => {
-    let baseURL = window.location.pathname.split("/");
-    baseURL.length = 3;
-    baseURL = baseURL.join("/");
-
-    if (data) {
-      const { cid, slate, owner } = data;
-      const isActivity = this.props.carouselType === "ACTIVITY";
-      const newURL =
-        isActivity && cid ? `/${owner}/${slate.slatename}/cid:${cid}` : `${baseURL}/cid:${cid}`;
-
-      window.history.replaceState(
-        { ...window.history.state, cid: cid },
-        null,
-        cid ? newURL : baseURL
-      );
-    }
-  }; */
-
   setWindowState = (data) => {
     let baseURL = window.location.pathname.split("/");
     baseURL.length = 3;

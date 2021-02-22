@@ -185,7 +185,7 @@ export class GlobalCarousel extends React.Component {
       visible: true,
       index: e.detail.index || 0,
     });
-    if (this.props.carouselType === "SLATE") {
+    if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
       const data = this.props.objects[e.detail.index];
       this.setWindowState(data.cid);
     }
@@ -210,7 +210,7 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index });
 
-    if (this.props.carouselType === "SLATE") {
+    if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
       const data = this.props.objects[index];
       this.setWindowState(data.cid);
     }
@@ -223,7 +223,7 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index });
 
-    if (this.props.carouselType === "SLATE") {
+    if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
       const data = this.props.objects[index];
       this.setWindowState(data.cid);
     }

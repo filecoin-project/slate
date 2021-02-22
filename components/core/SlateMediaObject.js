@@ -35,7 +35,6 @@ const STYLES_OBJECT = css`
 
 const STYLES_ASSET = css`
   user-select: none;
-  pointer-events: none;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -58,6 +57,25 @@ const typeMap = {
   "video/quicktime": "video/mp4",
 };
 
+const StopPropagation = ({ children, ...rest }) => (
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+  <div
+    onClick={(e) => {
+      e.stopPropagation();
+    }}
+    onKeyPress={(e) => {
+      e.stopPropagation();
+    }}
+    {...rest}
+  >
+    {children}
+  </div>
+);
+
+const FrameDefault = ({ children, ...rest }) => (
+  <StopPropagation {...rest}>{children}</StopPropagation>
+);
+
 export default class SlateMediaObject extends React.Component {
   openLink(url) {
     let { isMobile, data } = this.props;
@@ -77,7 +95,7 @@ export default class SlateMediaObject extends React.Component {
   }
 
   render() {
-    const { url } = this.props.data;
+    const { url, name, id } = this.props.data;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
     const playType = typeMap[type] ? typeMap[type] : type;
 
@@ -94,7 +112,8 @@ export default class SlateMediaObject extends React.Component {
               style={{ width: "calc(100% - 64px)" }}
               data={url}
               type={type}
-              key={url}
+              key={id}
+              aria-label={name}
             />
           )}
         </>
@@ -104,49 +123,52 @@ export default class SlateMediaObject extends React.Component {
     if (type.startsWith("video/")) {
       const autoPlay = this.props?.data?.settings?.autoPlay || false;
       return (
-        <video
-          playsInline
-          controls
-          autoPlay={autoPlay}
-          name="media"
-          type={playType}
-          css={STYLES_OBJECT}
-          key={url}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <source src={url} type={playType} />
-          {/** Note(Amine): fallback if video type isn't supported (example .mov) */}
-          <source src={url} type="video/mp4" />
-        </video>
+        <FrameDefault>
+          <video
+            playsInline
+            controls
+            autoPlay={autoPlay}
+            name="media"
+            type={playType}
+            css={STYLES_OBJECT}
+            key={url}
+          >
+            <source src={url} type={playType} />
+            {/** Note(Amine): fallback if video type isn't supported (example .mov) */}
+            <source src={url} type="video/mp4" />
+          </video>
+        </FrameDefault>
       );
     }
 
     if (type.startsWith("audio/")) {
       return (
-        <div css={STYLES_ASSET}>
-          <audio controls name="media" key={url}>
+        <FrameDefault css={STYLES_ASSET}>
+          <audio controls name="media" key={id}>
             <source src={url} type={playType} />
           </audio>
-        </div>
+        </FrameDefault>
       );
     }
 
     if (this.props.data.name.endsWith(".md")) {
-      return <MarkdownFrame date={this.props.data.date} url={this.props.data.url} />;
+      return (
+        <FrameDefault>
+          <MarkdownFrame date={this.props.data.date} url={this.props.data.url} />
+        </FrameDefault>
+      );
     }
 
     if (type.startsWith("text/uri-list")) {
       // do something with uri-list item
-      return <LinkFrame item={item} />;
+      return <FrameDefault>{/* <LinkFrame item={item} /> */}</FrameDefault>;
     }
 
     if (Validations.isPreviewableImage(type)) {
       return (
-        <div css={STYLES_ASSET}>
+        <FrameDefault css={STYLES_ASSET}>
           <img alt="" css={STYLES_IMAGE} src={url} />
-        </div>
+        </FrameDefault>
       );
     }
 
@@ -156,12 +178,14 @@ export default class SlateMediaObject extends React.Component {
       const { unityGameLoader } = this.props.data;
 
       return (
-        <UnityFrame
-          url={url}
-          unityGameConfig={unityGameConfig}
-          unityGameLoader={unityGameLoader}
-          key={url}
-        />
+        <FrameDefault>
+          <UnityFrame
+            url={url}
+            unityGameConfig={unityGameConfig}
+            unityGameLoader={unityGameLoader}
+            key={id}
+          />
+        </FrameDefault>
       );
     }
 

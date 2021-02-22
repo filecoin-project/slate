@@ -119,7 +119,11 @@ export default function MarkdownFrame({ url, date }) {
   }, []);
 
   const ref = React.useRef();
-  const { handleScrollAnimation, percentage } = useScrollPosition({ ref });
+  const meterRef = React.useRef();
+  const { handleScrollAnimation, opacity, extendScroll } = useScrollPosition({
+    ref,
+    childRef: meterRef,
+  });
 
   const readTime = Math.round(content.split(" ").length / 150);
 
@@ -151,11 +155,8 @@ export default function MarkdownFrame({ url, date }) {
         <div css={STYLES_META}>
           <span>{Strings.toDate(date)}</span> / <span>{readTime} min read</span>
         </div>
-        <div css={STYLES_DEVIDER} style={{ height: percentage > 15 ? "4px" : "1px" }}>
-          <div
-            css={STYLE_PROGRESS}
-            style={{ width: `${percentage}%`, opacity: percentage < 15 ? 0 : 1 }}
-          />
+        <div css={STYLES_DEVIDER} style={{ height: extendScroll ? "4px" : "1px" }}>
+          <div css={STYLE_PROGRESS} ref={meterRef} style={{ opacity: opacity }} />
           <div css={STYLES_INTENT} />
         </div>
         <article css={STYLES_BODY}>
@@ -166,12 +167,21 @@ export default function MarkdownFrame({ url, date }) {
   );
 }
 
-const useScrollPosition = ({ ref }) => {
-  const [percentage, setPercentage] = React.useState(0);
+const useScrollPosition = ({ ref, childRef }) => {
+  const [extendScroll, setExtendScroll] = React.useState(false);
+  const [opacity, setOpacity] = React.useState(0);
   const handleScrollAnimation = () => {
     const percentage =
       (100 * ref.current.scrollTop) / (ref.current.scrollHeight - ref.current.clientHeight);
-    setPercentage(percentage);
+
+    // Updating width without updating state to improve performance
+    childRef.current.style.width = `${percentage}%`;
+
+    if (percentage > 15 && !extendScroll) setExtendScroll(true);
+    if (percentage < 15 && extendScroll) setExtendScroll(false);
+
+    if (percentage < 15 && opacity === 1) setOpacity(0);
+    if (percentage > 15 && opacity === 0) setOpacity(1);
   };
-  return { percentage, handleScrollAnimation };
+  return { opacity, extendScroll, handleScrollAnimation };
 };

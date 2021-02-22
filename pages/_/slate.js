@@ -117,6 +117,11 @@ const STYLES_DESCRIPTION = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
     width: 100%;
   }
+
+  ul,
+  ol {
+    white-space: normal;
+  }
 `;
 
 const STYLES_STATS = css`

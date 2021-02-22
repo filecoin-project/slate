@@ -11,7 +11,6 @@ import { CheckBox } from "~/components/system/components/CheckBox.js";
 import { Boundary } from "~/components/system/components/fragments/Boundary";
 import { GlobalCarousel } from "~/components/system/components/GlobalCarousel";
 import { getPublicAndPrivateFiles } from "~/common/utilities";
-
 import ScenePage from "~/components/core/ScenePage";
 import DataView from "~/components/core/DataView";
 import DataMeter from "~/components/core/DataMeterDetailed";
@@ -33,10 +32,14 @@ const STYLES_TOOLTIP_ANCHOR = css`
   border: 1px solid #f2f2f2;
   background-color: ${Constants.system.white};
   border-radius: 2px;
+  right: 0px;
+  top: 50px;
+  width: 256px;
+  height: 216px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-around;
   box-shadow: 0px 8px 24px rgba(178, 178, 178, 0.2);
   position: absolute;
   z-index: ${Constants.zindex.tooltip};
@@ -45,24 +48,55 @@ const STYLES_TOOLTIP_ANCHOR = css`
 const STYLES_FILETYPE_TOOLTIP = css`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 260px;
+  justify-content: flex-start;
+  align-items: center;
+  height: 80%;
+  width: 50%;
+  margin: 24px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 const STYLES_PRIVACY_TOOLTIP = css`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 120px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 40%;
   font-family: ${Constants.font.medium};
   font-size: 16px;
+  width: 50%;
+  margin: 24px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
+
+const STYLES_CHECKBOX_LABEL = css`
+  padding-top: 0;
+  position: relative;
+  top: -4px;
+  font-family: ${Constants.font.medium};
+  font-size: 16px;
+`;
+
+const STYLES_TOOLTIP_DIVIDER_CONTAINER = css`
+  height: 100%;
+  width: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const STYLES_TOOLTIP_DIVIDER = css`
+  height: 80%;
+  border: 1px solid ${Constants.system.lightBorder};
+  width: 1px;
 `;
 
 export default class SceneFilesFolder extends React.Component {
   state = {
     view: 0,
-    filetypeTooltip: false,
-    privacyTooltip: false,
+    filterTooltip: false,
     filters: {
       images: false,
       audio: false,
@@ -75,12 +109,8 @@ export default class SceneFilesFolder extends React.Component {
     files: this.props.viewer?.library[0].children,
   };
 
-  _handleFiletypeTooltip = () => {
-    this.setState({ filetypeTooltip: !this.state.filetypeTooltip });
-  };
-
-  _handlePrivacyTooltip = () => {
-    this.setState({ privacyTooltip: !this.state.privacyTooltip });
+  _handleFilterTooltip = () => {
+    this.setState({ filterTooltip: !this.state.filterTooltip });
   };
 
   _handlePrivacyFilter = (filter) => {
@@ -255,22 +285,85 @@ export default class SceneFilesFolder extends React.Component {
         />
         <div css={STYLES_FILTERS_CONTAINER}>
           <div style={{ position: "relative" }}>
-            <ButtonTertiary onClick={this._handlePrivacyTooltip}>
-              <span style={{ width: 50 }}>{this.state.privacy}</span>
+            <ButtonTertiary style={{ margin: 0 }} onClick={this._handleFilterTooltip}>
+              <SVG.Filter
+                height="18px"
+                style={{
+                  color: this.state.filtersActive
+                    ? Constants.system.brand
+                    : Constants.system.textGray,
+                }}
+              />
             </ButtonTertiary>
-            {this.state.privacyTooltip ? (
+            {this.state.filterTooltip ? (
               <Boundary
                 captureResize={true}
                 captureScroll={false}
                 enabled
-                onOutsideRectEvent={() => this.setState({ privacyTooltip: false })}
+                onOutsideRectEvent={() => this.setState({ filetypeTooltip: false })}
               >
-                <div css={STYLES_TOOLTIP_ANCHOR} style={{ width: 91, left: 2, top: 44 }}>
+                <div css={STYLES_TOOLTIP_ANCHOR}>
+                  <div css={STYLES_FILETYPE_TOOLTIP}>
+                    <div style={{ width: 100 }}>
+                      <CheckBox
+                        name="images"
+                        value={this.state.filters["images"]}
+                        onChange={() => this._handleFiletypeFilter("images")}
+                        boxStyle={{ height: 20, width: 20 }}
+                      >
+                        <span css={STYLES_CHECKBOX_LABEL}>Images</span>
+                      </CheckBox>
+                    </div>
+                    <div style={{ width: 100, marginTop: 12 }}>
+                      <CheckBox
+                        name="audio"
+                        value={this.state.filters["audio"]}
+                        onChange={() => this._handleFiletypeFilter("audio")}
+                        boxStyle={{ height: 20, width: 20 }}
+                      >
+                        <span css={STYLES_CHECKBOX_LABEL}>Audio</span>
+                      </CheckBox>
+                    </div>
+                    <div style={{ width: 100, marginTop: 12 }}>
+                      <CheckBox
+                        name="assets"
+                        value={this.state.filters["assets"]}
+                        onChange={() => this._handleFiletypeFilter("assets")}
+                        boxStyle={{ height: 20, width: 20 }}
+                      >
+                        <span css={STYLES_CHECKBOX_LABEL}>Assets</span>
+                      </CheckBox>
+                    </div>
+                    <div style={{ width: 100, marginTop: 12 }}>
+                      <CheckBox
+                        name="videos"
+                        value={this.state.filters["videos"]}
+                        onChange={() => this._handleFiletypeFilter("videos")}
+                        boxStyle={{ height: 20, width: 20 }}
+                      >
+                        <span css={STYLES_CHECKBOX_LABEL}>Videos</span>
+                      </CheckBox>
+                    </div>
+                    <div style={{ width: 100, marginTop: 12 }}>
+                      <CheckBox
+                        name="books"
+                        value={this.state.filters["books"]}
+                        onChange={() => this._handleFiletypeFilter("books")}
+                        boxStyle={{ height: 20, width: 20 }}
+                      >
+                        <span css={STYLES_CHECKBOX_LABEL}>Books</span>
+                      </CheckBox>
+                    </div>
+                  </div>
+                  <div css={STYLES_TOOLTIP_DIVIDER_CONTAINER}>
+                    <div css={STYLES_TOOLTIP_DIVIDER}></div>
+                  </div>
                   <div css={STYLES_PRIVACY_TOOLTIP}>
                     <div
                       style={{
                         color: this.state.privacy === "All" ? Constants.system.brand : null,
                         cursor: "pointer",
+                        marginTop: 1,
                       }}
                       onClick={() => this._handlePrivacyFilter("All")}
                     >
@@ -281,6 +374,7 @@ export default class SceneFilesFolder extends React.Component {
                         color:
                           this.state.privacy === "Private" ? Constants.system.brand : "inherit",
                         cursor: "pointer",
+                        marginTop: 17,
                       }}
                       onClick={() => this._handlePrivacyFilter("Private")}
                     >
@@ -290,117 +384,12 @@ export default class SceneFilesFolder extends React.Component {
                       style={{
                         color: this.state.privacy === "Public" ? Constants.system.brand : "inherit",
                         cursor: "pointer",
+                        marginTop: 18,
                       }}
                       onClick={() => this._handlePrivacyFilter("Public")}
                     >
                       Public
                     </div>
-                  </div>
-                </div>
-              </Boundary>
-            ) : null}
-          </div>
-          <div style={{ position: "relative" }}>
-            <ButtonTertiary style={{ marginRight: 20 }} onClick={this._handleFiletypeTooltip}>
-              <SVG.Filter
-                height="18px"
-                style={{
-                  color: this.state.filtersActive
-                    ? Constants.system.brand
-                    : Constants.system.textGray,
-                }}
-              />
-              <span style={{ width: 75, paddingLeft: 5, paddingBottom: 1 }}>Filetype</span>
-            </ButtonTertiary>
-            {this.state.filetypeTooltip ? (
-              <Boundary
-                captureResize={true}
-                captureScroll={false}
-                enabled
-                onOutsideRectEvent={() => this.setState({ filetypeTooltip: false })}
-              >
-                <div css={STYLES_TOOLTIP_ANCHOR} style={{ width: 134, left: 2, top: 50 }}>
-                  <div css={STYLES_FILETYPE_TOOLTIP}>
-                    <CheckBox
-                      name="images"
-                      value={this.state.filters["images"]}
-                      style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter("images")}
-                    >
-                      <span
-                        style={{
-                          fontFamily: Constants.font.medium,
-                          fontSize: 16,
-                          paddingTop: 0,
-                        }}
-                      >
-                        Images
-                      </span>
-                    </CheckBox>
-                    <CheckBox
-                      name="audio"
-                      value={this.state.filters["audio"]}
-                      style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter("audio")}
-                    >
-                      <span
-                        style={{
-                          fontFamily: Constants.font.medium,
-                          fontSize: 16,
-                          paddingTop: 0,
-                        }}
-                      >
-                        Audio
-                      </span>
-                    </CheckBox>
-                    <CheckBox
-                      name="assets"
-                      value={this.state.filters["assets"]}
-                      style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter("assets")}
-                    >
-                      <span
-                        style={{
-                          fontFamily: Constants.font.medium,
-                          fontSize: 16,
-                          paddingTop: 0,
-                        }}
-                      >
-                        Assets
-                      </span>
-                    </CheckBox>
-                    <CheckBox
-                      name="videos"
-                      value={this.state.filters["videos"]}
-                      style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter("videos")}
-                    >
-                      <span
-                        style={{
-                          fontFamily: Constants.font.medium,
-                          fontSize: 16,
-                          paddingTop: 0,
-                        }}
-                      >
-                        Videos
-                      </span>
-                    </CheckBox>
-                    <CheckBox
-                      name="books"
-                      value={this.state.filters["books"]}
-                      style={{ padding: 5 }}
-                      onChange={() => this._handleFiletypeFilter("books")}
-                    >
-                      <span
-                        style={{
-                          fontFamily: Constants.font.medium,
-                          fontSize: 16,
-                          paddingTop: 0,
-                        }}
-                      >
-                        Books
-                      </span>
-                    </CheckBox>
                   </div>
                 </div>
               </Boundary>

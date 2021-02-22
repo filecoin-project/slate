@@ -166,7 +166,7 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  setWindowState = (data) => {
+  /* setWindowState = (cid, data) => {
     let baseURL = window.location.pathname.split("/");
     baseURL.length = 3;
     baseURL = baseURL.join("/");
@@ -183,6 +183,31 @@ export class GlobalCarousel extends React.Component {
         cid ? newURL : baseURL
       );
     }
+  }; */
+
+  setWindowState = (data) => {
+    let baseURL = window.location.pathname.split("/");
+    baseURL.length = 3;
+    baseURL = baseURL.join("/");
+
+    const isActivityCarousel = this.props.carouselType === "ACTIVITY";
+    if (isActivityCarousel) {
+      window.history.replaceState(
+        { ...window.history.state, cid: data && data.cid },
+        null,
+        data && data.cid
+          ? `/${data.owner}/${data.slate.slatename}/cid:${data.cid}`
+          : `/_?scene=NAV_ACTIVITY`
+      );
+
+      return;
+    }
+
+    window.history.replaceState(
+      { ...window.history.state, cid: data && data.cid },
+      null,
+      data && data.cid ? `${baseURL}/cid:${data.cid}` : baseURL
+    );
   };
 
   _handleOpen = (e) => {

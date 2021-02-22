@@ -395,7 +395,6 @@ export default class SceneActivity extends React.Component {
         };
       });
 
-    console.log(items);
     return (
       <ScenePage>
         <ScenePageHeader

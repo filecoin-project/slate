@@ -71,6 +71,10 @@ const STYLES_DESCRIPTION = css`
   max-width: 800px;
   white-space: pre-wrap;
   overflow-wrap: break-word;
+  ul,
+  ol {
+    white-space: normal;
+  }
 `;
 
 export const ScenePageHeader = (props) => {

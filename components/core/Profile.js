@@ -109,6 +109,12 @@ const STYLES_DESCRIPTION = css`
   max-width: 100%;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+
+  ul,
+  ol {
+    white-space: normal;
+  }
+
   @media (max-width: ${Constants.sizes.mobile}px) {
     margin-top: 24px;
   }

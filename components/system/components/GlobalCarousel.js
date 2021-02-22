@@ -166,15 +166,23 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  setWindowState = (cid) => {
+  setWindowState = (data) => {
     let baseURL = window.location.pathname.split("/");
     baseURL.length = 3;
     baseURL = baseURL.join("/");
-    window.history.replaceState(
-      { ...window.history.state, cid: cid },
-      null,
-      cid ? `${baseURL}/cid:${cid}` : baseURL
-    );
+
+    if (data) {
+      const { cid, slate, owner } = data;
+      const isActivity = this.props.carouselType === "ACTIVITY";
+      const newURL =
+        isActivity && cid ? `/${owner}/${slate.slatename}/cid:${cid}` : `${baseURL}/cid:${cid}`;
+
+      window.history.replaceState(
+        { ...window.history.state, cid: cid },
+        null,
+        cid ? newURL : baseURL
+      );
+    }
   };
 
   _handleOpen = (e) => {
@@ -187,7 +195,7 @@ export class GlobalCarousel extends React.Component {
     });
     if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
       const data = this.props.objects[e.detail.index];
-      this.setWindowState(data.cid);
+      this.setWindowState(data);
     }
   };
 
@@ -212,7 +220,7 @@ export class GlobalCarousel extends React.Component {
 
     if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
       const data = this.props.objects[index];
-      this.setWindowState(data.cid);
+      this.setWindowState(data);
     }
   };
 
@@ -225,7 +233,7 @@ export class GlobalCarousel extends React.Component {
 
     if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
       const data = this.props.objects[index];
-      this.setWindowState(data.cid);
+      this.setWindowState(data);
     }
   };
 

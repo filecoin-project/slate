@@ -271,13 +271,6 @@ export default class SceneActivity extends React.Component {
 
   fetchActivityItems = async (update = false) => {
     this.setState({ loading: "loading" });
-
-    window.history.replaceState(
-      { ...window.history.state },
-      "Slate",
-      `/${this.props.viewer.username}/activity`
-    );
-
     let activity =
       this.props.tab === 0 ? this.props.viewer.activity || [] : this.props.viewer.explore || [];
     let response;
@@ -395,8 +388,14 @@ export default class SceneActivity extends React.Component {
     let items = activity
       .filter((item) => item.data.type === "SUBSCRIBED_ADD_TO_SLATE")
       .map((item) => {
-        return { ...item.data.context.file, slate: item.data.context.slate };
+        return {
+          ...item.data.context.file,
+          slate: item.data.context.slate,
+          owner: item.data.context.user.username,
+        };
       });
+
+    console.log(items);
     return (
       <ScenePage>
         <ScenePageHeader

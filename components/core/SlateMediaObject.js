@@ -73,8 +73,10 @@ const StopPropagation = ({ children, ...rest }) => (
   </div>
 );
 
-const FrameDefault = ({ children, ...rest }) => (
-  <StopPropagation {...rest}>{children}</StopPropagation>
+const FrameDefault = ({ children, css, ...rest }) => (
+  <StopPropagation css={css || STYLES_ASSET} {...rest}>
+    {children}
+  </StopPropagation>
 );
 
 export default class SlateMediaObject extends React.Component {
@@ -108,14 +110,16 @@ export default class SlateMediaObject extends React.Component {
       return (
         <>
           {!isMobile && (
-            <object
-              css={STYLES_OBJECT}
-              style={{ width: "calc(100% - 64px)" }}
-              data={url}
-              type={type}
-              key={id}
-              aria-label={name}
-            />
+            <FrameDefault>
+              <object
+                css={STYLES_OBJECT}
+                style={{ width: "calc(100% - 64px)" }}
+                data={url}
+                type={type}
+                key={id}
+                aria-label={name}
+              />
+            </FrameDefault>
           )}
         </>
       );
@@ -144,7 +148,7 @@ export default class SlateMediaObject extends React.Component {
 
     if (type.startsWith("audio/")) {
       return (
-        <FrameDefault css={STYLES_ASSET}>
+        <FrameDefault>
           <audio controls name="media" key={id}>
             <source src={url} type={playType} />
           </audio>
@@ -167,7 +171,7 @@ export default class SlateMediaObject extends React.Component {
 
     if (Validations.isPreviewableImage(type)) {
       return (
-        <FrameDefault css={STYLES_ASSET}>
+        <FrameDefault>
           <img alt={name} css={STYLES_IMAGE} src={url} />
         </FrameDefault>
       );

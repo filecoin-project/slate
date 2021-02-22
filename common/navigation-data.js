@@ -44,7 +44,7 @@ export const navigation = [
     id: "NAV_ACTIVITY",
     decorator: "ACTIVITY",
     name: "Activity",
-    pageTitle: "Welcome back!",
+    pageTitle: "Activity",
     ignore: true,
   },
   {

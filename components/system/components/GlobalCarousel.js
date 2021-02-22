@@ -166,14 +166,28 @@ export class GlobalCarousel extends React.Component {
     }
   };
 
-  setWindowState = (cid) => {
+  setWindowState = (data) => {
     let baseURL = window.location.pathname.split("/");
     baseURL.length = 3;
     baseURL = baseURL.join("/");
+
+    const isActivityCarousel = this.props.carouselType === "ACTIVITY";
+    if (isActivityCarousel) {
+      window.history.replaceState(
+        { ...window.history.state, cid: data && data.cid },
+        null,
+        data && data.cid
+          ? `/${data.owner}/${data.slate.slatename}/cid:${data.cid}`
+          : `/_?scene=NAV_ACTIVITY`
+      );
+
+      return;
+    }
+
     window.history.replaceState(
-      { ...window.history.state, cid: cid },
+      { ...window.history.state, cid: data && data.cid },
       null,
-      cid ? `${baseURL}/cid:${cid}` : baseURL
+      data && data.cid ? `${baseURL}/cid:${data.cid}` : baseURL
     );
   };
 
@@ -185,9 +199,9 @@ export class GlobalCarousel extends React.Component {
       visible: true,
       index: e.detail.index || 0,
     });
-    if (this.props.carouselType === "SLATE") {
+    if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
       const data = this.props.objects[e.detail.index];
-      this.setWindowState(data.cid);
+      this.setWindowState(data);
     }
   };
 
@@ -210,9 +224,9 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index });
 
-    if (this.props.carouselType === "SLATE") {
+    if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
       const data = this.props.objects[index];
-      this.setWindowState(data.cid);
+      this.setWindowState(data);
     }
   };
 
@@ -223,9 +237,9 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index });
 
-    if (this.props.carouselType === "SLATE") {
+    if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
       const data = this.props.objects[index];
-      this.setWindowState(data.cid);
+      this.setWindowState(data);
     }
   };
 

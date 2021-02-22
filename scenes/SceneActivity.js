@@ -388,8 +388,13 @@ export default class SceneActivity extends React.Component {
     let items = activity
       .filter((item) => item.data.type === "SUBSCRIBED_ADD_TO_SLATE")
       .map((item) => {
-        return { ...item.data.context.file, slate: item.data.context.slate };
+        return {
+          ...item.data.context.file,
+          slate: item.data.context.slate,
+          owner: item.data.context.user.username,
+        };
       });
+
     return (
       <ScenePage>
         <ScenePageHeader

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Validations from "~/common/validations";
@@ -34,6 +35,7 @@ const STYLES_OBJECT = css`
 
 const STYLES_ASSET = css`
   user-select: none;
+  pointer-events: none;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -57,7 +59,7 @@ const typeMap = {
 };
 
 export default class SlateMediaObject extends React.Component {
-  openLink = (url) => {
+  openLink(url) {
     let { isMobile, data } = this.props;
     const isPDF = data.type && data.type.startsWith("application/pdf");
 
@@ -67,15 +69,15 @@ export default class SlateMediaObject extends React.Component {
 
       return;
     }
-  };
+  }
 
   componentDidMount() {
-    const url = this.props.data.url;
+    const { url } = this.props.data;
     this.openLink(url);
   }
 
   render() {
-    const url = this.props.data.url;
+    const { url } = this.props.data;
     const type = this.props.data.type ? this.props.data.type : "LEGACY_NO_TYPE";
     const playType = typeMap[type] ? typeMap[type] : type;
 
@@ -93,9 +95,6 @@ export default class SlateMediaObject extends React.Component {
               data={url}
               type={type}
               key={url}
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
             />
           )}
         </>
@@ -127,14 +126,7 @@ export default class SlateMediaObject extends React.Component {
     if (type.startsWith("audio/")) {
       return (
         <div css={STYLES_ASSET}>
-          <audio
-            controls
-            name="media"
-            key={url}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
+          <audio controls name="media" key={url}>
             <source src={url} type={playType} />
           </audio>
         </div>
@@ -145,24 +137,23 @@ export default class SlateMediaObject extends React.Component {
       return <MarkdownFrame date={this.props.data.date} url={this.props.data.url} />;
     }
 
+    if (type.startsWith("text/uri-list")) {
+      // do something with uri-list item
+      return <LinkFrame item={item} />;
+    }
+
     if (Validations.isPreviewableImage(type)) {
       return (
         <div css={STYLES_ASSET}>
-          <img
-            css={STYLES_IMAGE}
-            src={url}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          />
+          <img alt="" css={STYLES_IMAGE} src={url} />
         </div>
       );
     }
 
     // TODO(jim): We will need to revisit this later.
     if (type.startsWith("application/unity")) {
-      const unityGameConfig = this.props.data.unityGameConfig;
-      const unityGameLoader = this.props.data.unityGameLoader;
+      const { unityGameConfig } = this.props.data;
+      const { unityGameLoader } = this.props.data;
 
       return (
         <UnityFrame

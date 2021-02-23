@@ -91,7 +91,7 @@ const Card3D = ({ children }) => {
     let layers = Array.from(layersNode);
     let shine = document.querySelectorAll(".shine")[0];
 
-    // desktop devices
+    // NOTE(daniel): desktop devices
     wrapper.current.addEventListener("mousemove", (e) =>
       _handleMouseMove(e, false, wrapper.current, layers, layers.length, shine)
     );
@@ -100,7 +100,7 @@ const Card3D = ({ children }) => {
       _handleMouseLeave(e, wrapper.current, layers, layers.length, shine)
     );
 
-    // mobile devices
+    // NOTE(daniel): mobile devices
     wrapper.current.addEventListener("touchmove", (e) =>
       _handleTouchMove(e, false, wrapper.current, layers, layers.length, shine)
     );
@@ -110,7 +110,7 @@ const Card3D = ({ children }) => {
     );
 
     return () => {
-      // desktop devices
+      // NOTE(daniel): desktop devices
       wrapper.current.removeEventListener("mousemove", (e) =>
         _handleMouseMove(e, false, wrapper.current, layers, layers.length, shine)
       );
@@ -121,7 +121,7 @@ const Card3D = ({ children }) => {
         _handleMouseLeave(e, wrapper.current, layers, layers.length, shine)
       );
 
-      // mobile devices
+      // NOTE(daniel): mobile devices
       wrapper.current.removeEventListener("touchmove", (e) =>
         _handleTouchMove(e, false, wrapper.current, layers, layers.length, shine)
       );

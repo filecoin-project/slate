@@ -4,14 +4,13 @@ import * as Actions from "~/common/actions";
 import * as Window from "~/common/window";
 import * as Validations from "~/common/validations";
 import * as Strings from "~/common/strings";
-import * as Store from "~/common/store";
 import * as FileUtilities from "~/common/file-utilities";
 import * as Events from "~/common/custom-events";
 
 import Cookies from "universal-cookie";
 import JSZip from "jszip";
+import fetch from "isomorphic-fetch";
 
-import { v4 as uuid } from "uuid";
 import { saveAs } from "file-saver";
 
 //NOTE(martina): this file is for utility *API-calling* functions
@@ -134,17 +133,50 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
   if (uriList) {
     // hello url, let's do some magic here
     const uri = dataTransfer.getData("text/uri-list");
-    var file = new File([uri], "foo.md", {
-      type: "text/plain",
-    });
-    console.log(file);
-    files.push(file);
-    fileLoading[`${file.lastModified}-${file.name}`] = {
-      name: file.name,
-      loaded: 0,
-      total: file.size,
-    };
-    // fetch(`https://api.microlink.io/?url=${uri}`);
+
+    Events.dispatchMessage({ message: "Processing link", status: "INFO" });
+
+    // TODO(cw): currently we are processing links via microlink in order
+    // to populate the necessary metadata we may replace this with our
+    // own service in the future.
+
+    const microlink = `https://api.microlink.io?url=${encodeURIComponent(
+      uri
+    )}&palette=true&audio=true&video=true&iframe=true`;
+
+    try {
+      const response = await fetch(microlink);
+      const urlJSON = await response.json();
+
+      if (urlJSON.status === "success") {
+        const formatTitle = ({ title, publisher }) =>
+          publisher ? `${publisher} - ${title}` : title;
+
+        const formatFileStr = (data) => {
+          // remove date keys to keep links unique for now
+          delete data.date;
+          return JSON.stringify(data);
+        };
+
+        console.log("URL processed: ", urlJSON);
+
+        const file = new File([formatFileStr(urlJSON.data)], `${formatTitle(urlJSON.data)}.link`, {
+          type: "application/json",
+        });
+
+        console.log("File created: ", file);
+
+        // add link to upload queue
+        files.push(file);
+        fileLoading[`${file.lastModified}-${file.name}`] = {
+          name: file.name,
+          loaded: 0,
+          total: file.size,
+        };
+      }
+    } catch (e) {
+      Events.dispatchMessage({ message: `Error processing url ${uri}, try again later` });
+    }
   } else {
     for (let item in dataTransfer.items) {
       const data = dataTransfer.items[item];
@@ -157,21 +189,6 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
           total: file.size,
         };
       }
-      // try {
-      //   const dataAsString = new Promise((resolve, reject) => data.getAsString((d) => resolve(d)));
-      //   const resp = await fetch(await dataAsString);
-      //   const blob = resp.blob();
-
-      //   file = new File(blob, `data-${uuid()}`);
-      //   file.name = `data-${uuid()}`;
-      //   console.log(file);
-      // } catch (e) {
-      //   Events.dispatchMessage({
-      //     message: "File type not supported. Please try a different file",
-      //   });
-
-      //   return { error: true };
-      // }
     }
   }
 

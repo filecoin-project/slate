@@ -37,6 +37,7 @@ import {
   ButtonWarning,
 } from "~/components/system/components/Buttons";
 import { CardTabGroup } from "~/components/system/components/CardTabGroup";
+import { Card3D } from "~/components/system/components/Card3D";
 import { CheckBox } from "~/components/system/components/CheckBox";
 import { CodeTextarea } from "~/components/system/components/CodeTextarea";
 // import { DatePicker } from "~/components/system/components/DatePicker";
@@ -113,6 +114,7 @@ export {
   ButtonDisabledFull,
   ButtonWarning,
   CardTabGroup,
+  Card3D,
   CheckBox,
   CodeText,
   CodeTextarea,

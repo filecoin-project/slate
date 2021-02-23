@@ -149,8 +149,9 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
       const urlJSON = await response.json();
 
       if (urlJSON.status === "success") {
+        // cleanup to ensure the filename doesn't fail upon api post
         const formatTitle = ({ title, publisher }) =>
-          publisher ? `${publisher} - ${title}` : title;
+          (publisher ? `${publisher} - ${title}` : title).replace(/[^a-zA-Z0-9 -]/g, " ").trim();
 
         const formatFileStr = (data) => {
           // remove date keys to keep links unique for now

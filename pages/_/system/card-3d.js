@@ -38,7 +38,7 @@ export default class SystemPageCard3D extends React.Component {
         <br />
         <br />
         <System.P>
-          The 3D Card Component is fluid card component used to display present any object in 3d.
+          The 3D Card Component is a fluid card component used to display present any object in 3d.
         </System.P>
         <br />
         <br />

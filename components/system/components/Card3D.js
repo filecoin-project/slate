@@ -48,7 +48,7 @@ const STYLES_SHINE = css`
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 60%);
 `;
 
-const Card3D = ({ children }) => {
+export const Card3D = ({ children }) => {
   const wrapper = React.useRef();
 
   const [width, setWidth] = React.useState(0);
@@ -86,20 +86,20 @@ const Card3D = ({ children }) => {
     let shine = document.querySelectorAll(".shine")[0];
 
     // NOTE(daniel): desktop devices
-    wrapper.current.addEventListener("mousemove", (e) =>
+    wrapper.current?.addEventListener("mousemove", (e) =>
       _handleMouseMove(e, false, wrapper.current, layers, layers.length, shine)
     );
-    wrapper.current.addEventListener("mouseenter", (e) => _handleMouseEnter(e, wrapper.current));
-    wrapper.current.addEventListener("mouseleave", (e) =>
+    wrapper.current?.addEventListener("mouseenter", (e) => _handleMouseEnter(e, wrapper.current));
+    wrapper.current?.addEventListener("mouseleave", (e) =>
       _handleMouseLeave(e, wrapper.current, layers, layers.length, shine)
     );
 
     // NOTE(daniel): mobile devices
-    wrapper.current.addEventListener("touchmove", (e) =>
+    wrapper.current?.addEventListener("touchmove", (e) =>
       _handleTouchMove(e, false, wrapper.current, layers, layers.length, shine)
     );
-    wrapper.current.addEventListener("touchstart", (e) => _handleTouchStart(e, wrapper.current));
-    wrapper.current.addEventListener("touchend", (e) =>
+    wrapper.current?.addEventListener("touchstart", (e) => _handleTouchStart(e, wrapper.current));
+    wrapper.current?.addEventListener("touchend", (e) =>
       _handleTouchEnd(e, wrapper.current, layers, layers.length, shine)
     );
 
@@ -150,8 +150,6 @@ const Card3D = ({ children }) => {
     </div>
   );
 };
-
-export default Card3D;
 
 function getWidth(elem) {
   let width;

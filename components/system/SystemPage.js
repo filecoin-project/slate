@@ -172,6 +172,7 @@ export default class SystemPage extends React.Component {
           <SidebarLink url={url} href="/_/system/avatar-group" title="Avatar Group" />
           <SidebarLink url={url} href="/_/system/buttons" title="Buttons" />
           <SidebarLink url={url} href="/_/system/card-tabs" title="Card Tabs" />
+          <SidebarLink url={url} href="/_/system/card-3d" title="3D Card" />
           <SidebarLink url={url} href="/_/system/checkboxes" title="Checkboxes" />
           <SidebarLink url={url} href="/_/system/colors" title="Colors" />
           <SidebarLink url={url} href="/_/system/dropdowns" title="Dropdowns" />

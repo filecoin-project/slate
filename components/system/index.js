@@ -81,6 +81,8 @@ import { AvatarGroup } from "~/components/system/components/AvatarGroup";
 
 import * as SVG from "~/common/svg";
 
+import Card3D from "~/components/system/components/Card3D";
+
 // NOTE(jim): Export everything.
 export {
   // NOTE(martina): Actions
@@ -113,6 +115,7 @@ export {
   ButtonDisabledFull,
   ButtonWarning,
   CardTabGroup,
+  Card3D,
   CheckBox,
   CodeText,
   CodeTextarea,

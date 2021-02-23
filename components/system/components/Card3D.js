@@ -54,21 +54,6 @@ const STYLES_SHINE = css`
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 60%);
 `;
 
-const STYLES_RENDERED_LAYER = css`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0%;
-  left: 0%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: transparent;
-  background-size: cover;
-  transition: all 0.1s ease-out;
-  overflow: hidden;
-  border-radius: 8px;
-`;
-
 const Card3D = ({ children }) => {
   const wrapper = React.useRef();
 
@@ -149,25 +134,16 @@ const Card3D = ({ children }) => {
     };
   });
 
+  const cardChildren = Array.isArray(children)
+    ? children.map((child) => React.cloneElement(child, { className: "rendered-layer" }))
+    : React.cloneElement(children, { className: "rendered-layer" });
+
   return (
     <div css={STYLES_WRAPPER} ref={wrapper} style={{ transform: `perspective(${width * 3}px)` }}>
       <div css={STYLES_CONTAINER} className="container">
         <div className="shadow" css={STYLES_SHADOW} />
         <div className="layer" css={STYLES_LAYER}>
-          <div
-            className="rendered-layer"
-            css={STYLES_RENDERED_LAYER}
-            style={{
-              backgroundImage: "url('http://robindelaporte.fr/codepen/visa-bg.jpg')",
-            }}
-          ></div>
-          <div
-            className="rendered-layer"
-            css={STYLES_RENDERED_LAYER}
-            style={{
-              backgroundImage: "url('http://robindelaporte.fr/codepen/visa.png')",
-            }}
-          ></div>
+          {cardChildren}
         </div>
         <div className="shine" css={STYLES_SHINE} />
       </div>

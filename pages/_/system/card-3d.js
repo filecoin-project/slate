@@ -8,6 +8,21 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
+const STYLES_RENDERED_LAYER = css`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0%;
+  left: 0%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  background-size: cover;
+  transition: all 0.1s ease-out;
+  overflow: hidden;
+  border-radius: 8px;
+`;
+
 export default class SystemPageCard3D extends React.Component {
   render() {
     return (
@@ -65,7 +80,20 @@ export default class SystemPageCard3D extends React.Component {
         <System.H2>Output</System.H2>
         <hr />
         <br />
-        <System.Card3D />
+        <System.Card3D>
+          <div
+            css={STYLES_RENDERED_LAYER}
+            style={{
+              backgroundImage: "url('http://robindelaporte.fr/codepen/visa-bg.jpg')",
+            }}
+          />
+          <div
+            css={STYLES_RENDERED_LAYER}
+            style={{
+              backgroundImage: "url('http://robindelaporte.fr/codepen/visa.png')",
+            }}
+          />
+        </System.Card3D>
       </SystemPage>
     );
   }

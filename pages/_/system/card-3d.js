@@ -39,6 +39,9 @@ export default class SystemPageCard3D extends React.Component {
         <br />
         <System.P>
           The 3D Card Component is a fluid card component used to display present any object in 3d.
+          It is a port of the vanilla JS <a href="https://codepen.io/robin-dela/pen/jVddbq">pen</a>{" "}
+          of <a href="https://codepen.io/robin-dela">Robin Delaporte</a> to React. The code is used
+          under the <a href="https://blog.codepen.io/documentation/licensing/">MIT license</a>.
         </System.P>
         <br />
         <br />

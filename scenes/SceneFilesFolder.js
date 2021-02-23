@@ -214,6 +214,7 @@ export default class SceneFilesFolder extends React.Component {
   };
 
   render() {
+    let files = this.props.viewer?.library[0].children || [];
     return (
       <ScenePage>
         <ScenePageHeader
@@ -397,11 +398,11 @@ export default class SceneFilesFolder extends React.Component {
             ) : null}
           </div>
         </div>
-        {this.state.files?.length ? (
+        {files.length ? (
           <DataView
             onAction={this.props.onAction}
             viewer={this.props.viewer}
-            items={this.state.files}
+            items={files}
             onUpdateViewer={this.props.onUpdateViewer}
             view={this.state.view}
           />

@@ -73,7 +73,7 @@ const StopPropagation = ({ children, ...rest }) => (
   </div>
 );
 
-const FrameDefault = ({ children, css, ...rest }) => (
+const Frame = ({ children, css, ...rest }) => (
   <StopPropagation css={css || STYLES_ASSET} {...rest}>
     {children}
   </StopPropagation>
@@ -110,7 +110,7 @@ export default class SlateMediaObject extends React.Component {
       return (
         <>
           {!isMobile && (
-            <FrameDefault>
+            <Frame>
               <object
                 css={STYLES_OBJECT}
                 style={{ width: "calc(100% - 64px)" }}
@@ -119,7 +119,7 @@ export default class SlateMediaObject extends React.Component {
                 key={id}
                 aria-label={name}
               />
-            </FrameDefault>
+            </Frame>
           )}
         </>
       );
@@ -128,7 +128,7 @@ export default class SlateMediaObject extends React.Component {
     if (type.startsWith("video/")) {
       const autoPlay = this.props?.data?.settings?.autoPlay || false;
       return (
-        <FrameDefault>
+        <Frame>
           <video
             playsInline
             controls
@@ -142,38 +142,38 @@ export default class SlateMediaObject extends React.Component {
             {/** Note(Amine): fallback if video type isn't supported (example .mov) */}
             <source src={url} type="video/mp4" />
           </video>
-        </FrameDefault>
+        </Frame>
       );
     }
 
     if (type.startsWith("audio/")) {
       return (
-        <FrameDefault>
+        <Frame>
           <audio controls name="media" key={id}>
             <source src={url} type={playType} />
           </audio>
-        </FrameDefault>
+        </Frame>
       );
     }
 
     if (this.props.data.name.endsWith(".md")) {
       return (
-        <FrameDefault>
+        <Frame>
           <MarkdownFrame date={this.props.data.date} url={this.props.data.url} />
-        </FrameDefault>
+        </Frame>
       );
     }
 
     if (type.startsWith("text/uri-list")) {
       // do something with uri-list item
-      return <FrameDefault>{/* <LinkFrame item={item} /> */}</FrameDefault>;
+      return <Frame>{/* <LinkFrame item={item} /> */}</Frame>;
     }
 
     if (Validations.isPreviewableImage(type)) {
       return (
-        <FrameDefault>
+        <Frame>
           <img alt={name} css={STYLES_IMAGE} src={url} />
-        </FrameDefault>
+        </Frame>
       );
     }
 
@@ -183,14 +183,14 @@ export default class SlateMediaObject extends React.Component {
       const { unityGameLoader } = this.props.data;
 
       return (
-        <FrameDefault>
+        <Frame>
           <UnityFrame
             url={url}
             unityGameConfig={unityGameConfig}
             unityGameLoader={unityGameLoader}
             key={id}
           />
-        </FrameDefault>
+        </Frame>
       );
     }
 

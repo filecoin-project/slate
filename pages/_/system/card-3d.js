@@ -8,7 +8,12 @@ import SystemPage from "~/components/system/SystemPage";
 import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
-const STYLES_RENDERED_LAYER = css`
+const STYLES_WRAPPER = css`
+  height: 200px;
+  width: 320px;
+`;
+
+const STYLES_LAYER = css`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -32,68 +37,69 @@ export default class SystemPageCard3D extends React.Component {
         </System.H1>
         <br />
         <br />
-        <System.P>All of the colors the Filecoin Client uses.</System.P>
+        <System.P>
+          The 3D Card Component is fluid card component used to display present any object in 3d.
+        </System.P>
         <br />
         <br />
         <br />
         <System.H2>Imports</System.H2>
         <hr />
         <br />
-        <System.P>Import Constants.</System.P>
+        <System.P>Import 3D Card Component.</System.P>
         <br />
         <br />
-        <CodeBlock>{`import { Constants } from 'slate-react-system';`}</CodeBlock>
+        <CodeBlock>{`import { Card3D } from 'slate-react-system';`}</CodeBlock>
         <br />
         <br />
         <System.H2>Usage</System.H2>
         <hr />
         <br />
-        <System.P>Declare Constants.</System.P>
+        <System.P>Declare the 3D Card Component.</System.P>
         <br />
         <CodeBlock>
-          {`{Constants.system.white};
-
-{Constants.system.foreground};
-
-{Constants.system.gray};
-
-{Constants.system.border};
-
-{Constants.system.darkGray};
-
-{Constants.system.black};
-
-{Constants.system.pitchBlack};
-
-{Constants.system.brand};
-
-{Constants.system.link};
-
-{Constants.system.green};
-
-{Constants.system.yellow};
-
-{Constants.system.red};`}
+          {`/* Custom styles for the container to set width and height */
+<div css={STYLES_WRAPPER}>
+  <Card3D>
+    /* Any object with custom styles goes in here */
+    <div
+      css={STYLES_LAYER}
+      style={{ 
+        backgroundImage: 
+          "url('http://robindelaporte.fr/codepen/visa-bg.jpg')" 
+      }}
+    />
+    <div
+      css={STYLES_LAYER}
+      style={{ 
+        backgroundImage: 
+          "url('http://robindelaporte.fr/codepen/visa.png')" 
+      }}
+    />
+  </Card3D>
+</div>`}
         </CodeBlock>
         <br />
         <br />
         <System.H2>Output</System.H2>
         <hr />
         <br />
-        <System.Card3D>
-          <div
-            css={STYLES_RENDERED_LAYER}
-            style={{
-              backgroundImage: "url('http://robindelaporte.fr/codepen/visa-bg.jpg')",
-            }}
-          />
-          <div
-            css={STYLES_RENDERED_LAYER}
-            style={{
-              backgroundImage: "url('http://robindelaporte.fr/codepen/visa.png')",
-            }}
-          />
-        </System.Card3D>
+        <div css={STYLES_WRAPPER}>
+          <System.Card3D>
+            <div
+              css={STYLES_LAYER}
+              style={{
+                backgroundImage: "url('http://robindelaporte.fr/codepen/visa-bg.jpg')",
+              }}
+            />
+            <div
+              css={STYLES_LAYER}
+              style={{
+                backgroundImage: "url('http://robindelaporte.fr/codepen/visa.png')",
+              }}
+            />
+          </System.Card3D>
+        </div>
       </SystemPage>
     );
   }

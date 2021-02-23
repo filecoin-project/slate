@@ -4,11 +4,8 @@ import { css } from "@emotion/react";
 
 const STYLES_WRAPPER = css`
   display: inline-block;
-  /* height: 100%; */
-  /* width: 100%; */
-  height: 200px;
-  width: 320px;
-  border-radius: 8px;
+  height: 100%;
+  width: 100%;
   transform-style: preserve-3d;
   -webkit-tap-highlight-color: rgba(#000, 0);
 
@@ -21,7 +18,6 @@ const STYLES_CONTAINER = css`
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 8px;
   transition: all 0.2s ease-out;
 `;
 
@@ -39,7 +35,6 @@ const STYLES_LAYER = css`
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 8px;
   overflow: hidden;
   transform-style: preserve-3d;
 `;
@@ -50,7 +45,6 @@ const STYLES_SHINE = css`
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 8px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 60%);
 `;
 
@@ -87,7 +81,7 @@ const Card3D = ({ children }) => {
   };
 
   React.useEffect(() => {
-    let layersNode = document.querySelectorAll(".rendered-layer");
+    let layersNode = document.querySelectorAll(".inner-layer");
     let layers = Array.from(layersNode);
     let shine = document.querySelectorAll(".shine")[0];
 
@@ -111,32 +105,38 @@ const Card3D = ({ children }) => {
 
     return () => {
       // NOTE(daniel): desktop devices
-      wrapper.current.removeEventListener("mousemove", (e) =>
+      wrapper.current?.removeEventListener("mousemove", (e) =>
         _handleMouseMove(e, false, wrapper.current, layers, layers.length, shine)
       );
-      wrapper.current.removeEventListener("mouseenter", (e) =>
+      wrapper.current?.removeEventListener("mouseenter", (e) =>
         _handleMouseEnter(e, wrapper.current)
       );
-      wrapper.current.removeEventListener("mouseleave", (e) =>
+      wrapper.current?.removeEventListener("mouseleave", (e) =>
         _handleMouseLeave(e, wrapper.current, layers, layers.length, shine)
       );
 
       // NOTE(daniel): mobile devices
-      wrapper.current.removeEventListener("touchmove", (e) =>
+      wrapper.current?.removeEventListener("touchmove", (e) =>
         _handleTouchMove(e, false, wrapper.current, layers, layers.length, shine)
       );
-      wrapper.current.removeEventListener("touchstart", (e) =>
+      wrapper.current?.removeEventListener("touchstart", (e) =>
         _handleTouchStart(e, wrapper.current)
       );
-      wrapper.current.removeEventListener("touchend", (e) =>
+      wrapper.current?.removeEventListener("touchend", (e) =>
         _handleTouchEnd(e, wrapper.current, layers, layers.length, shine)
       );
     };
   });
 
-  const cardChildren = Array.isArray(children)
-    ? children.map((child) => React.cloneElement(child, { className: "rendered-layer" }))
-    : React.cloneElement(children, { className: "rendered-layer" });
+  let cardChildren;
+
+  if (!children) {
+    cardChildren = null;
+  } else if (Array.isArray(children)) {
+    cardChildren = children.map((child) => React.cloneElement(child, { className: "inner-layer" }));
+  } else {
+    React.cloneElement(children, { className: "inner-layer" });
+  }
 
   return (
     <div css={STYLES_WRAPPER} ref={wrapper} style={{ transform: `perspective(${width * 3}px)` }}>

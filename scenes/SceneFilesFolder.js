@@ -5,6 +5,7 @@ import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/react";
 import { ButtonPrimary, ButtonTertiary } from "~/components/system/components/Buttons";
+import { MetamaskButton } from "~/components/core/Metamask";
 import { FileTypeGroup } from "~/components/core/FileTypeIcon";
 import { TabGroup, PrimaryTabGroup, SecondaryTabGroup } from "~/components/core/TabGroup";
 import { CheckBox } from "~/components/system/components/CheckBox.js";
@@ -240,17 +241,20 @@ export default class SceneFilesFolder extends React.Component {
           stats={this.props.viewer.stats}
           style={{ marginBottom: 64 }}
           buttons={
-            <ButtonPrimary
-              onClick={() => {
-                this.props.onAction({
-                  type: "SIDEBAR",
-                  value: "SIDEBAR_ADD_FILE_TO_BUCKET",
-                });
-              }}
-              style={{ whiteSpace: "nowrap", marginRight: 24 }}
-            >
-              Upload data
-            </ButtonPrimary>
+            <>
+              <ButtonPrimary
+                onClick={() => {
+                  this.props.onAction({
+                    type: "SIDEBAR",
+                    value: "SIDEBAR_ADD_FILE_TO_BUCKET",
+                  });
+                }}
+                style={{ whiteSpace: "nowrap", marginRight: 24 }}
+              >
+                Upload data
+              </ButtonPrimary>
+              <MetamaskButton />
+            </>
           }
         />
         <div css={STYLES_FILTERS_CONTAINER}>

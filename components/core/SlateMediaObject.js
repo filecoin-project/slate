@@ -164,8 +164,8 @@ export default class SlateMediaObject extends React.Component {
       );
     }
 
-    if (type.startsWith("text/uri-list")) {
-      // do something with uri-list item
+    if (type.startsWith("application/json")) {
+      // do something with json data item
       return <Frame>{/* <LinkFrame item={item} /> */}</Frame>;
     }
 

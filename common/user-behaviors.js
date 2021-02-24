@@ -138,7 +138,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
 
     try {
       // TODO(cw): currently we are processing links via microlink in order
-      // to populate the necessary metadata we may replace this with our
+      // to populate the necessary metadata, we may replace this with our
       // own service in the future.
       const { status, response } = await mql(uri);
 

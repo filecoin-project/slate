@@ -583,7 +583,7 @@ export default class DataView extends React.Component {
                     <SlateMediaObjectPreview
                       blurhash={each.blurhash}
                       url={Strings.getCIDGatewayURL(each.cid)}
-                      title={each.file || each.name}
+                      title={each.name || each.file}
                       type={each.type}
                       coverImage={each.coverImage}
                       dataView={true}

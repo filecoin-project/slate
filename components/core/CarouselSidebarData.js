@@ -226,7 +226,7 @@ const STYLES_SPINNER = css`
   height: 24px;
 `;
 
-export const FileTypeDefaultPreview = () => {
+export const FileTypeDefaultPreview = (props) => {
   if (props.type && props.type.startsWith("video/")) {
     return DEFAULT_VIDEO;
   }
@@ -268,7 +268,7 @@ class CarouselSidebarData extends React.Component {
       this.debounceInstance = Window.debounce(() => this._handleSave(), 3000);
       let inPublicSlates = false;
       let selected = {};
-      const id = this.props.data.id;
+      const { id } = this.props.data;
       for (let slate of this.props.slates) {
         if (slate.data.objects.some((o) => o.id === id)) {
           if (slate.data.public) {
@@ -390,7 +390,7 @@ class CarouselSidebarData extends React.Component {
       return;
     }
 
-    let library = this.props.viewer.library;
+    let { library } = this.props.viewer;
     library[0].children = library[0].children.filter((obj) => obj.cid !== cid);
     this.props.onUpdateViewer({ library });
 
@@ -414,7 +414,8 @@ class CarouselSidebarData extends React.Component {
     }
   };
 
-  _handleEditFilename = async () => {
+  _handleEditFilename = () => {
+    if (!this.props.isOwner) return;
     this.setState({ isEditing: !this.state.isEditing }, () => {
       if (this.state.isEditing == false) {
         this._handleSave();
@@ -424,7 +425,7 @@ class CarouselSidebarData extends React.Component {
 
   _handleToggleVisibility = async (e) => {
     const isVisible = this.state.inPublicSlates || this.state.isPublic;
-    let selected = this.state.selected;
+    let { selected } = this.state;
     if (this.state.inPublicSlates) {
       const slateIds = Object.entries(this.state.selected)
         .filter((entry) => entry[1])
@@ -479,7 +480,7 @@ class CarouselSidebarData extends React.Component {
                 full
                 value={this.state.name}
                 name="name"
-                onChange={this._handleChange}
+                onChange={this._handleChange.bind(this)}
                 id={`sidebar-label-name`}
                 style={STYLES_INPUT}
               />

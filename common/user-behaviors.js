@@ -9,8 +9,8 @@ import * as Events from "~/common/custom-events";
 
 import Cookies from "universal-cookie";
 import JSZip from "jszip";
-import fetch from "isomorphic-fetch";
 
+import { mql } from "./microlink";
 import { saveAs } from "file-saver";
 
 //NOTE(martina): this file is for utility *API-calling* functions
@@ -134,21 +134,18 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
     // hello url, let's do some magic here
     const uri = dataTransfer.getData("text/uri-list");
 
-    Events.dispatchMessage({ message: "Processing link", status: "INFO" });
-
-    // TODO(cw): currently we are processing links via microlink in order
-    // to populate the necessary metadata we may replace this with our
-    // own service in the future.
-
-    const microlink = `https://api.microlink.io?url=${encodeURIComponent(
-      uri
-    )}&palette=true&audio=true&video=true&iframe=true`;
+    Events.dispatchMessage({ message: "Processing link...", status: "INFO" });
 
     try {
-      const response = await fetch(microlink);
-      const urlJSON = await response.json();
+      // TODO(cw): currently we are processing links via microlink in order
+      // to populate the necessary metadata we may replace this with our
+      // own service in the future.
+      const { status, response } = await mql(uri);
 
-      if (urlJSON.status === "success") {
+      if (status === "success") {
+        const { body: urlJSON } = response;
+        const { data } = urlJSON;
+
         // cleanup to ensure the filename doesn't fail upon api post
         const formatTitle = ({ title, publisher }) =>
           (publisher ? `${publisher} - ${title}` : title).replace(/[^a-zA-Z0-9 -.]/g, " ").trim();
@@ -161,7 +158,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
 
         console.log("URL processed: ", urlJSON);
 
-        const file = new File([formatFileStr(urlJSON.data)], `${formatTitle(urlJSON.data)}.link`, {
+        const file = new File([formatFileStr(data)], `${formatTitle(data)}.link`, {
           type: "application/json",
         });
 

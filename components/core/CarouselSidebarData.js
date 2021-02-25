@@ -8,7 +8,6 @@ import * as UserBehaviors from "~/common/user-behaviors";
 import * as SVG from "~/common/svg";
 import * as Events from "~/common/custom-events";
 import * as Window from "~/common/window";
-import * as FileUtilities from "~/common/file-utilities";
 
 import { css, withTheme } from "@emotion/react";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -92,7 +91,9 @@ const STYLES_META_TITLE = css`
   color: ${Constants.system.white};
   font-size: ${Constants.typescale.lvl2};
   text-decoration: none;
+`;
 
+const STYLES_META_TITLE_OWNER = css`
   :hover {
     color: ${Constants.system.blue};
   }
@@ -485,8 +486,8 @@ class CarouselSidebarData extends React.Component {
             </Boundary>
           ) : (
             <span
-              css={STYLES_META_TITLE}
-              onClick={this.props.external ? () => {} : this._handleEditFilename.bind(this)}
+              css={[STYLES_META_TITLE, this.props.isOwner ? STYLES_META_TITLE_OWNER : false]}
+              onClick={this.props.external ? null : this._handleEditFilename.bind(this)}
             >
               {this.state.name}
             </span>

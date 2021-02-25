@@ -6,6 +6,7 @@ import * as Events from "~/common/custom-events";
 
 import UnityFrame from "~/components/core/UnityFrame";
 import MarkdownFrame from "~/components/core/MarkdownFrame";
+import JSONFrame from "~/components/core/JSONFrame";
 
 import { css } from "@emotion/react";
 
@@ -166,7 +167,7 @@ export default class SlateMediaObject extends React.Component {
 
     if (type.startsWith("application/json")) {
       // do something with json data item
-      return <Frame>{/* <LinkFrame item={item} /> */}</Frame>;
+      return <Frame>{<JSONFrame item={this.props.data} />}</Frame>;
     }
 
     if (Validations.isPreviewableImage(type)) {

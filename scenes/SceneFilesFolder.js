@@ -98,16 +98,25 @@ export default class SceneFilesFolder extends React.Component {
   state = {
     view: 0,
     filterTooltip: false,
-    filters: {
-      images: false,
+    fileTypes: {
+      image: false,
+      video: false,
       audio: false,
-      assets: false,
-      videos: false,
-      books: false,
+      epub: false,
+      pdf: false,
     },
     filtersActive: false,
-    privacy: "All",
-    files: this.props.viewer?.library[0].children,
+    privacy: "ALL",
+    filteredFiles: this.props.viewer?.library[0].children,
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.viewer.library[0].children !== this.props.viewer.library[0].children) {
+      print("library has changed");
+      if (filtersActive) {
+        this._filterFiles();
+      }
+    }
   };
 
   _handleFilterTooltip = () => {
@@ -115,27 +124,21 @@ export default class SceneFilesFolder extends React.Component {
   };
 
   _handlePrivacyFilter = (filter) => {
-    const viewer = this.props.viewer;
-    if (filter === "All") {
-      this.setState({ privacy: "All" }, this._filterFiles);
-    } else if (filter === "Public") {
-      this.setState({ privacy: "Public" }, this._filterFiles);
-    } else if (filter === "Private") {
-      this.setState({ privacy: "Private" }, this._filterFiles);
-    } else {
-      console.log("unusable privacy param");
-    }
+    this.setState({ privacy: filter }, this._filterFiles);
   };
 
-  _getPrivacyFiles = (filter) => {
+  _getPrivacyFilteredFiles = () => {
+    let filter = this.state.privacy;
     const viewer = this.props.viewer;
+    if (filter === "ALL") {
+      return viewer.library[0].children;
+    }
+
     const filtered = getPublicAndPrivateFiles({ viewer });
 
-    if (filter === "All") {
-      return viewer.library[0].children;
-    } else if (filter === "Public") {
+    if (filter === "PUBLIC") {
       return filtered.publicFiles;
-    } else if (filter === "Private") {
+    } else if (filter === "PRIVATE") {
       return filtered.privateFiles;
     } else {
       console.log("unusable privacy param");
@@ -144,47 +147,39 @@ export default class SceneFilesFolder extends React.Component {
 
   _handleFiletypeFilter = (type) => {
     this.setState(
-      (prevState) => ({
-        filters: {
-          ...prevState.filters,
-          [type]: !prevState.filters[type],
-        },
-      }),
+      { fileTypes: { ...this.state.fileTypes, [type]: !this.state.fileTypes[type] } },
       this._filterFiles
     );
   };
 
   _filterFiles = () => {
-    const filteredFiles = [];
-    const privacy = this.state.privacy;
-    const library = this._getPrivacyFiles(privacy);
-    const filters = this.state.filters;
-    const filterKeys = Object.keys(filters).filter((key) => {
-      return filters[key] === true;
-    });
+    const filters = this.state.fileTypes;
+    let fileTypeFiltersActive = Object.values(filters).some((val) => val === true);
+    let filtersActive = fileTypeFiltersActive || this.state.privacy !== "ALL";
 
-    if (filterKeys.length && library?.length) {
-      for (const libraryObject of library) {
-        for (const type of filterKeys) {
-          for (const mimeType of Constants.filetypes[type]) {
-            {
-              libraryObject.type === mimeType ? filteredFiles.push(libraryObject) : null;
-            }
-          }
-        }
-      }
-      this.setState((prevState) => ({
-        files: filteredFiles,
-        filterTooltip: true,
-        filtersActive: true,
-      }));
-    } else {
-      this.setState((prevState) => ({
-        files: library,
-        filterTooltip: true,
-        filtersActive: false,
-      }));
+    if (!filtersActive) {
+      this.setState({ filtersActive });
+      return;
     }
+
+    let filteredFiles = this._getPrivacyFilteredFiles();
+
+    if (fileTypeFiltersActive && this.props.viewer?.library[0].children?.length) {
+      filteredFiles = filteredFiles.filter((file) => {
+        return (
+          (filters.image && file.type.startsWith("image/")) ||
+          (filters.video && file.type.startsWith("video/")) ||
+          (filters.audio && file.type.startsWith("audio/")) ||
+          (filters.epub && file.type.startsWith("application/epub")) ||
+          (filters.pdf && file.type.startsWith("application/pdf"))
+        );
+      });
+    }
+
+    this.setState({
+      filteredFiles,
+      filtersActive,
+    });
   };
 
   componentDidMount = () => {
@@ -214,7 +209,11 @@ export default class SceneFilesFolder extends React.Component {
   };
 
   render() {
-    let files = this.props.viewer?.library[0].children || [];
+    let files = this.state.filtersActive
+      ? this.state.filteredFiles
+      : this.props.viewer?.library[0].children;
+    files = files || [];
+
     return (
       <ScenePage>
         <ScenePageHeader
@@ -287,7 +286,10 @@ export default class SceneFilesFolder extends React.Component {
         />
         <div css={STYLES_FILTERS_CONTAINER}>
           <div style={{ position: "relative" }}>
-            <ButtonTertiary style={{ margin: 0 }} onClick={this._handleFilterTooltip}>
+            <ButtonTertiary
+              style={{ marginBottom: 20, paddingLeft: 12, paddingRight: 12 }}
+              onClick={this._handleFilterTooltip}
+            >
               <SVG.Filter
                 height="18px"
                 style={{
@@ -302,24 +304,26 @@ export default class SceneFilesFolder extends React.Component {
                 captureResize={true}
                 captureScroll={false}
                 enabled
-                onOutsideRectEvent={() => this.setState({ filetypeTooltip: false })}
+                onOutsideRectEvent={() => {
+                  this.setState({ filterTooltip: false });
+                }}
               >
                 <div css={STYLES_TOOLTIP_ANCHOR}>
                   <div css={STYLES_FILETYPE_TOOLTIP}>
                     <div style={{ width: 100 }}>
                       <CheckBox
-                        name="images"
-                        value={this.state.filters["images"]}
-                        onChange={() => this._handleFiletypeFilter("images")}
+                        name="image"
+                        value={this.state.fileTypes.image}
+                        onChange={() => this._handleFiletypeFilter("image")}
                         boxStyle={{ height: 20, width: 20 }}
                       >
-                        <span css={STYLES_CHECKBOX_LABEL}>Images</span>
+                        <span css={STYLES_CHECKBOX_LABEL}>Image</span>
                       </CheckBox>
                     </div>
                     <div style={{ width: 100, marginTop: 12 }}>
                       <CheckBox
                         name="audio"
-                        value={this.state.filters["audio"]}
+                        value={this.state.fileTypes.audio}
                         onChange={() => this._handleFiletypeFilter("audio")}
                         boxStyle={{ height: 20, width: 20 }}
                       >
@@ -328,32 +332,32 @@ export default class SceneFilesFolder extends React.Component {
                     </div>
                     <div style={{ width: 100, marginTop: 12 }}>
                       <CheckBox
-                        name="assets"
-                        value={this.state.filters["assets"]}
-                        onChange={() => this._handleFiletypeFilter("assets")}
+                        name="video"
+                        value={this.state.fileTypes.video}
+                        onChange={() => this._handleFiletypeFilter("video")}
                         boxStyle={{ height: 20, width: 20 }}
                       >
-                        <span css={STYLES_CHECKBOX_LABEL}>Assets</span>
+                        <span css={STYLES_CHECKBOX_LABEL}>Video</span>
                       </CheckBox>
                     </div>
                     <div style={{ width: 100, marginTop: 12 }}>
                       <CheckBox
-                        name="videos"
-                        value={this.state.filters["videos"]}
-                        onChange={() => this._handleFiletypeFilter("videos")}
+                        name="epub"
+                        value={this.state.fileTypes.epub}
+                        onChange={() => this._handleFiletypeFilter("epub")}
                         boxStyle={{ height: 20, width: 20 }}
                       >
-                        <span css={STYLES_CHECKBOX_LABEL}>Videos</span>
+                        <span css={STYLES_CHECKBOX_LABEL}>Epub</span>
                       </CheckBox>
                     </div>
                     <div style={{ width: 100, marginTop: 12 }}>
                       <CheckBox
-                        name="books"
-                        value={this.state.filters["books"]}
-                        onChange={() => this._handleFiletypeFilter("books")}
+                        name="pdf"
+                        value={this.state.fileTypes.pdf}
+                        onChange={() => this._handleFiletypeFilter("pdf")}
                         boxStyle={{ height: 20, width: 20 }}
                       >
-                        <span css={STYLES_CHECKBOX_LABEL}>Books</span>
+                        <span css={STYLES_CHECKBOX_LABEL}>Pdf</span>
                       </CheckBox>
                     </div>
                   </div>
@@ -363,32 +367,32 @@ export default class SceneFilesFolder extends React.Component {
                   <div css={STYLES_PRIVACY_TOOLTIP}>
                     <div
                       style={{
-                        color: this.state.privacy === "All" ? Constants.system.brand : null,
+                        color: this.state.privacy === "ALL" ? Constants.system.brand : null,
                         cursor: "pointer",
                         marginTop: 1,
                       }}
-                      onClick={() => this._handlePrivacyFilter("All")}
+                      onClick={() => this._handlePrivacyFilter("ALL")}
                     >
                       All
                     </div>
                     <div
                       style={{
                         color:
-                          this.state.privacy === "Private" ? Constants.system.brand : "inherit",
+                          this.state.privacy === "PRIVATE" ? Constants.system.brand : "inherit",
                         cursor: "pointer",
                         marginTop: 17,
                       }}
-                      onClick={() => this._handlePrivacyFilter("Private")}
+                      onClick={() => this._handlePrivacyFilter("PRIVATE")}
                     >
                       Private
                     </div>
                     <div
                       style={{
-                        color: this.state.privacy === "Public" ? Constants.system.brand : "inherit",
+                        color: this.state.privacy === "PUBLIC" ? Constants.system.brand : "inherit",
                         cursor: "pointer",
                         marginTop: 18,
                       }}
-                      onClick={() => this._handlePrivacyFilter("Public")}
+                      onClick={() => this._handlePrivacyFilter("PUBLIC")}
                     >
                       Public
                     </div>

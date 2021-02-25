@@ -31,17 +31,13 @@ const STYLES_FILTERS_CONTAINER = css`
 const STYLES_TOOLTIP_ANCHOR = css`
   border: 1px solid #f2f2f2;
   background-color: ${Constants.system.white};
-  border-radius: 2px;
+  border-radius: 4px;
   right: 0px;
   top: 48px;
-  width: 256px;
-  height: 216px;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-around;
+  padding: 20px 24px;
   box-shadow: 0px 8px 24px rgba(178, 178, 178, 0.2);
   position: absolute;
+  display: flex;
   z-index: ${Constants.zindex.tooltip};
 `;
 
@@ -50,48 +46,26 @@ const STYLES_FILETYPE_TOOLTIP = css`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 80%;
-  width: 50%;
-  margin: 24px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  border-right: 1px solid ${Constants.system.lightBorder};
+  padding-right: 4px;
 `;
 
 const STYLES_PRIVACY_TOOLTIP = css`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
-  height: 40%;
-  font-family: ${Constants.font.medium};
-  font-size: 16px;
-  width: 50%;
-  margin: 24px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  font-family: ${Constants.font.text};
+  font-size: ${Constants.typescale.lvl0};
+  padding-left: 24px;
 `;
 
 const STYLES_CHECKBOX_LABEL = css`
   padding-top: 0;
   position: relative;
   top: -4px;
-  font-family: ${Constants.font.medium};
-  font-size: 16px;
+  font-family: ${Constants.font.text};
+  font-size: ${Constants.typescale.lvl0};
   user-select: none;
-`;
-
-const STYLES_TOOLTIP_DIVIDER_CONTAINER = css`
-  height: 100%;
-  width: 1px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const STYLES_TOOLTIP_DIVIDER = css`
-  height: 80%;
-  border: 1px solid ${Constants.system.lightBorder};
-  width: 1px;
 `;
 
 export default class SceneFilesFolder extends React.Component {
@@ -360,9 +334,6 @@ export default class SceneFilesFolder extends React.Component {
                         <span css={STYLES_CHECKBOX_LABEL}>Pdf</span>
                       </CheckBox>
                     </div>
-                  </div>
-                  <div css={STYLES_TOOLTIP_DIVIDER_CONTAINER}>
-                    <div css={STYLES_TOOLTIP_DIVIDER}></div>
                   </div>
                   <div css={STYLES_PRIVACY_TOOLTIP}>
                     <div

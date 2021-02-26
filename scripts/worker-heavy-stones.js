@@ -396,7 +396,39 @@ const run = async () => {
 
         try {
           if (!PRACTICE_RUN) {
-            await buckets.archive(key);
+            // NOTE(jim): THE DEAL HAPPENS HERE
+            // DON'T DO IT IF YOU DON'T WANT THE DEAL
+            Logs.task(`KICKING OFF THE DEAL`);
+            await buckets.archive(key, {
+              repFactor: 4,
+              dealMinDuration: 518400,
+              excludedMiners: null,
+              trustedMiners: [
+                "f01247",
+                "f01278",
+                "f071624",
+                "f0135078",
+                "f09848",
+                "f010617",
+                "f01276",
+                "f02401",
+                "f02387",
+                "f019104",
+                "f014409",
+                "f066596",
+                "f058369",
+                "f08399",
+                "f015927",
+              ],
+              countryCodes: null,
+              renew: {
+                enabled: false,
+                threshold: 0,
+              },
+              maxPrice: 192901234500,
+              fastRetrieval: true,
+              dealStartOffset: 8640,
+            });
             Logs.task(`\x1b[32mNEW DEAL SUCCESSFUL !!!\x1b[0m`);
           } else {
             Logs.note(`archive skipping ...`);

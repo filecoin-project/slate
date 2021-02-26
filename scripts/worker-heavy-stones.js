@@ -18,14 +18,14 @@ const envConfig = configs["development"];
 const db = knex(envConfig);
 
 // 64 MB minimum
-const MINIMUM_BYTES_CONSIDERATION = 67108864;
+const MINIMUM_BYTES_CONSIDERATION = 104857600 * 10;
 // 100 MB minimum
-const MINIMUM_BYTES_FOR_STORAGE = 104857600;
+const MINIMUM_BYTES_FOR_STORAGE = 104857600 * 10;
 const STORAGE_BOT_NAME = "STORAGE WORKER";
 
 // We don't make new buckets if they have more than 10.
 const BUCKET_LIMIT = 10;
-const PRACTICE_RUN = false;
+const PRACTICE_RUN = true;
 const SKIP_NEW_BUCKET_CREATION = false;
 const STORE_MEANINGFUL_ADDRESS_ONLY_AND_PERFORM_NO_ACTIONS = false;
 const WRITE_TO_SLATE_STORAGE_DEAL_INDEX = true;
@@ -188,6 +188,7 @@ const run = async () => {
           createdAt: Strings.toDateSinceEpoch(o.time),
           userEncryptsDeals: !!user.data.allow_encrypted_data_storage,
           miner: minerMap[o.dealInfo.miner] ? minerMap[o.dealInfo.miner] : { id: o.dealInfo.miner },
+          phase: "MARCH",
           user: {
             id: user.id,
             username: user.username,
@@ -219,10 +220,7 @@ const run = async () => {
         Logs.note(`Saving ${dealToSave.dealId} ...`);
 
         console.log(dealToSave);
-        const existing = await db
-          .select("*")
-          .from("deals")
-          .where(hasDealId(dealToSave.dealId));
+        const existing = await db.select("*").from("deals").where(hasDealId(dealToSave.dealId));
         console.log(existing);
 
         if (existing && !existing.error && existing.length) {
@@ -232,10 +230,7 @@ const run = async () => {
 
         Logs.note(`Inserting ${dealToSave.dealId} ...`);
         await delay(1000);
-        await db
-          .insert({ data: dealToSave, owner_user_id: user.id })
-          .into("deals")
-          .returning("*");
+        await db.insert({ data: dealToSave, owner_user_id: user.id }).into("deals").returning("*");
         Logs.task(`Inserted ${dealToSave.dealId} !!!`);
       }
     }
@@ -273,31 +268,11 @@ const run = async () => {
           continue;
         }
 
-        if (bucketSizeBytes && bucketSizeBytes < MINIMUM_BYTES_FOR_STORAGE) {
-          try {
-            Logs.error(`we must kill this bucket ...`);
-            await buckets.remove(keyBucket.key);
-            Logs.note(`bucket removed ...`);
-          } catch (e) {
-            Logs.error(e.message);
-            continue;
-          }
-        }
-
-        if (bucketSizeBytes && bucketSizeBytes >= MINIMUM_BYTES_FOR_STORAGE) {
-          Logs.task(`bucket is okay !!!`);
-          key = keyBucket.key;
-        }
-      }
-
-      if (keyBucket.name.startsWith("encrypted-data-")) {
-        Logs.note(`bucket found: encrypted-data ${keyBucket.key}`);
-        Logs.note(`checking size ...`);
-
-        let bucketSizeBytes = null;
+        // NOTE(jim): Determine open deals
         try {
-          const path = await buckets.listPath(keyBucket.key, "/");
-          bucketSizeBytes = path.item.size;
+          const { current, history } = await buckets.archives(keyBucket.key);
+          console.log(current);
+          console.log(history);
         } catch (e) {
           Logs.error(e.message);
           continue;
@@ -315,7 +290,47 @@ const run = async () => {
         }
 
         if (bucketSizeBytes && bucketSizeBytes >= MINIMUM_BYTES_FOR_STORAGE) {
-          Logs.task(`bucket is okay !!!`);
+          Logs.task(`bucket is okay and fits requirements !!!`);
+          key = keyBucket.key;
+        }
+      }
+
+      if (keyBucket.name.startsWith("encrypted-data-")) {
+        Logs.note(`bucket found: encrypted-data ${keyBucket.key}`);
+        Logs.note(`checking size ...`);
+
+        let bucketSizeBytes = null;
+        try {
+          const path = await buckets.listPath(keyBucket.key, "/");
+          bucketSizeBytes = path.item.size;
+        } catch (e) {
+          Logs.error(e.message);
+          continue;
+        }
+
+        // NOTE(jim): Determine open deals
+        try {
+          const { current, history } = await buckets.archives(keyBucket.key);
+          console.log(current);
+          console.log(history);
+        } catch (e) {
+          Logs.error(e.message);
+          continue;
+        }
+
+        if (bucketSizeBytes && bucketSizeBytes < MINIMUM_BYTES_FOR_STORAGE) {
+          try {
+            Logs.error(`we must kill this bucket ...`);
+            await buckets.remove(keyBucket.key);
+            Logs.note(`bucket removed ...`);
+          } catch (e) {
+            Logs.error(e.message);
+            continue;
+          }
+        }
+
+        if (bucketSizeBytes && bucketSizeBytes >= MINIMUM_BYTES_FOR_STORAGE) {
+          Logs.task(`bucket is okay and fits requirements !!!`);
           key = keyBucket.key;
         }
       }
@@ -410,6 +425,16 @@ const run = async () => {
 
     for (let k = 0; k < printData.buckets.length; k++) {
       let targetBucket = printData.buckets[k];
+
+      Logs.task(`Show us the history!`);
+      try {
+        const { current, history } = await buckets.archives(targetBucket.key);
+        console.log(current);
+        console.log(history);
+      } catch (e) {
+        Logs.error(e.message);
+        continue;
+      }
 
       if (targetBucket.success) {
         try {

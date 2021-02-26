@@ -93,12 +93,6 @@ const STYLES_META_TITLE = css`
   text-decoration: none;
 `;
 
-const STYLES_META_TITLE_OWNER = css`
-  :hover {
-    color: ${Constants.system.blue};
-  }
-`;
-
 const STYLES_TAG = css`
   margin-right: 24px;
   padding: 0px 2px;
@@ -481,7 +475,7 @@ class CarouselSidebarData extends React.Component {
                 full
                 value={this.state.name}
                 name="name"
-                onChange={this._handleChange.bind(this)}
+                onChange={this._handleChange}
                 id={`sidebar-label-name`}
                 style={STYLES_INPUT}
               />

@@ -118,6 +118,8 @@ export default class SlateMediaObject extends React.Component {
           }}
         >
           <source src={url} type={playType} />
+          {/** Note(Amine): fallback if video type isn't supported (example .mov) */}
+          <source src={url} type="video/mp4" />
         </video>
       );
     }

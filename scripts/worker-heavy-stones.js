@@ -17,9 +17,10 @@ import { v4 as uuid } from "uuid";
 const envConfig = configs["development"];
 const db = knex(envConfig);
 
-// 64 MB minimum
+// NOTE(jim): These essentially do the same thing.
+// 1 GB to be considered to even make a deal.
 const MINIMUM_BYTES_CONSIDERATION = 104857600 * 10;
-// 100 MB minimum
+// 1 GB minimum to make deal.
 const MINIMUM_BYTES_FOR_STORAGE = 104857600 * 10;
 const STORAGE_BOT_NAME = "STORAGE WORKER";
 

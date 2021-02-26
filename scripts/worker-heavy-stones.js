@@ -404,6 +404,8 @@ const run = async () => {
               dealMinDuration: 518400,
               excludedMiners: null,
               trustedMiners: [
+                // NOTE(jim): ChainSafe
+                // f01247 belongs to ChainSafe, they have white-list rule, you need to ask them add your address
                 "f01247",
                 "f01278",
                 "f071624",

@@ -281,7 +281,7 @@ export default class SceneFilesFolder extends React.Component {
           onUpdateViewer={this.props.onUpdateViewer}
           resources={this.props.resources}
           viewer={this.props.viewer}
-          objects={this.props.viewer?.library[0]?.children || []}
+          objects={files}
           onAction={this.props.onAction}
           mobile={this.props.mobile}
           isOwner={true}

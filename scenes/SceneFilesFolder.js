@@ -86,7 +86,7 @@ export default class SceneFilesFolder extends React.Component {
 
   componentDidUpdate = (prevProps, prevState) => {
     if (prevProps.viewer.library[0].children !== this.props.viewer.library[0].children) {
-      if (filtersActive) {
+      if (this.state.filtersActive) {
         this._filterFiles();
       }
     }

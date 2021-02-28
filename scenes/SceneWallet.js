@@ -125,12 +125,12 @@ export default class SceneWallet extends React.Component {
     return (
       <React.Fragment>
         <ScenePageHeader>
-          This is your receive only wallet address. You can deposit Filecoin to your address here.
-          You can not send Filecoin from this wallet to other people. Please read our{" "}
-          <a href="/terms" target="_blank">
-            terms of service
-          </a>{" "}
-          for more details.
+          {/* This is your receive only wallet address. You can deposit Filecoin to your address here.
+          You can not send Filecoin from this wallet to other people. Please read our [terms of
+          service](https://slate.host/terms) for more details. */}
+          This is your storage credit wallet address. Filecoin (FIL) in this wallet can be used for
+          making storage deals for your Slate files. You can not send FIL from this wallet to other
+          addresses. Please read our [terms of service](https://slate.host/terms) for more details.
         </ScenePageHeader>
 
         {networkViewer ? (

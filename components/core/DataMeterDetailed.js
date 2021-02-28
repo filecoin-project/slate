@@ -172,7 +172,7 @@ export const DataMeterDetailed = (props) => {
         </div>
       </div>
 
-      <div css={STYLES_NOTE}>50GB coming soon with email verification</div>
+      <div css={STYLES_NOTE}>50GB coming soon when we add email verification</div>
       {props.buttons ? <div style={{ marginTop: 24 }}>{props.buttons}</div> : null}
     </div>
   );

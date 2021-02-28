@@ -115,7 +115,7 @@ export default class SceneArchive extends React.Component {
       <ScenePage>
         <ScenePageHeader title="Filecoin">
           {/* Use this section to archive all of your data on to Filecoin through a storage deal. You
-          must have at last 100MB stored to make an archive storage deal. <br /> */}
+          must have at last 100MB stored to make an archive storage deal.  */}
         </ScenePageHeader>
 
         <SecondaryTabGroup
@@ -128,6 +128,11 @@ export default class SceneArchive extends React.Component {
           <React.Fragment>
             {this.state.tab === 0 ? (
               <React.Fragment>
+                <ScenePageHeader>
+                  Use this section to archive all of your data on to Filecoin through a storage
+                  deal. You must have at last 100MB stored to make an archive storage deal.
+                </ScenePageHeader>
+
                 <System.P style={{ marginTop: 24 }}>
                   Archive all of your data onto the Filecoin Network with a storage deal using your
                   default settings.

@@ -101,6 +101,12 @@ const STYLES_DISMISS_BOX = css`
   }
 `;
 
+const STYLES_MOBILE_ONLY = css`
+  @media (min-width: ${Constants.sizes.mobile}px) {
+    display: none;
+  }
+`;
+
 const STYLES_MOBILE_HIDDEN = css`
   @media (max-width: ${Constants.sizes.mobile}px) {
     display: none;
@@ -319,6 +325,11 @@ export class GlobalCarousel extends React.Component {
             <SVG.ChevronRight height="20px" />
           </span>
           {slide}
+          <span css={STYLES_MOBILE_ONLY}>
+            <div css={STYLES_DISMISS_BOX} onClick={this._handleClose}>
+              <SVG.Dismiss height="24px" />
+            </div>
+          </span>
           <span css={STYLES_MOBILE_HIDDEN}>
             {this.state.showSidebar ? (
               <div

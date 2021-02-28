@@ -346,22 +346,6 @@ class SlatePage extends React.Component {
     const isPublic = data.public;
     const isOwner = this.props.current.data.ownerId === this.props.viewer.id;
 
-    let privacy = isOwner && (
-      <div>
-        {isPublic ? (
-          <div style={{ display: `flex` }}>
-            <SVG.Globe height="16px" style={{ margin: `4px 8px 0 0` }} />
-            <div>Public</div>
-          </div>
-        ) : (
-          <div style={{ display: `flex` }}>
-            <SVG.SecurityLock height="16px" style={{ margin: `4px 8px 0 0` }} />
-            <div>Private</div>
-          </div>
-        )}
-      </div>
-    );
-
     let actions = isOwner ? (
       <span>
         <CircleButtonGray onClick={this._handleAdd} style={{ marginRight: 16 }}>
@@ -403,13 +387,20 @@ class SlatePage extends React.Component {
                   {user.username}
                 </span>{" "}
                 / {data.name}
+                {isOwner && !isPublic && (
+                  <SVG.SecurityLock height="24px" style={{ marginLeft: 16 }} />
+                )}
               </span>
             ) : (
-              data.name
+              <span>
+                {data.name}
+                {isOwner && !isPublic && (
+                  <SVG.SecurityLock height="24px" style={{ marginLeft: 16 }} />
+                )}
+              </span>
             )
           }
           actions={<span css={STYLES_MOBILE_HIDDEN}>{actions}</span>}
-          privacy={privacy}
         >
           {body}
         </ScenePageHeader>

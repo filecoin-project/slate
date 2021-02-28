@@ -82,7 +82,6 @@ export const ScenePageHeader = (props) => {
     <header css={STYLES_ROOT} style={props.style}>
       <div css={STYLES_LEFT}>
         <div css={STYLES_HEADER}>{props.title}</div>
-        {props.privacy ? <div css={STYLES_ACCESS}>{props.privacy}</div> : null}
         <div css={STYLES_DESCRIPTION}>
           <ProcessedText text={props.children} />
         </div>

@@ -136,6 +136,9 @@ export default class SceneFilesFolder extends React.Component {
         this._filterFiles();
       }
     }
+    if (prevProps.page !== this.props.page) {
+      this.openCarouselToItem();
+    }
   };
 
   _handleFilterTooltip = () => {
@@ -202,6 +205,10 @@ export default class SceneFilesFolder extends React.Component {
   };
 
   componentDidMount = () => {
+    this.openCarouselToItem();
+  };
+
+  openCarouselToItem = () => {
     let index = -1;
     let page = this.props.page;
     if (page?.fileId || page?.cid || page?.index) {

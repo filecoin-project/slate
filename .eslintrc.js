@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  parser: "@babel/eslint-parser",
   parserOptions: {
     ecmaVersion: 12,
     sourceType: "module",
@@ -28,6 +29,7 @@ module.exports = {
     "prettier/prettier": ["error", {}, { usePrettierrc: true }],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
+    "react/display-name": "off",
     "jsx-a11y/anchor-is-valid": [
       "error",
       {

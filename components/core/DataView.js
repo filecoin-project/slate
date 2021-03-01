@@ -591,7 +591,7 @@ export default class DataView extends React.Component {
                     <span css={STYLES_MOBILE_HIDDEN} style={{ pointerEvents: "auto" }}>
                       {numChecked || this.state.hover === i || this.state.menu === each.id ? (
                         <React.Fragment>
-                          <div
+                          {/* <div
                             css={STYLES_ICON_BOX_BACKGROUND}
                             onClick={(e) => {
                               e.stopPropagation();
@@ -656,7 +656,7 @@ export default class DataView extends React.Component {
                                 )}
                               </Boundary>
                             ) : null}
-                          </div>
+                          </div> */}
 
                           <div onClick={(e) => this._handleCheckBox(e, i)}>
                             <CheckBox
@@ -807,10 +807,10 @@ export default class DataView extends React.Component {
                       text: "Copy CID",
                       onClick: (e) => this._handleCopy(e, cid),
                     },
-                    {
-                      text: "Copy link",
-                      onClick: (e) => this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
-                    },
+                    // {
+                    //   text: "Copy link",
+                    //   onClick: (e) => this._handleCopy(e, Strings.getCIDGatewayURL(cid)),
+                    // },
                     {
                       text: "Delete",
                       onClick: (e) => {

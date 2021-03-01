@@ -232,11 +232,11 @@ const STYLES_DIRECTORY_NAME = css`
   text-overflow: ellipsis;
 `;
 
-const STYLES_COPY_INPUT = css`
-  pointer-events: none;
-  position: absolute;
-  opacity: 0;
-`;
+// const STYLES_COPY_INPUT = css`
+//   pointer-events: none;
+//   position: absolute;
+//   opacity: 0;
+// `;
 
 function UserEntry({
   user,
@@ -305,9 +305,9 @@ export default class Profile extends React.Component {
     view: 0,
     slateTab: 0,
     peerTab: 0,
-    copyValue: "",
+    // copyValue: "",
     contextMenu: null,
-    publicFiles: [],
+    publicFiles: this.props.creator.library[0].children,
     slates: this.props.creator.slates,
     subscriptions: [],
     subscribers: [],
@@ -321,8 +321,9 @@ export default class Profile extends React.Component {
   };
 
   componentDidMount = () => {
+    console.log(this.props.creator);
     this._handleUpdatePage();
-    this.filterByVisibility();
+    // this.filterByVisibility();
   };
 
   componentDidUpdate = (prevProps) => {
@@ -337,25 +338,25 @@ export default class Profile extends React.Component {
     this.setState({ subscribers: subscribers, subscriptions: subscriptions, fetched: true });
   };
 
-  filterByVisibility = () => {
-    let publicFiles = [];
-    if (this.props.isOwner) {
-      const res = Utilities.getPublicAndPrivateFiles({ viewer: this.props.creator });
-      publicFiles = res.publicFiles;
-    } else {
-      publicFiles = this.props.creator.library[0].children;
-    }
-    this.setState({ publicFiles: publicFiles });
-  };
+  // filterByVisibility = () => {
+  //   let publicFiles = [];
+  //   if (this.props.isOwner) {
+  //     const res = Utilities.getPublicAndPrivateFiles({ viewer: this.props.creator });
+  //     publicFiles = res.publicFiles;
+  //   } else {
+  //     publicFiles = this.props.creator.library[0].children;
+  //   }
+  //   this.setState({ publicFiles: publicFiles });
+  // };
 
-  _handleCopy = (e, value) => {
-    e.stopPropagation();
-    this.setState({ copyValue: value }, () => {
-      this._ref.select();
-      document.execCommand("copy");
-      this._handleHide();
-    });
-  };
+  // _handleCopy = (e, value) => {
+  //   e.stopPropagation();
+  //   this.setState({ copyValue: value }, () => {
+  //     this._ref.select();
+  //     document.execCommand("copy");
+  //     this._handleHide();
+  //   });
+  // };
 
   _handleHide = (e) => {
     this.setState({ contextMenu: null });
@@ -401,7 +402,7 @@ export default class Profile extends React.Component {
       tab = window?.history?.state.tab;
     }
     if (typeof tab === "undefined") {
-      tab = 1;
+      tab = 0;
     }
     this.setState({ tab }, () => {
       if (this.state.tab === 2 || (this.state.tab === 1 && this.state.slateTab === 1)) {
@@ -564,7 +565,7 @@ export default class Profile extends React.Component {
     return (
       <div>
         <GlobalCarousel
-          carouselType="DATA"
+          carouselType="PROFILE"
           onUpdateViewer={this.props.onUpdateViewer}
           resources={this.props.resources}
           viewer={this.props.viewer}
@@ -784,7 +785,7 @@ export default class Profile extends React.Component {
                   </EmptyState>
                 )}
               </div>
-              <input
+              {/* <input
                 readOnly
                 ref={(c) => {
                   this._ref = c;
@@ -792,7 +793,7 @@ export default class Profile extends React.Component {
                 value={this.state.copyValue}
                 tabIndex="-1"
                 css={STYLES_COPY_INPUT}
-              />
+              /> */}
             </div>
           ) : null}
         </div>

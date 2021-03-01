@@ -508,20 +508,20 @@ export default class CarouselSidebarSlate extends React.Component {
         </div>
         {this.state.showFile ? (
           <div css={STYLES_ACTIONS} style={{ marginTop: 24 }}>
-            {this.props.isOwner ? (
+            {/* {this.props.isOwner ? (
               <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
                 <SVG.CopyAndPaste height="24px" />
                 <span style={{ marginLeft: 16 }}>
                   {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
                 </span>
               </div>
-            ) : null}
-            <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "gatewayUrlCopying")}>
+            ) : null} */}
+            {/* <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "gatewayUrlCopying")}>
               <SVG.Data height="24px" />
               <span style={{ marginLeft: 16 }}>
                 {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy file link"}
               </span>
-            </div>
+            </div> */}
             {this.props.isOwner || this.props.external ? null : (
               <div css={STYLES_ACTION} onClick={() => this._handleSaveCopy(this.props.data)}>
                 <SVG.Save height="24px" />

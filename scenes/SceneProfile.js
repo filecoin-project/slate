@@ -1,5 +1,8 @@
 import * as React from "react";
 import * as Actions from "~/common/actions";
+import * as Utilities from "~/common/utilities";
+import * as Strings from "~/common/strings";
+import * as Events from "~/common/custom-events";
 import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
@@ -24,14 +27,7 @@ export default class SceneProfile extends React.Component {
   };
 
   componentDidMount = async () => {
-    console.log("component did mount called");
-    await this.fetchProfile();
-  };
-
-  componentDidUpdate = async (prevProps) => {
-    if (this.props.data?.id && prevProps.data?.id && this.props.data.id !== prevProps.data.id) {
-      await this.fetchProfile();
-    }
+    this.fetchProfile();
   };
 
   fetchProfile = async () => {
@@ -40,13 +36,13 @@ export default class SceneProfile extends React.Component {
     let targetUser;
     if (username) {
       if (username === this.props.viewer.username) {
-        targetUser = this.props.viewer;
+        targetUser = this.getFilteredViewer();
       } else {
         query = { username: username };
       }
     } else if (this.props.data && this.props.data.id) {
       if (this.props.data.id === this.props.viewer.id) {
-        targetUser = this.props.viewer;
+        targetUser = this.getFilteredViewer();
       } else {
         query = { id: this.props.data.id };
       }
@@ -66,6 +62,10 @@ export default class SceneProfile extends React.Component {
       targetUser = response.data;
     }
 
+    const {
+      page: { cid },
+    } = this.props;
+
     window.history.replaceState(
       { ...window.history.state, data: targetUser },
       "A slate user",
@@ -73,7 +73,37 @@ export default class SceneProfile extends React.Component {
     );
 
     this.props.onUpdateData({ data: targetUser });
-    this.setState({ profile: targetUser });
+    this.setState({ profile: targetUser }, () => {
+      if (Strings.isEmpty(cid)) {
+        return;
+      }
+
+      let library = targetUser.library[0].children || [];
+      const index = library.findIndex((object) => object.cid === cid);
+      if (index !== -1) {
+        Events.dispatchCustomEvent({
+          name: "slate-global-open-carousel",
+          detail: { index },
+        });
+      } else {
+        Events.dispatchCustomEvent({
+          name: "create-alert",
+          detail: {
+            alert: {
+              message:
+                "The requested file could not be found. It could have been deleted or may be private",
+            },
+          },
+        });
+      }
+    });
+  };
+
+  getFilteredViewer = () => {
+    let viewer = this.props.viewer;
+    const res = Utilities.getPublicAndPrivateFiles({ viewer });
+    viewer.library[0].children = res.publicFiles;
+    return viewer;
   };
 
   render() {

@@ -227,7 +227,6 @@ const STYLES_P = css`
 `;
 
 export const P = (props) => {
-  console.log("inside p");
   return <div css={STYLES_P} {...props} />;
 };
 

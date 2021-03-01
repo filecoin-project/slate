@@ -664,6 +664,7 @@ export default class ApplicationPage extends React.Component {
     );
 
     const scene = React.cloneElement(SCENES[page.scene || current.target.decorator], {
+      key: this.state.data?.id,
       page: page,
       current: current.target,
       data: this.state.data,

@@ -38,6 +38,17 @@ export default class ProfilePage extends React.Component {
 
   componentDidMount = () => {
     window.onpopstate = this._handleBackForward;
+
+    if (!Strings.isEmpty(this.props.cid)) {
+      let files = this.props.creator.library[0]?.children || [];
+      let index = files.findIndex((object) => object.cid === this.props.cid);
+      if (index !== -1) {
+        Events.dispatchCustomEvent({
+          name: "slate-global-open-carousel",
+          detail: { index },
+        });
+      }
+    }
   };
 
   _handleBackForward = (e) => {
@@ -58,13 +69,13 @@ export default class ProfilePage extends React.Component {
     if (Strings.isEmpty(image)) {
       image = DEFAULT_IMAGE;
     }
-
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <Profile
             {...this.props}
+            tab={this.props.cid ? 0 : 1}
             page={this.state.page}
             buttons={buttons}
             isOwner={false}

@@ -7,6 +7,7 @@ export const user = (entity) => {
     id: entity.id,
     username: entity.username,
     slates: entity.slates ? entity.slates : [],
+    library: entity.library ? entity.library : [],
     data: {
       name: entity.data.name ? entity.data.name : "",
       photo: entity.data.photo ? entity.data.photo : "",

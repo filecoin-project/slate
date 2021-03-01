@@ -173,12 +173,7 @@ export class GlobalCarousel extends React.Component {
   };
 
   setWindowState = (data) => {
-    let baseURL = window.location.pathname.split("/");
-    baseURL.length = 3;
-    baseURL = baseURL.join("/");
-
-    const isActivityCarousel = this.props.carouselType === "ACTIVITY";
-    if (isActivityCarousel) {
+    if (this.props.carouselType === "ACTIVITY") {
       window.history.replaceState(
         { ...window.history.state, cid: data && data.cid },
         null,
@@ -190,11 +185,45 @@ export class GlobalCarousel extends React.Component {
       return;
     }
 
-    window.history.replaceState(
-      { ...window.history.state, cid: data && data.cid },
-      null,
-      data && data.cid ? `${baseURL}/cid:${data.cid}` : baseURL
-    );
+    let baseURL = window.location.pathname.split("/");
+
+    if (this.props.carouselType === "SLATE") {
+      baseURL.length = 3;
+      baseURL = baseURL.join("/");
+      window.history.replaceState(
+        { ...window.history.state, cid: data && data.cid },
+        null,
+        data && data.cid ? `${baseURL}/cid:${data.cid}` : baseURL
+      );
+      return;
+    }
+
+    if (this.props.carouselType === "PROFILE") {
+      baseURL.length = 2;
+      baseURL = baseURL.join("/");
+      window.history.replaceState(
+        { ...window.history.state, cid: data && data.cid },
+        null,
+        data && data.cid ? `${baseURL}/cid:${data.cid}` : baseURL
+      );
+      return;
+    }
+
+    if (this.props.carouselType === "DATA") {
+      baseURL.length = 2;
+      if (data && data.cid) {
+        baseURL[1] = this.props.viewer.username;
+      } else {
+        baseURL[1] = "_";
+      }
+      baseURL = baseURL.join("/");
+      window.history.replaceState(
+        { ...window.history.state, cid: data && data.cid },
+        null,
+        data && data.cid ? `${baseURL}/cid:${data.cid}` : baseURL
+      );
+      return;
+    }
   };
 
   _handleOpen = (e) => {
@@ -205,10 +234,8 @@ export class GlobalCarousel extends React.Component {
       visible: true,
       index: e.detail.index || 0,
     });
-    if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
-      const data = this.props.objects[e.detail.index];
-      this.setWindowState(data);
-    }
+    const data = this.props.objects[e.detail.index];
+    this.setWindowState(data);
   };
 
   _handleClose = (e) => {
@@ -230,10 +257,8 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index });
 
-    if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
-      const data = this.props.objects[index];
-      this.setWindowState(data);
-    }
+    const data = this.props.objects[index];
+    this.setWindowState(data);
   };
 
   _handlePrevious = () => {
@@ -243,10 +268,8 @@ export class GlobalCarousel extends React.Component {
     }
     this.setState({ index });
 
-    if (this.props.carouselType === "SLATE" || this.props.carouselType === "ACTIVITY") {
-      const data = this.props.objects[index];
-      this.setWindowState(data);
-    }
+    const data = this.props.objects[index];
+    this.setWindowState(data);
   };
 
   _handleSave = async (details, index) => {
@@ -279,7 +302,7 @@ export class GlobalCarousel extends React.Component {
     let isRepost;
     if (this.props.carouselType === "SLATE") {
       isRepost = this.props.external ? false : this.props.current.data.ownerId !== data.ownerId;
-    } else if (this.props.carouselType === "DATA") {
+    } else if (this.props.carouselType === "DATA" || this.props.carouselType === "PROFILE") {
       data.url = Strings.getCIDGatewayURL(data.cid);
     }
 
@@ -360,7 +383,7 @@ export class GlobalCarousel extends React.Component {
           </span>
         </div>
         <span css={STYLES_MOBILE_HIDDEN}>
-          {this.props.carouselType === "DATA" ? (
+          {this.props.carouselType === "DATA" || this.props.carouselType === "PROFILE" ? (
             <CarouselSidebarData
               viewer={this.props.viewer}
               display={this.state.showSidebar ? "block" : "none"}

@@ -300,7 +300,7 @@ const STYLES_ICON_ROW = css`
   display: flex;
   flex-direction: row;
   position: absolute;
-  left: calc(50% - 60px);
+  left: calc(50% - 40px);
 `;
 
 export class SlateLayout extends React.Component {
@@ -1611,7 +1611,7 @@ export class SlateLayout extends React.Component {
                                   : "24px",
                               }}
                             >
-                              <DynamicIcon
+                              {/* <DynamicIcon
                                 onClick={(e) => {
                                   this._handleCopy(e, this.state.items[i].url);
                                 }}
@@ -1638,7 +1638,7 @@ export class SlateLayout extends React.Component {
                                 }}
                               >
                                 <SVG.DeepLink height="16px" style={{ color: "#4b4a4d" }} />
-                              </DynamicIcon>
+                              </DynamicIcon> */}
                               <div
                                 css={STYLES_ICON_CIRCLE}
                                 onMouseDown={this._stopProp}

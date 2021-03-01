@@ -182,31 +182,10 @@ export default class SlatePage extends React.Component {
       return null;
     }
 
-    let CIDMap = {};
-    Events.dispatchCustomEvent({
-      name: "slate-global-create-carousel",
-      detail: {
-        carouselType: "slate",
-        slides: this.props.slate.data.objects.map((each, index) => {
-          const url = each.url;
-          const cid = Strings.getCIDFromIPFS(url);
-          CIDMap[cid] = index;
-
-          return {
-            cid,
-            id: each.id,
-            data: each,
-            isOwner: false,
-            component: <SlateMediaObject key={each.id} useImageFallback data={each} />,
-          };
-        }),
-      },
-    });
-
     if (!Strings.isEmpty(this.props.cid)) {
-      const index = CIDMap[this.props.cid];
-
-      if (index || index === 0) {
+      let files = this.props.slate.data.objects || [];
+      let index = files.findIndex((object) => object.cid === this.props.cid);
+      if (index !== -1) {
         Events.dispatchCustomEvent({
           name: "slate-global-open-carousel",
           detail: { index },

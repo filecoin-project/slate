@@ -289,8 +289,10 @@ class CarouselSidebarData extends React.Component {
   };
 
   _handleChange = (e) => {
-    this.debounceInstance();
-    this.setState({ [e.target.name]: e.target.value, unsavedChanges: true });
+    if (this.props.isOwner && !this.props.external) {
+      this.debounceInstance();
+      this.setState({ [e.target.name]: e.target.value, unsavedChanges: true });
+    }
   };
 
   _handleSave = async () => {
@@ -471,7 +473,7 @@ class CarouselSidebarData extends React.Component {
     elements.push(
       <div key="s-2" style={{ marginBottom: 80 }}>
         <div css={STYLES_META}>
-          {this.state.isEditing ? (
+          {this.state.isEditing && this.props.isOwner && !this.props.external ? (
             <Boundary enabled onOutsideRectEvent={this._handleEditFilename}>
               <Input
                 full
@@ -485,11 +487,17 @@ class CarouselSidebarData extends React.Component {
           ) : (
             <span
               css={STYLES_META_TITLE}
-              onClick={this.props.external ? () => {} : this._handleEditFilename}
+              style={{
+                color: this.props.isOwner && !this.props.external ? "auto" : Constants.system.white,
+              }}
+              onClick={
+                this.props.external || !this.props.isOwner ? () => {} : this._handleEditFilename
+              }
             >
               {this.state.name}
             </span>
           )}
+
           <div style={{ display: `flex`, justifyContent: `baseline` }}>
             <div css={STYLES_META_DETAILS}>
               <span css={STYLES_TAG}>{type}</span> <span>{Strings.bytesToSize(size)}</span>
@@ -503,7 +511,7 @@ class CarouselSidebarData extends React.Component {
           </div>
         </div>
         <div css={STYLES_ACTIONS}>
-          {this.props.isOwner ? (
+          {/* {this.props.isOwner ? (
             <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
               <SVG.CopyAndPaste height="24px" />
               <span style={{ marginLeft: 16 }}>
@@ -516,7 +524,7 @@ class CarouselSidebarData extends React.Component {
             <span style={{ marginLeft: 16 }}>
               {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy file URL"}
             </span>
-          </div>
+          </div> */}
           {this.props.external ? null : (
             <div css={STYLES_ACTION} onClick={this._handleDownload}>
               {this.state.isDownloading ? (

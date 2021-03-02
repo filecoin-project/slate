@@ -130,6 +130,10 @@ export default class SceneFilesFolder extends React.Component {
     keyboardTooltip: false,
   };
 
+  componentDidMount = () => {
+    this.openCarouselToItem();
+  };
+
   componentDidUpdate = (prevProps, prevState) => {
     if (prevProps.viewer.library[0].children !== this.props.viewer.library[0].children) {
       if (this.state.filtersActive) {
@@ -202,10 +206,6 @@ export default class SceneFilesFolder extends React.Component {
       filteredFiles,
       filtersActive,
     });
-  };
-
-  componentDidMount = () => {
-    this.openCarouselToItem();
   };
 
   openCarouselToItem = () => {

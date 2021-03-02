@@ -722,7 +722,6 @@ export default class ApplicationPage extends React.Component {
         </WebsitePrototypeWrapper>
       );
     }
-
     return (
       <React.Fragment>
         <WebsitePrototypeWrapper description={description} title={title} url={url}>

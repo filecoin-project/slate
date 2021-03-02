@@ -76,19 +76,19 @@ const STYLES_PROFILE_PREVIEW = css`
   border-radius: 4px;
 `;
 
-const UserEntry = ({ item }) => {
+const UserEntry = ({ user }) => {
   return (
     <div css={STYLES_ENTRY}>
       <div css={STYLES_ENTRY_CONTAINER}>
-        <div style={{ backgroundImage: `url(${item.data.photo})` }} css={STYLES_PROFILE_PREVIEW} />
+        <div style={{ backgroundImage: `url(${user.data.photo})` }} css={STYLES_PROFILE_PREVIEW} />
         <div css={STYLES_TEXT_ROWS}>
-          {item.data.name ? (
+          {user.data.name ? (
             <React.Fragment>
-              <div css={STYLES_TITLE}>{item.data.name}</div>
-              <div css={STYLES_SUBTITLE}>@{item.username}</div>
+              <div css={STYLES_TITLE}>{user.data.name}</div>
+              <div css={STYLES_SUBTITLE}>@{user.username}</div>
             </React.Fragment>
           ) : (
-            <div css={STYLES_TITLE}>@{item.username}</div>
+            <div css={STYLES_TITLE}>@{user.username}</div>
           )}
         </div>
       </div>
@@ -107,15 +107,15 @@ const STYLES_PROFILE_IMAGE = css`
   border-radius: 4px;
 `;
 
-const UserPreview = ({ item, viewer }) => {
+const UserPreview = ({ user }) => {
   return (
     <div>
-      <div css={STYLES_PROFILE_IMAGE} style={{ backgroundImage: `url('${item.data.photo}')` }} />
-      {item.data.name ? <div css={STYLES_PREVIEW_TEXT}>{item.data.name}</div> : null}
-      <div css={STYLES_PREVIEW_TEXT}>@{item.username}</div>
-      {item.data.slates ? (
+      <div css={STYLES_PROFILE_IMAGE} style={{ backgroundImage: `url('${user.data.photo}')` }} />
+      {user.data.name ? <div css={STYLES_PREVIEW_TEXT}>{user.data.name}</div> : null}
+      <div css={STYLES_PREVIEW_TEXT}>@{user.username}</div>
+      {user.data.slates ? (
         <div css={STYLES_PREVIEW_TEXT}>
-          {item.data.slates.length} Slate{item.data.slates.length === 1 ? "" : "s"}
+          {user.data.slates.length} Slate{user.data.slates.length === 1 ? "" : "s"}
         </div>
       ) : null}
     </div>
@@ -159,7 +159,7 @@ const STYLES_SUBTITLE = css`
   word-break: break-all;
 `;
 
-const SlateEntry = ({ item, viewer }) => {
+const SlateEntry = ({ slate, user }) => {
   return (
     <div css={STYLES_ENTRY}>
       <div css={STYLES_ENTRY_CONTAINER}>
@@ -167,12 +167,8 @@ const SlateEntry = ({ item, viewer }) => {
           <SVG.Slate height="24px" />
         </div>
         <div css={STYLES_TEXT_ROWS}>
-          <div css={STYLES_TITLE}>{item.data.name || item.slatename}</div>
-          {viewer ? (
-            <div css={STYLES_SUBTITLE}>{item.data.objects.length} Files</div>
-          ) : item.owner && (item.owner.username || item.owner.data.name) ? (
-            <div css={STYLES_SUBTITLE}>{item.owner.data.name || `@${item.owner.username}`}</div>
-          ) : null}
+          <div css={STYLES_TITLE}>{slate.data.name || slate.slatename}</div>
+          {user ? <div css={STYLES_SUBTITLE}>{user.data.name || `@${user.username}`}</div> : null}
         </div>
       </div>
     </div>
@@ -206,16 +202,16 @@ const STYLES_EMPTY_SLATE_PREVIEW = css`
   border: 1px solid ${Constants.system.bgGray};
 `;
 
-const SlatePreview = ({ item, viewer }) => {
+const SlatePreview = ({ slate, user }) => {
   let preview;
-  for (let obj of item.data.objects) {
+  for (let obj of slate.data.objects) {
     if (obj.type && Validations.isPreviewableImage(obj.type)) {
       preview = obj;
       break;
     }
   }
-  if (!item && item.data.objects && item.data.objects.length) {
-    preview = item.data.objects[0];
+  if (!slate && slate.data.objects && slate.data.objects.length) {
+    preview = slate.data.objects[0];
   }
   return (
     <div style={{ textAlign: "center" }}>
@@ -234,24 +230,17 @@ const SlatePreview = ({ item, viewer }) => {
           </div>
         )}
       </div>
-      {viewer || item.owner ? (
-        <div css={STYLES_PREVIEW_TEXT}>
-          Created by:{" "}
-          {viewer
-            ? viewer.data.name || `@${viewer.username}`
-            : item.owner.data.name || `@${item.owner.username}`}
-        </div>
+      {user ? (
+        <div css={STYLES_PREVIEW_TEXT}>Created by: {user.data.name || `@${user.username}`}</div>
       ) : null}
       <div css={STYLES_PREVIEW_TEXT}>
-        {item.data.objects.length} File{item.data.objects.length === 1 ? "" : "s"}
+        {slate.data.objects.length} File{slate.data.objects.length === 1 ? "" : "s"}
       </div>
     </div>
   );
 };
 
-const FileEntry = ({ item, viewer }) => {
-  let file = item.data.file;
-  let slate = item.data.slate;
+const FileEntry = ({ file }) => {
   return (
     <div css={STYLES_ENTRY}>
       <div css={STYLES_ENTRY_CONTAINER}>
@@ -275,9 +264,7 @@ const FileEntry = ({ item, viewer }) => {
   );
 };
 
-const FilePreview = ({ item, viewer }) => {
-  let file = item.data.file;
-  let slate = item.data.slate;
+const FilePreview = ({ file, slate, user, viewerId }) => {
   return (
     <div style={{ textAlign: "center" }}>
       <div css={STYLES_PREVIEW_IMAGE}>
@@ -290,17 +277,12 @@ const FilePreview = ({ item, viewer }) => {
           coverImage={file.coverImage}
         />
       </div>
-      {viewer || (slate && slate.owner) ? (
-        <div css={STYLES_PREVIEW_TEXT}>
-          Owner:{" "}
-          {viewer
-            ? viewer.data.name || `@${viewer.username}`
-            : slate.owner.data.name || `@${slate.owner.username}`}
-        </div>
+      {user ? (
+        <div css={STYLES_PREVIEW_TEXT}>Owner: {user.data.name || `@${user.username}`}</div>
       ) : null}
       {slate ? (
         <div css={STYLES_PREVIEW_TEXT}>Slate: {slate.data.name || slate.slatename}</div>
-      ) : viewer ? (
+      ) : user?.id === viewerId ? (
         <div css={STYLES_PREVIEW_TEXT}>In your files</div>
       ) : null}
     </div>
@@ -520,12 +502,11 @@ export class SearchModal extends React.Component {
     let defaultResults = this.props.viewer.slates;
     defaultResults = defaultResults.map((slate) => {
       return {
-        value: {
-          type: "SLATE",
-          data: slate,
-        },
-        component: <SlateEntry item={slate} viewer={this.props.viewer} />,
-        preview: <SlatePreview item={slate} viewer={this.props.viewer} />,
+        id: slate.id,
+        type: "SLATE",
+        data: { slate: slate },
+        component: <SlateEntry slate={slate} user={this.props.viewer} />,
+        preview: <SlatePreview slate={slate} user={this.props.viewer} />,
       };
     });
     this.setState({ defaultResults });
@@ -574,7 +555,6 @@ export class SearchModal extends React.Component {
             ...file,
             url: Strings.getCIDGatewayURL(file.cid),
           },
-          index: i,
         },
       };
     });
@@ -592,7 +572,6 @@ export class SearchModal extends React.Component {
             data: {
               file,
               slate,
-              index: i,
             },
           };
         })
@@ -676,7 +655,7 @@ export class SearchModal extends React.Component {
       e.preventDefault();
     } else if (e.keyCode === 13) {
       if (results.length > this.state.selectedIndex && this.state.selectedIndex >= 0) {
-        this._handleSelect(results[this.state.selectedIndex].value);
+        this._handleSelect(results[this.state.selectedIndex]);
       }
       e.preventDefault();
     }
@@ -731,21 +710,26 @@ export class SearchModal extends React.Component {
       for (let item of searchResults) {
         if (item.type === "SLATE") {
           results.push({
-            value: {
-              type: "SLATE",
-              data: item,
-            },
-            component: <SlateEntry item={item} viewer={this.props.viewer} />,
-            preview: <SlatePreview item={item} viewer={this.props.viewer} />,
+            id: slate.id,
+            type: item.type,
+            data: { slate: item },
+            component: <SlateEntry slate={item} user={this.props.viewer} />,
+            preview: <SlatePreview slate={item} user={this.props.viewer} />,
           });
         } else if (item.type === "FILE" || item.type === "DATA_FILE") {
           results.push({
-            value: {
-              type: item.type,
-              data: item,
-            },
-            component: <FileEntry item={item} viewer={this.props.viewer} />,
-            preview: <FilePreview item={item} viewer={this.props.viewer} />,
+            id: item.data.file.id,
+            type: item.type,
+            data: { file: item },
+            component: <FileEntry file={item.data.file} />,
+            preview: (
+              <FilePreview
+                file={item.data.file}
+                slate={item.data.slate}
+                user={this.props.viewer}
+                viewerId={this.props.viewer.id}
+              />
+            ),
           });
         }
       }
@@ -757,9 +741,6 @@ export class SearchModal extends React.Component {
         resourceURI: this.props.resourceURI,
         query: this.state.inputValue,
         type: this.state.typeFilter,
-        userId: this.props.viewer.id,
-        filterBy: null,
-        networkIds: this.networkIds || [],
       });
       this.setState({ unfilteredResults: response.data.results });
       res = response.data.results;
@@ -767,49 +748,46 @@ export class SearchModal extends React.Component {
       res = this.state.unfilteredResults;
     }
     searchResults = this.processResults(res);
-    for (let item of searchResults) {
-      if (ids.has(item.id)) continue;
-      ids.add(item.id);
-      if (item.type === "USER") {
+    for (let res of searchResults) {
+      if (res.type === "USER") {
+        let id = res.user.id;
+        if (ids.has(id)) continue;
+        ids.add(id);
         results.push({
-          value: {
-            type: "USER",
-            data: item,
-          },
-          component: <UserEntry item={item} />,
-          preview: <UserPreview item={item} viewer={this.props.viewer} />,
+          id,
+          type: res.type,
+          data: res,
+          component: <UserEntry user={res.user} />,
+          preview: <UserPreview user={res.user} />,
         });
-      } else if (item.type === "SLATE") {
+      } else if (res.type === "SLATE") {
+        let id = res.user.id;
+        if (ids.has(id)) continue;
+        ids.add(id);
         results.push({
-          value: {
-            type: "SLATE",
-            data: item,
-          },
-          component: (
-            <SlateEntry
-              item={item}
-              viewer={
-                item.owner && item.owner.id === this.props.viewer.id ? this.props.viewer : null
-              }
-            />
-          ),
+          id,
+          type: res.type,
+          data: res,
+          component: <SlateEntry slate={res.slate} user={res.user} />,
+          preview: <SlatePreview slate={res.slate} user={res.user} />,
+        });
+      } else if (res.type === "FILE") {
+        let id = res.user.id;
+        if (ids.has(id)) continue;
+        ids.add(id);
+        results.push({
+          id,
+          type: res.type,
+          data: res,
+          component: <FileEntry file={res.file} />,
           preview: (
-            <SlatePreview
-              item={item}
-              viewer={
-                item.owner && item.owner.id === this.props.viewer.id ? this.props.viewer : null
-              }
+            <FilePreview
+              file={res.file}
+              slate={res.slate}
+              user={res.user}
+              viewerId={this.props.viewer.id}
             />
           ),
-        });
-      } else if (item.type === "FILE") {
-        results.push({
-          value: {
-            type: item.type,
-            data: item,
-          },
-          component: <FileEntry item={item} />,
-          preview: <FilePreview item={item} />,
         });
       }
     }
@@ -828,10 +806,9 @@ export class SearchModal extends React.Component {
       });
     } else if (this.state.scopeFilter === "NETWORK" && this.networkIds && this.networkIds.length) {
       results = results.filter((res) => {
-        let item = res.item;
         if (
-          (item.type === "USER" && this.networkIds.includes(item.id)) ||
-          (item.type === "SLATE" && this.slateIds.includes(item.id)) ||
+          (res.type === "USER" && this.networkIds.includes(res.id)) ||
+          (res.type === "SLATE" && this.slateIds.includes(res.id)) ||
           this.networkIds.includes(res.ownerId)
         ) {
           return true;
@@ -854,12 +831,12 @@ export class SearchModal extends React.Component {
           this.state.scopeFilter !== "MY"
         ) {
           let aInNetwork =
-            (a.item.type === "USER" && this.networkIds.includes(a.item.id)) ||
-            (a.item.type === "SLATE" && this.slateIds.includes(a.item.id)) ||
+            (a.type === "USER" && this.networkIds.includes(a.user.id)) ||
+            (a.type === "SLATE" && this.slateIds.includes(a.slate.id)) ||
             this.networkIds.includes(a.ownerId);
           let bInNetwork =
-            (b.item.type === "USER" && this.networkIds.includes(b.item.id)) ||
-            (b.item.type === "SLATE" && this.slateIds.includes(b.item.id)) ||
+            (b.type === "USER" && this.networkIds.includes(b.user.id)) ||
+            (b.type === "SLATE" && this.slateIds.includes(b.slate.id)) ||
             this.networkIds.includes(b.ownerId);
           if (aInNetwork && !bInNetwork) {
             return -1;
@@ -870,38 +847,37 @@ export class SearchModal extends React.Component {
         return 0;
       });
     }
-    results = results.map((res) => res.item);
     return results;
   };
 
-  _handleSelect = async (value) => {
-    if (value.type === "SLATE") {
+  _handleSelect = async (res) => {
+    if (res.type === "SLATE") {
       this.props.onAction({
         type: "NAVIGATE",
         value: "NAV_SLATE",
-        data: value.data,
+        data: res.data.slate,
       });
     }
-    if (value.type === "USER") {
+    if (res.type === "USER") {
       this.props.onAction({
         type: "NAVIGATE",
         value: "NAV_PROFILE",
-        data: value.data,
+        data: res.data.user,
       });
     }
-    if (value.type === "DATA_FILE") {
+    if (res.type === "DATA_FILE") {
       await this.props.onAction({
         type: "NAVIGATE",
         value: "NAV_DATA",
-        index: value.data.data.index,
+        fileId: res.data.file.id,
       });
     }
-    if (value.type === "FILE") {
+    if (res.type === "FILE") {
       await this.props.onAction({
         type: "NAVIGATE",
         value: "NAV_SLATE",
-        data: value.data.data.slate,
-        fileId: value.data.data.file.id,
+        data: res.data.slate,
+        fileId: res.data.file.id,
       });
     }
     this._handleHide();
@@ -913,27 +889,25 @@ export class SearchModal extends React.Component {
       this._handleSelect({
         type: "FILE",
         data: {
-          data: {
-            file: { id: "rick-roll" },
-            slate: {
-              id: isProd
-                ? "01edcede-53c9-46b3-ac63-8f8479e10bcf"
-                : "60d199e7-6bf5-4994-94e8-b17547c64449",
-              data: {
-                objects: [
-                  {
-                    id: "rick-roll",
-                    url:
-                      "https://slate.textile.io/ipfs/bafybeifcxjvbad4lgpnbwff2dafufmnlylylmku4qoqtlkwgidupwi6f3a",
-                    ownerId: "owner",
-                    name: "Never gonna give you up",
-                    title: "never-gonna-give-you-up.mp4",
-                    type: "video/mp4",
-                  },
-                ],
-              },
-              ownerId: "owner",
+          file: { id: "rick-roll" },
+          slate: {
+            id: isProd
+              ? "01edcede-53c9-46b3-ac63-8f8479e10bcf"
+              : "60d199e7-6bf5-4994-94e8-b17547c64449",
+            data: {
+              objects: [
+                {
+                  id: "rick-roll",
+                  url:
+                    "https://slate.textile.io/ipfs/bafybeifcxjvbad4lgpnbwff2dafufmnlylylmku4qoqtlkwgidupwi6f3a",
+                  ownerId: "owner",
+                  name: "Never gonna give you up",
+                  title: "never-gonna-give-you-up.mp4",
+                  type: "video/mp4",
+                },
+              ],
             },
+            ownerId: "owner",
           },
         },
       });
@@ -1209,11 +1183,7 @@ export class SearchModal extends React.Component {
                     >
                       {results.map((each, i) => (
                         <div
-                          key={
-                            each.value.type === "FILE"
-                              ? `${each.value.data.data.file.id}-${each.value.data.data.slate.id}`
-                              : each.value.data.id
-                          }
+                          key={each.id}
                           css={STYLES_DROPDOWN_ITEM}
                           style={{
                             background:
@@ -1224,7 +1194,7 @@ export class SearchModal extends React.Component {
                           }}
                           onClick={() => {
                             selectedIndex === i || this.props.mobile
-                              ? this._handleSelect(each.value)
+                              ? this._handleSelect(each)
                               : this.setState({ selectedIndex: i });
                           }}
                         >
@@ -1245,7 +1215,7 @@ export class SearchModal extends React.Component {
                         css={STYLES_PREVIEW_PANEL}
                         onClick={() => {
                           if (selectedIndex >= 0 && selectedIndex < results.length) {
-                            this._handleSelect(results[selectedIndex].value);
+                            this._handleSelect(results[selectedIndex]);
                           }
                         }}
                       >

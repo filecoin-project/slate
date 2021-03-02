@@ -398,7 +398,6 @@ app.prepare().then(async () => {
     }
 
     let library = creator.data.library;
-    console.log(library);
 
     creator = Serializers.user(creator);
 
@@ -421,7 +420,6 @@ app.prepare().then(async () => {
     }
 
     creator.library = library;
-    console.log(creator);
 
     return app.render(req, res, "/_/profile", {
       viewer,

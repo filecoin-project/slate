@@ -19,7 +19,6 @@ const reducer = (state, event) => {
 
 export const MetamaskButton = () => {
   const [currentState, dispatch] = React.useReducer(reducer, "idle");
-  const [chainId, setChainId] = React.useState(null);
 
   useDetectMetaMask({ onDetection: () => dispatch("confirmMetamask") });
 

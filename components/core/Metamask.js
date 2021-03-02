@@ -5,12 +5,13 @@ import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 const META_TASK_STATE_GRAPH = {
-  idle: { confirmMetamask: "matamaskExist" },
-  matamaskExist: { signin: "signingIn" },
+  idle: { confirmMetamask: "metamaskExist" },
+  metamaskExist: { signin: "signingIn" },
   signingIn: { success: "signedIn", error: "error" },
   signedIn: { diconnect: "idle" },
   error: { signin: "signingIn" },
 };
+
 const reducer = (state, event) => {
   const nextState = META_TASK_STATE_GRAPH[state][event];
   return nextState !== undefined ? nextState : state;
@@ -18,7 +19,11 @@ const reducer = (state, event) => {
 
 export const MetamaskButton = () => {
   const [currentState, dispatch] = React.useReducer(reducer, "idle");
+  const [chainId, setChainId] = React.useState(null);
+
   useDetectMetaMask({ onDetection: () => dispatch("confirmMetamask") });
+
+  let currentAccount = null;
   const handleLogin = async () => {
     if (currentState === "idle") {
       Events.dispatchMessage({ message: "You need to install Metamask wallet on your computer" });
@@ -28,12 +33,26 @@ export const MetamaskButton = () => {
     dispatch("signin");
     try {
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-      console.log(accounts);
+      handleAccountsChange(accounts);
+
+      // NOTE(daniel): set currentAccount state here later on
       dispatch("success");
     } catch (e) {
       dispatch("error");
     }
   };
+
+  const handleAccountsChange = (accounts) => {
+    if (accounts.length === 0) {
+      Events.dispatchMessage({ message: "Please connect to Metamask wallet on your computer" });
+    } else if (accounts[0] !== currentAccount) {
+      currentAccount = accounts[0];
+      console.log({ currentAccount });
+    }
+  };
+
+  ethereum.on("accountsChanged", handleAccountsChange);
+
   return currentState === "signedIn" ? (
     "connected"
   ) : (

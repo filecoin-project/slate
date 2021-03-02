@@ -332,6 +332,17 @@ export const downloadZip = async (file) => {
   }
 };
 
+export const compressAndDownloadFiles = async (files) => {
+  if (!(files && files.length > 0)) return;
+  const { token } = await Actions.createZipToken(files);
+  const downloadLink = Actions.downloadZip(token);
+
+  download({
+    name: "slate.zip",
+    url: downloadLink,
+  });
+};
+
 // export const createSlate = async (data) => {
 //   let response = await Actions.createSlate({
 //     name: data.name,

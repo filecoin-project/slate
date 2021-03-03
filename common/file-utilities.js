@@ -70,7 +70,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
     formData.append("data", file);
   }
 
-  if (Store.checkCancelled(`${file.lastModified}-${file.name}`)) {
+  if (Store.checkCancelled(fileKey(file))) {
     return;
   }
 
@@ -78,7 +78,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
     new Promise((resolve, reject) => {
       const XHR = new XMLHttpRequest();
 
-      window.addEventListener(`cancel-${file.lastModified}-${file.name}`, () => {
+      window.addEventListener(`cancel-${fileKey(file)}`, () => {
         XHR.abort();
       });
 
@@ -102,7 +102,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
             context.setState({
               fileLoading: {
                 ...context.state.fileLoading,
-                [`${file.lastModified}-${file.name}`]: {
+                [fileKey(file)]: {
                   name: file.name,
                   loaded: event.loaded,
                   total: event.total,
@@ -114,7 +114,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
         false
       );
 
-      window.removeEventListener(`cancel-${file.lastModified}-${file.name}`, () => XHR.abort());
+      window.removeEventListener(`cancel-${fileKey(file)}`, () => XHR.abort());
 
       XHR.onloadend = (event) => {
         console.log("FILE UPLOAD END", event);
@@ -157,7 +157,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
       await context.setState({
         fileLoading: {
           ...context.state.fileLoading,
-          [`${file.lastModified}-${file.name}`]: {
+          [fileKey(file)]: {
             name: file.name,
             failed: true,
           },
@@ -209,3 +209,17 @@ export const uploadToSlate = async ({ responses, slate }) => {
   let message = Strings.formatAsUploadMessage(added, skipped, true);
   Events.dispatchMessage({ message, status: !added ? null : "INFO" });
 };
+
+// cleanup to ensure the filename doesn't fail upon api post
+export const formatTitle = ({ title, publisher }) =>
+  (publisher ? `${publisher} - ${title}` : title).replace(/[^a-zA-Z0-9 -.]/g, " ").trim();
+
+export const formatFileStr = (data) => {
+  // remove date keys to keep links unique for now
+  delete data.date;
+  delete data.screenshot;
+
+  return JSON.stringify(data);
+};
+
+export const fileKey = (file) => `${file.lastModified}-${file.name}`;

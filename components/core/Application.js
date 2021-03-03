@@ -206,7 +206,7 @@ export default class ApplicationPage extends React.Component {
         page = { id: "NAV_DATA", scrollTop: 0, data: null };
       }
       if (page.id === "NAV_SLATE" && this.state.data?.data?.ownerId === this.state.viewer.id) {
-        let data = this.state.data;
+        let { data } = this.state;
         for (let slate of newViewerState.slates) {
           if (slate.id === data.id) {
             data = slate;
@@ -336,7 +336,7 @@ export default class ApplicationPage extends React.Component {
 
     const resolvedFiles = [];
     for (let i = 0; i < files.length; i++) {
-      if (Store.checkCancelled(`${files[i].lastModified}-${files[i].name}`)) {
+      if (Store.checkCancelled(FileUtilities.fileKey(files[i]))) {
         continue;
       }
 
@@ -350,6 +350,7 @@ export default class ApplicationPage extends React.Component {
           file: files[i],
           context: this,
           routes: this.props.resources,
+          metadata: {},
         });
       } catch (e) {
         console.log(e);
@@ -404,13 +405,13 @@ export default class ApplicationPage extends React.Component {
   };
 
   _handleRegisterFileCancelled = ({ key }) => {
-    let fileLoading = this.state.fileLoading;
+    let { fileLoading } = this.state;
     fileLoading[key].cancelled = true;
     this.setState({ fileLoading });
   };
 
   _handleRegisterLoadingFinished = ({ keys }) => {
-    let fileLoading = this.state.fileLoading;
+    let { fileLoading } = this.state;
     for (let key of keys) {
       delete fileLoading[key];
     }

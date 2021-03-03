@@ -108,7 +108,7 @@ export const formatPastedImages = ({ clipboardItems }) => {
     if (clipboardItems[i].type.indexOf("image") === -1) continue;
     const file = clipboardItems[i].getAsFile();
     files.push(file);
-    fileLoading[`${file.lastModified}-${file.name}`] = {
+    fileLoading[FileUtilities.fileKey(file)] = {
       name: file.name,
       loaded: 0,
       total: file.size,
@@ -153,38 +153,28 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
         const { body: urlJSON } = response;
         const { data } = urlJSON;
 
-        // cleanup to ensure the filename doesn't fail upon api post
-        const formatTitle = ({ title, publisher }) =>
-          (publisher ? `${publisher} - ${title}` : title).replace(/[^a-zA-Z0-9 -.]/g, " ").trim();
-
-        const formatFileStr = (data) => {
-          // remove date keys to keep links unique for now
-          delete data.date;
-          delete data.screenshot;
-
-          return JSON.stringify(data);
-        };
-
-        const formatFileKey = (file) => `${file.lastModified}-${file.name}`;
-
         console.log("URL processed: ", urlJSON);
 
-        const file = new File([formatFileStr(data)], `${formatTitle(data)}.link`, {
-          type: "application/json",
-        });
+        const file = new File(
+          [FileUtilities.formatFileStr(data)],
+          `${FileUtilities.formatTitle(data)}.link`,
+          {
+            type: "application/json",
+          }
+        );
 
         console.log("File created: ", file);
 
         // add link to upload queue
         files.push(file);
-        fileLoading[formatFileKey(file)] = {
+        fileLoading[FileUtilities.fileKey(file)] = {
           name: file.name,
           loaded: 0,
           total: file.size,
         };
 
         // add any additional metadata to store
-        fileMetadata[formatFileKey(file)] = { screenshot: data.screenshot };
+        fileMetadata[FileUtilities.fileKey(file)] = { screenshot: data.screenshot };
       }
     } catch (e) {
       Events.dispatchMessage({ message: `Error processing url ${uri}, try again later` });
@@ -195,7 +185,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
       if (data.kind === "file") {
         const file = data.getAsFile();
         files.push(file);
-        fileLoading[`${file.lastModified}-${file.name}`] = {
+        fileLoading[FileUtilities.fileKey(file)] = {
           name: file.name,
           loaded: 0,
           total: file.size,
@@ -222,7 +212,7 @@ export const formatUploadedFiles = ({ files }) => {
     }
 
     toUpload.push(file);
-    fileLoading[`${file.lastModified}-${file.name}`] = {
+    fileLoading[FileUtilities.fileKey(file)] = {
       name: file.name,
       loaded: 0,
       total: file.size,

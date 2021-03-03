@@ -332,13 +332,44 @@ export const downloadZip = async (file) => {
   }
 };
 
-export const compressAndDownloadFiles = async (files) => {
-  if (!(files && files.length > 0)) return;
-  const { token } = await Actions.createZipToken(files);
-  const downloadLink = Actions.downloadZip(token);
+const _nativeDownload = (file) => {
+  var element = document.createElement("a");
+  element.setAttribute("href", file.url);
+  element.setAttribute("download", file.name);
 
-  download({
-    name: "slate.zip",
+  element.style.display = "none";
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+};
+
+export const compressAndDownloadFiles = async (files, name = "slate.zip") => {
+  if (!(files && files.length > 0)) return;
+
+  let downloadFiles = [];
+  for (const file of files) {
+    if (file.type === "application/unity") {
+      const { data } = await Actions.getZipFilePaths(file);
+      console.log("done");
+      const unityFiles = data.filesPaths.map((item) => ({
+        url: item.replace(`/${file.id}/`, `${file.url || Strings.getCIDGatewayURL(file.cid)}/`),
+        name: item.replace(`/${file.id}/`, `/${file.name}/`),
+      }));
+
+      downloadFiles = downloadFiles.concat(unityFiles);
+      continue;
+    }
+
+    downloadFiles.push({
+      name: file.file || file.name,
+      url: file.url || Strings.getCIDGatewayURL(file.cid),
+    });
+  }
+
+  const { token } = await Actions.createZipToken(downloadFiles);
+  const downloadLink = Actions.downloadZip(token);
+  _nativeDownload({
+    name,
     url: downloadLink,
   });
 };

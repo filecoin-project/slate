@@ -1,11 +1,7 @@
 import archiver from "archiver";
 import Request from "request";
 import storage from "node-persist";
-import https from "https";
 
-import fs from "fs";
-
-// const request = (link) => https.request(link);
 const request = (link) => Request.get(link);
 export default async (req, res) => {
   const downloadId = req.query.downloadId;
@@ -27,7 +23,7 @@ export default async (req, res) => {
   });
 
   archive.pipe(res);
-  files.forEach((file) => archive.append(request(file.path), { name: file.name }));
+  files.forEach((file) => archive.append(request(file.url), { name: file.name }));
   archive.finalize();
   storage.removeItem(downloadId);
 };

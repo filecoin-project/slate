@@ -344,34 +344,38 @@ const _nativeDownload = (file) => {
 };
 
 export const compressAndDownloadFiles = async (files, name = "slate.zip") => {
-  if (!(files && files.length > 0)) return;
+  try {
+    if (!(files && files.length > 0)) return;
+    Events.dispatchMessage({ message: "We're preparing your files to download", status: "INFO" });
+    let downloadFiles = [];
+    for (const file of files) {
+      if (file.type === "application/unity") {
+        const { data } = await Actions.getZipFilePaths(file);
+        const unityFiles = data.filesPaths.map((item) => ({
+          url: item.replace(`/${file.id}/`, `${file.url || Strings.getCIDGatewayURL(file.cid)}/`),
+          name: item.replace(`/${file.id}/`, `/${file.name}/`),
+        }));
 
-  let downloadFiles = [];
-  for (const file of files) {
-    if (file.type === "application/unity") {
-      const { data } = await Actions.getZipFilePaths(file);
-      console.log("done");
-      const unityFiles = data.filesPaths.map((item) => ({
-        url: item.replace(`/${file.id}/`, `${file.url || Strings.getCIDGatewayURL(file.cid)}/`),
-        name: item.replace(`/${file.id}/`, `/${file.name}/`),
-      }));
+        downloadFiles = downloadFiles.concat(unityFiles);
+        continue;
+      }
 
-      downloadFiles = downloadFiles.concat(unityFiles);
-      continue;
+      downloadFiles.push({
+        name: file.file || file.name,
+        url: file.url || Strings.getCIDGatewayURL(file.cid),
+      });
     }
 
-    downloadFiles.push({
-      name: file.file || file.name,
-      url: file.url || Strings.getCIDGatewayURL(file.cid),
-    });
-  }
+    const res = await Actions.createZipToken(downloadFiles);
 
-  const { token } = await Actions.createZipToken(downloadFiles);
-  const downloadLink = Actions.downloadZip(token);
-  _nativeDownload({
-    name,
-    url: downloadLink,
-  });
+    const downloadLink = Actions.downloadZip(res.data.token);
+    _nativeDownload({
+      name,
+      url: downloadLink,
+    });
+  } catch (e) {
+    Events.dispatchMessage({ message: "Something went wrong with the download. Please try again" });
+  }
 };
 
 // export const createSlate = async (data) => {

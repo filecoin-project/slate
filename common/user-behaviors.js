@@ -10,7 +10,6 @@ import * as Events from "~/common/custom-events";
 import Cookies from "universal-cookie";
 import JSZip from "jszip";
 
-import { mql } from "./microlink";
 import { saveAs } from "file-saver";
 
 //NOTE(martina): this file is for utility *API-calling* functions
@@ -141,16 +140,13 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
       // TODO(cw): currently we are processing links via microlink in order
       // to populate the necessary metadata, we may replace this with our
       // own service in the future.
-      const { status, response } = await mql(uri, {
-        iframe: false,
-        screenshot: true,
-        video: false,
-        palette: true,
-        audio: false,
-      });
+      const microlink = `https://api.microlink.io/?url=${encodeURIComponent(
+        uri
+      )}&palette=true&screenshot=true`;
+      const response = await fetch(microlink);
 
-      if (status === "success") {
-        const { body: urlJSON } = response;
+      if (response.ok) {
+        const urlJSON = await response.json();
         const { data } = urlJSON;
 
         console.log("URL processed: ", urlJSON);
@@ -169,7 +165,6 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
 
         // add any additional metadata to store
         fileMetadata[FileUtilities.fileKey(file)] = { screenshot: data.screenshot };
-        debugger;
       }
     } catch (e) {
       Events.dispatchMessage({ message: `Error processing url ${uri}, try again later` });

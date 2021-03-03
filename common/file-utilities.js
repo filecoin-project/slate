@@ -44,7 +44,15 @@ const getCookie = (name) => {
   if (match) return match[2];
 };
 
-export const upload = async ({ file, context, bucketName, routes, excludeFromLibrary }) => {
+export const upload = async ({
+  file,
+  context,
+  bucketName,
+  routes,
+  excludeFromLibrary,
+  fileMetadata,
+}) => {
+  const currentFileKey = fileKey(file);
   let formData = new FormData();
   const HEIC2ANY = require("heic2any");
 
@@ -70,7 +78,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
     formData.append("data", file);
   }
 
-  if (Store.checkCancelled(fileKey(file))) {
+  if (Store.checkCancelled(currentFileKey)) {
     return;
   }
 
@@ -78,7 +86,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
     new Promise((resolve, reject) => {
       const XHR = new XMLHttpRequest();
 
-      window.addEventListener(`cancel-${fileKey(file)}`, () => {
+      window.addEventListener(`cancel-${currentFileKey}`, () => {
         XHR.abort();
       });
 
@@ -102,7 +110,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
             context.setState({
               fileLoading: {
                 ...context.state.fileLoading,
-                [fileKey(file)]: {
+                [currentFileKey]: {
                   name: file.name,
                   loaded: event.loaded,
                   total: event.total,
@@ -114,7 +122,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
         false
       );
 
-      window.removeEventListener(`cancel-${fileKey(file)}`, () => XHR.abort());
+      window.removeEventListener(`cancel-${currentFileKey}`, () => XHR.abort());
 
       XHR.onloadend = (event) => {
         console.log("FILE UPLOAD END", event);
@@ -157,7 +165,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
       await context.setState({
         fileLoading: {
           ...context.state.fileLoading,
-          [fileKey(file)]: {
+          [currentFileKey]: {
             name: file.name,
             failed: true,
           },
@@ -180,6 +188,10 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
   }
 
   if (!excludeFromLibrary) {
+    // apply additional meta
+    if (fileMetadata && fileMetadata[currentFileKey]) {
+      debugger;
+    }
     await Actions.createPendingFiles({ data: res.data });
   }
 
@@ -223,3 +235,8 @@ export const formatFileStr = (data) => {
 };
 
 export const fileKey = (file) => `${file.lastModified}-${file.name}`;
+
+export const createLinkFile = (data) =>
+  new File([formatFileStr(data)], `${formatTitle(data)}.link`, {
+    type: "application/json",
+  });

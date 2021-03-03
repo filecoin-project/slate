@@ -288,7 +288,13 @@ export default class ApplicationPage extends React.Component {
   _handleDrop = async (e) => {
     e.preventDefault();
     this.setState({ sidebar: null });
-    const { fileLoading, files, numFailed, error } = await UserBehaviors.formatDroppedFiles({
+    const {
+      fileLoading,
+      files,
+      numFailed,
+      error,
+      fileMetadata,
+    } = await UserBehaviors.formatDroppedFiles({
       dataTransfer: e.dataTransfer,
     });
 
@@ -314,7 +320,7 @@ export default class ApplicationPage extends React.Component {
     }
 
     this._handleRegisterFileLoading({ fileLoading });
-    this._handleUpload({ files, slate, keys: Object.keys(fileLoading), numFailed });
+    this._handleUpload({ files, slate, keys: Object.keys(fileLoading), numFailed, fileMetadata });
   };
 
   _handleUploadFiles = async ({ files, slate }) => {
@@ -329,14 +335,15 @@ export default class ApplicationPage extends React.Component {
     });
   };
 
-  _handleUpload = async ({ files, slate, keys, numFailed }) => {
+  _handleUpload = async ({ files, slate, keys, numFailed, fileMetadata }) => {
     if (!files || !files.length) {
       return null;
     }
 
     const resolvedFiles = [];
     for (let i = 0; i < files.length; i++) {
-      if (Store.checkCancelled(FileUtilities.fileKey(files[i]))) {
+      const fileKey = FileUtilities.fileKey(files[i]);
+      if (Store.checkCancelled(fileKey)) {
         continue;
       }
 
@@ -350,7 +357,7 @@ export default class ApplicationPage extends React.Component {
           file: files[i],
           context: this,
           routes: this.props.resources,
-          metadata: {},
+          fileMetadata: fileMetadata && fileMetadata[fileKey],
         });
       } catch (e) {
         console.log(e);

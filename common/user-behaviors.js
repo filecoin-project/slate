@@ -155,13 +155,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
 
         console.log("URL processed: ", urlJSON);
 
-        const file = new File(
-          [FileUtilities.formatFileStr(data)],
-          `${FileUtilities.formatTitle(data)}.link`,
-          {
-            type: "application/json",
-          }
-        );
+        const file = FileUtilities.createLinkFile(data);
 
         console.log("File created: ", file);
 

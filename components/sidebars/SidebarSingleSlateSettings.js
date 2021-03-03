@@ -49,6 +49,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
     public: this.props.data.data.public,
     body: this.props.data.data.body,
     name: this.props.data.data.name,
+    tags: this.props.data.data.tags,
   };
 
   _handleSubmit = async () => {
@@ -192,6 +193,29 @@ export default class SidebarSingleSlateSettings extends React.Component {
             value={this.state.body}
             onChange={this._handleChange}
             onSubmit={this._handleSubmit}
+          />
+        </div>
+
+        <div css={STYLES_GROUPING}>
+          <System.P css={STYLES_HEADER}>Tags</System.P>
+          <System.P
+            css={STYLES_TEXT}
+            style={{
+              marginTop: 12,
+            }}
+          >
+            Give your slate a tag to categorize it under that tag.
+          </System.P>
+
+          <System.Input
+            placeholder="Slate tag..."
+            style={{ marginTop: 12 }}
+            name="name"
+            value={this.state.tags}
+            onChange={this._handleChange}
+            onSubmit={this._handleSubmit}
+            descriptionStyle={{ fontSize: "20px !important" }}
+            labelStyle={{ fontSize: "20px" }}
           />
         </div>
 

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import fetch from "isomorphic-fetch";
 import { css } from "@emotion/react";
 
-import Microlink from "@microlink/react";
-
 const STYLES_FRAME = css`
   width: 100%;
   height: 100%;
@@ -34,18 +32,19 @@ const JSONFrame = ({ item }) => {
 
   return (
     <div css={STYLES_FRAME}>
-      {Object.entries(data).length > 0 ? <LinkPreview url={data.url} data={data} /> : "Loading..."}
+      {Object.entries(data).length > 0 ? <LinkPreview data={data} /> : "Loading..."}
     </div>
   );
 };
 
-const LinkPreview = ({ data, url }) => (
+const LinkPreview = ({ data, data: { screenshot } }) => (
+  <div>{screenshot ? <img src={screenshot.url} /> : <LinkCard {...data} />}</div>
+);
+
+const LinkCard = ({ url, description, image }) => (
   <div>
-    {data.screenshot ? (
-      <img src={data.screenshot.url} />
-    ) : (
-      <Microlink url={url} setData={data} fetchData={false} />
-    )}
+    {url}
+    {description}
   </div>
 );
 

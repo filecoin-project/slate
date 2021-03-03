@@ -310,7 +310,7 @@ export const downloadZip = async (file) => {
     let zip = new JSZip();
 
     await Promise.all(
-      filesPaths.map(async (file) => {
+      filesPaths.map(async (filePath) => {
         let url = `${baseUrl}/${filePath}`;
         const blob = await Window.getBlobFromUrl(url);
 

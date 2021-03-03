@@ -126,6 +126,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
 
   const files = [];
   let fileLoading = {};
+  let fileMetadata = {};
 
   // do we have uris to parse?
   const uriList = dataTransfer.types.includes("text/uri-list");
@@ -140,7 +141,13 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
       // TODO(cw): currently we are processing links via microlink in order
       // to populate the necessary metadata, we may replace this with our
       // own service in the future.
-      const { status, response } = await mql(uri);
+      const { status, response } = await mql(uri, {
+        iframe: false,
+        screenshot: true,
+        video: false,
+        palette: true,
+        audio: false,
+      });
 
       if (status === "success") {
         const { body: urlJSON } = response;
@@ -153,8 +160,12 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
         const formatFileStr = (data) => {
           // remove date keys to keep links unique for now
           delete data.date;
+          delete data.screenshot;
+
           return JSON.stringify(data);
         };
+
+        const formatFileKey = (file) => `${file.lastModified}-${file.name}`;
 
         console.log("URL processed: ", urlJSON);
 
@@ -166,11 +177,14 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
 
         // add link to upload queue
         files.push(file);
-        fileLoading[`${file.lastModified}-${file.name}`] = {
+        fileLoading[formatFileKey(file)] = {
           name: file.name,
           loaded: 0,
           total: file.size,
         };
+
+        // add any additional metadata to store
+        fileMetadata[formatFileKey(file)] = { screenshot: data.screenshot };
       }
     } catch (e) {
       Events.dispatchMessage({ message: `Error processing url ${uri}, try again later` });
@@ -194,7 +208,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
     Events.dispatchMessage({ message: "File type not supported. Please try a different file" });
   }
 
-  return { fileLoading, files, numFailed: dataTransfer.items.length - files.length };
+  return { fileLoading, files, numFailed: dataTransfer.items.length - files.length, fileMetadata };
 };
 
 export const formatUploadedFiles = ({ files }) => {

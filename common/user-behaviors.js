@@ -250,6 +250,43 @@ export const uploadImage = async (file, resources, excludeFromLibrary) => {
   return response.json;
 };
 
+export const uploadImageFromUrl = async (url, resources, excludeFromLibrary) => {
+  // fetch file from url
+  const file = await fetch(url).then((response) => response.blob());
+
+  const response = await this.uploadImage({ file, routes: resources, excludeFromLibrary });
+
+  if (Events.hasError(response)) {
+    return false;
+  }
+
+  return response.json;
+};
+
+export const updateCoverImage = async (origData, newData) => {
+  let { cid: previousCoverCid, id: previousCoverId } = origData?.coverImage;
+
+  newData.url = Strings.getCIDGatewayURL(newData.cid);
+
+  let updateReponse = await Actions.updateData({
+    data: {
+      id: previousCoverId,
+      coverImage: newData,
+    },
+  });
+
+  if (previousCoverCid) {
+    //fix this
+    let libraryCids = this.props.viewer.library[0].children.map((obj) => obj.cid);
+    if (!libraryCids.includes(previousCoverCid)) {
+      await deleteFiles(previousCoverCid, previousCoverId, true);
+    }
+  }
+
+  Events.hasError(updateReponse);
+  return;
+};
+
 export const deleteFiles = async (fileCids, fileIds = [], noAlert) => {
   let cids = Array.isArray(fileCids) ? fileCids : [fileCids];
   let ids = Array.isArray(fileIds) ? fileIds : [fileIds];

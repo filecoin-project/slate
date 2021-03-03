@@ -31,15 +31,6 @@ const returnJSON = async (route, options) => {
   return json;
 };
 
-export const createZipToken = async (files) =>
-  await returnJSON("/api/download/create-zip-token", {
-    ...DEFAULT_OPTIONS,
-    body: JSON.stringify({ files }),
-  });
-
-export const downloadZip = (downloadToken) =>
-  `/api/download/download-by-token?downloadId=${downloadToken}`;
-
 export const health = async (data = {}) => {
   await Websockets.checkWebsocket();
   return await returnJSON(`/api/_`, {

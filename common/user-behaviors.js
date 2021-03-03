@@ -309,12 +309,14 @@ export const downloadZip = async (file) => {
 
     let zip = new JSZip();
 
-    for (let filePath of filesPaths) {
-      let url = `${baseUrl}/${filePath}`;
-      const blob = await Window.getBlobFromUrl(url);
+    await Promise.all(
+      filesPaths.map(async (file) => {
+        let url = `${baseUrl}/${filePath}`;
+        const blob = await Window.getBlobFromUrl(url);
 
-      zip.file(filePath, blob);
-    }
+        zip.file(filePath, blob);
+      })
+    );
 
     zip.generateAsync({ type: "blob" }).then((blob) => {
       saveAs(blob, zipFileName);
@@ -330,17 +332,6 @@ export const downloadZip = async (file) => {
       error: true,
     };
   }
-};
-
-const _nativeDownload = (file) => {
-  var element = document.createElement("a");
-  element.setAttribute("href", file.url);
-  element.setAttribute("download", file.name);
-
-  element.style.display = "none";
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
 };
 
 export const compressAndDownloadFiles = async (files, name = "slate.zip") => {
@@ -366,12 +357,17 @@ export const compressAndDownloadFiles = async (files, name = "slate.zip") => {
       });
     }
 
-    const res = await Actions.createZipToken(downloadFiles);
+    let zip = new JSZip();
 
-    const downloadLink = Actions.downloadZip(res.data.token);
-    _nativeDownload({
-      name,
-      url: downloadLink,
+    await Promise.all(
+      downloadFiles.map(async (file) => {
+        const blob = await Window.getBlobFromUrl(file.url);
+        zip.file(file.name, blob);
+      })
+    );
+
+    zip.generateAsync({ type: "blob" }).then((blob) => {
+      saveAs(blob, name);
     });
   } catch (e) {
     Events.dispatchMessage({ message: "Something went wrong with the download. Please try again" });

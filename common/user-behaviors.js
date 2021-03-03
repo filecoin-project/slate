@@ -119,8 +119,8 @@ export const formatPastedImages = ({ clipboardItems }) => {
 
 export const formatDroppedFiles = async ({ dataTransfer }) => {
   // NOTE(jim): If this is true, then drag and drop came from a slate object.
-  const data = dataTransfer.getData("slate-object-drag-data");
-  if (data) {
+  const isSlateObject = dataTransfer.getData("slate-object-drag-data");
+  if (isSlateObject) {
     return;
   }
 
@@ -169,6 +169,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
 
         // add any additional metadata to store
         fileMetadata[FileUtilities.fileKey(file)] = { screenshot: data.screenshot };
+        debugger;
       }
     } catch (e) {
       Events.dispatchMessage({ message: `Error processing url ${uri}, try again later` });

@@ -165,7 +165,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
         };
 
         // add any additional metadata to store
-        fileMetadata[FileUtilities.fileKey(file)] = { screenshot: data.screenshot };
+        fileMetadata[FileUtilities.fileKey(file)] = { ...data };
       }
     } catch (e) {
       console.error(e);

@@ -273,7 +273,7 @@ export class GlobalCarousel extends React.Component {
   };
 
   _handleSave = async (details, index) => {
-    let objects = this.props.objects;
+    let { objects } = this.props;
     if (!this.props.isOwner || this.props.external) return;
     if (this.props.carouselType === "SLATE") {
       objects[index] = { ...objects[index], ...details };
@@ -298,7 +298,7 @@ export class GlobalCarousel extends React.Component {
       return null;
     }
     let data = this.props.objects[this.state.index];
-    let isOwner = this.props.isOwner;
+    let { isOwner } = this.props;
     let isRepost;
     if (this.props.carouselType === "SLATE") {
       isRepost = this.props.external ? false : this.props.current.data.ownerId !== data.ownerId;

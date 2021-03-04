@@ -202,7 +202,7 @@ export default class CarouselSidebarSlate extends React.Component {
       this.debounceInstance = Window.debounce(() => this._handleSave(), 3000);
       let isPublic = false;
       let selected = {};
-      const id = this.props.data.id;
+      const { id } = this.props.data;
       for (let slate of this.props.slates) {
         if (slate.data.objects.some((o) => o.id === id)) {
           if (slate.data.public) {
@@ -287,7 +287,7 @@ export default class CarouselSidebarSlate extends React.Component {
       return;
     }
 
-    let slates = this.props.viewer.slates;
+    let { slates } = this.props.viewer;
     let slateId = this.props.current.id;
     for (let slate of slates) {
       if (slate.id === slateId) {

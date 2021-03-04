@@ -190,8 +190,11 @@ export const upload = async ({
 
   if (!excludeFromLibrary) {
     // apply additional meta
-    if (fileMetadata && fileMetadata[currentFileKey]) {
-      debugger;
+    if (fileMetadata) {
+      const { description, publisher, url } = fileMetadata;
+      res.data.data.body = description;
+      res.data.data.author = publisher;
+      res.data.data.source = url;
     }
     await Actions.createPendingFiles({ data: res.data });
   }

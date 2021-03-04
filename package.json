@@ -46,6 +46,7 @@
     "express": "^4.17.1",
     "express-rate-limit": "^5.2.6",
     "file-saver": "^2.0.5",
+    "filenamify": "^4.2.0",
     "fs-extra": "^9.1.0",
     "heic2any": "0.0.3",
     "isomorphic-fetch": "^3.0.0",

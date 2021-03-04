@@ -7,6 +7,7 @@ import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
 
 import { encode } from "blurhash";
+import filenamify from "filenamify";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
@@ -222,9 +223,9 @@ export const uploadToSlate = async ({ responses, slate }) => {
   Events.dispatchMessage({ message, status: !added ? null : "INFO" });
 };
 
-// cleanup to ensure the filename doesn't fail upon api post
+// cleanup to ensure the we create a valid filename
 export const formatTitle = ({ title, publisher }) =>
-  (publisher ? `${publisher} - ${title}` : title).replace(/[^a-zA-Z0-9 -.]/g, " ").trim();
+  filenamify((publisher ? `${publisher} - ${title}` : title).trim(), { replacement: "" });
 
 export const formatFileStr = (data) => {
   // remove date keys to keep links unique for now

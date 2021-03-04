@@ -20,9 +20,11 @@ const JSONFrame = ({ item }) => {
   useEffect(() => {
     if (file?.includes(".link")) {
       const fetchData = async () => {
-        const resp = await fetch(url);
-        const data = await resp.json();
-        setData(data);
+        try {
+          await fetch(url).then((r) => setData(r.json()));
+        } catch (e) {
+          console.error(e);
+        }
       };
       fetchData();
     }

@@ -60,6 +60,7 @@ import { SelectCountryMenu, SelectMenu } from "~/components/system/components/Se
 import { StatUpload, StatDownload } from "~/components/system/components/Stat";
 import { TabGroup } from "~/components/system/components/TabGroup";
 import { Table } from "~/components/system/components/Table";
+import { Tag } from "~/components/system/components/Tag";
 import { Textarea } from "~/components/system/components/Textarea";
 import { Toggle } from "~/components/system/components/Toggle";
 import { H1, H2, H3, H4, P, UL, OL, LI } from "~/components/system/components/Typography";
@@ -134,6 +135,7 @@ export {
   StatDownload,
   TabGroup,
   Table,
+  Tag,
   Textarea,
   Toggle,
   H1,

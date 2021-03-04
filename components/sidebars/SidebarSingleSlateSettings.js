@@ -59,6 +59,8 @@ export default class SidebarSingleSlateSettings extends React.Component {
         slate.data.name = this.state.name;
         slate.data.public = this.state.public;
         slate.data.body = this.state.body;
+        slate.data.tags = this.state.tags;
+
         this.props.onUpdateViewer({ slates });
         break;
       }
@@ -71,6 +73,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
         name: this.state.name,
         public: this.state.public,
         body: this.state.body,
+        tags: this.state.tags,
       },
     });
 
@@ -157,7 +160,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           <System.Input
             placeholder="Slate name..."
             style={{ marginTop: 12 }}
-            name="name"
+            name="tags"
             value={this.state.name}
             onChange={this._handleChange}
             onSubmit={this._handleSubmit}
@@ -204,19 +207,9 @@ export default class SidebarSingleSlateSettings extends React.Component {
               marginTop: 12,
             }}
           >
-            Give your slate a tag to categorize it under that tag.
+            Add tags to a slate to categorize it.
           </System.P>
-
-          <System.Input
-            placeholder="Slate tag..."
-            style={{ marginTop: 12 }}
-            name="name"
-            value={this.state.tags}
-            onChange={this._handleChange}
-            onSubmit={this._handleSubmit}
-            descriptionStyle={{ fontSize: "20px !important" }}
-            labelStyle={{ fontSize: "20px" }}
-          />
+          <System.Tag style={{ marginTop: 12 }} />
         </div>
 
         {this.state.public ? (

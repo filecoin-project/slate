@@ -347,7 +347,7 @@ export const getActivity = async (data) => {
 };
 
 export const getZipFilePaths = async (data) => {
-  return await returnJSON(`../api/zip/get-paths`, {
+  return await returnJSON(`/api/zip/get-paths`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });

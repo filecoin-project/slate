@@ -224,8 +224,7 @@ export const uploadToSlate = async ({ responses, slate }) => {
 };
 
 // cleanup to ensure the we create a valid filename
-export const formatTitle = ({ title, publisher }) =>
-  filenamify((publisher ? `${publisher} - ${title}` : title).trim(), { replacement: "" });
+export const formatTitle = ({ title }) => filenamify(title.trim(), { replacement: "" });
 
 export const formatFileStr = (data) => {
   // remove date keys to keep links unique for now

@@ -1788,16 +1788,12 @@ export class SlateLayout extends React.Component {
                       >
                         Add to slate
                       </ButtonPrimary>
-
-                      {/* <ButtonPrimary transparent onClick={this._handleDownload}>
-                    Download
-                  </ButtonPrimary> */}
                       <ButtonWarning
                         transparent
                         style={{ marginLeft: 8, color: Constants.system.white }}
                         onClick={this._handleDownloadFiles}
                       >
-                        download
+                        Download
                       </ButtonWarning>
                       <ButtonWarning
                         transparent
@@ -1834,9 +1830,6 @@ export class SlateLayout extends React.Component {
                     >
                       Save copy
                     </ButtonPrimary>
-                    {/* <ButtonPrimary transparent onClick={this._handleDownload}>
-                    Download
-                  </ButtonPrimary> */}
                     <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
                       <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
                     </div>

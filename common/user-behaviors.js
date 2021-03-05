@@ -340,13 +340,13 @@ const _nativeDownload = ({ url, onError }) => {
   iframe.src = url;
 
   const ERROR_MESSAGE = "SLATE_DOWNLOAD_ERROR";
-  const hanldeIframeErrors = (e) => {
+  const handleIframeErrors = (e) => {
     if (e.data === ERROR_MESSAGE && onError) {
       onError(e.data);
     }
   };
-  window.addEventListener("message", hanldeIframeErrors);
-  iframe.onload = (e) => window.removeEventListener("message", hanldeIframeErrors);
+  window.addEventListener("message", handleIframeErrors);
+  iframe.onload = (e) => window.removeEventListener("message", handleIframeErrors);
 
   document.body.appendChild(iframe);
 };

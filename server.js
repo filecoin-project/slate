@@ -59,6 +59,9 @@ const EXTERNAL_RESOURCES = {
   uploadZip: Strings.isEmpty(Environment.RESOURCE_URI_UPLOAD)
     ? null
     : Environment.RESOURCE_URI_STORAGE_UPLOAD,
+  download: Strings.isEmpty(Environment.RESOURCE_URI_UPLOAD)
+    ? null
+    : Environment.RESOURCE_URI_STORAGE_UPLOAD,
   pubsub: Strings.isEmpty(Environment.RESOURCE_URI_PUBSUB) ? null : Environment.RESOURCE_URI_PUBSUB,
   search: Strings.isEmpty(Environment.RESOURCE_URI_SEARCH) ? null : Environment.RESOURCE_URI_SEARCH,
 };

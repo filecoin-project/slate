@@ -370,7 +370,10 @@ export default class DataView extends React.Component {
 
   _handleDownloadFiles = async () => {
     const selectedFiles = this.props.items.filter((_, i) => this.state.checked[i]);
-    UserBehaviors.compressAndDownloadFiles(selectedFiles);
+    UserBehaviors.compressAndDownloadFiles({
+      files: selectedFiles,
+      resourceURI: this.props.resources.download,
+    });
     this.setState({ checked: {} });
   };
 

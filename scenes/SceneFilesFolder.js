@@ -498,6 +498,7 @@ export default class SceneFilesFolder extends React.Component {
             items={files}
             onUpdateViewer={this.props.onUpdateViewer}
             view={this.state.view}
+            resources={this.props.resources}
           />
         ) : (
           <EmptyState>

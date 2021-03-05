@@ -433,7 +433,11 @@ class SlatePage extends React.Component {
   _handleDownload = () => {
     const slateName = this.props.current.data.name;
     const slateFiles = this.props.current.data.objects;
-    UserBehaviors.compressAndDownloadFiles(slateFiles, `${slateName}.zip`);
+    UserBehaviors.compressAndDownloadFiles({
+      files: slateFiles,
+      name: `${slateName}.zip`,
+      resourceURI: this.props.resources.download,
+    });
   };
 
   render() {

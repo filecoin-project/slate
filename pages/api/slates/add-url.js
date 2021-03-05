@@ -128,6 +128,10 @@ export default async (req, res) => {
       unityGameConfig: each.unityGameConfig,
       unityGameLoader: each.unityGameLoader,
       url,
+      body: each.body,
+      source: each.source,
+      author: each.author,
+      link: each.link,
     };
   });
 

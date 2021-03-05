@@ -107,7 +107,7 @@ const STYLES_COMMAND_TOOLTIP_ANCHOR = css`
   width: 275px;
   height: auto;
   position: absolute;
-  top: -11px;
+  top: -7px;
   right: 50px;
   z-index: ${Constants.zindex.tooltip};
   padding-bottom: 15px;
@@ -318,9 +318,9 @@ export default class SceneFilesFolder extends React.Component {
                 style={{ position: "relative" }}
                 css={STYLES_COMMAND_WRAPPER}
               >
-                <SVG.MacCommand
+                <SVG.Information
                   height="18px"
-                  style={{ marginRight: "18px", color: Constants.system.darkGray }}
+                  style={{ marginRight: "18px", color: Constants.system.black }}
                   onMouseEnter={() => this.setState({ keyboardTooltip: true })}
                 />
               </div>
@@ -330,7 +330,7 @@ export default class SceneFilesFolder extends React.Component {
                   css={STYLES_COMMAND_WRAPPER}
                   onMouseLeave={() => this.setState({ keyboardTooltip: false })}
                 >
-                  <SVG.MacCommand
+                  <SVG.Information
                     height="18px"
                     style={{
                       marginRight: "18px",
@@ -344,8 +344,9 @@ export default class SceneFilesFolder extends React.Component {
                       css={STYLES_TOOLTIP_TEXT}
                       style={{
                         fontFamily: Constants.font.semiBold,
-                        fontSize: "14px",
-                        paddingTop: "12px",
+                        fontSize: 14,
+                        paddingTop: 12,
+                        paddingBottom: 4,
                       }}
                     >
                       Keyboard shortcuts

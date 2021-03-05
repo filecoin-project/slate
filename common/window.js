@@ -105,6 +105,14 @@ export const isMobileBrowser = (userAgent) => {
   return !!mobile;
 };
 
+//NOTE(toast): this can be switched to regex pattern matching if
+//we decide finding specific operating systems is important
+export const isMac = (userAgent) => {
+  const navigatorAgent = getNavigatorAgent(userAgent);
+  let usingMac = navigatorAgent.indexOf("Mac") !== -1;
+  return usingMac;
+};
+
 export const debounce = (func, wait) => {
   let timeout;
 

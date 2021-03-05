@@ -150,6 +150,7 @@ app.prepare().then(async () => {
 
   server.get("/_", async (req, res) => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let mac = Window.isMac(req.headers["user-agent"]);
 
     const isBucketsAvailable = await Utilities.checkTextile();
 
@@ -171,6 +172,7 @@ app.prepare().then(async () => {
       viewer,
       analytics,
       mobile,
+      mac,
       resources: EXTERNAL_RESOURCES,
     });
   });
@@ -239,6 +241,7 @@ app.prepare().then(async () => {
 
   server.get("/[$]/:id", async (req, res) => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let mac = Window.isMac(req.headers["user-agent"]);
 
     const slate = await Data.getSlateById({
       id: req.params.id,
@@ -280,12 +283,14 @@ app.prepare().then(async () => {
       creator: Serializers.user(creator),
       slate,
       mobile,
+      mac,
       resources: EXTERNAL_RESOURCES,
     });
   });
 
   server.get("/:username", async (req, res) => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let mac = Window.isMac(req.headers["user-agent"]);
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -353,6 +358,7 @@ app.prepare().then(async () => {
       viewer,
       creator,
       mobile,
+      mac,
       resources: EXTERNAL_RESOURCES,
       exploreSlates,
     });
@@ -360,6 +366,7 @@ app.prepare().then(async () => {
 
   server.get("/:username/cid::cid", async (req, res) => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let mac = Window.isMac(req.headers["user-agent"]);
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -425,6 +432,7 @@ app.prepare().then(async () => {
       viewer,
       creator: Serializers.user(creator),
       mobile,
+      mac,
       resources: EXTERNAL_RESOURCES,
       cid: req.params.cid,
     });
@@ -432,6 +440,7 @@ app.prepare().then(async () => {
 
   server.get("/:username/:slatename", async (req, res) => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let mac = Window.isMac(req.headers["user-agent"]);
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -496,12 +505,14 @@ app.prepare().then(async () => {
       creator: Serializers.user(creator),
       slate,
       mobile,
+      mac,
       resources: EXTERNAL_RESOURCES,
     });
   });
 
   server.get("/:username/:slatename/cid::cid", async (req, res) => {
     let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let mac = Window.isMac(req.headers["user-agent"]);
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -565,6 +576,7 @@ app.prepare().then(async () => {
       creator: Serializers.user(creator),
       slate,
       mobile,
+      mac,
       resources: EXTERNAL_RESOURCES,
       cid: req.params.cid,
     });

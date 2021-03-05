@@ -549,6 +549,7 @@ class SlatePage extends React.Component {
                   preview={preview}
                   onSavePreview={(preview) => this._handleSave(null, null, null, false, preview)}
                   items={objects}
+                  resources={this.props.resources}
                   onSelect={this._handleSelect}
                   defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
                   onAction={this.props.onAction}

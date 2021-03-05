@@ -107,7 +107,7 @@ const STYLES_COMMAND_TOOLTIP_ANCHOR = css`
   width: 275px;
   height: auto;
   position: absolute;
-  top: -11px;
+  top: -7px;
   right: 50px;
   z-index: ${Constants.zindex.tooltip};
   padding-bottom: 15px;

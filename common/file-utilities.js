@@ -7,7 +7,7 @@ import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
 
 import { encode } from "blurhash";
-import filenamifyUrl from "filenamify-url";
+import filenamify from "filenamify";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
@@ -235,7 +235,7 @@ export const uploadToSlate = async ({ responses, slate }) => {
 };
 
 // cleanup to ensure the we create a valid filename
-export const formatTitle = ({ title }) => filenamifyUrl(title.trim());
+export const formatTitle = ({ title }) => filenamify(title.trim(), { replacement: "" });
 
 export const formatFileStr = (data) => {
   // remove date keys to keep links unique for now

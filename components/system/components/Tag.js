@@ -15,7 +15,7 @@ const INPUT_STYLES = `
   box-sizing: border-box;
   font-family: ${Constants.font.text};
   -webkit-appearance: none;
-  width: 100%;
+  /*width: 100%;*/
   height: 40px;
   background: ${Constants.system.white};
   color: ${Constants.system.black};
@@ -64,7 +64,7 @@ const STYLES_TAG = css`
 `;
 
 const STYLES_INPUT = css`
-  ${INPUT_STYLES}
+  /* ${INPUT_STYLES} */
   /* 
   margin: 8px 0 0;
   padding: 0 16px;
@@ -96,10 +96,9 @@ const STYLES_INPUT = css`
 
 const STYLES_REMOVE_BUTTON = css`
   appearance: none;
-  background: ${Constants.system.black};
   border: none;
   border-radius: 50%;
-  color: ${Constants.system.white};
+  color: ${Constants.system.black};
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -112,6 +111,11 @@ const STYLES_REMOVE_BUTTON = css`
   width: 12px;
   height: 12px;
   opacity: 0;
+`;
+
+const STYLES_LIST_ITEM_INPUT = css`
+  list-style-type: none;
+  width: 100%;
 `;
 
 export const Tag = (props) => {
@@ -155,8 +159,9 @@ export const Tag = (props) => {
             </button>
           </li>
         ))}
-
-        <input type="text" css={STYLES_INPUT} onKeyDown={handleInputKeyDown} />
+        <li css={STYLES_LIST_ITEM_INPUT}>
+          <input type="text" css={STYLES_INPUT} onKeyDown={handleInputKeyDown} />
+        </li>
       </ul>
     </div>
   );

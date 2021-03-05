@@ -385,9 +385,9 @@ export default class CarouselSidebarSlate extends React.Component {
         if (hasTitle) {
           elements.push(
             <div key="sidebar-media-info-title" css={STYLES_SIDEBAR_SECTION}>
-              <h1 css={STYLES_HEADING}>
+              <div css={STYLES_HEADING}>
                 <ProcessedText dark text={this.props.data.title || this.props.data.name} />
-              </h1>
+              </div>
             </div>
           );
         }
@@ -395,9 +395,9 @@ export default class CarouselSidebarSlate extends React.Component {
         if (hasBody) {
           elements.push(
             <div key="sidebar-media-info-body" css={STYLES_SIDEBAR_SECTION}>
-              <p css={STYLES_BODY}>
+              <div css={STYLES_BODY}>
                 <ProcessedText dark text={this.props.data.body} />
-              </p>
+              </div>
             </div>
           );
         }

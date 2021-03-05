@@ -309,12 +309,14 @@ export const downloadZip = async (file) => {
 
     let zip = new JSZip();
 
-    for (let filePath of filesPaths) {
-      let url = `${baseUrl}/${filePath}`;
-      const blob = await Window.getBlobFromUrl(url);
+    await Promise.all(
+      filesPaths.map(async (filePath) => {
+        let url = `${baseUrl}/${filePath}`;
+        const blob = await Window.getBlobFromUrl(url);
 
-      zip.file(filePath, blob);
-    }
+        zip.file(filePath, blob);
+      })
+    );
 
     zip.generateAsync({ type: "blob" }).then((blob) => {
       saveAs(blob, zipFileName);

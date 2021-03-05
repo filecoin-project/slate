@@ -79,6 +79,16 @@ export default class SidebarCreateSlate extends React.Component {
           Talk to us
         </System.P>
 
+        <div css={STYLES_GROUPING} style={{ marginTop: 24 }}>
+          <System.P
+            css={STYLES_TEXT}
+            style={{ color: Constants.system.brand, cursor: "pointer" }}
+            onClick={() => this.props.onAction({ type: "SIDEBAR", value: "SIDEBAR_FAQ" })}
+          >
+            Check out our FAQ here!
+          </System.P>
+        </div>
+
         <div css={STYLES_GROUPING}>
           <System.P css={STYLES_HEADER}>Your Info</System.P>
           <System.P css={STYLES_TEXT} style={{ marginTop: 12 }}>
@@ -127,14 +137,6 @@ export default class SidebarCreateSlate extends React.Component {
         <System.ButtonPrimary full onClick={this._handleSubmit}>
           Send message
         </System.ButtonPrimary>
-
-        <System.P
-          css={STYLES_TEXT}
-          style={{ cursor: "pointer", marginTop: 24 }}
-          onClick={() => this.props.onAction({ type: "SIDEBAR", value: "SIDEBAR_FAQ" })}
-        >
-          In the meantime, feel free to view our FAQ!
-        </System.P>
       </div>
     );
   }

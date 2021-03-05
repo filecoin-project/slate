@@ -108,7 +108,7 @@ export class OnboardingModal extends React.Component {
     {
       title: "Welcome to Slate",
       text:
-        "Slate is distributed file-sharing network designed for private and public storage. Drag and drop your files into the app to easily start uploading your books, images, and documents.",
+        "Slate is a distributed file-sharing network designed for private and public storage. Drag and drop your files into the app to easily start uploading your books, images, and documents.",
       image: (
         <img
           src="https://slate.textile.io/ipfs/bafybeih4yqlefcbvuuhuyddg5vyfcm7latyifexzynmnbep4dx5hapbbjq"

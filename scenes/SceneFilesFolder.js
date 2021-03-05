@@ -107,7 +107,7 @@ const STYLES_COMMAND_TOOLTIP_ANCHOR = css`
   width: 275px;
   height: auto;
   position: absolute;
-  top: -11px;
+  top: -7px;
   right: 50px;
   z-index: ${Constants.zindex.tooltip};
   padding-bottom: 15px;
@@ -128,6 +128,10 @@ export default class SceneFilesFolder extends React.Component {
     privacy: "ALL",
     filteredFiles: this.props.viewer?.library[0].children,
     keyboardTooltip: false,
+  };
+
+  componentDidMount = () => {
+    this.openCarouselToItem();
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -202,10 +206,6 @@ export default class SceneFilesFolder extends React.Component {
       filteredFiles,
       filtersActive,
     });
-  };
-
-  componentDidMount = () => {
-    this.openCarouselToItem();
   };
 
   openCarouselToItem = () => {

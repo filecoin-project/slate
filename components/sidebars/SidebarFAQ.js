@@ -72,6 +72,14 @@ export default class SidebarFAQ extends React.Component {
             the network by other people.
           </System.P>
         </div>
+
+        <div css={STYLES_GROUPING}>
+          <System.P css={STYLES_HEADER}>When will more storage be available?</System.P>
+          <System.P css={STYLES_TEXT}>
+            50GB of storage free will be coming to Slate soon with email verification!
+          </System.P>
+        </div>
+
         <div css={STYLES_GROUPING}>
           <System.P css={STYLES_HEADER}>Can I get involved?</System.P>
           <System.P css={STYLES_TEXT}>
@@ -80,13 +88,15 @@ export default class SidebarFAQ extends React.Component {
           </System.P>
         </div>
 
-        <System.P
-          css={STYLES_TEXT}
-          style={{ cursor: "pointer" }}
-          onClick={() => this.props.onAction({ type: "SIDEBAR", value: "SIDEBAR_HELP" })}
-        >
-          Still have questions? Send us a message!
-        </System.P>
+        <div css={STYLES_GROUPING}>
+          <System.P
+            css={STYLES_TEXT}
+            style={{ color: Constants.system.brand, cursor: "pointer" }}
+            onClick={() => this.props.onAction({ type: "SIDEBAR", value: "SIDEBAR_HELP" })}
+          >
+            Still have questions? Send us a message!
+          </System.P>
+        </div>
       </div>
     );
   }

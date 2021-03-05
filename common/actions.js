@@ -161,7 +161,6 @@ export const search = async (data) => {
   if (Strings.isEmpty(data.resourceURI)) {
     return { decorator: "NO_RESOURCE_URI", data: { results: [] } };
   }
-
   return await returnJSON(`${data.resourceURI}/search`, {
     ...CORS_OPTIONS,
     body: JSON.stringify({ data }),
@@ -357,7 +356,7 @@ export const getActivity = async (data) => {
 };
 
 export const getZipFilePaths = async (data) => {
-  return await returnJSON(`../api/zip/get-paths`, {
+  return await returnJSON(`/api/zip/get-paths`, {
     ...DEFAULT_OPTIONS,
     body: JSON.stringify({ data }),
   });

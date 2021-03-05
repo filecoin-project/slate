@@ -33,7 +33,7 @@ const returnJSON = async (route, options) => {
 
 export const createZipToken = async ({ files, resourceURI }) => {
   return await returnJSON(`${resourceURI}/api/download/create-zip-token`, {
-    ...DEFAULT_OPTIONS,
+    ...CORS_OPTIONS,
     body: JSON.stringify({ files }),
   });
 };

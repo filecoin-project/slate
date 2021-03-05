@@ -7,7 +7,7 @@ import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
 
 import { encode } from "blurhash";
-import filenamify from "filenamify";
+import filenamifyUrl from "filenamify-url";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
@@ -193,8 +193,9 @@ export const upload = async ({
     if (fileMetadata) {
       // link types
       if (fileMetadata.type === "link") {
-        const { description, publisher, url } = fileMetadata.data;
+        const { description, publisher, url, title } = fileMetadata.data;
         // setup primary slate props
+        res.data.data.title = title;
         res.data.data.body = description;
         res.data.data.author = publisher;
         res.data.data.source = url;
@@ -234,7 +235,7 @@ export const uploadToSlate = async ({ responses, slate }) => {
 };
 
 // cleanup to ensure the we create a valid filename
-export const formatTitle = ({ title }) => filenamify(title.trim(), { replacement: "" });
+export const formatTitle = ({ title }) => filenamifyUrl(title.trim());
 
 export const formatFileStr = (data) => {
   // remove date keys to keep links unique for now

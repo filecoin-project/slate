@@ -139,7 +139,8 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
     try {
       // TODO(cw): currently we are processing links via microlink in order
       // to populate the necessary metadata, we may replace this with our
-      // own service in the future.
+      // own micro service in the future.
+      // see: https://microlink.io/ && https://metascraper.js.org/
       const apiUrl = `//api.microlink.io/?url=${encodeURIComponent(
         url
       )}&palette=true&screenshot=false&video=true&audio=true`;
@@ -165,7 +166,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
         };
 
         // add any additional metadata to store
-        fileMetadata[FileUtilities.fileKey(file)] = { ...data };
+        fileMetadata[FileUtilities.fileKey(file)] = { type: "link", data };
       }
     } catch (e) {
       console.error(e);

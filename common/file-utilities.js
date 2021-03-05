@@ -191,10 +191,17 @@ export const upload = async ({
   if (!excludeFromLibrary) {
     // apply additional meta
     if (fileMetadata) {
-      const { description, publisher, url } = fileMetadata;
-      res.data.data.body = description;
-      res.data.data.author = publisher;
-      res.data.data.source = url;
+      // link types
+      if (fileMetadata.type === "link") {
+        const { description, publisher, url } = fileMetadata.data;
+        // setup primary slate props
+        res.data.data.body = description;
+        res.data.data.author = publisher;
+        res.data.data.source = url;
+
+        // attach the link metadata
+        res.data.data.link = fileMetadata.data;
+      }
     }
     await Actions.createPendingFiles({ data: res.data });
   }

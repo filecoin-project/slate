@@ -834,6 +834,15 @@ export class SlateLayout extends React.Component {
     this.setState({ layout });
   };
 
+  _handleDownloadFiles = async () => {
+    const selectedFiles = this.props.items.filter((_, i) => this.state.checked[i]);
+    UserBehaviors.compressAndDownloadFiles({
+      files: selectedFiles,
+      resourceURI: this.props.resources.download,
+    });
+    this.setState({ checked: {} });
+  };
+
   _handleMouseUp = (e) => {
     window.removeEventListener("mousemove", this._handleDrag);
     window.removeEventListener("mouseup", this._handleMouseUp);
@@ -1779,10 +1788,13 @@ export class SlateLayout extends React.Component {
                       >
                         Add to slate
                       </ButtonPrimary>
-
-                      {/* <ButtonPrimary transparent onClick={this._handleDownload}>
-                    Download
-                  </ButtonPrimary> */}
+                      <ButtonWarning
+                        transparent
+                        style={{ marginLeft: 8, color: Constants.system.white }}
+                        onClick={this._handleDownloadFiles}
+                      >
+                        Download
+                      </ButtonWarning>
                       <ButtonWarning
                         transparent
                         style={{ marginLeft: 8, color: Constants.system.white }}
@@ -1818,9 +1830,6 @@ export class SlateLayout extends React.Component {
                     >
                       Save copy
                     </ButtonPrimary>
-                    {/* <ButtonPrimary transparent onClick={this._handleDownload}>
-                    Download
-                  </ButtonPrimary> */}
                     <div css={STYLES_ICON_BOX} onClick={() => this.setState({ checked: {} })}>
                       <SVG.Dismiss height="20px" style={{ color: Constants.system.darkGray }} />
                     </div>

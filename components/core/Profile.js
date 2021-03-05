@@ -685,6 +685,7 @@ export default class Profile extends React.Component {
                   items={this.state.publicFiles}
                   onUpdateViewer={this.props.onUpdateViewer}
                   view={this.state.view}
+                  resources={this.props.resources}
                 />
               ) : (
                 <EmptyState>

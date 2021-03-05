@@ -334,6 +334,62 @@ export const downloadZip = async (file) => {
   }
 };
 
+const _nativeDownload = ({ url, onError }) => {
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = url;
+
+  const ERROR_MESSAGE = "SLATE_DOWNLOAD_ERROR";
+  const handleIframeErrors = (e) => {
+    if (e.data === ERROR_MESSAGE && onError) {
+      onError(e.data);
+    }
+  };
+  window.addEventListener("message", handleIframeErrors);
+  iframe.onload = (e) => window.removeEventListener("message", handleIframeErrors);
+
+  document.body.appendChild(iframe);
+};
+
+export const compressAndDownloadFiles = async ({ files, name = "slate.zip", resourceURI }) => {
+  const errorMessage = "Something went wrong with the download. Please try again";
+  try {
+    if (!(files && files.length > 0)) return;
+    Events.dispatchMessage({ message: "We're preparing your files to download", status: "INFO" });
+    let downloadFiles = [];
+    for (const file of files) {
+      if (file.type === "application/unity") {
+        const { data } = await Actions.getZipFilePaths(file);
+        const unityFiles = data.filesPaths.map((item) => ({
+          url: item.replace(`/${file.id}/`, `${file.url || Strings.getCIDGatewayURL(file.cid)}/`),
+          name: item.replace(`/${file.id}/`, `/${file.name}/`),
+        }));
+
+        downloadFiles = downloadFiles.concat(unityFiles);
+        continue;
+      }
+
+      downloadFiles.push({
+        name: file.file || file.name,
+        url: file.url || Strings.getCIDGatewayURL(file.cid),
+      });
+    }
+
+    const res = await Actions.createZipToken({ files: downloadFiles, resourceURI });
+    const downloadLink = Actions.downloadZip({ token: res.data.token, name, resourceURI });
+    await _nativeDownload({
+      url: downloadLink,
+      onError: (err) =>
+        Events.dispatchMessage({
+          message: errorMessage,
+        }),
+    });
+  } catch (e) {
+    console.error(e);
+    Events.dispatchMessage({ message: errorMessage });
+  }
+};
+
 // export const createSlate = async (data) => {
 //   let response = await Actions.createSlate({
 //     name: data.name,

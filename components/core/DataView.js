@@ -2,7 +2,6 @@ import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as Strings from "~/common/strings";
 import * as System from "~/components/system";
-import * as Actions from "~/common/actions";
 import * as SVG from "~/common/svg";
 import * as Window from "~/common/window";
 import * as UserBehaviors from "~/common/user-behaviors";
@@ -369,6 +368,15 @@ export default class DataView extends React.Component {
     return;
   };
 
+  _handleDownloadFiles = async () => {
+    const selectedFiles = this.props.items.filter((_, i) => this.state.checked[i]);
+    UserBehaviors.compressAndDownloadFiles({
+      files: selectedFiles,
+      resourceURI: this.props.resources.download,
+    });
+    this.setState({ checked: {} });
+  };
+
   _handleDelete = (cid, id) => {
     const message = `Are you sure you want to delete these files? They will be deleted from your slates as well`;
     if (!window.confirm(message)) {
@@ -528,6 +536,13 @@ export default class DataView extends React.Component {
                 >
                   Add to slate
                 </ButtonPrimary>
+                <ButtonWarning
+                  transparent
+                  style={{ marginLeft: 8, color: Constants.system.white }}
+                  onClick={() => this._handleDownloadFiles()}
+                >
+                  {Strings.pluralize("Download file", numChecked)}
+                </ButtonWarning>
                 <ButtonWarning
                   transparent
                   style={{ marginLeft: 8, color: Constants.system.white }}

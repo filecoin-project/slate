@@ -5,6 +5,7 @@ import * as Window from "~/common/window";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
 import * as Strings from "~/common/strings";
+import * as UserBehaviors from "~/common/user-behaviors";
 import * as Events from "~/common/custom-events";
 
 import { LoaderSpinner } from "~/components/system/components/Loaders";
@@ -429,6 +430,16 @@ class SlatePage extends React.Component {
     }, 1000);
   };
 
+  _handleDownload = () => {
+    const slateName = this.props.current.data.name;
+    const slateFiles = this.props.current.data.objects;
+    UserBehaviors.compressAndDownloadFiles({
+      files: slateFiles,
+      name: `${slateName}.zip`,
+      resourceURI: this.props.resources.download,
+    });
+  };
+
   render() {
     const { user, data } = this.props.current;
     const { body = "", preview } = data;
@@ -439,6 +450,9 @@ class SlatePage extends React.Component {
 
     let actions = isOwner ? (
       <span>
+        <CircleButtonGray onClick={this._handleDownload} style={{ marginRight: 16 }}>
+          <SVG.Download height="16px" />
+        </CircleButtonGray>
         <CircleButtonGray onClick={this._handleAdd} style={{ marginRight: 16 }}>
           <SVG.Plus height="16px" />
         </CircleButtonGray>
@@ -448,6 +462,9 @@ class SlatePage extends React.Component {
       </span>
     ) : (
       <div style={{ display: `flex` }}>
+        <ButtonPrimary style={{ marginRight: "16px" }} onClick={this._handleDownload}>
+          Download
+        </ButtonPrimary>
         <div onClick={this._handleFollow}>
           {this.state.isFollowing ? (
             <ButtonSecondary>Unfollow</ButtonSecondary>
@@ -532,6 +549,7 @@ class SlatePage extends React.Component {
                   preview={preview}
                   onSavePreview={(preview) => this._handleSave(null, null, null, false, preview)}
                   items={objects}
+                  resources={this.props.resources}
                   onSelect={this._handleSelect}
                   defaultLayout={layouts && layouts.ver === "2.0" ? layouts.defaultLayout : true}
                   onAction={this.props.onAction}

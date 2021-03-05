@@ -332,23 +332,25 @@ export const downloadZip = async (file) => {
   }
 };
 
-const _nativeDownload = (file) => {
+const _nativeDownload = ({ url, onError }) => {
   const iframe = document.createElement("iframe");
   iframe.style.display = "none";
+  iframe.src = url;
 
-  iframe.src = file.url;
+  const ERROR_MESSAGE = "SLATE_DOWNLOAD_ERROR";
+  const hanldeIframeErrors = (e) => {
+    if (e.data === ERROR_MESSAGE && onError) {
+      onError(e.data);
+    }
+  };
+  window.addEventListener("message", hanldeIframeErrors);
+  iframe.onload = (e) => window.removeEventListener("message", hanldeIframeErrors);
+
   document.body.appendChild(iframe);
-  // var element = document.createElement("a");
-  // element.setAttribute("href", file.url);
-  // element.setAttribute("download", file.name);
-
-  // element.style.display = "none";
-  // document.body.appendChild(element);
-  // element.click();
-  // document.body.removeChild(element);
 };
 
 export const compressAndDownloadFiles = async ({ files, name = "slate.zip", resourceURI }) => {
+  const errorMessage = "Something went wrong with the download. Please try again";
   try {
     if (!(files && files.length > 0)) return;
     Events.dispatchMessage({ message: "We're preparing your files to download", status: "INFO" });
@@ -373,13 +375,16 @@ export const compressAndDownloadFiles = async ({ files, name = "slate.zip", reso
 
     const res = await Actions.createZipToken({ files: downloadFiles, resourceURI });
     const downloadLink = Actions.downloadZip({ token: res.data.token, name, resourceURI });
-    _nativeDownload({
-      name,
+    await _nativeDownload({
       url: downloadLink,
+      onError: (err) =>
+        Events.dispatchMessage({
+          message: errorMessage,
+        }),
     });
   } catch (e) {
     console.error(e);
-    Events.dispatchMessage({ message: "Something went wrong with the download. Please try again" });
+    Events.dispatchMessage({ message: errorMessage });
   }
 };
 

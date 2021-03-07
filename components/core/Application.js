@@ -745,7 +745,7 @@ export default class ApplicationPage extends React.Component {
           <SearchModal
             viewer={this.state.viewer}
             onAction={this._handleAction}
-            mobile={this.props.mobile}
+            mobile={this.state.mobile}
             resourceURI={this.props.resources.search}
           />
           {!this.state.loaded ? (

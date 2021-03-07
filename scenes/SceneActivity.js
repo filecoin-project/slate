@@ -537,29 +537,3 @@ export default class SceneActivity extends React.Component {
     );
   }
 }
-
-{
-  /* <React.Fragment>
-            <System.P>When you're ready, create a slate!</System.P>
-            <br />
-            <System.ButtonPrimary onClick={this._handleCreateSlate}>
-              Create a slate
-            </System.ButtonPrimary>
-            <video
-              css={STYLES_VIDEO_BIG}
-              autoPlay
-              loop
-              muted
-              src="https://slate.textile.io/ipfs/bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy"
-              type="video/m4v"
-              playsInline
-              style={{
-                backgroundImage: `url('https://slate.textile.io/ipfs/bafybeienjmql6lbtsaz3ycon3ttliohcl7qbquwvny43lhcodky54z65cy')`,
-                borderRadius: `4px`,
-                width: `100%`,
-                boxShadow: `0px 10px 50px 20px rgba(0, 0, 0, 0.1)`,
-                backgroundSize: `cover`,
-              }}
-            />
-          </React.Fragment> */
-}

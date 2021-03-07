@@ -103,12 +103,11 @@ export default class SlateMediaObject extends React.Component {
     }
 
     if (type.startsWith("video/")) {
-      const autoPlay = this.props?.data?.settings?.autoPlay || false;
       return (
         <video
           playsInline
           controls
-          autoPlay={autoPlay}
+          autoPlay={false}
           name="media"
           type={playType}
           css={STYLES_OBJECT}

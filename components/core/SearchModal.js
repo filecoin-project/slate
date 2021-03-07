@@ -662,7 +662,7 @@ export class SearchModal extends React.Component {
   };
 
   _handleChange = (e) => {
-    this.debounceInstance(e);
+    this.debounceInstance();
     this.setState({ inputValue: e.target.value });
   };
 

@@ -24,24 +24,38 @@ export default class SceneProfile extends React.Component {
   state = {
     profile: null,
     notFound: false,
+    isOwner: false,
   };
 
   componentDidMount = async () => {
     this.fetchProfile();
   };
 
+  componentDidUpdate = (prevProps) => {
+    if (
+      this.state.isOwner &&
+      this.props.viewer.library[0].children !== prevProps.viewer.library[0].children
+    ) {
+      let filteredViewer = this.getFilteredViewer();
+      this.setState({ profile: filteredViewer });
+    }
+  };
+
   fetchProfile = async () => {
     const username = this.props.page.user || this.props.page.data?.username;
+    let isOwner = false;
     let query;
     let targetUser;
     if (username) {
       if (username === this.props.viewer.username) {
+        isOwner = true;
         targetUser = this.getFilteredViewer();
       } else {
         query = { username: username };
       }
     } else if (this.props.data && this.props.data.id) {
       if (this.props.data.id === this.props.viewer.id) {
+        isOwner = true;
         targetUser = this.getFilteredViewer();
       } else {
         query = { id: this.props.data.id };
@@ -73,7 +87,7 @@ export default class SceneProfile extends React.Component {
     );
 
     this.props.onUpdateData({ data: targetUser });
-    this.setState({ profile: targetUser }, () => {
+    this.setState({ profile: targetUser, isOwner }, () => {
       if (Strings.isEmpty(cid)) {
         return;
       }
@@ -102,8 +116,7 @@ export default class SceneProfile extends React.Component {
   getFilteredViewer = () => {
     let viewer = this.props.viewer;
     const res = Utilities.getPublicAndPrivateFiles({ viewer });
-    viewer.library[0].children = res.publicFiles;
-    return viewer;
+    return { ...viewer, library: [{ children: res.publicFiles }] };
   };
 
   render() {
@@ -129,10 +142,8 @@ export default class SceneProfile extends React.Component {
     return (
       <Profile
         {...this.props}
-        creator={
-          this.state.profile.id === this.props.viewer.id ? this.props.viewer : this.state.profile
-        }
-        isOwner={this.state.profile.id === this.props.viewer.id}
+        user={this.state.profile}
+        isOwner={this.state.isOwner}
         isAuthenticated={this.props.viewer !== null}
         key={this.state.profile.id}
       />

@@ -92,6 +92,8 @@ const STYLES_META_TITLE = css`
   color: ${Constants.system.white};
   font-size: ${Constants.typescale.lvl2};
   text-decoration: none;
+  word-break: break-all;
+  overflow-wrap: anywhere;
 
   :hover {
     color: ${Constants.system.blue};
@@ -148,7 +150,9 @@ const STYLES_ACTION = css`
 const STYLES_SECTION_HEADER = css`
   font-family: ${Constants.font.semiBold};
   font-size: 1.1rem;
-  margin-bottom: 32px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
 `;
 
 const STYLES_HIDDEN = css`
@@ -185,7 +189,7 @@ const STYLES_TEXT = css`
 `;
 
 const STYLES_INPUT = {
-  marginBottom: 16,
+  marginBottom: 8,
   backgroundColor: "transparent",
   boxShadow: "0 0 0 1px #3c3c3c inset",
   color: Constants.system.white,
@@ -247,38 +251,42 @@ export const FileTypeDefaultPreview = () => {
 };
 
 class CarouselSidebarData extends React.Component {
-  _ref = null;
+  didCalculateSelected = false;
 
   state = {
-    name: Strings.isEmpty(this.props.data.name) ? "" : this.props.data.name,
+    name: this.props.data.name || this.props.data.file || "",
     selected: {},
     isPublic: false,
-    inPublicSlates: false,
-    copyValue: "",
-    loading: false,
-    changingPreview: false,
-    unsavedChanges: false,
-    isEditing: false,
+    inPublicSlates: 0,
+    isUploading: false,
+    showSavedMessage: false,
     isDownloading: false,
+    showConnectedSection: false,
+    showFileSection: true,
   };
 
   componentDidMount = () => {
-    this.setState({ unsavedChanges: true });
-    if (this.props.isOwner && !this.props.external) {
-      this.debounceInstance = Window.debounce(() => this._handleSave(), 3000);
-      let inPublicSlates = false;
+    if (!this.props.external) {
+      if (this.props.isOwner) {
+        this.debounceInstance = Window.debounce(() => this._handleSaveName(), 3000);
+      }
+      let inPublicSlates = 0;
       let selected = {};
       const id = this.props.data.id;
-      for (let slate of this.props.slates) {
-        if (slate.data.objects.some((o) => o.id === id)) {
+      for (let slate of this.props.viewer.slates) {
+        if (slate.data.objects.some((obj) => obj.id === id)) {
           if (slate.data.public) {
-            inPublicSlates = true;
+            inPublicSlates += 1;
           }
           selected[slate.id] = true;
         }
       }
       this.setState({ selected, inPublicSlates, isPublic: this.props.data.public });
     }
+  };
+
+  _handleToggleAccordion = (tab) => {
+    this.setState({ [tab]: !this.state[tab] });
   };
 
   _handleDarkMode = async (e) => {
@@ -288,42 +296,39 @@ class CarouselSidebarData extends React.Component {
     });
   };
 
-  _handleChange = (e) => {
-    if (this.props.isOwner && !this.props.external) {
-      this.debounceInstance();
-      this.setState({ [e.target.name]: e.target.value, unsavedChanges: true });
+  _handleNameChange = (e) => {
+    if (this.props.external || !this.props.isOwner) return;
+    this.debounceInstance();
+    this.setState({
+      [e.target.name]: e.target.value,
+      showSavedMessage: false,
+    });
+  };
+
+  _handleSaveName = async (cancelDebounce = false) => {
+    if (this.props.external || !this.props.isOwner) return;
+    if (cancelDebounce) {
+      this.debounceInstance(true);
     }
-  };
-
-  _handleSave = async () => {
-    let name = { name: this.state.name };
-    this.props.onSave(name, this.props.index);
-    await setTimeout(() => {
-      this.setState({ unsavedChanges: false });
-    }, 500);
-    await setTimeout(() => {
-      this.setState({ unsavedChanges: true });
-    }, 4000);
-  };
-
-  _handleToggleAutoPlay = async (e) => {
-    await this.props.onSave(
-      { settings: { ...this.props.data?.settings, autoPlay: e.target.value } },
-      this.props.index
-    );
+    const response = await Actions.updateData({
+      data: { ...this.props.data, name: this.state.name },
+    });
+    Events.hasError(response);
+    this.setState({ showSavedMessage: true });
   };
 
   _handleUpload = async (e) => {
+    if (this.props.external || !this.props.isOwner) return;
     e.persist();
-    this.setState({ changingPreview: true });
+    this.setState({ isUploading: true });
     let previousCoverCid = this.props.data?.coverImage?.cid;
     if (!e || !e.target) {
-      this.setState({ changingPreview: false });
+      this.setState({ isUploading: false });
       return;
     }
     let json = await UserBehaviors.uploadImage(e.target.files[0], this.props.resources, true);
     if (!json) {
-      this.setState({ changingPreview: false });
+      this.setState({ isUploading: false });
       return;
     }
 
@@ -348,7 +353,7 @@ class CarouselSidebarData extends React.Component {
     }
 
     Events.hasError(updateReponse);
-    this.setState({ changingPreview: false });
+    this.setState({ isUploading: false });
   };
 
   _handleDownload = () => {
@@ -356,7 +361,6 @@ class CarouselSidebarData extends React.Component {
       this.setState({ isDownloading: true }, async () => {
         const response = await UserBehaviors.downloadZip(this.props.data);
         this.setState({ isDownloading: false });
-
         Events.hasError(response);
       });
     } else {
@@ -373,19 +377,10 @@ class CarouselSidebarData extends React.Component {
     });
   };
 
-  _handleCopy = (copyValue, loading) => {
-    this.setState({ copyValue, loading }, () => {
-      this._ref.select();
-      document.execCommand("copy");
-    });
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 1000);
-  };
-
-  _handleDelete = (cid) => {
-    if (!this.props.isOwner) return;
-    const message = `Are you sure you want to delete this? It will be deleted from your slates as well`;
+  _handleDelete = () => {
+    if (this.props.external || !this.props.isOwner) return;
+    const message =
+      "Are you sure you want to delete this? It will be removed from your slates as well";
     if (!window.confirm(message)) {
       return;
     }
@@ -396,17 +391,35 @@ class CarouselSidebarData extends React.Component {
 
     // NOTE(jim): Accepts ID as well if CID can't be found.
     // Since our IDS are unique.
-    UserBehaviors.deleteFiles(cid, this.props.data.id);
+    UserBehaviors.deleteFiles(this.props.data.cid, this.props.data.id);
   };
 
   _handleAdd = async (slate) => {
-    this.setState({
-      selected: { ...this.state.selected, [slate.id]: !this.state.selected[slate.id] },
-    });
+    let inPublicSlates = this.state.inPublicSlates;
     if (this.state.selected[slate.id]) {
-      await UserBehaviors.removeFromSlate({ slate, ids: [this.props.data.id] });
+      if (slate.data.public) {
+        inPublicSlates -= 1;
+      }
+      this.setState({
+        selected: {
+          ...this.state.selected,
+          [slate.id]: !this.state.selected[slate.id],
+        },
+        inPublicSlates,
+      });
+      UserBehaviors.removeFromSlate({ slate, ids: [this.props.data.id] });
     } else {
-      await UserBehaviors.addToSlate({
+      if (slate.data.public) {
+        inPublicSlates += 1;
+      }
+      this.setState({
+        selected: {
+          ...this.state.selected,
+          [slate.id]: !this.state.selected[slate.id],
+        },
+        inPublicSlates,
+      });
+      UserBehaviors.addToSlate({
         slate,
         files: [this.props.data],
         fromSlate: this.props.fromSlate,
@@ -414,16 +427,9 @@ class CarouselSidebarData extends React.Component {
     }
   };
 
-  _handleEditFilename = async () => {
-    this.setState({ isEditing: !this.state.isEditing }, () => {
-      if (this.state.isEditing == false) {
-        this._handleSave();
-      }
-    });
-  };
-
   _handleToggleVisibility = async (e) => {
-    const isVisible = this.state.inPublicSlates || this.state.isPublic;
+    if (this.props.external || !this.props.isOwner) return;
+    const isVisible = this.state.isPublic || this.state.inPublicSlates > 0;
     let selected = this.state.selected;
     if (this.state.inPublicSlates) {
       const slateIds = Object.entries(this.state.selected)
@@ -431,16 +437,15 @@ class CarouselSidebarData extends React.Component {
         .map((entry) => entry[0]);
       const publicSlateIds = [];
       const publicSlateNames = [];
-      for (let slate of this.props.slates) {
+      for (let slate of this.props.viewer.slates) {
         if (slate.data.public && slateIds.includes(slate.id)) {
           publicSlateNames.push(slate.data.name);
           publicSlateIds.push(slate.id);
           selected[slate.id] = false;
         }
       }
-      const message = `Making this file private will remove it from the following public slates: ${publicSlateNames.join(
-        ", "
-      )}. Do you wish to continue?`;
+      const slateNames = publicSlateNames.join(", ");
+      const message = `Making this file private will remove it from the following public slates: ${slateNames}. Do you wish to continue?`;
       if (!window.confirm(message)) {
         return;
       }
@@ -451,213 +456,181 @@ class CarouselSidebarData extends React.Component {
         public: !isVisible,
       },
     });
+    Events.hasError(response);
     if (isVisible) {
-      this.setState({ inPublicSlates: false, isPublic: false, selected });
+      this.setState({ inPublicSlates: 0, isPublic: false, selected });
     } else {
       this.setState({ isPublic: true });
     }
   };
 
   render() {
-    const isVisible = this.state.inPublicSlates || this.state.isPublic;
-    const { cid, file, name, coverImage, type, size, url, blurhash } = this.props.data;
-    const elements = [];
-    if (this.props.onClose) {
-      elements.push(
-        <div key="s-1" css={STYLES_DISMISS_BOX} onClick={this.props.onClose}>
-          <SVG.Dismiss height="24px" />
-        </div>
-      );
-    }
-
-    elements.push(
-      <div key="s-2" style={{ marginBottom: 80 }}>
-        <div css={STYLES_META}>
-          {this.state.isEditing && this.props.isOwner && !this.props.external ? (
-            <Boundary enabled onOutsideRectEvent={this._handleEditFilename}>
-              <Input
-                full
-                value={this.state.name}
-                name="name"
-                onChange={this._handleChange}
-                id={`sidebar-label-name`}
-                style={STYLES_INPUT}
-              />
-            </Boundary>
-          ) : (
-            <span
-              css={STYLES_META_TITLE}
-              style={{
-                color: this.props.isOwner && !this.props.external ? "auto" : Constants.system.white,
-              }}
-              onClick={
-                this.props.external || !this.props.isOwner ? () => {} : this._handleEditFilename
-              }
-            >
-              {this.state.name}
-            </span>
-          )}
-
-          <div style={{ display: `flex`, justifyContent: `baseline` }}>
-            <div css={STYLES_META_DETAILS}>
-              <span css={STYLES_TAG}>{type}</span> <span>{Strings.bytesToSize(size)}</span>
-            </div>
-            {this.state.unsavedChanges == false ? (
-              <div css={STYLES_AUTOSAVE}>
-                <SVG.Check height="14px" style={{ marginRight: 4 }} />
-                Filename saved
-              </div>
-            ) : null}
-          </div>
-        </div>
-        <div css={STYLES_ACTIONS}>
-          {/* {this.props.isOwner ? (
-            <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
-              <SVG.CopyAndPaste height="24px" />
-              <span style={{ marginLeft: 16 }}>
-                {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
-              </span>
-            </div>
-          ) : null}
-          <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "gatewayUrlCopying")}>
-            <SVG.Data height="24px" />
-            <span style={{ marginLeft: 16 }}>
-              {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy file URL"}
-            </span>
-          </div> */}
-          {this.props.external ? null : (
-            <div css={STYLES_ACTION} onClick={this._handleDownload}>
-              {this.state.isDownloading ? (
-                <>
-                  <LoaderSpinner css={STYLES_SPINNER} />
-                  <span style={{ marginLeft: 16 }}>Downloading</span>
-                </>
-              ) : (
-                <>
-                  <SVG.Download height="24px" />
-                  <span style={{ marginLeft: 16 }}>Download</span>
-                </>
-              )}
-            </div>
-          )}
-          {this.props.isOwner ? (
-            <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
-              <SVG.Trash height="24px" />
-              <span style={{ marginLeft: 16 }}>Delete</span>
-            </div>
-          ) : null}
-        </div>
-        {this.props.external ? null : (
-          <React.Fragment>
-            <div css={STYLES_SECTION_HEADER}>Connected Slates</div>
-            <SlatePicker
-              dark
-              slates={this.props.slates}
-              onCreateSlate={this._handleCreateSlate}
-              selectedColor={Constants.system.white}
-              files={[this.props.data]}
-              selected={this.state.selected}
-              onAdd={this._handleAdd}
-            />
-          </React.Fragment>
-        )}
-        {type && Validations.isPreviewableImage(type) ? null : (
-          <div>
-            <System.P css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
-              Preview image
-            </System.P>
-            {coverImage ? (
-              <React.Fragment>
-                <System.P css={STYLES_TEXT}>This is the preview image of your file.</System.P>
-                <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
-                  <img
-                    src={coverImage.url}
-                    alt=""
-                    style={{ maxWidth: "368px", maxHeight: "368px" }}
-                  />
-                </div>
-              </React.Fragment>
-            ) : (
-              <System.P css={STYLES_TEXT}>Add a cover image for your file.</System.P>
-            )}
-            <div style={{ marginTop: 16 }}>
-              <input css={STYLES_FILE_HIDDEN} type="file" id="file" onChange={this._handleUpload} />
-              <System.ButtonPrimary
-                full
-                type="label"
-                htmlFor="file"
-                loading={this.state.changingPreview}
-              >
-                Upload image
-              </System.ButtonPrimary>
-            </div>
-          </div>
-        )}
-        {this.props.isOwner ? (
-          <React.Fragment>
-            <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
-              Visibility
-            </div>
-            <div css={STYLES_OPTIONS_SECTION}>
-              <div css={STYLES_TEXT}>{isVisible ? "Everyone" : "Link only"}</div>
-              <Toggle dark active={isVisible} onChange={this._handleToggleVisibility} />
-            </div>
-            <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
-              {isVisible
-                ? "This file is currently visible to everyone and searchable within Slate through public slates."
-                : "This file is currently not visible to others unless they have the link."}
-            </div>
-          </React.Fragment>
-        ) : null}
-        {this.props.data.name.endsWith(".md") ? (
-          <React.Fragment>
-            <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
-              Settings
-            </div>
-            <div css={STYLES_OPTIONS_SECTION}>
-              <div css={STYLES_TEXT}>Dark mode</div>
-              <Toggle dark active={this.props?.theme?.darkmode} onChange={this._handleDarkMode} />
-            </div>
-          </React.Fragment>
-        ) : null}
-        {this.props.isOwner && type?.startsWith("video/") ? (
-          <React.Fragment>
-            <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
-              Settings
-            </div>
-            <div css={STYLES_OPTIONS_SECTION}>
-              <div css={STYLES_TEXT}>AutoPlay</div>
-              <Toggle
-                dark
-                active={this.props?.data?.settings?.autoPlay}
-                onChange={this._handleToggleAutoPlay}
-              />
-            </div>
-            <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
-              {this.props?.data?.settings?.autoPlay
-                ? "This video will be autoplayed when opened by others."
-                : "This video will be paused when opened by others."}
-            </div>
-          </React.Fragment>
-        ) : null}
-        <input
-          css={STYLES_HIDDEN}
-          ref={(c) => {
-            this._ref = c;
-          }}
-          readOnly
-          value={this.state.copyValue}
-        />
-      </div>
-    );
-
-    if (!elements.length) {
-      return null;
-    }
+    const isVisible = this.state.isPublic || this.state.inPublicSlates > 0 ? true : false;
+    const { coverImage, type, size } = this.props.data;
+    const editingAllowed = this.props.isOwner && !this.props.external;
 
     return (
       <div css={STYLES_SIDEBAR} style={{ display: this.props.display }}>
-        {elements}
+        <div key="s-1" css={STYLES_DISMISS_BOX} onClick={this.props.onClose}>
+          <SVG.Dismiss height="24px" />
+        </div>
+        <div key="s-2" style={{ marginBottom: 80 }}>
+          <div css={STYLES_META}>
+            {editingAllowed ? (
+              <Boundary enabled onOutsideRectEvent={() => this._handleSaveName(true)}>
+                <Input
+                  full
+                  value={this.state.name}
+                  name="name"
+                  onChange={this._handleNameChange}
+                  id={`sidebar-label-name`}
+                  style={STYLES_INPUT}
+                />
+              </Boundary>
+            ) : (
+              <span
+                css={STYLES_META_TITLE}
+                style={{
+                  color: editingAllowed ? "auto" : Constants.system.white,
+                }}
+              >
+                {this.state.name}
+              </span>
+            )}
+
+            <div style={{ display: `flex`, justifyContent: `baseline` }}>
+              <div css={STYLES_META_DETAILS}>
+                <span css={STYLES_TAG}>{type}</span> <span>{Strings.bytesToSize(size)}</span>
+              </div>
+              {this.state.showSavedMessage ? (
+                <div css={STYLES_AUTOSAVE}>
+                  <SVG.Check height="14px" style={{ marginRight: 4 }} />
+                  Filename saved
+                </div>
+              ) : null}
+            </div>
+          </div>
+          {this.props.external ? null : (
+            <div css={STYLES_ACTIONS}>
+              <div css={STYLES_ACTION} onClick={this._handleDownload}>
+                {this.state.isDownloading ? (
+                  <>
+                    <LoaderSpinner css={STYLES_SPINNER} />
+                    <span style={{ marginLeft: 16 }}>Downloading</span>
+                  </>
+                ) : (
+                  <>
+                    <SVG.Download height="24px" />
+                    <span style={{ marginLeft: 16 }}>Download</span>
+                  </>
+                )}
+              </div>
+              {this.props.isOwner ? (
+                <div css={STYLES_ACTION} onClick={this._handleDelete}>
+                  <SVG.Trash height="24px" />
+                  <span style={{ marginLeft: 16 }}>Delete</span>
+                </div>
+              ) : null}
+            </div>
+          )}
+          {this.props.external ? null : (
+            <>
+              <div
+                css={STYLES_SECTION_HEADER}
+                style={{ cursor: "pointer", marginTop: 48 }}
+                onClick={() => this._handleToggleAccordion("showConnectedSection")}
+              >
+                <span
+                  style={{
+                    marginRight: 8,
+                    transform: this.state.showConnectedSection ? "none" : "rotate(-90deg)",
+                    transition: "100ms ease transform",
+                  }}
+                >
+                  <SVG.ChevronDown height="24px" display="block" />
+                </span>
+                <span>{this.props.isOwner ? "Connected slates" : "Add to slate"}</span>
+              </div>
+              {this.state.showConnectedSection && (
+                <div style={{ width: "100%", margin: "24px 0 44px 0" }}>
+                  <SlatePicker
+                    dark
+                    slates={this.props.viewer.slates}
+                    onCreateSlate={this._handleCreateSlate}
+                    selectedColor={Constants.system.white}
+                    files={[this.props.data]}
+                    selected={this.state.selected}
+                    onAdd={this._handleAdd}
+                  />
+                </div>
+              )}
+            </>
+          )}
+          {this.props.isOwner && type && Validations.isPreviewableImage(type) && (
+            <div>
+              <System.P css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+                Preview image
+              </System.P>
+              {coverImage ? (
+                <>
+                  <System.P css={STYLES_TEXT}>This is the preview image of your file.</System.P>
+                  <div css={STYLES_IMAGE_BOX} style={{ marginTop: 24 }}>
+                    <img
+                      src={coverImage.url}
+                      alt=""
+                      style={{ maxWidth: "368px", maxHeight: "368px" }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <System.P css={STYLES_TEXT}>Add a cover image for your file.</System.P>
+              )}
+              <div style={{ marginTop: 16 }}>
+                <input
+                  css={STYLES_FILE_HIDDEN}
+                  type="file"
+                  id="file"
+                  onChange={this._handleUpload}
+                />
+                <System.ButtonPrimary
+                  full
+                  type="label"
+                  htmlFor="file"
+                  loading={this.state.isUploading}
+                >
+                  Upload image
+                </System.ButtonPrimary>
+              </div>
+            </div>
+          )}
+          {this.props.isOwner ? (
+            <>
+              <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+                Visibility
+              </div>
+              <div css={STYLES_OPTIONS_SECTION}>
+                <div css={STYLES_TEXT}>{isVisible ? "Everyone" : "Link only"}</div>
+                <Toggle dark active={isVisible} onChange={this._handleToggleVisibility} />
+              </div>
+              <div style={{ color: Constants.system.darkGray, marginTop: 8 }}>
+                {isVisible
+                  ? "This file is currently visible to everyone and searchable within Slate. It may appear in activity feeds and explore."
+                  : "This file is currently not visible to others unless they have the link."}
+              </div>
+            </>
+          ) : null}
+          {this.props.data.name.endsWith(".md") ? (
+            <>
+              <div css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
+                Settings
+              </div>
+              <div css={STYLES_OPTIONS_SECTION}>
+                <div css={STYLES_TEXT}>Dark mode</div>
+                <Toggle dark active={this.props?.theme?.darkmode} onChange={this._handleDarkMode} />
+              </div>
+            </>
+          ) : null}
+        </div>
       </div>
     );
   }

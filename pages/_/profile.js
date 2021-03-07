@@ -24,7 +24,6 @@ export const getServerSideProps = async (context) => {
 const STYLES_ROOT = css`
   display: block;
   grid-template-rows: auto 1fr auto;
-  text-align: center;
   font-size: 1rem;
   min-height: 100vh;
   background-color: ${Constants.system.foreground};
@@ -62,22 +61,18 @@ export default class ProfilePage extends React.Component {
     const url = `https://slate.host/${title}`;
     const description = this.props.creator.data.body;
     const image = this.props.creator.data.photo;
-    const buttons = (
-      <ButtonPrimary onClick={() => this.setState({ visible: true })}>Follow</ButtonPrimary>
-    );
-
     if (Strings.isEmpty(image)) {
       image = DEFAULT_IMAGE;
     }
+
     return (
       <WebsitePrototypeWrapper title={title} description={description} url={url} image={image}>
         <WebsitePrototypeHeader />
         <div css={STYLES_ROOT}>
           <Profile
             {...this.props}
-            tab={this.props.cid ? 0 : 1}
+            user={this.props.creator}
             page={this.state.page}
-            buttons={buttons}
             isOwner={false}
             isAuthenticated={this.props.viewer !== null}
             external

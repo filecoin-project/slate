@@ -493,6 +493,7 @@ export default class SceneFilesFolder extends React.Component {
 
         {files.length ? (
           <DataView
+            key="scene-files-folder"
             onAction={this.props.onAction}
             viewer={this.props.viewer}
             items={files}

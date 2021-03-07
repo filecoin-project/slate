@@ -144,7 +144,6 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
 
           file = new File(blob, `data-${uuid()}`);
           file.name = `data-${uuid()}`;
-          console.log(file);
         } catch (e) {
           Events.dispatchMessage({
             message: "File type not supported. Please try a different file",

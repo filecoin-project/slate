@@ -377,7 +377,7 @@ export default class IndexPage extends React.Component {
               <video
                 width="100%"
                 loop={true}
-                autoPlay="autoplay"
+                autoPlay={false}
                 src="https://slate.textile.io/ipfs/bafybeie6w5nljl3apsby7wuaanq7k34qavcv2g77c3cqp2fwdpqqsg7my4"
                 type="video/mp4"
                 muted={true}

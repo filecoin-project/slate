@@ -5,6 +5,7 @@ import * as ViewerManager from "~/node_common/managers/viewer";
 import * as SearchManager from "~/node_common/managers/search";
 
 export default async (req, res) => {
+  console.log(req.body.data);
   const id = Utilities.getIdFromCookie(req);
   if (!id) {
     return res.status(500).send({ decorator: "SERVER_EDIT_DATA", error: true });

@@ -87,9 +87,10 @@ const STYLES_AUTOSAVE = css`
   font-size: 12px;
   line-height: 1.225;
   display: flex;
-  justify-content: baseline;
+  justify-content: flex-end;
   color: ${Constants.system.yellow};
   position: absolute;
+  right: 24px;
   opacity: 0;
 
   @keyframes slate-animations-autosave {
@@ -179,58 +180,60 @@ const STYLES_DISMISS_BOX = css`
 `;
 
 export default class CarouselSidebarSlate extends React.Component {
-  _ref = null;
+  didCalculateSelected = false;
 
   state = {
-    title: Strings.isEmpty(this.props.data.title) ? "" : this.props.data.title,
-    body: Strings.isEmpty(this.props.data.body) ? "" : this.props.data.body,
-    source: Strings.isEmpty(this.props.data.source) ? "" : this.props.data.source,
-    author: Strings.isEmpty(this.props.data.author) ? "" : this.props.data.author,
+    title: this.props.data.title || "",
+    body: this.props.data.body || "",
+    source: this.props.data.source || "",
+    author: this.props.data.author || "",
     selected: {},
-    isPublic: false,
-    copyValue: "",
-    showConnected: false,
-    showFile: true,
-    unsavedChanges: false,
+    showConnectedSection: false,
+    showFileSection: true,
+    showSavedMessage: false,
     loading: false,
-    subject: "",
   };
 
   componentDidMount = () => {
-    this.setState({ unsavedChanges: true });
     if (this.props.isOwner && !this.props.external) {
       this.debounceInstance = Window.debounce(() => this._handleSave(), 3000);
-      let isPublic = false;
+    }
+  };
+
+  calculateSelected = () => {
+    if (this.props.isOwner && !this.props.external) {
       let selected = {};
       const id = this.props.data.id;
-      for (let slate of this.props.slates) {
+      for (let slate of this.props.viewer.slates) {
         if (slate.data.objects.some((o) => o.id === id)) {
-          if (slate.data.public) {
-            isPublic = true;
-          }
           selected[slate.id] = true;
         }
       }
-      this.setState({ selected, isPublic });
+      this.setState({ selected });
     }
   };
 
-  _handleClose = () => {
-    if (this.state.unsavedChanges) {
-      this._handleSave();
+  _handleSave = async () => {
+    if (this.props.external || !this.props.isOwner) return;
+    let objects = this.props.objects;
+    for (let i = 0; i < objects.length; i++) {
+      if (objects[i].id === this.props.data.id) {
+        objects[i] = {
+          ...objects[i],
+          title: this.state.title,
+          body: this.state.body,
+          source: this.state.source,
+          author: this.state.author,
+        };
+        break;
+      }
     }
-    this.props.onClose();
-  };
-
-  _handleSave = () => {
-    let data = {
-      title: this.state.title,
-      body: this.state.body,
-      source: this.state.source,
-      author: this.state.author,
-    };
-    this.props.onSave(data, this.props.index);
-    this.setState({ unsavedChanges: false });
+    const response = await Actions.updateSlate({
+      id: this.props.current.id,
+      data: { objects },
+    });
+    Events.hasError(response);
+    this.setState({ showSavedMessage: true });
   };
 
   _handleCreateSlate = async () => {
@@ -244,30 +247,16 @@ export default class CarouselSidebarSlate extends React.Component {
   };
 
   _handleChange = (e) => {
+    if (this.props.external || !this.props.isOwner) return;
     this.debounceInstance();
     this.setState({
       [e.target.name]: e.target.value,
-      unsavedChanges: true,
-      subject: e.target.name == "body" ? "Description" : this._handleCapitalization(e.target.name),
+      showSavedMessage: false,
     });
   };
-
-  _handleCapitalization(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
 
   _handleDownload = () => {
     UserBehaviors.download(this.props.data);
-  };
-
-  _handleCopy = (copyValue, loading) => {
-    this.setState({ copyValue, loading }, () => {
-      this._ref.select();
-      document.execCommand("copy");
-    });
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 1000);
   };
 
   _handleSaveCopy = async (data) => {
@@ -276,7 +265,7 @@ export default class CarouselSidebarSlate extends React.Component {
     this.setState({ loading: false });
   };
 
-  _handleDelete = (cid) => {
+  _handleDelete = () => {
     if (this.props.external || !this.props.isOwner) return;
 
     if (
@@ -299,11 +288,21 @@ export default class CarouselSidebarSlate extends React.Component {
 
     // NOTE(jim): Accepts ID as well if CID can't be found.
     // Since our IDS are unique.
-    UserBehaviors.deleteFiles(cid, this.props.data.id);
+    UserBehaviors.deleteFiles(this.props.data.cid, this.props.data.id);
   };
 
-  _toggleAccordion = (tab) => {
-    this.setState({ [tab]: !this.state[tab] });
+  _handleToggleAccordion = (tab) => {
+    let selected = this.state.selected;
+    if (!this.didCalculateSelected && tab === "showConnectedSection" && !this.props.external) {
+      this.didCalculateSelected = true;
+      const id = this.props.data.id;
+      for (let slate of this.props.viewer.slates) {
+        if (slate.data.objects.some((o) => o.id === id)) {
+          selected[slate.id] = true;
+        }
+      }
+    }
+    this.setState({ [tab]: !this.state[tab], selected });
   };
 
   _handleAdd = async (slate) => {
@@ -322,117 +321,109 @@ export default class CarouselSidebarSlate extends React.Component {
   };
 
   render() {
-    let isUnityGame = false;
-    if (this.props.data.type === "application/unity") {
-      isUnityGame = true;
-    }
+    let isUnityGame = this.props.data.type === "application/unity";
     const elements = [];
-    const { cid, url } = this.props.data;
-    if (this.props.data) {
-      if (this.props.isOwner && !isUnityGame) {
+    const { cid } = this.props.data;
+    if (this.props.isOwner && !isUnityGame) {
+      elements.push(
+        <React.Fragment key="sidebar-media-object-info">
+          <Input
+            full
+            value={this.state.title}
+            name="title"
+            onChange={this._handleChange}
+            id={`sidebar-label-title`}
+            style={{
+              fontSize: Constants.typescale.lvl1,
+              ...STYLES_INPUT,
+            }}
+          />
+          <Textarea
+            name="body"
+            placeholder="Add notes or a description..."
+            value={this.state.body}
+            onChange={this._handleChange}
+            style={STYLES_INPUT}
+          />
+          <Input
+            full
+            value={this.state.source}
+            name="source"
+            placeholder="Source"
+            onChange={this._handleChange}
+            id={`sidebar-label-source`}
+            style={STYLES_INPUT}
+          />
+          <Input
+            full
+            value={this.state.author}
+            name="author"
+            placeholder="Author"
+            onChange={this._handleChange}
+            id={`sidebar-label-author`}
+            style={{ ...STYLES_INPUT, marginBottom: 12 }}
+          />
+          {this.state.showSavedMessage && (
+            <div css={STYLES_AUTOSAVE}>
+              <SVG.Check height="14px" style={{ marginRight: 4 }} />
+              Changes saved
+            </div>
+          )}
+        </React.Fragment>
+      );
+    } else {
+      const hasTitle = !Strings.isEmpty(this.props.data.title || this.props.data.name);
+      const hasBody = !Strings.isEmpty(this.props.data.body);
+      const hasSource = !Strings.isEmpty(this.props.data.source);
+      const hasAuthor = !Strings.isEmpty(this.props.data.author);
+
+      if (hasTitle) {
         elements.push(
-          <React.Fragment key="sidebar-media-object-info">
-            <Input
-              full
-              value={this.state.title}
-              name="title"
-              onChange={this._handleChange}
-              id={`sidebar-label-title`}
-              style={{
-                fontSize: Constants.typescale.lvl1,
-                ...STYLES_INPUT,
-              }}
-            />
-            <Textarea
-              name="body"
-              placeholder="Add notes or a description..."
-              value={this.state.body}
-              onChange={this._handleChange}
-              style={STYLES_INPUT}
-            />
-            <Input
-              full
-              value={this.state.source}
-              name="source"
-              placeholder="Source"
-              onChange={this._handleChange}
-              id={`sidebar-label-source`}
-              style={STYLES_INPUT}
-            />
-            <Input
-              full
-              value={this.state.author}
-              name="author"
-              placeholder="Author"
-              onChange={this._handleChange}
-              id={`sidebar-label-author`}
-              style={{ ...STYLES_INPUT, marginBottom: 12 }}
-            />
-            {this.state.unsavedChanges == false && (
-              <div css={STYLES_AUTOSAVE}>
-                <SVG.Check height="14px" style={{ marginRight: 4 }} />
-                {this.state.subject} saved
-              </div>
-            )}
-          </React.Fragment>
+          <div key="sidebar-media-info-title" css={STYLES_SIDEBAR_SECTION}>
+            <div css={STYLES_HEADING}>
+              <ProcessedText dark text={this.props.data.title || this.props.data.name} />
+            </div>
+          </div>
         );
-      } else {
-        const hasTitle = !Strings.isEmpty(this.props.data.title || this.props.data.name);
-        const hasBody = !Strings.isEmpty(this.props.data.body);
-        const hasSource = !Strings.isEmpty(this.props.data.source);
-        const hasAuthor = !Strings.isEmpty(this.props.data.author);
+      }
 
-        if (hasTitle) {
-          elements.push(
-            <div key="sidebar-media-info-title" css={STYLES_SIDEBAR_SECTION}>
-              <div css={STYLES_HEADING}>
-                <ProcessedText dark text={this.props.data.title || this.props.data.name} />
-              </div>
+      if (hasBody) {
+        elements.push(
+          <div key="sidebar-media-info-body" css={STYLES_SIDEBAR_SECTION}>
+            <div css={STYLES_BODY}>
+              <ProcessedText dark text={this.props.data.body} />
             </div>
-          );
-        }
+          </div>
+        );
+      }
 
-        if (hasBody) {
-          elements.push(
-            <div key="sidebar-media-info-body" css={STYLES_SIDEBAR_SECTION}>
-              <div css={STYLES_BODY}>
-                <ProcessedText dark text={this.props.data.body} />
-              </div>
+      if (hasSource) {
+        elements.push(
+          <div key="sidebar-media-info-source" css={STYLES_SIDEBAR_SECTION}>
+            <div css={STYLES_SIDEBAR_INPUT_LABEL} style={{ position: "relative" }}>
+              Source:
             </div>
-          );
-        }
+            <p css={STYLES_BODY} style={{ color: Constants.system.darkGray }}>
+              <ProcessedText dark text={this.props.data.source} />
+            </p>
+          </div>
+        );
+      }
 
-        if (hasSource) {
-          elements.push(
-            <div key="sidebar-media-info-source" css={STYLES_SIDEBAR_SECTION}>
-              <div css={STYLES_SIDEBAR_INPUT_LABEL} style={{ position: "relative" }}>
-                Source:
-              </div>
-              <p css={STYLES_BODY} style={{ color: Constants.system.darkGray }}>
-                <ProcessedText dark text={this.props.data.source} />
-              </p>
+      if (hasAuthor) {
+        elements.push(
+          <div key="sidebar-media-info-author" css={STYLES_SIDEBAR_SECTION}>
+            <div css={STYLES_SIDEBAR_INPUT_LABEL} style={{ position: "relative" }}>
+              Author:
             </div>
-          );
-        }
-
-        if (hasAuthor) {
-          elements.push(
-            <div key="sidebar-media-info-author" css={STYLES_SIDEBAR_SECTION}>
-              <div css={STYLES_SIDEBAR_INPUT_LABEL} style={{ position: "relative" }}>
-                Author:
-              </div>
-              <p css={STYLES_BODY} style={{ color: Constants.system.darkGray }}>
-                <ProcessedText dark text={this.props.data.author} />
-              </p>
-            </div>
-          );
-        }
+            <p css={STYLES_BODY} style={{ color: Constants.system.darkGray }}>
+              <ProcessedText dark text={this.props.data.author} />
+            </p>
+          </div>
+        );
       }
     }
 
-    if (!elements.length) {
-      return null;
-    }
     return (
       <div css={STYLES_SIDEBAR} style={{ display: this.props.display }}>
         <div css={STYLES_DISMISS_BOX} onClick={this._handleClose}>
@@ -441,7 +432,7 @@ export default class CarouselSidebarSlate extends React.Component {
         {elements}
         {this.props.external ? null : (
           <div style={{ marginTop: 32 }}>
-            {this.props.activityView ? (
+            {this.props.carouselType === "ACTIVITY" ? (
               <div css={STYLES_ACTIONS} style={{ marginTop: 24 }}>
                 <div
                   css={STYLES_ACTION}
@@ -460,24 +451,24 @@ export default class CarouselSidebarSlate extends React.Component {
             ) : null}
             <div
               css={STYLES_SECTION_HEADER}
-              style={{ cursor: "pointer", marginTop: 24 }}
-              onClick={() => this._toggleAccordion("showConnected")}
+              style={{ cursor: "pointer", marginTop: 48 }}
+              onClick={() => this._handleToggleAccordion("showConnectedSection")}
             >
               <span
                 style={{
                   marginRight: 8,
-                  transform: this.state.showConnected ? "none" : "rotate(-90deg)",
+                  transform: this.state.showConnectedSection ? "none" : "rotate(-90deg)",
                   transition: "100ms ease transform",
                 }}
               >
                 <SVG.ChevronDown height="24px" display="block" />
               </span>
-              <span>{this.props.isOwner ? "Connected slates" : "My slates"}</span>
+              <span>{this.props.isOwner ? "Connected slates" : "Add to slate"}</span>
             </div>
-            {this.state.showConnected ? (
+            {this.state.showConnectedSection ? (
               <div style={{ width: "100%", margin: "24px 0 44px 0" }}>
                 <SlatePicker
-                  slates={this.props.slates}
+                  slates={this.props.viewer.slates}
                   onCreateSlate={this._handleCreateSlate}
                   dark
                   fromSlate
@@ -490,74 +481,56 @@ export default class CarouselSidebarSlate extends React.Component {
             ) : null}
           </div>
         )}
-        <div
-          css={STYLES_SECTION_HEADER}
-          style={{ cursor: "pointer" }}
-          onClick={() => this._toggleAccordion("showFile")}
-        >
-          <span
-            style={{
-              marginRight: 8,
-              transform: this.state.showFile ? "none" : "rotate(-90deg)",
-              transition: "100ms ease transform",
-            }}
-          >
-            <SVG.ChevronDown height="24px" display="block" />
-          </span>
-          <span>File</span>
-        </div>
-        {this.state.showFile ? (
-          <div css={STYLES_ACTIONS} style={{ marginTop: 24 }}>
-            {/* {this.props.isOwner ? (
-              <div css={STYLES_ACTION} onClick={() => this._handleCopy(cid, "cidCopying")}>
-                <SVG.CopyAndPaste height="24px" />
-                <span style={{ marginLeft: 16 }}>
-                  {this.state.loading === "cidCopying" ? "Copied!" : "Copy file CID"}
-                </span>
-              </div>
-            ) : null} */}
-            {/* <div css={STYLES_ACTION} onClick={() => this._handleCopy(url, "gatewayUrlCopying")}>
-              <SVG.Data height="24px" />
-              <span style={{ marginLeft: 16 }}>
-                {this.state.loading === "gatewayUrlCopying" ? "Copied!" : "Copy file link"}
+        {!this.props.external ? (
+          <>
+            <div
+              css={STYLES_SECTION_HEADER}
+              style={{ cursor: "pointer" }}
+              onClick={() => this._handleToggleAccordion("showFileSection")}
+            >
+              <span
+                style={{
+                  marginRight: 8,
+                  transform: this.state.showFileSection ? "none" : "rotate(-90deg)",
+                  transition: "100ms ease transform",
+                }}
+              >
+                <SVG.ChevronDown height="24px" display="block" />
               </span>
-            </div> */}
-            {this.props.isOwner || this.props.external ? null : (
-              <div css={STYLES_ACTION} onClick={() => this._handleSaveCopy(this.props.data)}>
-                <SVG.Save height="24px" />
-                <span style={{ marginLeft: 16 }}>
-                  {this.state.loading === "savingCopy" ? (
-                    <LoaderSpinner style={{ height: 16, width: 16 }} />
-                  ) : (
-                    <span>Save copy</span>
+              <span>File</span>
+            </div>
+            <>
+              {this.state.showFileSection ? (
+                <div css={STYLES_ACTIONS} style={{ marginTop: 24 }}>
+                  {this.props.isOwner || this.props.external ? null : (
+                    <div css={STYLES_ACTION} onClick={() => this._handleSaveCopy(this.props.data)}>
+                      <SVG.Save height="24px" />
+                      <span style={{ marginLeft: 16 }}>
+                        {this.state.loading === "savingCopy" ? (
+                          <LoaderSpinner style={{ height: 16, width: 16 }} />
+                        ) : (
+                          <span>Save copy</span>
+                        )}
+                      </span>
+                    </div>
                   )}
-                </span>
-              </div>
-            )}
-            {this.props.external ? null : (
-              <div css={STYLES_ACTION} onClick={this._handleDownload}>
-                <SVG.Download height="24px" />
-                <span style={{ marginLeft: 16 }}>
-                  <span>Download</span>
-                </span>
-              </div>
-            )}
-            {this.props.isOwner && !this.props.isRepost ? (
-              <div css={STYLES_ACTION} onClick={() => this._handleDelete(cid)}>
-                <SVG.Trash height="24px" />
-                <span style={{ marginLeft: 16 }}>Delete</span>
-              </div>
-            ) : null}
-          </div>
+                  <div css={STYLES_ACTION} onClick={this._handleDownload}>
+                    <SVG.Download height="24px" />
+                    <span style={{ marginLeft: 16 }}>
+                      <span>Download</span>
+                    </span>
+                  </div>
+                  {this.props.isOwner && !this.props.isRepost ? (
+                    <div css={STYLES_ACTION} onClick={this._handleDelete}>
+                      <SVG.Trash height="24px" />
+                      <span style={{ marginLeft: 16 }}>Delete</span>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+            </>
+          </>
         ) : null}
-        <input
-          css={STYLES_HIDDEN}
-          ref={(c) => {
-            this._ref = c;
-          }}
-          readOnly
-          value={this.state.copyValue}
-        />
       </div>
     );
   }

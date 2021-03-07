@@ -307,23 +307,20 @@ export default class Profile extends React.Component {
     peerTab: 0,
     // copyValue: "",
     contextMenu: null,
-    publicFiles: this.props.creator.library[0].children,
-    slates: this.props.creator.slates,
+    slates: this.props.user.slates,
     subscriptions: [],
     subscribers: [],
     isFollowing: this.props.external
       ? false
       : !!this.props.viewer.subscriptions.filter((entry) => {
-          return entry.target_user_id === this.props.creator.id;
+          return entry.target_user_id === this.props.user.id;
         }).length,
     fetched: false,
-    tab: this.props.tab,
+    tab: this.props.tab || 0,
   };
 
   componentDidMount = () => {
-    console.log(this.props.creator);
     this._handleUpdatePage();
-    // this.filterByVisibility();
   };
 
   componentDidUpdate = (prevProps) => {
@@ -333,21 +330,10 @@ export default class Profile extends React.Component {
   };
 
   fetchSocial = async () => {
-    let query = { userId: this.props.creator.id };
+    let query = { userId: this.props.user.id };
     const { subscribers, subscriptions } = await Actions.getSocial(query);
     this.setState({ subscribers: subscribers, subscriptions: subscriptions, fetched: true });
   };
-
-  // filterByVisibility = () => {
-  //   let publicFiles = [];
-  //   if (this.props.isOwner) {
-  //     const res = Utilities.getPublicAndPrivateFiles({ viewer: this.props.creator });
-  //     publicFiles = res.publicFiles;
-  //   } else {
-  //     publicFiles = this.props.creator.library[0].children;
-  //   }
-  //   this.setState({ publicFiles: publicFiles });
-  // };
 
   // _handleCopy = (e, value) => {
   //   e.stopPropagation();
@@ -418,17 +404,16 @@ export default class Profile extends React.Component {
 
   render() {
     let tab = typeof this.state.tab === "undefined" || this.state.tab === null ? 1 : this.state.tab;
+    let publicFiles = this.props.user.library[0].children;
     let isOwner = this.props.isOwner;
-    let creator = this.props.creator;
-    let username = this.state.slateTab === 0 ? creator.username : null;
+    let user = this.props.user;
+    let username = this.state.slateTab === 0 ? user.username : null;
     let subscriptions = this.state.subscriptions;
     let subscribers = this.state.subscribers;
     let slates = [];
     if (tab === 1) {
       if (this.state.slateTab === 0) {
-        slates = isOwner
-          ? creator.slates.filter((slate) => slate.data.public === true)
-          : creator.slates;
+        slates = isOwner ? user.slates.filter((slate) => slate.data.public === true) : user.slates;
       } else {
         slates = subscriptions
           .filter((relation) => {
@@ -556,7 +541,7 @@ export default class Profile extends React.Component {
       }
     }
 
-    let total = creator.slates.reduce((total, slate) => {
+    let total = user.slates.reduce((total, slate) => {
       return total + slate.data?.objects?.length || 0;
     }, 0);
 
@@ -569,8 +554,8 @@ export default class Profile extends React.Component {
           onUpdateViewer={this.props.onUpdateViewer}
           resources={this.props.resources}
           viewer={this.props.viewer}
-          objects={this.state.publicFiles}
-          isOwner={false}
+          objects={publicFiles}
+          isOwner={this.props.isOwner}
           onAction={this.props.onAction}
           mobile={this.props.mobile}
           external={this.props.external}
@@ -580,7 +565,7 @@ export default class Profile extends React.Component {
             <div
               css={STYLES_PROFILE_IMAGE}
               style={{
-                backgroundImage: `url('${creator.data.photo}')`,
+                backgroundImage: `url('${user.data.photo}')`,
               }}
             >
               {showStatusIndicator && (
@@ -596,14 +581,14 @@ export default class Profile extends React.Component {
               )}
             </div>
             <div css={STYLES_INFO}>
-              <div css={STYLES_NAME}>{Strings.getPresentationName(creator)}</div>
+              <div css={STYLES_NAME}>{Strings.getPresentationName(user)}</div>
               {!isOwner && (
                 <div css={STYLES_BUTTON}>
                   {this.state.isFollowing ? (
                     <ButtonSecondary
                       onClick={(e) => {
                         this.setState({ isFollowing: false });
-                        this._handleFollow(e, this.props.creator.id);
+                        this._handleFollow(e, this.props.user.id);
                       }}
                     >
                       Unfollow
@@ -612,7 +597,7 @@ export default class Profile extends React.Component {
                     <ButtonPrimary
                       onClick={(e) => {
                         this.setState({ isFollowing: true });
-                        this._handleFollow(e, this.props.creator.id);
+                        this._handleFollow(e, this.props.user.id);
                       }}
                     >
                       Follow
@@ -620,9 +605,9 @@ export default class Profile extends React.Component {
                   )}
                 </div>
               )}
-              {creator.data.body ? (
+              {user.data.body ? (
                 <div css={STYLES_DESCRIPTION}>
-                  <ProcessedText text={creator.data.body} />
+                  <ProcessedText text={user.data.body} />
                 </div>
               ) : null}
               <div css={STYLES_STATS}>
@@ -633,7 +618,7 @@ export default class Profile extends React.Component {
                 </div>
                 <div css={STYLES_STAT}>
                   <div style={{ fontFamily: `${Constants.font.text}` }}>
-                    {creator.slates.length}{" "}
+                    {user.slates.length}{" "}
                     <span style={{ color: `${Constants.system.darkGray}` }}>Slates</span>
                   </div>
                 </div>
@@ -649,7 +634,7 @@ export default class Profile extends React.Component {
               open={this.state.visible}
               redirectURL={`/_${Strings.createQueryParams({
                 scene: "NAV_PROFILE",
-                user: creator.username,
+                user: user.username,
               })}`}
             />
           </div>
@@ -677,12 +662,13 @@ export default class Profile extends React.Component {
                   />
                 </div>
               )}
-              {this.state.publicFiles.length ? (
+              {publicFiles.length ? (
                 <DataView
+                  key="scene-profile"
                   onAction={this.props.onAction}
                   viewer={this.props.viewer}
                   isOwner={isOwner}
-                  items={this.state.publicFiles}
+                  items={publicFiles}
                   onUpdateViewer={this.props.onUpdateViewer}
                   view={this.state.view}
                   resources={this.props.resources}

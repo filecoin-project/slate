@@ -365,7 +365,7 @@ export default class SceneFilesFolder extends React.Component {
                     </p>
                   </div>
                   <div>
-                    <p css={STYLES_TOOLTIP_TEXT}>Alt + drag</p>
+                    <p css={STYLES_TOOLTIP_TEXT}>alt + drag</p>
                     <p css={STYLES_TOOLTIP_TEXT} style={{ color: Constants.system.darkGray }}>
                       deselect items by draging over them
                     </p>

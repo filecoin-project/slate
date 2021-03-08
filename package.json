@@ -67,7 +67,7 @@
     "remark-linkify-regex": "^1.0.0",
     "remark-parse": "^9.0.0",
     "remark-react": "^8.0.0",
-    "three": "^0.108.0",
+    "three": "^0.126.1",
     "unified": "^9.2.0",
     "universal-cookie": "^4.0.4",
     "uuid": "^8.3.2",

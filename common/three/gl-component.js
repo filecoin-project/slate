@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { Geometry } from "~/common/three/126-geometry";
+import { BufferGeometryUtils } from "~/common/three/126-buffer-geometry-utils";
 
 import OrbitControls from "~/common/three/orbital.js";
 import GlobePoints from "~/common/three/points.json";
@@ -110,10 +112,7 @@ export default class GLComponent {
     this.state.camera.position.y = 0.25;
     this.state.camera.position.z = 0.2;
 
-    this.state.controls = new OrbitControls(
-      this.state.camera,
-      this.state.renderer.domElement
-    );
+    this.state.controls = new OrbitControls(this.state.camera, this.state.renderer.domElement);
 
     const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x888888, 0.9);
     this.state.scene.add(hemisphereLight);
@@ -123,7 +122,6 @@ export default class GLComponent {
   }
 
   firstRender() {
-    const mergedGeometry = new THREE.Geometry();
     const pointGeometry = new THREE.SphereGeometry(2, 1, 1);
     const pointMaterial = new THREE.MeshBasicMaterial({
       color: "#0047FF",
@@ -138,16 +136,14 @@ export default class GLComponent {
       });
 
       pointGeometry.translate(x, y, z);
-      mergedGeometry.merge(pointGeometry);
       pointGeometry.translate(-x, -y, -z);
     }
 
-    const globeShape = new THREE.Mesh(mergedGeometry, pointMaterial);
+    const globeShape = new THREE.Mesh(pointGeometry, pointMaterial);
     this.state.mountedNodes.push(globeShape);
     this.state.scene.add(globeShape);
 
     if (this.state.countries) {
-      const mergedCountryGeometry = new THREE.Geometry();
       const pointCountryGeometry = new THREE.SphereGeometry(4, 7, 7);
       const countryMaterial = new THREE.MeshBasicMaterial({
         color: "black",
@@ -162,14 +158,10 @@ export default class GLComponent {
         });
 
         pointCountryGeometry.translate(x, y, z);
-        mergedCountryGeometry.merge(pointCountryGeometry);
         pointCountryGeometry.translate(-x, -y, -z);
       }
 
-      const countryShape = new THREE.Mesh(
-        mergedCountryGeometry,
-        countryMaterial
-      );
+      const countryShape = new THREE.Mesh(pointCountryGeometry, countryMaterial);
       this.state.mountedNodes.push(countryShape);
       this.state.scene.add(countryShape);
     }

@@ -660,6 +660,7 @@ export default class ApplicationPage extends React.Component {
         activeIds={current.activeIds}
         onAction={this._handleAction}
         mobile={this.state.mobile}
+        mac={this.props.mac}
       />
     );
 
@@ -677,6 +678,7 @@ export default class ApplicationPage extends React.Component {
       onUpdateViewer: this._handleUpdateViewer,
       sceneId: current.target.id,
       mobile: this.state.mobile,
+      mac: this.props.mac,
       resources: this.props.resources,
       activeUsers: this.state.activeUsers,
     });
@@ -733,6 +735,7 @@ export default class ApplicationPage extends React.Component {
             fileLoading={this.state.fileLoading}
             filecoin={current.target.filecoin}
             mobile={this.state.mobile}
+            mac={this.props.mac}
             viewer={this.state.viewer}
             onUpdateViewer={this._handleUpdateViewer}
           >
@@ -742,7 +745,7 @@ export default class ApplicationPage extends React.Component {
           <SearchModal
             viewer={this.state.viewer}
             onAction={this._handleAction}
-            mobile={this.props.mobile}
+            mobile={this.state.mobile}
             resourceURI={this.props.resources.search}
           />
           {!this.state.loaded ? (

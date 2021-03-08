@@ -128,6 +128,11 @@ const STYLES_STATIC = css`
 
 export default class ApplicationHeader extends React.Component {
   keysPressed = {};
+  searchModKey = this.props.mac ? (
+    <SVG.MacCommand height="12px" style={{ display: "block", paddingLeft: 8, paddingRight: 8 }} />
+  ) : (
+    <span style={{ display: "block", paddingLeft: 8, paddingRight: 8 }}>Ctrl</span>
+  );
 
   state = {
     popup: null,
@@ -269,8 +274,8 @@ export default class ApplicationHeader extends React.Component {
                 cursor: "pointer",
               }}
             >
-              <div css={STYLES_SHORTCUTS}>
-                <SVG.MacCommand height="12px" style={{ display: "block" }} />
+              <div css={STYLES_SHORTCUTS} style={{ width: "auto" }}>
+                {this.searchModKey}
               </div>
               <div css={STYLES_SHORTCUTS}>F</div>
             </div>

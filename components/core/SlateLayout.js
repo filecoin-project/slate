@@ -553,10 +553,10 @@ export class SlateLayout extends React.Component {
           y: defaultLayout
             ? 0
             : itemAbove
-            ? fileNames
-              ? itemAbove.y + itemAbove.h + MARGIN + TAG_HEIGHT
-              : itemAbove.y + itemAbove.h + MARGIN
-            : yMax,
+              ? fileNames
+                ? itemAbove.y + itemAbove.h + MARGIN + TAG_HEIGHT
+                : itemAbove.y + itemAbove.h + MARGIN
+              : yMax,
           h: height,
           w: SIZE,
           z: 0,
@@ -722,6 +722,7 @@ export class SlateLayout extends React.Component {
     ) {
       e.preventDefault();
       e.stopPropagation();
+      console.log(this.props.isMac);
       this._handleUndo();
     } else if (
       (this.keysPressed["Control"] || this.keysPressed["Meta"]) &&
@@ -743,14 +744,6 @@ export class SlateLayout extends React.Component {
   _handleKeyUp = (e) => {
     this.keysPressed[e.key] = false;
     this.keysPressed = {};
-  };
-
-  _handleHelpKeybind = () => {
-    if (!this.state.keyboardTooltip) {
-      this.setState({ keyboardTooltip: true });
-    } else {
-      this.setState({ keyboardTooltip: false });
-    }
   };
 
   _handleUndo = () => {
@@ -971,7 +964,7 @@ export class SlateLayout extends React.Component {
     //NOTE(martina): collapses the z-indexes back down to 0 through n-1 (so they don't continuously get higher)
     let zIndexes = this.state.layout.map((pos) => pos.z);
     zIndexes = [...new Set(zIndexes)];
-    zIndexes.sort(function (a, b) {
+    zIndexes.sort(function(a, b) {
       return a - b;
     });
     let layout = this.cloneLayout(this.state.layout);
@@ -1218,9 +1211,9 @@ export class SlateLayout extends React.Component {
                   )}
                   {!this.state.keyboardTooltip ? (
                     <div onMouseEnter={() => this.setState({ keyboardTooltip: true })}>
-                      <SVG.MacCommand
-                        height="15px"
-                        style={{ marginLeft: "14px", color: Constants.system.darkGray }}
+                      <SVG.Information
+                        height="18px"
+                        style={{ marginLeft: "14px", color: Constants.system.black }}
                         onMouseEnter={() => this.setState({ keyboardTooltip: true })}
                       />
                     </div>
@@ -1230,13 +1223,10 @@ export class SlateLayout extends React.Component {
                         style={{ marginRight: "14px" }}
                         onMouseLeave={() => this.setState({ keyboardTooltip: false })}
                       >
-                        <SVG.MacCommand
-                          height="15px"
-                          style={{
-                            marginLeft: "14px",
-                            marginRight: "7px",
-                            color: Constants.system.darkGray,
-                          }}
+                        <SVG.Information
+                          height="18px"
+                          style={{ marginLeft: "14px", color: Constants.system.darkGray }}
+                          onMouseEnter={() => this.setState({ keyboardTooltip: true })}
                         />
                       </span>
                       <div css={STYLES_TOOLTIP_ANCHOR}>
@@ -1245,8 +1235,9 @@ export class SlateLayout extends React.Component {
                             css={STYLES_TOOLTIP_TEXT}
                             style={{
                               fontFamily: Constants.font.semiBold,
-                              fontSize: "14px",
-                              paddingTop: "12px",
+                              fontSize: 14,
+                              paddingTop: 12,
+                              paddingBottom: 4,
                             }}
                           >
                             Keyboard shortcuts
@@ -1322,12 +1313,10 @@ export class SlateLayout extends React.Component {
                 height: this.state.editing
                   ? `calc(100vh + ${this.state.containerHeight}px)`
                   : `calc(96px + ${this.state.containerHeight}px)`,
-                backgroundSize: `${(CONTAINER_SIZE / 108) * this.state.unit}px ${
-                  10 * this.state.unit
-                }px`,
-                backgroundPosition: `-${(CONTAINER_SIZE / 220) * this.state.unit}px -${
-                  (CONTAINER_SIZE / 220) * this.state.unit
-                }px`,
+                backgroundSize: `${(CONTAINER_SIZE / 108) * this.state.unit}px ${10 * this.state.unit
+                  }px`,
+                backgroundPosition: `-${(CONTAINER_SIZE / 220) * this.state.unit}px -${(CONTAINER_SIZE / 220) * this.state.unit
+                  }px`,
               }}
               ref={(c) => {
                 this._ref = c;
@@ -1348,8 +1337,8 @@ export class SlateLayout extends React.Component {
                     selectableKey={i}
                     onMouseEnter={() => this.setState({ hover: i })}
                     onMouseLeave={() => this.setState({ hover: null })}
-                    onMouseDown={this.state.editing ? (e) => this._handleMouseDown(e, i) : () => {}}
-                    onClick={this.state.editing ? () => {} : () => this.props.onSelect(i)}
+                    onMouseDown={this.state.editing ? (e) => this._handleMouseDown(e, i) : () => { }}
+                    onClick={this.state.editing ? () => { } : () => this.props.onSelect(i)}
                     style={{
                       top: pos.y * unit,
                       left: pos.x * unit,
@@ -1430,37 +1419,37 @@ export class SlateLayout extends React.Component {
                                 style={
                                   this.state.tooltip === `${i}-remove`
                                     ? {
-                                        position: "absolute",
-                                        top: 36,
-                                        right: 8,
-                                      }
+                                      position: "absolute",
+                                      top: 36,
+                                      right: 8,
+                                    }
                                     : this.state.tooltip === `${i}-view`
-                                    ? {
+                                      ? {
                                         position: "absolute",
                                         bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
                                         right: "calc(50% + 28px)",
                                       }
-                                    : this.state.tooltip === `${i}-download`
-                                    ? {
-                                        position: "absolute",
-                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                        right: "calc(50% - 12px)",
-                                      }
-                                    : {
-                                        position: "absolute",
-                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                        right: "calc(50% - 52px)",
-                                        color: Constants.system.red,
-                                      }
+                                      : this.state.tooltip === `${i}-download`
+                                        ? {
+                                          position: "absolute",
+                                          bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                          right: "calc(50% - 12px)",
+                                        }
+                                        : {
+                                          position: "absolute",
+                                          bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                          right: "calc(50% - 52px)",
+                                          color: Constants.system.red,
+                                        }
                                 }
                               >
                                 {this.state.tooltip === `${i}-remove`
                                   ? "Remove from slate"
                                   : this.state.tooltip === `${i}-view`
-                                  ? "View file"
-                                  : this.state.tooltip === `${i}-download`
-                                  ? "Download"
-                                  : "Delete file"}
+                                    ? "View file"
+                                    : this.state.tooltip === `${i}-download`
+                                      ? "Download"
+                                      : "Delete file"}
                               </Tooltip>
                             ) : null}
                             <div
@@ -1524,9 +1513,9 @@ export class SlateLayout extends React.Component {
                                 onClick={
                                   this.state.items[i].ownerId === this.props.viewer.id
                                     ? (e) => {
-                                        this._handleDeleteFiles(e, i);
-                                      }
-                                    : () => {}
+                                      this._handleDeleteFiles(e, i);
+                                    }
+                                    : () => { }
                                 }
                                 style={{
                                   cursor:
@@ -1555,38 +1544,38 @@ export class SlateLayout extends React.Component {
                                 style={
                                   this.state.tooltip === `${i}-add`
                                     ? {
-                                        position: "absolute",
-                                        top: 36,
-                                        right: 8,
-                                      }
+                                      position: "absolute",
+                                      top: 36,
+                                      right: 8,
+                                    }
                                     : this.state.tooltip === `${i}-copy`
-                                    ? {
+                                      ? {
                                         position: "absolute",
                                         bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
                                         right: "calc(50% + 28px)",
                                       }
-                                    : this.state.tooltip === `${i}-download`
-                                    ? {
-                                        position: "absolute",
-                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                        right: "calc(50% - 12px)",
-                                      }
-                                    : {
-                                        position: "absolute",
-                                        bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
-                                        right: "calc(50% - 52px)",
-                                      }
+                                      : this.state.tooltip === `${i}-download`
+                                        ? {
+                                          position: "absolute",
+                                          bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                          right: "calc(50% - 12px)",
+                                        }
+                                        : {
+                                          position: "absolute",
+                                          bottom: this.state.fileNames ? 52 + TAG_HEIGHT : 52,
+                                          right: "calc(50% - 52px)",
+                                        }
                                 }
                               >
                                 {this.state.tooltip === `${i}-add`
                                   ? "Add to slate"
                                   : this.state.tooltip === `${i}-copy`
-                                  ? "Copy link"
-                                  : this.state.tooltip === `${i}-download`
-                                  ? "Download"
-                                  : this.state.tooltip === `${i}-preview`
-                                  ? "Make preview image"
-                                  : "Save copy"}
+                                    ? "Copy link"
+                                    : this.state.tooltip === `${i}-download`
+                                      ? "Download"
+                                      : this.state.tooltip === `${i}-preview`
+                                        ? "Make preview image"
+                                        : "Save copy"}
                               </Tooltip>
                             ) : null}
                             <div
@@ -1598,8 +1587,8 @@ export class SlateLayout extends React.Component {
                                 this.props.external
                                   ? this._handleLoginModal
                                   : (e) => {
-                                      this._handleAddToSlate(e, i);
-                                    }
+                                    this._handleAddToSlate(e, i);
+                                  }
                               }
                               style={{
                                 position: "absolute",
@@ -1658,8 +1647,8 @@ export class SlateLayout extends React.Component {
                                   this.props.external
                                     ? this._handleLoginModal
                                     : (e) => {
-                                        this._handleDownload(e, i);
-                                      }
+                                      this._handleDownload(e, i);
+                                    }
                                 }
                               >
                                 <SVG.Download height="16px" />
@@ -1678,30 +1667,30 @@ export class SlateLayout extends React.Component {
                                         Validations.isPreviewableImage(this.state.items[i].type) &&
                                         this.state.items[i].size &&
                                         this.state.items[i].size < SIZE_LIMIT
-                                      ? (e) => this._handleSetPreview(e, i)
-                                      : () => {}
+                                        ? (e) => this._handleSetPreview(e, i)
+                                        : () => { }
                                   }
                                   style={
                                     this.props.preview === this.state.items[i].url
                                       ? {
-                                          backgroundColor: "rgba(0, 97, 187, 0.75)",
-                                        }
+                                        backgroundColor: "rgba(0, 97, 187, 0.75)",
+                                      }
                                       : this.state.items[i].type &&
                                         Validations.isPreviewableImage(this.state.items[i].type) &&
                                         this.state.items[i].size &&
                                         this.state.items[i].size < SIZE_LIMIT
-                                      ? {}
-                                      : {
+                                        ? {}
+                                        : {
                                           color: "#999999",
                                           cursor: "not-allowed",
                                         }
                                   }
                                 >
                                   {this.props.preview ===
-                                  this.state.items[i].url.replace(
-                                    "https://undefined",
-                                    "https://"
-                                  ) ? (
+                                    this.state.items[i].url.replace(
+                                      "https://undefined",
+                                      "https://"
+                                    ) ? (
                                     <SVG.DesktopEye
                                       height="16px"
                                       style={{

@@ -45,7 +45,6 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-rate-limit": "^5.2.6",
-    "fetch-retry": "^4.1.0",
     "file-saver": "^2.0.5",
     "filenamify": "^4.2.0",
     "fs-extra": "^9.1.0",

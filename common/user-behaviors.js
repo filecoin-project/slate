@@ -9,11 +9,8 @@ import * as Events from "~/common/custom-events";
 
 import Cookies from "universal-cookie";
 import JSZip from "jszip";
-import fetchWrap from "fetch-retry";
 
 import { saveAs } from "file-saver";
-
-const fetchRetry = fetchWrap(fetch);
 
 //NOTE(martina): this file is for utility *API-calling* functions
 //For non API related utility functions, see common/utilities.js
@@ -148,7 +145,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
         url
       )}&palette=true&screenshot=false&video=true&audio=true`;
 
-      const response = await fetchRetry(apiUrl);
+      const response = await fetch(apiUrl);
 
       if (response.ok) {
         const urlJSON = await response.json();

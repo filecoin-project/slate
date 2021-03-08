@@ -30,8 +30,7 @@ export default class SystemAvatarGroup extends React.Component {
         <br />
         <br />
         <System.P>
-          The AvatarGroup component is a compact way to show a group users or
-          contributors.
+          The AvatarGroup component is a compact way to show a group users or contributors.
         </System.P>
         <br />
         <br />
@@ -43,7 +42,7 @@ export default class SystemAvatarGroup extends React.Component {
         <br />
         <CodeBlock>
           {`import * as React from "react";
-import AvatarGroup from "~/components/system/components/AvatarGroup";`}
+import { AvatarGroup } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />

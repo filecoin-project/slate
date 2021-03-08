@@ -82,6 +82,8 @@ import { AvatarGroup } from "~/components/system/components/AvatarGroup";
 
 import * as SVG from "~/common/svg";
 
+import ViewSourceLink from "~/components/system/ViewSourceLink";
+
 // NOTE(jim): Export everything.
 export {
   // NOTE(martina): Actions
@@ -142,6 +144,7 @@ export {
   UL,
   OL,
   LI,
+  ViewSourceLink,
   // NOTE(jim): Fragments, not meant to be used.
   Boundary,
   DescriptionGroup,

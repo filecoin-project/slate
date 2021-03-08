@@ -9,19 +9,13 @@ import CodeBlock from "~/components/system/CodeBlock";
 export default class SystemLoaders extends React.Component {
   render() {
     return (
-      <SystemPage
-        title="SDS: Loaders"
-        description="..."
-        url="https://slate.host/_/system/loaders"
-      >
+      <SystemPage title="SDS: Loaders" description="..." url="https://slate.host/_/system/loaders">
         <System.H1>
           Loaders <ViewSourceLink file="system/loaders.js" />
         </System.H1>
         <br />
         <br />
-        <System.P>
-          The Loader Component is used to output an animated page loader.
-        </System.P>
+        <System.P>The Loader Component is used to output an animated page loader.</System.P>
         <br />
         <br />
         <br />
@@ -39,7 +33,7 @@ export default class SystemLoaders extends React.Component {
   LoaderRotate,
   LoaderProgress,
   LoaderSpinner,
-} from "~/components/system/components/Loaders";
+} from "slate-react-system";
             `}
         </CodeBlock>
         <br />

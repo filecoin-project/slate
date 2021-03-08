@@ -9,6 +9,7 @@ import * as Events from "~/common/custom-events";
 
 import Cookies from "universal-cookie";
 import JSZip from "jszip";
+import mql from "@microlink/mql";
 
 import { saveAs } from "file-saver";
 
@@ -141,17 +142,14 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
       // to populate the necessary metadata, we may replace this with our
       // own micro service in the future.
       // see: https://microlink.io/ && https://metascraper.js.org/
-      const apiUrl = `//api.microlink.io/?url=${encodeURIComponent(
-        url
-      )}&palette=true&screenshot=false&video=true&audio=true`;
+      const { status, data } = await mql(url, {
+        palette: true,
+        video: true,
+        audio: true,
+      });
 
-      const response = await fetch(apiUrl);
-
-      if (response.ok) {
-        const urlJSON = await response.json();
-        const { data } = urlJSON;
-
-        console.log("URL processed: ", urlJSON);
+      if (status === "success") {
+        console.log("URL processed: ", data);
 
         const file = FileUtilities.createLinkFile(data);
 

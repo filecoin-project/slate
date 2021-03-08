@@ -34,6 +34,7 @@
     "@emotion/babel-preset-css-prop": "11.2.0",
     "@emotion/react": "11.1.5",
     "@glif/filecoin-number": "^1.1.0-beta.17",
+    "@microlink/mql": "^0.8.2",
     "@slack/webhook": "^6.0.0",
     "@textile/hub": "^6.0.2",
     "babel-plugin-module-resolver": "^4.1.0",

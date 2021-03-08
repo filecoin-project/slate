@@ -5,7 +5,6 @@ import * as Constants from "~/common/constants";
 import { css } from "@emotion/react";
 
 import SystemPage from "~/components/system/SystemPage";
-import ViewSourceLink from "~/components/system/ViewSourceLink";
 import CodeBlock from "~/components/system/CodeBlock";
 
 const STYLES_CSS_LABEL = css`
@@ -42,7 +41,7 @@ export default class SystemPageTypography extends React.Component {
         url="https://fps.onrender.com/system/typography"
       >
         <System.H1>
-          Typography <ViewSourceLink file="system/typography.js" />
+          Typography <System.ViewSourceLink file="system/typography.js" />
         </System.H1>
         <br />
         <br />
@@ -69,8 +68,7 @@ export default class SystemPageTypography extends React.Component {
         </System.P>
         <br />
         <CodeBlock>
-          {`import { H1, H2, H3, H4, P, UL, OL, LI } from "slate-react-system";
-import ViewSourceLink from "~/components/system/ViewSourceLink";`}
+          {`import { H1, H2, H3, H4, P, UL, OL, LI, ViewSourceLink } from "slate-react-system";`}
         </CodeBlock>
         <br />
         <br />
@@ -178,7 +176,7 @@ import ViewSourceLink from "~/components/system/ViewSourceLink";`}
           </a>
         </System.P>
         <System.P>
-          External References <ViewSourceLink file="system/typography.js" />
+          External References <System.ViewSourceLink file="system/typography.js" />
         </System.P>
         <br />
         <br />

@@ -209,7 +209,13 @@ export default class SidebarSingleSlateSettings extends React.Component {
           >
             Add tags to a slate to categorize it.
           </System.P>
-          <System.Tag style={{ marginTop: 12 }} />
+          <System.Tag
+            name="tags"
+            value={this.state.tags}
+            style={{ marginTop: 12 }}
+            placeholder="Type the name and press Enter to add tag"
+            onChange={this._handleChange}
+          />
         </div>
 
         {this.state.public ? (

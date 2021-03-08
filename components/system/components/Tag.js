@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
+import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 
@@ -7,15 +8,13 @@ const STYLES_INPUT_CONTAINER = css`
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  /* max-width: 480px; */
-  /* min-width: 188px; */
 `;
 
 const INPUT_STYLES = `
   box-sizing: border-box;
   font-family: ${Constants.font.text};
   -webkit-appearance: none;
-  /*width: 100%;*/
+  width: 100%;
   height: 40px;
   background: ${Constants.system.white};
   color: ${Constants.system.black};
@@ -36,10 +35,6 @@ const STYLES_LIST = css`
   margin: 0;
   padding: 0;
   width: 100%;
-
-  li + li {
-    margin-left: 5px;
-  }
 `;
 
 const STYLES_TAG = css`
@@ -52,24 +47,26 @@ const STYLES_TAG = css`
   font-family: ${Constants.font.text};
   padding: 10px;
   box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
+  margin: 8px 8px 0 0;
 
   span {
     line-height: 0;
     font-size: 0.875rem;
   }
 
-  &:hover button {
-    opacity: 0.5;
+  &:hover {
+    span {
+      opacity: 1;
+    }
   }
 `;
 
 const STYLES_INPUT = css`
-  /* ${INPUT_STYLES} */
-  /* 
-  margin: 8px 0 0;
+  ${INPUT_STYLES}
+
   padding: 0 16px;
   text-overflow: ellipsis;
-  white-space: nowrap; */
+  white-space: nowrap;
   box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
 
   :focus {
@@ -95,47 +92,34 @@ const STYLES_INPUT = css`
 `;
 
 const STYLES_REMOVE_BUTTON = css`
-  appearance: none;
-  border: none;
-  border-radius: 50%;
-  color: ${Constants.system.black};
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  line-height: 0;
   margin-left: 8px;
-  padding: 0;
-  transform: rotate(45deg);
-  width: 12px;
-  height: 12px;
   opacity: 0;
 `;
 
-const STYLES_LIST_ITEM_INPUT = css`
-  list-style-type: none;
-  width: 100%;
-`;
-
 export const Tag = (props) => {
-  const [tags, setTags] = React.useState([]);
-
   const removeTag = (i) => {
-    const newTags = [...tags];
+    const newTags = [...props.value];
     newTags.splice(i, 1);
 
-    setTags(newTags);
+    if (props.onChange) {
+      props.onChange({ target: { name: "tags", value: newTags } });
+    }
   };
 
   const handleInputKeyDown = (e) => {
     const value = e.target.value;
+    const tags = props.value || [];
+
     if (e.key === "Enter" && value) {
       if (tags.find((tag) => tag.toLowerCase() === value.toLowerCase())) {
         return;
       }
 
-      setTags((tags) => [...tags, value]);
+      if (props.onChange) {
+        props.onChange({ target: { name: "tags", value: [...tags, value] } });
+      }
+
       e.target.value = null;
     } else if (e.key === "Backspace" && !value) {
       removeTag(tags.length - 1);
@@ -145,23 +129,26 @@ export const Tag = (props) => {
   return (
     <div css={STYLES_INPUT_CONTAINER} style={{ ...props.style }}>
       <ul css={STYLES_LIST}>
-        {tags.map((tag, i) => (
-          <li key={tag} css={STYLES_TAG}>
-            <span>{tag}</span>
-            <button
-              type="button"
-              css={STYLES_REMOVE_BUTTON}
-              onClick={() => {
-                removeTag(i);
-              }}
-            >
-              +
-            </button>
-          </li>
-        ))}
-        <li css={STYLES_LIST_ITEM_INPUT}>
-          <input type="text" css={STYLES_INPUT} onKeyDown={handleInputKeyDown} />
-        </li>
+        <input
+          type="text"
+          css={STYLES_INPUT}
+          onKeyDown={handleInputKeyDown}
+          placeholder={props.placeholder}
+        />
+        {props.value &&
+          props.value.map((tag, i) => (
+            <li key={tag} css={STYLES_TAG}>
+              <span>{tag}</span>
+              <span
+                css={STYLES_REMOVE_BUTTON}
+                onClick={() => {
+                  removeTag(i);
+                }}
+              >
+                <SVG.Dismiss height="12px" />
+              </span>
+            </li>
+          ))}
       </ul>
     </div>
   );

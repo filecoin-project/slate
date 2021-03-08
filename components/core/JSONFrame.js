@@ -14,23 +14,25 @@ const STYLES_FRAME = css`
 `;
 
 const JSONFrame = ({ item }) => {
-  const { file, url } = item;
+  const { name, url } = item;
   const [data, setData] = useState({});
 
   useEffect(() => {
-    if (file?.includes(".link")) {
+    if (name?.includes(".link")) {
       const fetchData = async () => {
         try {
-          await fetch(url).then((r) => setData(r.json()));
+          const res = await fetch(url);
+          const data = await res.json();
+          setData(data);
         } catch (e) {
           console.error(e);
         }
       };
       fetchData();
     }
-  }, [file, url]);
+  }, [url]);
 
-  console.log({ data, file, url });
+  console.log({ data, url, item });
 
   return (
     <div css={STYLES_FRAME}>

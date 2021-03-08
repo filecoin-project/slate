@@ -6,6 +6,7 @@ import * as Strings from "~/common/strings";
 import * as Actions from "~/common/actions";
 import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
+import * as UserBehaviors from "~/common/user-behaviors";
 
 import { ButtonSecondary } from "~/components/system/components/Buttons";
 import { css } from "@emotion/react";
@@ -209,6 +210,16 @@ export default class SlatePage extends React.Component {
     });
   };
 
+  _handleDownloadFiles = () => {
+    const slateName = this.props.slate.data.name;
+    const slateFiles = this.props.slate.data.objects;
+    UserBehaviors.compressAndDownloadFiles({
+      files: slateFiles,
+      name: `${slateName}.zip`,
+      resourceURI: this.props.resources.download,
+    });
+  };
+
   render() {
     let title = `${this.props.creator.username}/${this.props.slate.slatename}`;
     let url = `https://slate.host/${this.props.creator.username}/${this.props.slate.slatename}`;
@@ -263,6 +274,7 @@ export default class SlatePage extends React.Component {
     }, {});
 
     const contributorsCount = Object.keys(counts).length;
+    const isSlateEmpty = objects.length === 0;
 
     return (
       <WebsitePrototypeWrapper title={title} description={body} url={url} image={image}>
@@ -297,6 +309,14 @@ export default class SlatePage extends React.Component {
               </div>
             </div>
             <div>
+              {!isSlateEmpty && (
+                <ButtonSecondary
+                  style={{ marginRight: "16px" }}
+                  onClick={this._handleDownloadFiles}
+                >
+                  Download
+                </ButtonSecondary>
+              )}
               <ButtonSecondary onClick={() => this.setState({ visible: true })}>
                 Follow
               </ButtonSecondary>

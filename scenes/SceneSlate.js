@@ -430,7 +430,7 @@ class SlatePage extends React.Component {
     }, 1000);
   };
 
-  _handleDownload = () => {
+  _handleDownloadFiles = () => {
     const slateName = this.props.current.data.name;
     const slateFiles = this.props.current.data.objects;
     UserBehaviors.compressAndDownloadFiles({
@@ -447,12 +447,15 @@ class SlatePage extends React.Component {
     let layouts = this.props.current.data.layouts;
     const isPublic = data.public;
     const isOwner = this.props.current.data.ownerId === this.props.viewer.id;
+    const isSlateEmpty = this.props.current.data.objects.length === 0;
 
     let actions = isOwner ? (
       <span>
-        <CircleButtonGray onClick={this._handleDownload} style={{ marginRight: 16 }}>
-          <SVG.Download height="16px" />
-        </CircleButtonGray>
+        {!isSlateEmpty && (
+          <CircleButtonGray onClick={this._handleDownloadFiles} style={{ marginRight: 16 }}>
+            <SVG.Download height="16px" />
+          </CircleButtonGray>
+        )}
         <CircleButtonGray onClick={this._handleAdd} style={{ marginRight: 16 }}>
           <SVG.Plus height="16px" />
         </CircleButtonGray>
@@ -462,9 +465,11 @@ class SlatePage extends React.Component {
       </span>
     ) : (
       <div style={{ display: `flex` }}>
-        <ButtonPrimary style={{ marginRight: "16px" }} onClick={this._handleDownload}>
-          Download
-        </ButtonPrimary>
+        {!isSlateEmpty && (
+          <ButtonPrimary style={{ marginRight: "16px" }} onClick={this._handleDownloadFiles}>
+            Download
+          </ButtonPrimary>
+        )}
         <div onClick={this._handleFollow}>
           {this.state.isFollowing ? (
             <ButtonSecondary>Unfollow</ButtonSecondary>

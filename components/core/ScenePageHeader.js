@@ -77,6 +77,39 @@ const STYLES_DESCRIPTION = css`
   }
 `;
 
+const STYLES_TAGS_WRAPPER = css`
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 800px;
+`;
+
+const STYLES_LIST = css`
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+`;
+
+const STYLES_TAG = css`
+  list-style-type: none;
+  border-radius: 4px;
+  background: ${Constants.system.white};
+  color: ${Constants.system.black};
+  display: flex;
+  align-items: center;
+  font-family: ${Constants.font.text};
+  padding: 10px;
+  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
+  margin: 8px 8px 0 0;
+
+  span {
+    line-height: 1;
+    font-size: 0.875rem;
+  }
+`;
+
 export const ScenePageHeader = (props) => {
   return (
     <header css={STYLES_ROOT} style={props.style}>
@@ -85,6 +118,17 @@ export const ScenePageHeader = (props) => {
         <div css={STYLES_DESCRIPTION}>
           <ProcessedText text={props.children} />
         </div>
+        {props.tags && (
+          <div css={STYLES_TAGS_WRAPPER}>
+            <ul css={STYLES_LIST}>
+              {props.tags.map((tag, i) => (
+                <li key={tag} css={STYLES_TAG}>
+                  <span>{tag}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       {props.actions ? <div css={STYLES_RIGHT}>{props.actions}</div> : null}
     </header>

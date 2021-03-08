@@ -54,7 +54,7 @@ export default class SystemPageRoot extends React.Component {
         <System.P>
           You can use these components, experiences, and constants in your own React projects.
           First, install the{" "}
-          <a href="https://github.com/filecoin-project/slate-react-system" target="_blank">
+          <a href="https://www.npmjs.com/package/slate-react-system" target="_blank">
             npm module
           </a>
           :

@@ -41,6 +41,8 @@ const STYLES_LIST = css`
   li {
     &:last-child {
       list-style-type: none;
+      padding: 2px;
+      flex: 1;
     }
   }
 `;
@@ -70,8 +72,9 @@ const STYLES_TAG = css`
 `;
 
 const STYLES_INPUT = css`
-  ${INPUT_STYLES}
+  ${INPUT_STYLES};
 
+  width: 100%;
   padding: 8px 0;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -135,14 +138,6 @@ export const Tag = (props) => {
     }
   };
 
-  const handleResize = (e) => {
-    const value = e.target.value;
-
-    if (inputEl.current) {
-      inputEl.current.style.width = `${value.length + 1}ch`;
-    }
-  };
-
   return (
     <div css={STYLES_INPUT_CONTAINER} style={{ ...props.style }}>
       <ul css={STYLES_LIST}>
@@ -161,13 +156,7 @@ export const Tag = (props) => {
             </li>
           ))}
         <li>
-          <input
-            ref={inputEl}
-            type="text"
-            css={STYLES_INPUT}
-            onKeyDown={handleInputKeyDown}
-            onChange={handleResize}
-          />
+          <input ref={inputEl} type="text" css={STYLES_INPUT} onKeyDown={handleInputKeyDown} />
         </li>
       </ul>
     </div>

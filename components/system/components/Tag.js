@@ -8,14 +8,14 @@ const STYLES_INPUT_CONTAINER = css`
   width: 100%;
   box-sizing: border-box;
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const INPUT_STYLES = `
   box-sizing: border-box;
   font-family: ${Constants.font.text};
   -webkit-appearance: none;
-  width: 100%;
-  height: 40px;
   background: ${Constants.system.white};
   color: ${Constants.system.black};
   border-radius: 4px;
@@ -33,8 +33,16 @@ const STYLES_LIST = css`
   display: inline-flex;
   flex-wrap: wrap;
   margin: 0;
-  padding: 0;
+  padding: 10px 10px 2px;
   width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
+
+  li {
+    &:last-child {
+      list-style-type: none;
+    }
+  }
 `;
 
 const STYLES_TAG = css`
@@ -44,10 +52,10 @@ const STYLES_TAG = css`
   color: ${Constants.system.black};
   display: flex;
   align-items: center;
-  font-family: ${Constants.font.text};
+  font-family: ${Constants.font.medium};
   padding: 10px;
   box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
-  margin: 8px 8px 0 0;
+  margin: 0 8px 8px 0;
 
   span {
     line-height: 0;
@@ -64,10 +72,9 @@ const STYLES_TAG = css`
 const STYLES_INPUT = css`
   ${INPUT_STYLES}
 
-  padding: 0 16px;
+  padding: 8px 0;
   text-overflow: ellipsis;
   white-space: nowrap;
-  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
 
   :focus {
     outline: 0;
@@ -98,6 +105,8 @@ const STYLES_REMOVE_BUTTON = css`
 `;
 
 export const Tag = (props) => {
+  let inputEl = React.useRef();
+
   const removeTag = (i) => {
     const newTags = [...props.value];
     newTags.splice(i, 1);
@@ -126,15 +135,17 @@ export const Tag = (props) => {
     }
   };
 
+  const handleResize = (e) => {
+    const value = e.target.value;
+
+    if (inputEl.current) {
+      inputEl.current.style.width = `${value.length + 1}ch`;
+    }
+  };
+
   return (
     <div css={STYLES_INPUT_CONTAINER} style={{ ...props.style }}>
       <ul css={STYLES_LIST}>
-        <input
-          type="text"
-          css={STYLES_INPUT}
-          onKeyDown={handleInputKeyDown}
-          placeholder={props.placeholder}
-        />
         {props.value &&
           props.value.map((tag, i) => (
             <li key={tag} css={STYLES_TAG}>
@@ -149,6 +160,15 @@ export const Tag = (props) => {
               </span>
             </li>
           ))}
+        <li>
+          <input
+            ref={inputEl}
+            type="text"
+            css={STYLES_INPUT}
+            onKeyDown={handleInputKeyDown}
+            onChange={handleResize}
+          />
+        </li>
       </ul>
     </div>
   );

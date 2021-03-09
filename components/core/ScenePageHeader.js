@@ -99,7 +99,7 @@ const STYLES_TAG = css`
   color: ${Constants.system.black};
   display: flex;
   align-items: center;
-  font-family: ${Constants.font.text};
+  font-family: ${Constants.font.medium};
   padding: 10px;
   box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
   margin: 8px 8px 0 0;

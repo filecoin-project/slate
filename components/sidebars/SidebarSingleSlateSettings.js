@@ -213,7 +213,6 @@ export default class SidebarSingleSlateSettings extends React.Component {
             name="tags"
             value={this.state.tags}
             style={{ marginTop: 12 }}
-            placeholder="Type the name and press Enter to add tag"
             onChange={this._handleChange}
           />
         </div>

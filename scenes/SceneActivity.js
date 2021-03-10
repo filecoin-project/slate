@@ -132,10 +132,10 @@ class ActivitySquare extends React.Component {
           style={{ border: "none" }}
           imageStyle={{ border: "none" }}
         />
-        {isImage && (this.state.showText || this.props.mobile) ? (
+        {isImage && (this.state.showText || this.props.isMobile) ? (
           <div css={STYLES_GRADIENT} />
         ) : null}
-        {this.state.showText || !isImage || this.props.mobile ? (
+        {this.state.showText || !isImage || this.props.isMobile ? (
           <div css={STYLES_TEXT_AREA} style={{ width: this.props.size }}>
             {isImage ? null : (
               <div
@@ -399,7 +399,7 @@ export default class SceneActivity extends React.Component {
       <ScenePage>
         <ScenePageHeader
           title={
-            this.props.mobile ? (
+            this.props.isMobile ? (
               <TabGroup
                 tabs={[
                   { title: "Files", value: "NAV_DATA" },
@@ -441,7 +441,7 @@ export default class SceneActivity extends React.Component {
           viewer={this.props.viewer}
           objects={items}
           onAction={this.props.onAction}
-          mobile={this.props.mobile}
+          isMobile={this.props.isMobile}
         />
         {activity.length ? (
           <div>
@@ -461,7 +461,7 @@ export default class SceneActivity extends React.Component {
                     >
                       <ActivityRectangle
                         width={
-                          this.props.mobile ? this.state.imageSize : this.state.imageSize * 2 + 20
+                          this.props.isMobile ? this.state.imageSize : this.state.imageSize * 2 + 20
                         }
                         height={this.state.imageSize}
                         item={item.data.context}
@@ -473,7 +473,7 @@ export default class SceneActivity extends React.Component {
                     <span
                       key={item.id}
                       onClick={
-                        this.props.mobile
+                        this.props.isMobile
                           ? () => {
                               this.props.onAction({
                                 type: "NAVIGATE",
@@ -494,9 +494,9 @@ export default class SceneActivity extends React.Component {
                       <ActivitySquare
                         size={this.state.imageSize}
                         item={item.data.context}
-                        mobile={this.props.mobile}
+                        isMobile={this.props.isMobile}
                         onClick={
-                          this.props.mobile
+                          this.props.isMobile
                             ? () => {}
                             : () => {
                                 this.props.onAction({

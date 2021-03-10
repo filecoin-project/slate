@@ -244,7 +244,7 @@ export default class SceneFilesFolder extends React.Component {
       <ScenePage>
         <ScenePageHeader
           title={
-            this.props.mobile ? (
+            this.props.isMobile ? (
               <TabGroup
                 tabs={[
                   { title: "Files", value: "NAV_DATA" },
@@ -270,7 +270,7 @@ export default class SceneFilesFolder extends React.Component {
             )
           }
           actions={
-            this.props.mobile ? null : (
+            this.props.isMobile ? null : (
               <SecondaryTabGroup
                 tabs={[
                   <SVG.GridView height="24px" style={{ display: "block" }} />,
@@ -290,7 +290,7 @@ export default class SceneFilesFolder extends React.Component {
           viewer={this.props.viewer}
           objects={files}
           onAction={this.props.onAction}
-          mobile={this.props.mobile}
+          isMobile={this.props.isMobile}
           isOwner={true}
         />
         <DataMeter

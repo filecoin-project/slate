@@ -12,6 +12,10 @@ import getPendingDataForUserId from "~/node_common/data/methods/get-pending-data
 import deletePendingDataByUserId from "~/node_common/data/methods/delete-pending-data-by-user-id";
 import createPendingData from "~/node_common/data/methods/create-pending-data";
 
+//NOTE(martina):
+// File postgres queries
+import createFile from "~/node_common/data/methods/create-file";
+
 // NOTE(jim):
 // Slate postgres queries
 import createSlate from "~/node_common/data/methods/create-slate";
@@ -42,16 +46,6 @@ import getSubscriptionsToUserId from "~/node_common/data/methods/get-subscriptio
 import getSubscriptionsToSlateId from "~/node_common/data/methods/get-subscriptions-to-slate-id";
 import getSubscribersByUserId from "~/node_common/data/methods/get-subscribers-by-user-id";
 import deleteSubscriptionById from "~/node_common/data/methods/delete-subscription-by-id";
-
-// NOTE(jim):
-// Trust postgres queries
-import createTrustedRelationship from "~/node_common/data/methods/create-trusted-relationship";
-import updateTrustedRelationshipById from "~/node_common/data/methods/update-trusted-relationship-by-id";
-import getTrustedRelationshipsByUserId from "~/node_common/data/methods/get-trusted-relationships-by-user-id";
-import getPendingTrustedRelationshipsByUserId from "~/node_common/data/methods/get-pending-trusted-relationships-by-user-id";
-import getTrustedRelationshipByUserIds from "~/node_common/data/methods/get-trusted-relationship-by-ids";
-import getTrustedRelationshipById from "~/node_common/data/methods/get-trusted-relationship-by-id";
-import deleteTrustedRelationshipById from "~/node_common/data/methods/delete-trusted-relationship-by-id";
 
 // NOTE(jim):
 // Activity postgres queries
@@ -95,6 +89,8 @@ export {
   getPendingDataForUserId,
   deletePendingDataByUserId,
   createPendingData,
+  //NOTE(martina): File operations
+  createFile,
   // NOTE(jim): Slate operations
   createSlate,
   getSlateByName,
@@ -120,14 +116,6 @@ export {
   getSubscriptionsToUserId,
   getSubscribersByUserId,
   deleteSubscriptionById,
-  // NOTE(jim): Trust operations
-  createTrustedRelationship,
-  updateTrustedRelationshipById,
-  getPendingTrustedRelationshipsByUserId,
-  getTrustedRelationshipsByUserId,
-  getTrustedRelationshipByUserIds,
-  getTrustedRelationshipById,
-  deleteTrustedRelationshipById,
   // NOTE(jim): Activity operations
   createActivity,
   getActivityForUserId,

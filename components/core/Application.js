@@ -103,7 +103,7 @@ export default class ApplicationPage extends React.Component {
     data: null,
     sidebar: null,
     online: null,
-    mobile: this.props.mobile,
+    isMobile: this.props.isMobile,
     loaded: false,
     activeUsers: null,
   };
@@ -267,12 +267,12 @@ export default class ApplicationPage extends React.Component {
 
     // (1) is Window.isMobileBrowser checks, that one holds.
     // (2) then if the viewport is smaller than the width
-    let mobile = width > Constants.sizes.mobile ? this.props.mobile : true;
+    let isMobile = width > Constants.sizes.mobile ? this.props.isMobile : true;
 
     // only change if necessary.
-    if (this.state.mobile !== mobile) {
-      console.log("changing to mobile?", mobile);
-      this.setState({ mobile });
+    if (this.state.isMobile !== isMobile) {
+      console.log("changing to mobile?", isMobile);
+      this.setState({ isMobile });
     }
   };
 
@@ -659,7 +659,7 @@ export default class ApplicationPage extends React.Component {
         navigation={NavigationData.navigation}
         activeIds={current.activeIds}
         onAction={this._handleAction}
-        mobile={this.state.mobile}
+        isMobile={this.state.isMobile}
       />
     );
 
@@ -676,7 +676,7 @@ export default class ApplicationPage extends React.Component {
       onUpdateData: this._handleUpdateData,
       onUpdateViewer: this._handleUpdateViewer,
       sceneId: current.target.id,
-      mobile: this.state.mobile,
+      isMobile: this.state.isMobile,
       resources: this.props.resources,
       activeUsers: this.state.activeUsers,
     });
@@ -732,7 +732,7 @@ export default class ApplicationPage extends React.Component {
             onDismissSidebar={this._handleDismissSidebar}
             fileLoading={this.state.fileLoading}
             filecoin={current.target.filecoin}
-            mobile={this.state.mobile}
+            isMobile={this.state.isMobile}
             viewer={this.state.viewer}
             onUpdateViewer={this._handleUpdateViewer}
           >
@@ -742,7 +742,7 @@ export default class ApplicationPage extends React.Component {
           <SearchModal
             viewer={this.state.viewer}
             onAction={this._handleAction}
-            mobile={this.props.mobile}
+            isMobile={this.props.isMobile}
             resourceURI={this.props.resources.search}
           />
           {!this.state.loaded ? (

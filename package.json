@@ -27,7 +27,8 @@
     "scripts": "NODE_TLS_REJECT_UNAUTHORIZED=0 node --max-old-space-size=8192 ./scripts",
     "www-setup-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts setup-database",
     "www-seed-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts seed-database",
-    "www-adjust-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts adjust"
+    "www-adjust-database": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts adjust",
+    "www-migrate-files": "NODE_TLS_REJECT_UNAUTHORIZED=0 node ./scripts files-migration"
   },
   "repository": "filecoin-project/slate",
   "dependencies": {

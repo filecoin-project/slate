@@ -522,11 +522,11 @@ class SlatePage extends React.Component {
               objects={objects}
               current={this.props.current}
               onAction={this.props.onAction}
-              mobile={this.props.mobile}
+              isMobile={this.props.isMobile}
               isOwner={isOwner}
               external={this.props.external}
             />
-            {this.props.mobile ? (
+            {this.props.isMobile ? (
               <SlateLayoutMobile
                 isOwner={isOwner}
                 items={objects}

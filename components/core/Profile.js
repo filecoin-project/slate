@@ -557,7 +557,7 @@ export default class Profile extends React.Component {
           objects={publicFiles}
           isOwner={this.props.isOwner}
           onAction={this.props.onAction}
-          mobile={this.props.mobile}
+          isMobile={this.props.isMobile}
           external={this.props.external}
         />
         <div css={STYLES_PROFILE_BACKGROUND}>
@@ -649,7 +649,7 @@ export default class Profile extends React.Component {
           />
           {tab === 0 ? (
             <div>
-              {this.props.mobile ? null : (
+              {this.props.isMobile ? null : (
                 <div style={{ display: `flex` }}>
                   <SecondaryTabGroup
                     tabs={[

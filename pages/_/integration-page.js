@@ -117,43 +117,7 @@ export default class IntegrationPage extends React.Component {
   render() {
     return (
       <div css={STYLES_ROW}>
-        <div css={STYLES_COLUMN}>
-          {/* {this.state.viewer.pendingTrusted.map((each) => {
-            return (
-              <div css={STYLES_ITEM} key={each.id}>
-                {JSON.stringify(each, null, 1)}{" "}
-                <div>
-                  {!each.data.verified ? (
-                    <button onClick={() => this._handleAccept(each)}>Accept</button>
-                  ) : null}
-
-                  {each.data.verified ? (
-                    <button onClick={() => this._handleDelete(each)}>Delete</button>
-                  ) : null}
-                </div>
-              </div>
-            );
-          })} */}
-
-          {/* {this.state.viewer.trusted.map((each) => {
-            return (
-              <div css={STYLES_ITEM} key={each.id}>
-                {JSON.stringify(each, null, 1)}{" "}
-                <div>
-                  {!each.data.verified ? (
-                    <button onClick={() => this._handleTrust(each)}>
-                      Cancel Pending Request Or Delete Friend
-                    </button>
-                  ) : null}
-
-                  {each.data.verified ? (
-                    <button onClick={() => this._handleDelete(each)}>Delete</button>
-                  ) : null}
-                </div>
-              </div>
-            );
-          })} */}
-        </div>
+        <div css={STYLES_COLUMN}></div>
         <div css={STYLES_COLUMN}>
           <button onClick={this._handleUpdate}>Update {this.state.viewer.username}</button>
           <br />

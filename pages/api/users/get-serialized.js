@@ -49,33 +49,6 @@ export default async (req, res) => {
   }
   user.library = library;
 
-  // const subscriptions = await Data.getSubscriptionsByUserId({ userId: user.id });
-  // const subscribers = await Data.getSubscribersByUserId({ userId: user.id });
-
-  // let serializedUsersMap = { [user.id]: Serializers.user(user) };
-  // let serializedSlatesMap = {};
-
-  // // NOTE(jim): The most expensive call first.
-  // const r1 = await Serializers.doSubscriptions({
-  //   users: [],
-  //   slates: [],
-  //   subscriptions,
-  //   serializedUsersMap,
-  //   serializedSlatesMap,
-  // });
-
-  // user.subscriptions = r1.serializedSubscriptions;
-
-  // const r2 = await Serializers.doSubscribers({
-  //   users: [],
-  //   slates: [],
-  //   subscribers,
-  //   serializedUsersMap: r1.serializedUsersMap,
-  //   serializedSlatesMap: r1.serializedSlatesMap,
-  // });
-
-  // user.subscribers = r2.serializedSubscribers;
-
   return res.status(200).send({
     decorator: "SERIALIZED_USER",
     data: user,

@@ -249,56 +249,6 @@ export const error = {
   GET_SUBSCRIPTIONS_TO_USER_ID:
     "We weren't able to retrieve that information. Please try again later",
 
-  //Trusted Create
-  CREATE_TRUSTED_RELATIONSHIP:
-    "We weren't able to add this user as trusted. Please try again later",
-  SERVER_TRUST: "Please make sure you are logged in",
-  SERVER_TRUSTED_RELATIONSHIP_USER_NOT_FOUND:
-    "We are having trouble retrieving your information right now",
-  SERVER_TRUSTED_RELATIONSHIP_MUST_PROVIDE_SOMEONE_TO_TRUST: "No user was specified",
-  SERVER_TRUSTED_RELATIONSHIP_CAN_NOT_TRUST_YOURSELF: "You cannot add yourself as trusted",
-  SERVER_TRUSTED_RELATIONSHIP_TARGET_USER_NOT_FOUND:
-    "We could not locate that user. Please try again later",
-  SERVER_TRUSTED_RELATIONSHIP_CHECK_ERROR:
-    "We're having trouble adding this person as your trusted right now",
-  SERVER_TRUSTED_RELATIONSHIP_INVERTED_CHECK_ERROR:
-    "You have already received a trust request from this person. Please accept it instead",
-  SERVER_DELETE_TRUSTED_RELATIONSHIP_NOT_FOUND: "There is no trust relationshp to delete",
-  SERVER_DELETE_TRUSTED_RELATIONSHIP_ERROR:
-    "We're having trouble deleting this trust relationship right now",
-  SERVER_TRUSTED_RELATIONSHIP_NOT_FOUND:
-    "We're having trouble creating this trust relationship right now",
-  SERVER_TRUSTED_RELATIONSHIP_ERROR:
-    "We're having trouble creating this trust relationship right now",
-
-  //Trusted Delete
-  DELETE_TRUSTED_RELATIONSHIP_BY_ID:
-    "We weren't able to remove this user from your trusted. Please try again later",
-  SERVER_TRUST_DELETE: "Please login to manage your trusted",
-  SERVER_TRUST_DELETE_USER_NOT_FOUND: "We weren't able to locate this user. Please try again later",
-  SERVER_TRUST_DELETE_MUST_PROVIDE_ID: "Please check your input",
-
-  //Trusted Get
-  GET_TRUSTED_RELATIONSHIP_BY_ID:
-    "We're having trouble retrieving that information right now. Please try again later",
-  GET_TRUSTED_RELATIONSHIP_BY_IDS:
-    "We're having trouble retrieving that information right now. Please try again later",
-  GET_TRUSTED_RELATIONSHIPS_BY_USER_ID:
-    "We're having trouble retrieving that information right now. Please try again later",
-
-  //Trusted Update
-  UPDATE_TRUSTED_RELATIONSHIP_BY_ID:
-    "We ran into an issue while updating that information. Please try again later",
-  SERVER_TRUST_UPDATE: "Please login to mange your trusted",
-  SERVER_TRUST_UPDATE_USER_NOT_FOUND:
-    "We weren't able to locate your information. Please try again later",
-  SERVER_TRUST_UPDATE_MUST_PROVIDE_SOMEONE_TO_TRUST:
-    "Please check your input. No user was provided",
-  SERVER_TRUST_UPDATE_CAN_NOT_TRUST_YOURSELF: "You cannot add yourself as a trusted peer",
-  SERVER_TRUST_UPDATE_TARGET_USER_NOT_FOUND:
-    "We weren't able to locate that user. Please try again later",
-  SERVER_TRUST_UPDATE_CHECK_ERROR: "This person is already among your trusted peers",
-
   //API Key Create
   CREATE_API_KEY_FOR_USER_ID:
     "We're having trouble creating your API keys right now. Please try again",

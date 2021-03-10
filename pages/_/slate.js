@@ -307,11 +307,11 @@ export default class SlatePage extends React.Component {
               carouselType="SLATE"
               viewer={this.props.viewer}
               objects={objects}
-              mobile={this.props.mobile}
+              isMobile={this.props.isMobile}
               isOwner={false}
               external
             />
-            {this.props.mobile ? (
+            {this.props.isMobile ? (
               <SlateLayoutMobile
                 isOwner={false}
                 items={objects}

@@ -113,13 +113,13 @@ export default class ApplicationLayout extends React.Component {
 
   componentDidMount = () => {
     this.prevScrollPos = window.pageYOffset;
-    if (this.props.mobile) {
+    if (this.props.isMobile) {
       window.addEventListener("scroll", this._handleScroll);
     }
   };
 
   componentWillUnmount = () => {
-    if (this.props.mobile) {
+    if (this.props.isMobile) {
       window.removeEventListener("scroll", this._handleScroll);
     }
   };
@@ -166,7 +166,10 @@ export default class ApplicationLayout extends React.Component {
           {/* <GlobalTooltip elementRef={this._body} allowedTypes={["body"]} /> */}
           <GlobalTooltip />
 
-          <div css={STYLES_HEADER} style={{ top: this.props.mobile ? this.state.headerTop : null }}>
+          <div
+            css={STYLES_HEADER}
+            style={{ top: this.props.isMobile ? this.state.headerTop : null }}
+          >
             {this.props.header}
           </div>
 
@@ -175,11 +178,11 @@ export default class ApplicationLayout extends React.Component {
             fileLoading={this.props.fileLoading}
             onAction={this.props.onAction}
             filecoin={this.props.filecoin}
-            id={this.props.mobile ? "slate-mobile-alert" : null}
+            id={this.props.isMobile ? "slate-mobile-alert" : null}
             onUpdateViewer={this.props.onUpdateViewer}
             viewer={this.props.viewer}
             style={
-              this.props.mobile
+              this.props.isMobile
                 ? { top: this.state.headerTop + 56 }
                 : {
                     paddingRight: this.props.sidebar

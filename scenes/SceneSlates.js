@@ -41,7 +41,7 @@ export default class SceneSlates extends React.Component {
       <ScenePage>
         <ScenePageHeader
           title={
-            this.props.mobile ? (
+            this.props.isMobile ? (
               <TabGroup
                 tabs={[
                   { title: "Files", value: "NAV_DATA" },

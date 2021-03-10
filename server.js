@@ -152,7 +152,7 @@ app.prepare().then(async () => {
   });
 
   server.get("/_", async (req, res) => {
-    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let isMobile = Window.isMobileBrowser(req.headers["user-agent"]);
 
     const isBucketsAvailable = await Utilities.checkTextile();
 
@@ -173,7 +173,7 @@ app.prepare().then(async () => {
     return app.render(req, res, "/_", {
       viewer,
       analytics,
-      mobile,
+      isMobile,
       resources: EXTERNAL_RESOURCES,
     });
   });
@@ -241,7 +241,7 @@ app.prepare().then(async () => {
   });
 
   server.get("/[$]/:id", async (req, res) => {
-    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let isMobile = Window.isMobileBrowser(req.headers["user-agent"]);
 
     const slate = await Data.getSlateById({
       id: req.params.id,
@@ -282,18 +282,18 @@ app.prepare().then(async () => {
       viewer,
       creator: Serializers.user(creator),
       slate,
-      mobile,
+      isMobile,
       resources: EXTERNAL_RESOURCES,
     });
   });
 
   server.get("/:username", async (req, res) => {
-    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let isMobile = Window.isMobileBrowser(req.headers["user-agent"]);
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
       return handler(req, res, req.url, {
-        mobile,
+        isMobile,
         resources: EXTERNAL_RESOURCES,
       });
     }
@@ -355,14 +355,14 @@ app.prepare().then(async () => {
     return app.render(req, res, "/_/profile", {
       viewer,
       creator,
-      mobile,
+      isMobile,
       resources: EXTERNAL_RESOURCES,
       exploreSlates,
     });
   });
 
   server.get("/:username/cid::cid", async (req, res) => {
-    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let isMobile = Window.isMobileBrowser(req.headers["user-agent"]);
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -427,19 +427,19 @@ app.prepare().then(async () => {
     return app.render(req, res, "/_/profile", {
       viewer,
       creator: Serializers.user(creator),
-      mobile,
+      isMobile,
       resources: EXTERNAL_RESOURCES,
       cid: req.params.cid,
     });
   });
 
   server.get("/:username/:slatename", async (req, res) => {
-    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let isMobile = Window.isMobileBrowser(req.headers["user-agent"]);
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
       return handler(req, res, req.url, {
-        mobile,
+        isMobile,
         resources: EXTERNAL_RESOURCES,
       });
     }
@@ -498,13 +498,13 @@ app.prepare().then(async () => {
       viewer,
       creator: Serializers.user(creator),
       slate,
-      mobile,
+      isMobile,
       resources: EXTERNAL_RESOURCES,
     });
   });
 
   server.get("/:username/:slatename/cid::cid", async (req, res) => {
-    let mobile = Window.isMobileBrowser(req.headers["user-agent"]);
+    let isMobile = Window.isMobileBrowser(req.headers["user-agent"]);
 
     // TODO(jim): Temporary workaround
     if (!Validations.userRoute(req.params.username)) {
@@ -567,7 +567,7 @@ app.prepare().then(async () => {
       viewer,
       creator: Serializers.user(creator),
       slate,
-      mobile,
+      isMobile,
       resources: EXTERNAL_RESOURCES,
       cid: req.params.cid,
     });

@@ -119,35 +119,6 @@ export const hydratePartialSubscriptions = async (updated, userId) => {
     mostRecent = r2;
   }
 
-  // if (updated.trusted) {
-  //   const trusted = await Data.getTrustedRelationshipsByUserId({ userId });
-  //   let r3 = await Serializers.doTrusted({
-  //     users: [],
-  //     trusted,
-  //     serializedUsersMap: mostRecent
-  //       ? mostRecent.serializedUsersMap
-  //       : { [user.id]: Serializers.user(user) },
-  //     serializedSlatesMap: mostRecent ? mostRecent.serializedSlatesMap : {},
-  //   });
-  //   data.trusted = r3.serializedTrusted;
-  //   mostRecent = r3;
-  // }
-
-  // if (updated.pendingTrusted) {
-  //   const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
-  //     userId,
-  //   });
-  //   let r4 = await Serializers.doPendingTrusted({
-  //     users: [userId],
-  //     pendingTrusted,
-  //     serializedUsersMap: mostRecent
-  //       ? mostRecent.serializedUsersMap
-  //       : { [user.id]: Serializers.user(user) },
-  //     serializedSlatesMap: mostRecent ? mostRecent.serializedSlatesMap : {},
-  //   });
-  //   data.pendingTrusted = r4.serializedPendingTrusted;
-  // }
-
   websocketSend("UPDATE", data);
 };
 
@@ -222,7 +193,7 @@ export const getById = async ({ id }) => {
   }
 
   // TODO(jim): You can serialize this last because you will have all the information
-  // from subscriptions, trusted, and pendingTrusted most likely.
+  // from subscriptions most likely.
   const slates = await Data.getSlatesByUserId({ userId: id });
   const keys = await Data.getAPIKeysByUserId({ userId: id });
   const subscriptions = await Data.getSubscriptionsByUserId({ userId: id });
@@ -247,26 +218,6 @@ export const getById = async ({ id }) => {
     serializedUsersMap: r1.serializedUsersMap,
     serializedSlatesMap: r1.serializedSlatesMap,
   });
-
-  // // NOTE(jim): If any trusted users are subscription users, this ends up being cheaper.
-  // const trusted = await Data.getTrustedRelationshipsByUserId({ userId: id });
-  // const r3 = await Serializers.doTrusted({
-  //   users: [],
-  //   trusted,
-  //   serializedUsersMap: r2.serializedUsersMap,
-  //   serializedSlatesMap: r2.serializedSlatesMap,
-  // });
-
-  // // NOTE(jim): This should be the cheapest call.
-  // const pendingTrusted = await Data.getPendingTrustedRelationshipsByUserId({
-  //   userId: id,
-  // });
-  // const r4 = await Serializers.doPendingTrusted({
-  //   users: [id],
-  //   pendingTrusted,
-  //   serializedUsersMap: r3.serializedUsersMap,
-  //   serializedSlatesMap: r3.serializedSlatesMap,
-  // });
 
   let bytes = 0;
   let imageBytes = 0;
@@ -324,8 +275,6 @@ export const getById = async ({ id }) => {
     slates,
     subscriptions: r1.serializedSubscriptions,
     subscribers: r2.serializedSubscribers,
-    // trusted: r3.serializedTrusted,
-    // pendingTrusted: r4.serializedPendingTrusted,
   };
 };
 

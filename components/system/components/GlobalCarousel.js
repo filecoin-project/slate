@@ -277,7 +277,7 @@ export class GlobalCarousel extends React.Component {
       return null;
     }
     let data = this.props.objects[this.state.index];
-    let { mobile, isOwner } = this.props;
+    let { isMobile, isOwner } = this.props;
 
     let isRepost;
     if (this.props.carouselType === "SLATE") {
@@ -286,15 +286,15 @@ export class GlobalCarousel extends React.Component {
       data.url = Strings.getCIDGatewayURL(data.cid);
     }
 
-    let slide = <SlateMediaObject data={data} isMobile={mobile} />;
+    let slide = <SlateMediaObject data={data} isMobile={isMobile} />;
 
     return (
       <div css={STYLES_ROOT}>
         <Alert
           noWarning
-          id={mobile ? "slate-mobile-alert" : null}
+          id={isMobile ? "slate-mobile-alert" : null}
           style={
-            mobile
+            isMobile
               ? null
               : {
                   bottom: 0,

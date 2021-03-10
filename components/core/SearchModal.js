@@ -519,16 +519,6 @@ export class SearchModal extends React.Component {
         slateIds.push(sub.target_slate_id);
       }
     }
-    // for (let sub of this.props.viewer.trusted) {
-    //   if (sub.target_user_id) {
-    //     networkIds.push(sub.target_user_id);
-    //   }
-    // }
-    // for (let sub of this.props.viewer.pendingTrusted) {
-    //   if (sub.owner_user_id) {
-    //     networkIds.push(sub.owner_user_id);
-    //   }
-    // }
     this.networkIds = networkIds;
     this.slateIds = slateIds;
   };
@@ -1193,7 +1183,7 @@ export class SearchModal extends React.Component {
                             paddingRight: selectedIndex === i ? "88px" : "4px",
                           }}
                           onClick={() => {
-                            selectedIndex === i || this.props.mobile
+                            selectedIndex === i || this.props.isMobile
                               ? this._handleSelect(each)
                               : this.setState({ selectedIndex: i });
                           }}

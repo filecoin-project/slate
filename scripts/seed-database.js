@@ -23,13 +23,9 @@ const createDealsTable = db.schema.createTable("deals", function (table) {
 
 const createUsersTable = db.schema.createTable("users", function (table) {
   table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-
   table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
-
   table.timestamp("updated_at").notNullable().defaultTo(db.raw("now()"));
-
   table.string("username").unique().notNullable();
-
   table.string("password").nullable();
   table.string("salt").nullable();
   table.jsonb("data").nullable();
@@ -37,15 +33,11 @@ const createUsersTable = db.schema.createTable("users", function (table) {
 
 const createSlatesTable = db.schema.createTable("slates", function (table) {
   table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-
+  table.foreign("ownerId").references("users.id").notNullable();
   table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
-
   table.timestamp("updated_at").notNullable().defaultTo(db.raw("now()"));
-
   table.timestamp("published_at").nullable();
-
   table.string("slatename").nullable();
-
   table.jsonb("data").nullable();
 });
 
@@ -57,29 +49,50 @@ const createKeysTable = db.schema.createTable("keys", function (table) {
   table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
 });
 
-const createSubscriptionTable = db.schema.createTable("subscriptions", function (table) {
+const createFilesTable = await db.schema.createTable("files", function (table) {
   table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-  table.string("owner_user_id").nullable();
-  table.string("target_slate_id").nullable();
-  table.string("target_user_id").nullable();
+  table.foreign("ownerId").references("users.id").notNullable();
+  table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
+  table.string("cid").notNullable();
+  table.boolean("public").nullable().defaultTo(false);
   table.jsonb("data").nullable();
-  table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
 });
 
-const createTrustedTable = db.schema.createTable("trusted", function (table) {
+const createSlateFilesTable = await db.schema.createTable("slate_files", function (table) {
   table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-  table.string("owner_user_id").nullable();
-  table.string("target_user_id").nullable();
-  table.jsonb("data").nullable();
-  table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
+  table.foreign("fileId").references("files.id").notNullable();
+  table.foreign("slateId").references("slates.id").notNullable();
+  table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
 });
 
-const createActivityTable = db.schema.createTable("activity", function (table) {
+const createSlateSubscriptionTable = await db.schema.createTable(
+  "slate_subscriptions",
+  function (table) {
+    table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
+    table.foreign("ownerId").references("users.id").notNullable();
+    table.foreign("slateId").references("slates.id").notNullable();
+    table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
+  }
+);
+
+const createUserSubscriptionTable = await db.schema.createTable(
+  "user_subscriptions",
+  function (table) {
+    table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
+    table.foreign("ownerId").references("users.id").notNullable();
+    table.foreign("userId").references("users.id").notNullable();
+    table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
+  }
+);
+
+const createActivityTable = await db.schema.createTable("activity", function (table) {
   table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-  table.string("owner_slate_id").nullable();
-  table.string("owner_user_id").nullable();
-  table.jsonb("data").nullable();
-  table.timestamp("created_at").notNullable().defaultTo(db.raw("now()"));
+  table.foreign("ownerId").references("users.id").notNullable();
+  table.foreign("userId").references("users.id");
+  table.foreign("slateId").references("slates.id");
+  table.foreign("fileId").references("files.id");
+  table.string("type");
+  table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
 });
 
 const createPendingTable = db.schema.createTable("pending", function (table) {
@@ -118,7 +131,6 @@ Promise.all([
   createKeysTable,
   createSubscriptionTable,
   createActivityTable,
-  createTrustedTable,
   createPendingTable,
   createStatsTable,
   createOrphansTable,

@@ -5,9 +5,10 @@ import * as Credentials from "~/common/credentials";
 import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
 import * as Events from "~/common/custom-events";
+import * as UserBehaviors from "~/common/user-behaviors";
 
-import { encode } from "blurhash";
 import filenamify from "filenamify";
+import { encode } from "blurhash";
 
 const STAGING_DEAL_BUCKET = "stage-deal";
 
@@ -193,7 +194,7 @@ export const upload = async ({
     if (fileMetadata) {
       // link types
       if (fileMetadata.type === "link") {
-        const { description, publisher, url, title } = fileMetadata.data;
+        const { description, publisher, url, title, image } = fileMetadata.data;
         // setup primary slate props
         res.data.data.title = title;
         res.data.data.body = description;
@@ -202,6 +203,17 @@ export const upload = async ({
 
         // attach the link metadata
         res.data.data.link = fileMetadata.data;
+
+        // attach a thumbnail image (if it exists)
+        if (image?.url) {
+          try {
+            const coverImage = await UserBehaviors.uploadImageFromUrl(image.url, routes, true);
+            coverImage.url = Strings.getCIDGatewayURL(coverImage.cid);
+            res.data.data.coverImage = coverImage;
+          } catch (e) {
+            console.error(e);
+          }
+        }
       }
     }
     await Actions.createPendingFiles({ data: res.data });

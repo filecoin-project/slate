@@ -247,13 +247,13 @@ export const uploadImageFromUrl = async (url, resources, excludeFromLibrary) => 
   // fetch file from url
   const file = await fetch(url).then((response) => response.blob());
 
-  const response = await this.uploadImage({ file, routes: resources, excludeFromLibrary });
+  const response = await uploadImage(file, resources, excludeFromLibrary);
 
   if (Events.hasError(response)) {
     return false;
   }
 
-  return response.json;
+  return response.data;
 };
 
 export const updateCoverImage = async (origData, newData) => {

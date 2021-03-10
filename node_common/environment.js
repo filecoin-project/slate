@@ -42,3 +42,7 @@ export const RESOURCE_URI_UPLOAD = process.env.RESOURCE_URI_UPLOAD;
 export const RESOURCE_URI_STORAGE_UPLOAD = process.env.RESOURCE_URI_STORAGE_UPLOAD;
 export const RESOURCE_URI_PUBSUB = process.env.RESOURCE_URI_PUBSUB;
 export const RESOURCE_URI_SEARCH = process.env.RESOURCE_URI_SEARCH;
+
+// NOTE(cw): microlink api config
+export const MQL_API_KEY = process.env.MQL_API_KEY;
+export const MQL_CORS_ALLOW = process.env.MQL_CORS_ALLOW

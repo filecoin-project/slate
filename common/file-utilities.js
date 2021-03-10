@@ -237,17 +237,16 @@ export const uploadToSlate = async ({ responses, slate }) => {
 // cleanup to ensure the we create a valid filename
 export const formatTitle = ({ title }) => filenamify(title.trim(), { replacement: "" });
 
-export const formatFileStr = (data) => {
-  // remove date keys to keep links unique for now
-  delete data.date;
-  delete data.screenshot;
+export const formatFileStr = (data) => JSON.stringify(data);
 
-  return JSON.stringify(data);
+export const fileKey = ({ lastModified, name }) => `${lastModified}-${name}`;
+
+export const createLinkObj = ({ url }) => {
+  return { type: "link", url };
 };
 
-export const fileKey = (file) => `${file.lastModified}-${file.name}`;
-
-export const createLinkFile = (data) =>
-  new File([formatFileStr(data)], `${formatTitle(data)}.link`, {
+export const createLinkFile = (data) => {
+  return new File([formatFileStr(createLinkObj(data))], `${formatTitle(data)}.link`, {
     type: "application/json",
   });
+};

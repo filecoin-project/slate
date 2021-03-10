@@ -143,7 +143,6 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
       // own micro service in the future.
       // see: https://microlink.io/ && https://metascraper.js.org/
       const { status, data } = await mql(url, {
-        palette: true,
         video: true,
         audio: true,
       });

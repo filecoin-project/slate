@@ -23,7 +23,7 @@ const proxy = (req, res) => {
   const stream = mql.stream(`https://${MQL_API_KEY ? "pro" : "api"}.microlink.io`, {
     searchParams: toSearchParams(req),
     headers: {
-      "x-api-key": MQL_API_KEY,
+      "x-api-key": MQL_API_KEY || undefined,
       accept: req.headers.accept,
     },
   });

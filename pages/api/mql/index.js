@@ -4,6 +4,7 @@ import mql from "@microlink/mql";
 import { promisify } from "util";
 import stream from "stream";
 import createCors from "cors";
+import e from "cors";
 
 // wrapper can be removed when upgraded to node v15
 const pipeline = promisify(stream.pipeline);
@@ -20,11 +21,11 @@ const { MQL_API_KEY, MQL_CORS_ALLOW } = Environment;
 const allowedDomains = MQL_CORS_ALLOW.split(",").map((n) => n.trim());
 const toSearchParams = (req) => new URL(req.url, "http://localhost").searchParams;
 
-const proxy = (req, res) => {
+const proxy = async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
 
   if (!id) {
-    return res.status(500).send({
+    return res.status(405).send({
       decorator: "SERVER_UNAUTHENTICATED",
       error: true,
     });
@@ -39,12 +40,12 @@ const proxy = (req, res) => {
   });
 
   try {
-    pipeline(stream, res);
+    return await pipeline(stream, res);
   } catch (e) {
-    res.status(500).send({ decorator: "SERVER_MQL_ERROR", error: true, message: e.message });
+    const { message, statusCode = 500 } = e ? e : {};
+    return res.status(statusCode).send({ decorator: "SERVER_MQL_ERROR", error: true, message });
   }
 };
 
 const cors = createCors({ origin: allowedDomains });
-
 export default (req, res) => cors(req, res, () => proxy(req, res));

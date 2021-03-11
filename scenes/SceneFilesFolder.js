@@ -89,13 +89,12 @@ const STYLES_BUTTONS_ROW = css`
 `;
 
 const STYLES_TOOLTIP_TEXT = css`
-  padding: 0 12px 0 12px;
   font-family: ${Constants.font.text};
   font-size: 12px;
 `;
 
 const STYLES_COMMAND_TOOLTIP_ANCHOR = css`
-  border: 1px solid #f2f2f2;
+  border: 1px solid ${Constants.system.bgGray};
   background-color: ${Constants.system.white};
   border-radius: 4px;
   display: flex;
@@ -105,12 +104,11 @@ const STYLES_COMMAND_TOOLTIP_ANCHOR = css`
   justify-content: space-around;
   box-shadow: 0px 8px 24px rgba(178, 178, 178, 0.2);
   width: 275px;
-  height: auto;
   position: absolute;
-  top: -7px;
+  top: 4px;
   right: 50px;
   z-index: ${Constants.zindex.tooltip};
-  padding-bottom: 15px;
+  padding: 12px;
 `;
 
 export default class SceneFilesFolder extends React.Component {
@@ -312,32 +310,25 @@ export default class SceneFilesFolder extends React.Component {
         />
         <div css={STYLES_CONTAINER_WRAPPER}>
           <div css={STYLES_CONTAINER}>
-            {!this.state.keyboardTooltip ? (
-              <div
-                onMouseEnter={() => this.setState({ keyboardTooltip: true })}
-                style={{ position: "relative" }}
+            <div
+              css={STYLES_BUTTONS_ROW}
+              style={{ position: "relative", padding: 10, marginRight: 8 }}
+              onMouseLeave={() => this.setState({ keyboardTooltip: false })}
+            >
+              <span
                 css={STYLES_COMMAND_WRAPPER}
+                onMouseEnter={() => this.setState({ keyboardTooltip: true })}
               >
-                <SVG.Information
-                  height="18px"
-                  style={{ marginRight: "18px", color: Constants.system.black }}
-                  onMouseEnter={() => this.setState({ keyboardTooltip: true })}
+                <SVG.InfoCircle
+                  height="20px"
+                  style={{
+                    color: this.state.keyboardTooltip
+                      ? Constants.system.grayBlack
+                      : Constants.system.darkGray,
+                  }}
                 />
-              </div>
-            ) : (
-              <div css={STYLES_BUTTONS_ROW} style={{ position: "relative" }}>
-                <span
-                  css={STYLES_COMMAND_WRAPPER}
-                  onMouseLeave={() => this.setState({ keyboardTooltip: false })}
-                >
-                  <SVG.Information
-                    height="18px"
-                    style={{
-                      marginRight: "18px",
-                      color: Constants.system.darkGray,
-                    }}
-                  />
-                </span>
+              </span>
+              {this.state.keyboardTooltip ? (
                 <div css={STYLES_COMMAND_TOOLTIP_ANCHOR}>
                   <div>
                     <p
@@ -345,7 +336,6 @@ export default class SceneFilesFolder extends React.Component {
                       style={{
                         fontFamily: Constants.font.semiBold,
                         fontSize: 14,
-                        paddingTop: 12,
                         paddingBottom: 4,
                       }}
                     >
@@ -371,8 +361,8 @@ export default class SceneFilesFolder extends React.Component {
                     </p>
                   </div>
                 </div>
-              </div>
-            )}
+              ) : null}
+            </div>
           </div>
           <div css={STYLES_CONTAINER}>
             <div style={{ position: "relative" }}>

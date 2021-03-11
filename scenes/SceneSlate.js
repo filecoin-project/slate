@@ -403,14 +403,20 @@ class SlatePage extends React.Component {
                 </span>{" "}
                 / {data.name}
                 {isOwner && !isPublic && (
-                  <SVG.SecurityLock height="24px" style={{ marginLeft: 16 }} />
+                  <SVG.SecurityLock
+                    height="24px"
+                    style={{ marginLeft: 16, color: Constants.system.darkGray }}
+                  />
                 )}
               </span>
             ) : (
               <span>
                 {data.name}
                 {isOwner && !isPublic && (
-                  <SVG.SecurityLock height="24px" style={{ marginLeft: 16 }} />
+                  <SVG.SecurityLock
+                    height="24px"
+                    style={{ marginLeft: 16, color: Constants.system.darkGray }}
+                  />
                 )}
               </span>
             )

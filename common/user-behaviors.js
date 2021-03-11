@@ -134,7 +134,7 @@ export const formatDroppedFiles = async ({ dataTransfer }) => {
     // hello url, let's do some magic here
     const url = dataTransfer.getData("text/uri-list");
 
-    Events.dispatchMessage({ message: "Processing link...", status: "INFO" });
+    Events.dispatchMessage({ message: `Importing ${url}`, status: "INFO" });
 
     try {
       // TODO(cw): currently we are processing links via microlink in order

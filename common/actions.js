@@ -1,4 +1,5 @@
 import "isomorphic-fetch";
+import microlink from "@microlink/mql";
 
 import * as Websockets from "~/common/browser-websockets";
 import * as Strings from "~/common/strings";
@@ -29,6 +30,10 @@ const returnJSON = async (route, options) => {
   const json = await response.json();
 
   return json;
+};
+
+export const mql = async (url, opts) => {
+  return await microlink(url, { endpoint: "/api/mql", ...opts });
 };
 
 export const createZipToken = async ({ files, resourceURI }) => {

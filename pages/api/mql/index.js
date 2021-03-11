@@ -1,4 +1,5 @@
 import * as Environment from "~/node_common/environment";
+import * as Utilities from "~/node_common/utilities";
 import mql from "@microlink/mql";
 import { promisify } from "util";
 import stream from "stream";
@@ -20,6 +21,15 @@ const allowedDomains = MQL_CORS_ALLOW.split(",").map((n) => n.trim());
 const toSearchParams = (req) => new URL(req.url, "http://localhost").searchParams;
 
 const proxy = (req, res) => {
+  const id = Utilities.getIdFromCookie(req);
+
+  if (!id) {
+    return res.status(500).send({
+      decorator: "SERVER_UNAUTHENTICATED",
+      error: true,
+    });
+  }
+
   const stream = mql.stream(`https://${MQL_API_KEY ? "pro" : "api"}.microlink.io`, {
     searchParams: toSearchParams(req),
     headers: {
@@ -28,7 +38,11 @@ const proxy = (req, res) => {
     },
   });
 
-  pipeline(stream, res);
+  try {
+    pipeline(stream, res);
+  } catch (e) {
+    res.status(500).send({ decorator: "SERVER_MQL_ERROR", error: true, message: e.message });
+  }
 };
 
 const cors = createCors({ origin: allowedDomains });

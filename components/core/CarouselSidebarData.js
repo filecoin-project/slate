@@ -561,7 +561,7 @@ class CarouselSidebarData extends React.Component {
             />
           </React.Fragment>
         )}
-        {type && !Validations.isPreviewableImage(type) ? null : (
+        {type && Validations.isPreviewableImage(type) ? null : (
           <div>
             <System.P css={STYLES_SECTION_HEADER} style={{ margin: "48px 0px 8px 0px" }}>
               Preview image

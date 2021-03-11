@@ -4,7 +4,6 @@ import mql from "@microlink/mql";
 import { promisify } from "util";
 import stream from "stream";
 import createCors from "cors";
-import e from "cors";
 
 // wrapper can be removed when upgraded to node v15
 const pipeline = promisify(stream.pipeline);

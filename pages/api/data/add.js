@@ -3,7 +3,10 @@ import * as Data from "~/node_common/data";
 import * as LibraryManager from "~/node_common/managers/library";
 import * as ViewerManager from "~/node_common/managers/viewer";
 
+import { v4 as uuid } from "uuid";
+
 export default async (req, res) => {
+  console.log("inside add");
   const id = Utilities.getIdFromCookie(req);
 
   const user = await Data.getUserById({
@@ -52,6 +55,7 @@ export default async (req, res) => {
         for (let file of owner.data.library[0].children) {
           if (file.cid === cid) {
             file.date = new Date();
+            file.id = `data-${uuid()}`; //NOTE(martina): needs a new ID since you're making a new file instance
             newFiles.push(file);
             break;
           }

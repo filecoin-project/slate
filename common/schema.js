@@ -40,11 +40,14 @@ export const fileSchema = {
     type: true,
     blurhash: true,
     coverImage: coverImageSchema,
-    unityGameConfig: true,
-    unityGameLoader: true,
     body: true,
     source: true,
     author: true,
+    unity: {
+      config: true,
+      loader: true,
+    },
+    downloads: true,
   },
 };
 

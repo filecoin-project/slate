@@ -151,6 +151,7 @@ export const upload = async ({ file, context, bucketName, routes, excludeFromLib
   } else {
     res = await _privateUploadMethod(`${generalRoute}${file.name}`, file);
   }
+  console.log(res);
 
   if (!res || res.error || !res.data) {
     if (context) {

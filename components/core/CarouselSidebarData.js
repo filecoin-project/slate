@@ -230,23 +230,18 @@ const STYLES_SPINNER = css`
   height: 24px;
 `;
 
-export const FileTypeDefaultPreview = () => {
-  if (props.type && props.type.startsWith("video/")) {
-    return DEFAULT_VIDEO;
+export const FileTypeDefaultPreview = (props) => {
+  if (props.type) {
+    if (Validations.isVideoType(type)) {
+      return DEFAULT_VIDEO;
+    } else if (Validations.isAudioType(type)) {
+      return DEFAULT_AUDIO;
+    } else if (Validations.isPdfType(type)) {
+      return DEFAULT_DOCUMENT;
+    } else if (Validations.isEpubType(type)) {
+      return DEFAULT_BOOK;
+    }
   }
-
-  if (props.type && props.type.startsWith("audio/")) {
-    return DEFAULT_AUDIO;
-  }
-
-  if (props.type && props.type.startsWith("application/epub")) {
-    return DEFAULT_BOOK;
-  }
-
-  if (props.type && props.type.startsWith("application/pdf")) {
-    return DEFAULT_DOCUMENT;
-  }
-
   return DEFAULT_DATA;
 };
 

@@ -1,11 +1,11 @@
 import configs from "~/knexfile";
 import knex from "knex";
+import { v4 as uuid } from "uuid";
 
 import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 import * as Constants from "~/common/constants";
-import { user } from "../node_common/serializers";
 
 const envConfig = configs["development"];
 
@@ -83,15 +83,12 @@ const printSlatesTable = async () => {
   console.log(Object.keys(coverParams));
 };
 
-// printUsersTable();
-// printSlatesTable();
-
 // MARK: - add/modify tables
 
 const addTables = async () => {
   await db.schema.createTable("files", function (table) {
     table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-    table.foreign("ownerId").references("users.id"); //.notNullable();
+    table.uuid("ownerId").references("id").inTable("users");
     table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
     table.string("cid").notNullable();
     table.boolean("public").nullable().defaultTo(false);
@@ -100,41 +97,47 @@ const addTables = async () => {
 
   await db.schema.createTable("slate_files", function (table) {
     table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-    table.foreign("fileId").references("files.id"); //.notNullable();
-    table.foreign("slateId").references("slates.id"); //.notNullable();
-    table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
-  });
-
-  await db.schema.createTable("slate_subscriptions", function (table) {
-    table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-    table.foreign("ownerId").references("users.id"); //.notNullable();
-    table.foreign("slateId").references("slates.id"); //.notNullable();
-    table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
-  });
-
-  await db.schema.createTable("user_subscriptions", function (table) {
-    table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-    table.foreign("ownerId").references("users.id"); //.notNullable();
-    table.foreign("userId").references("users.id"); //.notNullable();
+    table.uuid("fileId").references("id").inTable("files");
+    table.uuid("slateId").references("id").inTable("slates");
     table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
   });
 
   await db.schema.createTable("new_activity", function (table) {
     table.uuid("id").primary().unique().notNullable().defaultTo(db.raw("uuid_generate_v4()"));
-    table.foreign("ownerId").references("users.id"); //.notNullable();
-    table.foreign("userId").references("users.id");
-    table.foreign("slateId").references("slates.id");
-    table.foreign("fileId").references("files.id");
+    table.uuid("ownerId").references("id").inTable("users");
+    table.uuid("userId").references("id").inTable("users");
+    table.uuid("slateId").references("id").inTable("slates");
+    table.uuid("fileId").references("id").inTable("files");
     table.string("type");
     table.timestamp("date").notNullable().defaultTo(db.raw("now()"));
   });
 
   await db.schema.table("slates", function (table) {
-    table.foreign("ownerId").references("users.id");
+    table.dropColumn("published_at");
+    table.uuid("ownerId").references("id").inTable("users");
   });
+
+  await db.schema.table("subscriptions", function (table) {
+    table.renameColumn("created_at", "date");
+    table.renameColumn("owner_user_id", "ownerId");
+    table.renameColumn("target_slate_id", "slateId");
+    table.renameColumn("target_user_id", "userId");
+  });
+
+  await db.schema.table("subscriptions", function (table) {
+    table.uuid("ownerId").references("id").inTable("users").alter();
+    table.uuid("slateId").references("id").inTable("slates").alter();
+    table.uuid("userId").references("id").inTable("users").alter();
+  });
+
+  console.log("finished adding tables");
 };
 
 // MARK: - populate new tables
+
+//strip out the "data-" in the id so it can be a uuid
+//if there's a file with that id already existing, this is probably a save copy instance. So give this one a new id
+//when matching slate fiels to files, if you can't find it by id, match it by cid and ownerId. should only be one match.
 
 const migrateUsersTable = async (testing = false) => {
   const users = await Data.getEveryUser(false);
@@ -143,7 +146,6 @@ const migrateUsersTable = async (testing = false) => {
     if (user.data.library) {
       if (user.data?.library[0]?.children?.length) {
         let library = user.data.library[0].children;
-        let files = [];
         for (let file of library) {
           let cid;
           if (file.cid) {
@@ -158,8 +160,19 @@ const migrateUsersTable = async (testing = false) => {
             console.log(file);
             return;
           }
+          let id = file.id.replace("data-", "");
+          let duplicates = await db.select("*").from("files").where({ cid: cid, ownerId: user.id });
+          if (duplicates.length) {
+            console.log(`skipped duplicate cid ${cid} in user ${user.id} ${user.username} files`);
+            continue;
+          }
+          let conflicts = await db.select("*").from("files").where("id", id);
+          if (conflicts.length) {
+            console.log("found conflicting id from saved copy");
+            id = uuid();
+          }
           let newFile = {
-            id: file.id,
+            id,
             ownerId: user.id,
             cid,
             public: file.public,
@@ -170,8 +183,13 @@ const migrateUsersTable = async (testing = false) => {
               blurhash: file.blurhash,
               size: file.size,
               type: file.type,
-              unityGameConfig: file.unityGameConfig,
-              unityGameLoader: file.unityGameLoader,
+              unity:
+                file.unityGameConfig || file.unityGameLoader
+                  ? {
+                      config: file.unityGameConfig,
+                      loader: file.unityGameLoader,
+                    }
+                  : null,
             },
           };
           if (file.coverImage) {
@@ -190,21 +208,19 @@ const migrateUsersTable = async (testing = false) => {
             };
             newFile.data.coverImage = newCoverImage;
           }
-          files.append(newFile);
+          await db.insert(newFile).into("files");
         }
-
         if (testing) {
-          console.log(files);
-          if (count >= 10) {
-            return;
-          }
-        } else {
-          await db.insert(files).into("files");
+          //   console.log(files);
+          //   if (count >= 10) {
+          //     return;
+          //   }
         }
       }
     }
     count += 1;
   }
+  console.log("finished migrating users table");
 };
 
 const migrateSlatesTable = async (testing = false) => {
@@ -214,15 +230,48 @@ const migrateSlatesTable = async (testing = false) => {
     let objects = [];
     if (slate.data.objects) {
       for (let file of slate.data.objects) {
+        let fileId = file.id.replace("data-", "");
+        let cid = Strings.urlToCid(file.url);
+        //NOTE(martina): skip duplicates of the same cid in a slate
+        let duplicates = await db
+          .select("id")
+          .from("slate_files")
+          .where({ fileId: fileId, slateId: slate.id });
+        if (duplicates.length) {
+          continue;
+        }
+        let matches = await db
+          .select("id")
+          .from("files")
+          .where({ id: fileId, cid: cid, ownerId: file.ownerId });
+        if (matches.length !== 1) {
+          //NOTE(martina): means that the id was changed b/c there was a saved copy somewhere, so we need to get that new id
+          matches = await db.select("*").from("files").where({ cid: cid, ownerId: file.ownerId });
+          if (matches.length === 1) {
+            //NOTE(martina): repairing the file id in the event it was changed in migrateUsersTable because it was a save copy and needed a unique id or b/c was a duplicate file and consolidated
+            console.log(
+              `repaired id for save copy for cid ${cid} in user ${file.ownerId} files in slate ${slate.id} ${slate.slatename}`
+            );
+            fileId = matches.pop().id;
+          } else {
+            console.log(
+              `something went wrong repairing save copy id. there were ${matches.length} matching files with cid ${cid} and ownerId ${file.ownerId}`
+            );
+            console.log(matches);
+            continue;
+          }
+        }
         if (
-          file.name !== file.title ||
-          !Strings.isEmpty(file.body) ||
-          !Strings.isEmpty(file.source) ||
-          !Strings.isEmpty(file.author)
+          !testing &&
+          slate.data.ownerId === file.ownerId &&
+          (file.name !== file.title ||
+            !Strings.isEmpty(file.body) ||
+            !Strings.isEmpty(file.source) ||
+            !Strings.isEmpty(file.author))
         ) {
           await db
             .from("files")
-            .where("id", file.id)
+            .where("id", fileId)
             .update({
               data: {
                 name: file.title,
@@ -233,58 +282,21 @@ const migrateSlatesTable = async (testing = false) => {
             });
         }
         if (testing) {
-          objects.push({ fileId: file.id, slateId: slate.id });
+          objects.push({ fileId: fileId, slateId: slate.id });
         } else {
-          await db.insert({ fileId: file.id, slateId: slate.id }).into("slate_files");
+          await db.insert({ fileId: fileId, slateId: slate.id }).into("slate_files");
         }
       }
     }
-    if (testing) {
-      if (count >= 10) {
-        return;
-      }
-      console.log(objects);
-      count += 1;
-    }
+    // if (testing) {
+    //   if (count >= 10) {
+    //     return;
+    //   }
+    //   console.log(objects);
+    //   count += 1;
+    // }
   }
-};
-
-const migrateSubscriptionsTable = async (testing = false) => {
-  const query = await db.select("*").from("subscriptions");
-  const subscriptions = JSON.parse(JSON.stringify(query));
-  let slateSubscriptions = [];
-  let userSubscriptions = [];
-  let count = 0;
-  for (let sub of subscriptions) {
-    if (sub.target_user_id) {
-      userSubscriptions.append({
-        id: sub.id,
-        date: sub.created_at,
-        ownerId: sub.owner_user_id,
-        userId: sub.target_user_id,
-      });
-    } else if (sub.target_slate_id) {
-      slateSubscriptions.append({
-        id: sub.id,
-        date: sub.created_at,
-        ownerId: sub.owner_user_id,
-        slateId: sub.target_slate_id,
-      });
-    }
-
-    if (testing) {
-      if (count === 10) {
-        console.log(slateSubscriptions);
-        console.log(userSubscriptions);
-        return;
-      }
-      count += 1;
-    }
-  }
-  if (!testing) {
-    await db.insert(slateSubscriptions).into("slate_subscriptions");
-    await db.insert(userSubscriptions).into("user_subscriptions");
-  }
+  console.log("finished migrating slates table");
 };
 
 /*
@@ -306,7 +318,6 @@ const migrateActivityTable = async (testing = false) => {
   ];
   const query = await db.select("*").from("activity");
   const activity = JSON.parse(JSON.stringify(query));
-  let newActivity = [];
   let count = 0;
   for (let event of activity) {
     let type = event.data.type;
@@ -317,63 +328,81 @@ const migrateActivityTable = async (testing = false) => {
     let ownerId = event.data.actorUserId;
     let userId, slateId, fileId;
     if (type === "CREATE_SLATE") {
-      slateId = event.data.context.slate.id;
+      slateId = event.data.context?.slate?.id;
+      if (!slateId) {
+        // console.log(event.data);
+        continue;
+      }
     } else if (type === "CREATE_SLATE_OBJECT") {
-      slateId = event.data.context.slate.id;
-      fileId = event.data.context.file.id;
+      slateId = event.data.context?.slate?.id;
+      fileId = event.data.context?.file?.id;
+      if (!slateId || !fileId) {
+        // console.log(event.data);
+        continue;
+      }
+      fileId = fileId.replace("data-", "");
     } else if (type === "SUBSCRIBE_USER") {
-      userId = event.data.context.targetUserId;
+      userId = event.data.context?.targetUserId;
+      if (!userId) {
+        // console.log(event.data);
+        continue;
+      }
     } else if (type === "SUBSCRIBE_SLATE") {
-      slateId = event.data.context.slateId;
+      slateId = event.data.context?.slateId;
+      if (!slateId) {
+        // console.log(event.data);
+        continue;
+      }
     }
-    newActivity.append({
-      id,
-      ownerId,
-      userId,
-      slateId,
-      fileId,
-      type,
-      date,
-    });
+    if (!testing) {
+      try {
+        await db
+          .insert({
+            id,
+            ownerId,
+            userId,
+            slateId,
+            fileId,
+            type,
+            date,
+          })
+          .into("new_activity");
+      } catch (e) {
+        console.log(e);
+      }
+    }
 
     if (testing) {
       if (count === 10) {
-        console.log(newActivity);
         return;
       }
       count += 1;
     }
   }
-  if (!testing) {
-    await db.insert(newActivity).into("new_activity");
-  }
-};
-
-// MARK: - undo changes if there's an issue
-
-const undoChanges = async () => {
-  await Promise.all([
-    db.schema.dropTable("files"),
-    db.schema.dropTable("slate_files"),
-    db.schema.dropTable("slate_subscriptions"),
-    db.schema.dropTable("user_subscriptions"),
-    db.schema.dropTable("new_activity"),
-  ]);
+  console.log("finished migrating activity table");
 };
 
 // MARK: - adding new fields and reformatting
 
-const modifySlatesTable = async () => {
+const modifySlatesTable = async (testing = false) => {
   const slates = await Data.getEverySlate(false);
   for (let slate of slates) {
     const id = slate.id;
     const ownerId = slate.data.ownerId;
-    await db.from("slates").where("id", id).update({ ownerId });
+    if (!ownerId) {
+      console.log(slate);
+      continue;
+    }
+    if (!testing) {
+      await db.from("slates").where("id", id).update({ ownerId });
+    }
   }
+  console.log("finished modify slates table");
 };
 
-const modifyUsersTable = async () => {
+const modifyUsersTable = async (testing = false) => {
   const users = await Data.getEveryUser(false);
+  let count = 0;
   for (let user of users) {
     const id = user.id;
     let data = {
@@ -391,11 +420,19 @@ const modifyUsersTable = async () => {
       status: user.data.status,
       library: user.data.library,
     };
-    let response = await Data.updateUserById({ id, data });
+    if (testing) {
+      if (count === 10) {
+        return;
+      }
+      console.log(data);
+    } else {
+      await Data.updateUserById({ id, data });
+    }
   }
+  console.log("finished modify users table");
 };
 
-// MARK: - removing original data source
+// MARK: - deleting original data source
 
 const cleanUsersTable = async () => {
   const users = await Data.getEveryUser(false);
@@ -417,41 +454,40 @@ const cleanSlatesTable = async () => {
   }
 };
 
-// MARK: - table deletions and adjustments
-
 const dropOldTables = async () => {
-  await Promise.all([
-    db.schema.dropTable("activity"),
-    db.schema.dropTable("trusted"),
-    db.schema.dropTable("subscriptions"),
-  ]);
-
-  await db.schema.alterTable("slates", function (table) {
-    table.foreign("ownerId").references("users.id").notNullable().alter();
-  });
+  await Promise.all([db.schema.dropTable("activity"), db.schema.dropTable("trusted")]);
 
   await db.schema.renameTable("new_activity", "activity");
 };
 
 // MARK: - post-migration table deletions
 
-const runScript = () => {
-  addTables();
+const runScript = async () => {
+  //NOTE(martina): if make a mistake
+  //   let numDeleted = await db("files").del();
+  //   console.log(numDeleted);
 
-  // migrateUsersTable()
-  // migrateSlatesTable()
-  // migrateSubscriptionsTable()
-  // migrateActivityTable()
+  //NOTE(martina): before starting, make sure you have all the parameters accounted for
+  //   await printUsersTable()
+  //   await printSlatesTable()
 
-  // undoChanges()
+  //NOTE(martina): add tables
+  //   await addTables();
 
-  // modifySlatesTable()
-  // modifyUsersTable()
+  //NOTE(martina): put data into new tables
+  let testing = false;
+  //   await migrateUsersTable(testing);
+  //   await migrateSlatesTable(testing);
+  //   await migrateActivityTable(testing);
 
-  // cleanUsersTable()
-  // cleanSlatesTable()
+  //NOTE(martina): fill in new fields and reformat
+  //   await modifySlatesTable(testing);
+  //   await modifyUsersTable(testing);
 
-  // dropOldTables()
+  //NOTE(martina): once certain you don't need the data anymore, delete the original data
+  // await cleanUsersTable()
+  // await cleanSlatesTable()
+  // await dropOldTables()
 };
 
 runScript();

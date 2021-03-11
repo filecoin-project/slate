@@ -210,6 +210,7 @@ export const urlToCid = (url) => {
   return url
     .replace(`${Constants.gateways.ipfs}/`, "")
     .replace("https://", "")
+    .replace("undefined", "")
     .replace(".ipfs.slate.textile.io", "")
     .replace("hub.textile.io/ipfs/", "");
 };

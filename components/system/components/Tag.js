@@ -209,7 +209,7 @@ const Dropdown = ({ open, setOpen, tags, value, handleAdd, handleRemove }) => {
 
   React.useEffect(async () => {
     const results = await Actions.getTagsByUserId();
-    console.log(results.tags);
+
     setAllTagsOnSlate(results.tags);
     setLoadingStatus(true);
   }, []);

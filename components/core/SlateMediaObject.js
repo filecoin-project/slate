@@ -52,6 +52,12 @@ const STYLES_IMAGE = css`
   max-height: 100%;
 `;
 
+const STYLES_IFRAME = css`
+  display: block;
+  width: 100%;
+  height: 100%;
+`;
+
 const typeMap = {
   "video/quicktime": "video/mp4",
 };
@@ -122,6 +128,10 @@ export default class SlateMediaObject extends React.Component {
           <source src={url} type="video/mp4" />
         </video>
       );
+    }
+
+    if (type.startsWith("text/html")) {
+      return <iframe src={url} css={STYLES_IFRAME} />;
     }
 
     if (type.startsWith("audio/")) {

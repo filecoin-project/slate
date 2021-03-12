@@ -37,6 +37,7 @@ export const system = {
   yellow: "#FAB413",
   red: "#C71313",
   black: "#0F0E12",
+  newBlack: "#000000",
   bgGrayLight: "#F8F8F8",
   bgGray: "#F2F2F2",
   bgBlue: "#C0D8EE",

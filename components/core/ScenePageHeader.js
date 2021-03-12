@@ -95,18 +95,21 @@ const STYLES_LIST = css`
 const STYLES_TAG = css`
   list-style-type: none;
   border-radius: 4px;
-  background: ${Constants.system.white};
-  color: ${Constants.system.black};
+  background: ${Constants.system.bgGray};
+  color: ${Constants.system.newBlack};
   display: flex;
   align-items: center;
-  font-family: ${Constants.font.medium};
-  padding: 10px;
-  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
+  font-family: ${Constants.font.text};
+  padding: 2px 8px;
   margin: 8px 8px 0 0;
 
   span {
-    line-height: 1;
-    font-size: 0.875rem;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+
+  &:hover {
+    background: ${Constants.system.gray30};
   }
 `;
 

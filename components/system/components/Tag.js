@@ -33,39 +33,27 @@ const STYLES_LIST = css`
   display: inline-flex;
   flex-wrap: wrap;
   margin: 0;
-  width: 100%;
   border-radius: 4px;
-
-  li {
-    &:last-child {
-      list-style-type: none;
-      padding: 2px;
-      flex: 1;
-    }
-  }
 `;
 
 const STYLES_TAG = css`
   list-style-type: none;
   border-radius: 4px;
-  background: ${Constants.system.white};
-  color: ${Constants.system.black};
+  background: ${Constants.system.bgGray};
+  color: ${Constants.system.newBlack};
   display: flex;
   align-items: center;
-  font-family: ${Constants.font.medium};
-  padding: 10px;
-  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
-  margin: 0 8px 8px 0;
+  font-family: ${Constants.font.text};
+  padding: 2px 8px;
+  margin: 8px 8px 0 0;
 
   span {
-    line-height: 0;
-    font-size: 0.875rem;
+    line-height: 1.5;
+    font-size: 14px;
   }
 
   &:hover {
-    span {
-      opacity: 1;
-    }
+    background: ${Constants.system.gray30};
   }
 `;
 
@@ -139,30 +127,20 @@ export const Tag = (props) => {
 
   return (
     <div css={STYLES_INPUT_CONTAINER} style={{ ...props.style }}>
+      <input
+        ref={inputEl}
+        type="text"
+        css={STYLES_INPUT}
+        onKeyDown={handleInputKeyDown}
+        placeholder={props.placeholder}
+      />
       <ul css={STYLES_LIST}>
         {props.value &&
           props.value.map((tag, i) => (
             <li key={tag} css={STYLES_TAG}>
               <span>{tag}</span>
-              <span
-                css={STYLES_REMOVE_BUTTON}
-                onClick={() => {
-                  removeTag(i);
-                }}
-              >
-                <SVG.Dismiss height="12px" />
-              </span>
             </li>
           ))}
-        <li>
-          <input
-            ref={inputEl}
-            type="text"
-            css={STYLES_INPUT}
-            onKeyDown={handleInputKeyDown}
-            placeholder={props.placeholder}
-          />
-        </li>
       </ul>
     </div>
   );

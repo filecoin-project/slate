@@ -265,8 +265,6 @@ export const Tag = ({ tags, onChange, style, placeholder }) => {
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
-  const inputEl = React.useRef();
-
   const removeTag = (tag) => {
     const newTags = [...tags];
     const tagIndex = tags.indexOf(tag);
@@ -298,7 +296,6 @@ export const Tag = ({ tags, onChange, style, placeholder }) => {
     <div css={STYLES_TAG_CONTAINER} style={{ ...style }}>
       <div css={STYLES_INPUT_CONTAINER}>
         <input
-          ref={inputEl}
           type="text"
           css={STYLES_INPUT}
           placeholder={placeholder}

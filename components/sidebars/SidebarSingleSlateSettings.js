@@ -211,6 +211,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           </System.P>
           <System.Tag
             name="tags"
+            placeholder={`Edit tag for ${this.state.slatename}`}
             value={this.state.tags}
             style={{ marginTop: 12 }}
             onChange={this._handleChange}

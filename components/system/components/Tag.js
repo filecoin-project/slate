@@ -156,7 +156,13 @@ export const Tag = (props) => {
             </li>
           ))}
         <li>
-          <input ref={inputEl} type="text" css={STYLES_INPUT} onKeyDown={handleInputKeyDown} />
+          <input
+            ref={inputEl}
+            type="text"
+            css={STYLES_INPUT}
+            onKeyDown={handleInputKeyDown}
+            placeholder={props.placeholder}
+          />
         </li>
       </ul>
     </div>

@@ -35,6 +35,8 @@ const STYLES_DROPDOWN_ITEM = css`
   background: ${Constants.system.white};
   border: 0.5px solid ${Constants.system.gray20};
   cursor: pointer;
+  display: flex;
+  align-items: center;
 
   span {
     font-size: 14px;
@@ -48,6 +50,35 @@ const STYLES_DROPDOWN_ITEM = css`
 
     span {
       color: ${Constants.system.newBlack};
+    }
+  }
+`;
+
+const STYLES_DROPDOWN_ADD_ITEM = css`
+  list-style-type: none;
+  padding: 8px 12px;
+  background: ${Constants.system.white};
+  border: 0.5px solid ${Constants.system.gray20};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  span {
+    font-size: 14px;
+    line-height: 1.5;
+    color: ${Constants.system.newBlack};
+    font-family: ${Constants.font.text};
+  }
+
+  span.value {
+    background: ${Constants.system.bgGray};
+  }
+
+  &:hover {
+    background: ${Constants.system.gray10};
+
+    span.value {
+      background: ${Constants.system.gray30};
     }
   }
 `;
@@ -134,6 +165,9 @@ const STYLES_REMOVE_BUTTON = css`
 `;
 
 export const Tag = (props) => {
+  const [value, setValue] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+
   let inputEl = React.useRef();
 
   const removeTag = (i) => {
@@ -145,24 +179,29 @@ export const Tag = (props) => {
     }
   };
 
-  const handleInputKeyDown = (e) => {
-    const value = e.target.value;
+  const handleAdd = () => {
     const tags = props.value || [];
 
-    if (e.key === "Enter" && value) {
-      if (tags.find((tag) => tag.toLowerCase() === value.toLowerCase())) {
-        return;
-      }
-
-      if (props.onChange) {
-        props.onChange({ target: { name: "tags", value: [...tags, value] } });
-      }
-
-      e.target.value = null;
-    } else if (e.key === "Backspace" && !value) {
-      removeTag(tags.length - 1);
+    if (tags.find((tag) => tag.toLowerCase() === value.toLowerCase())) {
+      return;
     }
+
+    if (props.onChange) {
+      props.onChange({ target: { name: "tags", value: [...tags, value] } });
+    }
+
+    setValue(null);
   };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    setValue(value);
+  };
+
+  const handleFocus = () => setOpen(true);
+
+  const handleBlur = () => setOpen(false);
 
   return (
     <div css={STYLES_TAG_CONTAINER} style={{ ...props.style }}>
@@ -171,11 +210,14 @@ export const Tag = (props) => {
           ref={inputEl}
           type="text"
           css={STYLES_INPUT}
-          onKeyDown={handleInputKeyDown}
           placeholder={props.placeholder}
+          value={value}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
         <div>
-          <ul css={STYLES_DROPDOWN}>
+          <ul css={STYLES_DROPDOWN} style={{ display: open ? "block" : "none" }}>
             <li css={STYLES_DROPDOWN_ITEM}>
               <span>Water</span>
             </li>
@@ -185,8 +227,14 @@ export const Tag = (props) => {
             <li css={STYLES_DROPDOWN_ITEM}>
               <span>Water</span>
             </li>
-            <li css={STYLES_DROPDOWN_ITEM}>
-              <span>Green</span>
+            <li css={STYLES_DROPDOWN_ADD_ITEM} onClick={handleAdd}>
+              <SVG.Plus height="16px" />
+              <span style={{ margin: "0 8px" }}>create new tag</span>
+              {value && (
+                <span css={STYLES_TAG} className="value" style={{ margin: 0 }}>
+                  {value}
+                </span>
+              )}
             </li>
           </ul>
         </div>

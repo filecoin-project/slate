@@ -35,10 +35,13 @@ export default async (req, res) => {
     return res.status(500).send({ decorator: "SERVER_GET_SLATES_TAG_NOT_FOUND", error: true });
   }
 
-  const tags = response
+  const filteredTags = response
     .map((item) => item.data.tags)
     .flat()
     .filter((item) => Boolean(item));
+
+  const dedupedTags = new Set(filteredTags);
+  const tags = Array.from(dedupedTags);
 
   return res.status(200).send({ decorator: "SERVER_GET_SLATES_TAGS", tags });
 };

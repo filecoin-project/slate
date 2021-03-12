@@ -8,6 +8,7 @@ import * as Events from "~/common/custom-events";
 import * as SVG from "~/common/svg";
 
 import { RadioGroup } from "~/components/system/components/RadioGroup";
+import { Tag } from "~/components/core/Tag";
 import { css } from "@emotion/react";
 
 const SIZE_LIMIT = 1000000;
@@ -209,7 +210,7 @@ export default class SidebarSingleSlateSettings extends React.Component {
           >
             Add tags to a slate to categorize it.
           </System.P>
-          <System.Tag
+          <Tag
             name="tags"
             placeholder={`Edit tag for ${this.state.slatename}`}
             tags={this.state.tags}

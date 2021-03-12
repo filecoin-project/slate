@@ -24,7 +24,7 @@ const proxy = async (req, res) => {
   const id = Utilities.getIdFromCookie(req);
 
   if (!id) {
-    return res.status(405).send({
+    return res.status(401).send({
       decorator: "SERVER_UNAUTHENTICATED",
       error: true,
     });
@@ -40,8 +40,7 @@ const proxy = async (req, res) => {
 
   try {
     return await pipeline(stream, res);
-  } catch (e) {
-    const { message, statusCode = 500 } = e ? e : {};
+  } catch ({ message, statusCode = 500 }) {
     return res.status(statusCode).send({ decorator: "SERVER_MQL_ERROR", error: true, message });
   }
 };

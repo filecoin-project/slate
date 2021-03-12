@@ -191,6 +191,15 @@ const Dropdown = ({ open, setOpen, tags, value, handleAdd, handleRemove }) => {
 
   const isActiveTag = (index) => tags.includes(allTagsOnSlates[index]);
 
+  const filterTags = (allTags) => {
+    let matches = allTags.filter((tag) => {
+      const regex = new RegExp(`${value}`, "gi");
+      return tag.match(regex);
+    });
+
+    return matches;
+  };
+
   const _handleClickOutside = (e) => {
     if (dropdownEl.current.contains(e.target)) {
       return;
@@ -223,7 +232,7 @@ const Dropdown = ({ open, setOpen, tags, value, handleAdd, handleRemove }) => {
           </li>
         ) : (
           <>
-            {(allTagsOnSlates || []).map((tag, index) => (
+            {(filterTags(allTagsOnSlates) || []).map((tag, index) => (
               <li
                 key={tag}
                 css={STYLES_DROPDOWN_ITEM}
@@ -245,7 +254,13 @@ const Dropdown = ({ open, setOpen, tags, value, handleAdd, handleRemove }) => {
                 </div>
               </li>
             ))}
-            <li css={STYLES_DROPDOWN_ADD_ITEM} onClick={() => handleAdd(value)}>
+            <li
+              css={STYLES_DROPDOWN_ADD_ITEM}
+              onClick={() => {
+                handleAdd(value);
+                setOpen(false);
+              }}
+            >
               <SVG.Plus height="16px" />
               <span style={{ margin: "0 8px" }}>create new tag</span>
               {value && (

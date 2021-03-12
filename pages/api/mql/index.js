@@ -18,7 +18,7 @@ if (missing.length > 0) {
 const { MQL_API_KEY, MQL_CORS_ALLOW } = Environment;
 
 const allowedDomains = MQL_CORS_ALLOW.split(",").map((n) => n.trim());
-const toSearchParams = (req) => new URL(req.url, "http://localhost").searchParams;
+const toSearchParams = (req) => new URLSearchParams(req.query);
 
 const proxy = async (req, res) => {
   const id = Utilities.getIdFromCookie(req);

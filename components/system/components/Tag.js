@@ -165,10 +165,11 @@ const STYLES_REMOVE_BUTTON = css`
 `;
 
 export const Tag = (props) => {
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState();
   const [open, setOpen] = React.useState(false);
 
-  let inputEl = React.useRef();
+  const inputEl = React.useRef();
+  const dropdownEl = React.useRef();
 
   const removeTag = (i) => {
     const newTags = [...props.value];
@@ -182,15 +183,16 @@ export const Tag = (props) => {
   const handleAdd = () => {
     const tags = props.value || [];
 
-    if (tags.find((tag) => tag.toLowerCase() === value.toLowerCase())) {
+    if (value && tags.find((tag) => tag.toLowerCase() === value.toLowerCase())) {
       return;
     }
 
     if (props.onChange) {
       props.onChange({ target: { name: "tags", value: [...tags, value] } });
-    }
 
-    setValue(null);
+      setValue("");
+      setOpen(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -201,11 +203,26 @@ export const Tag = (props) => {
 
   const handleFocus = () => setOpen(true);
 
-  const handleBlur = () => setOpen(false);
+  const handleClick = (e) => {
+    console.log(dropdownEl.current.contains(e.target));
+    if (dropdownEl.current.contains(e.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("mousedown", handleClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, []);
 
   return (
     <div css={STYLES_TAG_CONTAINER} style={{ ...props.style }}>
-      <div css={STYLES_INPUT_CONTAINER}>
+      <div css={STYLES_INPUT_CONTAINER} ref={dropdownEl}>
         <input
           ref={inputEl}
           type="text"
@@ -214,7 +231,6 @@ export const Tag = (props) => {
           value={value}
           onChange={handleChange}
           onFocus={handleFocus}
-          onBlur={handleBlur}
         />
         <div>
           <ul css={STYLES_DROPDOWN} style={{ display: open ? "block" : "none" }}>

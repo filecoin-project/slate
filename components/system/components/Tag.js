@@ -38,20 +38,39 @@ const STYLES_DROPDOWN_ITEM = css`
   display: flex;
   align-items: center;
 
+  &:hover {
+    background: ${Constants.system.gray10};
+
+    span,
+    div:not(.dismiss) {
+      color: ${Constants.system.newBlack};
+    }
+
+    div.dismiss {
+      opacity: 1;
+    }
+  }
+
   span {
     font-size: 14px;
     line-height: 1.5;
     color: ${Constants.system.textGray};
     font-family: ${Constants.font.text};
+    margin: 0 0 0 8px;
   }
 
-  &:hover {
-    background: ${Constants.system.gray10};
+  div.dismiss {
+    opacity: 0;
 
-    span {
+    &:hover {
       color: ${Constants.system.newBlack};
     }
   }
+`;
+
+const STYLES_DROPDOWN_ITEM_ICON = css`
+  line-height: 0;
+  color: ${Constants.system.gray70};
 `;
 
 const STYLES_DROPDOWN_ADD_ITEM = css`
@@ -165,7 +184,7 @@ const STYLES_REMOVE_BUTTON = css`
 `;
 
 export const Tag = (props) => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
   const inputEl = React.useRef();
@@ -180,7 +199,7 @@ export const Tag = (props) => {
     }
   };
 
-  const handleAdd = () => {
+  const _handleAdd = () => {
     const tags = props.value || [];
 
     if (value && tags.find((tag) => tag.toLowerCase() === value.toLowerCase())) {
@@ -195,16 +214,15 @@ export const Tag = (props) => {
     }
   };
 
-  const handleChange = (e) => {
+  const _handleChange = (e) => {
     const value = e.target.value;
 
     setValue(value);
   };
 
-  const handleFocus = () => setOpen(true);
+  const _handleFocus = () => setOpen(true);
 
-  const handleClick = (e) => {
-    console.log(dropdownEl.current.contains(e.target));
+  const _handleClickOutside = (e) => {
     if (dropdownEl.current.contains(e.target)) {
       return;
     }
@@ -213,10 +231,10 @@ export const Tag = (props) => {
   };
 
   React.useEffect(() => {
-    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("mousedown", _handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("mousedown", _handleClickOutside);
     };
   }, []);
 
@@ -229,21 +247,28 @@ export const Tag = (props) => {
           css={STYLES_INPUT}
           placeholder={props.placeholder}
           value={value}
-          onChange={handleChange}
-          onFocus={handleFocus}
+          onChange={_handleChange}
+          onFocus={_handleFocus}
         />
         <div>
           <ul css={STYLES_DROPDOWN} style={{ display: open ? "block" : "none" }}>
-            <li css={STYLES_DROPDOWN_ITEM}>
-              <span>Water</span>
-            </li>
-            <li css={STYLES_DROPDOWN_ITEM}>
-              <span>Green</span>
-            </li>
-            <li css={STYLES_DROPDOWN_ITEM}>
-              <span>Water</span>
-            </li>
-            <li css={STYLES_DROPDOWN_ADD_ITEM} onClick={handleAdd}>
+            {(props.value || []).map((tag, index) => (
+              <li key={tag} css={STYLES_DROPDOWN_ITEM}>
+                <div css={STYLES_DROPDOWN_ITEM_ICON}>
+                  <SVG.Check height="16px" />
+                </div>
+                <span>{tag}</span>
+                <div
+                  css={STYLES_DROPDOWN_ITEM_ICON}
+                  style={{ marginLeft: "auto" }}
+                  className="dismiss"
+                  onClick={() => removeTag(index)}
+                >
+                  <SVG.Dismiss height="16px" />
+                </div>
+              </li>
+            ))}
+            <li css={STYLES_DROPDOWN_ADD_ITEM} onClick={_handleAdd}>
               <SVG.Plus height="16px" />
               <span style={{ margin: "0 8px" }}>create new tag</span>
               {value && (

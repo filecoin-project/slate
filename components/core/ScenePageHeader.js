@@ -97,8 +97,6 @@ const STYLES_TAG = css`
   border-radius: 4px;
   background: ${Constants.system.bgGray};
   color: ${Constants.system.newBlack};
-  display: flex;
-  align-items: center;
   font-family: ${Constants.font.text};
   padding: 2px 8px;
   margin: 8px 8px 0 0;

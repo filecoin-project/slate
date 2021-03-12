@@ -4,12 +4,52 @@ import * as SVG from "~/common/svg";
 
 import { css } from "@emotion/react";
 
-const STYLES_INPUT_CONTAINER = css`
+const STYLES_TAG_CONTAINER = css`
   width: 100%;
   box-sizing: border-box;
   position: relative;
   display: flex;
   flex-wrap: wrap;
+`;
+
+const STYLES_INPUT_CONTAINER = css`
+  width: 100%;
+  position: relative;
+`;
+
+const STYLES_DROPDOWN = css`
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  position: absolute;
+  top: 33px;
+  left: 0;
+  width: 100%;
+  z-index: 30;
+  box-shadow: 0px 12px 24px rgba(178, 178, 178, 0.3);
+`;
+
+const STYLES_DROPDOWN_ITEM = css`
+  list-style-type: none;
+  padding: 8px 12px;
+  background: ${Constants.system.white};
+  border: 0.5px solid ${Constants.system.gray20};
+  cursor: pointer;
+
+  span {
+    font-size: 14px;
+    line-height: 1.5;
+    color: ${Constants.system.textGray};
+    font-family: ${Constants.font.text};
+  }
+
+  &:hover {
+    background: ${Constants.system.gray10};
+
+    span {
+      color: ${Constants.system.newBlack};
+    }
+  }
 `;
 
 const INPUT_STYLES = `
@@ -27,6 +67,38 @@ const INPUT_STYLES = `
   border: 0;
   box-sizing: border-box;
   transition: 200ms ease all;
+`;
+
+const STYLES_INPUT = css`
+  ${INPUT_STYLES};
+
+  width: 100%;
+  padding: 8px 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
+
+  :focus {
+    outline: 0;
+    border: 0;
+    box-shadow: 0 0 0 1px ${Constants.system.bgBlue} inset;
+  }
+
+  ::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: ${Constants.system.darkGray};
+    opacity: 1; /* Firefox */
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: ${Constants.system.darkGray};
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: ${Constants.system.darkGray};
+  }
 `;
 
 const STYLES_LIST = css`
@@ -52,37 +124,6 @@ const STYLES_TAG = css`
 
   &:hover {
     background: ${Constants.system.gray30};
-  }
-`;
-
-const STYLES_INPUT = css`
-  ${INPUT_STYLES};
-
-  width: 100%;
-  padding: 8px 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
-
-  :focus {
-    outline: 0;
-    border: 0;
-  }
-
-  ::placeholder {
-    /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: ${Constants.system.darkGray};
-    opacity: 1; /* Firefox */
-  }
-
-  :-ms-input-placeholder {
-    /* Internet Explorer 10-11 */
-    color: ${Constants.system.darkGray};
-  }
-
-  ::-ms-input-placeholder {
-    /* Microsoft Edge */
-    color: ${Constants.system.darkGray};
   }
 `;
 
@@ -124,14 +165,33 @@ export const Tag = (props) => {
   };
 
   return (
-    <div css={STYLES_INPUT_CONTAINER} style={{ ...props.style }}>
-      <input
-        ref={inputEl}
-        type="text"
-        css={STYLES_INPUT}
-        onKeyDown={handleInputKeyDown}
-        placeholder={props.placeholder}
-      />
+    <div css={STYLES_TAG_CONTAINER} style={{ ...props.style }}>
+      <div css={STYLES_INPUT_CONTAINER}>
+        <input
+          ref={inputEl}
+          type="text"
+          css={STYLES_INPUT}
+          onKeyDown={handleInputKeyDown}
+          placeholder={props.placeholder}
+        />
+        <div>
+          <ul css={STYLES_DROPDOWN}>
+            <li css={STYLES_DROPDOWN_ITEM}>
+              <span>Water</span>
+            </li>
+            <li css={STYLES_DROPDOWN_ITEM}>
+              <span>Green</span>
+            </li>
+            <li css={STYLES_DROPDOWN_ITEM}>
+              <span>Water</span>
+            </li>
+            <li css={STYLES_DROPDOWN_ITEM}>
+              <span>Green</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <ul css={STYLES_LIST}>
         {props.value &&
           props.value.map((tag, i) => (

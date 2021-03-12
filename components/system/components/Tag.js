@@ -33,10 +33,8 @@ const STYLES_LIST = css`
   display: inline-flex;
   flex-wrap: wrap;
   margin: 0;
-  padding: 10px 10px 2px;
   width: 100%;
   border-radius: 4px;
-  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
 
   li {
     &:last-child {
@@ -75,9 +73,10 @@ const STYLES_INPUT = css`
   ${INPUT_STYLES};
 
   width: 100%;
-  padding: 8px 0;
+  padding: 8px 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  box-shadow: 0 0 0 1px ${Constants.system.gray30} inset;
 
   :focus {
     outline: 0;

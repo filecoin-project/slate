@@ -33,7 +33,7 @@ const returnJSON = async (route, options) => {
 };
 
 export const mql = async (url, opts) => {
-  return await microlink(url, { endpoint: "/api/mql", ...opts });
+  return await microlink(url, { endpoint: "/api/mql", ...opts }, { headers: REQUEST_HEADERS });
 };
 
 export const createZipToken = async ({ files, resourceURI }) => {

@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as Constants from "~/common/constants";
 import * as SVG from "~/common/svg";
+import * as Actions from "~/common/actions";
+import { LoaderSpinner } from "~/components/system/components/Loaders";
 
 import { css } from "@emotion/react";
 
@@ -18,8 +20,6 @@ const STYLES_INPUT_CONTAINER = css`
 `;
 
 const STYLES_DROPDOWN = css`
-  display: flex;
-  flex-direction: column;
   margin: 0;
   position: absolute;
   top: 33px;
@@ -183,44 +183,13 @@ const STYLES_REMOVE_BUTTON = css`
   opacity: 0;
 `;
 
-export const Tag = (props) => {
-  const [value, setValue] = React.useState("");
-  const [open, setOpen] = React.useState(false);
+const Dropdown = ({ open, setOpen, tags, value, handleAdd, handleRemove }) => {
+  const [hasLoaded, setLoadingStatus] = React.useState(false);
+  const [allTagsOnSlates, setAllTagsOnSlate] = React.useState([]);
 
-  const inputEl = React.useRef();
   const dropdownEl = React.useRef();
 
-  const removeTag = (i) => {
-    const newTags = [...props.value];
-    newTags.splice(i, 1);
-
-    if (props.onChange) {
-      props.onChange({ target: { name: "tags", value: newTags } });
-    }
-  };
-
-  const _handleAdd = () => {
-    const tags = props.value || [];
-
-    if (value && tags.find((tag) => tag.toLowerCase() === value.toLowerCase())) {
-      return;
-    }
-
-    if (props.onChange) {
-      props.onChange({ target: { name: "tags", value: [...tags, value] } });
-
-      setValue("");
-      setOpen(false);
-    }
-  };
-
-  const _handleChange = (e) => {
-    const value = e.target.value;
-
-    setValue(value);
-  };
-
-  const _handleFocus = () => setOpen(true);
+  const isActiveTag = (index) => tags.includes(allTagsOnSlates[index]);
 
   const _handleClickOutside = (e) => {
     if (dropdownEl.current.contains(e.target)) {
@@ -238,37 +207,44 @@ export const Tag = (props) => {
     };
   }, []);
 
+  React.useEffect(async () => {
+    const results = await Actions.getTagsByUserId();
+    setAllTagsOnSlate(results.tags);
+    setLoadingStatus(true);
+  }, []);
+
   return (
-    <div css={STYLES_TAG_CONTAINER} style={{ ...props.style }}>
-      <div css={STYLES_INPUT_CONTAINER} ref={dropdownEl}>
-        <input
-          ref={inputEl}
-          type="text"
-          css={STYLES_INPUT}
-          placeholder={props.placeholder}
-          value={value}
-          onChange={_handleChange}
-          onFocus={_handleFocus}
-        />
-        <div>
-          <ul css={STYLES_DROPDOWN} style={{ display: open ? "block" : "none" }}>
-            {(props.value || []).map((tag, index) => (
-              <li key={tag} css={STYLES_DROPDOWN_ITEM}>
-                <div css={STYLES_DROPDOWN_ITEM_ICON}>
-                  <SVG.Check height="16px" />
-                </div>
+    <div ref={dropdownEl}>
+      <ul css={STYLES_DROPDOWN} style={{ display: open ? "block" : "none" }}>
+        {!hasLoaded ? (
+          <li css={STYLES_DROPDOWN_ITEM}>
+            <LoaderSpinner style={{ height: "24px", width: "24px", margin: "0 auto" }} />
+          </li>
+        ) : (
+          <>
+            {(allTagsOnSlates || []).map((tag, index) => (
+              <li
+                key={tag}
+                css={STYLES_DROPDOWN_ITEM}
+                onClick={isActiveTag(index) ? () => handleRemove(tag) : () => handleAdd(tag)}
+              >
+                {isActiveTag(index) && (
+                  <div css={STYLES_DROPDOWN_ITEM_ICON}>
+                    <SVG.Check height="16px" />
+                  </div>
+                )}
                 <span>{tag}</span>
                 <div
                   css={STYLES_DROPDOWN_ITEM_ICON}
                   style={{ marginLeft: "auto" }}
                   className="dismiss"
-                  onClick={() => removeTag(index)}
+                  onClick={() => handleRemove(tag)}
                 >
                   <SVG.Dismiss height="16px" />
                 </div>
               </li>
             ))}
-            <li css={STYLES_DROPDOWN_ADD_ITEM} onClick={_handleAdd}>
+            <li css={STYLES_DROPDOWN_ADD_ITEM} onClick={() => handleAdd(value)}>
               <SVG.Plus height="16px" />
               <span style={{ margin: "0 8px" }}>create new tag</span>
               {value && (
@@ -277,13 +253,71 @@ export const Tag = (props) => {
                 </span>
               )}
             </li>
-          </ul>
-        </div>
+          </>
+        )}
+      </ul>
+    </div>
+  );
+};
+
+export const Tag = ({ tags, onChange, style, placeholder }) => {
+  const [value, setValue] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const inputEl = React.useRef();
+
+  const removeTag = (tag) => {
+    const newTags = [...tags];
+    const tagIndex = tags.indexOf(tag);
+
+    newTags.splice(tagIndex, 1);
+
+    if (onChange) {
+      onChange({ target: { name: "tags", value: newTags } });
+    }
+  };
+
+  const _handleAdd = (value) => {
+    if (value && (tags || []).find((tag) => tag.toLowerCase() === value.toLowerCase())) {
+      return;
+    }
+
+    if (onChange) {
+      onChange({ target: { name: "tags", value: [...tags, value] } });
+
+      setValue("");
+    }
+  };
+
+  const _handleChange = (e) => setValue(e.target.value);
+
+  const _handleFocus = () => setOpen(true);
+
+  return (
+    <div css={STYLES_TAG_CONTAINER} style={{ ...style }}>
+      <div css={STYLES_INPUT_CONTAINER}>
+        <input
+          ref={inputEl}
+          type="text"
+          css={STYLES_INPUT}
+          placeholder={placeholder}
+          value={value}
+          onChange={_handleChange}
+          onFocus={_handleFocus}
+        />
+        <Dropdown
+          open={open}
+          setOpen={setOpen}
+          tags={tags}
+          value={value}
+          handleAdd={_handleAdd}
+          handleRemove={removeTag}
+        />
       </div>
 
       <ul css={STYLES_LIST}>
-        {props.value &&
-          props.value.map((tag, i) => (
+        {tags &&
+          tags.map((tag) => (
             <li key={tag} css={STYLES_TAG}>
               <span>{tag}</span>
             </li>

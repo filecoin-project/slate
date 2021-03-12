@@ -367,3 +367,9 @@ export const cleanDatabase = async () => {
     ...DEFAULT_OPTIONS,
   });
 };
+
+export const getTagsByUserId = async () => {
+  return await returnJSON(`/api/slates/get-tags`, {
+    ...DEFAULT_OPTIONS,
+  });
+};

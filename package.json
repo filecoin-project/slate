@@ -85,7 +85,7 @@
     "universal-cookie": "^4.0.4",
     "uuid": "^8.3.2",
     "webpack": "^5.37.1",
-    "ws": "^7.4.3"
+    "ws": "^8.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",

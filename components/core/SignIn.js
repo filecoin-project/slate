@@ -221,15 +221,6 @@ export class SignIn extends React.Component {
               Sign in
             </System.ButtonSecondary>
           </div>
-          <div css={STYLES_LINKS}>
-            <a css={STYLES_LINK_ITEM} href="/terms" target="_blank">
-              ⭢ Terms of service
-            </a>
-
-            <a css={STYLES_LINK_ITEM} href="/guidelines" target="_blank">
-              ⭢ Community guidelines
-            </a>
-          </div>
         </React.Fragment>
       );
     }

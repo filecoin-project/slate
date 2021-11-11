@@ -12,7 +12,7 @@ import { css } from "@emotion/react";
 import { ButtonPrimary } from "~/components/system/components/Buttons";
 import { useForm } from "~/common/hooks";
 import { Input } from "~/components/system";
-import { BackgroundGenerator } from "~/components/core/Auth/components";
+import { AuthWrapper } from "~/components/core/Auth/components";
 
 const TOOLS_OPTIONS = {
   Dropbox: "DROPBOX",
@@ -335,11 +335,11 @@ const STYLES_MIDDLE = css`
 const WithCustomWrapper = (Component) => (props) => {
   return (
     <WebsitePrototypeWrapper>
-      <BackgroundGenerator css={STYLES_ROOT} isMobile={props.isMobile}>
+      <AuthWrapper css={STYLES_ROOT} isMobile={props.isMobile}>
         <div css={STYLES_MIDDLE}>
           <Component {...props} />
         </div>
-      </BackgroundGenerator>
+      </AuthWrapper>
     </WebsitePrototypeWrapper>
   );
 };

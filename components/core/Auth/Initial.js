@@ -154,7 +154,7 @@ export default function Initial({
               autoFocus
               label="Email address or username"
               placeholder="Email/username"
-              icon={SVG.RightArrow}
+              icon={ArrowButton}
               name="email/username"
               type="text"
               full
@@ -162,20 +162,6 @@ export default function Initial({
               // NOTE(amine): the input component internally is using 16px margin top
               containerStyle={{ marginTop: "4px" }}
             />
-
-            <div style={{ marginTop: "auto" }}>
-              <a css={STYLES_LINK_ITEM} href="/terms" target="_blank">
-                <div css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
-                  <SVG.RightArrow height="16px" style={{ marginRight: 4 }} /> Terms of service
-                </div>
-              </a>
-
-              <a css={STYLES_LINK_ITEM} style={{ marginTop: 4 }} href="/guidelines" target="_blank">
-                <div css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
-                  <SVG.RightArrow height="16px" style={{ marginRight: 4 }} /> Community guidelines
-                </div>
-              </a>
-            </div>
           </>
         ) : (
           <AnimateSharedLayout>
@@ -206,20 +192,6 @@ export default function Initial({
               containerStyle={{ marginTop: "4px" }}
               {...getSignupFielProps("email")}
             />
-
-            <div style={{ marginTop: "auto" }}>
-              <a css={STYLES_LINK_ITEM} href="/terms" target="_blank">
-                <div css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
-                  <SVG.RightArrow height="16px" style={{ marginRight: 4 }} /> Terms of service
-                </div>
-              </a>
-
-              <a css={STYLES_LINK_ITEM} style={{ marginTop: 4 }} href="/guidelines" target="_blank">
-                <div css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
-                  <SVG.RightArrow height="16px" style={{ marginRight: 4 }} /> Community guidelines
-                </div>
-              </a>
-            </div>
           </AnimateSharedLayout>
         )}
       </div>

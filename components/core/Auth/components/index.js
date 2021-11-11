@@ -3,4 +3,4 @@ export { default as SignUpPopover } from "~/components/core/Auth/components/Sign
 export { default as Verification } from "~/components/core/Auth/components/Verification";
 export { default as AuthCheckBox } from "~/components/core/Auth/components/AuthCheckBox";
 export { default as ArrowButton } from "~/components/core/Auth/components/ArrowButton";
-export { default as BackgroundGenerator } from "~/components/core/Auth/components/BackgroundGenerator";
+export { default as AuthWrapper } from "~/components/core/Auth/components/AuthWrapper";

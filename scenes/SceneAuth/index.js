@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import WebsitePrototypeWrapper from "~/components/core/WebsitePrototypeWrapper";
-import { BackgroundGenerator } from "~/components/core/Auth/components";
+import { AuthWrapper } from "~/components/core/Auth/components";
 
 import { css } from "@emotion/react";
 import {
@@ -154,11 +154,11 @@ const SigninScene = ({ onAuthenticate, onTwitterAuthenticate, page, ...props }) 
 const WithCustomWrapper = (Component) => (props) => {
   return (
     <WebsitePrototypeWrapper>
-      <BackgroundGenerator css={STYLES_ROOT} isMobile={props.isMobile}>
+      <AuthWrapper css={STYLES_ROOT} isMobile={props.isMobile}>
         <div css={STYLES_MIDDLE}>
           <Component {...props} />
         </div>
-      </BackgroundGenerator>
+      </AuthWrapper>
     </WebsitePrototypeWrapper>
   );
 };

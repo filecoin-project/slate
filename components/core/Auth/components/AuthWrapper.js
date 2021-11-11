@@ -1,5 +1,9 @@
 import * as React from "react";
 import * as Utilities from "common/utilities";
+import * as System from "~/components/system";
+import * as Styles from "~/common/styles";
+
+import { css } from "@emotion/react";
 
 const AUTH_BACKGROUNDS = [
   "https://slate.textile.io/ipfs/bafybeigostprfkuuvuqlehutki32fnvshm2dyy4abqotmlffsca4f7qs7a",
@@ -15,7 +19,28 @@ const AUTH_BACKGROUNDS = [
 const backgroundIdx = Utilities.getRandomNumberBetween(0, AUTH_BACKGROUNDS.length - 1);
 const backgroundUrl = AUTH_BACKGROUNDS[backgroundIdx];
 
-export default function BackgroundGenerator({ children, isMobile, ...props }) {
+const STYLES_AUTH_FOOTER = (theme) => css`
+  ${Styles.HORIZONTAL_CONTAINER_CENTERED};
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 2px 24px;
+  background-color: ${theme.semantic.bgWhite};
+
+  @supports ((-webkit-backdrop-filter: blur(75px)) or (backdrop-filter: blur(75px))) {
+    -webkit-backdrop-filter: blur(75px);
+    backdrop-filter: blur(75px);
+    background-color: ${theme.semantic.bgBlurWhiteTRN};
+  }
+  a {
+    text-decoration: none;
+    ${Styles.HOVERABLE};
+    color: ${theme.semantic.textBlack};
+  }
+`;
+
+export default function AuthWrapper({ children, isMobile, ...props }) {
   // NOTE(amine): fix for 100vh overflowing in mobile
   //              https://bugs.webkit.org/show_bug.cgi?id=141832
   const [height, setHeight] = React.useState();
@@ -38,6 +63,18 @@ export default function BackgroundGenerator({ children, isMobile, ...props }) {
   return (
     <div style={{ backgroundImage: `url(${backgroundUrl})`, minHeight: height }} {...props}>
       {children}
+      <footer css={STYLES_AUTH_FOOTER}>
+        <System.H6 style={{ marginLeft: "auto" }} as="a" href="/terms">
+          Terms of service
+        </System.H6>
+        <System.H6 style={{ marginLeft: 24 }} as="a" href="/guidelines">
+          Community guidelines
+        </System.H6>
+        {/** TODO(Amine): change discord link  */}
+        <System.H6 style={{ marginLeft: 24 }} as="a" href="/">
+          Join Discord
+        </System.H6>
+      </footer>
     </div>
   );
 }

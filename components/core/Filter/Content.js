@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as System from "~/components/system";
-import * as Upload from "~/components/core/Upload";
 import * as SVG from "~/common/svg";
 import * as Styles from "~/common/styles";
 
@@ -33,7 +32,6 @@ const STYLES_UPLOAD_BUTTON = (theme) => css`
   border-radius: 8px;
   width: 24px;
   height: 24px;
-  cursor: pointer;
   pointer-events: auto;
   box-shadow: ${theme.shadow.lightSmall};
 `;
@@ -50,7 +48,7 @@ export function Content({ viewer, onAction, page, ...props }) {
 
   return (
     <div css={STYLES_DATAVIEWER_WRAPPER} {...props}>
-      {objects.length ? (
+      {objects.length > 0 ? (
         <TagsOnboarding onAction={onAction} viewer={viewer} isActive={isOnboardingActive}>
           <DataView
             key="scene-files-folder"
@@ -68,14 +66,9 @@ export function Content({ viewer, onAction, page, ...props }) {
           <FileTypeGroup />
           <div style={{ marginTop: 24 }} css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
             <System.H5>Use</System.H5>
-            <Upload.Trigger
-              viewer={viewer}
-              css={STYLES_UPLOAD_BUTTON}
-              aria-label="Upload"
-              style={{ marginLeft: 8 }}
-            >
+            <span css={STYLES_UPLOAD_BUTTON} style={{ marginLeft: 8 }}>
               <SVG.Plus height="16px" />
-            </Upload.Trigger>
+            </span>
             <System.H5 style={{ marginLeft: 8 }}>or drop files to save to Slate</System.H5>
           </div>
         </EmptyState>

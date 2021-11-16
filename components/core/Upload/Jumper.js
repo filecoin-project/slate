@@ -13,6 +13,7 @@ import { useUploadContext } from "~/components/core/Upload/Provider";
 import { useUploadOnboardingContext } from "~/components/core/Onboarding/Upload";
 
 import DownloadExtensionButton from "~/components/core/Extension/DownloadExtensionButton";
+import { useCheckIfExtensionIsInstalled } from "~/common/hooks";
 
 const STYLES_EXTENSION_BAR = (theme) => css`
   ${Styles.HORIZONTAL_CONTAINER_CENTERED};
@@ -27,10 +28,12 @@ const STYLES_EXTENSION_BAR = (theme) => css`
 `;
 
 function ExtensionBar() {
+  const { isExtensionDownloaded } = useCheckIfExtensionIsInstalled();
+
   const [isVisible, setVisibility] = React.useState(true);
   const hideExtensionBar = () => setVisibility(false);
 
-  if (!isVisible) return null;
+  if (isExtensionDownloaded || !isVisible) return null;
 
   return (
     <Jumper.Item css={STYLES_EXTENSION_BAR}>
@@ -119,7 +122,7 @@ export function UploadJumper({ data }) {
     setState((prev) => ({ ...prev, [e.target.name]: e.target.value, urlError: false }));
   };
 
-  const isOnboarding = onboardingContext.currentStep === onboardingContext.steps.jumperWalkthrough;
+  const isOnboarding = onboardingContext.currentStep === onboardingContext.steps.jumper;
 
   return (
     <Jumper.AnimatePresence>
@@ -128,8 +131,8 @@ export function UploadJumper({ data }) {
           <Jumper.Header>
             <System.H5 color="textBlack">Upload</System.H5>
           </Jumper.Header>
-          {isOnboarding && <ExtensionBar />}
           <Jumper.Divider />
+          {isOnboarding && <ExtensionBar />}
           <Jumper.Item css={STYLES_LINK_UPLOAD_WRAPPER}>
             <div css={Styles.HORIZONTAL_CONTAINER}>
               <System.Input

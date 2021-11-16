@@ -177,7 +177,7 @@ export class ApplicationUserControlsPopup extends React.Component {
         {
           text: (
             <div css={Styles.MOBILE_HIDDEN}>
-              <DownloadExtensionButton style={{ marginTop: "4px", marginBottom: "28px" }} />
+              <DownloadExtensionButton full style={{ marginTop: "4px", marginBottom: "28px" }} />
             </div>
           ),
         },

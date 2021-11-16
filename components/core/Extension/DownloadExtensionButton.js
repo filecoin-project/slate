@@ -3,11 +3,7 @@ import * as Environment from "~/common/environment";
 import * as System from "~/components/system";
 import * as Constants from "~/common/constants";
 
-const checkIfExtensionIsDownloaded = () => {
-  const extensionElement = document.getElementById("browser_extension");
-  if (!extensionElement) return false;
-  return extensionElement.className.includes("isDownloaded");
-};
+import { useCheckIfExtensionIsInstalled } from "~/common/hooks";
 
 const getExtensionBrowserAndLink = () => {
   const testUserAgent = (regex) => regex.test(window.navigator.userAgent);
@@ -24,21 +20,14 @@ const getExtensionBrowserAndLink = () => {
 };
 
 export default function DownloadExtensionButton({ hideIfDownloaded = true, style, ...props }) {
-  const [isExtensionDownloaded, setExtensionDownload] = React.useState(false);
+  const { isExtensionDownloaded } = useCheckIfExtensionIsInstalled();
 
-  React.useEffect(() => {
-    if (document && hideIfDownloaded) {
-      const isExtensionDownloaded = checkIfExtensionIsDownloaded();
-      setExtensionDownload(isExtensionDownloaded);
-    }
-  }, []);
-
-  if (isExtensionDownloaded) return null;
+  if (hideIfDownloaded && isExtensionDownloaded) return null;
 
   const extension = getExtensionBrowserAndLink();
 
   return (
-    <System.ButtonPrimaryFull
+    <System.ButtonPrimary
       style={{
         padding: "0px 12px",
         minHeight: "30px",
@@ -49,6 +38,6 @@ export default function DownloadExtensionButton({ hideIfDownloaded = true, style
       {...props}
     >
       Install Slate for {extension.browser}
-    </System.ButtonPrimaryFull>
+    </System.ButtonPrimary>
   );
 }

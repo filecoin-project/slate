@@ -1,11 +1,13 @@
 import * as React from "react";
 import * as System from "~/components/system";
+import * as Styles from "~/common/styles";
 
 import { motion } from "framer-motion";
 import { css } from "@emotion/react";
 import { ModalPortal } from "../ModalPortal";
 
 const STYLES_ONBOARDING_POPUP = (theme) => css`
+  ${Styles.VERTICAL_CONTAINER};
   position: fixed;
   left: 24px;
   bottom: 28px;

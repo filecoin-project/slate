@@ -3,6 +3,7 @@ import * as Styles from "~/common/styles";
 import * as System from "~/components/system";
 import * as SVG from "~/common/svg";
 import * as Jumper from "~/components/system/components/fragments/Jumper";
+import * as MobileJumper from "~/components/system/components/fragments/MobileJumper";
 import * as Utilities from "~/common/utilities";
 import * as Actions from "~/common/actions";
 
@@ -79,6 +80,7 @@ const STYLES_WELCOME_WRAPPER = (theme) => css`
   position: fixed;
   height: 100vh;
   width: 100%;
+  padding: 16px;
   top: 0;
   left: 0;
   z-index: ${theme.zindex.cta};
@@ -101,7 +103,7 @@ function WelcomeOnboarding({ viewer }) {
       <div css={STYLES_WELCOME_WRAPPER}>
         <div css={Styles.VERTICAL_CONTAINER_CENTERED}>
           <ProfilePhoto user={viewer} style={{ borderRadius: "12px" }} size={64} />
-          <System.H2 style={{ marginTop: 25 }} as="h1">
+          <System.H2 style={{ marginTop: 25, textAlign: "center" }} as="h1">
             Welcome to Slate, {viewer.username}
           </System.H2>
           <System.P1 style={{ marginTop: 5, textAlign: "center" }}>
@@ -124,50 +126,65 @@ function WelcomeOnboarding({ viewer }) {
  * Privacy And Security
  * -----------------------------------------------------------------------------------------------*/
 
-function PrivacyAndSecurityOnboarding() {
+function PrivacyAndSecurityOnboarding({ isMobile }) {
   const { goToNextStep } = useUploadOnboardingContext();
+
+  const header = <System.H2 as="h1">Privacy, security & portability of your data</System.H2>;
+  const body = (
+    <System.P2>
+      Files (not including links) you save to Slate will be stored on IPFS. <br /> You will get a
+      CID link when you save with Slate. <br />
+      Anyone can access your files on IPFS with a CID link.
+      <br />
+      <br />
+      Example:
+      <br />
+      <a
+        css={Styles.LINK}
+        href="https://ipfs.io/bafkreiabty76ayakifavlpzwvxjha255aajcii2dwl7pdfmcuubswx7qja"
+        target="_blank"
+        rel="noreferrer"
+      >
+        https://ipfs.io/bafkreiabty76ayakifavlpzwvxjha255aajcii2dwl7pdfmcuubswx7qja
+      </a>
+    </System.P2>
+  );
+
+  const actions = (
+    <>
+      <System.ButtonSecondary
+        type="link"
+        href={PROTO_SCHOOL_CID}
+        target="_blank"
+        rel="noreferrer"
+        style={{ marginLeft: "auto", minHeight: "24px" }}
+      >
+        Learn More
+      </System.ButtonSecondary>
+      <System.ButtonPrimary style={{ marginLeft: 8, minHeight: "24px" }} onClick={goToNextStep}>
+        Got it
+      </System.ButtonPrimary>
+    </>
+  );
 
   return (
     <ModalPortal>
-      <Jumper.Root withDismissButton={false}>
-        <Jumper.Header>
-          <System.H2 as="h1">Privacy, security & portability of your data</System.H2>
-        </Jumper.Header>
-        <Jumper.Item style={{ flexGrow: 1 }}>
-          <System.P2>
-            Files (not including links) you save to Slate will be stored on IPFS. <br /> You will
-            get a CID link when you save with Slate. <br />
-            Anyone can access your files on IPFS with a CID link.
-            <br />
-            <br />
-            Example:
-            <br />
-            <a
-              css={Styles.LINK}
-              href="https://ipfs.io/bafkreiabty76ayakifavlpzwvxjha255aajcii2dwl7pdfmcuubswx7qja"
-              target="_blank"
-              rel="noreferrer"
-            >
-              https://ipfs.io/bafkreiabty76ayakifavlpzwvxjha255aajcii2dwl7pdfmcuubswx7qja{" "}
-            </a>
-          </System.P2>
-        </Jumper.Item>
-        <Jumper.Divider style={{ marginTop: "auto" }} />
-        <Jumper.Item css={STYLES_JUMPER_FOOTER} style={{ marginTop: "auto" }}>
-          <System.ButtonSecondary
-            type="link"
-            href={PROTO_SCHOOL_CID}
-            target="_blank"
-            rel="noreferrer"
-            style={{ marginLeft: "auto", minHeight: "24px" }}
-          >
-            Learn More
-          </System.ButtonSecondary>
-          <System.ButtonPrimary style={{ marginLeft: 8, minHeight: "24px" }} onClick={goToNextStep}>
-            Got it
-          </System.ButtonPrimary>
-        </Jumper.Item>
-      </Jumper.Root>
+      {isMobile ? (
+        <MobileJumper.Root>
+          <MobileJumper.Header>{header}</MobileJumper.Header>
+          <MobileJumper.Content>{body}</MobileJumper.Content>
+          <MobileJumper.Footer style={{ display: "flex" }}>{actions}</MobileJumper.Footer>
+        </MobileJumper.Root>
+      ) : (
+        <Jumper.Root withDismissButton={false}>
+          <Jumper.Header>{header}</Jumper.Header>
+          <Jumper.Item style={{ flexGrow: 1 }}>{body}</Jumper.Item>
+          <Jumper.Divider style={{ marginTop: "auto" }} />
+          <Jumper.Item css={STYLES_JUMPER_FOOTER} style={{ marginTop: "auto" }}>
+            {actions}
+          </Jumper.Item>
+        </Jumper.Root>
+      )}
     </ModalPortal>
   );
 }
@@ -176,37 +193,65 @@ function PrivacyAndSecurityOnboarding() {
  * Extension
  * -----------------------------------------------------------------------------------------------*/
 
-function ExtensionOnboarding() {
+function ExtensionOnboarding({ isMobile }) {
   const { goToNextStep } = useUploadOnboardingContext();
+
+  const header = (
+    <System.H2 as="h1">
+      Save to Slate <br />
+      as you browse the web
+    </System.H2>
+  );
+
+  const body = (
+    <img
+      src={
+        isMobile
+          ? "/static/chrome-extension-jumper-mobile.png"
+          : "/static/chrome-extension-jumper.png"
+      }
+      height={isMobile ? 411 : 281}
+      width={isMobile ? 390 : 640}
+      style={{ width: "100%" }}
+      alt="chrome extension"
+    />
+  );
+
+  const actions = (
+    <>
+      <System.ButtonSecondary
+        onClick={goToNextStep}
+        style={{ marginLeft: "auto", minHeight: "24px" }}
+      >
+        Later
+      </System.ButtonSecondary>
+      <DownloadExtensionButton style={{ marginLeft: 8, minHeight: "24px" }} />
+    </>
+  );
 
   return (
     <ModalPortal>
-      <Jumper.Root withDismissButton={false}>
-        <Jumper.Header>
-          <System.H2>
-            Save to Slate <br />
-            as you browse the web
-          </System.H2>
-        </Jumper.Header>
-        <Jumper.Item style={{ flexGrow: 1, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
-          <img
-            src="/static/chrome-extension-jumper.png"
-            height={281}
-            width={640}
-            alt="chrome extension"
-          />
-        </Jumper.Item>
-        <Jumper.Divider style={{ marginTop: "auto" }} />
-        <Jumper.Item css={STYLES_JUMPER_FOOTER} style={{ marginTop: "auto" }}>
-          <System.ButtonSecondary
-            onClick={goToNextStep}
-            style={{ marginLeft: "auto", minHeight: "24px" }}
-          >
-            Later
-          </System.ButtonSecondary>
-          <DownloadExtensionButton style={{ marginLeft: 8, minHeight: "24px" }} />
-        </Jumper.Item>
-      </Jumper.Root>
+      <MobileJumper.AnimatePresence>
+        {isMobile ? (
+          <MobileJumper.Root>
+            <MobileJumper.Header>{header}</MobileJumper.Header>
+            <MobileJumper.Content style={{ padding: 0 }}>{body}</MobileJumper.Content>
+            <MobileJumper.Footer style={{ display: "flex" }}>{actions}</MobileJumper.Footer>
+          </MobileJumper.Root>
+        ) : null}
+      </MobileJumper.AnimatePresence>
+      {!isMobile ? (
+        <Jumper.Root withDismissButton={false}>
+          <Jumper.Header>{header}</Jumper.Header>
+          <Jumper.Item style={{ flexGrow: 1, paddingLeft: 0, paddingRight: 0, paddingBottom: 0 }}>
+            {body}
+          </Jumper.Item>
+          <Jumper.Divider style={{ marginTop: "auto" }} />
+          <Jumper.Item css={STYLES_JUMPER_FOOTER} style={{ marginTop: "auto" }}>
+            {actions}
+          </Jumper.Item>
+        </Jumper.Root>
+      ) : null}
     </ModalPortal>
   );
 }
@@ -314,21 +359,22 @@ function UploadWalkthrough() {
   );
 }
 
-function UploadSteps({ viewer }) {
+function UploadSteps({ viewer, isMobile }) {
   const { currentStep, steps } = useUploadOnboardingContext();
 
   if (currentStep === steps.welcome) return <WelcomeOnboarding viewer={viewer} />;
-  if (currentStep === steps.privacyAndSecurity) return <PrivacyAndSecurityOnboarding />;
-  if (currentStep === steps.extension) return <ExtensionOnboarding />;
+  if (currentStep === steps.privacyAndSecurity)
+    return <PrivacyAndSecurityOnboarding isMobile={isMobile} />;
+  if (currentStep === steps.extension) return <ExtensionOnboarding isMobile={isMobile} />;
   if (currentStep === steps.trigger || currentStep === steps.jumper) return <UploadWalkthrough />;
 
   return null;
 }
 
-export function UploadOnboarding({ viewer, onAction, children }) {
+export function UploadOnboarding({ viewer, isMobile, onAction, children }) {
   return (
     <Provider viewer={viewer} onAction={onAction}>
-      <UploadSteps viewer={viewer} />
+      <UploadSteps viewer={viewer} isMobile={isMobile} />
       {children}
     </Provider>
   );

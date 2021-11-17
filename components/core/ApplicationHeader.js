@@ -131,7 +131,7 @@ const STYLES_UPLOAD_BUTTON = css`
   pointer-events: auto;
 `;
 
-export default function ApplicationHeader({ viewer, page, data, onAction }) {
+export default function ApplicationHeader({ viewer, page, data, onAction, isMobile }) {
   const [state, setState] = React.useState({
     showDropdown: false,
     popup: null,
@@ -220,7 +220,7 @@ export default function ApplicationHeader({ viewer, page, data, onAction }) {
                 value={state.query}
               />
             </div>
-            <UploadOnboarding onAction={onAction} viewer={viewer}>
+            <UploadOnboarding onAction={onAction} viewer={viewer} isMobile={isMobile}>
               <Upload.Provider page={page} data={data} viewer={viewer}>
                 <Upload.Root data={data}>
                   <div css={STYLES_RIGHT}>

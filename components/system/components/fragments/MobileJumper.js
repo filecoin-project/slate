@@ -2,7 +2,11 @@ import * as React from "react";
 import * as Styles from "~/common/styles";
 
 import { css } from "@emotion/react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence as FramerAnimatePresence } from "framer-motion";
+
+function AnimatePresence({ children, ...props }) {
+  return <FramerAnimatePresence {...props}>{children}</FramerAnimatePresence>;
+}
 
 /* -------------------------------------------------------------------------------------------------
  *  Root
@@ -30,9 +34,10 @@ const STYLES_JUMPER_MOBILE_WRAPPER = (theme) => css`
 function Root({ children, ...props }) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.25, ease: "easeInOut" }}
+      initial={{ scale: 1.2, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.8, opacity: 0 }}
+      transition={{ type: "spring" }}
       css={[STYLES_JUMPER_MOBILE_WRAPPER, css]}
       {...props}
     >
@@ -86,7 +91,7 @@ const STYLES_JUMPER_MOBILE_FOOTER = (theme) => css`
   border-top: 1px solid ${theme.semantic.borderGrayLight4};
   background-color: ${theme.semantic.bgWhite};
   @supports ((-webkit-backdrop-filter: blur(75px)) or (backdrop-filter: blur(75px))) {
-    background-color: ${theme.semantic.bgBlurWhite};
+    background-color: ${theme.semantic.bgBlurLight};
     -webkit-backdrop-filter: blur(75px);
     backdrop-filter: blur(75px);
   }
@@ -104,4 +109,4 @@ function Footer({ children, css, ...props }) {
   );
 }
 
-export { Root, Header, Content, Footer };
+export { Root, AnimatePresence, Header, Content, Footer };

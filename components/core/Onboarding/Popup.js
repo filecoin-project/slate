@@ -23,6 +23,11 @@ const STYLES_ONBOARDING_POPUP = (theme) => css`
     backdrop-filter: blur(75px);
     background-color: ${theme.semantic.bgBlurWhiteOp};
   }
+
+  @media (max-width: ${theme.sizes.mobile}px) {
+    left: 17px;
+    bottom: 16px;
+  }
 `;
 
 const STYLES_POPUP_HEADER = css`

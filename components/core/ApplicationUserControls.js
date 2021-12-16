@@ -14,6 +14,7 @@ import { H4, P3 } from "~/components/system/components/Typography";
 
 import ProfilePhoto from "~/components/core/ProfilePhoto";
 import DataMeter from "~/components/core/DataMeter";
+import * as Settings from "~/components/core/Settings";
 
 const STYLES_HEADER = css`
   position: relative;
@@ -210,9 +211,13 @@ export class ApplicationUserControlsPopup extends React.Component {
         {
           text: (
             <div css={STYLES_SECTION_ITEM_HOVER}>
-              <Link href={"/_/settings"} onAction={this._handleAction}>
-                Settings
-              </Link>
+              <Settings.Provider>
+                <Settings.Root viewer={this.props.viewer}>
+                  <Settings.Trigger>
+                    Settings
+                  </Settings.Trigger>
+                </Settings.Root>
+              </Settings.Provider> 
             </div>
           ),
         },

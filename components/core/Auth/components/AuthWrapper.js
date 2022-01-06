@@ -4,6 +4,7 @@ import * as System from "~/components/system";
 import * as Styles from "~/common/styles";
 
 import { css } from "@emotion/react";
+import { FullHeightLayout } from "~/components/system/components/FullHeightLayout";
 
 const AUTH_BACKGROUNDS = [
   "https://slate.textile.io/ipfs/bafybeigostprfkuuvuqlehutki32fnvshm2dyy4abqotmlffsca4f7qs7a",
@@ -52,28 +53,9 @@ const STYLES_AUTH_FOOTER = (theme) => css`
   }
 `;
 
-export default function AuthWrapper({ children, isMobile, ...props }) {
-  // NOTE(amine): fix for 100vh overflowing in mobile
-  //              https://bugs.webkit.org/show_bug.cgi?id=141832
-  const [height, setHeight] = React.useState();
-
-  React.useLayoutEffect(() => {
-    if (!window) return;
-    const updateHeight = () => {
-      const windowInnerHeight = window.innerHeight;
-      setHeight(windowInnerHeight);
-    };
-
-    updateHeight();
-    // NOTE(amine): don't update height on mobile
-    if (isMobile) return;
-
-    window.addEventListener("resize", updateHeight);
-    return () => window.addEventListener("resize", updateHeight);
-  }, [isMobile]);
-
+export default function AuthWrapper({ children, ...props }) {
   return (
-    <div style={{ backgroundImage: `url(${backgroundUrl})`, minHeight: height }} {...props}>
+    <FullHeightLayout style={{ backgroundImage: `url(${backgroundUrl})` }} {...props}>
       {children}
       <footer css={STYLES_AUTH_FOOTER}>
         <System.H6 as="a" href="/terms">
@@ -87,6 +69,6 @@ export default function AuthWrapper({ children, isMobile, ...props }) {
           Join Discord
         </System.H6>
       </footer>
-    </div>
+    </FullHeightLayout>
   );
 }

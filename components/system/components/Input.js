@@ -176,9 +176,9 @@ export class Input extends React.Component {
     this.props.onSubmit(e);
   };
 
-  _handleKeyDown = (e) => {
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(e);
+  _handleKeyUp = (e) => {
+    if (this.props.onKeyUp) {
+      this.props.onKeyUp(e);
     }
 
     if ((e.which === 13 || e.keyCode === 13) && this.props.onSubmit) {
@@ -260,7 +260,7 @@ export class Input extends React.Component {
                     : this.props.onFocus
                 }
                 onBlur={this.props.onBlur}
-                onKeyDown={this._handleKeyDown}
+                onKeyUp={this._handleKeyUp}
                 autoComplete="off"
                 disabled={this.props.disabled}
                 readOnly={this.props.readOnly}

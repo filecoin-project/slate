@@ -98,29 +98,22 @@ function UpdateFileForm({ file, isMobile, onClose }) {
 
         {isMobile ? (
           <MobileJumper.Footer css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
-            <System.ButtonPrimitive
+            <System.ButtonSecondary
               type="button"
-              style={{ width: 32, height: 32 }}
+              full
               onClick={onClose}
+              style={{ padding: "9px 24px 11px", minHeight: "24px" }}
             >
-              <SVG.Edit width={16} height={16} style={{ color: Constants.system.blue }} />
-            </System.ButtonPrimitive>
-            <div css={Styles.HORIZONTAL_CONTAINER_CENTERED} style={{ marginLeft: "auto" }}>
-              <System.ButtonSecondary
-                type="button"
-                onClick={onClose}
-                style={{ marginLeft: "auto", padding: "5px 24px 7px", minHeight: "24px" }}
-              >
-                Cancel
-              </System.ButtonSecondary>
-              <System.ButtonPrimary
-                type="submit"
-                style={{ marginLeft: "8px", padding: "5px 24px 7px", minHeight: "24px" }}
-                loading={isSubmitting}
-              >
-                Save
-              </System.ButtonPrimary>
-            </div>
+              Cancel
+            </System.ButtonSecondary>
+            <System.ButtonPrimary
+              type="submit"
+              full
+              style={{ marginLeft: "8px", padding: "9px 24px 11px", minHeight: "24px" }}
+              loading={isSubmitting}
+            >
+              Save
+            </System.ButtonPrimary>
           </MobileJumper.Footer>
         ) : (
           <>

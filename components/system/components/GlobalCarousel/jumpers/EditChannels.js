@@ -417,9 +417,7 @@ export function EditChannels({ file, viewer, isOpen, onClose, ...props }) {
             <Jumper.Dismiss />
           </Jumper.Header>
           <Jumper.Divider />
-          <Jumper.Item>
-            <Jumper.ObjectPreview file={file} />
-          </Jumper.Item>
+          <Jumper.ObjectInfo file={file} />
           <Jumper.Divider />
           {showEmptyState ? (
             <Jumper.Item style={{ flexGrow: 1 }} css={Styles.CONTAINER_CENTERED}>
@@ -479,6 +477,9 @@ export function EditChannelsMobile({ file, viewer, isOpen, onClose }) {
     <MobileJumper.AnimatePresence>
       {isOpen ? (
         <MobileJumper.Root onClose={onClose}>
+          <System.Divider height={1} color="borderGrayLight" />
+          <MobileJumper.ObjectInfo file={file} />
+          <System.Divider height={1} color="borderGrayLight" />
           <MobileJumper.Header style={{ paddingTop: 0, paddingBottom: 0 }}>
             <ChannelInput
               value={searchQuery}
@@ -487,12 +488,7 @@ export function EditChannelsMobile({ file, viewer, isOpen, onClose }) {
               onAddFileToChannel={handleAddFileToChannel}
               autoFocus
             />
-            <MobileJumper.Dismiss />
           </MobileJumper.Header>
-          <System.Divider height={1} color="borderGrayLight4" />
-          <div style={{ padding: "13px 16px 11px" }}>
-            <Jumper.ObjectPreview file={file} />
-          </div>
           <System.Divider height={1} color="borderGrayLight" />
           <MobileJumper.Content style={{ paddingBottom: 60 }}>
             <Channels

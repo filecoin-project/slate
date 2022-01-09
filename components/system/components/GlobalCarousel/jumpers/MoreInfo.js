@@ -183,6 +183,7 @@ function CoverImageUpload({ file, viewer, isMobile, isFileOwner }) {
         }}
         style={{
           marginTop: 14,
+          height: "max-content",
           cursor: !isUploadingCoverImg && isFileOwner ? "pointer" : "unset",
         }}
       >
@@ -374,7 +375,7 @@ export function MoreInfo({ external, viewer, isOwner, file, isOpen, onClose }) {
           <Jumper.Divider />
           <Jumper.Item
             css={Styles.HORIZONTAL_CONTAINER}
-            style={{ paddingTop: 0, paddingBottom: 0 }}
+            style={{ paddingTop: 0, paddingBottom: 0, flexGrow: 1 }}
           >
             <CoverImageUpload file={file} viewer={viewer} isFileOwner={isFileOwner} />
             <System.Divider
@@ -398,17 +399,15 @@ export function MoreInfoMobile({ external, viewer, isOwner, file, isOpen, onClos
     <MobileJumper.AnimatePresence>
       {isOpen ? (
         <MobileJumper.Root onClose={onClose}>
+          <System.Divider height={1} color="borderGrayLight" />
+          <MobileJumper.ObjectInfo file={file} />
+          <System.Divider height={1} color="borderGrayLight" />
           <MobileJumper.Header>
             <System.H5 as="p" color="textBlack">
               More Info
             </System.H5>
-            <MobileJumper.Dismiss />
           </MobileJumper.Header>
-          <System.Divider height={1} color="borderGrayLight4" />
-          <div style={{ padding: "13px 16px 11px" }}>
-            <Jumper.ObjectPreview file={file} />
-          </div>
-          <System.Divider height={1} color="borderGrayLight4" />
+          <System.Divider height={1} color="borderGrayLight" />
           <MobileJumper.Content>
             <CoverImageUpload isMobile file={file} viewer={viewer} isFileOwner={isFileOwner} />
             <FileMetadata file={file} style={{ marginTop: 22 }} />

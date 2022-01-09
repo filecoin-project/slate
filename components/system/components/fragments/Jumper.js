@@ -2,7 +2,6 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Styles from "~/common/styles";
 import * as SVG from "~/common/svg";
-import * as Constants from "~/common/constants";
 
 import { ModalPortal } from "~/components/core/ModalPortal";
 import { css } from "@emotion/react";
@@ -153,13 +152,13 @@ const Dismiss = React.forwardRef(({ css, ...props }, ref) => {
  *  Item
  * -----------------------------------------------------------------------------------------------*/
 
-const STYLES_JUMPER_ITEM = css`
+const STYLES_JUMPER_ITEM_PADDING = css`
   padding: 13px 20px 12px;
 `;
 
 function Item({ children, ...props }) {
   return (
-    <div css={[STYLES_JUMPER_ITEM, css]} {...props}>
+    <div css={[STYLES_JUMPER_ITEM_PADDING, css]} {...props}>
       {children}
     </div>
   );
@@ -177,17 +176,22 @@ function Divider({ children, color = "borderGrayLight4", ...props }) {
 }
 
 /* -------------------------------------------------------------------------------------------------
- *  ObjectPreview
+ *  ObjectInfo
  * -----------------------------------------------------------------------------------------------*/
 
-function ObjectPreview({ file }) {
+function ObjectInfo({ file, css, style, ...props }) {
   return (
     <div
-      css={Styles.HORIZONTAL_CONTAINER_CENTERED}
-      style={{ color: Constants.system.green, width: "100%" }}
+      {...props}
+      css={[Styles.HORIZONTAL_CONTAINER_CENTERED, STYLES_JUMPER_ITEM_PADDING, css]}
+      style={{ width: "100%", ...style }}
     >
       <div>
-        <SVG.CheckCircle style={{ display: "block" }} />
+        <ObjectBoxPreview
+          file={file}
+          placeholderRatio={2}
+          style={{ width: 20, height: 20, borderRadius: 4 }}
+        />
       </div>
       <div style={{ marginLeft: 12, marginRight: 12 }}>
         <AnimateSharedLayout>
@@ -197,17 +201,14 @@ function ObjectPreview({ file }) {
             </System.H5>
           </motion.div>
         </AnimateSharedLayout>
-        <Show when={file?.source}>
+        <Show when={file?.linkSource}>
           <System.P3 nbrOflines={1} color="textBlack" style={{ marginTop: 3 }}>
-            {file?.source}
+            {file?.linkSource}
           </System.P3>
         </Show>
-      </div>
-      <div style={{ marginLeft: "auto" }}>
-        <ObjectBoxPreview file={file} placeholderRatio={2} style={{ width: 28, height: 39 }} />
       </div>
     </div>
   );
 }
 
-export { AnimatePresence, Root, Header, Dismiss, Item, Divider, ObjectPreview };
+export { AnimatePresence, Root, Header, Dismiss, Item, Divider, ObjectInfo };

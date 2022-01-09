@@ -170,9 +170,7 @@ export function EditInfo({ file, isOpen, onClose }) {
             <Jumper.Dismiss />
           </Jumper.Header>
           <Jumper.Divider />
-          <Jumper.Item>
-            <Jumper.ObjectPreview file={file} />
-          </Jumper.Item>
+          <Jumper.ObjectInfo file={file} />
           <Jumper.Divider />
           <UpdateFileForm key={file.id} file={file} isMobile={false} onClose={onClose} />
         </Jumper.Root>
@@ -181,22 +179,21 @@ export function EditInfo({ file, isOpen, onClose }) {
   );
 }
 
-export function EditInfoMobile({ file, isOpen, onClose }) {
+export function EditInfoMobile({ file, isOpen, withDismissButton, onClose }) {
   return (
     <MobileJumper.AnimatePresence>
       {isOpen ? (
         <MobileJumper.Root onClose={onClose}>
+          <System.Divider height={1} color="borderGrayLight" />
+          <MobileJumper.ObjectInfo file={file} />
+          <System.Divider height={1} color="borderGrayLight" />
           <MobileJumper.Header>
             <System.H5 as="p" color="textBlack">
               Edit Info
             </System.H5>
-            <MobileJumper.Dismiss />
+            {withDismissButton ? <MobileJumper.Dismiss /> : null}
           </MobileJumper.Header>
-          <System.Divider height={1} color="borderGrayLight4" />
-          <div style={{ padding: "13px 16px 11px" }}>
-            <Jumper.ObjectPreview file={file} />
-          </div>
-          <System.Divider height={1} color="borderGrayLight4" />
+          <System.Divider height={1} color="borderGrayLight" />
           <UpdateFileForm isMobile key={file.id} file={file} onClose={onClose} />
         </MobileJumper.Root>
       ) : null}

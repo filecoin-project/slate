@@ -26,6 +26,10 @@ const STYLES_SHARING_BUTTON = (theme) => css`
   :hover {
     color: ${theme.semantic.textBlack};
   }
+
+  @media (max-width: ${theme.sizes.mobile}px) {
+    padding: 9px 0px 11px;
+  }
 `;
 const getFileURL = ({ file }) => {
   const rootUrl = window?.location?.origin;
@@ -59,21 +63,21 @@ function FileSharingButtons({ file, data, viewer }) {
   return (
     <>
       <System.ButtonPrimitive css={STYLES_SHARING_BUTTON} onClick={handleTwitterSharing} autoFocus>
-        <SVG.Twitter width={16} />
+        <SVG.Twitter width={20} />
         <System.P2 style={{ marginLeft: 12 }}>Share via Twitter</System.P2>
       </System.ButtonPrimitive>
       <System.ButtonPrimitive css={STYLES_SHARING_BUTTON} onClick={handleEmailSharing}>
-        <SVG.Mail width={16} />
+        <SVG.Mail width={20} />
         <System.P2 style={{ marginLeft: 12 }}>Share via email </System.P2>
       </System.ButtonPrimitive>
       <System.ButtonPrimitive css={STYLES_SHARING_BUTTON} onClick={handleLinkCopy}>
-        <SVG.Link width={16} />
+        <SVG.Link width={20} />
         <System.P2 style={{ marginLeft: 12 }}>
           {copyState.isLinkCopied ? "Copied" : "Copy public link"}
         </System.P2>
       </System.ButtonPrimitive>
       <System.ButtonPrimitive css={STYLES_SHARING_BUTTON} onClick={handleCidCopy}>
-        <SVG.Hexagon width={16} />
+        <SVG.Hexagon width={20} />
         <System.P2 style={{ marginLeft: 12 }}>
           {copyState.isCidCopied ? "Copied" : "Copy CID "}
         </System.P2>
@@ -147,9 +151,7 @@ export function Share({ file, data, viewer, isOpen, onClose }) {
             <Jumper.Dismiss />
           </Jumper.Header>
           <Jumper.Divider />
-          <Jumper.Item>
-            <Jumper.ObjectPreview file={file} />
-          </Jumper.Item>
+          <Jumper.ObjectInfo file={file} />
           <Jumper.Divider />
           <Jumper.Item style={{ padding: 12 }}>
             <FileSharingButtons file={file} data={data} viewer={viewer} />
@@ -177,17 +179,15 @@ export function ShareMobile({ file, data, viewer, isOpen, onClose }) {
     <MobileJumper.AnimatePresence>
       {isOpen ? (
         <MobileJumper.Root onClose={onClose}>
+          <System.Divider height={1} color="borderGrayLight" />
+          <MobileJumper.ObjectInfo file={file} />
+          <System.Divider height={1} color="borderGrayLight" />
           <MobileJumper.Header>
             <System.H5 as="p" color="textBlack">
               Share
             </System.H5>
-            <MobileJumper.Dismiss />
           </MobileJumper.Header>
-          <System.Divider height={1} color="borderGrayLight4" />
-          <div style={{ padding: "13px 16px 11px" }}>
-            <Jumper.ObjectPreview file={file} />
-          </div>
-          <System.Divider height={1} color="borderGrayLight4" />
+          <System.Divider height={1} color="borderGrayLight" />
           <MobileJumper.Content>
             <FileSharingButtons file={file} data={data} viewer={viewer} />
           </MobileJumper.Content>

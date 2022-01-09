@@ -9,6 +9,7 @@ import { motion, AnimatePresence as FramerAnimatePresence } from "framer-motion"
 import { ModalPortal } from "~/components/core/ModalPortal";
 import { useLockScroll } from "~/common/hooks";
 import { useRestoreFocus, useTrapFocus } from "~/common/hooks/a11y";
+import { ObjectInfo as ObjectInfoPrimitive } from "~/components/system/components/fragments/Jumper";
 
 /* -------------------------------------------------------------------------------------------------
  *  AnimatePresence
@@ -74,7 +75,7 @@ function Root({ children, onClose, ...props }) {
 const STYLES_JUMPER_MOBILE_HEADER = css`
   ${Styles.HORIZONTAL_CONTAINER_CENTERED};
   justify-content: space-between;
-  padding: 7px 8px 3px 16px;
+  padding: 14px 16px;
 `;
 
 function Header({ children, ...props }) {
@@ -159,6 +160,18 @@ const STYLES_JUMPER_MOBILE_FOOTER = (theme) => css`
 `;
 
 /* -------------------------------------------------------------------------------------------------
+ *  ObjectInfo
+ * -----------------------------------------------------------------------------------------------*/
+
+const STYLES_OBJECTINFO_PADDING = css`
+  padding: 13px 16px 11px;
+`;
+
+function ObjectInfo({ css, ...props }) {
+  return <ObjectInfoPrimitive {...props} css={[STYLES_OBJECTINFO_PADDING, css]} />;
+}
+
+/* -------------------------------------------------------------------------------------------------
  *  Footer
  * -----------------------------------------------------------------------------------------------*/
 
@@ -170,4 +183,4 @@ function Footer({ children, css, ...props }) {
   );
 }
 
-export { AnimatePresence, Root, Header, Dismiss, Divider, Content, Footer };
+export { AnimatePresence, Root, Header, ObjectInfo, Dismiss, Divider, Content, Footer };

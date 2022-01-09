@@ -7,16 +7,16 @@ import { css } from "@emotion/react";
 import { DescriptionGroup } from "~/components/system/components/fragments/DescriptionGroup";
 import { FocusRing } from "~/components/core/FocusRing";
 
-const INPUT_STYLES = css`
+const INPUT_STYLES = (theme) => css`
   box-sizing: border-box;
   font-family: ${Constants.font.text};
   -webkit-appearance: none;
   width: 100%;
   height: 40px;
   background: transparent;
-  font-size: 16px;
+  font-size: ${theme.typescale.lvl1};
   border-radius: 12px;
-  padding: 9px 12px 11px;
+  padding: 10px 12px;
   outline: 0;
   border: none;
   box-sizing: border-box;

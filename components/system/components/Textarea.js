@@ -5,7 +5,7 @@ import { css } from "@emotion/react";
 
 import TextareaAutoSize from "~/vendor/react-textarea-autosize";
 
-const STYLES_TEXTAREA = css`
+const STYLES_TEXTAREA = (theme) => css`
   box-sizing: border-box;
   font-family: ${Constants.font.text};
   -webkit-appearance: none;
@@ -17,11 +17,11 @@ const STYLES_TEXTAREA = css`
   color: ${Constants.system.black};
   border-radius: 12px;
   display: flex;
-  font-size: 16px;
+  font-size: ${theme.typescale.lvl1};
   align-items: center;
   justify-content: flex-start;
   border: 0;
-  padding: 9px 12px 11px;
+  padding: 10px 12px;
   box-shadow: 0 0 0 1px ${Constants.semantic.borderGrayLight} inset;
 
   ::placeholder {

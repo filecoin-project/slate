@@ -30,7 +30,7 @@ const STYLES_BUTTON = (theme) => css`
   }
 `;
 
-export default function TagsButton({ onClick, ...props }) {
+export default function SlatesButton({ onClick, ...props }) {
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();

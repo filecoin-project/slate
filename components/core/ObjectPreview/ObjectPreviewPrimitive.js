@@ -6,9 +6,9 @@ import * as SVG from "~/common/svg";
 import { css } from "@emotion/react";
 import { H5, P2, P3 } from "~/components/system/components/Typography";
 import { AspectRatio } from "~/components/system";
-import { motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useMounted, useMediaQuery } from "~/common/hooks";
-import { TagsButton } from "~/components/core/ObjectPreview/components";
+import { SlatesButton } from "~/components/core/ObjectPreview/components";
 import { useTagsOnboardingContext } from "~/components/core/Onboarding/Tags";
 
 import ImageObjectPreview from "~/components/core/ObjectPreview/ImageObjectPreview";
@@ -27,22 +27,27 @@ const STYLES_CONTROLS_DESKTOP = css`
 function DesktopControls({ file, viewer }) {
   const onboardingContext = useTagsOnboardingContext();
 
-  const [isTagsJumperVisible, setTagsJumperVisibility] = React.useState(false);
-  const showTagsJumper = () => setTagsJumperVisibility(true);
-  const hideTagsJumper = () => setTagsJumperVisibility(false);
+  const [isSlatesJumperVisible, setSlatesJumperVisibility] = React.useState(false);
+  const showSlatesJumper = () => setSlatesJumperVisibility(true);
+  const hideSlatesJumper = () => setSlatesJumperVisibility(false);
 
   return (
     <>
       {/**  NOTE(amine): controls visibility handled by STYLES_WRAPPER*/}
       <motion.div id="object_preview_controls" css={STYLES_CONTROLS_DESKTOP}>
-        <TagsButton onClick={() => (showTagsJumper(), onboardingContext?.goToNextStep?.call())} />
+        <SlatesButton
+          onClick={() => (showSlatesJumper(), onboardingContext?.goToNextStep?.call())}
+        />
       </motion.div>
-      <ObjectJumpers.EditChannels
-        file={file}
-        viewer={viewer}
-        isOpen={isTagsJumperVisible}
-        onClose={() => (hideTagsJumper(), onboardingContext?.goToNextStep?.call())}
-      />
+      <AnimatePresence>
+        {isSlatesJumperVisible ? (
+          <ObjectJumpers.EditSlates
+            file={file}
+            viewer={viewer}
+            onClose={() => (hideSlatesJumper(), onboardingContext?.goToNextStep?.call())}
+          />
+        ) : null}
+      </AnimatePresence>
     </>
   );
 }
@@ -85,9 +90,9 @@ function MobileControls({ file, viewer }) {
   const toggleControls = () => setShowControls((prev) => !prev);
   const hideControls = () => setShowControls(false);
 
-  const [isTagsJumperVisible, setTagsJumperVisibility] = React.useState(false);
-  const showTagsJumper = () => setTagsJumperVisibility(true);
-  const hideTagsJumper = () => setTagsJumperVisibility(false);
+  const [isSlatesJumperVisible, setSlatesJumperVisibility] = React.useState(false);
+  const showSlatesJumper = () => setSlatesJumperVisibility(true);
+  const hideSlatesJumper = () => setSlatesJumperVisibility(false);
 
   return (
     <>
@@ -104,14 +109,21 @@ function MobileControls({ file, viewer }) {
         css={STYLES_CONTROLS_MOBILE}
         onClick={(e) => (e.stopPropagation(), toggleControls())}
       >
-        <TagsButton onClick={() => (showTagsJumper(), onboardingContext?.goToNextStep?.call())} />
+        <SlatesButton
+          onClick={() => (showSlatesJumper(), onboardingContext?.goToNextStep?.call())}
+        />
       </motion.div>
-      <ObjectJumpers.EditChannelsMobile
-        file={file}
-        viewer={viewer}
-        isOpen={isTagsJumperVisible}
-        onClose={() => (hideTagsJumper(), hideControls(), onboardingContext?.goToNextStep?.call())}
-      />
+      <AnimatePresence>
+        {isSlatesJumperVisible ? (
+          <ObjectJumpers.EditSlatesMobile
+            file={file}
+            viewer={viewer}
+            onClose={() => (
+              hideSlatesJumper(), hideControls(), onboardingContext?.goToNextStep?.call()
+            )}
+          />
+        ) : null}
+      </AnimatePresence>
     </>
   );
 }

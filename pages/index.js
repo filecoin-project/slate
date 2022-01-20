@@ -896,7 +896,7 @@ export default function IndexPage() {
       return errors;
     },
     onSubmit: async ({ email }) => {
-      window.open(`/_/auth?tab=signup&email=${email}`);
+      window.open(`/_/auth?tab=signup&email=${email}`, "_self");
     },
   });
 

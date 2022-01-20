@@ -114,6 +114,7 @@ function LinkForm({ data }) {
         type="url"
         onChange={handleChange}
         onSubmit={handleUploadLink}
+        full
         autoFocus
       />
       <System.ButtonPrimary onClick={handleUploadLink}>Save</System.ButtonPrimary>

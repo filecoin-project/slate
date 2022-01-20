@@ -137,6 +137,7 @@ export const shadow = {
   darkMedium: "0px 8px 32px 0 rgba(99, 101, 102, 0.2)",
   darkLarge: "0px 12px 64px 0 rgba(99, 101, 102, 0.3)",
   card: "0px 0px 20px #E5E8EA;",
+  jumperLight: "0px 16px 64px 0 rgba(99, 101, 102, 0.7)",
 };
 
 export const zindex = {

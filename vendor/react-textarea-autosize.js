@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import calculateNodeHeight, { purgeCache } from "~/vendor/calculate-node-height";
-import { FocusRing } from "~/components/core/FocusRing";
 import { css } from "@emotion/react";
 
 const noop = () => {};
@@ -53,14 +52,12 @@ export default class TextareaAutosize extends React.Component {
     }
 
     return (
-      <FocusRing>
-        <textarea
-          {...props}
-          css={[STYLES_TEXTAREA, css]}
-          onChange={this._onChange}
-          ref={this._onRef}
-        />
-      </FocusRing>
+      <textarea
+        {...props}
+        css={[STYLES_TEXTAREA, css]}
+        onChange={this._onChange}
+        ref={this._onRef}
+      />
     );
   }
 

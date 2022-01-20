@@ -34,6 +34,8 @@ const STYLES_JUMPER_ROOT = (theme) => css`
   border-radius: 16px;
   border: 1px solid ${theme.semantic.borderGrayLight4};
   overflow: hidden;
+  box-shadow: ${theme.shadow.jumperLight};
+
   background-color: ${theme.semantic.bgWhite};
   @supports ((-webkit-backdrop-filter: blur(75px)) or (backdrop-filter: blur(75px))) {
     -webkit-backdrop-filter: blur(75px);
@@ -48,16 +50,6 @@ const STYLES_JUMPER_ROOT = (theme) => css`
     top: 0;
     left: 0;
   }
-`;
-
-const STYLES_JUMPER_OVERLAY = (theme) => css`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: ${theme.zindex.jumper};
-  background-color: ${theme.semantic.bgBlurDark};
 `;
 
 const JumperContext = React.createContext({});
@@ -78,15 +70,7 @@ function Root({ children, onClose, ...props }) {
   return (
     <ModalPortal>
       <div ref={wrapperRef}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25, ease: "easeInOut" }}
-          css={STYLES_JUMPER_OVERLAY}
-          onClick={onClose}
-        />
-        <System.Boundary enabled={true} onOutsideRectEvent={onClose}>
+        <System.Boundary enabled={true} onOutsideRectEvent={onClose} onMouseDown>
           <JumperContext.Provider value={{ onClose }}>
             <motion.div
               initial={{ y: 10, opacity: 0 }}

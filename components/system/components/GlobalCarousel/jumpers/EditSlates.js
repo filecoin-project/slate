@@ -400,6 +400,18 @@ const STYLES_CHECKBOX_CIRCLE = (theme) => css`
   color: ${theme.semantic.textWhite};
 `;
 
+const STYLES_EMPTY_STATE_TAG = (theme) => css`
+  padding: 7px 12px 9px;
+  border-radius: 12px;
+  background-color: ${theme.semantic.bgGrayLight4};
+`;
+
+const STYLES_EMPTY_STATE_WRAPPER = css`
+  ${Styles.VERTICAL_CONTAINER_CENTERED};
+  justify-content: center;
+  height: 275px;
+`;
+
 const ComboboxSlatesMenuButton = ({
   hasPublicIcon,
   isCreateAction,
@@ -540,6 +552,19 @@ function ComboboxSlatesMenu({
           </ComboboxSlatesMenuButton>
         ))}
       </Combobox.Menu>
+    );
+  }
+
+  if (slates.length === 0) {
+    return (
+      <div css={STYLES_EMPTY_STATE_WRAPPER}>
+        <System.P2 color="textGrayDark" style={{ textAlign: "center" }}>
+          You don’t have any tags yet. <br /> Start typing above to create one.
+        </System.P2>
+        <div css={STYLES_EMPTY_STATE_TAG} style={{ marginTop: 19 }}>
+          <SVG.Hash width={16} height={16} style={{ display: "block" }} />
+        </div>
+      </div>
     );
   }
 

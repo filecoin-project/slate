@@ -12,11 +12,10 @@ const INPUT_STYLES = (theme) => css`
   font-family: ${Constants.font.text};
   -webkit-appearance: none;
   width: 100%;
-  height: 40px;
+  height: 100%;
   background: transparent;
   font-size: ${theme.typescale.lvl1};
   border-radius: 12px;
-  padding: 10px 12px;
   outline: 0;
   border: none;
   box-sizing: border-box;
@@ -50,7 +49,6 @@ const STYLES_UNIT = css`
 `;
 
 const STYLES_INPUT_CONTAINER = css`
-  width: 100%;
   box-sizing: border-box;
   position: relative;
   max-width: 480px;
@@ -72,6 +70,7 @@ const STYLES_INPUT = css`
   justify-content: flex-start;
   height: 40px;
   border-radius: 12px;
+  padding: 10px 12px;
   background: ${Constants.system.white};
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -129,7 +128,7 @@ const INPUT_COLOR_MAP = {
   WARNING: Constants.system.yellow,
 };
 
-export class Input extends React.Component {
+class InputPrimitive extends React.Component {
   _unit;
   _input;
   _isPin = this.props.type === "pin";
@@ -228,76 +227,81 @@ export class Input extends React.Component {
             style={this.props.descriptionStyle}
             description={this.props.description}
           />
-          <FocusRing within>
-            <div
-              css={[STYLES_INPUT, this.props.inputCss]}
+          <div
+            css={[STYLES_INPUT, this.props.inputCss]}
+            style={{
+              position: "relative",
+              boxShadow: this.props.validation
+                ? `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
+                    INPUT_COLOR_MAP[this.props.validation]
+                  }`
+                : null,
+              ...this.props.style,
+            }}
+          >
+            <input
+              ref={(c) => {
+                this._input = c;
+                if (this.props.innerRef) {
+                  this.props.innerRef?.(c);
+                }
+              }}
+              css={[INPUT_STYLES, this._isPin && STYLES_PIN_INPUT]}
+              autoFocus={this.props.autoFocus}
+              value={this._isPin ? this._formatPin(this.props.value) : this.props.value}
+              name={this.props.name}
+              type={this._isPin ? "text" : this.props.type}
+              placeholder={this.props.placeholder}
+              onChange={this._handleChange}
+              onFocus={
+                this.props.autoHighlight
+                  ? () => {
+                      this._input.select();
+                    }
+                  : this.props.onFocus
+              }
+              onBlur={this.props.onBlur}
+              onKeyUp={this._handleKeyUp}
+              autoComplete="off"
+              disabled={this.props.disabled}
+              readOnly={this.props.readOnly}
+              required={this.props.required}
+              maxLength={this.props.maxLength}
+              onKeyDown={this.props.onKeyDown}
+              tabIndex={this.props.tabIndex}
               style={{
-                position: "relative",
-                boxShadow: this.props.validation
-                  ? `0 1px 4px rgba(0, 0, 0, 0.07), inset 0 0 0 2px ${
-                      INPUT_COLOR_MAP[this.props.validation]
-                    }`
-                  : null,
-                ...this.props.style,
+                width: this.props.copyable || this.props.icon ? "calc(100% - 32px)" : "100%",
+                ...this.props.textStyle,
+              }}
+            />
+            <div
+              css={STYLES_UNIT}
+              ref={(c) => {
+                this._unit = c;
               }}
             >
-              <input
-                ref={(c) => {
-                  this._input = c;
-                }}
-                css={[INPUT_STYLES, this._isPin && STYLES_PIN_INPUT]}
-                autoFocus={this.props.autoFocus}
-                value={this._isPin ? this._formatPin(this.props.value) : this.props.value}
-                name={this.props.name}
-                type={this._isPin ? "text" : this.props.type}
-                placeholder={this.props.placeholder}
-                onChange={this._handleChange}
-                onFocus={
-                  this.props.autoHighlight
-                    ? () => {
-                        this._input.select();
-                      }
-                    : this.props.onFocus
-                }
-                onBlur={this.props.onBlur}
-                onKeyUp={this._handleKeyUp}
-                autoComplete="off"
-                disabled={this.props.disabled}
-                readOnly={this.props.readOnly}
-                required={this.props.required}
-                maxLength={this.props.maxLength}
-                style={{
-                  width: this.props.copyable || this.props.icon ? "calc(100% - 32px)" : "100%",
-                  ...this.props.textStyle,
-                }}
-              />
-              <div
-                css={STYLES_UNIT}
-                ref={(c) => {
-                  this._unit = c;
-                }}
-              >
-                {this.props.unit}
-              </div>
-              {this.props.unit ? null : this.props.icon ? (
-                <this.props.icon
-                  height="16px"
-                  css={STYLES_ICON}
-                  style={{ cursor: (this.props.onClickIcon || this.props.onSubmit) && "pointer" }}
-                  onClick={this.props.onClickIcon || this.props.onSubmit || this._handleSubmit}
-                />
-              ) : this.props.copyable ? (
-                <SVG.CopyAndPaste
-                  height="16px"
-                  css={STYLES_ICON}
-                  style={{ cursor: "pointer" }}
-                  onClick={this._handleCopy}
-                />
-              ) : null}
+              {this.props.unit}
             </div>
-          </FocusRing>
+            {this.props.unit ? null : this.props.icon ? (
+              <this.props.icon
+                height="16px"
+                css={STYLES_ICON}
+                style={{ cursor: (this.props.onClickIcon || this.props.onSubmit) && "pointer" }}
+                onClick={this.props.onClickIcon || this.props.onSubmit || this._handleSubmit}
+              />
+            ) : this.props.copyable ? (
+              <SVG.CopyAndPaste
+                height="16px"
+                css={STYLES_ICON}
+                style={{ cursor: "pointer" }}
+                onClick={this._handleCopy}
+              />
+            ) : null}
+          </div>
         </div>
       </>
     );
   }
 }
+
+export const Input = React.forwardRef((props, ref) => <InputPrimitive innerRef={ref} {...props} />);

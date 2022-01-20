@@ -161,43 +161,35 @@ function UpdateFileForm({ file, isMobile, onClose }) {
 
 /* -----------------------------------------------------------------------------------------------*/
 
-export function EditInfo({ file, isOpen, onClose }) {
+export function EditInfo({ file, onClose }) {
   return (
-    <Jumper.AnimatePresence>
-      {isOpen ? (
-        <Jumper.Root onClose={onClose}>
-          <Jumper.Header>
-            <System.H5 color="textBlack">Edit info</System.H5>
-            <Jumper.Dismiss />
-          </Jumper.Header>
-          <Jumper.Divider />
-          <Jumper.ObjectInfo file={file} />
-          <Jumper.Divider />
-          <UpdateFileForm key={file.id} file={file} isMobile={false} onClose={onClose} />
-        </Jumper.Root>
-      ) : null}
-    </Jumper.AnimatePresence>
+    <Jumper.Root onClose={onClose}>
+      <Jumper.Header>
+        <System.H5 color="textBlack">Edit info</System.H5>
+        <Jumper.Dismiss />
+      </Jumper.Header>
+      <Jumper.Divider />
+      <Jumper.ObjectInfo file={file} />
+      <Jumper.Divider />
+      <UpdateFileForm key={file.id} file={file} isMobile={false} onClose={onClose} />
+    </Jumper.Root>
   );
 }
 
-export function EditInfoMobile({ file, isOpen, withDismissButton, onClose }) {
+export function EditInfoMobile({ file, withDismissButton, onClose }) {
   return (
-    <MobileJumper.AnimatePresence>
-      {isOpen ? (
-        <MobileJumper.Root onClose={onClose}>
-          <System.Divider height={1} color="borderGrayLight" />
-          <MobileJumper.ObjectInfo file={file} />
-          <System.Divider height={1} color="borderGrayLight" />
-          <MobileJumper.Header>
-            <System.H5 as="p" color="textBlack">
-              Edit Info
-            </System.H5>
-            {withDismissButton ? <MobileJumper.Dismiss /> : null}
-          </MobileJumper.Header>
-          <System.Divider height={1} color="borderGrayLight" />
-          <UpdateFileForm isMobile key={file.id} file={file} onClose={onClose} />
-        </MobileJumper.Root>
-      ) : null}
-    </MobileJumper.AnimatePresence>
+    <MobileJumper.Root onClose={onClose}>
+      <System.Divider height={1} color="borderGrayLight" />
+      <MobileJumper.ObjectInfo file={file} />
+      <System.Divider height={1} color="borderGrayLight" />
+      <MobileJumper.Header>
+        <System.H5 as="p" color="textBlack">
+          Edit Info
+        </System.H5>
+        {withDismissButton ? <MobileJumper.Dismiss /> : null}
+      </MobileJumper.Header>
+      <System.Divider height={1} color="borderGrayLight" />
+      <UpdateFileForm isMobile key={file.id} file={file} onClose={onClose} />
+    </MobileJumper.Root>
   );
 }

@@ -250,7 +250,9 @@ function CarouselHeader({
     <>
       <ModalPortal>
         {isOwner && (
-          <Jumpers.EditInfo file={file} isOpen={isEditInfoVisible} onClose={hideEditInfo} />
+          <AnimatePresence>
+            {isEditInfoVisible && <Jumpers.EditInfo file={file} onClose={hideEditInfo} />}
+          </AnimatePresence>
         )}
         {isOwner && (
           <AnimatePresence>
@@ -259,26 +261,27 @@ function CarouselHeader({
             )}
           </AnimatePresence>
         )}
-        <Jumpers.FileDescription
-          file={file}
-          isOpen={isFileDescriptionVisible}
-          onClose={hideFileDescription}
-        />
-        <Jumpers.MoreInfo
-          viewer={viewer}
-          external={external}
-          isOwner={isOwner}
-          file={file}
-          isOpen={isMoreInfoVisible}
-          onClose={hideMoreInfo}
-        />
-        <Jumpers.Share
-          file={file}
-          data={data}
-          viewer={viewer}
-          isOpen={isShareFileVisible}
-          onClose={hideShareFile}
-        />
+        <AnimatePresence>
+          {isFileDescriptionVisible && (
+            <Jumpers.FileDescription file={file} onClose={hideFileDescription} />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {isMoreInfoVisible && (
+            <Jumpers.MoreInfo
+              viewer={viewer}
+              external={external}
+              isOwner={isOwner}
+              file={file}
+              onClose={hideMoreInfo}
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {isShareFileVisible && (
+            <Jumpers.Share file={file} data={data} viewer={viewer} onClose={hideShareFile} />
+          )}
+        </AnimatePresence>
       </ModalPortal>
 
       <nav css={STYLES_HEADER_WRAPPER} {...props}>
@@ -575,7 +578,9 @@ function CarouselFooterMobile({ file, onAction, external, isOwner, data, viewer 
     <>
       <ModalPortal>
         {isOwner && (
-          <Jumpers.EditInfoMobile file={file} isOpen={isEditInfoVisible} onClose={hideEditInfo} />
+          <AnimatePresence>
+            {isEditInfoVisible && <Jumpers.EditInfoMobile file={file} onClose={hideEditInfo} />}
+          </AnimatePresence>
         )}
         {isOwner && (
           <AnimatePresence>
@@ -584,21 +589,22 @@ function CarouselFooterMobile({ file, onAction, external, isOwner, data, viewer 
             )}
           </AnimatePresence>
         )}
-        <Jumpers.ShareMobile
-          file={file}
-          isOpen={isShareFileVisible}
-          data={data}
-          viewer={viewer}
-          onClose={hideShareFile}
-        />
-        <Jumpers.MoreInfoMobile
-          viewer={viewer}
-          external={external}
-          isOwner={isOwner}
-          file={file}
-          isOpen={isMoreInfoVisible}
-          onClose={hideMoreInfo}
-        />
+        <AnimatePresence>
+          {isShareFileVisible && (
+            <Jumpers.ShareMobile file={file} data={data} viewer={viewer} onClose={hideShareFile} />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {isMoreInfoVisible && (
+            <Jumpers.MoreInfoMobile
+              viewer={viewer}
+              external={external}
+              isOwner={isOwner}
+              file={file}
+              onClose={hideMoreInfo}
+            />
+          )}
+        </AnimatePresence>
       </ModalPortal>
       <AnimateSharedLayout>
         <nav css={STYLES_CAROUSEL_MOBILE_FOOTER}>

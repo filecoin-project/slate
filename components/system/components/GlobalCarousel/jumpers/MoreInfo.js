@@ -361,68 +361,56 @@ function FileMetadata({ file, ...props }) {
 
 /* -----------------------------------------------------------------------------------------------*/
 
-export function MoreInfo({ external, viewer, isOwner, file, isOpen, onClose }) {
+export function MoreInfo({ external, viewer, isOwner, file, onClose }) {
   const isFileOwner = !external && isOwner && viewer;
 
   return (
-    <Jumper.AnimatePresence>
-      {isOpen ? (
-        <Jumper.Root onClose={onClose}>
-          <Jumper.Header>
-            <System.H5 color="textBlack">More info</System.H5>
-            <Jumper.Dismiss autoFocus />
-          </Jumper.Header>
-          <Jumper.Divider />
-          <Jumper.Item
-            css={Styles.HORIZONTAL_CONTAINER}
-            style={{ paddingTop: 0, paddingBottom: 0, flexGrow: 1 }}
-          >
-            <CoverImageUpload file={file} viewer={viewer} isFileOwner={isFileOwner} />
-            <System.Divider
-              style={{ marginLeft: 20, marginRight: 20 }}
-              color="borderGrayLight4"
-              width={1}
-              height="unset"
-            />
-            <FileMetadata file={file} style={{ width: "100%", marginTop: 14 }} />
-          </Jumper.Item>
-        </Jumper.Root>
-      ) : null}
-    </Jumper.AnimatePresence>
+    <Jumper.Root onClose={onClose}>
+      <Jumper.Header>
+        <System.H5 color="textBlack">More info</System.H5>
+        <Jumper.Dismiss autoFocus />
+      </Jumper.Header>
+      <Jumper.Divider />
+      <Jumper.Item
+        css={Styles.HORIZONTAL_CONTAINER}
+        style={{ paddingTop: 0, paddingBottom: 0, flexGrow: 1 }}
+      >
+        <CoverImageUpload file={file} viewer={viewer} isFileOwner={isFileOwner} />
+        <System.Divider
+          style={{ marginLeft: 20, marginRight: 20 }}
+          color="borderGrayLight4"
+          width={1}
+          height="unset"
+        />
+        <FileMetadata file={file} style={{ width: "100%", marginTop: 14 }} />
+      </Jumper.Item>
+    </Jumper.Root>
   );
 }
 
-export function MoreInfoMobile({ external, viewer, isOwner, file, isOpen, onClose }) {
+export function MoreInfoMobile({ external, viewer, isOwner, file, onClose }) {
   const isFileOwner = !external && isOwner && viewer;
 
   return (
-    <MobileJumper.AnimatePresence>
-      {isOpen ? (
-        <MobileJumper.Root onClose={onClose}>
-          <System.Divider height={1} color="borderGrayLight" />
-          <MobileJumper.ObjectInfo file={file} />
-          <System.Divider height={1} color="borderGrayLight" />
-          <MobileJumper.Header>
-            <System.H5 as="p" color="textBlack">
-              More Info
-            </System.H5>
-          </MobileJumper.Header>
-          <System.Divider height={1} color="borderGrayLight" />
-          <MobileJumper.Content>
-            <CoverImageUpload isMobile file={file} viewer={viewer} isFileOwner={isFileOwner} />
-            <FileMetadata file={file} style={{ marginTop: 22 }} />
-          </MobileJumper.Content>
-          <MobileJumper.Footer css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
-            <System.ButtonPrimitive
-              type="button"
-              style={{ width: 32, height: 32 }}
-              onClick={onClose}
-            >
-              <SVG.InfoCircle width={16} height={16} style={{ color: Constants.system.blue }} />
-            </System.ButtonPrimitive>
-          </MobileJumper.Footer>
-        </MobileJumper.Root>
-      ) : null}
-    </MobileJumper.AnimatePresence>
+    <MobileJumper.Root onClose={onClose}>
+      <System.Divider height={1} color="borderGrayLight" />
+      <MobileJumper.ObjectInfo file={file} />
+      <System.Divider height={1} color="borderGrayLight" />
+      <MobileJumper.Header>
+        <System.H5 as="p" color="textBlack">
+          More Info
+        </System.H5>
+      </MobileJumper.Header>
+      <System.Divider height={1} color="borderGrayLight" />
+      <MobileJumper.Content>
+        <CoverImageUpload isMobile file={file} viewer={viewer} isFileOwner={isFileOwner} />
+        <FileMetadata file={file} style={{ marginTop: 22 }} />
+      </MobileJumper.Content>
+      <MobileJumper.Footer css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
+        <System.ButtonPrimitive type="button" style={{ width: 32, height: 32 }} onClick={onClose}>
+          <SVG.InfoCircle width={16} height={16} style={{ color: Constants.system.blue }} />
+        </System.ButtonPrimitive>
+      </MobileJumper.Footer>
+    </MobileJumper.Root>
   );
 }

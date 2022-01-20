@@ -13,9 +13,9 @@ import {
 import { Share, ShareMobile } from "~/components/system/components/GlobalCarousel/jumpers/Share";
 
 import {
-  EditChannels,
-  EditChannelsMobile,
-} from "~/components/system/components/GlobalCarousel/jumpers/EditChannels";
+  EditSlates,
+  EditSlatesMobile,
+} from "~/components/system/components/GlobalCarousel/jumpers/EditSlates";
 
 export {
   //NOTE(amine): FileDescription jumper
@@ -29,7 +29,7 @@ export {
   //NOTE(amine): Share jumper
   Share,
   ShareMobile,
-  //NOTE(amine): EditChannels jumper
-  EditChannels,
-  EditChannelsMobile,
+  //NOTE(amine): EditSlates jumper
+  EditSlates,
+  EditSlatesMobile,
 };

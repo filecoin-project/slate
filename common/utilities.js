@@ -179,7 +179,9 @@ export const getUserDisplayName = (user) => {
 export const mergeEvents =
   (...handlers) =>
   (e) => {
-    handlers.forEach((handler) => handler?.call?.(e));
+    handlers.forEach((handler) => {
+      if (handler) handler(e);
+    });
   };
 
 export const mergeRefs = (refs) => {

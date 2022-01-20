@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { jsx } from "@emotion/react";
 import { mergeRefs } from "~/common/utilities";
-import { useEventListener } from "~/common/hooks";
+import { useEventListener, useIsomorphicLayoutEffect } from "~/common/hooks";
 
 /* -------------------------------------------------------------------------------------------------
  * RovingTabIndex Provider
@@ -48,10 +48,15 @@ export function Provider({ axis, children }) {
     focusElement(prevFocusedIndex);
   };
 
+  const setIndexTo = (index) => {
+    setFocusedIndex(index);
+    focusElement(index);
+  };
+
   const contextValue = React.useMemo(
     () => [
       { focusedIndex, axis },
-      { registerItem, cleanupItem, setIndexToNextElement, setIndexPreviousElement },
+      { registerItem, cleanupItem, setIndexToNextElement, setIndexPreviousElement, setIndexTo },
     ],
     [focusedIndex]
   );
@@ -94,12 +99,14 @@ export const List = React.forwardRef(({ as = "div", children, ...props }, forwar
  * -----------------------------------------------------------------------------------------------*/
 
 export const Item = React.forwardRef(({ children, index, ...props }, forwardedRef) => {
-  const [{ focusedIndex }, { registerItem, cleanupItem }] = useRovingIndexContext();
+  const [{ focusedIndex }, { registerItem, cleanupItem, setIndexTo }] = useRovingIndexContext();
   const ref = React.useRef();
 
-  React.useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!ref.current) return;
     registerItem({ index, ref });
+    if (children.props.autoFocus) setIndexTo(index);
+
     return () => cleanupItem(index);
   }, [index]);
 

@@ -6,10 +6,10 @@ import { mergeEvents, mergeRefs, cloneElementWithJsx } from "~/common/utilities"
 const hasElementFocus = (el) => el.matches(":focus");
 const hasElementFocusWithin = (el) => el.matches(":focus-within");
 
-let isFocusViaKeyboard = false;
+let isFocusViaKeyboard = true;
 if (typeof window !== "undefined") {
   window?.addEventListener("mousedown", () => (isFocusViaKeyboard = false));
-  window?.addEventListener("keydown", () => (isFocusViaKeyboard = true));
+  window?.addEventListener("mouseup", () => (isFocusViaKeyboard = false));
 }
 
 const useFocusRing = ({ within, ref }) => {
@@ -20,7 +20,7 @@ const useFocusRing = ({ within, ref }) => {
       setFocus(within ? hasElementFocusWithin(ref.current) : hasElementFocus(ref.current));
     }
   };
-  const disableFocusRing = () => setFocus(false);
+  const disableFocusRing = () => (setFocus(false), (isFocusViaKeyboard = true));
 
   return [isFocused, { enableFocusRing, disableFocusRing }];
 };

@@ -12,7 +12,7 @@ import * as Events from "~/common/custom-events";
 
 import { css } from "@emotion/react";
 import { Alert } from "~/components/core/Alert";
-import { motion, AnimateSharedLayout } from "framer-motion";
+import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import {
   useDetectTextOverflow,
   useEscapeKey,
@@ -203,13 +203,13 @@ function CarouselHeader({
   const [isShareFileVisible, { showControl: showShareFile, hideControl: hideShareFile }] =
     useCarouselJumperControls();
 
-  const [isEditChannelsVisible, { showControl: showEditChannels, hideControl: hideEditChannels }] =
+  const [isEditSlatesVisible, { showControl: showEditSlates, hideControl: hideEditSlates }] =
     useCarouselJumperControls();
 
   const moreInfoTriggerRef = React.useRef();
   const editInfoTriggerRef = React.useRef();
   const shareTriggerRef = React.useRef();
-  const editChannelsTriggerRef = React.useRef();
+  const editSlatesTriggerRef = React.useRef();
 
   const handleKeyDown = (e) => {
     const targetTagName = e.target.tagName;
@@ -224,8 +224,8 @@ function CarouselHeader({
         break;
       case "t":
       case "T":
-        editChannelsTriggerRef.current.focus();
-        showEditChannels();
+        editSlatesTriggerRef.current.focus();
+        showEditSlates();
         break;
       case "s":
       case "S":
@@ -253,12 +253,11 @@ function CarouselHeader({
           <Jumpers.EditInfo file={file} isOpen={isEditInfoVisible} onClose={hideEditInfo} />
         )}
         {isOwner && (
-          <Jumpers.EditChannels
-            viewer={viewer}
-            file={file}
-            isOpen={isEditChannelsVisible}
-            onClose={hideEditChannels}
-          />
+          <AnimatePresence>
+            {isEditSlatesVisible && (
+              <Jumpers.EditSlates viewer={viewer} file={file} onClose={hideEditSlates} />
+            )}
+          </AnimatePresence>
         )}
         <Jumpers.FileDescription
           file={file}
@@ -347,9 +346,9 @@ function CarouselHeader({
                 >
                   <System.ButtonPrimitive
                     as={motion.button}
-                    ref={editChannelsTriggerRef}
-                    layoutId="jumper-desktop-channels"
-                    onClick={showEditChannels}
+                    ref={editSlatesTriggerRef}
+                    layoutId="jumper-desktop-slates"
+                    onClick={showEditSlates}
                     style={{ marginLeft: 4 }}
                     aria-label="Tag"
                     css={STYLES_ACTION_BUTTON}
@@ -570,7 +569,7 @@ function CarouselFooterMobile({ file, onAction, external, isOwner, data, viewer 
   const [isMoreInfoVisible, { showControl: showMoreInfo, hideControl: hideMoreInfo }] =
     useCarouselJumperControls();
 
-  const [isEditChannelsVisible, { showControl: showEditChannels, hideControl: hideEditChannels }] =
+  const [isEditSlatesVisible, { showControl: showEditSlates, hideControl: hideEditSlates }] =
     useCarouselJumperControls();
   return (
     <>
@@ -579,12 +578,11 @@ function CarouselFooterMobile({ file, onAction, external, isOwner, data, viewer 
           <Jumpers.EditInfoMobile file={file} isOpen={isEditInfoVisible} onClose={hideEditInfo} />
         )}
         {isOwner && (
-          <Jumpers.EditChannelsMobile
-            viewer={viewer}
-            file={file}
-            isOpen={isEditChannelsVisible}
-            onClose={hideEditChannels}
-          />
+          <AnimatePresence>
+            {isEditSlatesVisible && (
+              <Jumpers.EditSlatesMobile viewer={viewer} file={file} onClose={hideEditSlates} />
+            )}
+          </AnimatePresence>
         )}
         <Jumpers.ShareMobile
           file={file}
@@ -618,10 +616,10 @@ function CarouselFooterMobile({ file, onAction, external, isOwner, data, viewer 
           {isOwner && (
             <System.ButtonPrimitive
               as={motion.button}
-              layoutId="jumper-mobile-channels"
+              layoutId="jumper-mobile-slates"
               style={{ marginLeft: 4 }}
               css={STYLES_ACTION_BUTTON}
-              onClick={showEditChannels}
+              onClick={showEditSlates}
             >
               <SVG.Hash />
             </System.ButtonPrimitive>

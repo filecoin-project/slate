@@ -321,6 +321,8 @@ const STYLES_SEARCH_SLATES_COLOR = (theme) => css`
 `;
 
 function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, ...props }) {
+  const reverseAppliedSlates = React.useMemo(() => [...appliedSlates].reverse(), [appliedSlates]);
+
   return (
     <div css={[Styles.HORIZONTAL_CONTAINER, STYLES_SEARCH_SLATES_COLOR]} style={{ width: "100%" }}>
       <SVG.Hash width={16} style={{ marginTop: 20, marginBottom: 16 }} />
@@ -329,7 +331,7 @@ function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, ...props }) {
           css={STYLES_SLATES_INPUT_WRAPPER}
           style={{ marginLeft: 6, marginTop: 6, paddingRight: 20 }}
         >
-          {appliedSlates.map((slate, idx) => (
+          {reverseAppliedSlates.map((slate, idx) => (
             <RovingTabIndex.Item key={slate.id} index={idx}>
               <AppliedSlateButton
                 hasPublicIcon={slate.isPublic}
@@ -339,7 +341,7 @@ function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, ...props }) {
               </AppliedSlateButton>
             </RovingTabIndex.Item>
           ))}
-          <RovingTabIndex.Item index={appliedSlates.length}>
+          <RovingTabIndex.Item index={reverseAppliedSlates.length}>
             <Combobox.Input
               name="search"
               placeholder="Search or create a new tag"
@@ -454,22 +456,22 @@ const ComboboxSlatesMenuButton = ({
 function ComboboxSlatesMenu({
   filterValue,
   filteredSlates,
+  slates,
 
   createSlate,
   addFileToSlate,
   removeFileFromSlate,
+  checkIfSlateIsApplied,
 }) {
   const { canCreateSlate, suggestions } = React.useMemo(() => {
     let canCreateSlate = true;
 
     const filterRegex = new RegExp(filterValue, "gi");
     const filterAndSortSlates = (slates) =>
-      slates
-        .filter((slate) => {
-          if (slate.slatename === filterValue) canCreateSlate = false;
-          return filterRegex.test(slate.slatename);
-        })
-        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      slates.filter((slate) => {
+        if (slate.slatename === filterValue) canCreateSlate = false;
+        return filterRegex.test(slate.slatename);
+      });
 
     return {
       suggestions: {
@@ -543,27 +545,22 @@ function ComboboxSlatesMenu({
 
   return (
     <Combobox.Menu css={STYLES_SLATES_MENU_WRAPPER}>
-      {suggestions.unapplied.map((slate, i) => (
-        <ComboboxSlatesMenuButton
-          hasPublicIcon={slate.isPublic}
-          key={slate.id}
-          index={i}
-          onSelect={() => addFileToSlate(slate)}
-        >
-          {slate.slatename}
-        </ComboboxSlatesMenuButton>
-      ))}
-      {suggestions.applied.map((slate, i) => (
-        <ComboboxSlatesMenuButton
-          isSlateApplied
-          hasPublicIcon={slate.isPublic}
-          key={slate.id}
-          index={suggestions.unapplied.length + i}
-          onSelect={() => removeFileFromSlate(slate)}
-        >
-          {slate.slatename}
-        </ComboboxSlatesMenuButton>
-      ))}
+      {slates.map((slate, i) => {
+        const isSlateApplied = checkIfSlateIsApplied(slate);
+        return (
+          <ComboboxSlatesMenuButton
+            hasPublicIcon={slate.isPublic}
+            key={slate.id}
+            index={i}
+            isSlateApplied={isSlateApplied}
+            onSelect={
+              isSlateApplied ? () => removeFileFromSlate(slate) : () => addFileToSlate(slate)
+            }
+          >
+            {slate.slatename}
+          </ComboboxSlatesMenuButton>
+        );
+      })}
     </Combobox.Menu>
   );
 }
@@ -575,20 +572,26 @@ function ComboboxSlatesMenu({
 const useSlates = ({ viewer, object }) => {
   const [slates, setSlates] = React.useState(viewer.slates);
 
-  const filteredSlates = React.useMemo(() => {
+  const appliedSlatesHash = React.useRef({});
+  const [sortedSlates, filteredSlates] = React.useMemo(() => {
+    const sortedSlates = [...slates].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
     let applied = [];
     let unapplied = [];
 
-    slates.forEach((slate) => {
+    sortedSlates.forEach((slate) => {
       if (slate.objects.some((item) => item.id === object.id)) {
+        appliedSlatesHash.current[slate.id] = true;
         applied.push(slate);
       } else {
+        appliedSlatesHash.current[slate.id] = false;
         unapplied.push(slate);
       }
     });
 
-    return { applied, unapplied };
+    return [sortedSlates, { applied, unapplied }];
   }, [slates, object]);
+
+  const checkIfSlateIsApplied = (slate) => !!appliedSlatesHash.current[slate.id];
 
   const createSlate = async ({ name, isPublic }) => {
     const generatedId = uuid();
@@ -632,7 +635,8 @@ const useSlates = ({ viewer, object }) => {
     const resetViewerSlates = () => setSlates(prevSlates);
 
     const nextSlates = slates.map((item) => {
-      if (slate.id === item.id) return { ...item, objects: [...item.objects, object] };
+      if (slate.id === item.id)
+        return { ...item, updatedAt: new Date().toString(), objects: [...item.objects, object] };
       return item;
     });
     setSlates(nextSlates);
@@ -646,7 +650,11 @@ const useSlates = ({ viewer, object }) => {
     const resetViewerSlates = () => setSlates(prevSlates);
     const nextSlates = slates.map((item) => {
       if (slate.id === item.id) {
-        return { ...item, objects: item.objects.filter((object) => object.id !== object.id) };
+        return {
+          ...item,
+          updatedAt: new Date().toString(),
+          objects: item.objects.filter((object) => object.id !== object.id),
+        };
       }
       return item;
     });
@@ -657,11 +665,12 @@ const useSlates = ({ viewer, object }) => {
   };
 
   return {
-    slates,
+    slates: sortedSlates,
     filteredSlates,
     createSlate,
     addFileToSlate,
     removeFileFromSlate,
+    checkIfSlateIsApplied,
   };
 };
 
@@ -682,7 +691,15 @@ const useInput = () => {
 /* -----------------------------------------------------------------------------------------------*/
 
 export function EditSlates({ file, viewer, onClose, ...props }) {
-  const { filteredSlates, createSlate, addFileToSlate, removeFileFromSlate } = useSlates({
+  const {
+    slates,
+    filteredSlates,
+
+    createSlate,
+    addFileToSlate,
+    removeFileFromSlate,
+    checkIfSlateIsApplied,
+  } = useSlates({
     viewer,
     object: file,
   });
@@ -706,7 +723,9 @@ export function EditSlates({ file, viewer, onClose, ...props }) {
         <Jumper.Item style={{ padding: 0 }}>
           <ComboboxSlatesMenu
             filterValue={value}
+            slates={slates}
             filteredSlates={filteredSlates}
+            checkIfSlateIsApplied={checkIfSlateIsApplied}
             createSlate={createSlate}
             addFileToSlate={addFileToSlate}
             removeFileFromSlate={removeFileFromSlate}
@@ -720,7 +739,15 @@ export function EditSlates({ file, viewer, onClose, ...props }) {
 /* -----------------------------------------------------------------------------------------------*/
 
 export function EditSlatesMobile({ file, viewer, onClose }) {
-  const { filteredSlates, createSlate, addFileToSlate, removeFileFromSlate } = useSlates({
+  const {
+    slates,
+    filteredSlates,
+
+    createSlate,
+    addFileToSlate,
+    removeFileFromSlate,
+    checkIfSlateIsApplied,
+  } = useSlates({
     viewer,
     object: file,
   });
@@ -745,7 +772,9 @@ export function EditSlatesMobile({ file, viewer, onClose }) {
         <MobileJumper.Content style={{ padding: 0, paddingBottom: 60 }}>
           <ComboboxSlatesMenu
             filterValue={value}
+            slates={slates}
             filteredSlates={filteredSlates}
+            checkIfSlateIsApplied={checkIfSlateIsApplied}
             createSlate={createSlate}
             addFileToSlate={addFileToSlate}
             removeFileFromSlate={removeFileFromSlate}

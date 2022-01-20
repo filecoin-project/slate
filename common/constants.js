@@ -102,6 +102,7 @@ export const semantic = {
   bgBlurWhiteOP: "rgba(255, 255, 255, 0.85)",
   bgBlurWhiteTRN: "rgba(255, 255, 255, 0.3)",
   bgBlurLightTRN: "rgba(247, 248, 249, 0.3)",
+  bgBlurLightOP: "rgba(247, 248, 249, 0.85)",
   bgBlurLight6: "rgba(247, 248, 249, 0.7)",
   bgBlurLight6OP: "rgba(247, 248, 249, 0.85)",
   bgBlurLight6TRN: "rgba(247, 248, 249, 0.3)",

@@ -306,8 +306,7 @@ const STYLES_SLATES_INPUT_WRAPPER = css`
   flex-wrap: wrap;
   margin: calc(-8px + 6px) 0 0 -8px;
   width: calc(100% + 8px);
-  height: 52px;
-  max-height: 96px;
+  max-height: 110px;
   overflow-y: auto;
   padding-bottom: 12px;
 
@@ -361,7 +360,8 @@ function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, ...props }) {
 /* -----------------------------------------------------------------------------------------------*/
 
 const STYLES_SLATES_MENU_WRAPPER = (theme) => css`
-  max-height: 275px;
+  flex-grow: 1;
+  flex-basis: 0;
   padding: 12px;
 
   @media (max-width: ${theme.sizes.mobile}px) {
@@ -745,7 +745,7 @@ export function EditSlates({ file, viewer, onClose, ...props }) {
         <Jumper.Divider />
         <Jumper.ObjectInfo file={file} />
         <Jumper.Divider />
-        <Jumper.Item style={{ padding: 0 }}>
+        <Jumper.Item css={Styles.VERTICAL_CONTAINER} style={{ padding: 0, flexGrow: 1 }}>
           <ComboboxSlatesMenu
             filterValue={value}
             slates={slates}

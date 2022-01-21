@@ -94,7 +94,7 @@ export default class CTATransition extends React.Component {
     const currentURL = Strings.getCurrentURL(this.props.page?.params);
     this.props.onAction({
       type: "NAVIGATE",
-      href: `/_/auth?tab=twitter&redirect=${encodeURI(currentURL)}`,
+      href: `/_/auth?redirect=${encodeURI(currentURL)}`,
     });
     this._handleClose();
   };

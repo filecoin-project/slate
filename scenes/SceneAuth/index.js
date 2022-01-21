@@ -94,8 +94,6 @@ const AuthScene = ({ onAuthenticate, onTwitterAuthenticate, page, onAction, ...p
   React.useEffect(() => {
     if (!initialScreenRef.current) return;
 
-    if (page?.params?.tab === "twitter") twitterProvider.signin();
-
     if (page?.params?.tab === "signup" && page?.params?.email)
       initialScreenRef.current.submitSignupForm();
 

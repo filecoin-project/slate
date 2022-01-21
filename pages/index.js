@@ -1206,7 +1206,7 @@ export default function IndexPage() {
           <div css={STYLES_AUTH_MODAL}>
             <System.ButtonPrimaryFull
               type="link"
-              href="/_/auth?tab=twitter"
+              href="/_/auth"
               style={{ backgroundColor: "#1DA1F2" }}
             >
               <SVGLogo.Twitter height="14px" style={{ marginRight: "16px" }} />

@@ -621,7 +621,7 @@ function ComboboxSlatesMenu({
  *  EditSlates Jumper
  * -----------------------------------------------------------------------------------------------*/
 
-const useSlates = ({ viewer, object }) => {
+const useSlates = ({ viewer, objects }) => {
   const sortedSlates = React.useMemo(
     () => [...viewer.slates].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
     []
@@ -634,7 +634,7 @@ const useSlates = ({ viewer, object }) => {
     let unapplied = [];
 
     slates.forEach((slate) => {
-      if (slate.objects.some((item) => item.id === object.id)) {
+      if (objects.every((object) => slate.objects.some((item) => item.id === object.id))) {
         appliedSlatesHash.current[slate.id] = true;
         applied.push(slate);
       } else {
@@ -644,7 +644,7 @@ const useSlates = ({ viewer, object }) => {
     });
 
     return { applied, unapplied };
-  }, [slates, object]);
+  }, [slates, objects]);
 
   const checkIfSlateIsApplied = (slate) => !!appliedSlatesHash.current[slate.id];
 
@@ -655,7 +655,7 @@ const useSlates = ({ viewer, object }) => {
         id: generatedId,
         slatename: name,
         isPublic,
-        objects: [object],
+        objects: objects,
         updatedAt: new Date().toString(),
       },
       ...slates,
@@ -673,11 +673,11 @@ const useSlates = ({ viewer, object }) => {
 
     // NOTE(amine): replace generated id with response
     const prevSlates = slates.filter((slate) => slate.id !== generatedId);
-    setSlates([{ ...response.slate, objects: [object] }, ...prevSlates]);
+    setSlates([{ ...response.slate, objects }, ...prevSlates]);
 
     const saveResponse = await UserBehaviors.saveCopy({
       slate: response.slate,
-      files: [object],
+      files: objects,
       showAlerts: false,
     });
     if (Events.hasError(saveResponse)) {
@@ -691,12 +691,16 @@ const useSlates = ({ viewer, object }) => {
 
     const nextSlates = slates.map((item) => {
       if (slate.id === item.id)
-        return { ...item, updatedAt: new Date().toString(), objects: [...item.objects, object] };
+        return {
+          ...item,
+          updatedAt: new Date().toString(),
+          objects: [...item.objects, ...objects],
+        };
       return item;
     });
     setSlates(nextSlates);
 
-    const response = await UserBehaviors.saveCopy({ slate, files: [object], showAlerts: false });
+    const response = await UserBehaviors.saveCopy({ slate, files: objects, showAlerts: false });
     if (!response) resetViewerSlates();
   };
 
@@ -706,13 +710,15 @@ const useSlates = ({ viewer, object }) => {
     const nextSlates = [];
     slates.forEach((item) => {
       if (slate.id === item.id) {
-        const objects = item.objects.filter((item) => item.id !== object.id);
+        const newObjects = item.objects.filter(
+          (item) => !objects.some((object) => object.id === item.id)
+        );
         //NOTE(Amine): delete the tag when there is no files
-        if (objects.length === 0) return;
+        if (newObjects.length === 0) return;
         nextSlates.push({
           ...item,
           updatedAt: new Date().toString(),
-          objects: objects,
+          objects: newObjects,
         });
         return;
       }
@@ -720,7 +726,10 @@ const useSlates = ({ viewer, object }) => {
     });
     setSlates(nextSlates);
 
-    const response = await UserBehaviors.removeFromSlate({ slate, ids: [object.id] });
+    const response = await UserBehaviors.removeFromSlate({
+      slate,
+      ids: objects.map((object) => object.id),
+    });
     if (!response) resetViewerSlates();
   };
 
@@ -751,6 +760,7 @@ const useInput = () => {
 /* -----------------------------------------------------------------------------------------------*/
 
 export function EditSlates({ file, viewer, onClose, ...props }) {
+  const memoizedFiles = React.useMemo(() => (Array.isArray(file) ? file : [file]), [file]);
   const {
     slates,
     filteredSlates,
@@ -761,7 +771,7 @@ export function EditSlates({ file, viewer, onClose, ...props }) {
     checkIfSlateIsApplied,
   } = useSlates({
     viewer,
-    object: file,
+    objects: memoizedFiles,
   });
 
   const [value, { handleInputChange, clearInputValue }] = useInput();
@@ -797,6 +807,8 @@ export function EditSlates({ file, viewer, onClose, ...props }) {
     </Jumper.Root>
   );
 }
+
+/* -----------------------------------------------------------------------------------------------*/
 
 /* -----------------------------------------------------------------------------------------------*/
 

@@ -319,7 +319,7 @@ const STYLES_SEARCH_SLATES_COLOR = (theme) => css`
   color: ${theme.semantic.textGrayDark};
 `;
 
-function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, ...props }) {
+function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, style, ...props }) {
   const reverseAppliedSlates = React.useMemo(() => [...appliedSlates].reverse(), [appliedSlates]);
 
   return (
@@ -328,7 +328,7 @@ function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, ...props }) {
       <RovingTabIndex.Provider>
         <RovingTabIndex.List
           css={STYLES_SLATES_INPUT_WRAPPER}
-          style={{ marginLeft: 6, marginTop: 6, paddingRight: 20 }}
+          style={{ marginLeft: 6, marginTop: 6, paddingRight: 20, ...style }}
         >
           {reverseAppliedSlates.map((slate, idx) => (
             <RovingTabIndex.Item key={slate.id} index={idx}>
@@ -740,7 +740,9 @@ export function EditSlates({ file, viewer, onClose, ...props }) {
             appliedSlates={filteredSlates.applied}
             removeFileFromSlate={removeFileFromSlate}
             onChange={handleInputChange}
+            style={{ paddingRight: 24 }}
           />
+          <Jumper.Dismiss style={{ position: "absolute", right: 16, top: 20 }} />
         </Jumper.Header>
         <Jumper.Divider />
         <Jumper.ObjectInfo file={file} />
@@ -783,7 +785,7 @@ export function EditSlatesMobile({ file, viewer, onClose }) {
     <MobileJumper.Root onClose={onClose}>
       <Combobox.Provider onItemSelect={clearInputValue} isMobile>
         <System.Divider height={1} color="borderGrayLight" />
-        <MobileJumper.ObjectInfo file={file} />
+        <MobileJumper.ObjectInfo file={file} onClick={onClose} />
         <System.Divider height={1} color="borderGrayLight" />
         <MobileJumper.Header style={{ paddingTop: 0, paddingBottom: 0, paddingRight: 0 }}>
           <ComboboxSlatesInput

@@ -2,6 +2,7 @@ import * as React from "react";
 import * as System from "~/components/system";
 import * as Styles from "~/common/styles";
 import * as SVG from "~/common/svg";
+import * as Tooltip from "~/components/system/components/fragments/Tooltip";
 
 import { ModalPortal } from "~/components/core/ModalPortal";
 import { css } from "@emotion/react";
@@ -121,14 +122,29 @@ const Dismiss = React.forwardRef(({ css, ...props }, ref) => {
   const { onClose } = useJumperContext();
 
   return (
-    <System.ButtonPrimitive
-      ref={ref}
-      css={[STYLES_DISMISS_BUTTON, css]}
-      onClick={onClose}
-      {...props}
-    >
-      <SVG.Dismiss width={20} height={20} style={{ display: "block" }} />
-    </System.ButtonPrimitive>
+    <Tooltip.Root vertical="below" horizontal="center">
+      <Tooltip.Trigger aria-describedby="jumper-dismiss-trigger-tooltip">
+        <System.ButtonPrimitive
+          ref={ref}
+          css={[STYLES_DISMISS_BUTTON, css]}
+          onClick={onClose}
+          {...props}
+        >
+          <SVG.Dismiss width={20} height={20} style={{ display: "block" }} />
+        </System.ButtonPrimitive>
+      </Tooltip.Trigger>
+      <Tooltip.Content
+        style={{ marginTop: 4.5, marginLeft: -8 }}
+        css={Styles.HORIZONTAL_CONTAINER_CENTERED}
+      >
+        <System.H6 id="jumper-dismiss-trigger-tooltip" as="p" color="textGrayDark">
+          Close jumper
+        </System.H6>
+        <System.H6 as="p" color="textGray" style={{ marginLeft: 16 }}>
+          Esc
+        </System.H6>
+      </Tooltip.Content>
+    </Tooltip.Root>
   );
 });
 

@@ -180,7 +180,7 @@ export function EditInfoMobile({ file, withDismissButton, onClose }) {
   return (
     <MobileJumper.Root onClose={onClose}>
       <System.Divider height={1} color="borderGrayLight" />
-      <MobileJumper.ObjectInfo file={file} />
+      <MobileJumper.ObjectInfo file={file} onClick={onClose} />
       <System.Divider height={1} color="borderGrayLight" />
       <MobileJumper.Header>
         <System.H5 as="p" color="textBlack">

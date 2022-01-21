@@ -443,7 +443,7 @@ const ComboboxSlatesMenuButton = ({
           as="span"
           nbrOflines={isCreateAction ? 2 : 1}
           title={children}
-          style={{ marginLeft: 32, maxWidth: "50ch" }}
+          style={{ marginLeft: 32, maxWidth: "46ch" }}
         >
           {children}
         </System.H5>

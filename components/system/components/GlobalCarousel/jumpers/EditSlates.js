@@ -435,8 +435,8 @@ const ComboboxSlatesMenuButton = ({
     >
       <div>
         {hasPublicIcon && (
-          <div style={{ position: "absolute", left: "8px", top: "9x" }}>
-            <SVG.Users width={20} height={20} />
+          <div style={{ position: "absolute", padding: "2px", left: "8px", top: "9x" }}>
+            <SVG.Users width={16} height={16} />
           </div>
         )}
         <System.H5

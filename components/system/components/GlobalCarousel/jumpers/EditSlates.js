@@ -25,6 +25,9 @@ const comboboxContext = React.createContext({});
 const useComboboxContext = () => React.useContext(comboboxContext);
 
 function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
+  const [isInputFocused, setInputFocus] = React.useState(true);
+  const menuSelectionDisabled = isMobile || !isInputFocused;
+
   const menuItemsRef = React.useRef({});
   const menuElementRef = React.useRef({});
 
@@ -32,24 +35,25 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
   const [selectedIdx, setSelectedIdx] = React.useState(initialIndex);
 
   const registerMenuRef = (node) => {
-    if (isMobile) return;
+    if (menuSelectionDisabled) return;
     menuElementRef.current = node;
   };
 
   const registerMenuItem = ({ index, onSelectRef, ref }) => {
-    if (isMobile) return;
+    if (menuSelectionDisabled) return;
     menuItemsRef.current[index] = { index, onSelectRef, ref };
   };
   const cleanupMenuItem = (index) => {
-    if (isMobile) return;
+    if (menuSelectionDisabled) return;
     if (index === selectedIdx) setSelectedIdx(initialIndex);
+
     delete menuItemsRef.current[index];
   };
 
   const isNavigatingViaKeyboard = React.useRef(true);
   const moveSelectionOnArrowUp = () => {
     isNavigatingViaKeyboard.current = true;
-    if (isMobile) return;
+    if (menuSelectionDisabled) return;
     const prevIndex = selectedIdx - 1;
     let prevFocusedIndex = null;
     if (prevIndex >= initialIndex) {
@@ -62,7 +66,7 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
 
   const moveSelectionOnArrowDown = () => {
     isNavigatingViaKeyboard.current = true;
-    if (isMobile) return;
+    if (menuSelectionDisabled) return;
     const nextIndex = selectedIdx + 1;
     const elementExists = menuItemsRef.current[nextIndex];
     const nextFocusedIndex = elementExists ? nextIndex : initialIndex;
@@ -80,12 +84,12 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
   };
 
   const applySelectedElement = () => {
-    if (isMobile) return;
+    if (menuSelectionDisabled) return;
     menuItemsRef.current[selectedIdx].onSelectRef.current(), onItemSelect?.();
   };
 
   React.useLayoutEffect(() => {
-    if (isMobile) return;
+    if (menuSelectionDisabled) return;
 
     //NOTE(amine): don't scroll automatically when the user is navigating using a mouse
     if (!isNavigatingViaKeyboard.current) return;
@@ -108,13 +112,15 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
         top: selectedNodeBottom - menuNode.offsetHeight + selectedNode.offsetHeight,
       });
     }
-  }, [selectedIdx, isMobile]);
+  }, [selectedIdx, menuSelectionDisabled]);
 
   const contextValue = React.useMemo(
     () => [
-      { selectedIdx, isMobile },
+      { selectedIdx, menuSelectionDisabled },
       {
         onItemSelect,
+
+        setInputFocus,
 
         registerMenuItem,
         cleanupMenuItem,
@@ -127,7 +133,7 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
         registerMenuRef,
       },
     ],
-    [selectedIdx, isMobile]
+    [selectedIdx, menuSelectionDisabled]
   );
 
   return <comboboxContext.Provider value={contextValue}>{children}</comboboxContext.Provider>;
@@ -135,9 +141,11 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
 
 /* -----------------------------------------------------------------------------------------------*/
 
-const ComboboxInput = React.forwardRef(({ onKeyDown, ...props }, ref) => {
-  const [, { moveSelectionOnArrowUp, moveSelectionOnArrowDown, applySelectedElement }] =
-    useComboboxContext();
+const ComboboxInput = React.forwardRef(({ onKeyDown, onFocus, onBlur, ...props }, ref) => {
+  const [
+    ,
+    { setInputFocus, moveSelectionOnArrowUp, moveSelectionOnArrowDown, applySelectedElement },
+  ] = useComboboxContext();
 
   const keyDownHandler = (e) => {
     switch (e.key) {
@@ -165,7 +173,15 @@ const ComboboxInput = React.forwardRef(({ onKeyDown, ...props }, ref) => {
     }
   };
 
-  return <System.Input onKeyDown={mergeEvents(keyDownHandler, onKeyDown)} {...props} ref={ref} />;
+  return (
+    <System.Input
+      onFocus={mergeEvents(() => setInputFocus(true), onFocus)}
+      onBlur={mergeEvents(() => setInputFocus(false), onBlur)}
+      onKeyDown={mergeEvents(keyDownHandler, onKeyDown)}
+      {...props}
+      ref={ref}
+    />
+  );
 });
 
 /* -----------------------------------------------------------------------------------------------*/
@@ -239,9 +255,9 @@ const Combobox = {
 };
 
 const useCombobox = () => {
-  const [{ selectedIdx, isMobile }] = useComboboxContext();
+  const [{ selectedIdx, menuSelectionDisabled }] = useComboboxContext();
   const checkIfIndexSelected = (index) => {
-    if (isMobile) return false;
+    if (menuSelectionDisabled) return false;
     return selectedIdx === index;
   };
   return { checkIfIndexSelected };
@@ -843,6 +859,7 @@ export function EditSlates({ file, viewer, onClose, ...props }) {
 /* -----------------------------------------------------------------------------------------------*/
 
 export function EditSlatesMobile({ file, viewer, onClose }) {
+  const memoizedFiles = React.useMemo(() => (Array.isArray(file) ? file : [file]), [file]);
   const {
     slates,
     filteredSlates,
@@ -853,7 +870,7 @@ export function EditSlatesMobile({ file, viewer, onClose }) {
     checkIfSlateIsApplied,
   } = useSlates({
     viewer,
-    object: file,
+    objects: memoizedFiles,
   });
 
   const [value, { handleInputChange, clearInputValue }] = useInput();

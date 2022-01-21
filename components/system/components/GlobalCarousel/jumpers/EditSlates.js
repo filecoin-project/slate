@@ -112,7 +112,7 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
 
   const contextValue = React.useMemo(
     () => [
-      { selectedIdx, isMobile, isSelectedViaKeyboard: isNavigatingViaKeyboard.current },
+      { selectedIdx, isMobile },
       {
         onItemSelect,
 
@@ -235,12 +235,12 @@ const Combobox = {
 };
 
 const useCombobox = () => {
-  const [{ selectedIdx, isSelectedViaKeyboard, isMobile }] = useComboboxContext();
+  const [{ selectedIdx, isMobile }] = useComboboxContext();
   const checkIfIndexSelected = (index) => {
     if (isMobile) return false;
     return selectedIdx === index;
   };
-  return { checkIfIndexSelected, isSelectedViaKeyboard };
+  return { checkIfIndexSelected };
 };
 
 /* -------------------------------------------------------------------------------------------------
@@ -420,7 +420,7 @@ const ComboboxSlatesMenuButton = ({
   index,
   ...props
 }) => {
-  const { checkIfIndexSelected, isSelectedViaKeyboard } = useCombobox();
+  const { checkIfIndexSelected } = useCombobox();
   const isSelected = checkIfIndexSelected(index);
 
   return (
@@ -448,7 +448,7 @@ const ComboboxSlatesMenuButton = ({
           {children}
         </System.H5>
       </div>
-      {!isCreateAction && isSelected && isSelectedViaKeyboard && (
+      {!isCreateAction && isSelected && (
         <div css={Styles.HORIZONTAL_CONTAINER_CENTERED} style={{ marginLeft: "auto" }}>
           <System.P3 color="textGrayDark">{isSlateApplied ? "remove tag" : "apply tag"}</System.P3>
           <System.P3 css={STYLES_RETURN_KEY} color="textGray" style={{ marginLeft: 4 }}>

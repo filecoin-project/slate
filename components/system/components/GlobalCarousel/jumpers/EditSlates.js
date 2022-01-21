@@ -758,6 +758,32 @@ const useInput = () => {
 };
 
 /* -----------------------------------------------------------------------------------------------*/
+const STYLES_CHECKBOX_WRAPPER = (theme) => css`
+  background-color: ${theme.system.blue};
+  border-radius: 6px;
+  padding: 2px;
+  color: ${theme.semantic.textWhite};
+`;
+
+function MultipleFilesOverview({ files }) {
+  return (
+    <Jumper.Item css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
+      <div css={STYLES_CHECKBOX_WRAPPER}>
+        <SVG.Check wdith={16} height={16} />
+      </div>
+      <div style={{ marginLeft: 12, marginRight: 12 }}>
+        <div>
+          <System.H5 nbrOflines={1} as="h1" style={{ wordBreak: "break-all" }} color="textBlack">
+            {files.length} {Strings.pluralize("object", files.length)} selected
+          </System.H5>
+        </div>
+        <System.P3 nbrOflines={1} color="textBlack" style={{ marginTop: 3 }}>
+          {files.map((file) => file?.name || file.filename).join(", ")}
+        </System.P3>
+      </div>
+    </Jumper.Item>
+  );
+}
 
 export function EditSlates({ file, viewer, onClose, ...props }) {
   const memoizedFiles = React.useMemo(() => (Array.isArray(file) ? file : [file]), [file]);
@@ -790,7 +816,11 @@ export function EditSlates({ file, viewer, onClose, ...props }) {
           <Jumper.Dismiss style={{ position: "absolute", right: 16, top: 20 }} />
         </Jumper.Header>
         <Jumper.Divider />
-        <Jumper.ObjectInfo file={file} />
+        {Array.isArray(file) ? (
+          <MultipleFilesOverview files={memoizedFiles} />
+        ) : (
+          <Jumper.ObjectInfo file={file} />
+        )}
         <Jumper.Divider />
         <Jumper.Item css={Styles.VERTICAL_CONTAINER} style={{ padding: 0, flexGrow: 1 }}>
           <ComboboxSlatesMenu

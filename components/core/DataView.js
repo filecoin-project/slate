@@ -6,6 +6,7 @@ import * as Window from "~/common/window";
 import * as UserBehaviors from "~/common/user-behaviors";
 import * as Events from "~/common/custom-events";
 import * as Styles from "~/common/styles";
+import * as ObjectJumpers from "~/components/system/components/GlobalCarousel/jumpers";
 
 import { Link } from "~/components/core/Link";
 import { css } from "@emotion/react";
@@ -20,7 +21,6 @@ import { ConfirmationModal } from "~/components/core/ConfirmationModal";
 
 import FilePreviewBubble from "~/components/core/FilePreviewBubble";
 import ObjectPreview from "~/components/core/ObjectPreview";
-import isEqual from "lodash/isEqual";
 
 const STYLES_CONTAINER_HOVER = css`
   display: flex;
@@ -292,8 +292,9 @@ function Footer({
   type = "myslate",
   close,
   isOwner,
+  viewer,
+  getSelectedFiles,
   totalSelectedFiles,
-  addToCollection,
   downloadFiles,
   deleteFiles,
   //NOTE(amine): Myslate actions
@@ -302,6 +303,10 @@ function Footer({
   removeFromCollection,
   saveCopy,
 }) {
+  const [isSlatesJumperVisible, setSlatesJumperVisibility] = React.useState(false);
+  const showSlatesJumper = () => setSlatesJumperVisibility(true);
+  const hideSlatesJumper = () => setSlatesJumperVisibility(false);
+
   const totalFiles = `${totalSelectedFiles} ${Strings.pluralize(
     "object",
     totalSelectedFiles
@@ -317,13 +322,22 @@ function Footer({
           </div>
           <div css={STYLES_RIGHT}>
             {isOwner && !isCollectionType && (
-              <ButtonPrimary
-                transparent
-                style={{ color: Constants.system.white }}
-                onClick={addToCollection}
-              >
-                Tag
-              </ButtonPrimary>
+              <>
+                <ButtonPrimary
+                  transparent
+                  style={{ color: Constants.system.white }}
+                  onClick={showSlatesJumper}
+                >
+                  Tag
+                </ButtonPrimary>
+                {isSlatesJumperVisible ? (
+                  <ObjectJumpers.EditSlates
+                    file={getSelectedFiles()}
+                    viewer={viewer}
+                    onClose={hideSlatesJumper}
+                  />
+                ) : null}
+              </>
             )}
             {isOwner && isCollectionType && (
               <ButtonWarning
@@ -422,6 +436,8 @@ export default class DataView extends React.Component {
       this.gridWrapperEl.current.removeEventListener("selectstart", this._handleSelectStart);
     }
   }
+
+  _gerSelectedFiles = () => this.props.items.filter((_, i) => this.state.checked[i]);
 
   _handleScroll = (e) => {
     const windowHeight =
@@ -540,9 +556,9 @@ export default class DataView extends React.Component {
       Events.dispatchCustomEvent({ name: "slate-global-open-cta", detail: {} });
       return;
     }
-    const selectedFiles = this.props.items.filter((_, i) => this.state.checked[i]);
+
     UserBehaviors.compressAndDownloadFiles({
-      files: selectedFiles,
+      files: this._gerSelectedFiles(),
     });
     this.setState({ checked: {} });
   };
@@ -622,21 +638,6 @@ export default class DataView extends React.Component {
 
   _handleClick = (e) => {
     this.setState({ [e.target.name]: e.target.value });
-  };
-
-  _handleAddToSlate = (e) => {
-    if (!this.props.viewer) {
-      Events.dispatchCustomEvent({ name: "slate-global-open-cta", detail: {} });
-      return;
-    }
-    let userFiles = this.props.viewer.library;
-    let files = Object.keys(this.state.checked).map((index) => userFiles[index]);
-    this.props.onAction({
-      type: "SIDEBAR",
-      value: "SIDEBAR_ADD_FILE_TO_SLATE",
-      data: { files },
-    });
-    this._handleUncheckAll();
   };
 
   _handleUncheckAll = () => {
@@ -803,8 +804,9 @@ export default class DataView extends React.Component {
             <Footer
               type={this.props.type}
               totalSelectedFiles={numChecked}
+              getSelectedFiles={this._gerSelectedFiles}
+              viewer={this.props.viewer}
               isOwner={this.props.isOwner}
-              addToCollection={this._handleAddToSlate}
               downloadFiles={this._handleDownloadFiles}
               deleteFiles={() => this.setState({ modalShow: true })}
               close={this._handleCloseFooter}

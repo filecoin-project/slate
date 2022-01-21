@@ -6,11 +6,7 @@ import * as Tooltip from "~/components/system/components/fragments/Tooltip";
 
 import { ModalPortal } from "~/components/core/ModalPortal";
 import { css } from "@emotion/react";
-import {
-  AnimateSharedLayout,
-  AnimatePresence as FramerAnimatePresence,
-  motion,
-} from "framer-motion";
+import { AnimatePresence as FramerAnimatePresence, motion } from "framer-motion";
 import { useEscapeKey, useLockScroll } from "~/common/hooks";
 import { Show } from "~/components/utility/Show";
 import { useRestoreFocus, useTrapFocus } from "~/common/hooks/a11y";
@@ -194,13 +190,11 @@ function ObjectInfo({ file, css, style, ...props }) {
         />
       </div>
       <div style={{ marginLeft: 12, marginRight: 12 }}>
-        <AnimateSharedLayout>
-          <motion.div layoutId={`${file.id}-title`} key={`${file.id}-title`}>
-            <System.H5 nbrOflines={1} as="h1" style={{ wordBreak: "break-all" }} color="textBlack">
-              {file?.name || file?.filename}
-            </System.H5>
-          </motion.div>
-        </AnimateSharedLayout>
+        <div key={`${file.id}-title`}>
+          <System.H5 nbrOflines={1} as="h1" style={{ wordBreak: "break-all" }} color="textBlack">
+            {file?.name || file?.filename}
+          </System.H5>
+        </div>
         <Show when={file?.linkSource}>
           <System.P3 nbrOflines={1} color="textBlack" style={{ marginTop: 3 }}>
             {file?.linkSource}

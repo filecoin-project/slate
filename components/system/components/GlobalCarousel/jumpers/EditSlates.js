@@ -36,9 +36,9 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
     menuElementRef.current = node;
   };
 
-  const registerMenuItem = ({ index, onSelect, ref }) => {
+  const registerMenuItem = ({ index, onSelectRef, ref }) => {
     if (isMobile) return;
-    menuItemsRef.current[index] = { index, onSelect, ref };
+    menuItemsRef.current[index] = { index, onSelectRef, ref };
   };
   const cleanupMenuItem = (index) => {
     if (isMobile) return;
@@ -81,7 +81,7 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
 
   const applySelectedElement = () => {
     if (isMobile) return;
-    menuItemsRef.current[selectedIdx].onSelect(), onItemSelect?.();
+    menuItemsRef.current[selectedIdx].onSelectRef.current(), onItemSelect?.();
   };
 
   React.useLayoutEffect(() => {
@@ -179,10 +179,14 @@ function ComboboxMenuButton({ children, index, onSelect, onMouseDown, onClick, c
   const handleClick = () => (onSelect?.(), onItemSelect?.());
 
   const ref = React.useRef();
+
+  //NOTE(amine): fix closure stale state
+  const onSelectRef = React.useRef(onSelect);
+  onSelectRef.current = onSelect;
   React.useEffect(() => {
-    registerMenuItem({ index, onSelect, ref });
+    registerMenuItem({ index, onSelectRef: onSelectRef, ref });
     return () => cleanupMenuItem(index);
-  }, [index, onSelect]);
+  }, [index]);
 
   const onMouseMoveHandler = () => {
     if (selectedIdx !== index) moveSelectionOnHover(index);
@@ -320,7 +324,10 @@ const STYLES_SEARCH_SLATES_COLOR = (theme) => css`
 `;
 
 function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, style, ...props }) {
-  const reverseAppliedSlates = React.useMemo(() => [...appliedSlates].reverse(), [appliedSlates]);
+  const reverseAppliedSlates = React.useMemo(
+    () => [...appliedSlates].sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt)),
+    [appliedSlates]
+  );
 
   return (
     <div css={[Styles.HORIZONTAL_CONTAINER, STYLES_SEARCH_SLATES_COLOR]} style={{ width: "100%" }}>
@@ -388,9 +395,6 @@ const STYLES_SLATES_MENU_BUTTON = css`
   width: 100%;
   overflow: hidden;
   border-radius: 8px;
-  :hover {
-    color: inherit;
-  }
 `;
 
 const STYLES_CHECKBOX_CIRCLE = (theme) => css`
@@ -412,6 +416,19 @@ const STYLES_EMPTY_STATE_WRAPPER = css`
   height: 275px;
 `;
 
+const STYLES_SLATES_MENU_BUTTON_BLUE = (theme) => css`
+  color: ${theme.system.blue};
+  &:hover {
+    color: ${theme.system.blue};
+  }
+`;
+const STYLES_SLATES_MENU_BUTTON_TEXTBLACK = (theme) => css`
+  color: ${theme.system.textBlack};
+  &:hover {
+    color: ${theme.system.textBlack};
+  }
+`;
+
 const ComboboxSlatesMenuButton = ({
   hasPublicIcon,
   isCreateAction,
@@ -428,7 +445,7 @@ const ComboboxSlatesMenuButton = ({
       css={[
         STYLES_SLATES_MENU_BUTTON,
         isSelected && STYLES_SLATES_MENU_BUTTON_SELECTED,
-        (theme) => css({ color: isCreateAction ? theme.system.blue : theme.system.textBlack }),
+        isCreateAction ? STYLES_SLATES_MENU_BUTTON_BLUE : STYLES_SLATES_MENU_BUTTON_TEXTBLACK,
       ]}
       index={index}
       {...props}
@@ -595,15 +612,18 @@ function ComboboxSlatesMenu({
  * -----------------------------------------------------------------------------------------------*/
 
 const useSlates = ({ viewer, object }) => {
-  const [slates, setSlates] = React.useState(viewer.slates);
+  const sortedSlates = React.useMemo(
+    () => [...viewer.slates].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
+    []
+  );
+  const [slates, setSlates] = React.useState(sortedSlates);
 
   const appliedSlatesHash = React.useRef({});
-  const [sortedSlates, filteredSlates] = React.useMemo(() => {
-    const sortedSlates = [...slates].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+  const filteredSlates = React.useMemo(() => {
     let applied = [];
     let unapplied = [];
 
-    sortedSlates.forEach((slate) => {
+    slates.forEach((slate) => {
       if (slate.objects.some((item) => item.id === object.id)) {
         appliedSlatesHash.current[slate.id] = true;
         applied.push(slate);
@@ -613,7 +633,7 @@ const useSlates = ({ viewer, object }) => {
       }
     });
 
-    return [sortedSlates, { applied, unapplied }];
+    return { applied, unapplied };
   }, [slates, object]);
 
   const checkIfSlateIsApplied = (slate) => !!appliedSlatesHash.current[slate.id];
@@ -621,7 +641,6 @@ const useSlates = ({ viewer, object }) => {
   const createSlate = async ({ name, isPublic }) => {
     const generatedId = uuid();
     setSlates([
-      ...slates,
       {
         id: generatedId,
         slatename: name,
@@ -629,6 +648,7 @@ const useSlates = ({ viewer, object }) => {
         objects: [object],
         updatedAt: new Date().toString(),
       },
+      ...slates,
     ]);
 
     const response = await Actions.createSlate({
@@ -643,7 +663,7 @@ const useSlates = ({ viewer, object }) => {
 
     // NOTE(amine): replace generated id with response
     const prevSlates = slates.filter((slate) => slate.id !== generatedId);
-    setSlates([...prevSlates, { ...response.slate, objects: [object] }]);
+    setSlates([{ ...response.slate, objects: [object] }, ...prevSlates]);
 
     const saveResponse = await UserBehaviors.saveCopy({
       slate: response.slate,
@@ -673,15 +693,20 @@ const useSlates = ({ viewer, object }) => {
   const removeFileFromSlate = async (slate) => {
     const prevSlates = [...slates];
     const resetViewerSlates = () => setSlates(prevSlates);
-    const nextSlates = slates.map((item) => {
+    const nextSlates = [];
+    slates.forEach((item) => {
       if (slate.id === item.id) {
-        return {
+        const objects = item.objects.filter((item) => item.id !== object.id);
+        //NOTE(Amine): delete the tag when there is no files
+        if (objects.length === 0) return;
+        nextSlates.push({
           ...item,
           updatedAt: new Date().toString(),
-          objects: item.objects.filter((object) => object.id !== object.id),
-        };
+          objects: objects,
+        });
+        return;
       }
-      return item;
+      nextSlates.push(item);
     });
     setSlates(nextSlates);
 
@@ -690,7 +715,7 @@ const useSlates = ({ viewer, object }) => {
   };
 
   return {
-    slates: sortedSlates,
+    slates,
     filteredSlates,
     createSlate,
     addFileToSlate,

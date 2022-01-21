@@ -105,10 +105,13 @@ export const Item = React.forwardRef(({ children, index, ...props }, forwardedRe
   useIsomorphicLayoutEffect(() => {
     if (!ref.current) return;
     registerItem({ index, ref });
-    if (children.props.autoFocus) setIndexTo(index);
-
     return () => cleanupItem(index);
   }, [index]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!ref.current) return;
+    if (children.props.autoFocus) setIndexTo(index);
+  }, []);
 
   return React.cloneElement(React.Children.only(children), {
     ...props,

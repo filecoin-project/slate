@@ -14,7 +14,7 @@ import * as Validations from "~/common/validations";
 import { v4 as uuid } from "uuid";
 import { mergeEvents } from "~/common/utilities";
 import { css } from "@emotion/react";
-import { useEventListener } from "~/common/hooks";
+import { useEventListener, usePrevious } from "~/common/hooks";
 
 /* -------------------------------------------------------------------------------------------------
  *  Combobox
@@ -328,6 +328,15 @@ function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, style, ...pro
     () => [...appliedSlates].sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt)),
     [appliedSlates]
   );
+  const prevLength = usePrevious(reverseAppliedSlates.length);
+
+  const inputRef = React.useRef();
+  React.useEffect(() => {
+    if (reverseAppliedSlates.length > prevLength) {
+      // NOTE(amine): if a new slate is added, scroll to the input
+      inputRef.current.scrollIntoView();
+    }
+  }, [reverseAppliedSlates]);
 
   return (
     <div css={[Styles.HORIZONTAL_CONTAINER, STYLES_SEARCH_SLATES_COLOR]} style={{ width: "100%" }}>
@@ -349,6 +358,7 @@ function ComboboxSlatesInput({ appliedSlates, removeFileFromSlate, style, ...pro
           ))}
           <RovingTabIndex.Item index={reverseAppliedSlates.length}>
             <Combobox.Input
+              ref={inputRef}
               name="search"
               placeholder="Search or create a new tag"
               // eslint-disable-next-line jsx-a11y/no-autofocus

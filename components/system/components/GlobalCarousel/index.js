@@ -206,6 +206,13 @@ function CarouselHeader({
   const [isEditSlatesVisible, { showControl: showEditSlates, hideControl: hideEditSlates }] =
     useCarouselJumperControls();
 
+  const hideOpenJumpers = () => {
+    if (isMoreInfoVisible) hideMoreInfo();
+    if (isEditInfoVisible) hideEditInfo();
+    if (isShareFileVisible) hideShareFile();
+    if (isEditSlatesVisible) hideEditSlates();
+  };
+
   const moreInfoTriggerRef = React.useRef();
   const editInfoTriggerRef = React.useRef();
   const shareTriggerRef = React.useRef();
@@ -220,21 +227,25 @@ function CarouselHeader({
       case "e":
       case "E":
         editInfoTriggerRef.current.focus();
+        hideOpenJumpers();
         showEditInfo();
         break;
       case "t":
       case "T":
         editSlatesTriggerRef.current.focus();
+        hideOpenJumpers();
         showEditSlates();
         break;
       case "s":
       case "S":
         shareTriggerRef.current.focus();
+        hideOpenJumpers();
         showShareFile();
         break;
       case "i":
       case "I":
         moreInfoTriggerRef.current.focus();
+        hideOpenJumpers();
         showMoreInfo();
         break;
     }
@@ -441,8 +452,8 @@ function CarouselHeader({
       <CarouselControls
         enableNextSlide={enableNextSlide}
         enablePreviousSlide={enablePreviousSlide}
-        onNextSlide={onNextSlide}
-        onPreviousSlide={onPreviousSlide}
+        onNextSlide={() => (hideOpenJumpers(), onNextSlide())}
+        onPreviousSlide={() => (hideOpenJumpers(), onPreviousSlide())}
         onClose={onClose}
       />
     </>

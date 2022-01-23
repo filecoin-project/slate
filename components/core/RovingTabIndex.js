@@ -26,7 +26,7 @@ export function Provider({ axis, children }) {
 
   const focusElement = (index) => {
     const focusedElementRef = focusedElementsRefs.current[index];
-    focusedElementRef?.current?.focus();
+    focusedElementRef.current.focus();
   };
 
   const setIndexToNextElement = () => {
@@ -49,6 +49,7 @@ export function Provider({ axis, children }) {
   };
 
   const setIndexTo = (index) => {
+    if (!focusedElementsRefs.current[index]) return;
     setFocusedIndex(index);
     focusElement(index);
   };
@@ -102,15 +103,29 @@ export const Item = React.forwardRef(({ children, index, ...props }, forwardedRe
   const [{ focusedIndex }, { registerItem, cleanupItem, setIndexTo }] = useRovingIndexContext();
   const ref = React.useRef();
 
+  const indexRef = React.useRef(index);
   useIsomorphicLayoutEffect(() => {
+    indexRef.current = index;
     if (!ref.current) return;
+
     registerItem({ index, ref });
     return () => cleanupItem(index);
   }, [index]);
 
-  useIsomorphicLayoutEffect(() => {
+  const isFocusedBeforeUnmountingRef = React.useRef();
+  React.useLayoutEffect(() => {
+    const element = ref.current;
+    return () => (isFocusedBeforeUnmountingRef.current = element === document.activeElement);
+  }, []);
+
+  React.useEffect(() => {
     if (!ref.current) return;
     if (children.props.autoFocus) setIndexTo(index);
+
+    // NOTE(amine): when an element is removed, focus the previous one
+    return () => {
+      if (isFocusedBeforeUnmountingRef.current) setIndexTo(indexRef.current);
+    };
   }, []);
 
   return React.cloneElement(React.Children.only(children), {

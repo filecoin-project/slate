@@ -18,6 +18,7 @@ import { FileTypeIcon } from "~/components/core/FileTypeIcon";
 import { ButtonPrimary, ButtonWarning } from "~/components/system/components/Buttons";
 import { GroupSelectable, Selectable } from "~/components/core/Selectable/";
 import { ConfirmationModal } from "~/components/core/ConfirmationModal";
+import { useEventListener } from "~/common/hooks";
 
 import FilePreviewBubble from "~/components/core/FilePreviewBubble";
 import ObjectPreview from "~/components/core/ObjectPreview";
@@ -313,6 +314,22 @@ function Footer({
   )} selected`;
 
   const isCollectionType = type === "collection";
+
+  const isSlatesControlVisible = isOwner && !isCollectionType;
+
+  const handleKeyDown = (e) => {
+    const targetTagName = e.target.tagName;
+    if (targetTagName === "INPUT" || targetTagName === "TEXTAREA" || targetTagName === "SELECT")
+      return;
+
+    switch (e.key) {
+      case "T":
+        showSlatesJumper();
+        break;
+    }
+  };
+  useEventListener({ type: "keyup", handler: handleKeyDown, enabled: isSlatesControlVisible });
+
   return (
     <React.Fragment>
       <div css={STYLES_ACTION_BAR_CONTAINER}>
@@ -321,7 +338,7 @@ function Footer({
             <span css={STYLES_FILES_SELECTED}>{totalFiles}</span>
           </div>
           <div css={STYLES_RIGHT}>
-            {isOwner && !isCollectionType && (
+            {isSlatesControlVisible && (
               <>
                 <ButtonPrimary
                   transparent

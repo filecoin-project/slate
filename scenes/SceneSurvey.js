@@ -182,10 +182,25 @@ function SceneSurvey({ onAction }) {
   );
 }
 
+const useSurveyValidations = () => {
+  const [isSurveyValid, setSurveyValidity] = React.useState(true);
+  const checkSurveyValidity = ({ options, other }) => {
+    const isValid = options.some((answer) => answer) || !!other;
+    setSurveyValidity(isValid);
+    return isValid;
+  };
+  const resetSurveyValidity = () => setSurveyValidity(true);
+
+  return { isSurveyValid, checkSurveyValidity, resetSurveyValidity };
+};
+
 const ToolsForm = ({ onSubmit }) => {
+  const { isSurveyValid, checkSurveyValidity, resetSurveyValidity } = useSurveyValidations();
+
   const { getFieldProps, getFormProps, values } = useForm({
     initialValues: { tools: [], other: "" },
     onSubmit: ({ tools, other }) => {
+      if (!checkSurveyValidity({ options: tools, other })) return;
       const value = [...tools];
       if (!Strings.isEmpty(other)) {
         value.push(other);
@@ -193,6 +208,10 @@ const ToolsForm = ({ onSubmit }) => {
       onSubmit(value);
     },
   });
+
+  React.useEffect(() => {
+    resetSurveyValidity();
+  }, [values]);
 
   const isCheckBoxSelected = (fieldValue) => values.tools.some((item) => item === fieldValue);
 
@@ -202,9 +221,11 @@ const ToolsForm = ({ onSubmit }) => {
         <form css={STYLES_FORM_WRAPPER} {...getFormProps()}>
           <H5
             style={{ marginTop: 24 }}
-            css={(theme) => css({ color: theme.semantic.textGrayDark })}
+            css={(theme) =>
+              css({ color: isSurveyValid ? theme.semantic.textGrayDark : theme.system.red })
+            }
           >
-            Select all that apply
+            {isSurveyValid ? "Select all that apply" : "Please select at least 1 option"}
           </H5>
           {Object.keys(TOOLS_OPTIONS).map((item, i) => (
             <Checkbox
@@ -221,9 +242,10 @@ const ToolsForm = ({ onSubmit }) => {
             style={{ marginTop: 12 }}
             placeholder="Others"
             type="text"
+            full
             {...getFieldProps("other")}
           />
-          <ButtonPrimary type="submit" style={{ marginTop: 24 }}>
+          <ButtonPrimary type="submit" style={{ marginTop: 24 }} full>
             Next
           </ButtonPrimary>
           <P3 style={{ marginTop: 12 }} color="textBlack">
@@ -236,9 +258,12 @@ const ToolsForm = ({ onSubmit }) => {
 };
 
 const UsecasesForm = ({ onSubmit }) => {
+  const { isSurveyValid, checkSurveyValidity, resetSurveyValidity } = useSurveyValidations();
+
   const { getFieldProps, getFormProps, values } = useForm({
     initialValues: { tools: [], other: "" },
     onSubmit: ({ tools, other }) => {
+      if (!checkSurveyValidity({ options: tools, other })) return;
       const value = [...tools];
       if (!Strings.isEmpty(other)) {
         value.push(other);
@@ -247,14 +272,23 @@ const UsecasesForm = ({ onSubmit }) => {
     },
   });
 
+  React.useEffect(() => {
+    resetSurveyValidity();
+  }, [values]);
+
   const isCheckBoxSelected = (fieldValue) => values.tools.some((item) => item === fieldValue);
 
   return (
     <div>
       <SignUpPopover title="What are you interested in using Slate for?">
         <form css={STYLES_FORM_WRAPPER} {...getFormProps()}>
-          <H5 style={{ marginTop: 24 }} color="textGrayDark">
-            Select all that apply
+          <H5
+            style={{ marginTop: 24 }}
+            css={(theme) =>
+              css({ color: isSurveyValid ? theme.semantic.textGrayDark : theme.system.red })
+            }
+          >
+            {isSurveyValid ? "Select all that apply" : "Please select at least 1 option"}
           </H5>
           {Object.keys(SLATE_USECASES_OPTIONS).map((item, i) => (
             <Checkbox
@@ -271,9 +305,10 @@ const UsecasesForm = ({ onSubmit }) => {
             style={{ marginTop: 12 }}
             placeholder="Others"
             type="text"
+            full
             {...getFieldProps("other")}
           />
-          <ButtonPrimary type="submit" style={{ marginTop: 24 }}>
+          <ButtonPrimary type="submit" style={{ marginTop: 24 }} full>
             Next
           </ButtonPrimary>
           <P3 style={{ marginTop: 12 }} color="textBlack">
@@ -286,9 +321,12 @@ const UsecasesForm = ({ onSubmit }) => {
 };
 
 const ReferralForm = ({ onSubmit }) => {
+  const { isSurveyValid, checkSurveyValidity, resetSurveyValidity } = useSurveyValidations();
+
   const { getFieldProps, getFormProps, isSubmitting, values } = useForm({
     initialValues: { referrals: [], other: "" },
     onSubmit: async ({ referrals, other }) => {
+      if (!checkSurveyValidity({ options: referrals, other })) return;
       const value = [...referrals];
       if (!Strings.isEmpty(other)) {
         value.push(other);
@@ -297,14 +335,23 @@ const ReferralForm = ({ onSubmit }) => {
     },
   });
 
+  React.useEffect(() => {
+    resetSurveyValidity();
+  }, [values]);
+
   const isCheckBoxSelected = (fieldValue) => values.referrals.some((item) => item === fieldValue);
 
   return (
     <div>
       <SignUpPopover title="How did you find out about Slate?">
         <form css={STYLES_FORM_WRAPPER} {...getFormProps()}>
-          <H5 style={{ marginTop: 24 }} color="textGrayDark">
-            Select all that apply
+          <H5
+            style={{ marginTop: 24 }}
+            css={(theme) =>
+              css({ color: isSurveyValid ? theme.semantic.textGrayDark : theme.system.red })
+            }
+          >
+            {isSurveyValid ? "Select all that apply" : "Please select at least 1 option"}
           </H5>
           {Object.keys(REFERRAL_OPTIONS).map((item, i) => (
             <Checkbox
@@ -321,9 +368,10 @@ const ReferralForm = ({ onSubmit }) => {
             style={{ marginTop: 12 }}
             placeholder="Others"
             type="text"
+            full
             {...getFieldProps("other")}
           />
-          <ButtonPrimary type="submit" loading={isSubmitting} style={{ marginTop: 24 }}>
+          <ButtonPrimary type="submit" loading={isSubmitting} style={{ marginTop: 24 }} full>
             Submit
           </ButtonPrimary>
           <P3 style={{ marginTop: 12 }} color="textBlack">

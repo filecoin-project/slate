@@ -70,7 +70,7 @@ export function Provider({ axis, children }) {
 const useRovingHandler = ({ ref }) => {
   const [{ axis }, { setIndexToNextElement, setIndexPreviousElement }] = useRovingIndexContext();
 
-  const keydownHandler = (e) => {
+  const keyUpHandler = (e) => {
     const preventDefaults = () => (e.preventDefault(), e.stopPropagation());
     if (axis === "vertical") {
       if (e.key === "ArrowUp") preventDefaults(), setIndexPreviousElement();
@@ -81,8 +81,8 @@ const useRovingHandler = ({ ref }) => {
     if (e.key === "ArrowRight") preventDefaults(), setIndexToNextElement();
   };
   useEventListener({
-    type: "keydown",
-    handler: keydownHandler,
+    type: "keyup",
+    handler: keyUpHandler,
     ref,
   });
 };

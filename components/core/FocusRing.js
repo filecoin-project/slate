@@ -9,7 +9,7 @@ const hasElementFocusWithin = (el) => el.matches(":focus-within");
 let isFocusViaKeyboard = true;
 if (typeof window !== "undefined") {
   window?.addEventListener("mousedown", () => (isFocusViaKeyboard = false));
-  window?.addEventListener("mouseup", () => (isFocusViaKeyboard = false));
+  window?.addEventListener("keydown", () => (isFocusViaKeyboard = true));
 }
 
 const useFocusRing = ({ within, ref }) => {
@@ -20,7 +20,7 @@ const useFocusRing = ({ within, ref }) => {
       setFocus(within ? hasElementFocusWithin(ref.current) : hasElementFocus(ref.current));
     }
   };
-  const disableFocusRing = () => (setFocus(false), (isFocusViaKeyboard = true));
+  const disableFocusRing = () => setFocus(false);
 
   return [isFocused, { enableFocusRing, disableFocusRing }];
 };

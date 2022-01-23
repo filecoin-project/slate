@@ -218,7 +218,7 @@ function CarouselHeader({
   const shareTriggerRef = React.useRef();
   const editSlatesTriggerRef = React.useRef();
 
-  const handleKeyDown = (e) => {
+  const handleKeyUp = (e) => {
     const targetTagName = e.target.tagName;
     if (targetTagName === "INPUT" || targetTagName === "TEXTAREA" || targetTagName === "SELECT")
       return;
@@ -250,7 +250,7 @@ function CarouselHeader({
         break;
     }
   };
-  useEventListener({ type: "keyup", handler: handleKeyDown });
+  useEventListener({ type: "keyup", handler: handleKeyUp });
 
   const headerRef = React.useRef();
   React.useEffect(() => {
@@ -683,7 +683,7 @@ function CarouselFooterMobile({ file, onAction, external, isOwner, data, viewer 
  * -----------------------------------------------------------------------------------------------*/
 
 const useCarouselKeyCommands = ({ handleNext, handlePrevious, handleClose }) => {
-  const handleKeyDown = (e) => {
+  const handleKeyUp = (e) => {
     const inputs = document.querySelectorAll("input");
     for (let elem of inputs) {
       if (document.activeElement === elem) {
@@ -712,7 +712,7 @@ const useCarouselKeyCommands = ({ handleNext, handlePrevious, handleClose }) => 
 
   useEscapeKey(handleClose);
 
-  useEventListener({ type: "keydown", handler: handleKeyDown });
+  useEventListener({ type: "keyup", handler: handleKeyUp });
 };
 
 const STYLES_CONTROLS_BUTTON = (theme) => css`

@@ -12,7 +12,7 @@ import * as Strings from "~/common/strings";
 import * as Validations from "~/common/validations";
 
 import { v4 as uuid } from "uuid";
-import { mergeEvents } from "~/common/utilities";
+import { mergeEvents, mergeRefs } from "~/common/utilities";
 import { css } from "@emotion/react";
 import { useEventListener, usePrevious } from "~/common/hooks";
 
@@ -25,20 +25,21 @@ const comboboxContext = React.createContext({});
 const useComboboxContext = () => React.useContext(comboboxContext);
 
 function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
-  const [isInputFocused, setInputFocus] = React.useState(true);
-  const menuSelectionDisabled = isMobile || !isInputFocused;
-
-  const menuItemsRef = React.useRef({});
-  const menuElementRef = React.useRef({});
-
   const initialIndex = 0;
   const [selectedIdx, setSelectedIdx] = React.useState(initialIndex);
 
+  const [isInputFocused, setInputFocus] = React.useState(true);
+  const menuSelectionDisabled = isMobile || !isInputFocused;
+
+  const inputElementRef = React.useRef();
+  const registerInputRef = (node) => (inputElementRef.current = node);
+  const menuElementRef = React.useRef();
   const registerMenuRef = (node) => {
     if (menuSelectionDisabled) return;
     menuElementRef.current = node;
   };
 
+  const menuItemsRef = React.useRef({});
   const registerMenuItem = ({ index, onSelectRef, ref }) => {
     if (menuSelectionDisabled) return;
     menuItemsRef.current[index] = { index, onSelectRef, ref };
@@ -74,6 +75,7 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
   };
 
   const moveSelectionOnHover = (index) => {
+    if (menuSelectionDisabled) inputElementRef.current.focus();
     isNavigatingViaKeyboard.current = false;
     const elementExists = menuItemsRef.current[index];
     if (!elementExists) {
@@ -131,6 +133,7 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
         applySelectedElement,
 
         registerMenuRef,
+        registerInputRef,
       },
     ],
     [selectedIdx, menuSelectionDisabled]
@@ -144,7 +147,13 @@ function ComboboxProvider({ children, isMobile = false, onItemSelect }) {
 const ComboboxInput = React.forwardRef(({ onKeyDown, onFocus, onBlur, ...props }, ref) => {
   const [
     ,
-    { setInputFocus, moveSelectionOnArrowUp, moveSelectionOnArrowDown, applySelectedElement },
+    {
+      registerInputRef,
+      setInputFocus,
+      moveSelectionOnArrowUp,
+      moveSelectionOnArrowDown,
+      applySelectedElement,
+    },
   ] = useComboboxContext();
 
   const keyDownHandler = (e) => {
@@ -179,7 +188,7 @@ const ComboboxInput = React.forwardRef(({ onKeyDown, onFocus, onBlur, ...props }
       onBlur={mergeEvents(() => setInputFocus(false), onBlur)}
       onKeyDown={mergeEvents(keyDownHandler, onKeyDown)}
       {...props}
-      ref={ref}
+      ref={mergeRefs([ref, registerInputRef])}
     />
   );
 });
@@ -188,7 +197,7 @@ const ComboboxInput = React.forwardRef(({ onKeyDown, onFocus, onBlur, ...props }
 
 function ComboboxMenuButton({ children, index, onSelect, onMouseDown, onClick, css, ...props }) {
   const [
-    { selectedIdx },
+    { selectedIdx, menuSelectionDisabled },
     { registerMenuItem, cleanupMenuItem, moveSelectionOnHover, onItemSelect },
   ] = useComboboxContext();
   const handleMouseDown = (e) => e.preventDefault();
@@ -205,11 +214,11 @@ function ComboboxMenuButton({ children, index, onSelect, onMouseDown, onClick, c
   }, [index]);
 
   const onMouseMoveHandler = () => {
-    if (selectedIdx !== index) moveSelectionOnHover(index);
+    if (menuSelectionDisabled || selectedIdx !== index) moveSelectionOnHover(index);
   };
   useEventListener(
     { type: "mousemove", handler: onMouseMoveHandler, ref, options: { once: true } },
-    [selectedIdx]
+    [selectedIdx, menuSelectionDisabled]
   );
 
   return (

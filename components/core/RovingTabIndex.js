@@ -16,12 +16,27 @@ export function Provider({ axis, children }) {
   const initialIndex = 0;
   const [focusedIndex, setFocusedIndex] = React.useState(initialIndex);
 
-  const registerItem = ({ index, ref }) => (focusedElementsRefs.current[index] = ref);
+  const registerItem = ({ index, ref }) => {
+    focusedElementsRefs.current[index] = ref;
+    if (ref.current === document.activeElement) setFocusedIndex(index);
+  };
+
   const cleanupItem = (index) => {
-    if (index === focusedIndex) {
-      setFocusedIndex(initialIndex);
-    }
     delete focusedElementsRefs.current[index];
+  };
+
+  const syncFocusedIndexState = ({ index, isFocused }) => {
+    if (!isFocused) return;
+    const calculatedMaxIndex = Math.max(...Object.keys(focusedElementsRefs.current));
+    const maxIndex = Number.isFinite(calculatedMaxIndex) ? calculatedMaxIndex : index;
+    const minIndex = initialIndex;
+    if (index >= maxIndex) {
+      setIndexTo(maxIndex);
+    } else if (index <= minIndex) {
+      setIndexTo(minIndex);
+    } else {
+      setIndexTo(index);
+    }
   };
 
   const focusElement = (index) => {
@@ -36,6 +51,7 @@ export function Provider({ axis, children }) {
     setFocusedIndex(nextFocusedIndex);
     focusElement(nextFocusedIndex);
   };
+
   const setIndexPreviousElement = () => {
     const prevIndex = focusedIndex - 1;
     let prevFocusedIndex = null;
@@ -57,7 +73,14 @@ export function Provider({ axis, children }) {
   const contextValue = React.useMemo(
     () => [
       { focusedIndex, axis },
-      { registerItem, cleanupItem, setIndexToNextElement, setIndexPreviousElement, setIndexTo },
+      {
+        registerItem,
+        cleanupItem,
+        syncFocusedIndexState,
+        setIndexToNextElement,
+        setIndexPreviousElement,
+        setIndexTo,
+      },
     ],
     [focusedIndex]
   );
@@ -100,7 +123,8 @@ export const List = React.forwardRef(({ as = "div", children, ...props }, forwar
  * -----------------------------------------------------------------------------------------------*/
 
 export const Item = React.forwardRef(({ children, index, ...props }, forwardedRef) => {
-  const [{ focusedIndex }, { registerItem, cleanupItem, setIndexTo }] = useRovingIndexContext();
+  const [{ focusedIndex }, { registerItem, cleanupItem, syncFocusedIndexState, setIndexTo }] =
+    useRovingIndexContext();
   const ref = React.useRef();
 
   const indexRef = React.useRef(index);
@@ -122,9 +146,12 @@ export const Item = React.forwardRef(({ children, index, ...props }, forwardedRe
     if (!ref.current) return;
     if (children.props.autoFocus) setIndexTo(index);
 
-    // NOTE(amine): when an element is removed, focus the previous one
+    // NOTE(amine): when an element is removed and is focused,move focus the next one
     return () => {
-      if (isFocusedBeforeUnmountingRef.current) setIndexTo(indexRef.current);
+      syncFocusedIndexState({
+        index: indexRef.current,
+        isFocused: isFocusedBeforeUnmountingRef.current,
+      });
     };
   }, []);
 

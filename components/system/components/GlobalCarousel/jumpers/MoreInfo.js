@@ -406,11 +406,6 @@ export function MoreInfoMobile({ external, viewer, isOwner, file, onClose }) {
         <CoverImageUpload isMobile file={file} viewer={viewer} isFileOwner={isFileOwner} />
         <FileMetadata file={file} style={{ marginTop: 22 }} />
       </MobileJumper.Content>
-      <MobileJumper.Footer css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
-        <System.ButtonPrimitive type="button" style={{ width: 32, height: 32 }} onClick={onClose}>
-          <SVG.InfoCircle width={16} height={16} style={{ color: Constants.system.blue }} />
-        </System.ButtonPrimitive>
-      </MobileJumper.Footer>
     </MobileJumper.Root>
   );
 }

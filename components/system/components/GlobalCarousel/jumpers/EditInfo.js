@@ -47,7 +47,7 @@ const STYLES_EDIT_INFO_FORM = css`
   height: 270px;
 `;
 
-function UpdateFileForm({ file, isMobile, onClose }) {
+function UpdateFileForm({ file, children, isMobile, onClose }) {
   const formRef = React.useRef();
 
   const { getFieldProps, getFormProps, isSubmitting } = useForm({
@@ -104,55 +104,7 @@ function UpdateFileForm({ file, isMobile, onClose }) {
           </div>
         </JumperItem>
 
-        {isMobile ? (
-          <MobileJumper.Footer css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
-            <System.ButtonSecondary
-              type="button"
-              full
-              onClick={onClose}
-              style={{ padding: "9px 24px 11px", minHeight: "24px" }}
-            >
-              Cancel
-            </System.ButtonSecondary>
-            <System.ButtonPrimary
-              type="submit"
-              full
-              style={{ marginLeft: "8px", padding: "9px 24px 11px", minHeight: "24px" }}
-              loading={isSubmitting}
-            >
-              Save
-            </System.ButtonPrimary>
-          </MobileJumper.Footer>
-        ) : (
-          <>
-            <Jumper.Item css={STYLES_EDIT_INFO_FOOTER}>
-              <System.ButtonSecondary
-                type="button"
-                onClick={onClose}
-                style={{
-                  marginLeft: "auto",
-                  minHeight: "24px",
-                  padding: "1px 12px 3px",
-                  borderRadius: "8px",
-                }}
-              >
-                Cancel
-              </System.ButtonSecondary>
-              <System.ButtonPrimary
-                type="submit"
-                style={{
-                  marginLeft: "8px",
-                  minHeight: "24px",
-                  padding: "1px 12px 3px",
-                  borderRadius: "8px",
-                }}
-                loading={isSubmitting}
-              >
-                Save
-              </System.ButtonPrimary>
-            </Jumper.Item>
-          </>
-        )}
+        {children({ isSubmitting })}
       </form>
       <div style={{ height: 50 }} />
     </>
@@ -171,12 +123,41 @@ export function EditInfo({ file, onClose }) {
       <Jumper.Divider />
       <Jumper.ObjectInfo file={file} />
       <Jumper.Divider />
-      <UpdateFileForm key={file.id} file={file} isMobile={false} onClose={onClose} />
+      <UpdateFileForm key={file.id} file={file} isMobile={false} onClose={onClose}>
+        {({ isSubmitting }) => (
+          <Jumper.Item css={STYLES_EDIT_INFO_FOOTER}>
+            <System.ButtonSecondary
+              type="button"
+              onClick={onClose}
+              style={{
+                marginLeft: "auto",
+                minHeight: "24px",
+                padding: "1px 12px 3px",
+                borderRadius: "8px",
+              }}
+            >
+              Cancel
+            </System.ButtonSecondary>
+            <System.ButtonPrimary
+              type="submit"
+              style={{
+                marginLeft: "8px",
+                minHeight: "24px",
+                padding: "1px 12px 3px",
+                borderRadius: "8px",
+              }}
+              loading={isSubmitting}
+            >
+              Save
+            </System.ButtonPrimary>
+          </Jumper.Item>
+        )}
+      </UpdateFileForm>
     </Jumper.Root>
   );
 }
 
-export function EditInfoMobile({ file, withDismissButton, onClose }) {
+export function EditInfoMobile({ file, footerStyle, withDismissButton, onClose }) {
   return (
     <MobileJumper.Root onClose={onClose}>
       <System.Divider height={1} color="borderGrayLight" />
@@ -189,7 +170,28 @@ export function EditInfoMobile({ file, withDismissButton, onClose }) {
         {withDismissButton ? <MobileJumper.Dismiss /> : null}
       </MobileJumper.Header>
       <System.Divider height={1} color="borderGrayLight" />
-      <UpdateFileForm isMobile key={file.id} file={file} onClose={onClose} />
+      <UpdateFileForm isMobile key={file.id} file={file} onClose={onClose}>
+        {({ isSubmitting }) => (
+          <MobileJumper.Footer style={footerStyle} css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
+            <System.ButtonSecondary
+              type="button"
+              full
+              onClick={onClose}
+              style={{ padding: "9px 24px 11px", minHeight: "24px" }}
+            >
+              Cancel
+            </System.ButtonSecondary>
+            <System.ButtonPrimary
+              type="submit"
+              full
+              style={{ marginLeft: "8px", padding: "9px 24px 11px", minHeight: "24px" }}
+              loading={isSubmitting}
+            >
+              Save
+            </System.ButtonPrimary>
+          </MobileJumper.Footer>
+        )}
+      </UpdateFileForm>
     </MobileJumper.Root>
   );
 }

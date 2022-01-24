@@ -185,21 +185,6 @@ export function ShareMobile({ file, data, viewer, onClose }) {
       <MobileJumper.Content>
         <FileSharingButtons file={file} data={data} viewer={viewer} />
       </MobileJumper.Content>
-      <MobileJumper.Footer css={Styles.HORIZONTAL_CONTAINER_CENTERED}>
-        <System.ButtonPrimitive type="button" style={{ width: 32, height: 32 }} onClick={onClose}>
-          <SVG.Share width={16} height={16} style={{ color: Constants.system.blue }} />
-        </System.ButtonPrimitive>
-        <a
-          css={[Styles.LINK, Styles.HORIZONTAL_CONTAINER_CENTERED]}
-          style={{ marginLeft: "auto", color: Constants.semantic.textGrayDark }}
-          href={PROTO_SCHOOL_CID}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <SVG.InfoCircle width={16} />
-          <System.P2 style={{ marginLeft: 4 }}>What is CID?</System.P2>
-        </a>
-      </MobileJumper.Footer>
     </MobileJumper.Root>
   );
 }

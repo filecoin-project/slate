@@ -160,9 +160,11 @@ const STYLES_HEADER_WRAPPER = (theme) => css`
 const STYLES_ACTION_BUTTON = (theme) => css`
   padding: 8px;
   border-radius: 8px;
-  &:hover {
-    background-color: ${theme.semantic.bgGrayLight};
-    box-shadow: ${theme.shadow.lightSmall};
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: ${theme.semantic.bgGrayLight};
+      box-shadow: ${theme.shadow.lightSmall};
+    }
   }
 `;
 
@@ -475,24 +477,6 @@ const STYLES_CAROUSEL_MOBILE_HEADER = (theme) => css`
   }
 `;
 
-const STYLES_CAROUSEL_MOBILE_FOOTER = (theme) => css`
-  ${Styles.HORIZONTAL_CONTAINER_CENTERED};
-  justify-content: space-between;
-  z-index: 1;
-  width: 100%;
-  padding: 8px 16px;
-  border-top: 1px solid ${theme.semantic.borderGrayLight};
-  color: ${theme.semantic.textGrayDark};
-  min-height: 48px;
-
-  background-color: ${theme.semantic.bgWhite};
-  @supports ((-webkit-backdrop-filter: blur(15px)) or (backdrop-filter: blur(15px))) {
-    background-color: ${theme.semantic.bgBlurWhite};
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
-  }
-`;
-
 const STYLES_CAROUSEL_MOBILE_SLIDE_COUNT = css`
   position: absolute;
   top: 50%;
@@ -573,6 +557,32 @@ function CarouselHeaderMobile({
   );
 }
 
+const MOBILE_FOOTER_HEIGHT = 52;
+
+const STYLES_CAROUSEL_MOBILE_FOOTER = (theme) => css`
+  ${Styles.HORIZONTAL_CONTAINER_CENTERED};
+  position: fixed;
+  bottom: 0;
+  justify-content: space-between;
+  z-index: ${theme.zindex.jumper + 1};
+  width: 100%;
+  padding: 8px 16px;
+  border-top: 1px solid ${theme.semantic.borderGrayLight};
+  color: ${theme.semantic.textGrayDark};
+  height: ${MOBILE_FOOTER_HEIGHT}px;
+
+  background-color: ${theme.semantic.bgWhite};
+  @supports ((-webkit-backdrop-filter: blur(15px)) or (backdrop-filter: blur(15px))) {
+    background-color: ${theme.semantic.bgBlurWhite};
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+  }
+`;
+
+const STYLES_ACTION_BUTTON_SELECTED = (theme) => css`
+  background-color: ${theme.semantic.bgGrayLight4};
+`;
+
 function CarouselFooterMobile({ file, onAction, external, isOwner, data, viewer }) {
   const [isEditInfoVisible, { showControl: showEditInfo, hideControl: hideEditInfo }] =
     useCarouselJumperControls();
@@ -585,95 +595,121 @@ function CarouselFooterMobile({ file, onAction, external, isOwner, data, viewer 
 
   const [isEditSlatesVisible, { showControl: showEditSlates, hideControl: hideEditSlates }] =
     useCarouselJumperControls();
+
+  const hideOpenJumpers = () => {
+    if (isMoreInfoVisible) hideMoreInfo();
+    if (isEditInfoVisible) hideEditInfo();
+    if (isShareFileVisible) hideShareFile();
+    if (isEditSlatesVisible) hideEditSlates();
+  };
+
+  const toggleEditInfo = () =>
+    isEditInfoVisible ? hideEditInfo() : (hideOpenJumpers(), showEditInfo());
+
+  const toggleShareFile = () =>
+    isShareFileVisible ? hideShareFile() : (hideOpenJumpers(), showShareFile());
+
+  const toggleMoreInfo = () =>
+    isMoreInfoVisible ? hideMoreInfo() : (hideOpenJumpers(), showMoreInfo());
+
+  const toggleEditSlates = () =>
+    isEditSlatesVisible ? hideEditSlates() : (hideOpenJumpers(), showEditSlates());
+
   return (
     <>
+      {isOwner && (
+        <AnimatePresence>
+          {isEditInfoVisible && (
+            <Jumpers.EditInfoMobile
+              footerStyle={{ bottom: MOBILE_FOOTER_HEIGHT }}
+              file={file}
+              onClose={hideEditInfo}
+            />
+          )}
+        </AnimatePresence>
+      )}
+      {isOwner && (
+        <AnimatePresence>
+          {isEditSlatesVisible && (
+            <Jumpers.EditSlatesMobile viewer={viewer} file={file} onClose={hideEditSlates} />
+          )}
+        </AnimatePresence>
+      )}
+      <AnimatePresence>
+        {isShareFileVisible && (
+          <Jumpers.ShareMobile file={file} data={data} viewer={viewer} onClose={hideShareFile} />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {isMoreInfoVisible && (
+          <Jumpers.MoreInfoMobile
+            viewer={viewer}
+            external={external}
+            isOwner={isOwner}
+            file={file}
+            onClose={hideMoreInfo}
+          />
+        )}
+      </AnimatePresence>
       <ModalPortal>
-        {isOwner && (
-          <AnimatePresence>
-            {isEditInfoVisible && <Jumpers.EditInfoMobile file={file} onClose={hideEditInfo} />}
-          </AnimatePresence>
-        )}
-        {isOwner && (
-          <AnimatePresence>
-            {isEditSlatesVisible && (
-              <Jumpers.EditSlatesMobile viewer={viewer} file={file} onClose={hideEditSlates} />
+        <AnimateSharedLayout>
+          <nav css={STYLES_CAROUSEL_MOBILE_FOOTER}>
+            {isOwner && (
+              <System.ButtonPrimitive
+                as={motion.button}
+                layoutId="jumper-mobile-edit"
+                css={[STYLES_ACTION_BUTTON, isEditInfoVisible && STYLES_ACTION_BUTTON_SELECTED]}
+                onClick={toggleEditInfo}
+              >
+                <SVG.Edit style={{ pointerEvents: "none" }} />
+              </System.ButtonPrimitive>
             )}
-          </AnimatePresence>
-        )}
-        <AnimatePresence>
-          {isShareFileVisible && (
-            <Jumpers.ShareMobile file={file} data={data} viewer={viewer} onClose={hideShareFile} />
-          )}
-        </AnimatePresence>
-        <AnimatePresence>
-          {isMoreInfoVisible && (
-            <Jumpers.MoreInfoMobile
-              viewer={viewer}
-              external={external}
-              isOwner={isOwner}
-              file={file}
-              onClose={hideMoreInfo}
-            />
-          )}
-        </AnimatePresence>
+
+            {isOwner && (
+              <System.ButtonPrimitive
+                as={motion.button}
+                layoutId="jumper-mobile-slates"
+                style={{ marginLeft: 4 }}
+                css={[STYLES_ACTION_BUTTON, isEditSlatesVisible && STYLES_ACTION_BUTTON_SELECTED]}
+                onClick={toggleEditSlates}
+              >
+                <SVG.Hash style={{ pointerEvents: "none" }} />
+              </System.ButtonPrimitive>
+            )}
+
+            {!isOwner && (
+              <SaveFileButton
+                style={{ marginLeft: 4 }}
+                css={STYLES_ACTION_BUTTON}
+                file={file}
+                viewer={viewer}
+                onAction={onAction}
+              />
+            )}
+
+            <System.ButtonPrimitive
+              as={motion.button}
+              layoutId="jumper-mobile-share"
+              style={{ marginLeft: 4 }}
+              css={[STYLES_ACTION_BUTTON, isShareFileVisible && STYLES_ACTION_BUTTON_SELECTED]}
+              onClick={toggleShareFile}
+            >
+              <SVG.Share style={{ pointerEvents: "none" }} />
+            </System.ButtonPrimitive>
+
+            <System.ButtonPrimitive
+              as={motion.button}
+              layoutId="jumper-mobile-info"
+              style={{ marginLeft: 4 }}
+              css={[STYLES_ACTION_BUTTON, isMoreInfoVisible && STYLES_ACTION_BUTTON_SELECTED]}
+              onClick={toggleMoreInfo}
+            >
+              <SVG.InfoCircle />
+            </System.ButtonPrimitive>
+            {file.isLink ? <VisitLinkButton file={file} /> : null}
+          </nav>
+        </AnimateSharedLayout>
       </ModalPortal>
-      <AnimateSharedLayout>
-        <nav css={STYLES_CAROUSEL_MOBILE_FOOTER}>
-          {isOwner && (
-            <System.ButtonPrimitive
-              as={motion.button}
-              layoutId="jumper-mobile-edit"
-              css={STYLES_ACTION_BUTTON}
-              onClick={showEditInfo}
-            >
-              <SVG.Edit />
-            </System.ButtonPrimitive>
-          )}
-
-          {isOwner && (
-            <System.ButtonPrimitive
-              as={motion.button}
-              layoutId="jumper-mobile-slates"
-              style={{ marginLeft: 4 }}
-              css={STYLES_ACTION_BUTTON}
-              onClick={showEditSlates}
-            >
-              <SVG.Hash />
-            </System.ButtonPrimitive>
-          )}
-
-          {!isOwner && (
-            <SaveFileButton
-              style={{ marginLeft: 4 }}
-              css={STYLES_ACTION_BUTTON}
-              file={file}
-              viewer={viewer}
-              onAction={onAction}
-            />
-          )}
-
-          <System.ButtonPrimitive
-            as={motion.button}
-            layoutId="jumper-mobile-share"
-            style={{ marginLeft: 4 }}
-            css={STYLES_ACTION_BUTTON}
-            onClick={showShareFile}
-          >
-            <SVG.Share />
-          </System.ButtonPrimitive>
-
-          <System.ButtonPrimitive
-            as={motion.button}
-            layoutId="jumper-mobile-info"
-            style={{ marginLeft: 4 }}
-            css={STYLES_ACTION_BUTTON}
-            onClick={showMoreInfo}
-          >
-            <SVG.InfoCircle />
-          </System.ButtonPrimitive>
-          {file.isLink ? <VisitLinkButton file={file} /> : null}
-        </nav>
-      </AnimateSharedLayout>
     </>
   );
 }

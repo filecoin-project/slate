@@ -324,6 +324,7 @@ function Footer({
 
     switch (e.key) {
       case "T":
+      case "t":
         showSlatesJumper();
         break;
     }

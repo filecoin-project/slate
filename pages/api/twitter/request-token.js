@@ -14,13 +14,6 @@ export default async (req, res) => {
     const { getOAuthRequestToken } = createOAuthProvider();
     const { authToken, authSecretToken } = await getOAuthRequestToken();
 
-    // NOTE(amine): additional security check
-    res.cookie("oauth_token", authToken, {
-      maxAge: 15 * 60 * 1000, // 15 minutes
-      secure: true,
-      httpOnly: true,
-      sameSite: true,
-    });
     await Data.createTwitterToken({ token: authToken, tokenSecret: authSecretToken });
     res.json({ authToken });
   } catch (e) {

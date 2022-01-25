@@ -1,5 +1,4 @@
 import * as Environment from "~/node_common/environment";
-import * as Utilities from "~/node_common/utilities";
 import * as Data from "~/node_common/data";
 import * as Strings from "~/common/strings";
 import * as Logging from "~/common/logging";
@@ -7,8 +6,6 @@ import * as Logging from "~/common/logging";
 import JWT from "jsonwebtoken";
 
 import { createOAuthProvider } from "~/node_common/managers/twitter";
-
-const COOKIE_NAME = "oauth_token";
 
 export default async (req, res) => {
   if (!Strings.isEmpty(Environment.ALLOWED_HOST) && req.headers.host !== Environment.ALLOWED_HOST) {
@@ -26,12 +23,6 @@ export default async (req, res) => {
   }
 
   const { authToken, authVerifier } = req.body.data;
-  const storedAuthToken = req.cookies[COOKIE_NAME];
-
-  // NOTE(amine): additional security check
-  if (authToken !== storedAuthToken) {
-    return res.status(403).send({ decorator: "SERVER_TWITTER_OAUTH_INVALID_TOKEN", error: true });
-  }
 
   let twitterUser;
   try {

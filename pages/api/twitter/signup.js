@@ -7,8 +7,6 @@ import * as Validations from "~/common/validations";
 import SearchManager from "~/node_common/managers/search";
 import JWT from "jsonwebtoken";
 
-const COOKIE_NAME = "oauth_token";
-
 export default async (req, res) => {
   const { authToken, email, username } = req.body.data;
 
@@ -30,13 +28,6 @@ export default async (req, res) => {
 
   const newUsername = Strings.createUsername(username);
   const newEmail = email.toLowerCase();
-
-  const storedAuthToken = req.cookies[COOKIE_NAME];
-
-  // NOTE(amine): additional security check
-  if (authToken !== storedAuthToken) {
-    return res.status(403).send({ decorator: "SERVER_CREATE_USER_FAILED", error: true });
-  }
 
   const twitterUser = await Data.getTwitterToken({ token: authToken });
   if (!twitterUser) {

@@ -68,7 +68,7 @@
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "multihashing-async": "^2.1.2",
-    "next": "^11.1.2",
+    "next": "^12.3.1",
     "next-offline": "^5.0.5",
     "oauth": "^0.9.15",
     "pg": "^8.5.1",

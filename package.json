@@ -44,7 +44,7 @@
     "@sendgrid/client": "^7.4.2",
     "@sendgrid/mail": "^7.4.4",
     "@slack/webhook": "^6.0.0",
-    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-module-resolver": "^5.0.0",
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "blurhash": "^1.1.3",

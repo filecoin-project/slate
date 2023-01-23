@@ -62,7 +62,7 @@
     "isomorphic-fetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "jszip": "^3.6.0",
-    "knex": "^0.95.1",
+    "knex": "^2.4.2",
     "lodash": "^4.17.21",
     "minisearch": "^3.0.2",
     "moment": "^2.29.1",

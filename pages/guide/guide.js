@@ -123,7 +123,6 @@ const STYLES_FLEX = css`
 `;
 
 const STYLES_BUTTON = css`
-  cursor: poitner;
   display: inline-flex;
   flex-grow: 0;
   justify-content: center;

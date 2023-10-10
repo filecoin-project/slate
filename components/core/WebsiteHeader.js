@@ -41,7 +41,7 @@ const STYLES_CONTAINER = css`
 const STYLES_LOGO = css`
   height: 32px;
   width: 32px;
-  cursor: poitner;
+  cursor: pointer;
   pointer-events: auto;
   display: flex;
   align-items: center;
